@@ -359,23 +359,21 @@ class ShopImporter:
             }
 
     async def import_shops_from_file(
-        self, shp_file_path: Path, zone_id: int = None, dry_run: bool = False
+        self, shp_file_path: Path, zone_id: int, dry_run: bool = False
     ) -> dict:
         """
         Import shops from a legacy .shp file
 
-        Automatically detects zones from shop IDs.
-
         Args:
             shp_file_path: Path to .shp file
-            zone_id: Optional zone ID filter (imports only shops from this zone)
+            zone_id: Zone ID from filename (e.g., 30 from "30.shp") - REQUIRED
             dry_run: If True, validate but don't write to database
 
         Returns:
             Dict with import results including zones_in_file list
 
         Examples:
-            >>> result = await importer.import_shops_from_file(Path("lib/world/shp/30.shp"))
+            >>> result = await importer.import_shops_from_file(Path("lib/world/shp/30.shp"), 30)
             >>> print(f"Imported {result['imported']} shops")
         """
         try:
@@ -393,19 +391,15 @@ class ShopImporter:
                 return {
                     "success": True,
                     "file": str(shp_file_path),
-                    "zones_in_file": [],
+                    "zones_in_file": [zone_id],
                     "total": 0,
                     "imported": 0,
                     "failed": 0,
                     "shops": [],
                 }
 
-            # Detect unique zones from shop IDs
-            zones_in_file = set()
-            for shop in shops:
-                shop_id = int(shop.id)
-                shop_zone_id = shop_id // 100
-                zones_in_file.add(shop_zone_id)
+            # Use zone_id from filename for ALL shops (supports unlimited shops per zone)
+            zones_in_file = {zone_id}
 
             results = {
                 "success": True,
@@ -418,15 +412,8 @@ class ShopImporter:
             }
 
             for shop in shops:
-                # Extract zone ID from shop ID
-                shop_id = int(shop.id)
-                shop_zone_id = shop_id // 100
-
-                # Skip if filtering by zone_id and this isn't it
-                if zone_id is not None and shop_zone_id != zone_id:
-                    continue
-
-                result = await self.import_shop(shop, shop_zone_id, dry_run=dry_run)
+                # Always use zone_id from filename (supports unlimited shops per zone)
+                result = await self.import_shop(shop, zone_id, dry_run=dry_run)
                 results["shops"].append(result)
 
                 if result["success"]:

@@ -29,6 +29,7 @@ class ObjectImporter:
             prisma_client: Prisma client instance
         """
         self.prisma = prisma_client
+        self.vnum_map = {}  # vnum -> (zone_id, id) - built during import
 
     async def import_object(
         self, obj: Object, zone_id: int, dry_run: bool = False
@@ -82,6 +83,11 @@ class ObjectImporter:
             }
 
         try:
+            # Build vnum map entry (for reset lookups later)
+            legacy_vnum = (zone_id * 100) + vnum if zone_id != 1000 else vnum
+            if self.vnum_map is not None:
+                self.vnum_map[legacy_vnum] = (obj_zone_id, vnum)
+
             # Upsert object with composite key
             await self.prisma.object.upsert(
                 where={
@@ -234,7 +240,8 @@ class ObjectImporter:
             }
 
     async def import_objects_from_file(
-        self, obj_file_path: Path, zone_id: int, dry_run: bool = False
+        self, obj_file_path: Path, zone_id: int, dry_run: bool = False,
+        vnum_map: dict = None
     ) -> dict:
         """
         Import objects from a legacy .obj file
@@ -243,10 +250,15 @@ class ObjectImporter:
             obj_file_path: Path to .obj file
             zone_id: Zone ID (already converted)
             dry_run: If True, validate but don't write to database
+            vnum_map: Optional dict to populate with vnum -> (zone_id, id) mappings during import
 
         Returns:
             Dict with import results
         """
+        # Store parameter for use during import
+        if vnum_map is not None:
+            self.vnum_map = vnum_map
+
         try:
             # Read file
             with open(obj_file_path, "r") as f:

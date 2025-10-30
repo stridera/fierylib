@@ -61,6 +61,7 @@ class MobImporter:
             prisma_client: Prisma client instance
         """
         self.prisma = prisma_client
+        self.vnum_map = {}  # vnum -> (zone_id, id) - built during import
 
     async def import_mob(self, mob: Mob, zone_id: int, dry_run: bool = False) -> dict:
         """
@@ -108,6 +109,11 @@ class MobImporter:
             }
 
         try:
+            # Build vnum map entry (for reset lookups later)
+            legacy_vnum = (zone_id * 100) + vnum if zone_id != 1000 else vnum
+            if self.vnum_map is not None:
+                self.vnum_map[legacy_vnum] = (mob_zone_id, vnum)
+
             # Upsert mob with composite key
             await self.prisma.mob.upsert(
                 where={
@@ -219,21 +225,25 @@ class MobImporter:
             }
 
     async def import_mobs_from_file(
-        self, mob_file_path: Path, zone_id: int = None, dry_run: bool = False
+        self, mob_file_path: Path, zone_id: int, dry_run: bool = False,
+        vnum_map: dict = None
     ) -> dict:
         """
         Import mobs from a legacy .mob file
 
-        Automatically detects zones from mob IDs.
-
         Args:
             mob_file_path: Path to .mob file
-            zone_id: Optional zone ID filter (imports only mobs from this zone)
+            zone_id: Zone ID from filename (e.g., 30 from "30.mob") - REQUIRED
             dry_run: If True, validate but don't write to database
+            vnum_map: Optional dict to populate with vnum -> (zone_id, id) mappings during import
 
         Returns:
             Dict with import results including zones_in_file list
         """
+        # Store parameter for use during import
+        if vnum_map is not None:
+            self.vnum_map = vnum_map
+
         try:
             # Read file
             with open(mob_file_path, "r") as f:
@@ -244,16 +254,8 @@ class MobImporter:
             mud_data = MudData(lines)
             mobs = Mob.parse(mud_data)
 
-            # If zone_id provided, use it for ALL mobs (filename-based assignment)
-            # Otherwise, detect zones from mob IDs using legacy arithmetic
-            if zone_id is not None:
-                zones_in_file = {zone_id}
-            else:
-                zones_in_file = set()
-                for mob in mobs:
-                    mob_id = int(mob.id)
-                    mob_zone_id = mob_id // 100
-                    zones_in_file.add(mob_zone_id)
+            # Use zone_id from filename for ALL mobs (supports unlimited mobs per zone)
+            zones_in_file = {zone_id}
 
             results = {
                 "success": True,
@@ -270,15 +272,8 @@ class MobImporter:
                 return results
 
             for mob in mobs:
-                # Use provided zone_id (filename-based) if available,
-                # otherwise extract zone ID from mob ID (legacy arithmetic)
-                if zone_id is not None:
-                    mob_zone_id = zone_id
-                else:
-                    mob_id = int(mob.id)
-                    mob_zone_id = mob_id // 100
-
-                result = await self.import_mob(mob, mob_zone_id, dry_run=dry_run)
+                # Always use zone_id from filename (supports unlimited mobs per zone)
+                result = await self.import_mob(mob, zone_id, dry_run=dry_run)
                 results["mobs"].append(result)
 
                 if result["success"]:

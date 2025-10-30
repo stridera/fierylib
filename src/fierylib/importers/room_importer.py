@@ -30,6 +30,8 @@ class RoomImporter:
             prisma_client: Prisma client instance
         """
         self.prisma = prisma_client
+        self.door_reset_lookup = {}  # room_vnum -> {direction -> flags}
+        self.vnum_map = {}  # vnum -> (zone_id, id) - built during import
 
     @staticmethod
     def map_sector(sector: str) -> str:
@@ -128,6 +130,11 @@ class RoomImporter:
             }
 
         try:
+            # Build vnum map entry (for reset lookups later)
+            legacy_vnum = (zone_id * 100) + vnum if zone_id != 1000 else vnum
+            if self.vnum_map is not None:
+                self.vnum_map[legacy_vnum] = (room_zone_id, vnum)
+
             # Upsert room with composite key
             room_record = await self.prisma.room.upsert(
                 where={
@@ -156,6 +163,7 @@ class RoomImporter:
 
             # Import exits
             exits_imported = 0
+            exit_errors = []
             if room.get("exits"):
                 for direction_str, exit_data in room["exits"].items():
                     exit_result = await self.import_exit(
@@ -163,6 +171,8 @@ class RoomImporter:
                     )
                     if exit_result["success"]:
                         exits_imported += 1
+                    else:
+                        exit_errors.append(f"{direction_str}: {exit_result.get('error', 'unknown')}")
 
             # Import extra descriptions
             extras_imported = 0
@@ -174,7 +184,7 @@ class RoomImporter:
                     if extra_result["success"]:
                         extras_imported += 1
 
-            return {
+            result = {
                 "success": True,
                 "zone_id": room_zone_id,
                 "vnum": vnum,
@@ -183,6 +193,9 @@ class RoomImporter:
                 "exits": exits_imported,
                 "extras": extras_imported,
             }
+            if exit_errors:
+                result["exit_errors"] = exit_errors
+            return result
 
         except Exception as e:
             return {
@@ -216,16 +229,28 @@ class RoomImporter:
                 "error": f"Invalid direction: {direction_str}",
             }
 
-        # Parse destination room ID if it exists and split into zone/vnum
-        to_zone_id = None
-        to_room_vnum = None
+        # Parse destination room ID
+        destination_vnum = None
         if exit_data.get("destination") and exit_data["destination"] != "-1":
             try:
-                legacy_id = int(exit_data["destination"])
-                to_zone_id = legacy_id // 100
-                to_room_vnum = legacy_id % 100
+                destination_vnum = int(exit_data["destination"])
             except (ValueError, TypeError):
                 pass
+
+        # Parse keywords into array
+        keywords = []
+        if exit_data.get("keyword"):
+            keyword_str = exit_data.get("keyword", "")
+            keywords = keyword_str.split() if keyword_str else []
+
+        # Check for door reset flags for this room+direction
+        exit_flags = []
+        legacy_room_vnum = (room_zone_id * 100) + room_vnum if room_zone_id != 1000 else room_vnum
+        if (self.door_reset_lookup and
+            legacy_room_vnum in self.door_reset_lookup and
+            direction in self.door_reset_lookup[legacy_room_vnum]):
+            # Use door reset flags
+            exit_flags = self.door_reset_lookup[legacy_room_vnum][direction]
 
         try:
             await self.prisma.roomexit.upsert(
@@ -242,15 +267,15 @@ class RoomImporter:
                         "roomId": room_vnum,
                         "direction": direction,
                         "description": exit_data.get("description", ""),
-                        "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
-                        "toZoneId": to_zone_id,
-                        "toRoomId": to_room_vnum,
+                        "keywords": keywords,
+                        "flags": exit_flags,
+                        "destination": destination_vnum,
                     },
                     "update": {
                         "description": exit_data.get("description", ""),
-                        "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
-                        "toZoneId": to_zone_id,
-                        "toRoomId": to_room_vnum,
+                        "keywords": {"set": keywords},
+                        "flags": {"set": exit_flags},
+                        "destination": destination_vnum,
                     },
                 },
             )
@@ -300,25 +325,31 @@ class RoomImporter:
             }
 
     async def import_rooms_from_file(
-        self, wld_file_path: Path, zone_id: int = None, dry_run: bool = False
+        self, wld_file_path: Path, zone_id: int, dry_run: bool = False,
+        door_reset_lookup: dict = None, vnum_map: dict = None
     ) -> dict:
         """
         Import rooms from a legacy .wld file
 
-        Automatically detects zones from room IDs and creates missing zones.
-
         Args:
             wld_file_path: Path to .wld file
-            zone_id: Optional zone ID filter (imports only rooms from this zone)
+            zone_id: Zone ID from filename (e.g., 30 from "30.wld") - REQUIRED
             dry_run: If True, validate but don't write to database
+            door_reset_lookup: Optional dict mapping room_vnum -> {direction -> flags} for door resets
+            vnum_map: Optional dict to populate with vnum -> (zone_id, id) mappings during import
 
         Returns:
             Dict with import results including zones_created list
 
         Examples:
-            >>> result = await importer.import_rooms_from_file(Path("lib/world/wld/30.wld"))
-            >>> print(f"Imported {result['imported']} rooms from {len(result['zones_created'])} zones")
+            >>> result = await importer.import_rooms_from_file(Path("lib/world/wld/30.wld"), 30)
+            >>> print(f"Imported {result['imported']} rooms")
         """
+        # Store parameters for use during import
+        if door_reset_lookup is not None:
+            self.door_reset_lookup = door_reset_lookup
+        if vnum_map is not None:
+            self.vnum_map = vnum_map
         try:
             # Read file
             with open(wld_file_path, "r") as f:
@@ -329,16 +360,8 @@ class RoomImporter:
             mud_data = MudData(lines)
             rooms = World.parse(mud_data)
 
-            # If zone_id provided, use it for ALL rooms (filename-based assignment)
-            # Otherwise, detect zones from room IDs using legacy arithmetic
-            if zone_id is not None:
-                zones_in_file = {zone_id}
-            else:
-                zones_in_file = set()
-                for room in rooms:
-                    room_id = int(room["id"])
-                    room_zone_id = room_id // 100
-                    zones_in_file.add(room_zone_id)
+            # Use zone_id from filename for ALL rooms (supports unlimited rooms per zone)
+            zones_in_file = {zone_id}
 
             # Ensure all zones exist in database
             zones_created = []
@@ -369,15 +392,8 @@ class RoomImporter:
             }
 
             for room in rooms:
-                # Use provided zone_id (filename-based) if available,
-                # otherwise extract zone ID from room ID (legacy arithmetic)
-                if zone_id is not None:
-                    room_zone_id = zone_id
-                else:
-                    room_id = int(room["id"])
-                    room_zone_id = room_id // 100
-
-                result = await self.import_room(room, room_zone_id, dry_run=dry_run)
+                # Always use zone_id from filename (supports unlimited rooms per zone)
+                result = await self.import_room(room, zone_id, dry_run=dry_run)
                 results["rooms"].append(result)
 
                 if result["success"]:

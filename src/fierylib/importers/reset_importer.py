@@ -31,6 +31,22 @@ class ResetImporter:
         self.object_map: Dict[int, Tuple[int, int]] = {}
         self.maps_built = False
 
+    def set_vnum_maps(self, room_map: Dict[int, Tuple[int, int]],
+                      mob_map: Dict[int, Tuple[int, int]],
+                      object_map: Dict[int, Tuple[int, int]]):
+        """
+        Set prebuilt vnum maps (built incrementally during entity import)
+
+        Args:
+            room_map: vnum -> (zone_id, id) for rooms
+            mob_map: vnum -> (zone_id, id) for mobs
+            object_map: vnum -> (zone_id, id) for objects
+        """
+        self.room_map = room_map
+        self.mob_map = mob_map
+        self.object_map = object_map
+        self.maps_built = True
+
     async def build_vnum_maps(self):
         """
         Build vnum → (zone_id, id) maps for all entities in the database
@@ -493,3 +509,163 @@ class ResetImporter:
             results["success"] = False
 
         return results
+
+    async def import_mob_resets(self, mob_resets: list, zone_id: int,
+                                dry_run: bool = False, verbose: bool = False,
+                                debug: bool = False) -> dict:
+        """
+        Import mob resets from in-memory reset data
+
+        Args:
+            mob_resets: List of mob reset dicts with legacy vnums
+            zone_id: Zone ID for logging
+            dry_run: If True, validate but don't write to database
+            verbose: Enable verbose logging
+            debug: Enable debug logging
+
+        Returns:
+            Dict with import results {"imported": int, "failed": int, "errors": [...]}
+        """
+        imported = 0
+        failed = 0
+        errors = []
+
+        for mob_reset in mob_resets:
+            mob_vnum = mob_reset['id']
+            room_vnum = mob_reset['room']
+
+            # Validate mob exists
+            if mob_vnum not in self.mob_map:
+                error_msg = f"Mob vnum {mob_vnum} not found - check zone {zone_id}.mob import"
+                errors.append({"type": "mob", "mob_vnum": mob_vnum, "error": error_msg})
+                failed += 1
+                if debug:
+                    print(f"❌ {error_msg}")
+                continue
+
+            # Validate room exists
+            if room_vnum not in self.room_map:
+                error_msg = f"Room vnum {room_vnum} not found - needed for mob {mob_vnum}"
+                errors.append({"type": "room", "room_vnum": room_vnum, "mob_vnum": mob_vnum, "error": error_msg})
+                failed += 1
+                if debug:
+                    print(f"❌ {error_msg}")
+                continue
+
+            mob_zone_id, mob_id = self.mob_map[mob_vnum]
+            room_zone_id, room_id = self.room_map[room_vnum]
+
+            if verbose or debug:
+                print(f"✅ Mob reset: mob {mob_vnum} (zone {mob_zone_id}:{mob_id}) → room {room_vnum} (zone {room_zone_id}:{room_id})")
+
+            # Validate equipment
+            for equip in mob_reset.get('equipped', []):
+                obj_vnum = equip['id']
+                if obj_vnum not in self.object_map:
+                    error_msg = f"Equipment obj vnum {obj_vnum} not found - needed for mob {mob_vnum}"
+                    errors.append({"type": "equipment", "obj_vnum": obj_vnum, "mob_vnum": mob_vnum, "error": error_msg})
+                    failed += 1
+                    if debug:
+                        print(f"❌ {error_msg}")
+
+            # Validate inventory
+            for item in mob_reset.get('carrying', []):
+                obj_vnum = item['id']
+                if obj_vnum not in self.object_map:
+                    error_msg = f"Inventory obj vnum {obj_vnum} not found - needed for mob {mob_vnum}"
+                    errors.append({"type": "inventory", "obj_vnum": obj_vnum, "mob_vnum": mob_vnum, "error": error_msg})
+                    failed += 1
+                    if debug:
+                        print(f"❌ {error_msg}")
+
+            if not dry_run:
+                # Import via existing import_mob_reset method
+                result = await self.import_mob_reset(mob_reset, zone_id, dry_run=False)
+                if result["success"]:
+                    imported += 1
+                else:
+                    failed += 1
+                    errors.append(result)
+            else:
+                imported += 1
+
+        return {
+            "imported": imported,
+            "failed": failed,
+            "errors": errors
+        }
+
+    async def import_object_resets(self, object_resets: list, zone_id: int,
+                                   dry_run: bool = False, verbose: bool = False,
+                                   debug: bool = False) -> dict:
+        """
+        Import object resets from in-memory reset data
+
+        Args:
+            object_resets: List of object reset dicts with legacy vnums
+            zone_id: Zone ID for logging
+            dry_run: If True, validate but don't write to database
+            verbose: Enable verbose logging
+            debug: Enable debug logging
+
+        Returns:
+            Dict with import results {"imported": int, "failed": int, "errors": [...]}
+        """
+        imported = 0
+        failed = 0
+        errors = []
+
+        for obj_reset in object_resets:
+            obj_vnum = obj_reset['id']
+            room_vnum = obj_reset['room']
+
+            # Validate object exists
+            if obj_vnum not in self.object_map:
+                error_msg = f"Object vnum {obj_vnum} not found - check zone {zone_id}.obj import"
+                errors.append({"type": "object", "obj_vnum": obj_vnum, "error": error_msg})
+                failed += 1
+                if debug:
+                    print(f"❌ {error_msg}")
+                continue
+
+            # Validate room exists
+            if room_vnum not in self.room_map:
+                error_msg = f"Room vnum {room_vnum} not found - needed for object {obj_vnum}"
+                errors.append({"type": "room", "room_vnum": room_vnum, "obj_vnum": obj_vnum, "error": error_msg})
+                failed += 1
+                if debug:
+                    print(f"❌ {error_msg}")
+                continue
+
+            obj_zone_id, obj_id = self.object_map[obj_vnum]
+            room_zone_id, room_id = self.room_map[room_vnum]
+
+            if verbose or debug:
+                print(f"✅ Object reset: obj {obj_vnum} (zone {obj_zone_id}:{obj_id}) → room {room_vnum} (zone {room_zone_id}:{room_id})")
+
+            # Validate nested containers
+            for nested in obj_reset.get('contains', []):
+                nested_obj_vnum = nested['id']
+                if nested_obj_vnum not in self.object_map:
+                    error_msg = f"Container obj vnum {nested_obj_vnum} not found - needed for object {obj_vnum}"
+                    errors.append({"type": "container", "obj_vnum": nested_obj_vnum, "parent_obj_vnum": obj_vnum, "error": error_msg})
+                    failed += 1
+                    if debug:
+                        print(f"❌ {error_msg}")
+
+            if not dry_run:
+                # Import via existing import_object_reset method
+                result = await self.import_object_reset(obj_reset, zone_id, dry_run=False)
+                if result["success"]:
+                    imported += 1
+                else:
+                    failed += 1
+                    errors.append(result)
+            else:
+                imported += 1
+
+        return {
+            "imported": imported,
+            "failed": failed,
+            "errors": errors
+        }

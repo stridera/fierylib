@@ -80,6 +80,10 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
         await prisma.connect()
 
         try:
+            from fierylib.zone_reset_data import ZoneResetData, extract_door_resets, extract_mob_resets, extract_object_resets
+            from mud.mudfile import MudData
+            from mud.types.zone import Zone
+
             # Create importers
             zone_importer = ZoneImporter(prisma)
             room_importer = RoomImporter(prisma)
@@ -128,6 +132,13 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 "summary": total_stats.copy(),
             }
 
+            # PHASE 1: Parse all zones once, create Zone DB records, store resets in memory
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 1: Parsing Zones and Extracting Resets")
+            click.echo(f"{'='*60}")
+
+            zone_reset_map = {}  # zone_id -> ZoneResetData
+
             for zone_file in zone_files:
                 # Skip non-numeric zone files
                 try:
@@ -137,30 +148,83 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                         click.echo(f"⚠️  Skipping invalid zone file: {zone_file.name}")
                     continue
 
-                click.echo(f"\n{'='*60}")
-                click.echo(f"Processing Zone {zone_num}")
-                click.echo(f"{'='*60}")
+                # Parse zone file ONCE
+                try:
+                    with open(zone_file, "r") as f:
+                        content = f.read()
+                    lines = content.split("\n")
+                    mud_data = MudData(lines)
+                    parsed_zone = Zone.parse(mud_data)
+                except Exception as e:
+                    if verbose or debug:
+                        click.echo(f"❌ Zone {zone_num}: Failed to parse - {str(e)[:100]}")
+                    total_stats["failed"] += 1
+                    continue
 
-                # Import zone (metadata only, skip door resets until second pass)
-                zone_result = await zone_importer.import_zone_from_file(
-                    zone_file, dry_run=dry_run, skip_door_resets=True
-                )
+                # Import zone metadata to database
+                zone_result = await zone_importer.import_zone(parsed_zone, dry_run=dry_run, skip_door_resets=True)
                 run_log["zones"].append(zone_result)
 
                 if zone_result["success"]:
                     zone_id = zone_result["zone_id"]
                     click.echo(f"✅ Zone {zone_id} ({zone_result['zone_name']}): {zone_result['action']}")
                     total_stats["zones"] += 1
+
+                    # Extract and store resets in memory
+                    zone_reset_map[zone_id] = ZoneResetData(
+                        zone_id=zone_id,
+                        door_resets=extract_door_resets(parsed_zone),
+                        mob_resets=extract_mob_resets(parsed_zone),
+                        object_resets=extract_object_resets(parsed_zone)
+                    )
+
+                    if verbose:
+                        door_count = len(zone_reset_map[zone_id].door_resets)
+                        mob_count = len(zone_reset_map[zone_id].mob_resets)
+                        obj_count = len(zone_reset_map[zone_id].object_resets)
+                        click.echo(f"  📋 Extracted {door_count} door resets, {mob_count} mob resets, {obj_count} object resets")
                 else:
                     click.echo(f"❌ Zone import failed: {zone_result.get('error', 'Unknown error')}")
                     total_stats["failed"] += 1
                     continue
 
-                # Import rooms
+            # PHASE 2: Import entities (rooms, mobs, objects, shops)
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 2: Importing Entities")
+            click.echo(f"{'='*60}")
+
+            # Initialize vnum maps for incremental building
+            vnum_maps = {
+                'rooms': {},    # vnum -> (zone_id, id)
+                'mobs': {},     # vnum -> (zone_id, id)
+                'objects': {}   # vnum -> (zone_id, id)
+            }
+
+            for zone_file in zone_files:
+                # Skip non-numeric zone files
+                try:
+                    zone_num = int(zone_file.stem)
+                except ValueError:
+                    continue
+
+                # Skip if zone wasn't successfully imported
+                from fierylib.converters import convert_zone_id
+                zone_id = convert_zone_id(zone_num)
+                if zone_id not in zone_reset_map:
+                    continue
+
+                click.echo(f"\n{'='*60}")
+                click.echo(f"Processing Zone {zone_id} Entities")
+                click.echo(f"{'='*60}")
+
+                # Import rooms (with door resets and vnum map building)
                 wld_file = wld_dir / f"{zone_num}.wld"
                 if wld_file.exists():
+                    door_reset_lookup = zone_reset_map[zone_id].door_resets
                     room_result = await room_importer.import_rooms_from_file(
-                        wld_file, zone_id, dry_run=dry_run
+                        wld_file, zone_id, dry_run=dry_run,
+                        door_reset_lookup=door_reset_lookup,
+                        vnum_map=vnum_maps['rooms']
                     )
                     run_log["rooms"].append(room_result)
                     imported = room_result.get("imported", 0)
@@ -192,6 +256,14 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                                     click.echo(f"      ... and {failed - error_count} more (use --debug to see all)")
                         else:
                             click.echo(f"  ✅ Rooms: {imported} imported")
+                            # Check for exit import errors even on successful rooms
+                            if debug:
+                                for room in room_result.get("rooms", []):
+                                    if room.get("success") and room.get("exit_errors"):
+                                        room_name = room.get('name', 'unnamed')[:30]
+                                        click.echo(f"      - Room {room.get('vnum')} ({room_name}) has exit errors:")
+                                        for err in room.get("exit_errors", []):
+                                            click.echo(f"          {err}")
                     else:
                         error_msg = room_result.get('error', f'Failed to import any rooms')
                         click.echo(f"  ❌ Room import failed: {error_msg}")
@@ -205,11 +277,12 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                                 click.echo(f"      ... and {len(room_result.get('rooms', [])) - 10} more")
                         total_stats["failed"] += 1
 
-                # Import mobs
+                # Import mobs (with vnum map building)
                 mob_file = mob_dir / f"{zone_num}.mob"
                 if mob_file.exists():
                     mob_result = await mob_importer.import_mobs_from_file(
-                        mob_file, zone_id, dry_run=dry_run
+                        mob_file, zone_id, dry_run=dry_run,
+                        vnum_map=vnum_maps['mobs']
                     )
                     run_log["mobs"].append(mob_result)
                     imported = mob_result.get("imported", 0)
@@ -254,11 +327,12 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     if verbose:
                         click.echo(f"  ℹ️  No mob file found: {mob_file.name}")
 
-                # Import objects
+                # Import objects (with vnum map building)
                 obj_file = obj_dir / f"{zone_num}.obj"
                 if obj_file.exists():
                     obj_result = await object_importer.import_objects_from_file(
-                        obj_file, zone_id, dry_run=dry_run
+                        obj_file, zone_id, dry_run=dry_run,
+                        vnum_map=vnum_maps['objects']
                     )
                     run_log["objects"].append(obj_result)
                     imported = obj_result.get("imported", 0)
@@ -352,103 +426,43 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     if verbose:
                         click.echo(f"  ℹ️  No shop file found: {shp_file.name}")
 
-            # Build vnum maps AFTER all entities imported, BEFORE second passes
-            # This allows door resets and mob/object resets to use correct lookups
+            # PHASE 3: Apply mob/object resets using prebuilt vnum maps
             click.echo(f"\n{'='*60}")
-            click.echo(f"Building Entity Maps")
-            click.echo(f"{'='*60}")
-            await reset_importer.build_vnum_maps()
-
-            # Re-process zones to apply door resets with correct room lookups
-            click.echo(f"\n{'='*60}")
-            click.echo(f"Applying Door Resets (Second Pass)")
+            click.echo(f"Phase 3: Applying Mob/Object Resets")
             click.echo(f"{'='*60}")
 
-            # Create new zone importer with room map
-            zone_importer_with_maps = ZoneImporter(prisma, room_map=reset_importer.room_map)
+            # Pass prebuilt vnum maps to reset importer (no DB queries needed!)
+            reset_importer.set_vnum_maps(
+                room_map=vnum_maps['rooms'],
+                mob_map=vnum_maps['mobs'],
+                object_map=vnum_maps['objects']
+            )
 
-            from mud.mudfile import MudData
-            from mud.types.zone import Zone
-
-            for zone_file in zone_files:
-                try:
-                    zone_num = int(zone_file.stem)
-                except ValueError:
+            for zone_id, reset_data in zone_reset_map.items():
+                if not reset_data.mob_resets and not reset_data.object_resets:
                     continue
 
-                # Parse zone file to get door reset data
-                try:
-                    with open(zone_file, "r") as f:
-                        content = f.read()
-                    lines = content.split("\n")
-                    mud_data = MudData(lines)
-                    parsed_zone = Zone.parse(mud_data)
-                except Exception as e:
-                    if verbose or debug:
-                        click.echo(f"  Zone {zone_num}: Failed to parse zone file - {str(e)[:100]}")
-                    continue
+                click.echo(f"  Zone {zone_id}: Processing resets...")
 
-                # Apply door resets with correct room lookups
-                try:
-                    door_apply, door_warnings = await zone_importer_with_maps.apply_door_resets(
-                        parsed_zone, dry_run=dry_run
+                # Import mob resets
+                if reset_data.mob_resets:
+                    mob_result = await reset_importer.import_mob_resets(
+                        reset_data.mob_resets, zone_id, dry_run=dry_run, verbose=verbose, debug=debug
                     )
-                    if door_warnings:
-                        # These are ACTUAL problems - exits still missing after all rooms imported
-                        click.echo(f"  ⚠️  Zone {zone_num}: {len(door_warnings)} door reset issues (missing exits)")
-                        if verbose or debug:
-                            for w in door_warnings[:10]:
-                                click.echo(f"      - {w}")
-                            if not debug and len(door_warnings) > 10:
-                                click.echo(f"      ... and {len(door_warnings) - 10} more (use --debug to see all)")
-                except Exception as e:
-                    if verbose or debug:
-                        click.echo(f"  ⚠️  Zone {zone_num}: Door reset error - {str(e)[:100]}")
+                    total_stats["mob_resets"] += mob_result.get("imported", 0)
 
-            # Import all resets AFTER door resets
-            click.echo(f"\n{'='*60}")
-            click.echo(f"Importing Mob/Object Resets (Third Pass)")
-            click.echo(f"{'='*60}")
+                    if mob_result.get("failed", 0) > 0:
+                        total_stats["failed"] += mob_result["failed"]
 
-            for zone_file in zone_files:
-                # Skip non-numeric zone files
-                try:
-                    zone_num = int(zone_file.stem)
-                except ValueError:
-                    continue
+                # Import object resets
+                if reset_data.object_resets:
+                    obj_result = await reset_importer.import_object_resets(
+                        reset_data.object_resets, zone_id, dry_run=dry_run, verbose=verbose, debug=debug
+                    )
+                    total_stats["object_resets"] += obj_result.get("imported", 0)
 
-                # Parse zone file to get reset data
-                try:
-                    with open(zone_file, "r") as f:
-                        content = f.read()
-                    lines = content.split("\n")
-                    mud_data = MudData(lines)
-                    parsed_zone = Zone.parse(mud_data)
-                except Exception as e:
-                    if verbose or debug:
-                        click.echo(f"  Zone {zone_num}: Failed to parse zone file - {str(e)[:100]}")
-                    total_stats["failed"] += 1
-                    continue
-
-                reset_result = await reset_importer.import_resets_from_zone(
-                    parsed_zone, dry_run=dry_run
-                )
-
-                if reset_result["success"]:
-                    mob_resets = reset_result.get("mob_resets", 0)
-                    obj_resets = reset_result.get("object_resets", 0)
-                    if mob_resets > 0 or obj_resets > 0:
-                        click.echo(f"  Zone {zone_num}: {mob_resets} mob resets, {obj_resets} object resets")
-                    total_stats["mob_resets"] += mob_resets
-                    total_stats["object_resets"] += obj_resets
-                else:
-                    failed = reset_result.get("failed", 0)
-                    if failed > 0:
-                        click.echo(f"  Zone {zone_num}: {failed} failed")
-                        if verbose or debug:
-                            for error in reset_result.get("errors", [])[:5]:
-                                click.echo(f"      - {error.get('error', 'Unknown error')}")
-                        total_stats["failed"] += failed
+                    if obj_result.get("failed", 0) > 0:
+                        total_stats["failed"] += obj_result["failed"]
 
             # Summary
             click.echo(f"\n{'='*60}")

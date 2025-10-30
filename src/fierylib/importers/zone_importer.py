@@ -14,7 +14,7 @@ import sys
 
 from mud.types.zone import Zone
 from mud.mudfile import MudData
-from fierylib.converters import convert_zone_id
+from fierylib.converters import convert_zone_id, vnum_to_composite
 
 
 class ZoneImporter:
@@ -224,14 +224,22 @@ class ZoneImporter:
             # door = {room: int, direction: 'NORTH'..., state: [strings or lists?]}
             room_legacy_vnum = int(door.get("room"))
 
-            # Use vnum map to find correct (zoneId, id) instead of legacy arithmetic
-            if self.room_map and room_legacy_vnum in self.room_map:
-                room_zone_id, room_vnum = self.room_map[room_legacy_vnum]
-            else:
-                # Fallback to legacy arithmetic (limited to ids 0-99)
-                room_zone_id = room_legacy_vnum // 100
-                room_vnum = room_legacy_vnum % 100
+            # Look up room in vnum map (must exist - all rooms are imported before door resets)
+            if not self.room_map:
+                warnings.append(
+                    f"Door reset failed: room_map not initialized (vnum={room_legacy_vnum})"
+                )
+                continue
+            
+            if room_legacy_vnum not in self.room_map:
+                # Debug: show what vnums ARE in the map near this one
+                nearby_vnums = [v for v in self.room_map.keys() if abs(v - room_legacy_vnum) < 10]
+                warnings.append(
+                    f"Door reset references non-existent room: vnum={room_legacy_vnum} (nearby vnums in map: {sorted(nearby_vnums)[:5]})"
+                )
+                continue
 
+            room_zone_id, room_vnum = self.room_map[room_legacy_vnum]
             direction = str(door.get("direction"))
             state = door.get("state")
 

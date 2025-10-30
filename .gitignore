@@ -48,3 +48,5 @@ Thumbs.db
 prisma/schema.prisma
 prisma/schema.backup/
 
+# Node
+node-modules/
