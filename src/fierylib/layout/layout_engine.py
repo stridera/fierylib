@@ -687,7 +687,7 @@ class LayoutEngine:
             # Update this batch
             for room in batch:
                 try:
-                    await prisma_client.room.update(
+                    await prisma_client.rooms.update(
                         where={
                             "zoneId_id": {
                                 "zoneId": room.zone_id,

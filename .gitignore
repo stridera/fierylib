@@ -32,6 +32,7 @@ prisma/migrations/
 .coverage
 htmlcov/
 *.cover
+*.log
 
 # IDE
 .vscode/
@@ -49,4 +50,4 @@ prisma/schema.prisma
 prisma/schema.backup/
 
 # Node
-node-modules/
+node_modules/

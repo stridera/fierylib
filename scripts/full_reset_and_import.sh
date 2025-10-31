@@ -105,21 +105,22 @@ echo "╚═══════════════════════�
 echo ""
 
 # Step 1: Generate Prisma enums from Python flags
-if [[ "$SKIP_ENUM_GEN" -eq 0 ]]; then
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Step 1: Generating Prisma enums from Python flags"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo ""
-  
-  poetry run python scripts/generate_prisma_enums.py
-  
-  echo ""
-  echo "✅ Prisma enums generated"
-  echo ""
-else
-  echo "⏭️  Skipping enum generation"
-  echo ""
-fi
+# LEGACY: Enums are now maintained directly in schema.prisma
+# if [[ "$SKIP_ENUM_GEN" -eq 0 ]]; then
+#   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+#   echo "Step 1: Generating Prisma enums from Python flags"
+#   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+#   echo ""
+#   
+#   poetry run python scripts/generate_prisma_enums.py
+#   
+#   echo ""
+#   echo "✅ Prisma enums generated"
+#   echo ""
+# else
+#   echo "⏭️  Skipping enum generation"
+#   echo ""
+# fi
 
 # Step 2: Reset database
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

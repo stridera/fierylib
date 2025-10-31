@@ -89,7 +89,7 @@ class ObjectImporter:
                 self.vnum_map[legacy_vnum] = (obj_zone_id, vnum)
 
             # Upsert object with composite key
-            await self.prisma.object.upsert(
+            await self.prisma.objects.upsert(
                 where={
                     "zoneId_id": {
                         "zoneId": obj_zone_id,

@@ -147,7 +147,7 @@ class ZoneImporter:
 
         # Upsert zone (create or update)
         try:
-            zone_record = await self.prisma.zone.upsert(
+            zone_record = await self.prisma.zones.upsert(
                 where={"id": zone_id},
                 data={
                     "create": {
@@ -274,7 +274,7 @@ class ZoneImporter:
 
             # Try to find the exit first; warn if missing
             try:
-                existing = await self.prisma.roomexit.find_unique(
+                existing = await self.prisma.roomexits.find_unique(
                     where={
                         "roomZoneId_roomId_direction": {
                             "roomZoneId": room_zone_id,
@@ -289,7 +289,7 @@ class ZoneImporter:
                     )
                     continue
 
-                await self.prisma.roomexit.update(
+                await self.prisma.roomexits.update(
                     where={
                         "roomZoneId_roomId_direction": {
                             "roomZoneId": room_zone_id,

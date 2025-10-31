@@ -136,7 +136,7 @@ class RoomImporter:
                 self.vnum_map[legacy_vnum] = (room_zone_id, vnum)
 
             # Upsert room with composite key
-            room_record = await self.prisma.room.upsert(
+            room_record = await self.prisma.rooms.upsert(
                 where={
                     "zoneId_id": {
                         "zoneId": room_zone_id,
@@ -229,11 +229,16 @@ class RoomImporter:
                 "error": f"Invalid direction: {direction_str}",
             }
 
-        # Parse destination room ID
-        destination_vnum = None
+        # Parse destination room ID and convert to composite key
+        to_zone_id = None
+        to_room_id = None
         if exit_data.get("destination") and exit_data["destination"] != "-1":
             try:
                 destination_vnum = int(exit_data["destination"])
+                # Convert legacy vnum to composite key (zoneId, id)
+                composite = legacy_id_to_composite(destination_vnum)
+                to_zone_id = composite.zone_id
+                to_room_id = composite.id
             except (ValueError, TypeError):
                 pass
 
@@ -253,7 +258,7 @@ class RoomImporter:
             exit_flags = self.door_reset_lookup[legacy_room_vnum][direction]
 
         try:
-            await self.prisma.roomexit.upsert(
+            await self.prisma.roomexits.upsert(
                 where={
                     "roomZoneId_roomId_direction": {
                         "roomZoneId": room_zone_id,
@@ -269,13 +274,15 @@ class RoomImporter:
                         "description": exit_data.get("description", ""),
                         "keywords": keywords,
                         "flags": exit_flags,
-                        "destination": destination_vnum,
+                        "toZoneId": to_zone_id,
+                        "toRoomId": to_room_id,
                     },
                     "update": {
                         "description": exit_data.get("description", ""),
                         "keywords": {"set": keywords},
                         "flags": {"set": exit_flags},
-                        "destination": destination_vnum,
+                        "toZoneId": to_zone_id,
+                        "toRoomId": to_room_id,
                     },
                 },
             )
@@ -367,10 +374,10 @@ class RoomImporter:
             zones_created = []
             for detected_zone_id in sorted(zones_in_file):
                 # Check if zone exists
-                existing_zone = await self.prisma.zone.find_unique(where={"id": detected_zone_id})
+                existing_zone = await self.prisma.zones.find_unique(where={"id": detected_zone_id})
                 if not existing_zone and not dry_run:
                     # Create zone with default name
-                    await self.prisma.zone.create(
+                    await self.prisma.zones.create(
                         data={
                             "id": detected_zone_id,
                             "name": f"Zone {detected_zone_id}",

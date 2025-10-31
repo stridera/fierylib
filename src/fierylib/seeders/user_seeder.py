@@ -1,5 +1,6 @@
 """User seeding functionality for initial database setup"""
 
+import uuid
 import bcrypt
 import click
 from prisma import Prisma
@@ -30,10 +31,11 @@ class UserSeeder:
 
         # Admin user (GOD level)
         admin_password = bcrypt.hashpw(b"admin123", bcrypt.gensalt(rounds=12))
-        admin = await self.prisma.user.upsert(
+        admin = await self.prisma.users.upsert(
             where={"email": "admin@muditor.dev"},
             data={
                 "create": {
+                    "id": str(uuid.uuid4()),
                     "email": "admin@muditor.dev",
                     "username": "admin",
                     "passwordHash": admin_password.decode("utf-8"),
@@ -50,10 +52,11 @@ class UserSeeder:
 
         # Builder user
         builder_password = bcrypt.hashpw(b"builder123", bcrypt.gensalt(rounds=12))
-        builder = await self.prisma.user.upsert(
+        builder = await self.prisma.users.upsert(
             where={"email": "builder@muditor.dev"},
             data={
                 "create": {
+                    "id": str(uuid.uuid4()),
                     "email": "builder@muditor.dev",
                     "username": "builder",
                     "passwordHash": builder_password.decode("utf-8"),
@@ -70,10 +73,11 @@ class UserSeeder:
 
         # Test player
         player_password = bcrypt.hashpw(b"player123", bcrypt.gensalt(rounds=12))
-        player = await self.prisma.user.upsert(
+        player = await self.prisma.users.upsert(
             where={"email": "player@muditor.dev"},
             data={
                 "create": {
+                    "id": str(uuid.uuid4()),
                     "email": "player@muditor.dev",
                     "username": "testplayer",
                     "passwordHash": player_password.decode("utf-8"),

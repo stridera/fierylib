@@ -115,7 +115,7 @@ class MobImporter:
                 self.vnum_map[legacy_vnum] = (mob_zone_id, vnum)
 
             # Upsert mob with composite key
-            await self.prisma.mob.upsert(
+            await self.prisma.mobs.upsert(
                 where={
                     "zoneId_id": {
                         "zoneId": mob_zone_id,

@@ -65,7 +65,7 @@ class ShopImporter:
 
             # Check if keeper mob exists before setting relation
             try:
-                existing_keeper = await self.prisma.mob.find_unique(
+                existing_keeper = await self.prisma.mobs.find_unique(
                     where={
                         "zoneId_id": {
                             "zoneId": keeper_zone_id,
@@ -140,7 +140,7 @@ class ShopImporter:
                 update_data["keeperId"] = keeper_id
 
             # Upsert shop with composite key
-            shop_record = await self.prisma.shop.upsert(
+            shop_record = await self.prisma.shops.upsert(
                 where={
                     "zoneId_id": {
                         "zoneId": zone_id,
