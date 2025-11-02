@@ -9,10 +9,10 @@ from mud.mudfile import MudData
 @dataclass
 class Shop:
     id: int
-    selling: list[dict[int, int]]
+    selling: dict[int, int]  # Maps item_vnum -> quantity
     buy_profit: float
     sell_profit: float
-    accepts: str
+    accepts: list[dict]  # List of {"type": str, "keywords": str}
     no_such_item1: str
     no_such_item2: str
     do_not_buy: str
@@ -20,12 +20,12 @@ class Shop:
     missing_cash2: str
     message_buy: str
     message_sell: str
-    temper1: str
+    temper1: int
     flags: str
-    keeper: str
+    keeper: int
     trades_with: str
-    rooms: str
-    hours: str
+    rooms: list[int]
+    hours: list[dict]  # List of {"open": int, "close": int}
 
     @classmethod
     def parse(cls, data: MudData):

@@ -55,8 +55,6 @@ class LayoutEngine:
         self.placed_count = 0
         self.skipped_count = 0
 
-        print("Finding connected components...")
-
         # Build reverse index for bidirectional traversal
         # Maps room_key -> set of rooms that have exits TO this room
         print("Building reverse exit index...")
@@ -68,82 +66,65 @@ class LayoutEngine:
                         self.reverse_exits[dest_key] = set()
                     self.reverse_exits[dest_key].add(room_key)
 
-        # Find all connected components
-        unplaced_rooms = set(graph.rooms.keys())
-        components = []
-        component_num = 0
+        # STEP 1: Start from configured starting room (Zone 30, ID 1)
+        configured_start_key = (self.config.start_room_zone, self.config.start_room_id)
+        start_room = self.graph.get_room(*configured_start_key)
 
-        while unplaced_rooms:
-            # Pick any unplaced room as starting point
-            start_key = next(iter(unplaced_rooms))
-            start_room = self.graph.get_room(*start_key)
+        if not start_room:
+            print(f"❌ ERROR: Configured start room (Zone {configured_start_key[0]}, ID {configured_start_key[1]}) not found!")
+            print(f"Please check that this room exists in the database.")
+            return {
+                "success": False,
+                "error": f"Start room {configured_start_key} not found",
+                "total_rooms": len(self.graph),
+                "placed": 0,
+                "skipped": 0,
+                "isolated": 0,
+                "conflicts": 0,
+                "zones": len(self.graph.zones),
+                "components": 0,
+            }
 
-            if not start_room:
-                unplaced_rooms.remove(start_key)
-                continue
-
-            # Find all rooms reachable from this start room
-            connected = self._find_connected_rooms(start_room)
-            unplaced_rooms -= connected
-
-            components.append({
-                'start_key': start_key,
-                'size': len(connected),
-                'rooms': connected
-            })
-            component_num += 1
-
-            if component_num <= 5 or len(connected) > 100:
-                print(f"  Component {component_num}: {len(connected)} rooms (Zone {start_key[0]}, ID {start_key[1]})")
-
-        # Sort components by size (largest first)
-        components.sort(key=lambda x: x['size'], reverse=True)
-
-        print(f"Found {len(components)} connected components")
-        print(f"Largest component: {components[0]['size']} rooms")
-
-        # Place main component first at origin
-        main_comp = components[0]
-        start_room = self.graph.get_room(*main_comp['start_key'])
+        # Place starting room at origin
         position = self.config.start_position
-        print(f"Placing main component ({main_comp['size']} rooms) at position {position}")
-        
-        # Place starting room
+        print(f"Starting from configured room: Zone {configured_start_key[0]}, ID {configured_start_key[1]}")
+        print(f"  '{start_room.name}'")
+        print(f"Placing at origin {position}")
+
         self._place_room(start_room, position)
-        
-        # Place all rooms in main component using BFS
+
+        # STEP 2: Place all rooms connected to starting room using BFS
+        print(f"Placing all rooms connected to starting room...")
         self._bfs_placement_bidirectional(start_room)
-        
-        # For smaller components, treat them like isolated room clusters
-        # Group them by zone and place near zone centers intelligently
-        if len(components) > 1:
-            print(f"\nPlacing {len(components) - 1} smaller disconnected components...")
-            
-            # Group smaller components by zone
-            components_by_zone: Dict[int, List[Dict]] = defaultdict(list)
-            for comp in components[1:]:
-                zone_id = comp['start_key'][0]
-                components_by_zone[zone_id].append(comp)
-            
+
+        main_component_size = self.placed_count
+        print(f"✅ Placed {main_component_size} rooms connected to starting room")
+
+        # STEP 3: Find remaining unplaced rooms (disconnected from main component)
+        unplaced_rooms = [
+            room for room in self.graph.rooms.values()
+            if not room.is_placed
+        ]
+
+        if unplaced_rooms:
+            print(f"\n{len(unplaced_rooms)} rooms are disconnected from Zone {configured_start_key[0]}, ID {configured_start_key[1]}")
+            print(f"Placing disconnected rooms by zone...")
+
             # Calculate zone centers from placed rooms
             zone_centers = self._calculate_zone_centers()
-            
-            # Place each zone's disconnected components
-            for zone_id, zone_comps in components_by_zone.items():
+
+            # Group disconnected rooms by zone
+            disconnected_by_zone: Dict[int, List[RoomNode]] = defaultdict(list)
+            for room in unplaced_rooms:
+                disconnected_by_zone[room.zone_id].append(room)
+
+            # Place each zone's disconnected rooms
+            for zone_id, rooms in disconnected_by_zone.items():
                 center = zone_centers.get(zone_id, (0, 0, 0))
-                print(f"  Zone {zone_id}: {len(zone_comps)} disconnected components, center at {center}")
-                
-                # Collect all rooms from these components
-                comp_rooms = []
-                for comp in zone_comps:
-                    for room_key in comp['rooms']:
-                        room = self.graph.get_room(*room_key)
-                        if room and not room.is_placed:
-                            comp_rooms.append(room)
-                
-                # Place using smart clustering (tries to match by name)
-                if comp_rooms:
-                    self._place_disconnected_components(comp_rooms, center, zone_id)
+                print(f"  Zone {zone_id}: {len(rooms)} disconnected rooms")
+
+                # Place using smart clustering (tries to match by name, otherwise grid)
+                self._place_disconnected_components(rooms, center, zone_id)
 
         # Handle truly isolated rooms (no connections at all)
         self._place_isolated_rooms()
@@ -151,15 +132,17 @@ class LayoutEngine:
         # Identify conflicts
         self._identify_conflicts()
 
+        disconnected_count = len(unplaced_rooms) if unplaced_rooms else 0
+
         return {
             "success": True,
             "total_rooms": len(self.graph),
             "placed": self.placed_count,
-            "skipped": self.skipped_count,
+            "main_component": main_component_size,
+            "disconnected": disconnected_count,
             "isolated": len(self.graph.isolated_rooms),
             "conflicts": len(self.conflicts),
             "zones": len(self.graph.zones),
-            "components": len(components),
         }
 
     def _find_connected_rooms(self, start_room: RoomNode) -> Set[Tuple[int, int]]:

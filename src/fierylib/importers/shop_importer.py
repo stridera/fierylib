@@ -77,22 +77,30 @@ class ShopImporter:
             except:
                 keeper_exists = False
 
-        # Build messages JSON from shop messages
-        messages = {}
+        # Build message arrays from legacy fields
+        no_such_item_messages = []
         if hasattr(shop, 'no_such_item1') and shop.no_such_item1:
-            messages['noSuchItem1'] = shop.no_such_item1
+            no_such_item_messages.append(shop.no_such_item1)
         if hasattr(shop, 'no_such_item2') and shop.no_such_item2:
-            messages['noSuchItem2'] = shop.no_such_item2
+            no_such_item_messages.append(shop.no_such_item2)
+
+        do_not_buy_messages = []
         if hasattr(shop, 'do_not_buy') and shop.do_not_buy:
-            messages['doNotBuy'] = shop.do_not_buy
+            do_not_buy_messages.append(shop.do_not_buy)
+
+        missing_cash_messages = []
         if hasattr(shop, 'missing_cash1') and shop.missing_cash1:
-            messages['missingCash1'] = shop.missing_cash1
+            missing_cash_messages.append(shop.missing_cash1)
         if hasattr(shop, 'missing_cash2') and shop.missing_cash2:
-            messages['missingCash2'] = shop.missing_cash2
+            missing_cash_messages.append(shop.missing_cash2)
+
+        buy_messages = []
         if hasattr(shop, 'message_buy') and shop.message_buy:
-            messages['messageBuy'] = shop.message_buy
+            buy_messages.append(shop.message_buy)
+
+        sell_messages = []
         if hasattr(shop, 'message_sell') and shop.message_sell:
-            messages['messageSell'] = shop.message_sell
+            sell_messages.append(shop.message_sell)
 
         if dry_run:
             return {
@@ -109,27 +117,23 @@ class ShopImporter:
                 "zoneId": zone_id,
                 "buyProfit": float(shop.buy_profit) if shop.buy_profit else 1.2,
                 "sellProfit": float(shop.sell_profit) if shop.sell_profit else 0.8,
-                "temper1": int(shop.temper1) if hasattr(shop, 'temper1') and shop.temper1 else 0,
-                "noSuchItem1": shop.no_such_item1 if hasattr(shop, 'no_such_item1') else None,
-                "noSuchItem2": shop.no_such_item2 if hasattr(shop, 'no_such_item2') else None,
-                "doNotBuy": shop.do_not_buy if hasattr(shop, 'do_not_buy') else None,
-                "missingCash1": shop.missing_cash1 if hasattr(shop, 'missing_cash1') else None,
-                "missingCash2": shop.missing_cash2 if hasattr(shop, 'missing_cash2') else None,
-                "messageBuy": shop.message_buy if hasattr(shop, 'message_buy') else None,
-                "messageSell": shop.message_sell if hasattr(shop, 'message_sell') else None,
+                "temper": int(shop.temper1) if hasattr(shop, 'temper1') and shop.temper1 else 0,
+                "noSuchItemMessages": no_such_item_messages,
+                "doNotBuyMessages": do_not_buy_messages,
+                "missingCashMessages": missing_cash_messages,
+                "buyMessages": buy_messages,
+                "sellMessages": sell_messages,
             }
 
             update_data = {
                 "buyProfit": float(shop.buy_profit) if shop.buy_profit else 1.2,
                 "sellProfit": float(shop.sell_profit) if shop.sell_profit else 0.8,
-                "temper1": int(shop.temper1) if hasattr(shop, 'temper1') and shop.temper1 else 0,
-                "noSuchItem1": shop.no_such_item1 if hasattr(shop, 'no_such_item1') else None,
-                "noSuchItem2": shop.no_such_item2 if hasattr(shop, 'no_such_item2') else None,
-                "doNotBuy": shop.do_not_buy if hasattr(shop, 'do_not_buy') else None,
-                "missingCash1": shop.missing_cash1 if hasattr(shop, 'missing_cash1') else None,
-                "missingCash2": shop.missing_cash2 if hasattr(shop, 'missing_cash2') else None,
-                "messageBuy": shop.message_buy if hasattr(shop, 'message_buy') else None,
-                "messageSell": shop.message_sell if hasattr(shop, 'message_sell') else None,
+                "temper": int(shop.temper1) if hasattr(shop, 'temper1') and shop.temper1 else 0,
+                "noSuchItemMessages": no_such_item_messages,
+                "doNotBuyMessages": do_not_buy_messages,
+                "missingCashMessages": missing_cash_messages,
+                "buyMessages": buy_messages,
+                "sellMessages": sell_messages,
             }
 
             # Only set keeper fields if keeper mob exists in database
@@ -240,12 +244,12 @@ class ShopImporter:
             object_zone_id = item_id // 100
             object_vnum = item_id % 100
 
-            await self.prisma.shopitem.create(
+            await self.prisma.shopitems.create(
                 data={
                     "shopZoneId": shop_zone_id,
-                    "shopVnum": shop_vnum,
+                    "shopId": shop_vnum,
                     "objectZoneId": object_zone_id,
-                    "objectVnum": object_vnum,
+                    "objectId": object_vnum,
                     "amount": quantity,
                 }
             )
@@ -277,10 +281,10 @@ class ShopImporter:
             keywords_str = accept.get("keywords", "")
             keywords_list = keywords_str.split() if keywords_str else []
             
-            await self.prisma.shopaccept.create(
+            await self.prisma.shopaccepts.create(
                 data={
                     "shopZoneId": shop_zone_id,
-                    "shopVnum": shop_vnum,
+                    "shopId": shop_vnum,
                     "type": accept.get("type", ""),
                     "keywords": keywords_list,
                 }
@@ -309,10 +313,10 @@ class ShopImporter:
             Dict with import results
         """
         try:
-            await self.prisma.shoproom.create(
+            await self.prisma.shoprooms.create(
                 data={
                     "shopZoneId": shop_zone_id,
-                    "shopVnum": shop_vnum,
+                    "shopId": shop_vnum,
                     "roomId": int(room_vnum),
                 }
             )
@@ -341,10 +345,10 @@ class ShopImporter:
             Dict with import results
         """
         try:
-            await self.prisma.shophour.create(
+            await self.prisma.shophours.create(
                 data={
                     "shopZoneId": shop_zone_id,
-                    "shopVnum": shop_vnum,
+                    "shopId": shop_vnum,
                     "open": hour_data.get("open", 0),
                     "close": hour_data.get("close", 0),
                 }

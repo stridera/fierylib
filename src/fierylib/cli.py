@@ -962,11 +962,13 @@ def generate_layout(
             click.echo(f"\n{'='*60}")
             click.echo(f"Layout Results")
             click.echo(f"{'='*60}")
-            click.echo(f"  Total rooms:     {result['total_rooms']}")
-            click.echo(f"  Placed:          {result['placed']}")
-            click.echo(f"  Isolated:        {result['isolated']}")
-            click.echo(f"  Zones:           {result['zones']}")
-            click.echo(f"  Conflicts:       {result['conflicts']}")
+            click.echo(f"  Total rooms:        {result['total_rooms']}")
+            click.echo(f"  Main component:     {result['main_component']} (connected to start room)")
+            click.echo(f"  Disconnected:       {result['disconnected']}")
+            click.echo(f"  Isolated:           {result['isolated']} (no exits)")
+            click.echo(f"  Total placed:       {result['placed']}")
+            click.echo(f"  Zones:              {result['zones']}")
+            click.echo(f"  Position conflicts: {result['conflicts']}")
 
             # Show conflicts if requested
             if show_conflicts and result["conflicts"] > 0:
@@ -980,7 +982,7 @@ def generate_layout(
                     )
                     for room in conflict["rooms"]:
                         click.echo(
-                            f"   - Zone {room['zone_id']}, Vnum {room['vnum']}: {room['name']}"
+                            f"   - Zone {room['zone_id']}, ID {room['room_id']}: {room['name']}"
                         )
                 if len(conflicts) > 20:
                     click.echo(f"\n... and {len(conflicts) - 20} more conflicts")

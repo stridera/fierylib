@@ -184,7 +184,7 @@ class ResetImporter:
 
         try:
             # Create mob reset
-            reset_record = await self.prisma.mobreset.create(
+            reset_record = await self.prisma.mobresets.create(
                 {
                     "zoneId": db_zone_id,
                     "mobZoneId": db_mob_zone_id,
@@ -382,7 +382,7 @@ class ResetImporter:
                 probability = obj_reset["max"] / 100.0
 
             # Create object reset
-            reset_record = await self.prisma.objectreset.create(
+            reset_record = await self.prisma.objectresets.create(
                 {
                     "zoneId": db_zone_id,
                     "objectZoneId": db_obj_zone_id,
@@ -497,7 +497,7 @@ class ResetImporter:
 
                 # Update reset behavior if RESPAWN detected
                 if not dry_run and reset_behavior == "RESPAWN":
-                    await self.prisma.objectreset.update(
+                    await self.prisma.objectresets.update(
                         where={"id": result["reset_id"]},
                         data={"resetBehavior": "RESPAWN"},
                     )
