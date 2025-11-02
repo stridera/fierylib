@@ -209,6 +209,7 @@ class Direction(Enum):
 
 
 class WearFlags(Enum):
+    """ITEM_WEAR_* bitflags - Item capabilities (what slots an object CAN be worn in)"""
     TAKE = 0  # Item can be taken
     FINGER = 1  # Can be worn on finger
     NECK = 2  # Can be worn around neck
@@ -231,6 +232,38 @@ class WearFlags(Enum):
     BADGE = 19  # Can be worn as badge
     BELT = 20  # Can be worn on belt
     HOVER = 21  # Hovers above you
+
+
+class EquipmentPosition(Enum):
+    """WEAR_* positions - Equipment slot positions (where item IS equipped on character)"""
+    LIGHT = 0         # Light source slot
+    FINGER_R = 1      # Right finger
+    FINGER_L = 2      # Left finger
+    NECK_1 = 3        # First neck slot
+    NECK_2 = 4        # Second neck slot
+    BODY = 5          # Body armor
+    HEAD = 6          # Head slot
+    LEGS = 7          # Leg armor
+    FEET = 8          # Footwear
+    HANDS = 9         # Gloves/gauntlets
+    ARMS = 10         # Arm armor
+    SHIELD = 11       # Shield slot
+    ABOUT = 12        # Cloak/about body
+    WAIST = 13        # Belt/waist
+    WRIST_R = 14      # Right wrist
+    WRIST_L = 15      # Left wrist
+    WIELD = 16        # Primary weapon
+    WIELD2 = 17       # Secondary weapon (dual wield)
+    HOLD = 18         # Held item (primary)
+    HOLD2 = 19        # Held item (secondary)
+    TWO_HAND_WIELD = 20  # Two-handed weapon
+    EYES = 21         # Eyewear
+    FACE = 22         # Face covering
+    LEAR = 23         # Left ear
+    REAR = 24         # Right ear
+    BADGE = 25        # Badge
+    OBELT = 26        # Object on belt
+    HOVER = 27        # Hovering item
 
 
 class ScriptType(Enum):

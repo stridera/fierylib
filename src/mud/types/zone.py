@@ -29,7 +29,7 @@ class Climates(Enum):
     ARCTIC = "ARCTIC"
     ALPINE = "ALPINE"
 from mud.mudfile import MudData
-from mud.types import Direction, WearFlags
+from mud.types import Direction, EquipmentPosition, WearFlags
 
 
 @dataclass
@@ -127,10 +127,7 @@ class Zone:
                         elif step.cmd == "E":
                             if "equipped" not in mob:
                                 mob["equipped"] = []
-                            try:
-                                location = WearFlags(step.arg3)
-                            except ValueError:
-                                location = step.arg3  # fallback to raw value if not in WearFlags
+                            location = EquipmentPosition(step.arg3)
                             object = {
                                 "id": step.arg1,
                                 "max": step.arg2,
