@@ -12,14 +12,23 @@ from typing import Optional
 from pathlib import Path
 import sys
 import json
+import logging
 
 from mud.types.object import Object
 from mud.mudfile import MudData
 from fierylib.converters import legacy_id_to_composite, normalize_flags
 
+logger = logging.getLogger(__name__)
+
 
 class ObjectImporter:
     """Imports object data to PostgreSQL using Prisma"""
+
+    # Manual overrides for objects with multiple matching extra descriptions
+    # Format: (zone_id, vnum) -> preferred_keywords (list of keywords to prefer)
+    EXTRA_DESCRIPTION_OVERRIDES = {
+        (533, 22): ["box", "fitted", "container"],  # Prefer the more detailed description
+    }
 
     def __init__(self, prisma_client):
         """
@@ -88,6 +97,68 @@ class ObjectImporter:
             if self.vnum_map is not None:
                 self.vnum_map[legacy_vnum] = (obj_zone_id, vnum)
 
+            # Extract examine description from matching extra descriptions
+            examine_description = None
+            extras_to_import = []
+
+            if obj.extras:
+                # Normalize object keywords for case-insensitive matching
+                obj_keywords_lower = [kw.lower() for kw in (obj.keywords or [])]
+                matching_extras = []
+
+                for extra in obj.extras:
+                    # Check if ANY extra keyword matches ANY object keyword
+                    extra_keywords_lower = [kw.lower() for kw in (extra.keywords or [])]
+                    if any(ekw in obj_keywords_lower for ekw in extra_keywords_lower):
+                        matching_extras.append(extra)
+                    else:
+                        extras_to_import.append(extra)
+
+                if matching_extras:
+                    # Check for manual override
+                    selected_extra = None
+                    override_used = False
+                    override_key = (obj_zone_id, vnum)
+
+                    if override_key in self.EXTRA_DESCRIPTION_OVERRIDES:
+                        preferred_keywords = self.EXTRA_DESCRIPTION_OVERRIDES[override_key]
+                        preferred_keywords_lower = [kw.lower() for kw in preferred_keywords]
+
+                        # Find the extra that matches ALL the preferred keywords
+                        for extra in matching_extras:
+                            extra_keywords_lower = [kw.lower() for kw in extra.keywords]
+                            # Check if all preferred keywords are present in this extra's keywords
+                            if all(kw in extra_keywords_lower for kw in preferred_keywords_lower):
+                                selected_extra = extra
+                                override_used = True
+                                break
+
+                    # Fall back to first match if no override or override not found
+                    if selected_extra is None:
+                        selected_extra = matching_extras[0]
+
+                    examine_description = selected_extra.text
+
+                    # Log warning if multiple matches
+                    if len(matching_extras) > 1:
+                        # Build detailed message showing all matching extra descriptions
+                        matches_detail = []
+                        for i, extra in enumerate(matching_extras, 1):
+                            keywords_str = ", ".join(extra.keywords)
+                            desc_preview = extra.text[:100] + "..." if len(extra.text) > 100 else extra.text
+                            marker = " [OVERRIDE]" if (extra == selected_extra and override_used) else " [SELECTED]" if extra == selected_extra else ""
+                            matches_detail.append(f"  {i}. Keywords: [{keywords_str}]{marker} - Description: {desc_preview}")
+
+                        override_note = " (manual override applied)" if override_used else ""
+                        logger.warning(
+                            f"Object {obj_zone_id}:{vnum} ('{obj.short}') has {len(matching_extras)} "
+                            f"extra descriptions matching keywords{override_note}.\n"
+                            + "\n".join(matches_detail)
+                        )
+            else:
+                # No extras, import all (empty list)
+                extras_to_import = []
+
             # Upsert object with composite key
             await self.prisma.objects.upsert(
                 where={
@@ -103,8 +174,9 @@ class ObjectImporter:
                         "type": obj_type,
                         "keywords": obj.keywords if obj.keywords else [],
                         "name": obj.short or "",
-                        "examineDescription": obj.ground or "",
-                        "actionDesc": obj.action_desc or "",
+                        "roomDescription": obj.ground or "",
+                        "examineDescription": examine_description,  # From matching extra description
+                        "actionDescription": obj.action_description or "",
                         "flags": obj_flags,
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
@@ -119,8 +191,9 @@ class ObjectImporter:
                         "type": obj_type,
                         "keywords": obj.keywords if obj.keywords else [],
                         "name": obj.short or "",
-                        "examineDescription": obj.ground or "",
-                        "actionDesc": obj.action_desc or "",
+                        "roomDescription": obj.ground or "",
+                        "examineDescription": examine_description,  # From matching extra description
+                        "actionDescription": obj.action_description or "",
                         "flags": {"set": obj_flags},
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
@@ -142,10 +215,10 @@ class ObjectImporter:
                     if affect_result["success"]:
                         affects_imported += 1
 
-            # Import extra descriptions
+            # Import extra descriptions (excluding the one used for examineDescription)
             extras_imported = 0
-            if obj.extras:
-                for extra in obj.extras:
+            if extras_to_import:
+                for extra in extras_to_import:
                     extra_result = await self.import_extra_description(
                         obj_zone_id, vnum, extra
                     )
@@ -218,7 +291,7 @@ class ObjectImporter:
         Returns:
             Dict with import results
         """
-        keywords = " ".join(extra.keywords) if hasattr(extra, "keywords") else ""
+        keywords = extra.keywords if hasattr(extra, "keywords") else []
         text = extra.text if hasattr(extra, "text") else ""
 
         try:
@@ -226,7 +299,7 @@ class ObjectImporter:
                 data={
                     "objectZoneId": obj_zone_id,
                     "objectId": obj_vnum,
-                    "keyword": keywords,
+                    "keywords": keywords,
                     "description": text,
                 }
             )

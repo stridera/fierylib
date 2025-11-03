@@ -15,7 +15,7 @@ class Object:
     keywords: list[str] | None = None
     short: str | None = None
     ground: str | None = None
-    action_desc: str | None = None
+    action_description: str | None = None
     extras: list[Extras] | None = None
     values: dict | None = None  # Stats that change for each object type
     flags: list[str] | None = None  # ItemFlags
@@ -45,7 +45,7 @@ class Object:
             obj["keywords"] = object_data.read_string().split(" ")
             obj["short"] = object_data.read_string()
             obj["ground"] = object_data.read_string()
-            obj["action_desc"] = object_data.read_string()
+            obj["action_description"] = object_data.read_string()
 
             type_flag, extra_flags, wear_flags, level = object_data.get_next_line().split()
             f1, f2, f3, f4, f5, f6, f7 = object_data.get_next_line().split()

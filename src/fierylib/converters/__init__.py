@@ -1,5 +1,5 @@
 """
-Converters module - ID conversion and flag normalization utilities
+Converters module - ID conversion, flag normalization, and skill name mapping utilities
 """
 
 from .id_converter import (
@@ -10,6 +10,7 @@ from .id_converter import (
     CompositeId,
 )
 from .flag_normalizer import normalize_flag, normalize_flags
+from .skill_name_normalizer import normalize_skill_name, denormalize_skill_name
 
 __all__ = [
     "vnum_to_composite",
@@ -19,4 +20,6 @@ __all__ = [
     "CompositeId",
     "normalize_flag",
     "normalize_flags",
+    "normalize_skill_name",
+    "denormalize_skill_name",
 ]

@@ -711,6 +711,90 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
     help="Path to legacy CircleMUD lib directory",
 )
 @click.option(
+    "--player",
+    type=str,
+    help="Import specific player only (by name)",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Parse and validate without importing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Enable verbose output",
+)
+def import_players(lib_path: str, player: str | None, dry_run: bool, verbose: bool):
+    """Import legacy player/character files"""
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.importers.player_importer import PlayerImporter
+
+    async def run_import():
+        click.echo("FieryLib v0.1.0 - Player Data Importer")
+        click.echo(f"Library path: {lib_path}")
+
+        if player:
+            click.echo(f"Importing player: {player}")
+        else:
+            click.echo("Importing all players")
+
+        if dry_run:
+            click.echo("DRY RUN - No database changes will be made\n")
+
+        # Initialize Prisma
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            players_dir = Path(lib_path) / "players"
+
+            if not players_dir.exists():
+                click.echo(f"❌ Players directory not found: {players_dir}")
+                return
+
+            # Create importer
+            importer = PlayerImporter(prisma)
+
+            # Import players
+            click.echo("\n" + "=" * 60)
+            click.echo("Importing Players")
+            click.echo("=" * 60 + "\n")
+
+            stats = await importer.import_players_from_directory(
+                players_dir=players_dir,
+                player_name=player,
+                dry_run=dry_run
+            )
+
+            click.echo("\n" + "=" * 60)
+            click.echo("Import Complete")
+            click.echo("=" * 60)
+            click.echo(f"  Characters imported: {stats['characters']}")
+            click.echo(f"  Skills assigned: {stats['skills']}")
+            click.echo(f"  Spells assigned: {stats['spells']}")
+            click.echo(f"  Aliases created: {stats['aliases']}")
+            if stats['errors'] > 0:
+                click.echo(f"  ⚠️  Errors: {stats['errors']}")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_import())
+
+
+@main.command()
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
     "--zone",
     type=int,
     help="Validate specific zone only",
@@ -860,6 +944,79 @@ def seed_users(reset: bool):
             await prisma.disconnect()
 
     asyncio.run(run_seed())
+
+
+@seed.command(name="races")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate without importing to database",
+)
+@click.option(
+    "--regenerate",
+    is_flag=True,
+    default=False,
+    help="Regenerate data/races.json from races.cpp before importing",
+)
+def seed_races(dry_run: bool, regenerate: bool):
+    """Import race data from data/races.json"""
+    import asyncio
+    from pathlib import Path
+    from fierylib.importers.race_importer import import_races_from_json
+    from fierylib.parsers.cpp_race_parser import parse_races_cpp
+    import json
+
+    async def run_seed():
+        click.echo("🌱 Seeding Race Data")
+        click.echo("=" * 60)
+
+        races_json = Path("data/races.json")
+
+        # Regenerate from C++ if requested
+        if regenerate:
+            click.echo("Regenerating data/races.json from races.cpp...")
+            races_cpp = Path("../fierymud/legacy/src/races.cpp")
+            if not races_cpp.exists():
+                click.echo(f"❌ races.cpp not found at {races_cpp}")
+                return
+
+            data = parse_races_cpp(races_cpp)
+            races_json.parent.mkdir(exist_ok=True)
+            with races_json.open('w') as f:
+                json.dump(data, f, indent=2)
+            click.echo(f"✓ Generated {races_json}")
+
+        if not races_json.exists():
+            click.echo(f"❌ Race data file not found: {races_json}")
+            click.echo("   Run with --regenerate to create it from races.cpp")
+            return
+
+        _stats = await import_races_from_json(races_json, dry_run=dry_run)
+
+        click.echo("\n✅ Race seeding complete!")
+        if dry_run:
+            click.echo("   (DRY RUN - no changes made)")
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="skills")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate without importing to database",
+)
+def seed_skills(dry_run: bool):
+    """Import skills from legacy codebase (if skill seeder exists)"""
+    import asyncio
+    from pathlib import Path
+
+    click.echo("🌱 Seeding Skills")
+    click.echo("=" * 60)
+    click.echo("⚠️  Skill seeder not yet implemented")
+    click.echo("   Skills should be imported from skills.cpp similar to classes/races")
 
 
 @main.group()

@@ -42,7 +42,7 @@ SPELLS = [
     "SANCTUARY",  # 36
     "SHOCKING_GRASP",  # 37
     "SLEEP",  # 38
-    "STRENGTH",  # 39
+    "ENHANCE_ABILITY",  # 39
     "SUMMON",  # 40
     "VENTRILOQUATE",  # 41
     "WORD_OF_RECALL",  # 42
@@ -268,7 +268,7 @@ SPELLS = [
     "STATUE",  # 262
     "WATER_BLAST",  # 263
     "DISPLACEMENT",  # 264
-    "GREATER DISPLACEMENT",  # 265
+    "GREATER_DISPLACEMENT",  # 265
     "NIMBLE",  # 266
     "CLARITY",  # 267
 ]
@@ -315,11 +315,11 @@ PLAYER_SKILLS = [
     "DOUSE",  # 438
     "AWARE",  # 439
     "INSTANT_KILL",  # 440
-    "HIT_ALL",  # 441
+    "HITALL",  # 441 (C++ uses SKILL_HITALL, not SKILL_HIT_ALL)
     "HUNT",  # 442
     "BANDAGE",  # 443
     "FIRST_AID",  # 444
-    "VAMPIRIC_TOUCH",  # 445
+    "VAMP_TOUCH",  # 445 (C++ uses SKILL_VAMP_TOUCH, not SKILL_VAMPIRIC_TOUCH)
     "CHANT",  # 446
     "SCRIBE",  # 447
     "SAFEFALL",  # 448
@@ -340,9 +340,9 @@ PLAYER_SKILLS = [
     "BLUDGEONING",  # 463
     "PIERCING",  # 464
     "SLASHING",  # 465
-    "TWO_HAND_BLUDGEONING",  # 466
-    "TWO_HAND_PIERCING",  # 467
-    "TWO_HAND_SLASHING",  # 468
+    "2H_BLUDGEONING",  # 466 (C++ uses SKILL_2H_BLUDGEONING, not SKILL_TWO_HAND_BLUDGEONING)
+    "2H_PIERCING",  # 467 (C++ uses SKILL_2H_PIERCING, not SKILL_TWO_HAND_PIERCING)
+    "2H_SLASHING",  # 468 (C++ uses SKILL_2H_SLASHING, not SKILL_TWO_HAND_SLASHING)
     "MISSILE",  # 469
     "ON_FIRE",  # 470 (spell effect in skill range)
     "LAY_HANDS",  # 471
