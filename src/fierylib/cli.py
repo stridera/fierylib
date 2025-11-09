@@ -1001,6 +1001,62 @@ def seed_races(dry_run: bool, regenerate: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="abilities")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate without importing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Enable verbose output",
+)
+def seed_abilities(dry_run: bool, verbose: bool):
+    """Import all 368 abilities from documentation (ABILITIES_COMPLETE.md + all_spell_implementations.json)"""
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.abilities_seeder import seed_abilities
+
+    async def run_seed():
+        click.echo("🌱 Seeding Abilities")
+        click.echo("=" * 60)
+
+        if dry_run:
+            click.echo("⚠️  DRY RUN mode not yet implemented for abilities seeder")
+            click.echo("   This command will import abilities to the database")
+            return
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            imported_count = await seed_abilities(prisma)
+
+            click.echo("\n✅ Ability seeding complete!")
+            click.echo(f"   Imported {imported_count} abilities from documentation")
+            click.echo(f"\n📚 Data sources:")
+            click.echo(f"   - docs/ABILITIES_COMPLETE.md (metadata)")
+            click.echo(f"   - docs/all_spell_implementations.json (implementations)")
+
+        except FileNotFoundError as e:
+            click.echo(f"❌ Error: {e}")
+            click.echo("\n💡 Make sure the documentation files exist:")
+            click.echo("   - /home/strider/Code/mud/docs/ABILITIES_COMPLETE.md")
+            click.echo("   - /home/strider/Code/mud/docs/all_spell_implementations.json")
+        except Exception as e:
+            click.echo(f"❌ Unexpected error: {e}")
+            if verbose:
+                import traceback
+                traceback.print_exc()
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="skills")
 @click.option(
     "--dry-run",
