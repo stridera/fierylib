@@ -56,7 +56,7 @@ class Player:
     save_room: int | None = None
     gender: Gender | None = None
     player_class: Class | None = None
-    races: Race | None = None
+    race: Race | None = None
     life_force: LifeForce | None = None
     composition: Composition | None = None
     player_flags: list[str] | None = None

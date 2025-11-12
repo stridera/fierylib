@@ -102,7 +102,7 @@ class SkillSeeder:
 
     async def seed_spells(self, skip_existing: bool = True, help_file_path: Path = None) -> dict:
         """
-        Create all spells from legacy SPELLS definitions into Spells table
+        Create all spells from legacy SPELLS definitions into Ability table
 
         Args:
             skip_existing: If True, skip spells that already exist (default)
@@ -111,7 +111,7 @@ class SkillSeeder:
         Returns:
             Dictionary with created spell counts
         """
-        click.echo("  Seeding spells to Spells table...")
+        click.echo("  Seeding spells to Ability table...")
 
         # Parse spell descriptions if help file provided
         if help_file_path and help_file_path.exists():
@@ -125,7 +125,7 @@ class SkillSeeder:
         spells_created = 0
 
         # ========================================
-        # SPELLS (IDs 1-267) - Spells table
+        # SPELLS (IDs 1-267) - Ability table
         # ========================================
         for i, spell_name in enumerate(SPELLS):
             if not spell_name or spell_name == "NONE":
@@ -136,7 +136,7 @@ class SkillSeeder:
 
             # Check if spell already exists
             if skip_existing:
-                existing = await self.prisma.spells.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"name": name})
                 if existing:
                     continue
 
@@ -144,9 +144,11 @@ class SkillSeeder:
             normalized_name = name.replace(' ', '_').replace('-', '_')
             description = self.spell_descriptions.get(normalized_name, f"Spell: {name}")
 
-            await self.prisma.spells.create(
+            await self.prisma.ability.create(
                 data={
                     "name": name,
+                    "description": description,
+                    "abilityType": "SPELL",
                     "notes": description,
                 }
             )
@@ -163,9 +165,9 @@ class SkillSeeder:
         Create all physical skills, songs, and chants from legacy definitions
 
         The legacy SKILLS dictionary maps:
-        - IDs 401-495: PLAYER_SKILLS → Skills table (prefix removed)
-        - IDs 551-560: BARDIC_SONGS → Skills table (prefix removed)
-        - IDs 601-618: MONK_CHANTS → Skills table (prefix removed)
+        - IDs 401-495: PLAYER_SKILLS → Ability table (type: SKILL)
+        - IDs 551-560: BARDIC_SONGS → Ability table (type: SONG)
+        - IDs 601-618: MONK_CHANTS → Ability table (type: CHANT)
 
         Args:
             skip_existing: If True, skip skills that already exist (default)
@@ -173,14 +175,14 @@ class SkillSeeder:
         Returns:
             Dictionary with created skill counts
         """
-        click.echo("  Seeding physical skills, songs, and chants to Skills table...")
+        click.echo("  Seeding physical skills, songs, and chants to Ability table...")
 
         skills_created = 0
         songs_created = 0
         chants_created = 0
 
         # ========================================
-        # PLAYER_SKILLS (IDs 401-495) - Skills table
+        # PLAYER_SKILLS (IDs 401-495) - Ability table (type: SKILL)
         # ID ranges: 463-469 weapons, 452-462 sphere/magic, 401-451 & 471-495 combat/utility
         # ========================================
         for i, skill_base_name in enumerate(PLAYER_SKILLS):
@@ -192,42 +194,32 @@ class SkillSeeder:
 
             # Check if skill already exists
             if skip_existing:
-                existing = await self.prisma.skills.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"name": name})
                 if existing:
                     continue
 
-            # Determine type and category based on skill ID and keywords
-            # IDs 463-469: Weapon proficiencies
-            if 463 <= skill_id <= 469:
-                skill_type = "WEAPON"
-                category = "SECONDARY"
-            # IDs 452-462: Sphere skills (magic)
-            elif 452 <= skill_id <= 462:
-                skill_type = "MAGIC"
-                category = "SECONDARY"
-            # Stealth skills
-            elif any(keyword in skill_base_name.upper() for keyword in ['BACKSTAB', 'HIDE', 'SNEAK', 'STEAL', 'PICK_LOCK', 'POISON']):
-                skill_type = "STEALTH"
-                category = "SECONDARY"
-            # Combat skills
-            elif any(keyword in skill_base_name.upper() for keyword in ['BASH', 'KICK', 'PARRY', 'DODGE', 'DUAL_WIELD', 'DISARM', 'RESCUE', 'TRACK']):
-                skill_type = "COMBAT"
-                category = "SECONDARY"
-            # Survival/utility skills
-            elif any(keyword in skill_base_name.upper() for keyword in ['MOUNT', 'RIDING', 'BANDAGE', 'FIRST_AID', 'FORAGE', 'SWIM']):
-                skill_type = "SURVIVAL"
-                category = "SECONDARY"
-            # Default to combat
-            else:
-                skill_type = "COMBAT"
-                category = "SECONDARY"
+            # Build description
+            description = f"Player skill: {skill_base_name.replace('_', ' ').title()}"
 
-            await self.prisma.skills.create(
+            # Add tags based on skill type
+            tags = []
+            if 463 <= skill_id <= 469:
+                tags.append("weapon")
+            elif 452 <= skill_id <= 462:
+                tags.append("magic")
+            elif any(keyword in skill_base_name.upper() for keyword in ['BACKSTAB', 'HIDE', 'SNEAK', 'STEAL', 'PICK_LOCK', 'POISON']):
+                tags.append("stealth")
+            elif any(keyword in skill_base_name.upper() for keyword in ['BASH', 'KICK', 'PARRY', 'DODGE', 'DUAL_WIELD', 'DISARM', 'RESCUE', 'TRACK']):
+                tags.append("combat")
+            elif any(keyword in skill_base_name.upper() for keyword in ['MOUNT', 'RIDING', 'BANDAGE', 'FIRST_AID', 'FORAGE', 'SWIM']):
+                tags.append("survival")
+
+            await self.prisma.ability.create(
                 data={
                     "name": name,
-                    "description": f"Player skill: {skill_base_name.replace('_', ' ').title()}",
-                    "type": skill_type,
-                    "category": category,
+                    "description": description,
+                    "abilityType": "SKILL",
+                    "tags": tags,
                 }
             )
             skills_created += 1
@@ -235,7 +227,7 @@ class SkillSeeder:
         click.echo(f"    ✅ Created {skills_created} player skills")
 
         # ========================================
-        # BARDIC_SONGS (IDs 551-560) - Skills table
+        # BARDIC_SONGS (IDs 551-560) - Ability table (type: SONG)
         # Bardic songs are performance-based skills for bards
         # ========================================
         for i, song_base_name in enumerate(BARDIC_SONGS):
@@ -247,16 +239,16 @@ class SkillSeeder:
 
             # Check if skill already exists
             if skip_existing:
-                existing = await self.prisma.skills.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"name": name})
                 if existing:
                     continue
 
-            await self.prisma.skills.create(
+            await self.prisma.ability.create(
                 data={
                     "name": name,
                     "description": f"Bardic song: {song_base_name.replace('_', ' ').title()}",
-                    "type": "MAGIC",  # Songs are magical abilities for bards
-                    "category": "PRIMARY",
+                    "abilityType": "SONG",
+                    "tags": ["bardic", "performance"],
                 }
             )
             songs_created += 1
@@ -264,7 +256,7 @@ class SkillSeeder:
         click.echo(f"    ✅ Created {songs_created} bardic songs")
 
         # ========================================
-        # MONK_CHANTS (IDs 601-618) - Skills table
+        # MONK_CHANTS (IDs 601-618) - Ability table (type: CHANT)
         # Monk chants are spiritual/ki-based abilities
         # ========================================
         for i, chant_base_name in enumerate(MONK_CHANTS):
@@ -276,16 +268,16 @@ class SkillSeeder:
 
             # Check if skill already exists
             if skip_existing:
-                existing = await self.prisma.skills.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"name": name})
                 if existing:
                     continue
 
-            await self.prisma.skills.create(
+            await self.prisma.ability.create(
                 data={
                     "name": name,
                     "description": f"Monk chant: {chant_base_name.replace('_', ' ').title()}",
-                    "type": "MAGIC",  # Chants are magical/ki abilities
-                    "category": "PRIMARY",
+                    "abilityType": "CHANT",
+                    "tags": ["monk", "ki"],
                 }
             )
             chants_created += 1

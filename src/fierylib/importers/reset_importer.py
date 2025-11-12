@@ -68,7 +68,7 @@ class ResetImporter:
             self.mob_map[vnum] = (mob.zoneId, mob.id)
 
         # Build room map: vnum → (zoneId, id)
-        rooms = await self.prisma.rooms.find_many()
+        rooms = await self.prisma.room.find_many()
         for room in rooms:
             vnum = (room.zoneId * 100) + room.id if room.zoneId != 1000 else room.id
             self.room_map[vnum] = (room.zoneId, room.id)

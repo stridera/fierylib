@@ -286,15 +286,11 @@ class LayoutEngine:
                     queue.append(dest_room)
 
             # Process rooms that have exits TO current room (reverse direction)
-            # Skip cross-zone reverse exits to prioritize same-zone placement
+            # This handles one-way connections across zones
             if current_room.room_key in self.reverse_exits:
                 for source_key in self.reverse_exits[current_room.room_key]:
                     source_room = self.graph.get_room(*source_key)
                     if not source_room or source_room.is_placed:
-                        continue
-
-                    # Skip cross-zone reverse placements to prioritize natural same-zone flow
-                    if source_room.zone_id != current_room.zone_id:
                         continue
 
                     # Find which direction the source room used to get here
@@ -670,7 +666,7 @@ class LayoutEngine:
             # Update this batch
             for room in batch:
                 try:
-                    await prisma_client.rooms.update(
+                    await prisma_client.room.update(
                         where={
                             "zoneId_id": {
                                 "zoneId": room.zone_id,

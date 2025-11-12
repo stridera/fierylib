@@ -36,12 +36,18 @@ poetry run fierylib layout generate
    - Converts legacy IDs to composite keys: `3045` → `(zoneId: 30, vnum: 45)`
    - Normalizes flags: `NORENT` → `NO_RENT`
 
-2. **Seeds Test Users**
+2. **Imports Legacy Characters (`.plr` files)**
+   - Preserves original Unix crypt() password hashes
+   - Authentication system validates both bcrypt and legacy crypt formats
+   - Passwords migrated to bcrypt on first successful login
+   - Preserves stats, skills, spells, inventory, and aliases
+
+3. **Seeds Test Users**
    - Admin (`admin@muditor.dev` / `admin123`) - GOD level
    - Builder (`builder@muditor.dev` / `builder123`) - BUILDER level
    - Player (`player@muditor.dev` / `player123`) - PLAYER level
 
-3. **Generates Layout Coordinates**
+4. **Generates Layout Coordinates**
    - Auto-generates `(x, y, z)` for visual editor
    - Breadth-first traversal from starting room
    - Handles vertical connections (UP/DOWN)

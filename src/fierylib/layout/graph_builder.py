@@ -132,7 +132,7 @@ async def load_room_graph(prisma_client) -> RoomGraph:
     BATCH_SIZE = 500
 
     # First, get total count of rooms
-    total_rooms = await prisma_client.rooms.count(
+    total_rooms = await prisma_client.room.count(
         where={"deletedAt": None}
     )
 
@@ -144,7 +144,7 @@ async def load_room_graph(prisma_client) -> RoomGraph:
 
     while skip < total_rooms:
         # Load batch of rooms with their exits
-        rooms = await prisma_client.rooms.find_many(
+        rooms = await prisma_client.room.find_many(
             skip=skip,
             take=BATCH_SIZE,
             include={"exits": True},

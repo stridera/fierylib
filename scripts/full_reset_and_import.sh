@@ -5,7 +5,7 @@ set -euo pipefail
 #
 # This script performs a complete reset and import cycle:
 # 1. Reset and regenerate the database
-# 2. Seed skills, spells, classes, and races
+# 2. Seed skills, spells, classes, races, and abilities
 # 3. Import all legacy CircleMUD world data
 # 4. Generate room layout coordinates
 # 5. Import legacy player/character files
@@ -169,10 +169,10 @@ echo ""
 echo "✅ Database reset complete"
 echo ""
 
-# Step 3: Seed skills, spells, classes, and races
+# Step 3: Seed skills, spells, classes, races, and abilities
 if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Step 3: Seeding skills, spells, classes, and races"
+  echo "Step 3: Seeding skills, spells, classes, races, and abilities"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
@@ -216,13 +216,23 @@ asyncio.run(import_classes())
   poetry run fierylib seed races
 
   echo ""
-  echo "✅ Skills, spells, classes, and races seeded"
+  echo "[3.4] Importing abilities data..."
+  ABILITIES_CMD="poetry run fierylib seed abilities"
+
+  if [[ -n "$VERBOSE" ]]; then
+    ABILITIES_CMD="$ABILITIES_CMD --verbose"
+  fi
+
+  eval $ABILITIES_CMD
+
+  echo ""
+  echo "✅ Skills, spells, classes, races, and abilities seeded"
   echo ""
 else
   if [[ -n "$DRY_RUN" ]]; then
-    echo "⏭️  Skipping skills/spells/classes/races seeding (dry-run mode)"
+    echo "⏭️  Skipping skills/spells/classes/races/abilities seeding (dry-run mode)"
   else
-    echo "⏭️  Skipping skills/spells/classes/races seeding (world import skipped)"
+    echo "⏭️  Skipping skills/spells/classes/races/abilities seeding (world import skipped)"
   fi
   echo ""
 fi

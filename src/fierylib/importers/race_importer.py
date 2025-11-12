@@ -80,21 +80,23 @@ class RaceImporter:
         self.skill_name_cache: Dict[str, int] = {}
 
     async def load_skill_mappings(self):
-        """Load skill name to ID mappings from database."""
-        print("Loading skill mappings from database...")
+        """Load ability name to ID mappings from database."""
+        print("Loading ability mappings from database...")
 
-        skills = await self.db.skills.find_many()
+        abilities = await self.db.ability.find_many()
 
-        for skill in skills:
-            # Try to match skill names
-            skill_upper = skill.name.upper().replace(' ', '_').replace('-', '_')
+        for ability in abilities:
+            # Try to match ability names
+            ability_upper = ability.name.upper().replace(' ', '_').replace('-', '_')
 
             # Create mapping variations
-            self.skill_name_cache[f'SKILL_{skill_upper}'] = skill.id
-            self.skill_name_cache[f'SPELL_{skill_upper}'] = skill.id
-            self.skill_name_cache[skill.name.upper()] = skill.id
+            self.skill_name_cache[f'SKILL_{ability_upper}'] = ability.id
+            self.skill_name_cache[f'SPELL_{ability_upper}'] = ability.id
+            self.skill_name_cache[f'SONG_{ability_upper}'] = ability.id
+            self.skill_name_cache[f'CHANT_{ability_upper}'] = ability.id
+            self.skill_name_cache[ability.name.upper()] = ability.id
 
-        print(f"✓ Loaded {len(self.skill_name_cache)} skill mappings")
+        print(f"✓ Loaded {len(self.skill_name_cache)} ability mappings")
 
     def resolve_skill_id(self, skill_name: str) -> Optional[int]:
         """Resolve skill name to database ID."""
@@ -267,24 +269,24 @@ class RaceImporter:
                         stats['race_skills_skipped'] += 1
                         continue
 
-                    # Create or update RaceSkills entry
+                    # Create or update RaceAbilities entry
                     try:
-                        existing = await self.db.raceskills.find_unique(
+                        existing = await self.db.raceabilities.find_unique(
                             where={
-                                'race_skillId': {
+                                'race_abilityId': {
                                     'race': race_enum,
-                                    'skillId': skill_id
+                                    'abilityId': skill_id
                                 }
                             }
                         )
 
                         if existing:
                             # Update existing
-                            await self.db.raceskills.update(
+                            await self.db.raceabilities.update(
                                 where={
-                                    'race_skillId': {
+                                    'race_abilityId': {
                                         'race': race_enum,
-                                        'skillId': skill_id
+                                        'abilityId': skill_id
                                     }
                                 },
                                 data={
@@ -293,19 +295,19 @@ class RaceImporter:
                                 }
                             )
                             stats['race_skills_updated'] += 1
-                            print(f"    ✓ Updated skill: {skill_name}")
+                            print(f"    ✓ Updated ability: {skill_name}")
                         else:
                             # Create new
-                            await self.db.raceskills.create(
+                            await self.db.raceabilities.create(
                                 data={
                                     'race': race_enum,
-                                    'skillId': skill_id,
+                                    'abilityId': skill_id,
                                     'category': SkillCategory[category],
                                     'bonus': 0,  # Default bonus
                                 }
                             )
                             stats['race_skills_created'] += 1
-                            print(f"    ✓ Created skill: {skill_name}")
+                            print(f"    ✓ Created ability: {skill_name}")
 
                     except Exception as e:
                         error_msg = f"Failed to import skill {skill_name} for race {race_enum.value}: {e}"

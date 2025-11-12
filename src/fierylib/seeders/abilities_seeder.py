@@ -18,7 +18,6 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from prisma import Prisma
-from prisma.models import Spells, Auras, AuraModifiers
 
 logger = logging.getLogger(__name__)
 
@@ -136,48 +135,47 @@ class AbilityConverter:
         """Import a single ability into the database."""
         # Create game ID
         name_clean = data['name'].lower().replace(' ', '_').replace("'", '')
-        game_id = f"spell.{name_clean}"
+        kind = data.get('kind', 'SPELL').upper()
+        game_id = f"{kind.lower()}.{name_clean}"
 
         # Check if already exists
-        existing = await self.prisma.spells.find_unique(where={'gameId': game_id})
+        existing = await self.prisma.ability.find_unique(where={'gameId': game_id})
         if existing:
             # Delete old effects to re-import with enhanced params
-            await self.prisma.spelleffects.delete_many(where={'spellId': existing.id})
-            await self.prisma.spelltargeting.delete_many(where={'spellId': existing.id})
-            await self.prisma.spellmessages.delete_many(where={'spellId': existing.id})
+            await self.prisma.abilityeffect.delete_many(where={'abilityId': existing.id})
+            await self.prisma.abilitytargeting.delete_many(where={'abilityId': existing.id})
+            await self.prisma.abilitymessages.delete_many(where={'abilityId': existing.id})
 
-            spell = existing
+            ability = existing
             logger.debug(f"♻️  Updating {data['name']} with enhanced params")
         else:
-            # Determine target scope
-            target_scope = self._map_target_scope(data.get('target', 'SINGLE'))
-
-            # Create spell record
-            spell = await self.prisma.spells.create(
+            # Create ability record
+            ability = await self.prisma.ability.create(
                 data={
                     'gameId': game_id,
                     'name': data['name'],
                     'description': f"Imported from legacy ability ID {data['id']}",
+                    'abilityType': kind,
                     'minPosition': 'STANDING',  # Default
                     'violent': 'OFFENSIVE' in data.get('target', ''),
                     'tags': self._extract_tags(data),
                 }
             )
 
-            logger.info(f"✅ Created spell: {spell.name}")
+            logger.info(f"✅ Created ability: {ability.name}")
 
         # Determine target scope
         target_scope = self._map_target_scope(data.get('target', 'SINGLE'))
 
         # Create effects
         implementation = data.get('implementation', {})
-        await self._create_effects(spell.id, implementation)
+        await self._create_effects(ability.id, implementation)
 
         # Create targeting
-        await self._create_targeting(spell.id, target_scope, data)
+        await self._create_targeting(ability.id, target_scope, data)
 
         # Create messages
-        await self._create_messages(spell.id, implementation)
+        await self._create_messages(ability.id, implementation)
 
     def _map_target_scope(self, target: str) -> str:
         """Map legacy target string to TargetScope enum."""
@@ -395,8 +393,40 @@ class AbilityConverter:
 
         return params
 
-    async def _create_effects(self, spell_id: int, implementation: Dict) -> None:
-        """Create spell effects from implementation data."""
+    async def _get_or_create_effect(self, effect_type: str, description: str, default_params: Dict, ability_context: str = "") -> Any:
+        """Get or create a reusable Effect record.
+
+        Note: Effects are made ability-specific to avoid conflicts with the AbilityEffect
+        composite primary key (abilityId, effectId).
+        """
+        # Make effect name unique per ability to avoid constraint violations
+        params_hash = json.dumps(default_params, sort_keys=True)[:50]
+        effect_name = f"{effect_type}_{ability_context}_{params_hash}" if ability_context else f"{effect_type}_{params_hash}"
+
+        # Try to find existing effect
+        existing = await self.prisma.effect.find_first(
+            where={'effectType': effect_type, 'name': effect_name}
+        )
+
+        if existing:
+            return existing
+
+        # Create new effect
+        return await self.prisma.effect.create(
+            data={
+                'name': effect_name,
+                'description': description,
+                'effectType': effect_type,
+                'defaultParams': json.dumps(default_params)
+            }
+        )
+
+    async def _create_effects(self, ability_id: int, implementation: Dict) -> None:
+        """Create ability effects from implementation data."""
+        # Get ability record to access game_id for effect naming
+        ability = await self.prisma.ability.find_unique(where={'id': ability_id})
+        ability_name = ability.gameId.replace('spell.', '').replace('skill.', '').replace('song.', '').replace('chant.', '') if ability else str(ability_id)
+
         # Handle damage spells
         damage_formula = None
         damage_type = 'DAM_ENERGY'
@@ -414,163 +444,134 @@ class AbilityConverter:
         if damage_formula:
             # Split complex formulas (remove scaling from base formula)
             base_formula = self._extract_base_formula(damage_formula)
-            lua_formula = self._convert_formula_to_lua(base_formula)
+            lua_script = self._convert_formula_to_lua(base_formula)
 
             # Build params based on damage type
             params = self._build_damage_params(damage_type, damage_obj or {})
 
-            await self.prisma.spelleffects.create(
+            # Create or find damage effect (ability-specific)
+            effect = await self._get_or_create_effect('damage', 'Deals damage to target', params, ability_name)
+
+            # Link ability to effect
+            await self.prisma.abilityeffect.create(
                 data={
-                    'spellId': spell_id,
-                    'effectType': 'DAMAGE',
+                    'abilityId': ability_id,
+                    'effectId': effect.id,
                     'order': 0,
-                    'luaFormula': lua_formula,
-                    'params': json.dumps(params)
+                    'overrideParams': json.dumps({'luaScript': lua_script, **params})
                 }
             )
 
         # Handle buff/debuff spells (effects with modifiers)
         if 'effects' in implementation:
-            # Get spell record to access game_id
-            spell = await self.prisma.spells.find_unique(where={'id': spell_id})
-            spell_name = spell.gameId.replace('spell.', '') if spell else str(spell_id)
+            for idx, effect_data in enumerate(implementation['effects']):
+                await self._create_modifier_effect(ability_id, ability_name, effect_data, idx + 1)
 
-            for idx, effect in enumerate(implementation['effects']):
-                await self._create_aura_effect(spell_id, spell_name, effect, idx + 1)
-
-    async def _create_aura_effect(self, spell_id: int, spell_name: str, effect_data: Dict, order: int) -> None:
-        """Create an APPLY_AURA effect with corresponding Aura."""
-        # Determine aura ID based on effect type
-        # Make auras spell-specific to ensure each spell has its own modifiers
+    async def _create_modifier_effect(self, ability_id: int, ability_name: str, effect_data: Dict, order: int) -> None:
+        """Create a stat modifier effect."""
+        # Determine effect type
         if 'flag' in effect_data:
             # Status effect (EFF_BLESS, EFF_SANCTUARY, etc.)
-            # These can be shared across spells
-            aura_id = f"aura.{effect_data['flag'].lower()}"
-            aura_name = effect_data['flag'].replace('EFF_', '').title()
-        elif effect_data.get('type') == 'modifier' and 'formula' in effect_data:
-            # Modifier effect - make spell-specific with formula in name
-            apply_type = effect_data['formula'].lower()
-            aura_id = f"aura.{spell_name}.{apply_type}"
-            aura_name = f"{spell_name.replace('_', ' ').title()} {apply_type.title()}"
+            effect_type = f"apply_status_{effect_data['flag'].lower()}"
+            effect_name = effect_data['flag'].replace('EFF_', '').title()
+        elif 'location' in effect_data:
+            # Modifier effect
+            location = effect_data['location'].replace('APPLY_', '')
+            effect_type = f"apply_modifier_{location.lower()}"
+            effect_name = f"Apply {location.title()}"
         else:
-            # Unknown effect type - make spell-specific
-            aura_id = f"aura.{spell_name}.effect{order}"
-            aura_name = f"{spell_name.replace('_', ' ').title()} Effect {order}"
+            # Unknown effect type
+            effect_type = "apply_modifier_unknown"
+            effect_name = "Unknown Modifier"
 
-        # Always create a new aura (don't try to reuse)
-        # Each spell gets its own aura instance
-        aura = await self.prisma.auras.find_unique(where={'gameId': aura_id})
+        # Build params
+        params = {
+            'description': effect_data.get('description', ''),
+        }
 
-        if not aura:
-            # Create new aura
-            aura = await self.prisma.auras.create(
-                data={
-                    'gameId': aura_id,
-                    'name': aura_name,
-                    'description': effect_data.get('description', ''),
-                    'dispelCategory': 'magic',
-                    'stackingRule': 'REFRESH',
-                }
-            )
+        if 'location' in effect_data and effect_data['location'] != 'APPLY_NONE':
+            location = effect_data['location'].replace('APPLY_', '')
 
-            # Create modifiers
-            if 'location' in effect_data and effect_data['location'] != 'APPLY_NONE':
-                location = effect_data['location']
+            # Handle malformed JSON where location contains formula/expression
+            has_formula = any(op in location for op in ['(', '/', '*', '+', '-'])
 
-                # Handle malformed JSON where location contains formula/expression
-                # Two cases:
-                # 1. "APPLY_get_vitality_hp_gain(ch, spellnum)" - function call
-                # 2. "APPLY_skill / 25 + 1" - arithmetic expression
-                has_formula = any(op in location for op in ['(', '/', '*', '+', '-'])
+            if has_formula:
+                # Extract the formula/expression from location
+                formula_str = location.strip()
+                apply_type_raw = effect_data.get('formula', 'NONE')
+                modifier_formula = self._convert_formula_to_lua(formula_str)
+            else:
+                # Normal case: location is the apply type, modifier/formula is the value
+                apply_type_raw = location
 
-                if has_formula:
-                    # Extract the formula/expression from location
-                    formula_str = location.replace('APPLY_', '').strip()
-
-                    # The actual apply type is in the 'formula' field
-                    apply_type_raw = effect_data.get('formula', 'NONE')
-
-                    # Convert C++ formula to Lua
-                    modifier_formula = self._convert_formula_to_lua(formula_str)
+                if 'modifier' in effect_data:
+                    modifier_formula = str(effect_data['modifier'])
+                elif 'formula' in effect_data:
+                    modifier_formula = str(effect_data['formula'])
                 else:
-                    # Normal case: location is the apply type, modifier/formula is the value
-                    apply_type_raw = location.replace('APPLY_', '')
+                    modifier_formula = '0'
 
-                    # Check if there's a modifier value or use 0
-                    if 'modifier' in effect_data:
-                        modifier_formula = str(effect_data['modifier'])
-                    elif 'formula' in effect_data:
-                        # Sometimes the value is in the formula field
-                        modifier_formula = str(effect_data['formula'])
-                    else:
-                        modifier_formula = '0'
+            # Map common variations to valid types
+            apply_type_map = {
+                'HIT': 'MAX_HP',
+                'MANA': 'MAX_MANA',
+                'MOVE': 'MAX_MOVEMENT',
+                'MOVEMENT': 'MAX_MOVEMENT',
+            }
 
-                # Validate ApplyType
-                valid_apply_types = [
-                    'AC', 'HITROLL', 'DAMROLL', 'STR', 'DEX', 'INT', 'WIS', 'CON', 'CHA',
-                    'SAVING_PARA', 'SAVING_ROD', 'SAVING_PETRI', 'SAVING_BREATH', 'SAVING_SPELL',
-                    'HIT_REGEN', 'MAX_HP', 'MAX_MANA', 'MAX_MOVEMENT', 'PERCEPTION', 'HIDDENNESS',
-                    'SIZE', 'AGE', 'CHAR_WEIGHT', 'CHAR_HEIGHT', 'FOCUS', 'COMPOSITION', 'LEVEL', 'NONE'
-                ]
+            apply_type = apply_type_map.get(apply_type_raw, apply_type_raw)
+            params['applyType'] = apply_type
+            params['modifierFormula'] = modifier_formula
 
-                # Map common variations to valid types
-                apply_type_map = {
-                    'HIT': 'MAX_HP',  # HP bonus maps to MAX_HP
-                    'MANA': 'MAX_MANA',
-                    'MOVE': 'MAX_MOVEMENT',
-                    'MOVEMENT': 'MAX_MOVEMENT',
-                }
+        # Get or create the effect (ability-specific with order to avoid constraint violations)
+        # Include order in the context to ensure each effect slot gets a unique Effect record
+        effect = await self._get_or_create_effect(effect_type, effect_name, params, f"{ability_name}_effect{order}")
 
-                apply_type = apply_type_map.get(apply_type_raw, apply_type_raw)
+        # Create AbilityEffect to link ability to effect
+        override_params = {**params}
+        if 'duration' in effect_data:
+            duration_formula = self._convert_formula_to_lua(effect_data.get('duration', '0'))
+            override_params['duration'] = duration_formula
 
-                if apply_type in valid_apply_types and apply_type != 'NONE':
-                    await self.prisma.auramodifiers.create(
-                        data={
-                            'auraId': aura.id,
-                            'applyType': apply_type,
-                            'formula': modifier_formula,
-                        }
-                    )
-                    logger.debug(f"Created modifier: {apply_type} = {modifier_formula}")
-                else:
-                    logger.warning(f"Skipping invalid ApplyType: {apply_type_raw} -> {apply_type}")
-
-        # Create APPLY_AURA effect
-        duration_formula = self._convert_formula_to_lua(effect_data.get('duration', '0'))
-
-        await self.prisma.spelleffects.create(
+        await self.prisma.abilityeffect.create(
             data={
-                'spellId': spell_id,
-                'effectType': 'APPLY_AURA',
+                'abilityId': ability_id,
+                'effectId': effect.id,
                 'order': order,
-                'durationFormula': duration_formula,
-                'params': json.dumps({
-                    'auraGameId': aura_id
-                })
+                'overrideParams': json.dumps(override_params)
             }
         )
 
-    async def _create_targeting(self, spell_id: int, target_scope: str, data: Dict) -> None:
-        """Create spell targeting configuration."""
-        await self.prisma.spelltargeting.create(
+    async def _create_targeting(self, ability_id: int, target_scope: str, data: Dict) -> None:
+        """Create ability targeting configuration."""
+        # Map target scope to valid TargetType values
+        target_type_map = {
+            'SINGLE': ['ENEMY_PC', 'ENEMY_NPC'],
+            'GROUP': ['ALLY_PC', 'ALLY_GROUP'],
+            'ROOM': ['ENEMY_PC', 'ENEMY_NPC', 'ALLY_PC', 'ALLY_NPC'],
+        }
+
+        valid_targets = target_type_map.get(target_scope, ['SELF'])
+
+        await self.prisma.abilitytargeting.create(
             data={
-                'spellId': spell_id,
-                'targetScope': target_scope,
+                'abilityId': ability_id,
+                'validTargets': valid_targets,
+                'scope': target_scope,
                 'maxTargets': 1,
-                'range': 'ROOM',
+                'range': 0,  # Same room
                 'requireLos': False,
-                'allowedTargetsMask': 1,  # Default
             }
         )
 
-    async def _create_messages(self, spell_id: int, implementation: Dict) -> None:
-        """Create spell messages from implementation data."""
+    async def _create_messages(self, ability_id: int, implementation: Dict) -> None:
+        """Create ability messages from implementation data."""
         messages_data = implementation.get('messages', {})
 
         if messages_data:
-            await self.prisma.spellmessages.create(
+            await self.prisma.abilitymessages.create(
                 data={
-                    'spellId': spell_id,
+                    'abilityId': ability_id,
                     'startToCaster': messages_data.get('to_char'),
                     'startToVictim': messages_data.get('to_vict'),
                     'startToRoom': messages_data.get('to_room'),

@@ -237,7 +237,7 @@ class Parser:
                 case "quit_reason":
                     prototype["quit_reason"] = QuitReason(int(value))
                 case "race":
-                    prototype["races"] = Race(int(value))
+                    prototype["race"] = Race(int(value))
                 case "savingthrows":
                     prototype["saving_throws"] = SavingThrows(*[int(i) for i in value.split()])
                 case "saveroom":

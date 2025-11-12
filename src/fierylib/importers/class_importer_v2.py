@@ -103,11 +103,11 @@ class ClassImporterV2:
                 try:
                     # Normalize C++ name to database name (e.g., 2H_BLUDGEONING → TWO_HAND_BLUDGEONING)
                     normalized_skill_name = normalize_skill_name(assignment["skillName"])
-                    skill = await self.prisma.skills.find_first(
+                    ability = await self.prisma.ability.find_first(
                         where={"name": normalized_skill_name}
                     )
 
-                    if not skill:
+                    if not ability:
                         stats["skill_not_found"] += 1
                         if assignment["minLevel"] > 1:
                             click.echo(f"      ⚠️  Skill '{assignment['skillName']}' not found (level {assignment['minLevel']})")
@@ -117,7 +117,7 @@ class ClassImporterV2:
                         existing = await self.prisma.classskills.find_first(
                             where={
                                 "classId": character_class.id,
-                                "skillId": skill.id,
+                                "abilityId": ability.id,
                             }
                         )
                         if existing:
@@ -128,10 +128,8 @@ class ClassImporterV2:
                         await self.prisma.classskills.create(
                             data={
                                 "classId": character_class.id,
-                                "skillId": skill.id,
+                                "abilityId": ability.id,
                                 "minLevel": assignment["minLevel"],
-                                "maxLevel": 100,
-                                "category": "PRIMARY" if assignment["abilityType"] in ["SONG", "CHANT"] else "SECONDARY",
                             }
                         )
 
@@ -193,23 +191,23 @@ class ClassImporterV2:
 
             for assignment in assignments:
                 try:
-                    # Look up spell in Spells table by name
+                    # Look up spell in Ability table by name
                     # Note: Spells don't currently need normalization, but we apply it for consistency
                     normalized_spell_name = normalize_skill_name(assignment["skillName"])
-                    spell = await self.prisma.spells.find_first(
+                    ability = await self.prisma.ability.find_first(
                         where={"name": normalized_spell_name}
                     )
 
-                    if not spell:
+                    if not ability:
                         stats["spell_not_found"] += 1
                         click.echo(f"      ⚠️  Spell '{assignment['skillName']}' not found (circle {assignment['circle']})")
                         continue
 
                     if skip_existing:
-                        existing = await self.prisma.spellclasscircles.find_first(
+                        existing = await self.prisma.classabilities.find_first(
                             where={
                                 "classId": character_class.id,
-                                "spellId": spell.id,
+                                "abilityId": ability.id,
                             }
                         )
                         if existing:
@@ -217,12 +215,11 @@ class ClassImporterV2:
                             continue
 
                     if not dry_run:
-                        await self.prisma.spellclasscircles.create(
+                        await self.prisma.classabilities.create(
                             data={
                                 "classId": character_class.id,
-                                "spellId": spell.id,
+                                "abilityId": ability.id,
                                 "circle": assignment["circle"],
-                                "minLevel": assignment["minLevel"],
                             }
                         )
 
@@ -286,7 +283,7 @@ class ClassImporterV2:
                     continue
 
                 if skip_existing:
-                    existing = await self.prisma.classcircles.find_first(
+                    existing = await self.prisma.classabilitycircles.find_first(
                         where={
                             "classId": character_class.id,
                             "circle": circle,
@@ -297,7 +294,7 @@ class ClassImporterV2:
                         continue
 
                 if not dry_run:
-                    await self.prisma.classcircles.create(
+                    await self.prisma.classabilitycircles.create(
                         data={
                             "classId": character_class.id,
                             "circle": circle,
