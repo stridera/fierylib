@@ -189,8 +189,9 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     continue
 
             # PHASE 2: Import entities (rooms, mobs, objects, shops)
+            # Split into 2A (rooms), 2B (mobs/objects/shops), 2C (exits) for cross-zone references
             click.echo(f"\n{'='*60}")
-            click.echo(f"Phase 2: Importing Entities")
+            click.echo(f"Phase 2A: Importing Rooms (without exits)")
             click.echo(f"{'='*60}")
 
             # Initialize vnum maps for incremental building
@@ -199,6 +200,9 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 'mobs': {},     # vnum -> (zone_id, id)
                 'objects': {}   # vnum -> (zone_id, id)
             }
+
+            # Store parsed room data for Phase 2C (exit import)
+            room_data_by_zone = {}  # zone_id -> list of parsed rooms
 
             for zone_file in zone_files:
                 # Skip non-numeric zone files
@@ -213,19 +217,55 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 if zone_id not in zone_reset_map:
                     continue
 
-                click.echo(f"\n{'='*60}")
-                click.echo(f"Processing Zone {zone_id} Entities")
-                click.echo(f"{'='*60}")
+                click.echo(f"  Zone {zone_id}: Importing rooms...")
 
-                # Import rooms (with door resets and vnum map building)
+                # Import rooms WITHOUT exits (Phase 2A - global room import)
                 wld_file = wld_dir / f"{zone_num}.wld"
                 if wld_file.exists():
-                    door_reset_lookup = zone_reset_map[zone_id].door_resets
-                    room_result = await room_importer.import_rooms_from_file(
-                        wld_file, zone_id, dry_run=dry_run,
-                        door_reset_lookup=door_reset_lookup,
-                        vnum_map=vnum_maps['rooms']
-                    )
+                    # Parse rooms and store for later exit import
+                    from mud.mudfile import MudData
+                    from mud.types.world import World
+
+                    with open(wld_file, "r") as f:
+                        content = f.read()
+                    lines = content.split("\n")
+                    mud_data = MudData(lines)
+                    parsed_rooms = World.parse(mud_data)
+                    room_data_by_zone[zone_id] = parsed_rooms
+
+                    # Import rooms without exits (skip_exits=True forces single-pass)
+                    room_result = {
+                        "success": True,
+                        "file": str(wld_file),
+                        "zones_in_file": [zone_id],
+                        "zones_created": [],
+                        "total": len(parsed_rooms),
+                        "imported": 0,
+                        "failed": 0,
+                        "rooms": [],
+                    }
+
+                    for room in parsed_rooms:
+                        room_id = int(room["id"])
+                        result = await room_importer.import_room(
+                            room,
+                            zone_id,
+                            dry_run=dry_run,
+                            base_zone_override=zone_id,
+                            skip_exits=True,  # Skip exits in Phase 2A
+                        )
+
+                        # Populate vnum_map
+                        if vnum_maps is not None and result.get("success"):
+                            vnum_maps['rooms'][room_id] = (zone_id, result["vnum"])
+
+                        room_result["rooms"].append(result)
+                        if result["success"]:
+                            room_result["imported"] += 1
+                        else:
+                            room_result["failed"] += 1
+                            room_result["success"] = False
+
                     run_log["rooms"].append(room_result)
                     imported = room_result.get("imported", 0)
                     failed = room_result.get("failed", 0)
@@ -426,6 +466,37 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     if verbose:
                         click.echo(f"  ℹ️  No shop file found: {shp_file.name}")
 
+            # PHASE 2C: Import ALL exits (now all destination rooms exist)
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 2C: Importing Room Exits")
+            click.echo(f"{'='*60}")
+
+            total_stats["exits_imported"] = 0
+            total_stats["exits_failed"] = 0
+
+            for zone_id, parsed_rooms in room_data_by_zone.items():
+                zone_exits_imported = 0
+                zone_exits_failed = 0
+
+                for room in parsed_rooms:
+                    if not dry_run:
+                        exit_result = await room_importer.import_exits_for_room(
+                            room,
+                            zone_id,
+                            base_zone_override=zone_id,
+                        )
+                        zone_exits_imported += exit_result.get("exits_imported", 0)
+                        zone_exits_failed += exit_result.get("exits_failed", 0)
+
+                total_stats["exits_imported"] += zone_exits_imported
+                total_stats["exits_failed"] += zone_exits_failed
+
+                if not dry_run:
+                    if zone_exits_failed > 0:
+                        click.echo(f"  Zone {zone_id}: {zone_exits_imported} exits imported, {zone_exits_failed} failed ⚠️")
+                    else:
+                        click.echo(f"  Zone {zone_id}: {zone_exits_imported} exits imported ✅")
+
             # PHASE 3: Apply mob/object resets using prebuilt vnum maps
             click.echo(f"\n{'='*60}")
             click.echo(f"Phase 3: Applying Mob/Object Resets")
@@ -468,12 +539,15 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             click.echo(f"\n{'='*60}")
             click.echo(f"Import Summary")
             click.echo(f"{'='*60}")
-            click.echo(f"  Zones:        {total_stats['zones']}")
-            click.echo(f"  Rooms:        {total_stats['rooms']}")
-            click.echo(f"  Mobs:         {total_stats['mobs']}")
-            click.echo(f"  Objects:      {total_stats['objects']}")
-            click.echo(f"  Shops:        {total_stats['shops']}")
-            click.echo(f"  Mob Resets:   {total_stats['mob_resets']}")
+            click.echo(f"  Zones:         {total_stats['zones']}")
+            click.echo(f"  Rooms:         {total_stats['rooms']}")
+            click.echo(f"  Exits:         {total_stats.get('exits_imported', 0)}")
+            if total_stats.get('exits_failed', 0) > 0:
+                click.echo(f"  Exits Failed:  {total_stats['exits_failed']} ⚠️")
+            click.echo(f"  Mobs:          {total_stats['mobs']}")
+            click.echo(f"  Objects:       {total_stats['objects']}")
+            click.echo(f"  Shops:         {total_stats['shops']}")
+            click.echo(f"  Mob Resets:    {total_stats['mob_resets']}")
             click.echo(f"  Object Resets: {total_stats['object_resets']}")
             
             if total_stats['failed'] > 0:
