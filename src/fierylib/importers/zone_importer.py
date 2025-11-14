@@ -9,6 +9,7 @@ Handles:
 """
 
 from typing import Optional
+from prisma import Prisma
 from pathlib import Path
 import sys
 
@@ -20,7 +21,7 @@ from fierylib.converters import convert_zone_id, vnum_to_composite
 class ZoneImporter:
     """Imports zone data to PostgreSQL using Prisma"""
 
-    def __init__(self, prisma_client, room_map: Optional[dict] = None):
+    def __init__(self, prisma_client: "Prisma", room_map: Optional[dict] = None):
         """
         Initialize zone importer
 
@@ -274,7 +275,7 @@ class ZoneImporter:
 
             # Try to find the exit first; warn if missing
             try:
-                existing = await self.prisma.roomexits.find_unique(
+                existing = await self.prisma.roomexit.find_unique(  # type: ignore[attr-defined]
                     where={
                         "roomZoneId_roomId_direction": {
                             "roomZoneId": room_zone_id,
@@ -289,7 +290,7 @@ class ZoneImporter:
                     )
                     continue
 
-                await self.prisma.roomexits.update(
+                await self.prisma.roomexit.update(  # type: ignore[attr-defined]
                     where={
                         "roomZoneId_roomId_direction": {
                             "roomZoneId": room_zone_id,

@@ -14,6 +14,7 @@ from pathlib import Path
 import sys
 
 from mud.types.world import World
+from prisma import Prisma  # runtime client type
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
 from fierylib.converters import legacy_id_to_composite, normalize_flags
@@ -22,7 +23,7 @@ from fierylib.converters import legacy_id_to_composite, normalize_flags
 class RoomImporter:
     """Imports room data to PostgreSQL using Prisma"""
 
-    def __init__(self, prisma_client):
+    def __init__(self, prisma_client: "Prisma"):
         """
         Initialize room importer
 
@@ -81,6 +82,7 @@ class RoomImporter:
         zone_id: int,
         dry_run: bool = False,
         base_zone_override: Optional[int] = None,
+        skip_exits: bool = False,
     ) -> Dict[str, Any]:
         """
         Import a single room to the database
@@ -89,6 +91,7 @@ class RoomImporter:
             room: Parsed room dict from World.parse()
             zone_id: Zone ID (already converted, e.g., 30 or 1000)
             dry_run: If True, validate but don't write to database
+            skip_exits: If True, skip exit import (for two-pass import to avoid FK issues)
 
         Returns:
             Dict with import results
@@ -170,9 +173,9 @@ class RoomImporter:
                 },
             )
 
-            # Import exits
+            # Import exits (unless skip_exits is True)
             exits_imported = 0
-            if room.get("exits"):
+            if not skip_exits and room.get("exits"):
                 for direction_str, exit_data in room["exits"].items():
                     exit_result = await self.import_exit(
                         zone_id, vnum, direction_str, exit_data
@@ -210,6 +213,48 @@ class RoomImporter:
                 "error": str(e),
             }
 
+    async def import_exits_for_room(
+        self,
+        room: Dict[str, Any],
+        zone_id: int,
+        base_zone_override: Optional[int] = None,
+    ) -> Dict[str, Any]:
+        """
+        Import exits for a room (separate from room import for two-pass approach)
+
+        Args:
+            room: Parsed room dict from World.parse()
+            zone_id: Zone ID
+            base_zone_override: Override base zone for vnum calculation
+
+        Returns:
+            Dict with import results
+        """
+        room_id = int(room["id"])
+        base_zone = base_zone_override if base_zone_override is not None else zone_id
+        vnum = room_id - (base_zone * 100)
+
+        exits_imported = 0
+        exits_failed = 0
+
+        if room.get("exits"):
+            for direction_str, exit_data in room["exits"].items():
+                exit_result = await self.import_exit(
+                    zone_id, vnum, direction_str, exit_data
+                )
+                if exit_result["success"]:
+                    exits_imported += 1
+                else:
+                    exits_failed += 1
+
+        return {
+            "success": True,
+            "zone_id": zone_id,
+            "vnum": vnum,
+            "exits_imported": exits_imported,
+            "exits_failed": exits_failed,
+        }
+
     async def import_exit(
         self, room_zone_id: int, room_vnum: int, direction_str: str, exit_data: Dict[str, Any]
     ) -> Dict[str, Any]:
@@ -232,16 +277,63 @@ class RoomImporter:
                 "error": f"Invalid direction: {direction_str}",
             }
 
-        # Parse destination room ID if it exists
-        to_room_vnum = None
-        if exit_data.get("destination") and exit_data["destination"] != "-1":
+        # Parse destination legacy id (e.g. 3002) then convert to composite (zoneId, vnum)
+        # Initialize target fields (Prisma schema uses composite toZoneId/toRoomId)
+        to_zone_id: Optional[int] = None
+        to_room_vnum: Optional[int] = None
+
+        # Unify exit target keys. Legacy JSON (converted .zon → .json) currently uses
+        #   { "North": { "to_room": 0, ... } }
+        # Earlier importer prototype expected 'destination'. Some future tooling might
+        # emit camelCase (toRoomId / toZoneId) directly. We normalize these possibilities
+        # to a (to_zone_id, to_room_vnum) pair that matches the Prisma schema.
+        raw_destination = (
+            exit_data.get("toRoomId")
+            or exit_data.get("to_room")
+            or exit_data.get("destination")  # deprecated
+            or exit_data.get("to")
+        )
+        if raw_destination in ("", "-1"):
+            raw_destination = None
+
+        # Accept explicit composite fields if present (already normalized upstream)
+        explicit_to_zone = exit_data.get("toZoneId") or exit_data.get("to_zone_id")
+        explicit_to_room = exit_data.get("toRoomId") or exit_data.get("to_room_id")
+        if explicit_to_zone is not None and explicit_to_room is not None:
             try:
-                to_room_vnum = int(exit_data["destination"])
-            except (ValueError, TypeError):
-                pass
+                to_zone_id = int(explicit_to_zone)
+                to_room_vnum = int(explicit_to_room)
+            except Exception:
+                to_zone_id = None
+                to_room_vnum = None
+        elif raw_destination is not None:
+            try:
+                legacy_dest = int(raw_destination)
+                # Heuristic:
+                #  - Values < 100 are treated as in-zone relative vnums (the JSON exporter
+                #    already stripped the zone base). This avoids incorrect zone 1000 mapping
+                #    for 0..99 (legacy flat id 0 would incorrectly become zone 1000).
+                #  - Values >= 100 are assumed to be legacy flat ids (zone*100 + vnum) and we
+                #    fall back to legacy_id_to_composite.
+                if legacy_dest < 100:
+                    to_zone_id = room_zone_id
+                    to_room_vnum = legacy_dest
+                else:
+                    comp = legacy_id_to_composite(legacy_dest)
+                    # Extended zone handling: if computed id ≥100 but zone matches source,
+                    # recompute relative vnum. (Same rationale as previous implementation.)
+                    if comp.id >= 100 and comp.zone_id == room_zone_id:
+                        to_zone_id = room_zone_id
+                        to_room_vnum = legacy_dest - (room_zone_id * 100)
+                    else:
+                        to_zone_id = comp.zone_id
+                        to_room_vnum = comp.id
+            except Exception:
+                to_zone_id = None
+                to_room_vnum = None
 
         try:
-            await self.prisma.roomexits.upsert(
+            await self.prisma.roomexit.upsert(  # type: ignore[attr-defined]
                 where={
                     "roomZoneId_roomId_direction": {
                         "roomZoneId": room_zone_id,
@@ -256,17 +348,21 @@ class RoomImporter:
                         "direction": direction,
                         "description": exit_data.get("description", ""),
                         "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
+                        "key": exit_data.get("key"),
+                        "toZoneId": to_zone_id,
                         "toRoomId": to_room_vnum,
                     },
                     "update": {
                         "description": exit_data.get("description", ""),
                         "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
+                        "key": exit_data.get("key"),
+                        "toZoneId": to_zone_id,
                         "toRoomId": to_room_vnum,
                     },
                 },
             )
 
-            return {"success": True, "direction": direction}
+            return {"success": True, "direction": direction, "toZoneId": to_zone_id, "toRoomId": to_room_vnum}
 
         except Exception as e:
             return {
@@ -293,7 +389,7 @@ class RoomImporter:
         text = extra.text if hasattr(extra, "text") else ""
 
         try:
-            await self.prisma.roomextradescriptions.create(
+            await self.prisma.roomExtraDescriptions.create(
                 data={
                     "roomZoneId": room_zone_id,
                     "roomId": room_vnum,
@@ -385,8 +481,11 @@ class RoomImporter:
                 "imported": 0,
                 "failed": 0,
                 "rooms": [],
+                "exits_imported": 0,
+                "exits_failed": 0,
             }
 
+            # PASS 1: Import rooms without exits (avoid FK constraint issues)
             for room in rooms:
                 room_id = int(room["id"])
                 result = await self.import_room(
@@ -394,6 +493,7 @@ class RoomImporter:
                     zone_id,
                     dry_run=dry_run,
                     base_zone_override=zone_id,
+                    skip_exits=True,  # Skip exits in first pass
                 )
 
                 # Populate vnum_map: use original legacy room_id as key for uniqueness
@@ -412,6 +512,17 @@ class RoomImporter:
                 else:
                     results["failed"] += 1
                     results["success"] = False
+
+            # PASS 2: Import exits (now all destination rooms exist)
+            if not dry_run:
+                for room in rooms:
+                    exit_result = await self.import_exits_for_room(
+                        room,
+                        zone_id,
+                        base_zone_override=zone_id,
+                    )
+                    results["exits_imported"] += exit_result.get("exits_imported", 0)
+                    results["exits_failed"] += exit_result.get("exits_failed", 0)
 
             return results
 
