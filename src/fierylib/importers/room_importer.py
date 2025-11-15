@@ -218,6 +218,7 @@ class RoomImporter:
         room: Dict[str, Any],
         zone_id: int,
         base_zone_override: Optional[int] = None,
+        vnum_map: Optional[Dict[int, tuple[int, int]]] = None,
     ) -> Dict[str, Any]:
         """
         Import exits for a room (separate from room import for two-pass approach)
@@ -225,14 +226,15 @@ class RoomImporter:
         Args:
             room: Parsed room dict from World.parse()
             zone_id: Zone ID
-            base_zone_override: Override base zone for vnum calculation
+            base_zone_override: Override base zone for id calculation
+            vnum_map: Optional map of legacy_room_id -> (zone_id, id) for cross-zone exits
 
         Returns:
             Dict with import results
         """
         room_id = int(room["id"])
         base_zone = base_zone_override if base_zone_override is not None else zone_id
-        vnum = room_id - (base_zone * 100)
+        room_composite_id = room_id - (base_zone * 100)
 
         exits_imported = 0
         exits_failed = 0
@@ -240,7 +242,7 @@ class RoomImporter:
         if room.get("exits"):
             for direction_str, exit_data in room["exits"].items():
                 exit_result = await self.import_exit(
-                    zone_id, vnum, direction_str, exit_data
+                    zone_id, room_composite_id, direction_str, exit_data, vnum_map=vnum_map
                 )
                 if exit_result["success"]:
                     exits_imported += 1
@@ -250,22 +252,28 @@ class RoomImporter:
         return {
             "success": True,
             "zone_id": zone_id,
-            "vnum": vnum,
+            "id": room_composite_id,
             "exits_imported": exits_imported,
             "exits_failed": exits_failed,
         }
 
     async def import_exit(
-        self, room_zone_id: int, room_vnum: int, direction_str: str, exit_data: Dict[str, Any]
+        self,
+        room_zone_id: int,
+        room_id: int,
+        direction_str: str,
+        exit_data: Dict[str, Any],
+        vnum_map: Optional[Dict[int, tuple[int, int]]] = None,
     ) -> Dict[str, Any]:
         """
         Import a room exit
 
         Args:
             room_zone_id: Source room's zone ID
-            room_vnum: Source room's vnum
+            room_id: Source room's id (composite key part)
             direction_str: Direction name (e.g., "NORTH")
             exit_data: Exit data dict
+            vnum_map: Optional map of legacy_room_id -> (zone_id, id) for cross-zone exits
 
         Returns:
             Dict with import results
@@ -309,26 +317,22 @@ class RoomImporter:
         elif raw_destination is not None:
             try:
                 legacy_dest = int(raw_destination)
-                # Heuristic:
-                #  - Values < 100 are treated as in-zone relative vnums (the JSON exporter
-                #    already stripped the zone base). This avoids incorrect zone 1000 mapping
-                #    for 0..99 (legacy flat id 0 would incorrectly become zone 1000).
-                #  - Values >= 100 are assumed to be legacy flat ids (zone*100 + vnum) and we
-                #    fall back to legacy_id_to_composite.
-                if legacy_dest < 100:
-                    to_zone_id = room_zone_id
-                    to_room_vnum = legacy_dest
+
+                # vnum_map is required for proper cross-zone exit resolution
+                if not vnum_map:
+                    raise ValueError("vnum_map is required for exit import - programming error")
+
+                # Look up destination room in global vnum_map (legacy_room_id → (zone_id, id))
+                if legacy_dest in vnum_map:
+                    to_zone_id, to_room_vnum = vnum_map[legacy_dest]
                 else:
-                    comp = legacy_id_to_composite(legacy_dest)
-                    # Extended zone handling: if computed id ≥100 but zone matches source,
-                    # recompute relative vnum. (Same rationale as previous implementation.)
-                    if comp.id >= 100 and comp.zone_id == room_zone_id:
-                        to_zone_id = room_zone_id
-                        to_room_vnum = legacy_dest - (room_zone_id * 100)
-                    else:
-                        to_zone_id = comp.zone_id
-                        to_room_vnum = comp.id
-            except Exception:
+                    # Destination room doesn't exist in our world
+                    # NULL destination is valid (description-only exits or unimplemented zones)
+                    to_zone_id = None
+                    to_room_vnum = None
+            except Exception as e:
+                import sys
+                print(f"[ERROR] Exception in exit import: {e}, raw_destination={raw_destination}", file=sys.stderr)
                 to_zone_id = None
                 to_room_vnum = None
 
@@ -337,14 +341,14 @@ class RoomImporter:
                 where={
                     "roomZoneId_roomId_direction": {
                         "roomZoneId": room_zone_id,
-                        "roomId": room_vnum,
+                        "roomId": room_id,
                         "direction": direction,
                     }
                 },
                 data={
                     "create": {
                         "roomZoneId": room_zone_id,
-                        "roomId": room_vnum,
+                        "roomId": room_id,
                         "direction": direction,
                         "description": exit_data.get("description", ""),
                         "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],

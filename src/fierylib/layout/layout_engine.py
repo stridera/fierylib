@@ -270,7 +270,11 @@ class LayoutEngine:
             # Process exits FROM current room
             for direction, dest_key in current_room.exits.items():
                 dest_room = self.graph.get_room(*dest_key)
-                if not dest_room or dest_room.is_placed:
+                if not dest_room:
+                    continue
+
+                # Skip if already placed
+                if dest_room.is_placed:
                     continue
 
                 # Calculate new position based on direction
@@ -290,7 +294,12 @@ class LayoutEngine:
             if current_room.room_key in self.reverse_exits:
                 for source_key in self.reverse_exits[current_room.room_key]:
                     source_room = self.graph.get_room(*source_key)
-                    if not source_room or source_room.is_placed:
+                    if not source_room:
+                        continue
+
+                    # Skip cross-zone reverse placements to prioritize natural same-zone flow
+                    # This prevents layout conflicts when zones connect in complex ways
+                    if source_room.zone_id != current_room.zone_id:
                         continue
 
                     # Find which direction the source room used to get here
@@ -308,6 +317,10 @@ class LayoutEngine:
                             current_room.position[1] + reverse_vector[1],
                             current_room.position[2] + reverse_vector[2],
                         )
+
+                        # Skip if already placed
+                        if source_room.is_placed:
+                            continue
 
                         # Place the room
                         self._place_room(source_room, new_position)

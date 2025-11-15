@@ -471,6 +471,10 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             click.echo(f"Phase 2C: Importing Room Exits")
             click.echo(f"{'='*60}")
 
+            if verbose or debug:
+                click.echo(f"  [DEBUG] vnum_map size: {len(vnum_maps['rooms'])} rooms")
+                click.echo(f"  [DEBUG] Sample vnum_map entries: {dict(list(vnum_maps['rooms'].items())[:5])}")
+
             total_stats["exits_imported"] = 0
             total_stats["exits_failed"] = 0
 
@@ -484,6 +488,7 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                             room,
                             zone_id,
                             base_zone_override=zone_id,
+                            vnum_map=vnum_maps['rooms'],
                         )
                         zone_exits_imported += exit_result.get("exits_imported", 0)
                         zone_exits_failed += exit_result.get("exits_failed", 0)
