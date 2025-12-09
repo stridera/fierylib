@@ -75,12 +75,12 @@ class Mob:
             mob["alignment"] = int(align)
 
             level, hit_roll, ac, hp_dice, dam_dice = mob_data.get_next_line().split()
-            hp_dice_number, hp_dice_sides, move = re.split(r"[+d]", hp_dice)
+            hp_dice_number, hp_dice_sides, hp_dice_bonus = re.split(r"[+d]", hp_dice)
             mob["level"] = int(level)
             mob["hit_roll"] = int(hit_roll)
             mob["ac"] = int(ac)
-            mob["hp_dice"] = Dice(int(hp_dice_number), int(hp_dice_sides), 0)
-            mob["move"] = int(move)
+            mob["hp_dice"] = Dice(int(hp_dice_number), int(hp_dice_sides), int(hp_dice_bonus))
+            mob["move"] = 0  # Move points not stored in legacy format, set to 0
             mob["damage_dice"] = Dice.from_string(dam_dice)
 
             fields = mob_data.get_next_line().split()
