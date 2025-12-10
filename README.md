@@ -16,7 +16,8 @@ Python tool to import legacy CircleMUD text files into PostgreSQL **once**. Afte
 cp .env.example .env
 poetry install
 
-# Sync DB schema and generate clients (Python + JS)
+# Initialize database schema and generate Python client
+# (Schema is symlinked from Muditor - no syncing needed)
 poetry run prisma db push
 poetry run prisma generate
 
@@ -128,11 +129,14 @@ Once you've successfully imported your data:
 
 **Important**: Muditor's schema is the source of truth, not FieryLib's.
 
-FieryLib's schema is synced from Muditor using:
+FieryLib's Prisma schema is a **symlink** to Muditor's schema:
 
 ```bash
-./scripts/sync-schema-to-fierylib.sh
+# The schema automatically stays in sync via symlink
+fierylib/prisma/schema.prisma -> ../../muditor/packages/db/prisma/schema.prisma
 ```
+
+No manual syncing needed - changes to Muditor's schema are immediately reflected in FieryLib.
 
 ### Enum Generation
 
@@ -215,21 +219,27 @@ LOG_LEVEL="INFO"
 
 ### Connection Refused
 
-Ensure PostgreSQL is running:
+Ensure PostgreSQL is running (from parent directory):
 ```bash
-cd /home/strider/Code/mud
+cd ..  # Navigate to parent directory containing docker-compose.yml
 docker compose up -d
 docker compose ps
 ```
 
 ### Schema Mismatch
 
-Regenerate from Muditor:
+Since the schema is symlinked to Muditor, just regenerate the Prisma client:
 ```bash
-cd /home/strider/Code/mud
-./scripts/sync-schema-to-fierylib.sh
-cd fierylib
+# From the fierylib directory
 poetry run prisma generate
+```
+
+If you need to update the schema itself, edit it in Muditor:
+```bash
+# Edit schema in Muditor's packages/db/prisma/schema.prisma
+# Changes are automatically reflected in FieryLib via symlink
+cd ../muditor
+pnpm db:generate
 ```
 
 ### Import Errors
@@ -242,9 +252,9 @@ ls -la ../lib/world/mob/
 
 ## See Also
 
-- [/home/strider/Code/mud/ARCHITECTURE_CLARIFICATION.md](../ARCHITECTURE_CLARIFICATION.md) - Architecture overview
-- [/home/strider/Code/mud/SETUP.md](../SETUP.md) - Complete setup guide
-- [/home/strider/Code/mud/muditor/packages/db/SCHEMA_NOTE.md](../muditor/packages/db/SCHEMA_NOTE.md) - Schema management
+- [Muditor README](https://github.com/stridera/muditor) - Main Muditor documentation and setup guide
+- [Schema Management](https://github.com/stridera/muditor/blob/main/packages/db/SCHEMA_NOTE.md) - Database schema management details
+- [Database Package](https://github.com/stridera/muditor/blob/main/packages/db/README.md) - Prisma client and database utilities
 
 ## Summary
 
