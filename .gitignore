@@ -34,6 +34,9 @@ htmlcov/
 *.cover
 *.log
 
+# Build artifacts
+import_failures.txt
+
 # IDE
 .vscode/
 .idea/

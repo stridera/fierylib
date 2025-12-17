@@ -2,7 +2,7 @@
   {
     "name": "damage",
     "effectType": "damage",
-    "description": "Deal damage to target. Supports instant, periodic (DoT), chain, and resource drain.",
+    "description": "Deal damage to target. Supports instant, periodic (DoT), chain, resource drain, and multi-element split damage.",
     "tags": [
       "combat",
       "offensive"
@@ -14,10 +14,6 @@
     },
     "paramSchema": {
       "type": "object",
-      "required": [
-        "type",
-        "amount"
-      ],
       "properties": {
         "type": {
           "enum": [
@@ -43,14 +39,32 @@
             "lifesteal"
           ],
           "type": "string",
-          "description": "Damage element type. 'lifesteal' heals caster for % of damage dealt."
+          "description": "Primary damage element type. Use 'components' for multi-element damage."
         },
         "amount": {
           "type": [
             "integer",
             "string"
           ],
-          "description": "Damage formula: number, dice expression, or formula"
+          "description": "Damage formula: number, dice expression (e.g., '4d6+level'), or formula. Examples: '4d19 + pow(skill, 1.35)', 'dice(level, 8) + level'"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "percent"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Damage element type for this component"
+              },
+              "percent": {
+                "type": "integer",
+                "description": "Percentage of total damage (all components should sum to 100)"
+              }
+            }
+          },
+          "description": "Split damage across multiple types. E.g., [{type: 'fire', percent: 80}, {type: 'force', percent: 20}]. Overrides 'type' when present."
         },
         "scaling": {
           "type": "string",
@@ -84,7 +98,8 @@
           "description": "Damage multiplier per chain jump (0.0-1.0). Default 0.7."
         }
       }
-    }
+    },
+    "notes": "Either use 'type' + 'amount' for single-element damage, or 'components' + 'amount' for split damage. Components percentages should sum to 100."
   },
   {
     "name": "heal",
@@ -908,5 +923,41 @@
         }
       }
     }
+  },
+  {
+    "name": "inspect",
+    "effectType": "inspect",
+    "description": "Analyze a targeted item to reveal its properties, stats, effects, and magical attributes. Used by identify and similar divination spells.",
+    "tags": [
+      "utility",
+      "information",
+      "divination"
+    ],
+    "defaultParams": {
+      "depth": "full"
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "depth": {
+          "enum": [
+            "basic",
+            "detailed",
+            "full"
+          ],
+          "type": "string",
+          "description": "Analysis depth. 'basic' shows type/weight/value. 'detailed' adds stats/flags. 'full' reveals all effects and hidden properties."
+        },
+        "revealCurse": {
+          "type": "boolean",
+          "description": "Whether cursed items are identified as such (false may hide curse)"
+        },
+        "revealHistory": {
+          "type": "boolean",
+          "description": "Show item history/lore if available"
+        }
+      }
+    },
+    "notes": "Targets a single object in inventory or held. Different from 'reveal' which finds hidden/invisible things in an area."
   }
 ]

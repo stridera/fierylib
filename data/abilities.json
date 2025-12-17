@@ -27,21 +27,21 @@
     "name": "Acid Burst",
     "plainName": "ACID_BURST",
     "abilityType": "SPELL",
-    "description": "Spell: ACID_BURST",
+    "description": "Conjures a burst of corrosive acid that splashes against the target.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: ACID_BURST",
+    "notes": "Circle 6 conjuration. High-damage single-target acid spell.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "acid",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)"
         },
         "trigger": "on_cast"
       }
@@ -75,21 +75,30 @@
     "name": "Ancestral Vengeance",
     "plainName": "ANCESTRAL_VENGEANCE",
     "abilityType": "SPELL",
-    "description": "Spell: ANCESTRAL_VENGEANCE",
+    "description": "Calls upon ancestral spirits to strike your foe with righteous fury.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: ANCESTRAL_VENGEANCE",
+    "notes": "Circle 7 necromancy/evocation. Mix of radiant and necrotic from ancestral spirits.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "sorcerer_single_target"
+          "amount": "8d25 + pow(skill, 1.44)",
+          "components": [
+            {
+              "type": "radiant",
+              "percent": 50
+            },
+            {
+              "type": "necrotic",
+              "percent": 50
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -122,44 +131,48 @@
     "name": "Apocalyptic Anthem",
     "plainName": "APOCALYPTIC_ANTHEM",
     "abilityType": "CHANT",
-    "description": "Monk chant: Apocalyptic Anthem",
+    "description": "A powerful monk chant that rings with demise and fatality, forcing enemies in the room to attack the chanter. Those who fail their saving throw will stop fighting their current target and turn their aggression toward you.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "taunt",
+      "control"
     ],
     "effects": [
       {
-        "effect": "modify",
+        "effect": "status",
         "order": 0,
         "params": {
-          "amount": 2,
-          "duration": "skill / 4",
-          "target": "damroll"
+          "flag": "taunted",
+          "source": "caster",
+          "duration": 10
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Area-effect taunt ability. Awakened, non-grouped enemies who fail paralysis save are forced to attack the chanter."
   },
   {
     "name": "Aria Of Dissonance",
     "plainName": "ARIA_OF_DISSONANCE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Aria Of Dissonance",
+    "description": "A discordant monk chant that disrupts enemy coordination, reducing their accuracy in combat. This offensive chant penalizes the target's ability to land attacks.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "debuff"
     ],
     "effects": [
       {
@@ -172,7 +185,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Single-target debuff that reduces enemy accuracy."
   },
   {
     "name": "Armor",
@@ -277,21 +291,21 @@
     "name": "Baleful Polymorph",
     "plainName": "BALEFUL_POLYMORPH",
     "abilityType": "SPELL",
-    "description": "Spell: BALEFUL_POLYMORPH",
+    "description": "Attempts to transform the target into a harmless creature, dealing damage if the transformation fails.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: BALEFUL_POLYMORPH",
+    "notes": "Circle 7 transmutation. Pure force damage from failed transformation energy.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "sorcerer_single_target"
+          "type": "force",
+          "amount": "8d25 + pow(skill, 1.44)"
         },
         "trigger": "on_cast"
       }
@@ -301,16 +315,17 @@
     "name": "Ballad Of Tears",
     "plainName": "BALLAD_OF_TEARS",
     "abilityType": "SONG",
-    "description": "Bardic song: Ballad Of Tears",
+    "description": "A mournful bardic song that weakens enemy strikes, reducing their damage output. This melancholy melody saps the fighting spirit of foes.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "debuff"
     ],
     "effects": [
       {
@@ -323,7 +338,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Damage reduction debuff for enemy targets."
   },
   {
     "name": "Bandage",
@@ -416,27 +432,36 @@
     "name": "Bash",
     "plainName": "BASH",
     "abilityType": "SKILL",
-    "description": "Player skill: Bash",
+    "description": "Shield bash attack that deals physical damage and may knock the opponent down, interrupting their actions",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
-    "inCombatOnly": false,
+    "inCombatOnly": true,
     "isArea": false,
     "tags": [
-      "combat"
+      "combat",
+      "warrior"
     ],
+    "notes": "Offensive combat skill requiring a shield. Deals damage based on skill level and strength, with a chance to knock down and interrupt the target",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "physical",
-          "amount": "skill",
+          "amount": "skill + str_bonus",
           "scaling": "level"
         },
-        "trigger": "on_hit",
-        "notes": "Combat skill: Bash"
+        "trigger": "on_hit"
+      },
+      {
+        "effect": "interrupt",
+        "order": 1,
+        "params": {
+          "power": "skill"
+        },
+        "trigger": "on_hit"
       }
     ]
   },
@@ -468,7 +493,7 @@
     "name": "Battle Hymn",
     "plainName": "BATTLE_HYMN",
     "abilityType": "CHANT",
-    "description": "Monk chant: Battle Hymn",
+    "description": "An empowering monk chant that sharpens combat focus and improves accuracy. This self-buff enhances the monk's ability to strike true in battle.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -477,7 +502,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -490,7 +516,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Self-buff that increases attack accuracy."
   },
   {
     "name": "Berserk",
@@ -519,21 +546,21 @@
     "name": "Bigbys Clenched Fist",
     "plainName": "BIGBYS_CLENCHED_FIST",
     "abilityType": "SPELL",
-    "description": "Spell: BIGBYS_CLENCHED_FIST",
+    "description": "Summons a giant magical fist that pummels your enemy with devastating force.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: BIGBYS_CLENCHED_FIST",
+    "notes": "Circle 8 evocation. Pure force damage from magical construct.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "physical",
-          "amount": "sorcerer_single_target"
+          "type": "force",
+          "amount": "8d25 + pow(skill, 1.44)"
         },
         "trigger": "on_cast"
       }
@@ -661,7 +688,7 @@
     "name": "Blizzards Of Saint Augustine",
     "plainName": "BLIZZARDS_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Blizzards Of Saint Augustine",
+    "description": "A powerful monk chant invoking the icy fury of Saint Augustine, significantly increasing damage output. This buff channels frozen wrath to empower the monk's strikes.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -670,7 +697,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -683,7 +711,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Saint Augustine chant series - moderate damage bonus (+3 damroll)."
   },
   {
     "name": "Bludgeoning Weapons",
@@ -918,21 +947,21 @@
     "name": "Burning Hands",
     "plainName": "BURNING_HANDS",
     "abilityType": "SPELL",
-    "description": "This spell is more powerful than the chill touch spell.",
+    "description": "Flames shoot from your fingertips, scorching everything in a cone before you.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "This spell is more powerful than the chill touch spell.",
+    "notes": "Circle 1 evocation. Basic fire damage spell, touch range.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "sorcerer_single_target"
+          "amount": "4d19 + pow(skill, 1.25)"
         },
         "trigger": "on_cast"
       }
@@ -1511,21 +1540,30 @@
     "name": "Cone Of Cold",
     "plainName": "CONE_OF_COLD",
     "abilityType": "SPELL",
-    "description": "Spell: CONE_OF_COLD",
+    "description": "A blast of freezing air erupts from your hands, flash-freezing everything before you.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: CONE_OF_COLD",
+    "notes": "Circle 5 evocation. Primary cold damage with force component from pressurized air.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "cold",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)",
+          "components": [
+            {
+              "type": "cold",
+              "percent": 90
+            },
+            {
+              "type": "force",
+              "percent": 10
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -1727,16 +1765,17 @@
     "name": "Crown Of Madness",
     "plainName": "CROWN_OF_MADNESS",
     "abilityType": "SONG",
-    "description": "Bardic song: Crown Of Madness",
+    "description": "A chaotic bardic performance that drives the target mad, causing confusion. The victim cannot distinguish friend from foe and may attack randomly. The effect breaks when the victim takes damage.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "crowd_control"
     ],
     "effects": [
       {
@@ -1749,7 +1788,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Confusion effect broken by damage. Causes random targeting."
   },
   {
     "name": "Cure Blind",
@@ -1949,21 +1989,21 @@
     "name": "Decay",
     "plainName": "DECAY",
     "abilityType": "SPELL",
-    "description": "Spell: DECAY",
+    "description": "Causes the target's flesh to rot and wither with necrotic energy.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: DECAY",
+    "notes": "Circle 4 necromancy. Necrotic damage causing cellular breakdown.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "poison",
-          "amount": "sorcerer_single_target"
+          "type": "necrotic",
+          "amount": "5d19 + pow(skill, 1.32)"
         },
         "trigger": "on_cast"
       }
@@ -2192,21 +2232,30 @@
     "name": "Detonation",
     "plainName": "DETONATION",
     "abilityType": "SPELL",
-    "description": "Spell: DETONATION",
+    "description": "Creates a violent magical explosion centered on the target.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: DETONATION",
+    "notes": "Circle 6 evocation. Explosive force with secondary fire damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "magic",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)",
+          "components": [
+            {
+              "type": "force",
+              "percent": 70
+            },
+            {
+              "type": "fire",
+              "percent": 30
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -2323,21 +2372,22 @@
     "name": "Discorporate",
     "plainName": "DISCORPORATE",
     "abilityType": "SPELL",
-    "description": "Spell: DISCORPORATE",
+    "description": "Unravels the target's physical form, devastating illusory creatures.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: DISCORPORATE",
+    "notes": "Circle 6 abjuration. Instant kill vs illusions, reduced damage vs real targets.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "100 + GET_HIT(victim) if MOB_ILLUSORY, else sorcerer_single_target / 5"
+          "type": "force",
+          "amount": "(6d19 + pow(skill, 1.38)) / 5",
+          "bonusVsIllusory": "100 + target.hp"
         },
         "trigger": "on_cast"
       }
@@ -2372,21 +2422,21 @@
     "name": "Disintegrate",
     "plainName": "DISINTEGRATE",
     "abilityType": "SPELL",
-    "description": "Spell: DISINTEGRATE",
+    "description": "A thin green ray springs from your finger, reducing the target to fine dust.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: DISINTEGRATE",
+    "notes": "Circle 9 transmutation. Highest single-target damage spell. Destroys target on kill.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "sorcerer_single_target"
+          "type": "force",
+          "amount": "10d35 + pow(skill, 1.50)"
         },
         "trigger": "on_cast"
       }
@@ -2444,21 +2494,22 @@
     "name": "Dispel Magic",
     "plainName": "DISPEL_MAGIC",
     "abilityType": "SPELL",
-    "description": "Spell: DISPEL_MAGIC",
-    "minPosition": "STANDING",
+    "description": "Attempts to end magical effects on a target creature or object.",
+    "minPosition": "SITTING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: DISPEL_MAGIC",
+    "notes": "Circle 3 abjuration. Removes magical effects based on contested check.",
     "effects": [
       {
-        "effect": "damage",
+        "effect": "dispel",
         "order": 0,
         "params": {
-          "type": "magic",
-          "amount": "sorcerer_single_target(ch, spellnum, skill)"
+          "filter": "magic",
+          "scope": "all",
+          "power": "skill"
         },
         "trigger": "on_cast"
       }
@@ -2763,14 +2814,14 @@
     "name": "Earth Blessing",
     "plainName": "EARTH_BLESSING",
     "abilityType": "SPELL",
-    "description": "Spell: EARTH_BLESSING",
+    "description": "Channels the enduring strength of the earth into the target, bolstering their constitution and physical resilience.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: EARTH_BLESSING",
+    "notes": "Circle 2 transmutation. Grants +2 CON for extended duration. Earth sphere druidic magic.",
     "effects": [
       {
         "effect": "modify",
@@ -2788,21 +2839,30 @@
     "name": "Earthquake",
     "plainName": "EARTHQUAKE",
     "abilityType": "SPELL",
-    "description": "This spell will damage everybody except the caster by 1d8+level_of_caster hitpoints.",
+    "description": "Causes the ground to violently shake and rupture, damaging and potentially knocking down all creatures in the area.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "This spell will damage everybody except the caster by 1d8+level_of_caster hitpoints.",
+    "isArea": true,
+    "notes": "Circle 5 evocation. Area damage spell. Only works outdoors on solid ground. Damage modified by terrain type. Feather Fall reduces damage by half and prevents knockdown. Flying targets immune. Earth sphere druidic magic.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "dam + (pow(skill, 2) * 13) / 2500, then *= sector_qdam_mod / 100"
+          "amount": "6d19 + pow(skill, 1.38)",
+          "components": [
+            {
+              "type": "earth",
+              "percent": 60
+            },
+            {
+              "type": "physical",
+              "percent": 40
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -2812,13 +2872,14 @@
     "name": "Electrify",
     "plainName": "ELECTRIFY",
     "abilityType": "SKILL",
-    "description": "Player skill: Electrify",
+    "description": "Channels electrical energy through your weapon, adding shocking damage to your attacks.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Combat skill. Adds shock damage based on skill proficiency to weapon attacks.",
     "effects": [
       {
         "effect": "damage",
@@ -2827,7 +2888,7 @@
           "type": "shock",
           "amount": "skill"
         },
-        "trigger": "on_cast"
+        "trigger": "on_hit"
       }
     ]
   },
@@ -2835,14 +2896,14 @@
     "name": "Elemental Warding",
     "plainName": "ELEMENTAL_WARDING",
     "abilityType": "SPELL",
-    "description": "Spell: ELEMENTAL_WARDING",
+    "description": "Surrounds the target with a protective barrier that absorbs fire damage.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: ELEMENTAL_WARDING",
+    "notes": "Circle 4 abjuration. Grants 50% fire resistance for extended duration. Druidic elemental protection magic.",
     "effects": [
       {
         "effect": "status",
@@ -3159,7 +3220,7 @@
     "name": "Enrapture",
     "plainName": "ENRAPTURE",
     "abilityType": "SONG",
-    "description": "Bardic song: Enrapture",
+    "description": "An enchanting bardic performance that removes all negative effects from the target. This uplifting melody dispels debuffs and restores the target to their natural state.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -3168,7 +3229,9 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "cleanse",
+      "support"
     ],
     "effects": [
       {
@@ -3181,7 +3244,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Removes all debuffs from target. Bardic cleanse ability."
   },
   {
     "name": "Entangle",
@@ -3432,21 +3496,30 @@
     "name": "Fireball",
     "plainName": "FIREBALL",
     "abilityType": "SPELL",
-    "description": "This spell is the most powerful spell a magic user can cast.",
+    "description": "Hurls a ball of fire that explodes on impact, dealing massive fire damage with concussive force.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "This spell is the most powerful spell a magic user can cast.",
+    "notes": "Circle 5 evocation. Primary fire damage with force component from explosion.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "fire",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)",
+          "components": [
+            {
+              "type": "fire",
+              "percent": 80
+            },
+            {
+              "type": "force",
+              "percent": 20
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -3456,7 +3529,7 @@
     "name": "Fires Of Saint Augustine",
     "plainName": "FIRES_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Fires Of Saint Augustine",
+    "description": "A powerful monk chant invoking the burning passion of Saint Augustine, significantly increasing damage output. This buff channels holy flames to empower the monk's strikes.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -3465,7 +3538,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -3478,7 +3552,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Saint Augustine chant series - moderate damage bonus (+3 damroll)."
   },
   {
     "name": "Fireshield",
@@ -3654,21 +3729,31 @@
     "name": "Fracture",
     "plainName": "FRACTURE",
     "abilityType": "SPELL",
-    "description": "Spell: FRACTURE",
+    "description": "Shatters the target's bones with crushing magical force.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: FRACTURE",
+    "notes": "Circle 5 necromancy. Bone-crushing damage. Double damage vs charmed targets.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "sorcerer_single_target / 3, x2 if charmed by PC master"
+          "amount": "(6d19 + pow(skill, 1.38)) / 3",
+          "components": [
+            {
+              "type": "physical",
+              "percent": 70
+            },
+            {
+              "type": "force",
+              "percent": 30
+            }
+          ],
+          "bonusVsCharmed": 2.0
         },
         "trigger": "on_cast"
       }
@@ -3678,21 +3763,22 @@
     "name": "Fracture Shrapnel",
     "plainName": "FRACTURE_SHRAPNEL",
     "abilityType": "SPELL",
-    "description": "Spell: FRACTURE_SHRAPNEL",
+    "description": "Bone fragments from a Fracture spell explode outward, striking nearby enemies.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 0,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Spell: FRACTURE_SHRAPNEL",
+    "isArea": true,
+    "notes": "Secondary effect from Fracture. Area damage from bone shrapnel.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "physical",
-          "amount": "sorcerer_single_target(SPELL_FRACTURE) / 2, x2 if charmed by PC master"
+          "amount": "(6d19 + pow(skill, 1.38)) / 6",
+          "bonusVsCharmed": 2.0
         },
         "trigger": "on_cast"
       }
@@ -3702,7 +3788,7 @@
     "name": "Freedom Song",
     "plainName": "FREEDOM_SONG",
     "abilityType": "SONG",
-    "description": "Bardic song: Freedom Song",
+    "description": "An uplifting bardic song that enhances the target's evasion, making them harder to hit. This liberating melody grants freedom of movement and agility in combat.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -3711,7 +3797,8 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "buff"
     ],
     "effects": [
       {
@@ -3724,27 +3811,28 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Evasion buff increases chance to avoid attacks."
   },
   {
     "name": "Freeze",
     "plainName": "FREEZE",
     "abilityType": "SPELL",
-    "description": "Spell: FREEZE",
+    "description": "Encases the target in a shell of ice, dealing severe cold damage.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: FREEZE",
+    "notes": "Circle 6 evocation. High single-target cold damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "cold",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)"
         },
         "trigger": "on_cast"
       }
@@ -4217,7 +4305,7 @@
     "name": "Hearthsong",
     "plainName": "HEARTHSONG",
     "abilityType": "SONG",
-    "description": "Bardic song: Hearthsong",
+    "description": "A warm and comforting bardic song that enhances mental focus, improving spell casting and mental clarity. This soothing melody recalls the safety and comfort of hearth and home.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -4226,7 +4314,8 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "buff"
     ],
     "effects": [
       {
@@ -4239,7 +4328,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Focus buff improves spell casting and mental stats."
   },
   {
     "name": "Heavens Gate",
@@ -4339,7 +4429,7 @@
     "name": "Heroic Journey",
     "plainName": "HEROIC_JOURNEY",
     "abilityType": "SONG",
-    "description": "Bardic song: Heroic Journey",
+    "description": "An inspiring bardic song that enhances combat accuracy, recalling tales of legendary heroes. This epic melody fills allies with courage and precision.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -4348,7 +4438,8 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "buff"
     ],
     "effects": [
       {
@@ -4361,7 +4452,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Attack accuracy buff for allies."
   },
   {
     "name": "Hide",
@@ -4462,7 +4554,7 @@
     "name": "Hymn Of Saint Augustine",
     "plainName": "HYMN_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Hymn Of Saint Augustine",
+    "description": "A harmonious monk chant invoking Saint Augustine's strength, increasing damage output. This basic buff from the Saint Augustine series empowers the monk's attacks.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -4471,7 +4563,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -4484,7 +4577,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Saint Augustine chant series - basic damage bonus (+2 damroll)."
   },
   {
     "name": "Hysteria",
@@ -4637,21 +4731,30 @@
     "name": "Iceball",
     "plainName": "ICEBALL",
     "abilityType": "SPELL",
-    "description": "Spell: ICEBALL",
+    "description": "Hurls a ball of compressed ice that explodes on impact with freezing force.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: ICEBALL",
+    "notes": "Circle 5 evocation. Cold equivalent of Fireball with concussive component.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "cold",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)",
+          "components": [
+            {
+              "type": "cold",
+              "percent": 80
+            },
+            {
+              "type": "force",
+              "percent": 20
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -4661,21 +4764,21 @@
     "name": "Identify",
     "plainName": "IDENTIFY",
     "abilityType": "SPELL",
-    "description": "Spell: IDENTIFY",
-    "minPosition": "STANDING",
+    "description": "This divination spell reveals the magical properties, stats, and effects of a targeted item.",
+    "minPosition": "SITTING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: IDENTIFY",
+    "notes": "Targets a held or inventory object. Reveals item type, stats, effects, flags, value, and magical properties.",
     "effects": [
       {
-        "effect": "reveal",
+        "effect": "inspect",
         "order": 0,
         "params": {
-          "type": "object",
-          "depth": "room"
+          "depth": "full",
+          "revealCurse": true
         },
         "trigger": "on_cast"
       }
@@ -4736,21 +4839,21 @@
     "name": "Immolate",
     "plainName": "IMMOLATE",
     "abilityType": "SPELL",
-    "description": "Spell: IMMOLATE",
+    "description": "Sets the target ablaze with magical fire that continues to burn.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: IMMOLATE",
+    "notes": "Circle 4 evocation. Lower initial damage but applies burning DoT effect.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "sorcerer_single_target / 4"
+          "amount": "(5d19 + pow(skill, 1.32)) / 4"
         },
         "trigger": "on_cast"
       }
@@ -4983,7 +5086,7 @@
     "name": "Inspiration",
     "plainName": "INSPIRATION",
     "abilityType": "SONG",
-    "description": "Bardic song: Inspiration",
+    "description": "A motivating bardic song that inspires allies to fight with greater accuracy. This empowering melody fills hearts with determination and improves combat precision.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -4992,7 +5095,8 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "buff"
     ],
     "effects": [
       {
@@ -5005,7 +5109,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Basic bardic accuracy buff (+2 hitroll)."
   },
   {
     "name": "Instant Kill",
@@ -5034,7 +5139,7 @@
     "name": "Interminable Wrath",
     "plainName": "INTERMINABLE_WRATH",
     "abilityType": "CHANT",
-    "description": "Monk chant: Interminable Wrath",
+    "description": "A monk chant channeling endless fury, significantly increasing damage output. This buff empowers the monk's strikes with relentless anger.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -5043,7 +5148,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -5056,7 +5162,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Moderate damage bonus (+3 damroll)."
   },
   {
     "name": "Invigorate",
@@ -5112,21 +5219,21 @@
     "name": "Iron Maiden",
     "plainName": "IRON_MAIDEN",
     "abilityType": "SPELL",
-    "description": "Spell: IRON_MAIDEN",
+    "description": "Conjures phantom iron spikes that pierce the target from all directions.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: IRON_MAIDEN",
+    "notes": "Circle 6 conjuration. Pure physical piercing damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "physical",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)"
         },
         "trigger": "on_cast"
       }
@@ -5159,35 +5266,38 @@
     "name": "Ivory Symphony",
     "plainName": "IVORY_SYMPHONY",
     "abilityType": "CHANT",
-    "description": "Monk chant: Ivory Symphony",
+    "description": "A strangely alarming melody that causes enemies to flee in terror. This area-effect chant creates panic in the room, forcing victims to flee if they fail their saving throw. More effective in dark rooms and against non-sentinel mobs.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "fear",
+      "control"
     ],
     "effects": [
       {
-        "effect": "modify",
+        "effect": "status",
         "order": 0,
         "params": {
-          "amount": 10,
-          "duration": "skill / 4",
-          "target": "focus"
+          "flag": "feared",
+          "duration": "skill / 10",
+          "breakOnDamage": false
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Causes mass fleeing in enemies. Dark rooms bypass saving throw for non-sentinels. Sentinel mobs get additional save."
   },
   {
     "name": "Joyful Noise",
     "plainName": "JOYFUL_NOISE",
     "abilityType": "SONG",
-    "description": "Bardic song: Joyful Noise",
+    "description": "A jubilant bardic song that enhances the target's charisma and force of personality. This uplifting melody makes the target more persuasive and socially influential.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -5196,7 +5306,9 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "buff",
+      "social"
     ],
     "effects": [
       {
@@ -5209,33 +5321,43 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Charisma buff improves social interactions and certain skills."
   },
   {
     "name": "Kick",
     "plainName": "KICK",
     "abilityType": "SKILL",
-    "description": "Player skill: Kick",
+    "description": "Martial arts kick that deals physical damage and can interrupt spellcasting",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
-    "inCombatOnly": false,
+    "inCombatOnly": true,
     "isArea": false,
     "tags": [
-      "combat"
+      "combat",
+      "martial_arts"
     ],
+    "notes": "Offensive combat skill usable by fighters and monks. Deals physical damage based on skill and dexterity, with a chance to interrupt enemy actions",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "physical",
-          "amount": "skill",
-          "scaling": "level"
+          "amount": "skill / 2",
+          "scaling": "dex"
         },
-        "trigger": "on_hit",
-        "notes": "Combat skill: Kick"
+        "trigger": "on_hit"
+      },
+      {
+        "effect": "interrupt",
+        "order": 1,
+        "params": {
+          "power": "skill"
+        },
+        "trigger": "on_hit"
       }
     ]
   },
@@ -5339,21 +5461,30 @@
     "name": "Lightning Bolt",
     "plainName": "LIGHTNING_BOLT",
     "abilityType": "SPELL",
-    "description": "This spell is more powerful than the shocking grasp spell.",
+    "description": "A stroke of lightning forms between you and the target, accompanied by a deafening thunderclap.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "This spell is more powerful than the shocking grasp spell.",
+    "notes": "Circle 3 evocation. Primary shock damage with sonic component from thunder.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "shock",
-          "amount": "sorcerer_single_target"
+          "amount": "5d19 + pow(skill, 1.32)",
+          "components": [
+            {
+              "type": "shock",
+              "percent": 85
+            },
+            {
+              "type": "sonic",
+              "percent": 15
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -5619,21 +5750,21 @@
     "name": "Melt",
     "plainName": "MELT",
     "abilityType": "SPELL",
-    "description": "Spell: MELT",
+    "description": "Intense heat causes the target to partially liquify, dealing devastating fire damage.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 3,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: MELT",
+    "notes": "Circle 8 evocation. Very high fire damage, longer cast time.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "sorcerer_single_target(ch, spellnum, skill)"
+          "amount": "8d25 + pow(skill, 1.44)"
         },
         "trigger": "on_cast"
       }
@@ -6042,21 +6173,21 @@
     "name": "Nightmare",
     "plainName": "NIGHTMARE",
     "abilityType": "SPELL",
-    "description": "Spell: NIGHTMARE",
+    "description": "Assaults the target's mind with terrifying visions that cause psychic damage.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: NIGHTMARE",
+    "notes": "Circle 4 illusion/enchantment. Pure mental damage from psychic assault.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "magic",
-          "amount": "sorcerer_single_target"
+          "type": "mental",
+          "amount": "5d19 + pow(skill, 1.32)"
         },
         "trigger": "on_cast"
       }
@@ -6167,29 +6298,21 @@
     "name": "Peace",
     "plainName": "PEACE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Peace",
+    "description": "A serene chant that washes peace into the room, immediately stopping all combat. All fighting ceases and NPC memories are cleared, providing a moment of tranquility and safety.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "utility",
+      "pacify"
     ],
-    "effects": [
-      {
-        "effect": "dispel",
-        "order": 0,
-        "params": {
-          "filter": "all",
-          "scope": "all",
-          "power": "level"
-        },
-        "trigger": "on_cast"
-      }
-    ]
+    "effects": [],
+    "notes": "Stops all combat in the room and clears NPC aggro. Special implementation: calls stop_fighting on all combatants and clear_memory on NPCs. No standard effect applies."
   },
   {
     "name": "Peck",
@@ -6257,21 +6380,21 @@
     "name": "Phosphoric Embers",
     "plainName": "PHOSPHORIC_EMBERS",
     "abilityType": "SPELL",
-    "description": "Spell: PHOSPHORIC_EMBERS",
+    "description": "Scatters glowing embers that cling to the target and continue to burn.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: PHOSPHORIC_EMBERS",
+    "notes": "Circle 3 evocation. Lower damage, applies lingering burn effect.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "sorcerer_single_target / 3"
+          "amount": "(5d19 + pow(skill, 1.32)) / 3"
         },
         "trigger": "on_cast"
       }
@@ -6359,21 +6482,21 @@
     "name": "Positive Field",
     "plainName": "POSITIVE_FIELD",
     "abilityType": "SPELL",
-    "description": "Spell: POSITIVE_FIELD",
+    "description": "Channels positive energy into a damaging field that sears undead and heals the living.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: POSITIVE_FIELD",
+    "notes": "Circle 6 evocation. Radiant damage, extra effective vs undead.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "sorcerer_single_target"
+          "type": "radiant",
+          "amount": "6d19 + pow(skill, 1.38)"
         },
         "trigger": "on_cast"
       }
@@ -6613,21 +6736,22 @@
     "name": "Pyre",
     "plainName": "PYRE",
     "abilityType": "SPELL",
-    "description": "Spell: PYRE",
+    "description": "Engulfs the target in a pillar of flame, creating a funeral pyre.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: PYRE",
+    "notes": "Circle 4 evocation. Fire damage with bonus vs charmed targets.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "sorcerer_single_target / 3, x2 if charmed by PC master"
+          "amount": "(5d19 + pow(skill, 1.32)) / 3",
+          "bonusVsCharmed": 2.0
         },
         "trigger": "on_cast"
       }
@@ -6637,21 +6761,21 @@
     "name": "Pyre Recoil",
     "plainName": "PYRE_RECOIL",
     "abilityType": "SPELL",
-    "description": "Spell: PYRE_RECOIL",
+    "description": "The flames of a Pyre spell lash back at nearby enemies.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 0,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Spell: PYRE_RECOIL",
+    "isArea": true,
+    "notes": "Secondary effect from Pyre. Area fire damage to nearby enemies.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "sorcerer_single_target(SPELL_PYRE) / 6"
+          "amount": "(5d19 + pow(skill, 1.32)) / 6"
         },
         "trigger": "on_cast"
       }
@@ -6685,14 +6809,14 @@
     "name": "Rain",
     "plainName": "RAIN",
     "abilityType": "SPELL",
-    "description": "Spell: RAIN",
+    "description": "Summons a torrential rainstorm in the current area, reducing visibility and creating wet conditions.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: RAIN",
+    "notes": "Circle 5 conjuration. Creates weather effect in the room.",
     "effects": [
       {
         "effect": "room",
@@ -6710,14 +6834,14 @@
     "name": "Ray of Enfeeblement",
     "plainName": "RAY_OF_ENFEEBLEMENT",
     "abilityType": "SPELL",
-    "description": "Spell: RAY_OF_ENFEEB",
+    "description": "A ray of negative energy saps the target's strength, significantly weakening them.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: RAY_OF_ENFEEB",
+    "notes": "Circle 2 necromancy. Debuff spell that reduces STR by -15 - (skill/10) for 8 + (skill/20) rounds.",
     "effects": [
       {
         "effect": "modify",
@@ -6735,21 +6859,22 @@
     "name": "Rebuke Undead",
     "plainName": "REBUKE_UNDEAD",
     "abilityType": "SPELL",
-    "description": "Spell: REBUKE_UNDEAD",
+    "description": "Channels negative energy to bolster undead creatures, enhancing their combat capabilities.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: REBUKE_UNDEAD",
+    "notes": "Circle 3 necromancy. Evil cleric spell that buffs undead allies. Reduces evasion significantly.",
     "effects": [
       {
         "effect": "modify",
         "order": 1,
         "params": {
-          "amount": "",
-          "target": "con"
+          "amount": "skill / 5",
+          "target": "con",
+          "duration": "8 + (skill / 20)"
         },
         "trigger": "on_cast"
       },
@@ -6768,20 +6893,23 @@
     "name": "Recall",
     "plainName": "RECALL",
     "abilityType": "SPELL",
-    "description": "Spell: RECALL",
+    "description": "Instantly transports the caster back to their recall point (usually their hometown temple).",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: RECALL",
+    "notes": "Circle 6 conjuration. Basic teleportation spell to safety.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "recall",
+          "scope": "self",
+          "restrictions": []
         },
         "trigger": "on_cast"
       }
@@ -6791,21 +6919,31 @@
     "name": "Reduce",
     "plainName": "REDUCE",
     "abilityType": "SPELL",
-    "description": "Spell: REDUCE",
+    "description": "Magically shrinks the target, reducing their size and strength.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: REDUCE",
+    "notes": "Circle 3 transmutation. Reduces size and strength (-10 STR). Hostile size manipulation.",
     "effects": [
       {
         "effect": "modify",
-        "order": 2,
+        "order": 0,
+        "params": {
+          "amount": -1,
+          "duration": "level * 2",
+          "target": "size"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "modify",
+        "order": 1,
         "params": {
           "amount": "-10",
-          "duration": "eff[0].duration",
+          "duration": "level * 2",
           "target": "str"
         },
         "trigger": "on_cast"
@@ -6816,7 +6954,7 @@
     "name": "Regeneration",
     "plainName": "REGENERATION",
     "abilityType": "CHANT",
-    "description": "Monk chant: Regeneration",
+    "description": "A restorative monk chant that gradually heals the caster over time. Each tick restores a percentage of maximum health, providing sustained healing in and out of combat.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -6825,40 +6963,45 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "healing",
+      "buff",
+      "regen"
     ],
     "effects": [
       {
-        "effect": "damage",
+        "effect": "modify",
         "order": 0,
         "params": {
-          "type": "heal",
-          "amount": "2%",
-          "duration": "level",
-          "interval": 1
+          "target": "regen_hp",
+          "amount": 2,
+          "duration": "level"
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Increases HP regeneration rate. Duration scales with level."
   },
   {
     "name": "Relocate",
     "plainName": "RELOCATE",
     "abilityType": "SPELL",
-    "description": "Spell: RELOCATE",
+    "description": "Teleports the caster to a previously visited location or target.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: RELOCATE",
+    "notes": "Circle 7 conjuration. Advanced teleportation spell to known locations.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "target",
+          "scope": "self"
         },
         "trigger": "on_cast"
       }
@@ -6926,11 +7069,11 @@
     "notes": "Will remove the affects of poison from a victim or an object.",
     "effects": [
       {
-        "effect": "heal",
+        "effect": "cleanse",
         "order": 0,
         "params": {
-          "amount": "1d8",
-          "resource": "hp"
+          "condition": "poison",
+          "scope": "all"
         },
         "trigger": "on_cast"
       }
@@ -7043,14 +7186,14 @@
     "name": "Reveal Hidden",
     "plainName": "REVEAL_HIDDEN",
     "abilityType": "SPELL",
-    "description": "Spell: REVEAL_HIDDEN",
+    "description": "Grants the ability to detect hidden and invisible creatures.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: REVEAL_HIDDEN",
+    "notes": "Circle 2 divination. Applies detect_hidden status for level rounds.",
     "effects": [
       {
         "effect": "status",
@@ -7187,7 +7330,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "When protected by sanctuary you will only receive 1/2 the normal damage caused by a particular blow.",
+    "notes": "Circle 6 abjuration. Powerful protection spell reducing all damage by 50%.",
     "effects": [
       {
         "effect": "status",
@@ -7204,21 +7347,21 @@
     "name": "Sane Mind",
     "plainName": "SANE_MIND",
     "abilityType": "SPELL",
-    "description": "Spell: SANE_MIND",
+    "description": "Restores mental clarity and removes confusion effects from the target.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SANE_MIND",
+    "notes": "Circle 3 abjuration. Removes mental status effects and confusion.",
     "effects": [
       {
-        "effect": "heal",
+        "effect": "cleanse",
         "order": 0,
         "params": {
-          "amount": "1d8",
-          "resource": "hp"
+          "condition": "all",
+          "scope": "all"
         },
         "trigger": "on_cast"
       }
@@ -7240,16 +7383,19 @@
     "name": "Seed Of Destruction",
     "plainName": "SEED_OF_DESTRUCTION",
     "abilityType": "CHANT",
-    "description": "Monk chant: Seed Of Destruction",
+    "description": "A malevolent monk chant that plants a seed of destruction in the target, dealing unholy damage over time. This damage-over-time effect corrupts the victim from within.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "damage",
+      "dot",
+      "unholy"
     ],
     "effects": [
       {
@@ -7257,13 +7403,14 @@
         "order": 0,
         "params": {
           "type": "unholy",
-          "amount": "5%",
+          "amount": "max_hp * 0.05",
           "duration": 10,
           "interval": 1
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "DoT ability dealing 5% of target's max HP per tick for 10 ticks. High-level monk offensive chant."
   },
   {
     "name": "Sense Life",
@@ -7293,14 +7440,14 @@
     "name": "Severance",
     "plainName": "SEVERANCE",
     "abilityType": "SPELL",
-    "description": "Spell: SEVERANCE",
+    "description": "Delivers a magically enhanced cutting attack that severs flesh and bone.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SEVERANCE",
+    "notes": "Circle 5 transmutation/evocation. Physical damage spell with complex formula: dam + (pow(skill, 2) * 13) / 200.",
     "effects": [
       {
         "effect": "damage",
@@ -7340,16 +7487,17 @@
     "name": "Shadows Sorrow Song",
     "plainName": "SHADOWS_SORROW_SONG",
     "abilityType": "CHANT",
-    "description": "Monk chant: Shadows Sorrow Song",
+    "description": "A melancholic monk chant that saps enemy combat ability, significantly reducing their accuracy. This debuff shrouds enemies in sorrow, making their attacks less effective.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "debuff"
     ],
     "effects": [
       {
@@ -7362,7 +7510,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Stronger debuff than Aria of Dissonance (-3 hitroll vs -2)."
   },
   {
     "name": "Shapechange",
@@ -7392,20 +7541,21 @@
     "name": "Shift Corpse",
     "plainName": "SHIFT_CORPSE",
     "abilityType": "SPELL",
-    "description": "Spell: SHIFT_CORPSE",
+    "description": "Teleports a targeted corpse to the caster's location.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SHIFT_CORPSE",
+    "notes": "Circle 4 necromancy/conjuration. Retrieves corpses from afar for animation or looting.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "destination": "target"
+          "destination": "caster",
+          "scope": "target"
         },
         "trigger": "on_cast"
       }
@@ -7415,21 +7565,21 @@
     "name": "Shocking Grasp",
     "plainName": "SHOCKING_GRASP",
     "abilityType": "SPELL",
-    "description": "This spell is more powerful than the burning hands spell.",
+    "description": "Lightning springs from your hand to deliver a powerful shock to the target.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "This spell is more powerful than the burning hands spell.",
+    "notes": "Circle 1 evocation. Basic touch-range shock damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "shock",
-          "amount": "sorcerer_single_target"
+          "amount": "4d19 + pow(skill, 1.25)"
         },
         "trigger": "on_cast"
       }
@@ -7439,14 +7589,14 @@
     "name": "Silence",
     "plainName": "SILENCE",
     "abilityType": "SPELL",
-    "description": "Spell: SILENCE",
+    "description": "Prevents the target from speaking or casting spells with verbal components.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SILENCE",
+    "notes": "Circle 3 enchantment. Crowd control spell that silences the target, preventing spellcasting.",
     "effects": [
       {
         "effect": "status",
@@ -7464,20 +7614,23 @@
     "name": "Simulacrum",
     "plainName": "SIMULACRUM",
     "abilityType": "SPELL",
-    "description": "Spell: SIMULACRUM",
+    "description": "Creates a semi-real duplicate of a creature made from ice and snow.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SIMULACRUM",
+    "notes": "Circle 7 illusion. High-level summoning spell creating a powerful duplicate.",
     "effects": [
       {
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobType": "simulacrum",
+          "duration": "level * 10",
+          "maxCount": 1
         },
         "trigger": "on_cast"
       }
@@ -7502,14 +7655,14 @@
     "name": "Sleep",
     "plainName": "SLEEP",
     "abilityType": "SPELL",
-    "description": "Spell: SLEEP",
+    "description": "Puts the target into a magical slumber, breaking on damage.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SLEEP",
+    "notes": "Circle 1 enchantment. Basic crowd control spell. Breaks on damage.",
     "effects": [
       {
         "effect": "status",
@@ -7527,14 +7680,14 @@
     "name": "Smoke",
     "plainName": "SMOKE",
     "abilityType": "SPELL",
-    "description": "Spell: SMOKE",
+    "description": "Creates a cloud of obscuring smoke that reduces accuracy and evasion in the area.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SMOKE",
+    "notes": "Circle 2 conjuration. Battlefield control spell with accuracy and evasion penalties.",
     "effects": [
       {
         "effect": "modify",
@@ -7617,16 +7770,17 @@
     "name": "Sonata Of Malaise",
     "plainName": "SONATA_OF_MALAISE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Sonata Of Malaise",
+    "description": "A draining monk chant that weakens the target's constitution, reducing their health and resilience. This debuff saps the victim's vitality and endurance.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "debuff"
     ],
     "effects": [
       {
@@ -7639,13 +7793,14 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Constitution debuff reduces max HP and stamina."
   },
   {
     "name": "Song Of Rest",
     "plainName": "SONG_OF_REST",
     "abilityType": "SONG",
-    "description": "Bardic song: Song Of Rest",
+    "description": "A peaceful bardic song that enhances mental focus and clarity, promoting rest and recuperation. This calming melody improves concentration and spell casting ability.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -7654,7 +7809,8 @@
     "isArea": false,
     "tags": [
       "bardic",
-      "performance"
+      "performance",
+      "buff"
     ],
     "effects": [
       {
@@ -7667,27 +7823,37 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Focus buff improves mental clarity and spell casting. Same effect as Hearthsong."
   },
   {
     "name": "Soul Reaver",
     "plainName": "SOUL_REAVER",
     "abilityType": "SPELL",
-    "description": "Spell: SOUL_REAVER",
+    "description": "Warps reality into a deadly vision of calamity that tears at the souls of all present, dealing devastating mental and shadow damage.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 3,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Spell: SOUL_REAVER",
+    "isArea": true,
+    "notes": "Circle 12 illusion/necromancy. Area damage spell with necrotic and shadow damage. Very high circle spell for illusionists.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "dam + (pow(skill, 2) * 13) / 199"
+          "amount": "dam + (pow(skill, 2) * 13) / 199",
+          "components": [
+            {
+              "type": "necrotic",
+              "percent": 70
+            },
+            {
+              "type": "shadow",
+              "percent": 30
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -7697,14 +7863,14 @@
     "name": "Soul Tap",
     "plainName": "SOUL_TAP",
     "abilityType": "SPELL",
-    "description": "Spell: SOUL_TAP",
+    "description": "Channels dark energy to grant lifesteal, healing the caster for a portion of damage dealt.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SOUL_TAP",
+    "notes": "Circle 5 necromancy. Grants 25% lifesteal for level rounds.",
     "effects": [
       {
         "effect": "status",
@@ -7722,14 +7888,14 @@
     "name": "Soulshield",
     "plainName": "SOULSHIELD",
     "abilityType": "SPELL",
-    "description": "Spell: SOULSHIELD",
+    "description": "Creates a magical barrier that resists harmful magic.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SOULSHIELD",
+    "notes": "Circle 4 abjuration. Grants 25% magic resistance for level*2 rounds.",
     "effects": [
       {
         "effect": "status",
@@ -7748,14 +7914,14 @@
     "name": "Speak In Tongues",
     "plainName": "SPEAK_IN_TONGUES",
     "abilityType": "SPELL",
-    "description": "Spell: SPEAK_IN_TONGUES",
+    "description": "Grants the ability to understand and speak all languages.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SPEAK_IN_TONGUES",
+    "notes": "Circle 3 divination. Universal translation and comprehension for level*2 rounds.",
     "effects": [
       {
         "effect": "status",
@@ -7764,7 +7930,8 @@
           "duration": "level * 2",
           "flag": "detect_hidden"
         },
-        "trigger": "on_cast"
+        "trigger": "on_cast",
+        "notes": "FIXME: Should grant language comprehension, but using detect_hidden as placeholder"
       }
     ]
   },
@@ -8074,14 +8241,14 @@
     "name": "Spinechiller",
     "plainName": "SPINECHILLER",
     "abilityType": "SPELL",
-    "description": "Spell: SPINECHILLER",
+    "description": "A terrifying presence that unnerves enemies, reducing their evasion.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SPINECHILLER",
+    "notes": "Circle 2 necromancy. Fear-based debuff reducing enemy evasion by -5 for skill/4 rounds.",
     "effects": [
       {
         "effect": "modify",
@@ -8099,20 +8266,20 @@
     "name": "Spirit Arrows",
     "plainName": "SPIRIT_ARROWS",
     "abilityType": "SPELL",
-    "description": "Spell: SPIRIT_ARROWS",
+    "description": "Conjures multiple ethereal arrows that strike the target repeatedly.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SPIRIT_ARROWS",
+    "notes": "Circle 4 conjuration. Multi-hit spell dealing force damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "magic",
+          "type": "force",
           "amount": "4d21",
           "multihit": true
         },
@@ -8124,21 +8291,30 @@
     "name": "Spirit Ray",
     "plainName": "SPIRIT_RAY",
     "abilityType": "SPELL",
-    "description": "Spell: SPIRIT_RAY",
+    "description": "Fires a beam of pure spiritual energy that pierces the target's soul.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 3,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SPIRIT_RAY",
+    "notes": "Circle 8 evocation/necromancy. High radiant damage, longer cast time.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "sorcerer_single_target"
+          "amount": "8d25 + pow(skill, 1.44)",
+          "components": [
+            {
+              "type": "force",
+              "percent": 60
+            },
+            {
+              "type": "mental",
+              "percent": 40
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -8148,7 +8324,7 @@
     "name": "Spirit of the Bear",
     "plainName": "SPIRIT_BEAR",
     "abilityType": "CHANT",
-    "description": "Monk chant: Spirit Bear",
+    "description": "A monk chant channeling the spirit of the bear, greatly increasing constitution. This buff enhances the monk's endurance, health, and resilience like a mighty bear.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -8157,7 +8333,9 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff",
+      "spirit"
     ],
     "effects": [
       {
@@ -8170,13 +8348,14 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Spirit animal buff providing +4 CON. Longer duration than typical chants (level * 2)."
   },
   {
     "name": "Spirit of the Wolf",
     "plainName": "SPIRIT_WOLF",
     "abilityType": "CHANT",
-    "description": "Monk chant: Spirit Wolf",
+    "description": "A monk chant channeling the spirit of the wolf, greatly increasing dexterity. This buff enhances the monk's agility, speed, and reflexes like a swift wolf.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -8185,7 +8364,9 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff",
+      "spirit"
     ],
     "effects": [
       {
@@ -8198,7 +8379,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Spirit animal buff providing +4 DEX. Longer duration than typical chants (level * 2)."
   },
   {
     "name": "Springleap",
@@ -8229,14 +8411,14 @@
     "name": "Statue",
     "plainName": "STATUE",
     "abilityType": "SPELL",
-    "description": "Spell: STATUE",
+    "description": "Petrifies the target, turning them to stone and paralyzing them completely.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: STATUE",
+    "notes": "Circle 6 transmutation. Complete paralysis without breaking on damage.",
     "effects": [
       {
         "effect": "status",
@@ -8296,14 +8478,14 @@
     "name": "Stone Skin",
     "plainName": "STONE_SKIN",
     "abilityType": "SPELL",
-    "description": "Spell: STONE_SKIN",
+    "description": "Hardens the target's skin to be tough as stone, granting physical damage resistance.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: STONE_SKIN",
+    "notes": "Circle 4 abjuration. Grants 25% physical resistance for level rounds.",
     "effects": [
       {
         "effect": "status",
@@ -8322,21 +8504,30 @@
     "name": "Stygian Eruption",
     "plainName": "STYGIAN_ERUPTION",
     "abilityType": "SPELL",
-    "description": "Spell: STYGIAN_ERUPTION",
+    "description": "Channels the dark power of the river Styx in a violent eruption of unholy fire and shadow.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: STYGIAN_ERUPTION",
+    "notes": "Circle 6 evocation/necromancy. Unholy damage spell requiring evil alignment (<-400). Formula: dam + (pow(skill, 2) * 1) / 125, scaled by alignment.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "dam + (pow(skill, 2) * 1) / 125, then *= (caster_align * -0.0022 - 0.7)"
+          "amount": "dam + (pow(skill, 2) * 1) / 125, then *= (caster_align * -0.0022 - 0.7)",
+          "components": [
+            {
+              "type": "unholy",
+              "percent": 60
+            },
+            {
+              "type": "shadow",
+              "percent": 40
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -8353,13 +8544,15 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Will summon a person of the name spoken.  It is not possible to summon someone of three or more levels above yourself. If you attempt to summon a monster, it will get a saving throw.",
+    "notes": "Circle 6 conjuration. Forcibly teleports a player or creature to the caster. Level restrictions apply.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "caster",
+          "scope": "target"
         },
         "trigger": "on_cast"
       }
@@ -8369,20 +8562,21 @@
     "name": "Summon Corpse",
     "plainName": "SUMMON_CORPSE",
     "abilityType": "SPELL",
-    "description": "Spell: SUMMON_CORPSE",
+    "description": "Summons a corpse from elsewhere to the caster's location.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SUMMON_CORPSE",
+    "notes": "Circle 3 necromancy/conjuration. Retrieves corpses for animation or recovery.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "destination": "target"
+          "destination": "caster",
+          "scope": "object"
         },
         "trigger": "on_cast"
       }
@@ -8392,20 +8586,23 @@
     "name": "Summon Demon",
     "plainName": "SUMMON_DEMON",
     "abilityType": "SPELL",
-    "description": "Spell: SUMMON_DEMON",
+    "description": "Summons a demon from the lower planes to serve the caster.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SUMMON_DEMON",
+    "notes": "Circle 7 conjuration. Powerful summoning spell creating a demonic ally.",
     "effects": [
       {
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobType": "demon",
+          "duration": "level * 10",
+          "maxCount": 1
         },
         "trigger": "on_cast"
       }
@@ -8415,20 +8612,23 @@
     "name": "Summon Dracolich",
     "plainName": "SUMMON_DRACOLICH",
     "abilityType": "SPELL",
-    "description": "Spell: SUMMON_DRACOLICH",
+    "description": "Summons a dracolich, an undead dragon of immense power.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SUMMON_DRACOLICH",
+    "notes": "Circle 9 necromancy/conjuration. Highest-tier summon creating an undead dragon ally.",
     "effects": [
       {
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobType": "dracolich",
+          "duration": "level * 15",
+          "maxCount": 1
         },
         "trigger": "on_cast"
       }
@@ -8438,20 +8638,23 @@
     "name": "Summon Elemental",
     "plainName": "SUMMON_ELEMENTAL",
     "abilityType": "SPELL",
-    "description": "Spell: SUMMON_ELEMENTAL",
+    "description": "Summons an elemental being from the elemental planes.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SUMMON_ELEMENTAL",
+    "notes": "Circle 5 conjuration. Summons fire, water, earth, or air elemental based on context.",
     "effects": [
       {
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobType": "elemental",
+          "duration": "level * 10",
+          "maxCount": 1
         },
         "trigger": "on_cast"
       }
@@ -8461,20 +8664,23 @@
     "name": "Summon Greater Demon",
     "plainName": "SUMMON_GREATER_DEMON",
     "abilityType": "SPELL",
-    "description": "Spell: SUMMON_GREATER_DEMON",
+    "description": "Summons a greater demon, a powerful fiend from the lower planes.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SUMMON_GREATER_DEMON",
+    "notes": "Circle 9 conjuration. High-tier summoning spell creating a very powerful demonic ally.",
     "effects": [
       {
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobType": "greater_demon",
+          "duration": "level * 15",
+          "maxCount": 1
         },
         "trigger": "on_cast"
       }
@@ -8511,14 +8717,14 @@
     "name": "Sunray",
     "plainName": "SUNRAY",
     "abilityType": "SPELL",
-    "description": "Spell: SUNRAY",
+    "description": "Channels intense sunlight to blind and disorient enemies in the area.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: SUNRAY",
+    "notes": "Circle 5 evocation. Debuff spell reducing accuracy and evasion with radiant energy.",
     "effects": [
       {
         "effect": "modify",
@@ -8546,21 +8752,30 @@
     "name": "Supernova",
     "plainName": "SUPERNOVA",
     "abilityType": "SPELL",
-    "description": "Spell: SUPERNOVA",
+    "description": "Unleashes a cataclysmic explosion of stellar fire and radiant energy, devastating all in the area.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Spell: SUPERNOVA",
+    "isArea": true,
+    "notes": "Circle 12 evocation. Highest-tier area damage spell for pyromancers. Massive fire and radiant damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "fire",
-          "amount": "dam + (pow(skill, 2) * 1) / 10"
+          "amount": "dam + (pow(skill, 2) * 1) / 10",
+          "components": [
+            {
+              "type": "fire",
+              "percent": 60
+            },
+            {
+              "type": "radiant",
+              "percent": 40
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -8657,20 +8872,22 @@
     "name": "Teleport",
     "plainName": "TELEPORT",
     "abilityType": "SPELL",
-    "description": "Spell: TELEPORT",
+    "description": "Teleports the caster to a random location within the zone.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: TELEPORT",
+    "notes": "Circle 5 conjuration. Random short-range teleportation.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "random",
+          "scope": "self"
         },
         "trigger": "on_cast"
       }
@@ -8680,7 +8897,7 @@
     "name": "Tempest Of Saint Augustine",
     "plainName": "TEMPEST_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Tempest Of Saint Augustine",
+    "description": "A mighty monk chant invoking the tempest fury of Saint Augustine, greatly increasing damage output. This powerful buff channels storm-like rage to maximize the monk's striking power.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -8689,7 +8906,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -8702,15 +8920,16 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Saint Augustine chant series - strongest damage bonus (+4 damroll)."
   },
   {
     "name": "Terror",
     "plainName": "TERROR",
     "abilityType": "SONG",
-    "description": "Bardic song: Terror",
+    "description": "A haunting bardic performance that instills overwhelming fear in enemies.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
@@ -8730,7 +8949,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Bardic song. Fear effect breaking on damage for level/4 rounds."
   },
   {
     "name": "Throatcut",
@@ -8776,7 +8996,7 @@
     "name": "Tremors Of Saint Augustine",
     "plainName": "TREMORS_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
-    "description": "Monk chant: Tremors Of Saint Augustine",
+    "description": "A powerful monk chant invoking the earthshaking tremors of Saint Augustine, significantly increasing damage output. This buff channels ground-quaking force to empower the monk's blows.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -8785,7 +9005,8 @@
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "buff"
     ],
     "effects": [
       {
@@ -8798,7 +9019,8 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "notes": "Saint Augustine chant series - moderate damage bonus (+3 damroll)."
   },
   {
     "name": "Two-Hand Bludgeoning",
@@ -8849,21 +9071,30 @@
     "name": "Unholy Word",
     "plainName": "UNHOLY_WORD",
     "abilityType": "SPELL",
-    "description": "Spell: UNHOLY_WORD",
+    "description": "Utters a word of dark divine power that blasts good-aligned enemies with unholy energy.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Spell: UNHOLY_WORD",
+    "isArea": true,
+    "notes": "Circle 6 evocation. Area spell affecting only good-aligned creatures. Evil caster casting this on good enemies. Kills caster if good-aligned!",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "dam + (pow(skill, 2) * 33) / 2000"
+          "amount": "dam + (pow(skill, 2) * 33) / 2000",
+          "components": [
+            {
+              "type": "unholy",
+              "percent": 60
+            },
+            {
+              "type": "sonic",
+              "percent": 40
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -8873,21 +9104,22 @@
     "name": "Urban Renewal",
     "plainName": "URBAN_RENEWAL",
     "abilityType": "SPELL",
-    "description": "Spell: URBAN_RENEWAL",
+    "description": "Unleashes destructive magical energy across the entire area.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Spell: URBAN_RENEWAL",
+    "isArea": true,
+    "notes": "Circle 8 evocation. Area damage spell with magical force. No specific damage formula in legacy code.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "area": true,
-          "type": "magic"
+          "type": "force",
+          "amount": "8d25 + pow(skill, 1.44)"
         },
         "trigger": "on_cast"
       }
@@ -8897,23 +9129,42 @@
     "name": "Vampiric Breath",
     "plainName": "VAMPIRIC_BREATH",
     "abilityType": "SPELL",
-    "description": "Spell: VAMPIRIC_BREATH",
+    "description": "Exhales vampiric energy that drains life force from the target, healing the caster.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VAMPIRIC_BREATH",
+    "notes": "Circle 4 necromancy. Life-draining attack that heals caster. Formula: dam + roll_dice(2, skill + 10), bonus +random(0,70) if skill>=95.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "dam + roll_dice(2, skill + 10), +random(0,70) if skill>=95"
+          "amount": "dam + roll_dice(2, skill + 10), +random(0,70) if skill>=95",
+          "components": [
+            {
+              "type": "necrotic",
+              "percent": 80
+            },
+            {
+              "type": "shadow",
+              "percent": 20
+            }
+          ]
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "heal",
+        "order": 1,
+        "params": {
+          "amount": "damage_dealt",
+          "resource": "hp"
+        },
+        "trigger": "on_damage",
+        "notes": "Heals caster for damage dealt"
       }
     ]
   },
@@ -8945,14 +9196,14 @@
     "name": "Vaporform",
     "plainName": "VAPORFORM",
     "abilityType": "SPELL",
-    "description": "Spell: VAPORFORM",
+    "description": "Transforms the caster into mist, granting invisibility and ethereal movement.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VAPORFORM",
+    "notes": "Circle 5 transmutation. Grants invisibility for level rounds through gaseous transformation.",
     "effects": [
       {
         "effect": "status",
@@ -8969,14 +9220,14 @@
     "name": "Ventriloquate",
     "plainName": "VENTRILOQUATE",
     "abilityType": "SPELL",
-    "description": "For all people in the same room as the caster that fail a saving throw, the spell will make the object or victim appear to say the text written. Example:",
+    "description": "Creates an illusion that makes an object or person appear to speak.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "For all people in the same room as the caster that fail a saving throw, the spell will make the object or victim appear to say the text written. Example:",
+    "notes": "Circle 1 illusion. Utility spell for deception and misdirection.",
     "effects": [
       {
         "effect": "status",
@@ -8987,7 +9238,7 @@
           "amount": 20
         },
         "trigger": "on_cast",
-        "notes": "Illusion/distraction"
+        "notes": "Illusion/distraction effect. Not true stealth."
       }
     ]
   },
@@ -8995,21 +9246,21 @@
     "name": "Vicious Mockery",
     "plainName": "VICIOUS_MOCKERY",
     "abilityType": "SPELL",
-    "description": "Spell: VICIOUS_MOCKERY",
+    "description": "Your insults are laced with subtle enchantments that cause psychic pain.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VICIOUS_MOCKERY",
+    "notes": "Circle 0 (cantrip) enchantment. Bard spell dealing mental damage.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "magic",
-          "amount": "sorcerer_single_target"
+          "type": "mental",
+          "amount": "4d19 + pow(skill, 1.25)"
         },
         "trigger": "on_cast"
       }
@@ -9019,14 +9270,14 @@
     "name": "Vigorize Critic",
     "plainName": "VIGORIZE_CRITIC",
     "abilityType": "SPELL",
-    "description": "Spell: VIGORIZE_CRITIC",
+    "description": "Restores movement energy to the target, refreshing their stamina.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VIGORIZE_CRITIC",
+    "notes": "Circle 3 transmutation. Movement restoration spell.",
     "effects": [
       {
         "effect": "heal",
@@ -9043,14 +9294,14 @@
     "name": "Vigorize Light",
     "plainName": "VIGORIZE_LIGHT",
     "abilityType": "SPELL",
-    "description": "Spell: VIGORIZE_LIGHT",
+    "description": "Restores movement energy to the target, refreshing their stamina.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VIGORIZE_LIGHT",
+    "notes": "Circle 1 transmutation. Movement restoration spell.",
     "effects": [
       {
         "effect": "heal",
@@ -9067,14 +9318,14 @@
     "name": "Vigorize Serious",
     "plainName": "VIGORIZE_SERIOUS",
     "abilityType": "SPELL",
-    "description": "Spell: VIGORIZE_SERIOUS",
+    "description": "Restores movement energy to the target, refreshing their stamina.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VIGORIZE_SERIOUS",
+    "notes": "Circle 2 transmutation. Movement restoration spell.",
     "effects": [
       {
         "effect": "heal",
@@ -9091,14 +9342,14 @@
     "name": "Vitality",
     "plainName": "VITALITY",
     "abilityType": "SPELL",
-    "description": "Spell: VITALITY",
+    "description": "Enhances the target's life force, temporarily increasing maximum hit points.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: VITALITY",
+    "notes": "Circle 5 transmutation. Grants skill/2 bonus max HP for level*2 rounds.",
     "effects": [
       {
         "effect": "modify",
@@ -9196,14 +9447,14 @@
     "name": "Wandering Woods",
     "plainName": "WANDERING_WOODS",
     "abilityType": "SPELL",
-    "description": "Spell: WANDERING_WOODS",
+    "description": "Causes the forest itself to shift, teleporting the caster randomly through the woods.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WANDERING_WOODS",
+    "notes": "Circle 4 conjuration/transmutation. Random teleportation spell themed for druids.",
     "effects": [
       {
         "effect": "teleport",
@@ -9220,16 +9471,18 @@
     "name": "War Cry",
     "plainName": "WAR_CRY",
     "abilityType": "CHANT",
-    "description": "Monk chant: War Cry",
+    "description": "A fearsome battle cry that damages enemies and bolsters the monk's combat prowess. This powerful chant adds extra damage to each of the monk's attacks.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
       "monk",
-      "ki"
+      "ki",
+      "damage",
+      "buff"
     ],
     "effects": [
       {
@@ -9240,30 +9493,39 @@
           "amount": "skill",
           "scaling": "level"
         },
-        "trigger": "on_hit",
-        "notes": "Combat skill: War Cry"
+        "trigger": "on_hit"
       }
-    ]
+    ],
+    "notes": "Adds skill-based physical damage to each melee hit. Very high-level monk ability (level 90)."
   },
   {
     "name": "Water Blast",
     "plainName": "WATER_BLAST",
     "abilityType": "SPELL",
-    "description": "Spell: WATER_BLAST",
+    "description": "Conjures a high-pressure jet of water that slams into the target with tremendous force.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WATER_BLAST",
+    "notes": "Circle 5 conjuration. Primary water damage with physical impact from pressure.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "cold",
-          "amount": "sorcerer_single_target"
+          "amount": "6d19 + pow(skill, 1.38)",
+          "components": [
+            {
+              "type": "water",
+              "percent": 80
+            },
+            {
+              "type": "physical",
+              "percent": 20
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -9273,14 +9535,14 @@
     "name": "Waterform",
     "plainName": "WATERFORM",
     "abilityType": "SPELL",
-    "description": "Spell: WATERFORM",
+    "description": "Transforms the caster into a water-like form, allowing them to breathe underwater.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WATERFORM",
+    "notes": "Circle 3 transmutation. Grants waterbreathing for level rounds.",
     "effects": [
       {
         "effect": "status",
@@ -9297,14 +9559,14 @@
     "name": "Waterwalk",
     "plainName": "WATERWALK",
     "abilityType": "SPELL",
-    "description": "Spell: WATERWALK",
+    "description": "Allows the target to walk on water as if it were solid ground.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WATERWALK",
+    "notes": "Circle 3 transmutation. Grants water-walking ability for level*3 rounds.",
     "effects": [
       {
         "effect": "status",
@@ -9321,14 +9583,14 @@
     "name": "Web",
     "plainName": "WEB",
     "abilityType": "SPELL",
-    "description": "Spell: WEB",
+    "description": "Creates sticky magical webs that entangle and immobilize the target.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WEB",
+    "notes": "Circle 2 conjuration. Crowd control spell that webs target for level/2 rounds. Does not break on damage.",
     "effects": [
       {
         "effect": "status",
@@ -9346,14 +9608,14 @@
     "name": "Wings Of Heaven",
     "plainName": "WINGS_OF_HEAVEN",
     "abilityType": "SPELL",
-    "description": "Spell: WINGS_OF_HEAVEN",
+    "description": "Manifests angelic wings that grant the power of flight.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WINGS_OF_HEAVEN",
+    "notes": "Circle 4 transmutation. Grants flight for level*2 rounds.",
     "effects": [
       {
         "effect": "status",
@@ -9370,14 +9632,14 @@
     "name": "Wings Of Hell",
     "plainName": "WINGS_OF_HELL",
     "abilityType": "SPELL",
-    "description": "Spell: WINGS_OF_HELL",
+    "description": "Manifests demonic wings that grant the power of flight.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WINGS_OF_HELL",
+    "notes": "Circle 4 transmutation. Grants flight for level*2 rounds.",
     "effects": [
       {
         "effect": "status",
@@ -9394,14 +9656,14 @@
     "name": "Wizard Eye",
     "plainName": "WIZARD_EYE",
     "abilityType": "SPELL",
-    "description": "Spell: WIZARD_EYE",
+    "description": "Creates an invisible magical sensor that reveals hidden things within the zone.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WIZARD_EYE",
+    "notes": "Circle 4 divination. One-time reveal of hidden creatures/objects within the zone.",
     "effects": [
       {
         "effect": "reveal",
@@ -9418,14 +9680,14 @@
     "name": "Word Of Command",
     "plainName": "WORD_OF_COMMAND",
     "abilityType": "SPELL",
-    "description": "Spell: WORD_OF_COMMAND",
+    "description": "Speaks a word of power that compels the target to obey the caster.",
     "minPosition": "STANDING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WORD_OF_COMMAND",
+    "notes": "Circle 5 enchantment. Charm spell forcing obedience for level/4 rounds.",
     "effects": [
       {
         "effect": "status",
@@ -9450,13 +9712,15 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "The caster will be transferred back to his hometown sanctuary (usually the Temple of Midgaard).",
+    "notes": "Circle 6 conjuration. Instantly returns caster to their hometown sanctuary.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "home",
+          "scope": "self"
         },
         "trigger": "on_cast"
       }
@@ -9466,20 +9730,22 @@
     "name": "World Teleport",
     "plainName": "WORLD_TELEPORT",
     "abilityType": "SPELL",
-    "description": "Spell: WORLD_TELEPORT",
+    "description": "Teleports the caster to a random location anywhere in the world.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WORLD_TELEPORT",
+    "notes": "Circle 9 conjuration. Long-range random teleportation across the entire world.",
     "effects": [
       {
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "random",
+          "scope": "self"
         },
         "trigger": "on_cast"
       }
@@ -9489,21 +9755,30 @@
     "name": "Writhing Weeds",
     "plainName": "WRITHING_WEEDS",
     "abilityType": "SPELL",
-    "description": "Spell: WRITHING_WEEDS",
+    "description": "Animates plants and weeds to attack and entangle the target with crushing force.",
     "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
+    "violent": true,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Spell: WRITHING_WEEDS",
+    "notes": "Circle 3 transmutation/conjuration. Nature damage spell requiring outdoors. Formula: dam + (pow(skill, 2) * 53) / 10000.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "dam + (pow(skill, 2) * 53) / 10000"
+          "amount": "dam + (pow(skill, 2) * 53) / 10000",
+          "components": [
+            {
+              "type": "nature",
+              "percent": 60
+            },
+            {
+              "type": "physical",
+              "percent": 40
+            }
+          ]
         },
         "trigger": "on_cast"
       }
