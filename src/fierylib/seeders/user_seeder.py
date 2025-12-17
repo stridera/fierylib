@@ -67,34 +67,62 @@ class UserSeeder:
         # Hash password for character
         password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(rounds=12))
 
-        character_id = str(uuid.uuid4())
+        # Check if character already exists
+        existing = await self.prisma.characters.find_unique(where={"name": name})
 
-        character = await self.prisma.characters.create(
-            data={
-                "id": character_id,
-                "name": name,
-                "level": level,
-                "race": race,
-                "gender": "male",
-                "passwordHash": password_hash.decode("utf-8"),
-                "userId": user_id,
-                "birthTime": datetime.now(),
-                # Set stats based on level (higher level = better stats)
-                "strength": min(18, 10 + (level // 10)),
-                "intelligence": min(18, 10 + (level // 10)),
-                "wisdom": min(18, 10 + (level // 10)),
-                "dexterity": min(18, 10 + (level // 10)),
-                "constitution": min(18, 10 + (level // 10)),
-                "charisma": min(18, 10 + (level // 10)),
-                # HP/Movement based on level
-                "hitPoints": level * 10,
-                "hitPointsMax": level * 10,
-                "movement": 100 + (level * 2),
-                "movementMax": 100 + (level * 2),
-            }
-        )
+        if existing:
+            # Update existing character
+            character = await self.prisma.characters.update(
+                where={"name": name},
+                data={
+                    "level": level,
+                    "race": race,
+                    "passwordHash": password_hash.decode("utf-8"),
+                    "userId": user_id,
+                    # Set stats based on level (higher level = better stats)
+                    "strength": min(18, 10 + (level // 10)),
+                    "intelligence": min(18, 10 + (level // 10)),
+                    "wisdom": min(18, 10 + (level // 10)),
+                    "dexterity": min(18, 10 + (level // 10)),
+                    "constitution": min(18, 10 + (level // 10)),
+                    "charisma": min(18, 10 + (level // 10)),
+                    # HP/Movement based on level
+                    "hitPoints": level * 10,
+                    "hitPointsMax": level * 10,
+                    "movement": 100 + (level * 2),
+                    "movementMax": 100 + (level * 2),
+                }
+            )
+            click.echo(f"    Updated character: {name} (Level {level})")
+        else:
+            # Create new character
+            character_id = str(uuid.uuid4())
+            character = await self.prisma.characters.create(
+                data={
+                    "id": character_id,
+                    "name": name,
+                    "level": level,
+                    "race": race,
+                    "gender": "male",
+                    "passwordHash": password_hash.decode("utf-8"),
+                    "userId": user_id,
+                    "birthTime": datetime.now(),
+                    # Set stats based on level (higher level = better stats)
+                    "strength": min(18, 10 + (level // 10)),
+                    "intelligence": min(18, 10 + (level // 10)),
+                    "wisdom": min(18, 10 + (level // 10)),
+                    "dexterity": min(18, 10 + (level // 10)),
+                    "constitution": min(18, 10 + (level // 10)),
+                    "charisma": min(18, 10 + (level // 10)),
+                    # HP/Movement based on level
+                    "hitPoints": level * 10,
+                    "hitPointsMax": level * 10,
+                    "movement": 100 + (level * 2),
+                    "movementMax": 100 + (level * 2),
+                }
+            )
+            click.echo(f"    Created character: {name} (Level {level})")
 
-        click.echo(f"    Created character: {name} (Level {level})")
         return character
 
     async def seed_users(self, skip_existing: bool = True, with_characters: bool = True) -> dict:

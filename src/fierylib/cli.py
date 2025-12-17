@@ -1025,6 +1025,71 @@ def seed_users(reset: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="classes")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate without importing to database",
+)
+@click.option(
+    "--regenerate",
+    is_flag=True,
+    default=False,
+    help="Regenerate data/classes.json from class.cpp before importing",
+)
+def seed_classes(dry_run: bool, regenerate: bool):
+    """Import class data from data/classes.json"""
+    import asyncio
+    from pathlib import Path
+    from fierylib.importers.class_importer_v2 import ClassImporterV2
+    from fierylib.parsers.cpp_class_parser import parse_classes_cpp
+    import json
+
+    async def run_seed():
+        click.echo("🌱 Seeding Class Data")
+        click.echo("=" * 60)
+
+        classes_json = Path("data/classes.json")
+
+        # Regenerate from C++ if requested
+        if regenerate:
+            click.echo("Regenerating data/classes.json from class.cpp...")
+            class_cpp = Path("../fierymud/legacy/src/class.cpp")
+            if not class_cpp.exists():
+                click.echo(f"❌ class.cpp not found at {class_cpp}")
+                return
+
+            data = parse_classes_cpp(class_cpp)
+            classes_json.parent.mkdir(exist_ok=True)
+            with classes_json.open('w') as f:
+                json.dump(data, f, indent=2)
+            click.echo(f"✓ Generated {classes_json}")
+
+        if not classes_json.exists():
+            click.echo(f"❌ Class data file not found: {classes_json}")
+            click.echo("   Run with --regenerate to create it from class.cpp")
+            return
+
+        from prisma import Prisma
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            importer = ClassImporterV2(prisma)
+            stats = await importer.import_from_json(classes_json, dry_run=dry_run)
+
+            click.echo("\n✅ Class seeding complete!")
+            click.echo(f"   Classes created: {stats['classes_created']}")
+            click.echo(f"   Classes skipped: {stats['classes_skipped']}")
+            if dry_run:
+                click.echo("   (DRY RUN - no changes made)")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="races")
 @click.option(
     "--dry-run",
@@ -1081,59 +1146,27 @@ def seed_races(dry_run: bool, regenerate: bool):
 
 
 @seed.command(name="abilities")
-@click.option(
-    "--dry-run",
-    is_flag=True,
-    default=False,
-    help="Validate without importing to database",
-)
-@click.option(
-    "--verbose",
-    is_flag=True,
-    default=False,
-    help="Enable verbose output",
-)
-def seed_abilities(dry_run: bool, verbose: bool):
-    """Import all 368 abilities from documentation (ABILITIES_COMPLETE.md + all_spell_implementations.json)"""
-    import asyncio
-    from prisma import Prisma
-    from fierylib.seeders.abilities_seeder import seed_abilities
+def seed_abilities_deprecated():
+    """[DEPRECATED] Use 'seed magic-system' or 'import-legacy' instead.
 
-    async def run_seed():
-        click.echo("🌱 Seeding Abilities")
-        click.echo("=" * 60)
+    The JSON-based abilities seeder has been removed because the
+    all_spell_implementations.json file contained incorrect data.
 
-        if dry_run:
-            click.echo("⚠️  DRY RUN mode not yet implemented for abilities seeder")
-            click.echo("   This command will import abilities to the database")
-            return
-
-        prisma = Prisma()
-        await prisma.connect()
-
-        try:
-            imported_count = await seed_abilities(prisma)
-
-            click.echo("\n✅ Ability seeding complete!")
-            click.echo(f"   Imported {imported_count} abilities from documentation")
-            click.echo(f"\n📚 Data sources:")
-            click.echo(f"   - docs/ABILITIES_COMPLETE.md (metadata)")
-            click.echo(f"   - docs/all_spell_implementations.json (implementations)")
-
-        except FileNotFoundError as e:
-            click.echo(f"❌ Error: {e}")
-            click.echo("\n💡 Make sure the documentation files exist:")
-            click.echo("   - /home/strider/Code/mud/docs/ABILITIES_COMPLETE.md")
-            click.echo("   - /home/strider/Code/mud/docs/all_spell_implementations.json")
-        except Exception as e:
-            click.echo(f"❌ Unexpected error: {e}")
-            if verbose:
-                import traceback
-                traceback.print_exc()
-        finally:
-            await prisma.disconnect()
-
-    asyncio.run(run_seed())
+    Abilities are now seeded via:
+    - 'fierylib import-legacy' - imports from legacy lib/ files
+    - 'fierylib seed magic-system' - imports from data/*.json files
+    """
+    click.echo("❌ This command has been deprecated.")
+    click.echo("")
+    click.echo("The all_spell_implementations.json file was removed because it")
+    click.echo("contained incorrect damage type mappings.")
+    click.echo("")
+    click.echo("Use one of these alternatives instead:")
+    click.echo("  fierylib import-legacy     - Import from legacy lib/ files")
+    click.echo("  fierylib seed magic-system - Import from data/*.json files")
+    click.echo("")
+    click.echo("The authoritative source for ability metadata is now:")
+    click.echo("  docs/extraction-reports/abilities.csv (from skills.cpp)")
 
 
 @seed.command(name="skills")
@@ -1152,6 +1185,459 @@ def seed_skills(dry_run: bool):
     click.echo("=" * 60)
     click.echo("⚠️  Skill seeder not yet implemented")
     click.echo("   Skills should be imported from skills.cpp similar to classes/races")
+
+
+@seed.command(name="effects")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Preview effects without importing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_effects(dry_run: bool, verbose: bool):
+    """Seed the 18 consolidated parameterized effects from data/effects.json.
+
+    Creates reusable effects that spells and abilities can link to:
+    - Combat: damage (instant/DoT/chain/lifesteal), heal, modify (all stat mods)
+    - Status: status (simple/CC/stealth/detection/resistance/reflect)
+    - Utility: cleanse, dispel, reveal, globe
+    - Movement: teleport, extract, move, interrupt
+    - Creation: create, summon, resurrect
+    - Transform: transform (shapechange), enchant (apply to objects)
+    - Room: room (effects + barriers)
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.effects_seeder import EffectsSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Magic System Effects")
+        click.echo("=" * 60)
+
+        if dry_run:
+            click.echo("DRY RUN - No database changes will be made\n")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = EffectsSeeder(prisma)
+
+            # Seed toolbox categories first (builds the category mapping)
+            click.echo("\n📁 Seeding Toolbox Categories...")
+            cat_stats = await seeder.seed_toolbox_categories(dry_run=dry_run, verbose=verbose)
+            if not dry_run:
+                click.echo(f"   Categories: {cat_stats['created']} created, {cat_stats['updated']} updated")
+
+            # Seed effects (uses category mapping from above)
+            click.echo("\n📦 Seeding Effects...")
+            stats = await seeder.seed(dry_run=dry_run, verbose=verbose)
+
+            # Summary
+            click.echo(f"\n{'='*60}")
+            click.echo("Seeding Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Toolbox Categories:")
+            click.echo(f"    Created:  {cat_stats['created']}")
+            click.echo(f"    Updated:  {cat_stats['updated']}")
+            click.echo(f"  Effects:")
+            click.echo(f"    Total:    {stats['total']}")
+            click.echo(f"    Created:  {stats['created']}")
+            click.echo(f"    Updated:  {stats['updated']}")
+            click.echo(f"    Skipped:  {stats['skipped']}")
+
+            if stats['errors'] > 0:
+                click.echo(f"    Errors:   {stats['errors']} ⚠️")
+            else:
+                click.echo(f"    Errors:   0 ✅")
+
+            if dry_run:
+                click.echo(f"\n(Dry run - no database changes made)")
+            else:
+                click.echo(f"\n✅ Effects seeding complete!")
+
+            # Show categories breakdown
+            click.echo(f"\n📚 Consolidated 18 Effects:")
+            click.echo(f"   Combat (3):     damage, heal, modify")
+            click.echo(f"   Status (1):     status (simple/CC/stealth/detect/resist/reflect)")
+            click.echo(f"   Utility (4):    cleanse, dispel, reveal, globe")
+            click.echo(f"   Movement (4):   teleport, extract, move, interrupt")
+            click.echo(f"   Creation (3):   create, summon, resurrect")
+            click.echo(f"   Transform (2):  transform, enchant")
+            click.echo(f"   Room (1):       room (effects + barriers)")
+
+        except Exception as e:
+            click.echo(f"❌ Error: {e}")
+            if verbose:
+                import traceback
+                traceback.print_exc()
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="magic-system")
+@click.option(
+    "--verbose", "-v",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+@click.option(
+    "--data-dir",
+    type=click.Path(exists=True),
+    default=None,
+    help="Path to data directory containing effects.json and abilities.json",
+)
+def seed_magic_system(verbose: bool, data_dir: str | None):
+    """Import effects and abilities from JSON files.
+
+    This is the primary way to seed the magic system. It reads from:
+    - data/effects.json - 18 consolidated parameterized effect definitions
+    - data/abilities.json - All abilities with their effect links
+    - data/forms.json - Transform form templates (optional)
+
+    The JSON files are the source of truth for the magic system.
+    """
+    import asyncio
+    from pathlib import Path
+    from fierylib.importers.magic_system_importer import import_magic_system
+
+    async def run():
+        click.echo("=" * 60)
+        click.echo("Importing Magic System from JSON")
+        click.echo("=" * 60)
+
+        path = Path(data_dir) if data_dir else None
+        stats = await import_magic_system(data_dir=path, verbose=verbose)
+
+        click.echo("\n" + "=" * 60)
+        click.echo("Import Summary")
+        click.echo("=" * 60)
+        click.echo(f"  Effects created:     {stats['effects_created']}")
+        click.echo(f"  Effects updated:     {stats['effects_updated']}")
+        click.echo(f"  Abilities created:   {stats['abilities_created']}")
+        click.echo(f"  Abilities updated:   {stats['abilities_updated']}")
+        click.echo(f"  Effect links:        {stats['effect_links_created']}")
+        if stats['errors'] > 0:
+            click.echo(f"  Errors:              {stats['errors']} ⚠️")
+        else:
+            click.echo(f"  Errors:              0 ✅")
+        click.echo("\n✅ Import complete!")
+
+    asyncio.run(run())
+
+
+@seed.command(name="ability-descriptions")
+@click.option(
+    "--verbose", "-v",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Show what would change without updating",
+)
+@click.option(
+    "--help-dir",
+    type=click.Path(exists=True),
+    default=None,
+    help="Path to help files directory (default: fierymud/legacy/lib/text/help/)",
+)
+def seed_ability_descriptions(verbose: bool, dry_run: bool, help_dir: str | None):
+    """Update ability descriptions from help files.
+
+    Parses CircleMUD help files (.hlp) and updates ability descriptions
+    in the database with the matching help text.
+
+    Also updates sphere information if available in help entries.
+    """
+    import asyncio
+    from pathlib import Path
+    from fierylib.importers.magic_system_importer import update_descriptions_from_help_files
+
+    # Default help directory
+    if help_dir is None:
+        # Try to find fierymud help directory
+        default_paths = [
+            Path("/home/strider/Code/mud/fierymud/legacy/lib/text/help"),
+            Path("../fierymud/legacy/lib/text/help"),
+        ]
+        for p in default_paths:
+            if p.exists():
+                help_dir = str(p)
+                break
+
+    if help_dir is None:
+        click.echo("Error: Could not find help directory. Please specify --help-dir")
+        return
+
+    async def run():
+        click.echo("=" * 60)
+        click.echo("Updating Ability Descriptions from Help Files")
+        click.echo("=" * 60)
+
+        if dry_run:
+            click.echo("\n*** DRY RUN - No changes will be made ***\n")
+
+        stats = await update_descriptions_from_help_files(
+            Path(help_dir), verbose, dry_run
+        )
+
+        click.echo("\n" + "=" * 60)
+        click.echo("Update Summary")
+        click.echo("=" * 60)
+        click.echo(f"  Matched:         {stats['matched']}")
+        click.echo(f"  Updated:         {stats['updated']}")
+        click.echo(f"  No match found:  {stats['skipped_no_match']}")
+        click.echo(f"  Same/no change:  {stats['skipped_same']}")
+        if stats['errors'] > 0:
+            click.echo(f"  Errors:          {stats['errors']} ⚠️")
+        else:
+            click.echo(f"  Errors:          0 ✅")
+        click.echo("\n✅ Update complete!")
+
+    asyncio.run(run())
+
+
+@seed.command(name="help-entries")
+@click.option(
+    "--verbose", "-v",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+@click.option(
+    "--clear",
+    is_flag=True,
+    default=False,
+    help="Clear existing help entries before import",
+)
+@click.option(
+    "--help-dir",
+    type=click.Path(exists=True),
+    default=None,
+    help="Path to help files directory (default: fierymud/legacy/lib/text/help/)",
+)
+def seed_help_entries(verbose: bool, clear: bool, help_dir: str | None):
+    """Import help entries from CircleMUD help files.
+
+    Parses all .hlp files and imports them into the HelpEntry table.
+    These can then be viewed and edited in Muditor.
+    """
+    import asyncio
+    from pathlib import Path
+    from fierylib.importers.help_importer import import_help_entries
+
+    # Default help directory
+    if help_dir is None:
+        default_paths = [
+            Path("/home/strider/Code/mud/fierymud/legacy/lib/text/help"),
+            Path("../fierymud/legacy/lib/text/help"),
+        ]
+        for p in default_paths:
+            if p.exists():
+                help_dir = str(p)
+                break
+
+    if help_dir is None:
+        click.echo("Error: Could not find help directory. Please specify --help-dir")
+        return
+
+    async def run():
+        click.echo("=" * 60)
+        click.echo("Importing Help Entries from Help Files")
+        click.echo("=" * 60)
+
+        stats = await import_help_entries(
+            Path(help_dir), verbose, clear
+        )
+
+        click.echo("\n" + "=" * 60)
+        click.echo("Import Summary")
+        click.echo("=" * 60)
+        click.echo(f"  Created:  {stats['created']}")
+        click.echo(f"  Updated:  {stats['updated']}")
+        if stats['errors'] > 0:
+            click.echo(f"  Errors:   {stats['errors']} ⚠️")
+        else:
+            click.echo(f"  Errors:   0 ✅")
+        click.echo("\n✅ Import complete!")
+
+    asyncio.run(run())
+
+
+@seed.command(name="ability-effects")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Preview links without writing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress for each ability",
+)
+def seed_ability_effects(dry_run: bool, verbose: bool):
+    """Link abilities to their effects from data/abilities.json.
+
+    Creates AbilityEffect records linking abilities to their parameterized
+    effects based on the effects array in abilities.json.
+
+    Each effect entry has: effect (name), order, params, trigger.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.abilities_seeder import AbilitiesSeeder, load_abilities_from_json
+
+    async def run_link():
+        abilities_data = load_abilities_from_json()
+        abilities_with_effects = sum(1 for a in abilities_data if a.get("effects"))
+
+        click.echo("🔗 Linking Abilities to Effects")
+        click.echo("=" * 60)
+        click.echo(f"  Found {len(abilities_data)} abilities ({abilities_with_effects} with effects)")
+
+        if dry_run:
+            click.echo("\nDRY RUN - No database changes will be made\n")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = AbilitiesSeeder(prisma)
+            stats = await seeder.link_ability_effects(dry_run=dry_run, verbose=verbose)
+
+            # Summary
+            click.echo(f"\n{'='*60}")
+            click.echo("Linking Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Abilities linked:   {stats['linked']}")
+            click.echo(f"  Effects created:    {stats['effects_created']}")
+            click.echo(f"  Skipped (no fx):    {stats['skipped']}")
+            click.echo(f"  Errors:             {stats['errors']}")
+
+            if dry_run:
+                click.echo(f"\n(Dry run - no database changes made)")
+            else:
+                click.echo(f"\n✅ Ability effects linking complete!")
+
+        except Exception as e:
+            click.echo(f"❌ Error: {e}")
+            if verbose:
+                import traceback
+                traceback.print_exc()
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_link())
+
+
+@seed.command(name="socials")
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Parse and validate without importing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+@click.option(
+    "--clear",
+    is_flag=True,
+    default=False,
+    help="Clear all existing socials before importing",
+)
+def seed_socials(lib_path: str, dry_run: bool, verbose: bool, clear: bool):
+    """Import social commands from legacy lib/misc/socials file.
+
+    Converts legacy CircleMUD template codes ($n, $N, $m, etc.) to modern
+    readable syntax ({actor.name}, {target.pronoun.objective}, etc.).
+
+    See docs/MESSAGE_TEMPLATES.md for the template specification.
+    """
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.seeders import SocialsSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Social Commands")
+        click.echo("=" * 60)
+        click.echo(f"  Library path: {lib_path}")
+
+        if dry_run:
+            click.echo("  DRY RUN - No database changes will be made\n")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = SocialsSeeder(prisma)
+
+            # Optionally clear existing socials
+            if clear and not dry_run:
+                deleted = await seeder.clear_socials()
+                click.echo(f"  Cleared {deleted} existing socials")
+
+            # Import socials
+            stats = await seeder.seed_socials(
+                Path(lib_path),
+                dry_run=dry_run,
+                verbose=verbose,
+            )
+
+            # Summary
+            click.echo(f"\n{'='*60}")
+            click.echo("Import Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Parsed:   {stats['parsed']}")
+            click.echo(f"  Created:  {stats['imported']}")
+            click.echo(f"  Updated:  {stats['updated']}")
+            click.echo(f"  Skipped:  {stats['skipped']}")
+
+            if stats['errors'] > 0:
+                click.echo(f"  Errors:   {stats['errors']} ⚠️")
+                if verbose:
+                    for error in stats['error_details'][:10]:
+                        click.echo(f"    - {error}")
+                    if len(stats['error_details']) > 10:
+                        click.echo(f"    ... and {len(stats['error_details']) - 10} more")
+            else:
+                click.echo(f"  Errors:   0 ✅")
+
+            if dry_run:
+                click.echo(f"\n(Dry run - no database changes made)")
+            else:
+                click.echo(f"\n✅ Social seeding complete!")
+                click.echo(f"\n📚 Template syntax documented in: docs/MESSAGE_TEMPLATES.md")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
 
 
 @main.group()

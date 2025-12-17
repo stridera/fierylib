@@ -1,12 +1,25 @@
 """Skill and Spell seeding functionality for initial database setup"""
 
 import click
+import csv
 import re
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 from prisma import Prisma
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
 from fierylib.converters import normalize_skill_name
+from fierylib.converters.color_converter import strip_markup
+
+
+def code_to_display_name(code_name: str) -> str:
+    """Convert CODE_STYLE name to Display Style.
+
+    Examples:
+        ARMOR -> Armor
+        BURNING_HANDS -> Burning Hands
+        CURE_LIGHT -> Cure Light
+    """
+    return code_name.replace('_', ' ').title()
 
 
 class SkillSeeder:
@@ -15,6 +28,60 @@ class SkillSeeder:
     def __init__(self, prisma: Prisma):
         self.prisma = prisma
         self.spell_descriptions: Dict[str, str] = {}
+        self.extraction_data: Dict[str, Dict] = {}
+
+    def load_extraction_data(self) -> Dict[str, Dict]:
+        """
+        Load ability metadata from the extraction CSV.
+
+        The extraction CSV contains: damageType, minPosition, violent, canUseInCombat
+        which are needed for proper ability configuration.
+
+        Returns:
+            Dictionary mapping ability names (lowercase) to their metadata
+        """
+        extraction_path = Path(__file__).parents[3] / "docs" / "extraction-reports" / "abilities.csv"
+
+        if not extraction_path.exists():
+            click.echo(f"    ⚠️  Extraction data not found: {extraction_path}")
+            return {}
+
+        data = {}
+        try:
+            with open(extraction_path, 'r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    # Key by lowercase name (matches the 'name' column)
+                    name_key = row.get('name', '').lower().replace(' ', '_').replace("'", '')
+                    if name_key:
+                        data[name_key] = {
+                            'damageType': row.get('damageType', ''),
+                            'minPosition': row.get('minPosition', 'STANDING'),
+                            'violent': row.get('violent', 'false').lower() == 'true',
+                            'combatOk': row.get('canUseInCombat', 'true').lower() == 'true',
+                            'category': row.get('category', ''),
+                            'targetType': row.get('targetType', ''),
+                            'targetScope': row.get('targetScope', ''),
+                        }
+            click.echo(f"    ✅ Loaded {len(data)} abilities from extraction data")
+        except Exception as e:
+            click.echo(f"    ⚠️  Error loading extraction data: {e}")
+
+        return data
+
+    def get_extraction_info(self, plain_name: str) -> Optional[Dict]:
+        """Look up extraction data for an ability by its plain name."""
+        # Try various key formats
+        name_lower = plain_name.lower().replace('_', '_')
+        keys_to_try = [
+            name_lower,
+            name_lower.replace('_', ' '),
+            plain_name.lower(),
+        ]
+        for key in keys_to_try:
+            if key in self.extraction_data:
+                return self.extraction_data[key]
+        return None
 
     def parse_spell_help_file(self, help_file_path: Path) -> Dict[str, str]:
         """
@@ -100,6 +167,29 @@ class SkillSeeder:
 
         return descriptions
 
+    def map_damage_type(self, damage_type_str: str) -> Optional[str]:
+        """Map extraction damage type to Prisma ElementType enum value."""
+        if not damage_type_str or damage_type_str == "NONE":
+            return None
+
+        # Map from extraction CSV values to Prisma ElementType enum values
+        # Valid values: PHYSICAL, FIRE, COLD, ACID, SHOCK, POISON, MAGIC, HOLY, UNHOLY, MENTAL, HEAL
+        mapping = {
+            "FIRE": "FIRE",
+            "COLD": "COLD",
+            "ACID": "ACID",
+            "SHOCK": "SHOCK",
+            "POISON": "POISON",
+            "MENTAL": "MENTAL",
+            "ALIGN": "HOLY",  # ALIGN -> HOLY (alignment-based damage)
+            "PHYSICAL_BLUNT": "PHYSICAL",
+            "PHYSICAL_PIERCE": "PHYSICAL",
+            "PHYSICAL_SLASH": "PHYSICAL",
+            "MAGIC": "MAGIC",
+            "NONE": None,
+        }
+        return mapping.get(damage_type_str)
+
     async def seed_spells(self, skip_existing: bool = True, help_file_path: Path = None) -> dict:
         """
         Create all spells from legacy SPELLS definitions into Ability table
@@ -112,6 +202,9 @@ class SkillSeeder:
             Dictionary with created spell counts
         """
         click.echo("  Seeding spells to Ability table...")
+
+        # Load extraction data for ability metadata
+        self.extraction_data = self.load_extraction_data()
 
         # Parse spell descriptions if help file provided
         if help_file_path and help_file_path.exists():
@@ -132,26 +225,43 @@ class SkillSeeder:
                 continue
 
             spell_id = i + 1  # Spell IDs start at 1
-            name = spell_name  # No prefix for spells
+            plain_name = spell_name  # CODE_STYLE for unique key (ARMOR)
+            display_name = code_to_display_name(spell_name)  # Display Style (Armor)
 
-            # Check if spell already exists
+            # Check if spell already exists by plainName (the unique key)
             if skip_existing:
-                existing = await self.prisma.ability.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"plainName": plain_name})
                 if existing:
                     continue
 
             # Get description from help file or use default
-            normalized_name = name.replace(' ', '_').replace('-', '_')
-            description = self.spell_descriptions.get(normalized_name, f"Spell: {name}")
+            normalized_name = plain_name.replace(' ', '_').replace('-', '_')
+            description = self.spell_descriptions.get(normalized_name, f"Spell: {display_name}")
 
-            await self.prisma.ability.create(
-                data={
-                    "name": name,
-                    "description": description,
-                    "abilityType": "SPELL",
-                    "notes": description,
-                }
-            )
+            # Get extraction data for this ability
+            extraction_info = self.get_extraction_info(plain_name)
+
+            # Build ability data with extraction info
+            ability_data = {
+                "name": display_name,  # Display name: "Armor"
+                "plainName": plain_name,  # Unique key: "ARMOR"
+                "description": description,
+                "abilityType": "SPELL",
+                "notes": description,
+            }
+
+            # Apply extraction data if available
+            if extraction_info:
+                ability_data["violent"] = extraction_info.get("violent", False)
+                ability_data["combatOk"] = extraction_info.get("combatOk", True)
+                ability_data["minPosition"] = extraction_info.get("minPosition", "STANDING")
+
+                # Map damage type to enum
+                damage_type = self.map_damage_type(extraction_info.get("damageType", ""))
+                if damage_type:
+                    ability_data["damageType"] = damage_type
+
+            await self.prisma.ability.create(data=ability_data)
             spells_created += 1
 
         click.echo(f"    ✅ Created {spells_created} spells")
@@ -177,6 +287,10 @@ class SkillSeeder:
         """
         click.echo("  Seeding physical skills, songs, and chants to Ability table...")
 
+        # Load extraction data if not already loaded
+        if not self.extraction_data:
+            self.extraction_data = self.load_extraction_data()
+
         skills_created = 0
         songs_created = 0
         chants_created = 0
@@ -190,16 +304,17 @@ class SkillSeeder:
                 continue
 
             skill_id = i + 401  # Player skills start at 401
-            name = normalize_skill_name(skill_base_name)  # Apply normalization (e.g., 2H_ → TWO_HAND_)
+            plain_name = normalize_skill_name(skill_base_name)  # CODE_STYLE key
+            display_name = code_to_display_name(plain_name)  # Display Style
 
-            # Check if skill already exists
+            # Check if skill already exists by plainName
             if skip_existing:
-                existing = await self.prisma.ability.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"plainName": plain_name})
                 if existing:
                     continue
 
             # Build description
-            description = f"Player skill: {skill_base_name.replace('_', ' ').title()}"
+            description = f"Player skill: {display_name}"
 
             # Add tags based on skill type
             tags = []
@@ -214,14 +329,24 @@ class SkillSeeder:
             elif any(keyword in skill_base_name.upper() for keyword in ['MOUNT', 'RIDING', 'BANDAGE', 'FIRST_AID', 'FORAGE', 'SWIM']):
                 tags.append("survival")
 
-            await self.prisma.ability.create(
-                data={
-                    "name": name,
-                    "description": description,
-                    "abilityType": "SKILL",
-                    "tags": tags,
-                }
-            )
+            # Get extraction data for this skill
+            extraction_info = self.get_extraction_info(plain_name)
+
+            ability_data = {
+                "name": display_name,  # Display name
+                "plainName": plain_name,  # Unique key
+                "description": description,
+                "abilityType": "SKILL",
+                "tags": tags,
+            }
+
+            # Apply extraction data if available
+            if extraction_info:
+                ability_data["violent"] = extraction_info.get("violent", False)
+                ability_data["combatOk"] = extraction_info.get("combatOk", True)
+                ability_data["minPosition"] = extraction_info.get("minPosition", "STANDING")
+
+            await self.prisma.ability.create(data=ability_data)
             skills_created += 1
 
         click.echo(f"    ✅ Created {skills_created} player skills")
@@ -235,22 +360,33 @@ class SkillSeeder:
                 continue
 
             skill_id = i + 551  # Bardic songs start at 551
-            name = normalize_skill_name(song_base_name)  # Apply normalization
+            plain_name = normalize_skill_name(song_base_name)  # CODE_STYLE key
+            display_name = code_to_display_name(plain_name)  # Display Style
 
-            # Check if skill already exists
+            # Check if skill already exists by plainName
             if skip_existing:
-                existing = await self.prisma.ability.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"plainName": plain_name})
                 if existing:
                     continue
 
-            await self.prisma.ability.create(
-                data={
-                    "name": name,
-                    "description": f"Bardic song: {song_base_name.replace('_', ' ').title()}",
-                    "abilityType": "SONG",
-                    "tags": ["bardic", "performance"],
-                }
-            )
+            # Get extraction data for this song
+            extraction_info = self.get_extraction_info(plain_name)
+
+            ability_data = {
+                "name": display_name,  # Display name
+                "plainName": plain_name,  # Unique key
+                "description": f"Bardic song: {display_name}",
+                "abilityType": "SONG",
+                "tags": ["bardic", "performance"],
+            }
+
+            # Apply extraction data if available
+            if extraction_info:
+                ability_data["violent"] = extraction_info.get("violent", False)
+                ability_data["combatOk"] = extraction_info.get("combatOk", True)
+                ability_data["minPosition"] = extraction_info.get("minPosition", "STANDING")
+
+            await self.prisma.ability.create(data=ability_data)
             songs_created += 1
 
         click.echo(f"    ✅ Created {songs_created} bardic songs")
@@ -264,22 +400,33 @@ class SkillSeeder:
                 continue
 
             skill_id = i + 601  # Monk chants start at 601
-            name = normalize_skill_name(chant_base_name)  # Apply normalization
+            plain_name = normalize_skill_name(chant_base_name)  # CODE_STYLE key
+            display_name = code_to_display_name(plain_name)  # Display Style
 
-            # Check if skill already exists
+            # Check if skill already exists by plainName
             if skip_existing:
-                existing = await self.prisma.ability.find_first(where={"name": name})
+                existing = await self.prisma.ability.find_first(where={"plainName": plain_name})
                 if existing:
                     continue
 
-            await self.prisma.ability.create(
-                data={
-                    "name": name,
-                    "description": f"Monk chant: {chant_base_name.replace('_', ' ').title()}",
-                    "abilityType": "CHANT",
-                    "tags": ["monk", "ki"],
-                }
-            )
+            # Get extraction data for this chant
+            extraction_info = self.get_extraction_info(plain_name)
+
+            ability_data = {
+                "name": display_name,  # Display name
+                "plainName": plain_name,  # Unique key
+                "description": f"Monk chant: {display_name}",
+                "abilityType": "CHANT",
+                "tags": ["monk", "ki"],
+            }
+
+            # Apply extraction data if available
+            if extraction_info:
+                ability_data["violent"] = extraction_info.get("violent", False)
+                ability_data["combatOk"] = extraction_info.get("combatOk", True)
+                ability_data["minPosition"] = extraction_info.get("minPosition", "STANDING")
+
+            await self.prisma.ability.create(data=ability_data)
             chants_created += 1
 
         click.echo(f"    ✅ Created {chants_created} monk chants")

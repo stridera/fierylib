@@ -1,0 +1,15 @@
+Object_Type,Effect_Fields,Description,IDL_Mapping
+ARMOR,AC,Provides armor class protection,stat_mod (eva/ward based on armor weight)
+CONTAINER,"Capacity, Container_Flags, Key_Vnum","Holds other objects, may be locked",N/A (storage)
+DRINKCONTAINER,"Capacity, Current, Liquid_Type, Poisoned","Holds liquid, may be poisoned",status_apply (poison) if poisoned
+FOOD,"Filling, Poisoned","Restores hunger, may be poisoned","resource_mod (hunger), status_apply (poison) if poisoned"
+INSTRUMENT,"Instrument_Type, Quality","Used for bard songs, quality affects performance",Enables Ability use (songs)
+LIGHT,Duration,Provides illumination for duration hours,room_effect (light)
+PORTAL,Destination,Teleports user to destination room,teleport
+POTION,"Level, Spells",Single-use consumable casting up to 3 spells on drinker,Linked Ability effects (self-target)
+SCROLL,"Level, Spells",Single-use item casting up to 3 spells,Linked Ability effects
+SPELLBOOK,Spells,Contains spell pages for learning,N/A (learning)
+STAFF,"Level, Spell, Max_Charges, Charges_Left",Multi-use item casting one spell with charges (area effect),Linked Ability effects
+TRAP,"Trap_Type, Damage, Trigger",Deals damage or effect when triggered,damage or status_apply
+WAND,"Level, Spell, Max_Charges, Charges_Left",Multi-use item casting one spell with charges,Linked Ability effects
+WEAPON,"Hit Dice, Damage Type, HitRoll",Deals damage with dice roll and damage type,damage (via weapon attack)

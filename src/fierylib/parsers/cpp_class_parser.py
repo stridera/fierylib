@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 import click
 from mud.flags import SKILLS
+from fierylib.converters.color_converter import convert_legacy_colors, strip_legacy_colors
 
 
 class CppClassParser:
@@ -120,9 +121,16 @@ class CppClassParser:
 
             class_name = name_match.group(1)
 
-            # Extract display name (contains & color codes)
+            # Extract display name and convert legacy color codes to XML-Lite format
             display_match = re.search(r'\"([^\"]*&[^\"]+)\"', struct_content)
-            display_name = display_match.group(1) if display_match else None
+            if display_match:
+                raw_name = display_match.group(1)
+                # Generate both versions:
+                name = convert_legacy_colors(raw_name)  # With XML-Lite colors
+                plain_name = strip_legacy_colors(raw_name)  # Without colors
+            else:
+                name = None
+                plain_name = None
 
             # Extract homeroom
             homeroom_match = re.search(r'(\d{4}),\s*/\*\s*homeroom', struct_content)
@@ -137,8 +145,9 @@ class CppClassParser:
 
             class_data = {
                 'id': class_index,
-                'name': class_name,
-                'displayName': display_name,
+                'name': name,  # Display name with XML-Lite colors
+                'plainName': plain_name,  # Plain text name
+                'className': class_name,  # Internal identifier (lowercase, no colors)
                 'magical': magical,
                 'active': active,
                 'isSubclass': isSubclass,

@@ -17,7 +17,7 @@ from mud.types.world import World
 from prisma import Prisma  # runtime client type
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
 
 
 class RoomImporter:
@@ -147,6 +147,10 @@ class RoomImporter:
             }
 
         try:
+            # Convert legacy color codes to XML-Lite markup
+            room_name = convert_legacy_colors(room["name"])
+            room_description = convert_legacy_colors(room["description"])
+
             # Upsert room with composite key
             room_record = await self.prisma.room.upsert(
                 where={
@@ -159,14 +163,16 @@ class RoomImporter:
                     "create": {
                         "zoneId": zone_id,
                         "id": vnum,
-                        "name": room["name"],
-                        "roomDescription": room["description"],
+                        "name": room_name,
+                        "roomDescription": room_description,
+                        "plainRoomDescription": strip_markup(room_description),
                         "sector": sector,
                         "flags": flags,
                     },
                     "update": {
-                        "name": room["name"],
-                        "roomDescription": room["description"],
+                        "name": room_name,
+                        "roomDescription": room_description,
+                        "plainRoomDescription": strip_markup(room_description),
                         "sector": sector,
                         "flags": {"set": flags},
                     },
@@ -391,6 +397,9 @@ class RoomImporter:
         """
         keywords = " ".join(extra.keywords) if hasattr(extra, "keywords") else ""
         text = extra.text if hasattr(extra, "text") else ""
+
+        # Convert legacy color codes to XML-Lite markup
+        text = convert_legacy_colors(text)
 
         try:
             await self.prisma.roomExtraDescriptions.create(

@@ -1,0 +1,1752 @@
+generator client {
+  provider        = "prisma-client-py"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+generator py {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = "-1"
+}
+
+
+// ============================================================================
+// ABILITY SYSTEM (NEW)
+// ============================================================================
+
+model Ability {
+  id             Int      @id @default(autoincrement())
+  name           String   // Display name with color codes (XML-Lite format)
+  plainName      String   @unique @map("plain_name") // Plain text name - unique identifier
+  description    String?
+  abilityType    String   @default("SPELL") // Type: SPELL, SKILL, SONG, CHANT
+  schoolId       Int?     @map("school_id")
+  minPosition    Position @default(STANDING)
+  violent        Boolean  @default(false)
+  castTimeRounds Int      @default(1) @map("cast_time_rounds")
+  cooldownMs     Int      @default(0) @map("cooldown_ms")
+  inCombatOnly   Boolean  @default(false) @map("in_combat_only")
+  combatOk       Boolean  @default(true) @map("combat_ok") // Can be used during combat
+  isArea         Boolean  @default(false) @map("is_area")
+  notes          String?
+  tags           String[] @default([])
+  luaScript      String?  @map("lua_script") @db.Text
+
+  // --- Spell metadata ---
+  sphere          SpellSphere? // Spell sphere: fire, water, healing, etc.
+  damageType      ElementType? @map("damage_type") // Primary damage type for display
+  pages           Int?         // Spellbook pages required to scribe
+  memorizationTime Int         @default(0) @map("memorization_time") // Additional memorization rounds
+  questOnly       Boolean      @default(false) @map("quest_only") // Quest-restricted ability
+  humanoidOnly    Boolean      @default(false) @map("humanoid_only") // Only available to humanoids
+
+  // --- Relationships ---
+  effects            AbilityEffect[]
+  school             AbilitySchool?       @relation(fields: [schoolId], references: [id])
+  characterAbilities CharacterAbilities[]
+  mobAbilities       MobAbilities[]
+  classAbilities     ClassAbilities[]
+  classSkills        ClassSkills[]
+  components         AbilityComponent[]
+  messages           AbilityMessages?
+  restrictions       AbilityRestrictions?
+  savingThrows       AbilitySavingThrow[]
+  targeting          AbilityTargeting?
+  raceAbilities      RaceAbilities[]
+  objectAbilities    ObjectAbilities[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Effect {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  description   String?
+  effectType    String          // e.g., "damage", "heal", "status", "crowd_control"
+  tags          String[]        // e.g., ["damage", "elemental", "fire"] for filtering
+  defaultParams Json            @default("{}") @map("default_params")
+  paramSchema   Json?           @map("param_schema") // JSON Schema for validation
+  abilities     AbilityEffect[]
+
+  @@index([effectType])
+}
+
+model AbilityEffect {
+  abilityId      Int     @map("ability_id")
+  ability        Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+  effectId       Int     @map("effect_id")
+  effect         Effect  @relation(fields: [effectId], references: [id], onDelete: Cascade)
+  overrideParams Json?   @map("override_params")
+  order          Int     @default(0)
+  trigger        String? // e.g., "on_cast", "on_hit", "on_tick"
+  chancePct      Int     @default(100) @map("chance_pct")
+  condition      String? // Lua expression: "target.isUndead"
+
+  @@id([abilityId, effectId, order])
+}
+
+model AbilitySchool {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  abilities   Ability[]
+}
+
+model AbilityRestrictions {
+  id        Int     @id @default(autoincrement())
+  abilityId Int     @unique @map("ability_id")
+  ability   Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  requirements         Json[]  @default([])
+  customRequirementLua String? @map("custom_requirement_lua")
+}
+
+model AbilitySavingThrow {
+  id           Int      @id @default(autoincrement())
+  abilityId    Int      @map("ability_id")
+  ability      Ability  @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+  saveType     SaveType @default(SPELL)
+  dcFormula    String   @map("dc_formula")
+  onSaveAction Json     @default("\"NEGATE\"") @map("on_save_action")
+}
+
+model AbilityTargeting {
+  id           Int          @id @default(autoincrement())
+  abilityId    Int          @unique @map("ability_id")
+  ability      Ability      @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+  validTargets TargetType[] @default([SELF]) @map("valid_targets")
+  scope        TargetScope  @default(SINGLE)
+  scopePattern String?      @map("scope_pattern")
+  maxTargets   Int          @default(1) @map("max_targets")
+  range        Int          @default(0)
+  requireLos   Boolean      @default(false) @map("require_los")
+}
+
+model AbilityMessages {
+  id              Int     @id @default(autoincrement())
+  abilityId       Int     @unique @map("ability_id")
+  startToCaster   String? @map("start_to_caster")
+  startToVictim   String? @map("start_to_victim")
+  startToRoom     String? @map("start_to_room")
+  successToCaster String? @map("success_to_caster")
+  successToVictim String? @map("success_to_victim")
+  successToRoom   String? @map("success_to_room")
+  failToCaster    String? @map("fail_to_caster")
+  failToVictim    String? @map("fail_to_victim")
+  failToRoom      String? @map("fail_to_room")
+  wearoffToTarget String? @map("wearoff_to_target")
+  wearoffToRoom   String? @map("wearoff_to_room")
+  ability         Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+}
+
+model AbilityComponent {
+  id        Int     @id @default(autoincrement())
+  abilityId Int     @map("ability_id")
+  objectId  Int     @map("object_id")
+  consumed  Boolean @default(false)
+  required  Boolean @default(true)
+  ability   Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+}
+
+model ObjectAbilities {
+  id           Int     @id @default(autoincrement())
+  abilityId    Int     @map("ability_id")
+  level        Int     @default(1)
+  objectZoneId Int     @map("object_zone_id")
+  objectId     Int     @map("object_id")
+  charges      Int?
+  objects      Objects @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+  ability      Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@unique([objectZoneId, objectId, abilityId])
+}
+
+model ClassAbilityCircles {
+  id             Int            @id @default(autoincrement())
+  classId        Int            @map("class_id")
+  circle         Int
+  minLevel       Int            @map("min_level")
+  characterClass CharacterClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, circle])
+}
+
+model ClassAbilities {
+  id             Int            @id @default(autoincrement())
+  classId        Int            @map("class_id")
+  abilityId      Int            @map("ability_id")
+  circle         Int
+  characterClass CharacterClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  ability        Ability        @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, abilityId])
+}
+
+model ClassSkills {
+  id             Int            @id @default(autoincrement())
+  classId        Int            @map("class_id")
+  abilityId      Int            @map("ability_id")
+  minLevel       Int            @map("min_level")
+  characterClass CharacterClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  ability        Ability        @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, abilityId])
+}
+
+model CharacterAbilities {
+  id          Int        @id @default(autoincrement())
+  characterId String     @map("character_id")
+  abilityId   Int        @map("ability_id")
+  known       Boolean    @default(false)
+  proficiency Int        @default(0)
+  lastUsed    DateTime?  @map("last_used")
+  character   Characters @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  ability     Ability    @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, abilityId])
+}
+
+model MobAbilities {
+  id        Int     @id @default(autoincrement())
+  mobZoneId Int     @map("mob_zone_id")
+  mobId     Int     @map("mob_id")
+  abilityId Int     @map("ability_id")
+  circle    Int     @default(1)
+  known     Boolean @default(true)
+  mob       Mobs    @relation(fields: [mobZoneId, mobId], references: [zoneId, id], onDelete: Cascade)
+  ability   Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@unique([mobZoneId, mobId, abilityId])
+}
+
+// ============================================================================
+// EXISTING MODELS
+// ============================================================================
+
+model CharacterClass {
+  id                  Int                   @id @default(autoincrement())
+  name                String                // Display name with color codes (XML-Lite format)
+  plainName           String                @unique @map("plain_name") // Plain text name - unique identifier
+  description         String?
+  hitDice             String                @default("1d8") @map("hit_dice")
+  primaryStat         String?               @map("primary_stat")
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime              @updatedAt @map("updated_at")
+  characters          Characters[]
+  classSkills         ClassSkills[]
+  classAbilities      ClassAbilities[]
+  classAbilityCircles ClassAbilityCircles[]
+  mobs                Mobs[]
+
+  @@map("Class")
+}
+
+// ============================================================================
+// HELP SYSTEM
+// ============================================================================
+
+model HelpEntry {
+  id          Int      @id @default(autoincrement())
+  keywords    String[] // Multiple keywords for lookup (e.g., ["FIREBALL", "FIRE BALL"])
+  title       String   // Primary display title
+  content     String   @db.Text // Full help text content
+  minLevel    Int      @default(0) @map("min_level") // 0 = all players, 100+ = immortal only
+  category    String?  // Optional category for organization (e.g., "spell", "skill", "command")
+
+  // Parsed metadata (for spell/skill entries)
+  usage       String?  // Usage syntax
+  duration    String?  // Duration description
+  sphere      String?  // Spell sphere (fire, water, healing, etc.)
+  classes     Json?    // Class/circle requirements as JSON (e.g., {"Pyromancer": 7, "Sorcerer": 3})
+
+  // Tracking
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  sourceFile  String?  @map("source_file") // Original help file this came from
+
+  @@index([keywords], type: Gin)
+  @@map("HelpEntry")
+}
+
+model AuditLogs {
+  id         String   @id
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  oldValues  Json?    @map("old_values")
+  newValues  Json?    @map("new_values")
+  userId     String   @map("user_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  users      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BanRecords {
+  id           String    @id
+  userId       String    @map("user_id")
+  bannedBy     String    @map("banned_by")
+  reason       String
+  bannedAt     DateTime  @default(now()) @map("banned_at")
+  expiresAt    DateTime? @map("expires_at")
+  unbannedAt   DateTime? @map("unbanned_at")
+  unbannedBy   String?   @map("unbanned_by")
+  active       Boolean   @default(true)
+  bannedByUser Users     @relation("bannedByUser", fields: [bannedBy], references: [id])
+  user         Users     @relation("userBanRecords", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([active])
+  @@index([bannedAt])
+  @@index([bannedBy])
+  @@index([userId])
+}
+
+model ChangeLogs {
+  id          Int      @id @default(autoincrement())
+  entityType  String   @map("entity_type")
+  entityId    String   @map("entity_id")
+  action      String
+  changes     Json     @default("{}")
+  userId      String   @map("user_id")
+  timestamp   DateTime @default(now())
+  description String?
+  users       Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([entityType, entityId])
+  @@index([timestamp])
+  @@index([userId, timestamp])
+}
+
+model CharacterEffects {
+  id           Int        @id @default(autoincrement())
+  characterId  String     @map("character_id")
+  effectName   String     @map("effect_name")
+  effectType   String?    @map("effect_type")
+  duration     Int?
+  strength     Int        @default(1)
+  modifierData Json       @default("{}") @map("modifier_data")
+  sourceType   String?    @map("source_type")
+  sourceId     Int?       @map("source_id")
+  appliedAt    DateTime   @default(now()) @map("applied_at")
+  expiresAt    DateTime?  @map("expires_at")
+  characters   Characters @relation(fields: [characterId], references: [id], onDelete: Cascade)
+}
+
+model CharacterItems {
+  id                       Int              @id @default(autoincrement())
+  characterId              String           @map("character_id")
+  objectZoneId             Int              @map("object_zone_id")
+  objectId                 Int              @map("object_id")
+  containerId              Int?             @map("container_id")
+  equippedLocation         String?          @map("equipped_location")
+  condition                Int              @default(100)
+  charges                  Int              @default(-1)
+  instanceFlags            String[]         @default([]) @map("instance_flags")
+  customName               String?          @map("custom_name")
+  customExamineDescription String?          @map("custom_examine_description")
+  customValues             Json             @default("{}") @map("custom_values")
+  createdAt                DateTime         @default(now()) @map("created_at")
+  updatedAt                DateTime         @map("updated_at")
+  characters               Characters       @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  container                CharacterItems?  @relation("itemContainer", fields: [containerId], references: [id])
+  containedItems           CharacterItems[] @relation("itemContainer")
+  objects                  Objects          @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model Characters {
+  id                 String               @id
+  name               String               @unique
+  level              Int                  @default(1)
+  alignment          Int                  @default(0)
+  strength           Int                  @default(13)
+  intelligence       Int                  @default(13)
+  wisdom             Int                  @default(13)
+  dexterity          Int                  @default(13)
+  constitution       Int                  @default(13)
+  charisma           Int                  @default(13)
+  luck               Int                  @default(13)
+  hitPoints          Int                  @default(100) @map("hit_points")
+  movement           Int                  @default(100)
+  hitPointsMax       Int                  @default(100) @map("hit_points_max")
+  movementMax        Int                  @default(100) @map("movement_max")
+  copper             Int                  @default(0)
+  silver             Int                  @default(0)
+  gold               Int                  @default(0)
+  platinum           Int                  @default(0)
+  bankCopper         Int                  @default(0) @map("bank_copper")
+  bankSilver         Int                  @default(0) @map("bank_silver")
+  bankGold           Int                  @default(0) @map("bank_gold")
+  bankPlatinum       Int                  @default(0) @map("bank_platinum")
+  totalWealth        Int                  @default(0) @map("total_wealth")
+  averageStats       Int                  @default(13) @map("average_stats")
+  passwordHash       String               @default("") @map("password_hash")
+  raceType           String               @default("human") @map("race_type")
+  race               Race                 @default(HUMAN)
+  gender             String               @default("neutral")
+  playerClass        String?              @map("player_class")
+  height             Int?
+  weight             Int?
+  baseHeight         Int?                 @map("base_height")
+  baseWeight         Int?                 @map("base_weight")
+  baseSize           Int                  @default(0) @map("base_size")
+  currentSize        Int                  @default(0) @map("current_size")
+  hitRoll            Int                  @default(0) @map("hit_roll")
+  damageRoll         Int                  @default(0) @map("damage_roll")
+  armorClass         Int                  @default(10) @map("armor_class")
+  currentRoom        Int?                 @map("current_room")
+  saveRoom           Int?                 @map("save_room")
+  homeRoom           Int?                 @map("home_room")
+  lastLogin          DateTime?            @map("last_login")
+  timePlayed         Int                  @default(0) @map("time_played")
+  isOnline           Boolean              @default(false) @map("is_online")
+  hunger             Int                  @default(0)
+  thirst             Int                  @default(0)
+  description        String?
+  title              String?
+  prompt             String               @default("<%%h/%%Hhp %%v/%%Vmv>")
+  pageLength         Int                  @default(25) @map("page_length")
+  playerFlags        String[]             @default([]) @map("player_flags")
+  effectFlags        String[]             @default([]) @map("effect_flags")
+  privilegeFlags     String[]             @default([]) @map("privilege_flags")
+  olcZones           Int[]                @default([]) @map("olc_zones")
+  invisLevel         Int                  @default(0) @map("invis_level")
+  wimpyThreshold     Int                  @default(0) @map("wimpy_threshold")
+  freezeLevel        Int?                 @map("freeze_level")
+  autoInvisLevel     Int                  @default(0) @map("auto_invis_level")
+  birthTime          DateTime             @default(now()) @map("birth_time")
+  userId             String?              @map("user_id")
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+  classId            Int?                 @map("class_id")
+  experience         Int                  @default(0)
+  skillPoints        Int                  @default(0) @map("skill_points")
+  characterAliases   CharacterAliases[]
+  characterEffects   CharacterEffects[]
+  characterItems     CharacterItems[]
+  characterAbilities CharacterAbilities[]
+  characterPets      CharacterPets[]
+  characterClass     CharacterClass?      @relation(fields: [classId], references: [id])
+  users              Users?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model CharacterAliases {
+  id          Int        @id @default(autoincrement())
+  characterId String     @map("character_id")
+  alias       String
+  command     String
+  characters  Characters @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, alias])
+}
+
+model CharacterPets {
+  id                   String     @id @default(uuid())
+  characterId          String     @map("character_id")
+  mobPrototypeZoneId   Int        @map("mob_prototype_zone_id")
+  mobPrototypeVnum     Int        @map("mob_prototype_vnum")
+  name                 String     // Pet's current name (can be customized)
+  customDescription    String?    @map("custom_description") @db.Text
+  createdAt            DateTime   @default(now()) @map("created_at")
+
+  // Relationships
+  character            Characters @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  mobPrototype         Mobs       @relation(fields: [mobPrototypeZoneId, mobPrototypeVnum], references: [zoneId, id], onDelete: Cascade)
+
+  @@index([characterId])
+  @@index([mobPrototypeZoneId, mobPrototypeVnum])
+}
+
+model EquipmentSetItems {
+  id             Int           @id @default(autoincrement())
+  equipmentSetId Int           @map("equipment_set_id")
+  objectZoneId   Int           @map("object_zone_id")
+  objectId       Int           @map("object_id")
+  slot           String?
+  quantity       Int           @default(1)
+  probability    Float         @default(1.0)
+  equipment_sets EquipmentSets @relation(fields: [equipmentSetId], references: [id], onDelete: Cascade)
+  objects        Objects       @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model EquipmentSets {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  description       String?
+  createdAt         DateTime            @default(now()) @map("created_at")
+  updatedAt         DateTime            @updatedAt @map("updated_at")
+  equipmentSetItems EquipmentSetItems[]
+  mobEquipmentSets  MobEquipmentSets[]
+}
+
+model MobCarrying {
+  id           Int       @id @default(autoincrement())
+  max          Int       @default(1)
+  name         String?
+  objectZoneId Int       @map("object_zone_id")
+  objectId     Int       @map("object_id")
+  resetId      Int       @map("reset_id")
+  objects      Objects   @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+  mob_resets   MobResets @relation(fields: [resetId], references: [id], onDelete: Cascade)
+}
+
+model MobEquipmentSets {
+  id             Int           @id @default(autoincrement())
+  mobResetId     Int           @map("mob_reset_id")
+  equipmentSetId Int           @map("equipment_set_id")
+  probability    Float         @default(1.0)
+  equipment_sets EquipmentSets @relation(fields: [equipmentSetId], references: [id], onDelete: Cascade)
+  mob_resets     MobResets     @relation(fields: [mobResetId], references: [id], onDelete: Cascade)
+
+  @@unique([mobResetId, equipmentSetId])
+}
+
+model MobResetEquipment {
+  id           Int       @id @default(autoincrement())
+  maxInstances Int       @default(1) @map("max_instances")
+  wearLocation String?   @map("wear_location")
+  objectZoneId Int       @map("object_zone_id")
+  objectId     Int       @map("object_id")
+  resetId      Int       @map("reset_id")
+  probability  Float     @default(1.0)
+  objects      Objects   @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+  mob_resets   MobResets @relation(fields: [resetId], references: [id], onDelete: Cascade)
+}
+
+model MobResets {
+  id                Int                 @id @default(autoincrement())
+  maxInstances      Int                 @default(1) @map("max_instances")
+  comment           String?
+  mobZoneId         Int                 @map("mob_zone_id")
+  mobId             Int                 @map("mob_id")
+  roomZoneId        Int                 @map("room_zone_id")
+  roomId            Int                 @map("room_id")
+  zoneId            Int                 @map("zone_id")
+  probability       Float               @default(1.0)
+  resetBehavior     String              @default("PERSISTENT") @map("reset_behavior")
+  mobCarrying       MobCarrying[]
+  mobEquipmentSets  MobEquipmentSets[]
+  mobResetEquipment MobResetEquipment[]
+  mobs              Mobs                @relation(fields: [mobZoneId, mobId], references: [zoneId, id], onDelete: Cascade)
+  rooms             Room               @relation(fields: [roomZoneId, roomId], references: [zoneId, id], onDelete: Cascade)
+  zones             Zones               @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  spawnConditions   SpawnConditions[]
+}
+
+model Mobs {
+  id                 Int
+  keywords           String[]
+  name               String          @map("name")
+  plainName          String          @default("") @map("plain_name")
+  roomDescription    String          @map("room_description")
+  plainRoomDescription String        @default("") @map("plain_room_description")
+  examineDescription String          @map("examine_description")
+  plainExamineDescription String     @default("") @map("plain_examine_description")
+  alignment          Int             @default(0)
+  level              Int             @default(1)
+
+  // MOB ROLE CLASSIFICATION
+  role                      MobRole         @default(TRASH)
+
+  // LEGACY COMBAT STATS (to be removed after migration)
+  armorClass                Int             @default(0) @map("armor_class")
+  hitRoll                   Int             @default(0) @map("hit_roll")
+
+  // NEW OFFENSIVE STATS
+  accuracy                  Int             @default(0)
+  attackPower               Int             @default(0) @map("attack_power")
+  spellPower                Int             @default(0) @map("spell_power")
+  penetrationFlat           Int             @default(0) @map("penetration_flat")
+  penetrationPercent        Int             @default(0) @map("penetration_percent")
+
+  // NEW DEFENSIVE STATS
+  evasion                   Int             @default(0)
+  armorRating               Int             @default(0) @map("armor_rating")
+  damageReductionPercent    Int             @default(0) @map("damage_reduction_percent")
+  soak                      Int             @default(0)
+  hardness                  Int             @default(0)
+  wardPercent               Int             @default(0) @map("ward_percent")
+
+  // ELEMENTAL RESISTANCES
+  resistanceFire            Int             @default(0) @map("resistance_fire")
+  resistanceCold            Int             @default(0) @map("resistance_cold")
+  resistanceLightning       Int             @default(0) @map("resistance_lightning")
+  resistanceAcid            Int             @default(0) @map("resistance_acid")
+  resistancePoison          Int             @default(0) @map("resistance_poison")
+
+  move               Int             @default(0)
+  hpDiceNum          Int             @default(0) @map("hp_dice_num")
+  hpDiceSize         Int             @default(0) @map("hp_dice_size")
+  hpDiceBonus        Int             @default(0) @map("hp_dice_bonus")
+  damageDiceNum      Int             @default(0) @map("damage_dice_num")
+  damageDiceSize     Int             @default(0) @map("damage_dice_size")
+  damageDiceBonus    Int             @default(0) @map("damage_dice_bonus")
+  copper             Int             @default(0)
+  silver             Int             @default(0)
+  gold               Int             @default(0)
+  platinum           Int             @default(0)
+  raceAlign          Int             @default(0) @map("race_align")
+  totalWealth        Int             @default(0) @map("total_wealth")
+  averageStats       Int             @default(13) @map("average_stats")
+  estimatedHp        Int             @default(0) @map("estimated_hp")
+  strength           Int             @default(13)
+  intelligence       Int             @default(13)
+  wisdom             Int             @default(13)
+  dexterity          Int             @default(13)
+  constitution       Int             @default(13)
+  charisma           Int             @default(13)
+  perception         Int             @default(0)
+  concealment        Int             @default(0)
+  zoneId             Int             @map("zone_id")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  deletedAt          DateTime?       @map("deleted_at")
+  createdBy          String?         @map("created_by")
+  updatedBy          String?         @map("updated_by")
+  classId            Int?            @map("class_id")
+  race               Race            @default(HUMANOID)
+  mobFlags           MobFlag[]
+  effectFlags        EffectFlag[]
+  position           Position        @default(STANDING)
+  defaultPosition    Position        @default(STANDING)
+  gender             Gender          @default(NEUTRAL)
+  size               Size            @default(MEDIUM)
+  lifeForce          LifeForce       @default(LIFE)
+  composition        Composition     @default(FLESH)
+  stance             Stance          @default(ALERT)
+  damageType         DamageType      @default(HIT)
+  mobResets          MobResets[]
+  mobAbilities       MobAbilities[]
+  characterPets      CharacterPets[]
+  characterClass     CharacterClass? @relation(fields: [classId], references: [id])
+  zones              Zones           @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  shops              Shops[]
+  triggers           Triggers[]
+
+  @@id([zoneId, id])
+  @@index([name])
+  @@index([zoneId, name])
+  @@index([plainName])
+  @@index([plainRoomDescription])
+  @@index([plainExamineDescription])
+}
+
+model ObjectAffects {
+  id           Int     @id @default(autoincrement())
+  location     String
+  modifier     Int
+  objectZoneId Int     @map("object_zone_id")
+  objectId     Int     @map("object_id")
+  objects      Objects @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model ObjectExtraDescriptions {
+  id           Int      @id @default(autoincrement())
+  keywords     String[]
+  description  String
+  objectZoneId Int      @map("object_zone_id")
+  objectId     Int      @map("object_id")
+  objects      Objects  @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model ObjectResets {
+  id               Int               @id @default(autoincrement())
+  maxInstances     Int               @default(1) @map("max_instances")
+  comment          String?
+  objectZoneId     Int               @map("object_zone_id")
+  objectId         Int               @map("object_id")
+  roomZoneId       Int?              @map("room_zone_id")
+  roomId           Int?              @map("room_id")
+  containerResetId Int?              @map("container_reset_id")
+  zoneId           Int               @map("zone_id")
+  probability      Float             @default(1.0)
+  resetBehavior    String            @default("PERSISTENT") @map("reset_behavior")
+  containerReset   ObjectResets?     @relation("resetContainer", fields: [containerResetId], references: [id], onDelete: Cascade)
+  containedResets  ObjectResets[]    @relation("resetContainer")
+  objects          Objects           @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+  rooms            Room?            @relation(fields: [roomZoneId, roomId], references: [zoneId, id], onDelete: Cascade)
+  zones            Zones             @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  spawnConditions  SpawnConditions[]
+}
+
+model Objects {
+  id                      Int
+  type                    ObjectType                @default(NOTHING)
+  keywords                String[]
+  name                    String                    @map("name")
+  plainName               String                    @default("") @map("plain_name")
+  roomDescription         String                    @map("room_description")
+  plainRoomDescription    String                    @default("") @map("plain_room_description")
+  examineDescription      String?                   @map("examine_description")
+  plainExamineDescription String?                   @default("") @map("plain_examine_description")
+  actionDescription       String?                   @map("action_desc")
+  plainActionDescription  String?                   @default("") @map("plain_action_desc")
+  weight                  Float                     @default(0.0)
+  cost                    Int                       @default(0)
+  timer                   Int                       @default(0)
+  decomposeTimer          Int                       @default(0) @map("decompose_timer")
+  level                   Int                       @default(1)
+  concealment             Int                       @default(0)
+  values                  Json                      @default("{}")
+  zoneId                  Int                       @map("zone_id")
+  createdAt               DateTime                  @default(now()) @map("created_at")
+  updatedAt               DateTime                  @updatedAt @map("updated_at")
+  deletedAt               DateTime?                 @map("deleted_at")
+  createdBy               String?                   @map("created_by")
+  updatedBy               String?                   @map("updated_by")
+  flags                   ObjectFlag[]
+  effectFlags             EffectFlag[]
+  wearFlags               WearFlag[]
+  characterItems          CharacterItems[]
+  equipmentSetItems       EquipmentSetItems[]
+  mobCarrying             MobCarrying[]
+  mobResetEquipment       MobResetEquipment[]
+  objectAffects           ObjectAffects[]
+  objectExtraDescriptions ObjectExtraDescriptions[]
+  objectResets            ObjectResets[]
+  zones                   Zones                     @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  shopItems               ShopItems[]
+  triggers                Triggers[]
+  objectAbilities         ObjectAbilities[]
+
+  @@id([zoneId, id])
+  @@index([name])
+  @@index([zoneId, name])
+  @@index([plainName])
+  @@index([plainRoomDescription])
+  @@index([plainExamineDescription])
+}
+
+model Races {
+  race               Race            @id
+  name               String          // Display name with color codes (XML-Lite format)
+  plainName          String          @unique @map("plain_name") // Plain text name - unique identifier
+  keywords           String
+  playable           Boolean         @default(false)
+  humanoid           Boolean         @default(false)
+  magical            Boolean         @default(false)
+  raceAlign          RaceAlign       @default(GOOD) @map("race_align")
+  defaultSize        Size            @default(MEDIUM) @map("default_size")
+  defaultAlignment   Int             @default(0) @map("default_alignment")
+  bonusDamroll       Int             @default(0) @map("bonus_damroll")
+  bonusHitroll       Int             @default(0) @map("bonus_hitroll")
+  focusBonus         Int             @default(100) @map("focus_bonus")
+  defaultLifeforce   LifeForce       @default(LIFE) @map("default_lifeforce")
+  defaultComposition Composition     @default(FLESH) @map("default_composition")
+  maleWeightLow      Int             @default(0) @map("male_weight_low")
+  maleWeightHigh     Int             @default(0) @map("male_weight_high")
+  maleHeightLow      Int             @default(0) @map("male_height_low")
+  maleHeightHigh     Int             @default(0) @map("male_height_high")
+  femaleWeightLow    Int             @default(0) @map("female_weight_low")
+  femaleWeightHigh   Int             @default(0) @map("female_weight_high")
+  femaleHeightLow    Int             @default(0) @map("female_height_low")
+  femaleHeightHigh   Int             @default(0) @map("female_height_high")
+  maxStrength        Int             @default(76) @map("max_strength")
+  maxDexterity       Int             @default(76) @map("max_dexterity")
+  maxIntelligence    Int             @default(76) @map("max_intelligence")
+  maxWisdom          Int             @default(76) @map("max_wisdom")
+  maxConstitution    Int             @default(76) @map("max_constitution")
+  maxCharisma        Int             @default(76) @map("max_charisma")
+  expFactor          Int             @default(100) @map("exp_factor")
+  hpFactor           Int             @default(100) @map("hp_factor")
+  hitDamageFactor    Int             @default(100) @map("hit_damage_factor")
+  damageDiceFactor   Int             @default(100) @map("damage_dice_factor")
+  copperFactor       Int             @default(75) @map("copper_factor")
+  acFactor           Int             @default(100) @map("ac_factor")
+  enterVerb          String?         @map("enter_verb")
+  leaveVerb          String?         @map("leave_verb")
+  permanentEffects   EffectFlag[]    @map("permanent_effects")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  raceAbilities      RaceAbilities[]
+}
+
+model RaceAbilities {
+  id        Int           @id @default(autoincrement())
+  race      Race
+  abilityId Int           @map("ability_id")
+  category  SkillCategory @default(SECONDARY)
+  bonus     Int           @default(0)
+  raceData  Races         @relation(fields: [race], references: [race], onDelete: Cascade)
+  ability   Ability       @relation(fields: [abilityId], references: [id], onDelete: Cascade)
+
+  @@unique([race, abilityId])
+}
+
+model RoomExit {
+  id              Int        @id @default(autoincrement())
+  direction       Direction
+  description     String?
+  keywords        String[]   @default([])
+  key             String?
+  toZoneId        Int?       @map("to_zone_id")
+  toRoomId        Int?       @map("to_room_id")
+  roomZoneId      Int        @map("room_zone_id")
+  roomId          Int        @map("room_id")
+  flags           ExitFlag[] @default([])
+  sourceRoom      Room      @relation("roomExits", fields: [roomZoneId, roomId], references: [zoneId, id], onDelete: Cascade)
+  destinationRoom Room?     @relation("roomEntrances", fields: [toZoneId, toRoomId], references: [zoneId, id])
+
+  @@unique([roomZoneId, roomId, direction])
+}
+
+model RoomExtraDescriptions {
+  id          Int      @id @default(autoincrement())
+  keywords    String[]
+  description String
+  roomZoneId  Int      @map("room_zone_id")
+  roomId      Int      @map("room_id")
+  rooms       Room    @relation(fields: [roomZoneId, roomId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model Room {
+  id                    Int
+  name                  String
+  roomDescription       String                  @map("room_description")
+  plainRoomDescription  String                  @default("") @map("plain_room_description")
+  sector                Sector                  @default(STRUCTURE)
+  zoneId                Int                     @map("zone_id")
+  createdAt             DateTime                @default(now()) @map("created_at")
+  updatedAt             DateTime                @updatedAt @map("updated_at")
+  deletedAt             DateTime?               @map("deleted_at")
+  createdBy             String?                 @map("created_by")
+  updatedBy             String?                 @map("updated_by")
+  flags                 RoomFlag[]
+  layoutX               Int?                    @map("layout_x")
+  layoutY               Int?                    @map("layout_y")
+  layoutZ               Int?                    @default(0) @map("layout_z")
+  mobResets             MobResets[]
+  objectResets          ObjectResets[]
+  exits                 RoomExit[]             @relation("roomExits")
+  entrances             RoomExit[]             @relation("roomEntrances")
+  roomExtraDescriptions RoomExtraDescriptions[]
+  zones                 Zones                   @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+
+  @@id([zoneId, id])
+  @@index([plainRoomDescription])
+}
+
+model ShopAccepts {
+  id         Int      @id @default(autoincrement())
+  type       String
+  keywords   String[]
+  shopZoneId Int      @map("shop_zone_id")
+  shopId     Int      @map("shop_id")
+  shops      Shops    @relation(fields: [shopZoneId, shopId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model ShopHours {
+  id         Int   @id @default(autoincrement())
+  open       Int
+  close      Int
+  shopZoneId Int   @map("shop_zone_id")
+  shopId     Int   @map("shop_id")
+  shops      Shops @relation(fields: [shopZoneId, shopId], references: [zoneId, id], onDelete: Cascade)
+}
+
+model ShopItems {
+  id           Int     @id @default(autoincrement())
+  amount       Int     @default(0)
+  shopZoneId   Int     @map("shop_zone_id")
+  shopId       Int     @map("shop_id")
+  objectZoneId Int     @map("object_zone_id")
+  objectId     Int     @map("object_id")
+  objects      Objects @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+  shops        Shops   @relation(fields: [shopZoneId, shopId], references: [zoneId, id], onDelete: Cascade)
+
+  @@unique([shopZoneId, shopId, objectZoneId, objectId])
+}
+
+model ShopRooms {
+  id         Int   @id @default(autoincrement())
+  roomId     Int   @map("room_id")
+  shopZoneId Int   @map("shop_zone_id")
+  shopId     Int   @map("shop_id")
+  shops      Shops @relation(fields: [shopZoneId, shopId], references: [zoneId, id], onDelete: Cascade)
+
+  @@unique([shopZoneId, shopId, roomId])
+}
+
+model Shops {
+  id                  Int
+  buyProfit           Float            @default(1.0) @map("buy_profit")
+  sellProfit          Float            @default(1.0) @map("sell_profit")
+  temper              Int              @default(0)
+  noSuchItemMessages  String[]         @default([]) @map("no_such_item_messages")
+  doNotBuyMessages    String[]         @default([]) @map("do_not_buy_messages")
+  missingCashMessages String[]         @default([]) @map("missing_cash_messages")
+  buyMessages         String[]         @default([]) @map("buy_messages")
+  sellMessages        String[]         @default([]) @map("sell_messages")
+  keeperZoneId        Int?             @map("keeper_zone_id")
+  keeperId            Int?             @map("keeper_id")
+  zoneId              Int              @map("zone_id")
+  createdAt           DateTime         @default(now()) @map("created_at")
+  updatedAt           DateTime         @updatedAt @map("updated_at")
+  createdBy           String?          @map("created_by")
+  updatedBy           String?          @map("updated_by")
+  flags               ShopFlag[]
+  tradesWithFlags     ShopTradesWith[]
+  shopAccepts         ShopAccepts[]
+  shopHours           ShopHours[]
+  shopItems           ShopItems[]
+  shopRooms           ShopRooms[]
+  mobs                Mobs?            @relation(fields: [keeperZoneId, keeperId], references: [zoneId, id])
+  zones               Zones            @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+
+  @@id([zoneId, id])
+}
+
+model SpawnConditions {
+  id            Int           @id @default(autoincrement())
+  type          String
+  parameters    Json          @default("{}")
+  mobResetId    Int?          @map("mob_reset_id")
+  objectResetId Int?          @map("object_reset_id")
+  mobResets     MobResets?    @relation(fields: [mobResetId], references: [id], onDelete: Cascade)
+  objectResets  ObjectResets? @relation(fields: [objectResetId], references: [id], onDelete: Cascade)
+}
+
+model Triggers {
+  id           Int           @id @default(autoincrement())
+  name         String
+  attachType   ScriptType
+  numArgs      Int           @default(0) @map("num_args")
+  argList      String[]      @default([]) @map("arg_list")
+  commands     String
+  zoneId       Int?          @map("zone_id")
+  mobZoneId    Int?          @map("mob_zone_id")
+  mobId        Int?          @map("mob_id")
+  objectZoneId Int?          @map("object_zone_id")
+  objectId     Int?          @map("object_id")
+  variables    Json          @default("{}")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  createdBy    String?       @map("created_by")
+  updatedBy    String?       @map("updated_by")
+  flags        TriggerFlag[]
+  mobs         Mobs?         @relation(fields: [mobZoneId, mobId], references: [zoneId, id], onDelete: Cascade)
+  objects      Objects?      @relation(fields: [objectZoneId, objectId], references: [zoneId, id], onDelete: Cascade)
+  zones        Zones?        @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+}
+
+model Users {
+  id                  String       @id
+  email               String       @unique
+  username            String       @unique
+  passwordHash        String       @map("password_hash")
+  role                UserRole     @default(PLAYER)
+  createdAt           DateTime     @default(now()) @map("created_at")
+  updatedAt           DateTime     @updatedAt @map("updated_at")
+  lastLoginAt         DateTime?    @map("last_login_at")
+  resetToken          String?      @map("reset_token")
+  resetTokenExpiry    DateTime?    @map("reset_token_expiry")
+  failedLoginAttempts Int          @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime?    @map("locked_until")
+  lastFailedLogin     DateTime?    @map("last_failed_login")
+  preferences         Json?        @default("{}")
+  auditLogs           AuditLogs[]
+  banRecordsIssued    BanRecords[] @relation("bannedByUser")
+  banRecords          BanRecords[] @relation("userBanRecords")
+  changeLogs          ChangeLogs[]
+  characters          Characters[]
+  grants              UserGrants[]
+  grantsIssued        UserGrants[] @relation("grantsIssued")
+}
+
+model UserGrants {
+  id           Int               @id @default(autoincrement())
+  userId       String            @map("user_id")
+  resourceType GrantResourceType @map("resource_type")
+  resourceId   String            @map("resource_id")
+  permissions  GrantPermission[]
+  grantedBy    String            @map("granted_by")
+  grantedAt    DateTime          @default(now()) @map("granted_at")
+  expiresAt    DateTime?         @map("expires_at")
+  notes        String?
+
+  user          Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  grantedByUser Users @relation("grantsIssued", fields: [grantedBy], references: [id])
+
+  @@unique([userId, resourceType, resourceId])
+  @@map("user_grants")
+}
+
+model Zones {
+  id           Int            @id
+  name         String
+  lifespan     Int            @default(30)
+  resetMode    ResetMode      @default(NORMAL)
+  hemisphere   Hemisphere     @default(NORTHWEST)
+  climate      Climate        @default(NONE)
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  deletedAt    DateTime?      @map("deleted_at")
+  createdBy    String?        @map("created_by")
+  updatedBy    String?        @map("updated_by")
+  mobResets    MobResets[]
+  mobs         Mobs[]
+  objectResets ObjectResets[]
+  objects      Objects[]
+  rooms        Room[]
+  shops        Shops[]
+  triggers     Triggers[]
+}
+
+// ============================================================================
+// SOCIALS (Emotes/Actions)
+// ============================================================================
+
+model Social {
+  id                 Int      @id @default(autoincrement())
+  name               String   @unique // Command name (e.g., "smile", "bow", "hug")
+  hide               Boolean  @default(false) // Hide who initiated the action
+  minVictimPosition  Position @default(STANDING) @map("min_victim_position") // Victim must be at least this position
+
+  // No argument provided - actor alone
+  charNoArg          String?  @map("char_no_arg") // Message to actor
+  othersNoArg        String?  @map("others_no_arg") // Message to room
+
+  // Argument provided, target found
+  charFound          String?  @map("char_found") // Message to actor (null = no target allowed)
+  othersFound        String?  @map("others_found") // Message to room (excluding target)
+  victFound          String?  @map("vict_found") // Message to target
+
+  // Argument provided, target not found
+  notFound           String?  @map("not_found") // "Can't find that person"
+
+  // Self-targeting (actor targets themselves)
+  charAuto           String?  @map("char_auto") // Message to actor
+  othersAuto         String?  @map("others_auto") // Message to room
+
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@index([name])
+}
+
+// ============================================================================
+// ENUMS 
+// ============================================================================
+
+enum Climate {
+  NONE
+  SEMIARID
+  ARID
+  OCEANIC
+  TEMPERATE
+  SUBTROPICAL
+  TROPICAL
+  SUBARCTIC
+  ARCTIC
+  ALPINE
+}
+
+enum Composition {
+  FLESH
+  EARTH
+  AIR
+  FIRE
+  WATER
+  ICE
+  MIST
+  ETHER
+  METAL
+  STONE
+  BONE
+  LAVA
+  PLANT
+}
+
+enum DamageType {
+  HIT
+  STING
+  WHIP
+  SLASH
+  BITE
+  BLUDGEON
+  CRUSH
+  POUND
+  CLAW
+  MAUL
+  THRASH
+  PIERCE
+  BLAST
+  PUNCH
+  STAB
+  FIRE
+  COLD
+  ACID
+  SHOCK
+  POISON
+  ALIGN
+  MENTAL
+  ROT
+  ENERGY
+  WATER
+}
+
+enum Direction {
+  NORTH
+  EAST
+  SOUTH
+  WEST
+  UP
+  DOWN
+}
+
+enum EffectFlag {
+  BLIND
+  INVISIBLE
+  DETECT_ALIGN
+  DETECT_INVIS
+  DETECT_MAGIC
+  SENSE_LIFE
+  WATERWALK
+  SANCTUARY
+  CONFUSION
+  CURSE
+  INFRAVISION
+  POISON
+  PROTECT_EVIL
+  PROTECT_GOOD
+  SLEEP
+  NO_TRACK
+  TAMED
+  BERSERK
+  SNEAK
+  STEALTH
+  FLY
+  CHARM
+  STONE_SKIN
+  FARSEE
+  HASTE
+  BLUR
+  VITALITY
+  GLORY
+  MAJOR_PARALYSIS
+  FAMILIARITY
+  MESMERIZED
+  IMMOBILIZED
+  LIGHT
+  UNUSED
+  MINOR_PARALYSIS
+  HURT_THROAT
+  FEATHER_FALL
+  WATERBREATH
+  SOULSHIELD
+  SILENCE
+  PROTECT_FIRE
+  PROTECT_COLD
+  PROTECT_AIR
+  PROTECT_EARTH
+  FIRESHIELD
+  COLDSHIELD
+  MINOR_GLOBE
+  MAJOR_GLOBE
+  HARNESS
+  ON_FIRE
+  FEAR
+  TONGUES
+  DISEASE
+  INSANITY
+  ULTRAVISION
+  NEGATE_HEAT
+  NEGATE_COLD
+  NEGATE_AIR
+  NEGATE_EARTH
+  REMOTE_AGGRO
+  AWARE
+  REDUCE
+  ENLARGE
+  VAMPIRIC_TOUCH
+  RAY_OF_ENFEEBLEMENT
+  ANIMATED
+  EXPOSED
+  SHADOWING
+  CAMOUFLAGED
+  SPIRIT_WOLF
+  SPIRIT_BEAR
+  WRATH
+  MISDIRECTION
+  MISDIRECTING
+  BLESS
+  HEX
+  DETECT_POISON
+  SONG_OF_REST
+  DISPLACEMENT
+  GREATER_DISPLACEMENT
+  FIRE_WEAPON
+  ICE_WEAPON
+  POISON_WEAPON
+  ACID_WEAPON
+  SHOCK_WEAPON
+  RADIANT_WEAPON
+}
+
+enum ExitFlag {
+  IS_DOOR
+  CLOSED
+  LOCKED
+  PICKPROOF
+  HIDDEN
+}
+
+enum Gender {
+  NEUTRAL
+  MALE
+  FEMALE
+  NON_BINARY
+}
+
+enum MobRole {
+  TRASH
+  NORMAL
+  ELITE
+  MINIBOSS
+  BOSS
+  RAID_BOSS
+}
+
+enum Hemisphere {
+  NORTHWEST
+  NORTHEAST
+  SOUTHWEST
+  SOUTHEAST
+}
+
+enum LifeForce {
+  LIFE
+  UNDEAD
+  MAGIC
+  CELESTIAL
+  DEMONIC
+  ELEMENTAL
+}
+
+enum MobFlag {
+  SPEC
+  SENTINEL
+  SCAVENGER
+  IS_NPC
+  AWARE
+  AGGRESSIVE
+  STAY_ZONE
+  WIMPY
+  AGGRO_EVIL
+  AGGRO_GOOD
+  AGGRO_NEUTRAL
+  MEMORY
+  HELPER
+  NO_CHARM
+  NO_SUMMON
+  NO_SLEEP
+  NO_BASH
+  NO_BLIND
+  MOUNT
+  STAY_SECT
+  HATES_SUN
+  NO_KILL
+  TRACK
+  ILLUSION
+  POISON_BITE
+  THIEF
+  WARRIOR
+  SORCERER
+  CLERIC
+  PALADIN
+  ANTI_PALADIN
+  RANGER
+  DRUID
+  SHAMAN
+  ASSASSIN
+  MERCENARY
+  NECROMANCER
+  CONJURER
+  MONK
+  BERSERKER
+  DIABOLIST
+  SLOW_TRACK
+  NO_SILENCE
+  PEACEFUL
+  PROTECTOR
+  PEACEKEEPER
+  HASTE
+  BLUR
+  TEACHER
+  MOUNTABLE
+  NO_VICIOUS
+  NO_CLASS_AI
+  FAST_TRACK
+  AQUATIC
+  NO_EQ_RESTRICT
+  SUMMONED_MOUNT
+  NO_POISON
+}
+
+enum ObjectFlag {
+  GLOW
+  HUM
+  NO_RENT
+  ANTI_BERSERKER
+  NO_INVISIBLE
+  INVISIBLE
+  MAGIC
+  NO_DROP
+  PERMANENT
+  ANTI_GOOD
+  ANTI_EVIL
+  ANTI_NEUTRAL
+  ANTI_SORCERER
+  ANTI_CLERIC
+  ANTI_ROGUE
+  ANTI_WARRIOR
+  NO_SELL
+  ANTI_PALADIN
+  ANTI_ANTI_PALADIN
+  ANTI_RANGER
+  ANTI_DRUID
+  ANTI_SHAMAN
+  ANTI_ASSASSIN
+  ANTI_MERCENARY
+  ANTI_NECROMANCER
+  ANTI_CONJURER
+  NO_BURN
+  NO_LOCATE
+  DECOMPOSING
+  FLOAT
+  NO_FALL
+  WAS_DISARMED
+  ANTI_MONK
+  ANTI_BARD
+  ELVEN
+  DWARVEN
+  ANTI_THIEF
+  ANTI_PYROMANCER
+  ANTI_CRYOMANCER
+  ANTI_ILLUSIONIST
+  ANTI_PRIEST
+  ANTI_DIABOLIST
+  ANTI_TINY
+  ANTI_SMALL
+  ANTI_MEDIUM
+  ANTI_LARGE
+  ANTI_HUGE
+  ANTI_GIANT
+  ANTI_GARGANTUAN
+  ANTI_COLOSSAL
+  ANTI_TITANIC
+  ANTI_MOUNTAINOUS
+  ANTI_ARBOREAN
+}
+
+enum ObjectType {
+  NOTHING
+  LIGHT
+  SCROLL
+  WAND
+  STAFF
+  WEAPON
+  FIREWEAPON
+  MISSILE
+  TREASURE
+  ARMOR
+  POTION
+  WORN
+  OTHER
+  TRASH
+  TRAP
+  CONTAINER
+  NOTE
+  DRINKCONTAINER
+  KEY
+  FOOD
+  MONEY
+  PEN
+  BOAT
+  FOUNTAIN
+  PORTAL
+  ROPE
+  SPELLBOOK
+  WALL
+  TOUCHSTONE
+  BOARD
+  INSTRUMENT
+}
+
+enum Position {
+  PRONE
+  SITTING
+  KNEELING
+  STANDING
+  FLYING
+}
+
+enum Race {
+  HUMAN
+  ELF
+  GNOME
+  DWARF
+  TROLL
+  DROW
+  DUERGAR
+  OGRE
+  ORC
+  HALF_ELF
+  BARBARIAN
+  HALFLING
+  PLANT
+  HUMANOID
+  ANIMAL
+  DRAGON_GENERAL
+  GIANT
+  OTHER
+  GOBLIN
+  DEMON
+  BROWNIE
+  DRAGON_FIRE
+  DRAGON_FROST
+  DRAGON_ACID
+  DRAGON_LIGHTNING
+  DRAGON_GAS
+  DRAGONBORN_FIRE
+  DRAGONBORN_FROST
+  DRAGONBORN_ACID
+  DRAGONBORN_LIGHTNING
+  DRAGONBORN_GAS
+  SVERFNEBLIN
+  FAERIE_SEELIE
+  FAERIE_UNSEELIE
+  NYMPH
+  ARBOREAN
+}
+
+enum RaceAlign {
+  UNKNOWN
+  GOOD
+  EVIL
+}
+
+enum ResetMode {
+  NEVER
+  EMPTY
+  NORMAL
+}
+
+enum RoomFlag {
+  DARK
+  DEATH
+  NO_MOB
+  INDOORS
+  PEACEFUL
+  SOUNDPROOF
+  NO_TRACK
+  NO_MAGIC
+  TUNNEL
+  PRIVATE
+  GODROOM
+  HOUSE
+  HOUSECRASH
+  ATRIUM
+  OLC
+  BFS_MARK
+  WORLDMAP
+  FERRY_DEST
+  ISOLATED
+  ARENA
+  LARGE
+  MEDIUM_LARGE
+  MEDIUM
+  MEDIUM_SMALL
+  SMALL
+  VERY_SMALL
+  ONE_PERSON
+  EFFECTS_NEXT
+  ALWAYS_LIT
+  GUILDHALL
+  NO_WELL
+  NO_SUMMON
+  NO_SCAN
+  UNDERDARK
+  NO_SHIFT
+  NO_RECALL
+  ALT_EXIT
+  OBSERVATORY
+}
+
+enum SaveResult {
+  NONE
+  HALF
+  NEGATE
+  REDUCE25
+  CUSTOM
+}
+
+enum SaveType {
+  SPELL
+  POISON
+  BREATH
+  PARALYSIS
+  WAND
+  ROD
+  PETRIFICATION
+}
+
+enum ApplyType {
+  AC
+  HITROLL
+  DAMROLL
+  STR
+  DEX
+  INT
+  WIS
+  CON
+  CHA
+  SAVING_PARA
+  SAVING_ROD
+  SAVING_PETRI
+  SAVING_BREATH
+  SAVING_SPELL
+  HIT_REGEN
+  MAX_HP
+  MAX_MANA
+  MAX_MOVEMENT
+  PERCEPTION
+  HIDDENNESS
+  SIZE
+  AGE
+  CHAR_WEIGHT
+  CHAR_HEIGHT
+  FOCUS
+  COMPOSITION
+  LEVEL
+  NONE
+}
+
+enum ScriptType {
+  MOB
+  OBJECT
+  WORLD
+}
+
+enum Sector {
+  STRUCTURE
+  CITY
+  FIELD
+  FOREST
+  HILLS
+  MOUNTAIN
+  SHALLOWS
+  WATER
+  UNDERWATER
+  AIR
+  ROAD
+  GRASSLANDS
+  CAVE
+  RUINS
+  SWAMP
+  BEACH
+  UNDERDARK
+  ASTRALPLANE
+  AIRPLANE
+  FIREPLANE
+  EARTHPLANE
+  ETHEREALPLANE
+  AVERNUS
+}
+
+enum ShopFlag {
+  WILL_FIGHT
+  USES_BANK
+  WILL_BANK_MONEY
+  WILL_START_FIGHT
+}
+
+enum ShopTradesWith {
+  ALIGNMENT
+  RACE
+  CLASS
+  TRADE_NOGOOD
+  TRADE_NOEVIL
+  TRADE_NONEUTRAL
+  TRADE_NOCLERIC
+  TRADE_NOTHIEF
+  TRADE_NOWARRIOR
+}
+
+enum Size {
+  TINY
+  SMALL
+  MEDIUM
+  LARGE
+  HUGE
+  GIANT
+  GARGANTUAN
+  COLOSSAL
+  TITANIC
+  MOUNTAINOUS
+}
+
+enum SkillCategory {
+  PRIMARY
+  SECONDARY
+  RESTRICTED
+  FORBIDDEN
+}
+
+enum SkillType {
+  WEAPON
+  COMBAT
+  MAGIC
+  STEALTH
+  SOCIAL
+  CRAFTING
+  SURVIVAL
+  KNOWLEDGE
+  UTILITY
+}
+
+enum StackingRule {
+  REFRESH
+  STACK
+  IGNORE
+  MAX_ONLY
+}
+
+enum Stance {
+  DEAD
+  MORT
+  INCAPACITATED
+  STUNNED
+  SLEEPING
+  RESTING
+  ALERT
+  FIGHTING
+}
+
+enum TargetScope {
+  SINGLE
+  ROOM
+  GROUP
+  AREA
+  CHAIN
+  CONE
+  LINE
+  SELF
+}
+
+enum TargetType {
+  SELF
+  ALLY_PC
+  ALLY_NPC
+  ALLY_GROUP
+  ENEMY_PC
+  ENEMY_NPC
+  OBJECT_INV
+  OBJECT_WORLD
+  CORPSE
+}
+
+enum SpellSphere {
+  GENERIC
+  FIRE
+  WATER
+  EARTH
+  AIR
+  HEALING
+  PROTECTION
+  ENCHANTMENT
+  SUMMONING
+  DEATH
+  DIVINATION
+}
+
+enum ElementType {
+  PHYSICAL
+  FIRE
+  COLD
+  ACID
+  SHOCK
+  POISON
+  MAGIC
+  HOLY
+  UNHOLY
+  MENTAL
+  HEAL
+}
+
+enum TriggerFlag {
+  GLOBAL
+  RANDOM
+  COMMAND
+  SPEECH
+  ACT
+  DEATH
+  GREET
+  GREET_ALL
+  ENTRY
+  RECEIVE
+  FIGHT
+  HIT_PERCENT
+  BRIBE
+  LOAD
+  MEMORY
+  CAST
+  LEAVE
+  DOOR
+  TIME
+  AUTO
+  SPEECH_TO
+  LOOK
+}
+
+enum UserRole {
+  PLAYER
+  IMMORTAL
+  BUILDER
+  HEAD_BUILDER
+  CODER
+  GOD
+}
+
+enum GrantResourceType {
+  ZONE
+  MOB
+  OBJECT
+  SHOP
+}
+
+enum GrantPermission {
+  READ
+  WRITE
+  DELETE
+  ADMIN
+}
+
+enum WearFlag {
+  TAKE
+  FINGER
+  NECK
+  BODY
+  HEAD
+  LEGS
+  FEET
+  HANDS
+  ARMS
+  SHIELD
+  ABOUT
+  WAIST
+  WRIST
+  WIELD
+  HOLD
+  TWO_HAND_WIELD
+  EYES
+  FACE
+  EAR
+  BADGE
+  BELT
+  HOVER
+}

@@ -13,10 +13,11 @@ from pathlib import Path
 import sys
 import re
 
+from prisma import Json
 from mud.types.mob import Mob
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
 from fierylib.combat_formulas import (
     calculate_damage_dice_modern,
     calculate_mob_role,
@@ -168,7 +169,11 @@ class MobImporter:
         damage_type = mob.damage_type.name if hasattr(mob.damage_type, "name") else str(mob.damage_type).upper()
 
         # Map Class enum value to database class_id (database IDs are 1-indexed, enum is 0-indexed)
-        class_id = mob.mob_class.value + 1 if hasattr(mob.mob_class, "value") else None
+        # Skip layman (ID 24) which is CircleMUD's internal "no class" placeholder
+        if hasattr(mob.mob_class, "value"):
+            class_id = mob.mob_class.value + 1 if mob.mob_class.value != 24 else None
+        else:
+            class_id = None
 
         # Convert BitFlags to lists and normalize (NO_CHARM → NOCHARM)
         mob_flags = mob.mob_flags.json_repr() if isinstance(mob.mob_flags, BitFlags) else (mob.mob_flags or [])
@@ -273,6 +278,10 @@ class MobImporter:
 
             # Merge placeholder stats into modern_stats
             modern_stats.update(placeholder_stats)
+
+            # Wrap resistances dict with prisma.Json for proper serialization
+            if "resistances" in modern_stats:
+                modern_stats["resistances"] = Json(modern_stats["resistances"])
         else:
             # Dry run - use defaults
             mob_role = "NORMAL"
@@ -300,6 +309,11 @@ class MobImporter:
             if self.vnum_map is not None:
                 self.vnum_map[legacy_vnum] = (mob_zone_id, vnum)
 
+            # Convert legacy color codes to XML-Lite markup
+            mob_name = convert_legacy_colors(mob.short_desc or "")
+            mob_room_desc = convert_legacy_colors(mob.long_desc or "")
+            mob_examine_desc = convert_legacy_colors(mob.desc or "")
+
             # Upsert mob with composite key
             await self.prisma.mobs.upsert(
                 where={
@@ -314,9 +328,12 @@ class MobImporter:
                         "zoneId": mob_zone_id,
                         "keywords": mob.keywords.split() if mob.keywords else [],
                         "classId": class_id,
-                        "name": mob.short_desc or "",
-                        "roomDescription": mob.long_desc or "",
-                        "examineDescription": mob.desc or "",
+                        "name": mob_name,
+                        "plainName": strip_markup(mob_name),
+                        "roomDescription": mob_room_desc,
+                        "plainRoomDescription": strip_markup(mob_room_desc),
+                        "examineDescription": mob_examine_desc,
+                        "plainExamineDescription": strip_markup(mob_examine_desc),
                         "mobFlags": mob_flags,
                         "effectFlags": effect_flags,
                         "alignment": mob.alignment,
@@ -356,9 +373,12 @@ class MobImporter:
                     "update": {
                         "keywords": mob.keywords.split() if mob.keywords else [],
                         "classId": class_id,
-                        "name": mob.short_desc or "",
-                        "roomDescription": mob.long_desc or "",
-                        "examineDescription": mob.desc or "",
+                        "name": mob_name,
+                        "plainName": strip_markup(mob_name),
+                        "roomDescription": mob_room_desc,
+                        "plainRoomDescription": strip_markup(mob_room_desc),
+                        "examineDescription": mob_examine_desc,
+                        "plainExamineDescription": strip_markup(mob_examine_desc),
                         "mobFlags": {"set": mob_flags},
                         "effectFlags": {"set": effect_flags},
                         "alignment": mob.alignment,

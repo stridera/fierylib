@@ -1,0 +1,111 @@
+Spell,Object_Types,Object_Count,Example_Objects
+ANIMATE_DEAD,WAND,1,a green book
+ARMOR,"POTION, STAFF, WAND",4,a broom; a stick made of hardened leather; a violet potion; a green potion
+BARKSKIN,"POTION, WAND",2,a miniature Larva Worm doll; a stone flask
+BIGBYS_CLENCHED_FIST,WAND,2,"a miniature Sandman doll; a yellow, fist shaped crystal"
+BLESS,"POTION, WAND",5,the mayor's cane; a silty potion; a violet potion; a green potion; some holy water
+BLINDNESS,"POTION, STAFF, WAND",4,a miniature Titan doll; a black potion of recall; Timun's golden sphere; a crystal wand
+BLUR,POTION,2,a potion of blur; the witch's brew
+CALL_LIGHTNING,POTION,1,an neon blue potion
+CHAIN_LIGHTNING,WAND,2,a miniature storm demon doll; a psionic crystal
+CHARM,"STAFF, WAND",5,a lock of angel hair; a silver flute; a riding crop; the Rod of Discipline; a small pink statue
+CHILL_TOUCH,POTION,1,a black potion of recall
+COLDSHIELD,POTION,2,a potion of coldshield; a sky-blue potion
+COLOR_SPRAY,WAND,1,a whipping post
+CONFUSION,STAFF,1,faerie dragon breath
+CREATE_FOOD,"SCROLL, STAFF",2,the Green Staff of Growing; an old paper
+CURE_BLIND,"SCROLL, WAND",2,a yellowed scroll; a misthorn
+CURE_CRITIC,"POTION, STAFF",8,a potion of cure critic; a miniature Prismatic Attendant doll; a potion of health; a dark potion; a dark potion (+3 more)
+CURE_LIGHT,"POTION, STAFF",10,a potion of cure light; a staff of healing; a miniature Prismatic Attendant doll; a small potion; a small potion (+5 more)
+CURE_SERIOUS,POTION,4,a potion of cure serious; a sky-blue potion; a miniature Prismatic Attendant doll; a silty potion
+CURSE,"POTION, SCROLL, STAFF",4,a pink potion; a dark potion; a bright red scroll; the infidel's staff
+DARKNESS,WAND,1,a miniature Chaos doll
+DARK_PRESENCE,POTION,5,a satin-black potion; a black potion; a vial of unholy water; a vial of red dye; a vial of dragon's blood
+DEMONSKIN,POTION,1,a vial of red dye
+DETECT_ALIGN,"POTION, SCROLL",3,a bound scroll; a yellowed scroll; a little vial of faerie elixir
+DETECT_INVIS,"POTION, SCROLL",3,a yellow potion of detect invisible; a bound scroll; a small vial
+DETECT_MAGIC,SCROLL,2,a bound scroll; a yellowed scroll
+DIMENSION_DOOR,SCROLL,1,a runed scroll
+DISPEL_EVIL,WAND,1,the bride doll
+DISPEL_MAGIC,"POTION, SCROLL",8,a potion of dispel magic; a potion of dispel magic; a potion of dispel magic; a blue scroll of recall; a dispel scroll (+3 more)
+DRAGONS_HEALTH,POTION,1,a crystal decanter
+EARTHQUAKE,STAFF,2,a green serpentine staff; a dragon's claw staff
+ENCHANT_WEAPON,SCROLL,1,a tattered scroll
+ENERGY_DRAIN,WAND,2,a fist-sized ruby; a statuette
+ENHANCE_CHA,POTION,4,a potion of charisma; a potion of eagle's splendor; a potion of nymph beauty; a potion of celestial's radiance
+ENHANCE_CON,POTION,4,a potion of constitution; a potion of bear's stamina; a potion of troll health; a bright white potion
+ENHANCE_DEX,"POTION, SCROLL",5,a potion of dexterity; a potion of cougar's grace; a potion of halfling agility; a potion of zephyr's dexterity; a brown scroll
+ENHANCE_INT,POTION,5,a scientific potion; a potion of intelligence; a potion of fox's cunning; a potion of gnomish intellect; a potion of sphinx's brilliance
+ENHANCE_STR,POTION,6,a potion of strength; a potion of bull's strength; a potion of ogre strength; a potion of giant's strength; a blue vial (+1 more)
+ENHANCE_WIS,POTION,5,a potion of wisdom; a potion of wolf's wisdom; a potion of dwarven wisdom; a potion of ent's wisdom; a clear potion
+ENLARGE,POTION,1,a purple potion
+ENTANGLE,"STAFF, WAND",2,"the book of the forest; a miniature, yet mighty druid doll"
+FARSEE,POTION,1,a small vial
+FIREBALL,WAND,1,an ash wand
+FIRESHIELD,POTION,2,a potion of fireshield; a vial of dragon's blood
+FIRE_DARTS,WAND,1,a gnome's thighbone
+FLY,"SCROLL, STAFF, WAND",5,a miniature griffin chick doll; a sack of faerie dust; a sack of faerie dust; the Globe of Arcania; a scroll of fly
+FULL_HARM,"SCROLL, STAFF",4,a miniature Zalkar doll; a miniature Zalkar doll; a miniature Zalkar doll; the Rogue's Staff
+FULL_HEAL,"POTION, STAFF",7,a potion of full heal; an odd little potion; an odd little potion; a potion of health; a slender metallic staff (+2 more)
+GAIAS_CLOAK,POTION,1,magenta potion
+GREATER_VITALITY,STAFF,1,the Globe of Divinity
+GROUP_HEAL,POTION,3,a miniature black deer doll; a miniature black deer doll; a miniature black deer doll
+GROUP_RECALL,WAND,2,the Harp of Kalisa; a miniature samurai doll
+HARM,WAND,1,a ceramic green spider
+HEAL,"POTION, STAFF, WAND",8,Tanle's ring of Pride; a potion of heal; a miniature Chosen of Endings doll; a miniature fallen angel doll; a potion of health (+3 more)
+ICE_SHARDS,SCROLL,3,a miniature Dargentan doll; a miniature Dargentan doll; a miniature Dargentan doll
+IDENTIFY,SCROLL,2,a scroll of identify; an old paper
+ILLUMINATION,SCROLL,1,a yellow scroll
+INFRAVISION,"POTION, WAND",2,a miniature crimson rosella doll; a dull red potion
+INN_STRENGTH,POTION,2,a yellow potion; a blue vial
+INSANITY,POTION,1,a vial of red dye
+INVISIBLE,"POTION, WAND",6,a potion of invisibility; a miniature House Gnome doll; a vial of vengeance; a clear vial; a clear vial of invisibility (+1 more)
+LESSER_ENDURANCE,POTION,1,a small vigor potion
+LIGHTNING_BOLT,WAND,2,a silvery blue wand; a metal staff
+LOCATE_OBJECT,"SCROLL, STAFF, WAND",4,a roughly-graphed scroll; a test staff; the Staff of Seblan; a many-lined palimpsest
+MAGIC_MISSILE,"STAFF, WAND",2,a miniature ambitious mage doll; the sorcerer's wand
+MAJOR_GLOBE,POTION,2,a potion of major globe; a little red jelly
+MAJOR_PARALYSIS,STAFF,1,gorgon breath
+MASS_INVIS,SCROLL,1,a mirror-lettered scroll
+METEORSWARM,WAND,1,a fist-sized meteorite
+MINOR_GLOBE,POTION,1,a potion of minor globe
+MINOR_PARALYSIS,STAFF,1,gorgon breath
+MIRAGE,POTION,1,a vial of dragon's blood
+MONK_ACID,POTION,4,a potion of Saint Augustine's Tremors; bubbling acid in a bottle; a vial of acid; a murky potion
+MONK_COLD,POTION,5,a sky-blue potion; a dark blue potion; a potion of Saint Augustine's Blizzard; a blizzard in a bottle; a vial of snowflakes
+MONK_FIRE,POTION,4,a potion of Saint Augustine's Fire; an inferno in a bottle; a vial of tiny flames; a red potion
+MONK_SHOCK,"POTION, SCROLL",4,a potion of Saint Augustine's Tempest; lightning in a bottle; a vial of sparks; a brown scroll
+MOONWELL,"SCROLL, WAND",2,a miniature slender druid doll; a parchment scroll
+NEGATE_COLD,POTION,2,a potion of negate cold; a test potion
+NEGATE_HEAT,POTION,1,a potion of negate heat
+POISON,"POTION, WAND",4,a pink potion; a dark potion; a manticore tail spike; a black potion of recall
+PRESERVE,WAND,1,a mangrove bough
+PROTECT_ACID,POTION,5,a potion of protection from earth; a glowing green potion; a radiant rumbling potion; a murky potion; the mistletoe brew
+PROTECT_COLD,POTION,4,a dark blue potion; a potion of protection from cold; a glowing blue potion; a radiant icy potion
+PROTECT_FIRE,POTION,4,a potion of protection from fire; a glowing red potion; a radiant flaming potion; a red potion
+PROTECT_SHOCK,"POTION, SCROLL",5,a potion of protection from lightning; a glowing yellow potion; a radiant sparking potion; a clear vial; a brown scroll
+PROT_FROM_EVIL,"POTION, SCROLL, STAFF",5,a miniature Holyguard doll; a bright white potion; a violet potion; the Book of Kings; a clear potion
+RECALL,SCROLL,4,a red scroll of recall; a green scroll of recall; a blue scroll of recall; a gray scroll of recall
+REMOVE_CURSE,"POTION, SCROLL, WAND",5,a potion of remove curse; a scroll of remove curse; a miniature Imanhotep replica; a silty potion; the Book of Kings
+REMOVE_POISON,"POTION, SCROLL",5,a potion of remove poison; a clear potion of remove poison; a bright white potion; the Book of Kings; the potion of sacrifice
+RESURRECT,"SCROLL, WAND",3,a miniature Mysa doll; a gleaming white scroll; the wand of the living
+SANCTUARY,WAND,1,a miniature Doll of the Moonless Night
+SANE_MIND,POTION,1,a potion of sane mind
+SENSE_LIFE,POTION,3,an orange potion of sense life; the potion of sacrifice; a crystal decanter
+SHIFT_CORPSE,"SCROLL, WAND",2,a gleaming white scroll; the wand of the dead
+SILENCE,"STAFF, WAND",2,a miniature Chosen of Serenity doll; a small green statue
+SLEEP,WAND,3,Poe's flute; a small grey statue; the Enchiridion
+SOULSHIELD,POTION,1,a potion of soulshield
+SUMMON_GREATER_DEMON,POTION,2,a dark potion; a little vial of faerie elixir
+SUNRAY,STAFF,1,a Sunchild staff
+SUPERNOVA,STAFF,1,an obsidian staff lined with veins of red
+TELEPORT,"POTION, SCROLL, STAFF, WAND",6,a potion of teleport; a green scroll of teleport; a miniature Krisenna doll; a small scroll of teleport; the carved ivory staff (+1 more)
+VAPORFORM,SCROLL,1,a misty scroll
+VIGORIZE_CRITIC,POTION,2,an odd little potion; a vial of vengeance
+VIGORIZE_LIGHT,POTION,3,a satin-black potion; a small vigor potion; the potion of sacrifice
+VITALITY,"POTION, WAND",3,a shiny thing; a vial of vengeance; Raven's holy prayer bowl
+WALL_OF_FOG,WAND,1,the Rod of Intervention
+WATERFORM,POTION,1,a potion of waterform
+WINGS_OF_HEAVEN,POTION,1,a blue potion
+WORD_OF_RECALL,"SCROLL, STAFF, WAND",10,"the Nexus Cloak Pin; a glimmering ring; a cracked old stick; an <b:red>""I Died for Pergus""</> t-shirt; a miniature Sagece of Raymif doll (+5 more)"
+WORLD_TELEPORT,SCROLL,1,a aqua scroll of world teleport

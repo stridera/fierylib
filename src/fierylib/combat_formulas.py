@@ -387,11 +387,9 @@ def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
         "soak": 0,
         "hardness": 0,
         "wardPercent": 0,
-        "resistanceFire": 0,
-        "resistanceCold": 0,
-        "resistanceLightning": 0,
-        "resistanceAcid": 0,
-        "resistancePoison": 0,
+        # Resistances stored as JSON object with ElementType keys
+        # Values: -100 (2x damage) to 100 (immune), only non-zero values stored
+        "resistances": {},
     }
 
 
@@ -428,7 +426,7 @@ def calculate_placeholder_stats(
         Dict with placeholder stat initial values:
         - attackPower, spellPower, soak, hardness, wardPercent
         - penetrationFlat, penetrationPercent
-        - resistanceFire, resistanceCold, resistanceLightning, resistanceAcid, resistancePoison
+        - resistances: JSON object with ElementType keys (FIRE, COLD, SHOCK, ACID, POISON)
     """
     mob_flags = mob_flags or []
     effect_flags = effect_flags or []
@@ -644,6 +642,20 @@ def calculate_placeholder_stats(
     for element in resistances:
         resistances[element] = max(-50, min(90, resistances[element]))
 
+    # Convert to JSON object with ElementType keys (only non-zero values)
+    # Note: "lightning" in internal dict maps to "SHOCK" in schema
+    resistances_json = {}
+    if resistances["fire"] != 0:
+        resistances_json["FIRE"] = resistances["fire"]
+    if resistances["cold"] != 0:
+        resistances_json["COLD"] = resistances["cold"]
+    if resistances["lightning"] != 0:
+        resistances_json["SHOCK"] = resistances["lightning"]  # SHOCK not LIGHTNING
+    if resistances["acid"] != 0:
+        resistances_json["ACID"] = resistances["acid"]
+    if resistances["poison"] != 0:
+        resistances_json["POISON"] = resistances["poison"]
+
     return {
         "attackPower": attack_power,
         "spellPower": spell_power,
@@ -652,9 +664,5 @@ def calculate_placeholder_stats(
         "wardPercent": ward_percent,
         "penetrationFlat": penetration_flat,
         "penetrationPercent": penetration_percent,
-        "resistanceFire": resistances["fire"],
-        "resistanceCold": resistances["cold"],
-        "resistanceLightning": resistances["lightning"],
-        "resistanceAcid": resistances["acid"],
-        "resistancePoison": resistances["poison"],
+        "resistances": resistances_json,
     }

@@ -30,26 +30,33 @@ class ClassImporterV2:
 
         for class_data in classes_data:
             try:
+                # Skip classes with None name (e.g., layman placeholder)
+                if class_data.get("name") is None or class_data.get("plainName") is None:
+                    stats["classes_skipped"] += 1
+                    continue
+
+                # Check if class already exists (by plainName since that's unique)
                 if skip_existing:
                     existing = await self.prisma.characterclass.find_first(
-                        where={"name": class_data["name"]}
+                        where={"plainName": class_data["plainName"]}
                     )
                     if existing:
                         stats["classes_skipped"] += 1
                         continue
 
+                # Create class (middleware will auto-generate plainName from name)
                 await self.prisma.characterclass.create(
                     data={
-                        "name": class_data["name"],
-                        "description": f"Class: {class_data['displayName'] or class_data['name']}",
+                        "name": class_data["name"],  # With XML-Lite colors
+                        "plainName": class_data["plainName"],  # Plain text (Python doesn't have middleware)
                     }
                 )
 
                 stats["classes_created"] += 1
-                click.echo(f"    ✓ Imported class: {class_data['name']}")
+                click.echo(f"    ✓ Imported class: {class_data['plainName']}")
 
             except Exception as e:
-                click.echo(f"    ✗ Error importing class {class_data.get('name', 'unknown')}: {e}")
+                click.echo(f"    ✗ Error importing class {class_data.get('plainName', 'unknown')}: {e}")
                 stats["errors"] += 1
 
         click.echo(f"  ✅ Classes imported: {stats['classes_created']}, skipped: {stats['classes_skipped']}")
@@ -88,8 +95,9 @@ class ClassImporterV2:
             by_class[class_name].append(assignment)
 
         for class_name, assignments in sorted(by_class.items()):
+            # Look up by plainName (title-cased, e.g., "sorcerer" -> "Sorcerer", "anti-paladin" -> "Anti-Paladin")
             character_class = await self.prisma.characterclass.find_first(
-                where={"name": class_name}
+                where={"plainName": class_name.title()}
             )
 
             if not character_class:
@@ -97,14 +105,14 @@ class ClassImporterV2:
                 stats["class_not_found"] += len(assignments)
                 continue
 
-            click.echo(f"    Processing {character_class.name}: {len(assignments)} skills")
+            click.echo(f"    Processing {character_class.plainName}: {len(assignments)} skills")
 
             for assignment in assignments:
                 try:
-                    # Normalize C++ name to database name (e.g., 2H_BLUDGEONING → TWO_HAND_BLUDGEONING)
+                    # Normalize C++ name to database plainName (e.g., 2H_BLUDGEONING → TWO_HAND_BLUDGEONING)
                     normalized_skill_name = normalize_skill_name(assignment["skillName"])
                     ability = await self.prisma.ability.find_first(
-                        where={"name": normalized_skill_name}
+                        where={"plainName": normalized_skill_name}
                     )
 
                     if not ability:
@@ -178,8 +186,9 @@ class ClassImporterV2:
             by_class[class_name].append(assignment)
 
         for class_name, assignments in sorted(by_class.items()):
+            # Look up by plainName (title-cased, e.g., "sorcerer" -> "Sorcerer", "anti-paladin" -> "Anti-Paladin")
             character_class = await self.prisma.characterclass.find_first(
-                where={"name": class_name}
+                where={"plainName": class_name.title()}
             )
 
             if not character_class:
@@ -187,15 +196,15 @@ class ClassImporterV2:
                 stats["class_not_found"] += len(assignments)
                 continue
 
-            click.echo(f"    Processing {character_class.name}: {len(assignments)} spells")
+            click.echo(f"    Processing {character_class.plainName}: {len(assignments)} spells")
 
             for assignment in assignments:
                 try:
-                    # Look up spell in Ability table by name
+                    # Look up spell in Ability table by plainName
                     # Note: Spells don't currently need normalization, but we apply it for consistency
                     normalized_spell_name = normalize_skill_name(assignment["skillName"])
                     ability = await self.prisma.ability.find_first(
-                        where={"name": normalized_spell_name}
+                        where={"plainName": normalized_spell_name}
                     )
 
                     if not ability:
@@ -275,8 +284,9 @@ class ClassImporterV2:
 
         for (class_name, circle), min_level in sorted(circle_access.items()):
             try:
+                # Look up by plainName (title-cased, e.g., "sorcerer" -> "Sorcerer", "anti-paladin" -> "Anti-Paladin")
                 character_class = await self.prisma.characterclass.find_first(
-                    where={"name": class_name}
+                    where={"plainName": class_name.title()}
                 )
 
                 if not character_class:

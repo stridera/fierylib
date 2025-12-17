@@ -1,0 +1,912 @@
+[
+  {
+    "name": "damage",
+    "effectType": "damage",
+    "description": "Deal damage to target. Supports instant, periodic (DoT), chain, and resource drain.",
+    "tags": [
+      "combat",
+      "offensive"
+    ],
+    "defaultParams": {
+      "type": "physical",
+      "amount": "1d6",
+      "scaling": "level"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "type",
+        "amount"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "physical",
+            "force",
+            "sonic",
+            "bleed",
+            "fire",
+            "cold",
+            "water",
+            "earth",
+            "air",
+            "shock",
+            "acid",
+            "poison",
+            "radiant",
+            "shadow",
+            "holy",
+            "unholy",
+            "necrotic",
+            "mental",
+            "nature",
+            "lifesteal"
+          ],
+          "type": "string",
+          "description": "Damage element type. 'lifesteal' heals caster for % of damage dealt."
+        },
+        "amount": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Damage formula: number, dice expression, or formula"
+        },
+        "scaling": {
+          "type": "string",
+          "description": "Stat to scale with: level, int, wis, skill, etc."
+        },
+        "resource": {
+          "enum": [
+            "hp",
+            "move"
+          ],
+          "type": "string",
+          "description": "Resource to damage. Defaults to hp."
+        },
+        "interval": {
+          "type": "integer",
+          "description": "Ticks between damage applications. Presence indicates DoT effect."
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Total duration in ticks for DoT effects, or formula."
+        },
+        "maxJumps": {
+          "type": "integer",
+          "description": "Maximum number of chain bounces. Presence indicates chain damage."
+        },
+        "attenuation": {
+          "type": "number",
+          "description": "Damage multiplier per chain jump (0.0-1.0). Default 0.7."
+        }
+      }
+    }
+  },
+  {
+    "name": "heal",
+    "effectType": "heal",
+    "description": "Restore a resource (HP, move) to target.",
+    "tags": [
+      "combat",
+      "restoration",
+      "support"
+    ],
+    "defaultParams": {
+      "amount": "1d8",
+      "scaling": "wis",
+      "resource": "hp"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "resource",
+        "amount"
+      ],
+      "properties": {
+        "resource": {
+          "enum": [
+            "hp",
+            "move"
+          ],
+          "type": "string"
+        },
+        "amount": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Heal formula: number, dice expression, or formula"
+        },
+        "scaling": {
+          "type": "string",
+          "description": "Stat to scale with: level, wis, cha, etc."
+        }
+      }
+    }
+  },
+  {
+    "name": "modify",
+    "effectType": "modify",
+    "description": "Modify any numeric value: stats, max resources, saving throws, size, etc.",
+    "tags": [
+      "buff",
+      "debuff",
+      "attribute"
+    ],
+    "defaultParams": {
+      "target": "str",
+      "amount": 4,
+      "duration": "level"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "target",
+        "amount"
+      ],
+      "properties": {
+        "target": {
+          "enum": [
+            "str",
+            "dex",
+            "con",
+            "int",
+            "wis",
+            "cha",
+            "hitroll",
+            "damroll",
+            "ac",
+            "ap",
+            "focus",
+            "acc",
+            "eva",
+            "ward",
+            "max_hp",
+            "max_move",
+            "save_spell",
+            "save_para",
+            "save_rod",
+            "save_petri",
+            "save_breath",
+            "save_all",
+            "size",
+            "speed",
+            "regen_hp",
+            "regen_move"
+          ],
+          "type": "string",
+          "description": "What to modify: attribute, combat stat, max resource, save, or other"
+        },
+        "amount": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Modification amount. Negative for penalties, positive for bonuses."
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Duration in ticks or formula"
+        }
+      }
+    }
+  },
+  {
+    "name": "status",
+    "effectType": "status",
+    "description": "Apply a status flag. Handles simple buffs, CC, stealth, detection, resistance, vulnerability, and reflect.",
+    "tags": [
+      "status",
+      "buff",
+      "debuff"
+    ],
+    "defaultParams": {
+      "flag": "bless",
+      "duration": "level * 2"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "flag"
+      ],
+      "properties": {
+        "flag": {
+          "enum": [
+            "bless",
+            "sanctuary",
+            "fly",
+            "haste",
+            "featherfall",
+            "waterwalk",
+            "waterbreath",
+            "aware",
+            "berserk",
+            "glowing",
+            "empowered",
+            "meditating",
+            "paralyzed",
+            "sleeping",
+            "charmed",
+            "feared",
+            "confused",
+            "silenced",
+            "slowed",
+            "webbed",
+            "blinded",
+            "hidden",
+            "invisible",
+            "detect_invisible",
+            "detect_magic",
+            "detect_align",
+            "detect_poison",
+            "detect_life",
+            "detect_hidden",
+            "infravision",
+            "ultravision",
+            "resistance",
+            "vulnerability",
+            "reflect",
+            "elemental_hands",
+            "lifesteal",
+            "taunted"
+          ],
+          "type": "string",
+          "description": "Status flag to apply"
+        },
+        "type": {
+          "type": "string",
+          "description": "Element type for resistance/vulnerability/reflect/elemental_hands (fire, cold, etc.)"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "Percentage for resistance (0-100 reduction), vulnerability (>100 = extra), reflect (% returned), elemental_hands (% bonus damage), or lifesteal (% healed)"
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Duration in ticks or formula"
+        },
+        "breakOnDamage": {
+          "type": "boolean",
+          "description": "For CC effects: can be broken by taking damage"
+        },
+        "contestedBy": {
+          "type": "string",
+          "description": "Skill that opposes this effect (e.g., 'perception' for hidden)"
+        },
+        "source": {
+          "type": "string",
+          "description": "Source reference for effects like taunted (e.g., 'caster')"
+        },
+        "consumeOnCast": {
+          "type": "boolean",
+          "description": "For empowered: consumed after next spell cast. One-use buff."
+        }
+      }
+    }
+  },
+  {
+    "name": "cleanse",
+    "effectType": "cleanse",
+    "description": "Remove a status condition (poison, curse, paralysis, disease, etc.).",
+    "tags": [
+      "restoration",
+      "support"
+    ],
+    "defaultParams": {
+      "condition": "poison",
+      "scope": "all"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "condition"
+      ],
+      "properties": {
+        "condition": {
+          "enum": [
+            "poison",
+            "disease",
+            "curse",
+            "paralysis",
+            "blind",
+            "silence",
+            "fear",
+            "charm",
+            "all"
+          ],
+          "type": "string",
+          "description": "Condition to remove"
+        },
+        "scope": {
+          "enum": [
+            "first",
+            "all"
+          ],
+          "type": "string",
+          "description": "Remove first instance or all instances"
+        }
+      }
+    }
+  },
+  {
+    "name": "dispel",
+    "effectType": "dispel",
+    "description": "Remove or suppress magical effects.",
+    "tags": [
+      "utility",
+      "magic"
+    ],
+    "defaultParams": {
+      "filter": "magic",
+      "scope": "all",
+      "power": "level"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "filter"
+      ],
+      "properties": {
+        "filter": {
+          "enum": [
+            "magic",
+            "evil",
+            "good",
+            "curse",
+            "buff",
+            "debuff",
+            "all"
+          ],
+          "type": "string",
+          "description": "Type of effects to dispel"
+        },
+        "scope": {
+          "enum": [
+            "first",
+            "all",
+            "random"
+          ],
+          "type": "string"
+        },
+        "power": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Dispel power for contested checks"
+        }
+      }
+    }
+  },
+  {
+    "name": "reveal",
+    "effectType": "reveal",
+    "description": "One-time reveal of hidden information (identify, locate, faerie fire, etc.).",
+    "tags": [
+      "utility",
+      "information"
+    ],
+    "defaultParams": {
+      "type": "hidden",
+      "depth": "room"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "object",
+            "creature",
+            "hidden",
+            "invisible",
+            "magic"
+          ],
+          "type": "string",
+          "description": "What to reveal"
+        },
+        "depth": {
+          "enum": [
+            "room",
+            "area",
+            "zone",
+            "world"
+          ],
+          "type": "string",
+          "description": "Search range"
+        },
+        "autoDispel": {
+          "type": "boolean",
+          "description": "Auto-dispel revealed effects (e.g., faerie fire breaks invisibility)"
+        }
+      }
+    }
+  },
+  {
+    "name": "teleport",
+    "effectType": "teleport",
+    "description": "Teleport target(s) to a destination. Use scope for group teleports.",
+    "tags": [
+      "utility",
+      "movement",
+      "teleport"
+    ],
+    "defaultParams": {
+      "destination": "home",
+      "scope": "self",
+      "restrictions": [
+        "not_in_combat"
+      ]
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "destination"
+      ],
+      "properties": {
+        "destination": {
+          "enum": [
+            "home",
+            "recall",
+            "random",
+            "target",
+            "anchor"
+          ],
+          "type": "string",
+          "description": "Where to teleport"
+        },
+        "scope": {
+          "enum": [
+            "self",
+            "target",
+            "group"
+          ],
+          "type": "string",
+          "description": "Who gets teleported. 'group' affects all group members in same room."
+        },
+        "restrictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions that prevent teleport (not_in_combat, etc.)"
+        }
+      }
+    }
+  },
+  {
+    "name": "extract",
+    "effectType": "extract",
+    "description": "Remove a mob or object from the game. No XP awarded.",
+    "tags": [
+      "offensive",
+      "utility"
+    ],
+    "defaultParams": {
+      "target": "mob"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "target"
+      ],
+      "properties": {
+        "target": {
+          "enum": [
+            "mob",
+            "object"
+          ],
+          "type": "string",
+          "description": "What to extract from the game"
+        },
+        "destroyEquipment": {
+          "type": "boolean",
+          "description": "Also destroy equipment when extracting a mob"
+        }
+      }
+    },
+    "notes": "Use for banishment abilities. Tiered outcomes (damage on partial success, extract on full success) should be handled at the ability level with chance gates."
+  },
+  {
+    "name": "move",
+    "effectType": "move",
+    "description": "Forced movement: knockback, pull, or position swap.",
+    "tags": [
+      "combat",
+      "control"
+    ],
+    "defaultParams": {
+      "direction": "away",
+      "distance": 1
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "direction"
+      ],
+      "properties": {
+        "direction": {
+          "enum": [
+            "away",
+            "toward",
+            "swap",
+            "random"
+          ],
+          "type": "string",
+          "description": "Direction of forced movement relative to caster"
+        },
+        "distance": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Number of rooms to move. Not used for 'swap'."
+        }
+      }
+    }
+  },
+  {
+    "name": "interrupt",
+    "effectType": "interrupt",
+    "description": "Stop spellcasting or channeling. Contested check against target's concentration.",
+    "tags": [
+      "combat",
+      "control"
+    ],
+    "defaultParams": {
+      "power": "skill"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "power"
+      ],
+      "properties": {
+        "power": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Interrupt power for contested check vs concentration"
+        },
+        "filter": {
+          "enum": [
+            "all",
+            "magic",
+            "skill"
+          ],
+          "type": "string",
+          "description": "What can be interrupted. 'magic' for counterspell effects."
+        }
+      }
+    },
+    "notes": "Used by kick, bash, counterspell, etc. Success depends on contested roll."
+  },
+  {
+    "name": "transform",
+    "effectType": "transform",
+    "description": "Change into a different form. References form templates in forms.json.",
+    "tags": [
+      "utility",
+      "shapechange"
+    ],
+    "defaultParams": {
+      "form": "wolf",
+      "duration": "level * 2"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "form"
+      ],
+      "properties": {
+        "form": {
+          "type": "string",
+          "description": "Form template name from forms.json"
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Duration of transformation"
+        },
+        "hostile": {
+          "type": "boolean",
+          "description": "True for baleful polymorph (unwanted transformation)"
+        }
+      }
+    },
+    "notes": "Form templates define: modifiers, abilities granted/restricted, size change, description."
+  },
+  {
+    "name": "resurrect",
+    "effectType": "resurrect",
+    "description": "Restore a dead player to life.",
+    "tags": [
+      "restoration",
+      "special"
+    ],
+    "defaultParams": {
+      "hpPercent": 0.1,
+      "expPenalty": 0.1,
+      "equipTransfer": true
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "hpPercent": {
+          "type": "number",
+          "description": "Percentage of max HP restored (0.0-1.0)"
+        },
+        "expPenalty": {
+          "type": "number",
+          "description": "Fraction of exp lost on resurrection (0.0-1.0)"
+        },
+        "equipTransfer": {
+          "type": "boolean",
+          "description": "Transfer equipment from corpse to player"
+        }
+      }
+    }
+  },
+  {
+    "name": "create",
+    "effectType": "create",
+    "description": "Create an object (food, water, light, weapon, portal, etc.).",
+    "tags": [
+      "utility",
+      "creation"
+    ],
+    "defaultParams": {
+      "objectType": "food",
+      "decay": 24
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "objectType"
+      ],
+      "properties": {
+        "objectType": {
+          "enum": [
+            "food",
+            "water",
+            "light",
+            "spring",
+            "weapon",
+            "portal"
+          ],
+          "type": "string",
+          "description": "Type of object to create"
+        },
+        "decay": {
+          "type": "integer",
+          "description": "Hours until object decays"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Number of objects to create"
+        }
+      }
+    }
+  },
+  {
+    "name": "summon",
+    "effectType": "summon",
+    "description": "Summon a creature to serve the caster.",
+    "tags": [
+      "utility",
+      "summoning"
+    ],
+    "defaultParams": {
+      "mobType": "elemental",
+      "duration": 100,
+      "maxCount": 1
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "mobType"
+      ],
+      "properties": {
+        "mobType": {
+          "type": "string",
+          "description": "Type of creature to summon (references mob template)"
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Duration before summoned creature disappears"
+        },
+        "maxCount": {
+          "type": "integer",
+          "description": "Maximum number of this type that can be active"
+        },
+        "consumesCorpse": {
+          "type": "boolean",
+          "description": "Whether summoning requires and consumes a corpse (animate dead)"
+        }
+      }
+    }
+  },
+  {
+    "name": "enchant",
+    "effectType": "enchant",
+    "description": "Apply an effect to an object. For weapon enchants, magic items, blessings, etc.",
+    "tags": [
+      "utility",
+      "magic",
+      "item"
+    ],
+    "defaultParams": {
+      "effect": "damage",
+      "type": "fire",
+      "amount": "skill * 2"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "effect"
+      ],
+      "properties": {
+        "effect": {
+          "enum": [
+            "damage",
+            "status"
+          ],
+          "type": "string",
+          "description": "Effect type to apply to the object"
+        },
+        "type": {
+          "type": "string",
+          "description": "For damage: element type. For status: flag name."
+        },
+        "flag": {
+          "type": "string",
+          "description": "For status effects: the status flag to apply (bless, detect_hidden, etc.)"
+        },
+        "amount": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Damage amount or effect strength"
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Time-based expiry in ticks. Omit for permanent."
+        },
+        "charges": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Hit/use-based expiry. Decrements per use."
+        }
+      }
+    },
+    "notes": "Can have duration, charges, or both (expires on whichever comes first). No duration/charges = permanent while equipped."
+  },
+  {
+    "name": "globe",
+    "effectType": "globe",
+    "description": "Create spell immunity globe. Blocks violent spells at or below maxCircle based on the spell's lowest class circle.",
+    "tags": [
+      "buff",
+      "protection",
+      "magic"
+    ],
+    "defaultParams": {
+      "maxCircle": 3,
+      "duration": "level"
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "maxCircle"
+      ],
+      "properties": {
+        "maxCircle": {
+          "type": "integer",
+          "description": "Maximum spell circle blocked (1-9). Minor globe = 3, Major globe = 6."
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Duration in ticks or formula"
+        }
+      }
+    },
+    "notes": "Only blocks violent spells. Non-violent spells always pass through. Dispel magic bypasses all globes."
+  },
+  {
+    "name": "room",
+    "effectType": "room",
+    "description": "Room-wide effect or barrier. Affects the entire room or blocks passage.",
+    "tags": [
+      "area",
+      "room"
+    ],
+    "defaultParams": {
+      "subtype": "effect",
+      "type": "darkness",
+      "duration": 10
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "subtype",
+        "type"
+      ],
+      "properties": {
+        "subtype": {
+          "enum": [
+            "effect",
+            "barrier"
+          ],
+          "type": "string",
+          "description": "Room effect (environmental) or barrier (blocks movement)"
+        },
+        "type": {
+          "type": "string",
+          "description": "Effect: darkness, light, fog, fire, cold, acid, silence, burning. Barrier: stone, ice, fog, fire, illusion, web."
+        },
+        "duration": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Duration in ticks or formula"
+        },
+        "damagePerTick": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "For damaging room effects (fire, acid)"
+        },
+        "damageOnMovement": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "description": "Damage dealt when entering/leaving room (burning)"
+        },
+        "hp": {
+          "type": "integer",
+          "description": "For barriers: hit points before destroyed"
+        },
+        "traversalRules": {
+          "enum": [
+            "block",
+            "slow",
+            "damage",
+            "passable"
+          ],
+          "type": "string",
+          "description": "For barriers: how movement is affected"
+        }
+      }
+    }
+  }
+]

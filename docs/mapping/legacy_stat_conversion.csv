@@ -1,0 +1,22 @@
+Legacy_Stat,New_Stats,Conversion,Notes
+AC,"eva, ward",AC_to_defense,"Light armor → eva, Heavy armor → ward, Mixed → both"
+CHA,cha,direct,
+CON,con,direct,
+DAMROLL,damroll,direct,
+DEX,dex,direct,
+FOCUS,focus,direct,
+HIDDENNESS,stealth,direct,
+HIT,max_hp,direct,
+HITROLL,acc,direct,
+INT,int,direct,
+MANA,focus,direct,Mana → Focus (spell slot recovery rate); spell slots added manually
+MOVE,max_stamina,direct,Renamed to Stamina (movement + physical skills)
+PERCEPTION,perception,direct,
+SAVING_BREATH,save_breath,negate,
+SAVING_PARA,save_para,negate,
+SAVING_PETRI,save_petri,negate,
+SAVING_ROD,save_rod,negate,
+SAVING_SPELL,save_spell,negate,
+SIZE,size,direct,
+STR,str,direct,
+WIS,wis,direct,

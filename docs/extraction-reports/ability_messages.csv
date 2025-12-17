@@ -1,0 +1,293 @@
+ability_id,ability_name,wearoff_to_target,success_to_caster,success_to_victim,success_to_room
+SPELL_ACID_BREATH,acid breath,,,,
+SPELL_ACID_BURST,acid burst,,,,
+SPELL_ACID_FOG,acid fog,,,,
+SPELL_ANCESTRAL_VENGEANCE,ancestral vengeance,,,,
+SPELL_ANIMATE_DEAD,animate dead,Your undead creation crumbles to dust.,,,
+CHANT_ARIA_OF_DISSONANCE,aria of dissonance,,Your song of dissonance confuses {target.name}!,"{actor.name} fills your ears with an aria of dissonance, causing confusion!",{target.name} winces as {actor.name}'s dissonant song fills {target.pronoun.possessive} ears.
+SPELL_ARMOR,armor,You feel less protected.,&7&bYou magically restore the gaps in {target.name}'s armor.&0,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+SPELL_ARMOR_OF_GAIA,armor of gaia,,,,
+SPELL_BALEFUL_POLYMORPH,baleful polymorph,,,,
+SONG_BALLAD_OF_TEARS,ballad of tears,,&9&bYou weave a tale of suffering and misery!&0,Your spirit withers in terror and sorrow!,{target.name}'s spirit withers in terror and sorrow!
+SPELL_BANISH,banish,,,,
+SPELL_BARKSKIN,barkskin,Your skin softens back to its original texture.,,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+CHANT_BATTLE_HYMN,battle hymn,,,Your heart beats with the rage of your fallen brothers.,{actor.name}'s chest swells with courage!
+SPELL_BIGBYS_CLENCHED_FIST,bigbys clenched fist,,,,
+SPELL_BLESS,bless,You feel less righteous.,{target.name} is inspired by your gods.,Your inner angel is inspired.\r You feel righteous.,{actor.name} is inspired to do good.
+SPELL_BLINDING_BEAUTY,blinding beauty,You feel a cloak of blindness dissolve.,&9&b{target.name}&9&b is blinded by you!&0,&9&bYou have been blinded!&0,&9&b{target.name}&9&b is blinded by {actor.name}!&0
+SPELL_BLINDNESS,blindness,You feel a cloak of blindness dissolve.,,,
+CHANT_BLIZZARDS_OF_SAINT_AUGUSTINE,blizzards of saint augustine,,,&4&bYou unleash the blizzard in your heart.&0,&4&b{target.name} unleashes the blizzard in {target.pronoun.possessive} heart.&0
+SPELL_BLIZZARDS_OF_SAINT_AUGUSTINE,blizzards of st. augustine,Your inner cold subsides.,,,
+SPELL_BLUR,blur,normal speed.,,&7The world seems to slow as you start moving with unnatural speed!&0,&7{target.name}'s image blurs in unnatural speed!&0
+SPELL_BONE_ARMOR,bone armor,&3Your skin returns to normal.&0,,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+SPELL_BONE_CAGE,bone cage,The bones holding you down crumble to dust.,You conjure four magical bones to lock {target.name} in place!,{actor.name} conjures four magical bones which bind your legs!,{actor.name} conjures four magical bones that lock around {target.name}'s legs!
+SPELL_BURNING_HANDS,burning hands,,,,
+SPELL_CALL_LIGHTNING,call lightning,,,,
+SPELL_CAUSE_CRITIC,cause critical,,,,
+SPELL_CAUSE_LIGHT,cause light,,,,
+SPELL_CAUSE_SERIOUS,cause serious,,,,
+SPELL_CHAIN_LIGHTNING,chain lightning,,&4&bYou send powerful bolts of lightning from your body...&0,,&4&b{actor.name}&4&b sends powerful bolts of lightning into {actor.pronoun.possessive} foes...&0
+SPELL_CHARM,charm person,You feel more self-confident.,,,
+SPELL_CHILL_TOUCH,chill touch,You feel your strength return.,{target.name} is withered by your cold!,You feel your strength wither!,{target.name} withers slightly from {actor.name}'s cold!
+SPELL_CIRCLE_OF_DEATH,circle of death,,&9&bWaves of death energy wash outward from you in a violent circle.&0,,&9&b{actor.name}&9&b sends waves of death energy outward in a violent circle.&0
+SPELL_CIRCLE_OF_FIRE,circle of fire,&1&bThe &1&bfl&3am&1es&0 &1surrounding &1the area &9&bdie out&0.,&1A ring of fire encircles the area.&0,,&1A ring of fire encircles the area.&0
+SPELL_CIRCLE_OF_LIGHT,circle of light,The circle of light above you fades out.,,&7&bA bright white circle of light begins hovering about your head.&0,&7&bA bright white circle of light appears over {target.name}'s&7&b head.
+SPELL_CLARITY,clarity,Your mind returns to its normal state.,You feel more clear-headed.,You feel more clear-headed.,{target.name} looks more clear-headed.
+SPELL_GAIAS_CLOAK,cloak of gaia,Your shroud of nature dissolves.,,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+SPELL_CLONE,clone,,,,
+SPELL_CLOUD_OF_DAGGERS,cloud of daggers,,,,
+SPELL_COLDSHIELD,coldshield,The ice formation around your body melts.,,&4A jagged formation of i&bc&7e sh&4ard&0&4s forms around you.&0,&4A jagged formation of i&bc&7e sh&4ard&0&4s forms around {target.name}&0&4.&0
+SPELL_COLOR_SPRAY,color spray,,,,
+SPELL_CONCEALMENT,concealment,You fade back into view.,,,
+SPELL_CONE_OF_COLD,cone of cold,,,,
+SPELL_CONFUSION,confusion,You no longer feel so confused.,,&5You suddenly find it difficult to focus upon your foes.&0,{target.name} can't decide which way to cross {target.pronoun.possessive} eyes!
+SPELL_CONTROL_WEATHER,control weather,,,,
+SPELL_CREATE_FOOD,create food,,You create $p.,,{actor.name} creates $p.
+SPELL_CREATE_SPRING,create spring,,,,
+SPELL_CREATE_WATER,create water,,,,
+SPELL_CREEPING_DOOM,creeping doom,,,,
+SPELL_CREMATE,cremate,,&1You raise up a huge conflaguration in the area.&0,,&1{actor.name} summons a huge conflagration burning through the area.&0
+SONG_CROWN_OF_MADNESS,crown of madness,,You cause &5{target.name} to snap... A crazed gleam fills {target.pronoun.possessive} eyes.&0,&5You go out of your &bMIND!&0,&5{target.name}'s&5 psyche snaps... A crazed gleam fills {target.pronoun.possessive} eyes.&0
+SPELL_CURE_BLIND,cure blind,,,,
+SPELL_CURE_CRITIC,cure critic,,,,
+SPELL_CURE_LIGHT,cure light,,,,
+SPELL_CURE_SERIOUS,cure serious,,,,
+SPELL_CURSE,curse,You feel more optimistic.,You curse {target.name}! Muahahah!,You feel very uncomfortable.,{target.name} briefly glows red!
+SPELL_DARK_FEAST,dark feast,,,,
+SPELL_DARK_PRESENCE,dark presence,You feel the dark presence leave you.,You summon allegiance from your dark gods to protect {target.name}.,You summon allegiance from your dark gods to protect yourself. &9&bA dark presence fills your mind.&0,"{actor.name} seizes up in pain! {actor.name} crosses {actor.pronoun.possessive} arms on {actor.pronoun.possessive} chest, and is surrounded by a dark presence."
+SPELL_DARKNESS,darkness,The magical darkness lifts.,,,
+SPELL_DECAY,decay,,,,
+SPELL_DEGENERATION,degeneration,,,,
+SPELL_DEMONIC_ASPECT,demonic aspect,The demon within you fades away.,,,
+SPELL_DEMONIC_MUTATION,demonic mutation,You mutate back to your original form.,,&1Your body fills with a demonic strength.&0,&1{actor.name}'s&1 body &bglows red&0&1 briefly and grows stronger.&0
+SPELL_DEMONSKIN,demonskin,Your skin reverts back to normal.,,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+SPELL_DESTROY_UNDEAD,destroy undead,,,,
+SPELL_DETECT_ALIGN,detect alignment,You feel less aware.,{target.name} can determine alignment.,Your eyes tingle.,&7&b{target.name}&7&b glows briefly.&0
+SPELL_DETECT_INVIS,detect invisibility,Your eyes stop tingling.,,Your eyes tingle.,
+SPELL_DETECT_MAGIC,detect magic,The detect magic wears off.,,Your eyes tingle.,
+SPELL_DETECT_POISON,detect poison,You feel slightly less aware.,,Your eyes tingle.,
+SPELL_DETONATION,detonation,,,,
+SPELL_DIMENSION_DOOR,dimension door,,,,
+SPELL_DISCORPORATE,discorporate,,,,
+SPELL_DISEASE,disease,You are cured of your disease!,Your diseased air infects {target.name}!,&3You choke and gasp on {actor.name}'s foul air as a sick feeling overtakes you. You feel seriously ill!&0,"&3{target.name}&3 chokes and gasps on {actor.name}'s foul air, {target.pronoun.Subjective} looks seriously ill!"
+SPELL_DISINTEGRATE,disintegrate,,,,
+SPELL_DISPEL_EVIL,dispel evil,,,,
+SPELL_DISPEL_GOOD,dispel good,,,,
+SPELL_DISPEL_MAGIC,dispel magic,,,,
+SPELL_DISPLACEMENT,displacement,&9&bYour image solidifies.&0,,,
+SPELL_DIVINE_BOLT,divine bolt,,,,
+SPELL_DIVINE_ESSENCE,divine essence,,&3&bYou invoke your deity's divine essence!&0,,&3&b{actor.name}&3&b invokes {actor.pronoun.possessive} deity's divine essence to fill the area!&0
+SPELL_DIVINE_RAY,divine ray,,,,
+SPELL_DOOM,doom,,,,
+SPELL_DRAGONS_HEALTH,dragons health,Your health returns to normal.,{target.name} looks healthier than before!,,{target.name} looks healthier than before!
+SPELL_EARTH_BLESSING,earth blessing,You feel less righteous.,{target.name} is imbued with the power of nature.,You imbue yourself with the power of nature.,{target.name} is imbued with the power of nature.
+SPELL_EARTHQUAKE,earthquake,,&3You gesture and the earth begins to shake all around you!&0,,{actor.name}&3 gracefully gestures and the earth begins to shake violently!&0
+SKILL_ELECTRIFY,electrify,,&4You send out electricity in all directions...&0,,&4{actor.name}&4 sends out electricity in all directions...&0
+SPELL_ELEMENTAL_WARDING,elemental warding,You feel less safe from the elements.,You protect {target.name} from &1fire&0.,You are warded from &1fire&0.,&7&b{target.name}&7&b glows briefly.&0
+SPELL_ENCHANT_WEAPON,enchant weapon,,,,
+SPELL_ENDURANCE,endurance,Your endurance returns to normal.,,,
+SPELL_ENERGY_DRAIN,energy drain,,,,
+SPELL_ENHANCE_ABILITY,enhance ability,You feel less enhanced.,You increase {target.name}'s strength!,You feel stronger!,{target.name} looks stronger!
+SPELL_ENHANCE_CHA,enhance charisma,You feel uglier.,,,
+SPELL_ENHANCE_CON,enhance constitution,You feel less healthy.,,,
+SPELL_ENHANCE_DEX,enhance dexterity,You feel slower.,,,
+SPELL_ENHANCE_INT,enhance intelligence,You feel dumber.,,,
+SPELL_ENHANCE_STR,enhance strength,You feel weaker.,,,
+SPELL_ENHANCE_WIS,enhance wisdom,You feel less witty.,,,
+SPELL_ENLARGE,enlarge,You return to your normal size.&0,,&9&bYour skin starts to itch as you enlarge to twice your normal size!&0,&9&b{target.name}'s skin ripples as {target.pronoun.Subjective} enlarges to twice {target.pronoun.possessive} normal size!&0
+SPELL_ENLIGHTENMENT,enlightenment,,,,
+SONG_ENRAPTURE,enrapture,,"You weave a mesmerizing pattern before {target.name}, and {target.pronoun.Subjective} seems to be utterly absorbed by it.",{actor.name} shows you a truly fascinating puzzle. You simply must work it out.,"{actor.name} &0&5w&4e&5av&4es a &5mesme&4rizing pa&5ttern before &0{target.name}'s eyes. {target.name} appears entranced, as if working out a puzzle of some kind."
+SPELL_ENTANGLE,entangle,You break free of the vines.,"&2&bYour crop of thick branches and vines burst from the ground, partially entangling {target.name}!&0","&2&bA slew of thick branches and vines burst from the ground, partially entangling you!&0","&2&bA slew of thick branches and vines burst from the ground, partially entangling {target.name}!&0"
+SPELL_EXORCISM,exorcism,,,,
+SPELL_EXTINGUISH,extinguish,,,,
+SPELL_FAMILIARITY,familiarity,Your familiar disguise melts away.,,&7&bAn aura of comfort and solidarity surrounds you.&0,"You know in your heart that {target.name} is a steady friend, to be depended upon."
+SPELL_FARSEE,farsee,Your pupils dilate as your vision returns to normal.,,Your sight improves dramatically.,{target.name}'s pupils dilate rapidly for a second.
+SPELL_FEAR,fear,Your courage returns to you.,,,
+SPELL_FEATHER_FALL,feather fall,You float back to the ground.,&6{target.name}&0&6 floats up into the air.&0,&6You float up into the air.&0,&6{target.name}&0&6 floats up into the air.&0
+SPELL_FIRE_BREATH,fire breath,,,,
+SPELL_FIRE_DARTS,fire darts,,,,
+SPELL_FIREBALL,fireball,,,,
+CHANT_FIRES_OF_SAINT_AUGUSTINE,fires of saint augustine,,,&1Your fists burn with inner fire.&0,&1{target.name}'s fists burn with inner fire.&0
+SPELL_FIRES_OF_SAINT_AUGUSTINE,fires of st. augustine,Your inner fire subsides.,,,
+SPELL_FIRESHIELD,fireshield,The flames around your body dissipate.,,&1A burning shield of f&bi&3r&7e&0&1 explodes from your body!&0,&1A burning shield of f&bi&3r&7e&0&1 explodes from {target.name}&0&1's body!&0
+SPELL_FIRESTORM,firestorm,,You conjure a gout of flame to sweep through the area.,,{actor.name} waves his hands as a gout of flame floods into the area.
+SPELL_FLAME_BLADE,flame blade,,,,
+SPELL_FLAMESTRIKE,flamestrike,,,,
+SPELL_FLOOD,flood,,,,
+SPELL_FLY,fly,You feel the weight of your body return.,{target.name} remains earthbound.,You feel somewhat lighter.,&6&b{target.name} lifts into the air.&0
+SPELL_FRACTURE,fracture,,,,
+SPELL_FRACTURE_SHRAPNEL,fracture shrapnel,,,,
+SONG_FREEDOM_SONG,freedom song,,,,
+SPELL_FREEZE,freeze,,,,
+SPELL_FREEZING_WIND,freezing wind,,&6&bYou release a &0&4chilling&6&b stream of air at your foes.&0,,&6&b{actor.name}&6&b releases a &0&4chilling&6&b stream of air.&0
+SPELL_FROST_BREATH,frost breath,,,,
+SPELL_FULL_HARM,full harm,,,,
+SPELL_FULL_HEAL,full heal,,,Your vision returns!,There's a momentary gleam in {actor.name}'s eyes.
+SPELL_GAS_BREATH,gas breath,,{target.name} gets violently ill!,You feel very sick.,{target.name} gets violently ill!
+SPELL_GLORY,glory,Your visage becomes plain once again.,,"&7&bYou stand tall in the light, a beacon of greatness.&0","&7&b{target.name} seems taller in the light, and appears like unto a god.&0"
+SPELL_GREATER_DISPLACEMENT,greater displacement,&9&bYour image solidifies.&0,&9&b{target.name}'s image blurs into the shadows!&0,&9&bYour image blurs into the shadows!&0,&9&b{target.name}'s image blurs into the shadows!&0
+SPELL_GREATER_ENDURANCE,greater endurance,Your endurance returns to normal.,,,
+SPELL_GREATER_VITALITY,greater vitality,Your magical vitality drains away.,,,
+SPELL_GROUP_ARMOR,group armor,,,,
+SPELL_GROUP_HEAL,group heal,,,,
+SPELL_GROUP_RECALL,group recall,,,,
+SPELL_HARM,harm,,,,
+SPELL_HARNESS,harness,&4The harnessed power in your body fades.&0,,&4&bYour veins begin to pulse with energy!&0,&4&b{target.name}&4&b's veins bulge as a surge of energy rushes into {target.pronoun.objective}!&0
+SPELL_HASTE,haste,Your pulse returns to normal.,&1{target.name} starts to move with uncanny speed!&0,&1You start to move with uncanny speed!&0,&1{target.name} starts to move with uncanny speed!&0
+SPELL_HEAL,heal,,,,
+SONG_HEARTHSONG,hearthsong,,&3&bYou deepen the bonds of community and fellowship with your group.&0,,&3&b{actor.name}&3&b deepens the bonds of community and fellowship amongst you.&0
+SPELL_HEAVENS_GATE,heavens gate,,,,
+SPELL_HELL_BOLT,hell bolt,,,,
+SPELL_HELLS_GATE,hell gate,,,,
+SPELL_HELLFIRE_BRIMSTONE,hellfire and brimstone,,&1A large hole opens in the &3earth&1 nearby spouting a gout of &bhellfire&0&1 and &9&bbrimstone!&0,,&1A large hole opens in the &3earth&1 nearby spouting a gout of &bhellfire&0&1 and &9&bbrimstone!&0
+SONG_HEROIC_JOURNEY,heroic journey,,&6&bYou spin a tale of great triumph and adventure for your party!&0,{target.name}'s music soothes your fears.,&6&b{actor.name}&6&b spins a tale of great triumph and adventure for your party!&0
+SPELL_HOLY_WORD,holy word,,&7&bYou invoke a word of holy power!&0,,&7&b{actor.name} &7&butters a word of holy power!&0
+CHANT_HYMN_OF_SAINT_AUGUSTINE,hymn of saint augustine,,,,
+SPELL_HYSTERIA,hysteria,Your courage returns to you.,,,
+SPELL_ICE_ARMOR,ice armor,"Your iced encasing melts away, leaving you vulnerable again.",,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+SPELL_ICE_DAGGER,ice dagger,,,,
+SPELL_ICE_DARTS,ice darts,,,,
+SPELL_ICE_SHARDS,ice shards,,&6&bYou conjure thousands of razor sharp ice shards to massacre your foe!&0,,{actor.name} &6&bconjures thousands of razor sharp ice shards to massacre {actor.pronoun.possessive} foe!&0
+SPELL_ICE_STORM,ice storm,,&6&bYou crush your foes under a relentless ice storm!&0,,{actor.name}&6&b crushes {actor.pronoun.possessive} foes under a relentless ice storm!&0
+SPELL_ICEBALL,iceball,,,,
+SPELL_IDENTIFY,identify,,,,
+SPELL_ILLUMINATION,illumination,The magical light fades away.&0,,,
+SPELL_ILLUSORY_WALL,illusory wall,The wall dissolves into tiny motes of light...,,,
+SPELL_IMMOLATE,immolate,,,,
+SPELL_INCENDIARY_NEBULA,incendiary nebula,,&0&2You cackle as your &bwave of gases&0 &2torches your enemies!&0,,&0{actor.name}&2 cackles as his &bwave of gases&0&2 torches his enemies!&0
+SPELL_INFRAVISION,infravision,Your night vision seems to fade.,{target.name}'s eyes glow red.,Your eyes glow red.,{target.name}'s eyes glow red.
+SPELL_INN_ASCEN,innate ascen,You feel less splendid.,,You feel more resplendent!,
+SPELL_INN_BRILL,innate brill,You feel less intelligent.,,You feel smarter!,
+SPELL_INN_CHAZ,innate chaz,You feel weaker.,,You feel stronger!,
+SPELL_INN_SYLL,innate syll,You feel clumsier.,,You feel nimbler!,
+SPELL_INN_TASS,innate tass,You feel less wise.,,You feel wiser!,
+SPELL_INN_TREN,innate tren,You feel less healthy.,,You feel healthier!,
+SPELL_INSANITY,insanity,Your mind returns to reality.,,,
+SONG_INSPIRATION,inspiration,,,Your spirit swells with inspiration!,{target.name}'s spirit stirs with inspiration!
+CHANT_INTERMINABLE_WRATH,interminable wrath,,,A feeling of unforgiving wrath fills you.,{actor.name} bristles with anger.
+SPELL_INVIGORATE,invigorate,,,,
+SPELL_INVISIBLE,invisibility,You fade back into view.,,,
+SPELL_IRON_MAIDEN,iron maiden,,,,
+SPELL_ISOLATION,isolation,It is as if a veil has lifted from the surrounding area.,,,
+SONG_JOYFUL_NOISE,joyful noise,,,The noise shatters the silence about you!,{actor.name} begins to make sound again!
+SPELL_LESSER_ENDURANCE,lesser endurance,Your endurance returns to normal.,,,
+SPELL_LESSER_EXORCISM,lesser exorcism,,,,
+SPELL_LIGHTNING_BOLT,lightning bolt,,,,
+SPELL_LIGHTNING_BREATH,lightning breath,,,,
+SPELL_LOCATE_OBJECT,locate object,,,,
+SPELL_MAGIC_MISSILE,magic missile,,,,
+SPELL_MAGIC_TORCH,magic torch,Your magic torch peters out.,,"&1A magical flame bursts into focus, lighting the area.&0","&1A magical flame bursts into focus, lighting the area.&0"
+SPELL_MAJOR_GLOBE,major globe,The globe of force surrounding you dissipates.,&1&bYour shimmering globe of force wraps around {target.name}&1&b's body.&0,&1&bA shimmering globe of force wraps around your body.&0,&1&bA shimmering globe of force wraps around {target.name}&1&b's body.&0
+SPELL_MAJOR_PARALYSIS,major paralysis,You can move again.,,,
+SPELL_MASS_INVIS,mass invisibility,,$p vanishes.,You vanish.,{target.name} slowly fades out of existence.
+SPELL_MELT,melt,,,,
+SPELL_MESMERIZE,mesmerize,You regain your senses.,,,
+SPELL_METEORSWARM,meteorswarm,,&1You conjure up a controlled shower of meteors to crush your foes!&0,,{actor.name}&1 conjures a controlled shower of flaming meteors!&0
+SPELL_MINOR_CREATION,minor creation,,,,
+SPELL_MINOR_GLOBE,minor globe,The globe around your body fades out.,&1Your shimmering globe wraps around {target.name}&0&1's body.&0,&1A shimmering globe wraps around your body.&0,&1A shimmering globe wraps around {target.name}&0&1's body.&0
+SPELL_MINOR_PARALYSIS,minor paralysis,Your muscles regain feeling.,You temporarily paralyze {target.name}!,&7&bAll motion in your body grinds to a halt.&0,&7&bAll motion in {target.name}&7&b's body grinds to a halt.&0
+SPELL_MIRAGE,mirage,You become more visible as the heat around your body dies out.,,&7&bThe gaps in your armor are restored.&0,&7&b{actor.name} magically restores the gaps in {target.name}'s armor.&0
+SPELL_MISDIRECTION,misdirection,You no longer feel like you're going every which way at once.,,You feel like a stack of little illusions all pointing in different directions.,
+SPELL_MOONBEAM,moonbeam,,,,
+SPELL_MOONWELL,moonwell,,,,
+SPELL_NATURES_EMBRACE,natures embrace,Nature releases you from her embrace.,,&9&bYou phase into the landscape.&0,&9&b{actor.name}&9&b phases into the landscape.&0
+SPELL_NATURES_GUIDANCE,natures guidance,You suddenly feel a little unguided.,,You feel a higher power guiding your hands.,{target.name} calls on guidance from a higher power.
+SPELL_NEGATE_COLD,negate cold,You feel vulnerable to the cold again.,,&4&bYour body becomes impervious to the cold!&0,&4{actor.name}&4's is protected by a &3&bwarm&0&4-looking magical field.&0
+SPELL_NEGATE_HEAT,negate heat,Your immunity to heat has passed.,,&6Your body becomes impervious to all forms of heat!&0,&6{actor.name}&6 is surrounded by a frigid crystalline field.&0
+SPELL_NIGHT_VISION,night vision,Your night vision fades out.,,&9&bYour vision sharpens a bit.,{target.name}'s eyes glow a dim neon green.
+SPELL_NIGHTMARE,nightmare,,,,
+SPELL_NIMBLE,nimble,Your movements slow to normal.,&1{target.name} starts to move with uncanny grace!&0,&1You start to move with uncanny grace!&0,&1{target.name} starts to move with uncanny grace!&0
+SPELL_NOURISHMENT,nourishment,,,,
+SONG_SONG_OF_REST,of rest,,You sing {target.name} a gentle lullaby to help {target.pronoun.objective} rest.,{actor.name} sings you a gentle lullaby to help you rest.,{actor.name} sings {target.name} a gentle lullaby to help {target.pronoun.objective} rest.
+SPELL_PHANTASM,phantasm,Your illusion dissolves into tiny multicolored lights that float away.,,,
+SPELL_PHOSPHORIC_EMBERS,phosphoric embers,,,,
+SPELL_PLANE_SHIFT,plane shift,,,,
+SPELL_POISON,poison,You feel less sick.,$p steams briefly.,,
+SPELL_POSITIVE_FIELD,positive field,,,,
+SPELL_PRAYER,prayer,Your holy prayer fades.,,Your prayer is answered... You feel full of life!,"{target.name} perks up, looking full of life."
+SPELL_PRESERVE,preserve,,,,
+SPELL_PROTECT_SHOCK,protection from air,You feel less protected from air.,You protect {target.name} from &6&bair&0.,You are warded from &6&bair&0.,&7&b{target.name}&7&b glows briefly.&0
+SPELL_PROTECT_COLD,protection from cold,You feel less protected from cold.,You protect {target.name} from the &4cold&0.,You are warded from the &4cold&0.,&7&b{target.name}&7&b glows briefly.&0
+SPELL_PROTECT_ACID,protection from earth,You feel less protected from earth.,You protect {target.name} from &3earth&0.,You are warded from &3earth&0.,&7&b{target.name}&7&b glows briefly.&0
+SPELL_PROT_FROM_EVIL,protection from evil,You feel less protected.,You surround {target.name} with glyphs of holy warding.,You feel invulnerable!,
+SPELL_PROTECT_FIRE,protection from fire,You feel less protected from fire.,You protect {target.name} from &1fire&0.,You are warded from &1fire&0.,&7&b{target.name}&7&b glows briefly.&0
+SPELL_PROT_FROM_GOOD,protection from good,You feel less protected.,You surround {target.name} with glyphs of unholy warding.,You feel invulnerable!,
+SPELL_PYRE,pyre,The flames enveloping you die down.,,,
+SPELL_PYRE_RECOIL,pyre recoil,,,,
+SPELL_RAIN,rain,,,,
+SPELL_RAY_OF_ENFEEB,ray of enfeeblement,Your strength returns to you.,{target.name} turns pale and starts to sag.,You feel the strength flow out of your body.,{target.name} turns pale and starts to sag.
+SPELL_REBUKE_UNDEAD,rebuke undead,,"&5You shout a powerful rebuke at {target.name}, forcing {target.pronoun.objective} to cower in fear!&0",&5You catch a glimpse of {actor.name}'s true power and cower in fear!&0,&5{target.name} cowers in fear as {actor.name} rebukes {target.pronoun.objective}.&0
+SPELL_RECALL,recall,,,,
+SPELL_REDUCE,reduce,You return to your normal size.&0,,&1&bYour skin starts to itch as you reduce to half your normal size.&0,&1&b{target.name}'s skin ripples as {target.pronoun.Subjective} shrinks to half {target.pronoun.possessive} normal size!&0
+CHANT_REGENERATION,regeneration,,,You feel your health improve.,{actor.name} looks a little healthier.
+SPELL_RELOCATE,relocate,,,,
+SPELL_REMOVE_CURSE,remove curse,,$p briefly glows blue.,You don't feel so unlucky.,
+SPELL_REMOVE_PARALYSIS,remove paralysis,,,&3&bYour body begins to move again.&0,&3&b{actor.name} begins to move again.&0
+SPELL_REMOVE_POISON,remove poison,,$p steams briefly.,A warm feeling runs through your body!,{actor.name} looks better.
+SPELL_RESURRECT,resurrect,,,,
+SPELL_REVEAL_HIDDEN,reveal hidden,,,,
+SPELL_SANCTUARY,sanctuary,The white aura around your body fades.,,This spell doesn't exist. Ask no questions.,Absolutely nothing happens to {target.name}.
+SPELL_SANE_MIND,sane mind,,,Your mind comes back to reality.,{actor.name} regains {actor.pronoun.possessive} senses.
+CHANT_SEED_OF_DESTRUCTION,seed of destruction,,You force {target.name} down the path to destruction...,You feel your time in this world growing short...,{actor.name} plants the seed of destruction in {target.name}'s mind.
+SPELL_SENSE_LIFE,sense life,You feel less aware of your surroundings.,,Your feel your awareness improve.,{target.name} seems more aware of {target.pronoun.possessive} surroundings.
+SPELL_SEVERANCE,severance,,"&7You lay a fell glow upon the surroundings, revealing the &bsilver cords&0&7 of all present.&0",,"&7{actor.name}&0&7 spreads a &6fell glow&7 upon the surroundsings, revealing the &bsilver cords&0 of all present.&0"
+CHANT_SHADOWS_SORROW_SONG,shadows sorrow song,,You depress {target.name} with a song of darkness and sorrow!,{actor.name}'s song of sorrow fills your mind with darkness and shadows.,A dark look clouds {target.name}'s visage as {actor.name} sings {target.pronoun.objective} a song of sorrow.
+SPELL_SHIFT_CORPSE,shift corpse,,,,
+SPELL_SHOCKING_GRASP,shocking grasp,,,,
+SPELL_SILENCE,silence,You can speak again.,You silence {target.name}!,"&9&bYour throat begins to close, sealing off all chance of communication.&0",&0{target.name}&7 squeaks as all sound is squelched from {target.pronoun.possessive} throat.&0
+SPELL_SIMULACRUM,simulacrum,Your illusion dissolves into tiny multicolored lights that float away.,,,
+SPELL_SLEEP,sleep,You feel less tired.,,,
+SPELL_SMOKE,smoke,"As the smoke clears, your vision returns.",You temporarily choke {target.name} with your column of smoke.,&9&bYou have been temporarily choked by {actor.name}'s&9&b column of smoke!&0,&9&b{target.name}&9&b is slightly choked by {actor.name}'s&9&b column of smoke!&0
+CHANT_SONATA_OF_MALAISE,sonata of malaise,,You fill {target.name} with a sense of malaise!,"Malaise fills the air, hampering your movements!",{target.name} contorts {target.pronoun.possessive} face briefly in anger and fear.
+SPELL_SOUL_REAVER,soul reaver,,&5You shape an awesome vision of calamity for all...&0,,&5{actor.name}&0&5 warps all reality into something deadly sinister...&0
+SPELL_SOUL_TAP,soul tap,,,,
+SPELL_SOULSHIELD,soulshield,The aura guarding your body fades away.,,&3&bA bright golden aura surrounds your body!&0,&3&bA bright golden aura surrounds {target.name}'s body!&0
+SPELL_SPEAK_IN_TONGUES,speak in tongues,Your vocabulary diminishes drastically.,,,
+SPELL_SPINECHILLER,spinechiller,The tingling in your spine subsides.,You grab {target.name} and scramble {target.pronoun.possessive} nerves!,Tingles run up and down your spine as {actor.name} scrambles your nerves!,{target.name} gasps for breath as {actor.name} scrambles {target.pronoun.possessive} nerves!
+SPELL_SPIRIT_ARROWS,spirit arrows,,,,
+CHANT_SPIRIT_BEAR,spirit bear,,,The spirit of the bear consumes your body.,"{actor.name} shifts {actor.pronoun.possessive} weight, seeming heavier and more dangerous."
+SPELL_SPIRIT_RAY,spirit ray,,,,
+CHANT_SPIRIT_WOLF,spirit wolf,,,You feel a wolf-like fury come over you.,"{actor.name} seems to take on a fearsome, wolf-like demeanor."
+SPELL_STATUE,statue,Your statuesque disguise melts away.,,&9&bYou disguise yourself as a little statue.&0,You realize {target.name} has disappeared and been replaced by a statue!
+SPELL_STONE_SKIN,stone skin,&3&dYour skin softens and returns to normal.&0,&9&b{target.name}'s skin hardens and turns to stone!&0,&9&bYour skin hardens and turns to stone!&0,&9&b{target.name}'s skin hardens and turns to stone!&0
+SPELL_STYGIAN_ERUPTION,stygian eruption,,,,
+SPELL_SUMMON,summon,,,,
+SPELL_SUMMON_CORPSE,summon corpse,,,,
+SPELL_SUMMON_DEMON,summon demon,,,,
+SPELL_SUMMON_DRACOLICH,summon dracolich,,,,
+SPELL_SUMMON_ELEMENTAL,summon elemental,,,,
+SPELL_SUMMON_GREATER_DEMON,summon greater demon,,,,
+SPELL_SUNRAY,sunray,Your vision has returned.,&9&bYou have blinded {target.name} with your sunray!&0,&9&bYou have been blinded!&0,&9&b{target.name}&9&b seems to be blinded!&0
+SPELL_SUPERNOVA,supernova,,"&1You release a &bconflagration&0&1 of f&3&bi&1r&0&1e, laying waste to all that surrounds you.&0",,"&1&b{actor.name}&1&b EXPLODES,&0&1 releasing a &bconflagration&0&1 of f&3&bi&1r&0&1e that lays waste to the entire area!&0"
+SPELL_TELEPORT,teleport,,,,
+CHANT_TEMPEST_OF_SAINT_AUGUSTINE,tempest of saint augustine,,,&6&bYour knuckles crackle with lightning.&0,&6&b{target.name}'s knuckles crackle with lightning.&0
+SPELL_TEMPEST_OF_SAINT_AUGUSTINE,tempest of st. augustine,Your inner storm subsides.,,,
+SONG_TERROR,terror,,,,
+CHANT_TREMORS_OF_SAINT_AUGUSTINE,tremors of saint augustine,,,&3&bYou charge your hands with corrosive chi.&0,&3&b{target.name} charges {target.pronoun.possessive} hands with corrosive chi.&0
+SPELL_TREMORS_OF_SAINT_AUGUSTINE,tremors of st. augustine,Your inner earth subsides.,,,
+SPELL_UNHOLY_WORD,unholy word,,&9&bYou invoke a word of unholy power!&0,,&9&b{actor.name} &9&butters a word of unholy power!&0
+SPELL_URBAN_RENEWAL,urban renewal,&2The woods in the surrounding area break apart and crumble.&0,&2&bThick vines and shrubs sprout out of the ground and cover the whole area in thick foliage.&0,,&2&bThick vines and shrubs sprout out of the ground and cover the whole area in thick foliage.&0
+SPELL_VAMPIRIC_BREATH,vampiric breath,,,,
+SPELL_VAPORFORM,vaporform,Your form condenses into flesh once again.,,&6&bYour body sublimates into a &7cloud &6of &7vapor&6.&0,&6&b{target.name}'s body dematerializes into a translucent &7cloud &6of &7vapor&6!&0
+SPELL_VENTRILOQUATE,ventriloquate,,,,
+SPELL_VICIOUS_MOCKERY,vicious mockery,,,,
+SPELL_VIGORIZE_CRITIC,vigorize critic,,,,
+SPELL_VIGORIZE_LIGHT,vigorize light,,,,
+SPELL_VIGORIZE_SERIOUS,vigorize serious,,,,
+SPELL_VITALITY,vitality,Your magical vitality drains away.,,,
+SPELL_WALL_OF_FOG,wall of fog,The fog seems to clear out.,You create a fog out of nowhere.,,{actor.name} creates a fog out of nowhere.
+SPELL_WALL_OF_ICE,wall of ice,The wall of ice melts away...,,,
+SPELL_WALL_OF_STONE,wall of stone,The wall of stone crumbles into dust.,,,
+SPELL_WANDERING_WOODS,wandering woods,The woods around you shift back to their proper form.,,,
+CHANT_WAR_CRY,war cry,,,You feel more determined than ever!,{target.name} looks more determined than ever!
+SPELL_WATER_BLAST,water blast,,,,
+SPELL_WATERFORM,waterform,Your form solidifies into flesh once again.,,&4&bYour body liquifies.&0,"&4&b{target.name}&4&b's body wavers a bit, slowly changing into a &0&4liquid&b state!&0"
+SPELL_WATERWALK,waterwalk,Your feet seem less buoyant.,,You feel webbing between your toes.,{target.name} sprouts webbing between {target.pronoun.possessive} toes!
+SPELL_WEB,web,The webs holding you in place dissolve.,&2&bYou tangle {target.name} in a glowing &3&bweb&2&b!&0,&2&b{actor.name} tangles you in a glowing &3&bweb&2&b!&0,&2&b{actor.name} tangles {target.name} in a glowing &3&bweb&2&b!&0
+SPELL_WINGS_OF_HEAVEN,wings of heaven,Your wings gently fold back and fade away.,,&7&bBeautiful bright white wings unfurl behind you as you lift into the air.&0,"&7&bBeautiful bright white wings unfurl from {actor.name}'s&7&b back, lifting {actor.pronoun.objective} into the air.&0"
+SPELL_WINGS_OF_HELL,wings of hell,Your giant bat-like wings fold up and vanish.,,&1&bHuge leathery &9bat-like&1 wings sprout from your back.&0,&1&bHuge leathery &9bat-like&1 wings sprout out of {actor.name}'s&1&b back.&0
+SPELL_WIZARD_EYE,wizard eye,,,,
+SPELL_WORD_OF_COMMAND,word of command,,,,
+SPELL_WORD_OF_RECALL,word of recall,,,,
+SPELL_WORLD_TELEPORT,world teleport,,,,
+SPELL_WRITHING_WEEDS,writhing weeds,,,,

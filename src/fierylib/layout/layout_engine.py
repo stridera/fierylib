@@ -261,6 +261,17 @@ class LayoutEngine:
         queue = deque([start_room])
         visited = {start_room.room_key}
 
+        # Special zones that should be excluded from main map placement
+        # These are non-player zones that should be kept separate from the main world map
+        excluded_zones = {
+            0,   # System/void rooms
+            1,   # System rooms
+            2,   # System rooms
+            4,   # System rooms
+            9,   # System rooms
+            12,  # God zone
+        }
+
         while queue:
             current_room = queue.popleft()
 
@@ -271,6 +282,10 @@ class LayoutEngine:
             for direction, dest_key in current_room.exits.items():
                 dest_room = self.graph.get_room(*dest_key)
                 if not dest_room:
+                    continue
+
+                # Skip excluded zones - they'll be placed separately
+                if dest_room.zone_id in excluded_zones:
                     continue
 
                 # Skip if already placed
@@ -290,16 +305,19 @@ class LayoutEngine:
                     queue.append(dest_room)
 
             # Process rooms that have exits TO current room (reverse direction)
-            # This handles one-way connections across zones
+            # This handles one-way connections, including cross-zone connections
             if current_room.room_key in self.reverse_exits:
                 for source_key in self.reverse_exits[current_room.room_key]:
                     source_room = self.graph.get_room(*source_key)
                     if not source_room:
                         continue
 
-                    # Skip cross-zone reverse placements to prioritize natural same-zone flow
-                    # This prevents layout conflicts when zones connect in complex ways
-                    if source_room.zone_id != current_room.zone_id:
+                    # Skip excluded zones - they'll be placed separately
+                    if source_room.zone_id in excluded_zones:
+                        continue
+
+                    # Skip if already placed
+                    if source_room.is_placed:
                         continue
 
                     # Find which direction the source room used to get here
@@ -317,10 +335,6 @@ class LayoutEngine:
                             current_room.position[1] + reverse_vector[1],
                             current_room.position[2] + reverse_vector[2],
                         )
-
-                        # Skip if already placed
-                        if source_room.is_placed:
-                            continue
 
                         # Place the room
                         self._place_room(source_room, new_position)
@@ -476,88 +490,218 @@ class LayoutEngine:
         self, rooms: List[RoomNode], center: Tuple[int, int, int], zone_id: int
     ):
         """
-        Place disconnected component rooms intelligently - either near related rooms
-        or grouped compactly above zone center
-        
+        Place disconnected component rooms by grouping into connected components
+        and placing each component using BFS to respect directional exits
+
         Args:
             rooms: List of rooms from disconnected components
-            center: Zone center position (fallback)
+            center: Zone center position (fallback for cluster positioning)
             zone_id: Zone ID for these rooms
         """
-        # Try to place each room near a related room first
-        unplaced = []
-        
-        for room in rooms:
-            related_pos = self._find_related_room(room, zone_id)
-            if related_pos:
-                # Found a related room, place nearby
-                if self.config.verbose:
-                    print(f"    Placing '{room.name}' near related room at {related_pos}")
-                self._place_room(room, related_pos)
-            else:
-                # No match found, will place in cluster
-                unplaced.append(room)
-        
-        # Place remaining unplaced rooms in a compact cluster directly above zone center
-        if unplaced:
-            # Place directly above center (z+1) to keep map compact
-            offset_x = center[0]
-            offset_y = center[1]
-            offset_z = center[2] + 1
-            
+        if not rooms:
+            return
+
+        # Group rooms into connected components
+        components = self._find_components(rooms)
+
+        if self.config.verbose:
+            print(f"    Found {len(components)} disconnected component(s) in zone {zone_id}")
+
+        # Check if this zone has many small/isolated components (like god zones)
+        # If so, use compact grid placement instead of wide ring distribution
+        total_components = len(components)
+        avg_component_size = len(rooms) / total_components if total_components > 0 else 0
+
+        # Zones with many small components (avg size < 3) should use compact placement
+        use_compact_placement = (total_components > 10 and avg_component_size < 3)
+
+        if use_compact_placement:
+            # Compact grid placement for zones with many isolated rooms
             if self.config.verbose:
-                print(f"    Placing {len(unplaced)} unmatched rooms at ({offset_x}, {offset_y}, {offset_z}) [+1 Z from center]")
-            
-            # Simple grid placement - compact and directly above
-            grid_size = int(len(unplaced) ** 0.5) + 1
-            for i, room in enumerate(unplaced):
-                row = i // grid_size
-                col = i % grid_size
-                position = (offset_x + col, offset_y + row, offset_z)
-                self._place_room(room, position)
+                print(f"      Using compact placement for {total_components} small components")
+
+            # Calculate grid dimensions
+            import math
+            grid_cols = int(math.sqrt(total_components * 1.5))  # Slightly wider than square
+            grid_spacing = 2  # Rooms are spaced 2 units apart (tight clustering)
+
+            # Start position offset from zone center
+            start_x = center[0] + 500
+            start_y = center[1]
+            start_z = center[2] + 1
+
+            for idx, component_rooms in enumerate(components):
+                row = idx // grid_cols
+                col = idx % grid_cols
+
+                offset_x = start_x + (col * grid_spacing)
+                offset_y = start_y + (row * grid_spacing)
+                offset_z = start_z
+
+                component_start_position = (offset_x, offset_y, offset_z)
+
+                # Place component
+                start_room = component_rooms[0]
+                self._place_room(start_room, component_start_position)
+                self._bfs_placement_component(start_room, set(r.room_key for r in component_rooms))
+        else:
+            # Ring placement for zones with fewer, larger components
+            # Calculate offset distance - smaller for zones with more components
+            base_distance = 500 + (zone_id * 10)
+            # Reduce distance if there are many components to avoid huge spread
+            component_offset_distance = base_distance // max(1, total_components // 5)
+
+            for idx, component_rooms in enumerate(components):
+                if self.config.verbose:
+                    print(f"      Component {idx + 1}: {len(component_rooms)} rooms")
+
+                # Calculate position for this component cluster
+                # Position in a ring around the center
+                import math
+                angle = (2 * 3.14159 * idx) / len(components)
+                offset_x = center[0] + int(component_offset_distance * math.cos(angle))
+                offset_y = center[1] + int(component_offset_distance * math.sin(angle))
+                offset_z = center[2] + 1  # One layer above to avoid conflicts
+
+                component_start_position = (offset_x, offset_y, offset_z)
+
+                # Pick the first room as starting point for this component
+                start_room = component_rooms[0]
+
+                # Place the starting room
+                self._place_room(start_room, component_start_position)
+
+                # Use BFS to place all connected rooms in this component
+                # respecting their directional exits
+                self._bfs_placement_component(start_room, set(r.room_key for r in component_rooms))
+
+    def _find_components(self, rooms: List[RoomNode]) -> List[List[RoomNode]]:
+        """
+        Group rooms into connected components (undirected graph traversal)
+
+        Args:
+            rooms: List of unplaced rooms
+
+        Returns:
+            List of components, where each component is a list of connected rooms
+        """
+        unvisited = {room.room_key: room for room in rooms}
+        components = []
+
+        while unvisited:
+            # Start a new component from an arbitrary unvisited room
+            start_key, start_room = next(iter(unvisited.items()))
+            component_keys = self.graph.get_connected_component(start_key)
+
+            # Filter to only include rooms in our unvisited set
+            component_rooms = []
+            for key in component_keys:
+                if key in unvisited:
+                    component_rooms.append(unvisited[key])
+                    del unvisited[key]
+
+            if component_rooms:
+                components.append(component_rooms)
+
+        return components
+
+    def _bfs_placement_component(self, start_room: RoomNode, component_keys: Set[Tuple[int, int]]):
+        """
+        Use BFS to place all rooms in a component, respecting directional exits
+        Only places rooms that are part of the specified component
+
+        Args:
+            start_room: Starting room (already placed)
+            component_keys: Set of (zone_id, room_id) tuples that are part of this component
+        """
+        queue = deque([start_room])
+        visited = {start_room.room_key}
+
+        while queue:
+            current_room = queue.popleft()
+
+            if not current_room.position:
+                continue
+
+            # Process exits FROM current room
+            for direction, dest_key in current_room.exits.items():
+                # Only process rooms in this component
+                if dest_key not in component_keys:
+                    continue
+
+                dest_room = self.graph.get_room(*dest_key)
+                if not dest_room:
+                    continue
+
+                # Skip if already placed
+                if dest_room.is_placed:
+                    continue
+
+                # Calculate new position based on direction
+                new_position = self._calculate_position(
+                    current_room.position, direction
+                )
+
+                # Place the room
+                self._place_room(dest_room, new_position)
+
+                if dest_key not in visited:
+                    visited.add(dest_key)
+                    queue.append(dest_room)
+
+            # Also process reverse exits (rooms that exit TO current room)
+            if current_room.room_key in self.reverse_exits:
+                for source_key in self.reverse_exits[current_room.room_key]:
+                    # Only process rooms in this component
+                    if source_key not in component_keys:
+                        continue
+
+                    source_room = self.graph.get_room(*source_key)
+                    if not source_room:
+                        continue
+
+                    # Skip if already placed
+                    if source_room.is_placed:
+                        continue
+
+                    # Find which direction the source room used to get here
+                    source_direction = None
+                    for dir, dest in source_room.exits.items():
+                        if dest == current_room.room_key:
+                            source_direction = dir
+                            break
+
+                    if source_direction:
+                        # Calculate reverse position
+                        reverse_vector = self._reverse_direction_vector(source_direction)
+                        new_position = (
+                            current_room.position[0] + reverse_vector[0],
+                            current_room.position[1] + reverse_vector[1],
+                            current_room.position[2] + reverse_vector[2],
+                        )
+
+                        # Place the room
+                        self._place_room(source_room, new_position)
+
+                        if source_key not in visited:
+                            visited.add(source_key)
+                            queue.append(source_room)
 
     def _place_room_cluster_smart(
         self, rooms: List[RoomNode], center: Tuple[int, int, int], zone_id: int
     ):
         """
-        Intelligently place a cluster of rooms, attempting to place them near related rooms
-        
+        Intelligently place a cluster of isolated rooms (no connections)
+        Uses component-based placement for consistency
+
         Args:
             rooms: List of rooms to place
-            center: Center position to cluster around (fallback)
+            center: Center position to cluster around
             zone_id: Zone ID for these rooms
         """
-        # Try to place each room near a related room first
-        unplaced = []
-        
-        for room in rooms:
-            related_pos = self._find_related_room(room, zone_id)
-            if related_pos:
-                # Found a related room, place nearby
-                if self.config.verbose:
-                    print(f"    Placing '{room.name}' near related room at {related_pos}")
-                self._place_room(room, related_pos)
-            else:
-                # No match found, will place in cluster
-                unplaced.append(room)
-        
-        # Place remaining unplaced rooms in a compact cluster directly above zone center
-        if unplaced:
-            # Place directly above center (z+1) to keep map compact
-            offset_x = center[0]
-            offset_y = center[1]
-            offset_z = center[2] + 1
-            
-            if self.config.verbose:
-                print(f"    Placing {len(unplaced)} unmatched rooms at ({offset_x}, {offset_y}, {offset_z}) [+1 Z from center]")
-            
-            # Simple grid placement - compact and directly above
-            grid_size = int(len(unplaced) ** 0.5) + 1
-            for i, room in enumerate(unplaced):
-                row = i // grid_size
-                col = i % grid_size
-                position = (offset_x + col, offset_y + row, offset_z)
-                self._place_room(room, position)
+        # For isolated rooms with no connections, just use the component placement logic
+        # but with a simpler offset calculation
+        self._place_disconnected_components(rooms, center, zone_id)
 
     def _place_room_cluster(
         self, rooms: List[RoomNode], center: Tuple[int, int, int]

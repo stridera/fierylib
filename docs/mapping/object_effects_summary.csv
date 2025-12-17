@@ -1,0 +1,32 @@
+Object_Type,Total_Count,With_Spells,With_Effect_Flags,Has_Schema,IDL_Mapping
+ARMOR,894,0,0,Yes,stat_mod (eva/ward based on armor weight)
+BOARD,8,0,0,No,-
+BOAT,8,0,0,No,-
+CONTAINER,137,0,0,Yes,N/A (storage)
+DRINKCONTAINER,80,0,0,Yes,status_apply (poison) if poisoned
+FIREWEAPON,1,0,0,No,-
+FOOD,199,0,0,Yes,"resource_mod (hunger), status_apply (poison) if poisoned"
+FOUNTAIN,55,0,0,No,-
+INSTRUMENT,15,15,0,Yes,Enables Ability use (songs)
+KEY,180,0,0,No,-
+LIGHT,76,0,0,Yes,room_effect (light)
+MISSILE,1,0,0,No,-
+MONEY,16,0,0,No,-
+NOTE,6,0,0,No,-
+NOTHING,28,0,0,No,-
+OTHER,308,0,0,No,-
+PEN,25,0,0,No,-
+PORTAL,30,0,0,Yes,teleport
+POTION,124,124,0,Yes,Linked Ability effects (self-target)
+ROPE,2,0,0,No,-
+SCROLL,32,32,0,Yes,Linked Ability effects
+SPELLBOOK,12,0,0,Yes,N/A (learning)
+STAFF,32,32,0,Yes,Linked Ability effects
+TOUCHSTONE,4,0,0,No,-
+TRAP,2,2,0,Yes,damage or status_apply
+TRASH,37,0,0,No,-
+TREASURE,688,0,0,No,-
+WALL,2,0,0,No,-
+WAND,58,58,0,Yes,Linked Ability effects
+WEAPON,426,0,0,Yes,damage (via weapon attack)
+WORN,4,0,0,No,-

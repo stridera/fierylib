@@ -1,0 +1,703 @@
+Name,Type,Description,Damage_Type,Min_Position,Violent,Combat_Ok,Cast_Time,Pages,Restrictions,Effects,Effect_Count,Has_Targeting,Has_Messages
+Acid Breath,SPELL,Spell: ACID_BREATH,ACID,STANDING,Yes,Yes,1,5,,"ACID damage (skill + random(1, skill*2))",1,Yes,No
+Acid Burst,SPELL,"This spell allows a pyromancer to conjure a stream of burning acid
+which boils away a victim's fl...",ACID,STANDING,Yes,Yes,8,23,,ACID damage (sorcerer_single_target),1,Yes,No
+Acid Fog,SPELL,Spell: ACID_FOG,ACID,STANDING,Yes,Yes,10,27,,MAGIC damage,1,Yes,No
+Ancestral Vengeance,SPELL,Spell: ANCESTRAL_VENGEANCE,ALIGN,STANDING,Yes,Yes,10,21,,HOLY damage (sorcerer_single_target),1,Yes,No
+Animate Dead,SPELL,"Animate dead is a necromancers power base.  This is their initial master
+spell.  Animate dead wil...",,STANDING,No,No,8,21,,Summon: ?,1,Yes,Yes
+Apocalyptic Anthem,CHANT,"The anthem of the apocalypse stirs up feelings of hatred, confusing the 
+monk's opponents and cau...",,STANDING,Yes,Yes,1,,,AP +2 (dur: skill / 4),1,Yes,No
+Aria Of Dissonance,CHANT,"With this song, a monk fills his or her opponent with confusion, making 
+them less likely to dodg...",,STANDING,Yes,Yes,1,,,ACC -2 (dur: skill / 4),1,Yes,Yes
+Armor,SPELL,The Armor spell will improve your AC.,,STANDING,No,Yes,8,5,,ward +10 + (skill / 20) (dur: 10 + (skill / 50)),1,Yes,Yes
+Armor Of Gaia,SPELL,"This spell when cast will render upon the druid protective armors
+that will be worn in the proper...",,STANDING,No,No,14,5,,Create: ?,1,Yes,No
+Aware,SKILL,Player skill: Aware,,STANDING,No,Yes,1,,,Status: aware (dur: level * 2),1,No,No
+Backstab,SKILL,"A backstab is an attempt to sneak up on the victim and place a weapon
+in the victim's back, at ex...",,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Baleful Polymorph,SPELL,Spell: BALEFUL_POLYMORPH,,STANDING,Yes,Yes,10,25,,HOLY damage (sorcerer_single_target),1,Yes,No
+Ballad Of Tears,SONG,"BALLAD OF TEARS is an extremely powerful piece of music that tears at 
+the hearts and souls of th...",,STANDING,Yes,Yes,1,,,AP -2 (dur: skill / 4),1,Yes,Yes
+Bandage,SKILL,"When successful, will bring someone back from negative hit points to 0.",,STANDING,No,Yes,1,,Humanoid,Heal hp +skill / 5,1,Yes,No
+Banish,SPELL,"The BANISH spell destroys a mob and its belongings, but has an extremely
+low rate of success. If ...",,STANDING,No,Yes,14,5,Quest,banish(type=offensive),1,Yes,No
+Barehand,SKILL,"This is a monks proficiency at attacking others without a weapon.  If the
+command is typed in by ...",,STANDING,Yes,Yes,1,,,,0,Yes,No
+Barkskin,SPELL,"Barkskin summons the protective nature of the forest to protect the
+friends and allies of the cas...",,STANDING,No,Yes,8,17,,ward +7 + (skill / 9) (dur: 5 + (skill / 10)),1,Yes,Yes
+Bash,SKILL,"Classes	  : Anti-Paladin, Mercenary, Paladin, Ranger, Warrior
+
+The success of a bash depends upon...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Battle Howl,SKILL,"Initiated with the HOWL command, BATTLE HOWL unleashes the delirious 
+terror of the wolf. The ber...",,STANDING,No,Yes,1,,,ACC +2 (dur: skill / 4),1,Yes,No
+Battle Hymn,CHANT,"A monk's battle cry is a song reminding him of his fallen brothers.
+The reminder serves as an inc...",,STANDING,No,No,1,,,ACC +2 (dur: skill / 4),1,Yes,Yes
+Berserk,SKILL,"BERSERK is the berserker's primary and most important skill. It allows a 
+character to build up r...",,STANDING,No,Yes,1,,,Status: berserk (dur: level),1,Yes,No
+Bigbys Clenched Fist,SPELL,"This powerful spell causes a huge magical fist, five feet high, three 
+feet wide, to form before ...",PHYSICAL_BLUNT,STANDING,Yes,Yes,6,25,,PHYSICAL_BLUNT damage (sorcerer_single_target),1,Yes,No
+Bind,SKILL,"Usage: bind <victim>
+       unbind <victim>
+
+Will, as it says, bind or unbind somebody. You must ...",,STANDING,Yes,Yes,1,,Humanoid,CC: immobilize (dur: level / 2),1,Yes,No
+Bless,SPELL,"Bless on a victim will improve the victim's saving throw versus spells
+and furthermore improve th...",,SITTING,No,No,8,5,,Save vs spell -2 - (skill / 10) (dur: 10 + (skill / 7)); AP +1 + (skill > 95) (dur: eff[0].duration); Status: bless,3,Yes,Yes
+Blinding Beauty,SPELL,"Nymphs possess the supernatural ability to channel the sheer beauty of 
+creation through their ve...",,STANDING,Yes,Yes,10,5,,eva -40 (dur: 2); CC: blind; ACC -4 (dur: 2),3,Yes,Yes
+Blindness,SPELL,"Blindness will blind a victim failing its saving throw.
+While blinded a creature will not be able...",,STANDING,Yes,Yes,10,5,,eva -40 (dur: 2); CC: blind; ACC -4 (dur: 2),3,Yes,Yes
+Blizzards Of Saint Augustine,CHANT,"These unique effects convert a monk's BAREHAND damage into a type of 
+elemental damage. They can ...",,SITTING,No,Yes,1,,,AP +3 (dur: skill / 4),1,Yes,Yes
+Bludgeoning Weapons,SKILL,Player skill: Bludgeoning,,STANDING,No,Yes,1,,,,0,No,No
+Blur,SPELL,"BLUR significantly heightens a person's senses, improving his or her 
+reaction time and speed for...",,STANDING,No,Yes,12,25,Quest,Status: blur,1,No,Yes
+Bodyslam,SKILL,"BODYSLAM is an innate skill available to larger races, such as 
+barbarians, ogres, and trolls. It...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Bone Armor,SPELL,"This spell causes old bones to leap out of the ground and surround the
+necromancer, acting as a p...",,STANDING,No,No,6,12,,ward +10 + (skill / 6) (dur: 8 + 2 * (skill / 5)),1,Yes,Yes
+Bone Cage,SPELL,"The necromancer calls forth four massive bones that encage and immobilize 
+the target, preventing...",PHYSICAL_SLASH,STANDING,Yes,Yes,8,16,,CC: immobilize,1,Yes,Yes
+Breathe Acid,SKILL,Player skill: Breathe Acid,,STANDING,No,Yes,1,,,"ACID damage (skill + random(1, skill*2))",1,Yes,No
+Breathe Fire,SKILL,Player skill: Breathe Fire,,STANDING,No,Yes,1,,,"FIRE damage (skill + random(1, skill*2))",1,Yes,No
+Breathe Frost,SKILL,Player skill: Breathe Frost,,STANDING,No,Yes,1,,,"COLD damage (skill + random(1, skill*2))",1,Yes,No
+Breathe Gas,SKILL,Player skill: Breathe Gas,,STANDING,No,Yes,1,,,"POISON damage (skill + random(1, skill*2))",1,Yes,No
+Breathe Lightning,SKILL,Player skill: Breathe Lightning,,STANDING,No,Yes,1,,,"SHOCK damage (skill + random(1, skill*2))",1,Yes,No
+Burning Hands,SPELL,"""Burning hands"" causes a wide arc of flame to shoot forth from the
+spellcaster's fingertips, burn...",FIRE,STANDING,Yes,Yes,8,5,,FIRE damage (sorcerer_single_target),1,Yes,No
+Call Lightning,SPELL,"""Call lightning"" invokes the forces of nature to make lightning strike
+the intended victim.  It i...",SHOCK,STANDING,Yes,Yes,10,5,,"SHOCK damage ((pow(skill,2)*7)/400)",1,Yes,No
+Cartwheel,SKILL,"Tumbling into combat, rogues can do a CARTWHEEL to charge in and knock 
+down a specified opponent...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Cause Critical,SPELL,"Clerics in close relation with their gods have the ability to
+invoke the holy wrath of the gods t...",,STANDING,No,Yes,1,,,"HOLY damage ((pow(skill,2)*53)/10000)",1,No,No
+Cause Light,SPELL,"Clerics in close relation with their gods have the ability to
+invoke the holy wrath of the gods t...",,STANDING,Yes,Yes,8,5,,"HOLY damage ((pow(skill,2)*2)/625)",1,Yes,No
+Cause Serious,SPELL,"Clerics in close relation with their gods have the ability to
+invoke the holy wrath of the gods t...",,STANDING,Yes,Yes,8,5,,"HOLY damage ((pow(skill,2)*9)/2000)",1,Yes,No
+Chain Lightning,SPELL,"This spells is a mastery of lightning spell. When unleashed
+a bolt of lightning will seek out a f...",SHOCK,STANDING,Yes,Yes,10,27,,"SHOCK damage ((pow(skill,2)*7)/500)",1,Yes,Yes
+Chant,SKILL,"This is a monk skill gained from training with another monk.
+The chants of monks can enable monks...",,STANDING,No,Yes,1,,,ACC +1 (dur: level),1,Yes,No
+Charm Person,SPELL,"A sorcerer of sufficient power may force their will upon others via this 
+spell, completely subju...",,STANDING,No,Yes,1,,,CC: charm,1,No,No
+Chill Touch,SPELL,"Upon a successful cast, this spell sends a searing, chilling cold
+through your victim, causing un...",COLD,STANDING,Yes,Yes,8,7,,STR -5 - (skill / 10) (dur: 3 + (skill / 20)),1,Yes,Yes
+Circle,SKILL,Player skill: Circle,,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Circle Of Death,SPELL,Spell: CIRCLE_OF_DEATH,MENTAL,STANDING,Yes,Yes,10,27,,"MENTAL damage ((pow(skill,2)*7)/500)",1,Yes,Yes
+Circle Of Fire,SPELL,"This spell encircles the entire room with a rinf of fire. Any creature walking
+into or out of the...",FIRE,STANDING,Yes,No,12,25,,"FIRE damage ((skill/2) + roll_dice(2,3))",1,Yes,Yes
+Circle Of Light,SPELL,"Those clerics who battle for the side of light, order and all things good are
+endowed with the ab...",,SITTING,No,No,8,5,,Status: light,1,Yes,Yes
+Clarity,SPELL,"This spell clears the subject's mind, increasing their FOCUS score, 
+increasing their spell RECOV...",,STANDING,No,No,8,5,,focus +skill / 5 (dur: level * 2),1,Yes,Yes
+Claw,SKILL,Player skill: Claw,,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Cloak of Gaia,SPELL,"Highly developed priests of nature who are in tune with the very essesnce
+of the forests and hill...",,STANDING,No,No,12,5,,ward +15 + (skill / 16) (dur: 5 + (skill / 14)),1,Yes,Yes
+Clone,SPELL,Spell: CLONE,,STANDING,No,No,14,35,,Summon: ?,1,Yes,No
+Cloud Of Daggers,SPELL,CLOUD OF DAGGERS does exactly what it says on the tin - animates a cloud of swirling daggers that...,PHYSICAL_SLASH,STANDING,Yes,Yes,10,27,,MAGIC damage,1,Yes,No
+Coldshield,SPELL,"A spell of the magic arts of protection is a mastery over the basic
+elements of fire and ice.  On...",COLD,STANDING,No,No,8,17,,Reflect cold (25%),1,Yes,Yes
+Color Spray,SPELL,"""Color spray"" causes a burst of multi-colored magical energy to issue forth
+from the caster's fin...",,STANDING,Yes,Yes,10,21,,"MAGIC damage ((pow(skill,2)*1)/200, max ~190); CC: blind",2,Yes,No
+Comprehend Lang,SPELL,Spell: COMPREHEND_LANG,,STANDING,No,Yes,1,,,Status: comprehend_languages,1,No,No
+Conceal,SKILL,"Miscreants are often quite good at hiding objects they don't wish to 
+carry - or dare not be caug...",,STANDING,No,Yes,1,,,Stealth: hide,1,Yes,No
+Concealment,SPELL,"Young unexperienced masters of the magic arts find difficulty mastering the
+true power invisibili...",,SITTING,No,No,8,13,,Status: buff,1,Yes,Yes
+Cone Of Cold,SPELL,"CONE OF COLD causes a huge cone of icy cold air to issue forth from the 
+clasped hands of the cas...",COLD,STANDING,Yes,Yes,10,19,,COLD damage (sorcerer_single_target),1,Yes,No
+Confusion,SPELL,"With this spell, foes may be temporarily put off balance in insidious 
+ways. They become unable t...",MENTAL,STANDING,Yes,Yes,10,19,,CC: confusion,1,Yes,Yes
+Control Weather,SPELL,"This spell will change the ""course"" of the current weather.
+Anymore information on this spell is ...",,STANDING,No,No,10,5,,room_effect(type=weather),1,Yes,No
+Corner,SKILL,"With highly developed agility and skill, a fighter can stand in the way 
+of his or her opponents,...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Create Food,SPELL,This spell instantly creates a fresh waybread or iron rations.,,SITTING,No,No,6,5,,Create: ?,1,Yes,Yes
+Create Spring,SPELL,"When cast this spell will cause the waters of the realm to burst to the
+surface creating a water ...",,STANDING,No,No,8,5,,Create: ?,1,Yes,No
+Create Water,SPELL,"Expect disastrous results if cast upon a drink container which contains
+another liquid than water...",,SITTING,No,No,6,5,,Create: ?,1,Yes,No
+Creeping Doom,SPELL,"Druids with well-trained communicative talents can command swarms of
+carnivorous arachnids and in...",ACID,STANDING,Yes,Yes,14,35,Quest,"POISON DoT (?/tick, ?)",1,Yes,No
+Cremate,SPELL,"Expert pyromancers can summon huge, yet carefully-controlled fires in 
+their vicinity that cremat...",FIRE,STANDING,Yes,Yes,14,35,,FIRE damage (skill * 2),1,Yes,Yes
+Crown Of Madness,SONG,"CROWN OF MADNESS rends apart the sanity of any who dare oppose the bard 
+performing this. It infl...",,STANDING,Yes,Yes,1,,,CC: confusion (dur: level / 2),1,Yes,Yes
+Cure Blind,SPELL,"This spell will cure a person blinded by the ""blindness"" spell, it
+can not remove blindness cause...",,STANDING,No,Yes,8,5,,Heal hp +1d8,1,Yes,No
+Cure Critic,SPELL,"""Cure critic"" cures more damage than the similar spells ""cure light""
+and ""cure serious,"" but less...",,STANDING,No,Yes,8,15,,"Heal hp +roll_dice(4, 9) + skill / 10",1,Yes,No
+Cure Light,SPELL,"""Cure light"" cures physical damage, although less than its more
+powerful counterparts ""cure serio...",,STANDING,No,Yes,8,9,,"Heal hp +roll_dice(1, 9) + skill / 30",1,Yes,No
+Cure Serious,SPELL,"""Cure serious"" cures physical damage, although less than its more
+powerful counterparts ""heal"" an...",,STANDING,No,Yes,8,5,,"Heal hp +roll_dice(2, 9) + skill / 20",1,Yes,No
+Curse,SPELL,"Curse cast on a person that fails the saving throw, will reduce their
+hitroll and damage roll.  I...",,STANDING,No,Yes,10,5,,Status: curse; ACC -1 - (skill / 50) (dur: 5 + (skill / 14)); AP +eff[0].modifier (dur: eff[0].duration),3,No,Yes
+Dark Feast,SPELL,No details on this spell are available as of yet.,,STANDING,No,No,8,5,,Lifesteal 50%,1,Yes,No
+Dark Presence,SPELL,"This spell summons the dark allegiance of the diabolist to his evil god 
+to give striking power a...",,STANDING,No,No,8,5,,Save vs spell -2 - (skill / 10) (dur: 10 + (skill / 7)); AP +1 + (skill > 95) (dur: eff[0].duration); Status: bless,3,Yes,Yes
+Darkness,SPELL,"This spell will blanket the area witha magical darkness that only
+a few beings can see through.  ...",,SITTING,No,No,10,5,,room_effect(type=darkness),1,Yes,Yes
+Decay,SPELL,"Causes the target's flesh and substance to decay and fall apart not unlike 
+a bout of leprosy.",,STANDING,Yes,Yes,4,5,,POISON damage (sorcerer_single_target),1,Yes,No
+Degeneration,SPELL,"This spell forces a large amount of harmful energy into the victim's 
+flesh--for the living, this...",,STANDING,No,Yes,10,12,Quest,"POISON DoT (?/tick, ?)",1,Yes,No
+Demonic Aspect,SPELL,"This spell will bring closer a Diabolist to his evil gods.
+In doing so the evil cleric will grow ...",,STANDING,No,Yes,10,5,,HP +skill / (1 + ((100 - skill) / 25)) (dur: 5 + (skill / 20)); STR +5 + (skill / 14) (dur: eff[0].duration),2,Yes,Yes
+Demonic Mutation,SPELL,This spell has been disabled.,,STANDING,No,No,10,5,,HP +skill / (1 + ((100 - skill) / 25)) (dur: 5 + (skill / 20)); STR +5 + (skill / 14) (dur: eff[0].duration),2,Yes,Yes
+Demonskin,SPELL,"Being granted spells devised by beings of the demon plane,
+the evil paladins and clerics have the...",,STANDING,No,Yes,6,5,,Prot vs fire; Prot vs fire; ward +10 + (skill / 20) (dur: 10 + (skill / 50)),3,Yes,Yes
+Destroy Undead,SPELL,"The priests who align themselves with the side of light
+and good are granted the ability to cause...",ALIGN,STANDING,Yes,Yes,8,5,,"HOLY damage (dam + (pow(skill, 2) * 27) / 1000)",1,Yes,No
+Detect Alignment,SPELL,"Allows the caster to detect the alignment of those around them.
+Evil will show as a red aura, goo...",,STANDING,No,Yes,1,,,Detect: alignment,1,No,No
+Detect Invisibility,SPELL,This spell enables you to see invisible items and players.,,STANDING,No,Yes,1,,,Detect: invisible,1,No,No
+Detect Magic,SPELL,"This spell will let you see the magical aura surrounding magical
+objects. If there is no such aur...",,SITTING,No,No,8,5,,Detect: magic,1,Yes,Yes
+Detect Poison,SPELL,"Cast on food or drink (drink container), you will be able to
+sense if it is poisoned.
+
+Cast on a ...",,SITTING,No,No,6,13,,Detect: poison,1,Yes,Yes
+Detonation,SPELL,"DETONATION causes boulders to explode near unsuspecting victims, causing 
+rubble and shards of ro...",PHYSICAL_BLUNT,STANDING,Yes,Yes,6,10,,PHYSICAL_BLUNT damage (sorcerer_single_target),1,Yes,No
+Dimension Door,SPELL,"Dimension door is a more powerful version of the ""teleport"" (with
+error) spell.  It creates a sho...",,STANDING,No,No,8,15,,Teleport: ?,1,Yes,No
+Disarm,SKILL,"This skill is very difficult to master and very rarely works.
+However it has known to be successf...",,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Disarm Dropped Weapon,SKILL,Player skill: Disarm Dropped Weapon,,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,No,No
+Disarm Fumbling Weapon,SKILL,Player skill: Disarm Fumbling Weapon,,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,No,No
+Discorporate,SPELL,"The casting of this spell initiates an effort to tear the life force from 
+the very substance of ...",,STANDING,Yes,Yes,6,14,,"HOLY damage (100 + GET_HIT(victim) if MOB_ILLUSORY, else sorcerer_single_target / 5)",1,Yes,No
+Disease,SPELL,"Inflicting the plague of disease upon the victim the diabolist
+revels in the pain he inflicts on ...",,STANDING,Yes,Yes,8,5,,"POISON DoT (?/tick, ?); CON -10 - (skill / 10) (dur: 5 + (skill / 10)); STR +eff[0].modifier (dur: eff[0].duration)",3,Yes,Yes
+Disintegrate,SPELL,"Focusing their magics into a discrete beam of pure concentrated
+energy, sorcerers can tear away f...",ACID,STANDING,Yes,Yes,6,27,,ACID damage (sorcerer_single_target),1,Yes,No
+Dispel Evil,SPELL,"""Dispel evil"" will only affect evil creatures, inflicting physical
+damage dependent on the caster...",ALIGN,STANDING,Yes,Yes,8,5,,"HOLY damage (dam + (pow(skill, 2) * 7) / 1000)",1,Yes,No
+Dispel Good,SPELL,"""Dispel good"" will only affect good creatures, inflicting physical
+damage dependent on the caster...",ALIGN,STANDING,Yes,Yes,8,5,,"HOLY damage (dam + (pow(skill, 2) * 7) / 1000)",1,Yes,No
+Dispel Magic,SPELL,"This spell attempts to strip the target of all magical enhancements.
+Depending on the proficiency...",,SITTING,Yes,Yes,10,15,,Dispel magic,1,Yes,No
+Displacement,SPELL,"DISPLACEMENT is a notorious optical illusion that blurs and shifts the 
+target, making it difficu...",MENTAL,STANDING,No,Yes,8,19,,Status: displacement; Status: greater_displacement,2,Yes,Yes
+Divine Bolt,SPELL,"A holy cleric who is in touch with the powers and priorities of
+the gods can summon down a bolt o...",ALIGN,STANDING,Yes,Yes,8,5,,"HOLY damage (dam + (pow(skill, 2) * 53) / 10000, then *= (victim_align * -0.0007 + 0.8))",1,Yes,No
+Divine Essence,SPELL,"Holy Priests of great power can gain higher levels of vitilization
+and blessing from their gods.",,STANDING,No,No,12,5,,Status: buff,1,Yes,Yes
+Divine Ray,SPELL,"Experienced Priests in tune with the wishes of their gods can summon
+down a powerful ray of holy ...",ALIGN,STANDING,Yes,Yes,10,5,,"HOLY damage (dam + (pow(skill, 2) * 1) / 125, then *= (caster_align * 0.0022 - 0.7))",1,Yes,No
+Dodge,SKILL,"This skill allows all players to avoid physical blows.  Classes who are
+more dextrous will be abl...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Doom,SPELL,"Level: 90 to 99
+
+Location:
+An ancient pyramid deep in the Black Woods leads to a mythic history
+s...",ACID,STANDING,Yes,Yes,12,35,,Status: curse,1,Yes,No
+Doorbash,SKILL,"Usage: doorbash <direction>
+
+Races: Barbarian, Troll, Ogre
+
+This is an innate skill that allows t...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Double Attack,SKILL,"More experienced warrior classes can eventually learn how to attempt more
+than one physical attac...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Double Backstab,SKILL,Player skill: Two Backstab,,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,No,No
+Douse,SKILL,Please see: SPELL_DOUSE or SKILL_DOUSE,,STANDING,No,Yes,1,,,Dispel magic,1,Yes,No
+Dragons Health,SPELL,"Similar to the weaker VITALITY and ENDURANCE spells, DRAGONS HEALTH 
+allows a cleric to invoke si...",,STANDING,No,No,14,21,Quest,"HP +get_vitality_hp_gain(ch, spellnum) (dur: get_spell_duration(ch, spellnum))",1,Yes,Yes
+Dual Wield,SKILL,"A skill that allows you to wield two weapons at once.
+Your ability to wield a second weapon is de...",,STANDING,No,Yes,1,,Humanoid,,0,Yes,No
+Earth Blessing,SPELL,"Druids can invoke the miraculous powers of nature to bolster their 
+neutral allies, similar BLESS...",,SITTING,No,No,8,5,,Save vs spell -2 - (skill / 10) (dur: 10 + (skill / 7)); AP +1 + (skill > 95) (dur: eff[0].duration); Status: bless,3,Yes,Yes
+Earthquake,SPELL,"""Earthquake"" causes the ground to tremble and quake, making everyone
+and everything in the room (...",ACID,STANDING,Yes,Yes,10,5,,"ACID damage (dam + (pow(skill, 2) * 13) / 2500, then *= sector_qdam_mod / 100)",1,Yes,Yes
+Electrify,SKILL,Player skill: Electrify,,STANDING,Yes,Yes,1,,,SHOCK damage (skill),1,Yes,Yes
+Elemental Warding,SPELL,No Idea what this spell does.,,STANDING,No,No,10,5,,Prot vs fire; Prot vs cold; Prot vs air; Prot vs earth,4,Yes,Yes
+Enchant Weapon,SPELL,"Bards may cast ENCHANT WEAPON to enhance the properties of any weapon 
+they find. The spell adds ...",,STANDING,No,No,8,23,,item_bonus +skill/10,1,Yes,No
+Endurance,SPELL,"Clerical types can invoke much more health into a creature with a touch. 
+This vitalization cause...",,STANDING,No,No,10,7,,? +skill / 2 (dur: level * 2),1,Yes,Yes
+Energy Drain,SPELL,"This spell causes part of the victims life force to be transfered to the
+caster, if successfull.
+...",,STANDING,Yes,Yes,10,19,,MAGIC damage (level_drain),1,Yes,No
+Enhance Ability,SPELL,"ENHANCE ABILITY allows enchanters to temporarily increase Strength, 
+Dexterity, Constitution, Int...",,STANDING,No,No,8,5,,CHA +2 + (skill / 8) (dur: 5 + (skill / 14)),1,Yes,Yes
+Enhance Charisma,SPELL,Spell: ENHANCE_CHA,,STANDING,No,Yes,1,,,CHA +2 + (skill / 8) (dur: 5 + (skill / 14)),1,No,No
+Enhance Constitution,SPELL,Spell: ENHANCE_CON,,STANDING,No,Yes,1,,,CON +2 + (skill / 8) (dur: 5 + (skill / 14)),1,No,No
+Enhance Dexterity,SPELL,Spell: ENHANCE_DEX,,STANDING,No,Yes,1,,,DEX +2 + (skill / 8) (dur: 5 + (skill / 14)),1,No,No
+Enhance Intelligence,SPELL,Spell: ENHANCE_INT,,STANDING,No,Yes,1,,,INT +2 + (skill / 8) (dur: 5 + (skill / 14)),1,No,No
+Enhance Strength,SPELL,Spell: ENHANCE_STR,,STANDING,No,Yes,1,,,STR +2 + (skill / 8) (dur: 5 + (skill / 14)),1,No,No
+Enhance Wisdom,SPELL,Spell: ENHANCE_WIS,,STANDING,No,Yes,1,,,WIS +2 + (skill / 8) (dur: 5 + (skill / 14)),1,No,No
+Enlarge,SPELL,"If cast upon someone this spell will cause that person to increase in size!
+With this new size th...",,STANDING,No,No,14,29,,Size 1; CON +10 (dur: eff[0].duration); STR +10 (dur: eff[0].duration),3,Yes,Yes
+Enlightenment,SPELL,"This spell allows holy priests to learn of the powers and capabilities of
+those around them.  Eve...",,SITTING,No,No,10,5,,reveal(type=hidden),1,Yes,No
+Enrapture,SONG,"The true signature of a grand diva, ENRAPTURE captivates all enemies in 
+the same room as the bar...",,STANDING,No,No,1,,,Dispel magic,1,Yes,Yes
+Entangle,SPELL,"Nature priests at one with the wilderness can summon the presence of vegitation
+in the area to wr...",MENTAL,STANDING,No,Yes,14,5,,CC: immobilize (dur: 2 + (skill / 24)),1,Yes,Yes
+Exorcism,SPELL,"Holy Clerics are granted to ability to cause massive damage to demonic beings
+by creating a wave ...",ALIGN,STANDING,Yes,Yes,18,5,,"HOLY damage (dam = (pow(skill, 2) * 13) / 20, then *= (caster_align * 0.001 + 0.2))",1,Yes,No
+Extinguish,SPELL,"This spell is used to douse the flames burning anyone's body.
+
+Note: the command EXTINGUISH is an...",,SITTING,No,Yes,8,11,,Dispel magic,1,Yes,No
+Eye Gouge,SKILL,"A somewhat ""dirty"" tactic, gouging an opponent's eyes out promises
+blindness and the inability to...",,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Familiarity,SPELL,"The FAMILIARITY spell makes one appear to be familiar to everyone. 
+Creatures are far less likely...",,SITTING,No,No,12,10,,Status: familiarity,1,Yes,Yes
+Farsee,SPELL,"""Farsee"" enables the caster to look into an adjacent room, as if the
+caster were actually there, ...",,SITTING,No,No,8,9,,Detect: farsee,1,Yes,Yes
+Fear,SPELL,"The dark side of illusion is introduced to young mages with this 
+decidedly unpleasant spell. The...",MENTAL,STANDING,Yes,Yes,8,5,,CC: fear (dur: level / 4),1,Yes,Yes
+Feather Fall,SPELL,"FEATHER FALL allows a sorcerer to fall from great heights without taking 
+damage. It has no impac...",,STANDING,No,No,8,13,,Status: featherfall,1,Yes,Yes
+Fire Breath,SPELL,Spell: FIRE_BREATH,FIRE,STANDING,Yes,Yes,1,5,,FIRE damage (breath_formula),1,Yes,No
+Fire Darts,SPELL,"Sorcerers who have a mastery of fire can emblaze their missile attacks in order
+to cause extra da...",FIRE,STANDING,Yes,Yes,8,9,,MAGIC damage (4d21),1,Yes,No
+Fireball,SPELL,"""Fireball"" is a very potent spell that causes a small ball of flame to
+shoot forth from the caste...",FIRE,STANDING,Yes,Yes,10,21,,FIRE damage (sorcerer_single_target),1,Yes,No
+Fires Of Saint Augustine,CHANT,"These unique effects convert a monk's BAREHAND damage into a type of 
+elemental damage. They can ...",,SITTING,No,Yes,1,,,AP +3 (dur: skill / 4),1,Yes,Yes
+Fireshield,SPELL,"Fireshield is a spall that will envelope a caster in a protective coating of
+flame.  Anyone who c...",FIRE,STANDING,No,No,8,17,,Reflect fire (25%),1,Yes,Yes
+Firestorm,SPELL,"Higher level sorcerers of the fiery arts can gain the ability to invoke a large
+belch of fire to ...",FIRE,STANDING,Yes,Yes,12,25,,"FIRE damage (dam + (pow(skill, 2) * 1) / 100)",1,Yes,Yes
+First Aid,SKILL,"Used only on one's self. Will attempt to restore a few hit points.
+You can only do this once per ...",,STANDING,No,Yes,1,,Humanoid,Heal hp +skill / 4,1,Yes,No
+Flame Blade,SPELL,"This spell will invoke a blade of pure fire for the pyromancer to instantly
+wield.  The weapon ca...",,STANDING,No,No,10,19,,Create: ?,1,Yes,No
+Flamestrike,SPELL,"Flamestrike will summon down a holy swath of fire from the heavens to burn
+the foes of a cleric w...",FIRE,STANDING,Yes,Yes,10,5,,FIRE damage (dam *= (caster_INT * 0.007 + 0.8)),1,Yes,No
+Flood,SPELL,"This spell allows a cryomancer to summon a vast amount of water that
+rushes through the area, bla...",,STANDING,Yes,Yes,18,35,Quest,"COLD damage (dam + (pow(skill, 2) * 13) / 200)",1,Yes,No
+Fly,SPELL,"As its name implies, the fly spell will enable the victim to move freely up and
+down through the ...",,STANDING,No,No,8,17,,Status: fly,1,Yes,Yes
+Fracture,SPELL,"The necromancer targets any creature with a solid composition, dealing 
+damage as it cracks and b...",PHYSICAL_SLASH,STANDING,No,Yes,6,17,,"PHYSICAL_SLASH damage (sorcerer_single_target / 3, x2 if charmed by PC master)",1,Yes,No
+Fracture Shrapnel,SPELL,Spell: FRACTURE_SHRAPNEL,,STANDING,No,Yes,1,,,"PHYSICAL damage (sorcerer_single_target(SPELL_FRACTURE) / 2, x2 if charmed by PC master)",1,No,No
+Freedom Song,SONG,"Sometimes we get by with a little help from our friends. When you find 
+yourself stuck and lonely...",,STANDING,Yes,Yes,1,,,eva +5 (dur: skill / 4),1,Yes,No
+Freeze,SPELL,This spell is not completed.,COLD,STANDING,Yes,Yes,6,25,,COLD damage (sorcerer_single_target),1,Yes,No
+Freezing Wind,SPELL,"This spell invokes a colder than ice blast of air against the foes of the magic
+user.  The mind n...",COLD,STANDING,Yes,Yes,10,21,,"COLD damage (dam + (pow(skill, 2) * 3) / 500)",1,Yes,Yes
+Frost Breath,SPELL,Spell: FROST_BREATH,COLD,STANDING,Yes,Yes,1,5,,FIRE damage (breath_formula),1,Yes,No
+Full Harm,SPELL,"Clerical types can summon a righteous vengance to vilontly displace a great
+deal of their foes li...",,STANDING,Yes,Yes,12,5,,"HOLY damage ((pow(skill,2)*1)/50)",1,Yes,No
+Full Heal,SPELL,"Being in tune with the wishes of their gods, clerical types can introduce great
+healing ability u...",,STANDING,No,Yes,12,5,,Heal hp +Restores to full HP (GET_MAX_HIT),1,Yes,Yes
+Gas Breath,SPELL,Spell: GAS_BREATH,POISON,STANDING,Yes,Yes,1,5,,"POISON DoT (?/tick, ?); STR +(-2 - (skill / 4) - (skill / 20)) * susceptibility(victim, DAM_POISON) / 100 (dur: 2 + (skill / 33) + (stat_bonus[GET_WIS(ch)].magic / 2))",2,Yes,Yes
+Glory,SPELL,"GLORY gives the caster the appearance of a glorious being in the eyes of 
+those who behold him or...",,STANDING,No,No,8,17,,Status: glory; CHA +50 (dur: eff[0].duration),2,Yes,Yes
+Greater Displacement,SPELL,"GREATER DISPLACEMENT is a more powerful version of the spell 
+DISPLACEMENT. It confers a 33% miss...",MENTAL,STANDING,No,Yes,12,19,Quest,Status: displacement; Status: greater_displacement,2,Yes,Yes
+Greater Endurance,SPELL,"Clerical types can invoke much more health into a creature with a touch. 
+This vitalization cause...",,STANDING,No,No,12,11,,? +skill (dur: level * 2),1,Yes,Yes
+Greater Vitality,SPELL,Spell: GREATER_VITALITY,,STANDING,No,No,12,11,,"HP +get_vitality_hp_gain(ch, spellnum) (dur: get_spell_duration(ch, spellnum))",1,Yes,Yes
+Ground Shaker,SKILL,"Initiated with the STOMP command, GROUND SHAKER is a powerful outlet for 
+rage that rends the ver...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Group Armor,SPELL,"*In-game Quest spell*
+
+The GROUP ARMOR spell allows a cleric to effectively cast armor on an
+enti...",,STANDING,No,No,10,9,Quest,Status: armor,1,Yes,No
+Group Heal,SPELL,"With sufficient skill in healing, it becomes second nature to a cleric,
+giving the ability to hea...",,STANDING,No,Yes,12,5,Quest,Heal hp +1d8,1,Yes,No
+Group Recall,SPELL,"As masters of defensive magic, clerics are capable of extracting a full
+party from combat via mag...",ALIGN,STANDING,No,Yes,8,5,Quest,Teleport: ?,1,Yes,No
+Group Retreat,SKILL,"Soldiers often find it necessary to look out for the well-being of their 
+comrades. They can lear...",,STANDING,No,Yes,1,,,Teleport: recall,1,Yes,No
+Guard,SKILL,This skill seems to not work at this time. Sorry.,,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Harm,SPELL,"""Harm"" will remove a piece of the lifeforce from the target, with the maximum amount lost being
+d...",,STANDING,Yes,Yes,10,5,,"HOLY damage ((pow(skill,2)*41)/5000)",1,Yes,No
+Harness,SPELL,"Using their control over magic, a sorcerer of the appropriate level can 
+use the HARNESS spell to...",,STANDING,No,Yes,2,21,,Status: harness,1,Yes,Yes
+Haste,SPELL,"Haste is an enchantment that causes the victim to quicken their heart rate and reflexes.  This
+ha...",,STANDING,No,Yes,8,19,,Status: haste,1,Yes,Yes
+Heal,SPELL,"""Heal"" restores a great deal of lifeforce, and also cures blindness
+(if any), but cannot heal com...",,STANDING,No,Yes,10,5,,"Heal hp +100 + roll_dice(2, 9) + skill / 5",1,Yes,No
+Hearthsong,SONG,"Bards can gather their groups and perform the most comforting and 
+welcoming of tunes, HEARTHSONG...",,STANDING,No,No,1,,,focus +5 (dur: skill / 4),1,Yes,Yes
+Heavens Gate,SPELL,"Calling upon their righteous deities, the most pious priests and 
+priestesses can open up a tunne...",,STANDING,No,No,18,5,Quest,Summon: ?,1,Yes,No
+Hell Bolt,SPELL,"Evil clerics can summon a defiling bolt of demonic energy from the very essence
+of evil to smite ...",FIRE,STANDING,Yes,Yes,8,5,,"FIRE damage (dam + (pow(skill, 2) * 53) / 10000, then *= (victim_align * 0.0007 + 0.8))",1,Yes,No
+Hellfire and Brimstone,SPELL,"A diabolist in touch with the dark forces below can call them to the 
+surface in the form of a ho...",,STANDING,No,Yes,1,,,"FIRE damage (dam + (pow(skill, 2) * 1) / 180, then *= (caster_align * -0.0022 - 0.7))",1,No,No
+Hells Gate,SPELL,Spell: HELLS_GATE,,STANDING,No,Yes,1,,,Teleport: target,1,No,No
+Heroic Journey,SONG,"The bard recalls the HEROIC JOURNEY of past great adventurers, inspiring 
+their group to ever gre...",,STANDING,No,Yes,1,,,ACC +3 (dur: skill / 4),1,Yes,Yes
+Hide,SKILL,"When you type hide there is a chance that you hide in the room.  If hidden
+you can only be ""sense...",,STANDING,No,Yes,1,,,Stealth: hide,1,Yes,No
+Hit All,SKILL,Imported from legacy ability ID 441,,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Holy Word,SPELL,"Those who fight for the side of light can eventually be granted a very powerful
+holy power to spe...",ALIGN,STANDING,Yes,Yes,1,5,,"HOLY damage (dam + (pow(skill, 2) * 33) / 2000)",1,Yes,Yes
+Hunt,SKILL,Player skill: Hunt,,STANDING,No,Yes,1,,,,0,Yes,No
+Hymn Of Saint Augustine,CHANT,"By chanting this prayer to Saint Augustine, a monk can imbue their hands 
+with one of the four el...",,SITTING,No,Yes,1,,,AP +2 (dur: skill / 4),1,Yes,No
+Hysteria,SPELL,"When accosted by a multitude of foes, journeymen illusionists have been 
+known to darken the skie...",MENTAL,STANDING,Yes,Yes,10,16,,Status: debuff,1,Yes,Yes
+Ice Armor,SPELL,This spell looks to be incomplete.,,STANDING,No,No,8,13,,ward +5 + (skill / 14) (dur: 5 + (skill / 20)),1,Yes,Yes
+Ice Dagger,SPELL,This spell looks to be incomplete.,,STANDING,No,No,8,17,,MAGIC damage,1,Yes,No
+Ice Darts,SPELL,"Sorcerers who have a mastery of ice can frost their missile attacks in order
+to cause extra damag...",COLD,STANDING,Yes,Yes,4,7,,MAGIC damage (4d21),1,Yes,No
+Ice Shards,SPELL,"One of the greatest weapons in a cryomancer's arsenal, this spell summons
+a virtual blizzard of r...",COLD,STANDING,Yes,Yes,16,31,Quest,"COLD damage (dam + (pow(skill, 2) * 1) / 10)",1,Yes,Yes
+Ice Storm,SPELL,"Masters of the cold arts learn the ways of the nature of water.  When this
+knowledge approaches m...",COLD,STANDING,Yes,Yes,10,23,,"COLD damage (dam + (pow(skill, 2) * 1) / 100)",1,Yes,Yes
+Iceball,SPELL,This spell looks to be incomplete.,COLD,STANDING,Yes,Yes,6,29,,COLD damage (sorcerer_single_target),1,Yes,No
+Identify,SPELL,"This spell/skill has been removed from the code for some unknown
+reason.  It is on a very long li...",,SITTING,No,No,8,5,,reveal(type=hidden),1,Yes,No
+Illumination,SPELL,"This spell has the power to light up an entire room for hours. It can be
+used to rejuvenate light...",,SITTING,No,No,10,5,,room_effect(type=light),1,Yes,Yes
+Illusory Wall,SPELL,"This spell creates the illusion of a wall in whatever direction the 
+caster chooses. The composit...",,STANDING,No,No,18,27,Quest,Status: illusion,1,Yes,Yes
+Immolate,SPELL,"This spell has an unknown fire affect.  An eruption of fiery death will search
+out the foes of th...",FIRE,STANDING,Yes,Yes,10,25,,FIRE damage (sorcerer_single_target / 4),1,Yes,No
+Incendiary Nebula,SPELL,Spell: INCENDIARY_NEBULA,FIRE,STANDING,Yes,Yes,16,35,,FIRE damage,1,Yes,Yes
+Infravision,SPELL,"Allows the victim to detect the heat given off by objects giving them
+the ability to have much be...",,SITTING,No,No,8,9,,Detect: infravision,1,Yes,Yes
+Innate Ascen,SPELL,Spell: INN_ASCEN,,STANDING,No,Yes,8,,,CHA +1 + (skill / 18) (dur: (skill >> 1) + 4),1,No,Yes
+Innate Brill,SPELL,Spell: INN_BRILL,,STANDING,No,Yes,8,,,INT +1 + (skill / 18) (dur: (skill >> 1) + 4),1,No,Yes
+Innate Chaz,SPELL,Spell: INN_STRENGTH,,STANDING,No,Yes,8,,,STR +1 + (skill / 18) (dur: (skill >> 1) + 4),1,No,Yes
+Innate Syll,SPELL,Spell: INN_SYLL,,STANDING,No,Yes,8,,,DEX +1 + (skill / 18) (dur: (skill >> 1) + 4),1,No,Yes
+Innate Tass,SPELL,Spell: INN_TASS,,STANDING,No,Yes,8,,,WIS +1 + (skill / 18) (dur: (skill >> 1) + 4),1,No,Yes
+Innate Tren,SPELL,Spell: INN_TREN,,STANDING,No,Yes,8,,,CON +1 + (skill / 18) (dur: (skill >> 1) + 4),1,No,Yes
+Insanity,SPELL,"If somehow you get this flag on your char, you will suffer mightily to
+wisdom, and some other uns...",MENTAL,STANDING,Yes,Yes,10,5,,CC: insanity; WIS -50 (dur: 5),2,Yes,Yes
+Inspiration,SONG,"The most basic of bardic music, INSPIRATION supports allies in a number 
+of ways, growing more po...",,STANDING,No,Yes,1,,,ACC +2 (dur: skill / 4),1,Yes,Yes
+Instant Kill,SKILL,"This is an involuntary assassin skill. When assassins become more skilled and
+powerful they slowl...",,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (9999),1,Yes,No
+Interminable Wrath,CHANT,"This CHANT is the pinnacle of wild frenzy. Chanting it allows the  
+berserker to stay in a BERSER...",,STANDING,No,Yes,1,,,AP +3 (dur: skill / 4),1,Yes,Yes
+Invigorate,SPELL,No idea what this spell does.,,STANDING,No,No,14,5,,Status: buff,1,Yes,No
+Invisibility,SPELL,"Makes the target of the spell invisible to everyone except those who have
+the ""detect invisibilit...",,STANDING,No,Yes,1,,,Stealth: invisible; eva +40 (dur: 9 + (skill / 9)),2,No,No
+Iron Maiden,SPELL,"The necromancer summons a spiked-filled iron prison which slams shut 
+around the target, dealing ...",PHYSICAL_PIERCE,STANDING,Yes,Yes,6,14,,PHYSICAL_PIERCE damage (sorcerer_single_target),1,Yes,No
+Isolation,SPELL,"This spell obscures the exits from a room for a time. To all appearances, 
+there is no way out. I...",MENTAL,STANDING,No,No,10,8,,"room_effect(type=obscure_exits, duration=skill / 10)",1,Yes,Yes
+Ivory Symphony,CHANT,"The IVORY SYMPHONY is one of the most chilling pieces ever written, and 
+its vocal solo is its hi...",,STANDING,Yes,Yes,1,,,focus +10 (dur: skill / 4),1,Yes,No
+Joyful Noise,SONG,"Bards are masters of sound and sonics. SILENCE is deadly to a bard, 
+preventing their most powerf...",,STANDING,No,Yes,1,,,CHA +2 (dur: skill / 4),1,Yes,Yes
+Kick,SKILL,"The success of a kick depends upon how well you are learned.  The higher
+level you reach the hard...",,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Know Spell,SKILL,Player skill: Know Spell,,STANDING,No,Yes,1,,,"reveal(type=magic, depth=room)",1,No,No
+Lay Hands,SKILL,Player skill: Lay Hands,,STANDING,No,Yes,1,,,Heal hp +level * 2,1,No,No
+Lesser Endurance,SPELL,"Clerical types can invoke much more health into a creature with a touch. 
+This vitalization cause...",,STANDING,No,No,8,5,,? +skill / 4 (dur: level * 2),1,Yes,Yes
+Lesser Exorcism,SPELL,"Priests who are most holy can call upon the powers of their righteous gods to
+greatly assist in t...",ALIGN,STANDING,Yes,Yes,10,5,,"HOLY damage (dam + (pow(skill, 2) * 1) / 25, then *= (caster_align * 0.001 + 0.2))",1,Yes,No
+Lightning Bolt,SPELL,"This spell causes a huge bolt of lightning to streak from the caster's
+outstretched palm, strikin...",SHOCK,STANDING,Yes,Yes,8,17,,SHOCK damage (sorcerer_single_target),1,Yes,No
+Lightning Breath,SPELL,Spell: LIGHTNING_BREATH,SHOCK,STANDING,Yes,Yes,1,5,,SHOCK damage (breath_formula),1,Yes,No
+Locate Object,SPELL,"If at all possible, the caster will know exactly where an object is or
+the name of the creature u...",,SITTING,No,No,10,12,,reveal(type=object),1,Yes,No
+Lure,SKILL,"In addition to cloak and dagger skills, rogues excel in misdirection.
+They can use that to trick ...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Magic Missile,SPELL,"Causes a bolt of magical energy to be thrown from the casters hands at the
+victim. The number of ...",PHYSICAL_BLUNT,STANDING,Yes,Yes,8,5,,"MAGIC damage (roll_dice(4,21))",1,Yes,No
+Magic Torch,SPELL,"Young sorcerers on the path of fire learn how to focus a small bit of fiery
+energy into a field o...",,STANDING,No,Yes,8,7,,Status: light,1,Yes,Yes
+Major Globe,SPELL,"This spell creates a globe of invulnerability around the target, 
+protecting him or her from magi...",,STANDING,No,No,14,35,Quest,Globe (blocks circle ?),1,Yes,Yes
+Major Paralysis,SPELL,"MAJOR PARALYSIS, like MINOR PARALYSIS, when inflicted, causes the victim 
+failing to save to beco...",MENTAL,STANDING,Yes,No,12,35,Quest,CC: paralysis,1,Yes,Yes
+Mass Invisibility,SPELL,"Powerful sorcerers who have mastered the ways of enchantment can invoke a
+field of invisibility t...",,STANDING,No,Yes,1,,,Stealth: invisible; eva +40 (dur: 9 + (skill / 9)),2,No,No
+Maul,SKILL,"As a derivative of BASH, the MAUL skill is used to bowl over an  opponent 
+and prevent them from ...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Meditate,SKILL,"Meditate is used to concentrate upon spells being memorized.
+During meditation, nothing else can ...",,STANDING,No,Yes,1,,,? +enhanced,1,Yes,No
+Melt,SPELL,"Pyromancers learn to focus their heating abilities in any location on or within
+a potential foe. ...",FIRE,STANDING,Yes,Yes,12,29,,"FIRE damage (sorcerer_single_target(ch, spellnum, skill))",1,Yes,No
+Mesmerize,SPELL,"When you need to distract someone, even against their will, this is the 
+spell to use. A mesmeriz...",MENTAL,STANDING,Yes,No,8,8,,CC: mesmerize,1,Yes,Yes
+Meteorswarm,SPELL,"*This is a in-game quest*
+ 
+METEORSWAM allows a mage to reach into the heavens and rain down the
+...",FIRE,STANDING,Yes,Yes,14,37,Quest,"FIRE damage (dam + (pow(skill, 2) * 13) / 200)",1,Yes,Yes
+Minor Creation,SPELL,"Creates something small and pretty, depending on the keyword you use.
+You must specify some type ...",,SITTING,No,No,6,5,,Create: ?,1,Yes,No
+Minor Globe,SPELL,"A minor globe of invulnerability by name is somewhat deceptive, but then again
+most of a sorcerer...",,STANDING,No,No,10,23,,Globe (blocks circle ?),1,Yes,Yes
+Minor Paralysis,SPELL,"Minor Paralysis, when inflicted, causes the victim failing to save to become
+paralyzed, unable to...",MENTAL,STANDING,No,Yes,8,21,,CC: minor_paralysis,1,Yes,Yes
+Mirage,SPELL,"Those magic users who are learing the ways of fire can learn a mothod of
+surrounding themselves w...",,STANDING,No,Yes,10,17,,eva +5 + (skill / 16) (dur: 5 + (skill / 25)),1,Yes,Yes
+Misdirection,SPELL,"Illusionists may loosen their corporeal image for a time, and send 
+ghostly impressions off in an...",MENTAL,STANDING,No,No,10,12,,Status: misdirection,1,Yes,Yes
+Missile,SKILL,"Causes a bolt of magical energy to be thrown from the casters hands at the
+victim. The number of ...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,No,No
+Moonbeam,SPELL,"Druids can call upon sister Luna to sap the strength and befuddle the 
+wits of their enemies. By ...",,STANDING,Yes,Yes,10,10,,"HOLY damage (skill * 2 + random_number(20, 80))",1,Yes,No
+Moonwell,SPELL,"Using the power of the clear night's glowing moon, the MOONWELL spell 
+opens a magical portal bet...",,STANDING,No,No,18,5,Quest,Teleport: ?,1,Yes,No
+Mount,SKILL,"Usually, PALADINS will be the ones doing this. If the target is a
+mountable creature, its difficu...",,STANDING,No,Yes,1,,,Status: mounted,1,Yes,No
+Natures Embrace,SPELL,"Powerful priests of nature can be granted the ability to become so in 
+tune with surrounding natu...",,STANDING,No,No,14,5,,Stealth: camouflage,1,Yes,Yes
+Natures Guidance,SPELL,"As they become increasingly experienced, many rangers find that communing 
+with nature is very im...",,STANDING,No,Yes,8,8,,ACC +eff[0].duration = (skill / 20) + 1 (dur: (skill / 20) + 1),1,Yes,Yes
+Negate Cold,SPELL,"This spell will allegedly protect the cryomancer from all forms of cold.
+This has yet to be ident...",,STANDING,No,No,14,29,,Prot vs cold,1,Yes,Yes
+Negate Heat,SPELL,"This spell will allegedly protect the pyromancer from all forms of heat.
+This has yet to be ident...",,STANDING,No,No,14,29,,Prot vs fire,1,Yes,Yes
+Night Vision,SPELL,"Druids can eventually learn the ways of the night and be granted the magic 
+necessary to see in s...",,SITTING,No,Yes,10,5,,Detect: ultravision,1,Yes,Yes
+Nightmare,SPELL,"When faced with undeniable visions of raw evil, susceptible victims can 
+be induced to spontaneou...",MENTAL,STANDING,Yes,Yes,4,12,,MENTAL damage (sorcerer_single_target),1,Yes,No
+Nimble,SPELL,"NIMBLE is an enchantment that causes the victim to increase in speed and 
+agility. Rangers wieldi...",,STANDING,No,Yes,8,19,,Status: nimble,1,Yes,Yes
+Nourishment,SPELL,Self-cast only. Allows you to derive sustenance from the earth itself.,,SITTING,No,No,10,5,,Status: satiated,1,Yes,No
+On Fire,SKILL,Player skill: On Fire,,STANDING,No,Yes,1,,,"POISON DoT (?/tick, 10)",1,No,No
+Parry,SKILL,"Various skills auto-used in combat settings. Both require a weapon to be
+wielded. Parry deflects ...",,STANDING,No,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Peace,CHANT,"At times a monk can have so much built up anger that when they chant 
+their song of peace it caus...",,STANDING,No,Yes,1,,,Dispel magic,1,Yes,No
+Peck,SKILL,Player skill: Peck,,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Perform,SKILL,"PERFORM is a skill unique to bards. It is their bread and butter ability, 
+the one many use to li...",,STANDING,No,Yes,1,,,,0,Yes,No
+Phantasm,SPELL,"A PHANTASM is an illusory creature. To the unobservant, they may appear 
+to be genuine living thi...",,STANDING,No,No,10,12,,Status: illusion,1,Yes,Yes
+Phosphoric Embers,SPELL,"Pyromancers are able to conjure up burning chunks of phosphorus to hurl
+at their victims. These w...",FIRE,STANDING,Yes,Yes,8,18,,FIRE damage (sorcerer_single_target / 3),1,Yes,No
+Pick Lock,SKILL,"For picking locks. Not all locks can be picked. Locks may be on doors or 
+containers.
+ 
+Examples:...",,STANDING,No,Yes,1,,Humanoid,,0,Yes,No
+Piercing Weapons,SKILL,Player skill: Piercing,,STANDING,No,Yes,1,,,,0,No,No
+Plane Shift,SPELL,Spell: PLANE_SHIFT,,STANDING,No,No,12,5,Quest,Teleport: ?,1,Yes,No
+Poison,SPELL,"Casting poison on food or drink (containers) will poison it.  Eating
+poisoned food/drinks will po...",,STANDING,Yes,Yes,8,5,,"POISON DoT (?/tick, ?); STR +(-2 - (skill / 4) - (skill / 20)) * susceptibility(victim, DAM_POISON) / 100 (dur: 2 + (skill / 33) + (stat_bonus[GET_WIS(ch)].magic / 2))",2,Yes,Yes
+Positive Field,SPELL,"Positive field draws charge out of the victim's body, causing the 
+naturally occuring charge with...",SHOCK,STANDING,Yes,Yes,6,18,,SHOCK damage (sorcerer_single_target),1,Yes,No
+Prayer,SPELL,"Priests of sufficient stature can cast a spell of prayer and gain protection
+against spells and a...",,SITTING,No,No,10,5,,HP +skill / (1 + ((100 - skill) / 30)) (dur: 5 + (skill / 14)); Save vs spell -5 - (skill / 14) (dur: eff[0].duration),2,Yes,Yes
+Preserve,SPELL,"Casting preserve on a corpse will lengthen the time it takes to decompose.
+This is useful if comr...",,SITTING,No,No,8,11,,Status: preserve,1,Yes,No
+Protection from Air,SPELL,Spell: PROTECT_SHOCK,,STANDING,No,Yes,1,,,Prot vs air,1,No,No
+Protection from Cold,SPELL,Spell: PROTECT_COLD,,STANDING,No,Yes,1,,,Prot vs cold,1,No,No
+Protection from Earth,SPELL,Spell: PROTECT_ACID,,STANDING,No,Yes,1,,,Prot vs earth,1,No,No
+Protection from Evil,SPELL,"Will help in fights versus evil characters. Helps you against the evil's
+physical attacks and als...",,STANDING,No,Yes,1,,,Prot vs evil,1,No,No
+Protection from Fire,SPELL,Spell: PROTECT_FIRE,,STANDING,No,Yes,1,,,Prot vs fire,1,No,No
+Protection from Good,SPELL,Spell: PROT_FROM_GOOD,,STANDING,No,Yes,1,,,Prot vs good,1,No,No
+Punch,SKILL,Player skill: Punch,,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Pyre,SPELL,"By casting PYRE, a necromancer sets the target alight, dealing it 
+damage over successive rounds....",FIRE,STANDING,No,Yes,4,15,,"FIRE damage (sorcerer_single_target / 3, x2 if charmed by PC master)",1,Yes,Yes
+Pyre Recoil,SPELL,Spell: PYRE_RECOIL,,STANDING,No,Yes,1,,,FIRE damage (sorcerer_single_target(SPELL_PYRE) / 6),1,No,No
+Quick Chant,SKILL,"A skill autoused by those who like to cast spells. This will help you
+cast those spells in signif...",,STANDING,No,Yes,1,,,ACC +1 (dur: level / 2),1,Yes,No
+Rain,SPELL,This spell appears to be incomplete.,,STANDING,No,No,12,23,,"room_effect(type=fog, duration=level)",1,Yes,No
+Ray of Enfeeblement,SPELL,This spell will lessen the strength of an opponent but looks to be incomplete.,,STANDING,Yes,Yes,10,21,,Status: ray_of_enfeeb; STR -15 - (skill / 10) (dur: 8 + (skill / 20)),2,Yes,Yes
+Rebuke Undead,SPELL,"Great necromancers have power over not only their own undead minions, but 
+the hordes of autonomo...",,STANDING,Yes,Yes,8,8,,STR +eff[1].modifier = -skill / 5 (dur: eff[1].duration = eff[2].duration = skill / 10); CON +; eva -skill / 5 * 2,3,Yes,Yes
+Recall,SPELL,"The caster will be transferred back to their hometown or clanhall if they 
+are in a clan. WORD OF...",,STANDING,No,Yes,1,5,,Teleport: ?,1,No,No
+Reduce,SPELL,"This spell will change the size of the victim as well as affect their 
+constitution and strength ...",MENTAL,STANDING,No,No,14,29,,Size -1; CON -10 (dur: eff[0].duration); STR -10 (dur: eff[0].duration),3,Yes,Yes
+Regeneration,CHANT,"This song is useful to monks in that when affected by it, they heal both 
+mind and body quickly. ...",,SITTING,No,No,1,,,"POISON DoT (?/tick, level)",1,Yes,Yes
+Relocate,SPELL,"Relocate is a far more stronger version of the DIMENSION DOOR spell, 
+allowing its caster to trav...",,STANDING,No,Yes,1,35,Quest,Teleport: ?,1,No,No
+Remove Curse,SPELL,Will remove a curse on carried objects or any persons in the room.,,STANDING,No,No,10,5,,Cure: curse,1,Yes,Yes
+Remove Paralysis,SPELL,"REMOVE PARALYSIS removes all effects preventing the target from moving, 
+including ENTANGLE, MINO...",,STANDING,No,No,10,5,,Cure: curse,1,Yes,Yes
+Remove Poison,SPELL,Will remove the affects of poison from a victim or an object.,,SITTING,No,Yes,8,5,,Cure: poison,1,Yes,Yes
+Rend,SKILL,"Beyond being able to steal items, thieves can ""steal"" armor directly off 
+their opponent to expos...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Rescue,SKILL,"As a general rule in a group, the person who takes the first hit will
+receive most or all of the ...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Resurrect,SPELL,"The RESURRECT spell returns a player to life at the site of their corpse, 
+restoring a portion of...",,STANDING,No,Yes,1,5,Quest,resurrect(type=player),1,No,No
+Retreat,SKILL,"Sometimes things get just a little too heated in a fight, and one might 
+find it necessary to get...",,STANDING,No,Yes,1,,,Teleport: recall,1,Yes,No
+Reveal Hidden,SPELL,"REVEAL HIDDEN unmasks obfuscated people, places, and things. It removes 
+the hiddenness and invis...",,SITTING,No,No,12,19,,reveal(type=hidden),1,Yes,No
+Riding,SKILL,"When you can actually make it upon a horse your skill at navigating your steed
+about the realms w...",,STANDING,No,Yes,1,,,,0,Yes,No
+Riposte,SKILL,"Various skills auto-used in combat settings. Both require a weapon to be
+wielded. Parry deflects ...",,STANDING,No,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Roar,SKILL,Player skill: Roar,,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Roundhouse,SKILL,"More skillful monks can unleash a powerful spinning KICK, striking 
+multiple opponents at once. T...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Safefall,SKILL,"Safefall will allow a monk to safely roll out of a fall from a particular
+altitude.  Gravity howe...",,STANDING,No,Yes,1,,,Status: featherfall (dur: level * 2),1,Yes,No
+Sanctuary,SPELL,"The sanctuary spell blesses the target with a divine aura of protection, 
+halving the damage the ...",,STANDING,No,No,6,35,,Status: sanctuary,1,Yes,Yes
+Sane Mind,SPELL,Will remove the insanity flag from an affected target.,,SITTING,No,No,10,5,,Cure: insanity,1,Yes,Yes
+Scribe,SKILL,"Scribe is used by sorcerors (and sub-classes) to keep a written copy of
+each spell in their spell...",,STANDING,No,Yes,1,,Humanoid,,0,Yes,No
+Seed Of Destruction,CHANT,"Especially skilled monks become so crafty at mental persuasion that they 
+become able to convince...",,STANDING,Yes,Yes,1,,,"POISON DoT (?/tick, 10)",1,Yes,Yes
+Sense Life,SPELL,"This spell will enable you to sense hidden life forms in a room.
+Creatures affected by INVISIBILI...",,SITTING,No,No,8,19,,Detect: life,1,Yes,Yes
+Severance,SPELL,"Illusionists may grasp at the very magical anchors that bind together
+constructed and nonliving b...",,STANDING,Yes,Yes,14,37,,"PHYSICAL damage (dam + (pow(skill, 2) * 13) / 200)",1,Yes,Yes
+Shadow,SKILL,"Those who operate in darkness often find the need to follow targets 
+without their knowledge. The...",,STANDING,No,Yes,1,,,Stealth: hide,1,Yes,No
+Shadows Sorrow Song,CHANT,"This song fills the monk's victims with sorrowful depression, clouding 
+their vision with shadows...",,STANDING,Yes,Yes,1,,,ACC -3 (dur: skill / 4),1,Yes,Yes
+Shapechange,SKILL,"THIS HAS BEEN DISABLED UNTIL IT'S FIXED
+Usage: shapechange mammal/bird/reptile
+
+Druid innate skil...",,STANDING,No,Yes,1,,,Size +1,1,Yes,No
+Shift Corpse,SPELL,"SUMMON CORPSE's bigger brother, SHIFT CORPSE allows the caster to commune
+with death and transpor...",,STANDING,No,No,14,17,Quest,Teleport: target,1,Yes,No
+Shocking Grasp,SPELL,"The spellcaster attempts to grasp the enemy with a bare hand, but for
+only the briefest of instan...",SHOCK,STANDING,Yes,Yes,8,9,,SHOCK damage (sorcerer_single_target),1,Yes,No
+Silence,SPELL,"This spell will allow the cast the prevent the victim from speaking. This has
+the affect of preve...",,STANDING,Yes,Yes,10,5,,CC: silence,1,Yes,Yes
+Simulacrum,SPELL,"Like the phantasm spell, simulacrum summons an illusory being. However, 
+it can mimic nearly any ...",,STANDING,No,No,10,15,,Summon: ?,1,Yes,Yes
+Slashing Weapons,SKILL,Player skill: Slashing,,STANDING,No,Yes,1,,,,0,No,No
+Sleep,SPELL,"If failing saving throw versus spell, the person will fall asleep.
+A person who is affected by sl...",MENTAL,STANDING,No,No,10,19,,CC: sleep,1,Yes,Yes
+Smoke,SPELL,"Sorcerers who have mastered fire have mastered all forms of it.  Those who do
+can manipulate a na...",,STANDING,Yes,Yes,8,11,,CC: blind; ACC -4 (dur: 2); eva -40 (dur: 2),3,Yes,Yes
+Sneak,SKILL,"Classes: Assassin, Bard, Rogue, Thief
+
+Used for sneaking (moving in and out of rooms without anyo...",,STANDING,No,Yes,1,,,Stealth: camouflage,1,Yes,No
+Sneak Attack,SKILL,"SNEAK ATTACK is a basic rogue skill which adds a portion of the rogue's 
+current hiddenness score...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Sonata Of Malaise,CHANT,"One of the monk's most devious chants, SONATA OF MALAISE invokes such a 
+sense of anger and fear ...",,STANDING,Yes,Yes,1,,,CON -2 (dur: skill / 4),1,Yes,Yes
+Song Of Rest,SONG,"The bard performs a song to help the listener relax and sleep, increasing their regeneration rate...",,STANDING,No,No,1,,,focus +5 (dur: skill / 4),1,Yes,No
+Soul Reaver,SPELL,"Where nightmare convinces a single enemy that ruin is at hand, this spell 
+brings apocalyptic vis...",MENTAL,STANDING,Yes,Yes,14,30,,"MENTAL damage (dam + (pow(skill, 2) * 13) / 199)",1,Yes,Yes
+Soul Tap,SPELL,"Like an advanced form of energy drain, this spell allows a necromancer to 
+leech energy from a li...",,STANDING,Yes,Yes,12,22,,"Lifesteal 25%; POISON DoT (?/tick, ?)",2,Yes,No
+Soulshield,SPELL,"This spell, like its secular counter parts fireshield and coldshield, will
+reflect damage back up...",,STANDING,No,No,8,5,,Status: soulshield,1,Yes,Yes
+Speak In Tongues,SPELL,"This spell allows the caster to not only understand a language as it's spoken
+but also to speak i...",,SITTING,No,No,10,5,,Status: comprehend_languages,1,Yes,Yes
+Sphere of Air,SKILL,Player skill: Sphere Air,,STANDING,No,Yes,1,,,Prot vs shock,1,No,No
+Sphere of Death,SKILL,Player skill: Sphere Death,,STANDING,No,Yes,1,,,Prot vs unholy,1,No,No
+Sphere of Divination,SKILL,Player skill: Sphere Divination,,STANDING,No,Yes,1,,,Detect: magic,1,No,No
+Sphere of Earth,SKILL,Player skill: Sphere Earth,,STANDING,No,Yes,1,,,Prot vs physical,1,No,No
+Sphere of Enchantment,SKILL,Player skill: Sphere Enchant,,STANDING,No,Yes,1,,,Save vs spell -2 (dur: level),1,No,No
+Sphere of Fire,SKILL,Player skill: Sphere Fire,,STANDING,No,Yes,1,,,Prot vs fire,1,No,No
+Sphere of Generic,SKILL,Player skill: Sphere Generic,,STANDING,No,Yes,1,,,Prot vs magic,1,No,No
+Sphere of Healing,SKILL,Player skill: Sphere Healing,,STANDING,No,Yes,1,,,Heal hp +level,1,No,No
+Sphere of Protection,SKILL,Player skill: Sphere Protection,,STANDING,No,Yes,1,,,ward +10 (dur: level),1,No,No
+Sphere of Summoning,SKILL,Player skill: Sphere Summon,,STANDING,No,Yes,1,,,Summon: ?,1,No,No
+Sphere of Water,SKILL,Player skill: Sphere Water,,STANDING,No,Yes,1,,,Prot vs cold,1,No,No
+Spinechiller,SPELL,"SPINECHILLER sends shivers down the spine of the target, temporarily 
+paralyzing them. The effect...",,STANDING,Yes,Yes,10,10,,CC: minor_paralysis,1,Yes,Yes
+Spirit Arrows,SPELL,Spell: SPIRIT_ARROWS,ALIGN,STANDING,Yes,Yes,4,5,,MAGIC damage (4d21),1,Yes,No
+Spirit Ray,SPELL,Spell: SPIRIT_RAY,ALIGN,STANDING,Yes,Yes,12,5,,HOLY damage (sorcerer_single_target),1,Yes,No
+Spirit of the Bear,CHANT,"SPIRIT OF THE BEAR is one of three berserker CHANTS. It imbues the  
+berserker with the overwhelm...",,STANDING,No,Yes,1,,,CON +4 (dur: level * 2),1,No,Yes
+Spirit of the Wolf,CHANT,"SPIRIT OF THE WOLF is one of three berserker CHANTS. It evokes the  
+ferocity of wolf, granting t...",,STANDING,No,Yes,1,,,DEX +4 (dur: level * 2),1,No,Yes
+Springleap,SKILL,"With proper training in martial arts, skilled monks learn to channel 
+their muscle power into the...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Statue,SPELL,Spell: STATUE,,STANDING,No,Yes,1,10,,Status: familiarity,1,No,Yes
+Steal,SKILL,"Usage: steal <item> <victim>
+
+Use steal to steal gold or items from people.  The chance of not ge...",,STANDING,Yes,Yes,1,,Humanoid,,0,Yes,No
+Stealth,SKILL,"Usage: sneak
+
+Especially sneaky rogues and thieves learn how to cover up their tracks, 
+making it...",,STANDING,No,Yes,1,,,Stealth: camouflage,1,Yes,No
+Stone Skin,SPELL,"Stone skin when cast upon a victim will greatly assist that persons fight
+survivability.  Stone s...",,STANDING,No,Yes,8,19,,Status: stoneskin,1,Yes,Yes
+Stygian Eruption,SPELL,"An unholy priest can summon up a vile wave of pure evil from the very depths of
+the demon plane i...",FIRE,STANDING,Yes,Yes,10,5,,"FIRE damage (dam + (pow(skill, 2) * 1) / 125, then *= (caster_align * -0.0022 - 0.7))",1,Yes,No
+Summon,SPELL,"Will summon a person of the name spoken. That is if they dont save the
+spell and they are close e...",,STANDING,No,No,10,5,,Teleport: ?,1,Yes,No
+Summon Corpse,SPELL,"A powerful spell, SUMMON CORPSE allows the caster to briefly touch upon
+the cold powers of death ...",,STANDING,No,No,12,17,,Teleport: target,1,Yes,No
+Summon Demon,SPELL,Spell: SUMMON_DEMON,,STANDING,No,No,10,31,,Summon: ?,1,Yes,No
+Summon Dracolich,SPELL,Spell: SUMMON_DRACOLICH,,STANDING,No,Yes,1,33,Quest,Summon: ?,1,No,No
+Summon Elemental,SPELL,"Conjurers, as their primary spell, can summon elementals from the different
+planes.  The exact pl...",,STANDING,No,No,8,19,,Summon: ?,1,Yes,No
+Summon Greater Demon,SPELL,Spell: SUMMON_GREATER_DEMON,,STANDING,No,No,14,35,,Summon: ?,1,Yes,No
+Summon Mount,SKILL,"Paladin and anti-paladin classes are able to call to them a horse, 
+whether it be a good or evil ...",,STANDING,No,Yes,1,,Humanoid,Summon: ?,1,Yes,No
+Sunray,SPELL,"Druids can eventually master the powers of sunlight to focus a precise beam
+of light into the une...",FIRE,STANDING,Yes,Yes,12,5,,CC: blind; ACC -4 (dur: 2); eva -40 (dur: 2),3,Yes,Yes
+Supernova,SPELL,"*In-game Quest Spell*
+
+With this spell, a powerful pyromancer can release an extraordinary 
+amoun...",FIRE,STANDING,Yes,Yes,16,31,Quest,"FIRE damage (dam + (pow(skill, 2) * 1) / 10)",1,Yes,Yes
+Sweep,SKILL,"Usage: sweep <target>
+       breath air/water/fire <target>
+
+Will allow a very high level god to ...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Switch,SKILL,"Classes : Anti-Paladin, Mercenary, Monk, Paladin, Warrior
+
+SWITCH is a skill automatically used w...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Tame,SKILL,"Those who follow in the footsteps of nature and embody a closeness to the
+animals of the realm ca...",,STANDING,No,Yes,1,,,,0,Yes,No
+Tantrum,SKILL,"Similar to HITALL, the berserker TANTRUM lashes out at all surrounding  
+targets. Tantrum always ...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+Teleport,SPELL,"Magic users up for adventure or in need of escape can invoke a power of
+summoning to move themsel...",,STANDING,No,Yes,10,11,,Teleport: ?,1,Yes,No
+Tempest Of Saint Augustine,CHANT,"These unique effects convert a monk's BAREHAND damage into a type of 
+elemental damage. They can ...",,SITTING,No,Yes,1,,,AP +4 (dur: skill / 4),1,Yes,Yes
+Terror,SONG,"TERROR is the punishing version of INSPIRATION. The bard pierces the heart 
+of the target by stri...",,STANDING,Yes,Yes,1,,,CC: fear (dur: level / 4),1,Yes,No
+Throatcut,SKILL,"Assassins that have gained sufficient experience in their deadly arts may 
+put their stealth tech...",,STANDING,Yes,Yes,1,,Humanoid,PHYSICAL damage (skill),1,Yes,No
+Track,SKILL,"Used for finding the first step on the shortest route to a monster.
+This will take you in that di...",,STANDING,No,Yes,1,,,,0,Yes,No
+Tremors Of Saint Augustine,CHANT,"These unique effects convert a monk's BAREHAND damage into a type of 
+elemental damage. They can ...",,SITTING,No,Yes,1,,,AP +3 (dur: skill / 4),1,Yes,Yes
+Two-Hand Bludgeoning,SKILL,Player skill: 2H Bludgeoning,,STANDING,No,Yes,1,,,,0,No,No
+Two-Hand Piercing,SKILL,Player skill: 2H Piercing,,STANDING,No,Yes,1,,,,0,No,No
+Two-Hand Slashing,SKILL,Player skill: 2H Slashing,,STANDING,No,Yes,1,,,,0,No,No
+Unholy Word,SPELL,"Those who fight for the side of night can eventually be granted a very powerful
+unholy power to s...",ALIGN,STANDING,Yes,Yes,1,5,,"HOLY damage (dam + (pow(skill, 2) * 33) / 2000)",1,Yes,Yes
+Urban Renewal,SPELL,"Very high level priests of nature will be granted the ability to temporarily
+introduce dense foal...",,SITTING,No,No,12,5,,MAGIC damage,1,Yes,Yes
+Vampiric Breath,SPELL,Spell: VAMPIRIC_BREATH,,STANDING,Yes,Yes,1,5,,"HOLY damage (dam + roll_dice(2, skill + 10), +random(0,70) if skill>=95)",1,Yes,No
+Vampiric Touch,SKILL,"VAMPIRIC TOUCH is used by the anti-paladin to suck the very life-essence
+out of his foes. In orde...",,STANDING,Yes,Yes,1,,,Lifesteal 50%,1,Yes,No
+Vaporform,SPELL,"Only the most skilled Cryomancers can use this spell to vaporize their 
+own bodies into magically...",,STANDING,No,No,14,35,Quest,Status: invisible (dur: level),1,Yes,Yes
+Ventriloquate,SPELL,"This playful spell throws the caster's voice up on an unsuspecting 
+victim, who will appear to sa...",,SITTING,No,No,8,6,,Stealth: camouflage,1,Yes,No
+Vicious Mockery,SPELL,"The library is open for reading, hunty. VICIOUS MOCKERY allows a bard 
+read the victim for filth,...",MENTAL,STANDING,Yes,Yes,6,21,,MENTAL damage (sorcerer_single_target),1,Yes,No
+Vigorize Critic,SPELL,"Clerics and inspiring bards can restore physical prowess and health to the 
+weary and travel lade...",,STANDING,No,No,10,5,,"Heal move +roll_dice(4, 9) + skill / 10",1,Yes,No
+Vigorize Light,SPELL,"Clerics in touch with the gods that grant them powers can restore physical
+prowess and health to ...",,STANDING,No,No,8,5,,"Heal move +roll_dice(1, 9) + skill / 30",1,Yes,No
+Vigorize Serious,SPELL,"Clerics in touch with the gods that grant them powers can restore physical
+prowess and health to ...",,STANDING,No,No,8,5,,"Heal move +roll_dice(2, 9) + skill / 20",1,Yes,No
+Vitality,SPELL,"Clerical types can invoke much more health into a creature with a touch. This
+vitalization causes...",,STANDING,No,No,10,7,,? +skill / 2 (dur: level * 2),1,Yes,Yes
+Wall Of Fog,SPELL,"A conjurer has the ability to manipulate some elements of nature.  A thick
+blanket of fog can be ...",,STANDING,No,No,18,21,,room_barrier(type=fog),1,Yes,Yes
+Wall Of Ice,SPELL,"Cryomancers can invoke a freezing wave of ice that can sheet over an obvious
+exit.  This will pre...",COLD,STANDING,No,No,18,27,Quest,room_barrier(type=ice),1,Yes,Yes
+Wall Of Stone,SPELL,"Conjurers will learn a way to invoke manipulation into the stones of the realm
+in order to form a...",,STANDING,No,No,18,25,,room_barrier(type=stone),1,Yes,Yes
+Wandering Woods,SPELL,Will do some pretty amusing things with exits in forest rooms.,,STANDING,No,No,16,5,,Teleport: random,1,Yes,Yes
+War Cry,CHANT,"Much as a monk remembers their fallen brothers and can incite themselves 
+to higher likelihood of...",,STANDING,No,No,1,,,PHYSICAL damage (skill),1,Yes,Yes
+Water Blast,SPELL,"This spell is a water damage version of the sorcerer classic FIREBALL. 
+It causes a jet of water ...",,STANDING,Yes,Yes,10,21,,COLD damage (sorcerer_single_target),1,Yes,No
+Waterform,SPELL,"Masters of cold can invoke the power of water to protect themselves.
+Cryomancers can litterally t...",,STANDING,No,No,14,27,Quest,Status: waterbreath (dur: level),1,Yes,Yes
+Waterwalk,SPELL,"Priests can assist their allies in crossing still waters by imparting some
+divine intervention.  ...",,STANDING,No,No,10,29,,Status: waterwalk,1,Yes,Yes
+Web,SPELL,"WEB shoots a sticky glowing net from the caster's hand, possibly 
+ensnaring the target and preven...",MENTAL,STANDING,No,Yes,8,21,,CC: immobilize,1,Yes,Yes
+Wings Of Heaven,SPELL,"Creates either pretty angels' wings or ickie-looking batwings upon the
+caster's back. Will allow ...",,STANDING,No,No,10,5,,Status: fly,1,Yes,Yes
+Wings Of Hell,SPELL,"Creates either pretty angels' wings or ickie-looking batwings upon the
+caster's back. Will allow ...",,STANDING,No,No,10,5,,Status: fly,1,Yes,Yes
+Wizard Eye,SPELL,"With this spell, a powerful sorcerer can widen their awareness and see 
+things beyond their immed...",,STANDING,No,No,16,17,Quest,"reveal(type=hidden, depth=zone)",1,Yes,No
+Word Of Command,SPELL,"*In-game quest spell*
+Using a magically-enhanced suggestion, a caster of this spell can place a 
+...",MENTAL,STANDING,No,No,14,5,Quest,CC: charm,1,Yes,No
+Word Of Recall,SPELL,"The caster will be transferred back to his hometown or clanhall if (s)he
+is in a clan.  This spel...",,STANDING,No,Yes,1,5,,Teleport: ?,1,Yes,No
+World Teleport,SPELL,"Magic users up for adventure or in need of escape can invoke a power of 
+summoning to move themse...",,STANDING,No,Yes,8,11,,Teleport: ?,1,Yes,No
+Writhing Weeds,SPELL,"Nature priests can call upon the local vegetation to help them in battle.
+When called, vile weeds...",ACID,STANDING,Yes,Yes,8,5,,"ACID damage (dam + (pow(skill, 2) * 53) / 10000)",1,Yes,No

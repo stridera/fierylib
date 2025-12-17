@@ -182,12 +182,15 @@ class RaceImporter:
                         where={'race': race_enum}
                     )
 
+                    # Generate name and plainName
+                    # Use existing plainName from JSON if available, otherwise generate it
+                    display_name = race_data.get('displayName') or race_data['name']
+                    from fierylib.converters.color_converter import strip_markup
+
                     race_db_data = {
-                        'name': race_data['name'],
+                        'name': display_name,  # With colors if present
+                        'plainName': race_data.get('plainName') or strip_markup(display_name),  # Prefer JSON value, fallback to generated
                         'keywords': race_data['keywords'],
-                        'displayName': race_data['displayName'],
-                        'fullName': race_data['fullName'],
-                        'plainName': race_data['plainName'],
                         'playable': race_data['playable'],
                         'humanoid': race_data['humanoid'],
                         'magical': race_data['magical'],
@@ -231,7 +234,7 @@ class RaceImporter:
                             data=race_db_data
                         )
                         stats['races_updated'] += 1
-                        print(f"✓ Updated: {race_data['displayName']}")
+                        print(f"✓ Updated: {race_data.get('displayName') or race_data['name']}")
                     else:
                         # Create new race
                         await self.db.races.create(
@@ -241,9 +244,9 @@ class RaceImporter:
                             }
                         )
                         stats['races_created'] += 1
-                        print(f"✓ Created: {race_data['displayName']}")
+                        print(f"✓ Created: {race_data.get('displayName') or race_data['name']}")
                 else:
-                    print(f"[DRY RUN] Would create/update race: {race_data['displayName']}")
+                    print(f"[DRY RUN] Would create/update race: {race_data.get('displayName') or race_data['name']}")
                     stats['races_created'] += 1
 
             except Exception as e:

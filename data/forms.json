@@ -1,0 +1,296 @@
+{
+  "_comment": "Form templates for the transform effect. Each form defines stat modifiers, abilities granted/restricted, size, and description.",
+
+  "wolf": {
+    "description": "A fierce wolf with keen senses and sharp fangs",
+    "size": 0,
+    "modifiers": [
+      {"target": "str", "amount": 2},
+      {"target": "dex", "amount": 2},
+      {"target": "con", "amount": 1}
+    ],
+    "grants": ["bite", "howl", "track", "scent"],
+    "restricts": ["cast", "speak", "use_item", "wield"]
+  },
+
+  "bear": {
+    "description": "A massive bear with incredible strength",
+    "size": 1,
+    "modifiers": [
+      {"target": "str", "amount": 4},
+      {"target": "con", "amount": 3},
+      {"target": "dex", "amount": -1},
+      {"target": "ac", "amount": -2}
+    ],
+    "grants": ["claw", "maul", "roar"],
+    "restricts": ["cast", "speak", "use_item", "wield"]
+  },
+
+  "eagle": {
+    "description": "A majestic eagle soaring through the sky",
+    "size": -1,
+    "modifiers": [
+      {"target": "dex", "amount": 4},
+      {"target": "str", "amount": -2}
+    ],
+    "grants": ["fly", "dive", "keen_sight"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor"]
+  },
+
+  "panther": {
+    "description": "A sleek panther blending into shadows",
+    "size": 0,
+    "modifiers": [
+      {"target": "dex", "amount": 4},
+      {"target": "str", "amount": 1},
+      {"target": "eva", "amount": 2}
+    ],
+    "grants": ["bite", "claw", "pounce", "prowl"],
+    "restricts": ["cast", "speak", "use_item", "wield"]
+  },
+
+  "serpent": {
+    "description": "A venomous serpent with deadly fangs",
+    "size": -1,
+    "modifiers": [
+      {"target": "dex", "amount": 3},
+      {"target": "str", "amount": -3},
+      {"target": "eva", "amount": 4}
+    ],
+    "grants": ["bite", "constrict", "poison_bite"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor", "kick"]
+  },
+
+  "bat": {
+    "description": "A small bat with echolocation",
+    "size": -3,
+    "modifiers": [
+      {"target": "dex", "amount": 3},
+      {"target": "str", "amount": -4},
+      {"target": "eva", "amount": 5}
+    ],
+    "grants": ["fly", "echolocation", "bite"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor"]
+  },
+
+  "dire_wolf": {
+    "description": "An enormous wolf radiating primal fury",
+    "size": 1,
+    "modifiers": [
+      {"target": "str", "amount": 4},
+      {"target": "dex", "amount": 2},
+      {"target": "con", "amount": 2},
+      {"target": "hitroll", "amount": 2}
+    ],
+    "grants": ["bite", "howl", "track", "scent", "pack_tactics"],
+    "restricts": ["cast", "speak", "use_item", "wield"]
+  },
+
+  "elemental_fire": {
+    "description": "A being of living flame",
+    "size": 0,
+    "modifiers": [
+      {"target": "str", "amount": 2},
+      {"target": "con", "amount": 2}
+    ],
+    "grants": ["burn_touch", "fire_immunity"],
+    "restricts": ["cast", "use_item", "swim"],
+    "resistances": [{"type": "fire", "amount": 100}],
+    "vulnerabilities": [{"type": "cold", "amount": 150}]
+  },
+
+  "elemental_water": {
+    "description": "A being of living water",
+    "size": 0,
+    "modifiers": [
+      {"target": "dex", "amount": 3},
+      {"target": "con", "amount": 2}
+    ],
+    "grants": ["drown_touch", "water_immunity", "waterbreath"],
+    "restricts": ["cast", "use_item"],
+    "resistances": [{"type": "cold", "amount": 50}, {"type": "fire", "amount": -50}]
+  },
+
+  "elemental_air": {
+    "description": "A being of living wind",
+    "size": 0,
+    "modifiers": [
+      {"target": "dex", "amount": 4},
+      {"target": "eva", "amount": 4}
+    ],
+    "grants": ["wind_blast", "fly", "air_immunity"],
+    "restricts": ["cast", "use_item"]
+  },
+
+  "elemental_earth": {
+    "description": "A being of living stone",
+    "size": 1,
+    "modifiers": [
+      {"target": "str", "amount": 4},
+      {"target": "con", "amount": 4},
+      {"target": "dex", "amount": -2},
+      {"target": "ac", "amount": -4}
+    ],
+    "grants": ["slam", "earth_immunity", "tremorsense"],
+    "restricts": ["cast", "use_item", "swim"]
+  },
+
+  "treant": {
+    "description": "An ancient tree come to life",
+    "size": 2,
+    "modifiers": [
+      {"target": "str", "amount": 6},
+      {"target": "con", "amount": 6},
+      {"target": "dex", "amount": -4},
+      {"target": "ac", "amount": -3}
+    ],
+    "grants": ["slam", "entangle", "barkskin"],
+    "restricts": ["cast", "speak", "use_item", "wield"],
+    "vulnerabilities": [{"type": "fire", "amount": 150}]
+  },
+
+  "werewolf": {
+    "description": "A savage hybrid of man and wolf",
+    "size": 1,
+    "modifiers": [
+      {"target": "str", "amount": 4},
+      {"target": "dex", "amount": 2},
+      {"target": "con", "amount": 3},
+      {"target": "hitroll", "amount": 2},
+      {"target": "damroll", "amount": 2}
+    ],
+    "grants": ["bite", "claw", "howl", "scent", "regeneration"],
+    "restricts": ["cast", "use_item", "wield"],
+    "vulnerabilities": [{"type": "holy", "amount": 125}]
+  },
+
+  "vampire_bat": {
+    "description": "A large bat with blood-draining fangs",
+    "size": -2,
+    "modifiers": [
+      {"target": "dex", "amount": 4},
+      {"target": "str", "amount": -2},
+      {"target": "eva", "amount": 6}
+    ],
+    "grants": ["fly", "echolocation", "vampiric_bite"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor"],
+    "vulnerabilities": [{"type": "holy", "amount": 150}, {"type": "radiant", "amount": 125}]
+  },
+
+  "shadow": {
+    "description": "An incorporeal being of pure darkness",
+    "size": 0,
+    "modifiers": [
+      {"target": "dex", "amount": 4},
+      {"target": "str", "amount": -2},
+      {"target": "eva", "amount": 8}
+    ],
+    "grants": ["shadow_touch", "hide_in_shadows", "pass_wall"],
+    "restricts": ["cast", "use_item", "wield", "wear_armor"],
+    "resistances": [{"type": "physical", "amount": 50}],
+    "vulnerabilities": [{"type": "radiant", "amount": 150}]
+  },
+
+  "frog": {
+    "description": "A small, helpless frog",
+    "size": -4,
+    "modifiers": [
+      {"target": "str", "amount": -6},
+      {"target": "dex", "amount": 2},
+      {"target": "con", "amount": -4},
+      {"target": "int", "amount": -4},
+      {"target": "wis", "amount": -4}
+    ],
+    "grants": ["hop", "tongue_lash", "waterbreath"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor", "bash", "kick"],
+    "hostile": true
+  },
+
+  "pig": {
+    "description": "A rotund pig wallowing in mud",
+    "size": -1,
+    "modifiers": [
+      {"target": "str", "amount": -4},
+      {"target": "dex", "amount": -2},
+      {"target": "con", "amount": 2},
+      {"target": "int", "amount": -4},
+      {"target": "wis", "amount": -4}
+    ],
+    "grants": ["root", "wallow"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor"],
+    "hostile": true
+  },
+
+  "chicken": {
+    "description": "A panicked chicken flapping about",
+    "size": -4,
+    "modifiers": [
+      {"target": "str", "amount": -6},
+      {"target": "dex", "amount": 1},
+      {"target": "con", "amount": -5},
+      {"target": "int", "amount": -5},
+      {"target": "wis", "amount": -5}
+    ],
+    "grants": ["peck", "flutter"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor", "bash", "kick"],
+    "hostile": true
+  },
+
+  "dragon": {
+    "description": "A fearsome dragon with scales and wings",
+    "size": 3,
+    "modifiers": [
+      {"target": "str", "amount": 6},
+      {"target": "con", "amount": 4},
+      {"target": "dex", "amount": -1},
+      {"target": "ac", "amount": -6},
+      {"target": "hitroll", "amount": 3},
+      {"target": "damroll", "amount": 3}
+    ],
+    "grants": ["fly", "bite", "claw", "tail_sweep", "breath_weapon", "frightful_presence"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor"],
+    "resistances": [{"type": "fire", "amount": 75}]
+  },
+
+  "giant": {
+    "description": "A towering giant of immense strength",
+    "size": 3,
+    "modifiers": [
+      {"target": "str", "amount": 8},
+      {"target": "con", "amount": 4},
+      {"target": "dex", "amount": -3},
+      {"target": "int", "amount": -2}
+    ],
+    "grants": ["slam", "throw_boulder", "stomp"],
+    "restricts": ["hide", "sneak"]
+  },
+
+  "mist": {
+    "description": "An ethereal cloud of mist",
+    "size": 0,
+    "modifiers": [
+      {"target": "dex", "amount": 6},
+      {"target": "str", "amount": -6},
+      {"target": "eva", "amount": 10}
+    ],
+    "grants": ["pass_wall", "fly"],
+    "restricts": ["cast", "speak", "use_item", "wield", "wear_armor", "bash", "kick", "attack"],
+    "resistances": [{"type": "physical", "amount": 90}]
+  },
+
+  "golem": {
+    "description": "A magically animated construct",
+    "size": 2,
+    "modifiers": [
+      {"target": "str", "amount": 6},
+      {"target": "con", "amount": 8},
+      {"target": "dex", "amount": -4},
+      {"target": "int", "amount": -6},
+      {"target": "wis", "amount": -6},
+      {"target": "ac", "amount": -8}
+    ],
+    "grants": ["slam", "magic_immunity"],
+    "restricts": ["cast", "speak", "use_item", "wield"],
+    "resistances": [{"type": "physical", "amount": 25}]
+  }
+}

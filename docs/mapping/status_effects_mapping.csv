@@ -1,0 +1,64 @@
+Category,Status_Type,Nature,Ability_Count,Abilities
+crowd_control,blind,harmful,5,Blinding Beauty; Blindness; Color Spray; Smoke; Sunray
+crowd_control,charm,harmful,2,Charm Person; Word Of Command
+crowd_control,confusion,harmful,2,Confusion; Crown Of Madness
+crowd_control,fear,harmful,2,Fear; Terror
+crowd_control,immobilize,harmful,4,Bind; Bone Cage; Entangle; Web
+crowd_control,insanity,harmful,1,Insanity
+crowd_control,mesmerize,harmful,1,Mesmerize
+crowd_control,minor_paralysis,harmful,2,Minor Paralysis; Spinechiller
+crowd_control,paralysis,harmful,1,Major Paralysis
+crowd_control,silence,harmful,1,Silence
+crowd_control,sleep,harmful,1,Sleep
+detection,alignment,neutral,1,Detect Alignment
+detection,farsee,neutral,1,Farsee
+detection,infravision,beneficial,1,Infravision
+detection,invisible,beneficial,1,Detect Invisibility
+detection,life,neutral,1,Sense Life
+detection,magic,neutral,2,Detect Magic; Sphere of Divination
+detection,poison,harmful,1,Detect Poison
+detection,ultravision,neutral,1,Night Vision
+protection,air,neutral,2,Elemental Warding; Protection from Air
+protection,cold,neutral,4,Elemental Warding; Negate Cold; Protection from Cold; Sphere of Water
+protection,earth,neutral,2,Elemental Warding; Protection from Earth
+protection,evil,neutral,1,Protection from Evil
+protection,fire,neutral,5,Demonskin; Elemental Warding; Negate Heat; Protection from Fire; Sphere of Fire
+protection,good,neutral,1,Protection from Good
+protection,magic,neutral,1,Sphere of Generic
+protection,physical,neutral,1,Sphere of Earth
+protection,shock,neutral,1,Sphere of Air
+protection,unholy,neutral,1,Sphere of Death
+status,armor,beneficial,1,Group Armor
+status,aware,beneficial,1,Aware
+status,berserk,beneficial,1,Berserk
+status,bless,beneficial,3,Bless; Dark Presence; Earth Blessing
+status,blur,beneficial,1,Blur
+status,buff,neutral,3,Concealment; Divine Essence; Invigorate
+status,comprehend_languages,neutral,2,Comprehend Lang; Speak In Tongues
+status,curse,harmful,2,Curse; Doom
+status,debuff,neutral,1,Hysteria
+status,displacement,neutral,2,Displacement; Greater Displacement
+status,familiarity,neutral,2,Familiarity; Statue
+status,featherfall,beneficial,2,Feather Fall; Safefall
+status,fly,beneficial,3,Fly; Wings Of Heaven; Wings Of Hell
+status,glory,beneficial,1,Glory
+status,greater_displacement,neutral,2,Displacement; Greater Displacement
+status,harness,neutral,1,Harness
+status,haste,beneficial,1,Haste
+status,illusion,neutral,2,Illusory Wall; Phantasm
+status,invisible,beneficial,1,Vaporform
+status,light,neutral,2,Circle Of Light; Magic Torch
+status,misdirection,neutral,1,Misdirection
+status,mounted,neutral,1,Mount
+status,nimble,beneficial,1,Nimble
+status,preserve,neutral,1,Preserve
+status,ray_of_enfeeb,neutral,1,Ray of Enfeeblement
+status,sanctuary,beneficial,1,Sanctuary
+status,satiated,neutral,1,Nourishment
+status,soulshield,neutral,1,Soulshield
+status,stoneskin,neutral,1,Stone Skin
+status,waterbreath,beneficial,1,Waterform
+status,waterwalk,beneficial,1,Waterwalk
+stealth,camouflage,neutral,4,Natures Embrace; Sneak; Stealth; Ventriloquate
+stealth,hide,neutral,3,Conceal; Hide; Shadow
+stealth,invisible,beneficial,2,Invisibility; Mass Invisibility

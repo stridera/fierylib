@@ -16,7 +16,7 @@ import logging
 
 from mud.types.object import Object
 from mud.mudfile import MudData
-from fierylib.converters import legacy_id_to_composite, normalize_flags
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
 
 logger = logging.getLogger(__name__)
 
@@ -159,6 +159,12 @@ class ObjectImporter:
                 # No extras, import all (empty list)
                 extras_to_import = []
 
+            # Convert legacy color codes to XML-Lite markup
+            obj_name = convert_legacy_colors(obj.short or "")
+            obj_room_desc = convert_legacy_colors(obj.ground or "")
+            obj_examine_desc = convert_legacy_colors(examine_description) if examine_description else None
+            obj_action_desc = convert_legacy_colors(obj.action_description or "")
+
             # Upsert object with composite key
             await self.prisma.objects.upsert(
                 where={
@@ -173,10 +179,14 @@ class ObjectImporter:
                         "zoneId": obj_zone_id,
                         "type": obj_type,
                         "keywords": obj.keywords if obj.keywords else [],
-                        "name": obj.short or "",
-                        "roomDescription": obj.ground or "",
-                        "examineDescription": examine_description,  # From matching extra description
-                        "actionDescription": obj.action_description or "",
+                        "name": obj_name,
+                        "plainName": strip_markup(obj_name),
+                        "roomDescription": obj_room_desc,
+                        "plainRoomDescription": strip_markup(obj_room_desc),
+                        "examineDescription": obj_examine_desc,  # From matching extra description
+                        "plainExamineDescription": strip_markup(obj_examine_desc) if obj_examine_desc else None,
+                        "actionDescription": obj_action_desc,
+                        "plainActionDescription": strip_markup(obj_action_desc) if obj_action_desc else None,
                         "flags": obj_flags,
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
@@ -190,10 +200,14 @@ class ObjectImporter:
                     "update": {
                         "type": obj_type,
                         "keywords": obj.keywords if obj.keywords else [],
-                        "name": obj.short or "",
-                        "roomDescription": obj.ground or "",
-                        "examineDescription": examine_description,  # From matching extra description
-                        "actionDescription": obj.action_description or "",
+                        "name": obj_name,
+                        "plainName": strip_markup(obj_name),
+                        "roomDescription": obj_room_desc,
+                        "plainRoomDescription": strip_markup(obj_room_desc),
+                        "examineDescription": obj_examine_desc,  # From matching extra description
+                        "plainExamineDescription": strip_markup(obj_examine_desc) if obj_examine_desc else None,
+                        "actionDescription": obj_action_desc,
+                        "plainActionDescription": strip_markup(obj_action_desc) if obj_action_desc else None,
                         "flags": {"set": obj_flags},
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
@@ -293,6 +307,9 @@ class ObjectImporter:
         """
         keywords = extra.keywords if hasattr(extra, "keywords") else []
         text = extra.text if hasattr(extra, "text") else ""
+
+        # Convert legacy color codes to XML-Lite markup
+        text = convert_legacy_colors(text)
 
         try:
             await self.prisma.objectextradescription.create(

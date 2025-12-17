@@ -1,0 +1,364 @@
+{
+  "_comment": "Multi-component damage mappings for abilities. Components should sum to 100%.",
+  "_element_types": ["PHYSICAL", "FORCE", "SONIC", "BLEED", "FIRE", "COLD", "WATER", "EARTH", "AIR", "SHOCK", "ACID", "POISON", "RADIANT", "SHADOW", "HOLY", "UNHOLY", "HEAL", "NECROTIC", "MENTAL", "NATURE"],
+
+  "fire_spells": {
+    "FIREBALL": {
+      "components": [
+        {"element": "FIRE", "percentage": 70, "note": "Primary fire damage"},
+        {"element": "FORCE", "percentage": 30, "note": "Explosive concussive force"}
+      ]
+    },
+    "METEORSWARM": {
+      "components": [
+        {"element": "FIRE", "percentage": 50, "note": "Burning meteors"},
+        {"element": "PHYSICAL", "percentage": 50, "note": "Impact damage from falling rocks"}
+      ]
+    },
+    "FIRESTORM": {
+      "components": [
+        {"element": "FIRE", "percentage": 80, "note": "Raging magical flames"},
+        {"element": "FORCE", "percentage": 20, "note": "Magical pressure"}
+      ]
+    },
+    "SUPERNOVA": {
+      "components": [
+        {"element": "FIRE", "percentage": 60, "note": "Stellar heat"},
+        {"element": "RADIANT", "percentage": 40, "note": "Blinding stellar light"}
+      ]
+    },
+    "FLAMESTRIKE": {
+      "components": [
+        {"element": "FIRE", "percentage": 50, "note": "Divine flames"},
+        {"element": "HOLY", "percentage": 50, "note": "Divine wrath"}
+      ]
+    },
+    "HELLFIRE_AND_BRIMSTONE": {
+      "components": [
+        {"element": "FIRE", "percentage": 60, "note": "Hellish flames"},
+        {"element": "UNHOLY", "percentage": 40, "note": "Infernal corruption"}
+      ]
+    },
+    "BURNING_HANDS": {
+      "components": [
+        {"element": "FIRE", "percentage": 100, "note": "Simple fire spell"}
+      ]
+    },
+    "INCENDIARY_NEBULA": {
+      "components": [
+        {"element": "FIRE", "percentage": 85, "note": "Burning cloud"},
+        {"element": "ACID", "percentage": 15, "note": "Chemical burns"}
+      ]
+    },
+    "IMMOLATE": {
+      "components": [
+        {"element": "FIRE", "percentage": 100, "note": "Self-immolation DoT"}
+      ]
+    },
+    "MELT": {
+      "components": [
+        {"element": "FIRE", "percentage": 70, "note": "Intense heat"},
+        {"element": "ACID", "percentage": 30, "note": "Material breakdown"}
+      ]
+    },
+    "PYRE": {
+      "components": [
+        {"element": "FIRE", "percentage": 100, "note": "Funeral pyre flames"}
+      ]
+    },
+    "CREMATE": {
+      "components": [
+        {"element": "FIRE", "percentage": 100, "note": "Cremation flames"}
+      ]
+    }
+  },
+
+  "cold_spells": {
+    "ICE_SHARDS": {
+      "components": [
+        {"element": "COLD", "percentage": 50, "note": "Freezing cold"},
+        {"element": "PHYSICAL", "percentage": 50, "note": "Piercing ice projectiles"}
+      ]
+    },
+    "ICE_STORM": {
+      "components": [
+        {"element": "COLD", "percentage": 40, "note": "Freezing temperatures"},
+        {"element": "PHYSICAL", "percentage": 60, "note": "Pummeling hailstones"}
+      ]
+    },
+    "ICEBALL": {
+      "components": [
+        {"element": "COLD", "percentage": 70, "note": "Explosive cold"},
+        {"element": "FORCE", "percentage": 30, "note": "Concussive blast"}
+      ]
+    },
+    "FREEZING_WIND": {
+      "components": [
+        {"element": "COLD", "percentage": 70, "note": "Bitter cold"},
+        {"element": "AIR", "percentage": 30, "note": "Cutting winds"}
+      ]
+    },
+    "CONE_OF_COLD": {
+      "components": [
+        {"element": "COLD", "percentage": 100, "note": "Pure cold blast"}
+      ]
+    },
+    "FREEZE": {
+      "components": [
+        {"element": "COLD", "percentage": 100, "note": "Flash freeze"}
+      ]
+    },
+    "FLOOD": {
+      "components": [
+        {"element": "WATER", "percentage": 70, "note": "Drowning water"},
+        {"element": "PHYSICAL", "percentage": 30, "note": "Water pressure impact"}
+      ]
+    },
+    "WATER_BLAST": {
+      "components": [
+        {"element": "WATER", "percentage": 80, "note": "High-pressure water"},
+        {"element": "PHYSICAL", "percentage": 20, "note": "Impact force"}
+      ]
+    }
+  },
+
+  "shock_spells": {
+    "LIGHTNING_BOLT": {
+      "components": [
+        {"element": "SHOCK", "percentage": 85, "note": "Electrical discharge"},
+        {"element": "FORCE", "percentage": 15, "note": "Thunder shockwave"}
+      ]
+    },
+    "CALL_LIGHTNING": {
+      "components": [
+        {"element": "SHOCK", "percentage": 90, "note": "Natural lightning"},
+        {"element": "SONIC", "percentage": 10, "note": "Thunderclap"}
+      ]
+    },
+    "CHAIN_LIGHTNING": {
+      "components": [
+        {"element": "SHOCK", "percentage": 100, "note": "Arcing electricity"}
+      ]
+    },
+    "SHOCKING_GRASP": {
+      "components": [
+        {"element": "SHOCK", "percentage": 100, "note": "Touch-delivered shock"}
+      ]
+    },
+    "ELECTRIFY": {
+      "components": [
+        {"element": "SHOCK", "percentage": 100, "note": "Electrification"}
+      ]
+    }
+  },
+
+  "holy_spells": {
+    "HOLY_WORD": {
+      "components": [
+        {"element": "HOLY", "percentage": 60, "note": "Divine power"},
+        {"element": "SONIC", "percentage": 40, "note": "Sacred utterance"}
+      ]
+    },
+    "DESTROY_UNDEAD": {
+      "components": [
+        {"element": "HOLY", "percentage": 70, "note": "Anti-undead power"},
+        {"element": "RADIANT", "percentage": 30, "note": "Purifying light"}
+      ]
+    },
+    "DIVINE_BOLT": {
+      "components": [
+        {"element": "HOLY", "percentage": 60, "note": "Divine energy"},
+        {"element": "RADIANT", "percentage": 40, "note": "Holy light"}
+      ]
+    },
+    "DIVINE_RAY": {
+      "components": [
+        {"element": "HOLY", "percentage": 50, "note": "Divine power"},
+        {"element": "RADIANT", "percentage": 50, "note": "Beam of light"}
+      ]
+    },
+    "DISPEL_EVIL": {
+      "components": [
+        {"element": "HOLY", "percentage": 100, "note": "Pure divine banishment"}
+      ]
+    },
+    "EXORCISM": {
+      "components": [
+        {"element": "HOLY", "percentage": 80, "note": "Expelling evil"},
+        {"element": "RADIANT", "percentage": 20, "note": "Cleansing light"}
+      ]
+    },
+    "LESSER_EXORCISM": {
+      "components": [
+        {"element": "HOLY", "percentage": 100, "note": "Minor exorcism"}
+      ]
+    },
+    "MOONBEAM": {
+      "components": [
+        {"element": "RADIANT", "percentage": 70, "note": "Lunar light"},
+        {"element": "NATURE", "percentage": 30, "note": "Nature magic"}
+      ]
+    },
+    "POSITIVE_FIELD": {
+      "components": [
+        {"element": "HOLY", "percentage": 50, "note": "Positive energy"},
+        {"element": "RADIANT", "percentage": 50, "note": "Healing light (damages undead)"}
+      ]
+    },
+    "ANCESTRAL_VENGEANCE": {
+      "components": [
+        {"element": "HOLY", "percentage": 60, "note": "Ancestral spirits"},
+        {"element": "NECROTIC", "percentage": 40, "note": "Spirit energy (death-touched)"}
+      ]
+    }
+  },
+
+  "unholy_spells": {
+    "UNHOLY_WORD": {
+      "components": [
+        {"element": "UNHOLY", "percentage": 60, "note": "Dark divine power"},
+        {"element": "SONIC", "percentage": 40, "note": "Blasphemous utterance"}
+      ]
+    },
+    "DISPEL_GOOD": {
+      "components": [
+        {"element": "UNHOLY", "percentage": 100, "note": "Dark banishment"}
+      ]
+    },
+    "HELL_BOLT": {
+      "components": [
+        {"element": "UNHOLY", "percentage": 50, "note": "Infernal energy"},
+        {"element": "FIRE", "percentage": 50, "note": "Hellfire"}
+      ]
+    },
+    "STYGIAN_ERUPTION": {
+      "components": [
+        {"element": "UNHOLY", "percentage": 60, "note": "Stygian power"},
+        {"element": "SHADOW", "percentage": 40, "note": "Darkness"}
+      ]
+    },
+    "CIRCLE_OF_DEATH": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 70, "note": "Death energy"},
+        {"element": "SHADOW", "percentage": 30, "note": "Consuming darkness"}
+      ]
+    }
+  },
+
+  "necrotic_spells": {
+    "_note": "These were incorrectly classified as 'holy' damage",
+    "CAUSE_LIGHT": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 100, "note": "Minor life drain"}
+      ]
+    },
+    "CAUSE_SERIOUS": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 100, "note": "Moderate life drain"}
+      ]
+    },
+    "CAUSE_CRITICAL": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 100, "note": "Major life drain"}
+      ]
+    },
+    "HARM": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 100, "note": "Life force disruption"}
+      ]
+    },
+    "FULL_HARM": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 100, "note": "Maximum life disruption"}
+      ]
+    },
+    "VAMPIRIC_BREATH": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 80, "note": "Life drain"},
+        {"element": "SHADOW", "percentage": 20, "note": "Dark energy"}
+      ]
+    },
+    "SOUL_REAVER": {
+      "components": [
+        {"element": "NECROTIC", "percentage": 70, "note": "Soul damage"},
+        {"element": "SHADOW", "percentage": 30, "note": "Void energy"}
+      ]
+    }
+  },
+
+  "physical_spells": {
+    "EARTHQUAKE": {
+      "components": [
+        {"element": "EARTH", "percentage": 60, "note": "Seismic force"},
+        {"element": "PHYSICAL", "percentage": 40, "note": "Crushing debris"}
+      ]
+    },
+    "SPIRIT_RAY": {
+      "components": [
+        {"element": "FORCE", "percentage": 60, "note": "Magical force"},
+        {"element": "MENTAL", "percentage": 40, "note": "Psychic energy"}
+      ]
+    },
+    "DISINTEGRATE": {
+      "components": [
+        {"element": "FORCE", "percentage": 100, "note": "Pure destructive force"}
+      ]
+    },
+    "BALEFUL_POLYMORPH": {
+      "components": [
+        {"element": "FORCE", "percentage": 50, "note": "Transmutation magic"},
+        {"element": "NATURE", "percentage": 50, "note": "Primal transformation"}
+      ]
+    },
+    "DISCORPORATE": {
+      "components": [
+        {"element": "FORCE", "percentage": 100, "note": "Molecular disruption"}
+      ]
+    }
+  },
+
+  "acid_spells": {
+    "ACID_BREATH": {
+      "components": [
+        {"element": "ACID", "percentage": 100, "note": "Corrosive breath"}
+      ]
+    },
+    "ACID_BURST": {
+      "components": [
+        {"element": "ACID", "percentage": 85, "note": "Acid spray"},
+        {"element": "POISON", "percentage": 15, "note": "Toxic fumes"}
+      ]
+    },
+    "ACID_FOG": {
+      "components": [
+        {"element": "ACID", "percentage": 70, "note": "Corrosive cloud"},
+        {"element": "POISON", "percentage": 30, "note": "Caustic vapor"}
+      ]
+    }
+  },
+
+  "nature_spells": {
+    "WRITHING_WEEDS": {
+      "components": [
+        {"element": "NATURE", "percentage": 60, "note": "Animated plants"},
+        {"element": "PHYSICAL", "percentage": 40, "note": "Constriction damage"}
+      ]
+    },
+    "FRACTURE": {
+      "components": [
+        {"element": "EARTH", "percentage": 70, "note": "Breaking stone"},
+        {"element": "PHYSICAL", "percentage": 30, "note": "Shattering force"}
+      ]
+    }
+  },
+
+  "breath_weapons": {
+    "_note": "Dragon/monster breath attacks - already single-element, keeping simple",
+    "BREATHE_FIRE": {"components": [{"element": "FIRE", "percentage": 100}]},
+    "BREATHE_FROST": {"components": [{"element": "COLD", "percentage": 100}]},
+    "BREATHE_LIGHTNING": {"components": [{"element": "SHOCK", "percentage": 100}]},
+    "FIRE_BREATH": {"components": [{"element": "FIRE", "percentage": 100}]},
+    "FROST_BREATH": {"components": [{"element": "COLD", "percentage": 100}]},
+    "LIGHTNING_BREATH": {"components": [{"element": "SHOCK", "percentage": 100}]}
+  }
+}

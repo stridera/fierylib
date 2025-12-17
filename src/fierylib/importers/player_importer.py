@@ -16,8 +16,10 @@ from typing import Optional, cast, Any
 from pathlib import Path
 from datetime import datetime
 
-from mud.mudfile import MudFiles
+from mud.mudfile import MudFiles, MudData
 from mud.types.player import Player
+from mud.types.object import Object
+from mud.types.pet import Pet
 from mud.types import CurrentMax, Money
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
 from fierylib.converters import normalize_flags, normalize_skill_name
@@ -319,7 +321,28 @@ class PlayerImporter:
         }
 
         if not dry_run:
-            await self.prisma.characters.create(data=character_data)  # type: ignore[attr-defined]
+            # Try to find existing character by name
+            existing = await self.prisma.characters.find_first(
+                where={"name": player_data.name}
+            )
+
+            if existing:
+                # Update existing character and use its ID for equipment
+                character_id = existing.id
+                # Remove 'id' from update data (can't update primary key)
+                update_data = {k: v for k, v in character_data.items() if k != "id"}
+                await self.prisma.characters.update(
+                    where={"id": character_id},
+                    data=update_data
+                )
+
+                # Delete existing skills/spells/aliases/items to avoid duplicates
+                await self.prisma.characterabilities.delete_many(where={"characterId": character_id})
+                await self.prisma.characteraliases.delete_many(where={"characterId": character_id})
+                await self.prisma.characteritems.delete_many(where={"characterId": character_id})
+            else:
+                # Create new character
+                await self.prisma.characters.create(data=character_data)
         stats["character"] = 1
 
         # If dry_run, include the prepared character data for test/introspection purposes
@@ -333,6 +356,10 @@ class PlayerImporter:
         # We determine which table to query by checking the skill name against the flags lists
         if player_data.skills:
             for skill_name, proficiency in player_data.skills.items():
+                # Skip invalid/placeholder skills
+                if skill_name in ['NONE', 'UNUSED', ''] or not skill_name:
+                    continue
+
                 # Remove redundant prefixes
                 normalized_name = skill_name
                 for prefix in ['SKILL_', 'SONG_', 'CHANT_', 'SPELL_']:
@@ -340,29 +367,37 @@ class PlayerImporter:
                         normalized_name = skill_name[len(prefix):]
                         break
 
+                # Skip if normalized name is invalid
+                if normalized_name in ['NONE', 'UNUSED', ''] or not normalized_name:
+                    continue
+
                 # Determine if this is a spell or skill based on the flags lists
                 check_spell = self.is_spell(skill_name)
 
-                # Look up ability in unified Ability table
+                # Look up ability in unified Ability table by plainName (CODE_STYLE format)
                 # Apply normalization to convert C++ name to database name
                 db_ability_name = normalize_skill_name(normalized_name)
                 ability = await self.prisma.ability.find_first(
-                    where={"name": db_ability_name}
+                    where={"plainName": db_ability_name}
                 )
 
                 if ability and not dry_run:
-                    await self.prisma.characterabilities.create(
-                        data={
-                            "characterId": character_id,
-                            "abilityId": ability.id,
-                            "known": True,
-                            "proficiency": proficiency,
-                        }
-                    )
-                    if check_spell:
-                        stats["spells"] += 1
-                    else:
-                        stats["skills"] += 1
+                    try:
+                        await self.prisma.characterabilities.create(
+                            data={
+                                "characterId": character_id,
+                                "abilityId": ability.id,
+                                "known": True,
+                                "proficiency": proficiency,
+                            }
+                        )
+                        if check_spell:
+                            stats["spells"] += 1
+                        else:
+                            stats["skills"] += 1
+                    except Exception as e:
+                        # Skip abilities that fail to import (e.g., FK constraints)
+                        pass
                 elif not ability:
                     # Ability not found in database - skip it
                     if proficiency > 0:  # Only log if they actually had proficiency
@@ -379,11 +414,11 @@ class PlayerImporter:
                 if spell_name.startswith('SPELL_'):
                     normalized_name = spell_name[len('SPELL_'):]
 
-                # Query from Ability table
+                # Query from Ability table by plainName (CODE_STYLE format)
                 # Apply normalization to convert C++ name to database name
                 db_spell_name = normalize_skill_name(normalized_name)
                 ability = await self.prisma.ability.find_first(
-                    where={"name": db_spell_name}
+                    where={"plainName": db_spell_name}
                 )
 
                 if ability:
@@ -414,16 +449,194 @@ class PlayerImporter:
         if player_data.aliases:
             for alias, command in player_data.aliases.items():
                 if not dry_run:
-                    await self.prisma.characteraliases.create(
-                        data={
-                            "characterId": character_id,
-                            "alias": alias,
-                            "command": command,
-                        }
-                    )
-                stats["aliases"] += 1
+                    try:
+                        await self.prisma.characteraliases.create(
+                            data={
+                                "characterId": character_id,
+                                "alias": alias,
+                                "command": command,
+                            }
+                        )
+                        stats["aliases"] += 1
+                    except Exception as e:
+                        # Skip aliases that fail to import (e.g., FK constraints)
+                        pass
+                else:
+                    stats["aliases"] += 1
 
+        # Add character_id to stats for equipment/pet import
+        stats["character_id"] = character_id
         return stats
+
+    async def _import_equipment(self, character_id: str, objs_file_path: str) -> int:
+        """
+        Import character equipment and inventory items from .objs file
+
+        Args:
+            character_id: Character UUID
+            objs_file_path: Path to .objs file
+
+        Returns:
+            Number of items imported
+        """
+        item_count = 0
+
+        try:
+            with open(objs_file_path, 'r') as f:
+                content = f.read()
+
+            # Skip version line
+            lines = content.split('\n')
+            if not lines or lines[0].strip() != '1':
+                print(f"  ⚠️  Unsupported .objs version: {lines[0] if lines else 'empty'}")
+                return 0
+
+            # Parse each object block (separated by ~~)
+            blocks = content.split('~~\n')
+
+            for block in blocks[1:]:  # Skip first block (before first ~~)
+                if not block.strip():
+                    continue
+
+                # Extract vnum and location
+                vnum = None
+                location = None
+
+                for line in block.split('\n'):
+                    line = line.strip()
+                    if line.startswith('vnum:'):
+                        vnum = int(line.split(':')[1].strip())
+                    elif line.startswith('location:'):
+                        location = int(line.split(':')[1].strip())
+
+                    # Stop once we have both
+                    if vnum is not None and location is not None:
+                        break
+
+                # Import if valid vnum (not custom item)
+                if vnum is not None and vnum != -1 and location is not None:
+                    # Extract zone_id and object_id from vnum
+                    zone_id = vnum // 100 if vnum >= 100 else 1000
+                    object_id = vnum % 100
+
+                    # Check if object prototype exists
+                    obj_exists = await self.prisma.objects.find_first(
+                        where={"zoneId": zone_id, "id": object_id}
+                    )
+
+                    if obj_exists:
+                        # Convert location number to equipped location name
+                        equipped_location = self._location_to_slot(location)
+
+                        # Create CharacterItem
+                        try:
+                            await self.prisma.characteritems.create(
+                                data={
+                                    "characterId": character_id,
+                                    "objectZoneId": zone_id,
+                                    "objectId": object_id,
+                                    "equippedLocation": equipped_location,
+                                    "condition": 100,
+                                    "charges": -1,  # Default: unlimited/not applicable
+                                    "updatedAt": datetime.utcnow(),
+                                }
+                            )
+                            item_count += 1
+                        except Exception as e:
+                            # Skip items that fail to import (e.g., FK constraints)
+                            pass
+                    # else: Skip items with missing prototypes (silently)
+                elif vnum == -1:
+                    # Skip custom items for now
+                    pass
+
+        except Exception as e:
+            print(f"  ⚠️  Error parsing .objs file: {e}")
+            import traceback
+            traceback.print_exc()
+
+        return item_count
+
+    def _location_to_slot(self, location: int) -> str | None:
+        """
+        Convert CircleMUD wear location number to slot name
+
+        Args:
+            location: Wear location number from .objs file
+
+        Returns:
+            Slot name or None for inventory
+        """
+        # CircleMUD wear locations
+        # See: https://github.com/tbamud/tbamud/blob/master/src/constants.c
+        location_map = {
+            0: "LIGHT",          # Light source
+            1: "FINGER_RIGHT",   # Right finger
+            2: "FINGER_LEFT",    # Left finger
+            3: "NECK_1",         # Around neck 1
+            4: "NECK_2",         # Around neck 2
+            5: "BODY",           # On body
+            6: "HEAD",           # On head
+            7: "LEGS",           # On legs
+            8: "FEET",           # On feet
+            9: "HANDS",          # On hands
+            10: "ARMS",          # On arms
+            11: "SHIELD",        # As shield
+            12: "ABOUT",         # About body (cloak)
+            13: "WAIST",         # Around waist
+            14: "WRIST_RIGHT",   # Right wrist
+            15: "WRIST_LEFT",    # Left wrist
+            16: "WIELD",         # Wielded weapon
+            17: "HOLD",          # Held item
+            18: "EARS",          # Ears
+            19: "BADGE",         # Badge
+            20: "FACE",          # Face
+            127: None,           # Inventory (not equipped)
+        }
+
+        return location_map.get(location)
+
+    async def _import_pet(self, character_id: str, pet_data: Pet) -> bool:
+        """
+        Import character pet
+
+        Args:
+            character_id: Character UUID
+            pet_data: Parsed Pet object
+
+        Returns:
+            True if pet was successfully imported, False otherwise
+        """
+        # Convert vnum to composite key (zone_id, vnum)
+        zone_id = pet_data.id // 100 if pet_data.id >= 100 else 1000
+        vnum = pet_data.id % 100
+
+        # Validate mob prototype exists before creating pet
+        mob_exists = await self.prisma.mobs.find_first(
+            where={"zoneId": zone_id, "id": vnum}
+        )
+
+        if mob_exists:
+            try:
+                # Create pet in CharacterPets table
+                await self.prisma.characterpets.create(
+                    data={
+                        "id": str(uuid.uuid4()),
+                        "characterId": character_id,
+                        "mobPrototypeZoneId": zone_id,
+                        "mobPrototypeVnum": vnum,
+                        "name": pet_data.name,
+                        "customDescription": pet_data.desc if pet_data.desc else None,
+                    }
+                )
+                return True
+            except Exception as e:
+                # Log the error for debugging
+                print(f"  ⚠️  Failed to import pet (zone_id={zone_id}, vnum={vnum}): {e}")
+                return False
+        # else: Skip pets with missing mob prototypes (silently)
+        print(f"  ⚠️  Pet mob prototype not found (zone_id={zone_id}, vnum={vnum})")
+        return False
 
     async def import_players_from_directory(
         self, players_dir: Path, player_name: Optional[str] = None, dry_run: bool = False
@@ -444,6 +657,8 @@ class PlayerImporter:
             "skills": 0,
             "spells": 0,
             "aliases": 0,
+            "equipment": 0,
+            "pets": 0,
             "errors": 0,
         }
 
@@ -451,15 +666,18 @@ class PlayerImporter:
         player_files = MudFiles.player_files(str(players_dir), player_name)
 
         for player_file_group in player_files:
+            player_data = None
+            character_id = None
+
             try:
+                # First pass: Process .plr file to create character
                 for file in player_file_group:
                     if file.filename.endswith(".plr"):
-                        # Parse player file
                         player_data = file.parse_player()
 
                         if player_data:
-                            # Import player
                             stats = await self.import_player(player_data, dry_run=dry_run)
+                            character_id = stats.get("character_id")
 
                             total_stats["characters"] += stats.get("character", 0)
                             total_stats["skills"] += stats.get("skills", 0)
@@ -467,8 +685,32 @@ class PlayerImporter:
                             total_stats["aliases"] += stats.get("aliases", 0)
 
                             print(f"✓ Imported player: {player_data.name}")
+
+                # Second pass: Process equipment, pets, quests (requires character_id)
+                if character_id and not dry_run:
+                    for file in player_file_group:
+                        if file.filename.endswith(".objs"):
+                            # Import equipment using simplified vnum-only parser
+                            item_count = await self._import_equipment(character_id, file.filename)
+                            total_stats["equipment"] += item_count
+                            if item_count > 0:
+                                print(f"  ✓ Imported {item_count} items for {player_data.name}")
+
+                        elif file.filename.endswith(".pet"):
+                            # Parse and import pets
+                            pet_data = file.parse_player()
+                            if pet_data:
+                                success = await self._import_pet(character_id, pet_data)
+                                if success:
+                                    total_stats["pets"] += 1
+                                    print(f"  ✓ Imported pet for {player_data.name}")
+
+                        # TODO: .quest files - need to understand format first
+
             except Exception as e:
                 print(f"✗ Error importing player from {player_file_group.id}: {e}")
+                import traceback
+                traceback.print_exc()
                 total_stats["errors"] += 1
 
         return total_stats

@@ -1,5 +1,5 @@
 """
-Converters module - ID conversion, flag normalization, and skill name mapping utilities
+Converters module - ID conversion, flag normalization, skill name mapping, and color code conversion
 """
 
 from .id_converter import (
@@ -11,6 +11,7 @@ from .id_converter import (
 )
 from .flag_normalizer import normalize_flag, normalize_flags
 from .skill_name_normalizer import normalize_skill_name, denormalize_skill_name
+from .color_converter import convert_legacy_colors, strip_legacy_colors, strip_markup, ColorConverter
 
 __all__ = [
     "vnum_to_composite",
@@ -22,4 +23,8 @@ __all__ = [
     "normalize_flags",
     "normalize_skill_name",
     "denormalize_skill_name",
+    "convert_legacy_colors",
+    "strip_legacy_colors",
+    "strip_markup",
+    "ColorConverter",
 ]
