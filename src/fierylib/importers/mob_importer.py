@@ -8,21 +8,24 @@ Handles:
 - Money and dice expressions
 """
 
-from typing import Optional
+from typing import Optional, Tuple
 from pathlib import Path
 import sys
 import re
+import random
 
 from prisma import Json
 from mud.types.mob import Mob
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles
 from fierylib.combat_formulas import (
-    calculate_damage_dice_modern,
     calculate_mob_role,
     calculate_realistic_hp_dice,
     get_set_hit,
+    get_set_hr,
+    get_set_hd,
+    get_set_dice,
     normalize_boss_hp_dice,
     convert_legacy_to_modern_stats,
     calculate_placeholder_stats,
@@ -49,7 +52,7 @@ def clamp_int32(value: int) -> int:
 def pascal_to_screaming_snake(name: str) -> str:
     """
     Convert PascalCase to SCREAMING_SNAKE_CASE
-    
+
     Examples:
         DragonGeneral -> DRAGON_GENERAL
         FaerieUnseelie -> FAERIE_UNSEELIE
@@ -58,6 +61,80 @@ def pascal_to_screaming_snake(name: str) -> str:
     # Insert underscore before uppercase letters (except at start)
     snake = re.sub(r'(?<=[a-z])(?=[A-Z])', '_', name)
     return snake.upper()
+
+
+# Currency scale constants (matching legacy db.cpp)
+PLATINUM_SCALE = 1000
+GOLD_SCALE = 100
+SILVER_SCALE = 10
+COPPER_SCALE = 1
+
+
+def calculate_mob_gold(
+    level: int,
+    extra_copper: int = 0,
+    extra_silver: int = 0,
+    extra_gold: int = 0,
+    extra_platinum: int = 0,
+) -> Tuple[int, int, int, int]:
+    """
+    Calculate mob gold from level using legacy FieryMUD formula.
+
+    The legacy system calculates base gold dynamically from mob level,
+    then adds "extra" values from the mob file as modifiers.
+
+    Formula from legacy db.cpp:
+        base_copper = random(1, 150) * level
+        Then distributed: 60% platinum, 20% gold, 18% silver, 2% copper
+
+    Args:
+        level: Mob level (determines base gold amount)
+        extra_copper: Extra copper modifier from mob file
+        extra_silver: Extra silver modifier from mob file
+        extra_gold: Extra gold modifier from mob file
+        extra_platinum: Extra platinum modifier from mob file
+
+    Returns:
+        Tuple of (copper, silver, gold, platinum) values
+    """
+    if level <= 0:
+        return (
+            max(0, extra_copper),
+            max(0, extra_silver),
+            max(0, extra_gold),
+            max(0, extra_platinum),
+        )
+
+    # Base copper calculation: random(1, 150) * level
+    # Using average of 75 for deterministic import results
+    base_copper = 75 * level
+
+    # Distribute into coin types (legacy formula)
+    k = base_copper
+
+    # 60% goes toward platinum
+    j = (60 * k) // 100
+    platinum = j // PLATINUM_SCALE
+
+    # 20% + remainder goes toward gold
+    j = ((20 * k) // 100) + (j % PLATINUM_SCALE)
+    gold = j // GOLD_SCALE
+
+    # 18% + remainder goes toward silver
+    j = ((18 * k) // 100) + (j % GOLD_SCALE)
+    silver = j // SILVER_SCALE
+
+    # 2% + remainder goes toward copper
+    j = ((2 * k) // 100) + (j % SILVER_SCALE)
+    copper = j // COPPER_SCALE
+
+    # Add extra modifiers from mob file
+    platinum = max(0, platinum + extra_platinum)
+    gold = max(0, gold + extra_gold)
+    silver = max(0, silver + extra_silver)
+    copper = max(0, copper + extra_copper)
+
+    return (copper, silver, gold, platinum)
 
 
 class MobImporter:
@@ -237,26 +314,27 @@ class MobImporter:
             # Update estimated HP with new dice for consistency
             estimated_hp = int(new_hp_num * (new_hp_size + 1) / 2.0 + new_hp_bonus)
 
-            # Calculate new damage dice (for ALL mobs)
-            new_damage_dice_num, new_damage_dice_size, new_damage_dice_bonus = calculate_damage_dice_modern(
-                level=mob.level,
-                race_factor=100,  # TODO: Get from race table once implemented
-                class_factor=100,  # No class for mobs, use 100
-                is_boss=is_boss
-            )
+            # Calculate damage dice using legacy formulas
+            # If file has 0d0+0, calculate from level using legacy get_set_dice()
+            # This preserves the original game balance
+            if mob.damage_dice.num == 0 and mob.damage_dice.size == 0:
+                # Use legacy formula for mobs without explicit damage dice
+                dice_num, dice_size = get_set_dice(mob.level, 100, 100)
+                # Add file bonus (ex_damnodice, ex_damsizedice are typically 0)
+                new_damage_dice_num = dice_num + mob.damage_dice.bonus  # bonus here would be ex_damnodice
+                new_damage_dice_size = dice_size  # No ex_damsizedice support currently
+                # Damroll is separate - stored in hitRoll field for now (TODO: add damroll field)
+                new_damage_dice_bonus = get_set_hd(mob.level, 100, 100)  # This is damroll
+            else:
+                # File has explicit dice - use them directly
+                new_damage_dice_num = mob.damage_dice.num
+                new_damage_dice_size = mob.damage_dice.size
+                new_damage_dice_bonus = mob.damage_dice.bonus
 
-            # OUTLIER DETECTION for non-0d0 mobs
-            if mob.damage_dice.num > 0 or mob.damage_dice.size > 0:
-                old_avg = (mob.damage_dice.num * (mob.damage_dice.size + 1) / 2.0) + mob.damage_dice.bonus
-                new_avg = (new_damage_dice_num * (new_damage_dice_size + 1) / 2.0) + new_damage_dice_bonus
-
-                if old_avg > 0:
-                    diff_pct = abs(new_avg - old_avg) / old_avg * 100
-                    if diff_pct > 30:
-                        print(f"OUTLIER: Zone {mob_zone_id} Mob {vnum} ({mob.short_desc})")
-                        print(f"  Old: {mob.damage_dice.num}d{mob.damage_dice.size}+{mob.damage_dice.bonus} (avg {old_avg:.1f})")
-                        print(f"  New: {new_damage_dice_num}d{new_damage_dice_size}+{new_damage_dice_bonus} (avg {new_avg:.1f})")
-                        print(f"  Difference: {diff_pct:.1f}%")
+            # Calculate hitroll using legacy formula if file has 0
+            calculated_hitroll = mob.hit_roll
+            if mob.hit_roll == 0 and mob.level > 0:
+                calculated_hitroll = get_set_hr(mob.level, 100, 100)
 
             # Convert legacy stats to modern
             modern_stats = convert_legacy_to_modern_stats(
@@ -292,6 +370,7 @@ class MobImporter:
             new_damage_dice_num = mob.damage_dice.num
             new_damage_dice_size = mob.damage_dice.size
             new_damage_dice_bonus = mob.damage_dice.bonus
+            calculated_hitroll = mob.hit_roll
             modern_stats = {}
 
         if dry_run:
@@ -314,6 +393,16 @@ class MobImporter:
             mob_room_desc = convert_legacy_colors(mob.long_desc or "")
             mob_examine_desc = convert_legacy_colors(mob.desc or "")
 
+            # Calculate gold from level using legacy formula
+            # The mob file values are "extra" modifiers added to the base calculation
+            calc_copper, calc_silver, calc_gold, calc_platinum = calculate_mob_gold(
+                level=mob.level,
+                extra_copper=mob.money.copper,
+                extra_silver=mob.money.silver,
+                extra_gold=mob.money.gold,
+                extra_platinum=mob.money.platinum,
+            )
+
             # Upsert mob with composite key
             await self.prisma.mobs.upsert(
                 where={
@@ -326,7 +415,7 @@ class MobImporter:
                     "create": {
                         "id": vnum,
                         "zoneId": mob_zone_id,
-                        "keywords": mob.keywords.split() if mob.keywords else [],
+                        "keywords": strip_articles(mob.keywords.split()) if mob.keywords else [],
                         "classId": class_id,
                         "name": mob_name,
                         "plainName": strip_markup(mob_name),
@@ -344,15 +433,15 @@ class MobImporter:
                         "hpDiceBonus": new_hp_bonus,
                         "estimatedHp": estimated_hp,
                         "armorClass": mob.ac,
-                        "hitRoll": mob.hit_roll,
+                        "hitRoll": calculated_hitroll,
                         "damageDiceNum": new_damage_dice_num,
                         "damageDiceSize": new_damage_dice_size,
                         "damageDiceBonus": new_damage_dice_bonus,
                         **modern_stats,
-                        "copper": mob.money.copper,
-                        "silver": mob.money.silver,
-                        "gold": mob.money.gold,
-                        "platinum": mob.money.platinum,
+                        "copper": calc_copper,
+                        "silver": calc_silver,
+                        "gold": calc_gold,
+                        "platinum": calc_platinum,
                         "position": position,
                         "gender": gender,
                         "race": race,
@@ -371,7 +460,7 @@ class MobImporter:
                         "damageType": damage_type,
                     },
                     "update": {
-                        "keywords": mob.keywords.split() if mob.keywords else [],
+                        "keywords": strip_articles(mob.keywords.split()) if mob.keywords else [],
                         "classId": class_id,
                         "name": mob_name,
                         "plainName": strip_markup(mob_name),
@@ -389,15 +478,15 @@ class MobImporter:
                         "hpDiceBonus": new_hp_bonus,
                         "estimatedHp": estimated_hp,
                         "armorClass": mob.ac,
-                        "hitRoll": mob.hit_roll,
+                        "hitRoll": calculated_hitroll,
                         "damageDiceNum": new_damage_dice_num,
                         "damageDiceSize": new_damage_dice_size,
                         "damageDiceBonus": new_damage_dice_bonus,
                         **modern_stats,
-                        "copper": mob.money.copper,
-                        "silver": mob.money.silver,
-                        "gold": mob.money.gold,
-                        "platinum": mob.money.platinum,
+                        "copper": calc_copper,
+                        "silver": calc_silver,
+                        "gold": calc_gold,
+                        "platinum": calc_platinum,
                         "position": position,
                         "gender": gender,
                         "race": race,

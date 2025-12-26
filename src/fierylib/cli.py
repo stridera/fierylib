@@ -56,7 +56,13 @@ def main():
     default=False,
     help="Also seed test users after import",
 )
-def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool, debug: bool, with_users: bool):
+@click.option(
+    "--clear",
+    is_flag=True,
+    default=False,
+    help="Clear existing data for zones before importing (prevents duplicates)",
+)
+def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool, debug: bool, with_users: bool, clear: bool):
     """Import legacy CircleMUD data to PostgreSQL database"""
     import asyncio
     from pathlib import Path
@@ -108,6 +114,35 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 zone_files = [zon_dir / f"{zone}.zon"]
             else:
                 zone_files = sorted(zon_dir.glob("*.zon"))
+
+            # Get list of zone IDs to process
+            zone_ids_to_import = []
+            for zone_file in zone_files:
+                try:
+                    zone_ids_to_import.append(int(zone_file.stem))
+                except ValueError:
+                    pass
+
+            # Clear existing data if requested (prevents duplicates on re-import)
+            if clear and not dry_run and zone_ids_to_import:
+                click.echo(f"\n{'='*60}")
+                click.echo(f"Clearing Existing Data for {len(zone_ids_to_import)} Zone(s)")
+                click.echo(f"{'='*60}")
+
+                # All tables have onDelete: Cascade to Zones, so we just need to
+                # delete the Zone record and everything cascades automatically.
+                # Convert zone IDs using the same logic as import
+                from fierylib.converters import convert_zone_id
+
+                for zone_num in zone_ids_to_import:
+                    db_zone_id = convert_zone_id(zone_num)
+                    if verbose:
+                        click.echo(f"  Clearing zone {db_zone_id} (from {zone_num})...")
+
+                    # Just delete the zone - CASCADE handles all dependent tables
+                    await prisma.execute_raw('DELETE FROM "Zones" WHERE id = $1', db_zone_id)
+
+                click.echo(f"  ✅ Cleared data for {len(zone_ids_to_import)} zone(s)")
 
             total_stats = {
                 "zones": 0,
@@ -1545,6 +1580,252 @@ def seed_ability_effects(dry_run: bool, verbose: bool):
     asyncio.run(run_link())
 
 
+@seed.command(name="config")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_config(verbose: bool):
+    """Seed game configuration values.
+
+    Creates all GameConfig entries with default values based on
+    constants from the FieryMUD C++ codebase. These values can be
+    edited via Muditor's admin interface.
+
+    Categories: server, security, timing, combat, progression, character
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import ConfigSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Game Configuration")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = ConfigSeeder(prisma)
+            stats = await seeder.seed_all(verbose=verbose)
+
+            click.echo(f"\n{'='*60}")
+            click.echo("Configuration Seeding Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Server:      {stats['server']} configs")
+            click.echo(f"  Security:    {stats['security']} configs")
+            click.echo(f"  Timing:      {stats['timing']} configs")
+            click.echo(f"  Combat:      {stats['combat']} configs")
+            click.echo(f"  Progression: {stats['progression']} configs")
+            click.echo(f"  Character:   {stats['character']} configs")
+            click.echo(f"  ─────────────────────────────")
+            click.echo(f"  Total:       {stats['total']} configs")
+            click.echo(f"\n✅ Configuration seeding complete!")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="levels")
+@click.option(
+    "--max-level",
+    type=int,
+    default=105,
+    help="Maximum level to seed (default: 105)",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_levels(max_level: int, verbose: bool):
+    """Seed level definitions.
+
+    Creates LevelDefinition entries for all levels with:
+    - Experience requirements (using level^2.5 * 1000 formula)
+    - HP/Mana/Movement gains per level
+    - Immortal flags and permissions for levels 100+
+
+    Immortal hierarchy:
+      100: Avatar (LVL_IMMORT)
+      101: Demi-God (LVL_GOD)
+      102: Lesser God (LVL_GRGOD)
+      103: Greater God (LVL_HEAD_B)
+      104: Implementer (LVL_HEAD_C)
+      105: Overlord (LVL_IMPL)
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import LevelSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Level Definitions")
+        click.echo("=" * 60)
+        click.echo(f"  Maximum level: {max_level}")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = LevelSeeder(prisma)
+            stats = await seeder.seed_levels(max_level=max_level, verbose=verbose)
+
+            click.echo(f"\n{'='*60}")
+            click.echo("Level Seeding Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Created:  {stats['created']}")
+            click.echo(f"  Updated:  {stats['updated']}")
+            click.echo(f"  Total:    {stats['total']}")
+            click.echo(f"\n✅ Level seeding complete!")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="text")
+@click.option(
+    "--text-dir",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=None,
+    help="Path to text directory to import from (optional)",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_text(text_dir: str | None, verbose: bool):
+    """Seed system text and login messages.
+
+    Creates SystemText entries for:
+    - MOTD (Message of the Day)
+    - Immortal MOTD
+    - News, Credits, Policies, Background
+
+    Creates LoginMessage entries for:
+    - Welcome banner
+    - Login prompts
+    - Character creation flow
+
+    Optionally imports from a text directory (e.g., fierymud/data/text/).
+    """
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.seeders import TextSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding System Text & Login Messages")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = TextSeeder(prisma)
+
+            # Seed defaults
+            stats = await seeder.seed_all(verbose=verbose)
+
+            # Optionally import from directory
+            if text_dir:
+                click.echo(f"\n  Importing from: {text_dir}")
+                import_stats = await seeder.import_from_directory(
+                    Path(text_dir), verbose=verbose
+                )
+                stats["imported"] = import_stats["imported"]
+                stats["skipped"] = import_stats["skipped"]
+
+            click.echo(f"\n{'='*60}")
+            click.echo("Text Seeding Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  System text:    {stats['system_text']}")
+            click.echo(f"  Login messages: {stats['login_messages']}")
+            if text_dir:
+                click.echo(f"  Imported:       {stats.get('imported', 0)}")
+                click.echo(f"  Skipped:        {stats.get('skipped', 0)}")
+            click.echo(f"  ─────────────────────────────")
+            click.echo(f"  Total:          {stats['total']}")
+            click.echo(f"\n✅ Text seeding complete!")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="game-settings")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_game_settings(verbose: bool):
+    """Seed all game settings (config + levels + text).
+
+    This is a convenience command that runs:
+    - seed config
+    - seed levels
+    - seed text
+
+    Use this for initial database setup.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import ConfigSeeder, LevelSeeder, TextSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding All Game Settings")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            # Config
+            click.echo("\n📋 Game Configuration")
+            click.echo("-" * 40)
+            config_seeder = ConfigSeeder(prisma)
+            config_stats = await config_seeder.seed_all(verbose=verbose)
+
+            # Levels
+            click.echo("\n📊 Level Definitions")
+            click.echo("-" * 40)
+            level_seeder = LevelSeeder(prisma)
+            level_stats = await level_seeder.seed_levels(verbose=verbose)
+
+            # Text
+            click.echo("\n📝 System Text & Login Messages")
+            click.echo("-" * 40)
+            text_seeder = TextSeeder(prisma)
+            text_stats = await text_seeder.seed_all(verbose=verbose)
+
+            click.echo(f"\n{'='*60}")
+            click.echo("Game Settings Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Config entries:  {config_stats['total']}")
+            click.echo(f"  Level entries:   {level_stats['total']}")
+            click.echo(f"  Text entries:    {text_stats['total']}")
+            click.echo(f"  ─────────────────────────────")
+            total = config_stats['total'] + level_stats['total'] + text_stats['total']
+            click.echo(f"  Total:           {total}")
+            click.echo(f"\n✅ All game settings seeded!")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="socials")
 @click.option(
     "--lib-path",
@@ -1633,6 +1914,60 @@ def seed_socials(lib_path: str, dry_run: bool, verbose: bool, clear: bool):
             else:
                 click.echo(f"\n✅ Social seeding complete!")
                 click.echo(f"\n📚 Template syntax documented in: docs/MESSAGE_TEMPLATES.md")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="commands")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_commands(verbose: bool):
+    """Seed MUD command definitions.
+
+    Populates the Command table with all FieryMUD commands, including:
+    - Command name and aliases
+    - Category (MOVEMENT, COMBAT, COMMUNICATION, etc.)
+    - Description (used for 'help' in-game)
+    - Usage syntax
+    - Whether the command is immortal-only
+    - Required permission flags
+
+    This makes Muditor the source of truth for command permissions.
+    The MUD reads from this table at runtime.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import CommandSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding MUD Commands")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            seeder = CommandSeeder(prisma)
+            stats = await seeder.seed_commands(verbose=verbose)
+
+            # Summary
+            click.echo(f"\n{'='*60}")
+            click.echo("Seed Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Total:    {stats['total']}")
+            click.echo(f"  Created:  {stats['created']}")
+            click.echo(f"  Updated:  {stats['updated']}")
+
+            click.echo(f"\n✅ Command seeding complete!")
+            click.echo(f"\nCommands are now available in Muditor for permission management.")
+            click.echo(f"The MUD will read command permissions from the database at runtime.")
 
         finally:
             await prisma.disconnect()

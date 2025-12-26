@@ -44,13 +44,35 @@ class ClassImporterV2:
                         stats["classes_skipped"] += 1
                         continue
 
-                # Create class (middleware will auto-generate plainName from name)
-                await self.prisma.characterclass.create(
-                    data={
-                        "name": class_data["name"],  # With XML-Lite colors
-                        "plainName": class_data["plainName"],  # Plain text (Python doesn't have middleware)
-                    }
-                )
+                # Create class with all combat-related fields
+                create_data = {
+                    "name": class_data["name"],  # With XML-Lite colors
+                    "plainName": class_data["plainName"],  # Plain text (Python doesn't have middleware)
+                }
+
+                # Add optional combat modifier fields if present
+                if "description" in class_data:
+                    create_data["description"] = class_data["description"]
+                if "hitDice" in class_data:
+                    create_data["hitDice"] = class_data["hitDice"]
+                if "primaryStat" in class_data:
+                    create_data["primaryStat"] = class_data["primaryStat"]
+                if "bonusHitroll" in class_data:
+                    create_data["bonusHitroll"] = class_data["bonusHitroll"]
+                if "bonusDamroll" in class_data:
+                    create_data["bonusDamroll"] = class_data["bonusDamroll"]
+                if "baseAc" in class_data:
+                    create_data["baseAc"] = class_data["baseAc"]
+                if "hpPerLevel" in class_data:
+                    create_data["hpPerLevel"] = class_data["hpPerLevel"]
+                if "thac0Base" in class_data:
+                    create_data["thac0Base"] = class_data["thac0Base"]
+                if "thac0PerLevel" in class_data:
+                    create_data["thac0PerLevel"] = class_data["thac0PerLevel"]
+                if "resistances" in class_data:
+                    create_data["resistances"] = class_data["resistances"]
+
+                await self.prisma.characterclass.create(data=create_data)
 
                 stats["classes_created"] += 1
                 click.echo(f"    ✓ Imported class: {class_data['plainName']}")
