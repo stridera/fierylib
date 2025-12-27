@@ -40,7 +40,9 @@
       "copperFactor": 75,
       "acFactor": 100,
       "enterVerb": null,
-      "leaveVerb": null
+      "leaveVerb": null,
+      "startRoomZoneId": 30,
+      "startRoomId": 1
     },
     {
       "name": "elf",
@@ -97,7 +99,9 @@
       ],
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 35,
+      "startRoomId": 5
     },
     {
       "name": "gnome",
@@ -142,7 +146,9 @@
       "leaveVerb": null,
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 615,
+      "startRoomId": 0
     },
     {
       "name": "dwarf",
@@ -189,7 +195,9 @@
         "DETECT_POISON",
         "INFRAVISION",
         "ULTRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 61,
+      "startRoomId": 1
     },
     {
       "name": "troll",
@@ -235,7 +243,9 @@
       "permanentEffects": [
         "INFRAVISION",
         "ULTRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 45,
+      "startRoomId": 57
     },
     {
       "name": "drow",
@@ -288,7 +298,9 @@
       "permanentEffects": [
         "INFRAVISION",
         "ULTRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 237,
+      "startRoomId": 22
     },
     {
       "name": "duergar",
@@ -334,7 +346,9 @@
       "permanentEffects": [
         "INFRAVISION",
         "ULTRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 133,
+      "startRoomId": 1
     },
     {
       "name": "ogre",
@@ -380,7 +394,9 @@
       "permanentEffects": [
         "INFRAVISION",
         "ULTRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 556,
+      "startRoomId": 10
     },
     {
       "name": "orc",
@@ -422,7 +438,9 @@
       "copperFactor": 75,
       "acFactor": 100,
       "enterVerb": null,
-      "leaveVerb": null
+      "leaveVerb": null,
+      "startRoomZoneId": 300,
+      "startRoomId": 17
     },
     {
       "name": "halfelf",
@@ -464,7 +482,9 @@
       "copperFactor": 75,
       "acFactor": 100,
       "enterVerb": null,
-      "leaveVerb": null
+      "leaveVerb": null,
+      "startRoomZoneId": 30,
+      "startRoomId": 9
     },
     {
       "name": "barbarian",
@@ -506,7 +526,9 @@
       "copperFactor": 75,
       "acFactor": 100,
       "enterVerb": null,
-      "leaveVerb": null
+      "leaveVerb": null,
+      "startRoomZoneId": 510,
+      "startRoomId": 2
     },
     {
       "name": "halfling",
@@ -552,7 +574,9 @@
       "permanentEffects": [
         "INFRAVISION",
         "SENSE_LIFE"
-      ]
+      ],
+      "startRoomZoneId": 83,
+      "startRoomId": 44
     },
     {
       "name": "plant",
@@ -1213,7 +1237,9 @@
       ],
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 52,
+      "startRoomId": 72
     },
     {
       "name": "dragonborn_frost",
@@ -1265,7 +1291,9 @@
       ],
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 533,
+      "startRoomId": 88
     },
     {
       "name": "dragonborn_acid",
@@ -1317,7 +1345,9 @@
       ],
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 73,
+      "startRoomId": 0
     },
     {
       "name": "dragonborn_lightning",
@@ -1369,7 +1399,9 @@
       ],
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 488,
+      "startRoomId": 60
     },
     {
       "name": "dragonborn_gas",
@@ -1421,7 +1453,9 @@
       ],
       "permanentEffects": [
         "INFRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 54,
+      "startRoomId": 72
     },
     {
       "name": "sverfneblin",
@@ -1467,7 +1501,9 @@
       "permanentEffects": [
         "INFRAVISION",
         "ULTRAVISION"
-      ]
+      ],
+      "startRoomZoneId": 54,
+      "startRoomId": 2
     },
     {
       "name": "faerie_seelie",
@@ -1512,7 +1548,9 @@
       "leaveVerb": "flutters",
       "permanentEffects": [
         "FLY"
-      ]
+      ],
+      "startRoomZoneId": 615,
+      "startRoomId": 67
     },
     {
       "name": "faerie_unseelie",
@@ -1557,7 +1595,9 @@
       "leaveVerb": "flutters",
       "permanentEffects": [
         "FLY"
-      ]
+      ],
+      "startRoomZoneId": 615,
+      "startRoomId": 59
     },
     {
       "name": "nymph",
@@ -1599,7 +1639,9 @@
       "copperFactor": 75,
       "acFactor": 100,
       "enterVerb": null,
-      "leaveVerb": null
+      "leaveVerb": null,
+      "startRoomZoneId": 615,
+      "startRoomId": 67
     },
     {
       "name": "arborean",

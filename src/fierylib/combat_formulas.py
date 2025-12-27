@@ -51,11 +51,11 @@ def get_set_hit(level: int, race_factor: int = 100, class_factor: int = 100) -> 
     return int(xmain / (2 - (level / 100.0)))
 
 
-def get_set_hd(level: int, race_factor: int, class_factor: int) -> int:
+def get_set_hr(level: int, race_factor: int = 100, class_factor: int = 100) -> int:
     """
-    Calculate mob base damroll (to be converted to dice bonus).
+    Calculate mob hitroll (to-hit bonus).
 
-    Port of legacy db.cpp:276-337 get_set_hd() function.
+    Port of legacy db.cpp:276-337 get_set_hd() function with state=0.
 
     Args:
         level: Mob level (1-100)
@@ -63,7 +63,47 @@ def get_set_hd(level: int, race_factor: int, class_factor: int) -> int:
         class_factor: Class hit_damage_factor (50-150, default 100)
 
     Returns:
-        Base damroll value (to be split into dice)
+        Hitroll value (clamped to 10-80 range like legacy)
+    """
+    # Tier-based hitroll calculation
+    if level < 10:
+        hit = level / 2.0
+    elif level < 24:
+        hit = level / 2.4
+    elif level < 32:
+        hit = level / 2.6
+    elif level < 50:
+        hit = level / 2.8
+    elif level < 62:
+        hit = level / 3.0
+    elif level < 75:
+        hit = level / 3.2
+    elif level < 82:
+        hit = level / 3.4
+    else:  # level >= 82 (including 90+)
+        hit = level / 3.6
+
+    # Apply class/race factor modifiers
+    sfactor = (class_factor + race_factor) / 2.0
+    hit = hit * (sfactor / 100.0)
+
+    # Clamp to legacy range [10, 80]
+    return max(10, min(80, int(hit)))
+
+
+def get_set_hd(level: int, race_factor: int = 100, class_factor: int = 100) -> int:
+    """
+    Calculate mob base damroll (flat damage bonus).
+
+    Port of legacy db.cpp:276-337 get_set_hd() function with state=1.
+
+    Args:
+        level: Mob level (1-100)
+        race_factor: Race hit_damage_factor (50-150, default 100)
+        class_factor: Class hit_damage_factor (50-150, default 100)
+
+    Returns:
+        Base damroll value
     """
     # Tier-based base damroll
     if level < 10:

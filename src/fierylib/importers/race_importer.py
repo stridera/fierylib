@@ -225,6 +225,9 @@ class RaceImporter:
                         'enterVerb': race_data.get('enterVerb'),
                         'leaveVerb': race_data.get('leaveVerb'),
                         'permanentEffects': permanent_effects,
+                        # Race-specific starting location
+                        'startRoomZoneId': race_data.get('startRoomZoneId'),
+                        'startRoomId': race_data.get('startRoomId'),
                     }
 
                     if existing_race:

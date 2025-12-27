@@ -49,6 +49,52 @@ def clamp_int32(value: int) -> int:
     return max(INT32_MIN, min(INT32_MAX, value))
 
 
+def detect_special_mob_flags(name: str, keywords: str, existing_flags: list[str]) -> list[str]:
+    """
+    Auto-detect special mob roles based on name/keywords and add appropriate flags.
+
+    In legacy CircleMUD, special NPCs were identified by spec_procs (special procedures).
+    The modern codebase uses mob flags instead. This function bridges the gap by
+    detecting likely special mobs during import.
+
+    Detection patterns:
+        - BANKER: "banker", "bank teller", "bank clerk"
+        - POSTMASTER: "postmaster", "mailman", "mail carrier"
+        - RECEPTIONIST: "receptionist", "innkeeper"
+
+    Note: TEACHER flag is already set by legacy spec_procs, so we don't detect it here.
+
+    Args:
+        name: Mob's display name (short_desc)
+        keywords: Mob's keywords string
+        existing_flags: Current mob flags list
+
+    Returns:
+        Updated flags list with detected special flags added
+    """
+    flags = list(existing_flags)  # Make a copy
+    name_lower = name.lower() if name else ""
+    keywords_lower = keywords.lower() if keywords else ""
+    combined = f"{name_lower} {keywords_lower}"
+
+    # Banker detection
+    if "BANKER" not in flags:
+        if any(pattern in combined for pattern in ["banker", "bank teller", "bank clerk"]):
+            flags.append("BANKER")
+
+    # Postmaster detection
+    if "POSTMASTER" not in flags:
+        if any(pattern in combined for pattern in ["postmaster", "mailman", "mail carrier"]):
+            flags.append("POSTMASTER")
+
+    # Receptionist detection (innkeepers handle rent/storage)
+    if "RECEPTIONIST" not in flags:
+        if any(pattern in combined for pattern in ["receptionist", "innkeeper"]):
+            flags.append("RECEPTIONIST")
+
+    return flags
+
+
 def pascal_to_screaming_snake(name: str) -> str:
     """
     Convert PascalCase to SCREAMING_SNAKE_CASE
@@ -70,71 +116,45 @@ SILVER_SCALE = 10
 COPPER_SCALE = 1
 
 
-def calculate_mob_gold(
+def calculate_mob_wealth(
     level: int,
     extra_copper: int = 0,
     extra_silver: int = 0,
     extra_gold: int = 0,
     extra_platinum: int = 0,
-) -> Tuple[int, int, int, int]:
+) -> int:
     """
-    Calculate mob gold from level using legacy FieryMUD formula.
+    Calculate mob wealth from level using legacy FieryMUD formula.
 
     The legacy system calculates base gold dynamically from mob level,
     then adds "extra" values from the mob file as modifiers.
 
     Formula from legacy db.cpp:
         base_copper = random(1, 150) * level
-        Then distributed: 60% platinum, 20% gold, 18% silver, 2% copper
 
     Args:
-        level: Mob level (determines base gold amount)
+        level: Mob level (determines base wealth amount)
         extra_copper: Extra copper modifier from mob file
         extra_silver: Extra silver modifier from mob file
         extra_gold: Extra gold modifier from mob file
         extra_platinum: Extra platinum modifier from mob file
 
     Returns:
-        Tuple of (copper, silver, gold, platinum) values
+        Total wealth in copper units
     """
-    if level <= 0:
-        return (
-            max(0, extra_copper),
-            max(0, extra_silver),
-            max(0, extra_gold),
-            max(0, extra_platinum),
-        )
-
     # Base copper calculation: random(1, 150) * level
     # Using average of 75 for deterministic import results
-    base_copper = 75 * level
+    base_copper = max(0, 75 * level) if level > 0 else 0
 
-    # Distribute into coin types (legacy formula)
-    k = base_copper
+    # Convert extra modifiers to copper and add
+    extra_total = (
+        max(0, extra_copper) +
+        max(0, extra_silver) * SILVER_SCALE +
+        max(0, extra_gold) * GOLD_SCALE +
+        max(0, extra_platinum) * PLATINUM_SCALE
+    )
 
-    # 60% goes toward platinum
-    j = (60 * k) // 100
-    platinum = j // PLATINUM_SCALE
-
-    # 20% + remainder goes toward gold
-    j = ((20 * k) // 100) + (j % PLATINUM_SCALE)
-    gold = j // GOLD_SCALE
-
-    # 18% + remainder goes toward silver
-    j = ((18 * k) // 100) + (j % GOLD_SCALE)
-    silver = j // SILVER_SCALE
-
-    # 2% + remainder goes toward copper
-    j = ((2 * k) // 100) + (j % SILVER_SCALE)
-    copper = j // COPPER_SCALE
-
-    # Add extra modifiers from mob file
-    platinum = max(0, platinum + extra_platinum)
-    gold = max(0, gold + extra_gold)
-    silver = max(0, silver + extra_silver)
-    copper = max(0, copper + extra_copper)
-
-    return (copper, silver, gold, platinum)
+    return base_copper + extra_total
 
 
 class MobImporter:
@@ -257,6 +277,10 @@ class MobImporter:
         mob_flags = normalize_flags(mob_flags)
         effect_flags = mob.effect_flags.json_repr() if isinstance(mob.effect_flags, BitFlags) else (mob.effect_flags or [])
         effect_flags = normalize_flags(effect_flags)
+
+        # Auto-detect special mob roles (banker, postmaster, receptionist) from name/keywords
+        # This bridges the gap from legacy spec_procs to modern mob flags
+        mob_flags = detect_special_mob_flags(mob.short_desc, mob.keywords, mob_flags)
 
         # Calculate new combat stats (only if not dry run, to avoid DB queries)
         if not dry_run:
@@ -393,9 +417,9 @@ class MobImporter:
             mob_room_desc = convert_legacy_colors(mob.long_desc or "")
             mob_examine_desc = convert_legacy_colors(mob.desc or "")
 
-            # Calculate gold from level using legacy formula
+            # Calculate wealth from level using legacy formula
             # The mob file values are "extra" modifiers added to the base calculation
-            calc_copper, calc_silver, calc_gold, calc_platinum = calculate_mob_gold(
+            wealth = calculate_mob_wealth(
                 level=mob.level,
                 extra_copper=mob.money.copper,
                 extra_silver=mob.money.silver,
@@ -438,10 +462,7 @@ class MobImporter:
                         "damageDiceSize": new_damage_dice_size,
                         "damageDiceBonus": new_damage_dice_bonus,
                         **modern_stats,
-                        "copper": calc_copper,
-                        "silver": calc_silver,
-                        "gold": calc_gold,
-                        "platinum": calc_platinum,
+                        "wealth": wealth,
                         "position": position,
                         "gender": gender,
                         "race": race,
@@ -483,10 +504,7 @@ class MobImporter:
                         "damageDiceSize": new_damage_dice_size,
                         "damageDiceBonus": new_damage_dice_bonus,
                         **modern_stats,
-                        "copper": calc_copper,
-                        "silver": calc_silver,
-                        "gold": calc_gold,
-                        "platinum": calc_platinum,
+                        "wealth": wealth,
                         "position": position,
                         "gender": gender,
                         "race": race,

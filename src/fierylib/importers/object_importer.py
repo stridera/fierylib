@@ -16,7 +16,7 @@ import logging
 
 from mud.types.object import Object
 from mud.mudfile import MudData
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles
 
 logger = logging.getLogger(__name__)
 
@@ -178,7 +178,7 @@ class ObjectImporter:
                         "id": vnum,
                         "zoneId": obj_zone_id,
                         "type": obj_type,
-                        "keywords": obj.keywords if obj.keywords else [],
+                        "keywords": strip_articles(obj.keywords) if obj.keywords else [],
                         "name": obj_name,
                         "plainName": strip_markup(obj_name),
                         "roomDescription": obj_room_desc,
@@ -199,7 +199,7 @@ class ObjectImporter:
                     },
                     "update": {
                         "type": obj_type,
-                        "keywords": obj.keywords if obj.keywords else [],
+                        "keywords": strip_articles(obj.keywords) if obj.keywords else [],
                         "name": obj_name,
                         "plainName": strip_markup(obj_name),
                         "roomDescription": obj_room_desc,
@@ -274,7 +274,7 @@ class ObjectImporter:
             Dict with import results
         """
         try:
-            await self.prisma.objectaffect.create(
+            await self.prisma.objectaffects.create(
                 data={
                     "objectZoneId": obj_zone_id,
                     "objectId": obj_vnum,
@@ -308,11 +308,14 @@ class ObjectImporter:
         keywords = extra.keywords if hasattr(extra, "keywords") else []
         text = extra.text if hasattr(extra, "text") else ""
 
+        # Strip articles from extra description keywords
+        keywords = strip_articles(keywords)
+
         # Convert legacy color codes to XML-Lite markup
         text = convert_legacy_colors(text)
 
         try:
-            await self.prisma.objectextradescription.create(
+            await self.prisma.objectextradescriptions.create(
                 data={
                     "objectZoneId": obj_zone_id,
                     "objectId": obj_vnum,

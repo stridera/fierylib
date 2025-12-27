@@ -909,6 +909,85 @@ def import_players(lib_path: str, player: str | None, dry_run: bool, verbose: bo
     help="Path to legacy CircleMUD lib directory",
 )
 @click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Parse and analyze without importing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Enable verbose output",
+)
+def import_mail(lib_path: str, dry_run: bool, verbose: bool):
+    """Import player mail from legacy plrmail binary file"""
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.importers.mail_importer import MailImporter
+
+    async def run_import():
+        click.echo("FieryLib v0.1.0 - Mail Data Importer")
+        click.echo(f"Library path: {lib_path}")
+
+        if dry_run:
+            click.echo("DRY RUN - No database changes will be made\n")
+
+        # Find plrmail file
+        mail_file = Path(lib_path) / "etc" / "plrmail"
+
+        if not mail_file.exists():
+            click.echo(f"❌ Mail file not found: {mail_file}")
+            return
+
+        click.echo(f"Mail file: {mail_file}")
+
+        # Initialize Prisma
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            # Create importer
+            importer = MailImporter(prisma)
+
+            # Import mail
+            click.echo("\n" + "=" * 60)
+            click.echo("Importing Player Mail")
+            click.echo("=" * 60 + "\n")
+
+            stats = await importer.import_from_file(
+                mail_file, dry_run=dry_run, verbose=verbose
+            )
+
+            click.echo("\n" + "=" * 60)
+            click.echo("Import Complete")
+            click.echo("=" * 60)
+            click.echo(f"  Total blocks:        {stats['total_blocks']}")
+            click.echo(f"  Header blocks:       {stats['header_blocks']}")
+            click.echo(f"  Deleted blocks:      {stats['deleted_blocks']}")
+            click.echo(f"  Messages imported:   {stats['imported']}")
+            click.echo(f"  With attachments:    {stats['with_attachments']}")
+            if stats['errors'] > 0:
+                click.echo(f"  ⚠️  Errors: {stats['errors']}")
+
+            if dry_run:
+                click.echo(f"\n(Dry run - no database changes made)")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_import())
+
+
+@main.command()
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
     "--zone",
     type=int,
     help="Validate specific zone only",

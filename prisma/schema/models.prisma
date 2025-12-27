@@ -138,11 +138,14 @@ model AbilityMessages {
   successToCaster String? @map("success_to_caster")
   successToVictim String? @map("success_to_victim")
   successToRoom   String? @map("success_to_room")
+  successToSelf   String? @map("success_to_self")     // Message to caster when casting on self
+  successSelfRoom String? @map("success_self_room")   // Room message when caster targets self
   failToCaster    String? @map("fail_to_caster")
   failToVictim    String? @map("fail_to_victim")
   failToRoom      String? @map("fail_to_room")
   wearoffToTarget String? @map("wearoff_to_target")
   wearoffToRoom   String? @map("wearoff_to_room")
+  lookMessage     String? @map("look_message") // Message when looking at someone affected by this ability
   ability         Ability @relation(fields: [abilityId], references: [id], onDelete: Cascade)
 }
 
@@ -237,6 +240,13 @@ model CharacterClass {
   description         String?
   hitDice             String                @default("1d8") @map("hit_dice")
   primaryStat         String?               @map("primary_stat")
+  bonusHitroll        Int                   @default(0) @map("bonus_hitroll")
+  bonusDamroll        Int                   @default(0) @map("bonus_damroll")
+  baseAc              Int                   @default(100) @map("base_ac") // Base armor class (100 = standard)
+  hpPerLevel          Int                   @default(10) @map("hp_per_level")
+  thac0Base           Int                   @default(20) @map("thac0_base") // THAC0 at level 1
+  thac0PerLevel       Float                 @default(1.0) @map("thac0_per_level") // THAC0 improvement per level
+  resistances         Json                  @default("{}") @map("resistances")
   createdAt           DateTime              @default(now()) @map("created_at")
   updatedAt           DateTime              @updatedAt @map("updated_at")
   characters          Characters[]
@@ -432,6 +442,7 @@ model Characters {
   characterPets      CharacterPets[]
   characterClass     CharacterClass?      @relation(fields: [classId], references: [id])
   users              Users?               @relation(fields: [userId], references: [id], onDelete: SetNull)
+  accountItemsStored AccountItems[]       // Items this character deposited to account storage
 }
 
 model CharacterAliases {
@@ -712,6 +723,7 @@ model Objects {
   shopItems               ShopItems[]
   triggers                Triggers[]
   objectAbilities         ObjectAbilities[]
+  accountItems            AccountItems[]
 
   @@id([zoneId, id])
   @@index([name])
@@ -948,7 +960,9 @@ model Users {
   lockedUntil         DateTime?    @map("locked_until")
   lastFailedLogin     DateTime?    @map("last_failed_login")
   preferences         Json?        @default("{}")
+  accountWealth       BigInt       @default(0) @map("account_wealth") // Shared account bank in copper
   auditLogs           AuditLogs[]
+  accountItems        AccountItems[]
   banRecordsIssued    BanRecords[] @relation("bannedByUser")
   banRecords          BanRecords[] @relation("userBanRecords")
   changeLogs          ChangeLogs[]
@@ -973,6 +987,27 @@ model UserGrants {
 
   @@unique([userId, resourceType, resourceId])
   @@map("user_grants")
+}
+
+// Account-wide item storage (accessible by all characters on the account)
+// Requires character to be linked to a user account
+model AccountItems {
+  id                  Int       @id @default(autoincrement())
+  userId              String    @map("user_id")
+  slot                Int       @default(0) // Position in storage for ordering
+  objectZoneId        Int       @map("object_zone_id")
+  objectId            Int       @map("object_id")
+  quantity            Int       @default(1) // For stackable items
+  customData          Json?     @map("custom_data") // Item modifications (enchants, etc)
+  storedAt            DateTime  @default(now()) @map("stored_at")
+  storedByCharacterId String?   @map("stored_by_character_id") // Which character deposited it
+
+  user      Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  object    Objects     @relation(fields: [objectZoneId, objectId], references: [zoneId, id])
+  character Characters? @relation(fields: [storedByCharacterId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@map("account_items")
 }
 
 model Zones {
@@ -1285,6 +1320,9 @@ enum MobFlag {
   NO_EQ_RESTRICT
   SUMMONED_MOUNT
   NO_POISON
+  BANKER
+  RECEPTIONIST
+  POSTMASTER
 }
 
 enum ObjectFlag {

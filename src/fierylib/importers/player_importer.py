@@ -166,8 +166,13 @@ class PlayerImporter:
             raise ValueError(f"Character '{player_data.name}' missing required class data")
         player_class = player_data.player_class.name if hasattr(player_data.player_class, 'name') else str(player_data.player_class)
 
-        # Prepare currency
-        copper = silver = gold = platinum = 0
+        # Prepare currency (convert to copper-equivalent wealth)
+        # Exchange rates: 1 platinum = 1000 copper, 1 gold = 100 copper, 1 silver = 10 copper
+        PLATINUM_SCALE = 1000
+        GOLD_SCALE = 100
+        SILVER_SCALE = 10
+
+        wealth = 0
         if player_data.money:
             raw_money = player_data.money
             if isinstance(raw_money, dict):  # parser form
@@ -181,8 +186,9 @@ class PlayerImporter:
                 silver = getattr(raw_money, "silver", 0)
                 gold = getattr(raw_money, "gold", 0)
                 platinum = getattr(raw_money, "platinum", 0)
+            wealth = copper + silver * SILVER_SCALE + gold * GOLD_SCALE + platinum * PLATINUM_SCALE
 
-        bank_copper = bank_silver = bank_gold = bank_platinum = 0
+        bank_wealth = 0
         if player_data.bank:
             raw_bank = player_data.bank
             if isinstance(raw_bank, dict):
@@ -196,6 +202,7 @@ class PlayerImporter:
                 bank_silver = getattr(raw_bank, "silver", 0)
                 bank_gold = getattr(raw_bank, "gold", 0)
                 bank_platinum = getattr(raw_bank, "platinum", 0)
+            bank_wealth = bank_copper + bank_silver * SILVER_SCALE + bank_gold * GOLD_SCALE + bank_platinum * PLATINUM_SCALE
 
         # Prepare stats (parser usually produces a dict; dataclass Stats also supported) - REQUIRED
         if not player_data.stats:
@@ -224,10 +231,12 @@ class PlayerImporter:
             charisma = int(getattr(player_data.stats, "charisma"))
             luck = 13  # No luck attribute present in dataclass
 
-        # Normalize flags
+        # Normalize flags (skip legacy runtime flags that don't apply to modern system)
+        legacy_runtime_flags = {"AUTOSAVE", "REMOVING", "SAVING"}
         player_flags = []
         if player_data.player_flags:
-            player_flags = normalize_flags(player_data.player_flags)
+            player_flags = [f for f in normalize_flags(player_data.player_flags)
+                           if f not in legacy_runtime_flags]
 
         effect_flags = []
         if player_data.effect_flags:
@@ -237,18 +246,23 @@ class PlayerImporter:
         if player_data.privilege_flags:
             privilege_flags = normalize_flags(player_data.privilege_flags)
 
-        # Parse room numbers (may be strings or ints)
-        current_room = None
-        if player_data.load_room:
-            current_room = int(player_data.load_room) if isinstance(player_data.load_room, str) else player_data.load_room
+        # Parse room numbers and convert VNUMs to composite keys (zone_id, local_id)
+        # VNUM format: zone_id * 100 + local_id (e.g., 3045 = zone 30, room 45)
+        # Special case: zone 0 becomes zone 1000
+        def vnum_to_composite(vnum_raw) -> tuple[int | None, int | None]:
+            """Convert a VNUM to (zone_id, local_id) tuple"""
+            if vnum_raw is None:
+                return None, None
+            vnum = int(vnum_raw) if isinstance(vnum_raw, str) else vnum_raw
+            if vnum <= 0:
+                return None, None
+            zone_id = vnum // 100 if vnum >= 100 else 1000  # Zone 0 -> 1000
+            local_id = vnum % 100
+            return zone_id, local_id
 
-        save_room = None
-        if player_data.save_room:
-            save_room = int(player_data.save_room) if isinstance(player_data.save_room, str) else player_data.save_room
-
-        home_room = None
-        if player_data.home:
-            home_room = int(player_data.home) if isinstance(player_data.home, str) else player_data.home
+        current_room_zone_id, current_room_id = vnum_to_composite(player_data.load_room)
+        save_room_zone_id, save_room_id = vnum_to_composite(player_data.save_room)
+        home_room_zone_id, home_room_id = vnum_to_composite(player_data.home)
 
         # Validate level - REQUIRED
         if not player_data.level or player_data.level < 1:
@@ -276,14 +290,8 @@ class PlayerImporter:
             "hitPointsMax": hit_points_max,
             "movement": movement,
             "movementMax": movement_max,
-            "copper": copper,
-            "silver": silver,
-            "gold": gold,
-            "platinum": platinum,
-            "bankCopper": bank_copper,
-            "bankSilver": bank_silver,
-            "bankGold": bank_gold,
-            "bankPlatinum": bank_platinum,
+            "wealth": wealth,
+            "bankWealth": bank_wealth,
             "passwordHash": password_hash,
             "race": race_enum,
             "raceType": race_type,
@@ -297,9 +305,12 @@ class PlayerImporter:
             "currentSize": player_data.natural_size or 0,
             "hitRoll": player_data.hit_roll or 0,
             "damageRoll": player_data.damage_roll or 0,
-            "currentRoom": current_room,
-            "saveRoom": save_room,
-            "homeRoom": home_room,
+            "currentRoomZoneId": current_room_zone_id,
+            "currentRoomId": current_room_id,
+            "saveRoomZoneId": save_room_zone_id,
+            "saveRoomId": save_room_id,
+            "homeRoomZoneId": home_room_zone_id,
+            "homeRoomId": home_room_id,
             "lastLogin": player_data.last_login_time if player_data.last_login_time else datetime.now(),
             "timePlayed": player_data.time_played or 0,
             "isOnline": False,

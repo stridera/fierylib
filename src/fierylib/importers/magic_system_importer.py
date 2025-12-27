@@ -140,6 +140,8 @@ class MagicSystemImporter:
             data["damageType"] = ability["damageType"]
         if ability.get("pages"):
             data["pages"] = ability["pages"]
+        if ability.get("isToggle") is not None:
+            data["isToggle"] = ability["isToggle"]
 
         # School lookup
         if ability.get("school"):
@@ -168,6 +170,59 @@ class MagicSystemImporter:
         await self._import_ability_targeting(ability_id, ability.get("targeting"), verbose)
         await self._import_ability_saving_throws(ability_id, ability.get("savingThrows", []), verbose)
         await self._import_ability_messages(ability_id, ability.get("messages"), verbose)
+
+        # Build restrictions from targetRestrictions and casterRestrictions
+        restrictions = self._build_restrictions(ability)
+        await self._import_ability_restrictions(ability_id, restrictions, verbose)
+
+    def _build_restrictions(self, ability: Dict[str, Any]) -> Optional[Dict]:
+        """Build restrictions dict from targetRestrictions and casterRestrictions."""
+        target_restrictions = ability.get("targetRestrictions", [])
+        caster_restrictions = ability.get("casterRestrictions", [])
+        legacy_restrictions = ability.get("restrictions", {})
+        messages = ability.get("messages", {})
+
+        # Start with legacy restrictions if present
+        requirements = list(legacy_restrictions.get("requirements", []))
+
+        # Add target restrictions
+        for r in target_restrictions:
+            req = {
+                "type": r.get("type"),
+                "value": r.get("value"),
+                "target": "victim",
+            }
+            if r.get("required"):
+                req["required"] = True
+            if r.get("prohibited"):
+                req["prohibited"] = True
+            # Add fail message if available
+            if messages.get("failToCaster"):
+                req["message"] = messages["failToCaster"]
+            requirements.append(req)
+
+        # Add caster restrictions
+        for r in caster_restrictions:
+            req = {
+                "type": r.get("type"),
+                "value": r.get("value"),
+                "target": "caster",
+            }
+            if r.get("required"):
+                req["required"] = True
+            if r.get("prohibited"):
+                req["prohibited"] = True
+            if messages.get("failToCaster"):
+                req["message"] = messages["failToCaster"]
+            requirements.append(req)
+
+        if not requirements:
+            return None
+
+        return {
+            "requirements": requirements,
+            "customRequirementLua": legacy_restrictions.get("customRequirementLua"),
+        }
 
     async def _import_ability_effects(self, ability_id: int, effects: List[Dict], verbose: bool):
         """Import ability effect links."""
@@ -260,10 +315,33 @@ class MagicSystemImporter:
                 "successToCaster": messages.get("successToCaster"),
                 "successToVictim": messages.get("successToVictim"),
                 "successToRoom": messages.get("successToRoom"),
+                "successToSelf": messages.get("successToSelf"),
+                "successSelfRoom": messages.get("successSelfRoom"),
                 "failToCaster": messages.get("failToCaster"),
                 "failToVictim": messages.get("failToVictim"),
                 "failToRoom": messages.get("failToRoom"),
                 "wearoffToTarget": messages.get("wearoffToTarget"),
+                "wearoffToRoom": messages.get("wearoffToRoom"),
+                "lookMessage": messages.get("lookMessage"),
+            }
+        )
+
+    async def _import_ability_restrictions(self, ability_id: int, restrictions: Optional[Dict], verbose: bool):
+        """Import ability restrictions."""
+        if not restrictions:
+            return
+
+        # Delete existing
+        try:
+            await self.prisma.abilityrestrictions.delete(where={"abilityId": ability_id})
+        except:
+            pass
+
+        await self.prisma.abilityrestrictions.create(
+            data={
+                "abilityId": ability_id,
+                "requirements": [json.dumps(r) for r in restrictions.get("requirements", [])],
+                "customRequirementLua": restrictions.get("customRequirementLua"),
             }
         )
 
