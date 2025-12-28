@@ -68,6 +68,9 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
     from pathlib import Path
     from prisma import Prisma
     from fierylib.importers import ZoneImporter, RoomImporter, MobImporter, ObjectImporter, ShopImporter, ResetImporter
+    from fierylib.importers.trigger_importer import TriggerImporter
+    from fierylib.importers.mail_importer import MailImporter
+    from fierylib.importers.board_importer import import_boards as do_import_boards
 
     async def run_import():
         click.echo(f"FieryLib v0.1.0 - Legacy Data Importer")
@@ -152,6 +155,10 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 "shops": 0,
                 "mob_resets": 0,
                 "object_resets": 0,
+                "triggers": 0,
+                "mail": 0,
+                "boards": 0,
+                "board_messages": 0,
                 "failed": 0,
             }
 
@@ -575,6 +582,99 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     if obj_result.get("failed", 0) > 0:
                         total_stats["failed"] += obj_result["failed"]
 
+            # PHASE 4: Import Triggers (DG Scripts → Lua)
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 4: Importing Triggers (DG Script → Lua)")
+            click.echo(f"{'='*60}")
+
+            trg_dir = world_dir / "trg"
+            if trg_dir.exists():
+                trigger_importer = TriggerImporter(prisma)
+
+                # Clear existing triggers if --clear was specified
+                if clear and not dry_run:
+                    await trigger_importer.clear_all_triggers()
+
+                # Import triggers for zones we're importing, or all if no zone filter
+                if zone:
+                    trg_file = trg_dir / f"{zone}.trg"
+                    if trg_file.exists():
+                        trg_result = await trigger_importer.import_from_file(trg_file, dry_run=dry_run)
+                        total_stats["triggers"] += trg_result.get("imported", 0)
+                        if trg_result.get("failed", 0) > 0:
+                            total_stats["failed"] += trg_result["failed"]
+                        needs_review = trg_result.get("needs_review", 0)
+                        total_stats["needs_review"] = total_stats.get("needs_review", 0) + needs_review
+                        if needs_review > 0:
+                            click.echo(f"  ⚠️  Zone {zone}: {trg_result.get('imported', 0)} triggers imported ({needs_review} need review)")
+                        else:
+                            click.echo(f"  ✅ Zone {zone}: {trg_result.get('imported', 0)} triggers imported")
+                else:
+                    trg_result = await trigger_importer.import_all_triggers(trg_dir, dry_run=dry_run, verbose=verbose)
+                    total_stats["triggers"] += trg_result.get("imported", 0)
+                    if trg_result.get("failed", 0) > 0:
+                        total_stats["failed"] += trg_result["failed"]
+                    needs_review = trg_result.get("needs_review", 0)
+                    total_stats["needs_review"] = total_stats.get("needs_review", 0) + needs_review
+                    if needs_review > 0:
+                        click.echo(f"  ⚠️  Imported {trg_result.get('imported', 0)} triggers ({needs_review} need review in Muditor)")
+                    else:
+                        click.echo(f"  ✅ Imported {trg_result.get('imported', 0)} triggers from {trg_result.get('total_files', 0)} files")
+            else:
+                click.echo(f"  ⚠️  Trigger directory not found: {trg_dir}")
+
+            # PHASE 4b: Link Mob Triggers (parse T lines from mob files)
+            click.echo(f"\n  --- Linking Mob Triggers ---")
+            mob_dir = world_dir / "mob"
+            if mob_dir.exists() and not dry_run:
+                from fierylib.importers.mob_trigger_linker import MobTriggerLinker
+                linker = MobTriggerLinker(prisma)
+                link_result = await linker.link_mob_triggers(world_dir, dry_run=dry_run, verbose=verbose)
+                total_stats["trigger_links"] = link_result.get("links_created", 0)
+                if link_result.get("errors"):
+                    total_stats["failed"] += len(link_result["errors"])
+                click.echo(f"  ✅ Created {link_result.get('links_created', 0)} mob-trigger links for {link_result.get('mobs_processed', 0)} mobs")
+            elif dry_run:
+                click.echo(f"  ⏭️  Skipped (dry run)")
+            else:
+                click.echo(f"  ⚠️  Mob directory not found: {mob_dir}")
+
+            # PHASE 5: Import Mail
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 5: Importing Player Mail")
+            click.echo(f"{'='*60}")
+
+            mail_file = Path(lib_path) / "etc" / "plrmail"
+            if mail_file.exists():
+                mail_importer = MailImporter(prisma)
+                mail_stats = await mail_importer.import_from_file(mail_file, dry_run=dry_run, verbose=verbose)
+                total_stats["mail"] += mail_stats.get("imported", 0)
+                if mail_stats.get("errors", 0) > 0:
+                    total_stats["failed"] += mail_stats["errors"]
+                click.echo(f"  ✅ Imported {mail_stats.get('imported', 0)} mail messages")
+            else:
+                click.echo(f"  ⚠️  Mail file not found: {mail_file}")
+
+            # PHASE 6: Import Boards
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 6: Importing Bulletin Boards")
+            click.echo(f"{'='*60}")
+
+            boards_dir = Path(lib_path) / "etc" / "boards"
+            if not boards_dir.exists():
+                # Try alternate location
+                boards_dir = Path("/home/strider/Code/mud/fierymud/legacy/lib/etc/boards")
+
+            if boards_dir.exists():
+                board_stats = await do_import_boards(boards_dir, verbose=verbose, clear_existing=clear)
+                total_stats["boards"] += board_stats.get("boards_created", 0) + board_stats.get("boards_updated", 0)
+                total_stats["board_messages"] += board_stats.get("messages_created", 0)
+                if board_stats.get("errors", 0) > 0:
+                    total_stats["failed"] += board_stats["errors"]
+                click.echo(f"  ✅ Imported {total_stats['boards']} boards with {total_stats['board_messages']} messages")
+            else:
+                click.echo(f"  ⚠️  Boards directory not found")
+
             # Summary
             click.echo(f"\n{'='*60}")
             click.echo(f"Import Summary")
@@ -589,13 +689,24 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             click.echo(f"  Shops:         {total_stats['shops']}")
             click.echo(f"  Mob Resets:    {total_stats['mob_resets']}")
             click.echo(f"  Object Resets: {total_stats['object_resets']}")
-            
+            needs_review = total_stats.get('needs_review', 0)
+            if needs_review > 0:
+                click.echo(f"  Triggers:      {total_stats['triggers']} ({needs_review} need review)")
+            else:
+                click.echo(f"  Triggers:      {total_stats['triggers']}")
+            click.echo(f"  Mail:          {total_stats['mail']}")
+            click.echo(f"  Boards:        {total_stats['boards']} ({total_stats['board_messages']} messages)")
+
             if total_stats['failed'] > 0:
                 click.echo(f"  Failed:   {total_stats['failed']} ⚠️")
                 if not debug:
                     click.echo(f"\n💡 Tip: Run with --debug to see detailed error messages for all failures")
             else:
                 click.echo(f"  Failed:   0 ✅")
+
+            if needs_review > 0:
+                click.echo(f"\n📝 {needs_review} triggers have Lua syntax errors and need manual review in Muditor.")
+                click.echo(f"   Use the Trigger Editor and filter by 'Needs Review' to fix them.")
             
             if verbose or debug:
                 # Show breakdown of failures by type
@@ -978,6 +1089,285 @@ def import_mail(lib_path: str, dry_run: bool, verbose: bool):
             await prisma.disconnect()
 
     asyncio.run(run_import())
+
+
+@main.command()
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
+    "--zone",
+    type=int,
+    help="Import triggers from specific zone only (e.g., 30 for zone 30)",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Parse and validate without importing to database",
+)
+@click.option(
+    "--verbose", "-v",
+    is_flag=True,
+    default=False,
+    help="Show detailed output",
+)
+@click.option(
+    "--clear",
+    is_flag=True,
+    default=False,
+    help="Clear existing triggers before import",
+)
+def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: bool, clear: bool):
+    """Import DG Script triggers and convert them to Lua.
+
+    Parses .trg files from the legacy lib/world/trg directory and:
+    - Converts DG Script syntax to Lua
+    - Handles color codes (&1 -> <red>)
+    - Converts variables (%actor.name% -> actor.name)
+    - Imports to PostgreSQL Triggers table
+    """
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.importers.trigger_importer import TriggerImporter
+
+    async def run():
+        click.echo("=" * 60)
+        click.echo("FieryLib - DG Script to Lua Trigger Importer")
+        click.echo("=" * 60)
+        click.echo(f"Library path: {lib_path}")
+
+        if zone:
+            click.echo(f"Importing zone: {zone}")
+        else:
+            click.echo("Importing all triggers")
+
+        if dry_run:
+            click.echo("DRY RUN - No database changes will be made\n")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            importer = TriggerImporter(prisma)
+            world_dir = Path(lib_path) / "world"
+            trg_dir = world_dir / "trg"
+
+            if not trg_dir.exists():
+                click.echo(f"❌ Trigger directory not found: {trg_dir}")
+                return
+
+            # Clear existing triggers if requested
+            if clear and not dry_run:
+                click.echo("\nClearing existing triggers...")
+                deleted = await importer.clear_all_triggers()
+                click.echo(f"  ✅ Deleted {deleted} triggers")
+
+            # Import triggers
+            if zone:
+                # Import specific zone
+                trg_file = trg_dir / f"{zone}.trg"
+                if not trg_file.exists():
+                    click.echo(f"❌ Trigger file not found: {trg_file}")
+                    return
+
+                result = await importer.import_from_file(trg_file, dry_run=dry_run)
+
+                if verbose:
+                    for t in result.get("triggers", []):
+                        status = "✅" if t["success"] else "❌"
+                        ttype = t.get('type', 'UNKNOWN')
+                        if t["success"]:
+                            click.echo(f"  {status} Trigger {t['vnum']}: {t['name']} ({ttype}) - {t.get('action', 'unknown')}")
+                        else:
+                            click.echo(f"  {status} Trigger {t['vnum']}: {t['name']} - {t.get('error', 'unknown error')}")
+
+                click.echo(f"\n{'='*60}")
+                click.echo("Import Summary")
+                click.echo(f"{'='*60}")
+                click.echo(f"  Total:         {result['total']}")
+                click.echo(f"  Imported:      {result['imported']}")
+                click.echo(f"  Failed:        {result['failed']}")
+                needs_review = result.get("needs_review", 0)
+                if needs_review > 0:
+                    click.echo(f"  Needs Review:  {needs_review} (syntax errors - use Muditor to fix)")
+            else:
+                # Import all triggers (including those with syntax errors, flagged for review)
+                result = await importer.import_all_triggers(trg_dir, dry_run=dry_run, verbose=verbose)
+
+                click.echo(f"\n{'='*60}")
+                click.echo("Import Summary")
+                click.echo(f"{'='*60}")
+                click.echo(f"  Files:         {result['total_files']}")
+                click.echo(f"  Triggers:      {result['total_triggers']}")
+                click.echo(f"  Imported:      {result['imported']}")
+                click.echo(f"  Failed:        {result['failed']}")
+                needs_review = result.get('needs_review', 0)
+                if needs_review > 0:
+                    click.echo(f"  Needs Review:  {needs_review} (syntax errors - use Muditor to fix)")
+
+                if verbose:
+                    # Show breakdown by type
+                    stats = await importer.get_trigger_stats()
+                    click.echo(f"\n  By Type:")
+                    for ttype, count in stats["by_type"].items():
+                        click.echo(f"    {ttype}: {count}")
+
+            if dry_run:
+                click.echo(f"\n(Dry run - no database changes made)")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run())
+
+
+@main.command()
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate without making database changes",
+)
+@click.option(
+    "--verbose", "-v",
+    is_flag=True,
+    default=False,
+    help="Show detailed output",
+)
+def link_triggers(lib_path: str, dry_run: bool, verbose: bool):
+    """Link mobs to triggers via MobTriggers junction table.
+
+    Parses "T <trigger_vnum>" lines from .mob files and creates
+    the proper many-to-many relationships in the MobTriggers table.
+    In DG Scripts, triggers can be shared across multiple mobs.
+    """
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.importers.mob_trigger_linker import MobTriggerLinker
+
+    async def run():
+        click.echo("=" * 60)
+        click.echo("FieryLib - Mob Trigger Linker")
+        click.echo("=" * 60)
+        click.echo(f"Library path: {lib_path}")
+
+        if dry_run:
+            click.echo("DRY RUN - No database changes will be made\n")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            world_dir = Path(lib_path) / "world"
+            linker = MobTriggerLinker(prisma)
+            result = await linker.link_mob_triggers(world_dir, dry_run=dry_run, verbose=verbose)
+
+            click.echo(f"\nResults:")
+            click.echo(f"  Mobs processed:  {result.get('mobs_processed', 0)}")
+            click.echo(f"  Links created:   {result.get('links_created', 0)}")
+            click.echo(f"  Links skipped:   {result.get('links_skipped', 0)}")
+
+            if result.get("errors"):
+                click.echo(f"  Errors:          {len(result['errors'])}")
+                if verbose:
+                    for error in result["errors"][:10]:
+                        click.echo(f"    - {error}")
+                    if len(result["errors"]) > 10:
+                        click.echo(f"    ... and {len(result['errors']) - 10} more")
+
+            if dry_run:
+                click.echo(f"\n(Dry run - no database changes made)")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run())
+
+
+@main.command()
+@click.option(
+    "--boards-dir",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=None,
+    help="Path to boards directory (default: fierymud/legacy/lib/etc/boards/)",
+)
+@click.option(
+    "--verbose", "-v",
+    is_flag=True,
+    default=False,
+    help="Show detailed output",
+)
+@click.option(
+    "--clear",
+    is_flag=True,
+    default=False,
+    help="Clear existing board data before import",
+)
+def import_boards(boards_dir: str | None, verbose: bool, clear: bool):
+    """Import bulletin boards from legacy board files.
+
+    Parses .brd files from the boards directory and imports:
+    - Board definitions (alias, title, privileges)
+    - Messages with poster info, timestamps, and content
+    - Edit history for messages
+
+    Boards are linked to ITEM_BOARD objects via values.value0 = board.id
+    """
+    import asyncio
+    from pathlib import Path
+    from fierylib.importers.board_importer import import_boards as do_import_boards
+
+    # Default boards directory
+    if boards_dir is None:
+        default_paths = [
+            Path("/home/strider/Code/mud/fierymud/legacy/lib/etc/boards"),
+            Path("../fierymud/legacy/lib/etc/boards"),
+        ]
+        for p in default_paths:
+            if p.exists():
+                boards_dir = str(p)
+                break
+
+    if boards_dir is None:
+        click.echo("Error: Could not find boards directory. Please specify --boards-dir")
+        return
+
+    async def run():
+        click.echo("=" * 60)
+        click.echo("Importing Bulletin Boards")
+        click.echo("=" * 60)
+
+        stats = await do_import_boards(
+            Path(boards_dir), verbose, clear
+        )
+
+        click.echo("\n" + "=" * 60)
+        click.echo("Import Summary")
+        click.echo("=" * 60)
+        click.echo(f"  Boards created:   {stats['boards_created']}")
+        click.echo(f"  Boards updated:   {stats['boards_updated']}")
+        click.echo(f"  Messages created: {stats['messages_created']}")
+        click.echo(f"  Messages skipped: {stats['messages_skipped']}")
+        click.echo(f"  Edits created:    {stats['edits_created']}")
+        if stats['errors'] > 0:
+            click.echo(f"  Errors:           {stats['errors']}")
+        else:
+            click.echo(f"  Errors:           0")
+        click.echo("\nImport complete!")
+
+    asyncio.run(run())
 
 
 @main.command()

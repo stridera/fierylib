@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DG Script Conversion Errors Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.4; }
+        h1 { color: #333; border-bottom: 2px solid #666; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .summary { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .trigger { background: #fff; border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 3px; }
+        .trigger-header { font-weight: bold; color: #333; }
+        .error-line { font-family: monospace; background: #fff0f0; padding: 5px 10px; margin: 5px 0; border-left: 3px solid #cc0000; word-break: break-all; }
+        .note { color: #666; font-style: italic; margin: 20px 0; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f0f0f0; }
+        .category { margin: 30px 0; }
+        .category h3 { color: #444; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>DG Script Conversion Errors Report</h1>
+    
+    <div class="summary">
+        <h2>Summary</h2>
+        <p><strong>Generated:</strong> 2025-12-28 02:19</p>
+        <p><strong>Total Lines Processed:</strong> 91,225</p>
+        <p><strong>Unconverted Lines:</strong> 47</p>
+        <p><strong>Conversion Rate:</strong> 99.95%</p>
+        <p><strong>Files with Errors:</strong> 25</p>
+    </div>
+    
+    <div class="note">
+        <p><strong>Note for Builders:</strong> These lines could not be automatically converted. 
+        Most are either orphaned text fragments, incomplete commands, or typos in the original triggers.
+        Please review and fix these triggers manually.</p>
+    </div>
+
+    <h2>Errors by Category</h2>
+    
+    <div class="category">
+        <h3>Text Fragments (Orphaned continuation lines)</h3>
+        <p>These appear to be continuations of multi-line messages that got separated from their command:</p>
+        <ul>
+            <li><code>133.trg #13308</code>: <code>pile appear on the floor.</code></li>
+            <li><code>133.trg #13322</code>: <code>The overseer's face turns red with exertion.</code></li>
+            <li><code>17.trg #1792</code>: <code>The &1%Enraged Beast%&0 kicks up a &3claw full of dirt&0 into your face &9&bblin...</code></li>
+            <li><code>30.trg #3160</code>: <code>Lets talk about improving a skill you actually know.'</code></li>
+            <li><code>30.trg #3170</code>: <code>Let's talk about improving a skill you actually know.'</code></li>
+            <li><code>302.trg #30202</code>: <code>steps to one side.</code></li>
+            <li><code>370.trg #37018</code>: <code>waves his hands over it, muttering a strange mantra.</code></li>
+            <li><code>488.trg #48809</code>: <code>%victim.o%.&0 (&4%damdone%&0)</code></li>
+            <li><code>510.trg #51005</code>: <code>it.</code></li>
+            <li><code>550.trg #55011</code>: <code>The Knight Champion whispers to you, 'Yes there was evil in the kingdom long</code></li>
+            <li><code>590.trg #59008</code>: <code>&3&b* vial of blood&0</code></li>
+            <li><code>590.trg #59008</code>: <code>&3&b*trinket of tattered leather&0</code></li>
+            <li><code>590.trg #59008</code>: <code>&3&b*earring&0</code></li>
+            <li><code>590.trg #59021</code>: <code>past.</code></li>
+            <li><code>625.trg #62527</code>: <code>Who's leader?!</code></li>
+            <li><code>63.trg #6390</code>: <code>hands!</code></li>
+            <li><code>63.trg #6391</code>: <code>the air!</code></li>
+            <li><code>63.trg #6392</code>: <code>%victim.name%!</code></li>
+            <li><code>63.trg #6392</code>: <code>%victim.name% right on the head! (&1&b%damdone%&0)</code></li>
+        </ul>
+    </div>
+    
+    <div class="category">
+        <h3>Incomplete Commands</h3>
+        <p>These appear to be partial or malformed commands:</p>
+        <ul>
+            <li><code>103.trg #10323</code>: <code>zone</code></li>
+            <li><code>105.trg #10503</code>: <code>pond</code></li>
+            <li><code>185.trg #18531</code>: <code>msend %actor</code></li>
+            <li><code>188.trg #18883</code>: <code>eval %speech%</code></li>
+            <li><code>28.trg #2802</code>: <code>quest</code></li>
+            <li><code>364.trg #36405</code>: <code>breal</code></li>
+            <li><code>489.trg #48903</code>: <code>stone</code></li>
+            <li><code>492.trg #49254</code>: <code>sta</code></li>
+            <li><code>553.trg #55353</code>: <code>>= 2</code></li>
+            <li><code>60.trg #6033</code>: <code>defalt</code></li>
+            <li><code>60.trg #6068</code>: <code>set turn</code></li>
+            <li><code>60.trg #6077</code>: <code>(%player4.name% != %actor.name%)</code></li>
+        </ul>
+    </div>
+    
+    <div class="category">
+        <h3>Custom Macros</h3>
+        <p>These appear to be custom macro calls that are not standard DG Script commands:</p>
+        <ul>
+            <li><code>324.trg #32408</code>: <code>do_it_to_it</code></li>
+            <li><code>324.trg #32408</code>: <code>purge_me</code></li>
+            <li><code>324.trg #32417</code>: <code>do_it_to_it4</code></li>
+            <li><code>324.trg #32419</code>: <code>do_it_to_it</code></li>
+            <li><code>324.trg #32419</code>: <code>do_it_to_it2</code></li>
+            <li><code>324.trg #32419</code>: <code>purge_me</code></li>
+        </ul>
+    </div>
+    
+    <div class="category">
+        <h3>Other Issues</h3>
+        <p>These require manual review:</p>
+        <ul>
+            <li><code>185.trg #18528 Phase mace Sexton speech upgrade</code>: <code>18528 - Sexton upgrade speech</code></li>
+            <li><code>4.trg #499 Eldoria variable load</code>: <code>m_3bl_belt vnum_3bl_legs vnum_3bl_boots vnum_3bl_mask vnum_3bl_robe vnum_3bl_symbol vnum_3bl_staff v...</code></li>
+            <li><code>4.trg #499 Eldoria variable load</code>: <code>m_3eg_belt vnum_3eg_legs vnum_3eg_boots vnum_3eg_mask vnum_3eg_robe vnum_3eg_symbol vnum_3eg_staff v...</code></li>
+            <li><code>490.trg #49022 Seer refuse</code>: <code>%action%</code></li>
+            <li><code>55.trg #5524 Eldoria Quartermasters load</code>: <code>num_3bl_belt vnum_3bl_legs vnum_3bl_boots vnum_3bl_mask vnum_3bl_robe vnum_3bl_symbol vnum_3bl_staff...</code></li>
+            <li><code>55.trg #5524 Eldoria Quartermasters load</code>: <code>num_3eg_belt vnum_3eg_legs vnum_3eg_boots vnum_3eg_mask vnum_3eg_robe vnum_3eg_symbol vnum_3eg_staff...</code></li>
+            <li><code>590.trg #59005 dark_robed_greet1</code>: <code>%actor.quest_variable[sacred_haven:given_earring]% != 1)</code></li>
+            <li><code>625.trg #62582 facade remove trigger</code>: <code>m&0&7ol&bten&0&7 in&3&bner &0&3la&1&byers!&0</code></li>
+            <li><code>63.trg #6390 Herlequin vial trigger</code>: <code>upside $</code></li>
+            <li><code>63.trg #6392 Herlequin volcano trigger 2</code>: <code>OUCH! (&1&b%damdone%&0)</code></li>
+        </ul>
+    </div>
+
+    <h2>Full Error List by File</h2>
+
+    <h3>103.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>10323</td><td>ice_shards_khysan_receive6</td><td><code>zone</code></td></tr>
+    </table>
+
+    <h3>105.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>10503</td><td>Witch_rand2</td><td><code>pond</code></td></tr>
+    </table>
+
+    <h3>133.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>13308</td><td>raph_get_grain</td><td><code>pile appear on the floor.</code></td></tr>
+        <tr><td>13322</td><td>overseer-greet</td><td><code>The overseer's face turns red with exertion.</code></td></tr>
+    </table>
+
+    <h3>17.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>1792</td><td>Beast Dirt Trig</td><td><code>The &1%Enraged Beast%&0 kicks up a &3claw full of dirt&0 into your face &9&bblinding&0 you!</code></td></tr>
+    </table>
+
+    <h3>185.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>18528</td><td>Phase mace Sexton speech upgrade</td><td><code>18528 - Sexton upgrade speech</code></td></tr>
+        <tr><td>18531</td><td>Silania refuse</td><td><code>msend %actor</code></td></tr>
+    </table>
+
+    <h3>188.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>18883</td><td>test</td><td><code>eval %speech%</code></td></tr>
+    </table>
+
+    <h3>28.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>2802</td><td>waterform_wave_receive</td><td><code>quest</code></td></tr>
+    </table>
+
+    <h3>30.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>3160</td><td>***skill trainer speach***</td><td><code>Lets talk about improving a skill you actually know.'</code></td></tr>
+        <tr><td>3170</td><td>shaman trainer speech</td><td><code>Let's talk about improving a skill you actually know.'</code></td></tr>
+    </table>
+
+    <h3>302.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>30202</td><td>Sliding into the abyss</td><td><code>steps to one side.</code></td></tr>
+    </table>
+
+    <h3>324.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>32408</td><td>Kerriston_north_horse_timer</td><td><code>do_it_to_it</code></td></tr>
+        <tr><td>32408</td><td>Kerriston_north_horse_timer</td><td><code>purge_me</code></td></tr>
+        <tr><td>32417</td><td>Horse_ride_room_spam3</td><td><code>do_it_to_it4</code></td></tr>
+        <tr><td>32419</td><td>Kerriston_north_horse_timer2</td><td><code>do_it_to_it</code></td></tr>
+        <tr><td>32419</td><td>Kerriston_north_horse_timer2</td><td><code>do_it_to_it2</code></td></tr>
+        <tr><td>32419</td><td>Kerriston_north_horse_timer2</td><td><code>purge_me</code></td></tr>
+    </table>
+
+    <h3>364.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>36405</td><td>illusory_wall_glasses_examine</td><td><code>breal</code></td></tr>
+    </table>
+
+    <h3>370.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>37018</td><td>mes-rec</td><td><code>waves his hands over it, muttering a strange mantra.</code></td></tr>
+    </table>
+
+    <h3>4.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>499</td><td>Eldoria variable load</td><td><code>m_3bl_belt vnum_3bl_legs vnum_3bl_boots vnum_3bl_mask vnum_3bl_robe vnum_3bl_symbol vnum_3bl_staff vnum_3bl_ssword vnum_3bl_whammer vnum_3bl_flail vnum_3bl_shiv vnum_3bl_lsword vnum_3bl_smace vnum_3bl_light vnum_3bl_food vnum_3bl_drink</code></td></tr>
+        <tr><td>499</td><td>Eldoria variable load</td><td><code>m_3eg_belt vnum_3eg_legs vnum_3eg_boots vnum_3eg_mask vnum_3eg_robe vnum_3eg_symbol vnum_3eg_staff vnum_3eg_ssword vnum_3eg_whammer vnum_3eg_flail vnum_3eg_shiv vnum_3eg_lsword vnum_3eg_smace vnum_3eg_light vnum_3eg_food vnum_3eg_drink</code></td></tr>
+    </table>
+
+    <h3>488.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>48809</td><td>stormlord fight</td><td><code>%victim.o%.&0 (&4%damdone%&0)</code></td></tr>
+    </table>
+
+    <h3>489.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>48903</td><td>lokari fight</td><td><code>stone</code></td></tr>
+    </table>
+
+    <h3>490.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>49022</td><td>Seer refuse</td><td><code>%action%</code></td></tr>
+    </table>
+
+    <h3>492.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>49254</td><td>quest_relocate_receive</td><td><code>sta</code></td></tr>
+    </table>
+
+    <h3>510.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>51005</td><td>want_to_help_Luchiaans</td><td><code>it.</code></td></tr>
+    </table>
+
+    <h3>55.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>5524</td><td>Eldoria Quartermasters load</td><td><code>num_3bl_belt vnum_3bl_legs vnum_3bl_boots vnum_3bl_mask vnum_3bl_robe vnum_3bl_symbol vnum_3bl_staff vnum_3bl_ssword vnum_3bl_whammer vnum_3bl_flail vnum_3bl_shiv vnum_3bl_lsword vnum_3bl_smace vnum_3bl_light vnum_3bl_food vnum_3bl_drink</code></td></tr>
+        <tr><td>5524</td><td>Eldoria Quartermasters load</td><td><code>num_3eg_belt vnum_3eg_legs vnum_3eg_boots vnum_3eg_mask vnum_3eg_robe vnum_3eg_symbol vnum_3eg_staff vnum_3eg_ssword vnum_3eg_whammer vnum_3eg_flail vnum_3eg_shiv vnum_3eg_lsword vnum_3eg_smace vnum_3eg_light vnum_3eg_food vnum_3eg_drink</code></td></tr>
+    </table>
+
+    <h3>550.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>55011</td><td>Knight_Champ_speech2</td><td><code>The Knight Champion whispers to you, 'Yes there was evil in the kingdom long</code></td></tr>
+    </table>
+
+    <h3>553.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>55353</td><td>phase_2_cleric_boots</td><td><code>&gt;= 2</code></td></tr>
+    </table>
+
+    <h3>590.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>59005</td><td>dark_robed_greet1</td><td><code>%actor.quest_variable[sacred_haven:given_earring]% != 1)</code></td></tr>
+        <tr><td>59008</td><td>dark_robed_recieve1</td><td><code>&3&b* vial of blood&0</code></td></tr>
+        <tr><td>59008</td><td>dark_robed_recieve1</td><td><code>&3&b*trinket of tattered leather&0</code></td></tr>
+        <tr><td>59008</td><td>dark_robed_recieve1</td><td><code>&3&b*earring&0</code></td></tr>
+        <tr><td>59021</td><td>stop_west_R69</td><td><code>past.</code></td></tr>
+    </table>
+
+    <h3>60.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>6033</td><td>Green Woman refuse</td><td><code>defalt</code></td></tr>
+        <tr><td>6068</td><td>connectfour reset game</td><td><code>set turn</code></td></tr>
+        <tr><td>6077</td><td>hearts deal</td><td><code>(%player4.name% != %actor.name%)</code></td></tr>
+    </table>
+
+    <h3>625.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>62527</td><td>Rhell Merchant receive 2-3</td><td><code>Who's leader?!</code></td></tr>
+        <tr><td>62582</td><td>facade remove trigger</td><td><code>m&0&7ol&bten&0&7 in&3&bner &0&3la&1&byers!&0</code></td></tr>
+    </table>
+
+    <h3>63.trg</h3>
+    <table>
+        <tr><th>VNUM</th><th>Trigger Name</th><th>Unconverted Line</th></tr>
+        <tr><td>6390</td><td>Herlequin vial trigger</td><td><code>hands!</code></td></tr>
+        <tr><td>6390</td><td>Herlequin vial trigger</td><td><code>upside $</code></td></tr>
+        <tr><td>6391</td><td>Herlequin volcano trigger 1</td><td><code>the air!</code></td></tr>
+        <tr><td>6392</td><td>Herlequin volcano trigger 2</td><td><code>%victim.name%!</code></td></tr>
+        <tr><td>6392</td><td>Herlequin volcano trigger 2</td><td><code>%victim.name% right on the head! (&1&b%damdone%&0)</code></td></tr>
+        <tr><td>6392</td><td>Herlequin volcano trigger 2</td><td><code>OUCH! (&1&b%damdone%&0)</code></td></tr>
+    </table>
+
+</body>
+</html>

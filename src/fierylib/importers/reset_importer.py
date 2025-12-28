@@ -297,27 +297,138 @@ class ResetImporter:
                 "error": error_msg,
             }
 
+    def _consolidate_contents(self, contents: list) -> list:
+        """
+        Consolidate duplicate object entries by summing quantities.
+
+        Legacy zone files often have multiple entries for the same object
+        (e.g., 10 entries for "black rose"). This consolidates them into
+        a single entry with the appropriate quantity.
+
+        Each legacy entry represents 1 item to spawn; "max" is a world-cap, not quantity.
+
+        Args:
+            contents: List of content dicts with "id", "max", "name", "contains"
+
+        Returns:
+            Consolidated list with unique object IDs and summed quantities
+        """
+        consolidated = {}  # vnum -> {quantity, name, nested_contents}
+        order = []  # Preserve insertion order
+
+        for content in contents:
+            obj_vnum = content["id"]
+
+            if obj_vnum in consolidated:
+                # Already seen - increment quantity
+                consolidated[obj_vnum]["quantity"] += 1
+                # Merge nested contents
+                if content.get("contains"):
+                    consolidated[obj_vnum]["nested_contents"].extend(content["contains"])
+            else:
+                # New object - add to consolidated
+                order.append(obj_vnum)
+                consolidated[obj_vnum] = {
+                    "id": obj_vnum,
+                    "quantity": 1,  # Each entry = 1 item
+                    "name": content.get("name"),
+                    "nested_contents": list(content.get("contains", [])),
+                }
+
+        # Build result list preserving order
+        result = []
+        for vnum in order:
+            item = consolidated[vnum]
+            result.append({
+                "id": item["id"],
+                "quantity": item["quantity"],
+                "name": item["name"],
+                "contains": item["nested_contents"],
+            })
+
+        return result
+
+    async def _import_object_contents(
+        self,
+        contents: list,
+        reset_id: int,
+        parent_content_id: Optional[int] = None,
+    ) -> int:
+        """
+        Recursively import nested objects into ObjectResetContents table
+
+        Args:
+            contents: List of nested object dicts (from "contains" field)
+            reset_id: The parent ObjectReset ID
+            parent_content_id: Parent ObjectResetContents ID for deep nesting (None = direct child of reset)
+
+        Returns:
+            Number of contents successfully imported
+        """
+        imported_count = 0
+
+        # Consolidate duplicate entries (e.g., 10 rose entries -> 1 with quantity=10)
+        consolidated = self._consolidate_contents(contents)
+
+        for content in consolidated:
+            obj_vnum = content["id"]
+            obj_lookup = self.find_object_zone(obj_vnum)
+            if not obj_lookup:
+                print(f"⚠️  Content object #{obj_vnum} not found, skipping")
+                continue
+
+            db_obj_zone_id, obj_id = obj_lookup
+
+            # Quantity comes from consolidation (count of duplicate entries)
+            quantity = content.get("quantity", 1)
+
+            try:
+                content_record = await self.prisma.objectresetcontents.create(
+                    {
+                        "resetId": reset_id,
+                        "parentContentId": parent_content_id,
+                        "objectZoneId": db_obj_zone_id,
+                        "objectId": obj_id,
+                        "quantity": quantity,
+                        "comment": content.get("name"),
+                    }
+                )
+                imported_count += 1
+
+                # Recursively import nested contents (for deep nesting like bag-in-chest)
+                nested_contents = content.get("contains", [])
+                if nested_contents:
+                    imported_count += await self._import_object_contents(
+                        nested_contents, reset_id, parent_content_id=content_record.id
+                    )
+
+            except Exception as e:
+                print(f"⚠️  Failed to import content object {db_obj_zone_id}:{obj_id}: {e}")
+
+        return imported_count
+
     async def import_object_reset(
         self,
         obj_reset: dict,
         zone_id: int,
-        parent_reset_id: Optional[str] = None,
         dry_run: bool = False,
     ) -> dict:
         """
-        Import a single object reset with nested containers (recursive)
+        Import a single object reset with nested containers
+
+        Root objects are stored in ObjectResets table.
+        Nested objects (P commands) are stored in ObjectResetContents table.
 
         Args:
             obj_reset: Parsed object reset from zone.resets["object"]
                 {
                     "id": 3297,          # Object vnum (legacy global ID)
-                    "max": 1,            # max_instances or probability %
-                    "room": 3203,        # Room vnum (only for top-level)
+                    "max": 1,            # max_instances
+                    "room": 3203,        # Room vnum
                     "name": "...",       # Comment
                     "contains": [...]    # P commands (nested objects)
                 }
             zone_id: Zone ID this reset belongs to
-            parent_reset_id: Parent ObjectReset ID (for nested P commands)
             dry_run: If True, validate but don't write to database
 
         Returns:
@@ -336,20 +447,25 @@ class ResetImporter:
 
         db_obj_zone_id, obj_id = obj_lookup
 
-        # Determine spawn location
-        db_room_zone_id = None
-        room_id = None
-        if "room" in obj_reset and parent_reset_id is None:
-            room_vnum = obj_reset["room"]
-            room_lookup = self.find_room_zone(room_vnum)
-            if not room_lookup:
-                return {
-                    "success": False,
-                    "type": "object",
-                    "object_id": f"{db_obj_zone_id}:{obj_id}",
-                    "error": f"Room #{room_vnum} not found in database",
-                }
-            db_room_zone_id, room_id = room_lookup
+        # Root objects must have a room
+        if "room" not in obj_reset:
+            return {
+                "success": False,
+                "type": "object",
+                "object_id": f"{db_obj_zone_id}:{obj_id}",
+                "error": "Object reset missing room (nested objects should use 'contains')",
+            }
+
+        room_vnum = obj_reset["room"]
+        room_lookup = self.find_room_zone(room_vnum)
+        if not room_lookup:
+            return {
+                "success": False,
+                "type": "object",
+                "object_id": f"{db_obj_zone_id}:{obj_id}",
+                "error": f"Room #{room_vnum} not found in database",
+            }
+        db_room_zone_id, room_id = room_lookup
 
         db_zone_id = convert_zone_id(zone_id)
 
@@ -358,30 +474,15 @@ class ResetImporter:
                 "success": True,
                 "type": "object",
                 "object_id": f"{db_obj_zone_id}:{obj_id}",
-                "location": f"room {db_room_zone_id}:{room_id}"
-                if parent_reset_id is None
-                else f"container {parent_reset_id}",
+                "location": f"room {db_room_zone_id}:{room_id}",
                 "contains_count": len(obj_reset.get("contains", [])),
             }
-            # Recursively validate nested objects
-            for nested_obj in obj_reset.get("contains", []):
-                await self.import_object_reset(
-                    nested_obj, zone_id, "dry-run-parent", dry_run=True
-                )
             return result
 
         try:
-            # Determine reset behavior and spawn parameters
-            if parent_reset_id is None:
-                # Top-level object (O command)
-                max_instances = obj_reset["max"] if obj_reset["max"] > 0 else 999
-                probability = 1.0
-            else:
-                # Nested object (P command) - max is probability percentage
-                max_instances = 1
-                probability = obj_reset["max"] / 100.0
+            max_instances = obj_reset["max"] if obj_reset["max"] > 0 else 999
 
-            # Create object reset
+            # Create root object reset (always spawns in a room)
             reset_record = await self.prisma.objectresets.create(
                 {
                     "zoneId": db_zone_id,
@@ -389,22 +490,20 @@ class ResetImporter:
                     "objectId": obj_id,
                     "roomZoneId": db_room_zone_id,
                     "roomId": room_id,
-                    "containerResetId": parent_reset_id,
                     "maxInstances": max_instances,
-                    "probability": probability,
-                    "resetBehavior": "PERSISTENT",  # Default, can be updated later
+                    "probability": 1.0,
+                    "resetBehavior": "PERSISTENT",
                     "comment": obj_reset.get("name"),
                 }
             )
 
-            # Recursively import nested contents (P commands)
+            # Import nested contents into ObjectResetContents table
             nested_count = 0
-            for nested_obj in obj_reset.get("contains", []):
-                nested_result = await self.import_object_reset(
-                    nested_obj, zone_id, parent_reset_id=reset_record.id, dry_run=False
+            contents = obj_reset.get("contains", [])
+            if contents:
+                nested_count = await self._import_object_contents(
+                    contents, reset_record.id, parent_content_id=None
                 )
-                if nested_result["success"]:
-                    nested_count += 1
 
             return {
                 "success": True,
@@ -416,8 +515,6 @@ class ResetImporter:
 
         except Exception as e:
             error_msg = str(e)
-            # Note: FK errors should not happen anymore since we lookup entities first
-
             return {
                 "success": False,
                 "type": "object",
@@ -483,13 +580,13 @@ class ResetImporter:
                 results["failed"] += 1
                 results["errors"].append(result)
 
-        # Import object resets (with nested containers)
+        # Import object resets (with nested containers stored in ObjectResetContents)
         for obj_reset in zone.resets.get("object", []):
             # Detect reset behavior
             reset_behavior = await self.detect_respawn_behavior(zone, obj_reset)
 
             result = await self.import_object_reset(
-                obj_reset, zone.id, parent_reset_id=None, dry_run=dry_run
+                obj_reset, zone.id, dry_run=dry_run
             )
 
             if result["success"]:

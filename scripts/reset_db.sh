@@ -3,14 +3,21 @@ set -euo pipefail
 
 # Simple DB reset helper for FieryLib (Poetry environment)
 # Usage:
-#   bash scripts/reset_db.sh [--skip-generate] [--seed]
+#   bash scripts/reset_db.sh [--skip-generate] [--seed] [--import]
+#
+# Options:
+#   --skip-generate  Skip Prisma client generation during reset
+#   --seed           Create test users after reset
+#   --import         Import all legacy data (zones, rooms, mobs, objects, triggers, mail, boards)
 #
 # Notes:
 # - Runs Prisma via Poetry environment so Python generator is available
 # - Falls back automatically if generators fail during reset
+# - Use --import for a complete fresh database with all legacy data
 
 SKIP_GEN=0
 SEED=0
+IMPORT=0
 
 for arg in "$@"; do
   case "$arg" in
@@ -20,6 +27,10 @@ for arg in "$@"; do
       ;;
     --seed)
       SEED=1
+      shift
+      ;;
+    --import)
+      IMPORT=1
       shift
       ;;
   esac
@@ -43,7 +54,16 @@ poetry run prisma generate
 
 echo "✅ Database reset complete."
 
-if [[ "$SEED" -eq 1 ]]; then
+if [[ "$IMPORT" -eq 1 ]]; then
+  echo ""
+  echo "[4/4] Importing legacy data..."
+  if [[ "$SEED" -eq 1 ]]; then
+    poetry run fierylib import-legacy --clear --with-users
+  else
+    poetry run fierylib import-legacy --clear
+  fi
+  echo "✅ Legacy data import complete."
+elif [[ "$SEED" -eq 1 ]]; then
   echo "Seeding users..."
   poetry run fierylib seed users --reset
 fi

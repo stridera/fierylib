@@ -1,0 +1,1884 @@
+"""
+DG Script to Lua Converter
+
+Converts legacy CircleMUD DG Scripts to modern Lua triggers for FieryMUD.
+
+Handles:
+- Variable substitution (%actor%, %self%, etc.)
+- Color code conversion (&1 -> <red>)
+- Control flow (if/else/switch/case)
+- Communication commands (say, emote, msend, mecho)
+- Combat commands (mdamage, kill)
+- Spawn commands (mload)
+- And more...
+"""
+
+import re
+from dataclasses import dataclass, field
+from typing import Optional
+
+from fierylib.parsers.trigger_parser import DGTrigger
+
+
+# Color code conversions (DG/CircleMUD to FieryMUD markup)
+COLOR_CODES = {
+    '&0': '</>', '&n': '</>', '&N': '</>',
+    '&1': '<red>', '&2': '<green>', '&3': '<yellow>', '&4': '<blue>',
+    '&5': '<magenta>', '&6': '<cyan>', '&7': '<white>', '&8': '<black>',
+    '&r': '<red>', '&R': '<b:red>',
+    '&g': '<green>', '&G': '<b:green>',
+    '&y': '<yellow>', '&Y': '<b:yellow>',
+    '&b': '<blue>', '&B': '<b:blue>',
+    '&m': '<magenta>', '&M': '<b:magenta>',
+    '&c': '<cyan>', '&C': '<b:cyan>',
+    '&w': '<white>', '&W': '<b:white>',
+    '&k': '<black>', '&K': '<gray>',
+    '&d': '</>', '&D': '</>',
+    '@n': '</>', '@r': '<red>', '@g': '<green>', '@y': '<yellow>',
+    '@b': '<blue>', '@m': '<magenta>', '@c': '<cyan>', '@w': '<white>',
+    '@R': '<b:red>', '@G': '<b:green>', '@Y': '<b:yellow>',
+    '@B': '<b:blue>', '@M': '<b:magenta>', '@C': '<b:cyan>', '@W': '<b:white>',
+}
+
+
+@dataclass
+class LuaTrigger:
+    """Converted Lua trigger ready for database import"""
+    vnum: int
+    name: str
+    attach_type: str  # 'MOB', 'OBJECT', 'WORLD'
+    flags: list[str]  # TriggerFlag enum values
+    commands: str  # Lua script code
+    numeric_arg: int = 0
+    arg_list: list[str] = field(default_factory=list)
+    original_dg: str = ""  # Original DG Script for reference
+
+    @property
+    def zone_id(self) -> int:
+        return self.vnum // 100
+
+    @property
+    def local_id(self) -> int:
+        return self.vnum % 100
+
+
+def convert_colors(text: str) -> str:
+    """Convert DG Script color codes to FieryMUD markup."""
+    result = text
+
+    # Handle bold combinations like &6&b (bold cyan)
+    result = re.sub(r'&([1-7])&b', lambda m: f'<b:{_color_name(m.group(1))}>', result)
+    result = re.sub(r'&b&([1-7])', lambda m: f'<b:{_color_name(m.group(1))}>', result)
+
+    # Convert individual color codes (longer codes first)
+    for code, markup in sorted(COLOR_CODES.items(), key=lambda x: -len(x[0])):
+        result = result.replace(code, markup)
+
+    # Clean up any remaining & followed by non-letter (like &&)
+    result = re.sub(r'&([^a-zA-Z0-9])', r'\1', result)
+
+    return result
+
+
+def _color_name(num: str) -> str:
+    """Map color number to name."""
+    colors = {'1': 'red', '2': 'green', '3': 'yellow', '4': 'blue',
+              '5': 'magenta', '6': 'cyan', '7': 'white', '8': 'black'}
+    return colors.get(num, 'white')
+
+
+def convert_variable_expr(var: str) -> str:
+    """
+    Convert a DG Script %variable% to Lua expression.
+
+    Args:
+        var: Variable name without % delimiters
+
+    Returns:
+        Lua expression string
+    """
+    var = var.strip('%')
+
+    # Simple variables
+    simple_vars = {
+        'actor': 'actor', 'self': 'self', 'speech': 'speech',
+        'cmd': 'cmd', 'arg': 'arg', 'object': 'object',
+        'direction': 'direction', 'amount': 'amount', 'damdone': 'damage_dealt',
+    }
+    if var in simple_vars:
+        return simple_vars[var]
+
+    # Random number: %random.N%
+    random_match = re.match(r'random\.(\d+)', var)
+    if random_match:
+        return f'random(1, {random_match.group(1)})'
+
+    if var == 'random.char':
+        return 'room.actors[random(1, #room.actors)]'
+
+    # Global get functions: %get.func[arg]%
+    get_match = re.match(r'get\.(\w+)\[([^\]]+)\]', var)
+    if get_match:
+        func = get_match.group(1)
+        arg = get_match.group(2)
+        # If arg contains %, it's a variable reference - extract it
+        if arg.startswith('%') and arg.endswith('%'):
+            arg = convert_variable_expr(arg)
+            return f'get_{func}({arg})'
+        return f'get_{func}("{arg}")'
+
+    # Property access
+    if '.' in var:
+        parts = var.split('.', 1)
+        obj = simple_vars.get(parts[0], parts[0])
+        prop = parts[1]
+
+        # Property mappings
+        prop_map = {
+            'name': 'name', 'level': 'level', 'class': 'class',
+            'vnum': 'id', 'room': 'room', 'hp': 'hp', 'maxhp': 'max_hp',
+            'mana': 'mana', 'maxmana': 'max_mana', 'move': 'move',
+            'maxmove': 'max_move', 'gold': 'wealth', 'align': 'alignment',
+            'alignment': 'alignment', 'sex': 'gender', 'size': 'size',
+            'is_npc': 'is_npc', 'is_pc': 'is_player', 'fighting': 'is_fighting',
+            'pos': 'position', 'position': 'position',
+        }
+
+        # Pronoun handling
+        if prop == 'p':  # possessive (his/her/their)
+            return f'get_possessive({obj})'
+        elif prop == 'n':  # name
+            return f'{obj}.name'
+        elif prop == 's':  # subject pronoun (he/she/they)
+            return f'get_subject({obj})'
+        elif prop == 'o':  # object pronoun (him/her/them)
+            return f'get_object_pronoun({obj})'
+
+        # Quest stage check: actor.quest_stage[quest_name]
+        quest_stage_match = re.match(r'quest_stage\[([^\]]+)\]', prop)
+        if quest_stage_match:
+            quest_name = quest_stage_match.group(1)
+            return f'{obj}:get_quest_stage("{quest_name}")'
+
+        # Quest variable check: actor.quest_variable[quest:var]
+        quest_var_match = re.match(r'quest_variable\[([^\]]+)\]', prop)
+        if quest_var_match:
+            quest_var = quest_var_match.group(1)
+            return f'{obj}:get_quest_var("{quest_var}")'
+
+        # Variable exists check: actor.varexists[varname]
+        varexists_match = re.match(r'varexists\[([^\]]+)\]', prop)
+        if varexists_match:
+            var_name = varexists_match.group(1)
+            return f'{obj}:has_var("{var_name}")'
+
+        # Skill check
+        skill_match = re.match(r'skill\[([^\]]+)\]', prop)
+        if skill_match:
+            return f'{obj}:has_skill("{skill_match.group(1)}")'
+
+        # Inventory check
+        inv_match = re.match(r'inventory\[([^\]]+)\]', prop)
+        if inv_match:
+            return f'{obj}:has_item("{inv_match.group(1)}")'
+
+        # Wearing check
+        wear_match = re.match(r'wearing\[([^\]]+)\]', prop)
+        if wear_match:
+            return f'{obj}:has_equipped("{wear_match.group(1)}")'
+
+        # People count
+        if prop == 'people[count]':
+            return f'{obj}.actor_count'
+
+        # Generic array access: obj.prop[key] - convert to method call
+        generic_array_match = re.match(r'(\w+)\[([^\]]+)\]', prop)
+        if generic_array_match:
+            prop_name = generic_array_match.group(1)
+            key = generic_array_match.group(2)
+            return f'{obj}:get_{prop_name}("{key}")'
+
+        if prop in prop_map:
+            return f'{obj}.{prop_map[prop]}'
+
+        return f'{obj}.{prop}'
+
+    return var
+
+
+def convert_text_with_vars(text: str) -> str:
+    """
+    Convert text containing %variables% to a complete Lua string expression.
+
+    Returns a complete Lua expression that evaluates to a string, with proper
+    concatenation of literals and variable references.
+    """
+    # First convert colors
+    text = convert_colors(text)
+
+    # If no variables, just return quoted string
+    if '%' not in text:
+        text = text.replace('\\', '\\\\').replace('"', '\\"')
+        return f'"{text}"'
+
+    # Split text by variables and build concatenation
+    # Handle nested variables like %get.func[%inner%]%
+    parts = []
+    i = 0
+    length = len(text)
+
+    while i < length:
+        # Find next %
+        start = text.find('%', i)
+        if start == -1:
+            # No more variables, add remaining text
+            remaining = text[i:]
+            if remaining:
+                remaining = remaining.replace('\\', '\\\\').replace('"', '\\"')
+                parts.append(f'"{remaining}"')
+            break
+
+        # Add text before the variable
+        before = text[i:start]
+        if before:
+            before = before.replace('\\', '\\\\').replace('"', '\\"')
+            parts.append(f'"{before}"')
+
+        # Find the matching closing % (handling nested %)
+        depth = 1
+        j = start + 1
+        while j < length and depth > 0:
+            if text[j] == '%':
+                # Check if this is a nested start or the end
+                if j + 1 < length and text[j + 1] != '%':
+                    # Could be nested start or end
+                    # Look ahead to see if there's content before next %
+                    next_pct = text.find('%', j + 1)
+                    if next_pct != -1 and '[' in text[start:j]:
+                        # This might be a nested variable like %outer[%inner%]%
+                        # Find the inner % pair first
+                        depth += 1
+                        j += 1
+                        continue
+                depth -= 1
+            j += 1
+
+        if depth == 0:
+            # Found matching %
+            var = text[start + 1:j - 1]
+            # Handle nested variables: extract inner %var% and convert
+            if '%' in var:
+                # Replace inner %var% with converted expressions
+                var = re.sub(r'%([^%\[\]]+)%', lambda m: convert_variable_expr(m.group(1)), var)
+            expr = convert_variable_expr(var)
+            if expr.startswith('get_'):
+                parts.append(expr)
+            else:
+                parts.append(f'tostring({expr})')
+            i = j
+        else:
+            # No matching %, treat as literal
+            remaining = text[start:]
+            remaining = remaining.replace('\\', '\\\\').replace('"', '\\"')
+            parts.append(f'"{remaining}"')
+            break
+
+    # Join with concatenation operator
+    if len(parts) == 0:
+        return '""'
+    if len(parts) == 1:
+        return parts[0]
+    return ' .. '.join(parts)
+
+
+def convert_condition(cond: str) -> str:
+    """Convert a DG Script condition to Lua."""
+    result = cond.strip()
+
+    # Remove surrounding parentheses if balanced
+    while result.startswith('(') and result.endswith(')'):
+        depth = 0
+        balanced = True
+        for i, c in enumerate(result):
+            if c == '(':
+                depth += 1
+            elif c == ')':
+                depth -= 1
+            if depth == 0 and i < len(result) - 1:
+                balanced = False
+                break
+        if balanced:
+            result = result[1:-1].strip()
+        else:
+            break
+
+    # Convert variables first
+    result = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), result)
+
+    # String contains/equals: /= (use word boundaries to avoid capturing parens)
+    result = re.sub(r'([\w.]+)\s+/=\s+([\w.]+)',
+                    lambda m: f'string.find({m.group(1)}, "{m.group(2)}")', result)
+
+    # Operators - order matters!
+    result = result.replace('!=', ' ~= ')  # Not equal BEFORE negation
+    result = result.replace('&&', ' and ')
+    result = result.replace('||', ' or ')
+    # Single | is also OR in DG Script (be careful not to replace || which is already handled)
+    result = re.sub(r'(?<!\|)\|(?!\|)', ' or ', result)
+
+    # Negation - comprehensive conversion
+    result = re.sub(r'!\s*\(', 'not (', result)  # !(expr)
+    result = re.sub(r'!\s*(\w[\w.:]*)', r'not \1', result)  # !variable or !obj.prop
+
+    # Quote unquoted string comparisons (word == word or word ~= word)
+    # Handle multi-word string values like "bludgeoning weapons"
+    # Match: == or ~= followed by words (with optional missing space) up to 'then', 'and', 'or', ')', end
+    def quote_comparison_value(match):
+        op = match.group(1)
+        value = match.group(2).strip()
+        # Don't quote if it's a number, already quoted, or a variable reference
+        if value.isdigit() or value.startswith('"') or '.' in value or ':' in value:
+            return f'{op} {value}'
+        return f'{op} "{value}"'
+
+    # Handle both ==word and == word patterns
+    result = re.sub(
+        r'(==|~=)\s*([a-zA-Z_][a-zA-Z0-9_ ?!-]*?)(?=\s+(?:then|and|or)\b|\s*\)|\s*$)',
+        quote_comparison_value,
+        result
+    )
+
+    # Clean up multiple spaces
+    result = re.sub(r'\s+', ' ', result)
+
+    return result
+
+
+def convert_command(cmd: str, indent: int = 0) -> Optional[str]:
+    """Convert a single DG Script command to Lua."""
+    cmd = cmd.strip()
+    if not cmd:
+        return None
+
+    ind = '    ' * indent
+
+    # Comments
+    if cmd.startswith('*'):
+        return f'{ind}-- {cmd[1:].strip()}'
+
+    # === Pre-processing: Fix common typos ===
+
+    # Double command prefix typos: msend msend -> msend
+    cmd = re.sub(r'^(msend|wsend|osend)\s+\1\s+', r'\1 ', cmd, flags=re.IGNORECASE)
+
+    # wati -> wait (typo)
+    cmd = re.sub(r'^wati\s+', 'wait ', cmd, flags=re.IGNORECASE)
+
+    # way Ns -> wait Ns (typo)
+    cmd = re.sub(r'^way\s+(\d+s?)$', r'wait \1', cmd, flags=re.IGNORECASE)
+
+    # wait2 -> wait 2 (missing space)
+    cmd = re.sub(r'^wait(\d+)$', r'wait \1', cmd, flags=re.IGNORECASE)
+
+    # wait 5ss -> wait 5s (double s)
+    cmd = re.sub(r'^wait\s+(\d+)ss$', r'wait \1s', cmd, flags=re.IGNORECASE)
+
+    # cas -> cast (typo)
+    cmd = re.sub(r'^cas\s+', 'cast ', cmd, flags=re.IGNORECASE)
+
+    # set %var% value -> set var value (remove percent signs from variable name)
+    cmd = re.sub(r'^set\s+%(\w+)%\s+', r'set \1 ', cmd, flags=re.IGNORECASE)
+
+    # eval %var% expr -> eval var expr (remove percent signs from variable name)
+    cmd = re.sub(r'^eval\s+%(\w+)%\s+', r'eval \1 ', cmd, flags=re.IGNORECASE)
+
+    # set varvalue -> set var value (missing space before numeric value)
+    # e.g., set vnum_destroyed_gloves55331 -> set vnum_destroyed_gloves 55331
+    cmd = re.sub(r'^set\s+([a-zA-Z_][a-zA-Z0-9_]*)(\d{4,})$', r'set \1 \2', cmd, flags=re.IGNORECASE)
+
+    # return O -> return 0 (typo: O instead of 0)
+    cmd = re.sub(r'^return\s+O$', 'return 0', cmd, flags=re.IGNORECASE)
+
+    cmd_lower = cmd.lower()
+
+    # Control flow (handled separately)
+    if cmd_lower.startswith(('if ', 'elseif ', 'else', 'end', 'switch ', 'case ', 'default', 'done')):
+        return None
+
+    # === Communication Commands ===
+
+    # say (with content or empty)
+    match = re.match(r'^say\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}self:say({text})'
+
+    if cmd_lower == 'say':
+        return f'{ind}-- (empty say)'
+
+    # sat (typo for say)
+    match = re.match(r'^sat\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}self:say({text})  -- typo: sat'
+
+    # sa (abbreviation for say)
+    match = re.match(r'^sa\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}self:say({text})'
+
+    # whisper
+    match = re.match(r'^whisper\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}self:whisper({target}, {text})'
+
+    match = re.match(r'^whisper\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = match.group(1)
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}self:whisper(room:find_actor("{target}"), {text})'
+
+    # emote/em/emotes
+    match = re.match(r'^(?:emote|em|emot|emotes)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}self:emote({text})'
+
+    # : action (colon prefix for emote)
+    match = re.match(r'^:\s*(.+)$', cmd)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}self:emote({text})'
+
+    # msend/wsend/osend (send to specific actor)
+    match = re.match(r'^[mwo]send\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}{target}:send({text})'
+
+    # msend/osend with no space after target variable
+    # e.g., msend %actor%%self.name% text -> actor:send(self.name .. " text")
+    match = re.match(r'^[mwo]send\s+%([^%]+)%(%[^%]+%|\S)(.*)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        rest_start = match.group(2)
+        rest_text = match.group(3)
+        if rest_start.startswith('%') and rest_start.endswith('%'):
+            # Another variable immediately after: %actor%%self.name%
+            var2 = convert_variable_expr(rest_start[1:-1])
+            if rest_text:
+                text = convert_text_with_vars(rest_text)
+                return f'{ind}{target}:send({var2} .. {text})'
+            else:
+                return f'{ind}{target}:send({var2})'
+        else:
+            # Non-space character immediately after: %actor%- or %actor%&0
+            full_text = rest_start + rest_text
+            text = convert_text_with_vars(full_text)
+            return f'{ind}{target}:send({text})'
+
+    # osend/msend with space inside variable (typo): osend %actor %text
+    match = re.match(r'^[mwo]send\s+%(\w+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}{target}:send({text})  -- fixed: space in var name'
+
+    # osent/msent (typos for osend/msend)
+    match = re.match(r'^[mo]sent\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}{target}:send({text})  -- typo: sent'
+
+    # mecho/wecho/oecho (send to room)
+    match = re.match(r'^[mwo]echo\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}room:send({text})'
+
+    # mpecho (MPROG echo - convert to room echo)
+    match = re.match(r'^mpecho\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}room:send({text})  -- from MPROG'
+
+    # === MPROG legacy commands (use $n, $I, $o variables) ===
+    # mpechoaround $n message - echo to room except target
+    match = re.match(r'^mpechoaround\s+\$[nN]\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = match.group(1)
+        # Convert $I to self, $n to actor, $o to object
+        text = re.sub(r'\$[iI]', 'self.name', text)
+        text = re.sub(r'\$[nN]', 'actor.name', text)
+        text = re.sub(r'\$[oO]', 'object.shortdesc', text)
+        return f'{ind}room:send_except(actor, "{text}")  -- from MPROG'
+
+    # mpechoat $n message - echo to specific target
+    match = re.match(r'^mpechoat\s+\$[nN]\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = match.group(1)
+        text = re.sub(r'\$[iI]', 'self.name', text)
+        text = re.sub(r'\$[nN]', 'actor.name', text)
+        text = re.sub(r'\$[oO]', 'object.shortdesc', text)
+        return f'{ind}actor:send("{text}")  -- from MPROG'
+
+    # MPTRANSFER $n room - teleport target
+    match = re.match(r'^mptransfer\s+\$[nN]\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        room_num = match.group(1)
+        return f'{ind}actor:teleport(get_room({room_num}))  -- from MPROG'
+
+    # mpjunk $o - destroy object
+    match = re.match(r'^mpjunk\s+\$[oO]$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}destroy(object)  -- from MPROG'
+
+    # Standalone mecho/wecho/oecho (no message - likely incomplete trigger)
+    if cmd_lower in ('mecho', 'wecho', 'oecho'):
+        return f'{ind}-- (empty room echo)'
+
+    # msend/wsend/osend without message (incomplete trigger)
+    match = re.match(r'^[mwo]send\s+%([^%]+)%\s*$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}-- (empty send to {match.group(1)})'
+
+    # mechoaround/wechoaround/oechoaround (also handle mechoabout typo)
+    match = re.match(r'^[mwo]echo(?:around|about)\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}room:send_except({target}, {text})'
+
+    # wzoneecho (zone-wide echo)
+    match = re.match(r'^wzoneecho\s+(\d+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        zone = match.group(1)
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}zone_echo({zone}, {text})'
+
+    # wzoneecho without zone number (current zone)
+    match = re.match(r'^wzoneecho\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}zone_echo(room.zone_id, {text})'
+
+    # wechoaround by name (not variable)
+    match = re.match(r'^wechoaround\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        text = convert_text_with_vars(match.group(2))
+        if not target_name.startswith('%'):
+            return f'{ind}room:send_except(room:find_actor("{target_name}"), {text})'
+
+    # oforce (object force - make actor do something)
+    match = re.match(r'^oforce\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        action = match.group(2)
+        return f'{ind}force({target}, "{action}")'
+
+    match = re.match(r'^oforce\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        action = match.group(2)
+        return f'{ind}force(room:find_actor("{target_name}"), "{action}")'
+
+    # tell
+    match = re.match(r'^tell\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}{target}:send(self.name .. " tells you, \'" .. {text} .. "\'")'
+
+    # t (shorthand for tell)
+    match = re.match(r'^t\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}{target}:send(self.name .. " tells you, \'" .. {text} .. "\'")'
+
+    # shout
+    match = re.match(r'^shout\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}zone_shout({text})'
+
+    # masound (area sound - message to adjacent rooms)
+    match = re.match(r'^masound\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}room:send_to_adjacent({text})'
+
+    # === Timing ===
+
+    # wait N or wait N s
+    match = re.match(r'^wait\s+(\d+)\s*s?$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}wait({match.group(1)})'
+
+    # wait N seconds (spelled out)
+    match = re.match(r'^wait\s+(\d+)\s+seconds?$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}wait({match.group(1)})'
+
+    # wait %var%s or wait %var% s (variable seconds)
+    match = re.match(r'^wait\s+%([^%]+)%\s*s?$', cmd, re.IGNORECASE)
+    if match:
+        delay = convert_variable_expr(match.group(1))
+        return f'{ind}wait({delay})'
+
+    # wait until HH:MM (time-based wait)
+    match = re.match(r'^wait\s+until\s+(\d{1,2}):(\d{2})$', cmd, re.IGNORECASE)
+    if match:
+        hour = match.group(1)
+        minute = match.group(2)
+        return f'{ind}wait_until({hour}, {minute})'
+
+    # wait N t (ticks)
+    match = re.match(r'^wait\s+(\d+)\s*t$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}wait_ticks({match.group(1)})'
+
+    # === Flow Control ===
+    # In DG Script: return 0/1 sets return value but does NOT stop execution
+    # Only 'halt' actually stops execution
+    # We use a _return_value variable to track this
+
+    if cmd_lower == 'halt':
+        return f'{ind}return _return_value'
+
+    if cmd_lower == 'return 0':
+        return f'{ind}_return_value = false'
+
+    if cmd_lower == 'return 1':
+        return f'{ind}_return_value = true'
+
+    # === Spawning ===
+
+    # mload mob - literal or variable
+    match = re.match(r'^mload\s+mob\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:spawn_mob({match.group(1)})'
+
+    match = re.match(r'^mload\s+mob\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        vnum = convert_variable_expr(match.group(1))
+        return f'{ind}room:spawn_mob({vnum})'
+
+    # mload obj - literal or variable
+    match = re.match(r'^mload\s+obj\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:spawn_obj({match.group(1)})'
+
+    match = re.match(r'^mload\s+obj\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        vnum = convert_variable_expr(match.group(1))
+        return f'{ind}room:spawn_obj({vnum})'
+
+    # wload/oload mob/obj - world/object load
+    match = re.match(r'^[wo]load\s+mob\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:spawn_mob({match.group(1)})'
+
+    match = re.match(r'^[wo]load\s+obj\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:spawn_obj({match.group(1)})'
+
+    match = re.match(r'^[wo]load\s+mob\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        vnum = convert_variable_expr(match.group(1))
+        return f'{ind}room:spawn_mob({vnum})'
+
+    match = re.match(r'^[wo]load\s+obj\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        vnum = convert_variable_expr(match.group(1))
+        return f'{ind}room:spawn_obj({vnum})'
+
+    # mload m / wload o (abbreviated form)
+    match = re.match(r'^mload\s+m\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:spawn_mob({match.group(1)})'
+
+    match = re.match(r'^[wo]load\s+o\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:spawn_obj({match.group(1)})'
+
+    # === Mob Management Commands ===
+
+    # mjunk/ojunk (destroy an object)
+    match = re.match(r'^[mo]junk\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        obj = convert_variable_expr(match.group(1))
+        return f'{ind}destroy({obj})'
+
+    match = re.match(r'^[mo]junk\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}self:destroy_item("{match.group(1)}")'
+
+    # mexp/wexp (give experience to player)
+    match = re.match(r'^[mw]exp\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        exp = convert_variable_expr(match.group(2))
+        return f'{ind}{target}:award_exp({exp})'
+
+    match = re.match(r'^[mw]exp\s+%([^%]+)%\s+(-?\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:award_exp({match.group(2)})'
+
+    # wexp with actor.name (name lookup)
+    match = re.match(r'^wexp\s+(\S+)\s+(-?\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:find_actor("{match.group(1)}"):award_exp({match.group(2)})'
+
+    # msave (save player data)
+    match = re.match(r'^msave\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:save()'
+
+    # === Quest Commands ===
+
+    # quest variable <quest_name> <player> <var_name> <value>
+    match = re.match(r'^quest\s+variable\s+(\S+)\s+%([^%]+)%\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        var_name = match.group(3)
+        value = match.group(4)
+        # Handle variable values
+        if value.startswith('%') and value.endswith('%'):
+            value = convert_variable_expr(value)
+        else:
+            value = f'"{value}"' if not value.isdigit() else value
+        return f'{ind}{player}:set_quest_var("{quest}", "{var_name}", {value})'
+
+    # quest advance <quest_name> <player>
+    match = re.match(r'^quest\s+advance\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        return f'{ind}{player}:advance_quest("{quest}")'
+
+    # quest complete <quest_name> <player>
+    match = re.match(r'^quest\s+complete\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        return f'{ind}{player}:complete_quest("{quest}")'
+
+    # quest start <quest_name> <player>
+    match = re.match(r'^quest\s+start\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        return f'{ind}{player}:start_quest("{quest}")'
+
+    # quest erase <quest_name> <player>
+    match = re.match(r'^quest\s+erase\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        return f'{ind}{player}:erase_quest("{quest}")'
+
+    # quest fail <quest_name> <player>
+    match = re.match(r'^quest\s+fail\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        return f'{ind}{player}:fail_quest("{quest}")'
+
+    # quest restart <quest_name> <player_name>
+    match = re.match(r'^quest\s+restart\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        return f'{ind}{player}:restart_quest("{quest}")'
+
+    match = re.match(r'^quest\s+restart\s+(\S+)\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player_name = match.group(2)
+        return f'{ind}find_player("{player_name}"):restart_quest("{quest}")'
+
+    # quest start with extra argument (subclass name etc)
+    match = re.match(r'^quest\s+start\s+(\S+)\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        arg = convert_variable_expr(match.group(3))
+        return f'{ind}{player}:start_quest("{quest}", {arg})'
+
+    match = re.match(r'^quest\s+start\s+(\S+)\s+%([^%]+)%\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        quest = match.group(1)
+        player = convert_variable_expr(match.group(2))
+        arg = match.group(3)
+        return f'{ind}{player}:start_quest("{quest}", "{arg}")'
+
+    # === Movement Commands ===
+
+    # Basic directional movement (including single-letter abbreviations)
+    directions = ['north', 'south', 'east', 'west', 'up', 'down', 'ne', 'nw', 'se', 'sw',
+                  'northeast', 'northwest', 'southeast', 'southwest',
+                  'n', 's', 'e', 'w', 'u', 'd']
+    if cmd_lower in directions:
+        return f'{ind}self:move("{cmd_lower}")'
+
+    # mgoto (mob goto room)
+    match = re.match(r'^mgoto\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}self:teleport(get_room({match.group(1)}))'
+
+    match = re.match(r'^mgoto\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        room = convert_variable_expr(match.group(1))
+        return f'{ind}self:teleport(get_room({room}))'
+
+    # mat (mob at room - execute command at another room)
+    match = re.match(r'^mat\s+(\d+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        room_num = match.group(1)
+        action = match.group(2)
+        return f'{ind}at_room({room_num}, function() self:command("{action}") end)'
+
+    match = re.match(r'^mat\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        room = convert_variable_expr(match.group(1))
+        action = match.group(2)
+        return f'{ind}at_room({room}, function() self:command("{action}") end)'
+
+    # mat by mob name (find mob's room and execute there)
+    match = re.match(r'^mat\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        mob_name = match.group(1)
+        action = match.group(2)
+        if not mob_name.startswith('%') and not mob_name.isdigit():
+            return f'{ind}at_mob("{mob_name}", function() self:command("{action}") end)'
+
+    # === Combat/Damage ===
+
+    match = re.match(r'^[mwo]damage\s+%([^%]+)%\s+%([^%]+)%(?:\s+(\w+))?$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        damage = convert_variable_expr(match.group(2))
+        dtype = match.group(3) or 'physical'
+        return f'{ind}local damage_dealt = {target}:damage({damage})  -- type: {dtype}'
+
+    # wdamage with literal damage value
+    match = re.match(r'^[mwo]damage\s+%([^%]+)%\s+(\d+)(?:\s+(\w+))?$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        damage = match.group(2)
+        dtype = match.group(3) or 'physical'
+        return f'{ind}{target}:damage({damage})  -- type: {dtype}'
+
+    # wdamage silent (damage without message)
+    match = re.match(r'^wdamage\s+silent\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        damage = match.group(1)
+        return f'{ind}actor:damage({damage}, true)  -- silent damage'
+
+    # wdamage negative (healing)
+    match = re.match(r'^wdamage\s+%([^%]+)%\s+(-\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        heal_amount = match.group(2)[1:]  # Remove the minus sign
+        return f'{ind}{target}:heal({heal_amount})'
+
+    # mdamage by name (not variable)
+    match = re.match(r'^mdamage\s+(\S+)\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        damage = match.group(2)
+        if not target_name.startswith('%'):
+            return f'{ind}room:find_actor("{target_name}"):damage({damage})'
+
+    # odamage/oheal with variable arg (single arg that is the amount)
+    match = re.match(r'^odamage\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        amount = convert_variable_expr(match.group(1))
+        return f'{ind}actor:damage({amount})'
+
+    match = re.match(r'^oheal\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        amount = convert_variable_expr(match.group(1))
+        return f'{ind}actor:heal({amount})'
+
+    # mcast (mob cast spell)
+    match = re.match(r'^mcast\s+(\S+)\s+%([^%]+)%(?:\s+(\d+))?$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = match.group(3) or 'self.level'
+        return f'{ind}cast_spell("{spell}", {target}, {level})'
+
+    # mcast with quoted spell name
+    match = re.match(r'^mcast\s+[\'"]([^\'"]+)[\'"]\s+%([^%]+)%(?:\s+(\d+))?$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = match.group(3) or 'self.level'
+        return f'{ind}cast_spell("{spell}", {target}, {level})'
+
+    # mcast with variable level
+    match = re.match(r'^mcast\s+(\S+)\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = convert_variable_expr(match.group(3))
+        return f'{ind}cast_spell("{spell}", {target}, {level})'
+
+    # cast (self or target) - various formats
+    # cast '<spell>' (self-targeting)
+    match = re.match(r'^cast\s+[\'"]([^\'"]+)[\'"]$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        return f'{ind}self:cast("{spell}")'
+
+    # cast 'spell'%target% (no space before variable - typo)
+    match = re.match(r'^cast\s+[\'"]([^\'"]+)[\'"]%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        return f'{ind}self:cast("{spell}", {target})  -- typo: no space'
+
+    # cast '<spell>' <target>
+    match = re.match(r'^cast\s+[\'"]([^\'"]+)[\'"]\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        return f'{ind}self:cast("{spell}", {target})'
+
+    match = re.match(r'^cast\s+[\'"]([^\'"]+)[\'"]\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = match.group(2)
+        return f'{ind}self:cast("{spell}", room:find_actor("{target}"))'
+
+    # c '<spell>' (shorthand for cast)
+    match = re.match(r'^c\s+[\'"]([^\'"]+)[\'"]$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        return f'{ind}self:cast("{spell}")'
+
+    match = re.match(r'^c\s+[\'"]([^\'"]+)[\'"]\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        return f'{ind}self:cast("{spell}", {target})'
+
+    match = re.match(r'^c\s+[\'"]([^\'"]+)[\'"]\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = match.group(2)
+        return f'{ind}self:cast("{spell}", room:find_actor("{target}"))'
+
+    # ocast (object cast spell)
+    match = re.match(r'^ocast\s+[\'"]?([^\'"]+)[\'"]?\s+%([^%]+)%(?:\s+(\d+))?$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = match.group(3) or 'self.level'
+        return f'{ind}cast_spell("{spell}", {target}, {level})'
+
+    match = re.match(r'^ocast\s+[\'"]?([^\'"]+)[\'"]?\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        spell = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = convert_variable_expr(match.group(3))
+        return f'{ind}cast_spell("{spell}", {target}, {level})'
+
+    # wheal/oheal/mheal (heal target)
+    match = re.match(r'^[wom]heal\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        amount = convert_variable_expr(match.group(2))
+        return f'{ind}{target}:heal({amount})'
+
+    # heal with literal amount
+    match = re.match(r'^[wom]heal\s+%([^%]+)%\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:heal({match.group(2)})'
+
+    # heal by name
+    match = re.match(r'^[wom]heal\s+(\S+)\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target = match.group(1)
+        return f'{ind}room:find_actor("{target}"):heal({match.group(2)})'
+
+    # heal by name with variable amount
+    match = re.match(r'^[wom]heal\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = match.group(1)
+        amount = convert_variable_expr(match.group(2))
+        if not target.startswith('%'):
+            return f'{ind}room:find_actor("{target}"):heal({amount})'
+
+    # oexp (object give experience)
+    match = re.match(r'^oexp\s+%([^%]+)%\s+(-?\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:award_exp({match.group(2)})'
+
+    match = re.match(r'^oexp\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        exp = convert_variable_expr(match.group(2))
+        return f'{ind}{target}:award_exp({exp})'
+
+    # oexp by name
+    match = re.match(r'^oexp\s+(\S+)\s+(-?\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:find_actor("{match.group(1)}"):award_exp({match.group(2)})'
+
+    # Combat skill commands (backstab, bash, kick as combat abilities)
+    match = re.match(r'^(backstab|bash)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        skill = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        return f'{ind}self:use_skill("{skill}", {target})'
+
+    match = re.match(r'^(backstab|bash)\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        skill = match.group(1)
+        target = match.group(2)
+        return f'{ind}self:use_skill("{skill}", room:find_actor("{target}"))'
+
+    # Standalone combat skills (attack current target)
+    if cmd_lower in ('backstab', 'bash', 'kick'):
+        return f'{ind}self:use_skill("{cmd_lower}", self.fighting)'
+
+    # odamage (object damage)
+    match = re.match(r'^odamage\s+%([^%]+)%\s+(\d+)(?:\s+(\w+))?$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        damage = match.group(2)
+        dtype = match.group(3) or 'physical'
+        return f'{ind}{target}:damage({damage})  -- type: {dtype}'
+
+    # Breath weapon attacks
+    match = re.match(r'^breath\s+(\w+)(?:\s+%([^%]+)%)?$', cmd, re.IGNORECASE)
+    if match:
+        element = match.group(1)
+        target = convert_variable_expr(match.group(2)) if match.group(2) else 'nil'
+        return f'{ind}self:breath_attack("{element}", {target})'
+
+    # mperform (mob perform skill/song)
+    match = re.match(r'^mperform\s+[\'"]?([^\'"]+)[\'"]?\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        skill = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = convert_variable_expr(match.group(3))
+        return f'{ind}self:perform("{skill}", {target}, {level})'
+
+    match = re.match(r'^mperform\s+[\'"]?([^\'"]+)[\'"]?\s+%([^%]+)%(?:\s+(\d+))?$', cmd, re.IGNORECASE)
+    if match:
+        skill = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        level = match.group(3) or 'self.level'
+        return f'{ind}self:perform("{skill}", {target}, {level})'
+
+    # chant (bard chant)
+    match = re.match(r'^chant\s+[\'"]([^\'"]+)[\'"]$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}self:chant("{match.group(1)}")'
+
+    match = re.match(r'^chant\s+[\'"]([^\'"]+)[\'"]\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        skill = match.group(1)
+        target = convert_variable_expr(match.group(2))
+        return f'{ind}self:chant("{skill}", {target})'
+
+    # rescue (by name or variable)
+    match = re.match(r'^rescue\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}self:rescue({target})'
+
+    match = re.match(r'^rescue\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}self:rescue(room:find_actor("{match.group(1)}"))'
+
+    # log (log message for debugging)
+    match = re.match(r'^log\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}trigger_log({text})'
+
+    match = re.match(r'^[m]?kill\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}start_combat(self, {target})'
+
+    match = re.match(r'^[m]?kill\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}start_combat(self, room:find_actor("{match.group(1)}"))'
+
+    # hitall (attack all enemies)
+    if cmd_lower == 'hitall':
+        return f'{ind}self:attack_all()'
+
+    # skillset (teach skill)
+    match = re.match(r'^skillset\s+(\S+)\s+[\'"]?([^\'"]+)[\'"]?\s+(\w+)$', cmd, re.IGNORECASE)
+    if match:
+        target = match.group(1)
+        skill = match.group(2)
+        level = match.group(3)
+        if target.startswith('%'):
+            target = convert_variable_expr(target.strip('%'))
+        else:
+            target = f'room:find_actor("{target}")'
+        return f'{ind}{target}:set_skill("{skill}", {level})'
+
+    # follow command
+    match = re.match(r'^(?:fol|follow)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}self:follow({target})'
+
+    match = re.match(r'^(?:fol|follow)\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}self:follow(room:find_actor("{match.group(1)}"))'
+
+    # === Movement/Teleport ===
+
+    # teleport all in room
+    match = re.match(r'^[wmo]teleport\s+all\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}room:teleport_all(get_room({match.group(1)}))'
+
+    match = re.match(r'^[mwo]teleport\s+%([^%]+)%\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:teleport(get_room({match.group(2)}))'
+
+    # oteleport with variable room
+    match = re.match(r'^[mwo]teleport\s+%([^%]+)%\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        room = convert_variable_expr(match.group(2))
+        return f'{ind}{target}:teleport(get_room({room}))'
+
+    # oteleport with literal 0 (home room)
+    match = re.match(r'^[mwo]teleport\s+%([^%]+)%\s+0$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:teleport_home()'
+
+    # mteleport by name (not variable) to literal room
+    match = re.match(r'^mteleport\s+(\S+)\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        if not target_name.startswith('%'):
+            return f'{ind}room:find_actor("{target_name}"):teleport(get_room({match.group(2)}))'
+
+    # mteleport by name to named location
+    match = re.match(r'^mteleport\s+(\S+)\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        location = match.group(2)
+        if not target_name.startswith('%') and not location.isdigit():
+            return f'{ind}room:find_actor("{target_name}"):teleport(find_room_by_name("{location}"))'
+
+    # oteleport by name (not variable) to literal room
+    match = re.match(r'^oteleport\s+(\S+)\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        room = match.group(2)
+        if not target_name.startswith('%'):
+            return f'{ind}find_player("{target_name}"):teleport(get_room({room}))'
+
+    # mforce/wforce
+    match = re.match(r'^[mw]force\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        action = match.group(2)
+        if action.lower() == 'look':
+            return f'{ind}-- {target} looks around'
+        return f'{ind}force({target}, "{action}")'
+
+    # === Door Manipulation ===
+
+    match = re.match(r'^wdoor\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}door_command("{match.group(1)}")'
+
+    # mdoor (mob door manipulation)
+    match = re.match(r'^mdoor\s+(\d+)\s+(\w+)\s+(\w+)\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        room = match.group(1)
+        direction = match.group(2)
+        action = match.group(3)
+        target_room = match.group(4)
+        return f'{ind}modify_door({room}, "{direction}", "{action}", {target_room})'
+
+    match = re.match(r'^mdoor\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}door_command("{match.group(1)}")'
+
+    # === Skills ===
+
+    match = re.match(r'^mskillset\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        skill = match.group(2)
+        return f'{ind}{target}:teach_skill("{skill}")'
+
+    # oskillset (object teach skill)
+    match = re.match(r'^oskillset\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        skill = match.group(2)
+        return f'{ind}{target}:teach_skill("{skill}")'
+
+    match = re.match(r'^oskillset\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        skill = match.group(2)
+        return f'{ind}find_player("{target_name}"):teach_skill("{skill}")'
+
+    # === Variables ===
+
+    # Dynamic variable names: set varname%index% value
+    # e.g., set card%card% %plyr% -> card[card] = plyr
+    match = re.match(r'^set\s+(\w+)%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        var_base = match.group(1)
+        index = convert_variable_expr(match.group(2))
+        value = match.group(3).strip()
+        if value.startswith('%') and value.endswith('%'):
+            value = convert_variable_expr(value[1:-1])
+        elif value.isdigit() or (value.startswith('-') and value[1:].isdigit()):
+            pass  # Keep numeric value
+        else:
+            value = f'"{value}"'
+        return f'{ind}{var_base}[{index}] = {value}'
+
+    match = re.match(r'^set\s+(\w+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        var_name = match.group(1)
+        value = convert_variable_expr(match.group(2))
+        return f'{ind}local {var_name} = {value}'
+
+    match = re.match(r'^set\s+(\w+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        var_name = match.group(1)
+        value = match.group(2).strip()
+        # If value contains variables or operators, it's an expression
+        if '%' in value or '==' in value or '(' in value:
+            value = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), value)
+            # Convert operators in complex expressions
+            value = value.replace('||', ' or ')
+            value = value.replace('&&', ' and ')
+            value = value.replace('!=', ' ~= ')
+            value = re.sub(r'(?<!\|)\|(?!\|)', ' or ', value)
+            # Quote unquoted string comparisons
+            value = re.sub(
+                r'(==|~=)\s*([a-zA-Z_][a-zA-Z0-9_]*)\b(?!\s*[.(\[])',
+                lambda m: f'{m.group(1)} "{m.group(2)}"',
+                value
+            )
+        # If value is a number, leave it as-is
+        elif re.match(r'^-?\d+\.?\d*$', value):
+            pass  # Keep numeric value
+        # Otherwise, quote it as a string
+        else:
+            value = value.replace('\\', '\\\\').replace('"', '\\"')
+            value = f'"{value}"'
+        return f'{ind}local {var_name} = {value}'
+
+    # eval with dynamic variable name: eval varname%index% expr
+    match = re.match(r'^eval\s+(\w+)%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        var_base = match.group(1)
+        index = convert_variable_expr(match.group(2))
+        expr = match.group(3).strip()
+        expr = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), expr)
+        expr = expr.replace('!=', ' ~= ')
+        expr = expr.replace('&&', ' and ')
+        expr = expr.replace('||', ' or ')
+        return f'{ind}{var_base}[{index}] = {expr}'
+
+    match = re.match(r'^eval\s+(\w+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        var_name = match.group(1)
+        expr = match.group(2).strip()
+        # Convert variables in expression
+        expr = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), expr)
+        # Convert operators
+        expr = expr.replace('!=', ' ~= ')
+        expr = expr.replace('&&', ' and ')
+        expr = expr.replace('||', ' or ')
+        expr = re.sub(r'(?<!\|)\|(?!\|)', ' or ', expr)
+        return f'{ind}local {var_name} = {expr}'
+
+    # === Misc ===
+
+    # unset (clear a variable)
+    match = re.match(r'^unset\s+(\w+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}{match.group(1)} = nil'
+
+    # unset with dynamic index: unset varname%index%
+    match = re.match(r'^unset\s+(\w+)%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        var_base = match.group(1)
+        index = convert_variable_expr(match.group(2))
+        return f'{ind}{var_base}[{index}] = nil'
+
+    # unset with extra value (likely a bug, but handle gracefully)
+    match = re.match(r'^unset\s+(\w+)\s+\d+$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}{match.group(1)} = nil  -- extra value ignored'
+
+    # wat (world at) - execute command at specified room
+    match = re.match(r'^wat\s+(\d+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        room_num = match.group(1)
+        action = match.group(2)
+        # Recursively convert the inner command
+        inner_cmd = convert_command(action, 0).strip()
+        if 'UNCONVERTED' in inner_cmd:
+            inner_cmd = f'-- {action}'
+        return f'{ind}at_room({room_num}, function()\n{ind}    {inner_cmd}\n{ind}end)'
+
+    # wat with variable room
+    match = re.match(r'^wat\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        room = convert_variable_expr(match.group(1))
+        action = match.group(2)
+        inner_cmd = convert_command(action, 0).strip()
+        if 'UNCONVERTED' in inner_cmd:
+            inner_cmd = f'-- {action}'
+        return f'{ind}at_room({room}, function()\n{ind}    {inner_cmd}\n{ind}end)'
+
+    match = re.match(r'^[wm]purge\s+(\S+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}purge("{match.group(1)}")'
+
+    # opurge (object purge)
+    match = re.match(r'^opurge\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        obj = convert_variable_expr(match.group(1))
+        return f'{ind}destroy({obj})'
+
+    match = re.match(r'^opurge\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}purge("{match.group(1)}")'
+
+    # wpurge/mpurge without target (purge all in room)
+    if cmd_lower in ('wpurge', 'mpurge'):
+        return f'{ind}room:purge_all()'
+
+    # global (global variable declaration - single or multiple)
+    match = re.match(r'^global\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        vars_str = match.group(1).strip()
+        # Handle multiple space-separated variable names
+        var_names = vars_str.split()
+        if len(var_names) == 1:
+            return f'{ind}globals.{var_names[0]} = globals.{var_names[0]} or true'
+        else:
+            # Multiple globals - initialize each
+            inits = [f'globals.{v} = globals.{v} or true' for v in var_names]
+            return f'{ind}' + '; '.join(inits)
+
+    # mmobflag (set mob flags)
+    match = re.match(r'^mmobflag\s+%([^%]+)%\s+(\w+)\s+(on|off)$', cmd, re.IGNORECASE)
+    if match:
+        mob = convert_variable_expr(match.group(1))
+        flag = match.group(2)
+        value = 'true' if match.group(3).lower() == 'on' else 'false'
+        return f'{ind}{mob}:set_flag("{flag}", {value})'
+
+    # oflagset (object set flag on actor)
+    match = re.match(r'^oflagset\s+%([^%]+)%\s+(\w+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        flag = match.group(2)
+        return f'{ind}{target}:set_flag("{flag}", true)'
+
+    # mset (mob set attribute)
+    match = re.match(r'^mset\s+(\S+)\s+(\w+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = match.group(1)
+        attr = match.group(2)
+        value = match.group(3)
+        if target.startswith('%'):
+            target = convert_variable_expr(target.strip('%'))
+        else:
+            target = f'room:find_actor("{target}")'
+        if value.isdigit():
+            return f'{ind}{target}:set_attr("{attr}", {value})'
+        else:
+            return f'{ind}{target}:set_attr("{attr}", "{value}")'
+
+    # wrent (world rent - save and disconnect player)
+    match = re.match(r'^wrent\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        return f'{ind}{target}:rent()'
+
+    # wteleport by name (not variable)
+    match = re.match(r'^wteleport\s+(\S+)\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        room = match.group(2)
+        if not target_name.startswith('%'):
+            return f'{ind}find_player("{target_name}"):teleport(get_room({room}))'
+
+    # mforce/wforce by name (not variable)
+    match = re.match(r'^[mw]force\s+(\S+)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        action = match.group(2)
+        # If it's a variable, use convert_variable_expr
+        if target_name.startswith('%'):
+            target = convert_variable_expr(target_name.strip('%'))
+        else:
+            target = f'room:find_actor("{target_name}")'
+        return f'{ind}force({target}, "{action}")'
+
+    # mteleport by name (not variable)
+    match = re.match(r'^mteleport\s+(\S+)\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        target_name = match.group(1)
+        room = convert_variable_expr(match.group(2))
+        # If it's a variable, use convert_variable_expr
+        if target_name.startswith('%'):
+            target = convert_variable_expr(target_name.strip('%'))
+        else:
+            target = f'room:find_actor("{target_name}")'
+        return f'{ind}{target}:teleport(get_room({room}))'
+
+    match = re.match(r'^m_run_room_trig\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}run_room_trigger({match.group(1)})'
+
+    # === Mob Action Commands (pass-through) ===
+    # These are standard commands that mobs execute directly
+
+    # Helper to build command with variable substitution
+    def build_command_string(action: str, args: str) -> str:
+        """Build a Lua command string with proper variable interpolation."""
+        if '%' not in args:
+            return f'"{action} {args}"'
+        # Convert the full command text with variables
+        full_cmd = f'{action} {args}'
+        return convert_text_with_vars(full_cmd)
+
+    # give <item> <target> - with variable support
+    match = re.match(r'^give\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        cmd_str = build_command_string('give', match.group(1))
+        return f'{ind}self:command({cmd_str})'
+
+    # drop <item>
+    match = re.match(r'^drop\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        cmd_str = build_command_string('drop', match.group(1))
+        return f'{ind}self:command({cmd_str})'
+
+    # get/take <item> [container]
+    match = re.match(r'^(?:get|take)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        cmd_str = build_command_string('get', match.group(1))
+        return f'{ind}self:command({cmd_str})'
+
+    # wear/wield/hold <item>
+    match = re.match(r'^(wear|wield|hold)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        action = match.group(1).lower()
+        cmd_str = build_command_string(action, match.group(2))
+        return f'{ind}self:command({cmd_str})'
+
+    # remove <item>
+    match = re.match(r'^remove\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        cmd_str = build_command_string('remove', match.group(1))
+        return f'{ind}self:command({cmd_str})'
+
+    # open/close/lock/unlock <door/direction>
+    match = re.match(r'^(open|close|lock|unlock)\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        action = match.group(1).lower()
+        cmd_str = build_command_string(action, match.group(2))
+        return f'{ind}self:command({cmd_str})'
+
+    # === Social Commands ===
+    # Comprehensive list of common MUD socials
+    socials = [
+        # Common expressions
+        'smile', 'grin', 'smirk', 'laugh', 'chuckle', 'giggle', 'snicker', 'cackle',
+        'cry', 'sob', 'weep', 'whine', 'moan', 'groan', 'sigh', 'yawn',
+        # Physical actions
+        'wave', 'nod', 'shake', 'shrug', 'bow', 'curtsey', 'curtsy', 'kneel', 'grovel',
+        'flex', 'stretch', 'dance', 'sing', 'hum', 'whistle', 'stand', 'sit',
+        'sweep', 'salute', 'tickle', 'vis',
+        # Expressions with targets
+        'wink', 'eye', 'peer', 'stare', 'glare', 'gaze', 'leer', 'consider',
+        'pat', 'poke', 'nudge', 'tap', 'ruffle', 'slap', 'hug', 'kiss', 'caress',
+        # Sounds
+        'cough', 'sneeze', 'hiccup', 'burp', 'sniff', 'snort', 'roar', 'scream',
+        'gasp', 'gag', 'shudder', 'shiver', 'tremble', 'mutter', 'grumble', 'mumble',
+        # Combat-adjacent
+        'flee', 'kick', 'punch', 'headbutt',
+        # Mental states
+        'ponder', 'think', 'wonder', 'blink', 'frown', 'roll', 'eyebrow',
+        # Other common ones
+        'drink', 'hic', 'growl', 'purr', 'meow', 'bark', 'clap', 'applaud', 'cheer',
+        'cringe', 'faint', 'swoon', 'drool', 'blush', 'beam', 'sulk', 'pout',
+        'thank', 'apologize', 'agree', 'disagree', 'comfort', 'console',
+        # Added from common triggers
+        'rem', 'score', 'panic', 'bleed', 'choke', 'whap',
+        'fume', 'lick', 'wince', 'scratch', 'stomp', 'look', 'recite',
+        'scan', 'bounce', 'sleep', 'point', 'steam', 'smi', 'bite', 'spank', 'spit', 'hide',
+        # Additional socials from remaining triggers
+        'fart', 'snap', 'strut', 'rofl', 'pur', 'daydream', 'pant', 'snarl', 'half', 'mosh',
+        'glance', 'circle', 'fly', 'curse', 'corner', 'tip', 'rest', 'wake', 'dream', 'beg',
+        'hiss', 'thanks', 'eat', 'junk', 'pour', 'put', 'enter', 'sell', 'steal', 'ask',
+        'load', 'force', 'consent', 'wie', 'hol',  # abbreviated commands
+        'grope', 'trip', 'con', 'l',  # additional commands
+    ]
+
+    for social in socials:
+        match = re.match(rf'^{social}(?:\s+(.+))?$', cmd, re.IGNORECASE)
+        if match:
+            target = match.group(1)
+            if target:
+                # Use self:command for proper social execution with target
+                cmd_str = build_command_string(social, target)
+                return f'{ind}self:command({cmd_str})'
+            else:
+                return f'{ind}self:command("{social}")'
+
+    # Nothing placeholder
+    if cmd_lower in ('nothing.', 'nothing'):
+        return f'{ind}-- (placeholder trigger)'
+
+    # wizn (wizard notification)
+    match = re.match(r'^wizn\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        text = convert_text_with_vars(match.group(1))
+        return f'{ind}wizard_notify({text})'
+
+    # mechoto (typo for mechoat/mecho?)
+    match = re.match(r'^mechoto\s+%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
+    if match:
+        target = convert_variable_expr(match.group(1))
+        text = convert_text_with_vars(match.group(2))
+        return f'{ind}{target}:send({text})  -- typo: mechoto'
+
+    # Handle commands with trailing periods (typos in triggers)
+    if cmd.endswith('.') and len(cmd) > 1:
+        cleaned = convert_command(cmd[:-1], indent)
+        if cleaned and 'UNCONVERTED' not in cleaned:
+            return cleaned
+
+    # Unknown command - preserve as comment
+    return f'{ind}-- UNCONVERTED: {cmd}'
+
+
+def convert_script_body(commands: str) -> str:
+    """Convert the entire script body from DG Script to Lua."""
+    lines = commands.split('\n')
+    lua_lines = []
+    indent = 0
+    in_switch = False
+    in_while = False  # Track if we're in a while loop
+    switch_var = ""
+    first_case = True
+    switch_has_if = False  # Track if switch generated an if statement
+    pending_cases = []  # For collecting fall-through cases
+    has_return_value = False  # Track if we need the _return_value variable
+
+    # Check if script uses return 0/1 (not immediately followed by halt)
+    commands_lower = commands.lower()
+    if 'return 0' in commands_lower or 'return 1' in commands_lower:
+        has_return_value = True
+        lua_lines.append('local _return_value = true  -- Default: allow action')
+
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        i += 1
+
+        if not line:
+            continue
+
+        line_lower = line.lower()
+
+        # === Control Flow ===
+
+        if line_lower.startswith('if '):
+            cond = line[3:].strip()
+            lua_lines.append('    ' * indent + f'if {convert_condition(cond)} then')
+            indent += 1
+            continue
+
+        if line_lower.startswith('elseif '):
+            indent = max(0, indent - 1)
+            cond = line[7:].strip()
+            lua_lines.append('    ' * indent + f'elseif {convert_condition(cond)} then')
+            indent += 1
+            continue
+
+        if line_lower == 'else':
+            indent = max(0, indent - 1)
+            lua_lines.append('    ' * indent + 'else')
+            indent += 1
+            continue
+
+        if line_lower in ('end', 'endif', 'end if'):
+            indent = max(0, indent - 1)
+            lua_lines.append('    ' * indent + 'end')
+            continue
+
+        # while loops
+        if line_lower.startswith('while '):
+            cond = line[6:].strip()
+            lua_lines.append('    ' * indent + f'while {convert_condition(cond)} do')
+            indent += 1
+            in_while = True
+            continue
+
+        if line_lower.startswith('switch '):
+            switch_expr = line[7:].strip()
+            switch_var = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), switch_expr)
+            in_switch = True
+            first_case = True
+            switch_has_if = False  # Track if we actually generated an if statement
+            pending_cases = []  # Collect fall-through cases
+            lua_lines.append('    ' * indent + f'-- switch on {switch_var}')
+            continue
+
+        if line_lower.startswith('case '):
+            case_val = line[5:].strip()
+            # Quote the value if it's not a number and not already quoted
+            if case_val and not case_val.isdigit() and not case_val.startswith('"'):
+                case_val = f'"{case_val}"'
+            if in_switch:
+                pending_cases.append(case_val)
+            continue
+
+        if line_lower == 'default':
+            if in_switch:
+                # Flush any pending cases before default
+                if pending_cases:
+                    conditions = ' or '.join([f'{switch_var} == {c}' for c in pending_cases])
+                    if first_case:
+                        lua_lines.append('    ' * indent + f'if {conditions} then')
+                        indent += 1
+                        first_case = False
+                        switch_has_if = True
+                    else:
+                        indent = max(0, indent - 1)
+                        lua_lines.append('    ' * indent + f'elseif {conditions} then')
+                        indent += 1
+                    pending_cases = []
+                # Default becomes else (only if we have an if)
+                if not first_case and switch_has_if:
+                    indent = max(0, indent - 1)
+                    lua_lines.append('    ' * indent + 'else')
+                    indent += 1
+                # If switch only has default (no cases), just run the code unconditionally
+            continue
+
+        if line_lower == 'break':
+            # In switch, break just ends the case - no action needed
+            continue
+
+        if line_lower == 'done':
+            if in_while:
+                # Close the while loop
+                indent = max(0, indent - 1)
+                lua_lines.append('    ' * indent + 'end')
+                in_while = False
+            elif in_switch:
+                # Flush any remaining pending cases
+                if pending_cases:
+                    conditions = ' or '.join([f'{switch_var} == {c}' for c in pending_cases])
+                    if first_case:
+                        lua_lines.append('    ' * indent + f'if {conditions} then')
+                        indent += 1
+                        first_case = False
+                        switch_has_if = True
+                    else:
+                        indent = max(0, indent - 1)
+                        lua_lines.append('    ' * indent + f'elseif {conditions} then')
+                        indent += 1
+                    pending_cases = []
+                # Only add 'end' if we actually generated an 'if'
+                if switch_has_if:
+                    indent = max(0, indent - 1)
+                    lua_lines.append('    ' * indent + 'end')
+                in_switch = False
+                first_case = True
+                switch_has_if = False
+            continue
+
+        # When we encounter a non-case line inside a switch, flush pending cases first
+        if in_switch and pending_cases:
+            conditions = ' or '.join([f'{switch_var} == {c}' for c in pending_cases])
+            if first_case:
+                lua_lines.append('    ' * indent + f'if {conditions} then')
+                indent += 1
+                first_case = False
+                switch_has_if = True
+            else:
+                indent = max(0, indent - 1)
+                lua_lines.append('    ' * indent + f'elseif {conditions} then')
+                indent += 1
+            pending_cases = []
+
+        # Regular command
+        converted = convert_command(line, indent)
+        if converted:
+            # Skip redundant halt after setting _return_value
+            # In DG Scripts, "return 0" followed by "halt" is common
+            if 'return _return_value' in converted and lua_lines:
+                last_line = lua_lines[-1].strip()
+                if last_line.startswith('_return_value ='):
+                    # Previous line just set _return_value, keep the return
+                    pass
+            lua_lines.append(converted)
+
+    # Close any unclosed blocks (DG Script is more lenient than Lua)
+    # This handles scripts that end with an if/else block without explicit 'end'
+    if in_switch:
+        indent = max(0, indent - 1)
+        lua_lines.append('    ' * indent + 'end  -- auto-close switch')
+        indent = max(0, indent - 1)
+
+    while indent > 0:
+        indent -= 1
+        lua_lines.append('    ' * indent + 'end  -- auto-close block')
+
+    # Add final return if script uses _return_value but doesn't end with a return
+    if has_return_value:
+        # Check if last non-empty line is a return
+        last_real_line = ''
+        for line in reversed(lua_lines):
+            if line.strip() and not line.strip().startswith('--') and not line.strip().startswith('end'):
+                last_real_line = line.strip()
+                break
+        if not last_real_line.startswith('return'):
+            lua_lines.append('return _return_value')
+
+    return '\n'.join(lua_lines)
+
+
+def convert_trigger(dg: DGTrigger) -> LuaTrigger:
+    """
+    Convert a DG Script trigger to Lua.
+
+    Args:
+        dg: Parsed DGTrigger object
+
+    Returns:
+        LuaTrigger object ready for database import
+    """
+    lua_commands = convert_script_body(dg.commands)
+
+    # Build header
+    header_lines = [
+        f'-- Converted from DG Script #{dg.vnum}: {dg.name}',
+        f'-- Original: {dg.script_type.name} trigger, flags: {", ".join(dg.flags)}, probability: {dg.probability}%',
+        '',
+    ]
+
+    # Helper functions for pronouns if needed
+    if any(fn in lua_commands for fn in ['get_possessive', 'get_subject', 'get_object_pronoun']):
+        header_lines.extend([
+            '-- Pronoun helper functions',
+            'local function get_possessive(a)',
+            '    if a.gender == "male" then return "his"',
+            '    elseif a.gender == "female" then return "her"',
+            '    else return "their" end',
+            'end',
+            'local function get_subject(a)',
+            '    if a.gender == "male" then return "he"',
+            '    elseif a.gender == "female" then return "she"',
+            '    else return "they" end',
+            'end',
+            'local function get_object_pronoun(a)',
+            '    if a.gender == "male" then return "him"',
+            '    elseif a.gender == "female" then return "her"',
+            '    else return "them" end',
+            'end',
+            '',
+        ])
+
+    # Probability check
+    if dg.probability < 100:
+        header_lines.extend([
+            f'-- {dg.probability}% chance to trigger',
+            f'if not percent_chance({dg.probability}) then',
+            '    return true',
+            'end',
+            '',
+        ])
+
+    # COMMAND trigger keyword check
+    if 'COMMAND' in dg.flags and dg.arg_string:
+        keywords = dg.arg_string.split()
+        if keywords:
+            checks = ' or '.join([f'cmd == "{kw}"' for kw in keywords])
+            header_lines.extend([
+                f'-- Command filter: {dg.arg_string}',
+                f'if not ({checks}) then',
+                '    return true  -- Not our command',
+                'end',
+                '',
+            ])
+
+    # SPEECH trigger keyword check
+    if 'SPEECH' in dg.flags and dg.arg_string:
+        keywords = dg.arg_string.split()
+        if keywords:
+            checks = ' or '.join([f'string.find(string.lower(speech), "{kw.lower()}")' for kw in keywords])
+            header_lines.extend([
+                f'-- Speech keywords: {dg.arg_string}',
+                'local speech_lower = string.lower(speech)',
+                f'if not ({checks}) then',
+                '    return true  -- No matching keywords',
+                'end',
+                '',
+            ])
+
+    full_script = '\n'.join(header_lines) + lua_commands
+
+    # Clean up excessive blank lines
+    full_script = re.sub(r'\n{3,}', '\n\n', full_script)
+
+    return LuaTrigger(
+        vnum=dg.vnum,
+        name=dg.name,
+        attach_type=dg.script_type.name,
+        flags=dg.flags,
+        commands=full_script,
+        numeric_arg=dg.numeric_arg,
+        arg_list=dg.arg_string.split() if dg.arg_string else [],
+        original_dg=dg.commands
+    )
+
+
+def convert_all_triggers(dg_triggers: list[DGTrigger]) -> list[LuaTrigger]:
+    """
+    Convert a list of DG Script triggers to Lua.
+
+    Args:
+        dg_triggers: List of parsed DGTrigger objects
+
+    Returns:
+        List of LuaTrigger objects ready for database import
+    """
+    return [convert_trigger(dg) for dg in dg_triggers]
