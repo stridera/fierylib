@@ -6,7 +6,7 @@
     "description": "Exhales a cone of corrosive acid that dissolves flesh and metal alike.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -28,7 +28,10 @@
       "failToCaster": "You missed {target} with your acid breath.",
       "failToVictim": "{actor} breathes acid at you, but you avoid it.",
       "failToRoom": "{target} avoids {actor}'s acid breath."
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 5,
+    "damageType": "ACID"
   },
   {
     "name": "Acid Burst",
@@ -60,7 +63,10 @@
       "failToCaster": "You throw a glob of acid at {target}, missing {target} entirely!",
       "failToVictim": "{actor} conjures a ball of acid which splatters onto the ground near you.",
       "failToRoom": "{actor} conjures a ball of acid which splatters onto the ground near {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 23,
+    "damageType": "ACID"
   },
   {
     "name": "Acid Fog",
@@ -69,7 +75,7 @@
     "description": "Conjures a thick, caustic fog that burns all who enter the affected area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -91,7 +97,10 @@
       "failToCaster": "The acid fog has no effect on {target}.",
       "failToVictim": "You prove impervious to the acidic fog!",
       "failToRoom": "The acidic fog doesn't seem to phase {target}."
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 27,
+    "damageType": "ACID"
   },
   {
     "name": "Ancestral Vengeance",
@@ -132,16 +141,19 @@
       "failToCaster": "{actor} evades the vengeance of your ancestors!",
       "failToVictim": "You evade the vengeance of {target}'s ancestors!",
       "failToRoom": "{actor} evades the vengeance of {target}'s ancestors!"
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 21,
+    "damageType": "HOLY"
   },
   {
     "name": "Animate Dead",
     "plainName": "ANIMATE_DEAD",
     "abilityType": "SPELL",
-    "description": "Raises a fallen corpse to serve as an undead minion under your control.",
+    "description": "Raises a fallen <magenta>corpse</> to serve as an <magenta>undead</> minion under your control.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -165,7 +177,9 @@
         "value": "corpse",
         "required": true
       }
-    ]
+    ],
+    "sphere": "DEATH",
+    "pages": 21
   },
   {
     "name": "Apocalyptic Anthem",
@@ -248,10 +262,10 @@
     "name": "Armor",
     "plainName": "ARMOR",
     "abilityType": "SPELL",
-    "description": "The Armor spell will improve your AC by 2.",
+    "description": "The <b:blue>Armor</> spell will improve your AC by 2.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -275,7 +289,9 @@
       "successToRoom": "{actor} calls upon divine protection for {target}.",
       "successToSelf": "You feel divinely protected.",
       "successSelfRoom": "{actor} is surrounded by a protective aura."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Armor Of Gaia",
@@ -284,7 +300,7 @@
     "description": "Summons earthen armor that encases the target in protective stone.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -302,7 +318,9 @@
       "successToCaster": "You cast armor of gaia.",
       "successToRoom": "{actor} casts armor of gaia.",
       "lookMessage": "{pronoun.subjective} is encased in armor of living earth and stone."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Aware",
@@ -347,6 +365,8 @@
     "combatOk": true,
     "isArea": false,
     "isToggle": false,
+    "contestedVisibility": true,
+    "visibilityCheck": "backstab vs perception",
     "damageType": "PIERCE",
     "tags": [
       "stealth",
@@ -437,7 +457,9 @@
       "failToCaster": "You fail to polymorph {target}'s body in any way.",
       "failToVictim": "{actor} fails to polymorph your shape in any way.",
       "failToRoom": "{actor} fails to polymorph {target}'s body in any way."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 25
   },
   {
     "name": "Ballad Of Tears",
@@ -515,7 +537,7 @@
     "description": "Forcibly sends an extraplanar creature back to its home plane.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -532,7 +554,9 @@
     "messages": {
       "successToCaster": "You cast banish.",
       "successToRoom": "{actor} casts banish."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Barehand",
@@ -563,10 +587,10 @@
     "name": "Barkskin",
     "plainName": "BARKSKIN",
     "abilityType": "SPELL",
-    "description": "Hardens the target's skin to the toughness of bark, improving natural armor.",
+    "description": "Hardens the target's skin to the toughness of bark, improving natural <b:blue>armor</>.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -591,7 +615,9 @@
       "successToSelf": "Your skin hardens to bark.",
       "successSelfRoom": "{actor}'s skin hardens to bark.",
       "lookMessage": "{pronoun.possessive} skin is thick, brown and wrinkley like bark."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 17
   },
   {
     "name": "Bash",
@@ -825,7 +851,10 @@
       "failToCaster": "Your bigbys clenched fist fails to affect {target}.",
       "failToVictim": "{actor}'s bigbys clenched fist fails to affect you.",
       "failToRoom": "{actor}'s bigbys clenched fist fails to affect {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 25,
+    "damageType": "CRUSH"
   },
   {
     "name": "Bind",
@@ -868,7 +897,7 @@
     "description": "Bless on a victim will improve the victims saving throw versus spells by 1, and furthermore improve the hitroll by 2. Bless on an item currently has no defined action.  It is only possible",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -900,7 +929,9 @@
         "value": "evil",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Blinding Beauty",
@@ -909,7 +940,7 @@
     "description": "Overwhelms the target with an aura of supernatural beauty, reducing their combat effectiveness.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -942,16 +973,18 @@
       "successToVictim": "You have been blinded!",
       "successToCaster": "You blind {target} with beauty!",
       "successToRoom": "{target} is blinded!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Blindness",
     "plainName": "BLINDNESS",
     "abilityType": "SPELL",
-    "description": "Blindness will blind a victim failing its saving throw. A blinded person will have -4 penalty to both hitroll and AC.",
+    "description": "Blindness will <b:magenta>blind</> a victim failing its saving throw. A blinded person will have -4 penalty to both hitroll and AC.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -984,7 +1017,9 @@
       "successToVictim": "You have been blinded!",
       "successToCaster": "You blind {target}!",
       "successToRoom": "{target} is blinded!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Blizzards Of Saint Augustine",
@@ -1084,7 +1119,8 @@
       "successToSelf": "The world seems to slow as you move with unnatural speed!",
       "successSelfRoom": "{actor}'s image blurs in unnatural speed!",
       "lookMessage": "{pronoun.possessive} image appears blurred and difficult to focus on."
-    }
+    },
+    "sphere": "PROTECTION"
   },
   {
     "name": "Bodyslam",
@@ -1126,7 +1162,7 @@
     "description": "Encases the target in a protective shell of animated bones.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1151,7 +1187,9 @@
       "successToSelf": "Your skin hardens into a bone carapace.",
       "successSelfRoom": "{actor}'s skin hardens into a bone carapace.",
       "lookMessage": "{pronoun.subjective} is encased in a grotesque armor of bones."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 12
   },
   {
     "name": "Bone Cage",
@@ -1160,7 +1198,7 @@
     "description": "Imprisons the target in a cage of animated bones, paralyzing them.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1182,7 +1220,10 @@
       "successToVictim": "Magical bones bind your legs!",
       "successToCaster": "You conjure bones to lock {target} in place!",
       "successToRoom": "{actor} conjures magical bones that lock around {target}'s legs!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 16,
+    "damageType": "SLASH"
   },
   {
     "name": "Breathe Acid",
@@ -1340,10 +1381,71 @@
     }
   },
   {
+    "name": "Buck",
+    "plainName": "BUCK",
+    "abilityType": "SKILL",
+    "description": "Attempt to throw a rider off your back. Used by mounts to unseat their riders.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 6000,
+    "inCombatOnly": false,
+    "combatOk": true,
+    "isArea": false,
+    "isToggle": false,
+    "tags": [
+      "mount",
+      "combat"
+    ],
+    "notes": "Used by mounts to throw off riders. Success based on mount's strength vs rider's riding skill.",
+    "targeting": {
+      "validTargets": [
+        "RIDER"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "has_rider",
+          "message": "You have no rider to throw off!"
+        }
+      ]
+    },
+    "messages": {
+      "successToCaster": "You buck wildly and throw {target} off your back!",
+      "successToVictim": "{actor} bucks wildly and throws you to the ground!",
+      "successToRoom": "{actor} bucks wildly and throws {target} to the ground!",
+      "failToCaster": "You try to buck but {target} holds on tight!",
+      "failToVictim": "{actor} tries to throw you off but you hold on!",
+      "failToRoom": "{actor} tries to buck {target} off but they hold on!"
+    },
+    "effects": [
+      {
+        "effect": "dismount",
+        "order": 0,
+        "params": {
+          "forced": true
+        },
+        "trigger": "on_hit"
+      },
+      {
+        "effect": "knockdown",
+        "order": 1,
+        "params": {
+          "duration": 1
+        },
+        "trigger": "on_hit"
+      }
+    ]
+  },
+  {
     "name": "Burning Hands",
     "plainName": "BURNING_HANDS",
     "abilityType": "SPELL",
-    "description": "Flames shoot from your fingertips, scorching everything in a cone before you.",
+    "description": "<b:red>Flames</> shoot from your fingertips, scorching everything in a cone before you.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2,
@@ -1369,16 +1471,19 @@
       "failToCaster": "You miss {target} with your burning hands.",
       "failToVictim": "{actor} reaches for you with burning hands, but misses!",
       "failToRoom": "{actor} tries to burn {target}, but {target} escapes!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
     "name": "Call Lightning",
     "plainName": "CALL_LIGHTNING",
     "abilityType": "SPELL",
-    "description": "This spell will use the \"force of nature\" to make a lightning strike the victim.  It is therefore only possible to call lightning outside, and it has to be raining (or worse).",
+    "description": "This spell will use the \"force of nature\" to make a <b:yellow>lightning</> strike the victim.  It is therefore only possible to call <b:yellow>lightning</> outside, and it has to be raining (or worse).",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1400,7 +1505,10 @@
       "failToCaster": "Your lightning bolt scores the ground in front of {target}, it missed!",
       "failToVictim": "The ground before you is scored as {actor} misses you with a lightning bolt!",
       "failToRoom": "{target} jumps backwards in time to avoid lightning sent by {actor}!"
-    }
+    },
+    "sphere": "AIR",
+    "pages": 5,
+    "damageType": "SHOCK"
   },
   {
     "name": "Cartwheel",
@@ -1436,10 +1544,10 @@
     "name": "Cause Critical",
     "plainName": "CAUSE_CRITIC",
     "abilityType": "SPELL",
-    "description": "Channels negative energy to inflict critical wounds on the target.",
+    "description": "Channels negative energy to inflict critical <healing>wounds</> on the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1461,16 +1569,19 @@
       "failToCaster": "Your cause critical fails to affect {target}.",
       "failToVictim": "{actor}'s cause critical fails to affect you.",
       "failToRoom": "{actor}'s cause critical fails to affect {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Cause Light",
     "plainName": "CAUSE_LIGHT",
     "abilityType": "SPELL",
-    "description": "Channels negative energy to inflict minor wounds on the target.",
+    "description": "Channels negative energy to inflict minor <healing>wounds</> on the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1492,16 +1603,19 @@
       "failToCaster": "Your cause light fails to affect {target}.",
       "failToVictim": "{actor}'s cause light fails to affect you.",
       "failToRoom": "{actor}'s cause light fails to affect {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Cause Serious",
     "plainName": "CAUSE_SERIOUS",
     "abilityType": "SPELL",
-    "description": "Channels negative energy to inflict serious wounds on the target.",
+    "description": "Channels negative energy to inflict serious <healing>wounds</> on the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1523,16 +1637,19 @@
       "failToCaster": "Your cause serious fails to affect {target}.",
       "failToVictim": "{actor}'s cause serious fails to affect you.",
       "failToRoom": "{actor}'s cause serious fails to affect {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Chain Lightning",
     "plainName": "CHAIN_LIGHTNING",
     "abilityType": "SPELL",
-    "description": "Releases a bolt of lightning that arcs between multiple targets.",
+    "description": "Releases a <b:yellow>bolt</> of <b:yellow>lightning</> that arcs between multiple targets.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -1554,7 +1671,10 @@
       "failToCaster": "Your lightning bolt seems to have missed!",
       "failToVictim": "{actor}'s lightning bolt missed you!",
       "failToRoom": "{actor}'s lightning bolt missed {target}!"
-    }
+    },
+    "sphere": "AIR",
+    "pages": 27,
+    "damageType": "SHOCK"
   },
   {
     "name": "Chant",
@@ -1594,7 +1714,7 @@
     "description": "Beguiles a humanoid creature, making them regard you as a trusted friend.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1617,7 +1737,10 @@
       "successToCaster": "{target} looks at you adoringly.",
       "successToRoom": "{target} gazes adoringly at {actor}.",
       "lookMessage": "{pronoun.possessive} eyes have a glazed, vacant look."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 35,
+    "damageType": "MENTAL"
   },
   {
     "name": "Chill Touch",
@@ -1626,7 +1749,7 @@
     "description": "This spell is more powerful than the magic missile spell. A victim failing its saving throw will get its strength reduced by one.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1651,7 +1774,10 @@
       "failToCaster": "The atmosphere turns chilly as you miss {target}!",
       "failToVictim": "You dodge {actor} and {actor} chill touch!",
       "failToRoom": "{actor} tries unsuccessfully to chill {target}!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 7,
+    "damageType": "COLD"
   },
   {
     "name": "Circle",
@@ -1693,7 +1819,7 @@
     "description": "Unleashes a wave of negative energy that snuffs out the life force of nearby creatures.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1715,16 +1841,19 @@
       "failToCaster": "Your circle of death falls short!",
       "failToVictim": "{actor}'s circle of death doesn't quite reach you!",
       "failToRoom": "{actor}'s circle of death doesn't quite reach {target}!"
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 27,
+    "damageType": "MENTAL"
   },
   {
     "name": "Circle Of Fire",
     "plainName": "CIRCLE_OF_FIRE",
     "abilityType": "SPELL",
-    "description": "Creates a ring of flames that damages creatures passing through it.",
+    "description": "Creates a ring of <b:red>flames</> that damages creatures passing through it.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1757,7 +1886,10 @@
       "successToRoom": "{target} steps through the circle of fire, sustaining major burns.",
       "failToVictim": "The circle of fire missed you.",
       "failToRoom": "{target} missed the circle of fire!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 25,
+    "damageType": "FIRE"
   },
   {
     "name": "Circle Of Light",
@@ -1766,7 +1898,7 @@
     "description": "Surrounds the caster with a brilliant aura of holy light.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1790,16 +1922,18 @@
       "successToSelf": "A bright white circle of light begins hovering about your head.",
       "successSelfRoom": "A bright white circle of light appears over {actor}'s head.",
       "lookMessage": "{pronoun.subjective} is bathed in a brilliant circle of light."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Clarity",
     "plainName": "CLARITY",
     "abilityType": "SPELL",
-    "description": "Clears the mind, improving focus and mental acuity.",
+    "description": "Clears the <b:magenta>mind</>, improving focus and mental acuity.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1823,7 +1957,9 @@
       "successToRoom": "{target} looks more clear-headed.",
       "successToSelf": "Your mind feels clear and focused.",
       "successSelfRoom": "{actor} looks more clear-headed."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Claw",
@@ -1865,7 +2001,7 @@
     "description": "Wraps the caster in a protective mantle of living earth and vines, absorbing damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1889,7 +2025,9 @@
       "successToRoom": "{target} is shrouded by nature.",
       "successToSelf": "You are shrouded by nature.",
       "successSelfRoom": "{actor} is shrouded by nature."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Clone",
@@ -1898,7 +2036,7 @@
     "description": "Creates a duplicate of a creature to fight alongside the original.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1917,7 +2055,9 @@
       "successToRoom": "{actor} casts a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
       "wearoffToRoom": "{actor}'s summoned creature fades away."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 35
   },
   {
     "name": "Cloud Of Daggers",
@@ -1926,7 +2066,7 @@
     "description": "Conjures a swirling cloud of razor-sharp blades that shred anything within.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -1948,7 +2088,10 @@
       "failToCaster": "Your daggers have no effect on {target}.",
       "failToVictim": "The cloud of daggers refuses to cut you!",
       "failToRoom": "The cloud of daggers refuses to cut {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 27,
+    "damageType": "SLASH"
   },
   {
     "name": "Coldshield",
@@ -1957,7 +2100,7 @@
     "description": "Surrounds the caster with a shield of bitter cold that damages attackers.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -1981,7 +2124,10 @@
       "successToSelf": "A jagged formation of ice shards forms around you.",
       "successSelfRoom": "A jagged formation of ice shards forms around {actor}.",
       "lookMessage": "{pronoun.subjective} is surrounded by a shield of bitter frost."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 17,
+    "damageType": "COLD"
   },
   {
     "name": "Color Spray",
@@ -1990,7 +2136,7 @@
     "description": "Releases a dazzling array of magical colors that blind and stun creatures.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2012,10 +2158,12 @@
       "failToCaster": "Your spray of color misses {target} -- what a dull world...",
       "failToVictim": "{actor} unsuccessfully tries to add color to your life!",
       "failToRoom": "{actor} splashes color everywhere except {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 21
   },
   {
-    "name": "Comprehend Lang",
+    "name": "Comprehend Languages",
     "plainName": "COMPREHEND_LANG",
     "abilityType": "SPELL",
     "description": "Grants the ability to understand all spoken languages.",
@@ -2043,7 +2191,8 @@
       "successToVictim": "{actor} casts comprehend lang on you.",
       "successToRoom": "{actor} casts comprehend lang.",
       "wearoffToTarget": "You no longer understand all languages."
-    }
+    },
+    "sphere": "DIVINATION"
   },
   {
     "name": "Conceal",
@@ -2079,7 +2228,7 @@
     "description": "Wraps the target in shadows, making them harder to detect.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2103,7 +2252,9 @@
       "successToRoom": "{target} slowly fades out of existence.",
       "successToSelf": "You vanish from sight.",
       "successSelfRoom": "{actor} slowly fades out of existence."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 13
   },
   {
     "name": "Cone Of Cold",
@@ -2144,16 +2295,19 @@
       "failToCaster": "You skillfully create a vortex of ice and snow sputtering skyward missing {target}.",
       "failToVictim": "{actor} skillfully aims {actor} vortex of ice at YOU but it sputters skyward instead! HA!",
       "failToRoom": "{actor} skillfully aims {actor} cone of cold at {target} but it sputters skyward instead!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 19,
+    "damageType": "COLD"
   },
   {
     "name": "Confusion",
     "plainName": "CONFUSION",
     "abilityType": "SPELL",
-    "description": "Scrambles the target's mind, causing them to act erratically.",
+    "description": "Scrambles the target's <b:magenta>mind</>, causing them to act erratically.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2176,16 +2330,19 @@
       "successToCaster": "You confuse {target}.",
       "successToRoom": "{target} can't decide which way to look!",
       "lookMessage": "{pronoun.subjective} looks dazed and confused."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 19,
+    "damageType": "MENTAL"
   },
   {
     "name": "Control Weather",
     "plainName": "CONTROL_WEATHER",
     "abilityType": "SPELL",
-    "description": "This spell will change the \"course\" of the current weather. Example: > cast 'control wea' worse",
+    "description": "This spell will change the \"course\" of the current weather. Example: > cast '<b:magenta>control</> wea' worse",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2206,7 +2363,9 @@
       "successToCaster": "You cast control weather.",
       "successToRoom": "{actor} casts control weather.",
       "wearoffToTarget": "The magical weather control fades."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Corner",
@@ -2245,7 +2404,7 @@
     "description": "This spell instantly creates a fresh waybread.  The waybread will be filling for the next (5+level) hours, up to a maximum of 24 hours.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2262,7 +2421,9 @@
     "messages": {
       "successToCaster": "You cast create food.",
       "successToRoom": "{actor} casts create food."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Create Spring",
@@ -2271,7 +2432,7 @@
     "description": "Causes a natural spring to bubble up from the ground.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2288,7 +2449,9 @@
     "messages": {
       "successToCaster": "You cast create spring.",
       "successToRoom": "{actor} casts create spring."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Create Water",
@@ -2297,7 +2460,7 @@
     "description": "Expect disastrous results if cast upon a drink container which contains another liquid than water.  Empty or water containers will be filled depending on the level of the caster.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2314,7 +2477,9 @@
     "messages": {
       "successToCaster": "You cast create water.",
       "successToRoom": "{actor} casts create water."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Creeping Doom",
@@ -2323,7 +2488,7 @@
     "description": "Summons a swarm of venomous insects to devour your enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2345,16 +2510,19 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 35,
+    "damageType": "ACID"
   },
   {
     "name": "Cremate",
     "plainName": "CREMATE",
     "abilityType": "SPELL",
-    "description": "Engulfs the target in intense flames, reducing them to ash.",
+    "description": "Engulfs the target in intense <b:red>flames</>, reducing them to ash.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2376,7 +2544,10 @@
       "failToCaster": "You light a huge fire next to {target}.",
       "failToVictim": "{actor} summons a huge fire nearby you, making it nice and toasty.",
       "failToRoom": "{actor} attempts to burn {target} in a huge fire, but seems to have issues with spatial perception."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 35,
+    "damageType": "FIRE"
   },
   {
     "name": "Crown Of Madness",
@@ -2420,10 +2591,10 @@
     "name": "Cure Blind",
     "plainName": "CURE_BLIND",
     "abilityType": "SPELL",
-    "description": "This spell will cure a person blinded by the \"blindness\" spell, it can not remove blindness caused by for example cursed items.",
+    "description": "This spell will <healing>cure</> a person blinded by the \"blindness\" spell, it can not remove blindness caused by for example cursed items.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2442,16 +2613,18 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Cure Critic",
     "plainName": "CURE_CRITIC",
     "abilityType": "SPELL",
-    "description": "This spell cures 3d8+3 hitpoints of damage.",
+    "description": "This spell <healing>cures</> 3d8+3 hitpoints of damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2470,16 +2643,18 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 15
   },
   {
     "name": "Cure Light",
     "plainName": "CURE_LIGHT",
     "abilityType": "SPELL",
-    "description": "Cures minor wounds and scratches.",
+    "description": "<healing>Cures</> minor <healing>wounds</> and scratches.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2498,16 +2673,18 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 9
   },
   {
     "name": "Cure Serious",
     "plainName": "CURE_SERIOUS",
     "abilityType": "SPELL",
-    "description": "Channels potent healing energy to restore a significant amount of health to the target.",
+    "description": "Channels potent <healing>healing</> energy to <healing>restore</> a significant amount of health to the target.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2526,7 +2703,9 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Curse",
@@ -2557,7 +2736,8 @@
       "successToVictim": "You feel very uncomfortable.",
       "successToCaster": "You curse {target}!",
       "successToRoom": "{target} briefly glows red!"
-    }
+    },
+    "sphere": "ENCHANTMENT"
   },
   {
     "name": "Dark Feast",
@@ -2566,7 +2746,7 @@
     "description": "Drains life force from the target to restore the caster's vitality.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2585,7 +2765,9 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 5
   },
   {
     "name": "Dark Presence",
@@ -2594,7 +2776,7 @@
     "description": "Emanates an aura of dread that unnerves nearby creatures.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2633,7 +2815,9 @@
         "value": "good",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Darkness",
@@ -2642,7 +2826,7 @@
     "description": "Creates a sphere of magical darkness that obscures all vision.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2662,13 +2846,15 @@
     "messages": {
       "wearoffToTarget": "The magical darkness lifts.",
       "lookMessage": "{pronoun.subjective} is shrouded in an aura of magical darkness."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Decay",
     "plainName": "DECAY",
     "abilityType": "SPELL",
-    "description": "Causes the target's flesh to rot and wither with necrotic energy.",
+    "description": "Causes the target's flesh to rot and <magenta>wither</> with <magenta>necrotic</> energy.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
@@ -2694,16 +2880,19 @@
       "failToCaster": "{target} resists your weak magick.",
       "failToVictim": "{actor} is unable to wither your resilient body!",
       "failToRoom": "{target} resists {actor}'s weak blight."
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Degeneration",
     "plainName": "DEGENERATION",
     "abilityType": "SPELL",
-    "description": "Curses the target with accelerated decay, dealing unholy damage over time.",
+    "description": "Curses the target with accelerated <magenta>decay</>, dealing unholy damage over time.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2725,7 +2914,10 @@
       "failToCaster": "Your harming powers seem to cause no effect at all.",
       "failToVictim": "You feel a tingle as {actor} completes {actor} spell, but no pain.",
       "failToRoom": "{actor} looks confused as {target} continues on unharmed."
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 12,
+    "damageType": "HEAL"
   },
   {
     "name": "Demonic Aspect",
@@ -2734,7 +2926,7 @@
     "description": "Transforms the caster to take on demonic characteristics.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2774,7 +2966,9 @@
         "value": "good",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Demonic Mutation",
@@ -2783,7 +2977,7 @@
     "description": "Induces horrific mutations that grant enhanced combat abilities.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2823,16 +3017,18 @@
         "value": "good",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Demonskin",
     "plainName": "DEMONSKIN",
     "abilityType": "SPELL",
-    "description": "Hardens the skin with infernal power, providing demonic protection.",
+    "description": "Hardens the skin with infernal power, providing demonic <b:blue>protection</>.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2871,16 +3067,18 @@
         "value": "good",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Destroy Undead",
     "plainName": "DESTROY_UNDEAD",
     "abilityType": "SPELL",
-    "description": "Channels holy power to annihilate undead creatures.",
+    "description": "Channels holy power to annihilate <magenta>undead</> creatures.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2910,7 +3108,10 @@
         "value": "undead",
         "required": true
       }
-    ]
+    ],
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Detect Alignment",
@@ -2919,7 +3120,7 @@
     "description": "Reveals the moral alignment of creatures in the area.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2942,16 +3143,18 @@
       "successToRoom": "{target} glows briefly.",
       "successToSelf": "Your eyes tingle as you sense alignments.",
       "successSelfRoom": "{actor}'s eyes glow briefly."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 9
   },
   {
     "name": "Detect Invisibility",
     "plainName": "DETECT_INVIS",
     "abilityType": "SPELL",
-    "description": "Grants the ability to see invisible creatures and objects.",
+    "description": "Grants the ability to <cyan>see</> <cyan>invisible</> creatures and objects.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -2974,16 +3177,18 @@
       "successToRoom": "{target}'s eyes glow briefly.",
       "successToSelf": "Your eyes tingle as you perceive the invisible.",
       "successSelfRoom": "{actor}'s eyes glow briefly."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 19
   },
   {
     "name": "Detect Magic",
     "plainName": "DETECT_MAGIC",
     "abilityType": "SPELL",
-    "description": "This spell will let you see the magical aura surrounding magical objects.",
+    "description": "This spell will let you <cyan>see</> the magical aura surrounding magical objects.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3006,16 +3211,18 @@
       "successToRoom": "{target}'s eyes shimmer.",
       "successToSelf": "Your eyes tingle as you perceive magical auras.",
       "successSelfRoom": "{actor}'s eyes shimmer."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 5
   },
   {
     "name": "Detect Poison",
     "plainName": "DETECT_POISON",
     "abilityType": "SPELL",
-    "description": "Cast on food or drinks (drink containers) you will be able to sense if it is poisoned. Cast on a person you will be able to see if that person is",
+    "description": "Cast on food or drinks (drink containers) you will be able to <cyan>sense</> if it is poisoned. Cast on a person you will be able to <cyan>see</> if that person is",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3038,7 +3245,9 @@
       "successToRoom": "{target} seems more aware.",
       "successToSelf": "Your senses sharpen.",
       "successSelfRoom": "{actor} seems more aware."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 13
   },
   {
     "name": "Detonation",
@@ -3079,16 +3288,19 @@
       "failToCaster": "You point at a boulder, and it crumbles harmlessly into dust.",
       "failToVictim": "{actor} points harmlessly at a boulder near you.",
       "failToRoom": "{actor} points harmlessly at a boulder near {target}."
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 10,
+    "damageType": "CRUSH"
   },
   {
     "name": "Dimension Door",
     "plainName": "DIMENSION_DOOR",
     "abilityType": "SPELL",
-    "description": "Opens a brief portal to teleport to a nearby location.",
+    "description": "Opens a brief <magenta>portal</> to <magenta>teleport</> to a nearby location.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3105,7 +3317,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 15
   },
   {
     "name": "Disarm",
@@ -3237,7 +3451,9 @@
       "failToCaster": "{target}'s bonds show no sign of weakening.",
       "failToVictim": "{actor}'s spell does not seem to affect you, other than a light breezy sensation.",
       "failToRoom": "{target} shows no sign that {actor}'s spell affected {target} at all."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 14
   },
   {
     "name": "Disease",
@@ -3246,7 +3462,7 @@
     "description": "Infects the target with a debilitating sickness that drains vitality over time.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3267,7 +3483,55 @@
     "messages": {
       "wearoffToTarget": "You are cured of your disease!",
       "lookMessage": "{pronoun.subjective} looks terribly ill and diseased."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
+  },
+  {
+    "name": "Disengage",
+    "plainName": "DISENGAGE",
+    "abilityType": "SKILL",
+    "description": "Tactically withdraw from melee combat, creating distance between you and your opponent.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 12000,
+    "inCombatOnly": true,
+    "combatOk": true,
+    "isArea": false,
+    "isToggle": false,
+    "tags": [
+      "combat",
+      "defensive",
+      "rogue"
+    ],
+    "notes": "Allows escape from melee range without provoking opportunity attacks. 12 second cooldown.",
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "in_combat",
+          "message": "You're not in combat!"
+        },
+        {
+          "type": "not_immobilized",
+          "message": "You can't move!"
+        }
+      ]
+    },
+    "messages": {
+      "successToCaster": "You skillfully disengage from combat!",
+      "successToRoom": "{actor} skillfully disengages from combat!",
+      "failToCaster": "You try to disengage but your opponent blocks your escape!",
+      "failToRoom": "{actor} tries to disengage but is blocked!"
+    },
+    "effects": [
+      {
+        "effect": "stop_combat",
+        "order": 0,
+        "params": {},
+        "trigger": "on_cast"
+      }
+    ]
   },
   {
     "name": "Disintegrate",
@@ -3299,7 +3563,51 @@
       "failToCaster": "Your disintegration ray seems to have missed!",
       "failToVictim": "{actor}'s disintegration ray missed you!",
       "failToRoom": "{actor}'s disintegration ray missed {target}!"
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 27,
+    "damageType": "ACID"
+  },
+  {
+    "name": "Dismount",
+    "plainName": "DISMOUNT",
+    "abilityType": "SKILL",
+    "description": "Dismount from your current mount.",
+    "minPosition": "SITTING",
+    "violent": false,
+    "castTimeRounds": 0,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "combatOk": true,
+    "isArea": false,
+    "isToggle": false,
+    "tags": [
+      "mount",
+      "movement"
+    ],
+    "notes": "Basic skill to get off a mount. No skill check required.",
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "is_mounted",
+          "message": "You're not riding anything!"
+        }
+      ]
+    },
+    "messages": {
+      "successToCaster": "You dismount.",
+      "successToRoom": "{actor} dismounts."
+    },
+    "effects": [
+      {
+        "effect": "dismount",
+        "order": 0,
+        "params": {
+          "forced": false
+        },
+        "trigger": "on_cast"
+      }
+    ]
   },
   {
     "name": "Dispel Evil",
@@ -3308,7 +3616,7 @@
     "description": "This spell will only affect evil creatures.  An evil person of level equal or less than caster will suffer 100 damage points. If the victim is higher level than caster, the spell will inflict",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3338,7 +3646,10 @@
         "value": "evil",
         "required": true
       }
-    ]
+    ],
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Dispel Good",
@@ -3347,7 +3658,7 @@
     "description": "This spell will only affect good creatures.  A good person of level equal or less than caster will suffer 100 damage points. If the victim is higher level than caster, the spell will inflict",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3377,7 +3688,10 @@
         "value": "good",
         "required": true
       }
-    ]
+    ],
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Dispel Magic",
@@ -3410,7 +3724,9 @@
       "failToCaster": "You failed to weaken {target} at all.",
       "failToVictim": "{actor} tries to dispel you, but nothing happens.",
       "failToRoom": "{target} looks bemused at {actor}'s attempt to dispel {target}!"
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 15
   },
   {
     "name": "Displacement",
@@ -3419,7 +3735,7 @@
     "description": "Causes light to bend around the target, making their true position unclear.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3443,7 +3759,10 @@
       "successToRoom": "{target}'s image blurs into the shadows!",
       "successToSelf": "Your image blurs into the shadows!",
       "successSelfRoom": "{actor}'s image blurs into the shadows!"
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 19,
+    "damageType": "MENTAL"
   },
   {
     "name": "Divine Bolt",
@@ -3452,7 +3771,7 @@
     "description": "Hurls a bolt of pure divine energy at the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3475,7 +3794,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Divine Essence",
@@ -3484,7 +3806,7 @@
     "description": "Infuses the target with divine power, enhancing their abilities.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3506,7 +3828,9 @@
       "successToRoom": "{actor} casts divine essence.",
       "wearoffToTarget": "The effects of divine essence wear off.",
       "lookMessage": "{pronoun.subjective} radiates with pure divine essence."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Divine Ray",
@@ -3515,7 +3839,7 @@
     "description": "Projects a searing ray of holy light that burns the unholy.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3538,7 +3862,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Dodge",
@@ -3579,7 +3906,7 @@
     "description": "Fills the target with overwhelming dread and despair.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3602,7 +3929,10 @@
       "successToRoom": "{actor} casts doom on {target}.",
       "wearoffToTarget": "The effects of doom wear off.",
       "lookMessage": "{pronoun.subjective} glows with a divine, protective light."
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 35,
+    "damageType": "ACID"
   },
   {
     "name": "Doorbash",
@@ -3678,6 +4008,8 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "contestedVisibility": true,
+    "visibilityCheck": "backstab vs perception",
     "tags": [
       "stealth"
     ],
@@ -3733,13 +4065,72 @@
     }
   },
   {
+    "name": "Drag",
+    "plainName": "DRAG",
+    "abilityType": "SKILL",
+    "description": "Drag a corpse or unconscious body to another location.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 2,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "combatOk": false,
+    "isArea": false,
+    "isToggle": false,
+    "tags": [
+      "utility",
+      "corpse"
+    ],
+    "notes": "Allows moving corpses between rooms. Speed reduced while dragging. Cannot drag in combat.",
+    "targeting": {
+      "validTargets": [
+        "CORPSE",
+        "UNCONSCIOUS"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 1,
+      "requireLos": true
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "not_in_combat",
+          "message": "You can't drag anything while fighting!"
+        },
+        {
+          "type": "target_draggable",
+          "message": "You can't drag that!"
+        },
+        {
+          "type": "strength_check",
+          "message": "It's too heavy for you to drag!"
+        }
+      ]
+    },
+    "messages": {
+      "successToCaster": "You grab {target} and begin dragging.",
+      "successToRoom": "{actor} grabs {target} and begins dragging."
+    },
+    "effects": [
+      {
+        "effect": "drag",
+        "order": 0,
+        "params": {
+          "speedPenalty": 0.5
+        },
+        "trigger": "on_cast"
+      }
+    ]
+  },
+  {
     "name": "Dragons Health",
     "plainName": "DRAGONS_HEALTH",
     "abilityType": "SPELL",
     "description": "Grants the legendary vitality and regeneration of dragonkind.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3763,7 +4154,9 @@
       "successToRoom": "{target} looks incredibly healthy!",
       "successToSelf": "You feel the blood of dragons surge through your veins!",
       "successSelfRoom": "{actor} looks incredibly healthy!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 21
   },
   {
     "name": "Dual Wield",
@@ -3788,7 +4181,7 @@
     "description": "Channels the enduring strength of the earth into the target, bolstering their constitution and physical resilience.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3822,16 +4215,18 @@
         "value": "neutral",
         "required": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Earthquake",
     "plainName": "EARTHQUAKE",
     "abilityType": "SPELL",
-    "description": "Causes the ground to violently shake and rupture, damaging and potentially knocking down all creatures in the area.",
+    "description": "Causes the <green>ground</> to violently shake and rupture, damaging and potentially knocking down all creatures in the area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -3863,7 +4258,10 @@
       "failToCaster": "{target} desperately tries to keep {target} balance as the earth shakes beneath {target} feet!",
       "failToVictim": "You desperately try to keep your balance as the earth shakes beneath your feet!",
       "failToRoom": "{target} desperately tries to keep {target} balance as the earth shakes beneath {target} feet!"
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 5,
+    "damageType": "ACID"
   },
   {
     "name": "Electrify",
@@ -3901,10 +4299,10 @@
     "name": "Elemental Warding",
     "plainName": "ELEMENTAL_WARDING",
     "abilityType": "SPELL",
-    "description": "Surrounds the target with a protective barrier that absorbs fire damage.",
+    "description": "Surrounds the target with a protective <b:blue>barrier</> that absorbs fire damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3930,16 +4328,47 @@
       "successToRoom": "{target} is warded from the elements.",
       "successToSelf": "You feel protected from the elements.",
       "successSelfRoom": "{actor} is warded from the elements."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
+  },
+  {
+    "name": "Empower",
+    "plainName": "HARNESS",
+    "abilityType": "SPELL",
+    "description": "Channels magical energy to empower your next spell. The empowered spell deals additional damage based on the target's level.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 0.5,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "notes": "Next spell deals +1% damage per victim level. Consumed on first spell cast.",
+    "effects": [
+      {
+        "effect": "status",
+        "order": 0,
+        "params": {
+          "flag": "empowered",
+          "consumeOnCast": true
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "wearoffToTarget": "The harnessed power in your body fades."
+    },
+    "sphere": "GENERIC",
+    "pages": 21
   },
   {
     "name": "Enchant Weapon",
     "plainName": "ENCHANT_WEAPON",
     "abilityType": "SPELL",
-    "description": "This spell will enchant non-magical (non-modifying) weapons only. By non-modifying weapons we refer to weapons that might alter any ability such as for example damage.  The only way to know if a weapon",
+    "description": "This spell will <b:magenta>enchant</> non-magical (non-modifying) weapons only. By non-modifying weapons we refer to weapons that might alter any ability such as for example damage.  The only way to know if a weapon",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3959,7 +4388,9 @@
       "successToVictim": "{actor} casts enchant weapon on you.",
       "successToRoom": "{actor} casts enchant weapon.",
       "wearoffToTarget": "The effects of enchant weapon wear off."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 23
   },
   {
     "name": "Endurance",
@@ -3968,7 +4399,7 @@
     "description": "Enhances the target's stamina and resistance to fatigue.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -3992,7 +4423,9 @@
       "successToRoom": "{target} looks more resilient.",
       "successToSelf": "You feel you can endure more pain!",
       "successSelfRoom": "{actor} looks more resilient."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 7
   },
   {
     "name": "Energy Drain",
@@ -4001,7 +4434,7 @@
     "description": "This spell does not give much damage, but victims failing their saving throws will loose up to 40,000 XP points.  You will gain a quarter of this XP.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4023,7 +4456,10 @@
       "failToCaster": "You need more draining lessons...",
       "failToVictim": "Luckily for you {actor} slept during draining-lessons!",
       "failToRoom": "{actor} fails to drain {target} -- what a waste of energy!"
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 19,
+    "damageType": "HEAL"
   },
   {
     "name": "Enhance Ability",
@@ -4032,7 +4468,7 @@
     "description": "Magically augments one of the target's natural abilities.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4056,7 +4492,9 @@
       "wearoffToTarget": "You feel less enhanced.",
       "successToSelf": "You feel enhanced!",
       "successSelfRoom": "{actor} looks enhanced!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enhance Charisma",
@@ -4065,7 +4503,7 @@
     "description": "Enhances the target's charisma and force of personality.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4089,7 +4527,9 @@
       "wearoffToTarget": "You feel uglier.",
       "successToSelf": "You feel more charismatic!",
       "successSelfRoom": "{actor} looks more charismatic!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enhance Constitution",
@@ -4098,7 +4538,7 @@
     "description": "Enhances the target's constitution and physical resilience.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4122,7 +4562,9 @@
       "wearoffToTarget": "You feel less healthy.",
       "successToSelf": "You feel healthier!",
       "successSelfRoom": "{actor} looks healthier!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enhance Dexterity",
@@ -4131,7 +4573,7 @@
     "description": "Enhances the target's dexterity and reflexes.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4155,7 +4597,9 @@
       "wearoffToTarget": "You feel slower.",
       "successToSelf": "You feel more dexterous!",
       "successSelfRoom": "{actor} looks more dexterous!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enhance Intelligence",
@@ -4164,7 +4608,7 @@
     "description": "Enhances the target's intelligence and mental acuity.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4188,7 +4632,9 @@
       "wearoffToTarget": "You feel dumber.",
       "successToSelf": "You feel smarter!",
       "successSelfRoom": "{actor} looks smarter!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enhance Strength",
@@ -4197,7 +4643,7 @@
     "description": "Enhances the target's strength and physical power.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4221,7 +4667,9 @@
       "wearoffToTarget": "You feel weaker.",
       "successToSelf": "You feel stronger!",
       "successSelfRoom": "{actor} looks stronger!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enhance Wisdom",
@@ -4230,7 +4678,7 @@
     "description": "Enhances the target's wisdom and perception.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4254,7 +4702,9 @@
       "wearoffToTarget": "You feel less witty.",
       "successToSelf": "You feel wiser!",
       "successSelfRoom": "{actor} looks wiser!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Enlarge",
@@ -4263,7 +4713,7 @@
     "description": "Causes the target to grow in size, increasing their strength and reach.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4287,7 +4737,9 @@
       "successToRoom": "{target}'s skin ripples as they enlarge to twice their size!",
       "successToSelf": "Your skin starts to itch as you grow to twice your normal size!",
       "successSelfRoom": "{actor}'s skin ripples as they enlarge to twice their size!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 29
   },
   {
     "name": "Enlightenment",
@@ -4296,7 +4748,7 @@
     "description": "Opens the mind to greater understanding and wisdom.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4319,7 +4771,9 @@
       "successToRoom": "{actor} casts enlightenment.",
       "wearoffToTarget": "You no longer understand all languages.",
       "lookMessage": "{pronoun.possessive} eyes glow with inner wisdom."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 5
   },
   {
     "name": "Enrapture",
@@ -4365,7 +4819,7 @@
     "description": "Causes plants to grasp and restrain creatures in the area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4387,16 +4841,19 @@
       "successToVictim": "Vines burst from the ground and entangle you!",
       "successToCaster": "You entangle {target} in vines!",
       "successToRoom": "Thick vines burst from the ground, entangling {target}!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5,
+    "damageType": "MENTAL"
   },
   {
     "name": "Exorcism",
     "plainName": "EXORCISM",
     "abilityType": "SPELL",
-    "description": "Drives out evil spirits and damages undead or demonic creatures.",
+    "description": "Drives out evil spirits and damages <magenta>undead</> or demonic creatures.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4418,7 +4875,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Extinguish",
@@ -4427,7 +4887,7 @@
     "description": "Dispels magical fire effects and removes burning conditions.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4447,7 +4907,9 @@
       "successToCaster": "You dispel the magic affecting {target}.",
       "successToVictim": "{actor} dispels the magic affecting you.",
       "successToRoom": "{actor} dispels the magic affecting {target}."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 11
   },
   {
     "name": "Eye Gouge",
@@ -4489,7 +4951,7 @@
     "description": "Creates a magical bond that aids in tracking a specific creature.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4512,16 +4974,18 @@
       "successToRoom": "{target} takes on a familiar disguise.",
       "successToSelf": "You take on a familiar disguise.",
       "successSelfRoom": "{actor} takes on a familiar disguise."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 10
   },
   {
     "name": "Farsee",
     "plainName": "FARSEE",
     "abilityType": "SPELL",
-    "description": "Extends the caster's vision to see distant locations.",
+    "description": "Extends the caster's <cyan>vision</> to <cyan>see</> distant locations.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4544,7 +5008,9 @@
       "successToRoom": "{target}'s pupils dilate rapidly.",
       "successToSelf": "Your sight improves dramatically.",
       "successSelfRoom": "{actor}'s pupils dilate rapidly."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 9
   },
   {
     "name": "Fear",
@@ -4553,7 +5019,7 @@
     "description": "Instills supernatural terror in the target, causing them to flee.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4576,7 +5042,10 @@
       "successToCaster": "You fill {target} with fear!",
       "successToRoom": "{target} looks terrified!",
       "lookMessage": "{pronoun.subjective} is cowering in abject terror."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5,
+    "damageType": "MENTAL"
   },
   {
     "name": "Feather Fall",
@@ -4585,7 +5054,7 @@
     "description": "Slows falling speed, allowing safe descent from any height.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4609,16 +5078,18 @@
       "successToSelf": "You feel light as a feather.",
       "successSelfRoom": "{actor} floats gently.",
       "lookMessage": "{pronoun.subjective} appears to be light as a feather."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 13
   },
   {
     "name": "Fire Breath",
     "plainName": "FIRE_BREATH",
     "abilityType": "SPELL",
-    "description": "Breathes a gout of magical flames upon enemies.",
+    "description": "Breathes a gout of magical <b:red>flames</> upon enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4640,16 +5111,19 @@
       "failToCaster": "You missed {target} with your fire breath.",
       "failToVictim": "{actor} breathes fire at you, but you avoid it.",
       "failToRoom": "{target} avoids {actor}'s fire breath."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
     "name": "Fire Darts",
     "plainName": "FIRE_DARTS",
     "abilityType": "SPELL",
-    "description": "Conjures and hurls multiple darts of fire at the target.",
+    "description": "Conjures and hurls multiple darts of <b:red>fire</> at the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4672,16 +5146,19 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 9,
+    "damageType": "FIRE"
   },
   {
     "name": "Fireball",
     "plainName": "FIREBALL",
     "abilityType": "SPELL",
-    "description": "Hurls a ball of fire that explodes on impact, dealing massive fire damage with concussive force.",
+    "description": "Hurls a ball of <b:red>fire</> that explodes on impact, dealing massive <b:red>fire</> damage with concussive force.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4713,7 +5190,10 @@
       "failToCaster": "Your fireball blooms few feet before {target} who claps {target} hands in wonder.",
       "failToVictim": "{actor} aims a fireball at you but it blooms few feet before you; you clap your hands at the show.",
       "failToRoom": "A fireball from {actor} misses {target} -- what great fireworks around here!!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 21,
+    "damageType": "FIRE"
   },
   {
     "name": "Fires Of Saint Augustine",
@@ -4757,10 +5237,10 @@
     "name": "Fireshield",
     "plainName": "FIRESHIELD",
     "abilityType": "SPELL",
-    "description": "Surrounds the caster with protective flames that burn attackers.",
+    "description": "Surrounds the caster with protective <b:red>flames</> that <b:red>burn</> attackers.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4784,16 +5264,19 @@
       "successToSelf": "A burning shield of fire explodes from your body!",
       "successSelfRoom": "A burning shield of fire explodes from {actor}'s body!",
       "lookMessage": "{pronoun.subjective} is surrounded by a shield of burning flames."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 17,
+    "damageType": "FIRE"
   },
   {
     "name": "Firestorm",
     "plainName": "FIRESTORM",
     "abilityType": "SPELL",
-    "description": "Calls down a devastating rain of fire over a wide area.",
+    "description": "Calls down a devastating rain of <b:red>fire</> over a wide area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -4816,7 +5299,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 25,
+    "damageType": "FIRE"
   },
   {
     "name": "First Aid",
@@ -4856,7 +5342,7 @@
     "description": "Creates a blade of pure fire that can be wielded as a weapon.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4874,16 +5360,18 @@
       "successToCaster": "You cast flame blade.",
       "successToRoom": "{actor} casts flame blade.",
       "lookMessage": "{pronoun.possessive} weapon burns with magical flames."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 19
   },
   {
     "name": "Flamestrike",
     "plainName": "FLAMESTRIKE",
     "abilityType": "SPELL",
-    "description": "Calls down a column of divine fire upon the target.",
+    "description": "Calls down a column of divine <b:red>fire</> upon the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4906,16 +5394,19 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
     "name": "Flood",
     "plainName": "FLOOD",
     "abilityType": "SPELL",
-    "description": "Summons a torrent of freezing water to wash over enemies.",
+    "description": "Summons a <cyan>torrent</> of freezing <cyan>water</> to wash over enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4938,7 +5429,9 @@
       "failToCaster": "Your torrent of water seems to have missed!",
       "failToVictim": "{actor}'s torrent of water missed you!",
       "failToRoom": "{actor}'s torrent of water missed {target}!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 35
   },
   {
     "name": "Fly",
@@ -4947,7 +5440,7 @@
     "description": "Grants the ability to fly, allowing movement through the air.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4972,7 +5465,9 @@
         },
         "trigger": "on_cast"
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 17
   },
   {
     "name": "Fracture",
@@ -5014,7 +5509,10 @@
       "failToCaster": "Your fracture fails to affect {target}.",
       "failToVictim": "{actor}'s fracture fails to affect you.",
       "failToRoom": "{actor}'s fracture fails to affect {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 17,
+    "damageType": "SLASH"
   },
   {
     "name": "Fracture Shrapnel",
@@ -5047,7 +5545,8 @@
       "failToCaster": "Your fracture shrapnel fails to affect {target}.",
       "failToVictim": "{actor}'s fracture shrapnel fails to affect you.",
       "failToRoom": "{actor}'s fracture shrapnel fails to affect {target}."
-    }
+    },
+    "sphere": "EARTH"
   },
   {
     "name": "Freedom Song",
@@ -5117,16 +5616,19 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 25,
+    "damageType": "COLD"
   },
   {
     "name": "Freezing Wind",
     "plainName": "FREEZING_WIND",
     "abilityType": "SPELL",
-    "description": "Summons a blast of arctic wind that freezes enemies.",
+    "description": "Summons a blast of arctic <b:yellow>wind</> that freezes enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5149,7 +5651,10 @@
       "failToCaster": "Your icy gust of wind seems to have missed!",
       "failToVictim": "{actor}'s icy gust of wind missed you!",
       "failToRoom": "{actor}'s icy gust of wind missed {target}!"
-    }
+    },
+    "sphere": "AIR",
+    "pages": 21,
+    "damageType": "COLD"
   },
   {
     "name": "Frost Breath",
@@ -5158,7 +5663,7 @@
     "description": "Breathes a cone of supernatural frost upon enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5180,7 +5685,10 @@
       "failToCaster": "You missed {target} with your frost breath.",
       "failToVictim": "{actor} breathes frost at you, but you avoid it.",
       "failToRoom": "{target} avoids {actor}'s frost breath."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 5,
+    "damageType": "COLD"
   },
   {
     "name": "Full Harm",
@@ -5189,7 +5697,7 @@
     "description": "Channels devastating negative energy to reduce the target to near death.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5211,16 +5719,19 @@
       "failToCaster": "Swinging out at {target}, you miss and your harm spell goes off harmlessly.",
       "failToVictim": "You duck out of the way of {actor} and {actor} harm spell misses you.",
       "failToRoom": "Showing remarkable dexterity, {target} avoids {actor}'s reach and subsequent harm spell."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Full Heal",
     "plainName": "FULL_HEAL",
     "abilityType": "SPELL",
-    "description": "Channels powerful divine energy to fully restore a creature's health.",
+    "description": "Channels powerful divine energy to fully <healing>restore</> a creature's health.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5239,7 +5750,22 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
+  },
+  {
+    "name": "Gaia's Cloak",
+    "plainName": "GAIAS_CLOAK",
+    "abilityType": "SPELL",
+    "description": "Wraps the target in a protective shroud of living earth.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "PROTECTION"
   },
   {
     "name": "Gas Breath",
@@ -5248,7 +5774,7 @@
     "description": "Exhales a cloud of poisonous gas that chokes enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5277,7 +5803,10 @@
       "failToVictim": "{actor} breathes gas at you, but you avoid it.",
       "failToRoom": "{target} avoids {actor}'s gas breath.",
       "wearoffToTarget": "The poisonous gas dissipates."
-    }
+    },
+    "sphere": "AIR",
+    "pages": 5,
+    "damageType": "POISON"
   },
   {
     "name": "Glory",
@@ -5286,7 +5815,7 @@
     "description": "Surrounds the target with an aura of divine magnificence.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5310,7 +5839,9 @@
       "successToRoom": "{target} seems taller, appearing like unto a god.",
       "successToSelf": "You stand tall, a beacon of greatness.",
       "successSelfRoom": "{actor} seems taller, appearing like unto a god."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 17
   },
   {
     "name": "Greater Displacement",
@@ -5319,7 +5850,7 @@
     "description": "Powerfully warps light around the target, making them very difficult to hit.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5343,7 +5874,10 @@
       "successToRoom": "{target}'s image blurs into the shadows!",
       "successToSelf": "Your image blurs deep into the shadows!",
       "successSelfRoom": "{actor}'s image blurs into the shadows!"
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 19,
+    "damageType": "MENTAL"
   },
   {
     "name": "Greater Endurance",
@@ -5352,7 +5886,7 @@
     "description": "Grants exceptional stamina and resistance to exhaustion.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5376,7 +5910,9 @@
       "successToRoom": "{target} looks much more resilient.",
       "successToSelf": "You feel you can endure significant pain!",
       "successSelfRoom": "{actor} looks much more resilient."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 11
   },
   {
     "name": "Greater Vitality",
@@ -5385,7 +5921,7 @@
     "description": "Infuses the target with tremendous life force and vigor.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5409,7 +5945,9 @@
       "successToRoom": "{target} looks much more vital.",
       "successToSelf": "You feel greatly vitalized!",
       "successSelfRoom": "{actor} looks much more vital."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 11
   },
   {
     "name": "Ground Shaker",
@@ -5448,10 +5986,10 @@
     "name": "Group Armor",
     "plainName": "GROUP_ARMOR",
     "abilityType": "SPELL",
-    "description": "Extends magical protection to all members of the caster's group.",
+    "description": "Extends magical <b:blue>protection</> to all members of the caster's group.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5473,16 +6011,18 @@
       "successToVictim": "{actor} casts group armor on you.",
       "successToRoom": "{actor} casts group armor.",
       "wearoffToTarget": "You feel less protected."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 9
   },
   {
     "name": "Group Heal",
     "plainName": "GROUP_HEAL",
     "abilityType": "SPELL",
-    "description": "Channels healing energy to restore health to all nearby allies.",
+    "description": "Channels <healing>healing</> energy to <healing>restore</> health to all nearby allies.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -5502,7 +6042,9 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Group Recall",
@@ -5511,7 +6053,7 @@
     "description": "Teleports the entire group back to their designated recall point.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5528,7 +6070,10 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Group Retreat",
@@ -5592,7 +6137,7 @@
     "description": "This spell removes all but 1d4 hitpoints from the victim.  The maximum number of damage points are 100.  It is not possible to kill using this spell (but almost).",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5614,34 +6159,10 @@
       "failToCaster": "Swinging out at {target}, you miss and your harm spell goes off harmlessly.",
       "failToVictim": "You duck out of the way of {actor} and {actor} harm spell misses you.",
       "failToRoom": "Showing remarkable dexterity, {target} avoids {actor}'s reach and subsequent harm spell."
-    }
-  },
-  {
-    "name": "Empower",
-    "plainName": "HARNESS",
-    "abilityType": "SPELL",
-    "description": "Channels magical energy to empower your next spell. The empowered spell deals additional damage based on the target's level.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "notes": "Next spell deals +1% damage per victim level. Consumed on first spell cast.",
-    "effects": [
-      {
-        "effect": "status",
-        "order": 0,
-        "params": {
-          "flag": "empowered",
-          "consumeOnCast": true
-        },
-        "trigger": "on_cast"
-      }
-    ],
-    "messages": {
-      "wearoffToTarget": "The harnessed power in your body fades."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Haste",
@@ -5650,7 +6171,7 @@
     "description": "Accelerates the target's movements and reflexes dramatically.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5674,16 +6195,18 @@
       "successToSelf": "You start to move with uncanny speed!",
       "successSelfRoom": "{actor} starts to move with uncanny speed!",
       "lookMessage": "{pronoun.subjective} is moving with unnatural speed."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 19
   },
   {
     "name": "Heal",
     "plainName": "HEAL",
     "abilityType": "SPELL",
-    "description": "Heal will heal all the hitpoints from a person, except 1d4 points. Maximum 100 points can be healed.  A victim who is blinded will also be cured by the heal spell.",
+    "description": "<healing>Heal</> will <healing>heal</> all the hitpoints from a person, except 1d4 points. Maximum 100 points can be healed.  A victim who is blinded will also be cured by the <healing>heal</> spell.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5702,7 +6225,9 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Hearthsong",
@@ -5749,7 +6274,7 @@
     "description": "Creates a bidirectional tunnel of divine light between caster and target player.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5769,7 +6294,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Hell Bolt",
@@ -5778,7 +6305,7 @@
     "description": "Hurls a bolt of infernal energy drawn from the lower planes.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5801,42 +6328,13 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
-    "name": "Hellfire and Brimstone",
-    "plainName": "HELLFIRE_BRIMSTONE",
-    "abilityType": "SPELL",
-    "description": "Rains hellfire and brimstone upon enemies in a devastating area attack.",
-    "minPosition": "STANDING",
-    "violent": true,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "effects": [
-      {
-        "effect": "damage",
-        "order": 0,
-        "params": {
-          "type": "fire",
-          "amount": "base_damage + (pow(skill, 2) * 1) / 180, then *= (caster_align * -0.0022 - 0.7)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
-        },
-        "trigger": "on_cast"
-      }
-    ],
-    "messages": {
-      "successToCaster": "{target} chokes and burns as {target} is enveloped by your hellish onslaught.",
-      "successToVictim": "You choke and burn as you are enveloped by {actor}'s hellish onslaught.",
-      "successToRoom": "{target} chokes and burns as {target} is enveloped by {actor}'s hellish onslaught.",
-      "failToCaster": "Your spell seems to have missed!",
-      "failToVictim": "{actor}'s spell missed you!",
-      "failToRoom": "{actor}'s spell missed {target}!"
-    }
-  },
-  {
-    "name": "Hells Gate",
+    "name": "Hell's Gate",
     "plainName": "HELLS_GATE",
     "abilityType": "SPELL",
     "description": "Opens a dark hole in the earth connecting caster and target player through hell itself.",
@@ -5862,7 +6360,43 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING"
+  },
+  {
+    "name": "Hellfire and Brimstone",
+    "plainName": "HELLFIRE_BRIMSTONE",
+    "abilityType": "SPELL",
+    "description": "Rains hellfire and brimstone upon enemies in a devastating area attack.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 4.0,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "effects": [
+      {
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "type": "fire",
+          "amount": "base_damage + (pow(skill, 2) * 1) / 180, then *= (caster_align * -0.0022 - 0.7)",
+          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "{target} chokes and burns as {target} is enveloped by your hellish onslaught.",
+      "successToVictim": "You choke and burn as you are enveloped by {actor}'s hellish onslaught.",
+      "successToRoom": "{target} chokes and burns as {target} is enveloped by {actor}'s hellish onslaught.",
+      "failToCaster": "Your spell seems to have missed!",
+      "failToVictim": "{actor}'s spell missed you!",
+      "failToRoom": "{actor}'s spell missed {target}!"
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
     "name": "Heroic Journey",
@@ -5914,6 +6448,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "isToggle": true,
+    "contestedVisibility": true,
+    "visibilityCheck": "hide vs perception",
     "tags": [
       "stealth",
       "rogue"
@@ -5986,7 +6522,7 @@
     "description": "Speaks a word of divine power that smites unholy creatures.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6023,7 +6559,10 @@
         "value": "good",
         "required": true
       }
-    ]
+    ],
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Hunt",
@@ -6086,7 +6625,7 @@
     "description": "Drives the target into a state of uncontrollable panic.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6108,7 +6647,10 @@
       "successToVictim": "You are overcome with terror!",
       "successToCaster": "You fill {target} with hysteria!",
       "successToRoom": "{target} shrieks in terror!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 16,
+    "damageType": "MENTAL"
   },
   {
     "name": "Ice Armor",
@@ -6117,7 +6659,7 @@
     "description": "Encases the target in protective ice that deflects attacks.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6142,7 +6684,9 @@
       "successToSelf": "Your body is encased in a layer of solid ice.",
       "successSelfRoom": "{actor}'s body is encased in solid ice.",
       "lookMessage": "{pronoun.subjective} is encased in glistening armor of solid ice."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 13
   },
   {
     "name": "Ice Dagger",
@@ -6151,7 +6695,7 @@
     "description": "Conjures a razor-sharp dagger of ice to hurl at the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6173,7 +6717,9 @@
       "failToCaster": "Your ice dagger fails to affect {target}.",
       "failToVictim": "{actor}'s ice dagger fails to affect you.",
       "failToRoom": "{actor}'s ice dagger fails to affect {target}."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 17
   },
   {
     "name": "Ice Darts",
@@ -6205,7 +6751,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 7,
+    "damageType": "COLD"
   },
   {
     "name": "Ice Shards",
@@ -6214,7 +6763,7 @@
     "description": "Launches a barrage of frozen shards that tear through enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6237,7 +6786,10 @@
       "failToCaster": "Your shards zoom right by {target}'s shoulder.",
       "failToVictim": "{actor} sends a swarm of ice shards at you, but you duck in time.",
       "failToRoom": "{actor} launches a cloud of icy knives near {target}."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 31,
+    "damageType": "COLD"
   },
   {
     "name": "Ice Storm",
@@ -6246,7 +6798,7 @@
     "description": "Conjures a devastating storm of ice and hail over a wide area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -6269,7 +6821,10 @@
       "failToCaster": "{target} dodges your storm!",
       "failToVictim": "You smirk and easily avoid {actor}'s silly snowflakes.",
       "failToRoom": "{target} seems unaffected by the onslaught of ice and snow!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 23,
+    "damageType": "COLD"
   },
   {
     "name": "Iceball",
@@ -6310,7 +6865,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 29,
+    "damageType": "COLD"
   },
   {
     "name": "Identify",
@@ -6319,7 +6877,7 @@
     "description": "This divination spell reveals the magical properties, stats, and effects of a targeted item.",
     "minPosition": "SITTING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6338,7 +6896,9 @@
     "messages": {
       "successToCaster": "You cast identify.",
       "successToRoom": "{actor} casts identify."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 5
   },
   {
     "name": "Illumination",
@@ -6347,7 +6907,7 @@
     "description": "Creates a sphere of bright light that banishes darkness.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6369,7 +6929,9 @@
       "successToVictim": "A magical light illuminates the area.",
       "successToCaster": "You create magical light.",
       "successToRoom": "A magical light illuminates the area."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Illusory Wall",
@@ -6378,7 +6940,7 @@
     "description": "Creates the illusion of a solid wall that conceals what lies behind.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6398,13 +6960,15 @@
     ],
     "messages": {
       "wearoffToTarget": "The wall dissolves into tiny motes of light..."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 27
   },
   {
     "name": "Immolate",
     "plainName": "IMMOLATE",
     "abilityType": "SPELL",
-    "description": "Sets the target ablaze with magical fire that continues to burn.",
+    "description": "Sets the target ablaze with magical <b:red>fire</> that continues to <b:red>burn</>.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -6430,16 +6994,19 @@
       "failToCaster": "You spew angry red flames at {target}, but miss.",
       "failToVictim": "{actor}'s hungry flames miss you.",
       "failToRoom": "{actor} hurls voracious red flames at {target}, but misses."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 25,
+    "damageType": "FIRE"
   },
   {
     "name": "Incendiary Nebula",
     "plainName": "INCENDIARY_NEBULA",
     "abilityType": "SPELL",
-    "description": "Creates a swirling cloud of burning embers and smoke.",
+    "description": "Creates a swirling cloud of <b:red>burning</> <b:red>embers</> and smoke.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -6461,16 +7028,19 @@
       "failToCaster": "Your incendiary nebula fails to affect {target}.",
       "failToVictim": "{actor}'s incendiary nebula fails to affect you.",
       "failToRoom": "{actor}'s incendiary nebula fails to affect {target}."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 35,
+    "damageType": "FIRE"
   },
   {
     "name": "Infravision",
     "plainName": "INFRAVISION",
     "abilityType": "SPELL",
-    "description": "Allows the caster to detect the heat given off by objects giving them the ability to have much better vision in dark conditions.",
+    "description": "Allows the caster to <cyan>detect</> the heat given off by objects giving them the ability to have much better <cyan>vision</> in dark conditions.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6494,10 +7064,12 @@
       "successToSelf": "Your eyes glow red as you see heat.",
       "successSelfRoom": "{actor}'s eyes glow red.",
       "lookMessage": "{pronoun.possessive} eyes glow with a faint red hue."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 9
   },
   {
-    "name": "Innate Ascen",
+    "name": "Innate Ascension",
     "plainName": "INNATE_ASCEN",
     "abilityType": "SPELL",
     "description": "Innate ascendant power that enhances the user's natural abilities.",
@@ -6526,10 +7098,24 @@
       "successToRoom": "{target} feels more splendid.",
       "successToSelf": "You feel more splendid.",
       "successSelfRoom": "{actor} seems more radiant."
-    }
+    },
+    "sphere": "ENCHANTMENT"
   },
   {
-    "name": "Innate Brill",
+    "name": "Innate Ascension",
+    "plainName": "INN_ASCEN",
+    "abilityType": "SPELL",
+    "description": "Innate power that enhances ascendant abilities.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "ENCHANTMENT"
+  },
+  {
+    "name": "Innate Brilliance",
     "plainName": "INNATE_BRILL",
     "abilityType": "SPELL",
     "description": "Innate brilliance that sharpens the mind and enhances magical aptitude.",
@@ -6558,10 +7144,24 @@
       "successToRoom": "{target} feels more intelligent.",
       "successToSelf": "You feel more intelligent.",
       "successSelfRoom": "{actor} seems sharper."
-    }
+    },
+    "sphere": "ENCHANTMENT"
   },
   {
-    "name": "Innate Chaz",
+    "name": "Innate Brilliance",
+    "plainName": "INN_BRILL",
+    "abilityType": "SPELL",
+    "description": "Innate brilliance that sharpens the mind.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "ENCHANTMENT"
+  },
+  {
+    "name": "Innate Charisma",
     "plainName": "INNATE_CHAZ",
     "abilityType": "SPELL",
     "description": "Innate physical might that augments raw muscular power.",
@@ -6590,74 +7190,11 @@
       "successToRoom": "{target} feels stronger.",
       "successToSelf": "You feel stronger.",
       "successSelfRoom": "{actor} looks stronger."
-    }
+    },
+    "sphere": "ENCHANTMENT"
   },
   {
-    "name": "Innate Syll",
-    "plainName": "INNATE_SYLL",
-    "abilityType": "SPELL",
-    "description": "Innate sylvan connection that attunes the user to natural forces.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "effects": [
-      {
-        "effect": "modify",
-        "order": 0,
-        "params": {
-          "amount": "1 + (skill / 18)",
-          "duration": "(skill >> 1) + 4",
-          "target": "dex",
-          "durationUnit": "hours"
-        },
-        "trigger": "on_cast"
-      }
-    ],
-    "messages": {
-      "wearoffToTarget": "You feel clumsier.",
-      "successToVictim": "You feel more agile.",
-      "successToRoom": "{target} feels more agile.",
-      "successToSelf": "You feel more agile.",
-      "successSelfRoom": "{actor} moves more fluidly."
-    }
-  },
-  {
-    "name": "Innate Tass",
-    "plainName": "INNATE_TASS",
-    "abilityType": "SPELL",
-    "description": "Innate tassilan power that enhances perceptive abilities.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "effects": [
-      {
-        "effect": "modify",
-        "order": 0,
-        "params": {
-          "amount": "1 + (skill / 18)",
-          "duration": "(skill >> 1) + 4",
-          "target": "wis",
-          "durationUnit": "hours"
-        },
-        "trigger": "on_cast"
-      }
-    ],
-    "messages": {
-      "wearoffToTarget": "You feel less wise.",
-      "successToVictim": "You feel wiser.",
-      "successToRoom": "{target} feels wiser.",
-      "successToSelf": "You feel wiser.",
-      "successSelfRoom": "{actor} seems more thoughtful."
-    }
-  },
-  {
-    "name": "Innate Tren",
+    "name": "Innate Fortitude",
     "plainName": "INNATE_TREN",
     "abilityType": "SPELL",
     "description": "Innate trentian fortitude that bolsters constitution and endurance.",
@@ -6686,16 +7223,135 @@
       "successToRoom": "{target} feels healthier.",
       "successToSelf": "You feel healthier.",
       "successSelfRoom": "{actor} looks healthier."
-    }
+    },
+    "sphere": "PROTECTION"
+  },
+  {
+    "name": "Innate Fortitude",
+    "plainName": "INN_TREN",
+    "abilityType": "SPELL",
+    "description": "Innate fortitude that bolsters endurance.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "PROTECTION"
+  },
+  {
+    "name": "Innate Perception",
+    "plainName": "INNATE_TASS",
+    "abilityType": "SPELL",
+    "description": "Innate tassilan power that enhances perceptive abilities.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "amount": "1 + (skill / 18)",
+          "duration": "(skill >> 1) + 4",
+          "target": "wis",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "wearoffToTarget": "You feel less wise.",
+      "successToVictim": "You feel wiser.",
+      "successToRoom": "{target} feels wiser.",
+      "successToSelf": "You feel wiser.",
+      "successSelfRoom": "{actor} seems more thoughtful."
+    },
+    "sphere": "DIVINATION"
+  },
+  {
+    "name": "Innate Perception",
+    "plainName": "INN_TASS",
+    "abilityType": "SPELL",
+    "description": "Innate enhancement of perceptive abilities.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "DIVINATION"
+  },
+  {
+    "name": "Innate Strength",
+    "plainName": "INN_STRENGTH",
+    "abilityType": "SPELL",
+    "description": "Innate power that augments physical strength.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "ENCHANTMENT"
+  },
+  {
+    "name": "Innate Sylvan",
+    "plainName": "INNATE_SYLL",
+    "abilityType": "SPELL",
+    "description": "Innate sylvan connection that attunes the user to natural forces.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "amount": "1 + (skill / 18)",
+          "duration": "(skill >> 1) + 4",
+          "target": "dex",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "wearoffToTarget": "You feel clumsier.",
+      "successToVictim": "You feel more agile.",
+      "successToRoom": "{target} feels more agile.",
+      "successToSelf": "You feel more agile.",
+      "successSelfRoom": "{actor} moves more fluidly."
+    },
+    "sphere": "ENCHANTMENT"
+  },
+  {
+    "name": "Innate Sylvan",
+    "plainName": "INN_SYLL",
+    "abilityType": "SPELL",
+    "description": "Innate connection to sylvan forces.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "ENCHANTMENT"
   },
   {
     "name": "Insanity",
     "plainName": "INSANITY",
     "abilityType": "SPELL",
-    "description": "Shatters the target's mind with overwhelming madness.",
+    "description": "Shatters the target's <b:magenta>mind</> with overwhelming madness.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6717,7 +7373,10 @@
       "successToVictim": "You go out of your mind!",
       "successToCaster": "You drive {target} insane!",
       "successToRoom": "{target}'s psyche snaps... a crazed gleam fills their eyes."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5,
+    "damageType": "MENTAL"
   },
   {
     "name": "Inspiration",
@@ -6827,10 +7486,10 @@
     "name": "Invigorate",
     "plainName": "INVIGORATE",
     "abilityType": "SPELL",
-    "description": "Restores energy and removes fatigue from the target.",
+    "description": "<healing>Restores</> energy and removes fatigue from the target.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6850,7 +7509,9 @@
       "successToCaster": "You channel healing energy into {target}.",
       "successToVictim": "{actor} channels healing energy into you.",
       "successToRoom": "{actor} channels healing energy into {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Invisibility",
@@ -6859,7 +7520,7 @@
     "description": "Renders the target completely invisible until they attack.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6884,7 +7545,9 @@
       "successToSelf": "You vanish from sight.",
       "successSelfRoom": "{actor} slowly fades out of existence.",
       "lookMessage": "{pronoun.subjective} appears semi-transparent and shimmering."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 17
   },
   {
     "name": "Iron Maiden",
@@ -6916,7 +7579,10 @@
       "failToCaster": "The fragmented shrapnel soars right over {target}'s head!",
       "failToVictim": "The fragmented shrapnel soars right over your head!",
       "failToRoom": "The fragmented shrapnel soars right over {target}'s head!"
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 14,
+    "damageType": "PIERCE"
   },
   {
     "name": "Isolation",
@@ -6925,7 +7591,7 @@
     "description": "Severs the target's connection to magical assistance.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6941,7 +7607,10 @@
     ],
     "messages": {
       "wearoffToTarget": "It is as if a veil has lifted from the surrounding area."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 8,
+    "damageType": "MENTAL"
   },
   {
     "name": "Ivory Symphony",
@@ -7143,7 +7812,7 @@
     "description": "Provides minor enhancement to stamina.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7167,16 +7836,18 @@
       "successToRoom": "{target} looks more resilient.",
       "successToSelf": "You feel you can endure a bit more pain!",
       "successSelfRoom": "{actor} looks more resilient."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Lesser Exorcism",
     "plainName": "LESSER_EXORCISM",
     "abilityType": "SPELL",
-    "description": "Channels holy energy to harm undead and demons.",
+    "description": "Channels holy energy to harm <magenta>undead</> and demons.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7199,13 +7870,16 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Lightning Bolt",
     "plainName": "LIGHTNING_BOLT",
     "abilityType": "SPELL",
-    "description": "A stroke of lightning forms between you and the target, accompanied by a deafening thunderclap.",
+    "description": "A stroke of <b:yellow>lightning</> forms between you and the target, accompanied by a deafening thunderclap.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2,
@@ -7240,16 +7914,19 @@
       "failToCaster": "Your aim goes from bad to worse, and your lightning bolt misses {target}!",
       "failToVictim": "{actor} has bad aim and {actor} lightning bolt misses you!",
       "failToRoom": "{actor} tries to hit {target} with a lightning bolt but only hits the sky!"
-    }
+    },
+    "sphere": "AIR",
+    "pages": 17,
+    "damageType": "SHOCK"
   },
   {
     "name": "Lightning Breath",
     "plainName": "LIGHTNING_BREATH",
     "abilityType": "SPELL",
-    "description": "Breathes a bolt of lightning upon enemies.",
+    "description": "Breathes a <b:yellow>bolt</> of <b:yellow>lightning</> upon enemies.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7271,7 +7948,10 @@
       "failToCaster": "You missed {target} with your lightning breath.",
       "failToVictim": "{actor} breathes lightning at you, but you avoid it.",
       "failToRoom": "{target} avoids {actor}'s lightning breath."
-    }
+    },
+    "sphere": "AIR",
+    "pages": 5,
+    "damageType": "SHOCK"
   },
   {
     "name": "Locate Object",
@@ -7280,7 +7960,7 @@
     "description": "If possible you will know exactly where an object is, or the name of the person using it.  If more than one object by the same name exists, you will get a listing of several objects.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7298,7 +7978,9 @@
     "messages": {
       "successToCaster": "You cast locate object.",
       "successToRoom": "{actor} casts locate object."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 12
   },
   {
     "name": "Lure",
@@ -7337,7 +8019,7 @@
     "description": "Causes a bolt of magical energy to be thrown from the casters hands at the victim.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7360,7 +8042,10 @@
       "failToCaster": "The magic missile penetrates the air miles above {target}.",
       "failToVictim": "You don't even have to duck as {actor} sends a magic missile way over your head.",
       "failToRoom": "{actor} tries in vain to correct the course of the magic missile meant to hit {target}."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 5,
+    "damageType": "CRUSH"
   },
   {
     "name": "Magic Torch",
@@ -7369,7 +8054,7 @@
     "description": "Creates a floating magical light that follows the caster.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7388,7 +8073,9 @@
     ],
     "messages": {
       "wearoffToTarget": "Your magic torch peters out."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 7
   },
   {
     "name": "Major Globe",
@@ -7397,7 +8084,7 @@
     "description": "Creates a powerful globe of invulnerability against spells.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7419,7 +8106,9 @@
       "successToRoom": "A shimmering globe of force wraps around {target}'s body.",
       "successToSelf": "A shimmering globe of force wraps around your body.",
       "successSelfRoom": "A shimmering globe of force wraps around {actor}'s body."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 35
   },
   {
     "name": "Major Paralysis",
@@ -7428,7 +8117,7 @@
     "description": "Completely immobilizes the target with powerful magic.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7450,7 +8139,10 @@
       "successToVictim": "You can't move!",
       "successToCaster": "You completely paralyze {target}!",
       "successToRoom": "{target} is frozen in place!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 35,
+    "damageType": "MENTAL"
   },
   {
     "name": "Mass Invisibility",
@@ -7459,7 +8151,7 @@
     "description": "Renders multiple targets invisible at once.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7482,7 +8174,9 @@
       "successToRoom": "{actor} casts mass invisibility.",
       "wearoffToTarget": "You fade into visibility.",
       "lookMessage": "{pronoun.subjective} appears semi-transparent and shimmering."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 23
   },
   {
     "name": "Maul",
@@ -7561,7 +8255,7 @@
     "name": "Melt",
     "plainName": "MELT",
     "abilityType": "SPELL",
-    "description": "Intense heat causes the target to partially liquify, dealing devastating fire damage.",
+    "description": "Intense heat causes the target to partially liquify, dealing devastating <b:red>fire</> damage.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 3,
@@ -7587,7 +8281,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 29,
+    "damageType": "FIRE"
   },
   {
     "name": "Mesmerize",
@@ -7596,7 +8293,7 @@
     "description": "Captivates the target's attention, rendering them helpless.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7618,7 +8315,10 @@
       "successToVictim": "You are captivated by a fascinating illusion.",
       "successToCaster": "You mesmerize {target}.",
       "successToRoom": "{target} is mesmerized by {actor}'s illusion."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 8,
+    "damageType": "MENTAL"
   },
   {
     "name": "Meteorswarm",
@@ -7627,7 +8327,7 @@
     "description": "Calls down a barrage of flaming meteors upon the battlefield.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -7650,7 +8350,10 @@
       "failToCaster": "Your Bigby's Fist smashes the ground near {target}, a misser!",
       "failToVictim": "The ground before you is smashed as {actor} misses you with a Bigby's Fist!",
       "failToRoom": "{target} jumps out of the way in time to avoid a Bigby's Fist sent by {actor}!"
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 37,
+    "damageType": "FIRE"
   },
   {
     "name": "Minor Creation",
@@ -7659,7 +8362,7 @@
     "description": "Creates a small, temporary object from nothing.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7676,7 +8379,9 @@
     "messages": {
       "successToCaster": "You cast minor creation.",
       "successToRoom": "{actor} casts minor creation."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Minor Globe",
@@ -7685,7 +8390,7 @@
     "description": "Creates a globe that protects against minor spells.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7707,7 +8412,9 @@
       "successToRoom": "A shimmering globe wraps around {target}'s body.",
       "successToSelf": "A shimmering globe wraps around your body.",
       "successSelfRoom": "A shimmering globe wraps around {actor}'s body."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 23
   },
   {
     "name": "Minor Paralysis",
@@ -7716,7 +8423,7 @@
     "description": "Briefly immobilizes the target with magic.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7738,7 +8445,10 @@
       "successToVictim": "Your muscles seize up!",
       "successToCaster": "You paralyze {target}!",
       "successToRoom": "{target}'s muscles seize up!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 21,
+    "damageType": "MENTAL"
   },
   {
     "name": "Mirage",
@@ -7747,7 +8457,7 @@
     "description": "Creates an illusory duplicate of the caster.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7771,7 +8481,9 @@
       "successToRoom": "Heat shimmers around {target}'s body.",
       "successToSelf": "Heat shimmers around your body.",
       "successSelfRoom": "Heat shimmers around {actor}'s body."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 17
   },
   {
     "name": "Misdirection",
@@ -7780,7 +8492,7 @@
     "description": "Causes divination magic to give false readings.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7802,7 +8514,10 @@
       "successToVictim": "You feel like you're going every which way at once.",
       "successToCaster": "You misdirect {target}.",
       "successToRoom": "{target} seems confused about directions."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 12,
+    "damageType": "MENTAL"
   },
   {
     "name": "Missile",
@@ -7838,13 +8553,69 @@
     }
   },
   {
+    "name": "Monk Acid Strike",
+    "plainName": "MONK_ACID",
+    "abilityType": "SPELL",
+    "description": "A monk's acid-infused ki strike.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "EARTH",
+    "damageType": "ACID"
+  },
+  {
+    "name": "Monk Fire Strike",
+    "plainName": "MONK_FIRE",
+    "abilityType": "SPELL",
+    "description": "A monk's fire-infused ki strike.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "FIRE",
+    "damageType": "FIRE"
+  },
+  {
+    "name": "Monk Frost Strike",
+    "plainName": "MONK_COLD",
+    "abilityType": "SPELL",
+    "description": "A monk's cold-infused ki strike.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "WATER",
+    "damageType": "COLD"
+  },
+  {
+    "name": "Monk Shock Strike",
+    "plainName": "MONK_SHOCK",
+    "abilityType": "SPELL",
+    "description": "A monk's lightning-infused ki strike.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "AIR",
+    "damageType": "SHOCK"
+  },
+  {
     "name": "Moonbeam",
     "plainName": "MOONBEAM",
     "abilityType": "SPELL",
     "description": "Calls down a beam of silvery moonlight that burns the unholy.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7866,16 +8637,18 @@
       "failToCaster": "{target} steps into a convenient shadow, avoiding your chilly rays.",
       "failToVictim": "You step into the shadows for a moment to avoid the lunatic beams.",
       "failToRoom": "{actor}'s moonbeams shine here and there, but not upon {target}."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 10
   },
   {
     "name": "Moonwell",
     "plainName": "MOONWELL",
     "abilityType": "SPELL",
-    "description": "Creates a shimmering moonwell portal connecting caster and target player.",
+    "description": "Creates a shimmering moonwell <magenta>portal</> connecting caster and target player.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7895,7 +8668,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Mount",
@@ -7937,7 +8712,7 @@
     "description": "Draws upon natural energy to heal and protect.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7954,7 +8729,9 @@
     ],
     "messages": {
       "wearoffToTarget": "Nature releases you from her embrace."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Natures Guidance",
@@ -7963,7 +8740,7 @@
     "description": "Attunes to nature for improved awareness and perception.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -7987,16 +8764,18 @@
       "successToRoom": "{target} calls on guidance from a higher power.",
       "successToSelf": "You feel a higher power guiding your hands.",
       "successSelfRoom": "{actor} calls on guidance from a higher power."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 8
   },
   {
     "name": "Negate Cold",
     "plainName": "NEGATE_COLD",
     "abilityType": "SPELL",
-    "description": "Provides protection against cold damage.",
+    "description": "Provides <b:blue>protection</> against cold damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8021,16 +8800,18 @@
       "successToRoom": "{target} becomes immune to cold.",
       "successToSelf": "You become immune to cold.",
       "successSelfRoom": "{actor} becomes immune to cold."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 29
   },
   {
     "name": "Negate Heat",
     "plainName": "NEGATE_HEAT",
     "abilityType": "SPELL",
-    "description": "Provides protection against fire damage.",
+    "description": "Provides <b:blue>protection</> against fire damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8055,7 +8836,9 @@
       "successToRoom": "{target} becomes immune to heat.",
       "successToSelf": "You become immune to heat.",
       "successSelfRoom": "{actor} becomes immune to heat."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 29
   },
   {
     "name": "Night Vision",
@@ -8064,7 +8847,7 @@
     "description": "Grants the ability to see in complete darkness.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8087,7 +8870,9 @@
       "successToRoom": "{target}'s eyes glow a dim green.",
       "successToSelf": "Your vision sharpens in the darkness.",
       "successSelfRoom": "{actor}'s eyes glow a dim green."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Nightmare",
@@ -8119,7 +8904,10 @@
       "failToCaster": "{target} doesn't seem to grasp the significance of your illusion.",
       "failToVictim": "{actor} tries to show you despair and ruin, but you aren't paying attention.",
       "failToRoom": "{actor} seems to be concentrating on {target}, who isn't particularly attentive."
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 12,
+    "damageType": "MENTAL"
   },
   {
     "name": "Nimble",
@@ -8128,7 +8916,7 @@
     "description": "Enhances agility and flexibility.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8151,7 +8939,9 @@
       "successToRoom": "{target} starts to move with uncanny grace!",
       "successToSelf": "You start to move with uncanny grace!",
       "successSelfRoom": "{actor} starts to move with uncanny grace!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 19
   },
   {
     "name": "Nourishment",
@@ -8160,7 +8950,7 @@
     "description": "Magically satisfies hunger and thirst.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8189,7 +8979,9 @@
       "successToVictim": "{actor} casts nourishment on you.",
       "successToRoom": "{actor} casts nourishment.",
       "wearoffToTarget": "The effects of nourishment wear off."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "On Fire",
@@ -8223,6 +9015,65 @@
       "wearoffToTarget": "The flames engulfing you die out.",
       "lookMessage": "{pronoun.subjective} is engulfed in flames!"
     }
+  },
+  {
+    "name": "Palm",
+    "plainName": "PALM",
+    "abilityType": "SKILL",
+    "description": "Secretly hide a small item in your hand, concealing it from view.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "combatOk": false,
+    "isArea": false,
+    "isToggle": false,
+    "tags": [
+      "stealth",
+      "rogue",
+      "utility"
+    ],
+    "notes": "Rogue skill. Item must be small enough to conceal. Others may spot the palmed item with perception.",
+    "targeting": {
+      "validTargets": [
+        "ITEM_INVENTORY"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "item_small",
+          "message": "That's too large to palm!"
+        },
+        {
+          "type": "hands_free",
+          "message": "Your hands are full!"
+        },
+        {
+          "type": "not_in_combat",
+          "message": "You can't do that in combat!"
+        }
+      ]
+    },
+    "messages": {
+      "successToCaster": "You deftly palm {target}, hiding it from view.",
+      "failToCaster": "You fumble trying to palm {target}.",
+      "failToRoom": "{actor} fumbles with something."
+    },
+    "effects": [
+      {
+        "effect": "conceal_item",
+        "order": 0,
+        "params": {
+          "visibility": "palm vs perception"
+        },
+        "trigger": "on_cast"
+      }
+    ]
   },
   {
     "name": "Parry",
@@ -8338,7 +9189,7 @@
     "description": "Creates a terrifying illusion that can cause real harm.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8360,13 +9211,15 @@
       "successToVictim": "An illusion appears before you.",
       "successToCaster": "You create a phantasm.",
       "successToRoom": "An illusory creature appears!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 12
   },
   {
     "name": "Phosphoric Embers",
     "plainName": "PHOSPHORIC_EMBERS",
     "abilityType": "SPELL",
-    "description": "Scatters glowing embers that cling to the target and continue to burn.",
+    "description": "Scatters glowing <b:red>embers</> that cling to the target and continue to <b:red>burn</>.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2,
@@ -8392,7 +9245,10 @@
       "failToCaster": "The embers smoke harmlessly on {target}.",
       "failToVictim": "{actor}'s burning embers don't seem to hurt at all.",
       "failToRoom": "{actor}'s burning embers smoke harmlessly on {target}."
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 18,
+    "damageType": "FIRE"
   },
   {
     "name": "Pick Lock",
@@ -8405,6 +9261,8 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "contestedVisibility": true,
+    "visibilityCheck": "pick_lock vs perception",
     "tags": [
       "stealth"
     ],
@@ -8438,7 +9296,7 @@
     "description": "Transports creatures to another plane of existence.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8455,7 +9313,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Poison",
@@ -8464,7 +9324,7 @@
     "description": "Casting poison on food or drink (containers) will poison it.  Eating poisoned food/drinks will poison the person eating or drinking. A person who is poisoned will suffer damage every hour, lose strength, and",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8488,7 +9348,9 @@
       "failToVictim": "suffer miss victim - should never see.",
       "failToRoom": "suffer miss room - should never see.",
       "lookMessage": "{pronoun.subjective} looks extremely sick and has a greenish pallor."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Positive Field",
@@ -8520,7 +9382,10 @@
       "failToCaster": "You tried to pull electrons from everywhere at once!",
       "failToVictim": "{actor} causes crackling electrical discharges all around you.",
       "failToRoom": "{actor} motions toward {target}, causing small electric arcs nearby."
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 18,
+    "damageType": "SHOCK"
   },
   {
     "name": "Prayer",
@@ -8529,7 +9394,7 @@
     "description": "Invokes divine favor to aid allies and hinder enemies.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8561,7 +9426,9 @@
         "value": "evil",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Preserve",
@@ -8570,7 +9437,7 @@
     "description": "Prevents decay and decomposition of organic matter.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8591,16 +9458,18 @@
       "successToVictim": "{actor} casts preserve on you.",
       "successToRoom": "{actor} casts preserve.",
       "wearoffToTarget": "The effects of preserve wear off."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 11
   },
   {
     "name": "Protection from Air",
     "plainName": "PROTECT_SHOCK",
     "abilityType": "SPELL",
-    "description": "Provides protection against lightning and electrical damage.",
+    "description": "Provides <b:blue>protection</> against lightning and electrical damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8625,16 +9494,18 @@
       "successToRoom": "{target} is warded from air.",
       "successToSelf": "You are warded from air.",
       "successSelfRoom": "{actor} is warded from air."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Protection from Cold",
     "plainName": "PROTECT_COLD",
     "abilityType": "SPELL",
-    "description": "Provides protection against cold and frost damage.",
+    "description": "Provides <b:blue>protection</> against cold and frost damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8659,16 +9530,18 @@
       "successToRoom": "{target} is warded from cold.",
       "successToSelf": "You are warded from cold.",
       "successSelfRoom": "{actor} is warded from cold."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Protection from Earth",
     "plainName": "PROTECT_ACID",
     "abilityType": "SPELL",
-    "description": "Provides protection against acid and corrosive damage.",
+    "description": "Provides <b:blue>protection</> against acid and corrosive damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8693,16 +9566,18 @@
       "successToRoom": "{target} is warded from earth.",
       "successToSelf": "You are warded from earth.",
       "successSelfRoom": "{actor} is warded from earth."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Protection from Evil",
     "plainName": "PROT_FROM_EVIL",
     "abilityType": "SPELL",
-    "description": "Creates a barrier that protects against evil creatures.",
+    "description": "Creates a <b:blue>barrier</> that protects against evil creatures.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8728,16 +9603,18 @@
       "successToSelf": "You feel protected from evil.",
       "successSelfRoom": "{actor} is protected from evil.",
       "lookMessage": "{pronoun.subjective} is surrounded by a faint protective aura."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Protection from Fire",
     "plainName": "PROTECT_FIRE",
     "abilityType": "SPELL",
-    "description": "Provides protection against fire and heat damage.",
+    "description": "Provides <b:blue>protection</> against fire and heat damage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8762,16 +9639,18 @@
       "successToRoom": "{target} is warded from fire.",
       "successToSelf": "You are warded from fire.",
       "successSelfRoom": "{actor} is warded from fire."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Protection from Good",
     "plainName": "PROT_FROM_GOOD",
     "abilityType": "SPELL",
-    "description": "Creates a barrier that protects against good creatures.",
+    "description": "Creates a <b:blue>barrier</> that protects against good creatures.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8797,7 +9676,9 @@
       "successToSelf": "You feel protected from good.",
       "successSelfRoom": "{actor} is protected from good.",
       "lookMessage": "{pronoun.subjective} is surrounded by a faint dark aura."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Punch",
@@ -8833,7 +9714,7 @@
     "name": "Pyre",
     "plainName": "PYRE",
     "abilityType": "SPELL",
-    "description": "Engulfs the target in a pillar of flame, creating a funeral pyre.",
+    "description": "Engulfs the target in a pillar of <b:red>flame</>, creating a funeral <b:red>pyre</>.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
@@ -8858,7 +9739,10 @@
       "successToCaster": "@rThe flames enveloping your body singe {target}@r!@0",
       "successToVictim": "@rThe flames about {actor}@r's body singe your skin!@0",
       "successToRoom": "@rThe flames enveloping {actor}@r's body singe {target}@r!@0"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 15,
+    "damageType": "FIRE"
   },
   {
     "name": "Pyre Recoil",
@@ -8890,7 +9774,8 @@
       "failToCaster": "Your pyre recoil fails to affect {target}.",
       "failToVictim": "{actor}'s pyre recoil fails to affect you.",
       "failToRoom": "{actor}'s pyre recoil fails to affect {target}."
-    }
+    },
+    "sphere": "FIRE"
   },
   {
     "name": "Quick Chant",
@@ -8930,7 +9815,7 @@
     "description": "Summons a torrential rainstorm in the current area, reducing visibility and creating wet conditions.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8952,7 +9837,9 @@
       "successToCaster": "You cast rain.",
       "successToRoom": "{actor} casts rain.",
       "wearoffToTarget": "The magical rain stops."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 23
   },
   {
     "name": "Ray of Enfeeblement",
@@ -8961,7 +9848,7 @@
     "description": "A ray of negative energy saps the target's strength, significantly weakening them.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8984,7 +9871,22 @@
       "successToVictim": "You feel your strength drain away!",
       "successToCaster": "You weaken {target}!",
       "successToRoom": "{target} looks weakened!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 21
+  },
+  {
+    "name": "Ray of Enfeeblement",
+    "plainName": "RAY_OF_ENFEEB",
+    "abilityType": "SPELL",
+    "description": "A ray of negative energy that saps the target's strength.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 1,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "sphere": "ENCHANTMENT"
   },
   {
     "name": "Rebuke Undead",
@@ -8993,7 +9895,7 @@
     "description": "Channels negative energy to bolster undead creatures, enhancing their combat capabilities.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9035,7 +9937,9 @@
         "value": "undead",
         "required": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 8
   },
   {
     "name": "Recall",
@@ -9044,7 +9948,7 @@
     "description": "Instantly transports the caster back to their recall point (usually their hometown temple).",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9065,7 +9969,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Reduce",
@@ -9074,7 +9980,7 @@
     "description": "Magically shrinks the target, reducing their size and strength.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9110,7 +10016,10 @@
       "successToRoom": "{target}'s skin ripples as they shrink to half their size!",
       "successToSelf": "Your skin starts to itch as you shrink to half your normal size!",
       "successSelfRoom": "{actor}'s skin ripples as they shrink to half their size!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 29,
+    "damageType": "MENTAL"
   },
   {
     "name": "Regeneration",
@@ -9159,7 +10068,7 @@
     "description": "Teleports the caster to a previously visited location or target.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9179,7 +10088,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 15
   },
   {
     "name": "Remove Curse",
@@ -9188,7 +10099,7 @@
     "description": "Will remove a curse on carried objects or any persons in the room.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9207,7 +10118,9 @@
       "successToCaster": "You dispel the magic affecting {target}.",
       "successToVictim": "{actor} dispels the magic affecting you.",
       "successToRoom": "{actor} dispels the magic affecting {target}."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Remove Paralysis",
@@ -9216,7 +10129,7 @@
     "description": "Frees the target from magical paralysis effects.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9235,7 +10148,9 @@
       "successToCaster": "You dispel the magic affecting {target}.",
       "successToVictim": "{actor} dispels the magic affecting you.",
       "successToRoom": "{actor} dispels the magic affecting {target}."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Remove Poison",
@@ -9244,7 +10159,7 @@
     "description": "Will remove the affects of poison from a victim or an object.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9263,7 +10178,9 @@
       "successToCaster": "You dispel the magic affecting {target}.",
       "successToVictim": "{actor} dispels the magic affecting you.",
       "successToRoom": "{actor} dispels the magic affecting {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Rend",
@@ -9352,7 +10269,8 @@
     "messages": {
       "successToCaster": "You cast resurrect.",
       "successToRoom": "{actor} casts resurrect."
-    }
+    },
+    "sphere": "HEALING"
   },
   {
     "name": "Retreat",
@@ -9387,10 +10305,10 @@
     "name": "Reveal Hidden",
     "plainName": "REVEAL_HIDDEN",
     "abilityType": "SPELL",
-    "description": "Grants the ability to detect hidden and invisible creatures.",
+    "description": "Grants the ability to <cyan>detect</> <cyan>hidden</> and <cyan>invisible</> creatures.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9412,7 +10330,9 @@
       "successToVictim": "{actor} casts reveal hidden on you.",
       "successToRoom": "{actor} casts reveal hidden.",
       "wearoffToTarget": "You fade into visibility."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 19
   },
   {
     "name": "Riding",
@@ -9560,7 +10480,7 @@
     "description": "When protected by sanctuary you will only receive 1/2 the normal damage caused by a particular blow.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 1.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9585,16 +10505,18 @@
       "successToSelf": "You are surrounded by a white aura.",
       "successSelfRoom": "A white aura surrounds {actor}.",
       "lookMessage": "{pronoun.subjective} glows with a bright white aura."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 35
   },
   {
     "name": "Sane Mind",
     "plainName": "SANE_MIND",
     "abilityType": "SPELL",
-    "description": "Restores mental clarity and removes confusion effects from the target.",
+    "description": "<healing>Restores</> mental clarity and removes confusion effects from the target.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9614,7 +10536,9 @@
       "successToCaster": "You dispel the magic affecting {target}.",
       "successToVictim": "{actor} dispels the magic affecting you.",
       "successToRoom": "{actor} dispels the magic affecting {target}."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Scribe",
@@ -9676,10 +10600,10 @@
     "name": "Sense Life",
     "plainName": "SENSE_LIFE",
     "abilityType": "SPELL",
-    "description": "Allows the caster to sense the presence of a player or monster in the room which is hiding.  The true identity will remain hidden however. Invisible persons are also considered hidden.",
+    "description": "Allows the caster to <cyan>sense</> the presence of a player or monster in the room which is hiding.  The true identity will remain <cyan>hidden</> however. <cyan>Invisible</> persons are also considered <cyan>hidden</>.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9702,7 +10626,9 @@
       "successToRoom": "{target} seems more aware of their surroundings.",
       "successToSelf": "Your awareness of living things improves.",
       "successSelfRoom": "{actor} seems more aware of their surroundings."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 19
   },
   {
     "name": "Severance",
@@ -9711,7 +10637,7 @@
     "description": "Delivers a magically enhanced cutting attack that severs flesh and bone.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9735,7 +10661,9 @@
       "failToCaster": "{target} stands firm.",
       "failToVictim": "You feel nothing.",
       "failToRoom": "{target} stands firm."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 37
   },
   {
     "name": "Shadow",
@@ -9748,6 +10676,12 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "contestedVisibility": true,
+    "visibilityCheck": "shadow vs perception",
+    "tags": [
+      "stealth",
+      "rogue"
+    ],
     "effects": [
       {
         "effect": "status",
@@ -9842,7 +10776,7 @@
     "description": "Teleports a targeted corpse to the caster's location.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9861,13 +10795,15 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 17
   },
   {
     "name": "Shocking Grasp",
     "plainName": "SHOCKING_GRASP",
     "abilityType": "SPELL",
-    "description": "Lightning springs from your hand to deliver a powerful shock to the target.",
+    "description": "<b:yellow>Lightning</> springs from your hand to deliver a powerful <b:yellow>shock</> to the target.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2,
@@ -9893,7 +10829,10 @@
       "failToCaster": "{target} rather shockingly evades your grasp!",
       "failToVictim": "You nimbly dodge a shocking grasp from {actor}!",
       "failToRoom": "{target} shockingly evades the grasp of {actor}!"
-    }
+    },
+    "sphere": "AIR",
+    "pages": 9,
+    "damageType": "SHOCK"
   },
   {
     "name": "Silence",
@@ -9902,7 +10841,7 @@
     "description": "Prevents the target from speaking or casting spells with verbal components.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9926,7 +10865,9 @@
       "successToCaster": "You silence {target}!",
       "successToRoom": "{target} is silenced!",
       "lookMessage": "A sphere of silence surrounds {pronoun.subjective}."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Simulacrum",
@@ -9935,7 +10876,7 @@
     "description": "Creates a semi-real duplicate of a creature made from ice and snow.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -9956,7 +10897,9 @@
     ],
     "messages": {
       "wearoffToTarget": "Your illusion dissolves into tiny multicolored lights that float away."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 15
   },
   {
     "name": "Slashing Weapons",
@@ -9981,7 +10924,7 @@
     "description": "Puts the target into a magical slumber, breaking on damage.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10005,7 +10948,10 @@
       "successToCaster": "You put {target} to sleep.",
       "successToRoom": "{target} goes to sleep.",
       "lookMessage": "{pronoun.subjective} is in a deep magical slumber."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 19,
+    "damageType": "MENTAL"
   },
   {
     "name": "Smoke",
@@ -10014,7 +10960,7 @@
     "description": "Creates a cloud of obscuring smoke that reduces accuracy and evasion in the area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10048,7 +10994,9 @@
       "successToVictim": "Smoke fills your vision!",
       "successToCaster": "You blind {target} with smoke!",
       "successToRoom": "{target} chokes on smoke!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 11
   },
   {
     "name": "Sneak",
@@ -10062,6 +11010,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "isToggle": true,
+    "contestedVisibility": true,
+    "visibilityCheck": "sneak vs perception",
     "tags": [
       "stealth",
       "rogue",
@@ -10101,6 +11051,8 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "contestedVisibility": true,
+    "visibilityCheck": "sneak_attack vs perception",
     "tags": [
       "stealth"
     ],
@@ -10203,10 +11155,10 @@
     "name": "Soul Reaver",
     "plainName": "SOUL_REAVER",
     "abilityType": "SPELL",
-    "description": "Warps reality into a deadly vision of calamity that tears at the souls of all present, dealing devastating mental and shadow damage.",
+    "description": "Warps reality into a deadly vision of calamity that tears at the <magenta>souls</> of all present, dealing devastating mental and shadow damage.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 3,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -10239,7 +11191,10 @@
       "failToCaster": "{target} is harder than that.",
       "failToVictim": "{actor}'s show of absolute calamity means little to you.",
       "failToRoom": "{actor} grimly ignores the visions of desolation."
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 30,
+    "damageType": "MENTAL"
   },
   {
     "name": "Soul Tap",
@@ -10248,7 +11203,7 @@
     "description": "Channels dark energy to grant lifesteal, healing the caster for a portion of damage dealt.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10274,16 +11229,19 @@
       "failToVictim": "{actor} reaches a bony hand to one side of you, apparently aiming for your body.",
       "failToRoom": "{actor} reaches an arm towards {target}, but doesn't make it to {target}.",
       "wearoffToTarget": "The dark energy draining from your enemies fades."
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 22,
+    "damageType": "HEAL"
   },
   {
     "name": "Soulshield",
     "plainName": "SOULSHIELD",
     "abilityType": "SPELL",
-    "description": "Creates a magical barrier that resists harmful magic.",
+    "description": "Creates a magical <b:blue>barrier</> that resists harmful magic.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10310,7 +11268,9 @@
       "successToSelf": "A bright aura surrounds your body!",
       "successSelfRoom": "A bright aura surrounds {actor}'s body!",
       "lookMessage": "{pronoun.subjective} is surrounded by an ethereal protective barrier."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 5
   },
   {
     "name": "Speak In Tongues",
@@ -10319,7 +11279,7 @@
     "description": "Grants the ability to understand and speak all languages.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10343,7 +11303,9 @@
       "successToRoom": "{target} suddenly speaks in many languages!",
       "successToSelf": "Your vocabulary expands dramatically.",
       "successSelfRoom": "{actor} suddenly speaks in many languages!"
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 5
   },
   {
     "name": "Sphere of Air",
@@ -10704,7 +11666,7 @@
     "description": "A terrifying presence that unnerves enemies, reducing their evasion.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10727,7 +11689,9 @@
       "successToVictim": "A chill runs down your spine.",
       "successToCaster": "You send a chill down {target}'s spine.",
       "successToRoom": "{target} shivers with a spine-tingling sensation."
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 10
   },
   {
     "name": "Spirit Arrows",
@@ -10760,48 +11724,10 @@
       "failToCaster": "The spirit arrow penetrates the air miles above {target}.",
       "failToVictim": "You don't even have to duck as {actor} sends a spirit arrow way over your head.",
       "failToRoom": "{actor} tries in vain to correct the course of the spirit arrow meant to hit {target}."
-    }
-  },
-  {
-    "name": "Spirit Ray",
-    "plainName": "SPIRIT_RAY",
-    "abilityType": "SPELL",
-    "description": "Fires a beam of pure spiritual energy that pierces the target's soul.",
-    "minPosition": "STANDING",
-    "violent": true,
-    "castTimeRounds": 3,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "notes": "High radiant damage, longer cast time.",
-    "effects": [
-      {
-        "effect": "damage",
-        "order": 0,
-        "params": {
-          "amount": "8d25 + pow(skill, 1.44)",
-          "components": [
-            {
-              "type": "force",
-              "percent": 60
-            },
-            {
-              "type": "mental",
-              "percent": 40
-            }
-          ]
-        },
-        "trigger": "on_cast"
-      }
-    ],
-    "messages": {
-      "successToCaster": "You lift your arms and blast {target} with an overwhelming ray of spiritual energy!",
-      "successToVictim": "{actor} blasts you with an overwhelming ray of spiritual energy from {actor} upturned hands!",
-      "successToRoom": "{actor} lifts {actor} arms and blasts {target} with a overwhelming spiritual ray!",
-      "failToCaster": "Spirit energy illuminates the world, but not {target}.",
-      "failToVictim": "{actor} tries to blast you with spirit energy, but misses!",
-      "failToRoom": "{target} jumps out of the way of {actor}'s powerful spirit ray!"
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Spirit of the Bear",
@@ -10882,6 +11808,50 @@
     }
   },
   {
+    "name": "Spirit Ray",
+    "plainName": "SPIRIT_RAY",
+    "abilityType": "SPELL",
+    "description": "Fires a beam of pure spiritual energy that pierces the target's <magenta>soul</>.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 3,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "isArea": false,
+    "notes": "High radiant damage, longer cast time.",
+    "effects": [
+      {
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "amount": "8d25 + pow(skill, 1.44)",
+          "components": [
+            {
+              "type": "force",
+              "percent": 60
+            },
+            {
+              "type": "mental",
+              "percent": 40
+            }
+          ]
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "You lift your arms and blast {target} with an overwhelming ray of spiritual energy!",
+      "successToVictim": "{actor} blasts you with an overwhelming ray of spiritual energy from {actor} upturned hands!",
+      "successToRoom": "{actor} lifts {actor} arms and blasts {target} with a overwhelming spiritual ray!",
+      "failToCaster": "Spirit energy illuminates the world, but not {target}.",
+      "failToVictim": "{actor} tries to blast you with spirit energy, but misses!",
+      "failToRoom": "{target} jumps out of the way of {actor}'s powerful spirit ray!"
+    },
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
+  },
+  {
     "name": "Springleap",
     "plainName": "SPRINGLEAP",
     "abilityType": "SKILL",
@@ -10915,22 +11885,31 @@
     "name": "Statue",
     "plainName": "STATUE",
     "abilityType": "SPELL",
-    "description": "Petrifies the target, turning them to stone and paralyzing them completely.",
+    "description": "Transforms the caster into a <b:blue>statue</>, <b:blue>hiding</> them from view and making them appear as a friend to hostile creatures. While in statue form, the caster cannot move or act but is <b:blue>protected</> from most attacks.",
     "minPosition": "STANDING",
-    "violent": true,
-    "castTimeRounds": 1,
+    "violent": false,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Complete paralysis without breaking on damage.",
+    "notes": "Grants STATUE and FAMILIARITY flags. Hides caster and makes mobs treat them as friendly. Cannot move or act while in effect.",
     "effects": [
       {
         "effect": "status",
         "order": 0,
         "params": {
           "duration": "skill / 4",
-          "breakOnDamage": false,
-          "flag": "paralyzed",
+          "flag": "statue",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "status",
+        "order": 1,
+        "params": {
+          "duration": "skill / 4",
+          "flag": "familiarity",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -10943,28 +11922,60 @@
       "successToRoom": "{target} has been replaced by a statue!",
       "successToSelf": "You take on the appearance of a statue.",
       "successSelfRoom": "{actor} has been replaced by a statue!"
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 19
   },
   {
     "name": "Steal",
     "plainName": "STEAL",
     "abilityType": "SKILL",
-    "description": "Pilfer items from unsuspecting targets.",
+    "description": "Attempt to pilfer items or coins from a target. Success depends on your skill versus the target's perception. Being <cyan>hidden</> provides a significant bonus, but a master thief can steal in plain sight. Failure may result in combat.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Contested check: steal_skill + hidden_bonus vs perception + awareness. Hidden grants +25% success. Critical failure (margin > 20) alerts guards in civilized areas. Success while visible is possible but risky.",
     "tags": [
-      "stealth"
+      "stealth",
+      "rogue",
+      "contested"
+    ],
+    "contestedVisibility": true,
+    "visibilityCheck": "steal_skill vs perception",
+    "casterRestrictions": [
+      {
+        "type": "position",
+        "value": "STANDING",
+        "required": true
+      },
+      {
+        "type": "flag",
+        "value": "fighting",
+        "prohibited": true
+      }
+    ],
+    "targetRestrictions": [
+      {
+        "type": "flag",
+        "value": "NO_STEAL",
+        "prohibited": true
+      },
+      {
+        "type": "npc_only",
+        "value": true
+      }
     ],
     "messages": {
-      "successToCaster": "You deftly lift an item from {target}.",
-      "successToRoom": "{actor}'s hand moves with practiced speed.",
-      "failToCaster": "{target} catches you trying to steal!",
+      "successToCaster": "You deftly lift an item from {target}'s possession.",
+      "successToRoom": "{actor}'s hand moves with practiced speed near {target}.",
+      "failToCaster": "{target} catches your hand in their pocket!",
       "failToVictim": "You catch {actor} trying to steal from you!",
-      "failToRoom": "{target} catches {actor} trying to steal!"
+      "failToRoom": "{target} catches {actor} red-handed trying to steal!",
+      "criticalFailToCaster": "Guards are alerted to your thievery!",
+      "criticalFailToRoom": "A cry goes up - {actor} has been caught stealing from {target}!"
     }
   },
   {
@@ -10978,6 +11989,8 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "contestedVisibility": true,
+    "visibilityCheck": "stealth vs perception",
     "tags": [
       "stealth"
     ],
@@ -11008,7 +12021,7 @@
     "description": "Hardens the target's skin to be tough as stone, granting physical damage resistance.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11035,13 +12048,15 @@
       "successToSelf": "Your skin hardens and turns to stone!",
       "successSelfRoom": "{actor}'s skin hardens and turns to stone!",
       "lookMessage": "{pronoun.possessive} body appears to be made of stone."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 19
   },
   {
     "name": "Stygian Eruption",
     "plainName": "STYGIAN_ERUPTION",
     "abilityType": "SPELL",
-    "description": "Channels the dark power of the river Styx in a violent eruption of unholy fire and shadow.",
+    "description": "Channels the dark power of the river Styx in a violent eruption of unholy <b:red>fire</> and shadow.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -11077,16 +12092,19 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
     "name": "Summon",
     "plainName": "SUMMON",
     "abilityType": "SPELL",
-    "description": "Will summon a person of the name spoken.  It is not possible to summon someone of three or more levels above yourself. If you attempt to summon a monster, it will get a saving throw.",
+    "description": "Will <magenta>summon</> a person of the name spoken.  It is not possible to <magenta>summon</> someone of three or more levels above yourself. If you attempt to <magenta>summon</> a monster, it will get a saving throw.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11106,7 +12124,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "Summon Corpse",
@@ -11115,7 +12135,7 @@
     "description": "Summons a corpse from elsewhere to the caster's location.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11134,7 +12154,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 17
   },
   {
     "name": "Summon Demon",
@@ -11143,7 +12165,7 @@
     "description": "Summons a demon from the lower planes to serve the caster.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11167,7 +12189,9 @@
       "successToRoom": "{actor} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
       "wearoffToRoom": "{actor}'s summoned creature fades away."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 31
   },
   {
     "name": "Summon Dracolich",
@@ -11200,7 +12224,8 @@
       "successToRoom": "{actor} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
       "wearoffToRoom": "{actor}'s summoned creature fades away."
-    }
+    },
+    "sphere": "SUMMONING"
   },
   {
     "name": "Summon Elemental",
@@ -11209,7 +12234,7 @@
     "description": "Summons an elemental being from the elemental planes.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11233,7 +12258,9 @@
       "successToRoom": "{actor} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
       "wearoffToRoom": "{actor}'s summoned creature fades away."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 19
   },
   {
     "name": "Summon Greater Demon",
@@ -11242,7 +12269,7 @@
     "description": "Summons a greater demon, a powerful fiend from the lower planes.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11266,7 +12293,9 @@
       "successToRoom": "{actor} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
       "wearoffToRoom": "{actor}'s summoned creature fades away."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 35
   },
   {
     "name": "Summon Mount",
@@ -11308,7 +12337,7 @@
     "description": "Channels intense sunlight to blind and disorient enemies in the area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11345,16 +12374,19 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 5,
+    "damageType": "FIRE"
   },
   {
     "name": "Supernova",
     "plainName": "SUPERNOVA",
     "abilityType": "SPELL",
-    "description": "Unleashes a cataclysmic explosion of stellar fire and radiant energy, devastating all in the area.",
+    "description": "Unleashes a cataclysmic explosion of stellar <b:red>fire</> and radiant energy, devastating all in the area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 3.5,
+    "castTimeRounds": 4.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -11387,7 +12419,10 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "FIRE",
+    "pages": 31,
+    "damageType": "FIRE"
   },
   {
     "name": "Sweep",
@@ -11521,7 +12556,7 @@
     "description": "Teleports the caster to a random location within the zone.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11541,7 +12576,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 11
   },
   {
     "name": "Tempest Of Saint Augustine",
@@ -11707,6 +12744,91 @@
     }
   },
   {
+    "name": "Trip Up",
+    "plainName": "TRIP_UP",
+    "abilityType": "SKILL",
+    "description": "Sweep your opponent's legs out from under them, knocking them to the ground.",
+    "minPosition": "STANDING",
+    "violent": true,
+    "castTimeRounds": 1,
+    "cooldownMs": 8000,
+    "inCombatOnly": false,
+    "combatOk": true,
+    "isArea": false,
+    "isToggle": false,
+    "damageType": "CRUSH",
+    "tags": [
+      "combat",
+      "martial_arts",
+      "rogue",
+      "monk"
+    ],
+    "notes": "Knocks target prone. Size difference matters. Target gets saving throw. 8 second cooldown.",
+    "targeting": {
+      "validTargets": [
+        "ENEMY_PC",
+        "ENEMY_NPC"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 1,
+      "requireLos": true
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "target_standing",
+          "message": "Your target is already down!"
+        },
+        {
+          "type": "not_immobilized",
+          "message": "You can't move your legs!"
+        },
+        {
+          "type": "size_check",
+          "minDiff": -2,
+          "maxDiff": 1,
+          "message": "Your target is too big to trip!"
+        }
+      ]
+    },
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + dex_bonus",
+        "onSaveAction": "NEGATE"
+      }
+    ],
+    "messages": {
+      "successToCaster": "You sweep {target}'s legs and send them crashing to the ground!",
+      "successToVictim": "{actor} sweeps your legs and you crash to the ground!",
+      "successToRoom": "{actor} sweeps {target}'s legs, sending them crashing to the ground!",
+      "failToCaster": "You try to trip {target} but they jump over your sweep!",
+      "failToVictim": "{actor} tries to trip you but you jump over the sweep!",
+      "failToRoom": "{actor} tries to trip {target} but misses!"
+    },
+    "effects": [
+      {
+        "effect": "knockdown",
+        "order": 0,
+        "params": {
+          "duration": 1,
+          "power": "skill"
+        },
+        "trigger": "on_hit"
+      },
+      {
+        "effect": "damage",
+        "order": 1,
+        "params": {
+          "type": "bludgeon",
+          "amount": "skill / 5"
+        },
+        "trigger": "on_hit"
+      }
+    ]
+  },
+  {
     "name": "Two-Hand Bludgeoning",
     "plainName": "TWO_HAND_BLUDGEONING",
     "abilityType": "SKILL",
@@ -11761,7 +12883,7 @@
     "description": "Utters a word of dark divine power that blasts good-aligned enemies with unholy energy.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 2,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -11808,7 +12930,10 @@
         "value": "evil",
         "required": true
       }
-    ]
+    ],
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HOLY"
   },
   {
     "name": "Urban Renewal",
@@ -11817,7 +12942,7 @@
     "description": "Unleashes destructive magical energy across the entire area.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
@@ -11836,16 +12961,18 @@
     ],
     "messages": {
       "wearoffToTarget": "The woods in the surrounding area break apart and crumble."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Vampiric Breath",
     "plainName": "VAMPIRIC_BREATH",
     "abilityType": "SPELL",
-    "description": "Exhales vampiric energy that drains life force from the target, healing the caster.",
+    "description": "Exhales vampiric energy that <magenta>drains</> life force from the target, healing the caster.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 2,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11890,7 +13017,10 @@
       "failToCaster": "Your black cloud seems to have missed!",
       "failToVictim": "{actor}'s black cloud missed you!",
       "failToRoom": "{actor}'s black cloud missed {target}!"
-    }
+    },
+    "sphere": "DEATH",
+    "pages": 5,
+    "damageType": "HEAL"
   },
   {
     "name": "Vampiric Touch",
@@ -11929,7 +13059,7 @@
     "description": "Transforms the caster into mist, granting invisibility and ethereal movement.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11954,7 +13084,9 @@
       "successToSelf": "Your body sublimates into a cloud of vapor.",
       "successSelfRoom": "{actor}'s body dematerializes into vapor!",
       "lookMessage": "{pronoun.possessive} body appears as swirling mist."
-    }
+    },
+    "sphere": "PROTECTION",
+    "pages": 35
   },
   {
     "name": "Ventriloquate",
@@ -11963,7 +13095,7 @@
     "description": "Creates an illusion that makes an object or person appear to speak.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11987,7 +13119,9 @@
       "successToVictim": "{actor} casts ventriloquate on you.",
       "successToRoom": "{actor} casts ventriloquate.",
       "wearoffToTarget": "The effects of ventriloquate wear off."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 6
   },
   {
     "name": "Vicious Mockery",
@@ -12019,16 +13153,19 @@
       "failToCaster": "Your zinger turns out to be more of a dud.",
       "failToVictim": "{actor} tries to wound you with {actor} words but their insult falls flat.",
       "failToRoom": "{actor} tries to level a vicious remark against {target} but misses the punchline."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 21,
+    "damageType": "MENTAL"
   },
   {
     "name": "Vigorize Critic",
     "plainName": "VIGORIZE_CRITIC",
     "abilityType": "SPELL",
-    "description": "Restores movement energy to the target, refreshing their stamina.",
+    "description": "<healing>Restores</> movement energy to the target, refreshing their stamina.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12047,16 +13184,18 @@
     "messages": {
       "successToCaster": "You feel healing energy flow through you.",
       "successToRoom": "{actor} glows briefly with healing light."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Vigorize Light",
     "plainName": "VIGORIZE_LIGHT",
     "abilityType": "SPELL",
-    "description": "Restores movement energy to the target, refreshing their stamina.",
+    "description": "<healing>Restores</> movement energy to the target, refreshing their stamina.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12075,16 +13214,18 @@
     "messages": {
       "successToCaster": "You feel healing energy flow through you.",
       "successToRoom": "{actor} glows briefly with healing light."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Vigorize Serious",
     "plainName": "VIGORIZE_SERIOUS",
     "abilityType": "SPELL",
-    "description": "Restores movement energy to the target, refreshing their stamina.",
+    "description": "<healing>Restores</> movement energy to the target, refreshing their stamina.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12103,7 +13244,9 @@
     "messages": {
       "successToCaster": "You feel healing energy flow through you.",
       "successToRoom": "{actor} glows briefly with healing light."
-    }
+    },
+    "sphere": "HEALING",
+    "pages": 5
   },
   {
     "name": "Vitality",
@@ -12112,7 +13255,7 @@
     "description": "Enhances the target's life force, temporarily increasing maximum hit points.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12137,7 +13280,9 @@
       "successToRoom": "{target} looks more vital.",
       "successToSelf": "You feel vitalized!",
       "successSelfRoom": "{actor} looks more vital."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 7
   },
   {
     "name": "Wall Of Fog",
@@ -12146,7 +13291,7 @@
     "description": "Creates a dense bank of obscuring fog.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12166,7 +13311,9 @@
     ],
     "messages": {
       "wearoffToTarget": "The fog seems to clear out."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 21
   },
   {
     "name": "Wall Of Ice",
@@ -12175,7 +13322,7 @@
     "description": "Creates a solid wall of ice that blocks passage.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12199,7 +13346,10 @@
       "successToVictim": "You impale yourself on the jagged wall of ice.",
       "successToRoom": "{target} impales {target}self on the jagged wall of ice.",
       "failToVictim": "You manage to avoid the larger spikes of ice on the wall."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 27,
+    "damageType": "COLD"
   },
   {
     "name": "Wall Of Stone",
@@ -12208,7 +13358,7 @@
     "description": "Creates a solid wall of stone.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12229,7 +13379,9 @@
     ],
     "messages": {
       "wearoffToTarget": "The wall of stone crumbles into dust."
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 25
   },
   {
     "name": "Wandering Woods",
@@ -12238,7 +13390,7 @@
     "description": "Causes the forest itself to shift, teleporting the caster randomly through the woods.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12256,7 +13408,9 @@
     ],
     "messages": {
       "wearoffToTarget": "The woods around you shift back to their proper form."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "War Cry",
@@ -12300,7 +13454,7 @@
     "name": "Water Blast",
     "plainName": "WATER_BLAST",
     "abilityType": "SPELL",
-    "description": "Conjures a high-pressure jet of water that slams into the target with tremendous force.",
+    "description": "Conjures a high-pressure jet of <cyan>water</> that slams into the target with tremendous force.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -12335,16 +13489,18 @@
       "failToCaster": "You throw a blast of water at {target} but miss by a mile.",
       "failToVictim": "{actor} throws a blast of water at you but misses by a mile.",
       "failToRoom": "{actor} throws a blast of water at {target} but misses by a mile."
-    }
+    },
+    "sphere": "WATER",
+    "pages": 21
   },
   {
     "name": "Waterform",
     "plainName": "WATERFORM",
     "abilityType": "SPELL",
-    "description": "Transforms the caster into a water-like form, allowing them to breathe underwater.",
+    "description": "Transforms the caster into a <cyan>water</>-like form, allowing them to breathe underwater.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12368,7 +13524,9 @@
       "successToRoom": "{target}'s body wavers, changing into a liquid state!",
       "successToSelf": "Your body liquifies.",
       "successSelfRoom": "{actor}'s body wavers, changing into a liquid state!"
-    }
+    },
+    "sphere": "WATER",
+    "pages": 27
   },
   {
     "name": "Waterwalk",
@@ -12377,7 +13535,7 @@
     "description": "Allows the target to walk on water as if it were solid ground.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12401,16 +13559,18 @@
       "successToRoom": "{target} sprouts webbing between their toes!",
       "successToSelf": "You feel webbing form between your toes.",
       "successSelfRoom": "{actor} sprouts webbing between their toes!"
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 29
   },
   {
     "name": "Web",
     "plainName": "WEB",
     "abilityType": "SPELL",
-    "description": "Creates sticky magical webs that entangle and immobilize the target.",
+    "description": "Creates <b:magenta>sticky</> magical <b:magenta>webs</> that <b:magenta>entangle</> and <b:magenta>immobilize</> the target.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12434,7 +13594,10 @@
       "successToCaster": "You tangle {target} in a glowing web!",
       "successToRoom": "{actor} tangles {target} in a glowing web!",
       "lookMessage": "{pronoun.subjective} is covered in sticky webs."
-    }
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 21,
+    "damageType": "MENTAL"
   },
   {
     "name": "Wings Of Heaven",
@@ -12443,7 +13606,7 @@
     "description": "Manifests angelic wings that grant the power of flight.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12476,7 +13639,9 @@
         "value": "evil",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Wings Of Hell",
@@ -12485,7 +13650,7 @@
     "description": "Manifests demonic wings that grant the power of flight.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12518,16 +13683,18 @@
         "value": "good",
         "prohibited": true
       }
-    ]
+    ],
+    "sphere": "ENCHANTMENT",
+    "pages": 5
   },
   {
     "name": "Wizard Eye",
     "plainName": "WIZARD_EYE",
     "abilityType": "SPELL",
-    "description": "Creates an invisible magical sensor that reveals hidden things within the zone.",
+    "description": "Creates an <cyan>invisible</> magical sensor that reveals <cyan>hidden</> things within the zone.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 4.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12546,7 +13713,9 @@
     "messages": {
       "successToCaster": "You cast wizard eye.",
       "successToRoom": "{actor} casts wizard eye."
-    }
+    },
+    "sphere": "DIVINATION",
+    "pages": 17
   },
   {
     "name": "Word Of Command",
@@ -12555,7 +13724,7 @@
     "description": "Speaks a word of power that compels the target to obey the caster.",
     "minPosition": "STANDING",
     "violent": true,
-    "castTimeRounds": 1,
+    "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12578,7 +13747,10 @@
       "successToVictim": "{actor} casts word of command on you!",
       "successToRoom": "{actor} casts word of command on {target}.",
       "wearoffToTarget": "The effects of word of command wear off."
-    }
+    },
+    "sphere": "GENERIC",
+    "pages": 5,
+    "damageType": "MENTAL"
   },
   {
     "name": "Word Of Recall",
@@ -12587,7 +13759,7 @@
     "description": "The caster will be transferred back to his hometown sanctuary (usually the Temple of Midgaard).",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 0.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12607,7 +13779,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 5
   },
   {
     "name": "World Teleport",
@@ -12616,7 +13790,7 @@
     "description": "Teleports the caster to a random location anywhere in the world.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -12636,7 +13810,9 @@
     "messages": {
       "successToCaster": "You vanish in a flash of light!",
       "successToRoom": "{actor} vanishes in a flash of light!"
-    }
+    },
+    "sphere": "SUMMONING",
+    "pages": 11
   },
   {
     "name": "Writhing Weeds",
@@ -12678,6 +13854,9 @@
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor}'s spell missed you!",
       "failToRoom": "{actor}'s spell missed {target}!"
-    }
+    },
+    "sphere": "EARTH",
+    "pages": 5,
+    "damageType": "ACID"
   }
 ]

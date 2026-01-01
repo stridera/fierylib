@@ -22,7 +22,7 @@ from mud.types.object import Object
 from mud.types.pet import Pet
 from mud.types import CurrentMax, Money
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
-from fierylib.converters import normalize_flags, normalize_skill_name
+from fierylib.converters import normalize_flags, normalize_skill_name, EntityResolver
 
 
 class PlayerImporter:
@@ -36,6 +36,9 @@ class PlayerImporter:
             prisma_client: Prisma client instance
         """
         self.prisma = prisma_client
+        self.resolver = EntityResolver(prisma_client)
+        self._class_cache: dict[str, int] = {}  # plain_name -> class_id
+        self._class_abilities_cache: dict[int, set[int]] = {}  # class_id -> set of ability_ids
 
     @staticmethod
     def is_spell(skill_name: str) -> bool:
@@ -84,6 +87,75 @@ class PlayerImporter:
             2: "FEMALE",
         }
         return gender_map.get(sex, "NEUTRAL")
+
+    async def _get_class_id(self, class_name: str) -> int | None:
+        """
+        Look up class_id from Class table using plain_name
+
+        Args:
+            class_name: Class name from legacy file (e.g., "SORCERER", "Sorcerer")
+
+        Returns:
+            class_id if found, None otherwise
+        """
+        # Normalize class name for lookup (title case, handle variations)
+        normalized = class_name.replace('_', '-').title()
+
+        # Check cache first
+        if normalized in self._class_cache:
+            return self._class_cache[normalized]
+
+        # Query database - CharacterClass model maps to "Class" table
+        class_record = await self.prisma.characterclass.find_first(
+            where={"plainName": normalized}
+        )
+
+        if class_record:
+            self._class_cache[normalized] = class_record.id
+            return class_record.id
+
+        # Try exact match without normalization
+        class_record = await self.prisma.characterclass.find_first(
+            where={"plainName": class_name}
+        )
+
+        if class_record:
+            self._class_cache[class_name] = class_record.id
+            return class_record.id
+
+        return None
+
+    async def _get_class_spells(self, class_id: int) -> set[int]:
+        """
+        Get set of spell ability IDs valid for a class (from ClassAbilities only).
+
+        Note: We only validate SPELLS, not physical skills, because:
+        1. ClassAbilities contains complete spell data (extracted from spell_assign calls)
+        2. ClassSkills is incomplete - it's missing loop-assigned skills from C++ init_class_skills()
+           (e.g., MOUNT, RIDING, MEDITATE, KNOW_SPELL, etc. that are assigned to ALL classes)
+        3. For legacy player imports, we want to preserve all skills the character had
+
+        Args:
+            class_id: The class ID to look up
+
+        Returns:
+            Set of spell ability IDs valid for this class
+        """
+        if class_id in self._class_abilities_cache:
+            return self._class_abilities_cache[class_id]
+
+        ability_ids: set[int] = set()
+
+        # Get spells from ClassAbilities only
+        # Note: ClassSkills is incomplete (missing loop-assigned skills), so we don't validate skills
+        class_abilities = await self.prisma.classabilities.find_many(
+            where={"classId": class_id}
+        )
+        for ca in class_abilities:
+            ability_ids.add(ca.abilityId)
+
+        self._class_abilities_cache[class_id] = ability_ids
+        return ability_ids
 
     async def import_player(
         self, player_data: Player, dry_run: bool = False
@@ -166,6 +238,18 @@ class PlayerImporter:
             raise ValueError(f"Character '{player_data.name}' missing required class data")
         player_class = player_data.player_class.name if hasattr(player_data.player_class, 'name') else str(player_data.player_class)
 
+        # Look up class_id from Class table (CRITICAL for ability circle lookup)
+        class_id = await self._get_class_id(player_class)
+        if class_id is None:
+            print(f"  ⚠️  Warning: Class '{player_class}' not found in database for {player_data.name}")
+
+        # Get valid SPELLS for this class (for spell validation during ability import)
+        # Note: We only validate spells, not physical skills, because ClassSkills data is incomplete
+        # (missing loop-assigned skills like MOUNT, MEDITATE, etc.)
+        valid_spell_ids: set[int] = set()
+        if class_id is not None:
+            valid_spell_ids = await self._get_class_spells(class_id)
+
         # Prepare currency (convert to copper-equivalent wealth)
         # Exchange rates: 1 platinum = 1000 copper, 1 gold = 100 copper, 1 silver = 10 copper
         PLATINUM_SCALE = 1000
@@ -246,23 +330,24 @@ class PlayerImporter:
         if player_data.privilege_flags:
             privilege_flags = normalize_flags(player_data.privilege_flags)
 
-        # Parse room numbers and convert VNUMs to composite keys (zone_id, local_id)
-        # VNUM format: zone_id * 100 + local_id (e.g., 3045 = zone 30, room 45)
-        # Special case: zone 0 becomes zone 1000
-        def vnum_to_composite(vnum_raw) -> tuple[int | None, int | None]:
-            """Convert a VNUM to (zone_id, local_id) tuple"""
+        # Parse room numbers and convert VNUMs to composite keys using EntityResolver
+        # Resolver validates rooms exist in database before returning composite IDs
+        async def resolve_room_vnum(vnum_raw) -> tuple[int | None, int | None]:
+            """Resolve a room VNUM to (zone_id, local_id) tuple using EntityResolver"""
             if vnum_raw is None:
                 return None, None
             vnum = int(vnum_raw) if isinstance(vnum_raw, str) else vnum_raw
             if vnum <= 0:
                 return None, None
-            zone_id = vnum // 100 if vnum >= 100 else 1000  # Zone 0 -> 1000
-            local_id = vnum % 100
-            return zone_id, local_id
+            context_zone = vnum // 100 if vnum >= 100 else 0
+            result = await self.resolver.resolve_room(vnum, context_zone=context_zone)
+            if result:
+                return result.zone_id, result.id
+            return None, None
 
-        current_room_zone_id, current_room_id = vnum_to_composite(player_data.load_room)
-        save_room_zone_id, save_room_id = vnum_to_composite(player_data.save_room)
-        home_room_zone_id, home_room_id = vnum_to_composite(player_data.home)
+        current_room_zone_id, current_room_id = await resolve_room_vnum(player_data.load_room)
+        save_room_zone_id, save_room_id = await resolve_room_vnum(player_data.save_room)
+        home_room_zone_id, home_room_id = await resolve_room_vnum(player_data.home)
 
         # Validate level - REQUIRED
         if not player_data.level or player_data.level < 1:
@@ -297,6 +382,7 @@ class PlayerImporter:
             "raceType": race_type,
             "gender": gender_str,
             "playerClass": player_class,
+            "classId": class_id,
             "height": player_data.height,
             "weight": player_data.weight,
             "baseHeight": player_data.base_height,
@@ -393,6 +479,18 @@ class PlayerImporter:
                 )
 
                 if ability and not dry_run:
+                    # Validate SPELLS are available for this class
+                    # Note: We only validate spells, not physical skills, because ClassSkills
+                    # data is incomplete (missing loop-assigned skills from C++ init_class_skills)
+                    if check_spell and valid_spell_ids and ability.id not in valid_spell_ids:
+                        # Only warn if they had significant proficiency
+                        if proficiency > 0:
+                            print(f"  ⚠️  Spell '{normalized_name}' not available for class (skipping)")
+                        if "skipped" not in stats:
+                            stats["skipped"] = 0
+                        stats["skipped"] += 1
+                        continue
+
                     try:
                         await self.prisma.characterabilities.create(
                             data={
@@ -433,6 +531,17 @@ class PlayerImporter:
                 )
 
                 if ability:
+                    # Validate spell is available for this class
+                    if valid_spell_ids and ability.id not in valid_spell_ids:
+                        # Only warn about meaningful circles
+                        circle_val = int(circle) if isinstance(circle, str) else circle
+                        if circle_val > 0:
+                            print(f"  ⚠️  Spell '{normalized_name}' not available for class (skipping)")
+                        if "skipped" not in stats:
+                            stats["skipped"] = 0
+                        stats["skipped"] += 1
+                        continue
+
                     # Create CharacterAbilities entry if not already exists
                     if not dry_run:
                         existing = await self.prisma.characterabilities.find_first(
@@ -526,16 +635,13 @@ class PlayerImporter:
 
                 # Import if valid vnum (not custom item)
                 if vnum is not None and vnum != -1 and location is not None:
-                    # Extract zone_id and object_id from vnum
-                    zone_id = vnum // 100 if vnum >= 100 else 1000
-                    object_id = vnum % 100
+                    # Resolve object vnum to composite key using EntityResolver
+                    context_zone = vnum // 100 if vnum >= 100 else 0
+                    obj_result = await self.resolver.resolve_object(vnum, context_zone=context_zone)
 
-                    # Check if object prototype exists
-                    obj_exists = await self.prisma.objects.find_first(
-                        where={"zoneId": zone_id, "id": object_id}
-                    )
-
-                    if obj_exists:
+                    if obj_result:
+                        zone_id = obj_result.zone_id
+                        object_id = obj_result.id
                         # Convert location number to equipped location name
                         equipped_location = self._location_to_slot(location)
 
@@ -618,16 +724,13 @@ class PlayerImporter:
         Returns:
             True if pet was successfully imported, False otherwise
         """
-        # Convert vnum to composite key (zone_id, vnum)
-        zone_id = pet_data.id // 100 if pet_data.id >= 100 else 1000
-        vnum = pet_data.id % 100
+        # Resolve mob vnum to composite key using EntityResolver
+        context_zone = pet_data.id // 100 if pet_data.id >= 100 else 0
+        mob_result = await self.resolver.resolve_mob(pet_data.id, context_zone=context_zone)
 
-        # Validate mob prototype exists before creating pet
-        mob_exists = await self.prisma.mobs.find_first(
-            where={"zoneId": zone_id, "id": vnum}
-        )
-
-        if mob_exists:
+        if mob_result:
+            zone_id = mob_result.zone_id
+            vnum = mob_result.id
             try:
                 # Create pet in CharacterPets table
                 await self.prisma.characterpets.create(
@@ -645,8 +748,8 @@ class PlayerImporter:
                 # Log the error for debugging
                 print(f"  ⚠️  Failed to import pet (zone_id={zone_id}, vnum={vnum}): {e}")
                 return False
-        # else: Skip pets with missing mob prototypes (silently)
-        print(f"  ⚠️  Pet mob prototype not found (zone_id={zone_id}, vnum={vnum})")
+        # else: Skip pets with missing mob prototypes
+        print(f"  ⚠️  Pet mob prototype not found (legacy vnum={pet_data.id})")
         return False
 
     async def import_players_from_directory(

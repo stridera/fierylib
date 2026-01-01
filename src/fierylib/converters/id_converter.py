@@ -228,3 +228,137 @@ def validate_composite_id(zone_id: int, vnum: int) -> bool:
         )
 
     return True
+
+
+class EntityResolver:
+    """
+    Resolves legacy vnums to composite IDs with database verification.
+
+    Zone boundaries in CircleMUD are flexible - a zone can contain vnums
+    beyond zone*100+99. For example, zone 30 (Mielikki) has vnums 3000-3499.
+
+    Resolution Strategy:
+    1. Try context zone first (most common - entities are usually local)
+    2. Fall back to calculated zone (vnum // 100) for cross-zone references
+    3. Verify entity exists in database before returning
+
+    Usage:
+        resolver = EntityResolver(prisma_client)
+        result = await resolver.resolve_object(3109, context_zone=30)
+        # Returns CompositeId(zone_id=30, id=109) if object exists
+
+    This eliminates the need for duplicated vnum // 100 logic everywhere.
+    """
+
+    def __init__(self, prisma_client):
+        """
+        Initialize resolver with Prisma client
+
+        Args:
+            prisma_client: Prisma client instance for database lookups
+        """
+        self.prisma = prisma_client
+
+    async def resolve_object(
+        self, legacy_vnum: int, context_zone: Optional[int] = None
+    ) -> Optional[CompositeId]:
+        """
+        Resolve legacy object vnum to composite ID
+
+        Args:
+            legacy_vnum: Legacy object vnum (e.g., 3109)
+            context_zone: Zone context for resolution (e.g., 30 from 30.shp)
+
+        Returns:
+            CompositeId if object found, None otherwise
+
+        Examples:
+            >>> await resolver.resolve_object(3109, context_zone=30)
+            CompositeId(zone_id=30, id=109)  # Found in same zone
+            >>> await resolver.resolve_object(1029, context_zone=30)
+            CompositeId(zone_id=10, id=29)   # Found in zone 10 (cross-zone)
+        """
+        return await self._resolve_entity("objects", legacy_vnum, context_zone)
+
+    async def resolve_mob(
+        self, legacy_vnum: int, context_zone: Optional[int] = None
+    ) -> Optional[CompositeId]:
+        """
+        Resolve legacy mob vnum to composite ID
+
+        Args:
+            legacy_vnum: Legacy mob vnum (e.g., 3149)
+            context_zone: Zone context for resolution
+
+        Returns:
+            CompositeId if mob found, None otherwise
+        """
+        return await self._resolve_entity("mobs", legacy_vnum, context_zone)
+
+    async def resolve_room(
+        self, legacy_vnum: int, context_zone: Optional[int] = None
+    ) -> Optional[CompositeId]:
+        """
+        Resolve legacy room vnum to composite ID
+
+        Args:
+            legacy_vnum: Legacy room vnum (e.g., 3150)
+            context_zone: Zone context for resolution
+
+        Returns:
+            CompositeId if room found, None otherwise
+        """
+        return await self._resolve_entity("rooms", legacy_vnum, context_zone)
+
+    async def _resolve_entity(
+        self, table: str, legacy_vnum: int, context_zone: Optional[int]
+    ) -> Optional[CompositeId]:
+        """
+        Internal method to resolve any entity type
+
+        Args:
+            table: Prisma table name ('objects', 'mobs', 'rooms')
+            legacy_vnum: Legacy vnum
+            context_zone: Zone context
+
+        Returns:
+            CompositeId if found, None otherwise
+        """
+        vnum = int(legacy_vnum)
+
+        # Strategy 1: Try context zone first (most common case)
+        if context_zone is not None:
+            same_zone_id = vnum - (context_zone * 100)
+            if same_zone_id >= 0:
+                if await self._entity_exists(table, context_zone, same_zone_id):
+                    return CompositeId(zone_id=context_zone, id=same_zone_id)
+
+        # Strategy 2: Try calculated zone (vnum // 100)
+        calc_zone = vnum // 100
+        calc_id = vnum % 100
+        if await self._entity_exists(table, calc_zone, calc_id):
+            return CompositeId(zone_id=calc_zone, id=calc_id)
+
+        # Not found
+        return None
+
+    async def _entity_exists(self, table: str, zone_id: int, entity_id: int) -> bool:
+        """
+        Check if entity exists in database
+
+        Args:
+            table: Prisma table name
+            zone_id: Zone ID
+            entity_id: Entity ID
+
+        Returns:
+            True if entity exists
+        """
+        try:
+            model = getattr(self.prisma, table)
+            result = await model.find_unique(
+                where={"zoneId_id": {"zoneId": zone_id, "id": entity_id}}
+            )
+            return result is not None
+        except Exception:
+            return False

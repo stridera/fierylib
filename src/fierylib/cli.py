@@ -174,6 +174,31 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 "summary": total_stats.copy(),
             }
 
+            # PHASE 0: Seed core data (classes, races) before importing mobs
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 0: Seeding Core Data (Classes, Races)")
+            click.echo(f"{'='*60}")
+
+            # Check if classes already exist
+            existing_class_count = await prisma.characterclass.count()
+            if existing_class_count > 0:
+                click.echo(f"  ✅ Classes already seeded: {existing_class_count} classes exist")
+            else:
+                from fierylib.importers.class_importer_v2 import ClassImporterV2
+
+                # Seed classes from pre-generated JSON
+                classes_json = Path("data/classes.json")
+                if classes_json.exists():
+                    class_importer = ClassImporterV2(prisma)
+                    # Just import class definitions, skip skill/spell/circle assignments
+                    import json
+                    with classes_json.open('r') as f:
+                        classes_data = json.load(f)
+                    class_stats = await class_importer.import_classes(classes_data.get("classes", []))
+                    click.echo(f"  ✅ Classes: {class_stats.get('classes_created', 0)} created, {class_stats.get('classes_skipped', 0)} skipped")
+                else:
+                    click.echo(f"  ⚠️  data/classes.json not found, run 'fierylib seed classes --regenerate' first")
+
             # PHASE 1: Parse all zones once, create Zone DB records, store resets in memory
             click.echo(f"\n{'='*60}")
             click.echo(f"Phase 1: Parsing Zones and Extracting Resets")
@@ -582,6 +607,32 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     if obj_result.get("failed", 0) > 0:
                         total_stats["failed"] += obj_result["failed"]
 
+            # PHASE 3.5: Detect and link pet shop mobs (replaces legacy backroom hack)
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 3.5: Detecting Pet/Mount Shops")
+            click.echo(f"{'='*60}")
+
+            total_stats["pet_shops"] = 0
+            total_stats["shop_mobs"] = 0
+
+            for zone_id in zone_reset_map.keys():
+                pet_result = await shop_importer.detect_and_import_pet_shop_mobs(
+                    zone_id, dry_run=dry_run
+                )
+
+                if pet_result.get("pet_shops_found", 0) > 0:
+                    total_stats["pet_shops"] += pet_result["pet_shops_found"]
+                    total_stats["shop_mobs"] += pet_result["mobs_linked"]
+
+                    if verbose or debug:
+                        for backroom in pet_result.get("backrooms_detected", []):
+                            click.echo(f"  🐾 Zone {zone_id}: Shop {backroom['shop']} has {backroom['mobs_found']} mobs in backroom {backroom['backroom']}")
+
+            if total_stats["pet_shops"] > 0:
+                click.echo(f"  ✅ Found {total_stats['pet_shops']} pet/mount shops with {total_stats['shop_mobs']} mobs linked")
+            else:
+                click.echo(f"  ℹ️  No pet/mount shops detected")
+
             # PHASE 4: Import Triggers (DG Scripts → Lua)
             click.echo(f"\n{'='*60}")
             click.echo(f"Phase 4: Importing Triggers (DG Script → Lua)")
@@ -675,6 +726,30 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             else:
                 click.echo(f"  ⚠️  Boards directory not found")
 
+            # PHASE 7: Apply Spec Proc Flags
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 7: Applying Special Procedure Flags")
+            click.echo(f"{'='*60}")
+
+            from fierylib.importers.spec_proc_importer import SpecProcImporter
+            spec_proc_importer = SpecProcImporter(prisma)
+
+            spec_result = await spec_proc_importer.apply_spec_proc_flags(dry_run=dry_run)
+            total_stats["spec_proc_flags"] = spec_result.get("flags_applied", 0)
+
+            if spec_result["flags_applied"] > 0:
+                click.echo(f"  ✅ Applied {spec_result['flags_applied']} spec_proc flags (RECEPTIONIST, POSTMASTER, etc.)")
+                if verbose:
+                    for detail in spec_result.get("details", []):
+                        if detail.get("action") in ["applied", "would_apply"]:
+                            click.echo(f"      {detail['mob_name']} ({detail['vnum']}): +{detail['flag']}")
+            else:
+                click.echo(f"  ℹ️  No spec_proc flags to apply (mobs may not be imported yet)")
+
+            if spec_result.get("mobs_not_found"):
+                if verbose:
+                    click.echo(f"  ⚠️  {len(spec_result['mobs_not_found'])} mobs not found (from other zones)")
+
             # Summary
             click.echo(f"\n{'='*60}")
             click.echo(f"Import Summary")
@@ -687,6 +762,8 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             click.echo(f"  Mobs:          {total_stats['mobs']}")
             click.echo(f"  Objects:       {total_stats['objects']}")
             click.echo(f"  Shops:         {total_stats['shops']}")
+            if total_stats.get('pet_shops', 0) > 0:
+                click.echo(f"  Pet Shops:     {total_stats['pet_shops']} ({total_stats.get('shop_mobs', 0)} mobs linked)")
             click.echo(f"  Mob Resets:    {total_stats['mob_resets']}")
             click.echo(f"  Object Resets: {total_stats['object_resets']}")
             needs_review = total_stats.get('needs_review', 0)
@@ -696,6 +773,8 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 click.echo(f"  Triggers:      {total_stats['triggers']}")
             click.echo(f"  Mail:          {total_stats['mail']}")
             click.echo(f"  Boards:        {total_stats['boards']} ({total_stats['board_messages']} messages)")
+            if total_stats.get('spec_proc_flags', 0) > 0:
+                click.echo(f"  Spec Procs:    {total_stats['spec_proc_flags']} flags applied")
 
             if total_stats['failed'] > 0:
                 click.echo(f"  Failed:   {total_stats['failed']} ⚠️")

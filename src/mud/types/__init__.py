@@ -481,7 +481,7 @@ class WearLocation(Enum):
 class ObjectFlags(Enum):
     Glow = 0  #               Item is glowing (Can be seen in the dark)
     Hum = 1  #                Item is humming (Can be seen while blind)
-    NoRent = 2  #             Item cannot be rented
+    Temporary = 2  #          Temporary item - not saved on rent/camp
     AntiBerserker = 3  #     Not usable by berserker
     NoInvisible = 4  #            Item cannot be made invis
     Invisible = 5  #          Item is invisible

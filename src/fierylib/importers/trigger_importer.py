@@ -107,26 +107,12 @@ class TriggerImporter:
         }
 
         # Set attachment references based on type
-        # Check if referenced entities exist before setting FKs
-        if trigger.attach_type == "MOB":
-            # Check if mob exists
-            mob_exists = await self.prisma.mobs.find_unique(
-                where={"zoneId_id": {"zoneId": zone_id, "id": trigger.local_id}}
-            )
-            if mob_exists:
-                trigger_data["mobZoneId"] = zone_id
-                trigger_data["mobId"] = trigger.local_id
-            # If mob doesn't exist, we still store the trigger but without the FK
-        elif trigger.attach_type == "OBJECT":
-            # Check if object exists
-            obj_exists = await self.prisma.objects.find_unique(
-                where={"zoneId_id": {"zoneId": zone_id, "id": trigger.local_id}}
-            )
-            if obj_exists:
-                trigger_data["objectZoneId"] = zone_id
-                trigger_data["objectId"] = trigger.local_id
-            # If object doesn't exist, we still store the trigger but without the FK
-        elif trigger.attach_type == "WORLD":
+        # NOTE: For MOB and OBJECT triggers, attachments are determined by
+        # "T <trigger_vnum>" lines in mob/object files and stored in the
+        # MobTriggers/ObjectTriggers junction tables by MobTriggerLinker.
+        # We do NOT set direct FK columns here - that was a conceptual error.
+        # Only WORLD triggers have a direct zone relationship.
+        if trigger.attach_type == "WORLD":
             # World triggers are linked to a zone via zoneId
             zone_exists = await self.prisma.zones.find_unique(where={"id": zone_id})
             if zone_exists:

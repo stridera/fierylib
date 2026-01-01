@@ -238,7 +238,27 @@ asyncio.run(import_classes())
   eval $LINK_CMD
 
   echo ""
-  echo "✅ Skills, spells, classes, races, effects, and ability-effect links seeded"
+  echo "[3.6] Updating abilities with full metadata (sphere, damageType, etc.)..."
+  MAGIC_CMD="poetry run fierylib seed magic-system"
+
+  if [[ -n "$VERBOSE" ]]; then
+    MAGIC_CMD="$MAGIC_CMD --verbose"
+  fi
+
+  eval $MAGIC_CMD
+
+  echo ""
+  echo "[3.7] Importing social commands..."
+  SOCIALS_CMD="poetry run fierylib seed socials --clear"
+
+  if [[ -n "$VERBOSE" ]]; then
+    SOCIALS_CMD="$SOCIALS_CMD --verbose"
+  fi
+
+  eval $SOCIALS_CMD
+
+  echo ""
+  echo "✅ Skills, spells, classes, races, effects, ability links, ability metadata, and socials seeded"
   echo ""
 else
   if [[ -n "$DRY_RUN" ]]; then

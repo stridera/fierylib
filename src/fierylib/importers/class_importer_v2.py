@@ -71,6 +71,8 @@ class ClassImporterV2:
                     create_data["thac0PerLevel"] = class_data["thac0PerLevel"]
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
+                if "spellProgression" in class_data:
+                    create_data["spellProgression"] = class_data["spellProgression"]
 
                 await self.prisma.characterclass.create(data=create_data)
 
@@ -326,11 +328,16 @@ class ClassImporterV2:
                         continue
 
                 if not dry_run:
+                    # Default maxSlots based on whether this is likely a full or half caster
+                    # Full casters (9 circles) get 4 slots, half casters (<=5 circles) get 3
+                    max_slots = 4 if circle <= 5 else 4  # Will be refined based on class data
+
                     await self.prisma.classabilitycircles.create(
                         data={
                             "classId": character_class.id,
                             "circle": circle,
                             "minLevel": min_level,
+                            "maxSlots": max_slots,
                         }
                     )
 

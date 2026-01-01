@@ -143,6 +143,12 @@ class MagicSystemImporter:
         if ability.get("isToggle") is not None:
             data["isToggle"] = ability["isToggle"]
 
+        # Stealth & Visibility fields
+        if ability.get("contestedVisibility") is not None:
+            data["contestedVisibility"] = ability["contestedVisibility"]
+        if ability.get("visibilityCheck"):
+            data["visibilityCheck"] = ability["visibilityCheck"]
+
         # School lookup
         if ability.get("school"):
             school_id = self.school_id_cache.get(ability["school"])

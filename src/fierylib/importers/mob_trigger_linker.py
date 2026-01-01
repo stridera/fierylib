@@ -30,7 +30,7 @@ import re
 from pathlib import Path
 from typing import Optional
 
-from fierylib.converters import convert_zone_id
+from fierylib.converters import convert_zone_id, EntityResolver
 
 
 def parse_mob_trigger_attachments(mob_file: Path) -> dict[int, list[int]]:
@@ -107,6 +107,7 @@ class MobTriggerLinker:
             prisma_client: Prisma client instance
         """
         self.prisma = prisma_client
+        self.resolver = EntityResolver(prisma_client)
 
     async def build_trigger_vnum_to_id_map(self) -> dict[int, int]:
         """
@@ -167,24 +168,19 @@ class MobTriggerLinker:
 
         # Process each mob's trigger attachments
         for mob_vnum, trigger_vnums in attachments.items():
-            # Convert mob vnum to composite key
-            mob_zone_id = mob_vnum // 100
-            mob_local_id = mob_vnum % 100
+            # Resolve mob vnum to composite ID using EntityResolver
+            # Context zone is calculated from vnum, but resolver will verify against database
+            context_zone = mob_vnum // 100
+            mob_result = await self.resolver.resolve_mob(mob_vnum, context_zone=context_zone)
 
-            # Handle zone 0 -> 1000 conversion
-            mob_zone_id = convert_zone_id(mob_zone_id)
-
-            # Verify mob exists
-            mob_exists = await self.prisma.mobs.find_unique(
-                where={"zoneId_id": {"zoneId": mob_zone_id, "id": mob_local_id}}
-            )
-
-            if not mob_exists:
+            if not mob_result:
                 results["errors"].append(
-                    f"Mob {mob_vnum} ({mob_zone_id}:{mob_local_id}) not found"
+                    f"Mob {mob_vnum} not found in database"
                 )
                 continue
 
+            mob_zone_id = mob_result.zone_id
+            mob_local_id = mob_result.id
             results["mobs_processed"] += 1
 
             for trigger_vnum in trigger_vnums:

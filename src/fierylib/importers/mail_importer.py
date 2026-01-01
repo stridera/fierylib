@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from parsers.plrmail_parser import parse_plrmail, analyze_plrmail, MailMessage
+from fierylib.converters import EntityResolver
 
 
 class MailImporter:
@@ -25,22 +26,7 @@ class MailImporter:
             prisma_client: Prisma client instance
         """
         self.prisma = prisma_client
-
-    def _vnum_to_composite(self, vnum: int | None) -> tuple[int | None, int | None]:
-        """
-        Convert a legacy VNUM to (zone_id, local_id) tuple
-
-        Args:
-            vnum: Legacy VNUM (e.g., 3045 = zone 30, object 45)
-
-        Returns:
-            Tuple of (zone_id, local_id) or (None, None)
-        """
-        if vnum is None or vnum < 0:
-            return None, None
-        zone_id = vnum // 100 if vnum >= 100 else 1000  # Zone 0 -> 1000
-        local_id = vnum % 100
-        return zone_id, local_id
+        self.resolver = EntityResolver(prisma_client)
 
     async def import_mail(
         self,
@@ -62,20 +48,19 @@ class MailImporter:
             "skipped": 0,
         }
 
-        # Convert attached object VNUM to composite key
-        attached_zone_id, attached_object_id = self._vnum_to_composite(
-            mail_message.attached_vnum
-        )
+        # Resolve attached object VNUM to composite key using EntityResolver
+        attached_zone_id = None
+        attached_object_id = None
 
-        # Validate attached object exists (if any)
-        if attached_zone_id is not None and attached_object_id is not None:
-            obj_exists = await self.prisma.objects.find_first(
-                where={"zoneId": attached_zone_id, "id": attached_object_id}
-            )
-            if not obj_exists:
-                # Object doesn't exist, clear the attachment
-                attached_zone_id = None
-                attached_object_id = None
+        if mail_message.attached_vnum is not None and mail_message.attached_vnum >= 0:
+            vnum = mail_message.attached_vnum
+            context_zone = vnum // 100 if vnum >= 100 else 0
+            obj_result = await self.resolver.resolve_object(vnum, context_zone=context_zone)
+
+            if obj_result:
+                attached_zone_id = obj_result.zone_id
+                attached_object_id = obj_result.id
+            # If resolver returns None, object doesn't exist - leave as None
 
         # Prepare mail data
         # Store legacy numeric player IDs - these will be remapped to character UUIDs

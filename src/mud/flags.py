@@ -410,8 +410,10 @@ MONK_CHANTS = [
 
 # Legacy SKILLS dictionary for backwards compatibility
 # Maps skill IDs to names: spells (1-267), player skills (401-495), songs (551-560), chants (601-618)
+# Note: Spell IDs match SPELLS array indices directly (SPELLS[0]="NONE" is unused placeholder)
+# C++ defines: SPELL_ARMOR=1, SPELL_BURNING_HANDS=5, etc. match SPELLS[1], SPELLS[5], etc.
 SKILLS = {
-    **{i + 1: spell for i, spell in enumerate(SPELLS) if spell},
+    **{i: spell for i, spell in enumerate(SPELLS) if spell and i > 0},  # Use index directly, skip NONE
     **{i + 401: f"SKILL_{skill}" for i, skill in enumerate(PLAYER_SKILLS)},
     **{i + 551: f"SONG_{song}" for i, song in enumerate(BARDIC_SONGS)},
     **{i + 601: f"CHANT_{chant}" for i, chant in enumerate(MONK_CHANTS)},
@@ -481,7 +483,7 @@ WEAR_FLAGS = [
 OBJECT_FLAGS = [
     "GLOW",  # 0               /* Item is glowing               */
     "HUM",  # 1                /* Item is humming               */
-    "NO_RENT",  # 2            /* Item cannot be rented         */
+    "TEMPORARY",  # 2          /* Temporary item - not saved on rent/camp */
     "ANTI_BERSERKER",  # 3     /* Not usable by berserkers      */
     "NO_INVISIBLE",  # 4       /* Item cannot be made invis     */
     "INVISIBLE",  # 5          /* Item is invisible             */
