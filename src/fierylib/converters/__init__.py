@@ -13,7 +13,7 @@ from .id_converter import (
 from .flag_normalizer import normalize_flag, normalize_flags
 from .skill_name_normalizer import normalize_skill_name, denormalize_skill_name
 from .color_converter import convert_legacy_colors, strip_legacy_colors, strip_markup, ColorConverter
-from .keyword_normalizer import strip_articles, normalize_keywords
+from .keyword_normalizer import strip_articles, normalize_keywords, extract_article
 
 __all__ = [
     "vnum_to_composite",
@@ -32,4 +32,5 @@ __all__ = [
     "ColorConverter",
     "strip_articles",
     "normalize_keywords",
+    "extract_article",
 ]

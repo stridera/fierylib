@@ -16,7 +16,7 @@ import logging
 
 from mud.types.object import Object
 from mud.mudfile import MudData
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
 
 logger = logging.getLogger(__name__)
 
@@ -165,6 +165,10 @@ class ObjectImporter:
             obj_examine_desc = convert_legacy_colors(examine_description) if examine_description else None
             obj_action_desc = convert_legacy_colors(obj.action_description or "")
 
+            # Extract article from name for dynamic display
+            plain_name = strip_markup(obj_name)
+            article, base_name, plain_base_name = extract_article(obj_name, plain_name)
+
             # Upsert object with composite key
             await self.prisma.objects.upsert(
                 where={
@@ -180,7 +184,10 @@ class ObjectImporter:
                         "type": obj_type,
                         "keywords": strip_articles(obj.keywords) if obj.keywords else [],
                         "name": obj_name,
-                        "plainName": strip_markup(obj_name),
+                        "plainName": plain_name,
+                        "baseName": base_name,
+                        "plainBaseName": plain_base_name,
+                        "article": article,
                         "roomDescription": obj_room_desc,
                         "plainRoomDescription": strip_markup(obj_room_desc),
                         "examineDescription": obj_examine_desc,  # From matching extra description
@@ -201,7 +208,10 @@ class ObjectImporter:
                         "type": obj_type,
                         "keywords": strip_articles(obj.keywords) if obj.keywords else [],
                         "name": obj_name,
-                        "plainName": strip_markup(obj_name),
+                        "plainName": plain_name,
+                        "baseName": base_name,
+                        "plainBaseName": plain_base_name,
+                        "article": article,
                         "roomDescription": obj_room_desc,
                         "plainRoomDescription": strip_markup(obj_room_desc),
                         "examineDescription": obj_examine_desc,  # From matching extra description

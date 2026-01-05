@@ -11,6 +11,7 @@ from .config_seeder import ConfigSeeder
 from .level_seeder import LevelSeeder
 from .text_seeder import TextSeeder
 from .command_seeder import CommandSeeder
+from .liquid_seeder import seed_liquids
 
 __all__ = [
     "UserSeeder",
@@ -25,4 +26,5 @@ __all__ = [
     "LevelSeeder",
     "TextSeeder",
     "CommandSeeder",
+    "seed_liquids",
 ]

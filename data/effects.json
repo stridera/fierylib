@@ -270,7 +270,10 @@
             "reflect",
             "elemental_hands",
             "lifesteal",
-            "taunted"
+            "taunted",
+            "poisoned",
+            "diseased",
+            "cursed"
           ],
           "type": "string",
           "description": "Status flag to apply"
@@ -959,5 +962,239 @@
       }
     },
     "notes": "Targets a single object in inventory or held. Different from 'reveal' which finds hidden/invisible things in an area."
+  },
+  {
+    "name": "knockdown",
+    "effectType": "knockdown",
+    "description": "Knock target to the ground, interrupting actions and preventing movement temporarily.",
+    "tags": [
+      "combat",
+      "control"
+    ],
+    "defaultParams": {
+      "duration": 2
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Duration in combat rounds the target stays down"
+        },
+        "breakOnDamage": {
+          "type": "boolean",
+          "description": "Whether taking damage allows early recovery"
+        }
+      }
+    },
+    "notes": "Target loses their next action and cannot move. Used by bash, trip, charge attacks."
+  },
+  {
+    "name": "dismount",
+    "effectType": "dismount",
+    "description": "Force target off their mount.",
+    "tags": [
+      "combat",
+      "control"
+    ],
+    "defaultParams": {},
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "damage": {
+          "type": ["integer", "string"],
+          "description": "Optional fall damage when dismounted"
+        }
+      }
+    },
+    "notes": "No effect if target is not mounted. Often combined with knockdown."
+  },
+  {
+    "name": "stop_combat",
+    "effectType": "stop_combat",
+    "description": "End combat for the target, forcing them out of fighting stance.",
+    "tags": [
+      "combat",
+      "control"
+    ],
+    "defaultParams": {},
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "affectsGroup": {
+          "type": "boolean",
+          "description": "Whether combat ends for entire group"
+        },
+        "preventReengage": {
+          "type": "integer",
+          "description": "Rounds before target can re-engage in combat"
+        }
+      }
+    },
+    "notes": "Used by disengage, retreat, and pacify abilities. Does not affect opponent's combat state."
+  },
+  {
+    "name": "drag",
+    "effectType": "drag",
+    "description": "Force target to move with you when you move.",
+    "tags": [
+      "combat",
+      "control",
+      "movement"
+    ],
+    "defaultParams": {
+      "duration": 1
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Number of moves the target is dragged"
+        },
+        "resistable": {
+          "type": "boolean",
+          "description": "Whether target can resist with strength check"
+        }
+      }
+    },
+    "notes": "Target is pulled along when caster moves. Used by grapple, drag abilities."
+  },
+  {
+    "name": "intercept",
+    "effectType": "intercept",
+    "description": "Redirect attacks meant for another target to yourself.",
+    "tags": [
+      "combat",
+      "defense",
+      "protection"
+    ],
+    "defaultParams": {
+      "duration": "level",
+      "chance": 100
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": ["target"],
+      "properties": {
+        "target": {
+          "type": "string",
+          "description": "Who to protect (ally reference)"
+        },
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Duration of protection"
+        },
+        "chance": {
+          "type": "integer",
+          "description": "Percentage chance to intercept each attack (0-100)"
+        },
+        "maxInterceptions": {
+          "type": "integer",
+          "description": "Maximum number of attacks to intercept before effect ends"
+        }
+      }
+    },
+    "notes": "Bodyguard effect. Attacker hits the interceptor instead of original target."
+  },
+  {
+    "name": "portal",
+    "effectType": "portal",
+    "description": "Create a magical portal connecting two locations.",
+    "tags": [
+      "utility",
+      "movement",
+      "teleport"
+    ],
+    "defaultParams": {
+      "type": "two-way",
+      "duration": 10
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": ["destination"],
+      "properties": {
+        "destination": {
+          "type": ["integer", "string"],
+          "description": "Room ID or location reference for portal destination"
+        },
+        "type": {
+          "enum": ["one-way", "two-way"],
+          "type": "string",
+          "description": "Whether portal can be used from both ends"
+        },
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Duration before portal closes"
+        },
+        "maxUses": {
+          "type": "integer",
+          "description": "Maximum number of uses before portal closes"
+        }
+      }
+    },
+    "notes": "Creates a traversable portal. Different from teleport which moves instantly."
+  },
+  {
+    "name": "conceal_item",
+    "effectType": "conceal_item",
+    "description": "Hide an item from casual detection.",
+    "tags": [
+      "utility",
+      "stealth"
+    ],
+    "defaultParams": {
+      "duration": "level * 10"
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Duration of concealment"
+        },
+        "contestedBy": {
+          "type": "string",
+          "description": "Skill that can detect concealed items (perception, detect_magic, etc.)"
+        }
+      }
+    },
+    "notes": "Item won't show in normal inventory/room lists. Detect magic or similar reveals it."
+  },
+  {
+    "name": "redirect",
+    "effectType": "redirect",
+    "description": "Redirect damage or effects to another target.",
+    "tags": [
+      "combat",
+      "defense"
+    ],
+    "defaultParams": {
+      "percent": 50,
+      "duration": "level"
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "description": "Where to redirect damage (attacker, random_enemy, etc.)"
+        },
+        "percent": {
+          "type": "integer",
+          "description": "Percentage of damage redirected (0-100)"
+        },
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Duration of effect"
+        },
+        "types": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Damage types affected (all if omitted)"
+        }
+      }
+    },
+    "notes": "Damage reflection sends portion of incoming damage elsewhere. Different from resist which reduces damage."
   }
 ]

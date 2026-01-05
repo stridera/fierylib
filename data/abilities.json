@@ -686,7 +686,7 @@
     },
     "savingThrows": [
       {
-        "saveType": "PARALYSIS",
+        "saveType": "FORTITUDE",
         "dcFormula": "10 + skill / 5 + str_bonus",
         "onSaveAction": "HALF_DURATION"
       }
@@ -3469,14 +3469,29 @@
     "notes": "Debuff that reduces CON and STR by 10-20 based on skill. Duration 5-15 ticks. Curable by Heal/Full Heal.",
     "effects": [
       {
-        "effect": "debuff",
+        "effect": "status",
+        "order": 0,
         "params": {
-          "stats": {
-            "con": "-10 - (skill / 10)",
-            "str": "-10 - (skill / 10)"
-          },
-          "duration": "5 + (skill / 10)",
-          "flag": "disease"
+          "flag": "diseased",
+          "duration": "5 + (skill / 10)"
+        }
+      },
+      {
+        "effect": "modify",
+        "order": 1,
+        "params": {
+          "target": "con",
+          "amount": "-10 - (skill / 10)",
+          "duration": "5 + (skill / 10)"
+        }
+      },
+      {
+        "effect": "modify",
+        "order": 2,
+        "params": {
+          "target": "str",
+          "amount": "-10 - (skill / 10)",
+          "duration": "5 + (skill / 10)"
         }
       }
     ],
@@ -5782,15 +5797,17 @@
     "effects": [
       {
         "effect": "damage",
+        "order": 0,
         "params": {
           "type": "poison",
           "amount": "skill + random(1, skill*2)"
         }
       },
       {
-        "effect": "debuff",
+        "effect": "status",
+        "order": 1,
         "params": {
-          "flag": "poison",
+          "flag": "poisoned",
           "duration": "5 + (skill / 10)"
         }
       }
@@ -9037,7 +9054,7 @@
     "notes": "Rogue skill. Item must be small enough to conceal. Others may spot the palmed item with perception.",
     "targeting": {
       "validTargets": [
-        "ITEM_INVENTORY"
+        "OBJECT_INV"
       ],
       "scope": "SINGLE",
       "maxTargets": 1,

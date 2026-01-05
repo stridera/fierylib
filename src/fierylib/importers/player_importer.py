@@ -201,21 +201,22 @@ class PlayerImporter:
         else:
             raise ValueError(f"Character '{player_data.name}' has invalid hit_points format: {player_data.hit_points}")
 
-        # Parse movement (format: CurrentMax, "current/max", or int) - REQUIRED
+        # Parse stamina (format: CurrentMax, "current/max", or int) - REQUIRED
+        # Note: legacy field is called "move" but modern system uses "stamina"
         if not player_data.move:
-            raise ValueError(f"Character '{player_data.name}' missing required movement data")
+            raise ValueError(f"Character '{player_data.name}' missing required stamina data")
 
         if isinstance(player_data.move, CurrentMax):
-            movement = player_data.move.current
-            movement_max = player_data.move.max
+            stamina = player_data.move.current
+            stamina_max = player_data.move.max
         elif isinstance(player_data.move, str) and "/" in player_data.move:
             current, max_mv = player_data.move.split("/")
-            movement = int(current)
-            movement_max = int(max_mv)
+            stamina = int(current)
+            stamina_max = int(max_mv)
         elif isinstance(player_data.move, int):
-            movement = movement_max = player_data.move
+            stamina = stamina_max = player_data.move
         else:
-            raise ValueError(f"Character '{player_data.name}' has invalid movement format: {player_data.move}")
+            raise ValueError(f"Character '{player_data.name}' has invalid stamina format: {player_data.move}")
 
         # Map gender
         gender_str = "neutral"
@@ -373,8 +374,8 @@ class PlayerImporter:
             "luck": luck,
             "hitPoints": hit_points,
             "hitPointsMax": hit_points_max,
-            "movement": movement,
-            "movementMax": movement_max,
+            "stamina": stamina,
+            "staminaMax": stamina_max,
             "wealth": wealth,
             "bankWealth": bank_wealth,
             "passwordHash": password_hash,

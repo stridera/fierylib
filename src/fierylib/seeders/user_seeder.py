@@ -86,11 +86,11 @@ class UserSeeder:
                     "dexterity": min(18, 10 + (level // 10)),
                     "constitution": min(18, 10 + (level // 10)),
                     "charisma": min(18, 10 + (level // 10)),
-                    # HP/Movement based on level
+                    # HP/Stamina based on level
                     "hitPoints": level * 10,
                     "hitPointsMax": level * 10,
-                    "movement": 100 + (level * 2),
-                    "movementMax": 100 + (level * 2),
+                    "stamina": 100 + (level * 2),
+                    "staminaMax": 100 + (level * 2),
                 }
             )
             click.echo(f"    Updated character: {name} (Level {level})")
@@ -114,11 +114,11 @@ class UserSeeder:
                     "dexterity": min(18, 10 + (level // 10)),
                     "constitution": min(18, 10 + (level // 10)),
                     "charisma": min(18, 10 + (level // 10)),
-                    # HP/Movement based on level
+                    # HP/Stamina based on level
                     "hitPoints": level * 10,
                     "hitPointsMax": level * 10,
-                    "movement": 100 + (level * 2),
-                    "movementMax": 100 + (level * 2),
+                    "stamina": 100 + (level * 2),
+                    "staminaMax": 100 + (level * 2),
                 }
             )
             click.echo(f"    Created character: {name} (Level {level})")

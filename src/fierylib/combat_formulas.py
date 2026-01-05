@@ -4,6 +4,105 @@ from typing import Tuple
 import math
 
 
+# =============================================================================
+# DICE FACTOR LOOKUP TABLES
+# Ported from legacy/src/races.cpp and legacy/src/class.cpp
+# These multipliers adjust damage dice based on race and class.
+# =============================================================================
+
+# Race dice factors (from races.cpp)
+# Format: RACE_NAME -> dice_factor percentage (100 = normal)
+RACE_DICE_FACTORS = {
+    "HUMAN": 100,
+    "ELF": 80,
+    "DWARF": 100,
+    "HALFLING": 80,
+    "GNOME": 75,
+    "TROLL": 120,
+    "DROW": 80,
+    "OGRE": 120,
+    "ORC": 100,
+    "HALF_ELF": 90,
+    "HALF_ORC": 100,
+    "BARBARIAN": 110,
+    "DUERGAR": 100,
+    "HUMANOID": 100,
+    "ANIMAL": 100,
+    "UNDEAD": 100,
+    "DRAGON": 120,
+    "GIANT": 120,
+    "DEMON": 110,
+    "ELEMENTAL": 100,
+    "PLANT": 80,
+    "FAERIE": 70,
+    "CELESTIAL": 100,
+    "SVERFNEBLIN": 90,
+    "NYMPH": 70,
+    "ABERRATION": 100,
+    "DRAGONBORN": 100,
+    "GOLEM": 120,
+    "GOBLIN": 80,
+    "INSECT": 80,
+    "FISH": 60,
+}
+
+# Class dice factors (from class.cpp)
+# Format: CLASS_NAME -> dice_factor percentage (100 = normal)
+CLASS_DICE_FACTORS = {
+    "SORCERER": 80,
+    "CLERIC": 80,
+    "THIEF": 100,
+    "WARRIOR": 120,
+    "PALADIN": 120,
+    "ANTI_PALADIN": 120,
+    "RANGER": 100,
+    "DRUID": 80,
+    "SHAMAN": 80,
+    "ASSASSIN": 100,
+    "MERCENARY": 120,
+    "NECROMANCER": 80,
+    "CONJURER": 80,
+    "MONK": 100,
+    "BERSERKER": 120,
+    "ROGUE": 100,
+    "BARD": 80,
+    "PYROMANCER": 80,
+    "CRYOMANCER": 80,
+    "ILLUSIONIST": 80,
+    "PRIEST": 80,
+    "DIABOLIST": 80,
+    "HUNTER": 100,
+    "MYSTIC": 80,
+    "LAYMAN": 100,  # Default "no class"
+}
+
+
+def get_race_dice_factor(race: str) -> int:
+    """
+    Get the dice factor for a race.
+
+    Args:
+        race: Race name (e.g., "HUMANOID", "DRAGON")
+
+    Returns:
+        Dice factor percentage (100 = normal, 120 = 20% more damage)
+    """
+    return RACE_DICE_FACTORS.get(race.upper(), 100)
+
+
+def get_class_dice_factor(class_name: str) -> int:
+    """
+    Get the dice factor for a class.
+
+    Args:
+        class_name: Class name (e.g., "WARRIOR", "SORCERER")
+
+    Returns:
+        Dice factor percentage (100 = normal, 120 = 20% more damage)
+    """
+    return CLASS_DICE_FACTORS.get(class_name.upper(), 100)
+
+
 def get_set_hit(level: int, race_factor: int = 100, class_factor: int = 100) -> int:
     """
     Calculate mob base HP bonus (EX_MAIN_HP) - port of db.cpp:220-274.

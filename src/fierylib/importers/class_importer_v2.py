@@ -328,16 +328,11 @@ class ClassImporterV2:
                         continue
 
                 if not dry_run:
-                    # Default maxSlots based on whether this is likely a full or half caster
-                    # Full casters (9 circles) get 4 slots, half casters (<=5 circles) get 3
-                    max_slots = 4 if circle <= 5 else 4  # Will be refined based on class data
-
                     await self.prisma.classabilitycircles.create(
                         data={
                             "classId": character_class.id,
                             "circle": circle,
                             "minLevel": min_level,
-                            "maxSlots": max_slots,
                         }
                     )
 

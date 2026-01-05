@@ -18,7 +18,6 @@ from prisma import Prisma, Json
 
 from fierylib.parsers.trigger_parser import parse_trigger_file, parse_all_triggers, DGTrigger
 from fierylib.converters.dg_to_lua import convert_trigger, LuaTrigger
-from fierylib.converters import convert_zone_id
 
 
 def validate_lua_syntax(code: str, name: str) -> tuple[bool, str]:
@@ -87,11 +86,29 @@ class TriggerImporter:
         Returns:
             Dict with import results
         """
+        # Decompose vnum into composite key (zoneId, id)
+        # e.g., 3045 -> zoneId=30, id=45
+        trigger_zone_id = trigger.vnum // 100
+        trigger_local_id = trigger.vnum % 100
         # Handle zone 0 → 1000 conversion
-        zone_id = convert_zone_id(trigger.zone_id)
+        if trigger_zone_id == 0:
+            trigger_zone_id = 1000
 
-        # Build trigger data - only include optional relations if they apply
+        # Verify the zone exists before importing
+        zone_exists = await self.prisma.zones.find_unique(where={"id": trigger_zone_id})
+        if not zone_exists:
+            return {
+                "success": False,
+                "zoneId": trigger_zone_id,
+                "id": trigger_local_id,
+                "name": trigger.name,
+                "action": "failed",
+                "error": f"Zone {trigger_zone_id} not found",
+            }
+
         trigger_data = {
+            "zoneId": trigger_zone_id,
+            "id": trigger_local_id,
             "name": trigger.name,
             "attachType": trigger.attach_type,
             "flags": trigger.flags,
@@ -99,29 +116,16 @@ class TriggerImporter:
             "numArgs": len(trigger.arg_list),
             "argList": trigger.arg_list,
             "variables": Json({}),
-            # DG Scripts trigger vnum for mob/object linking
-            "vnum": trigger.vnum,
             # Validation tracking
             "needsReview": syntax_error is not None,
             "syntaxError": syntax_error,
         }
 
-        # Set attachment references based on type
-        # NOTE: For MOB and OBJECT triggers, attachments are determined by
-        # "T <trigger_vnum>" lines in mob/object files and stored in the
-        # MobTriggers/ObjectTriggers junction tables by MobTriggerLinker.
-        # We do NOT set direct FK columns here - that was a conceptual error.
-        # Only WORLD triggers have a direct zone relationship.
-        if trigger.attach_type == "WORLD":
-            # World triggers are linked to a zone via zoneId
-            zone_exists = await self.prisma.zones.find_unique(where={"id": zone_id})
-            if zone_exists:
-                trigger_data["zoneId"] = zone_id
-
         if dry_run:
             return {
                 "success": True,
-                "vnum": trigger.vnum,
+                "zoneId": trigger_zone_id,
+                "id": trigger_local_id,
                 "name": trigger.name,
                 "action": "validated",
                 "type": trigger.attach_type,
@@ -129,20 +133,27 @@ class TriggerImporter:
             }
 
         try:
-            # Create trigger (use create since we don't have a unique constraint on vnum)
-            # Check if trigger already exists by name and zone
-            existing = await self.prisma.triggers.find_first(
+            # Check if trigger already exists
+            existing = await self.prisma.triggers.find_unique(
                 where={
-                    "name": trigger.name,
-                    "zoneId": zone_id,
+                    "zoneId_id": {
+                        "zoneId": trigger_zone_id,
+                        "id": trigger_local_id,
+                    }
                 }
             )
 
             if existing:
                 # Update existing trigger
+                update_data = {k: v for k, v in trigger_data.items() if k not in ("zoneId", "id")}
                 await self.prisma.triggers.update(
-                    where={"id": existing.id},
-                    data=trigger_data
+                    where={
+                        "zoneId_id": {
+                            "zoneId": trigger_zone_id,
+                            "id": trigger_local_id,
+                        }
+                    },
+                    data=update_data
                 )
                 action = "updated"
             else:
@@ -152,7 +163,8 @@ class TriggerImporter:
 
             return {
                 "success": True,
-                "vnum": trigger.vnum,
+                "zoneId": trigger_zone_id,
+                "id": trigger_local_id,
                 "name": trigger.name,
                 "action": action,
                 "type": trigger.attach_type,
@@ -162,7 +174,8 @@ class TriggerImporter:
         except Exception as e:
             return {
                 "success": False,
-                "vnum": trigger.vnum,
+                "zoneId": trigger_zone_id,
+                "id": trigger_local_id,
                 "name": trigger.name,
                 "action": "failed",
                 "error": str(e),

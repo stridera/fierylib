@@ -161,17 +161,21 @@ class ShopImporter:
                             }
                         }
                     )
-                    if keeper_mob and "SHOPKEEPER" not in keeper_mob.mobFlags:
-                        new_flags = list(keeper_mob.mobFlags) + ["SHOPKEEPER"]
-                        await self.prisma.mobs.update(
-                            where={
-                                "zoneId_id": {
-                                    "zoneId": keeper_zone_id,
-                                    "id": keeper_id,
-                                }
-                            },
-                            data={"mobFlags": new_flags}
-                        )
+                    if keeper_mob:
+                        # Case-insensitive check for existing SHOPKEEPER flag
+                        existing_flags_upper = [f.upper() for f in keeper_mob.mobFlags]
+                        if "SHOPKEEPER" not in existing_flags_upper:
+                            # Add SHOPKEEPER and deduplicate
+                            new_flags = list(dict.fromkeys(keeper_mob.mobFlags)) + ["SHOPKEEPER"]
+                            await self.prisma.mobs.update(
+                                where={
+                                    "zoneId_id": {
+                                        "zoneId": keeper_zone_id,
+                                        "id": keeper_id,
+                                    }
+                                },
+                                data={"mobFlags": new_flags}
+                            )
                 except Exception as e:
                     # Non-fatal - just log the warning
                     pass
@@ -735,15 +739,15 @@ class ShopImporter:
             # Find shop that operates in this room
             shop_room = await self.prisma.shoprooms.find_first(
                 where={"roomId": room_vnum},
-                include={"shop": True}
+                include={"shops": True}
             )
 
-            if not shop_room or not shop_room.shop:
+            if not shop_room or not shop_room.shops:
                 results["success"] = False
                 results["error"] = f"No shop operates in room {room_vnum}"
                 return results
 
-            shop = shop_room.shop
+            shop = shop_room.shops
             results["shop_found"] = True
             results["shop"] = f"{shop.zoneId}:{shop.id}"
 

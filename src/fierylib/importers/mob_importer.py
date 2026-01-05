@@ -18,7 +18,7 @@ from prisma import Json
 from mud.types.mob import Mob
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
 from fierylib.combat_formulas import (
     calculate_mob_role,
     calculate_realistic_hp_dice,
@@ -26,6 +26,8 @@ from fierylib.combat_formulas import (
     get_set_hr,
     get_set_hd,
     get_set_dice,
+    get_race_dice_factor,
+    get_class_dice_factor,
     normalize_boss_hp_dice,
     convert_legacy_to_modern_stats,
     calculate_placeholder_stats,
@@ -339,26 +341,36 @@ class MobImporter:
             estimated_hp = int(new_hp_num * (new_hp_size + 1) / 2.0 + new_hp_bonus)
 
             # Calculate damage dice using legacy formulas
-            # If file has 0d0+0, calculate from level using legacy get_set_dice()
-            # This preserves the original game balance
-            if mob.damage_dice.num == 0 and mob.damage_dice.size == 0:
-                # Use legacy formula for mobs without explicit damage dice
-                dice_num, dice_size = get_set_dice(mob.level, 100, 100)
-                # Add file bonus (ex_damnodice, ex_damsizedice are typically 0)
-                new_damage_dice_num = dice_num + mob.damage_dice.bonus  # bonus here would be ex_damnodice
-                new_damage_dice_size = dice_size  # No ex_damsizedice support currently
-                # Damroll is separate - stored in hitRoll field for now (TODO: add damroll field)
-                new_damage_dice_bonus = get_set_hd(mob.level, 100, 100)  # This is damroll
-            else:
-                # File has explicit dice - use them directly
-                new_damage_dice_num = mob.damage_dice.num
-                new_damage_dice_size = mob.damage_dice.size
-                new_damage_dice_bonus = mob.damage_dice.bonus
+            # Legacy CircleMUD stores MODIFIERS in mob files (ex_damnodice, ex_damsizedice)
+            # which are added to base dice calculated from level.
+            # This matches legacy db.cpp behavior exactly.
+
+            # Get race and class dice factors for proper scaling
+            race_dice_factor = get_race_dice_factor(race)
+            mob_class_name = mob.mob_class.name if hasattr(mob.mob_class, "name") else str(mob.mob_class).upper()
+            class_dice_factor = get_class_dice_factor(mob_class_name)
+
+            # Calculate base damage dice from level (with race/class factors)
+            base_dice_num, base_dice_size = get_set_dice(mob.level, race_dice_factor, class_dice_factor)
+
+            # File values are MODIFIERS (ex_damnodice, ex_damsizedice), not absolute values
+            # Example: Lokari has -15d0+20, meaning -15 to dice count, +0 to dice size
+            modifier_dice_num = mob.damage_dice.num
+            modifier_dice_size = mob.damage_dice.size
+
+            # Apply modifiers to base dice
+            # Clamp to valid ranges: num >= 0 (can't have negative dice), size >= 1 (at least d1)
+            new_damage_dice_num = max(0, base_dice_num + modifier_dice_num)
+            new_damage_dice_size = max(1, base_dice_size + modifier_dice_size)
+
+            # Damage bonus (damroll) from level formula + file bonus
+            base_damroll = get_set_hd(mob.level, race_dice_factor, class_dice_factor)
+            new_damage_dice_bonus = base_damroll + mob.damage_dice.bonus
 
             # Calculate hitroll using legacy formula if file has 0
             calculated_hitroll = mob.hit_roll
             if mob.hit_roll == 0 and mob.level > 0:
-                calculated_hitroll = get_set_hr(mob.level, 100, 100)
+                calculated_hitroll = get_set_hr(mob.level, race_dice_factor, class_dice_factor)
 
             # Convert legacy stats to modern
             modern_stats = convert_legacy_to_modern_stats(
@@ -417,6 +429,10 @@ class MobImporter:
             mob_room_desc = convert_legacy_colors(mob.long_desc or "")
             mob_examine_desc = convert_legacy_colors(mob.desc or "")
 
+            # Extract article from name for dynamic display
+            plain_name = strip_markup(mob_name)
+            article, base_name, plain_base_name = extract_article(mob_name, plain_name)
+
             # Calculate wealth from level using legacy formula
             # The mob file values are "extra" modifiers added to the base calculation
             wealth = calculate_mob_wealth(
@@ -442,7 +458,10 @@ class MobImporter:
                         "keywords": strip_articles(mob.keywords.split()) if mob.keywords else [],
                         "classId": class_id,
                         "name": mob_name,
-                        "plainName": strip_markup(mob_name),
+                        "plainName": plain_name,
+                        "baseName": base_name,
+                        "plainBaseName": plain_base_name,
+                        "article": article,
                         "roomDescription": mob_room_desc,
                         "plainRoomDescription": strip_markup(mob_room_desc),
                         "examineDescription": mob_examine_desc,
@@ -484,7 +503,10 @@ class MobImporter:
                         "keywords": strip_articles(mob.keywords.split()) if mob.keywords else [],
                         "classId": class_id,
                         "name": mob_name,
-                        "plainName": strip_markup(mob_name),
+                        "plainName": plain_name,
+                        "baseName": base_name,
+                        "plainBaseName": plain_base_name,
+                        "article": article,
                         "roomDescription": mob_room_desc,
                         "plainRoomDescription": strip_markup(mob_room_desc),
                         "examineDescription": mob_examine_desc,

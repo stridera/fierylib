@@ -199,6 +199,16 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 else:
                     click.echo(f"  ⚠️  data/classes.json not found, run 'fierylib seed classes --regenerate' first")
 
+            # Seed spell slot progression (static data from legacy C++)
+            existing_slots = await prisma.spellslotprogression.count()
+            if existing_slots > 0:
+                click.echo(f"  ✅ Spell slots already seeded: {existing_slots} entries exist")
+            else:
+                from fierylib.importers.spell_slot_importer import SpellSlotImporter
+                slot_importer = SpellSlotImporter(prisma)
+                slot_stats = await slot_importer.import_spell_slots(dry_run=dry_run, verbose=verbose)
+                click.echo(f"  ✅ Spell slots: {slot_stats['rows_created']} entries created")
+
             # PHASE 1: Parse all zones once, create Zone DB records, store resets in memory
             click.echo(f"\n{'='*60}")
             click.echo(f"Phase 1: Parsing Zones and Extracting Resets")
@@ -607,31 +617,45 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     if obj_result.get("failed", 0) > 0:
                         total_stats["failed"] += obj_result["failed"]
 
-            # PHASE 3.5: Detect and link pet shop mobs (replaces legacy backroom hack)
+            # PHASE 3.5: Import known pet/mount shops from legacy spec_assign.cpp
+            # Only these specific rooms have the pet_shop spec_proc in legacy code
             click.echo(f"\n{'='*60}")
-            click.echo(f"Phase 3.5: Detecting Pet/Mount Shops")
+            click.echo(f"Phase 3.5: Importing Pet/Mount Shops (from legacy spec_assign)")
             click.echo(f"{'='*60}")
+
+            # Known legacy pet shop rooms from spec_assign.cpp
+            # These are the ONLY rooms that should sell mobs
+            LEGACY_PET_SHOP_ROOMS = [
+                3030,   # Kayla's Pet Shop (Mielikki, zone 30)
+                3091,   # Jorhan's Mount Shop (Mielikki, zone 30)
+                6228,   # Pet shop (Zone 62)
+                10056,  # Pet shop (Zone 100)
+                30012,  # Pet shop (Zone 300)
+                30031,  # Pet shop (Zone 300)
+            ]
 
             total_stats["pet_shops"] = 0
             total_stats["shop_mobs"] = 0
 
-            for zone_id in zone_reset_map.keys():
-                pet_result = await shop_importer.detect_and_import_pet_shop_mobs(
-                    zone_id, dry_run=dry_run
+            for room_vnum in LEGACY_PET_SHOP_ROOMS:
+                pet_result = await shop_importer.import_pet_shop_from_legacy_spec(
+                    room_vnum, dry_run=dry_run
                 )
 
-                if pet_result.get("pet_shops_found", 0) > 0:
-                    total_stats["pet_shops"] += pet_result["pet_shops_found"]
-                    total_stats["shop_mobs"] += pet_result["mobs_linked"]
+                if pet_result.get("shop_found", False):
+                    total_stats["pet_shops"] += 1
+                    total_stats["shop_mobs"] += pet_result.get("mobs_linked", 0)
 
                     if verbose or debug:
-                        for backroom in pet_result.get("backrooms_detected", []):
-                            click.echo(f"  🐾 Zone {zone_id}: Shop {backroom['shop']} has {backroom['mobs_found']} mobs in backroom {backroom['backroom']}")
+                        click.echo(f"  🐾 Room {room_vnum}: Shop {pet_result.get('shop', 'unknown')} linked {pet_result.get('mobs_linked', 0)} mobs")
+                elif verbose or debug:
+                    error = pet_result.get("error", "Unknown error")
+                    click.echo(f"  ⚠️  Room {room_vnum}: {error}")
 
             if total_stats["pet_shops"] > 0:
-                click.echo(f"  ✅ Found {total_stats['pet_shops']} pet/mount shops with {total_stats['shop_mobs']} mobs linked")
+                click.echo(f"  ✅ Imported {total_stats['pet_shops']} pet/mount shops with {total_stats['shop_mobs']} mobs linked")
             else:
-                click.echo(f"  ℹ️  No pet/mount shops detected")
+                click.echo(f"  ℹ️  No pet/mount shops imported")
 
             # PHASE 4: Import Triggers (DG Scripts → Lua)
             click.echo(f"\n{'='*60}")
@@ -1260,10 +1284,11 @@ def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: boo
                     for t in result.get("triggers", []):
                         status = "✅" if t["success"] else "❌"
                         ttype = t.get('type', 'UNKNOWN')
+                        trigger_id = f"{t.get('zoneId', '?')}:{t.get('id', '?')}"
                         if t["success"]:
-                            click.echo(f"  {status} Trigger {t['vnum']}: {t['name']} ({ttype}) - {t.get('action', 'unknown')}")
+                            click.echo(f"  {status} Trigger {trigger_id}: {t['name']} ({ttype}) - {t.get('action', 'unknown')}")
                         else:
-                            click.echo(f"  {status} Trigger {t['vnum']}: {t['name']} - {t.get('error', 'unknown error')}")
+                            click.echo(f"  {status} Trigger {trigger_id}: {t['name']} - {t.get('error', 'unknown error')}")
 
                 click.echo(f"\n{'='*60}")
                 click.echo("Import Summary")
@@ -1728,6 +1753,74 @@ def seed_races(dry_run: bool, regenerate: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="liquids")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate without importing to database",
+)
+def seed_liquids(dry_run: bool):
+    """Seed liquid types for drink containers.
+
+    Imports the 42 liquid types from legacy FieryMUD including:
+    - Name and alias for each liquid
+    - Color description (for unidentified containers)
+    - Drunk, hunger, and thirst effects per sip
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.liquid_seeder import LIQUID_DATA
+
+    async def run_seed():
+        click.echo("🥤 Seeding Liquid Types")
+        click.echo("=" * 60)
+
+        if dry_run:
+            click.echo("DRY RUN - No changes will be made\n")
+            for i, (alias, name, color, drunk, hunger, thirst) in enumerate(LIQUID_DATA):
+                alcoholic = "yes" if drunk > 0 else "no"
+                click.echo(f"  {i:2d}. {name:<20s} | {color:<20s} | alc={alcoholic}")
+            click.echo(f"\n  Total: {len(LIQUID_DATA)} liquid types")
+            return
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            created = 0
+
+            for alias, name, color_desc, drunk, hunger, thirst in LIQUID_DATA:
+                await prisma.liquid.upsert(
+                    where={"alias": alias},
+                    data={
+                        "create": {
+                            "name": name,
+                            "alias": alias,
+                            "colorDesc": color_desc,
+                            "drunkEffect": drunk,
+                            "hungerEffect": hunger,
+                            "thirstEffect": thirst,
+                        },
+                        "update": {
+                            "name": name,
+                            "colorDesc": color_desc,
+                            "drunkEffect": drunk,
+                            "hungerEffect": hunger,
+                            "thirstEffect": thirst,
+                        },
+                    },
+                )
+                created += 1
+
+            click.echo(f"\n✅ Seeded {created} liquid types")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="abilities")
 def seed_abilities_deprecated():
     """[DEPRECATED] Use 'seed magic-system' or 'import-legacy' instead.
@@ -1899,7 +1992,9 @@ def seed_magic_system(verbose: bool, data_dir: str | None):
         click.echo("=" * 60)
 
         path = Path(data_dir) if data_dir else None
-        stats = await import_magic_system(data_dir=path, verbose=verbose)
+        result = await import_magic_system(data_dir=path, verbose=verbose)
+        stats = result['stats']
+        warnings = result['warnings']
 
         click.echo("\n" + "=" * 60)
         click.echo("Import Summary")
@@ -1913,6 +2008,13 @@ def seed_magic_system(verbose: bool, data_dir: str | None):
             click.echo(f"  Errors:              {stats['errors']} ⚠️")
         else:
             click.echo(f"  Errors:              0 ✅")
+
+        if warnings:
+            click.echo(f"\n  Warnings:            {len(warnings)} ⚠️")
+            click.echo("  Missing effects referenced by abilities:")
+            for warning in warnings:
+                click.echo(f"    - {warning}")
+
         click.echo("\n✅ Import complete!")
 
     asyncio.run(run())
@@ -2516,6 +2618,99 @@ def seed_commands(verbose: bool):
             click.echo(f"\n✅ Command seeding complete!")
             click.echo(f"\nCommands are now available in Muditor for permission management.")
             click.echo(f"The MUD will read command permissions from the database at runtime.")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="quests")
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../fierymud/legacy/lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
+    "--zone-id",
+    type=int,
+    default=0,
+    help="Zone ID for imported quests (default: 0 for global)",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Parse and validate without importing to database",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+@click.option(
+    "--clear",
+    is_flag=True,
+    default=False,
+    help="Clear existing quests in zone before importing",
+)
+def seed_quests(lib_path: str, zone_id: int, dry_run: bool, verbose: bool, clear: bool):
+    """Import legacy quest definitions from lib/misc/quests file.
+
+    This command reads the legacy CircleMUD quest definitions and creates
+    Quest records with placeholder phases for each stage.
+
+    The imported quests will need to be filled in with objectives, rewards,
+    and proper descriptions using Muditor's quest editor.
+    """
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.seeders.quest_seeder import seed_legacy_quests, clear_legacy_quests
+
+    async def run_seed():
+        click.echo("🌱 Seeding Legacy Quests")
+        click.echo("=" * 60)
+
+        quests_file = Path(lib_path) / "misc" / "quests"
+        click.echo(f"Quest file: {quests_file}")
+        click.echo(f"Target zone: {zone_id}")
+
+        if not quests_file.exists():
+            click.echo(f"❌ Quest file not found: {quests_file}")
+            return
+
+        if dry_run:
+            click.echo("DRY RUN - No database changes will be made\n")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            if clear and not dry_run:
+                click.echo(f"Clearing existing quests in zone {zone_id}...")
+                deleted = await clear_legacy_quests(prisma, zone_id)
+                click.echo(f"  Deleted {deleted} existing quests")
+
+            imported = await seed_legacy_quests(
+                prisma,
+                quests_file,
+                zone_id=zone_id,
+                dry_run=dry_run,
+                verbose=verbose,
+            )
+
+            click.echo(f"\n{'='*60}")
+            click.echo("Seed Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Imported: {imported} quests")
+
+            if not dry_run and imported > 0:
+                click.echo(f"\n✅ Quest seeding complete!")
+                click.echo(f"\nQuests are now available in Muditor for editing.")
+                click.echo(f"Use the quest editor to add objectives, rewards, and descriptions.")
 
         finally:
             await prisma.disconnect()

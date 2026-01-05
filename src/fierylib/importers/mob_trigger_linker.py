@@ -26,7 +26,6 @@ This module:
 3. Populates the MobTriggers junction table
 """
 
-import re
 from pathlib import Path
 from typing import Optional
 
@@ -109,17 +108,15 @@ class MobTriggerLinker:
         self.prisma = prisma_client
         self.resolver = EntityResolver(prisma_client)
 
-    async def build_trigger_vnum_to_id_map(self) -> dict[int, int]:
+    async def build_trigger_composite_key_set(self) -> set[tuple[int, int]]:
         """
-        Build a mapping from trigger vnum to database trigger ID.
+        Build a set of valid trigger composite keys (zoneId, id).
 
         Returns:
-            Dict mapping vnum -> trigger_id
+            Set of (zoneId, id) tuples for existing triggers
         """
-        triggers = await self.prisma.triggers.find_many(
-            where={"vnum": {"not": None}}
-        )
-        return {t.vnum: t.id for t in triggers if t.vnum is not None}
+        triggers = await self.prisma.triggers.find_many()
+        return {(t.zoneId, t.id) for t in triggers}
 
     async def link_mob_triggers(
         self,
@@ -146,11 +143,11 @@ class MobTriggerLinker:
             total_attachments = sum(len(v) for v in attachments.values())
             print(f"Total trigger attachments: {total_attachments}")
 
-        # Build trigger vnum -> id mapping
-        trigger_map = await self.build_trigger_vnum_to_id_map()
+        # Build set of valid trigger composite keys
+        valid_triggers = await self.build_trigger_composite_key_set()
 
         if verbose:
-            print(f"Trigger vnum map has {len(trigger_map)} entries")
+            print(f"Valid trigger composite keys: {len(valid_triggers)}")
 
         results = {
             "success": True,
@@ -184,11 +181,18 @@ class MobTriggerLinker:
             results["mobs_processed"] += 1
 
             for trigger_vnum in trigger_vnums:
-                trigger_id = trigger_map.get(trigger_vnum)
+                # Decompose trigger vnum into composite key (zoneId, id)
+                trigger_zone_id = trigger_vnum // 100
+                trigger_local_id = trigger_vnum % 100
+                # Handle zone 0 → 1000 conversion
+                if trigger_zone_id == 0:
+                    trigger_zone_id = 1000
 
-                if trigger_id is None:
+                trigger_key = (trigger_zone_id, trigger_local_id)
+
+                if trigger_key not in valid_triggers:
                     if verbose:
-                        print(f"  Warning: Trigger {trigger_vnum} not found, skipping")
+                        print(f"  Warning: Trigger {trigger_vnum} ({trigger_zone_id}:{trigger_local_id}) not found, skipping")
                     results["links_skipped"] += 1
                     continue
 
@@ -197,18 +201,19 @@ class MobTriggerLinker:
                     continue
 
                 try:
-                    # Create MobTriggers entry
+                    # Create MobTriggers entry with composite FK to trigger
                     await self.prisma.mobtriggers.create(
                         data={
                             "mobZoneId": mob_zone_id,
                             "mobId": mob_local_id,
-                            "triggerId": trigger_id,
+                            "triggerZoneId": trigger_zone_id,
+                            "triggerId": trigger_local_id,
                         }
                     )
                     results["links_created"] += 1
 
                     if verbose:
-                        print(f"  Linked mob {mob_vnum} to trigger {trigger_vnum} (id:{trigger_id})")
+                        print(f"  Linked mob {mob_vnum} to trigger {trigger_zone_id}:{trigger_local_id}")
 
                 except Exception as e:
                     # Skip duplicates silently (same trigger attached multiple times)
@@ -249,7 +254,7 @@ class MobTriggerLinker:
         # Count unique triggers attached to mobs
         triggers_attached = await self.prisma.raw_query(
             """
-            SELECT COUNT(DISTINCT trigger_id)
+            SELECT COUNT(DISTINCT (trigger_zone_id, trigger_id))
             FROM "MobTriggers"
             """
         )

@@ -26,6 +26,7 @@ class MagicSystemImporter:
             "effect_links_created": 0,
             "errors": 0,
         }
+        self.warnings: List[str] = []  # Track warnings for summary
 
     async def load_effect_cache(self):
         """Load existing effects into cache."""
@@ -243,8 +244,10 @@ class MagicSystemImporter:
             effect_id = self.effect_id_cache.get(effect_name)
 
             if not effect_id:
+                warning = f"Effect '{effect_name}' not found (referenced by ability {ability_id})"
+                self.warnings.append(warning)
                 if verbose:
-                    click.echo(f"      Warning: Effect '{effect_name}' not found, skipping")
+                    click.echo(f"      Warning: {warning}")
                 continue
 
             await self.prisma.abilityeffect.create(
@@ -351,8 +354,12 @@ class MagicSystemImporter:
             }
         )
 
-    async def run(self, verbose: bool = False) -> Dict[str, int]:
-        """Run the full import."""
+    async def run(self, verbose: bool = False) -> Dict[str, Any]:
+        """Run the full import.
+
+        Returns:
+            Dictionary containing 'stats' and 'warnings' keys.
+        """
         click.echo("\nLoading caches...")
         await self.load_effect_cache()
         await self.load_school_cache()
@@ -363,7 +370,10 @@ class MagicSystemImporter:
         click.echo("\nImporting abilities...")
         await self.import_abilities(verbose)
 
-        return self.stats
+        return {
+            "stats": self.stats,
+            "warnings": self.warnings,
+        }
 
     async def update_descriptions_from_help(
         self,
@@ -491,8 +501,14 @@ class MagicSystemImporter:
 async def import_magic_system(
     data_dir: Optional[Path] = None,
     verbose: bool = False,
-) -> Dict[str, int]:
-    """Main entry point for importing the magic system."""
+) -> Dict[str, Any]:
+    """Main entry point for importing the magic system.
+
+    Returns:
+        Dictionary containing:
+        - stats: Dict with creation/update counts and errors
+        - warnings: List of warning messages (e.g., missing effects)
+    """
     if data_dir is None:
         data_dir = Path(__file__).parent.parent.parent.parent / "data"
 
@@ -521,7 +537,9 @@ def import_magic_system_cli(verbose: bool, data_dir: Optional[str]):
         click.echo("=" * 60)
 
         path = Path(data_dir) if data_dir else None
-        stats = await import_magic_system(data_dir=path, verbose=verbose)
+        result = await import_magic_system(data_dir=path, verbose=verbose)
+        stats = result['stats']
+        warnings = result['warnings']
 
         click.echo("\n" + "=" * 60)
         click.echo("Import Summary")
@@ -533,6 +551,12 @@ def import_magic_system_cli(verbose: bool, data_dir: Optional[str]):
         click.echo(f"  Effect links:        {stats['effect_links_created']}")
         if stats['errors'] > 0:
             click.echo(f"  Errors:              {stats['errors']}")
+
+        if warnings:
+            click.echo(f"\n  Warnings:            {len(warnings)}")
+            for warning in warnings:
+                click.echo(f"    - {warning}")
+
         click.echo("\nImport complete!")
 
     asyncio.run(run())

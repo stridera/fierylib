@@ -308,7 +308,7 @@ class EntityResolver:
         Returns:
             CompositeId if room found, None otherwise
         """
-        return await self._resolve_entity("rooms", legacy_vnum, context_zone)
+        return await self._resolve_entity("room", legacy_vnum, context_zone)
 
     async def _resolve_entity(
         self, table: str, legacy_vnum: int, context_zone: Optional[int]
