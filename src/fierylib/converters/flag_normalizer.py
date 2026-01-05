@@ -40,10 +40,26 @@ FLAG_MAPPINGS = {
     'REMOTE_AGGR': 'REMOTE_AGGRO',
 
     # Legacy synonyms where the name changed
-    'AGGRO_EVIL_RACE': 'AGGRO_EVIL',
-    'AGGRO_GOOD_RACE': 'AGGRO_GOOD',
-    'AGGRO_NEUTRAL_RACE': 'AGGRO_NEUTRAL',
+    # NOTE: AGGRO_*_RACE flags are DIFFERENT from AGGRO_* flags!
+    # - AGGRO_EVIL attacks players with evil alignment (<= -350)
+    # - AGGRO_EVIL_RACE attacks races that are inherently evil (demons, drow, etc.)
+    # These should NOT be mapped to each other!
     'NO_EQUIPMENT_RESTRICT': 'NO_EQ_RESTRICT',
+
+    # Legacy mob flags with different spelling
+    'AGGR_EVIL_RACE': 'AGGRO_EVIL_RACE',
+    'AGGR_GOOD_RACE': 'AGGRO_GOOD_RACE',
+    'AGGR_EVIL': 'AGGRO_EVIL',
+    'AGGR_GOOD': 'AGGRO_GOOD',
+    'AGGR_NEUTRAL': 'AGGRO_NEUTRAL',
+    'NOSCRIPT': 'NO_SCRIPT',
+    'ILLUSORY': 'ILLUSION',
+    'NOCHARM': 'NO_CHARM',
+    'NOSLEEP': 'NO_SLEEP',
+    'NOBASH': 'NO_BASH',
+    'NOBLIND': 'NO_BLIND',
+    'NOCLASS_AI': 'NO_CLASS_AI',
+    'NOBASH': 'NO_BASH',
 
     # Deprecated/removed flags (filter out by mapping to None)
     # These existed in old CircleMUD but are no longer in the schema

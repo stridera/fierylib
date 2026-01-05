@@ -1,4 +1,7 @@
 {
+  "prisma": {
+    "schema": "../muditor/packages/db/prisma/schema.prisma"
+  },
   "devDependencies": {
     "prisma": "^5.4.2"
   },
