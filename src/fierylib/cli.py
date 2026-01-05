@@ -1595,6 +1595,122 @@ def seed():
     pass
 
 
+@seed.command(name="all")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Enable verbose output",
+)
+@click.option(
+    "--with-users",
+    is_flag=True,
+    default=False,
+    help="Also seed test users after other seeds",
+)
+def seed_all(verbose: bool, with_users: bool):
+    """Run all seeders in the correct order"""
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+
+    async def run_all_seeds():
+        click.echo("🌱 Running All Seeders")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            # 1. Skills and Spells (must be first - other things depend on these)
+            click.echo("\n[1/8] Seeding spells and skills...")
+            from fierylib.seeders.skill_seeder import SkillSeeder
+            skill_seeder = SkillSeeder(prisma)
+            await skill_seeder.seed_spells()
+            await skill_seeder.seed_skills()
+            click.echo("  ✅ Spells and skills seeded")
+
+            # 2. Classes (depends on skills)
+            click.echo("\n[2/8] Seeding classes...")
+            from fierylib.importers.class_importer_v2 import ClassImporterV2
+            classes_json = Path("data/classes.json")
+            if classes_json.exists():
+                class_importer = ClassImporterV2(prisma)
+                await class_importer.import_from_json(classes_json)
+                click.echo("  ✅ Classes seeded")
+            else:
+                click.echo("  ⚠️  data/classes.json not found, skipping")
+
+            # 3. Races
+            click.echo("\n[3/8] Seeding races...")
+            from fierylib.seeders.race_seeder import RaceSeeder
+            races_json = Path("data/races.json")
+            if races_json.exists():
+                race_seeder = RaceSeeder(prisma)
+                await race_seeder.seed_from_json(races_json)
+                click.echo("  ✅ Races seeded")
+            else:
+                click.echo("  ⚠️  data/races.json not found, skipping")
+
+            # 4. Liquids
+            click.echo("\n[4/8] Seeding liquids...")
+            from fierylib.seeders.liquid_seeder import LiquidSeeder
+            liquid_seeder = LiquidSeeder(prisma)
+            stats = await liquid_seeder.seed()
+            click.echo(f"  ✅ Liquids seeded: {stats.get('created', 0)} created, {stats.get('updated', 0)} updated")
+
+            # 5. Effects
+            click.echo("\n[5/8] Seeding effects...")
+            from fierylib.seeders.effect_seeder import EffectSeeder
+            effect_seeder = EffectSeeder(prisma)
+            effect_stats = await effect_seeder.seed_all(verbose=verbose)
+            total_effects = sum(effect_stats.values())
+            click.echo(f"  ✅ Effects seeded: {total_effects} total")
+
+            # 6. Magic System (ability metadata)
+            click.echo("\n[6/8] Seeding magic system...")
+            from fierylib.seeders.magic_seeder import MagicSeeder
+            magic_seeder = MagicSeeder(prisma)
+            magic_stats = await magic_seeder.seed(verbose=verbose)
+            click.echo(f"  ✅ Magic system seeded: {magic_stats.get('updated', 0)} abilities updated")
+
+            # 7. Ability Effects (links abilities to effects)
+            click.echo("\n[7/8] Linking abilities to effects...")
+            from fierylib.seeders.ability_effect_seeder import AbilityEffectSeeder
+            ae_seeder = AbilityEffectSeeder(prisma)
+            ae_stats = await ae_seeder.seed(verbose=verbose)
+            click.echo(f"  ✅ Ability effects linked: {ae_stats.get('created', 0)} links created")
+
+            # 8. Socials
+            click.echo("\n[8/8] Seeding socials...")
+            from fierylib.importers.social_importer import SocialImporter
+            lib_path = Path(os.getenv("LEGACY_LIB_PATH", "../fierymud/legacy/lib"))
+            socials_file = lib_path / "misc" / "socials"
+            if socials_file.exists():
+                social_importer = SocialImporter(prisma)
+                social_stats = await social_importer.import_socials(socials_file, clear_existing=True)
+                click.echo(f"  ✅ Socials seeded: {social_stats.get('imported', 0)} imported")
+            else:
+                click.echo(f"  ⚠️  Socials file not found at {socials_file}, skipping")
+
+            # Optional: Users
+            if with_users:
+                click.echo("\n[+] Seeding test users...")
+                from fierylib.seeders import UserSeeder
+                user_seeder = UserSeeder(prisma)
+                await user_seeder.seed_users(skip_existing=True)
+                click.echo("  ✅ Test users seeded")
+
+            click.echo("\n" + "=" * 60)
+            click.echo("✅ All seeders complete!")
+            click.echo("=" * 60)
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_all_seeds())
+
+
 @seed.command(name="users")
 @click.option(
     "--reset",
