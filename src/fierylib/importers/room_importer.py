@@ -17,7 +17,7 @@ from mud.types.world import World
 from prisma import Prisma  # runtime client type
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
+from fierylib.converters import legacy_id_to_composite, normalize_flags, normalize_flag, convert_legacy_colors, strip_markup
 
 
 class RoomImporter:
@@ -291,6 +291,22 @@ class RoomImporter:
                 "error": f"Invalid direction: {direction_str}",
             }
 
+        # Process exit flags and determine defaultState
+        raw_flags = exit_data.get("flags", [])
+        if isinstance(raw_flags, BitFlags):
+            raw_flags = raw_flags.json_repr()
+
+        # Determine defaultState from CLOSED/LOCKED flags
+        # Priority: LOCKED > CLOSED > OPEN
+        default_state = "OPEN"
+        if "LOCKED" in raw_flags or "locked" in [f.lower() for f in raw_flags]:
+            default_state = "LOCKED"
+        elif "CLOSED" in raw_flags or "closed" in [f.lower() for f in raw_flags]:
+            default_state = "CLOSED"
+
+        # Normalize flags (this will filter out CLOSED/LOCKED via flag_normalizer mappings)
+        exit_flags = normalize_flags(raw_flags)
+
         # Parse destination legacy id (e.g. 3002) then convert to composite (zoneId, vnum)
         # Initialize target fields (Prisma schema uses composite toZoneId/toRoomId)
         to_zone_id: Optional[int] = None
@@ -361,6 +377,8 @@ class RoomImporter:
                         "key": exit_data.get("key"),
                         "toZoneId": to_zone_id,
                         "toRoomId": to_room_vnum,
+                        "flags": exit_flags,
+                        "defaultState": default_state,
                     },
                     "update": {
                         "description": exit_data.get("description", ""),
@@ -368,11 +386,20 @@ class RoomImporter:
                         "key": exit_data.get("key"),
                         "toZoneId": to_zone_id,
                         "toRoomId": to_room_vnum,
+                        "flags": {"set": exit_flags},
+                        "defaultState": default_state,
                     },
                 },
             )
 
-            return {"success": True, "direction": direction, "toZoneId": to_zone_id, "toRoomId": to_room_vnum}
+            return {
+                "success": True,
+                "direction": direction,
+                "toZoneId": to_zone_id,
+                "toRoomId": to_room_vnum,
+                "defaultState": default_state,
+                "flags": exit_flags,
+            }
 
         except Exception as e:
             return {

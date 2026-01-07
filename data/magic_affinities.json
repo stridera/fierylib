@@ -1,0 +1,255 @@
+[
+  {
+    "name": "FIRE",
+    "displayName": "Fire",
+    "description": "This area radiates intense heat and magical fire energy. Flames flicker at the edges of perception.",
+    "spellBonus": {
+      "fire": 15,
+      "cold": -15
+    },
+    "opposingAffinity": "COLD",
+    "creatureEffects": {
+      "fire_elemental": "empowered",
+      "ice_elemental": "weakened"
+    },
+    "environmentalEffects": [
+      "Light sources burn brighter",
+      "Water evaporates more quickly",
+      "Cold-based items may be damaged over time"
+    ]
+  },
+  {
+    "name": "WATER",
+    "displayName": "Water",
+    "description": "Moisture permeates everything here. The air is thick with humidity and aquatic magic.",
+    "spellBonus": {
+      "water": 15,
+      "fire": -10
+    },
+    "opposingAffinity": "FIRE",
+    "creatureEffects": {
+      "aquatic": "empowered",
+      "fire_elemental": "weakened"
+    },
+    "environmentalEffects": [
+      "Fire-based effects have reduced duration",
+      "Aquatic creatures can breathe normally",
+      "Rust and corrosion accelerated"
+    ]
+  },
+  {
+    "name": "COLD",
+    "displayName": "Cold",
+    "description": "Bitter cold emanates from this place. Ice crystals form on surfaces and breath mists in the air.",
+    "spellBonus": {
+      "cold": 15,
+      "fire": -15
+    },
+    "opposingAffinity": "FIRE",
+    "creatureEffects": {
+      "ice_elemental": "empowered",
+      "fire_elemental": "weakened"
+    },
+    "environmentalEffects": [
+      "Fire-based effects have shorter duration",
+      "Movement may be slowed by ice",
+      "Cold-resistant creatures thrive"
+    ]
+  },
+  {
+    "name": "EARTH",
+    "displayName": "Earth",
+    "description": "The stone here pulses with primal earth energy. The ground feels solid and unyielding.",
+    "spellBonus": {
+      "earth": 15,
+      "air": -10
+    },
+    "opposingAffinity": "AIR",
+    "creatureEffects": {
+      "earth_elemental": "empowered",
+      "air_elemental": "weakened"
+    },
+    "environmentalEffects": [
+      "Stone and metal are reinforced",
+      "Burrowing creatures move more easily",
+      "Flight is more difficult"
+    ]
+  },
+  {
+    "name": "AIR",
+    "displayName": "Air",
+    "description": "Currents of magical wind swirl through this space. The air crackles with electrical potential.",
+    "spellBonus": {
+      "air": 15,
+      "shock": 10,
+      "earth": -10
+    },
+    "opposingAffinity": "EARTH",
+    "creatureEffects": {
+      "air_elemental": "empowered",
+      "flying": "enhanced"
+    },
+    "environmentalEffects": [
+      "Flying creatures gain bonus movement",
+      "Sound carries farther",
+      "Lightning spells more potent"
+    ]
+  },
+  {
+    "name": "HOLY",
+    "displayName": "Holy",
+    "description": "Divine light suffuses this sacred place. Evil creatures feel uncomfortable here.",
+    "spellBonus": {
+      "holy": 20,
+      "radiant": 15,
+      "unholy": -20,
+      "necrotic": -15
+    },
+    "opposingAffinity": "UNHOLY",
+    "creatureEffects": {
+      "undead": "weakened",
+      "demon": "weakened",
+      "celestial": "empowered"
+    },
+    "environmentalEffects": [
+      "Undead take periodic damage",
+      "Healing spells more effective",
+      "Darkness effects have reduced duration"
+    ]
+  },
+  {
+    "name": "UNHOLY",
+    "displayName": "Unholy",
+    "description": "Dark energy pervades this corrupted place. The righteous feel their strength wane.",
+    "spellBonus": {
+      "unholy": 20,
+      "necrotic": 15,
+      "holy": -20,
+      "radiant": -15
+    },
+    "opposingAffinity": "HOLY",
+    "creatureEffects": {
+      "undead": "empowered",
+      "demon": "empowered",
+      "celestial": "weakened"
+    },
+    "environmentalEffects": [
+      "Undead regenerate slowly",
+      "Healing magic is less effective",
+      "Light sources dim"
+    ]
+  },
+  {
+    "name": "SHADOW",
+    "displayName": "Shadow",
+    "description": "Shadows here are deeper and more substantial. Light struggles to penetrate the darkness.",
+    "spellBonus": {
+      "shadow": 15,
+      "radiant": -15
+    },
+    "opposingAffinity": null,
+    "creatureEffects": {
+      "shadow_creature": "empowered",
+      "incorporeal": "enhanced"
+    },
+    "environmentalEffects": [
+      "Darkness persists even with light sources",
+      "Stealth is easier",
+      "Illusions are more convincing"
+    ]
+  },
+  {
+    "name": "DEATH",
+    "displayName": "Death",
+    "description": "The boundary between life and death is thin here. Necromantic energy flows freely.",
+    "spellBonus": {
+      "necrotic": 20,
+      "lifesteal": 15
+    },
+    "opposingAffinity": null,
+    "creatureEffects": {
+      "undead": "empowered",
+      "living": "uneasy"
+    },
+    "environmentalEffects": [
+      "Corpses decay more slowly",
+      "Spirits linger longer",
+      "Resurrection magic more difficult"
+    ],
+    "notes": "Not inherently evil - simply a place close to the veil of death. Necropoli, ancient battlefields, places of great loss."
+  },
+  {
+    "name": "ASTRAL",
+    "displayName": "Astral",
+    "description": "The fabric of reality is thin here. Planar boundaries weaken and distant places feel closer.",
+    "spellBonus": {
+      "summoning": 20,
+      "teleport": 15
+    },
+    "opposingAffinity": null,
+    "creatureEffects": {
+      "planar": "empowered",
+      "summoned": "extended_duration"
+    },
+    "environmentalEffects": [
+      "Teleportation spells more reliable",
+      "Summoned creatures last longer",
+      "Planar travel easier"
+    ]
+  },
+  {
+    "name": "NATURE",
+    "displayName": "Nature",
+    "description": "Primal natural energy thrums through this place. Plants grow vigorously and animals feel at home.",
+    "spellBonus": {
+      "nature": 15
+    },
+    "opposingAffinity": null,
+    "creatureEffects": {
+      "fey": "empowered",
+      "plant": "empowered",
+      "animal": "calm"
+    },
+    "environmentalEffects": [
+      "Druid magic enhanced",
+      "Plants grow faster",
+      "Animals are less hostile"
+    ]
+  },
+  {
+    "name": "ARCANE",
+    "displayName": "Arcane",
+    "description": "Raw magical energy saturates this location. Spells of all types feel easier to cast.",
+    "spellBonus": {
+      "all": 10
+    },
+    "opposingAffinity": null,
+    "creatureEffects": {
+      "magical_construct": "empowered"
+    },
+    "environmentalEffects": [
+      "All spells slightly more powerful",
+      "Spell memorization faster",
+      "Magical items resonate"
+    ]
+  },
+  {
+    "name": "CHAOS",
+    "displayName": "Chaos",
+    "description": "Reality itself is unstable here. Magic behaves unpredictably and the unexpected is commonplace.",
+    "spellBonus": {
+      "random": "variable"
+    },
+    "opposingAffinity": null,
+    "creatureEffects": {
+      "chaos_creature": "empowered",
+      "lawful": "weakened"
+    },
+    "environmentalEffects": [
+      "Spells may have random side effects",
+      "Critical successes and failures more common",
+      "Reality occasionally shifts"
+    ],
+    "notes": "Wild magic zone. Each spell cast has a chance of triggering a random magical effect in addition to its normal outcome."
+  }
+]

@@ -164,8 +164,10 @@ echo "[2.2] Ensuring schema is applied..."
 poetry run prisma db push
 
 echo ""
-echo "[2.3] Generating Prisma clients (Python + JS)..."
-poetry run prisma generate
+echo "[2.3] Generating Prisma Python client..."
+# Only generate Python client - JS client generation fails in Python-only environment
+# and is not needed for fierylib
+poetry run prisma generate --generator py
 
 echo ""
 echo "✅ Database reset complete"

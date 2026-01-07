@@ -990,6 +990,32 @@
     "notes": "Target loses their next action and cannot move. Used by bash, trip, charge attacks."
   },
   {
+    "name": "stun",
+    "effectType": "stun",
+    "description": "Target is dazed and disoriented, unable to act. Unlike knockdown, target remains standing.",
+    "tags": [
+      "combat",
+      "control"
+    ],
+    "defaultParams": {
+      "duration": 2
+    },
+    "paramSchema": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": ["integer", "string"],
+          "description": "Duration in combat rounds the target is stunned"
+        },
+        "breakOnDamage": {
+          "type": "boolean",
+          "description": "Whether taking damage allows early recovery"
+        }
+      }
+    },
+    "notes": "Mental/physical disorientation. Can't act but can be acted upon. Different from knockdown (positional) and paralyzed (magical/total). Used by shield bash, pommel strike, concussive blows."
+  },
+  {
     "name": "dismount",
     "effectType": "dismount",
     "description": "Force target off their mount.",

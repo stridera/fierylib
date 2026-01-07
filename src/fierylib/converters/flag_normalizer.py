@@ -63,6 +63,21 @@ FLAG_MAPPINGS = {
 
     # Deprecated/removed flags (filter out by mapping to None)
     # These existed in old CircleMUD but are no longer in the schema
+
+    # FLAG REORGANIZATION (2024) - Legacy flag migrations
+    # Exit flags - CLOSED/LOCKED moved to defaultState field, handled by exit importer
+    'CLOSED': None,  # Use defaultState: CLOSED instead
+    'LOCKED': None,  # Use defaultState: LOCKED instead
+
+    # Object flags - deprecated ones
+    'NO_FALL': 'FLOAT',  # NO_FALL merged into FLOAT
+    'WAS_DISARMED': None,  # Runtime-only flag, not stored
+
+    # WearFlag migrations - legacy hand slots
+    'SHIELD': 'OFFHAND',
+    'WIELD': 'MAINHAND',
+    'HOLD': 'OFFHAND',
+    'TWO_HAND_WIELD': 'TWOHAND',  # Normalized to match MAINHAND/OFFHAND pattern
 }
 
 
