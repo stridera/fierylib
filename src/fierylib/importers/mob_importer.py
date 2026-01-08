@@ -18,7 +18,7 @@ from prisma import Json
 from mud.types.mob import Mob
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
+from fierylib.converters import legacy_id_to_composite, normalize_flags, normalize_mob_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
 from fierylib.combat_formulas import (
     calculate_mob_role,
     calculate_realistic_hp_dice,
@@ -274,9 +274,10 @@ class MobImporter:
         else:
             class_id = None
 
-        # Convert BitFlags to lists and normalize (NO_CHARM → NOCHARM)
-        mob_flags = mob.mob_flags.json_repr() if isinstance(mob.mob_flags, BitFlags) else (mob.mob_flags or [])
-        mob_flags = normalize_flags(mob_flags)
+        # Convert BitFlags to lists and normalize
+        # For mob flags, also extract aggro flags into an aggroCondition Lua expression
+        raw_mob_flags = mob.mob_flags.json_repr() if isinstance(mob.mob_flags, BitFlags) else (mob.mob_flags or [])
+        mob_flags, aggro_condition = normalize_mob_flags(raw_mob_flags)
         effect_flags = mob.effect_flags.json_repr() if isinstance(mob.effect_flags, BitFlags) else (mob.effect_flags or [])
         effect_flags = normalize_flags(effect_flags)
 
@@ -468,6 +469,7 @@ class MobImporter:
                         "plainExamineDescription": strip_markup(mob_examine_desc),
                         "mobFlags": mob_flags,
                         "effectFlags": effect_flags,
+                        "aggroCondition": aggro_condition,
                         "alignment": mob.alignment,
                         "level": mob.level,
                         "role": mob_role,
@@ -513,6 +515,7 @@ class MobImporter:
                         "plainExamineDescription": strip_markup(mob_examine_desc),
                         "mobFlags": {"set": mob_flags},
                         "effectFlags": {"set": effect_flags},
+                        "aggroCondition": aggro_condition,
                         "alignment": mob.alignment,
                         "level": mob.level,
                         "role": mob_role,

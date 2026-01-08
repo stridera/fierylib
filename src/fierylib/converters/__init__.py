@@ -10,7 +10,7 @@ from .id_converter import (
     CompositeId,
     EntityResolver,
 )
-from .flag_normalizer import normalize_flag, normalize_flags
+from .flag_normalizer import normalize_flag, normalize_flags, normalize_mob_flags
 from .skill_name_normalizer import normalize_skill_name, denormalize_skill_name
 from .color_converter import convert_legacy_colors, strip_legacy_colors, strip_markup, ColorConverter
 from .keyword_normalizer import strip_articles, normalize_keywords, extract_article
@@ -24,6 +24,7 @@ __all__ = [
     "EntityResolver",
     "normalize_flag",
     "normalize_flags",
+    "normalize_mob_flags",
     "normalize_skill_name",
     "denormalize_skill_name",
     "convert_legacy_colors",

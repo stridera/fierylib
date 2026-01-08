@@ -215,6 +215,7 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             click.echo(f"{'='*60}")
 
             zone_reset_map = {}  # zone_id -> ZoneResetData
+            parsed_zones = {}  # zone_id -> parsed Zone object (for door resets later)
 
             for zone_file in zone_files:
                 # Skip non-numeric zone files
@@ -246,6 +247,9 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     zone_id = zone_result["zone_id"]
                     click.echo(f"✅ Zone {zone_id} ({zone_result['zone_name']}): {zone_result['action']}")
                     total_stats["zones"] += 1
+
+                    # Store parsed zone for door reset application later
+                    parsed_zones[zone_id] = parsed_zone
 
                     # Extract and store resets in memory
                     zone_reset_map[zone_id] = ZoneResetData(
@@ -579,16 +583,55 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     else:
                         click.echo(f"  Zone {zone_id}: {zone_exits_imported} exits imported ✅")
 
+            # PHASE 2D: Apply door resets (set defaultState on exits)
+            click.echo(f"\n{'='*60}")
+            click.echo(f"Phase 2D: Applying Door Resets")
+            click.echo(f"{'='*60}")
+
+            # Give zone_importer access to room map for door resets
+            zone_importer.room_map = vnum_maps['rooms']
+
+            total_door_resets = 0
+            for zone_id, reset_data in zone_reset_map.items():
+                if not reset_data.door_resets:
+                    continue
+
+                # Apply door resets for this zone
+                if zone_id in parsed_zones:
+                    door_applied, door_warnings = await zone_importer.apply_door_resets(parsed_zones[zone_id], dry_run=dry_run)
+                    total_door_resets += len(door_applied)
+                    if door_warnings and (verbose or debug):
+                        for warning in door_warnings[:5]:
+                            click.echo(f"  ⚠️  {warning}")
+
+            if total_door_resets > 0:
+                click.echo(f"  ✅ Applied {total_door_resets} door resets")
+            else:
+                click.echo(f"  ℹ️  No door resets to apply")
+
             # PHASE 3: Apply mob/object resets using prebuilt vnum maps
             click.echo(f"\n{'='*60}")
             click.echo(f"Phase 3: Applying Mob/Object Resets")
             click.echo(f"{'='*60}")
 
+            # Build shopkeeper vnums set (G commands skipped for these mobs)
+            # Shop inventory comes from ShopItems, not mob inventory
+            shopkeeper_vnums: set[int] = set()
+            shops = await prisma.shops.find_many(
+                where={"keeperZoneId": {"not": None}, "keeperId": {"not": None}}
+            )
+            for shop in shops:
+                vnum = (shop.keeperZoneId * 100) + shop.keeperId if shop.keeperZoneId != 1000 else shop.keeperId
+                shopkeeper_vnums.add(vnum)
+            if verbose or debug:
+                click.echo(f"  [DEBUG] Found {len(shopkeeper_vnums)} shopkeepers (G commands will be skipped)")
+
             # Pass prebuilt vnum maps to reset importer (no DB queries needed!)
             reset_importer.set_vnum_maps(
                 room_map=vnum_maps['rooms'],
                 mob_map=vnum_maps['mobs'],
-                object_map=vnum_maps['objects']
+                object_map=vnum_maps['objects'],
+                shopkeeper_vnums=shopkeeper_vnums
             )
 
             for zone_id, reset_data in zone_reset_map.items():

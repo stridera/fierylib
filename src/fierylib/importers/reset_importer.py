@@ -29,11 +29,14 @@ class ResetImporter:
         self.mob_map: Dict[int, Tuple[int, int]] = {}
         self.room_map: Dict[int, Tuple[int, int]] = {}
         self.object_map: Dict[int, Tuple[int, int]] = {}
+        # Set of shopkeeper mob vnums - G commands are skipped for these
+        self.shopkeeper_vnums: set[int] = set()
         self.maps_built = False
 
     def set_vnum_maps(self, room_map: Dict[int, Tuple[int, int]],
                       mob_map: Dict[int, Tuple[int, int]],
-                      object_map: Dict[int, Tuple[int, int]]):
+                      object_map: Dict[int, Tuple[int, int]],
+                      shopkeeper_vnums: set[int] | None = None):
         """
         Set prebuilt vnum maps (built incrementally during entity import)
 
@@ -41,10 +44,12 @@ class ResetImporter:
             room_map: vnum -> (zone_id, id) for rooms
             mob_map: vnum -> (zone_id, id) for mobs
             object_map: vnum -> (zone_id, id) for objects
+            shopkeeper_vnums: Set of mob vnums that are shopkeepers (G commands skipped)
         """
         self.room_map = room_map
         self.mob_map = mob_map
         self.object_map = object_map
+        self.shopkeeper_vnums = shopkeeper_vnums or set()
         self.maps_built = True
 
     async def build_vnum_maps(self):
@@ -79,8 +84,17 @@ class ResetImporter:
             vnum = (obj.zoneId * 100) + obj.id if obj.zoneId != 1000 else obj.id
             self.object_map[vnum] = (obj.zoneId, obj.id)
 
+        # Build shopkeeper set: mob vnums that are shopkeepers
+        # G commands are skipped for these mobs (shop inventory comes from ShopItems)
+        shops = await self.prisma.shops.find_many(
+            where={"keeperZoneId": {"not": None}, "keeperId": {"not": None}}
+        )
+        for shop in shops:
+            vnum = (shop.keeperZoneId * 100) + shop.keeperId if shop.keeperZoneId != 1000 else shop.keeperId
+            self.shopkeeper_vnums.add(vnum)
+
         self.maps_built = True
-        print(f"📋 Built vnum maps: {len(self.mob_map)} mobs, {len(self.room_map)} rooms, {len(self.object_map)} objects")
+        print(f"📋 Built vnum maps: {len(self.mob_map)} mobs, {len(self.room_map)} rooms, {len(self.object_map)} objects, {len(self.shopkeeper_vnums)} shopkeepers")
 
     def find_mob_zone(self, mob_vnum: int) -> Optional[Tuple[int, int]]:
         """
@@ -240,31 +254,33 @@ class ResetImporter:
                     equipment_errors.append(f"vnum {obj_vnum} (db error: {str(e)[:50]})")
 
             # Import carried items (G commands) - treated as equipment without location
-            for carried in mob_reset.get("carrying", []):
-                obj_vnum = carried["id"]
+            # Skip for shopkeepers - their inventory comes from ShopItems
+            if mob_vnum not in self.shopkeeper_vnums:
+                for carried in mob_reset.get("carrying", []):
+                    obj_vnum = carried["id"]
 
-                # Look up actual object zone/id using vnum map
-                obj_lookup = self.find_object_zone(obj_vnum)
-                if not obj_lookup:
-                    equipment_errors.append(f"vnum {obj_vnum}")
-                    continue
+                    # Look up actual object zone/id using vnum map
+                    obj_lookup = self.find_object_zone(obj_vnum)
+                    if not obj_lookup:
+                        equipment_errors.append(f"vnum {obj_vnum}")
+                        continue
 
-                db_obj_zone_id, obj_id = obj_lookup
+                    db_obj_zone_id, obj_id = obj_lookup
 
-                try:
-                    await self.prisma.mobresetequipment.create(
-                        {
-                            "resetId": reset_record.id,
-                            "objectZoneId": db_obj_zone_id,
-                            "objectId": obj_id,
-                            "wearLocation": None,  # G commands have no wear location
-                            "maxInstances": 1,
-                            "probability": carried["max"] / 100.0,
-                        }
-                    )
-                    equipment_count += 1
-                except Exception as e:
-                    equipment_errors.append(f"vnum {obj_vnum} (db error: {str(e)[:50]})")
+                    try:
+                        await self.prisma.mobresetequipment.create(
+                            {
+                                "resetId": reset_record.id,
+                                "objectZoneId": db_obj_zone_id,
+                                "objectId": obj_id,
+                                "wearLocation": None,  # G commands have no wear location
+                                "maxInstances": 1,
+                                "probability": carried["max"] / 100.0,
+                            }
+                        )
+                        equipment_count += 1
+                    except Exception as e:
+                        equipment_errors.append(f"vnum {obj_vnum} (db error: {str(e)[:50]})")
 
             # If any equipment failed, report the error
             if equipment_errors:
@@ -665,15 +681,16 @@ class ResetImporter:
                     if debug:
                         print(f"❌ {error_msg}")
 
-            # Validate inventory
-            for item in mob_reset.get('carrying', []):
-                obj_vnum = item['id']
-                if obj_vnum not in self.object_map:
-                    error_msg = f"Inventory obj vnum {obj_vnum} not found - needed for mob {mob_vnum}"
-                    errors.append({"type": "inventory", "obj_vnum": obj_vnum, "mob_vnum": mob_vnum, "error": error_msg})
-                    failed += 1
-                    if debug:
-                        print(f"❌ {error_msg}")
+            # Validate inventory (skip for shopkeepers - their inventory comes from ShopItems)
+            if mob_vnum not in self.shopkeeper_vnums:
+                for item in mob_reset.get('carrying', []):
+                    obj_vnum = item['id']
+                    if obj_vnum not in self.object_map:
+                        error_msg = f"Inventory obj vnum {obj_vnum} not found - needed for mob {mob_vnum}"
+                        errors.append({"type": "inventory", "obj_vnum": obj_vnum, "mob_vnum": mob_vnum, "error": error_msg})
+                        failed += 1
+                        if debug:
+                            print(f"❌ {error_msg}")
 
             if not dry_run:
                 # Import via existing import_mob_reset method

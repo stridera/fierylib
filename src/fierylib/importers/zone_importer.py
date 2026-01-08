@@ -253,13 +253,19 @@ class ZoneImporter:
                     else:
                         flattened.append(s)
 
-            # Build ExitFlag[]: always IS_DOOR, plus CLOSED/LOCKED/HIDDEN if present
+            # Build ExitFlag[] and defaultState from door reset state
             flags: list[str] = ["IS_DOOR"]
             flat_upper = {str(x).upper() for x in flattened}
-            if "CLOSED" in flat_upper:
-                flags.append("CLOSED")
+
+            # Determine defaultState (LOCKED > CLOSED > OPEN)
             if "LOCKED" in flat_upper:
-                flags.append("LOCKED")
+                default_state = "LOCKED"
+            elif "CLOSED" in flat_upper:
+                default_state = "CLOSED"
+            else:
+                default_state = "OPEN"
+
+            # HIDDEN goes into flags, not defaultState
             if "HIDDEN" in flat_upper:
                 flags.append("HIDDEN")
 
@@ -268,6 +274,7 @@ class ZoneImporter:
                 "roomId": room_vnum,
                 "direction": direction,
                 "flags": flags,
+                "defaultState": default_state,
             })
 
             if dry_run:
@@ -300,6 +307,7 @@ class ZoneImporter:
                     },
                     data={
                         "flags": {"set": flags},
+                        "defaultState": default_state,
                     },
                 )
             except Exception as e:

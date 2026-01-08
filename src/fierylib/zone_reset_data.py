@@ -15,12 +15,12 @@ class ZoneResetData:
     """Stores parsed reset commands from a zone file"""
 
     zone_id: int
-    door_resets: Dict[int, Dict[str, List[str]]] = field(default_factory=dict)
+    door_resets: Dict[int, Dict[str, dict]] = field(default_factory=dict)  # {room_vnum: {direction: {flags, defaultState}}}
     mob_resets: List[dict] = field(default_factory=list)
     object_resets: List[dict] = field(default_factory=list)
 
 
-def extract_door_resets(zone: Zone) -> Dict[int, Dict[str, List[str]]]:
+def extract_door_resets(zone: Zone) -> Dict[int, Dict[str, dict]]:
     """
     Extract door reset commands from parsed zone
 
@@ -28,8 +28,8 @@ def extract_door_resets(zone: Zone) -> Dict[int, Dict[str, List[str]]]:
         zone: Parsed Zone object with reset commands
 
     Returns:
-        Dict mapping room_vnum -> {direction -> flags}
-        Example: {3045: {'NORTH': ['IS_DOOR', 'CLOSED', 'LOCKED']}}
+        Dict mapping room_vnum -> {direction -> {'flags': [...], 'defaultState': 'OPEN'|'CLOSED'|'LOCKED'}}
+        Example: {3045: {'NORTH': {'flags': ['IS_DOOR', 'HIDDEN'], 'defaultState': 'LOCKED'}}}
     """
     door_resets = {}
 
@@ -54,21 +54,29 @@ def extract_door_resets(zone: Zone) -> Dict[int, Dict[str, List[str]]]:
                 else:
                     flattened_state.append(s)
 
-        # Build flags: always IS_DOOR, plus state flags
+        # Build flags: IS_DOOR always, plus HIDDEN if present
+        # CLOSED/LOCKED are now stored in defaultState, not flags
         flags = ["IS_DOOR"]
         flat_upper = {str(x).upper() for x in flattened_state}
 
-        if "CLOSED" in flat_upper:
-            flags.append("CLOSED")
-        if "LOCKED" in flat_upper:
-            flags.append("LOCKED")
         if "HIDDEN" in flat_upper:
             flags.append("HIDDEN")
+
+        # Determine defaultState (LOCKED > CLOSED > OPEN)
+        if "LOCKED" in flat_upper:
+            default_state = "LOCKED"
+        elif "CLOSED" in flat_upper:
+            default_state = "CLOSED"
+        else:
+            default_state = "OPEN"
 
         # Store in nested dict structure
         if room_vnum not in door_resets:
             door_resets[room_vnum] = {}
-        door_resets[room_vnum][direction] = flags
+        door_resets[room_vnum][direction] = {
+            "flags": flags,
+            "defaultState": default_state,
+        }
 
     return door_resets
 

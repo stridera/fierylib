@@ -40,13 +40,9 @@ FLAG_MAPPINGS = {
     'REMOTE_AGGR': 'REMOTE_AGGRO',
 
     # Legacy synonyms where the name changed
-    # NOTE: AGGRO_*_RACE flags are DIFFERENT from AGGRO_* flags!
-    # - AGGRO_EVIL attacks players with evil alignment (<= -350)
-    # - AGGRO_EVIL_RACE attacks races that are inherently evil (demons, drow, etc.)
-    # These should NOT be mapped to each other!
     'NO_EQUIPMENT_RESTRICT': 'NO_EQ_RESTRICT',
 
-    # Legacy mob flags with different spelling
+    # Legacy mob flags with different spelling (normalize first, then filter)
     'AGGR_EVIL_RACE': 'AGGRO_EVIL_RACE',
     'AGGR_GOOD_RACE': 'AGGRO_GOOD_RACE',
     'AGGR_EVIL': 'AGGRO_EVIL',
@@ -59,7 +55,6 @@ FLAG_MAPPINGS = {
     'NOBASH': 'NO_BASH',
     'NOBLIND': 'NO_BLIND',
     'NOCLASS_AI': 'NO_CLASS_AI',
-    'NOBASH': 'NO_BASH',
 
     # Deprecated/removed flags (filter out by mapping to None)
     # These existed in old CircleMUD but are no longer in the schema
@@ -78,6 +73,31 @@ FLAG_MAPPINGS = {
     'WIELD': 'MAINHAND',
     'HOLD': 'OFFHAND',
     'TWO_HAND_WIELD': 'TWOHAND',  # Normalized to match MAINHAND/OFFHAND pattern
+}
+
+# Aggro flags that should be converted to aggroCondition Lua expressions
+# These are filtered OUT of mobFlags and converted separately
+AGGRO_FLAGS = {
+    'AGGRESSIVE',
+    'AGGRO_EVIL',
+    'AGGRO_GOOD',
+    'AGGRO_NEUTRAL',
+    'AGGRO_EVIL_RACE',
+    'AGGRO_GOOD_RACE',
+}
+
+# Alignment threshold constants (defined in game Lua runtime)
+# ALIGN.GOOD = 350, ALIGN.EVIL = -350
+# These make aggro conditions more readable for builders
+
+# Mapping of aggro flags to Lua condition expressions
+AGGRO_TO_CONDITION = {
+    'AGGRESSIVE': 'true',  # Attacks everyone
+    'AGGRO_EVIL': 'target.alignment <= ALIGN.EVIL',
+    'AGGRO_GOOD': 'target.alignment >= ALIGN.GOOD',
+    'AGGRO_NEUTRAL': 'target.alignment > ALIGN.EVIL and target.alignment < ALIGN.GOOD',
+    'AGGRO_EVIL_RACE': "target.race.alignment == 'EVIL'",
+    'AGGRO_GOOD_RACE': "target.race.alignment == 'GOOD'",
 }
 
 
@@ -129,3 +149,59 @@ def normalize_flags(flags: list) -> list:
     normalized = [normalize_flag(flag) for flag in flags]
     # Filter out None values (deprecated flags)
     return [f for f in normalized if f is not None]
+
+
+def normalize_mob_flags(flags: list) -> tuple[list, str | None]:
+    """
+    Normalize mob flags, extracting aggro flags into an aggroCondition expression.
+
+    Aggro flags (AGGRESSIVE, AGGRO_EVIL, etc.) are converted to a Lua expression
+    that defines who the mob attacks on sight.
+
+    Args:
+        flags: List of mob flag strings
+
+    Returns:
+        Tuple of (filtered_mob_flags, aggro_condition)
+        - filtered_mob_flags: List of flags with aggro flags removed
+        - aggro_condition: Lua expression string or None if no aggro flags
+
+    Examples:
+        >>> normalize_mob_flags(['SENTINEL', 'AGGRESSIVE', 'MEMORY'])
+        (['SENTINEL', 'MEMORY'], 'true')
+        >>> normalize_mob_flags(['AGGRO_EVIL', 'AGGRO_EVIL_RACE'])
+        ([], "target.alignment <= -350 or target.race.alignment == 'EVIL'")
+        >>> normalize_mob_flags(['SENTINEL', 'HELPER'])
+        (['SENTINEL', 'HELPER'], None)
+    """
+    # First normalize all flags
+    normalized = [normalize_flag(flag) for flag in flags]
+    # Filter out None values (deprecated flags)
+    normalized = [f for f in normalized if f is not None]
+
+    # Separate aggro flags from other flags
+    aggro_found = []
+    other_flags = []
+
+    for flag in normalized:
+        if flag in AGGRO_FLAGS:
+            aggro_found.append(flag)
+        else:
+            other_flags.append(flag)
+
+    # Convert aggro flags to condition expression
+    aggro_condition = None
+    if aggro_found:
+        # If AGGRESSIVE is present, it overrides everything (attacks all)
+        if 'AGGRESSIVE' in aggro_found:
+            aggro_condition = 'true'
+        else:
+            # Combine multiple conditions with OR
+            conditions = [AGGRO_TO_CONDITION[flag] for flag in aggro_found]
+            if len(conditions) == 1:
+                aggro_condition = conditions[0]
+            else:
+                # Wrap each condition in parens and join with 'or'
+                aggro_condition = ' or '.join(f'({c})' for c in conditions)
+
+    return other_flags, aggro_condition

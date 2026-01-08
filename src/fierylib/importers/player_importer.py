@@ -486,7 +486,7 @@ class PlayerImporter:
                     if check_spell and valid_spell_ids and ability.id not in valid_spell_ids:
                         # Only warn if they had significant proficiency
                         if proficiency > 0:
-                            print(f"  ⚠️  Spell '{normalized_name}' not available for class (skipping)")
+                            print(f"  ⚠️  Spell '{normalized_name}' not available for {player_class} ({player_data.name}) - proficiency: {proficiency}")
                         if "skipped" not in stats:
                             stats["skipped"] = 0
                         stats["skipped"] += 1
@@ -537,7 +537,7 @@ class PlayerImporter:
                         # Only warn about meaningful circles
                         circle_val = int(circle) if isinstance(circle, str) else circle
                         if circle_val > 0:
-                            print(f"  ⚠️  Spell '{normalized_name}' not available for class (skipping)")
+                            print(f"  ⚠️  Spell '{normalized_name}' not available for {player_class} ({player_data.name}) - circle: {circle_val}")
                         if "skipped" not in stats:
                             stats["skipped"] = 0
                         stats["skipped"] += 1
