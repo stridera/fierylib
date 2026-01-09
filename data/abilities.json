@@ -10287,7 +10287,14 @@
       "successToCaster": "You cast resurrect.",
       "successToRoom": "{actor} casts resurrect."
     },
-    "sphere": "HEALING"
+    "sphere": "HEALING",
+    "targeting": {
+      "validTargets": ["CORPSE"],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 1,
+      "requireLos": false
+    }
   },
   {
     "name": "Retreat",

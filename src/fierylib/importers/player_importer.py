@@ -22,7 +22,7 @@ from mud.types.object import Object
 from mud.types.pet import Pet
 from mud.types import CurrentMax, Money
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
-from fierylib.converters import normalize_flags, normalize_skill_name, EntityResolver
+from fierylib.converters import normalize_flags, normalize_skill_name, EntityResolver, convert_legacy_colors
 
 
 class PlayerImporter:
@@ -403,9 +403,9 @@ class PlayerImporter:
             "isOnline": False,
             "hunger": player_data.hunger or 0,
             "thirst": player_data.thirst or 0,
-            "description": player_data.description,
+            "description": convert_legacy_colors(player_data.description) if player_data.description else None,
             "title": player_data.title,
-            "prompt": player_data.prompt or "<%h/%Hhp %v/%Vmv>",
+            "prompt": convert_legacy_colors(player_data.prompt) if player_data.prompt else "<%h/%Hhp %v/%Vmv>",
             "playerFlags": player_flags,
             "effectFlags": effect_flags,
             "privilegeFlags": privilege_flags,
