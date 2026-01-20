@@ -21,7 +21,8 @@ set -euo pipefail
 #   --skip-import             Skip the data import step
 #   --skip-layout             Skip the layout generation step
 #   --skip-players            Skip the player import step
-#   --with-players            Import legacy player/character files
+#   --with-players            Import ALL legacy player/character files
+#   --players <list>          Import specific players (comma-separated, e.g., strider,samui)
 #   --with-users              Seed test users after import
 #   --zone <number>           Import only a specific zone (for testing)
 #   --dry-run                 Parse and validate without importing
@@ -29,8 +30,11 @@ set -euo pipefail
 #   --debug                   Enable debug output (shows all errors)
 #
 # Examples:
-#   # Full reset and import everything (world + layout + players + users)
+#   # Full reset and import everything (world + layout + ALL players + users)
 #   bash scripts/full_reset_and_import.sh --with-players --with-users
+#
+#   # Full reset with specific players only
+#   bash scripts/full_reset_and_import.sh --players strider,samui --with-users
 #
 #   # Reset and test import for zone 100
 #   bash scripts/full_reset_and_import.sh --zone 100 --with-users
@@ -47,6 +51,7 @@ SKIP_IMPORT=0
 SKIP_LAYOUT=0
 SKIP_PLAYERS=0
 WITH_PLAYERS=""
+PLAYERS_LIST=""
 WITH_USERS=""
 ZONE_ARG=""
 DRY_RUN=""
@@ -63,7 +68,8 @@ while [[ $# -gt 0 ]]; do
       echo "  --skip-import             Skip the data import step"
       echo "  --skip-layout             Skip the layout generation step"
       echo "  --skip-players            Skip the player import step"
-      echo "  --with-players            Import legacy player/character files"
+      echo "  --with-players            Import ALL legacy player/character files"
+      echo "  --players <list>          Import specific players (comma-separated)"
       echo "  --with-users              Seed test users after import"
       echo "  --zone <number>           Import only a specific zone (for testing)"
       echo "  --dry-run                 Parse and validate without importing"
@@ -73,6 +79,7 @@ while [[ $# -gt 0 ]]; do
       echo ""
       echo "Examples:"
       echo "  bash scripts/full_reset_and_import.sh --with-players --with-users"
+      echo "  bash scripts/full_reset_and_import.sh --players strider,samui --with-users"
       echo "  bash scripts/full_reset_and_import.sh --zone 100 --debug"
       exit 0
       ;;
@@ -95,6 +102,10 @@ while [[ $# -gt 0 ]]; do
     --with-players)
       WITH_PLAYERS="--with-players"
       shift
+      ;;
+    --players)
+      PLAYERS_LIST="$2"
+      shift 2
       ;;
     --with-users)
       WITH_USERS="--with-users"
@@ -216,11 +227,7 @@ asyncio.run(import_classes())
 "
 
   echo ""
-  echo "[3.3] Importing race data..."
-  poetry run fierylib seed races
-
-  echo ""
-  echo "[3.3.5] Seeding liquid types..."
+  echo "[3.3] Seeding liquid types..."
   poetry run fierylib seed liquids
 
   echo ""
@@ -254,7 +261,11 @@ asyncio.run(import_classes())
   eval $LINK_CMD
 
   echo ""
-  echo "[3.7] Importing social commands..."
+  echo "[3.7] Importing race data (after abilities linked to effects)..."
+  poetry run fierylib seed races
+
+  echo ""
+  echo "[3.8] Importing social commands..."
   SOCIALS_CMD="poetry run fierylib seed socials --clear"
 
   if [[ -n "$VERBOSE" ]]; then
@@ -347,22 +358,42 @@ else
 fi
 
 # Step 6: Import legacy players/characters
-if [[ "$SKIP_PLAYERS" -eq 0 ]] && [[ -n "$WITH_PLAYERS" ]] && [[ -z "$DRY_RUN" ]]; then
+if [[ "$SKIP_PLAYERS" -eq 0 ]] && [[ -z "$DRY_RUN" ]] && { [[ -n "$WITH_PLAYERS" ]] || [[ -n "$PLAYERS_LIST" ]]; }; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo "Step 6: Importing legacy player/character files"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
-  PLAYER_CMD="poetry run fierylib import-players"
+  if [[ -n "$PLAYERS_LIST" ]]; then
+    # Import specific players from comma-separated list
+    echo "Importing specific players: $PLAYERS_LIST"
+    echo ""
 
-  if [[ -n "$VERBOSE" ]]; then
-    PLAYER_CMD="$PLAYER_CMD --verbose"
+    # Split by comma and import each player
+    IFS=',' read -ra PLAYERS_ARRAY <<< "$PLAYERS_LIST"
+    for player in "${PLAYERS_ARRAY[@]}"; do
+      # Trim whitespace
+      player=$(echo "$player" | xargs)
+      if [[ -n "$player" ]]; then
+        PLAYER_CMD="poetry run fierylib import-players --player $player"
+        if [[ -n "$VERBOSE" ]]; then
+          PLAYER_CMD="$PLAYER_CMD --verbose"
+        fi
+        echo "Running: $PLAYER_CMD"
+        eval $PLAYER_CMD
+        echo ""
+      fi
+    done
+  else
+    # Import all players
+    PLAYER_CMD="poetry run fierylib import-players"
+    if [[ -n "$VERBOSE" ]]; then
+      PLAYER_CMD="$PLAYER_CMD --verbose"
+    fi
+    echo "Running: $PLAYER_CMD"
+    echo ""
+    eval $PLAYER_CMD
   fi
-
-  echo "Running: $PLAYER_CMD"
-  echo ""
-
-  eval $PLAYER_CMD
 
   echo ""
   echo "✅ Player import complete"
@@ -370,10 +401,10 @@ if [[ "$SKIP_PLAYERS" -eq 0 ]] && [[ -n "$WITH_PLAYERS" ]] && [[ -z "$DRY_RUN" ]
 else
   if [[ "$SKIP_PLAYERS" -eq 1 ]]; then
     echo "⏭️  Skipping player import (--skip-players)"
-  elif [[ -z "$WITH_PLAYERS" ]]; then
-    echo "⏭️  Skipping player import (use --with-players to enable)"
   elif [[ -n "$DRY_RUN" ]]; then
     echo "⏭️  Skipping player import (dry-run mode)"
+  else
+    echo "⏭️  Skipping player import (use --with-players or --players <list>)"
   fi
   echo ""
 fi

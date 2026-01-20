@@ -323,14 +323,6 @@ class PlayerImporter:
             player_flags = [f for f in normalize_flags(player_data.player_flags)
                            if f not in legacy_runtime_flags]
 
-        effect_flags = []
-        if player_data.effect_flags:
-            effect_flags = normalize_flags(player_data.effect_flags)
-
-        privilege_flags = []
-        if player_data.privilege_flags:
-            privilege_flags = normalize_flags(player_data.privilege_flags)
-
         # Parse room numbers and convert VNUMs to composite keys using EntityResolver
         # Resolver validates rooms exist in database before returning composite IDs
         async def resolve_room_vnum(vnum_raw) -> tuple[int | None, int | None]:
@@ -347,12 +339,12 @@ class PlayerImporter:
             return None, None
 
         current_room_zone_id, current_room_id = await resolve_room_vnum(player_data.load_room)
-        save_room_zone_id, save_room_id = await resolve_room_vnum(player_data.save_room)
-        home_room_zone_id, home_room_id = await resolve_room_vnum(player_data.home)
+        # Map save_room to recallRoom (schema no longer has separate save/home rooms)
+        recall_room_zone_id, recall_room_id = await resolve_room_vnum(player_data.save_room)
 
-        # Validate level - REQUIRED
+        # Skip level 0 players (incomplete/new characters that never finished creation)
         if not player_data.level or player_data.level < 1:
-            raise ValueError(f"Character '{player_data.name}' has invalid level: {player_data.level}")
+            return {"skipped": True, "reason": "level_0"}
 
         # Preserve legacy password hash (Unix crypt format)
         # Authentication system must handle both bcrypt and legacy crypt formats
@@ -394,10 +386,8 @@ class PlayerImporter:
             "damageRoll": player_data.damage_roll or 0,
             "currentRoomZoneId": current_room_zone_id,
             "currentRoomId": current_room_id,
-            "saveRoomZoneId": save_room_zone_id,
-            "saveRoomId": save_room_id,
-            "homeRoomZoneId": home_room_zone_id,
-            "homeRoomId": home_room_id,
+            "recallRoomZoneId": recall_room_zone_id,
+            "recallRoomId": recall_room_id,
             "lastLogin": player_data.last_login_time if player_data.last_login_time else datetime.now(),
             "timePlayed": player_data.time_played or 0,
             "isOnline": False,
@@ -407,8 +397,6 @@ class PlayerImporter:
             "title": player_data.title,
             "prompt": convert_legacy_colors(player_data.prompt) if player_data.prompt else "<%h/%Hhp %v/%Vmv>",
             "playerFlags": player_flags,
-            "effectFlags": effect_flags,
-            "privilegeFlags": privilege_flags,
             "invisLevel": player_data.invis_level or 0,
             "wimpyThreshold": player_data.wimpy or 0,
             "freezeLevel": player_data.freeze_level,
@@ -774,6 +762,7 @@ class PlayerImporter:
             "aliases": 0,
             "equipment": 0,
             "pets": 0,
+            "skipped": 0,
             "errors": 0,
         }
 
@@ -792,6 +781,13 @@ class PlayerImporter:
 
                         if player_data:
                             stats = await self.import_player(player_data, dry_run=dry_run)
+
+                            # Skip level 0 players (incomplete characters)
+                            if stats.get("skipped"):
+                                print(f"⏭ Skipped player: {player_data.name} (level 0)")
+                                total_stats["skipped"] += 1
+                                continue
+
                             character_id = stats.get("character_id")
 
                             total_stats["characters"] += stats.get("character", 0)

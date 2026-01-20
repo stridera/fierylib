@@ -15,6 +15,57 @@ def load_abilities_from_json() -> List[Dict[str, Any]]:
         return json.load(f)
 
 
+# Map JSON damage type names to Prisma ElementType enum values
+DAMAGE_TYPE_MAP = {
+    # Physical
+    "physical": "PHYSICAL",
+    "slash": "SLASH",
+    "slashing": "SLASH",
+    "pierce": "PIERCE",
+    "piercing": "PIERCE",
+    "crush": "CRUSH",
+    "crushing": "CRUSH",
+    "bludgeon": "CRUSH",
+    "bludgeoning": "CRUSH",
+    "force": "FORCE",
+    "sonic": "SONIC",
+    "bleed": "BLEED",
+    # Classical elements
+    "fire": "FIRE",
+    "cold": "COLD",
+    "ice": "COLD",
+    "water": "WATER",
+    "earth": "EARTH",
+    "air": "AIR",
+    "shock": "SHOCK",
+    "lightning": "SHOCK",
+    "electric": "SHOCK",
+    "electricity": "SHOCK",
+    "acid": "ACID",
+    "poison": "POISON",
+    # Light/Dark
+    "radiant": "RADIANT",
+    "light": "RADIANT",
+    "shadow": "SHADOW",
+    "dark": "SHADOW",
+    "darkness": "SHADOW",
+    # Divine
+    "holy": "HOLY",
+    "divine": "HOLY",
+    "unholy": "UNHOLY",
+    # Life/Death
+    "heal": "HEAL",
+    "healing": "HEAL",
+    "necrotic": "NECROTIC",
+    "negative": "NECROTIC",
+    # Other
+    "mental": "MENTAL",
+    "psychic": "MENTAL",
+    "psionic": "MENTAL",
+    "nature": "NATURE",
+}
+
+
 class AbilitiesSeeder:
     """Seeds abilities into the database and links their effects."""
 
@@ -46,7 +97,7 @@ class AbilitiesSeeder:
         Returns:
             Stats dictionary with counts
         """
-        stats = {"linked": 0, "effects_created": 0, "skipped": 0, "errors": 0}
+        stats = {"linked": 0, "effects_created": 0, "damage_components": 0, "skipped": 0, "errors": 0}
 
         # Load caches
         await self._load_effect_cache()
@@ -88,6 +139,11 @@ class AbilitiesSeeder:
                     where={"abilityId": ability_id}
                 )
 
+                # Delete existing damage components for this ability
+                await self.prisma.abilitydamagecomponent.delete_many(
+                    where={"abilityId": ability_id}
+                )
+
                 # Create new effect links
                 for effect_data in effects:
                     effect_name = effect_data.get("effect", "").lower()
@@ -110,6 +166,41 @@ class AbilitiesSeeder:
                         }
                     )
                     stats["effects_created"] += 1
+
+                    # Check for damage components in effect params
+                    params = effect_data.get("params", {})
+                    components = params.get("components", [])
+
+                    if components:
+                        # Get base damage formula from params
+                        base_formula = params.get("amount", "skill")
+
+                        for seq, comp in enumerate(components):
+                            damage_type = comp.get("type", "physical").lower()
+                            element = DAMAGE_TYPE_MAP.get(damage_type)
+
+                            if not element:
+                                if verbose:
+                                    click.echo(f"    Warning: Unknown damage type '{damage_type}' in {ability_data.get('name')}")
+                                element = "PHYSICAL"  # Fallback
+
+                            percentage = comp.get("percent", 100)
+                            # Use component-specific formula if provided, otherwise use base formula
+                            formula = comp.get("formula", base_formula)
+
+                            await self.prisma.abilitydamagecomponent.create(
+                                data={
+                                    "abilityId": ability_id,
+                                    "element": element,
+                                    "damageFormula": str(formula),
+                                    "percentage": percentage,
+                                    "sequence": seq,
+                                }
+                            )
+                            stats["damage_components"] += 1
+
+                        if verbose:
+                            click.echo(f"    Created {len(components)} damage components for {ability_data.get('name')}")
 
                 stats["linked"] += 1
                 if verbose:
@@ -155,6 +246,7 @@ def link_ability_effects_cmd(dry_run: bool, verbose: bool):
             click.echo("Summary:")
             click.echo(f"  Abilities linked: {stats['linked']}")
             click.echo(f"  Effects created: {stats['effects_created']}")
+            click.echo(f"  Damage components: {stats['damage_components']}")
             click.echo(f"  Skipped (no effects): {stats['skipped']}")
             click.echo(f"  Errors: {stats['errors']}")
 

@@ -5,7 +5,7 @@ Handles:
 - Rooms with composite primary keys (zoneId, vnum)
 - Room exits with directional connections
 - Room sectors (terrain types)
-- Room flags
+- Base light level (converted from legacy DARK/ALWAYS_LIT flags)
 - Extra descriptions
 """
 
@@ -17,7 +17,7 @@ from mud.types.world import World
 from prisma import Prisma  # runtime client type
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, normalize_flag, convert_legacy_colors, strip_markup
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
 
 
 class RoomImporter:
@@ -48,6 +48,112 @@ class RoomImporter:
             'FOREST'
         """
         return sector
+
+    @staticmethod
+    def flags_to_base_light_level(flags: list[str]) -> int:
+        """
+        Convert legacy room flags to base light level.
+
+        Light level system:
+        - Positive values = lit (higher = brighter)
+        - Zero = ambient (depends on time of day, weather, sector)
+        - Negative values = dark (lower = darker, needs light source)
+
+        Legacy flag mapping:
+        - ALWAYS_LIT → 5 (brilliantly lit, ignores time/weather)
+        - DARK → -3 (deep darkness, needs bright light to see)
+        - No flags → 0 (ambient lighting)
+
+        Args:
+            flags: List of legacy room flag strings
+
+        Returns:
+            Base light level integer
+
+        Examples:
+            >>> RoomImporter.flags_to_base_light_level(['DARK'])
+            -3
+            >>> RoomImporter.flags_to_base_light_level(['ALWAYS_LIT'])
+            5
+            >>> RoomImporter.flags_to_base_light_level([])
+            0
+        """
+        # Normalize flag names for comparison
+        normalized = [f.upper().replace('_', '') for f in flags]
+
+        # ALWAYS_LIT takes precedence (if both are set, room is lit)
+        if 'ALWAYSLIT' in normalized:
+            return 5
+
+        # DARK makes the room require light sources
+        if 'DARK' in normalized:
+            return -3
+
+        # Default: ambient lighting (time/weather dependent)
+        return 0
+
+    @staticmethod
+    def flags_to_room_state(flags: list[str]) -> dict:
+        """
+        Convert legacy room flags to room state boolean fields.
+
+        Legacy flag mapping:
+        - PEACEFUL → isPeaceful: true
+        - NO_MAGIC / NOMAGIC → allowsMagic: false
+        - NO_RECALL / NORECALL → allowsRecall: false
+        - NO_SUMMON / NOSUMMON → allowsSummon: false
+        - NO_TELEPORT / NOTELEPORT → allowsTeleport: false
+        - DEATH / DT / DEATH_TRAP → isDeathTrap: true
+        - GODROOM → entryRestriction: Lua script for god check
+
+        Args:
+            flags: List of legacy room flag strings
+
+        Returns:
+            Dict with room state fields
+
+        Examples:
+            >>> RoomImporter.flags_to_room_state(['PEACEFUL', 'NO_MAGIC'])
+            {'isPeaceful': True, 'allowsMagic': False, ...}
+        """
+        # Normalize flag names for comparison (uppercase, no underscores)
+        normalized = [f.upper().replace('_', '').replace('-', '') for f in flags]
+
+        result = {
+            'isPeaceful': False,
+            'allowsMagic': True,
+            'allowsRecall': True,
+            'allowsSummon': True,
+            'allowsTeleport': True,
+            'isDeathTrap': False,
+            'entryRestriction': None,
+        }
+
+        # Check each flag
+        if 'PEACEFUL' in normalized:
+            result['isPeaceful'] = True
+
+        if 'NOMAGIC' in normalized:
+            result['allowsMagic'] = False
+
+        if 'NORECALL' in normalized:
+            result['allowsRecall'] = False
+
+        if 'NOSUMMON' in normalized:
+            result['allowsSummon'] = False
+
+        if 'NOTELEPORT' in normalized:
+            result['allowsTeleport'] = False
+
+        # Death trap variants
+        if any(f in normalized for f in ['DEATH', 'DT', 'DEATHTRAP']):
+            result['isDeathTrap'] = True
+
+        # GODROOM → Lua entry restriction
+        if 'GODROOM' in normalized:
+            result['entryRestriction'] = 'return actor:is_god()'
+
+        return result
 
     @staticmethod
     def map_direction(direction_str: str) -> Optional[str]:
@@ -118,16 +224,15 @@ class RoomImporter:
                 "error": f"Computed negative vnum {vnum} for room_id {room_id} and zone {base_zone}",
             }
 
-        # Map sector and flags
+        # Map sector
         sector = self.map_sector(room["sector"])
-        flags = room.get("flags", [])
 
-        # Convert BitFlags to list if needed
-        if isinstance(flags, BitFlags):
-            flags = flags.json_repr()
-
-        # Normalize flag names (NO_MOB → NOMOB)
-        flags = normalize_flags(flags)
+        # Convert legacy flags to base light level and room state
+        raw_flags = room.get("flags", [])
+        if isinstance(raw_flags, BitFlags):
+            raw_flags = raw_flags.json_repr()
+        base_light_level = self.flags_to_base_light_level(raw_flags)
+        room_state = self.flags_to_room_state(raw_flags)
 
         if dry_run:
             return {
@@ -142,7 +247,8 @@ class RoomImporter:
                     "name": room["name"],
                     "roomDescription": room["description"],
                     "sector": sector,
-                    "flags": flags,
+                    "baseLightLevel": base_light_level,
+                    **room_state,
                 },
             }
 
@@ -167,14 +273,28 @@ class RoomImporter:
                         "roomDescription": room_description,
                         "plainRoomDescription": strip_markup(room_description),
                         "sector": sector,
-                        "flags": flags,
+                        "baseLightLevel": base_light_level,
+                        "isPeaceful": room_state['isPeaceful'],
+                        "allowsMagic": room_state['allowsMagic'],
+                        "allowsRecall": room_state['allowsRecall'],
+                        "allowsSummon": room_state['allowsSummon'],
+                        "allowsTeleport": room_state['allowsTeleport'],
+                        "isDeathTrap": room_state['isDeathTrap'],
+                        "entryRestriction": room_state['entryRestriction'],
                     },
                     "update": {
                         "name": room_name,
                         "roomDescription": room_description,
                         "plainRoomDescription": strip_markup(room_description),
                         "sector": sector,
-                        "flags": {"set": flags},
+                        "baseLightLevel": base_light_level,
+                        "isPeaceful": room_state['isPeaceful'],
+                        "allowsMagic": room_state['allowsMagic'],
+                        "allowsRecall": room_state['allowsRecall'],
+                        "allowsSummon": room_state['allowsSummon'],
+                        "allowsTeleport": room_state['allowsTeleport'],
+                        "isDeathTrap": room_state['isDeathTrap'],
+                        "entryRestriction": room_state['entryRestriction'],
                     },
                 },
             )
@@ -429,7 +549,7 @@ class RoomImporter:
         text = convert_legacy_colors(text)
 
         try:
-            await self.prisma.roomExtraDescriptions.create(
+            await self.prisma.roomextradescriptions.create(
                 data={
                     "roomZoneId": room_zone_id,
                     "roomId": room_vnum,

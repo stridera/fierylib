@@ -487,11 +487,11 @@
       "startRoomId": 9
     },
     {
-      "name": "barbarian",
-      "keywords": "barbarian",
-      "displayName": "Barbarian",
-      "fullName": "Barbarian",
-      "plainName": "Barbarian",
+      "name": "goliath",
+      "keywords": "goliath",
+      "displayName": "Goliath",
+      "fullName": "Goliath",
+      "plainName": "Goliath",
       "playable": true,
       "humanoid": true,
       "magical": false,

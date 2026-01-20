@@ -19,6 +19,7 @@ from mud.types.mob import Mob
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
 from fierylib.converters import legacy_id_to_composite, normalize_flags, normalize_mob_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
+from fierylib.converters.flag_normalizer import process_mob_flags, ProcessedMobFlags
 from fierylib.combat_formulas import (
     calculate_mob_role,
     calculate_realistic_hp_dice,
@@ -267,6 +268,27 @@ class MobImporter:
         stance = mob.stance.name if hasattr(mob.stance, "name") else str(mob.stance).upper()
         damage_type = mob.damage_type.name if hasattr(mob.damage_type, "name") else str(mob.damage_type).upper()
 
+        # Handle deprecated positions that are now movement modes or states
+        # FLYING is now a MovementMode, not a Position
+        movement_mode = "NORMAL"
+        default_movement_mode = "NORMAL"
+        if position == "FLYING":
+            movement_mode = "FLYING"
+            position = "STANDING"
+        if default_position == "FLYING":
+            default_movement_mode = "FLYING"
+            default_position = "STANDING"
+        # KNEELING and PRONE are no longer separate positions (use SITTING)
+        if position in ("KNEELING", "PRONE"):
+            position = "SITTING"
+        if default_position in ("KNEELING", "PRONE"):
+            default_position = "SITTING"
+        # FIGHTING is a state, not a position
+        if position == "FIGHTING":
+            position = "STANDING"
+        if default_position == "FIGHTING":
+            default_position = "STANDING"
+
         # Map Class enum value to database class_id (database IDs are 1-indexed, enum is 0-indexed)
         # Skip layman (ID 24) which is CircleMUD's internal "no class" placeholder
         if hasattr(mob.mob_class, "value"):
@@ -274,16 +296,16 @@ class MobImporter:
         else:
             class_id = None
 
-        # Convert BitFlags to lists and normalize
-        # For mob flags, also extract aggro flags into an aggroCondition Lua expression
+        # Convert BitFlags to lists for processing
         raw_mob_flags = mob.mob_flags.json_repr() if isinstance(mob.mob_flags, BitFlags) else (mob.mob_flags or [])
-        mob_flags, aggro_condition = normalize_mob_flags(raw_mob_flags)
-        effect_flags = mob.effect_flags.json_repr() if isinstance(mob.effect_flags, BitFlags) else (mob.effect_flags or [])
-        effect_flags = normalize_flags(effect_flags)
+        raw_effect_flags = mob.effect_flags.json_repr() if isinstance(mob.effect_flags, BitFlags) else (mob.effect_flags or [])
 
         # Auto-detect special mob roles (banker, postmaster, receptionist) from name/keywords
         # This bridges the gap from legacy spec_procs to modern mob flags
-        mob_flags = detect_special_mob_flags(mob.short_desc, mob.keywords, mob_flags)
+        raw_mob_flags = detect_special_mob_flags(mob.short_desc, mob.keywords, raw_mob_flags)
+
+        # Process flags into modern schema format (traits, behaviors, professions, resistances, effects)
+        processed_flags = process_mob_flags(raw_mob_flags, raw_effect_flags)
 
         # Calculate new combat stats (only if not dry run, to avoid DB queries)
         if not dry_run:
@@ -380,6 +402,7 @@ class MobImporter:
             )
 
             # Calculate placeholder stats (attackPower, spellPower, resistances, etc.)
+            # Pass behaviors/traits for any stat calculations that depend on them
             placeholder_stats = calculate_placeholder_stats(
                 level=mob.level,
                 role=mob_role,
@@ -387,12 +410,20 @@ class MobImporter:
                 race=race,
                 lifeforce=life_force,
                 composition=composition,
-                mob_flags=mob_flags,
-                effect_flags=effect_flags,
+                mob_flags=processed_flags.behaviors + processed_flags.traits,  # Legacy compat
+                effect_flags=processed_flags.effect_names,  # Legacy compat
             )
 
             # Merge placeholder stats into modern_stats
             modern_stats.update(placeholder_stats)
+
+            # Merge immunity resistances from NO_CHARM, NO_SLEEP, etc. flags
+            # These are stored as effect_name -> 0 (immune)
+            if processed_flags.resistances:
+                if "resistances" not in modern_stats:
+                    modern_stats["resistances"] = {}
+                for effect_name, resistance_value in processed_flags.resistances.items():
+                    modern_stats["resistances"][effect_name] = resistance_value
 
             # Wrap resistances dict with prisma.Json for proper serialization
             if "resistances" in modern_stats:
@@ -467,9 +498,10 @@ class MobImporter:
                         "plainRoomDescription": strip_markup(mob_room_desc),
                         "examineDescription": mob_examine_desc,
                         "plainExamineDescription": strip_markup(mob_examine_desc),
-                        "mobFlags": mob_flags,
-                        "effectFlags": effect_flags,
-                        "aggroCondition": aggro_condition,
+                        "traits": processed_flags.traits,
+                        "behaviors": processed_flags.behaviors,
+                        "professions": processed_flags.professions,
+                        "aggressionFormula": processed_flags.aggro_formula,
                         "alignment": mob.alignment,
                         "level": mob.level,
                         "role": mob_role,
@@ -485,6 +517,8 @@ class MobImporter:
                         **modern_stats,
                         "wealth": wealth,
                         "position": position,
+                        "movementMode": movement_mode,
+                        "defaultMovementMode": default_movement_mode,
                         "gender": gender,
                         "race": race,
                         "size": size,
@@ -513,9 +547,10 @@ class MobImporter:
                         "plainRoomDescription": strip_markup(mob_room_desc),
                         "examineDescription": mob_examine_desc,
                         "plainExamineDescription": strip_markup(mob_examine_desc),
-                        "mobFlags": {"set": mob_flags},
-                        "effectFlags": {"set": effect_flags},
-                        "aggroCondition": aggro_condition,
+                        "traits": {"set": processed_flags.traits},
+                        "behaviors": {"set": processed_flags.behaviors},
+                        "professions": {"set": processed_flags.professions},
+                        "aggressionFormula": processed_flags.aggro_formula,
                         "alignment": mob.alignment,
                         "level": mob.level,
                         "role": mob_role,
@@ -531,6 +566,8 @@ class MobImporter:
                         **modern_stats,
                         "wealth": wealth,
                         "position": position,
+                        "movementMode": movement_mode,
+                        "defaultMovementMode": default_movement_mode,
                         "gender": gender,
                         "race": race,
                         "size": size,
@@ -549,6 +586,31 @@ class MobImporter:
                     },
                 },
             )
+
+            # Create MobDefaultEffects junction table entries for effects from legacy flags
+            # First delete any existing entries for this mob (clean re-import)
+            await self.prisma.mobdefaulteffects.delete_many(
+                where={
+                    "mobZoneId": mob_zone_id,
+                    "mobId": vnum,
+                }
+            )
+
+            # Create new effect entries
+            for effect_name in processed_flags.effect_names:
+                # Look up effect by name
+                effect = await self.prisma.effect.find_first(
+                    where={"name": effect_name}
+                )
+                if effect:
+                    await self.prisma.mobdefaulteffects.create(
+                        data={
+                            "mobZoneId": mob_zone_id,
+                            "mobId": vnum,
+                            "effectId": effect.id,
+                            "strength": 1,
+                        }
+                    )
 
             return {
                 "success": True,

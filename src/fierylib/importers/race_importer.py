@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Optional
 from prisma import Prisma
-from prisma.enums import Race, SkillCategory, RaceAlign, Size, LifeForce, Composition, EffectFlag
+from prisma.enums import Race, SkillCategory, RaceAlign, Size, LifeForce, Composition
 
 
 # Map skill/spell names to skill IDs (must match database Skills table)
@@ -42,7 +42,7 @@ RACE_NAME_TO_ENUM = {
     'orc': Race.ORC,
     'half_elf': Race.HALF_ELF,
     'halfelf': Race.HALF_ELF,  # Alternative spelling
-    'barbarian': Race.BARBARIAN,
+    'goliath': Race.GOLIATH,
     'halfling': Race.HALFLING,
     'plant': Race.PLANT,
     'humanoid': Race.HUMANOID,
@@ -123,6 +123,36 @@ class RaceImporter:
         normalized = race_name.lower().replace(' ', '_').replace('-', '_')
         return normalized
 
+    async def _get_effects_from_ability(self, ability_plain_name: str):
+        """
+        Look up an ability by plainName and return all its effects.
+
+        Args:
+            ability_plain_name: The plainName of the ability (e.g., INFRAVISION, FLY)
+
+        Returns:
+            List of Effect records, or empty list if not found
+        """
+        # Look up the ability by plainName
+        ability = await self.db.ability.find_first(
+            where={'plainName': ability_plain_name},
+            include={'effects': {'include': {'effect': True}}}
+        )
+
+        if not ability:
+            print(f"  ⚠ Ability not found: {ability_plain_name}")
+            return []
+
+        # Get all effects from the ability
+        if ability.effects and len(ability.effects) > 0:
+            effects = [ae.effect for ae in ability.effects]
+            if len(effects) > 1:
+                print(f"  ℹ Ability {ability_plain_name} has {len(effects)} effects - linking all")
+            return effects
+
+        print(f"  ⚠ Ability {ability_plain_name} has no effects defined")
+        return []
+
     async def import_races(self, races_json_path: Path, dry_run: bool = False) -> Dict[str, int]:
         """
         Import races from JSON file.
@@ -169,13 +199,8 @@ class RaceImporter:
             # Import base race data to Races table
             try:
                 if not dry_run:
-                    # Parse permanent effects
-                    permanent_effects = []
-                    for effect_str in race_data.get('permanentEffects', []):
-                        try:
-                            permanent_effects.append(EffectFlag[effect_str])
-                        except KeyError:
-                            print(f"  ⚠ Unknown effect flag: {effect_str}")
+                    # Collect permanent effects for later junction table creation
+                    permanent_effect_names = race_data.get('permanentEffects', [])
 
                     # Check if race already exists
                     existing_race = await self.db.races.find_unique(
@@ -224,7 +249,6 @@ class RaceImporter:
                         'acFactor': race_data['acFactor'],
                         'enterVerb': race_data.get('enterVerb'),
                         'leaveVerb': race_data.get('leaveVerb'),
-                        'permanentEffects': permanent_effects,
                         # Race-specific starting location
                         'startRoomZoneId': race_data.get('startRoomZoneId'),
                         'startRoomId': race_data.get('startRoomId'),
@@ -248,6 +272,30 @@ class RaceImporter:
                         )
                         stats['races_created'] += 1
                         print(f"✓ Created: {race_data.get('displayName') or race_data['name']}")
+
+                    # Create RaceEffects junction table entries for permanent effects
+                    # First delete existing entries for clean re-import
+                    await self.db.raceeffects.delete_many(
+                        where={'race': race_enum}
+                    )
+
+                    # Collect unique effect IDs from all abilities (avoid duplicates)
+                    unique_effect_ids: set[int] = set()
+                    for ability_plain_name in permanent_effect_names:
+                        # Get all effects from the ability definition
+                        effects = await self._get_effects_from_ability(ability_plain_name)
+                        for effect in effects:
+                            unique_effect_ids.add(effect.id)
+
+                    # Create RaceEffects entries for unique effects only
+                    for effect_id in unique_effect_ids:
+                        await self.db.raceeffects.create(
+                            data={
+                                'race': race_enum,
+                                'effectId': effect_id,
+                                'strength': 1,
+                            }
+                        )
                 else:
                     print(f"[DRY RUN] Would create/update race: {race_data.get('displayName') or race_data['name']}")
                     stats['races_created'] += 1

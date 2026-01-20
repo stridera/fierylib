@@ -24,7 +24,7 @@ RACE_DICE_FACTORS = {
     "ORC": 100,
     "HALF_ELF": 90,
     "HALF_ORC": 100,
-    "BARBARIAN": 110,
+    "GOLIATH": 110,
     "DUERGAR": 100,
     "HUMANOID": 100,
     "ANIMAL": 100,

@@ -337,7 +337,7 @@ class Race(Enum):
     OGRE = 7
     ORC = 8
     HALF_ELF = 9
-    BARBARIAN = 10
+    GOLIATH = 10
     HALFLING = 11
     PLANT = 12
     HUMANOID = 13

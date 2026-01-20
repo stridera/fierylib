@@ -17,6 +17,7 @@ import logging
 from mud.types.object import Object
 from mud.mudfile import MudData
 from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
+from fierylib.converters.flag_normalizer import process_object_flags, ProcessedObjectFlags
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +30,88 @@ class ObjectImporter:
     EXTRA_DESCRIPTION_OVERRIDES = {
         (533, 22): ["box", "fitted", "container"],  # Prefer the more detailed description
     }
+
+    @staticmethod
+    def infer_object_type(name: str, keywords: list[str], current_type: str) -> str:
+        """
+        Infer correct object type from name/keywords when type is NOTHING or OTHER.
+
+        This fixes legacy data bugs where items were incorrectly typed.
+        Only changes type if we have high confidence based on name patterns.
+
+        Args:
+            name: Object's display name
+            keywords: Object's keywords
+            current_type: Current type (already normalized to uppercase)
+
+        Returns:
+            Corrected type string
+        """
+        # Only try to fix NOTHING or questionable OTHER items
+        if current_type not in ("NOTHING", "OTHER"):
+            return current_type
+
+        name_lower = name.lower() if name else ""
+        keywords_lower = [k.lower() for k in (keywords or [])]
+        all_text = name_lower + " " + " ".join(keywords_lower)
+
+        # High-confidence type inference based on name patterns
+        # Order matters - more specific patterns first
+
+        # POTION - bottles of liquid that grant effects
+        if "potion" in all_text or "elixir" in all_text or "philter" in all_text:
+            return "POTION"
+
+        # SCROLL - magical writings
+        if "scroll" in keywords_lower:
+            return "SCROLL"
+
+        # WAND - magical wands
+        if "wand" in keywords_lower:
+            return "WAND"
+
+        # STAFF - magical staves
+        if "staff" in keywords_lower or "stave" in keywords_lower:
+            return "STAFF"
+
+        # WEAPON - things you fight with
+        if any(w in keywords_lower for w in ["sword", "dagger", "axe", "mace", "hammer", "spear", "blade"]):
+            return "WEAPON"
+
+        # ARMOR - protective gear
+        if any(w in keywords_lower for w in ["armor", "armour", "helm", "helmet", "shield", "gauntlet", "bracer"]):
+            return "ARMOR"
+
+        # CONTAINER - bags, boxes, chests
+        if any(w in keywords_lower for w in ["bag", "sack", "chest", "box", "backpack", "pouch"]):
+            return "CONTAINER"
+
+        # KEY - unlocks things
+        if "key" in keywords_lower:
+            return "KEY"
+
+        # FOOD - edible items
+        if any(w in keywords_lower for w in ["bread", "meat", "fruit", "food", "ration"]):
+            return "FOOD"
+
+        # LIGHT - light sources
+        if any(w in keywords_lower for w in ["torch", "lantern", "lamp", "candle"]):
+            return "LIGHT"
+
+        # BOAT - water vehicles
+        if any(w in keywords_lower for w in ["boat", "raft", "canoe", "ship"]):
+            return "BOAT"
+
+        # NOTE - readable documents (but not scrolls)
+        if any(w in keywords_lower for w in ["note", "letter", "book", "journal", "order", "mission", "map", "lease", "agreement", "parchment"]):
+            return "NOTE"
+
+        # VEHICLE - rideable transport
+        if "carpet" in keywords_lower and "magic" in keywords_lower:
+            return "VEHICLE"
+
+        # Default: keep as OTHER (safe fallback)
+        return "OTHER"
 
     def __init__(self, prisma_client):
         """
@@ -61,12 +144,25 @@ class ObjectImporter:
         vnum = obj.id - (zone_id * 100)
 
         # Map object type - handle legacy names with underscores
-        obj_type = obj.type.upper().replace("_", "") if obj.type else "NOTHING"
+        # Then infer correct type for NOTHING/OTHER based on name patterns
+        raw_type = obj.type.upper().replace("_", "") if obj.type else "NOTHING"
+        obj_type = self.infer_object_type(obj.short, obj.keywords, raw_type)
 
-        # Normalize flags (NO_RENT → NORENT)
-        obj_flags = normalize_flags(obj.flags or [])
-        obj_effect_flags = normalize_flags(obj.effect_flags or [])
-        obj_wear_flags = normalize_flags(obj.wear_flags or [])
+        # Process flags into modern schema format (flags, restrictions, class/race restrictions, effects)
+        raw_flags = normalize_flags(obj.flags or [])
+        raw_effect_flags = normalize_flags(obj.effect_flags or [])
+        raw_wear_flags = normalize_flags(obj.wear_flags or [])
+
+        processed_flags = process_object_flags(raw_flags, raw_effect_flags)
+
+        # Handle TAKE flag: if NOT present, object cannot be picked up (add NO_TAKE restriction)
+        # TAKE was a legacy "wear" flag but it's really about pickup, not wearing
+        if "TAKE" not in raw_wear_flags:
+            if "NO_TAKE" not in processed_flags.restrictions:
+                processed_flags.restrictions.append("NO_TAKE")
+
+        # Filter out TAKE from wear flags (it's not a real wear location)
+        obj_wear_flags = [f for f in raw_wear_flags if f != "TAKE"]
 
         # Convert values dict to JSON-serializable format (handle Dice objects)
         values_dict = {}
@@ -194,15 +290,21 @@ class ObjectImporter:
                         "plainExamineDescription": strip_markup(obj_examine_desc) if obj_examine_desc else None,
                         "actionDescription": obj_action_desc,
                         "plainActionDescription": strip_markup(obj_action_desc) if obj_action_desc else None,
-                        "flags": obj_flags,
+                        "flags": processed_flags.flags,
+                        "restrictions": processed_flags.restrictions,
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
                         "timer": obj.timer or 0,
                         "level": obj.level or 0,
-                        "effectFlags": obj_effect_flags,
                         "wearFlags": obj_wear_flags,
                         "concealment": obj.concealment or 0,
                         "values": json.dumps(values_dict) if values_dict else "{}",
+                        "restrictedAlignments": processed_flags.restricted_alignments,
+                        "restrictedClassIds": processed_flags.restricted_class_ids,
+                        "restrictedRaces": processed_flags.restricted_races,
+                        "allowedRaces": processed_flags.allowed_races,
+                        "minSize": processed_flags.min_size,
+                        "maxSize": processed_flags.max_size,
                     },
                     "update": {
                         "type": obj_type,
@@ -218,18 +320,49 @@ class ObjectImporter:
                         "plainExamineDescription": strip_markup(obj_examine_desc) if obj_examine_desc else None,
                         "actionDescription": obj_action_desc,
                         "plainActionDescription": strip_markup(obj_action_desc) if obj_action_desc else None,
-                        "flags": {"set": obj_flags},
+                        "flags": {"set": processed_flags.flags},
+                        "restrictions": {"set": processed_flags.restrictions},
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
                         "timer": obj.timer or 0,
                         "level": obj.level or 0,
-                        "effectFlags": {"set": obj_effect_flags},
                         "wearFlags": {"set": obj_wear_flags},
                         "concealment": obj.concealment or 0,
                         "values": json.dumps(values_dict) if values_dict else "{}",
+                        "restrictedAlignments": {"set": processed_flags.restricted_alignments},
+                        "restrictedClassIds": {"set": processed_flags.restricted_class_ids},
+                        "restrictedRaces": {"set": processed_flags.restricted_races},
+                        "allowedRaces": {"set": processed_flags.allowed_races},
+                        "minSize": processed_flags.min_size,
+                        "maxSize": processed_flags.max_size,
                     },
                 },
             )
+
+            # Create ObjectEffects junction table entries for effects from legacy flags
+            # First delete any existing entries for this object (clean re-import)
+            await self.prisma.objecteffects.delete_many(
+                where={
+                    "objectZoneId": obj_zone_id,
+                    "objectId": vnum,
+                }
+            )
+
+            # Create new effect entries
+            for effect_name in processed_flags.effect_names:
+                # Look up effect by name
+                effect = await self.prisma.effect.find_first(
+                    where={"name": effect_name}
+                )
+                if effect:
+                    await self.prisma.objecteffects.create(
+                        data={
+                            "objectZoneId": obj_zone_id,
+                            "objectId": vnum,
+                            "effectId": effect.id,
+                            "strength": 1,
+                        }
+                    )
 
             # Import affects
             affects_imported = 0

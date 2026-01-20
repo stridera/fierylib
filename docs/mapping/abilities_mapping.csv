@@ -53,7 +53,7 @@ Bludgeoning Weapons,SKILL,Player skill: Bludgeoning,,STANDING,No,Yes,1,,,,0,No,N
 Blur,SPELL,"BLUR significantly heightens a person's senses, improving his or her 
 reaction time and speed for...",,STANDING,No,Yes,12,25,Quest,Status: blur,1,No,Yes
 Bodyslam,SKILL,"BODYSLAM is an innate skill available to larger races, such as 
-barbarians, ogres, and trolls. It...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
+goliaths, ogres, and trolls. It...",,STANDING,Yes,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
 Bone Armor,SPELL,"This spell causes old bones to leap out of the ground and surround the
 necromancer, acting as a p...",,STANDING,No,No,6,12,,ward +10 + (skill / 6) (dur: 8 + 2 * (skill / 5)),1,Yes,Yes
 Bone Cage,SPELL,"The necromancer calls forth four massive bones that encage and immobilize 
@@ -196,7 +196,7 @@ An ancient pyramid deep in the Black Woods leads to a mythic history
 s...",ACID,STANDING,Yes,Yes,12,35,,Status: curse,1,Yes,No
 Doorbash,SKILL,"Usage: doorbash <direction>
 
-Races: Barbarian, Troll, Ogre
+Races: Goliath, Troll, Ogre
 
 This is an innate skill that allows t...",,STANDING,No,Yes,1,,,PHYSICAL damage (skill),1,Yes,No
 Double Attack,SKILL,"More experienced warrior classes can eventually learn how to attempt more

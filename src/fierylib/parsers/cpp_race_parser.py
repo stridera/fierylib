@@ -30,7 +30,7 @@ class CppRaceParser:
         'RACE_OGRE': 7,
         'RACE_ORC': 8,
         'RACE_HALF_ELF': 9,
-        'RACE_BARBARIAN': 10,
+        'RACE_GOLIATH': 10,
         'RACE_HALFLING': 11,
         'RACE_PLANT': 12,
         'RACE_HUMANOID': 13,

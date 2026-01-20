@@ -14,12 +14,16 @@ from fierylib.parsers.socials_parser import parse_socials, Social
 
 
 # Map string position names to Prisma enum values
+# Note: PRONE, KNEELING, FLYING were removed from Position enum
+# PRONE → RESTING (lying down), KNEELING → SITTING, FLYING → STANDING (now a MovementMode)
 POSITION_ENUM_MAP = {
-    "PRONE": Position.PRONE,
+    "PRONE": Position.RESTING,
     "SITTING": Position.SITTING,
-    "KNEELING": Position.KNEELING,
+    "KNEELING": Position.SITTING,
     "STANDING": Position.STANDING,
-    "FLYING": Position.FLYING,
+    "FLYING": Position.STANDING,
+    "RESTING": Position.RESTING,
+    "SLEEPING": Position.SLEEPING,
 }
 
 
