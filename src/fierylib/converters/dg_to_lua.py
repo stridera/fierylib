@@ -187,6 +187,64 @@ def convert_variable_expr(var: str) -> str:
         if wear_match:
             return f'{obj}:has_equipped("{wear_match.group(1)}")'
 
+        # Affect flag check: actor.aff_flagged(FLAG) -> actor:has_effect(Effect.Name)
+        # Maps legacy DG Script affect flags to modern effect names
+        aff_match = re.match(r'aff_flagged\(([^)]+)\)', prop)
+        if aff_match:
+            flag_name = aff_match.group(1).strip()
+            negated = flag_name.startswith('!')
+            if negated:
+                flag_name = flag_name[1:]
+
+            # Map legacy flag names to modern effect names (PascalCase)
+            effect_map = {
+                'BLIND': 'Blind',
+                'INVISIBLE': 'Invisible',
+                'INVIS': 'Invisible',
+                'DET-MAGIC': 'DetectMagic',
+                'DETECT_MAGIC': 'DetectMagic',
+                'DET-INVIS': 'DetectInvis',
+                'DETECT_INVIS': 'DetectInvis',
+                'DET-ALIGN': 'DetectAlign',
+                'DETECT_ALIGN': 'DetectAlign',
+                'SENSE-LIFE': 'SenseLife',
+                'SENSE_LIFE': 'SenseLife',
+                'SANCTUARY': 'Sanctuary',
+                'SANCT': 'Sanctuary',
+                'POISON': 'Poison',
+                'INFRAVISION': 'Infravision',
+                'INFRA': 'Infravision',
+                'FLY': 'Flying',
+                'FLYING': 'Flying',
+                'SNEAK': 'Sneak',
+                'SNEAKING': 'Sneak',
+                'HIDE': 'Hide',
+                'HIDDEN': 'Hide',
+                'CHARM': 'Charm',
+                'CHARMED': 'Charm',
+                'HASTE': 'Haste',
+                'SLOW': 'Slow',
+                'BERSERK': 'Berserk',
+                'PARALYZED': 'Paralyzed',
+                'WATERWALK': 'Waterwalk',
+                'WATERBREATH': 'WaterBreathing',
+                'UNDERWATER_BREATHING': 'WaterBreathing',
+                'BLESS': 'Bless',
+                'ARMOR': 'Armor',
+                'SHIELD': 'Shield',
+                'STONESKIN': 'Stoneskin',
+                'HEAT': 'HeatResistance',  # For !HEAT checks
+            }
+
+            # Normalize to uppercase for lookup
+            effect_name = effect_map.get(flag_name.upper(), flag_name.title())
+
+            # Use Effect table for typo safety
+            expr = f'{obj}:has_effect(Effect.{effect_name})'
+            if negated:
+                expr = f'not {expr}'
+            return expr
+
         # People count
         if prop == 'people[count]':
             return f'{obj}.actor_count'
