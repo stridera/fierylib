@@ -1,9 +1,7 @@
 -- Trigger: flood_spirits_receive
 -- Zone: 390, ID: 7
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
---   Large script: 10161 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #39007
 
@@ -87,7 +85,7 @@ elseif self.id == 39016 then
     local color = "&2"
     if stage == 1 then
         if object.type == "food" then
-            if actor.quest_variable[flood:object.vnum] then
+            if actor:get_quest_var("flood:" .. object.vnum) then
                 wait(2)
                 self.room:send(tostring(self.name) .. " wails in anger as she thrashes about!")
                 self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the sea!")

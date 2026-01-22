@@ -24,29 +24,29 @@ if string.find(arg, "siege") or string.find(arg, "mystwatch") or string.find(arg
             actor:send("Quest Master: " .. tostring(mobiles.template(30, 25).name))
             -- switch on actor:get_quest_var("mystwatch_quest:step")
             if actor:get_quest_var("mystwatch_quest:step") == "totem" then
-                local task = Give objects.template(30, 26).name to mobiles.template(160, 7).name.
+                local task = "Give " .. objects.template(30, 26).name .. " to " .. mobiles.template(160, 7).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "general" then
-                local task = Kill mobiles.template(160, 7).name.
+                local task = "Kill " .. mobiles.template(160, 7).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "skeleton" then
-                local task = Kill mobiles.template(160, 15).name.
+                local task = "Kill " .. mobiles.template(160, 15).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "warrior" then
-                local task = Kill mobiles.template(160, 16).name.
+                local task = "Kill " .. mobiles.template(160, 16).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "sentry" then
-                local task = Kill mobiles.template(160, 17).name.
+                local task = "Kill " .. mobiles.template(160, 17).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "warlord" then
-                local task = Kill mobiles.template(160, 18).name.
+                local task = "Kill " .. mobiles.template(160, 18).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "blacksmith" then
-                local task = Kill mobiles.template(160, 19).name.
+                local task = "Kill " .. mobiles.template(160, 19).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "shadow" then
-                local task = Kill mobiles.template(160, 10).name.
+                local task = "Kill " .. mobiles.template(160, 10).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "storm" then
-                local task = Kill mobiles.template(160, 8).name.
+                local task = "Kill " .. mobiles.template(160, 8).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "lord" then
-                local task = Kill mobiles.template(160, 11).name.
+                local task = "Kill " .. mobiles.template(160, 11).name .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "shard" then
-                local task = Give objects.template(160, 23).name to mobiles.template(30, 25).name.
+                local task = "Give " .. objects.template(160, 23).name .. " to " .. mobiles.template(30, 25).name .. "."
             else
-                local task = Visit mobiles.template(30, 25).name to restart this quest.
+                local task = "Visit " .. mobiles.template(30, 25).name .. " to restart this quest."
             end
             actor:send("</>")
             actor:send("Your next step: " .. tostring(task))

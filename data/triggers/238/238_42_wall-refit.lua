@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 if object.id == 23841 then
     wait(1)
-    doors.set_description(get_room(238, 41), "south", ""The one who wore purple stood next to the half-elf".")
+    doors.set_description(get_room(238, 41), "south", "\"The one who wore purple stood next to the half-elf\".")
     doors.set_flags(get_room(238, 41), "south", "f")
     self.room:send("The wall flares with a pure white light as the broken fragment is joined to the whole.")
     self.room:send("The pentagram is completed.")

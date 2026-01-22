@@ -39,8 +39,8 @@ if stage == 2 then
             -- Sunken
             local room = 53178
         end
-        actor.name:set_quest_var("group_heal", "room", room)
-        actor.name:advance_quest("group_heal")
+        actor:set_quest_var("group_heal", "room", room)
+        actor:advance_quest("group_heal")
     else
         _return_value = false
         wait(2)
@@ -49,7 +49,7 @@ if stage == 2 then
     end
 elseif stage == 4 then
     if object.id == 18514 then
-        actor.name:advance_quest("group_heal")
+        actor:advance_quest("group_heal")
         wait(2)
         self:emote("scans through the book.")
         wait(2)
@@ -88,7 +88,7 @@ elseif stage == 4 then
     end
 elseif stage == 5 then
     if object.id == 18515 or object.id == 18516 or object.id == 18517 or object.id == 18518 or object.id == 18519 or object.id == 18520 then
-        if actor.quest_variable[group_heal:object.vnum] == 1 then
+        if actor:get_quest_var("group_heal:" .. tostring(object.vnum)) == 1 then
             _return_value = false
             wait(2)
             self:command("shake")
@@ -96,9 +96,9 @@ elseif stage == 5 then
             actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
         else
             self:destroy_item("notes")
-            actor.name:set_quest_var("group_heal", "%object.vnum%", 1)
+            actor:set_quest_var("group_heal", tostring(object.vnum), 1)
             local total = actor:get_quest_var("group_heal:total") + 1
-            actor.name:set_quest_var("group_heal", "total", total)
+            actor:set_quest_var("group_heal", "total", total)
             wait(2)
             self:say("Thank you!")
             wait(1)
@@ -119,7 +119,7 @@ elseif stage == 5 then
         end
         if total == 6 then
             self:destroy_item("notes")
-            actor.name:advance_quest("group_heal")
+            actor:advance_quest("group_heal")
             wait(1)
             self.room:send(tostring(self.name) .. " says, 'That looks like everything!  May I have that copy of the Rite")
             self.room:send("</>please?'")
@@ -130,7 +130,7 @@ elseif stage == 5 then
     end
 elseif stage == 6 then
     if object.id == 18514 then
-        actor.name:set_quest_var("group_heal", "total", 0)
+        actor:set_quest_var("group_heal", "total", 0)
         wait(2)
         self:destroy_item("heroes-feast")
         wait(2)

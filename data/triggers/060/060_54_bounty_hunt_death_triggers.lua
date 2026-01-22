@@ -1,7 +1,7 @@
 -- Trigger: Bounty hunt death triggers
 -- Zone: 60, ID: 54
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6054

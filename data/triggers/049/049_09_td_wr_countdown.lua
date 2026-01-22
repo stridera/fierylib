@@ -22,12 +22,12 @@ end
 -- Team Domination War Room Countdown (Speech) Trigger
 local i = 0
 while i < pylons do
-    if string.find(speech, "PiP") then
+    if string.find(speech, "P" .. i .. "P") then
         local j = 0
         while j < teams do
-            if string.find(speech, "TjT") then
+            if string.find(speech, "T" .. j .. "T") then
                 pylon[i] = j
-                globals.pylon%i% = globals.pylon%i% or true
+                globals["pylon" .. i] = globals["pylon" .. i] or true
                 -- switch on j
                 if j == 0 then
                     local team = team0
@@ -49,7 +49,7 @@ while i < pylons do
                 else
                     local suffix = "th"
                 end
-                self.room:find_actor("teamdominationmc"):command("gossip %team% infiltrates the %num%%suffix% %pylonname%!  1 minute to capture!")
+                self.room:find_actor("teamdominationmc"):command("gossip " .. team .. " infiltrates the " .. num .. suffix .. " " .. pylonname .. "!  1 minute to capture!")
                 self.room:send("Team Domination countdown started for pylon " .. tostring(i) .. "'s capture by team " .. tostring(j) .. ".")
                 return _return_value
             end

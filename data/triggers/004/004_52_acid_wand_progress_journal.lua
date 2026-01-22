@@ -50,12 +50,12 @@ if ((string.find(arg, "acid") or string.find(arg, "earth")) and (string.find(arg
                 local master = mobiles.template(30, 13).name
                 local wandgem = 55576
             elseif stage == 3 then
-                local master = mobiles.template(100, 56).name in Ickle
+                local master = mobiles.template(100, 56).name .. " in Ickle"
                 local hint = "First, seek the one who guards the eastern gates of Ickle."
                 local wandgem = 55593
                 local wandtask3 = 23751
             elseif stage == 4 then
-                local master = mobiles.template(625, 4).name in the Rhell Forest
+                local master = mobiles.template(625, 4).name .. " in the Rhell Forest"
                 local hint = "The next two artisans dwell in the Rhell Forest south-east of Mielikki."
                 local wandgem = 55606
                 local wandtask3 = 2332
@@ -67,26 +67,26 @@ if ((string.find(arg, "acid") or string.find(arg, "earth")) and (string.find(arg
                 local wandtask3 = 16303
                 local wandtask4 = "&9&bthe Northern Swamps&0"
             elseif stage == 6 then
-                local master = mobiles.template(470, 75).name in the Graveyard
+                local master = mobiles.template(470, 75).name .. " in the Graveyard"
                 local hint = "The ranger who guards the massive necropolis near Anduin has wonderful insights on crafting with decay."
                 local wandgem = 55663
                 local wandtask3 = 55020
                 local wandtask4 = 16107
             elseif stage == 7 then
-                local master = mobiles.template(40, 17).name in the Black-Ice Desert
+                local master = mobiles.template(40, 17).name .. " in the Black-Ice Desert"
                 local hint = "Your next guide may be hard to locate...  I believe they guard the entrance to a long-lost kingdom beyond a frozen desert."
                 local wandgem = 55683
                 local wandtask3 = 16305
                 local wandtask4 = 37082
             elseif stage == 8 then
-                local master = mobiles.template(480, 29).name in the Barrow
+                local master = mobiles.template(480, 29).name .. " in the Barrow"
                 local hint = "Next, consult with another ranger who guards a place crawling with the dead.  The dwarf ranger in the iron hills will know how to help you."
                 local wandgem = 55724
                 local wandtask3 = 58414
                 local wandtask4 = 53453
                 local place = 16355
             elseif stage == 9 then
-                local master = mobiles.template(35, 49).name at the Ranger Guild
+                local master = mobiles.template(35, 49).name .. " at the Ranger Guild"
                 local hint = "The guard of the only known Ranger Guild in the world is also an excellent craftswoman.  Consult with her."
                 local wandgem = 55740
                 local wandtask3 = 47006

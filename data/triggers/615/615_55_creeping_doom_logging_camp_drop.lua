@@ -13,7 +13,7 @@ if object.id == 61518 then
     if actor:get_quest_stage("creeping_doom") == 4 then
         actor.name:advance_quest("creeping_doom")
     end
-    self.room:send("&9<blue>" .. tostring(The get:get_obj_shortdesc("61518")) .. " bursts open in a flood of insects!</>")
+    self.room:send("&9<blue>" .. tostring(world.get_obj_shortdesc(61518)) .. " bursts open in a flood of insects!</>")
     wait(2)
     zone.echo(87, "<blue>&9An endless wave of crawling </><red>arachnoids<blue>&9 and </><green>insects<blue>&9 pours through the camp consuming everything in sight!</>")
     wait(1)

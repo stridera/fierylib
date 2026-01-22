@@ -14,10 +14,9 @@ if not percent_chance(5) then
 end
 local worn = self.worn_by
 if not worn then
-    return _return_value
-else
-    if worn.id == -1 then
-        self.worn_by:send(tostring(self.shortdesc) .. " whispers words of madness to you!")
-        spells.cast(self, "insanity", self.worn_by, self.level)
-    end
+    return true
+end
+if worn.id == -1 then
+    worn:send(self.shortdesc .. " whispers words of madness to you!")
+    spells.cast(self, "insanity", worn, self.level)
 end

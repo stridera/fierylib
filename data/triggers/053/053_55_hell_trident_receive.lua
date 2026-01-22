@@ -82,9 +82,9 @@ if go == "gem" then
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
         wait(2)
         if gem_count == 1 then
-            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
+            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. objects.template(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum)).pldesc .. ".'")
         else
-            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
+            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. objects.template(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum)).pldesc .. ".'")
         end
         wait(2)
         if gem_count >= 6 then
@@ -105,7 +105,7 @@ if go == "gem" then
         _return_value = false
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
-        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
+        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. objects.template(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum)).pldesc .. ".'")
     end
 elseif go == "trident" then
     local job1 = actor:get_quest_var("hell_trident:helltask1")
@@ -190,8 +190,8 @@ elseif go == "trident" then
         end
         local number = 1
         while number < 7 do
-            actor:set_quest_var("hell_trident", "helltask%number%", 0)
-            local number = number + 1
+            actor:set_quest_var("hell_trident", "helltask" .. number, 0)
+            number = number + 1
         end
         actor:set_quest_var("hell_trident", "gems", 0)
         actor:set_quest_var("hell_trident", "greet", 0)

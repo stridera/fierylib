@@ -1,7 +1,7 @@
 -- Trigger: mist_attack
 -- Zone: 118, ID: 38
 -- Type: WORLD, Flags: COMMAND
--- Status: CLEAN
+-- Status: CLEAN (fixed unconverted %actor.name%)
 --
 -- Original DG Script: #11838
 
@@ -29,7 +29,7 @@ if (arg == "carving") or (arg == "carvings") then
         self.room:send_except(actor, "The mist roars and charges at " .. tostring(actor.name) .. ".")
         actor:send("The mist roars and charges at YOU!")
         wait(2)
-        self.room:find_actor("mist-demon"):command("kill %actor.name%")
+        self.room:find_actor("mist-demon"):command("kill " .. tostring(actor.name))
     else
         actor:send("The mists around the carvings seem ominous and hostile.")
     end

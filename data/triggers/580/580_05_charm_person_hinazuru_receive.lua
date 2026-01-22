@@ -75,7 +75,7 @@ elseif stage == 2 then
     end
 elseif stage == 3 then
     if object.id == 58017 or object.id == 16312 or object.id == 48925 or object.id == 37012 or object.id == 41119 then
-        if actor.quest_variable[charm_person:object.vnum] then
+        if actor.quest_variable["charm_person:" .. object.vnum] then
             _return_value = false
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("You have already brought me " .. tostring(object.shortdesc) .. ".")

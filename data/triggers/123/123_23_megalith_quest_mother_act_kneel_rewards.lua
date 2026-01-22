@@ -118,7 +118,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         -- 
         -- 115% of standard
         -- 
-        local expmod = (expmod + ((expmod * 2) / 15)
+        local expmod = (expmod + ((expmod * 2) / 15))
     elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
         -- 
         -- 120% of standard

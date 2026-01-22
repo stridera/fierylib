@@ -50,13 +50,13 @@ if i then
         local stage = person.quest_stage[type_wand]
         if person.room == self.room then
             if person.quest_stage[type_wand] == 9 then
-                if not person.quest_variable[type_wand:wandtask4] then
+                if not person.quest_variable[type_wand .. ":wandtask4"] then
                     person:set_quest_var("%type%_wand", "wandtask4", 1)
                     person:send(tostring(color) .. "%get.obj_shortdesc[%wandvnum%]% crackles with vibrant energy!</>")
                     person:send(tostring(color) .. "It is primed for reforging!</>")
                 end
             elseif person.quest_stage[type_wand] == 10 then
-                if not person.quest_variable[type_wand:wandtask3] then
+                if not person.quest_variable[type_wand .. ":wandtask3"] then
                     person:set_quest_var("%type%_wand", "wandtask3", 1)
                     person:send(tostring(color) .. "%get.obj_shortdesc[%wandvnum%]% crackles with vibrant energy!</>")
                     person:send(tostring(color) .. "It is primed for reforging!</>")
@@ -70,13 +70,13 @@ if i then
 else
     local stage = actor.quest_stage[type_wand]
     if actor.quest_stage[type_wand] == 9 then
-        if not actor.quest_variable[type_wand:wandtask4] then
+        if not actor.quest_variable[type_wand .. ":wandtask4"] then
             actor:set_quest_var("%type%_wand", "wandtask4", 1)
             actor:send(tostring(color) .. "%get.obj_shortdesc[%wandvnum%]% crackles with vibrant energy!</>")
             actor:send(tostring(color) .. "It is primed for reforging!</>")
         end
     elseif actor.quest_stage[type_wand] == 10 then
-        if not actor.quest_variable[type_wand:wandtask3] then
+        if not actor.quest_variable[type_wand .. ":wandtask3"] then
             actor:set_quest_var("%type%_wand", "wandtask3", 1)
             actor:send(tostring(color) .. "%get.obj_shortdesc[%wandvnum%]% crackles with vibrant energy!</>")
             actor:send(tostring(color) .. "It is primed for reforging!</>")

@@ -11,14 +11,15 @@
 -- adds 5% alignment damage against neutral targets and 10% against evil targets
 -- 
 if damage then
+    local bonus = nil
     if victim.alignment < 350 and victim.alignment > -350 then
-        local bonus = damage / 20
+        bonus = damage / 20
     elseif victim.alignment < -350 then
-        local bonus = damage / 10
+        bonus = damage / 10
     end
     if bonus and victim.hit >= -10 then
-        self.room:send_except(victim, "<b:white>" .. tostring(self.shortdesc) .. " smites " .. tostring(victim.name) .. " with radiant light!</> (<yellow>" .. tostring(bonus) .. "</>)")
-        victim:send("<b:white>" .. tostring(self.shortdesc) .. " smites you with radiant light!</> (<yellow>" .. tostring(bonus) .. "</>)")
-        local damage_dealt = victim:damage(bonus)  -- type: align
+        self.room:send_except(victim, "<b:white>" .. self.shortdesc .. " smites " .. victim.name .. " with radiant light!</> (<yellow>" .. tostring(bonus) .. "</>)")
+        victim:send("<b:white>" .. self.shortdesc .. " smites you with radiant light!</> (<yellow>" .. tostring(bonus) .. "</>)")
+        victim:damage(bonus)  -- type: align
     end
 end

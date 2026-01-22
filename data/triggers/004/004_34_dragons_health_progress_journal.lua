@@ -10,7 +10,7 @@
 -- Converted from DG Script #434: Dragons Health Progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "dragons") or string.find(arg, "dragon")'s or string.find(arg, "health") or string.find(arg, "dragons_health") or string.find(arg, "dragon")'s_health then
+if string.find(arg, "dragons") or string.find(arg, "dragon's") or string.find(arg, "health") or string.find(arg, "dragons_health") or string.find(arg, "dragon's_health") then
     if actor.level >= 85 and string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
         _return_value = false
         local stage = actor:get_quest_stage("dragons_health")

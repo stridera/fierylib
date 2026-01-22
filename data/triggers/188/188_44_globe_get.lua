@@ -9,11 +9,11 @@
 -- Converted from DG Script #18844: globe_get
 -- Original: OBJECT trigger, flags: GLOBAL, GET, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.quest_variable[quest_items:self.vnum] then
+if actor:get_quest_var("quest_items:" .. tostring(self.vnum)) then
     if owner then
         if owner == actor.name then
             if not (actor:get_worn("held")) and not (actor:get_worn("wield")) and not (actor:get_worn("2hwield")) then
-                local last_use = actor.quest_variable[quest_items:globeself.vnum_time]
+                local last_use = actor:get_quest_var("quest_items:globe" .. tostring(self.vnum) .. "_time")
                 local now = time.stamp
                 if last_use then
                     if now - last_use >= 1 then
@@ -31,7 +31,7 @@ if actor.quest_variable[quest_items:self.vnum] then
                     actor:command("get globe")
                     actor:command("hold globe")
                     actor:command("use globe")
-                    actor.name:set_quest_var("quest_items", "globe%self.vnum%_time", now)
+                    actor:set_quest_var("quest_items", "globe" .. tostring(self.vnum) .. "_time", now)
                     world.destroy(self)
                 end
             else

@@ -22,7 +22,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
 end
 wait(2)
 if actor:get_quest_stage("megalith_quest") == 2 then
-    if speech == "yes" or speech == "sure" or string.find(speech, "I") will or string.find(speech, "I") can then
+    if speech == "yes" or speech == "sure" or string.find(speech, "I will") or string.find(speech, "I can") then
         -- switch on self.id
         -- 
         -- North - get ring from Tech

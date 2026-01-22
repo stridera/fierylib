@@ -1,9 +1,7 @@
 -- Trigger: Herlequin vial trigger
 -- Zone: 63, ID: 90
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: hands!
---   -- UNCONVERTED: upside $
+-- Status: CLEAN
 --
 -- Original DG Script: #6390
 
@@ -20,12 +18,10 @@ if not (cmd == "pour" or cmd == "vial" or cmd == "volcano") then
     return true  -- Not our command
 end
 wait(5)
-actor:send("Metamorpho's vial is ripped from your hands.")
-self.room:send_except(actor, "Metamorpho's vial is ripped from " .. tostring(actor.name) .. "'s")
--- UNCONVERTED: hands!
+actor:send("Metamorpho's vial is ripped from your hands!")
+self.room:send_except(actor, "Metamorpho's vial is ripped from " .. tostring(actor.name) .. "'s hands!")
 wait(6)
-self.room:send("Metamorpho's vial hovers above the massive volcano before turning")
--- UNCONVERTED: upside $
+self.room:send("Metamorpho's vial hovers above the massive volcano before turning upside down!")
 wait(2)
 self.room:send("The top of the vial pops open unleashing a <b:cyan>FLOOD</> of water!")
 wait(2)

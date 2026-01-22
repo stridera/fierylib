@@ -14,7 +14,7 @@ if not percent_chance(1) then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("trainer_3160:word2") then
-    local full_skill = actor:get_quest_var("trainer_3160:skill_name") actor:get_quest_var("trainer_3160:word2")
+    local full_skill = actor:get_quest_var("trainer_3160:skill_name") .. " " .. actor:get_quest_var("trainer_3160:word2")
 elseif actor:get_quest_var("trainer_3160:skill_name") then
     local full_skill = actor:get_quest_var("trainer_3160:skill_name")
 end

@@ -1,9 +1,7 @@
 -- Trigger: flood_heart_speech
 -- Zone: 390, ID: 4
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
---   Large script: 8896 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #39004
 
@@ -25,7 +23,7 @@ wait(2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room
     local zone = room.id
-    if string.find(arg, "the") Arabel ocean calls for aid or string.find(arg, "spirit") I have returned or string.find(arg, "spirit"), I have returned then
+    if string.find(arg, "the arabel ocean calls for aid") or string.find(arg, "spirit I have returned") or string.find(arg, "spirit, I have returned") then
         -- 
         -- for Blue-Fog River and Lake
         -- 
@@ -62,7 +60,7 @@ if actor:get_quest_stage("flood") == 1 then
                 self.room:spawn_mobile(390, 15)
                 self.room:send(tostring(color) .. "A three-faced humanoid figure rises from the water.</>")
             end
-        elseif zone == 17834 or (zone >= 17839 and zone <= 17841 or zone == 17847 or zone == 17850 or (zone >= 17853 and zone <= 17856) then
+        elseif zone == 17834 or (zone >= 17839 and zone <= 17841) or zone == 17847 or zone == 17850 or (zone >= 17853 and zone <= 17856) then
             local color = "&4&b"
             local spirit = mobiles.template(390, 15).name
             if world.count_mobiles("39015") == 0 and not actor:get_quest_var("flood:water3") then
@@ -165,7 +163,7 @@ if actor:get_quest_stage("flood") == 1 then
             end
         end
         wait(1)
-        if string.find(arg, "the") arabel ocean calls for aid then
+        if string.find(arg, "the arabel ocean calls for aid") then
             self.room:find_actor("spirit"):command("mecho %spirit% says, %color%'Why does the ocean call for aid?'&0")
         else
             self.room:find_actor("spirit"):command("mecho %spirit% says, %color%'Do you have what I asked for?'&0")

@@ -13,7 +13,8 @@
 local stage = actor:get_quest_stage("meteorswarm")
 wait(1)
 -- **No one should be here but sorcs and pyros, so lets throw the rest back out***
-if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor.quest_stage[type_wand] < wandstep then
+local wandstep = actor:get_quest_stage("phase_wand")
+if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and (not wandstep or wandstep == 0) then
     self:command("con " .. tostring(actor))
     wait(2)
     self:say("What are you doing here?! Get out!")
@@ -34,10 +35,10 @@ if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor.quest_sta
     local damage_dealt = actor:damage(damage)  -- type: fire
     actor:send("<b:red>You sustain </><red>severe burns<blue> as you plunge head first through drizzling </><red>lava.</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
     -- actor looks around
-elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) or actor.quest_stage[type_wand] == "wandstep" then
-    local minlevel = (wandstep - 1) * 10
+elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) or wandstep == "wandstep" then
+    local minlevel = wandstep and ((tonumber(wandstep) or 1) - 1) * 10 or 0
     if (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) then
-        if actor:get_quest_var("meteorswarm:new") /= no then
+        if actor:get_quest_var("meteorswarm:new") ~= "no" then
             actor:send(tostring(self.name) .. " tells you, 'Do you have the new meteorite?'")
         elseif not stage then
             self.room:spawn_mobile(482, 51)
@@ -64,9 +65,9 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
         elseif stage == 5 then
             actor:send(tostring(self.name) .. " tells you, 'Were you able to glean something from Dargentan's teachings?'")
         end
-        if actor.quest_stage[type_wand] == "wandstep" then
+        if wandstep == "wandstep" then
             if actor.level >= minlevel then
-                if actor.quest_variable[type_wand:greet] == 0 then
+                if actor:get_quest_var("phase_wand:greet") == 0 then
                     actor:send(tostring(self.name) .. " tells you, 'Or is there even MORE you want from me?  You seem to be in need of a crafting <b:cyan>[upgrade]</>.'")
                 else
                     actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(weapon) .. "?'")
@@ -75,7 +76,7 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
         end
     else
         if actor.level >= minlevel then
-            if actor.quest_variable[type_wand:greet] == 0 then
+            if actor:get_quest_var("phase_wand:greet") == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
             else
                 actor:send(tostring(self.name) .. " tells you, 'Do you have what I need for the " .. tostring(weapon) .. "?'")

@@ -9,7 +9,7 @@
 -- Converted from DG Script #421: Sacred Haven progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "infiltrate") the sacred haven or string.find(arg, "sacred_haven") or string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred") haven or string.find(arg, "haven") then
+if string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred_haven") or string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred_haven") or string.find(arg, "haven") then
     if actor.level >= 25 then
         _return_value = false
         local stage = actor:get_quest_stage("sacred_haven")

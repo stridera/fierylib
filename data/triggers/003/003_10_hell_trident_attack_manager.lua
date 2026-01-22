@@ -35,10 +35,10 @@ end
 if actor:get_quest_stage("hell_trident") == 1 or actor:get_quest_stage("hell_trident") == 2 then
     if not actor:get_quest_var("hell_trident:helltask1") then
         local attack_increase = actor:get_quest_var("hell_trident:attack_counter") + 1
-        actor.name:set_quest_var("hell_trident", "attack_counter", attack_increase)
+        actor:set_quest_var("hell_trident", "attack_counter", attack_increase)
         if actor:get_quest_var("hell_trident:attack_counter") >= 666 then
             actor:set_quest_var("hell_trident", "helltask1", 1)
-            actor.name:set_quest_var("hell_trident", "attack_counter", 0)
+            actor:set_quest_var("hell_trident", "attack_counter", 0)
             actor:send("<b:red>You have made sufficient blood offerings with " .. tostring(self.shortdesc) .. "!</>")
         end
     end

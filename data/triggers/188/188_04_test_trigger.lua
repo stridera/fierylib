@@ -11,7 +11,7 @@ local var = 50
 self.room:send("var is " .. tostring(var))
 if var >= 1 then
     self.room:send("var more than 0")
-    if %var <= 99 then
+    if var <= 99 then
         self.room:send("var less than 100")
     end
 end

@@ -23,7 +23,7 @@ if string.find(actor.class, "Cryomancer") then
         self.room:send(tostring(self.name) .. " says, 'If you need, you can check your <b:cyan>[ice shards progress]</> with me.'")
     elseif actor.level > 88 and actor:get_quest_stage("ice_shards") > 0 then
         self:say("Oh please do share!")
-    elseif actor.level =< 88 then
+    elseif actor.level <= 88 then
         self.room:send(tostring(self.name) .. " says, 'I appreciate your enthusiasm, but it's probably too")
         self.room:send("</>dangerous, right?'")
     end

@@ -1,7 +1,7 @@
 -- Trigger: random gem for broker
 -- Zone: 60, ID: 34
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6034

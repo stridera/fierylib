@@ -13,11 +13,11 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "secretcommandtohurtpeople")) then
     return true  -- No matching keywords
 end
--- 
+--
 -- Lightning strikes half the number of people in the room
 -- but not necessarily different people (mwahaha)
--- 
-local howmany = people.23890 / 2
+--
+local howmany = #room.actors / 2
 local count = 1
 local truecount = 1
 while count < howmany do
@@ -25,9 +25,9 @@ while count < howmany do
     if victim.id ~= 23803 then
         local damage = 150 + random(1, 30)
         if string.find(victim.flags, "SANCT") then
-            local damage = damage - 75
+            damage = damage - 75
         elseif string.find(victim.flags, "STONE") then
-            local damage = damage - 75
+            damage = damage - 75
         end
         local damage_dealt = victim:damage(damage)  -- type: shock
         if damage == 0 then
@@ -40,10 +40,10 @@ while count < howmany do
             victim:send("<b:blue>The lightning arcs off the Tempest Manifest and into your body, causing your muscles to spasm wildly!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
             self.room:send_except(victim, "<b:blue>Lightning arcs off the Tempest Manifest, jolting " .. tostring(victim.name) .. " with massive force!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
         end
-        local count = count + 1
+        count = count + 1
     end
-    local truecount = truecount + 1
+    truecount = truecount + 1
     if truecount > 15 then
-        local count = howmany
+        count = howmany
     end
 end

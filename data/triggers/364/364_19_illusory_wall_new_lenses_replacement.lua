@@ -1,7 +1,7 @@
 -- Trigger: illusory_wall_new_lenses_replacement
 -- Zone: 364, ID: 19
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #36419
 
@@ -28,9 +28,9 @@ if actor:get_quest_stage("illusory_wall") > 1 then
     self.room:send("- <b:yellow>A small piece of petrified magic</> to enhance the magical sight of the lenses")
     wait(4)
     self:say("Once you do, you can resume your studies.")
-    actor.name:restart_quest("illusory_wall")
-    actor.name:set_quest_var("illusory_wall", "10307", 0)
-    actor.name:set_quest_var("illusory_wall", "18511", 0)
-    actor.name:set_quest_var("illusory_wall", "41005", 0)
-    actor.name:set_quest_var("illusory_wall", "51017", 0)
+    actor:restart_quest("illusory_wall")
+    actor:set_quest_var("illusory_wall", "10307", 0)
+    actor:set_quest_var("illusory_wall", "18511", 0)
+    actor:set_quest_var("illusory_wall", "41005", 0)
+    actor:set_quest_var("illusory_wall", "51017", 0)
 end

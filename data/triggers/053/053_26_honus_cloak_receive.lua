@@ -155,7 +155,7 @@ else
             end
             local number = 1
             while number < 5 do
-                actor:set_quest_var("rogue_cloak", "cloaktask%number%", 0)
+                actor:set_quest_var("rogue_cloak", "cloaktask" .. number, 0)
                 local number = number + 1
             end
             if actor:get_quest_stage("rogue_cloak") < 9 then

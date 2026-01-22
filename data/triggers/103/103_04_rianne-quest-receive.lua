@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 -- Added by Daedela 3-9-2021 for Group Heal quest
 -- 
 if actor:get_quest_stage("group_heal") == 5 then
-    if actor.quest_variable[group_heal:self.vnum] then
+    if actor.quest_variable["group_heal:self.vnum"] then
         if object.id == 18514 then
             self:say("I've told you everything I can.  Good luck!")
             return _return_value
@@ -133,7 +133,7 @@ else
     self.room:send(tostring(self.name) .. " says, 'The recipe doesn't call for this!  Perhaps you should consult the recipe on the wall to refresh your memory.'")
     return _return_value
 end
-if actor.quest_variable[resort_cooking:itemitem] then
+if actor.quest_variable["resort_cooking:itemitem"] then
     _return_value = false
     self.room:send(tostring(self.name) .. " says, 'You already brought in " .. tostring(object.shortdesc) .. ", so we don't need more.'")
     self:emote("hands your item back to you.")
@@ -165,7 +165,7 @@ end
 if stage == 1 or stage == 5 or actor:get_quest_var("resort_cooking:item5") then
     local item5 = 1
 end
-if (stage ~= 2 and stage ~= 3) or actor.quest_variable[resort_cooking:item6]% then
+if (stage ~= 2 and stage ~= 3) or actor.quest_variable["resort_cooking:item6"] then
     local item6 = 1
 end
 if stage ~= 3 or actor:get_quest_var("resort_cooking:item7") then
@@ -236,7 +236,7 @@ if item1 and item2 and item3 and item4 and item5 and item6 and item7 then
             -- 
             -- 115% of standard
             -- 
-            local expmod = (expmod + ((expmod * 2) / 15)
+            local expmod = (expmod + ((expmod * 2) / 15))
         elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
             -- 
             -- 120% of standard

@@ -2,6 +2,7 @@
 -- Zone: 533, ID: 3
 -- Type: MOB, Flags: HIT_PERCENT
 -- Status: CLEAN
+-- Fixed: Converted %actor.name%
 --
 -- Original DG Script: #53303
 
@@ -20,6 +21,6 @@ if value < 2 then
     if world.count_mobiles("53301") < 6 then
         self.room:spawn_mobile(533, 1)
         self.room:find_actor("baby-dragon"):emote("scampers in and attacks!")
-        self.room:find_actor("baby-dragon"):command("kill %actor.name%")
+        self.room:find_actor("baby-dragon"):command("kill " .. tostring(actor.name))
     end
 end

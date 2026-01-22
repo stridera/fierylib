@@ -1,8 +1,7 @@
 -- Trigger: Sliding into the abyss
 -- Zone: 302, ID: 2
 -- Type: WORLD, Flags: RANDOM, POSTENTRY
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #30202
 
@@ -33,19 +32,19 @@ if victim.class == "Ranger" or victim.class == "Druid" then
     return _return_value
 end
 wait(4)
-if victim.room ~= "startroom" then
+if victim.room ~= startroom then
     return _return_value
 end
 self.room:send_except(victim, tostring(victim.name) .. " slips on a loose rock, and begins to slide downward!")
 victim:send("Your foot slips on a loose rock.  You are sliding downward!")
 wait(3)
-if victim.room ~= "startroom" then
+if victim.room ~= startroom then
     return _return_value
 end
 self.room:send_except(victim, tostring(victim.name) .. " is sliding straight toward a sheer dropoff!")
 victim:send("You are sliding right toward a deep ravine!")
 wait(2)
-if victim.room ~= "startroom" then
+if victim.room ~= startroom then
     return _return_value
 end
 self.room:send_except(victim, tostring(victim.name) .. " disappears off the edge with a yelp!")

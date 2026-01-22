@@ -15,7 +15,7 @@ if actor:get_quest_stage("wizard_eye") == 3 then
     if actor.quest_stage[type_wand] == "wandstep" then
         if actor.level >= minlevel then
             wait(1)
-            if actor.quest_variable[type_wand:greet] == 0 then
+            if actor:get_quest_var("type_wand:greet") == 0 then
                 actor:send(tostring(self.name) .. " says, 'Or is there some other reason you're here?'")
             else
                 actor:send(tostring(self.name) .. " says, 'Do you have what I need for the staff?'")
@@ -27,7 +27,7 @@ elseif actor:get_quest_stage("wizard_eye") == 4 then
     if actor.quest_stage[type_wand] == "wandstep" then
         if actor.level >= minlevel then
             wait(1)
-            if actor.quest_variable[type_wand:greet] == 0 then
+            if actor:get_quest_var("type_wand:greet") == 0 then
                 actor:send(tostring(self.name) .. " says, 'Or is there some other reason you're here?'")
             else
                 actor:send(tostring(self.name) .. " says, 'And do you have what I need for the staff?'")
@@ -36,7 +36,7 @@ elseif actor:get_quest_stage("wizard_eye") == 4 then
     end
 elseif actor.quest_stage[type_wand] == "wandstep" then
     if actor.level >= minlevel then
-        if actor.quest_variable[type_wand:greet] == 0 then
+        if actor:get_quest_var("type_wand:greet") == 0 then
             actor:send(tostring(self.name) .. " says, 'I've been expecting you!  Tell me, what brings you to me?'")
         else
             actor:send(tostring(self.name) .. " says, 'Do you have what I need for the staff?'")

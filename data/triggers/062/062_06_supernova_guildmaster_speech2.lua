@@ -1,7 +1,7 @@
 -- Trigger: supernova_guildmaster_speech2
 -- Zone: 62, ID: 6
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 7 if statements
 --
 -- Original DG Script: #6206

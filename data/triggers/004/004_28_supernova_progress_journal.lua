@@ -120,9 +120,9 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 end
                 -- end clue 5 switch
                 actor:send("Talk to Phayla.")
-                return _return_value
-                -- ends the stage switch
-                if stage > 3 then
+            end
+            -- ends the stage switch
+            if stage > 3 then
                     if actor:has_item("48917") or actor:has_equipped("48917") then
                         if stage == 4 then
                             actor:send("Learning is a life-long process.")
@@ -147,5 +147,4 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
             end
         end
     end
-end  -- auto-close block
 return _return_value

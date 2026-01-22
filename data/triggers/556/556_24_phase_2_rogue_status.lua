@@ -45,20 +45,20 @@ if right_class then
         local vnum_reward_boots = 55486
         local vnum_reward_bracer = 55487
         local vnum_reward_gloves = 55488
-        local gloves_armor = actor.quest_variable[phase_armor:vnum_destroyed_gloves_armor_acquired]
-        local boots_armor = actor.quest_variable[phase_armor:vnum_destroyed_boots_armor_acquired]
-        local bracer_armor = actor.quest_variable[phase_armor:vnum_destroyed_bracer_armor_acquired]
-        local helm_armor = actor.quest_variable[phase_armor:vnum_destroyed_helm_armor_acquired]
-        local arm_armor = actor.quest_variable[phase_armor:vnum_destroyed_arm_armor_acquired]
-        local legs_armor = actor.quest_variable[phase_armor:vnum_destroyed_legs_armor_acquired]
-        local chest_armor = actor.quest_variable[phase_armor:vnum_destroyed_chest_armor_acquired]
-        local gloves_gems = actor.quest_variable[phase_armor:vnum_gem_gloves_gems_acquired]
-        local boots_gems = actor.quest_variable[phase_armor:vnum_gem_boots_gems_acquired]
-        local bracer_gems = actor.quest_variable[phase_armor:vnum_gem_bracer_gems_acquired]
-        local helm_gems = actor.quest_variable[phase_armor:vnum_gem_helm_gems_acquired]
-        local arm_gems = actor.quest_variable[phase_armor:vnum_gem_arm_gems_acquired]
-        local legs_gems = actor.quest_variable[phase_armor:vnum_gem_legs_gems_acquired]
-        local chest_gems = actor.quest_variable[phase_armor:vnum_gem_chest_gems_acquired]
+        local gloves_armor = actor.quest_variable["phase_armor:vnum_destroyed_gloves_armor_acquired"]
+        local boots_armor = actor.quest_variable["phase_armor:vnum_destroyed_boots_armor_acquired"]
+        local bracer_armor = actor.quest_variable["phase_armor:vnum_destroyed_bracer_armor_acquired"]
+        local helm_armor = actor.quest_variable["phase_armor:vnum_destroyed_helm_armor_acquired"]
+        local arm_armor = actor.quest_variable["phase_armor:vnum_destroyed_arm_armor_acquired"]
+        local legs_armor = actor.quest_variable["phase_armor:vnum_destroyed_legs_armor_acquired"]
+        local chest_armor = actor.quest_variable["phase_armor:vnum_destroyed_chest_armor_acquired"]
+        local gloves_gems = actor.quest_variable["phase_armor:vnum_gem_gloves_gems_acquired"]
+        local boots_gems = actor.quest_variable["phase_armor:vnum_gem_boots_gems_acquired"]
+        local bracer_gems = actor.quest_variable["phase_armor:vnum_gem_bracer_gems_acquired"]
+        local helm_gems = actor.quest_variable["phase_armor:vnum_gem_helm_gems_acquired"]
+        local arm_gems = actor.quest_variable["phase_armor:vnum_gem_arm_gems_acquired"]
+        local legs_gems = actor.quest_variable["phase_armor:vnum_gem_legs_gems_acquired"]
+        local chest_gems = actor.quest_variable["phase_armor:vnum_gem_chest_gems_acquired"]
         local done_gloves = gloves_armor == 1  and  gloves_gems == 3
         local done_boots = boots_armor == 1  and  boots_gems == 3
         local done_bracer = bracer_armor == 1  and  bracer_gems == 3

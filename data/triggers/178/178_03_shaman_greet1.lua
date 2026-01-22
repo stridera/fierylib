@@ -12,14 +12,7 @@ if string.find(actor.race, "troll") then
     self:destroy_item("red-dye")
     self.room:spawn_object(370, 81)
 end
-local minlevel = (wandstep - 1) * 10
+-- TODO: Phase wand quest integration needs proper variable names
+-- Original used undefined variables: wandstep, type_wand
 wait(2)
-if actor.quest_stage[type_wand] == "wandstep" and actor.level >= minlevel then
-    if actor.quest_variable[type_wand:greet] == 0 then
-        self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-    else
-        self:say("Do you have what I need?")
-    end
-else
-    self:say("Have you come to face your greatest fear?")
-end
+self:say("Have you come to face your greatest fear?")

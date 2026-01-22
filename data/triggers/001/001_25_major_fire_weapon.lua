@@ -12,44 +12,45 @@
 -- 
 if damage then
     local bonus = damage
-    self.room:send("<red>" .. tostring(self.shortdesc) .. " burns " .. tostring(victim.name) .. "!</> (<yellow>" .. tostring(bonus) .. "</>)")
-    local damage_dealt = victim:damage(bonus)  -- type: fire
+    self.room:send("<red>" .. self.shortdesc .. " burns " .. victim.name .. "!</> (<yellow>" .. tostring(bonus) .. "</>)")
+    victim:damage(bonus)  -- type: fire
 else
     if victim.composition == "air" or victim.composition == "bone" or victim.composition == "plant" then
+        local strmod = 0
         if actor.real_str >= 61 and actor.real_str < 63 then
-            local strmod = 1
+            strmod = 1
         elseif actor.real_str >= 64 and actor.real_str < 66 then
-            local strmod = 2
+            strmod = 2
         elseif actor.real_str >= 67 and actor.real_str < 69 then
-            local strmod = 3
+            strmod = 3
         elseif actor.real_str >= 70 and actor.real_str < 72 then
-            local strmod = 4
+            strmod = 4
         elseif actor.real_str >= 73 and actor.real_str < 75 then
-            local strmod = 5
+            strmod = 5
         elseif actor.real_str >= 76 and actor.real_str < 78 then
-            local strmod = 6
+            strmod = 6
         elseif actor.real_str >= 79 and actor.real_str < 81 then
-            local strmod = 7
+            strmod = 7
         elseif actor.real_str >= 82 and actor.real_str < 84 then
-            local strmod = 8
+            strmod = 8
         elseif actor.real_str >= 85 and actor.real_str < 87 then
-            local strmod = 9
+            strmod = 9
         elseif actor.real_str >= 88 and actor.real_str < 90 then
-            local strmod = 10
+            strmod = 10
         elseif actor.real_str >= 91 and actor.real_str < 93 then
-            local strmod = 11
+            strmod = 11
         elseif actor.real_str >= 94 and actor.real_str < 96 then
-            local strmod = 12
+            strmod = 12
         elseif actor.real_str >= 97 and actor.real_str < 99 then
-            local strmod = 13
+            strmod = 13
         elseif actor.real_str == 100 then
-            local strmod = 14
+            strmod = 14
         end
-        local bonus = strmod + actor.damroll + ((random.self.val2) * self.val1) * 2
+        local bonus = strmod + actor.damroll + (random(1, self.val2) * self.val1) * 2
         if random(1, 20) == 20 then
-            local bonus = bonus * 2
+            bonus = bonus * 2
         end
-        self.room:send("<red>" .. tostring(self.shortdesc) .. " still burns " .. tostring(victim.name) .. "!</> (<yellow>" .. tostring(bonus) .. "</>)")
-        local damage_dealt = victim:damage(bonus)  -- type: fire
+        self.room:send("<red>" .. self.shortdesc .. " still burns " .. victim.name .. "!</> (<yellow>" .. tostring(bonus) .. "</>)")
+        victim:damage(bonus)  -- type: fire
     end
 end

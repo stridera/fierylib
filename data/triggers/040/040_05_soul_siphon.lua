@@ -1,8 +1,8 @@
 -- Trigger: soul siphon
 -- Zone: 40, ID: 5
 -- Type: OBJECT, Flags: RANDOM
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
+--   Note: Logic uses globals for state persistence across calls
 --
 -- Original DG Script: #4005
 

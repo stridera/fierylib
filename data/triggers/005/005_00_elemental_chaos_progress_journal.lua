@@ -9,7 +9,7 @@
 -- Converted from DG Script #500: Elemental Chaos progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "elemental_chaos") or string.find(arg, "elemental") or string.find(arg, "chaos") or string.find(arg, "elemental") chaos then
+if string.find(arg, "elemental_chaos") or string.find(arg, "elemental") or string.find(arg, "chaos") or string.find(arg, "elemental chaos") then
     _return_value = false
     local stage = actor:get_quest_stage("elemental_chaos")
     local master = mobiles.template(53, 8).name

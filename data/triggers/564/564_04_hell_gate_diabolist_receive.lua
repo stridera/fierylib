@@ -1,7 +1,7 @@
 -- Trigger: hell_gate_diabolist_receive
 -- Zone: 564, ID: 4
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 9 if statements
 --   Large script: 8458 chars
 --
@@ -60,12 +60,12 @@ if stage == 1 then
     end
 elseif stage == 2 then
     if object.id == 8303 or object.id == 23709 or object.id == 49008 or object.id == 52012 or object.id == 52013 or object.id == 53402 or object.id == 58109 then
-        if actor.quest_variable[hell_gate:object.vnum] then
+        if actor:get_quest_var("hell_gate:" .. object.vnum) then
             _return_value = false
             self:say("You already brought that key.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
-            actor.name:set_quest_var("hell_gate", "%object.vnum%", 1)
+            actor:set_quest_var("hell_gate", tostring(object.vnum), 1)
             wait(1)
             self:destroy_item("key")
         end
@@ -109,7 +109,7 @@ elseif stage == 2 then
         self:say("This is not one of the seven keys.")
     end
 elseif stage == 3 then
-    if actor:get_quest_var("hell_gate:new") /= yes then
+    if actor:get_quest_var("hell_gate:new") ~= "yes" then
         if object.id == 3213 then
             wait(2)
             self:say("Yes, this is a suitable replacement.")

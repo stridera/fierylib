@@ -10,11 +10,11 @@
 -- Converted from DG Script #308: phase wand general receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-local job1 = actor.quest_variable[type_wand:wandtask1]
-local job2 = actor.quest_variable[type_wand:wandtask2]
-local job3 = actor.quest_variable[type_wand:wandtask3]
-local job4 = actor.quest_variable[type_wand:wandtask4]
-local job5 = actor.quest_variable[type_wand:wandtask5]
+local job1 = actor.quest_variable[type_wand .. ":wandtask1"]
+local job2 = actor.quest_variable[type_wand .. ":wandtask2"]
+local job3 = actor.quest_variable[type_wand .. ":wandtask3"]
+local job4 = actor.quest_variable[type_wand .. ":wandtask4"]
+local job5 = actor.quest_variable[type_wand .. ":wandtask5"]
 local reward = wandvnum + 1
 local stage = actor.quest_stage[type_wand]
 if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2" or object.id == "wandtask3" or object.id == "wandtask4" then
@@ -27,21 +27,21 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         if self.id == 48105 then
             local response = "You're far too pathetic to help yet."
         else
-            local response = You'll need to be at least level minlevel before I can improve your bond with your weapon.
+            local response = "You'll need to be at least level minlevel before I can improve your bond with your weapon."
         end
     elseif actor.has_completed[type_wand] then
         -- Have they already completed the quest?
         if self.id == 48105 then
-            local response = Idiot.  You already have the most powerful type staff a mere mortal can handle.
+            local response = "Idiot.  You already have the most powerful type staff a mere mortal can handle."
         else
-            local response = You already have the most powerful type staff in existence!
+            local response = "You already have the most powerful type staff in existence!"
         end
     elseif stage < wandstep then
         -- Are they below this step still?
         if self.id == 48105 then
-            local response = Your weapon is far too weak to craft.
+            local response = "Your weapon is far too weak to craft."
         else
-            local response = Your weapon isn't ready for improvement yet.
+            local response = "Your weapon isn't ready for improvement yet."
         end
     elseif stage > wandstep then
         -- Are they past this step but not yet completed?
@@ -50,7 +50,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         else
             local response = "I've done all I can already."
         end
-    elseif actor.quest_variable[type_wand:greet] == 0 then
+    elseif actor.quest_variable[type_wand .. ":greet"] == 0 then
         -- Have they greeted the quest master properly?
         local response = "Tell me why you're here first."
     elseif (object.id == "wandgem" and job2) or (object.id == "wandtask3" and job3) or (object.id == "wandtask4" and job4) or ((stage == 6 or stage == 8) and object.id == "wandvnum" and job5) then
@@ -66,10 +66,10 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         actor:set_quest_var("%type%_wand", "wandtask4", 1)
         local check = "yes"
     elseif object.id == "wandvnum" then
-        local job1 = actor.quest_variable[type_wand:wandtask1]
-        local job2 = actor.quest_variable[type_wand:wandtask2]
-        local job3 = actor.quest_variable[type_wand:wandtask3]
-        local job4 = actor.quest_variable[type_wand:wandtask4]
+        local job1 = actor.quest_variable[type_wand .. ":wandtask1"]
+        local job2 = actor.quest_variable[type_wand .. ":wandtask2"]
+        local job3 = actor.quest_variable[type_wand .. ":wandtask3"]
+        local job4 = actor.quest_variable[type_wand .. ":wandtask4"]
         if job1 and job2 and job3 and job4 then
             if stage ~= 3 and stage ~= 6 and stage ~= 8 and stage ~= 10 then
                 local continue = "yes"
@@ -241,7 +241,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         wait(2)
         if not job1 and (not job2 or not job3 or not job4) then
             local counter = 50
-            local remaining = ((actor.quest_stage[type_wand] - 1) * counter) - actor.quest_variable[type_wand:attack_counter]
+            local remaining = ((actor.quest_stage[type_wand] - 1) * counter) - actor.quest_variable[type_wand .. ":attack_counter"]
             self.room:send(tostring(self.name) .. " says, 'You still need to attack <b:yellow>" .. tostring(remaining) .. "</> more times to fully bond with your " .. tostring(weapon) .. "!'")
             wait(1)
             self:say("I need the other items as well.")
@@ -253,10 +253,10 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         world.destroy(object)
         self:say("This is just what I need.")
         wait(2)
-        local job1 = actor.quest_variable[type_wand:wandtask1]
-        local job2 = actor.quest_variable[type_wand:wandtask2]
-        local job3 = actor.quest_variable[type_wand:wandtask3]
-        local job4 = actor.quest_variable[type_wand:wandtask4]
+        local job1 = actor.quest_variable[type_wand .. ":wandtask1"]
+        local job2 = actor.quest_variable[type_wand .. ":wandtask2"]
+        local job3 = actor.quest_variable[type_wand .. ":wandtask3"]
+        local job4 = actor.quest_variable[type_wand .. ":wandtask4"]
         if job1 and job2 and job3 and job4 then
             if stage ~= 3 and stage ~= 6 and stage ~= 8 and stage ~= 10 then
                 self:say("That's everything!  Now just give me your " .. tostring(weapon) .. ".")

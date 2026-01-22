@@ -21,7 +21,7 @@ end
 self:command("comfort " .. tostring(actor.name))
 self:say("Maybe another time you will succeed.")
 self:emote("utters the words 'rednes ot nruter'.")
-actor.name:teleport(get_room(178, 68))
+actor:teleport(get_room(178, 68))
 do
     local _mob = world.find_mobile("fetch-apparition")
     if _mob then

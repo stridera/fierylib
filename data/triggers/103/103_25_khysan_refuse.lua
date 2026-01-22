@@ -31,7 +31,7 @@ else
         local response = "Weird, this doesn't look like a map of Ickle."
     end
     if object.id ~= 53423 then
-        local response = Do you think we can get new information from object.shortdesc?  I doubt it...
+        local response = "Do you think we can get new information from object.shortdesc?  I doubt it..."
     end
     if object.id ~= 43013 then
         local response = "Is this a book?"

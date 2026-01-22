@@ -19,7 +19,5 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "eval")) then
     return true  -- No matching keywords
 end
-if string.find(XXspeech, "XXeval") then
-    -- UNCONVERTED: eval %speech%
-    self.room:send(tostring(eval))
-end
+-- TODO: eval command not available in Lua - this was a dangerous eval trigger
+-- Original DG script would execute arbitrary speech as code

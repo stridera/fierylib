@@ -310,6 +310,25 @@ class EntityResolver:
         """
         return await self._resolve_entity("room", legacy_vnum, context_zone)
 
+    async def resolve_trigger(
+        self, legacy_vnum: int, context_zone: Optional[int] = None
+    ) -> Optional[CompositeId]:
+        """
+        Resolve legacy trigger vnum to composite ID
+
+        Args:
+            legacy_vnum: Legacy trigger vnum (e.g., 3155)
+            context_zone: Zone context for resolution
+
+        Returns:
+            CompositeId if trigger found, None otherwise
+
+        Examples:
+            >>> await resolver.resolve_trigger(3155, context_zone=30)
+            CompositeId(zone_id=30, id=155)  # Found in zone 30 (expanded range)
+        """
+        return await self._resolve_entity("triggers", legacy_vnum, context_zone)
+
     async def _resolve_entity(
         self, table: str, legacy_vnum: int, context_zone: Optional[int]
     ) -> Optional[CompositeId]:

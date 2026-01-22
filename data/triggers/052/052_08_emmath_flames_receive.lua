@@ -14,7 +14,7 @@ if object.id == 23822 then
     get_room(238, 90):at(function()
         run_room_trigger(23814)
     end)
-    if actor.quest_stage[type_wand] == "wandstep" and not actor.quest_variable[type_wand:wandtask2] then
+    if actor.quest_stage["type_wand"] == "wandstep" and not actor.quest_variable["type_wand:wandtask2"] then
         return _return_value
     elseif actor:get_quest_stage("emmath_flameball") > 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
         local flameball_item = "yes"
@@ -97,7 +97,7 @@ elseif flameball_item then
         actor:send(tostring(self.name) .. " says, 'How do you expect to gain power like this?'")
     elseif actor:get_quest_stage("emmath_flameball") == 2 then
         if (object.id == 5211) or (object.id == 5212) or (object.id == 17308) then
-            if actor.quest_variable[emmath_flameball:object.vnum] ~= 1 then
+            if actor.quest_variable["emmath_flameball:" .. object.vnum] ~= 1 then
                 local count = 1 + actor:get_quest_var("emmath_flameball:count")
                 actor.name:set_quest_var("emmath_flameball", "count", count)
                 actor.name:set_quest_var("emmath_flameball", "%object.vnum%", 1)

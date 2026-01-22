@@ -29,9 +29,5 @@ if actor.id == -1 then
         self:move("e")
         self:move("n")
         self:move("d")
-    else
-        self:move("e")
-        self:move("n")
-        self:move("d")
     end  -- auto-close block
 end  -- auto-close block

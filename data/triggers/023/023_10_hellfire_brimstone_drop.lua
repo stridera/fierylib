@@ -15,12 +15,12 @@ if actor:get_quest_stage("hellfire_brimstone") == 1 then
         wait(1)
         self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Ah, such a pleasing sacrifice.'")
         local meat = actor:get_quest_var("hellfire_brimstone:meat") + 1
-        actor.name:set_quest_var("hellfire_brimstone", "meat", meat)
+        actor:set_quest_var("hellfire_brimstone", "meat", meat)
         if actor:get_quest_var("hellfire_brimstone:meat") >= 6 then
             wait(1)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'This should be enough.  The Dark One is paying_attention now.'")
-            actor.name:advance_quest("hellfire_brimstone")
-            actor.name:set_quest_var("hellfire_brimstone", "drop", 0)
+            actor:advance_quest("hellfire_brimstone")
+            actor:set_quest_var("hellfire_brimstone", "drop", 0)
             wait(2)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'The next step is collecting the very soil of Hell_itself: brimstone.  Brimstone can be found in and around volcanoes.  The fiery_spirits that dwell there should collect it naturally.'")
             wait(5)
@@ -37,13 +37,13 @@ elseif actor:get_quest_stage("hellfire_brimstone") == 2 then
         self.room:send(tostring(mobiles.template(23, 11).name) .. " flashes a wicked grin.")
         self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'It will burn like the very bowels of Hell.'")
         local brimstone = actor:get_quest_var("hellfire_brimstone:brimstone") + 1
-        actor.name:set_quest_var("hellfire_brimstone", "brimstone", brimstone)
+        actor:set_quest_var("hellfire_brimstone", "brimstone", brimstone)
         if actor:get_quest_var("hellfire_brimstone:brimstone") >= 6 then
             wait(2)
             self:command("nod")
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'The Dark One is pleased with your efforts.'")
-            actor.name:advance_quest("hellfire_brimstone")
-            actor.name:set_quest_var("hellfire_brimstone", "drop", 0)
+            actor:advance_quest("hellfire_brimstone")
+            actor:set_quest_var("hellfire_brimstone", "drop", 0)
             wait(2)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Finally, gather six different types of fiery tribute:'")
             self.room:send("- three colors of flame:")

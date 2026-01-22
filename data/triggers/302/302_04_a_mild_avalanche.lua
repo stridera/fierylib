@@ -1,8 +1,7 @@
 -- Trigger: A mild avalanche
 -- Zone: 302, ID: 4
 -- Type: WORLD, Flags: RANDOM
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #30204
 
@@ -28,20 +27,23 @@ self.room:send("They clatter as they tumble.")
 wait(2)
 self.room:send("Large rocks are tumbling past you!  They look heavy!")
 wait(1)
+local destroom
 if self.id == 30234 then
-    local destroom = self.id + 1
+    destroom = self.id + 1
 else
-    local destroom = self.id - 1
+    destroom = self.id - 1
 end
-local damage = 80 + random(1, 50)
+local damage
 if victim.level < 10 then
-    local damage = 3 + random(1, 5)
+    damage = 3 + random(1, 5)
 elseif victim.level < 20 then
-    local damage = 10 + random(1, 8)
+    damage = 10 + random(1, 8)
 elseif victim.level < 40 then
-    local damage = 30 + random(1, 30)
+    damage = 30 + random(1, 30)
+else
+    damage = 80 + random(1, 50)
 end
-if victim.room == "startroom" then
+if victim.room == startroom then
     if victim.class == "Ranger" then
         self.room:send_except(victim, tostring(victim.name) .. " is nearly smacked by a large rock, but " .. tostring(victim.name) .. " steps aside at the last moment.")
         victim:send("A big rock comes hurtling toward you, but you step smoothly aside.")

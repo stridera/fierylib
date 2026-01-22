@@ -21,7 +21,7 @@ if not (string.find(string.lower(speech), "follow") or string.find(string.lower(
 end
 wait(2)
 if actor:get_quest_stage("nukreth_spire") then
-    if not actor.quest_variable[nukreth_spire:pathnumber] then
+    if not actor:get_quest_var("nukreth_spire:pathnumber") then
         if self.room == 46278 then
             -- the spiritbreaker is still alive
             if world.count_mobiles("46224") > 0 then

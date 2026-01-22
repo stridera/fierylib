@@ -18,7 +18,7 @@ if not (cmd == "west" or cmd == "w") then
     return true  -- Not our command
 end
 if actor.id == -1 then
-    if string.find(actor.class, "Necromancer") or Anti-Paladin or Thief or Assassin or Mercenary then
+    if string.find(actor.class, "Necromancer") or string.find(actor.class, "Anti-Paladin") or actor.class == "Thief" or actor.class == "Assassin" or actor.class == "Mercenary" then
         if actor.alignment < -349 then
             actor:send("Reality blurs and melts as you find yourself in a more dark and confined place.")
             actor:teleport(get_room(495, 33))

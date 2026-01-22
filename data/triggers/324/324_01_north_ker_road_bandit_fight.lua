@@ -1,7 +1,7 @@
 -- Trigger: North_Ker_road_bandit_fight
 -- Zone: 324, ID: 1
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #32401
 
@@ -30,14 +30,14 @@ get_room(324, 35):at(function()
     self.room:send("</><b:green>three bandits jump out to assist their leader!</>")
 end)
 get_room(324, 35):at(function()
-    self.room:find_actor("leader"):command("kill %actor.name%")
+    self.room:find_actor("leader"):command("kill " .. tostring(actor.name))
 end)
 get_room(324, 35):at(function()
-    self.room:find_actor("bandit"):command("kill %actor.name%")
+    self.room:find_actor("bandit"):command("kill " .. tostring(actor.name))
 end)
 get_room(324, 35):at(function()
-    self.room:find_actor("2.bandit"):command("kill %actor.name%")
+    self.room:find_actor("2.bandit"):command("kill " .. tostring(actor.name))
 end)
 get_room(324, 35):at(function()
-    self.room:find_actor("3.bandit"):command("kill %actor.name%")
+    self.room:find_actor("3.bandit"):command("kill " .. tostring(actor.name))
 end)

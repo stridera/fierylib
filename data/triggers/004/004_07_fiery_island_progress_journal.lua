@@ -9,7 +9,7 @@
 -- Converted from DG Script #407: Fiery Island Progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg, "liberate") fiery island or string.find(arg, "fieryisle_quest") or string.find(arg, "fieryisle") or string.find(arg, "liberate_fiery_island") or string.find(arg, "fiery_isle") or string.find(arg, "fiery") island quest then
+if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg, "liberate_fiery_island") or string.find(arg, "fieryisle_quest") or string.find(arg, "fieryisle") or string.find(arg, "liberate_fiery_island") or string.find(arg, "fiery_isle") or string.find(arg, "fiery_island_quest") then
     if actor.level >= 35 then
         _return_value = false
         local stage = actor:get_quest_stage("fieryisle_quest")

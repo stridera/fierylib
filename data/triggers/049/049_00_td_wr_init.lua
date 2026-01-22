@@ -31,17 +31,17 @@ local abbr3 = "MG"
 globals.teams = globals.teams or true
 local i = 0
 while i < teams do
-    globals.team%i% = globals.team%i% or true
-    globals.abbr%i% = globals.abbr%i% or true
-    local i = i + 1
+    globals["team" .. i] = globals["team" .. i] or true
+    globals["abbr" .. i] = globals["abbr" .. i] or true
+    i = i + 1
 end
 local pylons = 10
 globals.pylons = globals.pylons or true
 local i = 0
 while i < pylons do
     pylon[i] = -1
-    globals.pylon%i% = globals.pylon%i% or true
-    local i = i + 1
+    globals["pylon" .. i] = globals["pylon" .. i] or true
+    i = i + 1
 end
 local pylonname = "Caelian Pylon"
 globals.pylonname = globals.pylonname or true

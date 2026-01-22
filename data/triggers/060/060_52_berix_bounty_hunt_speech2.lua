@@ -1,7 +1,7 @@
 -- Trigger: Berix bounty hunt speech2
 -- Zone: 60, ID: 52
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 9 if statements
 --   Large script: 6004 chars
 --

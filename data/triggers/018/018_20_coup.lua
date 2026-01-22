@@ -7,14 +7,10 @@
 
 -- Converted from DG Script #1820: Coup
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-local numpeople = people.1802
-while numpeople >= 0 do
-    if numpeople > 0 then
-        local prsn = self.people[numpeople]
-        if prsn.id == 1808 then
-            self.room:send("King Thelmor delivers a final coup de grace, killing the nymph!")
-            prsn:damage(10000)  -- type: physical
-        end
+-- Find and damage any nymph mobs (id 1808) in the room
+for _, prsn in ipairs(self.room.actors) do
+    if prsn.id == 1808 then
+        self.room:send("King Thelmor delivers a final coup de grace, killing the nymph!")
+        prsn:damage(10000)  -- type: physical
     end
-    local numpeople = numpeople -1
 end

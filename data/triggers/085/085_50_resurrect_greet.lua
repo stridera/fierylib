@@ -14,7 +14,7 @@ if actor.class == "cleric" or actor.class == "priest" or actor.class == "diaboli
         self:say("You've done well for yourself, little one.  Come back when you are stronger and perhaps I'll have something for you.")
         self:command("pat " .. tostring(actor.name))
     elseif actor.level < 100 then
-        if actor:get_quest_var("resurrection_quest:new") /= new then
+        if actor:get_quest_var("resurrection_quest:new") ~= new then
             self:say("I've heard what happened.  Ziijhan will be furious!")
             self:command("cackle")
             wait(2)

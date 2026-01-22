@@ -10,7 +10,7 @@
 if self.room ~= 48980 then
     self:teleport(get_room(489, 80))
 end
-if (not world.count_mobiles("48901")) &not (self:has_effect(Effect.Blur)) then
+if (not world.count_mobiles("48901")) and not (self:has_effect(Effect.Blur)) then
     self:emote("keens for her lost master, lashing out in an uncontrolled frenzy!")
     spells.cast(self, "blur", self, 100)
 end

@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("ice_shards")
 if stage == 1 then
-    if actor.quest_variable[ice_shards:object.vnum] == 1 then
+    if actor.quest_variable["ice_shards:object.vnum"] == 1 then
         _return_value = false
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)

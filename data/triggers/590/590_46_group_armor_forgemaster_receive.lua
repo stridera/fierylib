@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("group_armor")
 -- switch on stage
 if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id == 16906 then
-    if actor.quest_variable[group_armor:object.vnum] == 1 then
+    if actor.quest_variable["group_armor:" .. object.vnum] == 1 then
         if stage == 1 then
             _return_value = false
             self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
@@ -143,7 +143,7 @@ elseif stage == 3 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
     if object.id == 47004 or object.id == 47018 or object.id == 53003 then
-        if actor.quest_variable[group_armor:object.vnum] == 1 then
+        if actor.quest_variable["group_armor:" .. object.vnum] == 1 then
         elseif stage == 6 then
             _return_value = false
             self:say("You already brought me " .. tostring(object.shortdesc) .. "!")

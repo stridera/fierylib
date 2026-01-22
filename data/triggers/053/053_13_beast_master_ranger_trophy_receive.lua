@@ -202,7 +202,7 @@ if go == "hunt" then
         -- switch on person.class
         if person.class == "Warrior" or person.class == "Berserker" then
             local expmod = (expmod + (expmod / 10))
-        elseif person.class == "Paladin" or person.class == "%anti%" or person.class == "Ranger" then
+        elseif person.class == "Paladin" or person.class == anti or person.class == "Ranger" then
             local expmod = (expmod + ((expmod * 2) / 15))
         elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
             local expmod = (expmod + (expmod / 5))
@@ -341,8 +341,8 @@ elseif go == "trophy" then
                 end
                 local number = 1
                 while number < 5 do
-                    actor:set_quest_var("ranger_trophy", "trophytask%number%", 0)
-                    local number = number + 1
+                    actor:set_quest_var("ranger_trophy", "trophytask" .. number, 0)
+                    number = number + 1
                 end
                 if actor:get_quest_stage("ranger_trophy") < 9 then
                     actor:advance_quest("ranger_trophy")

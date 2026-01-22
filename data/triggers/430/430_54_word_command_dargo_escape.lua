@@ -1,8 +1,7 @@
 -- Trigger: word_command_dargo_escape
 -- Zone: 430, ID: 54
 -- Type: MOB, Flags: ENTRY
--- Status: NEEDS_REVIEW
---   Complex nesting: 12 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #43054
 

@@ -12,10 +12,10 @@ doors.set_description(get_room(22, 1), "up", "A ruin mansion lies just above.  I
 doors.set_name(get_room(22, 1), "up", "Basement Ceiling")
 local person = self.people
 while person do
-    if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") /= yes then
+    if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") ~= "yes" then
         if person:get_quest_stage("meteorswarm") == 2 then
             person.name:advance_quest("meteorswarm")
-        elseif person:get_quest_var("meteorswarm:new") /= yes then
+        elseif person:get_quest_var("meteorswarm:new") ~= "yes" then
             person.name:set_quest_var("meteorswarm", "new", "no")
         end
         self.room:spawn_object(482, 52)

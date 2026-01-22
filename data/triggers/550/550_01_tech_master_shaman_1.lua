@@ -18,7 +18,7 @@ wait(2)
 -- 
 -- for Wizard Eye
 -- 
-if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist")) and actor.level > 80) or actor.quest_stage[type_wand] == 5 then
+if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist")) and actor.level > 80) or actor.quest_stage["type_wand"] == 5 then
     if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist")) and actor.level > 80 then
         local stage = actor:get_quest_stage("wizard_eye")
         -- switch on stage
@@ -54,8 +54,8 @@ if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusioni
                 actor:send(tostring(self.name) .. " tells you, 'You are more powerful than most visitors.  Have you come to see as the Great Snow Leopard does?'")
             end
         end
-        if actor.quest_stage[type_wand] == 5 then
-            if actor.quest_variable[type_wand:greet] == 0 then
+        if actor.quest_stage["type_wand"] == 5 then
+            if actor.quest_variable["type_wand:greet"] == 0 then
                 self:command("peer " .. tostring(actor))
                 wait(1)
                 actor:send(tostring(self.name) .. " tells you, 'Or perhaps you come about a crafting <b:cyan>[upgrade]</>...'")
@@ -67,15 +67,15 @@ if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusioni
     -- 
     -- for phase wands
     -- 
-    if actor.quest_stage[type_wand] == 5 then
-        local job1 = actor.quest_stage[type_wand:wandtask1]
-        local job2 = actor.quest_stage[type_wand:wandtask2]
-        local job3 = actor.quest_stage[type_wand:wandtask3]
-        local job4 = actor.quest_stage[type_wand:wandtask4]
+    if actor.quest_stage["type_wand"] == 5 then
+        local job1 = actor.quest_stage["type_wand:wandtask1"]
+        local job2 = actor.quest_stage["type_wand:wandtask2"]
+        local job3 = actor.quest_stage["type_wand:wandtask3"]
+        local job4 = actor.quest_stage["type_wand:wandtask4"]
         if actor.level >= 40 then
-            if actor.quest_variable[type_wand:greet] == 0 then
+            if actor.quest_variable["type_wand:greet"] == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you come for the Great Snow Leopard's help, let's discuss an <b:cyan>[upgrade]</>.'")
-            elseif actor.quest_stage[type_wand] == 5 and job1 and job2 and job3 and job4 then
+            elseif actor.quest_stage["type_wand"] == 5 and job1 and job2 and job3 and job4 then
                 actor:send(tostring(self.name) .. " tells you, 'It looks like the wand is ready for upgrading!  Please give it to me.'")
             else
                 actor:send(tostring(self.name) .. " tells you, 'Do you have what I need for the wand?'")

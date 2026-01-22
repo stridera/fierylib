@@ -10,7 +10,7 @@
 -- Converted from DG Script #460: Eye of the Tiger progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "eye") of the tiger or string.find(arg, "tiger") then
+if string.find(arg, "eye_of_the_tiger") or string.find(arg, "tiger") then
     local hunterclasses = "Warrior Ranger Berserker Mercenary"
     if string.find(hunterclasses, "actor.class") then
         _return_value = false

@@ -1,8 +1,7 @@
 -- Trigger: wug_drake_death
 -- Zone: 80, ID: 34
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN (reviewed)
 --
 -- Original DG Script: #8034
 
@@ -27,7 +26,7 @@ local what_gem_drop = random(1, 4)
 -- 
 if will_drop <= 20 then
     -- drop nothing and bail
-    return _return_value
+    return
 end
 if will_drop <= 60 then
     -- Normal non-bonus drops
@@ -35,7 +34,7 @@ if will_drop <= 60 then
         -- drop a gem from the previous wear pos set
         local gem_vnum = what_gem_drop + 55585
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
         local gem_vnum = what_gem_drop + 55589
@@ -46,14 +45,14 @@ if will_drop <= 60 then
         local gem_vnum = what_gem_drop + 55593
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
     end
-elseif will_drop >=61 &will_drop <= 80 then
+elseif will_drop >= 61 and will_drop <= 80 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop destroyed armor 55299 is the vnum before the
         -- first piece of armor.
         local armor_vnum = what_armor_drop + 55319
         self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
         local armor_vnum = what_armor_drop + 55323
@@ -72,7 +71,7 @@ else
         local armor_vnum = what_armor_drop + 55319
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
         self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
         local armor_vnum = what_armor_drop + 55323

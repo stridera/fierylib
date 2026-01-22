@@ -18,9 +18,9 @@ end
 -- Okay we check to see if the same person that we've been talking to is the one responding
 -- Then we free the variable
 -- 
-if actor.name == "moon_name" then
+if actor.name == moon_name then
     moon_name = nil
-    if speech /=no then
+    if string.find(speech_lower, "no") then
         self:command("frown")
         actor:send(tostring(self.name) .. " tells you, 'Very well, that is your choice.'")
         self.room:send_except(actor, tostring(self.name) .. " seems disappointed as she says something to " .. tostring(actor.name) .. ".")

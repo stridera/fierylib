@@ -11,13 +11,14 @@
 -- adds 5% alignment damage against neutral targets and 10% against good targets
 -- 
 if damage then
+    local bonus = nil
     if victim.alignment < 350 and victim.alignment > -350 then
-        local bonus = damage / 20
+        bonus = damage / 20
     elseif victim.alignment > 350 then
-        local bonus = damage / 10
+        bonus = damage / 10
     end
     if bonus then
-        self.room:send("&9<blue>" .. tostring(self.shortdesc) .. " smites " .. tostring(victim.name) .. " with unholy might!</> (<yellow>" .. tostring(bonus) .. "</>)")
-        local damage_dealt = victim:damage(bonus)  -- type: align
+        self.room:send("&9<blue>" .. self.shortdesc .. " smites " .. victim.name .. " with unholy might!</> (<yellow>" .. tostring(bonus) .. "</>)")
+        victim:damage(bonus)  -- type: align
     end
 end

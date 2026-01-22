@@ -8,7 +8,7 @@
 -- Converted from DG Script #504: **UNUSED**
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "blizzards") or string.find(arg, "blizzards") of saint augustine or string.find(arg, "blizzards_of_saint_augustine") then
+if string.find(arg, "blizzards") or string.find(arg, "blizzards of saint augustine") or string.find(arg, "blizzards_of_saint_augustine") then
     if string.find(actor.class, "Monk") then
         _return_value = false
         local chantstage = actor:get_quest_stage("monk_chants")

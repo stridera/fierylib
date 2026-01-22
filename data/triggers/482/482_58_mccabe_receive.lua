@@ -16,7 +16,7 @@ if object.id == 48251 then
     self:command("shake")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Go <b:cyan>use</> this new treasure; don't give it back to me!'")
-elseif actor:get_quest_var("meteorswarm:new") /= no then
+elseif actor:get_quest_var("meteorswarm:new") ~= "no" then
     _return_value = false
     self.room:send(tostring(self.name) .. " accepts the meteorite.")
     wait(2)

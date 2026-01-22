@@ -1,7 +1,7 @@
 -- Trigger: supernova clue 2
 -- Zone: 62, ID: 16
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 7 if statements
 --
 -- Original DG Script: #6216

@@ -14,17 +14,17 @@ if actor:get_quest_stage("group_heal") == 6 then
         return _return_value
     else
         _return_value = false
-        if actor.quest_variable[group_heal:victim.vnum] then
+        if actor:get_quest_var("group_heal:" .. tostring(victim.vnum)) then
             actor:send("you have already helped " .. tostring(victim.name))
         elseif victim.id == 18506 or victim.id == 43020 or victim.id == 12513 or victim.id == 58803 or victim.id == 30054 or victim.id == 46414 or victim.id == 36103 then
-            actor.name:set_quest_var("group_heal", "%victim.vnum%", 1)
+            actor:set_quest_var("group_heal", tostring(victim.vnum), 1)
             local heal = healed + 1
-            actor.name:set_quest_var("group_heal", "total", heal)
+            actor:set_quest_var("group_heal", "total", heal)
             actor:send("You give " .. tostring(self.shortdesc) .. " to " .. tostring(victim.name) .. " and apply the medicine to " .. tostring(victim.himher) .. ".")
             wait(1)
             self.room:send(tostring(victim.name) .. "'s wounds begin to heal as they consume the magical feast.")
             wait(2)
-            if victim.id == 18506 or victim.id == 43020 or victim.id == 12513 or victim.id == 58803 or victim.id == 30054 or  then
+            if victim.id == 18506 or victim.id == 43020 or victim.id == 12513 or victim.id == 58803 or victim.id == 30054 then
                 self.room:send(tostring(victim.name) .. " says, 'Thank you so much for coming to my aid!'")
                 wait(1)
                 self.room:send(tostring(victim.name) .. " bows and departs.")
@@ -39,7 +39,7 @@ if actor:get_quest_stage("group_heal") == 6 then
                 wait(1)
                 actor:send("The miraculous power of St. George washes over you!")
                 actor:send("The appropriate prayers to beseech the gods for group heal well up in your soul.")
-                actor.name:complete_quest("group_heal")
+                actor:complete_quest("group_heal")
                 actor:send("<b:white>You have learned Group Heal</>!")
             else
                 world.destroy(victim)

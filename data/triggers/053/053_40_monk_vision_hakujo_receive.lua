@@ -155,8 +155,8 @@ else
             end
             local number = 1
             while number < 5 do
-                actor:set_quest_var("monk_vision", "visiontask%number%", 0)
-                local number = number + 1
+                actor:set_quest_var("monk_vision", "visiontask" .. number, 0)
+                number = number + 1
             end
             if actor:get_quest_stage("monk_vision") < 9 then
                 actor:advance_quest("monk_vision")

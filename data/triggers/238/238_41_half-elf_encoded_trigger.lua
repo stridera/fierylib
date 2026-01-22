@@ -17,7 +17,7 @@ end
 if not (cmd == "pentagram" or cmd == "star" or cmd == "inscribed" or cmd == "circle") then
     return true  -- Not our command
 end
-if actor:has_effect(Effect.Comp-Lang) then
+if actor:has_effect(Effect.CompLang) then
     actor:send("The circle around this pentagram is not a line, but rather tiny script. It")
     actor:send("reads: \"The one who wore purple stood next to the half-elf\".")
 else

@@ -1,7 +1,7 @@
 -- Trigger: hearts hand view
 -- Zone: 60, ID: 79
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 57 if statements
 --   Large script: 7654 chars
 --

@@ -22,7 +22,7 @@ if actor.id == 46225 and task ~= "done" then
     return _return_value
 elseif actor.id == -1 then
     if actor:get_quest_stage("nukreth_spire") then
-        if not actor.quest_variable[nukreth_spire:pathnumber] then
+        if not actor:get_quest_var("nukreth_spire:pathnumber") then
             if self.room == 46278 then
                 -- the spiritbreaker is still alive
                 if world.count_mobiles("46224") > 0 then

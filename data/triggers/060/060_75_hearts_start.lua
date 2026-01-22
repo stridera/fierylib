@@ -1,7 +1,7 @@
 -- Trigger: hearts start
 -- Zone: 60, ID: 75
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 11 if statements
 --
 -- Original DG Script: #6075

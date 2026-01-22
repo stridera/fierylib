@@ -9,20 +9,21 @@
 -- Converted from DG Script #304: phase wands give owner check
 -- Original: OBJECT trigger, flags: GIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if self.id >= 300 and self.id =< 309 then
-    local energy = "air"
-elseif self.id >= 310 and self.id =< 319 then
-    local energy = "fire"
-elseif self.id >= 320 and self.id =< 329 then
-    local energy = "ice"
-elseif self.id >= 330 and self.id =< 339 then
-    local energy = "acid"
+local energy = nil
+if self.id >= 300 and self.id <= 309 then
+    energy = "air"
+elseif self.id >= 310 and self.id <= 319 then
+    energy = "fire"
+elseif self.id >= 320 and self.id <= 329 then
+    energy = "ice"
+elseif self.id >= 330 and self.id <= 339 then
+    energy = "acid"
 end
 -- switch on victim.id
 if victim.id == "-1" then
-    return _return_value
     if self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330 then
         if not actor.quest_stage[energy_wand] then
+            -- empty branch
         elseif victim.id == 3013 then
             actor:start_quest("%energy%_wand")
         end

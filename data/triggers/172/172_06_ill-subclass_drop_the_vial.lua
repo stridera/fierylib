@@ -24,7 +24,7 @@ if actor.room > 36314 and actor.room < 36340 and actor:get_quest_stage("illusion
     while person do
         if person:has_effect(Effect.Blind) or string.find(person.stance, "mortally") or string.find(person.stance, "incapacitated") or string.find(person.stance, "stunned") or string.find(person.stance, "sleeping") then
             local dummy = 0
-        elseif person.id == 36300 or person.id == 36303 or person.id == 36304% then
+        elseif person.id == 36300 or person.id == 36303 or person.id == 36304 then
             local smuggler_found = 1
         elseif person.id == 36306 then
             local chief_found = 1

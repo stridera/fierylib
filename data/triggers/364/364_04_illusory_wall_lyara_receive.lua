@@ -1,7 +1,7 @@
 -- Trigger: illusory_wall_lyara_receive
 -- Zone: 364, ID: 4
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #36404
 
@@ -13,7 +13,7 @@ if actor:get_quest_stage("illusory_wall") == 1 then
     local item2 = actor:get_quest_var("illusory_wall:10307")
     local item3 = actor:get_quest_var("illusory_wall:41005")
     local item4 = actor:get_quest_var("illusory_wall:51017")
-    if actor.quest_variable[illusory_wall:object.vnum] == 1 then
+    if actor:get_quest_var("illusory_wall:" .. tostring(object.id)) == 1 then
         _return_value = false
         wait(1)
         self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_shortdesc) .. ".")
@@ -28,20 +28,20 @@ if actor:get_quest_stage("illusory_wall") == 1 then
         self.room:send("</>magic lenses.'")
     else
         if object.id == 10307 or object.id == 18511 then
-            actor.name:set_quest_var("illusory_wall", "%object.vnum%", 1)
+            actor:set_quest_var("illusory_wall", tostring(object.id), 1)
             wait(2)
             world.destroy(object)
             wait(1)
             self:say("These are excellent lenses.")
         elseif object.id == 41005 then
-            actor.name:set_quest_var("illusory_wall", "%object.vnum%", 1)
+            actor:set_quest_var("illusory_wall", tostring(object.id), 1)
             wait(2)
             world.destroy(object)
             wait(1)
             self.room:send(tostring(self.name) .. " says, 'Yes, this will do nicely.  Hopeflly you gained a")
             self.room:send("</>few insights on bending light from the prisms in the Hive as well.'")
         elseif object.id == 51017 then
-            actor.name:set_quest_var("illusory_wall", "%object.vnum%", 1)
+            actor:set_quest_var("illusory_wall", tostring(object.id), 1)
             wait(2)
             world.destroy(object)
             wait(1)
@@ -59,8 +59,8 @@ if actor:get_quest_stage("illusory_wall") == 1 then
         local item3 = actor:get_quest_var("illusory_wall:41005")
         local item4 = actor:get_quest_var("illusory_wall:51017")
         if (item1 or item2) and item3 and item4 then
-            actor.name:advance_quest("illusory_wall")
-            actor.name:set_quest_var("illusory_wall", "total", 0)
+            actor:advance_quest("illusory_wall")
+            actor:set_quest_var("illusory_wall", "total", 0)
             wait(2)
             self:say("Wonderful, looks like this is everything.")
             wait(2)

@@ -69,7 +69,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
         return _return_value
     end
 elseif actor:get_quest_stage("megalith_quest") == 3 then
-    local step = summon mobiles.template(123, 0).name
+    local step = "summon " .. tostring(mobiles.template(123, 0).name)
     -- 
     -- Set the potential items that could be returned in Stage 3
     -- 
@@ -109,7 +109,7 @@ end
 -- 
 -- if you already gave us this item.  The value %item% has been set to appends item here, resulting in item1, item2, item3, and item4.
 -- 
-if actor.quest_variable[megalith_quest:itemitem] then
+if actor:get_quest_var("megalith_quest:item" .. tostring(item)) then
     _return_value = false
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
     self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
@@ -120,7 +120,7 @@ end
 -- 
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
-actor.name:set_quest_var("megalith_quest", "item%item%", 1)
+actor.name:set_quest_var("megalith_quest", "item" .. tostring(item), 1)
 if object.id == 41110 or object.id == 18512 or object.id == 41111 then
     actor.name:set_quest_var("megalith_quest", "goblet", goblet)
     if object.id == 41111 then
@@ -164,7 +164,7 @@ if item1 and item2 and item3 and item4 then
     -- This quest uses 5 item variables, but only 4 are ever checked in this receive trigger.  Clear all 5 here just to be safe.
     -- 
     while item <= 5 do
-        actor.name:set_quest_var("megalith_quest", "item%item%", 0)
+        actor.name:set_quest_var("megalith_quest", "item" .. tostring(item), 0)
         local item = item + 1
     end
     wait(1)

@@ -15,13 +15,11 @@ if not percent_chance(60) then
     return true
 end
 if actor.id == -1 and actor.level < 100 then
-    if actor:get_quest_stage("sacred_haven") == 1 &actor:get_quest_var("sacred_haven:given_light") ~= 1 then
+    if actor:get_quest_stage("sacred_haven") == 1 and actor:get_quest_var("sacred_haven:given_light") ~= 1 then
         wait(6)
         actor:send(tostring(self.name) .. " whispers to you, 'Have you located the adornment of light")
         actor:send("</>for me?'")
-    elseif actor:get_quest_stage("sacred_haven") > 1 &(actor:get_quest_var("sacred_haven:given_blood") then
-    elseif actor:get_quest_stage("sacred_haven") > 1 &(actor:get_quest_var("sacred_haven:given_blood") then
-        -- UNCONVERTED: %actor.quest_variable[sacred_haven:given_earring]% != 1)
+    elseif actor:get_quest_stage("sacred_haven") > 1 and actor:get_quest_var("sacred_haven:given_blood") and actor:get_quest_var("sacred_haven:given_earring") ~= 1 then
         wait(4)
         self:whisper(actor.name, "Have you brought me my artifacts?")
         return _return_value
@@ -30,7 +28,7 @@ if actor.id == -1 and actor.level < 100 then
         local room = get.room[self.room]
         local target = room.people
         while target do
-            if (target.alignment <= -350) and (target.id == -1) &(target.level < 100) then
+            if (target.alignment <= -350) and (target.id == -1) and (target.level < 100) then
                 self:whisper(target.name, "Ah, I sense a wicked aura around your soul.")
                 wait(5)
                 target:send(tostring(self.name) .. " slowly walks up and leans in close towards you.")
@@ -43,7 +41,7 @@ if actor.id == -1 and actor.level < 100 then
                 local target = target.next_in_room
             end
         end
-        if target &target.alignment > -350 then
+        if target and target.alignment > -350 then
             self:emote("slowly turns away from you, pulling his hood farther down to cover his face.")
         end
     end

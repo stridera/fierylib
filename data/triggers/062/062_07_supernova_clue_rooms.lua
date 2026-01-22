@@ -10,7 +10,7 @@
 local person = self.people
 local stage = person:get_quest_stage("supernova")
 while person do
-    if (stage < 6) and (person.room == person.quest_variable[supernova:stepstage]) and (person:has_item("48917") or person:has_equipped("48917")) then
+    if (stage < 6) and (person.room == person.quest_variable["supernova:step" .. stage]) and (person:has_item("48917") or person:has_equipped("48917")) then
         if stage == 3 then
             self.room:spawn_object(62, 29)
         elseif stage == 4 then

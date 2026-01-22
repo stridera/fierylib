@@ -10,7 +10,7 @@
 -- Converted from DG Script #501: Enlightenment progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "enlightenment") or string.find(arg, "monk") vision or string.find(arg, "monk_vision") then
+if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or string.find(arg, "monk_vision") then
     if string.find(actor.class, "Monk") then
         _return_value = false
         local missionstage = actor:get_quest_stage("elemental_chaos")

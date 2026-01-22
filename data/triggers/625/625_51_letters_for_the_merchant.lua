@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #62551: letters for the merchant
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if %actor.quest_stage[ursa_quest] == 1 then
+if actor:get_quest_stage("ursa_quest") == 1 then
     wait(1)
     actor:send(tostring(self.name) .. " notices the concerned look on your face.")
     wait(1)

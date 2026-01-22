@@ -117,15 +117,15 @@ if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin
     -- 
     if not is_armor then
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable[phase_armor:vnum_gem_gems_acquired] then
+        if actor:get_quest_var("phase_armor:" .. vnum_gem .. "_gems_acquired") then
         else
-            actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", 0)
+            actor:set_quest_var("phase_armor", vnum_gem .. "_gems_acquired", 0)
         end
-        local gems = actor.quest_variable[phase_armor:vnum_gem_gems_acquired]
-        actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", gems)
+        local gems = actor:get_quest_var("phase_armor:" .. vnum_gem .. "_gems_acquired")
+        actor:set_quest_var("phase_armor", vnum_gem .. "_gems_acquired", gems)
         if gems < 3 then
-            local gems = actor.quest_variable[phase_armor:vnum_gem_gems_acquired] + 1
-            actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", gems)
+            local gems = actor:get_quest_var("phase_armor:" .. vnum_gem .. "_gems_acquired") + 1
+            actor:set_quest_var("phase_armor", vnum_gem .. "_gems_acquired", gems)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
             actor:send(tostring(self.name) .. " tells you, \"realm.  You have now given me " .. tostring(gems) .. " " .. "%get.obj_shortdesc[%vnum_gem%]%.\"")
@@ -148,7 +148,7 @@ if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin
         -- 
         -- check to see if the quest is complete and the reward can be given..
         -- 
-        if gems == 3 and actor.quest_variable[phase_armor:vnum_armor_armor_acquired] == 1 then
+        if gems == 3 and actor:get_quest_var("phase_armor:" .. vnum_armor .. "_armor_acquired") == 1 then
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
@@ -178,15 +178,15 @@ if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin
         -- here is where the armor section goes
         -- that is true for is_armor == 1
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable[phase_armor:vnum_armor_armor_acquired] then
+        if actor:get_quest_var("phase_armor:" .. vnum_armor .. "_armor_acquired") then
         else
-            actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", 0)
+            actor:set_quest_var("phase_armor", vnum_armor .. "_armor_acquired", 0)
         end
-        local armor = actor.quest_variable[phase_armor:vnum_armor_armor_acquired]
-        actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", armor)
+        local armor = actor:get_quest_var("phase_armor:" .. vnum_armor .. "_armor_acquired")
+        actor:set_quest_var("phase_armor", vnum_armor .. "_armor_acquired", armor)
         if armor < 1 then
-            local armor = actor.quest_variable[phase_armor:vnum_armor_armor_acquired] + 1
-            actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", armor)
+            local armor = actor:get_quest_var("phase_armor:" .. vnum_armor .. "_armor_acquired") + 1
+            actor:set_quest_var("phase_armor", vnum_armor .. "_armor_acquired", armor)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")
             actor:send(tostring(self.name) .. " tells you, \"for quite some time.  You have now given me " .. "%get.obj_shortdesc[%vnum_armor%]%.\"")
@@ -209,7 +209,7 @@ if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin
         -- 
         -- check to see if the quest is complete and the reward can be given..
         -- 
-        if armor == 1 and actor.quest_variable[phase_armor:vnum_gem_gems_acquired] == 3 then
+        if armor == 1 and actor:get_quest_var("phase_armor:" .. vnum_gem .. "_gems_acquired") == 3 then
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")

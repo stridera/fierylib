@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #8796: tr'ven(replace old items)
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id => 1 then
+if object.id >= 1 then
     local item = object.id
     local name = object.shortdesc
     wait(1)

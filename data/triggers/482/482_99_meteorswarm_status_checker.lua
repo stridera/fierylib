@@ -21,10 +21,10 @@ if not (string.find(string.lower(speech), "spell") or string.find(string.lower(s
 end
 local stage = actor:get_quest_stage("meteorswarm")
 wait(2)
-if actor:get_quest_var("meteorswarm:new") /= yes then
+if actor:get_quest_var("meteorswarm:new") ~= "yes" then
     actor:send(tostring(self.name) .. " says, 'Go find a new meteorite.'")
     return _return_value
-elseif actor:get_quest_var("meteorswarm:new") /= no then
+elseif actor:get_quest_var("meteorswarm:new") ~= "no" then
     actor:send(tostring(self.name) .. " says, 'Show me the meteorite again.''")
     return _return_value
 end

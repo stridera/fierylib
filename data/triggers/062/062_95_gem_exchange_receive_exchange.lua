@@ -1,7 +1,7 @@
 -- Trigger: Gem Exchange receive exchange
 -- Zone: 62, ID: 95
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 25 if statements
 --
 -- Original DG Script: #6295

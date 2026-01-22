@@ -8,7 +8,7 @@
 -- Converted from DG Script #23781: glazed-stiletto-wield
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.quest_variable[quest_items:self.vnum] then
+if actor.quest_variable["quest_items:" .. self.vnum] then
     _return_value = true
     actor:send("You flip out the blade of " .. tostring(self.shortdesc) .. ".")
     self.room:send_except(actor, tostring(actor.name) .. " flips the blade out of " .. tostring(self.shortdesc) .. ".")

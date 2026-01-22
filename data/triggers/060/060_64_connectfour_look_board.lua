@@ -1,7 +1,7 @@
 -- Trigger: connectfour look board
 -- Zone: 60, ID: 64
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 20 if statements
 --   Large script: 6541 chars
 --

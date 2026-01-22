@@ -1,8 +1,7 @@
 -- Trigger: severan shockwave
 -- Zone: 489, ID: 33
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48933
 
@@ -15,8 +14,8 @@ local casters = "Sorcerer Necromancer Cryomancer Pyromancer Cleric Druid Diaboli
 local person = self.people
 while person do
     local next = person.next_in_room
-    if ((person.id < 48900) or (person.id > 48999)) &(person.level < 100) then
-        if string.find(casters, "person.class") then
+    if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
+        if string.find(casters, person.class) then
             local damage = 100 + random(1, 50)
         else
             local damage = 250 + random(1, 50)

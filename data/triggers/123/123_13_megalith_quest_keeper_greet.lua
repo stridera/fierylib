@@ -13,7 +13,7 @@ wait(2)
 if actor.quest_stage[type_wand] == "wandstep" and not actor:get_has_failed("megalith_quest") then
     local minlevel = (wandstep - 1) * 10
     if actor.level >= minlevel then
-        if actor.quest_variable[type_wand:greet] == 0 then
+        if actor:get_quest_var(type_wand .. ":greet") == 0 then
             self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
             self:say("Do you have what I need for the wand?")
@@ -41,10 +41,10 @@ if actor:get_has_completed("megalith_quest") then
         self:say("I thank you most humbly for your assistance with calling the Spirits of Earth.")
     elseif stage > 2 then
         self:say("Finally, our Mother Goddess will be able to walk our world again!")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") /= 0) and (actor:get_quest_var("megalith_quest:north") /= 0) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") ~= 0) and (actor:get_quest_var("megalith_quest:north") ~= 0) then
         self:command("bow " .. tostring(actor.name))
         self.room:send(tostring(self.name) .. " speaks in voice like a gentle breeze across sunlit grass, 'Are you here to help me summon the Spirits of Earth to protect our coven?'")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") /= 0) and (actor:get_quest_var("megalith_quest:north") /= 1) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") ~= 0) and (actor:get_quest_var("megalith_quest:north") ~= 1) then
         self:say("Do you have the granite ring?")
     end
     -- 
@@ -69,12 +69,12 @@ if actor:get_has_completed("megalith_quest") then
         wait(1)
         self:say("That is the Lady of the Stars.  She approaches...")
         self.room:send(tostring(self.name) .. " takes a deep breath and exhales a cloud of <b:red>s</><red>p</><b:yellow>a</><red>r</><yellow>k</><b:yellow>s</>!")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item2") /= 0) and (actor:get_quest_var("megalith_quest:south") /= 0) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item2") ~= 0) and (actor:get_quest_var("megalith_quest:south") ~= 0) then
         self:command("nod " .. tostring(actor.name))
         self:say("Hail traveler.")
         wait(2)
         self.room:send("In a whisper like smokey ash " .. tostring(self.name) .. " says, 'Are you here to help me summon the Spirits of Fire to protect our coven?'")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item2") /= 0) and (actor:get_quest_var("megalith_quest:south") /= 1) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item2") ~= 0) and (actor:get_quest_var("megalith_quest:south") ~= 1) then
         self:say("I hope you brought the flaming jewel from Vulcera.")  -- typo: sat
     end
     -- 
@@ -99,11 +99,11 @@ if actor:get_has_completed("megalith_quest") then
         self:say("Thanks so much for your help with the Air Spirits!")
     elseif stage > 2 then
         self.room:send(tostring(self.name) .. " proclaims, 'Rejoice, the Great Work continues!  Soon the Faerie Goddess will be with us!'")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item3") /= 0) and (actor:get_quest_var("megalith_quest:east") /= 0) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item3") ~= 0) and (actor:get_quest_var("megalith_quest:east") ~= 0) then
         self:command("wave " .. tostring(actor.name))
         wait(4)
         self.room:send("In a jubilant tone, " .. tostring(self.name) .. " says, 'Hi there! Are you here to help me summon the Spirits of Air to protect our coven?'")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item3") /= 0) and (actor:get_quest_var("megalith_quest:east") /= 1) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item3") ~= 0) and (actor:get_quest_var("megalith_quest:east") ~= 1) then
         wait(2)
         self:say("I hope you were able to recover that cloud bracelet!")
     end
@@ -128,13 +128,13 @@ if actor:get_has_completed("megalith_quest") then
     elseif stage > 2 then
         self:say("Thanks to you, soon the Great Mother will be able to come from the Deep Dreaming once more!")
         self:command("hug " .. tostring(actor.name))
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") /= 0) and (actor:get_quest_var("megalith_quest:west") /= 0) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") ~= 0) and (actor:get_quest_var("megalith_quest:west") ~= 0) then
         self:command("curtsy " .. tostring(actor.name))
         wait(1)
         self:say("Merry met!")
         wait(2)
         self.room:send(tostring(self.name) .. " speaks in a silver voice, like bells reverberating over water, 'Are you here to help me summon the Spirits of Water to protect our coven?'")
-    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") /= 0) and (actor:get_quest_var("megalith_quest:west") /= 1) then
+    elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") ~= 0) and (actor:get_quest_var("megalith_quest:west") ~= 1) then
         self:say("Have you been able to bring me some water?")
     end
 end

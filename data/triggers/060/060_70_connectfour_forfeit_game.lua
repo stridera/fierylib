@@ -1,7 +1,7 @@
 -- Trigger: connectfour forfeit game
 -- Zone: 60, ID: 70
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6070

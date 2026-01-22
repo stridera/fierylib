@@ -8,7 +8,7 @@
 -- Converted from DG Script #416: Tower in the Wastes progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "tower_in_the_wastes") or string.find(arg, "krisenna_quest") or string.find(arg, "krisenna") quest then
+if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "tower_in_the_wastes") or string.find(arg, "krisenna_quest") or string.find(arg, "krisenna_quest") then
     if actor.level >= 30 then
         _return_value = false
         local stage = actor:get_quest_stage("krisenna_quest")

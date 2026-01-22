@@ -1,7 +1,7 @@
 -- Trigger: connectfour select color
 -- Zone: 60, ID: 63
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 7 if statements
 --   Large script: 5212 chars
 --

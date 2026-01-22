@@ -10,7 +10,7 @@
 -- Converted from DG Script #422: Combat in Eldoria progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "combat") in eldoria or string.find(arg, "combat_in_eldoria") or string.find(arg, "third") eldorian guard or string.find(arg, "third") black legion or string.find(arg, "black_legion") or string.find(arg, "eldorian_guard") or string.find(arg, "third_black_legion") or string.find(arg, "third_eldorian_guard") or string.find(arg, "combat") or string.find(arg, "eldoria") then
+if string.find(arg, "combat_in_eldoria") or string.find(arg, "combat_in_eldoria") or string.find(arg, "third_eldorian_guard") or string.find(arg, "third_black_legion") or string.find(arg, "black_legion") or string.find(arg, "eldorian_guard") or string.find(arg, "third_black_legion") or string.find(arg, "third_eldorian_guard") or string.find(arg, "combat") or string.find(arg, "eldoria") then
     _return_value = false
     actor:send("<b:green>&uCombat in Eldoria</>")
     actor:send("The Third Black Legion and the Eldorian Guard, along with their allies in Split Skull and the Abbey, are locked in eternal warfare.")

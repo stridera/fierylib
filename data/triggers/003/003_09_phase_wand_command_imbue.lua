@@ -94,14 +94,14 @@ else
     local weapon = "wand"
 end
 if actor.room == "place" then
-    if not actor.quest_variable[type_wand:wandtask1] then
+    if not actor.quest_variable[type_wand .. ":wandtask1"] then
         local counter = 50
-        local remaining = ((actor.quest_stage[type_wand] - 1) * counter) - actor.quest_variable[type_wand:attack_counter]
+        local remaining = ((actor.quest_stage[type_wand] - 1) * counter) - actor.quest_variable[type_wand .. ":attack_counter"]
         actor:send("You need to attack " .. tostring(remaining) .. " more times to fully bond with your " .. tostring(weapon) .. "!")
         return _return_value
     else
         if self.id == 306 or self.id == 316 or self.id == 326 or self.id == 336 then
-            if actor.quest_variable[type_wand:wandtask5] then
+            if actor.quest_variable[type_wand .. ":wandtask5"] then
                 if actor.inventory[ward] then
                     actor:send("You raise " .. tostring(self.shortdesc) .. " and " .. "%get.obj_shortdesc[%ward%]% above your head.")
                     wait(1)
@@ -130,7 +130,7 @@ if actor.room == "place" then
                 actor:send("<b:blue>" .. tostring(self.shortdesc) .. " must be primed by " .. "%get.mob_shortdesc[%crafter%]% before you can imbue it!</>")
             end
         elseif self.id == 308 or self.id == 318 or self.id == 328 or self.id == 338 then
-            if actor.quest_variable[type_wand:wandtask4] then
+            if actor.quest_variable[type_wand .. ":wandtask4"] then
                 actor:send("You close your eyes and hold " .. tostring(self.shortdesc) .. " before you.")
                 wait(2)
                 actor:send("You feel the wheel of the cosmos rotating around you here in this place.")
@@ -145,25 +145,25 @@ if actor.room == "place" then
         end
     end
 elseif self.id == 303 then
-    if actor.room >= 55001 and actor.room <= 55003 and actor.quest_variable[type_wand:greet] == 1 then
+    if actor.room >= 55001 and actor.room <= 55003 and actor.quest_variable[type_wand .. ":greet"] == 1 then
         local continue = "yes"
     else
         _return_value = false
     end
 elseif self.id == 313 then
-    if actor.room >= 5200 and actor.room <= 5299 and actor.quest_variable[type_wand:greet] == 1 then
+    if actor.room >= 5200 and actor.room <= 5299 and actor.quest_variable[type_wand .. ":greet"] == 1 then
         local continue = "yes"
     else
         _return_value = false
     end
 elseif self.id == 323 then
-    if actor.room >= 39001 and actor.room <= 39189 and actor.quest_variable[type_wand:greet] == 1 then
+    if actor.room >= 39001 and actor.room <= 39189 and actor.quest_variable[type_wand .. ":greet"] == 1 then
         local continue = "yes"
     else
         _return_value = false
     end
 elseif self.id == 333 then
-    if actor.room >= 7300 and actor.room <= 7457 and actor.quest_variable[type_wand:greet] == 1 then
+    if actor.room >= 7300 and actor.room <= 7457 and actor.quest_variable[type_wand .. ":greet"] == 1 then
         local continue = "yes"
     else
         _return_value = false

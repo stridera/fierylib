@@ -14,10 +14,10 @@ if not percent_chance(1) then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("trainer_3170:word2") then
-    if actor:get_quest_var("trainer_3170:skill_name") /= sphere then
-        local full_skill = actor:get_quest_var("trainer_3170:skill_name") of actor:get_quest_var("trainer_3170:word2")
+    if actor:get_quest_var("trainer_3170:skill_name") ~= sphere then
+        local full_skill = actor:get_quest_var("trainer_3170:skill_name") .. " of " .. actor:get_quest_var("trainer_3170:word2")
     else
-        local full_skill = actor:get_quest_var("trainer_3170:skill_name") actor:get_quest_var("trainer_3170:word2")
+        local full_skill = actor:get_quest_var("trainer_3170:skill_name") .. " " .. actor:get_quest_var("trainer_3170:word2")
     end
 elseif actor:get_quest_var("trainer_3170:skill_name") then
     local full_skill = actor:get_quest_var("trainer_3170:skill_name")

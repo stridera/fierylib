@@ -14,7 +14,7 @@ if not percent_chance(33) then
     return true
 end
 if self.id == 62501 then
-    if %get.mob_count[62502] < 5 then
+    if world.count_mobiles("62502") < 5 then
         self.room:send("<b:green>" .. tostring(self.name) .. " touches a nearby Rhell tree, calling on it for help.</>")
         wait(1)
         self.room:send("<b:green> A Mighty Rhell Tree springs to life!</>")
@@ -29,7 +29,7 @@ if self.id == 62508 then
     wait(3)
     if world.count_mobiles("62509") > 5 then
         return _return_value
-    elseif if random(1, 10) > 6 then
+    elseif random(1, 10) > 6 then
         if self:has_effect(Effect.Silence) then
             self.room:send("<b:yellow>" .. tostring(self.name) .. " opens its mouth to howl but no sound comes out!</>")
             return _return_value

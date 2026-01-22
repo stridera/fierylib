@@ -12,9 +12,9 @@ if object.id == 58417 then
     self:say("Thank you from the bottom of my heart, kind adventurer.")
     self:say("Your deeds shall not go unrewarded.")
     self.room:spawn_object(584, 1)
-    self:command("give feather $n")
+    self:command("give feather " .. actor.name)
 else
     self:say("No, I thank you but this will not do.")
     self:say("Not do at all.")
-    world.destroy(object)  -- from MPROG
+    world.destroy(object)
 end

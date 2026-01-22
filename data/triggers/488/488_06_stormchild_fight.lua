@@ -1,8 +1,7 @@
 -- Trigger: stormchild fight
 -- Zone: 488, ID: 6
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48806
 

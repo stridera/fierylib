@@ -328,20 +328,20 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local wrist_reward = 55793
             local master = "Grand Diva Belissica"
         end
-        local got_hands = actor.quest_variable[phase_armor:hands_armor_armor_acquired]
-        local got_feet = actor.quest_variable[phase_armor:feet_armor_armor_acquired]
-        local got_wrist = actor.quest_variable[phase_armor:wrist_armor_armor_acquired]
-        local got_head = actor.quest_variable[phase_armor:head_armor_armor_acquired]
-        local got_arms = actor.quest_variable[phase_armor:arms_armor_armor_acquired]
-        local got_legs = actor.quest_variable[phase_armor:legs_armor_armor_acquired]
-        local got_body = actor.quest_variable[phase_armor:body_armor_armor_acquired]
-        local hands_count = actor.quest_variable[phase_armor:hands_gem_gems_acquired]
-        local feet_count = actor.quest_variable[phase_armor:feet_gem_gems_acquired]
-        local wrist_count = actor.quest_variable[phase_armor:wrist_gem_gems_acquired]
-        local head_count = actor.quest_variable[phase_armor:head_gem_gems_acquired]
-        local arms_count = actor.quest_variable[phase_armor:arms_gem_gems_acquired]
-        local legs_count = actor.quest_variable[phase_armor:legs_gem_gems_acquired]
-        local body_count = actor.quest_variable[phase_armor:body_gem_gems_acquired]
+        local got_hands = actor.quest_variable[phase_armor .. ":hands_armor_armor_acquired"]
+        local got_feet = actor.quest_variable[phase_armor .. ":feet_armor_armor_acquired"]
+        local got_wrist = actor.quest_variable[phase_armor .. ":wrist_armor_armor_acquired"]
+        local got_head = actor.quest_variable[phase_armor .. ":head_armor_armor_acquired"]
+        local got_arms = actor.quest_variable[phase_armor .. ":arms_armor_armor_acquired"]
+        local got_legs = actor.quest_variable[phase_armor .. ":legs_armor_armor_acquired"]
+        local got_body = actor.quest_variable[phase_armor .. ":body_armor_armor_acquired"]
+        local hands_count = actor.quest_variable[phase_armor .. ":hands_gem_gems_acquired"]
+        local feet_count = actor.quest_variable[phase_armor .. ":feet_gem_gems_acquired"]
+        local wrist_count = actor.quest_variable[phase_armor .. ":wrist_gem_gems_acquired"]
+        local head_count = actor.quest_variable[phase_armor .. ":head_gem_gems_acquired"]
+        local arms_count = actor.quest_variable[phase_armor .. ":arms_gem_gems_acquired"]
+        local legs_count = actor.quest_variable[phase_armor .. ":legs_gem_gems_acquired"]
+        local body_count = actor.quest_variable[phase_armor .. ":body_gem_gems_acquired"]
         local done_hands = got_hands == 1  and  hands_count == 3
         local done_feet = got_feet == 1  and  feet_count == 3
         local done_wrist = got_wrist == 1  and  wrist_count == 3

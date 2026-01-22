@@ -9,26 +9,26 @@
 -- Converted from DG Script #10309: khysan-greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor:get_quest_stage("ice_shards") then
-    local return = "yes"
+    local should_return = "yes"
 end
-if actor.quest_stage[type_wand] > wandstep then
-    local return = "yes"
+if actor.quest_stage["type_wand"] > wandstep then
+    local should_return = "yes"
 end
-if actor.quest_stage[type_wand] == "wandstep" and actor.quest_variable[type_wand:greet] == 1 then
-    local return = "yes"
+if actor.quest_stage["type_wand"] == "wandstep" and actor.quest_variable["type_wand:greet"] == 1 then
+    local should_return = "yes"
 end
 wait(1)
 actor:send(tostring(self.name) .. " looks up at your approach.")
-if return == "yes" then
+if should_return == "yes" then
     self:say("Welcome back my friend.")
     wait(2)
     if actor:get_quest_stage("ice_shards") and not actor:get_has_completed("ice_shards") then
         self:say("Did you find any more clues?")
-        if actor.quest_stage[type_wand] == "wandstep" then
+        if actor.quest_stage["type_wand"] == "wandstep" then
             local minlevel = (wandstep - 1) * 10
             wait(1)
             if actor.level >= minlevel then
-                if actor.quest_variable[type_wand:greet] == 0 then
+                if actor.quest_variable["type_wand:greet"] == 0 then
                     self:say("Or is there something else that brings you back?")
                 else
                     self:say("Or do you have what I need for a new staff?")
@@ -36,10 +36,10 @@ if return == "yes" then
             end
         end
     else
-        if actor.quest_stage[type_wand] == "wandstep" then
+        if actor.quest_stage["type_wand"] == "wandstep" then
             local minlevel = (wandstep - 1) * 10
             if actor.level >= minlevel then
-                if actor.quest_variable[type_wand:greet] == 0 then
+                if actor.quest_variable["type_wand:greet"] == 0 then
                     self:say("Is there something else that brings you back?")
                 else
                     self:say("Do you have what I need for a new staff?")
@@ -54,11 +54,11 @@ else
     wait(1)
     self:command("bow " .. tostring(actor))
     self:say("Please enjoy your stay.  You may enter the hot springs to the south.")
-    if actor.quest_stage[type_wand] == "wandstep" then
+    if actor.quest_stage["type_wand"] == "wandstep" then
         wait(1)
         local minlevel = (wandstep - 1) * 10
         if actor.level >= minlevel then
-            if actor.quest_variable[type_wand:greet] == 0 then
+            if actor.quest_variable["type_wand:greet"] == 0 then
                 self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
             end
         end

@@ -1,7 +1,7 @@
 -- Trigger: hell_gate_island_drop
 -- Zone: 564, ID: 6
 -- Type: WORLD, Flags: DROP
--- Status: CLEAN
+-- Status: CLEAN (fixed)
 --
 -- Original DG Script: #56406
 
@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("hell_gate") == 3 then
-    if actor.quest_variable[hell_gate:object.vnum] then
+    if actor.quest_variable["hell_gate:" .. object.vnum] then
         _return_value = false
         self.room:send(tostring(mobiles.template(564, 0).name) .. " says, 'We have already gathered this blood.'")
     elseif object.id == 56400 or object.id == 56401 or object.id == 56402 or object.id == 56403 or object.id == 56404 or object.id == 56405 or object.id == 56406 then

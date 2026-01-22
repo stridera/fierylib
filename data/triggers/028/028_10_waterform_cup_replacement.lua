@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "i") or string.find(string.lower(speec
 end
 wait(2)
 if actor:get_quest_stage("waterform") > 3 and actor:get_quest_var("waterform:new") == 0 then
-    actor.name:set_quest_var("waterform", "new", "yes")
+    actor:set_quest_var("waterform", "new", "yes")
     self:say("Oh no, you lost the cup??")
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'Well, I can make a new one, but you'll need to find the")

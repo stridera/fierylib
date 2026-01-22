@@ -12,10 +12,10 @@ wait(2)
 if actor.quest_stage[type_wand] == "wandstep" then
     local minlevel = (wandstep - 1) * 10
     if actor.level >= minlevel then
-        if actor.quest_variable[type_wand:greet] == 0 then
+        if actor.quest_variable["type_wand:greet"] == 0 then
             actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
-            if actor.quest_variable[type_wand:wandtask1] and actor.quest_variable[type_wand:wandtask2] and actor.quest_variable[type_wand:wandtask3] then
+            if actor.quest_variable["type_wand:wandtask1"] and actor.quest_variable["type_wand:wandtask2"] and actor.quest_variable["type_wand:wandtask3"] then
                 actor:send(tostring(self.name) .. " says, 'I sense you're ready!  Let me see the staff.'")
             else
                 actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(weapon) .. "?'")

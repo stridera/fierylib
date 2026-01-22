@@ -8,7 +8,7 @@
 -- Converted from DG Script #436: Wall of Ice progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if (string.find(arg, "wall") and string.find(arg, "ice")) or string.find(arg, "wall") of ice or string.find(arg, "wall_ice") or string.find(arg, "wall_of_ice") then
+if (string.find(arg, "wall") and string.find(arg, "ice")) or string.find(arg, "wall_of_ice") or string.find(arg, "wall_ice") or string.find(arg, "wall_of_ice") then
     if string.find(actor.class, "Cryomancer") and actor.level >= 50 then
         _return_value = false
         actor:send("<b:green>&uWall of Ice</>")

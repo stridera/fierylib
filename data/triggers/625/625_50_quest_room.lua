@@ -69,7 +69,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("mild"):command("tip " .. tostring(quester))
         self.room:find_actor("mild"):emote("leaves north toward Blue Fog Trail.")
         world.destroy(self.room:find_actor("merchant"))
-    elseif %quester.quest_variable[ursa_quest:choice] == 2 then
+    elseif quester:get_quest_var("ursa_quest:choice") == 2 then
         wait(1)
         self.room:find_actor("mild"):say("Good enough.")
         self.room:find_actor("mild"):command("wear " .. tostring(object))
@@ -109,7 +109,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
             local gem = gem + 1
         end
         self.room:spawn_object(625, 8)
-    elseif %quester.quest_variable[ursa_quest:choice] == 3 then
+    elseif quester:get_quest_var("ursa_quest:choice") == 3 then
         wait(1)
         self.room:find_actor("mild"):emote("tosses the anvil to the ground with a grunt.")
         wait(3)
@@ -179,7 +179,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         -- 
         -- 115% of standard
         -- 
-        local expmod = (expmod + ((expmod * 2) / 15)
+        local expmod = (expmod + ((expmod * 2) / 15))
     elseif quester.class == "Sorcerer" or quester.class == "Pyromancer" or quester.class == "Cryomancer" or quester.class == "Illusionist" or quester.class == "Bard" then
         -- 
         -- 120% of standard

@@ -10,28 +10,28 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(actor.class, "Monk") then
-    if string.find(arg, "tremors") or string.find(arg, "tremors") of saint augustine or string.find(arg, "tremors_of_saint_augustine") then
+    if string.find(arg, "tremors") or string.find(arg, "tremors_of_saint_augustine") or string.find(arg, "tremors_of_saint_augustine") then
         local read = "yes"
         local title = "Tremors of Saint Augustine"
         local level = 30
         local minstage = 1
         local clue1 = "a book surrounded by trees and shadows."
         local clue2 = "in a place that is both natural and urban, serenely peaceful and profoundly sorrowful."
-    elseif string.find(arg, "tempest") or string.find(arg, "tempest") of saint augustine or string.find(arg, "tempest_of_saint_augustine") then
+    elseif string.find(arg, "tempest") or string.find(arg, "tempest_of_saint_augustine") or string.find(arg, "tempest_of_saint_augustine") then
         local read = "yes"
         local title = "Tempest of Saint Augustine"
         local level = 40
         local minstage = 2
         local clue1 = "a scroll, dedicated to this particular chant, guarded by a creature of the same elemental affinity."
         local clue2 = "on the peak of Urchet Pass."
-    elseif string.find(arg, "blizzards") or string.find(arg, "blizzards") of saint augustine or string.find(arg, "blizzards_of_saint_augustine") then
+    elseif string.find(arg, "blizzards") or string.find(arg, "blizzards_of_saint_augustine") or string.find(arg, "blizzards_of_saint_augustine") then
         local read = "yes"
         local title = "Blizzards of Saint Augustine"
         local level = 50
         local minstage = 3
         local clue1 = "a book held by a master who in turn is a servant of a beast of winter."
         local clue2 = "in a temple shrouded in mists."
-    elseif string.find(arg, "aria") or string.find(arg, "dissonance") or string.find(arg, "aria") of dissonance then
+    elseif string.find(arg, "aria") or string.find(arg, "dissonance") or string.find(arg, "aria_of_dissonance") then
         local read = "yes"
         local title = "Aria of Dissonance"
         local level = 60
@@ -45,14 +45,14 @@ if string.find(actor.class, "Monk") then
         local minstage = 5
         local clue1 = "a scroll where illusion is inscribed over and over held by a brother who thirsts for escape."
         local clue2 = "in a chapel of the walking dead."
-    elseif string.find(arg, "fires") or string.find(arg, "fires") of saint augustine or string.find(arg, "fires_of_saint_augustine") then
+    elseif string.find(arg, "fires") or string.find(arg, "fires_of_saint_augustine") or string.find(arg, "fires_of_saint_augustine") then
         local read = "yes"
         local title = "Fires of Saint Augustine"
         local level = 80
         local minstage = 6
         local clue1 = "a scroll of curses, carried by children of air in a floating fortress."
         local clue2 = "at an altar dedicated to fire's destructive forces."
-    elseif string.find(arg, "seed") or string.find(arg, "destruction") or string.find(arg, "seed") of destruction then
+    elseif string.find(arg, "seed") or string.find(arg, "destruction") or string.find(arg, "seed_of_destruction") then
         local read = "yes"
         local title = "Seed of Destruction"
         local level = 99

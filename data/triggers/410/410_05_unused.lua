@@ -1,8 +1,7 @@
 -- Trigger: **UNUSED**
 -- Zone: 410, ID: 5
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #41005
 
@@ -58,7 +57,7 @@ if will_drop <= 70 then
         -- drop a gem from the previous wear pos set
         local gem_vnum = what_gem_drop + 55573
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
         local gem_vnum = what_gem_drop + 55577
@@ -69,14 +68,14 @@ if will_drop <= 70 then
         local gem_vnum = what_gem_drop + 55581
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
     end
-elseif will_drop >= 71 &will_drop <= 90 then
+elseif will_drop >= 71 and will_drop <= 90 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop destroyed armor 55299 is the vnum before the
         -- first piece of armor.
         local armor_vnum = what_armor_drop + 55307
         self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
         local armor_vnum = what_armor_drop + 55311
@@ -95,7 +94,7 @@ else
         local armor_vnum = what_armor_drop + 55307
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
         self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
         local armor_vnum = what_armor_drop + 55311

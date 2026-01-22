@@ -1,7 +1,7 @@
 -- Trigger: Gem Exchange set type
 -- Zone: 62, ID: 93
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 29 if statements
 --   Large script: 17275 chars
 --
@@ -256,7 +256,7 @@ elseif string.find(speech, "labradorite") then
     else
         local gem_vnum = 55655
     end
-elseif string.find(speech, "lapis") or string.find(speech, "lapis")-lazuli or string.find(speech, "lazuli") then
+elseif string.find(speech, "lapis") or string.find(speech, "lapis-lazuli") or string.find(speech, "lazuli") then
     if string.find(speech, "uncut") then
         local gem_vnum = 55600
     elseif string.find(speech, "flawed") then

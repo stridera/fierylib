@@ -1,9 +1,7 @@
 -- Trigger: **UNUSED**
 -- Zone: 28, ID: 8
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
---   Large script: 7018 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #2808
 
@@ -30,8 +28,8 @@ if i then
                 else
                     _return_value = false
                 end
-                if person.quest_variable[waterform:regionnumber] == 0 then
-                    person.name:set_quest_var("waterform", "region%number%", 1)
+                if not person:get_quest_var("waterform:region" .. tostring(number)) then
+                    person:set_quest_var("waterform", "region" .. tostring(number), 1)
                     person:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
                     self.room:send_except(person, "<b:blue>" .. tostring(person.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
                 end
@@ -42,7 +40,7 @@ if i then
                 local region5 = person:get_quest_var("waterform:region5")
                 if region1 + region2 + region3 + region4 + region5 > 3 then
                     person:send("<b:blue>You have gathered all the samples of living water you need!</>")
-                    person.name:advance_quest("waterform")
+                    person:advance_quest("waterform")
                 end
             end
         end
@@ -63,8 +61,8 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or ac
     else
         _return_value = false
     end
-    if actor.quest_variable[waterform:regionnumber] == 0 then
-        actor.name:set_quest_var("waterform", "region%number%", 1)
+    if not actor:get_quest_var("waterform:region" .. tostring(number)) then
+        actor:set_quest_var("waterform", "region" .. tostring(number), 1)
         actor:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
         self.room:send_except(actor, "<b:blue>" .. tostring(actor.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
     end
@@ -75,7 +73,7 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or ac
     local region5 = actor:get_quest_var("waterform:region5")
     if region1 + region2 + region3 + region4 + region5 > 3 then
         actor:send("<b:blue>You have gathered all the samples of living water you need!</>")
-        actor.name:advance_quest("waterform")
+        actor:advance_quest("waterform")
     end
 end
 -- 
@@ -105,7 +103,7 @@ if will_drop <= 70 then
         -- drop a gem from the previous wear pos set
         local gem_vnum = what_gem_drop + 55714
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
         local gem_vnum = what_gem_drop + 55725
@@ -116,13 +114,13 @@ if will_drop <= 70 then
         local gem_vnum = what_gem_drop + 55736
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
     end
-elseif will_drop >= 71 &will_drop <= 90 then
+elseif will_drop >= 71 and will_drop <= 90 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- 
         local armor_vnum = what_armor_drop + 55371
         self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
         local armor_vnum = what_armor_drop + 55375
@@ -141,7 +139,7 @@ else
         local armor_vnum = what_armor_drop + 55371
         self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
         self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
         local gem_vnum = what_gem_drop + 55725

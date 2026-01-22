@@ -30,10 +30,10 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
         if stage > 0 and not actor:get_has_completed("meteorswarm") then
             actor:send("Quest Master: " .. tostring(mobiles.template(482, 50).name))
             actor:send("</>")
-            if actor:get_quest_var("meteorswarm:new") /= yes then
+            if actor:get_quest_var("meteorswarm:new") == "yes" then
                 actor:send("Go find a new meteorite.")
                 return _return_value
-            elseif actor:get_quest_var("meteorswarm:new") /= no then
+            elseif actor:get_quest_var("meteorswarm:new") == "no" then
                 actor:send("Bring the new meteorite to McCabe.")
                 return _return_value
             end

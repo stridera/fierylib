@@ -85,7 +85,8 @@ elseif stage == 5 then
         -- (empty room echo)
         self.room:send(tostring(self.name) .. " says, 'And if you need a new copy of the Rite, just say:")
         self.room:send("</><b:yellow>\"I lost the Rite\"</> and I will give you a new one.'")
-    elseif stage == 6 then
+    end
+elseif stage == 6 then
         self.room:send(tostring(self.name) .. " says, 'You are delivering the medical packages to <b:white>injured</>, <b:white>wounded,")
         self.room:send("</><b:white>sick</>, or <b:white>hobbling</> creatures.'")
         local total = (5 - actor:get_quest_var("group_heal:total"))
@@ -122,16 +123,15 @@ elseif stage == 5 then
             end
         end
         -- (empty room echo)
-        if total == 1 then
-            self.room:send("You need to deliver " .. tostring(total) .. " more packet.")
-        else
-            self.room:send("You need to deliver " .. tostring(total) .. " more packets.")
-        else
-            if actor:get_has_completed("group_heal") then
-                self:say("You finished the quest to learn Group Heal already.")
-            else
-                self:say("You aren't working on a quest with me.")
-            end
-        end
-    end  -- auto-close block
-end  -- auto-close block
+    if total == 1 then
+        self.room:send("You need to deliver " .. tostring(total) .. " more packet.")
+    else
+        self.room:send("You need to deliver " .. tostring(total) .. " more packets.")
+    end
+else
+    if actor:get_has_completed("group_heal") then
+        self:say("You finished the quest to learn Group Heal already.")
+    else
+        self:say("You aren't working on a quest with me.")
+    end
+end

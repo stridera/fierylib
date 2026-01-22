@@ -25,7 +25,7 @@ elseif string.find(actor.class, "Paladin") then
         wait(2)
         self.room:send("the holy blade of Godly vigor glows violently!")
         actor:send("The pain in your body is excruciating, you feel death.")
-        local var_dam = = random(1, 50) + 1517
+        local var_dam = random(1, 50) + 1517
         self.room:send_except(actor, tostring(actor.name) .. " convulses and life drains from his body. (<yellow>" .. tostring(var_dam) .. "</>)")
         local damage_dealt = actor:damage(var_dam)  -- type: physical
         -- Note: this oforce will cause syserror if damage kills victim *

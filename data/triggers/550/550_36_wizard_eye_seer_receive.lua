@@ -18,7 +18,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
     elseif object.id == 48005 then
         local item = 3
     end
-    if actor.quest_variable[wizard_eye:itemitem] then
+    if actor:get_quest_var("wizard_eye:item" .. item) then
         _return_value = false
         actor:send(tostring(self.name) .. " says, 'You already brought me this!'")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

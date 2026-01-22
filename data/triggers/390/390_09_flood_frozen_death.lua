@@ -1,8 +1,7 @@
 -- Trigger: flood_frozen_death
 -- Zone: 390, ID: 9
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #39009
 

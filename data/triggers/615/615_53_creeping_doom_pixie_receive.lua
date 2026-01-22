@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("creeping_doom")
 if stage == 1 then
     if object.id == 11812 or object.id == 16213 or object.id == 48029 then
-        if actor.quest_variable[creeping_doom:object.vnum] == 1 then
+        if actor:get_quest_var("creeping_doom:" .. tostring(object.vnum)) == 1 then
             _return_value = false
             self:say("You already brought me " .. "%get.obj_shortdesc[%object.vnum%]%")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -93,7 +93,7 @@ elseif stage == 2 then
     end
 elseif stage == 3 then
     if object.id == 48416 or object.id == 52034 or object.id == 62503 then
-        if actor.quest_variable[creeping_doom:object.vnum] == 1 then
+        if actor:get_quest_var("creeping_doom:" .. tostring(object.vnum)) == 1 then
             _return_value = false
             self:say("You already found this.")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

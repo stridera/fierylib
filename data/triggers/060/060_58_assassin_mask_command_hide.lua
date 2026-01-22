@@ -1,7 +1,7 @@
 -- Trigger: Assassin mask command hide
 -- Zone: 60, ID: 58
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 14 if statements
 --
 -- Original DG Script: #6058

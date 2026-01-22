@@ -15,7 +15,6 @@ local target = wielder.is_fighting
 if target then
     -- switch on wielder.size
     if wielder.size == "medium" then
-        return _return_value
         -- switch on target.size
         if target.size == "large" then
             return _return_value
@@ -69,7 +68,7 @@ if target then
             return _return_value
         end
         -- switch on random(1, 16)
-        if rm:get_down("room") == -1 or rm:get_down("room") == 0 or target.flags /= not bash then
+        if rm:get_down("room") == -1 or rm:get_down("room") == 0 or not target:has_flag("nobash") then
             if random(1, 16) == 1 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -84,7 +83,7 @@ if target then
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing down!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_north("room") == -1 or rm:get_north("room") == 0 or target.flags /= not bash then
+            if rm:get_north("room") == -1 or rm:get_north("room") == 0 or not target:has_flag("nobash") then
             elseif random(1, 16) == 2 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -99,7 +98,7 @@ if target then
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing north!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_south("room") == -1 or rm:get_south("room") == 0 or target.flags /= not bash then
+            if rm:get_south("room") == -1 or rm:get_south("room") == 0 or not target:has_flag("nobash") then
             elseif random(1, 16) == 3 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -114,7 +113,7 @@ if target then
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing south!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_east("room") == -1 or rm:get_east("room") == 0 or target.flags /= not bash then
+            if rm:get_east("room") == -1 or rm:get_east("room") == 0 or not target:has_flag("nobash") then
             elseif random(1, 16) == 4 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -129,7 +128,7 @@ if target then
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing east!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_west("room") == -1 or rm:get_west("room") == 0 or target.flags /= not bash then
+            if rm:get_west("room") == -1 or rm:get_west("room") == 0 or not target:has_flag("nobash") then
             elseif random(1, 16) == 5 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush

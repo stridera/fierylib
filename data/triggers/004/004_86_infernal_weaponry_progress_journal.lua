@@ -10,7 +10,7 @@
 -- Converted from DG Script #486: Infernal Weaponry progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "trident") or string.find(arg, "hell") trident or string.find(arg, "hell_trident") or string.find(arg, "Infernal") Weaponry or string.find(arg, "infernal") or string.find(arg, "weaponry") or string.find(arg, "infernal_weaponry") then
+if string.find(arg, "trident") or string.find(arg, "hell_trident") or string.find(arg, "hell_trident") or string.find(arg, "infernal_weaponry") or string.find(arg, "infernal") or string.find(arg, "weaponry") or string.find(arg, "infernal_weaponry") then
     if string.find(actor.class, "Diabolist") then
         _return_value = false
         actor:send("<b:green>&uInfernal Weaponry</>")

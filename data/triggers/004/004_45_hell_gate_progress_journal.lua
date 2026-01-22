@@ -10,7 +10,7 @@
 -- Converted from DG Script #445: Hell Gate progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "hell") gate or string.find(arg, "hell_gate") then
+if string.find(arg, "hell_gate") or string.find(arg, "hell_gate") then
     if string.find(actor.class, "Diabolist") and actor.level >= 75 then
         _return_value = false
         local stage = actor:get_quest_stage("hell_gate")

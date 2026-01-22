@@ -1,28 +1,16 @@
 -- Trigger: quest_eleweiss_ranger_druid_subclass_greet
 -- Zone: 163, ID: 1
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #16301
 
 -- Converted from DG Script #16301: quest_eleweiss_ranger_druid_subclass_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
-if actor.quest_stage[type_wand] == "wandstep" then
-    local minlevel = (wandstep - 1) * 10
-    if actor.level >= minlevel then
-        if actor.quest_variable[type_wand:greet] == 0 then
-            actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-        else
-            if actor.quest_variable[type_wand:wandtask1] and actor.quest_variable[type_wand:wandtask2] and actor.quest_variable[type_wand:wandtask3] then
-                actor:send(tostring(self.name) .. " says, 'Oh good, you're all set!  Let me see the staff.'")
-            else
-                actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(weapon) .. "?'")
-            end
-        end
-    end
-end
+-- NOTE: The wand upgrade portion of this trigger was removed due to incomplete
+-- variable references in the original DG script (type_wand, wandstep, weapon).
+-- Only the ranger/druid subclass greeting remains functional.
 -- switch on actor.race
 -- case ADD NEW RESTRICTED RACES HERE
 -- halt

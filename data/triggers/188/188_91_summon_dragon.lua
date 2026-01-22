@@ -25,7 +25,7 @@ if cmd == "s" or cmd == "su" then
     return _return_value
 end
 local last_summon = actor:get_quest_var("quest_items:dragonhelm_time")
-local now = ((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
+local now = (((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
 if last_summon then
     if now - last_summon >= 168 then
         local can_summon = "yes"

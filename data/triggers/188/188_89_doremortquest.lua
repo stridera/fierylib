@@ -26,13 +26,15 @@ if actor.level == 99 then
     actor:command("petition Kill the RemortQuestHandler before then to cancel the remort.")
     wait(30)
     wizard_notify("Now starting!")
-    while actor.level > 1 do
-        local count = 99
-        while (actor.level > 1) and (count > 2) do
-            actor:award_exp(-500000)
-            local count = count - 1
+    if actor.level > 1 then
+        while actor.level > 1 do
+            local count = 99
+            while (actor.level > 1) and (count > 2) do
+                actor:award_exp(-500000)
+                count = count - 1
+            end
+            actor:command("forget all")
         end
-        actor:command("forget all")
     else
         actor:send("You do not have enough experience to remort!")
     end

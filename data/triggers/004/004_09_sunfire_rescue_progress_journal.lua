@@ -9,7 +9,7 @@
 -- Converted from DG Script #409: Sunfire Rescue progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, "rescue") or string.find(arg, "sunfire_rescue") or string.find(arg, "sunfire_crest") or string.find(arg, "serin_sunfire_rescue") or string.find(arg, "sunfire") crest then
+if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, "rescue") or string.find(arg, "sunfire_rescue") or string.find(arg, "sunfire_crest") or string.find(arg, "serin_sunfire_rescue") or string.find(arg, "sunfire_crest") then
     local stage = actor:get_quest_stage("sunfire_rescue")
     if actor.level >= 80 or stage then
         _return_value = false

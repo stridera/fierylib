@@ -1,7 +1,7 @@
 -- Trigger: illusory_wall_lyara_speech3
 -- Zone: 364, ID: 3
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #36403
 
@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 if ((string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56) and not actor:get_quest_stage("illusory_wall") then
-    actor.name:start_quest("illusory_wall")
+    actor:start_quest("illusory_wall")
     wait(2)
     self:say("Splendid!  Let's get you set up.")
     wait(2)

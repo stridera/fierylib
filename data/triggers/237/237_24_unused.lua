@@ -37,4 +37,3 @@ if actor:get_quest_stage("sunfire_rescue") == 1 then
         -- Oooh, he gets really mad here.
     end
 end
-end

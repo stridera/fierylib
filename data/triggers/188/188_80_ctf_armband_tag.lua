@@ -158,7 +158,7 @@ elseif (arg.id == -1) or (arg.id == "referee") then
                 actor:send("Tagging " .. tostring(arg.name) .. " has no effect outside your zone!")
             end
             -- Player tags enemy holding flag
-            if (arg.wearing[flag_a]) or (arg.wearing[flag_b]%) then
+            if (arg.wearing[flag_a]) or (arg.wearing[flag_b]) then
                 local actor_room = actor.room
                 arg:command("remove ctf-flag")
                 actor:teleport(get_room(vnum_to_zone(actor_flag_room), vnum_to_local(actor_flag_room)))

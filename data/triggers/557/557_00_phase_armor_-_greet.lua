@@ -106,7 +106,7 @@ elseif (self.class == "cleric" or self.class == "priest" or self.class == "Diabo
         end
     end
 end
-if actor:get_quest_stage("ursa_quest")self.vnum% == 6007 then
+if actor:get_quest_stage("ursa_quest") and self.vnum == 6007 then
     wait(1)
     actor:send(tostring(self.name) .. " notices the concerned look on your face.")
     wait(1)

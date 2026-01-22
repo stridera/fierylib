@@ -1,26 +1,15 @@
 -- Trigger: wall_ice_sculptor_greet
 -- Zone: 533, ID: 8
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
+-- Fixed: Removed broken phase wand upgrade code (handled by generic trigger 003)
 --
 -- Original DG Script: #53308
 
 -- Converted from DG Script #53308: wall_ice_sculptor_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(1)
-if actor.quest_stage[type_wand] == "wandstep" then
-    local minlevel = (wandstep - 1) * 10
-    if actor.level >= minlevel then
-        if actor.quest_variable[type_wand:greet] == 0 then
-            self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-            actor:set_quest_var("%type%_wand", "greet", 1)
-        else
-            self:say("Do you have what I need for the wand?")
-        end
-        wait(1)
-    end
-end
+-- Note: Phase wand upgrade greet logic removed - handled by generic phase wand triggers
 local stage = actor:get_quest_stage("wall_ice")
 if stage == 0 then
     if string.find(actor.class, "Cryomancer") and actor.level > 56 then

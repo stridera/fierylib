@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who") or string.find(string.lower(speech), "continue")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "who") are you or string.find(speech, "continue")) and actor.id == -1 then
+if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.id == -1 then
     wait(2)
     if actor:get_quest_var("megalith_quest:hexpo") == 0 then
         self:say("I am the high priestess of a sacred sisterhood of witches dedicated to the worship of the faerie goddess the Great Mother, Lady of Stars.")

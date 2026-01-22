@@ -24,7 +24,7 @@ if cmd == "u" then
     return _return_value
 end
 local aliases = "elaborately-chiseled-staff deep-brown-maple-staff"
-if self.val2 and (arg ~= ) and (string.find(aliases, "arg")) and (actor:has_equipped("53504")) then
+if self.val2 and (arg ~= "") and (string.find(aliases, "arg")) and (actor:has_equipped("53504")) then
     local damage = 480 + random(1, 50)
     local damage_dealt = actor:damage(damage)  -- type: physical
     actor:send("You double over in pain as " .. tostring(self.shortdesc) .. " touches the ground! (<b:red>" .. tostring(damage) .. "</>)")

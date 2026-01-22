@@ -8,7 +8,7 @@
 -- Converted from DG Script #432: Word of Command progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "word") of command or string.find(arg, "word_command") then
+if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "word_of_command") or string.find(arg, "word_command") then
     if actor.level >= 65 then
         if string.find(actor.class, "diabolist") or string.find(actor.class, "Priest") then
             _return_value = false

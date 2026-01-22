@@ -1,7 +1,7 @@
 -- Trigger: phase wands attack counter
 -- Zone: 3, ID: 3
 -- Type: OBJECT, Flags: ATTACK
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 10 if statements
 --
 -- Original DG Script: #303
@@ -53,11 +53,11 @@ elseif self.id >= 330 and self.id <= 339 then
         local level = self.level - 50
     end
 end
-if actor.quest_stage[type_wand] > 1 then
-    if not actor.quest_variable[type_wand:wandtask1] then
-        local attack_increase = actor.quest_variable[type_wand:attack_counter] + 1
-        actor.name:set_quest_var("%type%_wand", "attack_counter", attack_increase)
-        if actor.quest_variable[type_wand:attack_counter] >= (actor.quest_stage[type_wand] - 1) * 50 then
+if actor:get_quest_stage(type .. "_wand") > 1 then
+    if not actor:get_quest_var(type .. "_wand", "wandtask1") then
+        local attack_increase = actor:get_quest_var(type .. "_wand", "attack_counter") + 1
+        actor:set_quest_var(type .. "_wand", "attack_counter", attack_increase)
+        if actor:get_quest_var(type .. "_wand", "attack_counter") >= (actor:get_quest_stage(type .. "_wand") - 1) * 50 then
             actor:set_quest_var("%type%_wand", "wandtask1", 1)
             actor:send("<b:yellow>You have perfected your bond with " .. tostring(self.shortdesc) .. "!</>")
         end

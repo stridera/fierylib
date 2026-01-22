@@ -1,8 +1,7 @@
 -- Trigger: waterform_water_death
 -- Zone: 28, ID: 5
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #2805
 
@@ -28,8 +27,8 @@ if i then
                 else
                     local number = 4
                 end
-                if person.quest_variable[waterform:regionnumber] == 0 then
-                    person.name:set_quest_var("waterform", "region%number%", 1)
+                if not person:get_quest_var("waterform:region" .. tostring(number)) then
+                    person:set_quest_var("waterform", "region" .. tostring(number), 1)
                     person:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
                     self.room:send_except(person, "<b:blue>" .. tostring(person.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
                 end
@@ -40,7 +39,7 @@ if i then
                 local region5 = person:get_quest_var("waterform:region5")
                 if region1 + region2 + region3 + region4 + region5 > 3 then
                     person:send("<b:blue>You have gathered all the samples of living water you need!</>")
-                    person.name:advance_quest("waterform")
+                    person:advance_quest("waterform")
                 end
             end
         elseif person then
@@ -62,8 +61,8 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or ac
     else
         local number = 4
     end
-    if actor.quest_variable[waterform:regionnumber] == 0 then
-        actor.name:set_quest_var("waterform", "region%number%", 1)
+    if not actor:get_quest_var("waterform:region" .. tostring(number)) then
+        actor:set_quest_var("waterform", "region" .. tostring(number), 1)
         actor:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
         self.room:send_except(actor, "<b:blue>" .. tostring(actor.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
     end
@@ -74,6 +73,6 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or ac
     local region5 = actor:get_quest_var("waterform:region5")
     if region1 + region2 + region3 + region4 + region5 > 3 then
         actor:send("<b:blue>You have gathered all the samples of living water you need!</>")
-        actor.name:advance_quest("waterform")
+        actor:advance_quest("waterform")
     end
 end

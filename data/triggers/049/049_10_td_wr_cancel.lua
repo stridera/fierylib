@@ -22,12 +22,12 @@ end
 -- Team Domination War Room Cancel (Speech) Trigger
 local i = 0
 while i < pylons do
-    if string.find(speech, "PiP") then
+    if string.find(speech, "P" .. i .. "P") then
         local j = 0
         while j < teams do
-            if string.find(speech, "TjT") then
+            if string.find(speech, "T" .. j .. "T") then
                 pylon[i] = j
-                globals.pylon%i% = globals.pylon%i% or true
+                globals["pylon" .. i] = globals["pylon" .. i] or true
                 -- switch on j
                 if j == 0 then
                     local team = team0
@@ -39,7 +39,7 @@ while i < pylons do
                     local team = team3
                 end
                 local num = i + 1
-                self.room:find_actor("teamdominationmc"):command("gossip %team% disrupts the countdown for %pylonname% %num%'s capture!")
+                self.room:find_actor("teamdominationmc"):command("gossip " .. team .. " disrupts the countdown for " .. pylonname .. " " .. num .. "'s capture!")
                 self.room:send("Team Domination countdown cancelled for pylon " .. tostring(i) .. "'s capture.")
                 return _return_value
             end

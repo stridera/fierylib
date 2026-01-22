@@ -1,7 +1,7 @@
 -- Trigger: berserker_hjordis_command_howl
 -- Zone: 364, ID: 13
 -- Type: MOB, Flags: COMMAND
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #36413
 
@@ -24,25 +24,27 @@ if actor:get_quest_stage("berserker_subclass") == 3 then
     self.room:send_except(actor, tostring(actor.name) .. " raises " .. tostring(hisher) .. " voice in a mighty howl to the Spirits!")
     wait(2)
     -- switch on random(1, 4)
-    if random(1, 4) == 1 then
-        local target = 16105
-        local place = "a desert cave"
-    elseif random(1, 4) == 2 then
-        local target = 16310
-        local place = "some forested highlands"
-    elseif random(1, 4) == 3 then
-        local target = 20311
-        local place = "a vast plain"
-    elseif random(1, 4) == 4 then
+    local target = nil
+    local place = nil
+    local roll = random(1, 4)
+    if roll == 1 then
+        target = 16105
+        place = "a desert cave"
+    elseif roll == 2 then
+        target = 16310
+        place = "some forested highlands"
+    elseif roll == 3 then
+        target = 20311
+        place = "a vast plain"
     else
-        local target = 55220
-        local place = "the frozen tundra"
+        target = 55220
+        place = "the frozen tundra"
     end
     actor:send(tostring(self.name) .. " throws her head back and howls along with you!")
     self.room:send_except(actor, tostring(self.name) .. " throws her head back and howls along with " .. tostring(actor.name) .. "!")
     wait(2)
     actor:set_quest_var("berserker_subclass", "target", target)
-    actor:send("The Spirits reveal to you a vision of <b:yellow>" .. "%get.mob_shortdesc[%target%]%</>!")
+    actor:send("The Spirits reveal to you a vision of <b:yellow>" .. tostring(mobs.template(vnum_to_zone(target), vnum_to_local(target)).short_description) .. "</>!")
     actor:send("You see it is in <b:yellow>" .. tostring(place) .. "</>!")
     wait(6)
     actor:send(tostring(self.name) .. " says, 'The Spirits have spoken!'")

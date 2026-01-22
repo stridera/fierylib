@@ -22,10 +22,10 @@ while thishit < numhits do
         rnd:send("You absorb strength from the rock! (<yellow>" .. tostring(dmg) .. "</>)")
         rnd:heal(dmg)
     else
-        if rnd:get_quest_stage("meteorswarm") == 2 or rnd:get_quest_var("meteorswarm:new") /= yes then
+        if rnd:get_quest_stage("meteorswarm") == 2 or rnd:get_quest_var("meteorswarm:new") ~= "yes" then
             if rnd:get_quest_stage("meteorswarm") == 2 then
                 rnd:advance_quest("meteorswarm")
-            elseif rnd:get_quest_var("meteorswarm:new") /= yes then
+            elseif rnd:get_quest_var("meteorswarm:new") ~= "yes" then
                 rnd:set_quest_var("meteorswarm", "new", "no")
             end
             self.room:spawn_object(482, 52)

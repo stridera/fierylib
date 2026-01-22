@@ -26,15 +26,15 @@ if actor.class ~= "sorcerer" and actor.class ~= "cryomancer" and actor.class ~= 
     return _return_value
 end
 local stage = actor.quest_stage[type_wand]
-local job1 = actor.quest_variable[type_wand:wandtask1]
-local job2 = actor.quest_variable[type_wand:wandtask2]
-local job3 = actor.quest_variable[type_wand:wandtask3]
-local job4 = actor.quest_variable[type_wand:wandtask4]
-local job5 = actor.quest_variable[type_wand:wandtask5]
+local job1 = actor.quest_variable[type_wand .. ":wandtask1"]
+local job2 = actor.quest_variable[type_wand .. ":wandtask2"]
+local job3 = actor.quest_variable[type_wand .. ":wandtask3"]
+local job4 = actor.quest_variable[type_wand .. ":wandtask4"]
+local job5 = actor.quest_variable[type_wand .. ":wandtask5"]
 if actor.has_completed[type_wand] then
     self:say("It looks like you already have the most powerful staff of " .. tostring(type) .. " in existence!")
 elseif stage == "wandstep" and actor.level >= (wandstep - 1) * 10 then
-    if actor.quest_variable[type_wand:greet] == 0 then
+    if actor.quest_variable[type_wand .. ":greet"] == 0 then
         self:say("Tell me why you're here first.")
     else
         self:say("I'm improving your " .. tostring(type) .. " weapon.")
@@ -89,7 +89,7 @@ elseif stage == "wandstep" and actor.level >= (wandstep - 1) * 10 then
         end
         if not job1 then
             local counter = 50
-            local remaining = ((actor.quest_stage[type_wand] - 1) * counter) - actor.quest_variable[type_wand:attack_counter]
+            local remaining = ((actor.quest_stage[type_wand] - 1) * counter) - actor.quest_variable[type_wand .. ":attack_counter"]
             self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
         end
         if not job2 then

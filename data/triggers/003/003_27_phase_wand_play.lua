@@ -30,7 +30,7 @@ elseif self.id == 17309 then
     local reward = 325
     local wandname = "wand-snow"
 end
-if actor.quest_stage[type_wand] == 6 and actor.quest_variable[type_wand:wandtask5] and (actor.wearing[wandnum] or actor.inventory[wandnum]) then
+if actor.quest_stage[type_wand] == 6 and actor.quest_variable[type_wand .. ":wandtask5"] and (actor.wearing[wandnum] or actor.inventory[wandnum]) then
     _return_value = false
     actor:advance_quest("%type%_wand")
     self.room:send("%get.obj_shortdesc[%wandnum%]% begins to resonate in harmony with %self.shortdesc%!")

@@ -24,7 +24,7 @@ wait(1)
 local speech = speech
 if actor.id == -1 then
     if actor:get_quest_stage("ursa_quest") < 1 then
-        if string.find(speech, "help") or string.find(speech, "help")? or string.find(speech, "ok") or string.find(speech, "yes") then
+        if string.find(speech, "help") or string.find(speech, "ok") or string.find(speech, "yes") then
             actor.name:start_quest("ursa_quest")
             self:emote("looks at you.")
             wait(1)
@@ -34,7 +34,7 @@ if actor.id == -1 then
             wait(1)
             actor:send(tostring(self.name) .. " says, 'Please, I'm very ill.  Can you <b:cyan>help</> me?'")
             return _return_value
-        elseif string.find(speech, "hurt") or string.find(speech, "hurt")? then
+        elseif string.find(speech, "hurt") then
             wait(1)
             actor:send(tostring(self.name) .. " says, 'I'm very sick.  The disease makes me lose control.'")
             wait(2)

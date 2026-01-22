@@ -1,8 +1,7 @@
 -- Trigger: shrynn fight
 -- Zone: 488, ID: 1
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48801
 
@@ -57,7 +56,7 @@ else
         local damage_dealt = actor:damage(damage)  -- type: crush
         actor:send("<cyan>" .. tostring(self.name) .. " throws a tremendous burst of wind at you, throwing you from the area!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, "<cyan>" .. tostring(self.name) .. " throws a tremendous burst of wind at " .. tostring(actor.name) .. ", throwing " .. tostring(actor.object) .. " from the area!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-        if actor &(actor.room == self.room) then
+        if actor and (actor.room == self.room) then
             local location = 48801 + random(1, 29)
             actor:teleport(get_room(vnum_to_zone(location), vnum_to_local(location)))
             -- actor looks around

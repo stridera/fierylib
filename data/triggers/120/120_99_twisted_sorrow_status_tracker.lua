@@ -1,8 +1,7 @@
 -- Trigger: twisted_sorrow_status_tracker
 -- Zone: 120, ID: 99
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 13 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #12099
 

@@ -1,7 +1,7 @@
 -- Trigger: connectfour start
 -- Zone: 60, ID: 61
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #6061
@@ -30,7 +30,7 @@ if player1 then
     else
         self.room:send_except(actor, tostring(actor.name) .. " joins the ConnectFour game as player 2.")
         actor:send("You are now joining the ConnectFour game!")
-        if p2col == &1&b then
+        if p2col == "&1&b" then
             actor:send("You are the <b:red>red</> pieces!")
             self.room:send_except(actor, tostring(actor.name) .. " gets the <b:red>red</> pieces.")
             player1:send("You get to go first!")  -- fixed: space in var name
@@ -38,7 +38,7 @@ if player1 then
             globals.status = globals.status or true
             local turn = 1
             globals.turn = globals.turn or true
-        elseif p2col == &b&9 then
+        elseif p2col == "&b&9" then
             actor:send("You are the <blue>&9black</> pieces!")
             self.room:send_except(actor, tostring(actor.name) .. " gets the <blue>&9black</> pieces.")
             player1:send("You get to go first!")

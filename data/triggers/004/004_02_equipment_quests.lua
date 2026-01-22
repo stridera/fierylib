@@ -50,7 +50,7 @@ if string.find(arg, "equipment") then
         local status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    if string.find(sorcererclasses, "actor.class") then
+    if string.find(sorcererclasses, actor.class) then
         actor:send("<b:green>&uAcid Wand</>")
         actor:send("Masters of earth will help you create and upgrade a new mystic weapon.")
         if actor:get_has_completed("acid_wand") then
@@ -128,7 +128,7 @@ if string.find(arg, "equipment") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
-    if string.find(hunterclasses, "actor.class") then
+    if string.find(hunterclasses, actor.class) then
         actor:send("<b:green>&uEye of the Tiger</>")
         actor:send("Mighty warriors who have bested the biggest beasts can further prove their skills to earn special trophies.")
         if actor:get_has_completed("ranger_trophy") then

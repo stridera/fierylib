@@ -31,8 +31,8 @@ if actor.id == -1 then
         person:start_quest("nukreth_spire")
     end
     local rnd = random(1, 4)
-    if actor.quest_variable[nukreth_spire:pathrnd] == 1 then
-        while actor.quest_variable[nukreth_spire:pathrnd] == 1 do
+    if actor:get_quest_var("nukreth_spire:pathrnd") == 1 then
+        while actor:get_quest_var("nukreth_spire:pathrnd") == 1 do
             local rnd = random(1, 4)
         end
         local start = rnd

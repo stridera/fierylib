@@ -1,7 +1,7 @@
 -- Trigger: quest_timulos_greet
 -- Zone: 60, ID: 5
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 7 if statements
 --
 -- Original DG Script: #6005

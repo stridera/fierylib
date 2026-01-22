@@ -11,7 +11,7 @@ wait(2)
 local minlevel = (wandstep - 1) * 10
 if actor.quest_stage[type_wand] == "wandstep" then
     if actor.level >= minlevel then
-        if actor.quest_variable[type_wand:greet] == 0 then
+        if actor.quest_variable[type_wand .. ":greet"] == 0 then
             self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
             self:say("Do you have what I need?")

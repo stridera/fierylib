@@ -15,10 +15,10 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
-    local response = I asked you to bring me the actor:get_quest_var("pyromancer_subclass:part") flame, not this nonsense.
-elseif actor.quest_stage[type_wand] == "step" then
+    local response = "I asked you to bring me the " .. actor:get_quest_var("pyromancer_subclass", "part") .. " flame, not this nonsense."
+elseif actor:get_quest_var("type_wand", "step") then
     local response = "I can't craft with this!"
-elseif %actor.quest_stage[emmath_flameball] > 1 then
+elseif actor:get_quest_stage("emmath_flameball") > 1 then
     local response = "You're supposed to be out collecting flames, not whatever this is."
 else
     local response = "Why are you bringing me this trash?"

@@ -119,7 +119,7 @@ elseif stage == 4 then
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'You must slay Sagece first!'")
         else
-            if actor.quest_variable[dragons_health:object.vnum] then
+            if actor.quest_variable["dragons_health:" .. object.vnum] then
                 _return_value = false
                 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 actor:send(tostring(self.name) .. " says, 'You have already given this to me.'")

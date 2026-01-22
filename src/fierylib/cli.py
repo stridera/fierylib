@@ -700,46 +700,45 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             else:
                 click.echo(f"  ℹ️  No pet/mount shops imported")
 
-            # PHASE 4: Import Triggers (DG Scripts → Lua)
+            # PHASE 4: Import Triggers (from curated Lua files)
             click.echo(f"\n{'='*60}")
-            click.echo(f"Phase 4: Importing Triggers (DG Script → Lua)")
+            click.echo(f"Phase 4: Importing Triggers (from Lua files)")
             click.echo(f"{'='*60}")
 
-            trg_dir = world_dir / "trg"
-            if trg_dir.exists():
+            # Look for triggers in fierylib/data/triggers/ (curated Lua files)
+            # Go up from src/fierylib/cli.py to fierylib/data/triggers
+            triggers_dir = Path(__file__).parent.parent.parent / "data" / "triggers"
+            if not triggers_dir.exists():
+                # Fallback: try relative to current working directory
+                triggers_dir = Path("data/triggers")
+
+            if triggers_dir.exists():
                 trigger_importer = TriggerImporter(prisma)
 
                 # Clear existing triggers if --clear was specified
                 if clear and not dry_run:
                     await trigger_importer.clear_all_triggers()
 
-                # Import triggers for zones we're importing, or all if no zone filter
-                if zone:
-                    trg_file = trg_dir / f"{zone}.trg"
-                    if trg_file.exists():
-                        trg_result = await trigger_importer.import_from_file(trg_file, dry_run=dry_run)
-                        total_stats["triggers"] += trg_result.get("imported", 0)
-                        if trg_result.get("failed", 0) > 0:
-                            total_stats["failed"] += trg_result["failed"]
-                        needs_review = trg_result.get("needs_review", 0)
-                        total_stats["needs_review"] = total_stats.get("needs_review", 0) + needs_review
-                        if needs_review > 0:
-                            click.echo(f"  ⚠️  Zone {zone}: {trg_result.get('imported', 0)} triggers imported ({needs_review} need review)")
-                        else:
-                            click.echo(f"  ✅ Zone {zone}: {trg_result.get('imported', 0)} triggers imported")
+                # Import triggers from Lua files
+                trg_result = await trigger_importer.import_from_lua_directory(
+                    triggers_dir,
+                    dry_run=dry_run,
+                    verbose=verbose,
+                    zone=zone,
+                )
+                total_stats["triggers"] += trg_result.get("imported", 0) + trg_result.get("updated", 0)
+                if trg_result.get("failed", 0) > 0:
+                    total_stats["failed"] += trg_result["failed"]
+
+                if trg_result["success"]:
+                    click.echo(f"  ✅ Imported {trg_result.get('total', 0)} triggers from {triggers_dir}")
                 else:
-                    trg_result = await trigger_importer.import_all_triggers(trg_dir, dry_run=dry_run, verbose=verbose)
-                    total_stats["triggers"] += trg_result.get("imported", 0)
-                    if trg_result.get("failed", 0) > 0:
-                        total_stats["failed"] += trg_result["failed"]
-                    needs_review = trg_result.get("needs_review", 0)
-                    total_stats["needs_review"] = total_stats.get("needs_review", 0) + needs_review
-                    if needs_review > 0:
-                        click.echo(f"  ⚠️  Imported {trg_result.get('imported', 0)} triggers ({needs_review} need review in Muditor)")
-                    else:
-                        click.echo(f"  ✅ Imported {trg_result.get('imported', 0)} triggers from {trg_result.get('total_files', 0)} files")
+                    click.echo(f"  ⚠️  Imported {trg_result.get('total', 0)} triggers ({trg_result.get('failed', 0)} failed)")
+                    for err in trg_result.get("errors", [])[:5]:
+                        click.echo(f"      Error: {err['file']}: {err['error']}")
             else:
-                click.echo(f"  ⚠️  Trigger directory not found: {trg_dir}")
+                click.echo(f"  ⚠️  Triggers directory not found: {triggers_dir}")
+                click.echo(f"      Run 'fierylib triggers convert-legacy' to generate Lua files in data/triggers/")
 
             # PHASE 4b: Link Mob Triggers (parse T lines from mob files)
             click.echo(f"\n  --- Linking Mob Triggers ---")
@@ -756,6 +755,22 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 click.echo(f"  ⏭️  Skipped (dry run)")
             else:
                 click.echo(f"  ⚠️  Mob directory not found: {mob_dir}")
+
+            # PHASE 4c: Link Object Triggers (parse T lines from object files)
+            click.echo(f"\n  --- Linking Object Triggers ---")
+            obj_dir = world_dir / "obj"
+            if obj_dir.exists() and not dry_run:
+                from fierylib.importers.object_trigger_linker import ObjectTriggerLinker
+                obj_linker = ObjectTriggerLinker(prisma)
+                obj_link_result = await obj_linker.link_object_triggers(world_dir, dry_run=dry_run, verbose=verbose)
+                total_stats["object_trigger_links"] = obj_link_result.get("links_created", 0)
+                if obj_link_result.get("errors"):
+                    total_stats["failed"] += len(obj_link_result["errors"])
+                click.echo(f"  ✅ Created {obj_link_result.get('links_created', 0)} object-trigger links for {obj_link_result.get('objects_processed', 0)} objects")
+            elif dry_run:
+                click.echo(f"  ⏭️  Skipped (dry run)")
+            else:
+                click.echo(f"  ⚠️  Object directory not found: {obj_dir}")
 
             # PHASE 5: Import Mail
             click.echo(f"\n{'='*60}")
@@ -1239,10 +1254,10 @@ def import_mail(lib_path: str, dry_run: bool, verbose: bool):
 
 @main.command()
 @click.option(
-    "--lib-path",
+    "--triggers-dir",
     type=click.Path(exists=True, file_okay=False, dir_okay=True),
-    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
-    help="Path to legacy CircleMUD lib directory",
+    default=None,
+    help="Path to triggers directory (default: data/triggers)",
 )
 @click.option(
     "--zone",
@@ -1253,7 +1268,7 @@ def import_mail(lib_path: str, dry_run: bool, verbose: bool):
     "--dry-run",
     is_flag=True,
     default=False,
-    help="Parse and validate without importing to database",
+    help="Validate without importing to database",
 )
 @click.option(
     "--verbose", "-v",
@@ -1267,14 +1282,19 @@ def import_mail(lib_path: str, dry_run: bool, verbose: bool):
     default=False,
     help="Clear existing triggers before import",
 )
-def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: bool, clear: bool):
-    """Import DG Script triggers and convert them to Lua.
+def import_triggers(triggers_dir: str | None, zone: int | None, dry_run: bool, verbose: bool, clear: bool):
+    """Import Lua triggers from curated files.
 
-    Parses .trg files from the legacy lib/world/trg directory and:
-    - Converts DG Script syntax to Lua
-    - Handles color codes (&1 -> <red>)
-    - Converts variables (%actor.name% -> actor.name)
-    - Imports to PostgreSQL Triggers table
+    Reads .lua files from data/triggers/ directory structure:
+        data/triggers/
+        ├── 001/
+        │   ├── 001_00_trigger.lua
+        │   └── 001_01_another.lua
+        └── 489/
+            └── 489_02_lokari_init.lua
+
+    Note: Use 'fierylib triggers convert-legacy' to generate these files
+    from legacy DG Scripts (one-time migration).
     """
     import asyncio
     from pathlib import Path
@@ -1283,9 +1303,17 @@ def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: boo
 
     async def run():
         click.echo("=" * 60)
-        click.echo("FieryLib - DG Script to Lua Trigger Importer")
+        click.echo("FieryLib - Lua Trigger Importer")
         click.echo("=" * 60)
-        click.echo(f"Library path: {lib_path}")
+
+        # Resolve triggers directory
+        if triggers_dir:
+            trig_path = Path(triggers_dir)
+        else:
+            # Default to fierylib/data/triggers (go up from src/fierylib/cli.py)
+            trig_path = Path(__file__).parent.parent.parent / "data" / "triggers"
+
+        click.echo(f"Triggers directory: {trig_path.absolute()}")
 
         if zone:
             click.echo(f"Importing zone: {zone}")
@@ -1295,17 +1323,16 @@ def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: boo
         if dry_run:
             click.echo("DRY RUN - No database changes will be made\n")
 
+        if not trig_path.exists():
+            click.echo(f"❌ Triggers directory not found: {trig_path}")
+            click.echo(f"   Run 'fierylib triggers convert-legacy' to generate Lua files")
+            return
+
         prisma = Prisma()
         await prisma.connect()
 
         try:
             importer = TriggerImporter(prisma)
-            world_dir = Path(lib_path) / "world"
-            trg_dir = world_dir / "trg"
-
-            if not trg_dir.exists():
-                click.echo(f"❌ Trigger directory not found: {trg_dir}")
-                return
 
             # Clear existing triggers if requested
             if clear and not dry_run:
@@ -1313,56 +1340,36 @@ def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: boo
                 deleted = await importer.clear_all_triggers()
                 click.echo(f"  ✅ Deleted {deleted} triggers")
 
-            # Import triggers
-            if zone:
-                # Import specific zone
-                trg_file = trg_dir / f"{zone}.trg"
-                if not trg_file.exists():
-                    click.echo(f"❌ Trigger file not found: {trg_file}")
-                    return
+            # Import triggers from Lua files
+            result = await importer.import_from_lua_directory(
+                trig_path,
+                dry_run=dry_run,
+                verbose=verbose,
+                zone=zone,
+            )
 
-                result = await importer.import_from_file(trg_file, dry_run=dry_run)
+            click.echo(f"\n{'='*60}")
+            click.echo("Import Summary")
+            click.echo(f"{'='*60}")
+            click.echo(f"  Zones:         {result.get('total_zones', 0)}")
+            click.echo(f"  Triggers:      {result['total']}")
+            click.echo(f"  Created:       {result.get('imported', 0)}")
+            click.echo(f"  Updated:       {result.get('updated', 0)}")
+            click.echo(f"  Failed:        {result['failed']}")
 
-                if verbose:
-                    for t in result.get("triggers", []):
-                        status = "✅" if t["success"] else "❌"
-                        ttype = t.get('type', 'UNKNOWN')
-                        trigger_id = f"{t.get('zoneId', '?')}:{t.get('id', '?')}"
-                        if t["success"]:
-                            click.echo(f"  {status} Trigger {trigger_id}: {t['name']} ({ttype}) - {t.get('action', 'unknown')}")
-                        else:
-                            click.echo(f"  {status} Trigger {trigger_id}: {t['name']} - {t.get('error', 'unknown error')}")
+            if result.get("errors"):
+                click.echo(f"\n  Errors:")
+                for err in result["errors"][:10]:
+                    click.echo(f"    {err['file']}: {err['error']}")
+                if len(result["errors"]) > 10:
+                    click.echo(f"    ... and {len(result['errors']) - 10} more")
 
-                click.echo(f"\n{'='*60}")
-                click.echo("Import Summary")
-                click.echo(f"{'='*60}")
-                click.echo(f"  Total:         {result['total']}")
-                click.echo(f"  Imported:      {result['imported']}")
-                click.echo(f"  Failed:        {result['failed']}")
-                needs_review = result.get("needs_review", 0)
-                if needs_review > 0:
-                    click.echo(f"  Needs Review:  {needs_review} (syntax errors - use Muditor to fix)")
-            else:
-                # Import all triggers (including those with syntax errors, flagged for review)
-                result = await importer.import_all_triggers(trg_dir, dry_run=dry_run, verbose=verbose)
-
-                click.echo(f"\n{'='*60}")
-                click.echo("Import Summary")
-                click.echo(f"{'='*60}")
-                click.echo(f"  Files:         {result['total_files']}")
-                click.echo(f"  Triggers:      {result['total_triggers']}")
-                click.echo(f"  Imported:      {result['imported']}")
-                click.echo(f"  Failed:        {result['failed']}")
-                needs_review = result.get('needs_review', 0)
-                if needs_review > 0:
-                    click.echo(f"  Needs Review:  {needs_review} (syntax errors - use Muditor to fix)")
-
-                if verbose:
-                    # Show breakdown by type
-                    stats = await importer.get_trigger_stats()
-                    click.echo(f"\n  By Type:")
-                    for ttype, count in stats["by_type"].items():
-                        click.echo(f"    {ttype}: {count}")
+            if verbose:
+                # Show breakdown by type
+                stats = await importer.get_trigger_stats()
+                click.echo(f"\n  By Type:")
+                for ttype, count in stats["by_type"].items():
+                    click.echo(f"    {ttype}: {count}")
 
             if dry_run:
                 click.echo(f"\n(Dry run - no database changes made)")
@@ -1393,20 +1400,21 @@ def import_triggers(lib_path: str, zone: int | None, dry_run: bool, verbose: boo
     help="Show detailed output",
 )
 def link_triggers(lib_path: str, dry_run: bool, verbose: bool):
-    """Link mobs to triggers via MobTriggers junction table.
+    """Link mobs and objects to triggers via junction tables.
 
-    Parses "T <trigger_vnum>" lines from .mob files and creates
-    the proper many-to-many relationships in the MobTriggers table.
-    In DG Scripts, triggers can be shared across multiple mobs.
+    Parses "T <trigger_vnum>" lines from .mob and .obj files and creates
+    the proper many-to-many relationships in the MobTriggers and ObjectTriggers tables.
+    In DG Scripts, triggers can be shared across multiple entities.
     """
     import asyncio
     from pathlib import Path
     from prisma import Prisma
     from fierylib.importers.mob_trigger_linker import MobTriggerLinker
+    from fierylib.importers.object_trigger_linker import ObjectTriggerLinker
 
     async def run():
         click.echo("=" * 60)
-        click.echo("FieryLib - Mob Trigger Linker")
+        click.echo("FieryLib - Trigger Linker")
         click.echo("=" * 60)
         click.echo(f"Library path: {lib_path}")
 
@@ -1418,21 +1426,42 @@ def link_triggers(lib_path: str, dry_run: bool, verbose: bool):
 
         try:
             world_dir = Path(lib_path) / "world"
-            linker = MobTriggerLinker(prisma)
-            result = await linker.link_mob_triggers(world_dir, dry_run=dry_run, verbose=verbose)
 
-            click.echo(f"\nResults:")
-            click.echo(f"  Mobs processed:  {result.get('mobs_processed', 0)}")
-            click.echo(f"  Links created:   {result.get('links_created', 0)}")
-            click.echo(f"  Links skipped:   {result.get('links_skipped', 0)}")
+            # Link mob triggers
+            click.echo(f"\n--- Linking Mob Triggers ---")
+            mob_linker = MobTriggerLinker(prisma)
+            mob_result = await mob_linker.link_mob_triggers(world_dir, dry_run=dry_run, verbose=verbose)
 
-            if result.get("errors"):
-                click.echo(f"  Errors:          {len(result['errors'])}")
+            click.echo(f"\nMob Trigger Results:")
+            click.echo(f"  Mobs processed:  {mob_result.get('mobs_processed', 0)}")
+            click.echo(f"  Links created:   {mob_result.get('links_created', 0)}")
+            click.echo(f"  Links skipped:   {mob_result.get('links_skipped', 0)}")
+
+            if mob_result.get("errors"):
+                click.echo(f"  Errors:          {len(mob_result['errors'])}")
                 if verbose:
-                    for error in result["errors"][:10]:
+                    for error in mob_result["errors"][:10]:
                         click.echo(f"    - {error}")
-                    if len(result["errors"]) > 10:
-                        click.echo(f"    ... and {len(result['errors']) - 10} more")
+                    if len(mob_result["errors"]) > 10:
+                        click.echo(f"    ... and {len(mob_result['errors']) - 10} more")
+
+            # Link object triggers
+            click.echo(f"\n--- Linking Object Triggers ---")
+            obj_linker = ObjectTriggerLinker(prisma)
+            obj_result = await obj_linker.link_object_triggers(world_dir, dry_run=dry_run, verbose=verbose)
+
+            click.echo(f"\nObject Trigger Results:")
+            click.echo(f"  Objects processed: {obj_result.get('objects_processed', 0)}")
+            click.echo(f"  Links created:     {obj_result.get('links_created', 0)}")
+            click.echo(f"  Links skipped:     {obj_result.get('links_skipped', 0)}")
+
+            if obj_result.get("errors"):
+                click.echo(f"  Errors:            {len(obj_result['errors'])}")
+                if verbose:
+                    for error in obj_result["errors"][:10]:
+                        click.echo(f"    - {error}")
+                    if len(obj_result["errors"]) > 10:
+                        click.echo(f"    ... and {len(obj_result['errors']) - 10} more")
 
             if dry_run:
                 click.echo(f"\n(Dry run - no database changes made)")
@@ -3042,6 +3071,11 @@ def generate_layout(
             await prisma.disconnect()
 
     asyncio.run(run_layout())
+
+
+# Register command groups from commands submodule
+from fierylib.commands.triggers import triggers
+main.add_command(triggers)
 
 
 if __name__ == "__main__":

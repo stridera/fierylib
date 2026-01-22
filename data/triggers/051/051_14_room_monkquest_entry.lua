@@ -32,6 +32,6 @@ doors.set_key(get_room(580, 25), "east", -1)
 doors.set_description(get_room(580, 25), "east", "A heavy slab of stone sits in your way.")
 wait(3)
 self.room:send(tostring(mobiles.template(51, 31).name) .. " presses a little harder, fully opening the stone door.")
-self.room:send_except(actor, "%get.mob_shortdesc[5131]% points to the east and nudges %actor.name% forward.")
+self.room:send_except(actor, mobiles.template(51, 31).shortdesc .. " points to the east and nudges " .. actor.name .. " forward.")
 actor:send(tostring(mobiles.template(51, 31).name) .. " points to the east and nudges you forward.")
 return _return_value

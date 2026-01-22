@@ -1,7 +1,7 @@
 -- Trigger: priestess_speech3
 -- Zone: 123, ID: 3
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: CLEAN
+-- Status: CLEAN (fixed malformed string.find pattern)
 --
 -- Original DG Script: #12303
 
@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "old") or string.find(string.lower(speech), "why?")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "old") gods or if string.find(speech, "old") gods? or if string.find(speech, "why")? then
+if string.find(speech_lower, "old gods") or string.find(speech_lower, "why") then
     wait(2)
     self:say("You see, when the Nine Hells cracked open to vomit forth Sagece on Templace, the putrid rift she crawled through so corrupted the world around it, many of the Old Gods found their holy sites defiled and their physical access to Ethilien severed.")
     wait(6)

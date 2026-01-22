@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "wizard") or string.find(string.lower(
     return true  -- No matching keywords
 end
 wait(2)
-if string.find(speech, "wizard") eye or string.find(speech, "the") shaman sent me or string.find(speech, "crystal") ball then
+if string.find(speech, "wizard eye") or string.find(speech, "the shaman sent me") or string.find(speech, "crystal ball") then
     if actor:get_quest_stage("wizard_eye") == 6 then
         actor.name:advance_quest("wizard_eye")
         self:command("grin")

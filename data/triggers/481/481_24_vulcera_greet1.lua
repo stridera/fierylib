@@ -22,9 +22,9 @@ end
 while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
-        if person.quest_stage[type_wand] == "wandstep" then
+        if person:get_quest_stage("phase_wand") == "wandstep" then
             if person.level >= 60 then
-                if person.quest_variable[type_wand:greet] == 0 then
+                if person:get_quest_var("phase_wand:greet") == 0 then
                     wait(2)
                     self:say("What do you want pathetic mortal?")
                 else

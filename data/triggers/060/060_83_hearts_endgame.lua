@@ -1,7 +1,7 @@
 -- Trigger: hearts endgame
 -- Zone: 60, ID: 83
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 22 if statements
 --   Large script: 5677 chars
 --

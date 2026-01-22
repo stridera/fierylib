@@ -31,9 +31,9 @@ if object.id == "maceitem2" or object.id == "maceitem3" or object.id == "maceite
                         elseif object.id == "%maceitem6%" then
                             local number = 6
                         end
-                        if actor.quest_variable[phase_mace:tasknumber] == 1 then
-                            local response = You already gave me object.shortdesc.
-                        elseif macestep == 2 and number > 2 and actor.quest_variable[phase_mace:dirtnumber] == 0 then
+                        if actor.quest_variable[phase_mace .. ":tasknumber"] == 1 then
+                            local response = "You already gave me " .. tostring(object.shortdesc) .. "."
+                        elseif macestep == 2 and number > 2 and actor.quest_variable[phase_mace .. ":dirtnumber"] == 0 then
                             wait(2)
                             self:command("shake")
                             world.destroy(object)
@@ -206,7 +206,7 @@ elseif reward == "yes" then
         local loop = loop + 1
     end
 elseif reward == "count" then
-    local response = Keep practicing with get.obj_shortdesc[macevnum].
+    local response = "Keep practicing with " .. tostring(objects.template(macevnum).shortdesc) .. "."
 elseif reward == "stop" then
     local response = "Bring me the other materials first."
 end

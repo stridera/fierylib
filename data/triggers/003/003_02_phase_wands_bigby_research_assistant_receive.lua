@@ -1,7 +1,7 @@
 -- Trigger: phase wands bigby research assistant receive
 -- Zone: 3, ID: 2
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 11 if statements
 --   Large script: 6900 chars
 --
@@ -48,9 +48,9 @@ local times = 50
 -- Is this a wand or gem?
 if wand == "yes" or wandgem == "yes" then
     -- Are we on the crafting stage?
-    if actor.quest_stage[type_wand] == 2 then
+    if actor:get_quest_stage(type .. "_wand") == 2 then
         if wand == "yes" then
-            if actor.quest_variable[type_wand:wandtask1] and actor.quest_variable[type_wand:wandtask2] then
+            if actor:get_quest_var(type .. "_wand", "wandtask1") and actor:get_quest_var(type .. "_wand", "wandtask2") then
                 actor:advance_quest("%type%_wand")
                 actor:set_quest_var("%type%_wand", "greet", 0)
                 actor:set_quest_var("%type%_wand", "attack_counter", 0)
@@ -117,7 +117,7 @@ if wand == "yes" or wandgem == "yes" then
             world.destroy(object)
             self:say("Yes, this is exactly what I need!")
             wait(1)
-            if actor.quest_variable[type_wand:wandtask1] then
+            if actor:get_quest_var(type .. "_wand", "wandtask1") then
                 self:say("Give me the wand to improve.")
             else
                 self:say("Keep practicing with your wand!")
@@ -125,10 +125,10 @@ if wand == "yes" or wandgem == "yes" then
                 self:say("Come back when you've attacked " .. tostring(times) .. " times.")
             end
         end
-    elseif actor.quest_stage[type_wand] < 2 then
+    elseif actor:get_quest_stage(type .. "_wand") < 2 then
         if wand then
             wait(2)
-            if not actor.quest_stage[type_wand] then
+            if not actor:get_quest_stage(type .. "_wand") then
                 actor:start_quest("%type%_wand")
                 self:say("I can upgrade your " .. tostring(type) .. " wand!  But what I will do is just the first step in a life-long journey.")
                 wait(2)

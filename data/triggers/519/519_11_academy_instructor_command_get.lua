@@ -1,7 +1,7 @@
 -- Trigger: academy_instructor_command_get
 -- Zone: 519, ID: 11
 -- Type: MOB, Flags: COMMAND
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #51911
 
@@ -50,7 +50,7 @@ elseif actor:get_quest_var("school:gear") == 9 and arg == "all" then
     actor:send(tostring(self.name) .. " tells you, 'First, you can <b:cyan>(DRO)P</> items with the command <b:cyan>DROP [object]</>.'")
     actor:send("</>")
     actor:send(tostring(self.name) .. " tells you, 'Drop one of those sticks by typing <b:green>drop stick</>.'")
-elseif actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick") bag then
+elseif actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick bag") then
     actor:set_quest_var("school", "gear", 16)
     actor:command("get stick bag")
     wait(2)

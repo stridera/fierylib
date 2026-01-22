@@ -1,9 +1,7 @@
 -- Trigger: high-druid-receive
 -- Zone: 23, ID: 7
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
---   Large script: 5042 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #2307
 
@@ -86,15 +84,11 @@ if actor.id == -1 then
                 self:say("Very interesting - but I cannot use that just now.")
                 wait(2)
                 self:destroy_item("blessing")
-            else
-                self:command("eye " .. tostring(actor.name))
-                self:say("And why should I need this?")
-                _return_value = false
             end
         else
+            self:command("eye " .. tostring(actor.name))
+            self:say("And why should I need this?")
             _return_value = false
-            self:say("Thank you, but I do not need this.")
-            actor:send(tostring(self.name) .. " returns the item to you.")
         end
     else
         self:say("I am sorry, but I am only looking for help from a fellow druid.")

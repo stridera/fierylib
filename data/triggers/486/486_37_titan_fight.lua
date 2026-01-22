@@ -1,8 +1,7 @@
 -- Trigger: titan fight
 -- Zone: 486, ID: 37
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48637
 

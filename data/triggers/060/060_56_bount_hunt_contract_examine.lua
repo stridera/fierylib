@@ -1,7 +1,7 @@
 -- Trigger: Bount hunt contract examine
 -- Zone: 60, ID: 56
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 11 if statements
 --
 -- Original DG Script: #6056

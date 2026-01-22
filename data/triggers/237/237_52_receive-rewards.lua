@@ -100,7 +100,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
         end
     end
     -- Make sure it's valid, and we haven't gotten it yet
-    if accepted == 1 and actor.quest_variable[vilekka_stew:got_spice:num] == 1 then
+    if accepted == 1 and actor.quest_variable["vilekka_stew:got_spice:" .. num] == 1 then
         local accepted = 0
     end
     if accepted == 0 then

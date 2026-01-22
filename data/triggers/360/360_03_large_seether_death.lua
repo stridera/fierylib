@@ -1,7 +1,7 @@
 -- Trigger: Large_seether_death
 -- Zone: 360, ID: 3
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: CLEAN (reviewed 2026-01-22)
 --
 -- Original DG Script: #36003
 
@@ -20,7 +20,7 @@ if world.count_mobiles("8031") < 1 and (actor.level < 30 or actor:get_quest_stag
     end)
     local rnd = random(1, 100)
     get_room(160, 95):at(function()
-        self.room:find_actor("ice"):teleport(find_room_by_name("%rnd_room%"))
+        self.room:find_actor("ice"):teleport(get_room(vnum_to_zone(rnd_room), vnum_to_local(rnd_room)))
     end)
     -- Sometimes creatures don't get teleported out of the loading
     -- room so we're gonna go back and purge it just in case.

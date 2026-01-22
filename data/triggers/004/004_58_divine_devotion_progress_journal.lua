@@ -10,7 +10,7 @@
 -- Converted from DG Script #458: Divine Devotion progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg, "divine_devotion") or string.find(arg, "paladin_pendant") or string.find(arg, "paladin") pendant then
+if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg, "divine_devotion") or string.find(arg, "paladin_pendant") or string.find(arg, "paladin_pendant") then
     local anti = "Anti-Paladin"
     if string.find(actor.class, "Paladin") or actor.class == "anti" then
         _return_value = false

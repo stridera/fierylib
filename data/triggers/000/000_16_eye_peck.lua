@@ -12,5 +12,5 @@
 if not percent_chance(10) then
     return true
 end
-actor:send(tostring(self.name) .. " pecks out your eyes!")
-self.room:send_except(self.name, "pecks out " .. tostring(actor.name) .. "'s eyes!")
+actor:send(self.name .. " pecks out your eyes!")
+self.room:send_except(actor, self.name .. " pecks out " .. actor.name .. "'s eyes!")

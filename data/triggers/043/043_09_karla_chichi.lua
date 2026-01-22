@@ -19,7 +19,7 @@ if not (string.find(string.lower(speech), "don't") or string.find(string.lower(s
     return true  -- No matching keywords
 end
 local room = self.room
-if %room.people[4301] ~= 0 then
+if room:find_mob(4301) then
     self:emote("gets up in a player's face.")
     self:say("Oh no you di'in' Chichi!")
     wait(5)

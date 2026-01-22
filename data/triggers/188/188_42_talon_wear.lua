@@ -8,7 +8,7 @@
 -- Converted from DG Script #18842: talon_wear
 -- Original: OBJECT trigger, flags: GLOBAL, WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.quest_variable[quest_items:self.vnum] then
+if actor:get_quest_var("quest_items:" .. tostring(self.vnum)) then
     if not (actor:get_worn("wield")) and not (actor:get_worn("wield2")) and not (actor:get_worn("2hwield")) then
         _return_value = true
     else

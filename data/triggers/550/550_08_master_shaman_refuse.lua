@@ -16,33 +16,30 @@ end
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("wizard_eye")
 -- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wandvnum%" or object.id == "%wandtask3%" then
+if object.id == wandgem or object.id == wandvnum or object.id == wandtask3 then
     return _return_value
-    if stage == 2 then
-    elseif object.id == 58609 then
-        return _return_value
-    end
-    if stage == 5 then
-    elseif object.id == 55030 then
-        return _return_value
-    end
-    if stage == 8 then
-    elseif object.id == 55032 then
-        return _return_value
-    end
-    if stage == 11 then
-    elseif object.id == 55033 then
-        return _return_value
-    end
 end
+if stage == 2 and object.id == 58609 then
+    return _return_value
+end
+if stage == 5 and object.id == 55030 then
+    return _return_value
+end
+if stage == 8 and object.id == 55032 then
+    return _return_value
+end
+if stage == 11 and object.id == 55033 then
+    return _return_value
+end
+local response = nil
 if stage == 2 then
-    local response = Is object.shortdesc really what she sent you to find?
+    response = "Is " .. tostring(object.shortdesc) .. " really what she sent you to find?"
 elseif stage == 5 or stage == 8 then
-    local response = Is object.shortdesc really what she suggested you use?
+    response = "Is " .. tostring(object.shortdesc) .. " really what she suggested you use?"
 elseif stage == 11 then
-    local response = What?  object.shortdesc?  This can't be right.
+    response = "What? " .. tostring(object.shortdesc) .. "? This can't be right."
 else
-    local response = "What is this?"
+    response = "What is this?"
 end
 if response then
     _return_value = false

@@ -10,7 +10,7 @@
 -- Converted from DG Script #419: Major Globe progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "major") globe or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
+if string.find(arg, "major_globe") or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
     if actor.level >= 50 and string.find(relocateclasses, "actor.class") then
         _return_value = false
@@ -41,13 +41,13 @@ if string.find(arg, "major") globe or string.find(arg, "globe") or string.find(a
                 local task = "Find a marigold poultice on a healer in South Caelia."
             elseif stage == 5 then
                 local master = mobiles.template(534, 50).name
-                local task = Bring master the salve Earle prepared.
+                local task = "Bring master the salve Earle prepared."
             elseif stage == 6 then
                 local master = mobiles.template(534, 50).name
                 local task = "&6&bSearch&0 in each &2&blibrary&0 or &2&bstack&0 to find the lost spellbook."
             elseif stage == 7 then
                 local master = mobiles.template(534, 50).name
-                local task = Bring objects.template(534, 52).name to master.
+                local task = "Bring " .. tostring(objects.template(534, 52).name) .. " to master."
             elseif stage == 8 then
                 local master = mobiles.template(534, 50).name
                 local plant = actor:get_quest_var("major_globe_spell:ward_53453")
@@ -56,7 +56,7 @@ if string.find(arg, "major") globe or string.find(arg, "globe") or string.find(a
                 local flame = actor:get_quest_var("major_globe_spell:ward_53456")
                 local ice = actor:get_quest_var("major_globe_spell:ward_53457")
                 local wards_left = 5 - actor:get_quest_var("major_globe_spell:ward_count")
-                local task = Bring master &3&bwards_left more elemental wards&0, one each from a mist, a water, an ice, a flame, and a plant elemental.
+                local task = "Bring master &3&b" .. tostring(wards_left) .. " more elemental wards&0, one each from a mist, a water, an ice, a flame, and a plant elemental."
             elseif stage == 9 then
                 local master = mobiles.template(534, 50).name
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")
@@ -70,10 +70,10 @@ if string.find(arg, "major") globe or string.find(arg, "globe") or string.find(a
                 else
                     local place = "in an underground city"
                 end
-                local task = Find get.obj_shortdesc[final_item] in place.
+                local task = "Find " .. tostring(objects.template(final_item).shortdesc) .. " in " .. tostring(place) .. "."
                 local master = mobiles.template(534, 50).name
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")
-                local task = Deliver get.obj_shortdesc[final_item] to master.
+                local task = "Deliver " .. tostring(objects.template(final_item).shortdesc) .. " to " .. tostring(master) .. "."
                 actor:send("Quest Master: " .. tostring(master))
                 actor:send("</>")
                 actor:send(tostring(task))

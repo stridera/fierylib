@@ -1,16 +1,15 @@
 -- Trigger: lokari fight
 -- Zone: 489, ID: 3
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: stone
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48903
 
 -- Converted from DG Script #48903: lokari fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
+-- Cast stone skin on self if not already active
 if not (self:has_effect(Effect.Stone)) then
-    -- UNCONVERTED: stone
+    spells.cast(self, "stone skin", self, 100)
 end
 combat.rescue(self, self.room:find_actor("maid-rogue"))
 combat.rescue(self, self.room:find_actor("maid-sorcerer"))

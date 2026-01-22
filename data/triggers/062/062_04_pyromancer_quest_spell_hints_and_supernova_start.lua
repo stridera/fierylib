@@ -1,7 +1,7 @@
 -- Trigger: pyromancer_quest_spell_hints_and_supernova_start
 -- Zone: 62, ID: 4
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --   Complex nesting: 7 if statements
 --   Large script: 5079 chars
 --
