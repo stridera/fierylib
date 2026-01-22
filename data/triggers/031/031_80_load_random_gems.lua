@@ -1,0 +1,82 @@
+-- Trigger: load random gems
+-- Zone: 31, ID: 80
+-- Type: MOB, Flags: GREET
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 11 if statements
+--
+-- Original DG Script: #3180
+
+-- Converted from DG Script #3180: load random gems
+-- Original: MOB trigger, flags: GREET, probability: 100%
+if self:has_effect(Effect.Invisible) then
+    self:command("vis")
+end
+-- number of gems to load -- starting at 3, but that might be too many
+local loop = 3
+-- gem vnums go from  to 55566-55751
+-- p1 vnums from 55566-55593
+-- p2 vnums from 55594-55670
+-- P3 cnums from 55671-55747 (there are gems up to 55751, but not used.
+-- random # -- 1-10 to create probabilities of good gem
+-- 0 = NO GEM
+-- 1 = NO GEM
+-- 2-6 = P1 Gem
+-- 7-9 = P2 Gem
+-- 10  = P3 Gem
+-- -- lets see if we should run process to get gems
+-- -- we do that by looking for object 18701 -- if we are wearing it
+-- -- then we don't need to load gems again
+-- all the important stuff encased in this loop
+if not self:has_equipped("18701") then
+    self.room:spawn_object(187, 1)
+    get_room(11, 0):at(function()
+        self:command("wear lock")
+    end)
+    local itt = 1
+    while itt <= loop do
+        local p = random(1, 10)
+        if p == 10 then
+            -- say p3! %p%
+            local base = 55671
+            local extra = random(1, 76)
+        end
+        -- p2 gem
+        if (p <=9) and (p>=7) then
+            -- say p2 %p%555
+            local base = 55594
+            local extra = random(1, 76)
+        end
+        -- p1 gem
+        if (p <=6) and (p>=2) then
+            -- say p1 %p%
+            local base = 55566
+            local extra = random(1, 27)
+        end
+        -- no gem
+        if p < 2 then
+            -- say no gem - %p%
+            local base = 0
+            local extra = 0
+        end
+        if base > 55560 then
+            local gem = base + extra
+            self.room:spawn_object(vnum_to_zone(gem), vnum_to_local(gem))
+            self:command("sell gem elspeth")
+        end
+        local itt = itt + 1
+    end
+    self:command("chuckle")
+    self:say("you wouldn't believe who I had to beat down to get these")
+    self:command("flex")
+end
+-- 
+-- Adding hint to find Rogue Guild for Elspeth
+-- 
+if self.id == 3010 then
+    if actor.class == "Rogue" and actor.level < 10 then
+        wait(4)
+        actor:send(tostring(self.name) .. " notices you skulking about her shop.")
+        actor:send("<b:white>" .. tostring(self.name) .. " tells you, 'If you're looking for a certain Guild Hall, <cyan>search<white> behind</>")
+        actor:send("</><b:white>the <cyan>curtain<white> on the wall.'</>")
+    end
+end

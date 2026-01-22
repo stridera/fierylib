@@ -1,0 +1,33 @@
+-- Trigger: Entrance opens for members
+-- Zone: 15, ID: 0
+-- Type: WORLD, Flags: PREENTRY
+-- Status: CLEAN
+--
+-- Original DG Script: #1500
+
+-- Converted from DG Script #1500: Entrance opens for members
+-- Original: WORLD trigger, flags: PREENTRY, probability: 100%
+if actor:has_equipped("1500") then
+    if wof_exit ~= 1 then
+        local wof_exit = 1
+        globals.wof_exit = globals.wof_exit or true
+        wait(4)
+        self.room:send_except(actor, tostring(actor.name) .. "'s <magenta>Soul Gem</> begins to glow.")
+        actor:send("Your <magenta>Soul Gem</> begins to glow.")
+        self.room:send("A light shimmering develops to the east, and resolves itself into a portal.")
+        doors.set_state(get_room(390, 23), "east", {action = "purge"})
+        doors.set_state(get_room(390, 23), "east", {action = "room"})
+        doors.set_description(get_room(390, 23), "east", "A slowly shimmering portal leads east.")
+        wait(8)
+        self.room:send("The shimmering of the eastern exit is a bit faster now.")
+        wait(8)
+        self.room:send("The eastern portal is positively spinning, and seems to be fading.")
+        wait(4)
+        self.room:send("There is a sharp *snap* and the portal collapses into nothingness.")
+        doors.set_state(get_room(390, 23), "east", {action = "purge"})
+        doors.set_state(get_room(390, 23), "east", {action = "room"})
+        doors.set_description(get_room(390, 23), "east", "The Blue Fog Sea rolls on to the East.")
+        local wof_exit = 0
+        globals.wof_exit = globals.wof_exit or true
+    end
+end

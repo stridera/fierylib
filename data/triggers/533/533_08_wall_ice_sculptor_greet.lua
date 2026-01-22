@@ -1,0 +1,41 @@
+-- Trigger: wall_ice_sculptor_greet
+-- Zone: 533, ID: 8
+-- Type: MOB, Flags: GREET
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 6 if statements
+--
+-- Original DG Script: #53308
+
+-- Converted from DG Script #53308: wall_ice_sculptor_greet
+-- Original: MOB trigger, flags: GREET, probability: 100%
+wait(1)
+if actor.quest_stage[type_wand] == "wandstep" then
+    local minlevel = (wandstep - 1) * 10
+    if actor.level >= minlevel then
+        if actor.quest_variable[type_wand:greet] == 0 then
+            self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
+            actor:set_quest_var("%type%_wand", "greet", 1)
+        else
+            self:say("Do you have what I need for the wand?")
+        end
+        wait(1)
+    end
+end
+local stage = actor:get_quest_stage("wall_ice")
+if stage == 0 then
+    if string.find(actor.class, "Cryomancer") and actor.level > 56 then
+        self:command("wave")
+        self:say("Hey, you there, you look like a capable cryomancer!  Lend me a hand with this wall, will ya?")
+        wait(2)
+        self:say("We had a few nasty surprises with creatures slipping out from Frost Valley.  So Suralla sent me over to reinforce the wall blocking off the tunnel.")
+        wait(2)
+        self:say("I ran out of supplies and my spells can't make permanent walls.  Can you help me get more ice for the wall?")
+    end
+elseif stage == 1 then
+    local ice = (20 - actor:get_quest_var("wall_ice:blocks"))
+    if ice > 1 then
+        self:say("Do you have the " .. tostring(ice) .. " remaining blocks of ice?")
+    elseif ice == 1 then
+        self:say("Do you have the last remaining block of ice?")
+    end
+end
