@@ -10,7 +10,7 @@
 actor:teleport(get_room(178, 68))
 actor:send("Your vision suddenly blurs, and you find yourself back at the shaman.")
 -- actor looks around
-if not world.count_mobiles("17806") then
+if world.count_mobiles("17806") == 0 then
     get_room(178, 68):at(function()
         self.room:spawn_mobile(178, 6)
     end)

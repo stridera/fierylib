@@ -30,7 +30,7 @@ while i >= a do
     local a = a + 1
 end
 self:destroy_item("small-oak-branch")
-if not world.count_mobiles("49001") then
+if world.count_mobiles("49001") == 0 then
     get_room(490, 81):at(function()
         self.room:spawn_mobile(490, 1)
     end)

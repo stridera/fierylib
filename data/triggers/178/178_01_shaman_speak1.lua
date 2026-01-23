@@ -21,7 +21,7 @@ end
 if self.is_fighting then
     self:say("Your test may begin when mine has finished!")
 else
-    if world.count_mobiles("17811") then
+    if world.count_mobiles("17811") > 0 then
         self:say("I'm sorry.  I'm already helping someone else face their fears.")
         self:say("You may try when they are finished.")
     else
@@ -39,7 +39,7 @@ else
         get_room(178, 72):at(function()
             self.room:spawn_mobile(178, 11)
         end)
-        if not world.count_mobiles("17812") then
+        if world.count_mobiles("17812") == 0 then
             get_room(178, 72):at(function()
                 self.room:spawn_mobile(178, 12)
             end)

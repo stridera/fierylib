@@ -15,13 +15,13 @@ combat.rescue(self, self.room:find_actor("maid-rogue"))
 combat.rescue(self, self.room:find_actor("maid-sorcerer"))
 combat.rescue(self, self.room:find_actor("maid-cleric"))
 if actor.id ~= -1 then
-    if world.count_mobiles("48915") then
+    if world.count_mobiles("48915") > 0 then
         self.room:find_actor("maid-rogue"):command("assist lok")
     end
-    if world.count_mobiles("48922") then
+    if world.count_mobiles("48922") > 0 then
         self.room:find_actor("maid-sorcerer"):command("assist lok")
     end
-    if world.count_mobiles("48923") then
+    if world.count_mobiles("48923") > 0 then
         self.room:find_actor("maid-cleric"):command("assist lok")
     end
 end

@@ -11,7 +11,7 @@ if actor:get_quest_stage("fieryisle_quest") == 8 then
     wait(2)
     actor.name:advance_quest("fieryisle_quest")
     actor:send("<b:white>You have advanced your quest!</>")
-    if not world.count_mobiles("48127") then
+    if world.count_mobiles("48127") == 0 then
         get_room(481, 97):at(function()
             self.room:spawn_mobile(481, 27)
         end)

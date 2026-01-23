@@ -14,12 +14,12 @@ if not (string.find(string.lower(speech), "question?") or string.find(string.low
     return true  -- No matching keywords
 end
 -- Start the quest and give the Tempest a blue flame
-if not world.count_mobiles("23803") then
+if world.count_mobiles("23803") == 0 then
     get_room(238, 90):at(function()
         self.room:spawn_mobile(238, 3)
     end)
 end
-if world.count_mobiles("23803") then
+if world.count_mobiles("23803") > 0 then
     get_room(238, 90):at(function()
         run_room_trigger(23813)
     end)

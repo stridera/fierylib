@@ -31,16 +31,16 @@ if not casting then
         local actor = room.actors[random(1, #room.actors)]
         if actor then
             -- Check to see if Lokari and his three maids exist, and heal each of them
-            if world.count_mobiles("48901") then
+            if world.count_mobiles("48901") > 0 then
                 self.room:find_actor("lokari"):heal(450)
             end
-            if world.count_mobiles("48915") then
+            if world.count_mobiles("48915") > 0 then
                 self.room:find_actor("maid-rogue"):heal(450)
             end
-            if world.count_mobiles("48922") then
+            if world.count_mobiles("48922") > 0 then
                 self.room:find_actor("maid-sorcerer"):heal(450)
             end
-            if world.count_mobiles("48923") then
+            if world.count_mobiles("48923") > 0 then
                 self.room:find_actor("maid-cleric"):heal(450)
             end
         end
