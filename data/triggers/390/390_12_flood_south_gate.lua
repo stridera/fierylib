@@ -7,5 +7,10 @@
 
 -- Converted from DG Script #39012: flood_south_gate
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-doors.set_flags(get_room(391, 87), "south", "f")
-doors.set_description(get_room(391, 87), "south", "A sturdy gate holds back the sea.")
+local room = get_room(391, 87)
+if room then
+    local exit = room:exit("south")
+    if exit then
+        exit:set_state({hidden = true, description = "A sturdy gate holds back the sea."})
+    end
+end

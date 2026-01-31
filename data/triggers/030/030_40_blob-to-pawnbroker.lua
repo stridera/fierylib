@@ -26,5 +26,4 @@ self:command("drop all")
 self.room:find_actor("pawnbroker"):command("get all")
 self.room:find_actor("anduin_pawnbroker"):teleport(get_room(60, 34))
 local randmielrm = random(1, 18)
-local randloadrm = randmielrm + 3051
-self:teleport(get_room(vnum_to_zone(randloadrm), vnum_to_local(randloadrm)))
+self:teleport(get_room(30, randmielrm + 51))

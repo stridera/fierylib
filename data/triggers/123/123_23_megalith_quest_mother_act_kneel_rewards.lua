@@ -44,8 +44,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         self:command("give starseed " .. tostring(actor))
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, random(1, 11) + 36)
             local gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))
@@ -63,8 +62,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         end
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, random(1, 11) + 36)
             local gem = gem + 1
         end
         self:command("give all " .. tostring(actor.name))

@@ -194,12 +194,14 @@ if item1 and item2 and item3 and item4 and item5 and item6 and item7 then
         self.room:spawn_object(103, 15)
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            -- drop was random(1, 11) + 55736 = 55737 to 55747, zone 557, local 37-47
+            local drop_local = random(1, 11) + 36
+            self.room:spawn_object(557, drop_local)
             local gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor))
-        -- 
+        self:command("give apron " .. tostring(actor))
+        --
         -- Set X to the level of the award - code does not run without it
         -- 
         if actor.level < 65 then

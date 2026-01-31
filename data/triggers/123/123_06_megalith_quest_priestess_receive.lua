@@ -37,17 +37,17 @@ if actor:get_quest_stage("megalith_quest") == 1 then
         -- hemlock goblet - BAD1
     elseif object.id == 41111 then
         local item = 2
-        local goblet = 41111
+        local goblet_zone, goblet_local = 411, 11
         local this = "a drinking vessel"
         -- rowan goblet
     elseif object.id == 41110 then
         local this = "a drinking vessel"
         local item = 2
-        local goblet = 41110
+        local goblet_zone, goblet_local = 411, 10
         -- chalice
     elseif object.id == 18512 then
         local item = 2
-        local goblet = 18512
+        local goblet_zone, goblet_local = 185, 12
         local this = "a drinking vessel"
         -- censer
     elseif object.id == 8507 then
@@ -122,7 +122,8 @@ wait(2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
 actor.name:set_quest_var("megalith_quest", "item" .. tostring(item), 1)
 if object.id == 41110 or object.id == 18512 or object.id == 41111 then
-    actor.name:set_quest_var("megalith_quest", "goblet", goblet)
+    actor.name:set_quest_var("megalith_quest", "goblet_zone", goblet_zone)
+    actor.name:set_quest_var("megalith_quest", "goblet_local", goblet_local)
     if object.id == 41111 then
         actor.name:set_quest_var("megalith_quest", "bad1", 1)
     end
@@ -190,11 +191,12 @@ if item1 and item2 and item3 and item4 then
         wait(2)
         self:say("Oh wait, I almost forgot!")
         wait(2)
-        -- 
+        --
         -- Return the same drinking vessel from Stage 1
-        -- 
-        local goblet = actor:get_quest_var("megalith_quest:goblet")
-        self.room:spawn_object(vnum_to_zone(goblet), vnum_to_local(goblet))
+        --
+        local goblet_zone = actor:get_quest_var("megalith_quest:goblet_zone")
+        local goblet_local = actor:get_quest_var("megalith_quest:goblet_local")
+        self.room:spawn_object(goblet_zone, goblet_local)
         self.room:send("The coven high priestess takes " .. "%get.obj_shortdesc[%goblet%]% from the altar.")
         -- (empty room echo)
         self:command("pour goblet out")

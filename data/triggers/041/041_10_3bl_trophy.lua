@@ -18,13 +18,14 @@ if actor:get_quest_var("Black_Legion:eg_ally") then
     actor:send("</>gone, filth!'")
     return _return_value
 end
-local vnum_trophy1 = 5504
-local vnum_trophy2 = 5506
-local vnum_trophy3 = 5508
-local vnum_trophy4 = 5510
-local vnum_trophy5 = 5512
-local vnum_trophy6 = 5514
-local vnum_trophy7 = 5516
+-- Trophy vnums are all in zone 55
+local trophy1_zone, trophy1_local = 55, 4
+local trophy2_zone, trophy2_local = 55, 6
+local trophy3_zone, trophy3_local = 55, 8
+local trophy4_zone, trophy4_local = 55, 10
+local trophy5_zone, trophy5_local = 55, 12
+local trophy6_zone, trophy6_local = 55, 14
+local trophy7_zone, trophy7_local = 55, 16
 if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") == 1 then
     -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'As you fight the allies of Eldorian Guard")
@@ -32,11 +33,11 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") == 1 then
     actor:send("</>prove that you are working with us.'")
     -- (empty send to actor)
     actor:send("</>Items we're interested in are:")
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy1), vnum_to_local(vnum_trophy1)))
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy2), vnum_to_local(vnum_trophy2)))
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy3), vnum_to_local(vnum_trophy3)))
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy4), vnum_to_local(vnum_trophy4)))
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy5), vnum_to_local(vnum_trophy5)))
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy6), vnum_to_local(vnum_trophy6)))
-    actor:send("- " .. objects.template_name(vnum_to_zone(vnum_trophy7), vnum_to_local(vnum_trophy7)))
+    actor:send("- " .. objects.template_name(trophy1_zone, trophy1_local))
+    actor:send("- " .. objects.template_name(trophy2_zone, trophy2_local))
+    actor:send("- " .. objects.template_name(trophy3_zone, trophy3_local))
+    actor:send("- " .. objects.template_name(trophy4_zone, trophy4_local))
+    actor:send("- " .. objects.template_name(trophy5_zone, trophy5_local))
+    actor:send("- " .. objects.template_name(trophy6_zone, trophy6_local))
+    actor:send("- " .. objects.template_name(trophy7_zone, trophy7_local))
 end

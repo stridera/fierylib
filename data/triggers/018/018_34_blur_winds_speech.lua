@@ -69,8 +69,7 @@ if actor:get_quest_stage("blur") == 4 then
         wait(3)
         self.room:send(tostring(self.name) .. " says, 'I'll be riding the fastest animal in Gothra!")
         self.room:send("</>If you can find me, then we can race!'")
-        local load = 20308 + random(1, 46)
-        get_room(vnum_to_zone(load), vnum_to_local(load)):at(function()
+        get_room(203, random(1, 46) + 8):at(function()
             self.room:spawn_mobile(203, 21)
         end)
     else

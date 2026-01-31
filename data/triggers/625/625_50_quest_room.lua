@@ -61,8 +61,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("mild"):say("And have these as a show of my gratitude.")
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:find_actor("mild"):spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:find_actor("mild"):spawn_object(557, random(1, 11) + 36)
             local gem = gem + 1
         end
         self.room:find_actor("mild"):command("give all.gem " .. tostring(quester))
@@ -104,8 +103,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:send("Several glittering gems wash up along with it.")
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, random(1, 11) + 36)
             local gem = gem + 1
         end
         self.room:spawn_object(625, 8)
@@ -137,8 +135,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("ursa"):command("wi sword")
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:find_actor("ursa"):spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:find_actor("ursa"):spawn_object(557, random(1, 11) + 36)
             local gem = gem + 1
         end
     end

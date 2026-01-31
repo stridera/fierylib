@@ -45,8 +45,8 @@ if world.count_objects("59035") == 1 then
                 get_room(590, 55):at(function()
                     self.room:send("The large stone door slowly slides open.")
                 end)
-                doors.set_flags(get_room(590, 56), "south", "a")
-                doors.set_flags(get_room(590, 55), "north", "a")
+                get_room(590, 56):exit("south"):set_state({has_door = true})
+                get_room(590, 55):exit("north"):set_state({has_door = true})
                 world.destroy(self.room:find_actor("large-silver-levers"))
                 first_kill = nil
                 last_pin = nil
@@ -99,8 +99,8 @@ if world.count_objects("59035") == 1 then
                 get_room(590, 55):at(function()
                     self.room:send("The large stone door slowly slides open.")
                 end)
-                doors.set_flags(get_room(590, 56), "south", "a")
-                doors.set_flags(get_room(590, 55), "north", "a")
+                get_room(590, 56):exit("south"):set_state({has_door = true})
+                get_room(590, 55):exit("north"):set_state({has_door = true})
                 world.destroy(self.room:find_actor("large-silver-levers"))
                 first_kill = nil
                 last_pin = nil
@@ -153,8 +153,8 @@ if world.count_objects("59035") == 1 then
                 get_room(590, 55):at(function()
                     self.room:send("The large stone door slowly slides open.")
                 end)
-                doors.set_flags(get_room(590, 56), "south", "a")
-                doors.set_flags(get_room(590, 55), "north", "a")
+                get_room(590, 56):exit("south"):set_state({has_door = true})
+                get_room(590, 55):exit("north"):set_state({has_door = true})
                 world.destroy(self.room:find_actor("large-silver-levers"))
                 first_kill = nil
                 last_pin = nil

@@ -7,9 +7,9 @@
 
 -- Converted from DG Script #52025: rock_well_load_door
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-doors.set_state(get_room(22, 1), "up", {action = "room"})
-doors.set_description(get_room(22, 1), "up", "A ruin mansion lies just above.  If only it was reachable.")
-doors.set_name(get_room(22, 1), "up", "Basement Ceiling")
+get_room(22, 1):exit("up"):set_state({hidden = false})
+get_room(22, 1):exit("up"):set_state({description = "A ruin mansion lies just above.  If only it was reachable."})
+get_room(22, 1):exit("up"):set_state({name = "Basement Ceiling"})
 local person = self.people
 while person do
     if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") ~= "yes" then

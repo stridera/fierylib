@@ -8,60 +8,53 @@
 
 -- Converted from DG Script #48902: lokari init
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-self:teleport(get_room(11, 0))
-if world.count_mobiles("48915") > 0 then
-    do
-        local _mob = world.find_mobile("maid-rogue")
-        if _mob then
-            _mob.room:at(function()
-                self.room:find_actor("maid-rogue"):teleport(get_room(489, 80))
-            end)
-        end
-    end
-    get_room(489, 80):at(function()
-        self.room:find_actor("maid-rogue"):heal(32000)
-    end)
+local staging_room = get_room(11, 0)
+local dest_room = get_room(489, 80)
+if not staging_room or not dest_room then return end
+
+self:teleport(staging_room)
+
+-- Handle maid-rogue (489:15)
+local rogue = world.find_mobile("maid-rogue")
+if rogue then
+    rogue:teleport(dest_room)
+    rogue:heal(32000)
 else
-    self.room:spawn_mobile(489, 15)
-    if world.count_objects("48926") > 0 then
-        self.room:find_actor("maid-rogue"):spawn_object(10, 12)
-        self.room:find_actor("maid-rogue"):command("wield thin-dagger")
-    else
-        self.room:find_actor("maid-rogue"):spawn_object(489, 26)
-        self.room:find_actor("maid-rogue"):command("wield wrist-dagger")
-    end
-    self.room:find_actor("maid-rogue"):teleport(get_room(489, 80))
-end
-if world.count_mobiles("48922") > 0 then
-    do
-        local _mob = world.find_mobile("maid-sorcerer")
-        if _mob then
-            _mob.room:at(function()
-                self.room:find_actor("maid-sorcerer"):teleport(get_room(489, 80))
-            end)
+    rogue = self.room:spawn_mobile(489, 15)
+    if rogue then
+        if world.count_objects("48926") > 0 then
+            rogue:spawn_object(10, 12)
+            rogue:command("wield thin-dagger")
+        else
+            rogue:spawn_object(489, 26)
+            rogue:command("wield wrist-dagger")
         end
+        rogue:teleport(dest_room)
     end
-    get_room(489, 80):at(function()
-        self.room:find_actor("maid-sorcerer"):heal(32000)
-    end)
-else
-    self.room:spawn_mobile(489, 22)
-    self.room:find_actor("maid-sorcerer"):teleport(get_room(489, 80))
 end
-if world.count_mobiles("48923") > 0 then
-    do
-        local _mob = world.find_mobile("maid-cleric")
-        if _mob then
-            _mob.room:at(function()
-                self.room:find_actor("maid-cleric"):teleport(get_room(489, 80))
-            end)
-        end
+
+-- Handle maid-sorcerer (489:22)
+local sorcerer = world.find_mobile("maid-sorcerer")
+if sorcerer then
+    sorcerer:teleport(dest_room)
+    sorcerer:heal(32000)
+else
+    sorcerer = self.room:spawn_mobile(489, 22)
+    if sorcerer then
+        sorcerer:teleport(dest_room)
     end
-    get_room(489, 80):at(function()
-        self.room:find_actor("maid-cleric"):heal(32000)
-    end)
-else
-    self.room:spawn_mobile(489, 23)
-    self.room:find_actor("maid-cleric"):teleport(get_room(489, 80))
 end
-self:teleport(get_room(489, 80))
+
+-- Handle maid-cleric (489:23)
+local cleric = world.find_mobile("maid-cleric")
+if cleric then
+    cleric:teleport(dest_room)
+    cleric:heal(32000)
+else
+    cleric = self.room:spawn_mobile(489, 23)
+    if cleric then
+        cleric:teleport(dest_room)
+    end
+end
+
+self:teleport(dest_room)

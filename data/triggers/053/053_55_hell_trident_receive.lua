@@ -82,9 +82,11 @@ if go == "gem" then
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
         wait(2)
         if gem_count == 1 then
-            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. objects.template(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum)).pldesc .. ".'")
+            local gem_zone, gem_local = gem_vnum // 100, gem_vnum % 100
+            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. objects.template(gem_zone, gem_local).pldesc .. ".'")
         else
-            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. objects.template(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum)).pldesc .. ".'")
+            local gem_zone, gem_local = gem_vnum // 100, gem_vnum % 100
+            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. objects.template(gem_zone, gem_local).pldesc .. ".'")
         end
         wait(2)
         if gem_count >= 6 then
@@ -105,7 +107,8 @@ if go == "gem" then
         _return_value = false
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
-        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. objects.template(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum)).pldesc .. ".'")
+        local gem_zone, gem_local = gem_vnum // 100, gem_vnum % 100
+        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. objects.template(gem_zone, gem_local).pldesc .. ".'")
     end
 elseif go == "trident" then
     local job1 = actor:get_quest_var("hell_trident:helltask1")
@@ -165,7 +168,8 @@ elseif go == "trident" then
                 actor:send("<red>You must be level " .. tostring(level) .. " or greater to continue this quest.</>")
             end
         end
-        self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+        local reward_zone, reward_local = reward // 100, reward % 100
+        self.room:spawn_object(reward_zone, reward_local)
         self:command("give trident " .. tostring(actor))
         local expcap = level
         if expcap < 17 then

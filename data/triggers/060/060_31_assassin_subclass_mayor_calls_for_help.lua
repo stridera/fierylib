@@ -39,8 +39,7 @@ elseif round == 15 then
     actor:send("The City Hall guard throws himself on you and breaks up the fight.")
     actor:send("You are dragged out of the building and thrown out of town!")
     -- teleport the player anywhere in the farmlands other than the fields*
-    local place = 8000 + random(1, 225)
-    actor:teleport(get_room(vnum_to_zone(place), vnum_to_local(place)))
+    actor:teleport(get_room(80, random(1, 225) + 0))
     wait(2)
     -- actor looks around
     wait(2)

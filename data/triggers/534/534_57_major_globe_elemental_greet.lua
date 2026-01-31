@@ -45,7 +45,10 @@ if actor:get_quest_stage("major_globe_spell") == 8 or wand == 8 then
     -- If rolled 1, load
     if do_load == 1 then
         if load_ward then
-            self.room:spawn_object(vnum_to_zone(load_ward), vnum_to_local(load_ward))
+            -- load_ward values: 53453, 53454, 53455, 53456, 53457 => zone 534, local ids 53-57
+            local load_ward_zone = 534
+            local load_ward_local = load_ward % 100
+            self.room:spawn_object(load_ward_zone, load_ward_local)
             if actor:get_quest_stage("major_globe_spell") == 8 then
                 actor.name:set_quest_var("major_globe_spell", "ward_%load_ward%", 1)
             end

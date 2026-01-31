@@ -29,12 +29,9 @@ elseif will_drop <= 60 then
     local gem_vnum = what_gem_drop + 55670
 elseif will_drop >= 61 and will_drop <= 80 then
     -- 20% to drop armor
-    local armor_vnum = what_armor_drop + 55355
-    self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    self.room:spawn_object(553, what_armor_drop + 55)
 else
     -- 20% chance to drop armor and gem
-    local gem_vnum = what_gem_drop + 55670
-    local armor_vnum = what_armor_drop + 55355
-    self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-    self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    self.room:spawn_object(556, what_gem_drop + 70)
+    self.room:spawn_object(553, what_armor_drop + 55)
 end

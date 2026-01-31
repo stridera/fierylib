@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "path")) then
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-doors.set_state(get_room(85, 25), "d", {action = "room"})
+get_room(85, 25):exit("d"):set_state({hidden = false})
 self.room:send("The Blood of the Evil Runes begins to boil, and solidifies into a trapdoor.")
 _return_value = false
 return _return_value

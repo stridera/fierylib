@@ -10,9 +10,9 @@
 -- for 16950
 if actor.class == "Necromancer" then
     wait(1)
-    doors.set_state(get_room(169, 50), "up", {action = "room"})
+    get_room(169, 50):exit("up"):set_state({hidden = false})
     self.room:send("The ceiling slides open silently.")
     wait(30)
-    doors.set_state(get_room(169, 50), "up", {action = "purge"})
+    get_room(169, 50):exit("up"):set_state({hidden = true})
     self.room:send("The ceiling slides closed with a click.")
 end

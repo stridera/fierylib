@@ -13,7 +13,7 @@ if web_present ~= 1 and web_pause ~= 1 then
     self.room:find_actor("orbweaver"):emote("carefully tosses a leader thread across the path.")
     wait(4)
     self.room:find_actor("orbweaver"):emote("crosses the path several more times, then spins the rest of its web.")
-    doors.set_flags(get_room(615, 66), "north", "bcd")
-    doors.set_description(get_room(615, 66), "north", "A delicate-looking web stretches between two trees, blocking the path.")
+    get_room(615, 66):exit("north"):set_state({closed = true, locked = true, pickproof = true})
+    get_room(615, 66):exit("north"):set_state({description = "A delicate-looking web stretches between two trees, blocking the path."})
     self.room:spawn_object(615, 11)
 end

@@ -21,6 +21,6 @@ if string.find(direction, "west") then
 end
 if closeit == 1 then
     self.room:send("The walls seem to flow together behind you, sealing the entrance!")
-    doors.set_state(get_room(185, 47), "east", {action = "purge"})
-    doors.set_state(get_room(185, 66), "west", {action = "purge"})
+    get_room(185, 47):exit("east"):set_state({hidden = true})
+    get_room(185, 66):exit("west"):set_state({hidden = true})
 end

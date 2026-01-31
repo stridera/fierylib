@@ -130,9 +130,9 @@ else
     get_room(43, 33):at(function()
         self.room:spawn_object(43, 22)
     end)
-    doors.set_state(get_room(43, 36), "down", {action = "room"})
+    get_room(43, 36):exit("down"):set_state({hidden = false})
     wait(2)
-    doors.set_state(get_room(43, 36), "down", {action = "purge"})
+    get_room(43, 36):exit("down"):set_state({hidden = true})
     if get_people("1100") then
         local room = get_room("1100")
         if room:get_people("4399") then

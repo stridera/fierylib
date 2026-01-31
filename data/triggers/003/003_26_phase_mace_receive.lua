@@ -184,7 +184,9 @@ elseif reward == "yes" then
     actor:send("%get.obj_shortdesc[%macevnum%]% is transformed!")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Here you are, " .. "%get.obj_shortdesc[%reward_mace%]%!'")
-    self.room:spawn_object(vnum_to_zone(reward_mace), vnum_to_local(reward_mace))
+    local reward_mace_zone, reward_mace_local = reward_mace // 100, reward_mace % 100
+    if reward_mace_zone == 0 then reward_mace_zone = 1000 end
+    self.room:spawn_object(reward_mace_zone, reward_mace_local)
     self:command("give mace " .. tostring(actor))
     local expcap = (macestep * 10)
     if expcap < 25 then

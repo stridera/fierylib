@@ -132,17 +132,24 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
                         arg:send(tostring(actor.name) .. " waves a hand at you, whisking you away!")
                         local max_tries = 20
                         while max_tries > 0 do
-                            arg:teleport(get_room(vnum_to_zone(random(1, 60000)), vnum_to_local(random(1, 60000))))
+                            -- Random teleport: zone 1-600, local 0-99
+                            local rand_zone = random(1, 600)
+                            local rand_local = random(0, 99)
+                            arg:teleport(get_room(rand_zone, rand_local))
                             if arg.room ~= actor.room then
                                 local max_tries = 0
                             end
                             local max_tries = max_tries - 1
                         end
                         if not max_tries then
-                            arg:teleport(get_room(1000, 0))
+                            arg:teleport(get_room(0, 0))
                         end
                     else
-                        arg:teleport(get_room(vnum_to_zone(xamount), vnum_to_local(xamount)))
+                        -- xamount is a vnum, convert to zone/local
+                        local xamount_zone = math.floor(xamount / 100)
+                        local xamount_local = xamount % 100
+                        if xamount_zone == 0 then xamount_zone = 1000 end
+                        arg:teleport(get_room(xamount_zone, xamount_local))
                     end
                     arg:command("look")
                 elseif xeffect == "area" then

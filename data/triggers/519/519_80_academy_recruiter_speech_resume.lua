@@ -62,8 +62,11 @@ else
         actor:send(tostring(self.name) .. " escorts you into the Academy.")
         actor:send("</>")
         actor:send(tostring(self.name) .. " tells you, 'You can say <magenta>EXIT</> at any time to leave.'")
-        actor:teleport(get_room(vnum_to_zone(holding), vnum_to_local(holding)))
-        get_room(vnum_to_zone(holding), vnum_to_local(holding)):at(function()
+        -- holding values: 51900, 51908, 51909, 51910 => zone 519, local ids 0, 8, 9, 10
+        local holding_zone = 519
+        local holding_local = holding % 100
+        actor:teleport(get_room(holding_zone, holding_local))
+        get_room(holding_zone, holding_local):at(function()
             actor:command("%direction%")
         end)
         if actor:get_quest_stage("school") == 1 then

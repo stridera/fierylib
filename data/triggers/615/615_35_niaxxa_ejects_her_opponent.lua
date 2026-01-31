@@ -36,7 +36,6 @@ elseif actor.level < 20 and self:has_equipped("61514") and self.room == 61567 th
         self.room:send_except(actor, tostring(self.name) .. " loops her chain around " .. tostring(actor.name) .. "'s wrist, and yanks it!")
         actor:send("You are sent reeling out of the room!")
         self.room:send_except(actor, tostring(actor.name) .. " is sent reeling out of the room!")
-        local dest = 61567 + random(1, 6)
-        actor:teleport(get_room(vnum_to_zone(dest), vnum_to_local(dest)))
+        actor:teleport(get_room(615, random(1, 6) + 67))
     end
 end

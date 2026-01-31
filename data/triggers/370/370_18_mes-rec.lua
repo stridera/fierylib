@@ -92,14 +92,11 @@ else
             lap = lap + 1
         end
         local random_gem = random(1, 11)
-        local which_gem = random_gem + 55736
-        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
+        self.room:spawn_object(557, random_gem + 36)
         local random_gem = random(1, 11)
-        local which_gem = random_gem + 55736
-        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
+        self.room:spawn_object(557, random_gem + 36)
         local random_gem = random(1, 11)
-        local which_gem = random_gem + 55736
-        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
+        self.room:spawn_object(557, random_gem + 36)
         self:command("give all.gem " .. tostring(actor.name))
         self:say("Here is a small token of my appreciation.")
         self:say("Now move along.")

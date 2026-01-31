@@ -50,7 +50,10 @@ if stage == 8 then
             end
             actor:set_quest_var("major_globe_spell", "final_item", final_item)
             wait(3)
-            local item_obj = objects.template(vnum_to_zone(final_item), vnum_to_local(final_item))
+            -- final_item values: 53458, 53459, 53460, 53461 => zone 534, local ids 58-61
+            local final_item_zone = 534
+            local final_item_local = final_item % 100
+            local item_obj = objects.template(final_item_zone, final_item_local)
             actor:send(tostring(self.name) .. " says, 'Yes, the last item for the spell is here.  It is <b:yellow>" .. tostring(item_obj.shortdesc) .. "</>.'")
             self:emote("thinks hard for a moment.")
             wait(2)

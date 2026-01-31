@@ -19,8 +19,8 @@ if not (string.find(string.lower(speech), "i") or string.find(string.lower(speec
     return true  -- No matching keywords
 end
 if string.find(actor.class, "Necromancer") then
-    doors.set_state(get_room(495, 13), "up", {action = "room"})
+    get_room(495, 13):exit("up"):set_state({hidden = false})
     self.room:send("With a terrifying crash the ceiling above falls downward, ceasing. A stairway leads upwards.")
     wait(20)
-    doors.set_state(get_room(495, 13), "u", {action = "purge"})
+    get_room(495, 13):exit("u"):set_state({hidden = true})
 end

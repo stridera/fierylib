@@ -30,7 +30,7 @@ if actor:get_quest_var("school:gear") == 3 then
         actor:send("You started play with a torch.'")
     else
         actor:send("Here, take this torch for example.'")
-        self.room:spawn_object(1000, 23)
+        self.room:spawn_object(0, 23)
         self:command("give torch " .. tostring(actor))
     end
     wait(3)

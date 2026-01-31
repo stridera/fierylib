@@ -27,7 +27,7 @@ if actor:get_quest_var("quest_items:" .. tostring(self.vnum)) then
                 end
                 if can_use == "yes" then
                     _return_value = false
-                    self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
+                    self.room:spawn_object(self.zone_id, self.id)
                     actor:command("get globe")
                     actor:command("hold globe")
                     actor:command("use globe")

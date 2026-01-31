@@ -20,30 +20,30 @@ local maxlevel = 15
 -- This is the barbarian, who sends people to Ickle.
 if self.id == 3151 or self.id == 30075 then
     local myname = "barbarian"
-    local dvnum = 10046
+    local dest_zone, dest_local = 100, 46
     local dsname = "Ickle"
 elseif self.id == 3152 then
     -- This is the dwarf, who sends people to Anduin.
     local myname = "dwarf"
-    local dvnum = 6015
+    local dest_zone, dest_local = 60, 15
     local dsname = "Anduin"
 elseif self.id == 30074 then
     local myname = "drow"
-    local dvnum = 6015
+    local dest_zone, dest_local = 60, 15
     local dsname = "Anduin"
 elseif self.id == 30076 then
     local myname = "human"
-    local dvnum = 3016
+    local dest_zone, dest_local = 30, 16
     local dsname = "Mielikki"
 elseif self.id == 30077 then
     local myname = "orc"
-    local dvnum = 30115
+    local dest_zone, dest_local = 301, 15
     local dsname = "Ogakh"
 elseif self.id == 3150 then
 else
     -- This is the elf, who sends people to Mielikki.
     local myname = "elf"
-    local dvnum = 3016
+    local dest_zone, dest_local = 30, 16
     local dsname = "Mielikki"
 end
 wait(4)
@@ -90,8 +90,8 @@ wait(4)
 self.room:send_except(actor, tostring(self.name) .. " makes a magical gesture at " .. tostring(actor.name) .. ".")
 actor:send(tostring(self.name) .. " makes a magical gesture at you.")
 self.room:send_except(actor, tostring(actor.name) .. " disappears in a cloud of gray smoke.")
-actor:teleport(get_room(vnum_to_zone(dvnum), vnum_to_local(dvnum)))
-get_room(vnum_to_zone(dvnum), vnum_to_local(dvnum)):at(function()
+actor:teleport(get_room(dest_zone, dest_local))
+get_room(dest_zone, dest_local):at(function()
     self.room:send_except(actor, tostring(actor.name) .. " arrives in a cloud of " .. tostring(dcolor) .. " smoke.")
 end)
 -- actor looks around

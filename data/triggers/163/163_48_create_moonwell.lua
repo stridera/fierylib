@@ -12,4 +12,4 @@
 if not percent_chance(0) then
     return true
 end
-self.room:spawn_object(1000, 33)
+self.room:spawn_object(0, 33)

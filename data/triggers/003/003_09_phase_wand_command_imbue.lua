@@ -176,7 +176,8 @@ if continue == "yes" then
     actor:set_quest_var("%type%_wand", "wandtask4", 1)
 elseif reward == "yes" then
     local nextstaff = self.id + 1
-    self.room:spawn_object(vnum_to_zone(nextstaff), vnum_to_local(nextstaff))
+    -- self.id is already local, so nextstaff is local_id + 1; zone comes from self
+    self.room:spawn_object(self.zone_id, nextstaff)
     actor:command("get " .. tostring(nextname))
     local expcap = self.level
     local expmod = 0

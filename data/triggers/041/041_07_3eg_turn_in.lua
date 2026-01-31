@@ -306,7 +306,8 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Guard thanks you for your")
             actor:send("</>efforts.  Take this to aid you in your battles.'")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            local vnum_reward_zone, vnum_reward_local = vnum_reward // 100, vnum_reward % 100
+            self.room:spawn_object(vnum_reward_zone, vnum_reward_local)
             wait(1)
             if actor:get_quest_var("black_legion:" .. tostring(vnum_reward) .. "_reward") == 1 then
                 -- 

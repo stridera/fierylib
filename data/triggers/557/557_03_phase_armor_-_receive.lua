@@ -175,7 +175,8 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
             actor:award_exp(exp)
             local lap = lap + 1
         end
-        self.room:spawn_object(vnum_to_zone(reward_vnum), vnum_to_local(reward_vnum))
+        -- reward_vnum values are 553xx-555xx => zone = reward_vnum // 100, local_id = reward_vnum % 100
+        self.room:spawn_object(reward_vnum // 100, reward_vnum % 100)
         self:command("give all " .. tostring(actor.name))
         self:command("drop all")
         actor:save()

@@ -15,22 +15,22 @@ if object.id == 300 then
     local type = "air"
     local wandgem = 55577
     local wand = "yes"
-    local next_vnum = 301
+    local next_zone, next_local = 3, 1
 elseif object.id == 310 then
     local type = "fire"
     local wandgem = 55575
     local wand = "yes"
-    local next_vnum = 311
+    local next_zone, next_local = 3, 11
 elseif object.id == 320 then
     local type = "ice"
     local wandgem = 55574
     local wand = "yes"
-    local next_vnum = 321
+    local next_zone, next_local = 3, 21
 elseif object.id == 330 then
     local type = "acid"
     local wandgem = 55576
     local wand = "yes"
-    local next_vnum = 331
+    local next_zone, next_local = 3, 31
 elseif object.id == 55577 then
     local type = "air"
     local wandgem = "yes"
@@ -66,7 +66,7 @@ if wand == "yes" or wandgem == "yes" then
                 world.destroy(object)
                 wait(2)
                 actor:send(tostring(self.name) .. " presents you with a new wand!")
-                self.room:spawn_object(vnum_to_zone(next_vnum), vnum_to_local(next_vnum))
+                self.room:spawn_object(next_zone, next_local)
                 self:command("give wand " .. tostring(actor))
                 local expcap = 10
                 local expmod = 690

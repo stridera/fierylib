@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "neris'kaan") or string.find(string.lo
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-doors.set_state(get_room(162, 71), "n", {action = "room"})
+get_room(162, 71):exit("n"):set_state({hidden = false})
 self.room:send("<b:yellow>Dust fills the air as a wind groans by you flowing to the north.</>")
 self.room:send("<yellow>Massive pillars of stone open to form a new passage.</>")
 _return_value = false

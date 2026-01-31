@@ -18,7 +18,7 @@ if actor:get_quest_var("school:gear") == 12 then
     actor:send("The command is <b:cyan>PUT [object] [container]</>.'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'You started with a bag, but just in case here's another.'")
-    self.room:spawn_object(1000, 18)
+    self.room:spawn_object(0, 18)
     self:command("give bag " .. tostring(actor))
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'Put a stick in it by typing <b:green>put stick bag</>.'")

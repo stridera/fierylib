@@ -25,32 +25,32 @@ if cmd == "s" or cmd == "sh" or cmd == "sha" then
 end
 -- switch on actor.id
 if actor.id == 18820 then
-    local mob_vnum = 18822
+    local mob_zone, mob_local = 188, 22
     local mob_name = "pryrian-duclia"
     local shape_name = "the shape of a gargantuan black dragon"
-    local obj_vnum = 18826
+    local obj_zone, obj_local = 188, 26
 elseif actor.id == 18821 then
-    local mob_vnum = 18823
+    local mob_zone, mob_local = 188, 23
     local mob_name = "eralshar-duclia"
     local shape_name = "the shape of a sinewy golden dragon"
-    local obj_vnum = 18827
+    local obj_zone, obj_local = 188, 27
 elseif actor.id == 18822 then
-    local mob_vnum = 18820
+    local mob_zone, mob_local = 188, 20
     local mob_name = "human-pryrian"
     local shape_name = "human form"
-    local obj_vnum = 18820
+    local obj_zone, obj_local = 188, 20
 elseif actor.id == 18823 then
-    local mob_vnum = 18821
+    local mob_zone, mob_local = 188, 21
     local mob_name = "human-eralshar"
     local shape_name = "human form"
-    local obj_vnum = 18825
+    local obj_zone, obj_local = 188, 25
 else
     _return_value = false
     return _return_value
 end
 self.room:send("The cracks of bones reforming are heard as " .. tostring(actor.name) .. " takes " .. tostring(shape_name) .. ".")
-self.room:spawn_mobile(vnum_to_zone(mob_vnum), vnum_to_local(mob_vnum))
-mob_name:spawn_object(vnum_to_zone(obj_vnum), vnum_to_local(obj_vnum))
+self.room:spawn_mobile(mob_zone, mob_local)
+mob_name:spawn_object(obj_zone, obj_local)
 actor:send("Loaded " .. tostring(mob_name) .. "; ready to be switched into.")
 world.destroy(actor)
 world.destroy(self)

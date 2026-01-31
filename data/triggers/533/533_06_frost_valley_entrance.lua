@@ -17,9 +17,9 @@ end
 if not (cmd == "push") then
     return true  -- Not our command
 end
-doors.set_state(get_room(533, 2), "west", {action = "room"})
-doors.set_description(get_room(533, 2), "west", "The piles of ice slips allowing passage.")
-doors.set_name(get_room(533, 2), "west", "ice")
+get_room(533, 2):exit("west"):set_state({hidden = false})
+get_room(533, 2):exit("west"):set_state({description = "The piles of ice slips allowing passage."})
+get_room(533, 2):exit("west"):set_state({name = "ice"})
 self.room:send_except(actor, tostring(actor.name) .. " pushes some ice out of the way, opening a passage down the western tunnel.")
 actor:send("It took some effort, but the wall of ice has been moved from the west, allowing passage.")
 get_room(534, 1):at(function()
@@ -27,4 +27,4 @@ get_room(534, 1):at(function()
 end)
 wait_ticks(1)
 self.room:send("The ice seems to magically reform blocking the western passage.")
-doors.set_state(get_room(533, 2), "west", {action = "purge"})
+get_room(533, 2):exit("west"):set_state({hidden = true})

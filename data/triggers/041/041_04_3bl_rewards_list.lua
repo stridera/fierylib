@@ -17,7 +17,9 @@ end
 
 -- Helper function to get object name by vnum
 local function obj_name(vnum)
-    return objects.template_name(vnum_to_zone(vnum), vnum_to_local(vnum))
+    local zone, local_id = vnum // 100, vnum % 100
+    if zone == 0 then zone = 1000 end
+    return objects.template_name(zone, local_id)
 end
 
 local vnum_gem_3bl_cap = 55570

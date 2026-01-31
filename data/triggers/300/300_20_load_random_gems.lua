@@ -56,8 +56,10 @@ if not self:has_equipped("18701") then
             local extra = 0
         end
         if base > 55560 then
-            local gem = base + extra
-            self.room:spawn_object(vnum_to_zone(gem), vnum_to_local(gem))
+            -- All gem bases are in zone 556 (556xx range)
+            local gem_zone = 556
+            local gem_local = (base % 100) + extra
+            self.room:spawn_object(gem_zone, gem_local)
             self:command("sell gem Jhanna")
         end
         local itt = itt + 1

@@ -25,12 +25,12 @@ if arg == "l" or arg == "la" or arg == "lan" or arg == "lant" or arg == "lante" 
     wait(2)
     self.room:send("An eerie <b:yellow>glow</> begins emitting from the lantern...")
     wait(5)
-    doors.set_state(get_room(580, 1), "west", {action = "room"})
+    get_room(580, 1):exit("west"):set_state({hidden = false})
     self.room:send("The light reveals a well-concealed break in the rocky hills to the west!")
     wait(20)
     self.room:send("The light begins to flicker and fade...")
     wait(5)
-    doors.set_state(get_room(580, 1), "west", {action = "purge"})
+    get_room(580, 1):exit("west"):set_state({hidden = true})
     self.room:send("The passage west is obscured again as the glow of the lantern fades.")
 end
 _return_value = false

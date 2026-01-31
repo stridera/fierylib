@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "ziijhan")) then
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-doors.set_state(get_room(85, 24), "w", {action = "room"})
+get_room(85, 24):exit("w"):set_state({hidden = false})
 self.room:send("You hear the slow grind of rock against rock. A doorway appears to the west.")
 _return_value = false
 return _return_value

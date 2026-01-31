@@ -12,22 +12,22 @@ local _return_value = true  -- Default: allow action
 if self.id == 59040 then
     local type = "air"
     local wandnum = 304
-    local reward = 305
+    local reward_zone, reward_local = 3, 5
     local wandname = "wand-sky"
 elseif self.id == 16107 then
     local type = "acid"
     local wandnum = 334
-    local reward = 335
+    local reward_zone, reward_local = 3, 35
     local wandname = "wand-tomb"
 elseif self.id == 32412 then
     local type = "fire"
     local wandnum = 314
-    local reward = 315
+    local reward_zone, reward_local = 3, 15
     local wandname = "wand-blazes"
 elseif self.id == 17309 then
     local type = "ice"
     local wandnum = 324
-    local reward = 325
+    local reward_zone, reward_local = 3, 25
     local wandname = "wand-snow"
 end
 if actor.quest_stage[type_wand] == 6 and actor.quest_variable[type_wand .. ":wandtask5"] and (actor.wearing[wandnum] or actor.inventory[wandnum]) then
@@ -42,7 +42,7 @@ if actor.quest_stage[type_wand] == 6 and actor.quest_variable[type_wand .. ":wan
     actor:command("drop " .. tostring(wandname))
     world.destroy(wandname)
     self.room:send("In a brilliant <b:white>FLASH</> " .. "%get.obj_shortdesc[%wandnum%]% transforms into %get.obj_shortdesc[%reward%]%!")
-    self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+    self.room:spawn_object(reward_zone, reward_local)
     actor:command("get wand")
     local expmod = 9240
     -- Adjust exp award by class so all classes receive the same proportionate amount

@@ -154,7 +154,8 @@ if actor.class == "class" and actor.level >= 41 and actor:get_quest_stage("phase
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            -- vnum_reward values are 553xx-555xx => zone = vnum_reward // 100, local_id = vnum_reward % 100
+            self.room:spawn_object(vnum_reward // 100, vnum_reward % 100)
             wait(1)
             -- 
             -- loop for exp award.
@@ -215,7 +216,8 @@ if actor.class == "class" and actor.level >= 41 and actor:get_quest_stage("phase
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            -- vnum_reward values are 553xx-555xx => zone = vnum_reward // 100, local_id = vnum_reward % 100
+            self.room:spawn_object(vnum_reward // 100, vnum_reward % 100)
             wait(1)
             -- 
             -- loop for exp award.

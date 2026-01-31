@@ -45,28 +45,10 @@ while i >= a do
                 if person:get_quest_var("dragon_slayer:hunt") ~= "running" then
                     person:send(tostring(self.name) .. " says, 'Excellent!'")
                     -- switch on person:get_quest_stage("dragon_slayer")
-                    if person:get_quest_stage("dragon_slayer") == 1 then
-                        local notice = 3080
-                    elseif person:get_quest_stage("dragon_slayer") == 2 then
-                        local notice = 3081
-                    elseif person:get_quest_stage("dragon_slayer") == 3 then
-                        local notice = 3082
-                    elseif person:get_quest_stage("dragon_slayer") == 4 then
-                        local notice = 3083
-                    elseif person:get_quest_stage("dragon_slayer") == 5 then
-                        local notice = 3084
-                    elseif person:get_quest_stage("dragon_slayer") == 6 then
-                        local notice = 3085
-                    elseif person:get_quest_stage("dragon_slayer") == 7 then
-                        local notice = 3086
-                    elseif person:get_quest_stage("dragon_slayer") == 8 then
-                        local notice = 3087
-                    elseif person:get_quest_stage("dragon_slayer") == 9 then
-                        local notice = 3088
-                    elseif person:get_quest_stage("dragon_slayer") == 10 then
-                        local notice = 3089
-                    end
-                    self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
+                    -- All notices are in zone 30, local_id = 80 + stage - 1
+                    local notice_zone = 30
+                    local notice_local = 79 + person:get_quest_stage("dragon_slayer")
+                    self.room:spawn_object(notice_zone, notice_local)
                     self:command("give notice " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've slayed the beast, bring that notice back to me.  I'll reward you then.'")

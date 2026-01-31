@@ -48,7 +48,7 @@ elseif (0) and (mode < 40) and actor and (actor.id ~= -1) then
     wait(1)
     if actor and (actor.room ~= self.room) then
         -- Bring back the victim if he/she has left the room
-        actor:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
+        actor:teleport(get_room(self.room.zone_id, self.room.local_id))
     end
     if actor then
         self.room:send("<b:cyan>Lokari's prophecy comes to pass!</>")

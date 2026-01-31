@@ -61,7 +61,8 @@ while i >= a do
                     else
                         local mission = 5320
                     end
-                    self.room:spawn_object(vnum_to_zone(mission), vnum_to_local(mission))
+                    local mission_zone, mission_local = mission // 100, mission % 100
+                    self.room:spawn_object(mission_zone, mission_local)
                     self:command("give mission " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've completed your task, bring that mission back to me.  I can give you a modest reward.  You can check your <b:cyan>[progress]</> at any time.'")

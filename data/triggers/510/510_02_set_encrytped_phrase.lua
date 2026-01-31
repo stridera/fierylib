@@ -24,7 +24,7 @@ if running ~= "yes" then
     elseif chosen == 4 then
         local descr = "PLTWK ZHWIL OIXTX DMJQG NOWSN C"
     end
-    doors.set_description(get_room(510, 30), "n", "%descr%")
+    get_room(510, 30):exit("n"):set_state({description = "%descr%"})
     wait(2)
     running = nil
 end

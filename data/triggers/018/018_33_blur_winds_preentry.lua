@@ -21,12 +21,11 @@ if actor:get_quest_stage("blur") == 4 then
         local mob = 1821
     elseif self.id == 20379 then
         local direction = "west"
-        local mob = 1822
     else
         _return_value = false
     end
     if direction and mob and actor:get_quest_var("blur:" .. direction) == 0 and world.count_mobiles(mob) == 0 then
-        self.room:spawn_mobile(vnum_to_zone(mob), vnum_to_local(mob))
+        self.room:spawn_mobile(18, 22)
     end
 end
 return _return_value

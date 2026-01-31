@@ -25,8 +25,8 @@ local referee = 18880
 local vnum_a = 18880
 local vnum_b = 18881
 -- Rooms
-local flag_room_a = 3520
-local flag_room_b = 8600
+local flag_room_a_zone, flag_room_a_local = 35, 20
+local flag_room_b_zone, flag_room_b_local = 86, 0
 -- Player tries to pass to self
 if (arg == "self") or (actor == "arg") then
     actor:send("There's really no point to that, now is there?")
@@ -52,27 +52,27 @@ elseif (arg.id == -1) or (arg.id == "referee") then
     if arg_team then
         -- Player is on team A
         if self.id == "vnum_a" then
-            local actor_flag_room = flag_room_a
+            local actor_flag_room_zone, actor_flag_room_local = flag_room_a_zone, flag_room_a_local
             -- Player is on team B
         elseif self.id == "vnum_b" then
-            local actor_flag_room = flag_room_b
+            local actor_flag_room_zone, actor_flag_room_local = flag_room_b_zone, flag_room_b_local
         end
         -- Player passes to someone on the same team
         if arg_team == self.id then
             arg:send(tostring(actor.name) .. " quickly passes " .. tostring(self.shortdesc) .. " to you.")
-            arg:teleport(get_room(1000, 0))
+            arg:teleport(get_room(0, 0))
             actor:send("You slyly hand off " .. tostring(self.shortdesc) .. " to " .. tostring(arg.name) .. ".")
             self.room:send_except(actor, tostring(actor.name) .. " quietly passes a flag to " .. tostring(arg.name) .. ".")
-            arg:teleport(get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)))
-            self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
+            arg:teleport(get_room(actor.room.zone_id, actor.room.local_id))
+            self.room:spawn_object(self.zone_id, self.id)
             arg:command("get ctf-flag")
             world.destroy(self)
             -- Player passes to someone on an enemy team (Reset flag)
         else
             actor:send("You accidentally pass the flag to " .. tostring(arg.name) .. ", resetting it.")
-            actor:teleport(get_room(vnum_to_zone(actor_flag_room), vnum_to_local(actor_flag_room)))
-            self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
-            actor:teleport(get_room(vnum_to_zone(arg.room), vnum_to_local(arg.room)))
+            actor:teleport(get_room(actor_flag_room_zone, actor_flag_room_local))
+            self.room:spawn_object(self.zone_id, self.id)
+            actor:teleport(get_room(arg.room.zone_id, arg.room.local_id))
             world.destroy(self)
         end
     end

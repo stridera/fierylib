@@ -17,10 +17,8 @@ if object.id == 30212 then
     self:say("and find out what those self-righteous paladins are up to.")
     wait(2)
     self:say("Here is something for your trouble.")
-    local gemvnum = 55581 + random(1, 8)
-    self.room:spawn_object(vnum_to_zone(gemvnum), vnum_to_local(gemvnum))
-    local gemvnum = 55581 + random(1, 8)
-    self.room:spawn_object(vnum_to_zone(gemvnum), vnum_to_local(gemvnum))
+    self.room:spawn_object(555, random(1, 8) + 81)
+    self.room:spawn_object(555, random(1, 8) + 81)
     self:command("give all.gem " .. tostring(actor.name))
 elseif object.id == 30208 then
     _return_value = true

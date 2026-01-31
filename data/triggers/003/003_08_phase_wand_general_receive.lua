@@ -75,7 +75,9 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
                 local continue = "yes"
             elseif stage == 6 or stage == 8 then
                 actor:set_quest_var("%type%_wand", "wandtask5", 1)
-                self.room:spawn_object(vnum_to_zone(wandtask4), vnum_to_local(wandtask4))
+                local wandtask4_zone, wandtask4_local = wandtask4 // 100, wandtask4 % 100
+                if wandtask4_zone == 0 then wandtask4_zone = 1000 end
+                self.room:spawn_object(wandtask4_zone, wandtask4_local)
                 wait(2)
                 if stage == 6 then
                     wait(2)
@@ -185,7 +187,9 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         else
             self:say("Here you go, your new " .. tostring(weapon) .. "!")
         end
-        self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+        local reward_zone, reward_local = reward // 100, reward % 100
+        if reward_zone == 0 then reward_zone = 1000 end
+        self.room:spawn_object(reward_zone, reward_local)
         self:command("give all " .. tostring(actor))
         local expcap = ((wandstep - 1) * 10)
         local expmod = 0

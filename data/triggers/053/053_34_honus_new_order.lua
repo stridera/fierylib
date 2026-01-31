@@ -44,7 +44,8 @@ if actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then
             local order = 5319
         end
         self:command("grumble")
-        self.room:spawn_object(vnum_to_zone(order), vnum_to_local(order))
+        local order_zone, order_local = order // 100, order % 100
+        self.room:spawn_object(order_zone, order_local)
         self:command("give order " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Be more careful next time.'")
     end

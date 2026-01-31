@@ -89,8 +89,7 @@ elseif self.room == 43000 then
                     local count = 0
                     while count < 3 do
                         local what_gem_drop = random(1, 11)
-                        local gem_vnum = what_gem_drop + 55736
-                        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+                        self.room:spawn_object(557, what_gem_drop + 36)
                         local count = count + 1
                     end
                     self:command("give all.gem " .. tostring(person))

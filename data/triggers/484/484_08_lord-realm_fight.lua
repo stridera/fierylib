@@ -24,7 +24,7 @@ if victim then
         self:send("You swing a rocky fist at " .. tostring(victim.name) .. ", knocking " .. tostring(victim.object) .. " over!")
         victim:teleport(get_room(11, 0))
         victim:command("recline")
-        victim:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
+        victim:teleport(get_room(self.room.zone_id, self.room.local_id))
     elseif action > 7 then
         if victim.id == -1 then
             combat.engage(self, victim.name)

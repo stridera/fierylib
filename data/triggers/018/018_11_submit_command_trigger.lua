@@ -26,8 +26,7 @@ elseif rm == 3 then
 elseif rm == 4 then
     actor.name:teleport(get_room(118, 35))
 elseif rm == 5 then
-    local dest = 43144 + random(1, 13)
-    actor.name:teleport(get_room(vnum_to_zone(dest), vnum_to_local(dest)))
+    actor.name:teleport(get_room(431, random(1, 13) + 44))
 elseif rm == 6 then
     actor.name:teleport(get_room(101, 0))
 elseif rm == 7 then

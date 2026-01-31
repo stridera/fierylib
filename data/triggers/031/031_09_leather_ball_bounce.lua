@@ -25,7 +25,7 @@ if arg then
     else
         arg:teleport(get_room(11, 0))
         self.room:send_except(actor, tostring(actor.name) .. " throws " .. tostring(self.shortdesc) .. " at " .. tostring(arg.name) .. ", bouncing it off " .. tostring(arg.possessive) .. " forehead!")
-        arg:teleport(get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)))
+        arg:teleport(get_room(actor.room.zone_id, actor.room.local_id))
         arg:send(tostring(actor.name) .. " throws " .. tostring(self.shortdesc) .. " at you, bouncing it off your forehead!")
         actor:send("You launch " .. tostring(self.shortdesc) .. " at " .. tostring(arg.name) .. ", bouncing it off " .. tostring(arg.possessive) .. " forehead!")
     end

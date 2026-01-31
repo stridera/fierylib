@@ -18,9 +18,9 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "start") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "nine") or string.find(string.lower(speech), "hells") or string.find(string.lower(speech), "quest.")) then
     return true  -- No matching keywords
 end
-doors.set_state(get_room(22, 1), "down", {action = "room"})
-doors.set_name(get_room(22, 1), "down", "hole")
-doors.set_description(get_room(22, 1), "down", "&1The hole in the earth seems to be a bottomless shaft, with the roiling flames of hell licking the edges.&0")
+get_room(22, 1):exit("down"):set_state({hidden = false})
+get_room(22, 1):exit("down"):set_state({name = "hole"})
+get_room(22, 1):exit("down"):set_state({description = "&1The hole in the earth seems to be a bottomless shaft, with the roiling flames of hell licking the edges.&0"})
 get_room(22, 1):at(function()
     self.room:send("<red>The earth <yellow>heaves<red> and suddenly breaks open to reveal a <blue>fiery </><red>pit.</>")
 end)

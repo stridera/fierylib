@@ -47,12 +47,11 @@ if actor:get_quest_stage("phase_mace") == 2 then
         -- Barrow*
     elseif room.id >= 48000 and room.id <= 48099 then
         local dig = "yes"
-        local item = 18525
         local num = 6
     end
     if dig == "yes" then
         actor:send("You dig up a handful of dirt.")
-        self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
+        self.room:spawn_object(185, 25)
         actor:set_quest_var("phase_mace", "dirt%num%", 1)
         actor:command("get dirt")
         local dirt3 = actor:get_quest_var("phase_mace:dirt3")

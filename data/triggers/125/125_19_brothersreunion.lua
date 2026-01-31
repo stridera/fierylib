@@ -27,8 +27,7 @@ if object.id == 12502 then
         self:say("And take these as well.")
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55703
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, random(1, 11) + 3)
             local gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))

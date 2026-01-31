@@ -298,11 +298,12 @@ elseif go == "necklace" then
             local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
             if job1 and job2 and job3 and job4 then
                 wait(2)
-                local reward = object.id + 1
+                -- reward is object.id + 1, and object.id is already local_id
+                local reward_local = object.id + 1
                 world.destroy(object)
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'Well done!  You've proven your devotion.'")
-                self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+                self.room:spawn_object(self.room.zone_id, reward_local)
                 self:command("give necklace " .. tostring(actor))
                 local expcap = pendantstage * 10
                 if expcap < 17 then

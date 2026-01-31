@@ -21,7 +21,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "scrape") or string.find(arg, "mark") or string.find(arg, "branch") then
     actor:send("A sudden gust of air catches hold of you, swirling around and moving you!")
     self.room:send_except(actor, tostring(actor.name) .. " is swallowed by swirling air and disappears.")
-    doors.set_state(get_room(163, 74), "up", {action = "room"})
+    get_room(163, 74):exit("up"):set_state({hidden = false})
     self.room:send("The wind whips around and around.")
     get_room(163, 75):at(function()
         self.room:send("There is a sudden gust of wind.")
@@ -30,7 +30,7 @@ if string.find(arg, "scrape") or string.find(arg, "mark") or string.find(arg, "b
         self.room:send(tostring(actor.name) .. " is pushed in by the gust of wind which ceases promptly afterwards.")
     end)
     actor:move("up")
-    doors.set_state(get_room(163, 74), "up", {action = "purge"})
+    get_room(163, 74):exit("up"):set_state({hidden = true})
 else
     _return_value = false
 end

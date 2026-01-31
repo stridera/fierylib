@@ -29,7 +29,7 @@ elseif arg and arg.room == actor.room then
     actor:send("You bite " .. tostring(arg.name) .. " on the neck!")
     actor:teleport(get_room(11, 0))
     self.room:send_except(arg, tostring(actor.name) .. " bites " .. tostring(arg.name) .. " on the neck!")
-    actor:teleport(get_room(vnum_to_zone(arg.room), vnum_to_local(arg.room)))
+    actor:teleport(get_room(arg.room.zone_id, arg.room.local_id))
     arg:send(tostring(actor.name) .. " bites you on the neck!")
     _return_value = true
 else

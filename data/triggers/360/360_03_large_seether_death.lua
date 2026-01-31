@@ -14,13 +14,15 @@ if world.count_mobiles("8031") < 1 and (actor.level < 30 or actor:get_quest_stag
     -- Thanks to the evil Pergus for inspiring me to be
     -- more evil.
     local rnd_range = random(1, 126)
-    local rnd_room = rnd_range + 8049
+    -- rnd_room was 8050-8175, which is zone 80, locals 50-175
+    local rnd_room_zone = 80
+    local rnd_room_local = 49 + rnd_range
     get_room(160, 95):at(function()
         self.room:spawn_mobile(80, 31)
     end)
     local rnd = random(1, 100)
     get_room(160, 95):at(function()
-        self.room:find_actor("ice"):teleport(get_room(vnum_to_zone(rnd_room), vnum_to_local(rnd_room)))
+        self.room:find_actor("ice"):teleport(get_room(rnd_room_zone, rnd_room_local))
     end)
     -- Sometimes creatures don't get teleported out of the loading
     -- room so we're gonna go back and purge it just in case.

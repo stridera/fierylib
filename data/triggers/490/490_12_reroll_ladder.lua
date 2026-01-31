@@ -11,7 +11,7 @@ if direction == "down" then
     wait(1)
     self.room:send("The rope ladder rolls back up.")
     self.room:spawn_object(490, 41)
-    doors.set_state(get_room(491, 49), "down", {action = "purge"})
-    doors.set_state(get_room(490, 28), "up", {action = "purge"})
-    doors.set_state(get_room(490, 28), "u", {action = "room"})
+    get_room(491, 49):exit("down"):set_state({hidden = true})
+    get_room(490, 28):exit("up"):set_state({hidden = true})
+    get_room(490, 28):exit("u"):set_state({hidden = false})
 end

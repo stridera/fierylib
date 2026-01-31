@@ -43,8 +43,8 @@ if mode < 7 then
         self.room:send_except(actor, "The vortex flings " .. tostring(actor.name) .. " out, and right into " .. tostring(victim.name) .. "! (<blue>" .. tostring(actor_damage) .. "</>) (<blue>" .. tostring(victim_damage) .. "</>)")
         actor:teleport(get_room(11, 0))
         -- Teleport back and forth to break combat
-        actor:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
-        victim:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
+        actor:teleport(get_room(self.room.zone_id, self.room.local_id))
+        victim:teleport(get_room(self.room.zone_id, self.room.local_id))
     end
 else
     wait(2)
@@ -57,8 +57,7 @@ else
         actor:send("<cyan>" .. tostring(self.name) .. " throws a tremendous burst of wind at you, throwing you from the area!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, "<cyan>" .. tostring(self.name) .. " throws a tremendous burst of wind at " .. tostring(actor.name) .. ", throwing " .. tostring(actor.object) .. " from the area!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
         if actor and (actor.room == self.room) then
-            local location = 48801 + random(1, 29)
-            actor:teleport(get_room(vnum_to_zone(location), vnum_to_local(location)))
+            actor:teleport(get_room(488, random(1, 29) + 1))
             -- actor looks around
         end
     end

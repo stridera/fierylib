@@ -27,11 +27,12 @@ self.room:send("They clatter as they tumble.")
 wait(2)
 self.room:send("Large rocks are tumbling past you!  They look heavy!")
 wait(1)
-local destroom
-if self.id == 30234 then
-    destroom = self.id + 1
+local dest_local
+-- self.id is already a local_id, destroom is relative to same zone
+if self.id == 34 then  -- was 30234
+    dest_local = self.id + 1
 else
-    destroom = self.id - 1
+    dest_local = self.id - 1
 end
 local damage
 if victim.level < 10 then
@@ -57,7 +58,7 @@ if victim.room == startroom then
             self.room:send_except(victim, tostring(victim.name) .. " tumbles downhill!")
             victim:send("You try to dodge the boulders, but a large stone whacks you in the chest! (<red>" .. tostring(damage_dealt) .. "</>)")
             victim:send("You are knocked down!")
-            victim:teleport(get_room(vnum_to_zone(destroom), vnum_to_local(destroom)))
+            victim:teleport(get_room(self.zone_id, dest_local))
             self.room:send_except(victim, tostring(victim.name) .. " tumbles down the trail from above, and comes to a rest.")
             wait(1)
             -- victim looks around

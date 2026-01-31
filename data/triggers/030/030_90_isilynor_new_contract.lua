@@ -21,30 +21,11 @@ end
 wait(2)
 if actor.level >= (actor:get_quest_stage("dragon_slayer") - 1) * 10 then
     if actor:get_quest_stage("dragon_slayer") then
-        -- switch on actor:get_quest_stage("dragon_slayer")
-        if actor:get_quest_stage("dragon_slayer") == 1 then
-            local notice = 3080
-        elseif actor:get_quest_stage("dragon_slayer") == 2 then
-            local notice = 3081
-        elseif actor:get_quest_stage("dragon_slayer") == 3 then
-            local notice = 3082
-        elseif actor:get_quest_stage("dragon_slayer") == 4 then
-            local notice = 3083
-        elseif actor:get_quest_stage("dragon_slayer") == 5 then
-            local notice = 3084
-        elseif actor:get_quest_stage("dragon_slayer") == 6 then
-            local notice = 3085
-        elseif actor:get_quest_stage("dragon_slayer") == 7 then
-            local notice = 3086
-        elseif actor:get_quest_stage("dragon_slayer") == 8 then
-            local notice = 3087
-        elseif actor:get_quest_stage("dragon_slayer") == 9 then
-            local notice = 3088
-        elseif actor:get_quest_stage("dragon_slayer") == 10 then
-            local notice = 3089
-        end
+        -- All notices are in zone 30, local_id = 79 + stage
+        local notice_zone = 30
+        local notice_local = 79 + actor:get_quest_stage("dragon_slayer")
         self:command("grumble")
-        self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
+        self.room:spawn_object(notice_zone, notice_local)
         self:command("give notice " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Truly, be less caprecious.'")
     end

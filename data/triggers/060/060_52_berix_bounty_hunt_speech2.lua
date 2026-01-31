@@ -61,7 +61,8 @@ while i >= a do
                     else
                         local contract = 6050
                     end
-                    self.room:spawn_object(vnum_to_zone(contract), vnum_to_local(contract))
+                    local contract_zone, contract_local = contract // 100, contract % 100
+                    self.room:spawn_object(contract_zone, contract_local)
                     self:command("give contract " .. tostring(person))
                     local accept = "yes"
                     person:send("</>")

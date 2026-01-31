@@ -61,11 +61,15 @@ elseif actor.quest_stage["type_wand"] == "step" then
                 wait(1)
             end
             if not job2 then
-                actor:send(tostring(self.name) .. " says, 'You have to give me " .. objects.template(vnum_to_zone(gem), vnum_to_local(gem)).shortdesc .. " first.'")
+                local gem_zone, gem_local = gem // 100, gem % 100
+                if gem_zone == 0 then gem_zone = 1000 end
+                actor:send(tostring(self.name) .. " says, 'You have to give me " .. objects.template(gem_zone, gem_local).shortdesc .. " first.'")
                 wait(1)
             end
             if not job3 then
-                actor:send(tostring(self.name) .. " says, 'You still need to slay " .. mobs.template(vnum_to_zone(task3), vnum_to_local(task3)).shortdesc .. ".'")
+                local task3_zone, task3_local = task3 // 100, task3 % 100
+                if task3_zone == 0 then task3_zone = 1000 end
+                actor:send(tostring(self.name) .. " says, 'You still need to slay " .. mobs.template(task3_zone, task3_local).shortdesc .. ".'")
             end
         end
     end

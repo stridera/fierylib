@@ -9,5 +9,5 @@
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 wait(2)
 self.room:send("<yellow>The trembling subsides and a <b:red>fi<yellow>er<red>y pit</> <yellow>appears, leading down.</>")
-doors.set_state(get_room(22, 10), "down", {action = "room"})
-doors.set_description(get_room(22, 10), "down", "A &1&bburning&0 hole leads down.")
+get_room(22, 10):exit("down"):set_state({hidden = false})
+get_room(22, 10):exit("down"):set_state({description = "A &1&bburning&0 hole leads down."})

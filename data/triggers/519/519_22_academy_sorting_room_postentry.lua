@@ -11,10 +11,10 @@ if actor.id == -1 then
     if actor:get_quest_stage("school") == 2 then
         if not actor:get_quest_var("school:prep") then
             actor:set_quest_var("school", "prep", 1)
-            doors.set_flags(get_room(519, 1), "east", "abe")
-            doors.set_state(get_room(519, 1), "east", {action = "room"})
-            doors.set_name(get_room(519, 1), "east", "curtain")
-            doors.set_description(get_room(519, 1), "east", "The curtain conceals a hidden door to the east!")
+            get_room(519, 1):exit("east"):set_state({has_door = true, closed = true, hidden = true})
+            get_room(519, 1):exit("east"):set_state({hidden = false})
+            get_room(519, 1):exit("east"):set_state({name = "curtain"})
+            get_room(519, 1):exit("east"):set_state({description = "The curtain conceals a hidden door to the east!"})
         end
     end
 end

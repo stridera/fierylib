@@ -48,7 +48,8 @@ elseif will_drop >= 61 and will_drop <= 80 then
     elseif armor_vnum == 55327 then
         local armor_vnum = 55324
     end
-    self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    -- armor_vnum values are 553xx => zone = armor_vnum // 100, local_id = armor_vnum % 100
+    self.room:spawn_object(armor_vnum // 100, armor_vnum % 100)
 else
     -- 20% chance to drop armor and gem
     local gem_vnum = what_gem_drop + 55565
@@ -65,10 +66,9 @@ else
     elseif armor_vnum == 55319 then
         local armor_vnum = 55316
     elseif armor_vnum == 55323 then
-        local armor_vnum = 55320
     elseif armor_vnum == 55327 then
-        local armor_vnum = 55324
     end
-    self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-    self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    -- gem_vnum values are 555xx => zone = gem_vnum // 100, local_id = gem_vnum % 100
+    self.room:spawn_object(gem_vnum // 100, gem_vnum % 100)
+    self.room:spawn_object(553, 24)
 end

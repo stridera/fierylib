@@ -43,7 +43,9 @@ end
 if p == 3139 then
     local p = 3140 + random(1, 58)
 end
-self.room:spawn_object(vnum_to_zone(p), vnum_to_local(p))
+-- All dolls are in zone 31
+local p_zone, p_local = p // 100, p % 100
+self.room:spawn_object(p_zone, p_local)
 -- Special handling for certain dolls:
 -- Imanhotep's sarcophagus
 if p == 3182 then

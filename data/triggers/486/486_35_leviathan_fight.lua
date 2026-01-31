@@ -21,7 +21,7 @@ else
     if (victim.name ~= actor.name) and ((victim.class == "Warrior") or (string.find(victim.class, "Anti")) or (victim.class == "Ranger") or (victim.class == "Paladin") or (victim.class == "Monk") or (victim.class == "Mercenary") or (victim.class == "Berserker")) then
         if victim.room == self.room then
             self:teleport(get_room(11, 0))
-            self:teleport(get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)))
+            self:teleport(get_room(actor.room.zone_id, actor.room.local_id))
             self.room:send("<b:white>The Leviathan thrashes about madly, switching opponents!</>")
             combat.engage(self, victim.name)
         end

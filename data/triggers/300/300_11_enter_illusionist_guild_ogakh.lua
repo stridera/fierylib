@@ -14,7 +14,7 @@ if not (cmd == "west") then
 end
 local _return_value = true  -- Default: allow action
 _return_value = true
-doors.set_state(get_room(300, 20), "west", {action = "room"})
+get_room(300, 20):exit("west"):set_state({hidden = false})
 actor:move("west")
-doors.set_state(get_room(300, 20), "west", {action = "purge"})
+get_room(300, 20):exit("west"):set_state({hidden = true})
 return _return_value

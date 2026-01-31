@@ -55,11 +55,9 @@ while i >= a do
                     elseif person:get_quest_stage("beast_master") == 8 then
                         local notice = 5307
                     elseif person:get_quest_stage("beast_master") == 9 then
-                        local notice = 5308
                     elseif person:get_quest_stage("beast_master") == 10 then
-                        local notice = 5309
                     end
-                    self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
+                    self.room:spawn_object(53, 9)
                     self:command("give assignment " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've slayed the creature, bring that assignment back to me.  I'll reward you then.'")

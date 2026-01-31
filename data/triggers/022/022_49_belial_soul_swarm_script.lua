@@ -18,11 +18,11 @@ while person < 1 do
         if victim.class == "sorcerer" or victim.class == "cryomancer" or victim.class == "pyromancer" or victim.class == "priest" or victim.class == "druid" or victim.class == "cleric" then
             victim:send("To Victim test")
             self.room:send_except(victim, "To Room test")
-            self.room:spawn_mobile(1000, 15)
+            self.room:spawn_mobile(0, 15)
             self.room:find_actor("wraith"):command("kill %victim.name%")
-            self.room:spawn_mobile(1000, 15)
+            self.room:spawn_mobile(0, 15)
             self.room:find_actor("wraith"):command("kill %victim.name%")
-            self.room:spawn_mobile(1000, 15)
+            self.room:spawn_mobile(0, 15)
             self.room:find_actor("wraith"):command("kill %victim.name%")
             local person = person + 1
         end

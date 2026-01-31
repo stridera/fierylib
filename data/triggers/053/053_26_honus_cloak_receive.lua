@@ -126,10 +126,12 @@ else
         if job1 and job2 and job3 and job4 then
             wait(2)
             local reward = object.id + 1
+            local reward_zone, reward_local = reward // 100, reward % 100
+            if reward_zone == 0 then reward_zone = 1000 end
             world.destroy(object)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'Well done!  You've earned your promotion.'")
-            self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+            self.room:spawn_object(reward_zone, reward_local)
             self:command("give cloak " .. tostring(actor))
             local expcap = cloakstage * 10
             if expcap < 17 then

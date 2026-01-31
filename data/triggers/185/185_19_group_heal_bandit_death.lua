@@ -20,8 +20,7 @@ if i then
                 self.room:spawn_object(185, 13)
             elseif person.id == -1 then
                 local what_gem_drop = random(1, 11)
-                local gem_vnum = what_gem_drop + 55736
-                self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+                self.room:spawn_object(557, what_gem_drop + 36)
             end
         elseif person then
             local i = i + 1

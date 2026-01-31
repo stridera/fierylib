@@ -100,7 +100,8 @@ if item ~= 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Here you are, as requested!'")
         world.destroy(object)
-        self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
+        local item_zone, item_local = item // 100, item % 100
+        self.room:spawn_object(item_zone, item_local)
         self:command("give all " .. tostring(actor))
         wait(2)
         actor:send(tostring(self.name) .. " says, 'A pleasure doing business with you!'")

@@ -39,7 +39,7 @@ while a < 6 do
     else
         self.room:spawn_object(490, 22)
     end
-    local a = a + 1
+    a = a + 1
 end
 a = nil
 local potion1 = random(1, 12)
@@ -159,7 +159,7 @@ while a < 4 do
     else
         self.room:spawn_object(521, 6)
     end
-    local a = a + 1
+    a = a + 1
 end
 local flower = random(1, 6)
 -- switch on flower

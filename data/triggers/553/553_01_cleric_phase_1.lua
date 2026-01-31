@@ -161,7 +161,8 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            -- vnum_reward values are 553xx => zone 553, local_id = vnum_reward % 100
+            self.room:spawn_object(553, vnum_reward % 100)
             wait(1)
             --
             -- loop for exp award.
@@ -220,7 +221,8 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            -- vnum_reward values are 553xx => zone 553, local_id = vnum_reward % 100
+            self.room:spawn_object(553, vnum_reward % 100)
             wait(1)
             --
             -- loop for exp award.

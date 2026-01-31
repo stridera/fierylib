@@ -76,8 +76,7 @@ while person do
         end
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, random(1, 11) + 36)
             local gem = gem + 1
             person:command("get gem")
         end

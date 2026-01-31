@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "weather")) then
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-doors.set_state(get_room(12, 10), "n", {action = "room"})
+get_room(12, 10):exit("n"):set_state({hidden = false})
 self.room:send("<cyan>The air wrinkles and swirls into a door to the north</>")
 _return_value = false
 return _return_value

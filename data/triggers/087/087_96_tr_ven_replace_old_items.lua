@@ -8,14 +8,15 @@
 -- Converted from DG Script #8796: tr'ven(replace old items)
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if object.id >= 1 then
-    local item = object.id
+    local item_zone = object.zone_id
+    local item_local = object.id
     local name = object.shortdesc
     wait(1)
     self:say(tostring(name) .. "?")
     world.destroy(object)
     wait(1)
     self:say("Yes, I think I can make " .. tostring(name) .. " as good as new.")
-    self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
+    self.room:spawn_object(item_zone, item_local)
     wait(1)
     actor:send("<blue>The air shudders as Tr'ven mutters a few words over " .. tostring(name) .. ".</>")
     self.room:send_except(actor, "The air shudders as Tr'ven mutters a few words over " .. tostring(name) .. ".")

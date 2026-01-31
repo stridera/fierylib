@@ -32,9 +32,9 @@ elseif arg.id ~= -1 then
 elseif arg.level > 99 then
     actor:send("You cannot tag immortals!")
 elseif arg:has_equipped("18899") then
-    arg:teleport(get_room(1000, 0))
+    arg:teleport(get_room(0, 0))
     self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. " with a FieryTag bat!")
-    arg:teleport(get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)))
+    arg:teleport(get_room(actor.room.zone_id, actor.room.local_id))
     actor:send("You tag " .. tostring(arg.name) .. " with a whack of your FieryTag bat!")
     arg:send("Tag! " .. tostring(actor.name) .. " tags you with a whack of " .. tostring(actor.possessive) .. " FieryTag bat!")
     self.room:spawn_mobile(188, 96)

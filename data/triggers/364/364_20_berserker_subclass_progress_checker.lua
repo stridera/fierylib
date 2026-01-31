@@ -30,16 +30,25 @@ elseif actor:get_quest_stage("berserker_subclass") == 3 then
     -- switch on actor:get_quest_var("berserker_subclass:target")
     local target = actor:get_quest_var("berserker_subclass:target")
     local place = "the unknown"
+    local target_zone, target_local
     if target == 16105 then
+        target_zone, target_local = 161, 5
         place = "a desert cave"
     elseif target == 16310 then
+        target_zone, target_local = 163, 10
         place = "some forested highlands"
     elseif target == 20311 then
+        target_zone, target_local = 203, 11
         place = "a vast plain"
     elseif target == 55220 then
+        target_zone, target_local = 552, 20
         place = "the frozen tundra"
+    else
+        -- Fallback: compute from vnum
+        target_zone = target // 100
+        target_local = target % 100
     end
-    actor:send("The Spirits reveal to you a vision of " .. tostring(mobs.template(vnum_to_zone(target), vnum_to_local(target)).short_description) .. "!")
+    actor:send("The Spirits reveal to you a vision of " .. tostring(mobs.template(target_zone, target_local).short_description) .. "!")
     actor:send("You see it is in " .. tostring(place) .. "!")
     local classquest = "yes"
     if string.find(actor.class, "Warrior") then
