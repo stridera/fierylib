@@ -150,8 +150,13 @@ class BoardParser:
         for line in lines:
             # Check for end of message body
             if in_body:
-                if line.rstrip() == '~':
-                    # End of message body
+                stripped = line.rstrip()
+                if stripped == '~':
+                    # Standalone tilde terminator
+                    break
+                if stripped.endswith('~'):
+                    # Tilde appended to last line of content
+                    body_lines.append(stripped[:-1])
                     break
                 body_lines.append(line)
                 continue
