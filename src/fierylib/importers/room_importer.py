@@ -103,8 +103,20 @@ class RoomImporter:
         - NO_RECALL / NORECALL → allowsRecall: false
         - NO_SUMMON / NOSUMMON → allowsSummon: false
         - NO_TELEPORT / NOTELEPORT → allowsTeleport: false
+        - NO_SHIFT → allowsTeleport: false (plane shift = teleportation)
         - DEATH / DT / DEATH_TRAP → isDeathTrap: true
         - GODROOM → entryRestriction: Lua script for god check
+        - INDOORS → isIndoors: true
+        - UNDERDARK → isIndoors: true (underground = indoors)
+        - SOUNDPROOF → isSoundproof: true
+        - ARENA → isArena: true
+        - GUILDHALL → isGuildhall: true
+        - NO_MOB → allowsMobs: false
+        - NO_TRACK → allowsTracking: false
+        - NO_WELL → allowsPortals: false
+        - NO_SCAN → allowsScanning: false
+        - PRIVATE → capacity: 2 (max 2 occupants)
+        - TUNNEL → capacity: 1 (max 1 occupant, more restrictive than PRIVATE)
 
         Args:
             flags: List of legacy room flag strings
@@ -127,6 +139,15 @@ class RoomImporter:
             'allowsTeleport': True,
             'isDeathTrap': False,
             'entryRestriction': None,
+            'isIndoors': False,
+            'isSoundproof': False,
+            'isArena': False,
+            'isGuildhall': False,
+            'allowsMobs': True,
+            'allowsTracking': True,
+            'allowsPortals': True,
+            'allowsScanning': True,
+            'capacity': None,
         }
 
         # Check each flag
@@ -142,7 +163,7 @@ class RoomImporter:
         if 'NOSUMMON' in normalized:
             result['allowsSummon'] = False
 
-        if 'NOTELEPORT' in normalized:
+        if 'NOTELEPORT' in normalized or 'NOSHIFT' in normalized:
             result['allowsTeleport'] = False
 
         # Death trap variants
@@ -152,6 +173,38 @@ class RoomImporter:
         # GODROOM → Lua entry restriction
         if 'GODROOM' in normalized:
             result['entryRestriction'] = 'return actor:is_god()'
+
+        # Indoor flags
+        if 'INDOORS' in normalized or 'UNDERDARK' in normalized:
+            result['isIndoors'] = True
+
+        if 'SOUNDPROOF' in normalized:
+            result['isSoundproof'] = True
+
+        if 'ARENA' in normalized:
+            result['isArena'] = True
+
+        if 'GUILDHALL' in normalized:
+            result['isGuildhall'] = True
+
+        if 'NOMOB' in normalized:
+            result['allowsMobs'] = False
+
+        if 'NOTRACK' in normalized:
+            result['allowsTracking'] = False
+
+        if 'NOWELL' in normalized:
+            result['allowsPortals'] = False
+
+        if 'NOSCAN' in normalized:
+            result['allowsScanning'] = False
+
+        # Capacity limits: TUNNEL (1) is more restrictive than PRIVATE (2).
+        # If both are set, use the more restrictive value.
+        if 'TUNNEL' in normalized:
+            result['capacity'] = 1
+        elif 'PRIVATE' in normalized:
+            result['capacity'] = 2
 
         return result
 
@@ -257,6 +310,28 @@ class RoomImporter:
             room_name = convert_legacy_colors(room["name"])
             room_description = convert_legacy_colors(room["description"])
 
+            # Build common fields dict for create/update
+            common_fields = {
+                "isPeaceful": room_state['isPeaceful'],
+                "allowsMagic": room_state['allowsMagic'],
+                "allowsRecall": room_state['allowsRecall'],
+                "allowsSummon": room_state['allowsSummon'],
+                "allowsTeleport": room_state['allowsTeleport'],
+                "isDeathTrap": room_state['isDeathTrap'],
+                "entryRestriction": room_state['entryRestriction'],
+                "isIndoors": room_state['isIndoors'],
+                "isSoundproof": room_state['isSoundproof'],
+                "isArena": room_state['isArena'],
+                "isGuildhall": room_state['isGuildhall'],
+                "allowsMobs": room_state['allowsMobs'],
+                "allowsTracking": room_state['allowsTracking'],
+                "allowsPortals": room_state['allowsPortals'],
+                "allowsScanning": room_state['allowsScanning'],
+            }
+            # Only override capacity when a flag explicitly sets it
+            if room_state['capacity'] is not None:
+                common_fields['capacity'] = room_state['capacity']
+
             # Upsert room with composite key
             room_record = await self.prisma.room.upsert(
                 where={
@@ -274,13 +349,7 @@ class RoomImporter:
                         "plainRoomDescription": strip_markup(room_description),
                         "sector": sector,
                         "baseLightLevel": base_light_level,
-                        "isPeaceful": room_state['isPeaceful'],
-                        "allowsMagic": room_state['allowsMagic'],
-                        "allowsRecall": room_state['allowsRecall'],
-                        "allowsSummon": room_state['allowsSummon'],
-                        "allowsTeleport": room_state['allowsTeleport'],
-                        "isDeathTrap": room_state['isDeathTrap'],
-                        "entryRestriction": room_state['entryRestriction'],
+                        **common_fields,
                     },
                     "update": {
                         "name": room_name,
@@ -288,13 +357,7 @@ class RoomImporter:
                         "plainRoomDescription": strip_markup(room_description),
                         "sector": sector,
                         "baseLightLevel": base_light_level,
-                        "isPeaceful": room_state['isPeaceful'],
-                        "allowsMagic": room_state['allowsMagic'],
-                        "allowsRecall": room_state['allowsRecall'],
-                        "allowsSummon": room_state['allowsSummon'],
-                        "allowsTeleport": room_state['allowsTeleport'],
-                        "isDeathTrap": room_state['isDeathTrap'],
-                        "entryRestriction": room_state['entryRestriction'],
+                        **common_fields,
                     },
                 },
             )
