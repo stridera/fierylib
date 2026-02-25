@@ -295,6 +295,7 @@ class ObjectImporter:
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
                         "timer": obj.timer or 0,
+                        "decomposeTimer": obj.timer or 0,
                         "level": obj.level or 0,
                         "wearFlags": obj_wear_flags,
                         "concealment": obj.concealment or 0,
@@ -325,6 +326,7 @@ class ObjectImporter:
                         "weight": obj.weight or 0.0,
                         "cost": obj.cost or 0,
                         "timer": obj.timer or 0,
+                        "decomposeTimer": obj.timer or 0,
                         "level": obj.level or 0,
                         "wearFlags": {"set": obj_wear_flags},
                         "concealment": obj.concealment or 0,
@@ -474,6 +476,128 @@ class ObjectImporter:
                 "success": False,
                 "error": str(e),
             }
+
+    async def import_object_abilities(
+        self, dry_run: bool = False, verbose: bool = False
+    ) -> dict:
+        """
+        Import spell data from spell-bearing objects into ObjectAbilities.
+
+        Reads the values JSON from SCROLL, POTION, WAND, STAFF, and INSTRUMENT objects
+        and creates ObjectAbilities entries linking objects to their spells.
+
+        - SCROLL/POTION: {"Level": int, "Spells": [str, ...]} -> multiple abilities, no charges
+        - WAND/STAFF/INSTRUMENT: {"Level": int, "Spell": str, "Max_Charges": int, "Charges_Left": int} -> one ability with charges
+
+        Returns:
+            Dict with import stats
+        """
+        results = {
+            "success": True,
+            "objects_processed": 0,
+            "abilities_created": 0,
+            "spells_not_found": [],
+            "errors": [],
+        }
+
+        # Build spell name -> ability ID cache
+        abilities = await self.prisma.ability.find_many()
+        spell_cache: dict[str, int] = {a.plainName: a.id for a in abilities}
+
+        if verbose:
+            print(f"Loaded {len(spell_cache)} abilities into cache")
+
+        # Query all spell-bearing objects
+        spell_types = ["SCROLL", "POTION", "WAND", "STAFF", "INSTRUMENT"]
+        objects = await self.prisma.objects.find_many(
+            where={"type": {"in": spell_types}},
+        )
+
+        if verbose:
+            print(f"Found {len(objects)} spell-bearing objects")
+
+        # Clear existing ObjectAbilities (rebuilding from scratch)
+        if not dry_run:
+            await self.prisma.objectabilities.delete_many()
+
+        for obj in objects:
+            try:
+                values = json.loads(obj.values) if isinstance(obj.values, str) else obj.values
+            except (json.JSONDecodeError, TypeError):
+                continue
+
+            if not values:
+                continue
+
+            level = values.get("Level", 1)
+            spell_entries: list[tuple[str, int | None]] = []  # (spell_name, charges)
+
+            if obj.type in ("SCROLL", "POTION"):
+                # Multiple spells, no charges
+                spells = values.get("Spells", [])
+                for spell_name in spells:
+                    if spell_name:
+                        spell_entries.append((spell_name, None))
+            elif obj.type in ("WAND", "STAFF", "INSTRUMENT"):
+                # Single spell with charges
+                spell_name = values.get("Spell")
+                if spell_name:
+                    charges = values.get("Max_Charges")
+                    spell_entries.append((spell_name, charges))
+
+            if not spell_entries:
+                continue
+
+            results["objects_processed"] += 1
+
+            for spell_name, charges in spell_entries:
+                ability_id = spell_cache.get(spell_name)
+                if ability_id is None:
+                    if spell_name not in [s for s, _ in results["spells_not_found"]]:
+                        results["spells_not_found"].append((spell_name, f"{obj.zoneId}:{obj.id}"))
+                    if verbose:
+                        print(f"  Warning: Spell '{spell_name}' not found for object {obj.zoneId}:{obj.id}")
+                    continue
+
+                if dry_run:
+                    results["abilities_created"] += 1
+                    continue
+
+                try:
+                    await self.prisma.objectabilities.create(
+                        data={
+                            "objectZoneId": obj.zoneId,
+                            "objectId": obj.id,
+                            "abilityId": ability_id,
+                            "level": level,
+                            "charges": charges,
+                        }
+                    )
+                    results["abilities_created"] += 1
+
+                    if verbose:
+                        print(f"  {obj.type} {obj.zoneId}:{obj.id} -> {spell_name} (level {level}, charges {charges})")
+
+                except Exception as e:
+                    if "Unique constraint" in str(e):
+                        pass  # Same spell on same object, skip
+                    else:
+                        results["errors"].append(
+                            f"Error creating ability for {obj.zoneId}:{obj.id} spell {spell_name}: {e}"
+                        )
+
+        if verbose:
+            print(f"\nResults:")
+            print(f"  Objects processed: {results['objects_processed']}")
+            print(f"  Abilities created: {results['abilities_created']}")
+            if results["spells_not_found"]:
+                print(f"  Spells not found: {len(results['spells_not_found'])}")
+                for spell, obj_ref in results["spells_not_found"]:
+                    print(f"    - {spell} (first seen on {obj_ref})")
+            if results["errors"]:
+                print(f"  Errors: {len(results['errors'])}")
+
+        return results
 
     async def import_objects_from_file(
         self, obj_file_path: Path, zone_id: int, dry_run: bool = False,

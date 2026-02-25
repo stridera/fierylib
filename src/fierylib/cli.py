@@ -69,7 +69,6 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
     from prisma import Prisma
     from fierylib.importers import ZoneImporter, RoomImporter, MobImporter, ObjectImporter, ShopImporter, ResetImporter
     from fierylib.importers.trigger_importer import TriggerImporter
-    from fierylib.importers.mail_importer import MailImporter
     from fierylib.importers.board_importer import import_boards as do_import_boards
 
     async def run_import():
@@ -156,7 +155,6 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 "mob_resets": 0,
                 "object_resets": 0,
                 "triggers": 0,
-                "mail": 0,
                 "boards": 0,
                 "board_messages": 0,
                 "failed": 0,
@@ -617,9 +615,7 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             # Build shopkeeper vnums set (G commands skipped for these mobs)
             # Shop inventory comes from ShopItems, not mob inventory
             shopkeeper_vnums: set[int] = set()
-            shops = await prisma.shops.find_many(
-                where={"keeperZoneId": {"not": None}, "keeperId": {"not": None}}
-            )
+            shops = await prisma.shops.find_many()
             for shop in shops:
                 vnum = (shop.keeperZoneId * 100) + shop.keeperId if shop.keeperZoneId != 1000 else shop.keeperId
                 shopkeeper_vnums.add(vnum)
@@ -772,25 +768,39 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             else:
                 click.echo(f"  ⚠️  Object directory not found: {obj_dir}")
 
-            # PHASE 5: Import Mail
-            click.echo(f"\n{'='*60}")
-            click.echo(f"Phase 5: Importing Player Mail")
-            click.echo(f"{'='*60}")
-
-            mail_file = Path(lib_path) / "etc" / "plrmail"
-            if mail_file.exists():
-                mail_importer = MailImporter(prisma)
-                mail_stats = await mail_importer.import_from_file(mail_file, dry_run=dry_run, verbose=verbose)
-                total_stats["mail"] += mail_stats.get("imported", 0)
-                if mail_stats.get("errors", 0) > 0:
-                    total_stats["failed"] += mail_stats["errors"]
-                click.echo(f"  ✅ Imported {mail_stats.get('imported', 0)} mail messages")
+            # PHASE 4d: Link Room Triggers (parse T lines from wld files)
+            click.echo(f"\n  --- Linking Room Triggers ---")
+            wld_dir = world_dir / "wld"
+            if wld_dir.exists() and not dry_run:
+                from fierylib.importers.room_trigger_linker import RoomTriggerLinker
+                room_linker = RoomTriggerLinker(prisma)
+                room_link_result = await room_linker.link_room_triggers(world_dir, dry_run=dry_run, verbose=verbose)
+                total_stats["room_trigger_links"] = room_link_result.get("links_created", 0)
+                if room_link_result.get("errors"):
+                    total_stats["failed"] += len(room_link_result["errors"])
+                click.echo(f"  ✅ Created {room_link_result.get('links_created', 0)} room-trigger links for {room_link_result.get('rooms_processed', 0)} rooms")
+            elif dry_run:
+                click.echo(f"  ⏭️  Skipped (dry run)")
             else:
-                click.echo(f"  ⚠️  Mail file not found: {mail_file}")
+                click.echo(f"  ⚠️  World directory not found: {wld_dir}")
 
-            # PHASE 6: Import Boards
+            # PHASE 4e: Import Object Abilities (spells on scrolls, potions, wands, staves)
+            click.echo(f"\n  --- Importing Object Abilities ---")
+            if not dry_run:
+                ability_importer = ObjectImporter(prisma)
+                ability_result = await ability_importer.import_object_abilities(dry_run=dry_run, verbose=verbose)
+                total_stats["object_abilities"] = ability_result.get("abilities_created", 0)
+                if ability_result.get("errors"):
+                    total_stats["failed"] += len(ability_result["errors"])
+                click.echo(f"  ✅ Created {ability_result.get('abilities_created', 0)} object-ability links for {ability_result.get('objects_processed', 0)} objects")
+                if ability_result.get("spells_not_found"):
+                    click.echo(f"  ⚠️  {len(ability_result['spells_not_found'])} spells not found in Ability table")
+            else:
+                click.echo(f"  ⏭️  Skipped (dry run)")
+
+            # PHASE 5: Import Boards
             click.echo(f"\n{'='*60}")
-            click.echo(f"Phase 6: Importing Bulletin Boards")
+            click.echo(f"Phase 5: Importing Bulletin Boards")
             click.echo(f"{'='*60}")
 
             boards_dir = Path(lib_path) / "etc" / "boards"
@@ -808,9 +818,9 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             else:
                 click.echo(f"  ⚠️  Boards directory not found")
 
-            # PHASE 7: Apply Spec Proc Flags
+            # PHASE 6: Apply Spec Proc Flags
             click.echo(f"\n{'='*60}")
-            click.echo(f"Phase 7: Applying Special Procedure Flags")
+            click.echo(f"Phase 6: Applying Special Procedure Flags")
             click.echo(f"{'='*60}")
 
             from fierylib.importers.spec_proc_importer import SpecProcImporter
@@ -853,7 +863,6 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 click.echo(f"  Triggers:      {total_stats['triggers']} ({needs_review} need review)")
             else:
                 click.echo(f"  Triggers:      {total_stats['triggers']}")
-            click.echo(f"  Mail:          {total_stats['mail']}")
             click.echo(f"  Boards:        {total_stats['boards']} ({total_stats['board_messages']} messages)")
             if total_stats.get('spec_proc_flags', 0) > 0:
                 click.echo(f"  Spec Procs:    {total_stats['spec_proc_flags']} flags applied")
@@ -1114,11 +1123,17 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
     help="Enable verbose output",
 )
 def import_players(lib_path: str, player: str | None, dry_run: bool, verbose: bool):
-    """Import legacy player/character files"""
+    """Import legacy player/character files.
+
+    Also imports player mail from lib/etc/plrmail, resolving legacy numeric
+    sender/recipient IDs to character UUIDs using the mapping built during
+    player import. This is preferred over running import-mail standalone.
+    """
     import asyncio
     from pathlib import Path
     from prisma import Prisma
     from fierylib.importers.player_importer import PlayerImporter
+    from fierylib.importers.mail_importer import MailImporter
 
     async def run_import():
         click.echo("FieryLib v0.1.0 - Player Data Importer")
@@ -1158,7 +1173,7 @@ def import_players(lib_path: str, player: str | None, dry_run: bool, verbose: bo
             )
 
             click.echo("\n" + "=" * 60)
-            click.echo("Import Complete")
+            click.echo("Player Import Complete")
             click.echo("=" * 60)
             click.echo(f"  Characters imported: {stats['characters']}")
             click.echo(f"  Skills assigned: {stats['skills']}")
@@ -1167,6 +1182,74 @@ def import_players(lib_path: str, player: str | None, dry_run: bool, verbose: bo
             if stats['errors'] > 0:
                 click.echo(f"  ⚠️  Errors: {stats['errors']}")
 
+            # Import mail using the legacy ID mapping from player import
+            legacy_id_map = stats.get("legacy_id_map", {})
+
+            click.echo("\n" + "=" * 60)
+            click.echo("Importing Player Mail")
+            click.echo("=" * 60)
+
+            mail_file = Path(lib_path) / "etc" / "plrmail"
+            if mail_file.exists():
+                mail_importer = MailImporter(prisma)
+                mail_stats = await mail_importer.import_from_file(
+                    mail_file,
+                    legacy_to_char=legacy_id_map,
+                    dry_run=dry_run,
+                    verbose=verbose,
+                )
+                click.echo(f"  Messages imported:   {mail_stats.get('imported', 0)}")
+                click.echo(f"  Senders resolved:    {mail_stats.get('senders_resolved', 0)}")
+                click.echo(f"  Recipients resolved: {mail_stats.get('recipients_resolved', 0)}")
+                if mail_stats.get('errors', 0) > 0:
+                    click.echo(f"  ⚠️  Errors: {mail_stats['errors']}")
+            else:
+                click.echo(f"  ⚠️  Mail file not found: {mail_file}")
+
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_import())
+
+
+@main.command()
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+def import_quests(lib_path: str):
+    """Import quest definitions and player quest progress from .quest files"""
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.importers.quest_importer import QuestImporter
+
+    async def run_import():
+        click.echo("FieryLib v0.1.0 - Quest Importer")
+        click.echo(f"Library path: {lib_path}")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            players_dir = Path(lib_path) / "players"
+            if not players_dir.exists():
+                click.echo(f"Players directory not found: {players_dir}")
+                return
+
+            importer = QuestImporter(prisma)
+            stats = await importer.import_all(str(players_dir))
+
+            click.echo("\n" + "=" * 60)
+            click.echo("Quest Import Complete")
+            click.echo("=" * 60)
+            click.echo(f"  Quest definitions created: {stats['quest_definitions']}")
+            click.echo(f"  Player quest entries: {stats['player_quests']}")
+            click.echo(f"  Players with quests: {stats['players_with_quests']}")
+            if stats["errors"] > 0:
+                click.echo(f"  Errors: {stats['errors']}")
         finally:
             await prisma.disconnect()
 
@@ -1193,7 +1276,12 @@ def import_players(lib_path: str, player: str | None, dry_run: bool, verbose: bo
     help="Enable verbose output",
 )
 def import_mail(lib_path: str, dry_run: bool, verbose: bool):
-    """Import player mail from legacy plrmail binary file"""
+    """Import player mail from legacy plrmail binary file.
+
+    NOTE: Running 'import-players' is preferred as it resolves legacy
+    sender/recipient IDs to character UUIDs. This standalone command
+    imports mail without character ID resolution.
+    """
     import asyncio
     from pathlib import Path
     from prisma import Prisma
@@ -1214,6 +1302,7 @@ def import_mail(lib_path: str, dry_run: bool, verbose: bool):
             return
 
         click.echo(f"Mail file: {mail_file}")
+        click.echo("⚠️  Note: Character IDs will not be resolved. Use 'import-players' for full resolution.")
 
         # Initialize Prisma
         prisma = Prisma()
@@ -1400,10 +1489,11 @@ def import_triggers(triggers_dir: str | None, zone: int | None, dry_run: bool, v
     help="Show detailed output",
 )
 def link_triggers(lib_path: str, dry_run: bool, verbose: bool):
-    """Link mobs and objects to triggers via junction tables.
+    """Link mobs, objects, and rooms to triggers via junction tables.
 
-    Parses "T <trigger_vnum>" lines from .mob and .obj files and creates
-    the proper many-to-many relationships in the MobTriggers and ObjectTriggers tables.
+    Parses "T <trigger_vnum>" lines from .mob, .obj, and .wld files and creates
+    the proper many-to-many relationships in the MobTriggers, ObjectTriggers,
+    and RoomTriggers tables.
     In DG Scripts, triggers can be shared across multiple entities.
     """
     import asyncio
@@ -1411,6 +1501,7 @@ def link_triggers(lib_path: str, dry_run: bool, verbose: bool):
     from prisma import Prisma
     from fierylib.importers.mob_trigger_linker import MobTriggerLinker
     from fierylib.importers.object_trigger_linker import ObjectTriggerLinker
+    from fierylib.importers.room_trigger_linker import RoomTriggerLinker
 
     async def run():
         click.echo("=" * 60)
@@ -1462,6 +1553,24 @@ def link_triggers(lib_path: str, dry_run: bool, verbose: bool):
                         click.echo(f"    - {error}")
                     if len(obj_result["errors"]) > 10:
                         click.echo(f"    ... and {len(obj_result['errors']) - 10} more")
+
+            # Link room triggers
+            click.echo(f"\n--- Linking Room Triggers ---")
+            room_linker = RoomTriggerLinker(prisma)
+            room_result = await room_linker.link_room_triggers(world_dir, dry_run=dry_run, verbose=verbose)
+
+            click.echo(f"\nRoom Trigger Results:")
+            click.echo(f"  Rooms processed:   {room_result.get('rooms_processed', 0)}")
+            click.echo(f"  Links created:     {room_result.get('links_created', 0)}")
+            click.echo(f"  Links skipped:     {room_result.get('links_skipped', 0)}")
+
+            if room_result.get("errors"):
+                click.echo(f"  Errors:            {len(room_result['errors'])}")
+                if verbose:
+                    for error in room_result["errors"][:10]:
+                        click.echo(f"    - {error}")
+                    if len(room_result["errors"]) > 10:
+                        click.echo(f"    ... and {len(room_result['errors']) - 10} more")
 
             if dry_run:
                 click.echo(f"\n(Dry run - no database changes made)")
@@ -3071,6 +3180,61 @@ def generate_layout(
             await prisma.disconnect()
 
     asyncio.run(run_layout())
+
+
+@main.command()
+@click.option(
+    "--lib-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True),
+    default=lambda: os.getenv("LEGACY_LIB_PATH", "../lib"),
+    help="Path to legacy CircleMUD lib directory",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Enable verbose output",
+)
+@click.option(
+    "--json-output",
+    type=click.Path(),
+    default=None,
+    help="Write JSON report to this file",
+)
+def analyze_custom_items(lib_path: str, verbose: bool, json_output: str | None):
+    """Analyze vnum -1 (custom) items in player files and match to prototypes."""
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.analyzers.custom_item_analyzer import (
+        analyze_custom_items as do_analyze,
+        print_report,
+    )
+
+    async def run_analysis():
+        players_dir = Path(lib_path) / "players"
+        if not players_dir.exists():
+            click.echo(f"Players directory not found: {players_dir}")
+            return
+
+        click.echo(f"FieryLib - Custom Item Analyzer")
+        click.echo(f"Players directory: {players_dir}")
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            report = await do_analyze(
+                prisma,
+                str(players_dir),
+                verbose=verbose,
+                json_output=json_output,
+            )
+            print_report(report)
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_analysis())
 
 
 # Register command groups from commands submodule

@@ -25,71 +25,67 @@ class LevelSeeder:
         return int(math.pow(level, exponent) * multiplier)
 
     def get_immortal_permissions(self, level: int) -> list[str]:
-        """Get permissions for immortal levels based on legacy FieryMUD hierarchy."""
+        """Get permissions for immortal levels based on legacy FieryMUD hierarchy.
+
+        Returns Permission enum values matching the Prisma schema.
+        """
         permissions = []
 
         # Level 100 - Avatar (LVL_IMMORT)
         if level >= 100:
             permissions.extend([
-                "can_goto",
-                "can_transfer",
-                "can_at",
-                "can_wizhelp",
-                "can_invis",
-                "can_echo",
-                "can_send",
-                "can_holylight",
+                "TELEPORT",      # goto
+                "TRANSFER",      # transfer players
+                "INVISIBLE",     # immortal invisibility
+                "NOHASSLE",      # immune to mob aggro
+                "WIZNET",        # immortal chat channel
             ])
 
         # Level 101 - Demi-God (LVL_GOD)
         if level >= 101:
             permissions.extend([
-                "can_load",
-                "can_purge",
-                "can_zreset",
-                "can_advance",
-                "can_restore",
-                "can_set",
-                "can_snoop",
+                "ZONE_RESET",    # zreset
+                "ADVANCE",       # change player levels
+                "RESTORE",       # fully restore players
+                "SNOOP",         # monitor player sessions
             ])
 
         # Level 102 - Lesser God (LVL_GRGOD)
         if level >= 102:
             permissions.extend([
-                "can_freeze",
-                "can_unfreeze",
-                "can_dc",
-                "can_force",
-                "can_switch",
-                "can_page",
+                "FREEZE",        # freeze players
+                "THAW",          # unfreeze players
+                "DC",            # disconnect players
+                "FORCE",         # force players to execute commands
             ])
 
         # Level 103 - Greater God (LVL_HEAD_B / GAMEMASTER)
         if level >= 103:
             permissions.extend([
-                "can_ban",
-                "can_unban",
-                "can_mute",
-                "can_unmute",
-                "can_wizlock",
+                "BAN",           # ban players/IPs
+                "UNBAN",         # remove bans
+                "SQUELCH",       # squelch players from channels
+                "WIZLOCK",       # lock out mortals
+                "NOTITLE",       # remove player titles
             ])
 
         # Level 104 - Implementer (LVL_HEAD_C / ADMIN / BUILDER)
         if level >= 104:
             permissions.extend([
-                "can_olc",
-                "can_reboot",
-                "can_copyover",
-                "can_syslog",
+                "OLC",           # online creation system
+                "BUILD",         # builder commands
+                "SYSLOG",        # view system logs
+                "LOG",           # toggle logging on players
             ])
 
         # Level 105 - Overlord (LVL_IMPL)
         if level >= 105:
             permissions.extend([
-                "can_shutdown",
-                "can_delete",
-                "can_setall",
-                "can_hcontrol",
+                "SHUTDOWN",      # shut down the MUD
+                "CODE",          # coding/debugging commands
+                "ADMIN",         # administrative commands
+                "GOD",           # full god-level access
+                "SUMMON",        # summon players
             ])
 
         return permissions
