@@ -776,9 +776,19 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 room_linker = RoomTriggerLinker(prisma)
                 room_link_result = await room_linker.link_room_triggers(world_dir, dry_run=dry_run, verbose=verbose)
                 total_stats["room_trigger_links"] = room_link_result.get("links_created", 0)
-                if room_link_result.get("errors"):
-                    total_stats["failed"] += len(room_link_result["errors"])
-                click.echo(f"  ✅ Created {room_link_result.get('links_created', 0)} room-trigger links for {room_link_result.get('rooms_processed', 0)} rooms")
+                room_errors = room_link_result.get("errors", [])
+                room_skipped = room_link_result.get("links_skipped", 0)
+                if room_errors:
+                    total_stats["failed"] += len(room_errors)
+                if room_errors or room_skipped:
+                    click.echo(f"  ⚠️  Created {room_link_result.get('links_created', 0)} room-trigger links for {room_link_result.get('rooms_processed', 0)} rooms ({room_skipped} skipped, {len(room_errors)} errors)")
+                    if verbose or debug:
+                        for error in room_errors[:5]:
+                            click.echo(f"      - {error}")
+                        if len(room_errors) > 5:
+                            click.echo(f"      ... and {len(room_errors) - 5} more")
+                else:
+                    click.echo(f"  ✅ Created {room_link_result.get('links_created', 0)} room-trigger links for {room_link_result.get('rooms_processed', 0)} rooms")
             elif dry_run:
                 click.echo(f"  ⏭️  Skipped (dry run)")
             else:
@@ -790,11 +800,25 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 ability_importer = ObjectImporter(prisma)
                 ability_result = await ability_importer.import_object_abilities(dry_run=dry_run, verbose=verbose)
                 total_stats["object_abilities"] = ability_result.get("abilities_created", 0)
-                if ability_result.get("errors"):
-                    total_stats["failed"] += len(ability_result["errors"])
-                click.echo(f"  ✅ Created {ability_result.get('abilities_created', 0)} object-ability links for {ability_result.get('objects_processed', 0)} objects")
-                if ability_result.get("spells_not_found"):
-                    click.echo(f"  ⚠️  {len(ability_result['spells_not_found'])} spells not found in Ability table")
+                ability_errors = ability_result.get("errors", [])
+                ability_skipped = ability_result.get("objects_skipped", 0)
+                ability_dupes = ability_result.get("duplicates_skipped", 0)
+                spells_missing = ability_result.get("spells_not_found", [])
+                if ability_errors:
+                    total_stats["failed"] += len(ability_errors)
+                if ability_errors or spells_missing:
+                    click.echo(f"  ⚠️  Created {ability_result.get('abilities_created', 0)} object-ability links for {ability_result.get('objects_processed', 0)} objects ({ability_skipped} skipped, {ability_dupes} dupes, {len(ability_errors)} errors)")
+                    if spells_missing:
+                        click.echo(f"      Spells not in Ability table: {', '.join(s for s, _ in spells_missing)}")
+                    if verbose or debug:
+                        for error in ability_errors[:5]:
+                            click.echo(f"      - {error}")
+                        if len(ability_errors) > 5:
+                            click.echo(f"      ... and {len(ability_errors) - 5} more")
+                else:
+                    click.echo(f"  ✅ Created {ability_result.get('abilities_created', 0)} object-ability links for {ability_result.get('objects_processed', 0)} objects")
+                    if ability_skipped or ability_dupes:
+                        click.echo(f"      ({ability_skipped} objects had no spell data, {ability_dupes} duplicate spells deduplicated)")
             else:
                 click.echo(f"  ⏭️  Skipped (dry run)")
 

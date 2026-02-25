@@ -496,6 +496,8 @@ class ObjectImporter:
             "success": True,
             "objects_processed": 0,
             "abilities_created": 0,
+            "objects_skipped": 0,
+            "duplicates_skipped": 0,
             "spells_not_found": [],
             "errors": [],
         }
@@ -524,9 +526,14 @@ class ObjectImporter:
             try:
                 values = json.loads(obj.values) if isinstance(obj.values, str) else obj.values
             except (json.JSONDecodeError, TypeError):
+                results["objects_skipped"] += 1
+                results["errors"].append(
+                    f"Object {obj.zoneId}:{obj.id} ({obj.type} '{obj.plainName}'): unparseable values JSON"
+                )
                 continue
 
             if not values:
+                results["objects_skipped"] += 1
                 continue
 
             level = values.get("Level", 1)
@@ -546,6 +553,9 @@ class ObjectImporter:
                     spell_entries.append((spell_name, charges))
 
             if not spell_entries:
+                results["objects_skipped"] += 1
+                if verbose:
+                    print(f"  Skipped {obj.type} {obj.zoneId}:{obj.id} ('{obj.plainName}'): no spell data in values")
                 continue
 
             results["objects_processed"] += 1
@@ -580,7 +590,7 @@ class ObjectImporter:
 
                 except Exception as e:
                     if "Unique constraint" in str(e):
-                        pass  # Same spell on same object, skip
+                        results["duplicates_skipped"] += 1
                     else:
                         results["errors"].append(
                             f"Error creating ability for {obj.zoneId}:{obj.id} spell {spell_name}: {e}"
@@ -590,6 +600,10 @@ class ObjectImporter:
             print(f"\nResults:")
             print(f"  Objects processed: {results['objects_processed']}")
             print(f"  Abilities created: {results['abilities_created']}")
+            if results["objects_skipped"]:
+                print(f"  Objects skipped (no spell data): {results['objects_skipped']}")
+            if results["duplicates_skipped"]:
+                print(f"  Duplicate spells skipped: {results['duplicates_skipped']}")
             if results["spells_not_found"]:
                 print(f"  Spells not found: {len(results['spells_not_found'])}")
                 for spell, obj_ref in results["spells_not_found"]:

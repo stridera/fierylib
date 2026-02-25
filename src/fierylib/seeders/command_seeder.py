@@ -1149,7 +1149,7 @@ COMMANDS = [
         "description": "Teleport to a room, player, or mobile.",
         "usage": "goto <room|player|mobile>",
         "immortalOnly": True,
-        "permissions": ["can_goto"],
+        "permissions": ["TELEPORT"],
     },
     {
         "name": "transfer",
@@ -1158,7 +1158,7 @@ COMMANDS = [
         "description": "Transfer a player or mobile to your location.",
         "usage": "transfer <target> [location]",
         "immortalOnly": True,
-        "permissions": ["can_transfer"],
+        "permissions": ["TRANSFER"],
     },
     {
         "name": "at",
@@ -1167,7 +1167,7 @@ COMMANDS = [
         "description": "Execute a command at a remote location.",
         "usage": "at <location> <command>",
         "immortalOnly": True,
-        "permissions": ["can_at"],
+        "permissions": ["TELEPORT"],
     },
     {
         "name": "echo",
@@ -1176,7 +1176,7 @@ COMMANDS = [
         "description": "Send a message to everyone in a room or zone.",
         "usage": "echo <message>",
         "immortalOnly": True,
-        "permissions": ["can_echo"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "send",
@@ -1185,7 +1185,7 @@ COMMANDS = [
         "description": "Send a private message to a player.",
         "usage": "send <player> <message>",
         "immortalOnly": True,
-        "permissions": ["can_send"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "load",
@@ -1194,7 +1194,7 @@ COMMANDS = [
         "description": "Load a mobile or object into the game.",
         "usage": "load mob|obj <vnum>",
         "immortalOnly": True,
-        "permissions": ["can_load"],
+        "permissions": ["BUILD"],
     },
     {
         "name": "purge",
@@ -1203,7 +1203,7 @@ COMMANDS = [
         "description": "Remove objects and mobiles from a room.",
         "usage": "purge [target]",
         "immortalOnly": True,
-        "permissions": ["can_purge"],
+        "permissions": ["BUILD"],
     },
     {
         "name": "zreset",
@@ -1212,7 +1212,7 @@ COMMANDS = [
         "description": "Reset a zone to its original state.",
         "usage": "zreset [zone]",
         "immortalOnly": True,
-        "permissions": ["can_zreset"],
+        "permissions": ["ZONE_RESET"],
     },
     {
         "name": "advance",
@@ -1221,7 +1221,7 @@ COMMANDS = [
         "description": "Advance a player to a higher level.",
         "usage": "advance <player> <level>",
         "immortalOnly": True,
-        "permissions": ["can_advance"],
+        "permissions": ["ADVANCE"],
     },
     {
         "name": "restore",
@@ -1230,7 +1230,7 @@ COMMANDS = [
         "description": "Restore a player's HP, mana, and moves to full.",
         "usage": "restore <player>",
         "immortalOnly": True,
-        "permissions": ["can_restore"],
+        "permissions": ["RESTORE"],
     },
     {
         "name": "set",
@@ -1239,7 +1239,7 @@ COMMANDS = [
         "description": "Set attributes on players, mobiles, or rooms.",
         "usage": "set <type> <target> <field> <value>",
         "immortalOnly": True,
-        "permissions": ["can_set"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "snoop",
@@ -1248,7 +1248,7 @@ COMMANDS = [
         "description": "Monitor all commands entered by a player.",
         "usage": "snoop <player>",
         "immortalOnly": True,
-        "permissions": ["can_snoop"],
+        "permissions": ["SNOOP"],
     },
     {
         "name": "invis",
@@ -1257,7 +1257,7 @@ COMMANDS = [
         "description": "Toggle immortal invisibility.",
         "usage": "invis [level]",
         "immortalOnly": True,
-        "permissions": ["can_invis"],
+        "permissions": ["INVISIBLE"],
     },
     {
         "name": "holylight",
@@ -1266,7 +1266,7 @@ COMMANDS = [
         "description": "Toggle the ability to see in darkness and through invisibility.",
         "usage": "holylight",
         "immortalOnly": True,
-        "permissions": ["can_holylight"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "freeze",
@@ -1275,7 +1275,7 @@ COMMANDS = [
         "description": "Freeze a player, preventing all commands.",
         "usage": "freeze <player>",
         "immortalOnly": True,
-        "permissions": ["can_freeze"],
+        "permissions": ["FREEZE"],
     },
     {
         "name": "thaw",
@@ -1284,7 +1284,7 @@ COMMANDS = [
         "description": "Unfreeze a frozen player.",
         "usage": "thaw <player>",
         "immortalOnly": True,
-        "permissions": ["can_unfreeze"],
+        "permissions": ["THAW"],
     },
     {
         "name": "dc",
@@ -1293,7 +1293,7 @@ COMMANDS = [
         "description": "Disconnect a player from the game.",
         "usage": "dc <player>",
         "immortalOnly": True,
-        "permissions": ["can_dc"],
+        "permissions": ["DC"],
     },
     {
         "name": "force",
@@ -1302,7 +1302,7 @@ COMMANDS = [
         "description": "Force a player or mobile to execute a command.",
         "usage": "force <target> <command>",
         "immortalOnly": True,
-        "permissions": ["can_force"],
+        "permissions": ["FORCE"],
     },
     {
         "name": "switch",
@@ -1311,7 +1311,7 @@ COMMANDS = [
         "description": "Switch into the body of a mobile.",
         "usage": "switch <mobile>",
         "immortalOnly": True,
-        "permissions": ["can_switch"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "return",
@@ -1320,7 +1320,7 @@ COMMANDS = [
         "description": "Return to your original body after switching.",
         "usage": "return",
         "immortalOnly": True,
-        "permissions": ["can_switch"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "page",
@@ -1329,7 +1329,7 @@ COMMANDS = [
         "description": "Page a player with an important message.",
         "usage": "page <player> <message>",
         "immortalOnly": True,
-        "permissions": ["can_page"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "ban",
@@ -1338,7 +1338,7 @@ COMMANDS = [
         "description": "Ban a site from connecting to the MUD.",
         "usage": "ban <site>",
         "immortalOnly": True,
-        "permissions": ["can_ban"],
+        "permissions": ["BAN"],
     },
     {
         "name": "unban",
@@ -1347,7 +1347,7 @@ COMMANDS = [
         "description": "Remove a site ban.",
         "usage": "unban <site>",
         "immortalOnly": True,
-        "permissions": ["can_unban"],
+        "permissions": ["UNBAN"],
     },
     {
         "name": "mute",
@@ -1356,7 +1356,7 @@ COMMANDS = [
         "description": "Mute a player from using communication channels.",
         "usage": "mute <player>",
         "immortalOnly": True,
-        "permissions": ["can_mute"],
+        "permissions": ["SQUELCH"],
     },
     {
         "name": "unmute",
@@ -1365,7 +1365,7 @@ COMMANDS = [
         "description": "Unmute a muted player.",
         "usage": "unmute <player>",
         "immortalOnly": True,
-        "permissions": ["can_unmute"],
+        "permissions": ["SQUELCH"],
     },
     {
         "name": "wizlock",
@@ -1374,7 +1374,7 @@ COMMANDS = [
         "description": "Lock the game to prevent new connections.",
         "usage": "wizlock [level]",
         "immortalOnly": True,
-        "permissions": ["can_wizlock"],
+        "permissions": ["WIZLOCK"],
     },
     {
         "name": "shutdown",
@@ -1383,7 +1383,7 @@ COMMANDS = [
         "description": "Shut down the MUD server.",
         "usage": "shutdown [reboot|die]",
         "immortalOnly": True,
-        "permissions": ["can_shutdown"],
+        "permissions": ["SHUTDOWN"],
     },
     {
         "name": "reboot",
@@ -1392,7 +1392,7 @@ COMMANDS = [
         "description": "Reboot the MUD server.",
         "usage": "reboot",
         "immortalOnly": True,
-        "permissions": ["can_reboot"],
+        "permissions": ["SHUTDOWN"],
     },
     {
         "name": "copyover",
@@ -1401,7 +1401,7 @@ COMMANDS = [
         "description": "Hot reboot the MUD without disconnecting players.",
         "usage": "copyover",
         "immortalOnly": True,
-        "permissions": ["can_copyover"],
+        "permissions": ["SHUTDOWN"],
     },
     {
         "name": "syslog",
@@ -1410,7 +1410,7 @@ COMMANDS = [
         "description": "View or toggle system log level.",
         "usage": "syslog [level]",
         "immortalOnly": True,
-        "permissions": ["can_syslog"],
+        "permissions": ["SYSLOG"],
     },
     {
         "name": "wiznet",
@@ -1419,7 +1419,7 @@ COMMANDS = [
         "description": "Toggle wiznet channel visibility.",
         "usage": "wiznet [on|off]",
         "immortalOnly": True,
-        "permissions": ["can_wiznet"],
+        "permissions": ["WIZNET"],
     },
     {
         "name": "wizhelp",
@@ -1428,7 +1428,7 @@ COMMANDS = [
         "description": "View help for immortal commands.",
         "usage": "wizhelp [topic]",
         "immortalOnly": True,
-        "permissions": ["can_wizhelp"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "stat",
@@ -1437,7 +1437,7 @@ COMMANDS = [
         "description": "View detailed statistics on a room, mobile, object, or player.",
         "usage": "stat <type> <target>",
         "immortalOnly": True,
-        "permissions": ["can_stat"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "vnum",
@@ -1446,7 +1446,7 @@ COMMANDS = [
         "description": "Search for mobiles or objects by name.",
         "usage": "vnum mob|obj <name>",
         "immortalOnly": True,
-        "permissions": ["can_vnum"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "show",
@@ -1455,7 +1455,7 @@ COMMANDS = [
         "description": "Show various game statistics and information.",
         "usage": "show <type>",
         "immortalOnly": True,
-        "permissions": ["can_show"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "users",
@@ -1464,7 +1464,7 @@ COMMANDS = [
         "description": "List all connected users and their connection info.",
         "usage": "users",
         "immortalOnly": True,
-        "permissions": ["can_users"],
+        "permissions": ["ADMIN"],
     },
     {
         "name": "last",
@@ -1473,7 +1473,7 @@ COMMANDS = [
         "description": "View last login information for a player.",
         "usage": "last <player>",
         "immortalOnly": True,
-        "permissions": ["can_last"],
+        "permissions": ["ADMIN"],
     },
     # ============================================
     # BUILDING Commands (OLC)
@@ -1485,7 +1485,7 @@ COMMANDS = [
         "description": "Enter Online Creation mode.",
         "usage": "olc",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "redit",
@@ -1494,7 +1494,7 @@ COMMANDS = [
         "description": "Edit room properties.",
         "usage": "redit [vnum]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "medit",
@@ -1503,7 +1503,7 @@ COMMANDS = [
         "description": "Edit mobile (NPC) properties.",
         "usage": "medit [vnum]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "oedit",
@@ -1512,7 +1512,7 @@ COMMANDS = [
         "description": "Edit object properties.",
         "usage": "oedit [vnum]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "zedit",
@@ -1521,7 +1521,7 @@ COMMANDS = [
         "description": "Edit zone properties and resets.",
         "usage": "zedit [zone]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "sedit",
@@ -1530,7 +1530,7 @@ COMMANDS = [
         "description": "Edit shop properties.",
         "usage": "sedit [vnum]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "tedit",
@@ -1539,7 +1539,7 @@ COMMANDS = [
         "description": "Edit trigger/script properties.",
         "usage": "tedit [vnum]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "dig",
@@ -1548,7 +1548,7 @@ COMMANDS = [
         "description": "Create a new room connected to the current one.",
         "usage": "dig <direction> [vnum]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "rlist",
@@ -1557,7 +1557,7 @@ COMMANDS = [
         "description": "List rooms in a zone.",
         "usage": "rlist [zone]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "mlist",
@@ -1566,7 +1566,7 @@ COMMANDS = [
         "description": "List mobiles in a zone.",
         "usage": "mlist [zone]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "olist",
@@ -1575,7 +1575,7 @@ COMMANDS = [
         "description": "List objects in a zone.",
         "usage": "olist [zone]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "tlist",
@@ -1584,7 +1584,7 @@ COMMANDS = [
         "description": "List triggers in a zone.",
         "usage": "tlist [zone]",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
     {
         "name": "zlist",
@@ -1593,7 +1593,7 @@ COMMANDS = [
         "description": "List all zones.",
         "usage": "zlist",
         "immortalOnly": True,
-        "permissions": ["can_olc"],
+        "permissions": ["OLC"],
     },
 ]
 
