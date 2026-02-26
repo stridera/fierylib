@@ -10,7 +10,7 @@
 local room = self.room
 local person = room.people
 while person do
-    if person.id ~= -1 and person.id ~= 43021 then
+    if person.is_npc and person.id ~= 43021 then
         if not person:get_flagged("illusory") then
             person:say("You will never escape this place, Dargo!")
             person:command("kill %self%")

@@ -15,5 +15,5 @@ end
 -- only run from silanias trigger 18506
 wait(2)
 self.room:send("The walls seem to flow away from an opening.")
-doors.set_state(get_room(185, 47), "east", {action = "room"})
-doors.set_state(get_room(185, 66), "west", {action = "room"})
+get_room(185, 47):exit("east"):set_state({hidden = false})
+get_room(185, 66):exit("west"):set_state({hidden = false})

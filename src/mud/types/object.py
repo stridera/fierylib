@@ -104,6 +104,29 @@ class Object:
         return objects
 
     @classmethod
+    def _map_parser_fields(cls, parsed_data: dict) -> dict:
+        """Map Parser output field names to Object dataclass field names."""
+        mapped = {}
+        for key, value in parsed_data.items():
+            match key:
+                case "name_list":
+                    mapped["keywords"] = value.split() if isinstance(value, str) else value
+                case "short_description":
+                    mapped["short"] = value
+                case "description":
+                    mapped["ground"] = value
+                case "extra_descriptions":
+                    mapped["extras"] = [
+                        Extras(keywords=k.split() if isinstance(k, str) else k, text=v)
+                        for k, v in value.items()
+                    ]
+                case "vnum":
+                    mapped["id"] = value
+                case _:
+                    mapped[key] = value
+        return mapped
+
+    @classmethod
     def parse_player(cls, player_file: MudData):
         objects = {"inventory": [], "equipment": {}}
         parser = Parser(MudTypes.OBJECT)
@@ -114,7 +137,8 @@ class Object:
         for object_data in player_file.split_by_delimiter("~~"):
             parsed_data = parser.parse(object_data)
             location = parsed_data.pop("location")
-            obj = Object(**parsed_data)
+            mapped = cls._map_parser_fields(parsed_data)
+            obj = Object(**mapped)
 
             if location < 0:  # Item inside container.
                 depth = -location

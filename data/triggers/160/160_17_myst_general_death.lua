@@ -32,12 +32,12 @@ if myst_gen_active == 1 then
         a = a + 1
     end
     -- Does next mob in spawn cycle already exist?
-    if world.count_mobiles("16015") < 1 then
+    if world.count_mobiles(160, 15) < 1 then
         -- Generate random room number to spawn charred in.
         -- Thanks to the evil Pergus for inspiring me to be
         -- more evil.
         local rnd_range = random(1, 78)
-        local rnd_room = rnd_range + 15999
+        local rnd_room = rnd_range - 1
         get_room(160, 95):at(function()
             self.room:spawn_mobile(160, 15)
         end)
@@ -47,11 +47,11 @@ if myst_gen_active == 1 then
                 self.room:find_actor("charred"):spawn_object(160, 30)
             end)
             get_room(160, 95):at(function()
-                self.room:find_actor("charred"):teleport(find_room_by_name("%rnd_room%"))
+                self.room:find_actor("charred"):teleport(get_room(160, rnd_room))
             end)
         else
             get_room(160, 95):at(function()
-                self.room:find_actor("charred"):teleport(find_room_by_name("%rnd_room%"))
+                self.room:find_actor("charred"):teleport(get_room(160, rnd_room))
             end)
         end
         -- Sometimes creatures don't get teleported out of the loading

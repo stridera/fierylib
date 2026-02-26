@@ -16,7 +16,7 @@ end
 local person = self.people
 while person do
     local next = person.next_in_room
-    if person.id == -1 then
+    if person.is_player then
         person:damage(100)  -- type: physical
     end
     local person = next

@@ -19,7 +19,7 @@ if not (string.find(string.lower(speech), "follow") or string.find(string.lower(
     return true  -- No matching keywords
 end
 wait(2)
-if world.count_mobiles("46201") == 0 and world.count_mobiles("46224") == 0 then
+if world.count_mobiles(462, 1) == 0 and world.count_mobiles(462, 24) == 0 then
     if not leader then
         self:follow(actor)
         self:say("Lead on.")

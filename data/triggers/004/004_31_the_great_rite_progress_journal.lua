@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "the") great rite or string.find(arg, "megalith") or string.find(arg, "megalith_quest") or string.find(arg, "the_great_rite") or string.find(arg, "sacred") megalith quest or string.find(arg, "sacred_megalith_quest") or string.find(arg, "sacred") megalith then
     if actor.level >= 50 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("megalith_quest")
         local job1 = actor:get_quest_var("megalith_quest:item1")
         local job2 = actor:get_quest_var("megalith_quest:item2")

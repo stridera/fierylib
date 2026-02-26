@@ -91,7 +91,7 @@ if stage == 3 or stage == 4 then
             actor:send("Keep in mind FieryMUD is made for groups of 4-8, so the results of <b:cyan>CONSIDER</> aren't perfect")
             actor:send("</>")
             actor:send(tostring(self.name) .. " tells you, 'Type <b:green>consider monster</> for see chances.'")
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
             elseif actor:get_quest_var("school:fight") == 8 then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")

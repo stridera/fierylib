@@ -13,7 +13,7 @@ if not questor then
     return _return_value
 end
 if self.room == 43037 then
-    if world.count_mobiles("43017") > 0 then
+    if world.count_mobiles(430, 17) > 0 then
         get_room(430, 176):at(function()
             self.room:find_actor("cyprianum"):shout("You can never escape me!")
         end)
@@ -52,14 +52,14 @@ if self.room == 43037 then
         end
     end
 elseif self.room == 43176 then
-    if world.count_mobiles("43016") > 0 then
+    if world.count_mobiles(430, 16) > 0 then
         self.room:send(tostring(mobiles.template(430, 16).name) .. " shouts, 'I will never allow you to harm my master!'")
         self.room:send("<b:red>" .. tostring(self.name) .. " is consumed in a crackle of red lightning and vanishes!</>")
         self.room:send("Cackling laughter echoes through the maze!")
         self:teleport(get_room(430, 148))
     end
 elseif self.room == 43000 then
-    if world.count_mobiles("43017") > 0 then
+    if world.count_mobiles(430, 17) > 0 then
         get_room(430, 176):at(function()
             self.room:find_actor("cyprianum"):shout("You can never escape me!")
         end)
@@ -85,13 +85,12 @@ elseif self.room == 43000 then
                     skills.set_level(person.name, "word of command", 100)
                     person:send("<b:magenta>You have learned Word of Command!</>")
                     person.name:complete_quest("word_command")
-                elseif person.id == -1 then
+                elseif person.is_player then
                     person:send(self.name .. " tells you, '" .. "To show my gratitude, take this." .. "'")
                     local count = 0
                     while count < 3 do
                         local what_gem_drop = random(1, 11)
-                        local gem_vnum = what_gem_drop + 55736
-                        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+                        self.room:spawn_object(557, 36 + what_gem_drop)
                         count = count + 1
                     end
                     self:command("give all.gem " .. tostring(person))

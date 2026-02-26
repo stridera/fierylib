@@ -31,8 +31,8 @@ elseif victim.id == 48412 then
 elseif victim.id == 3021 then
     local macestep = 9
 else
-    if victim.id ~= -1 then
-        _return_value = false
+    if victim.is_npc then
+        _return_value = true
         actor:send("You shouldn't give away something so precious!")
     end
     return _return_value
@@ -43,7 +43,7 @@ elseif actor:get_quest_stage("phase_mace") > macestep then
     local response = "I've already done everything I can to help you."
 end
 if response then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(victim.name) .. " refuses " .. tostring(self.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(victim.name) .. " tells you, '" .. tostring(response) .. "'")

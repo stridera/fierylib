@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51003: luchiaans_greeting
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 and actor.level < 100 then
+if actor.is_player and actor.level < 100 then
     if (string.find(actor.class, "Necromancer") or string.find(actor.class, "Sorcerer")) and magequest < 2 then
         wait(5)
         self:command("ponder")

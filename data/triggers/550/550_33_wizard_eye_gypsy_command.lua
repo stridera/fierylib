@@ -34,6 +34,6 @@ if actor:get_quest_stage("wizard_eye") == 1 and (string.find(arg, "palm") or str
     self:command("wave")
     actor.name:advance_quest("wizard_eye")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

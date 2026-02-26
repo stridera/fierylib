@@ -11,7 +11,7 @@
 if self.room ~= 49091 then
     self:teleport(get_room(490, 91))
 else
-    if actor.id == -1 then
+    if actor.is_player then
         local stage = 5
         local person = actor
         local i = person.group_size
@@ -30,7 +30,7 @@ else
                         person:send("<b:white>You have advanced the quest!</>")
                     end
                 end
-            elseif person and person.id == -1 then
+            elseif person and person.is_player then
                 i = i + 1
             end
             a = a + 1
@@ -38,7 +38,7 @@ else
     end
 end
 if load == "yes" then
-    if world.count_mobiles("49021") == 0 then
+    if world.count_mobiles(490, 21) == 0 then
         wait(2)
         self:command("cackle")
         self:say("You are too late!  It is time to call the great Dagon!")

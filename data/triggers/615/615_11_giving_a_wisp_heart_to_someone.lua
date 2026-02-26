@@ -12,10 +12,10 @@ if heart_inplace == 1 then
     -- Note: the mud appears to prevent this trigger from being activated
     -- again when it's in progress, so this really does nothing, but I've
     -- left it here just in case.
-    _return_value = false
+    _return_value = true
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'Hang on a minute!'</>")
 else
-    _return_value = true
+    _return_value = false
     local heart_inplace = 1
     globals.heart_inplace = globals.heart_inplace or true
     wait(2)
@@ -26,7 +26,7 @@ else
     self:emote("flutters up to the top of the menhir and puts " .. tostring(object.shortdesc) .. " in the depression.")
     if object.id == 61504 then
         self:destroy_item("fiery-wisp-heart")
-        run_room_trigger(61512)
+        run_room_trigger(615, 12)
     else
         wait(5)
         self:emote("peers thoughtfully at " .. tostring(object.shortdesc) .. ", with her tiny chin held between her thumb and forefinger.")

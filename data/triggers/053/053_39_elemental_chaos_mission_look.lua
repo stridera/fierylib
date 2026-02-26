@@ -43,7 +43,7 @@ elseif self.id == 5329 then
     local stage = 10
     local victim1 = "the Norhamen"
 end
-_return_value = false
+_return_value = true
 if stage == 5 then
     actor:send("This is a mission to defeat " .. tostring(victim1) .. ", " .. tostring(victim2) .. ", and " .. tostring(victim3) .. ".")
 else

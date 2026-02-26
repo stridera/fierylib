@@ -45,7 +45,7 @@ if object.id == 48122 then
                 person:send("<red>You are too low level to continue this quest.</>")
                 local lowlevel = 1
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1

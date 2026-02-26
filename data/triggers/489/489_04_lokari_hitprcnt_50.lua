@@ -13,7 +13,7 @@ if not percent_chance(50) then
     return true
 end
 if init == 1 then
-    run_room_trigger(48913)
+    run_room_trigger(489, 13)
     local init = 2
     globals.init = globals.init or true
 end

@@ -29,7 +29,7 @@ elseif person:get_quest_stage("vilekka_stew") == 3 then
     local quest = "yes"
 end
 if quest == "yes" then
-    _return_value = false
+    _return_value = true
     self.room:send("With a horrible shriek, the drider king's body melts!")
     self.room:spawn_object(237, 20)
 end

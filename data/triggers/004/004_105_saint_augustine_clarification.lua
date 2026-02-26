@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "saint" or arg == "augustine" or arg == "saint augustine" then
     if actor.level >= 30 and string.find(actor.class, "Monk") then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         if actor.level >= 30 then
             actor:send("Tremors of Saint Augustine")

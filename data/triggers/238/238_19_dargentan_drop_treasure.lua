@@ -8,6 +8,6 @@
 -- Converted from DG Script #23819: dargentan_drop_treasure
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
-run_room_trigger(23820)
+_return_value = true
+run_room_trigger(238, 20)
 return _return_value

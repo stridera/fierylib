@@ -18,7 +18,7 @@ local obj = object.id
 -- adornment of light
 if obj == 59026 then
     -- check to see if quest is started and PC hasent given light already
-    if (actor.id == -1) and (actor:get_quest_stage("sacred_haven") == 1) and (actor:get_quest_var("sacred_haven:given_light") ~= 1) then
+    if (actor.is_player) and (actor:get_quest_stage("sacred_haven") == 1) and (actor:get_quest_var("sacred_haven:given_light") ~= 1) then
         wait(5)
         self:emote("slowly rubs its hands together and cackles with a wicked sounding glee.")
         world.destroy(object.name)

@@ -11,7 +11,7 @@
 -- 
 -- Greet trigger got Girbina Tickmaster
 -- 
-if actor.id ~= -1 or actor.level > 99 then
+if actor.is_npc or actor.level > 99 then
     return _return_value
 end
 if actor.class == "sorcerer" then

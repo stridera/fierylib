@@ -14,4 +14,4 @@ if not (string.find(string.lower(speech), "exit") or string.find(string.lower(sp
     return true  -- No matching keywords
 end
 self:say("Ooops, how embarassing, I forgot about the door!")
-run_room_trigger(18507)
+run_room_trigger(185, 7)

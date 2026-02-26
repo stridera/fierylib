@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" or cmd == "dr" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:rest") == 3 and (string.find(waterskin, "arg") or string.find(leather, "arg") or string.find(skin, "arg")) then
@@ -35,5 +35,5 @@ if actor:get_quest_var("school:rest") == 3 and (string.find(waterskin, "arg") or
     actor:send("</>")
     actor:send(tostring(self.name) .. " tells you, 'But first you have to <b:green>stand</> up.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

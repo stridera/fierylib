@@ -7,6 +7,6 @@
 
 -- Converted from DG Script #52017: dying_tree_allgreet1
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     self:say(tostring(actor.name) .. ", have you come to help me?")
 end

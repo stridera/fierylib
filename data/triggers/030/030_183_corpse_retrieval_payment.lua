@@ -33,7 +33,7 @@ if actor:get_quest_var("corpse_retrieval:actor_level") == actor.level then
         self:say("I don't accept installments.  It's got to be all up front.")
     end
 else
-    _return_value = false
+    _return_value = true
     wait(1)
     self:command("consider " .. tostring(actor))
     wait(2)

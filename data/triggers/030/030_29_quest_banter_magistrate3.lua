@@ -14,10 +14,10 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     -- If any of the quest guys have spawned in Mystwatch don't give another totem.
-    if world.count_mobiles("16008") or world.count_mobiles("16010") or world.count_mobiles("16011") or world.count_mobiles("16015") or world.count_mobiles("16016") or world.count_mobiles("16017") or world.count_mobiles("16018") or world.count_mobiles("16019") then
+    if world.count_mobiles(160, 8) > 0 or world.count_mobiles(160, 10) > 0 or world.count_mobiles(160, 11) > 0 or world.count_mobiles(160, 15) > 0 or world.count_mobiles(160, 16) > 0 or world.count_mobiles(160, 17) > 0 or world.count_mobiles(160, 18) > 0 or world.count_mobiles(160, 19) > 0 then
         self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
         actor:send(tostring(self.name) .. " says to you, 'Splendid, however, someone is currently after the Demon Lord's hide.  You will have to wait until they are finished or if they fail you can finish for them.'")
     else

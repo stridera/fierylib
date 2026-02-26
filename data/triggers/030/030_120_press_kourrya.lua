@@ -20,14 +20,14 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "p" or cmd == "pr" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (arg ~= "button") and (arg ~= "figurine") and (arg ~= "kourrya-figurine") and (arg ~= "figurine") and (arg ~= "toy") and (arg ~= "tiny") and (arg ~= "figure") and (arg ~= "robed") and (arg ~= "woman") then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 -- switch on random(1, 9)
 if random(1, 9) == 1 then
     local phrase = "Find it yourself."

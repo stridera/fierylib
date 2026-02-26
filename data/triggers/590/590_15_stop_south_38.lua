@@ -14,7 +14,7 @@ if not (cmd == "south") then
 end
 local _return_value = true  -- Default: allow action
 if actor.class == "Paladin" then
-    _return_value = false
+    _return_value = true
 else
     actor:send(tostring(self.name) .. " puts a hand in your face, stopping you in your tracks.")
     self.room:send_except(actor, tostring(self.name) .. " puts a hand in " .. tostring(actor.name) .. "'s face, stopping " .. tostring(actor.object) .. " from going")

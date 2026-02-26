@@ -15,7 +15,7 @@ if not (cmd == "look") then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("resort_cooking") < 1 or actor:get_quest_stage("resort_cooking") > 5 then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on actor:get_quest_stage("resort_cooking")
@@ -55,7 +55,7 @@ elseif actor:get_quest_stage("resort_cooking") == 5 then
     local item2 = 37013
     local item3 = 23760
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if string.find(arg, "recipe") or string.find(arg, "wall") or string.find(arg, "paper") or string.find(arg, "slip") then
@@ -119,6 +119,6 @@ elseif string.find(arg, "icebox") then
         actor:send("</>  Nothing.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

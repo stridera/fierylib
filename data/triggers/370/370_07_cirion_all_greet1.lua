@@ -8,7 +8,7 @@
 -- Converted from DG Script #37007: Cirion_all_greet1
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 -- All greet trig for players
-if actor.id == -1 then
+if actor.is_player then
     actor:send(tostring(self.name) .. " says, 'Ah, finally Mesmeriz has summoned someone else here to be his slaves.'")
 else
 end

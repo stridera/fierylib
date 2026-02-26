@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #23727: ring-receive-complete
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("sunfire_rescue") ==3 then
         if object.id == 52001 then
             self.room:send("Looking hesitant, the prisoner slowly slides the ring onto his finger.")

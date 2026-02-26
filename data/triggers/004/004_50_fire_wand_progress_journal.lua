@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "fire_wand") or string.find(arg, "fire_wands") or string.find(arg, "fire_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
     if string.find(sorcererclasses, "actor.class") then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("fire_wand")
         local minlevel = (stage - 1) * 10
         if minlevel < 1 then
@@ -54,7 +54,6 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                 local hint = "A minion of the dark flame out east will know what to do."
                 local wandgem = 55590
                 local wandtask3 = 23752
-                local wandvnum = 311
             elseif stage == 4 then
                 local master = mobiles.template(103, 6).name
                 local hint = "There's a fire master in the frozen north who likes to spend his time at the hot springs."

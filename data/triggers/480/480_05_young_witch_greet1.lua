@@ -12,7 +12,7 @@
 if not percent_chance(75) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 60 then
         actor.name:send("The young witch says, 'I may still be learning, but I know enough to destroy you.'")
     else

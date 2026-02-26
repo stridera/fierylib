@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "e" or cmd == "en" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if status == 4 then
@@ -143,6 +143,6 @@ if status == 4 then
         globals.status = globals.status or true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

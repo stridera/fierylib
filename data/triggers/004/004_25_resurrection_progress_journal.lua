@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.find(arg, "resurrection_quest") or string.find(arg, "res") then
     if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist") and actor.level >= 75 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("resurrection_quest")
         actor:send("<b:green>&uResurrection</>")
         actor:send("Minimum Level: 81")

@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: USE, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("charm_person") == 4 then
-    _return_value = false
+    _return_value = true
     local room = actor.room
     -- switch on self.id
     if room:get_people("3010") then

@@ -29,7 +29,7 @@ if object.id == 23721 then
                 person:send("<b:white>You have advanced the quest!</>")
                 local accepted = 1
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1
@@ -68,7 +68,7 @@ if object.id == 23720 then
                     person:send("<magenta>You have successfully assisted " .. tostring(self.name) .. " in service of Lolth!</>")
                 end
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1
@@ -105,7 +105,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
         local accepted = 0
     end
     if accepted == 0 then
-        _return_value = false
+        _return_value = true
         self:emote("refuses to accept " .. tostring(object.shortdesc) .. ".")
         wait(1)
         if isspice == 1 then
@@ -270,7 +270,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
     end
 end
 if accepted == 0 then
-    _return_value = false
+    _return_value = true
     actor:send(tostring(self.name) .. " haughtily refuses your gift.")
     self.room:send_except(actor, tostring(self.name) .. " refuses to accept " .. tostring(object.shortdesc) .. " from " .. tostring(actor.name) .. ".")
     wait(1)

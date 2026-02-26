@@ -11,7 +11,7 @@
 -- Converted from DG Script #2307: high-druid-receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if string.find(actor.class, "Druid") then
         if object.id == 2331 then
             self:command("smile " .. tostring(actor.name))
@@ -90,10 +90,10 @@ if actor.id == -1 then
             else
                 self:command("eye " .. tostring(actor.name))
                 self:say("And why should I need this?")
-                _return_value = false
+                _return_value = true
             end
         else
-            _return_value = false
+            _return_value = true
             self:say("Thank you, but I do not need this.")
             actor:send(tostring(self.name) .. " returns the item to you.")
         end

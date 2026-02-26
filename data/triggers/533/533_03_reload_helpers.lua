@@ -17,7 +17,7 @@ local value = random(1, 10)
 if value < 2 then
     self:emote("roars in pain and tries to locate more children.")
     wait(1)
-    if world.count_mobiles("53301") < 6 then
+    if world.count_mobiles(533, 1) < 6 then
         self.room:spawn_mobile(533, 1)
         self.room:find_actor("baby-dragon"):emote("scampers in and attacks!")
         self.room:find_actor("baby-dragon"):command("kill %actor.name%")

@@ -35,5 +35,5 @@ elseif person:get_quest_var("resurrection_quest:new") == "yes" then
     local run = "yes"
 end
 if string.find(run, "yes") then
-    run_room_trigger(8553)
+    run_room_trigger(85, 53)
 end

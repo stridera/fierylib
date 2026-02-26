@@ -18,9 +18,9 @@ if not (cmd == "quaff") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.alignment <= -350 then
-        _return_value = true
+        _return_value = false
         actor:send("You quaff a potion and begin to feel a little light-headed...")
         self.room:send_except(actor, tostring(actor.name) .. " quaffs a black potion of recall.")
         self.room:send_except(actor, tostring(actor.name) .. " disappears in a flash of darkness!")
@@ -37,11 +37,11 @@ if actor.id == -1 then
         world.destroy(self)
     else
         actor:send("As you quaff a potion, you get a funny burning sensation in your stomach...")
-        _return_value = true
+        _return_value = false
         actor:command("quaff black-potion-recall")
     end
 else
-    _return_value = true
+    _return_value = false
     actor:command("quaff black-potion-recall")
 end
 return _return_value

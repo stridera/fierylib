@@ -46,27 +46,27 @@ while i >= a do
                     person:send(tostring(self.name) .. " says, 'Excellent!'")
                     -- switch on person:get_quest_stage("dragon_slayer")
                     if person:get_quest_stage("dragon_slayer") == 1 then
-                        local notice = 3080
+                        local notice = 80
                     elseif person:get_quest_stage("dragon_slayer") == 2 then
-                        local notice = 3081
+                        local notice = 81
                     elseif person:get_quest_stage("dragon_slayer") == 3 then
-                        local notice = 3082
+                        local notice = 82
                     elseif person:get_quest_stage("dragon_slayer") == 4 then
-                        local notice = 3083
+                        local notice = 83
                     elseif person:get_quest_stage("dragon_slayer") == 5 then
-                        local notice = 3084
+                        local notice = 84
                     elseif person:get_quest_stage("dragon_slayer") == 6 then
-                        local notice = 3085
+                        local notice = 85
                     elseif person:get_quest_stage("dragon_slayer") == 7 then
-                        local notice = 3086
+                        local notice = 86
                     elseif person:get_quest_stage("dragon_slayer") == 8 then
-                        local notice = 3087
+                        local notice = 87
                     elseif person:get_quest_stage("dragon_slayer") == 9 then
-                        local notice = 3088
+                        local notice = 88
                     elseif person:get_quest_stage("dragon_slayer") == 10 then
-                        local notice = 3089
+                        local notice = 89
                     end
-                    self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
+                    self.room:spawn_object(30, notice)
                     self:command("give notice " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've slayed the beast, bring that notice back to me.  I'll reward you then.'")
@@ -101,7 +101,7 @@ while i >= a do
                 person:send(tostring(self.name) .. " says, 'More dragons exist, but they're too dangerous without more experience.  Come back when you've seen a little more.'")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

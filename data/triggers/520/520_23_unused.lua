@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #52023: UNUSED
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-run_room_trigger(52022)
+run_room_trigger(520, 22)

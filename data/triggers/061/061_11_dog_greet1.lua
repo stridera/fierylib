@@ -12,7 +12,7 @@
 if not percent_chance(30) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     self:emote("stops scratching itself and looks up at " .. tostring(actor.name))
     if actor.alignment > 349 then
         self:command("lick " .. tostring(actor.name))

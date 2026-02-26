@@ -12,7 +12,7 @@
 if not percent_chance(35) then
     return true
 end
-if actor.id == -1 and actor.level < 100 and gave_flower ~= 1 then
+if actor.is_player and actor.level < 100 and gave_flower ~= 1 then
     wait(1)
     self:command("smile " .. tostring(actor.name))
     wait(2)

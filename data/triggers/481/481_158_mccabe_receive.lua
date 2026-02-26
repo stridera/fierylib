@@ -13,12 +13,12 @@ local stage = actor:get_quest_stage("meteorswarm")
 local earth = actor:get_quest_var("meteorswarm:earth")
 local air = actor:get_quest_var("meteorswarm:air")
 if object.id == 48251 then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Go <b:cyan>use</> this new treasure; don't give it back to me!'")
 elseif actor:get_quest_var("meteorswarm:new") /= no then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " accepts the meteorite.")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Good, this will work.'")
@@ -29,18 +29,18 @@ elseif actor:get_quest_var("meteorswarm:new") /= no then
 else
     -- switch on stage
     if stage == 1 then
-        _return_value = false
+        _return_value = true
         self:command("eye")
         wait(1)
         actor:send(tostring(self.name) .. " tells you, 'No, go find Jemnon first.'")
     elseif stage == 2 then
-        _return_value = false
+        _return_value = true
         self:command("eye")
         wait(1)
         actor:send(tostring(self.name) .. " tells you, 'No, go find the rock demon first.'")
         if earth == 0 then
         elseif stage == 3 then
-            _return_value = false
+            _return_value = true
             actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
             actor:send(tostring(self.name) .. " tells you, 'Such wonderfully powerful stone.  This will do perfectly.'")
             wait(3)
@@ -55,11 +55,11 @@ else
             actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
             actor.name:set_quest_var("meteorswarm", "earth", 1)
         else
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.name) .. " tells you, 'Yes yes, you have already proven it's a lovely focus.'")
         end
     elseif stage == 4 then
-        _return_value = false
+        _return_value = true
         self:command("eye")
         wait(1)
         actor:send(tostring(self.name) .. " tells you, 'No, go find Dargentan first.'")
@@ -77,11 +77,11 @@ else
             actor:send(tostring(self.name) .. " tells you, 'Go somewhere safe, and <b:cyan>use it</> to unlock its potential.'")
             actor.name:set_quest_var("meteorswarm", "air", 1)
         else
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.name) .. " tells you, 'Where did you find a second one of these?  You don't need it.'")
         end
     else
-        _return_value = false
+        _return_value = true
         wait(1)
         self:command("eye")
         actor:send(tostring(self.name) .. " tells you, 'And what exactly am I supposed to do with this?'")

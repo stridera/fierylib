@@ -15,7 +15,7 @@ elseif mode <= 2 then
     self:command("sweep")
 elseif mode <= 4 then
     self:command("roar")
-elseif (mode <= 5) and actor and (actor.room == self.room) and (actor.id == -1) then
+elseif (mode <= 5) and actor and (actor.room == self.room) and (actor.is_player) then
     local damage = 290 + random(1, 50)
     if actor:has_effect(Effect.Sanctuary) then
         damage = damage / 2

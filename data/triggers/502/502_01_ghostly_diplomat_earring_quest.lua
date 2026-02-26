@@ -44,7 +44,7 @@ if object.id == 50203 then
     self.room:send(tostring(self.name) .. " says, 'You fool!  You should never have given it up so easily!'")
     self:emote("dashes out of the room.")
     self:teleport(get_room(502, 43))
-    if world.count_mobiles("50209") < 1 then
+    if world.count_mobiles(502, 9) < 1 then
         self.room:spawn_mobile(502, 9)
         self:command("remove all")
         self:command("give all maddened-diplomat-spectre")
@@ -56,7 +56,7 @@ elseif object.id == 50201 or object.id == 50202 then
     -- China from Odz
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    _return_value = false
+    _return_value = true
     wait(1)
     self:emote("looks over " .. tostring(object.shortdesc) .. " fondly.")
     wait(2)
@@ -68,7 +68,7 @@ elseif object.id == 50204 or object.id == 50209 then
     -- Magical eq from bayou
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    _return_value = false
+    _return_value = true
     wait(1)
     self:emote("stares closely at " .. tostring(object.shortdesc) .. " for a time.")
     wait(4)
@@ -99,7 +99,7 @@ elseif object.id == 50215 then
     end
     wait(2)
     world.destroy(object)
-    if world.count_mobiles("50209") < 1 then
+    if world.count_mobiles(502, 9) < 1 then
         get_room(502, 43):at(function()
             self.room:spawn_mobile(502, 9)
         end)
@@ -123,13 +123,13 @@ elseif object.id == 50215 then
     self.room:send("The ghost of a diplomat cackles, and seems to grow before your very eyes!")
     -- Now: move dip to secret room; load maddip; give earring maddip; purge dip; bring maddip back
     local startroom = self.room
-    self.room:find_actor("maddened-diplomat-spectre"):teleport(find_room_by_name("%startroom%"))
+    self.room:find_actor("maddened-diplomat-spectre"):teleport(startroom)
     wait(1)
     world.destroy(self)
 else
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    _return_value = false
+    _return_value = true
     wait(6)
     self:command("laugh")
     self:say("I'm afraid not.")

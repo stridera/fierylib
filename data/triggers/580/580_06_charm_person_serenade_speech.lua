@@ -37,7 +37,7 @@ if actor:get_quest_stage("charm_person") == 4 then
     elseif self.id == 58406 then
         self:say("I would love to hear a tune!  Instruments that sound like the wind meeting the water are my favorite.")
     else
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

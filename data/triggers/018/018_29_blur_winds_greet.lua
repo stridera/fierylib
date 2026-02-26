@@ -28,7 +28,7 @@ if actor:get_quest_stage("blur") == 4 then
         wait(3)
         self:say("So you want to race huh?")
     else
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

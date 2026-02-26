@@ -25,7 +25,7 @@ local _return_value = true  -- Default: allow action
 wait(2)
 -- make sure you're on the quest
 if actor:get_quest_stage("megalith_quest") < 1 then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_has_completed("megalith_quest") then
@@ -104,7 +104,7 @@ elseif stage == 4 then
     self.room:send("<b:white>Great Lady of the Stars, hear our prayer!</>")
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- list items already given

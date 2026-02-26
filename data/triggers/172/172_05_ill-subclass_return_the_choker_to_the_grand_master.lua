@@ -23,7 +23,7 @@ if actor:get_quest_stage("illusionist_subclass") == 6 then
     wait(2)
     self:command("wink " .. tostring(actor.name))
 else
-    _return_value = false
+    _return_value = true
     wait(2)
     self:command("frown")
     wait(2)

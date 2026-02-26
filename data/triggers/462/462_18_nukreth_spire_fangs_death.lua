@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #46218: Nukreth Spire fangs death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-run_room_trigger(46234)
+run_room_trigger(462, 34)

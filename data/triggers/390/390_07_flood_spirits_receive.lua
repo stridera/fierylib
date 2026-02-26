@@ -43,7 +43,7 @@ if stage == 2 then
             self.room:send("As quickly as it began, the flood waters recede leaving nothing but chilling silence and carnage in its wake.")
             wait(6)
             self.room:send("The Lady of the Sea vanishes beneath the waves.")
-            run_room_trigger(39013)
+            run_room_trigger(390, 13)
             wait(4)
             actor:send("A watery voice floats past your ear:")
             actor:send("'Never forget what you have witnessed here today.'")
@@ -56,7 +56,7 @@ if stage == 2 then
             actor:send("'Thank you for the role you played.'")
             world.destroy(self)
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("This is not my heart!")
             wait(1)
@@ -76,11 +76,11 @@ elseif self.id == 39014 then
             wait(2)
             self.room:send(tostring(color) .. "With a mighty cry " .. tostring(self.name) .. " dives back into the water.</>")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This will not keep my spring sufficiently warm.'</>")
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
     end
@@ -121,12 +121,12 @@ elseif self.id == 39016 then
                 end
             end
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This is not food!!'</>")
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
     end
@@ -154,23 +154,23 @@ elseif self.id == 39019 then
                 wait(2)
                 self.room:send(tostring(color) .. tostring(self.name) .. " splashes back into the inky blackness of the lake.</>")
             else
-                _return_value = false
+                _return_value = true
                 self.room:send(tostring(self.name) .. " scoffs.")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This wouldn't glow forever even before I consume it.'</>")
             end
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This isn't even a light!'</>")
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'You have nothing to offer me.'</>")
     end
 else
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have no need for this.'</>")
 end

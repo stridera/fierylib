@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
     if (string.find(actor.class, "Sorcerer") and actor.level >= 65) or (string.find(actor.class, "Pyromancer") and actor.level >= 75) then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("meteorswarm")
         actor:send("<b:green>&uMeteorswarm</>")
         if string.find(actor.class, "Sorcerer") then

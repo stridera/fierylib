@@ -15,18 +15,18 @@ local _return_value = true  -- Default: allow action
 -- If this deer is the spirit of the white hart, load the antlers.
 if self.id == 55244 then
     if actor:get_quest_stage("doom_entrance") == 1 then
-        _return_value = false
+        _return_value = true
         self.room:send("The spirit of the white hart breaks from the body and scampers off!")
         self.room:spawn_mobile(552, 45)
     end
 elseif self.id == 55214 then
     if actor:get_quest_stage("doom_entrance") == 1 then
         local room = 55210 + random(1, 82)
-        get_room(vnum_to_zone(room), vnum_to_local(room)):at(function()
+        room:at(function()
             self.room:spawn_mobile(552, 14)
         end)
         local room = 55210 + random(1, 82)
-        get_room(vnum_to_zone(room), vnum_to_local(room)):at(function()
+        room:at(function()
             self.room:spawn_mobile(552, 14)
         end)
     end

@@ -9,4 +9,4 @@
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
 self:say("Submit to my will, and I might let you escape alive.")
 self:say("Or perhaps if you give a sacrifice I like, I may send you out unscathed.")
-run_room_trigger(1802)
+run_room_trigger(18, 2)

@@ -12,19 +12,19 @@
 local _return_value = true  -- Default: allow action
 local minlevel = (step - 1) * 10
 if actor.level < ((step - 1) * 10) then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'You'll need to be at least level " .. tostring(minlevel) .. " before I can improve your bond with your weapon.'")
     return _return_value
 elseif actor.has_completed[type_wand] then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'You already have the most powerful " .. tostring(type) .. " " .. tostring(weapon) .. " in existence!'")
     return _return_value
 elseif actor.quest_stage[type_wand] < step then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Your " .. tostring(weapon) .. " isn't ready for improvement yet.'")
@@ -32,7 +32,7 @@ elseif actor.quest_stage[type_wand] < step then
 elseif actor.quest_stage[type_wand] == "step" then
     local stage = actor.quest_stage[type_wand]
     if actor.quest_variable[type_wand:task4] then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'I already primed your " .. tostring(weapon) .. ".'")
@@ -53,7 +53,7 @@ elseif actor.quest_stage[type_wand] == "step" then
             actor:send(tostring(self.name) .. " says, 'It will forge the most powerful " .. tostring(weapon) .. " of " .. tostring(type) .. " in all the realms!'")
             self:command("give all " .. tostring(actor))
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             if not job1 then

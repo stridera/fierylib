@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "hi") or string.find(string.lower(speech), "hello")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 and actor.level < 100 then
+if actor.is_player and actor.level < 100 then
     wait(6)
     self:command("bow " .. tostring(actor.name))
     wait(2)

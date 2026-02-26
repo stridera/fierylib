@@ -48,7 +48,7 @@ while i >= a do
                 person:send("<b:white>Group credit will not be awarded for the next step.</>")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

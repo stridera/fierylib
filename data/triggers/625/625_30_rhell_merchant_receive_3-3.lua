@@ -20,7 +20,7 @@ if actor:get_quest_stage("ursa_quest") == 3 then
             wait(1)
             self:say("Now we are to crush up this ring, and put the powder in milk.  Please, bring me some milk.")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("I don't think this is the Golhen DrubStatt the hermit had in mind.")

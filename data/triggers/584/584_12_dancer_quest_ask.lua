@@ -20,7 +20,7 @@ end
 -- be geared to the classes that get relocate
 self.room:send("DEBUG: Trigger running for " .. tostring(actor.name) .. " of class (" .. tostring(actor.class) .. ")")
 -- for the time being
-if actor.id == -1 then
+if actor.is_player then
     if actor.level >= 65 then
         if actor:get_quest_stage("major_spell_quest") < 1 then
             if actor:get_has_completed("major_spell_quest") /= false then

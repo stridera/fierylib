@@ -26,29 +26,29 @@ if (string.find(speech, "speech1")) or (string.find(speech, "speech2")) then
     if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_quest:prayer") == 2) then
         -- switch on summon
         if summon == 1 then
-            run_room_trigger(12318)
+            run_room_trigger(123, 18)
             wait(5)
             self.room:send(tostring(self.name) .. " chants:")
             self.room:send("'By Earth, Air, Water, and Fire,")
             self.room:send("</>To bring you home is our desire.'")
             wait(4)
-            run_room_trigger(12319)
+            run_room_trigger(123, 19)
             actor.name:set_quest_var("megalith_quest", "summon", 2)
         elseif summon == 2 then
-            run_room_trigger(12320)
+            run_room_trigger(123, 20)
             wait(2)
             self.room:send(tostring(self.name) .. " chants:")
             self.room:send("'Through the plane of vaulted sky")
             self.room:send("</>On shooting stars and moonbridge high.'")
             wait(4)
-            run_room_trigger(12321)
+            run_room_trigger(123, 21)
             actor.name:set_quest_var("megalith_quest", "summon", 3)
         elseif summon == 3 then
             -- 
             -- 12320 is a wecho of just the phrase 'We summon and stir thee'
             -- It is intentionally repeated at the top of this case to echo the questor
             -- 
-            run_room_trigger(12320)
+            run_room_trigger(123, 20)
             wait(2)
             self.room:send(tostring(mobiles.template(123, 1).name) .. " says, '<b:cyan>We invoke thee</>!")
         end

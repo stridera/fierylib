@@ -25,7 +25,7 @@ local _return_value = true  -- Default: allow action
 -- range, Laoris' dragonquest mobiles.
 -- 
 if (actor.id >= 18820) and (actor.id <= 18842) then
-    _return_value = true
+    _return_value = false
     actor:send("X-cast spells:           type       stars  amount")
     actor:send("</> deadly screech          area       0      300")
     actor:send("</> blizzard                area       2      300")
@@ -37,6 +37,6 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     actor:send("</> archons curse           damage     2      500")
     actor:send("</> caustic conflaguration  damage     2      300")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

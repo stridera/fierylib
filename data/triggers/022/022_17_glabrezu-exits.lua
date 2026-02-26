@@ -9,5 +9,5 @@
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 wait(2)
 self.room:send("<b:white>The white-hot<yellow> fires begin <red>to recede and </><red>a path down is revealed.</>")
-doors.set_state(get_room(22, 13), "down", {action = "room"})
-doors.set_description(get_room(22, 13), "down", "&1A red staircase leads down.&0")
+get_room(22, 13):exit("down"):set_state({hidden = false})
+get_room(22, 13):exit("down"):set_state({description = "&1A red staircase leads down.&0"})

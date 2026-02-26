@@ -14,5 +14,5 @@ if not (cmd == "se") then
 end
 local _return_value = true  -- Default: allow action
 -- Allow sell and south to work in this room
-_return_value = false
+_return_value = true
 return _return_value

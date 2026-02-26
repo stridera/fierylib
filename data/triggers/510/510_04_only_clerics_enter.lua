@@ -21,7 +21,7 @@ if actor.level < 100 then
         actor:send("You can't seem to enter the room!  It is like stepping against a solid wall,")
         actor:send("</>but you can see in.")
         actor:send("You seem to hear a voice whisper, 'This room is not for you.'")
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

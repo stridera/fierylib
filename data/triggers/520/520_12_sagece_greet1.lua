@@ -10,7 +10,7 @@
 if actor and (actor.level < 100) then
     self:emote("screams, 'I have been waiting for you!!'")
     combat.engage(self, actor.name)
-    if actor.id ~= -1 then
+    if actor.is_npc then
         self:breath_attack("fire", nil)
     end
 end

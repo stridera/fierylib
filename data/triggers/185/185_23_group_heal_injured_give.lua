@@ -11,10 +11,10 @@
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("group_heal") == 6 then
     local healed = actor:get_quest_var("group_heal:total")
-    if victim.id == -1 then
+    if victim.is_player then
         return _return_value
     else
-        _return_value = false
+        _return_value = true
         if actor.quest_variable[group_heal:victim.vnum] then
             actor:send("you have already helped " .. tostring(victim.name))
         elseif victim.id == 18506 or victim.id == 43020 or victim.id == 12513 or victim.id == 58803 or victim.id == 30054 or victim.id == 46414 or victim.id == 36103 then

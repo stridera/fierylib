@@ -18,7 +18,7 @@ if not (cmd == "pu") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 -- This trigger is required to make the command "pu" return to its default
 -- behavior, rather than setting off the pull trigger.
 return _return_value

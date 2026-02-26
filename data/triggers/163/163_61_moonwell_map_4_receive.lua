@@ -23,7 +23,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 10 then
         actor:send("</>made of mundane stone kept in a large temple hidden in a mountain.  Obtain this")
         actor:send("</>final ring and we can finish this ceremony.'")
     else
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)

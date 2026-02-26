@@ -22,7 +22,7 @@ while i >= a do
             person.name:advance_quest("fieryisle_quest")
             person:send("<b:white>You have advanced your quest!</>")
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

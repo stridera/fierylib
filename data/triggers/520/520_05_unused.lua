@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 wait(5)
 if smoke_demon ~= "pi" then
-    if actor.id == -1 then
+    if actor.is_player then
         self.room:spawn_mobile(520, 19)
         self.room:send("A spirit demon forms out of the air around you.")
         local smoke_demon = "pi"

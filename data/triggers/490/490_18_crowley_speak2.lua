@@ -23,7 +23,7 @@ self:set_flag("sentinel", true)
 if actor:get_quest_stage("griffin_quest") < 3 then
     self:say("Oh, does she now?  Are you certain?")
     self:command("peer " .. tostring(actor.name))
-elseif actor.id == -1 then
+elseif actor.is_player then
     self:say("Oh, I had hoped this would never happen.")
     self:command("hiccup")
     wait(4)

@@ -34,7 +34,7 @@ if object.id == 48104 then
                 person:send("<b:white>You have now begun the Fiery Island quest!</>")
             end
             person.name:set_quest_var("fieryisle_quest", "shell", 1)
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1

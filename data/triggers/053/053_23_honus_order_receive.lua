@@ -121,7 +121,7 @@ if actor:get_quest_stage("treasure_hunter") == "stage" and actor:get_quest_var("
         end
     end
 elseif actor:get_quest_stage("treasure_hunter") > stage then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses the order.")
     wait(2)
@@ -133,12 +133,12 @@ elseif actor:get_quest_stage("treasure_hunter") < stage then
     self.room:send(tostring(self.name) .. " rips up the order!")
     world.destroy(object)
 elseif actor:get_quest_var("treasure_hunter:hunt") == "running" then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses the order.")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You have to find the treasure still!  " .. tostring(treasure1) .. " is still out there.")
 elseif actor:get_quest_var("treasure_hunter:hunt") == "found" then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses the order.")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You have to give me the treasure first!  You still have " .. tostring(treasure1) .. " in your possession.'")

@@ -11,7 +11,7 @@ local chance = random(1, 10)
 wait(1)
 if chance < 4 then
     wait(1)
-    run_room_trigger(62504)
+    run_room_trigger(625, 4)
 elseif chance < 6 then
     self:attack_all()
 elseif chance < 8 then

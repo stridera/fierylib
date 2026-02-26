@@ -20,7 +20,7 @@ end
 -- is after returning the drider king's head (who's in
 -- this area).  It follows trigger 23752 parts 1 and 2.
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("vilekka_stew") == 4 then
         actor.name:advance_quest("vilekka_stew")
         actor:send("<b:white>You have advanced the quest!</>")

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- This is the reception of the carrot
 -- that kicks off the whole affair.
-if actor.id == -1 then
+if actor.is_player then
     if object.id == 32421 then
         wait(1)
         actor:teleport(get_room(324, 197))

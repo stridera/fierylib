@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #49044: cultleader_allgreet1
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     get_room(490, 83):at(function()
         self.room:find_actor("ai"):command("give load-dagon-flag cult")
     end)

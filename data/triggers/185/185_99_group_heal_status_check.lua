@@ -22,7 +22,7 @@ wait(2)
 if stage == 1 then
     self.room:send(tostring(self.name) .. " says, 'Please track down the bandit raider somewhere in the")
     self.room:send("</>Gothra desert and recover our stolen medical supplies.'")
-    if world.count_mobiles("18522") == 0 then
+    if world.count_mobiles(185, 22) == 0 then
         get_room(11, 0):at(function()
             self.room:spawn_mobile(185, 22)
         end)

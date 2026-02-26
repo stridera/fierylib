@@ -14,7 +14,7 @@ if not percent_chance(0) then
 end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-_return_value = false
+_return_value = true
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 wait(2)
 self:command("shake")

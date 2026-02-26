@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, "vilekka_stew") or string.find(arg, "vilekka") or string.find(arg, "stew") or string.find(arg, "drow") boots or string.find(arg, "in_service_of_lolth") or string.find(arg, "drow_boots") or string.find(arg, "drow") then
     if actor.level >= 25 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("vilekka_stew")
         actor:send("<b:green>&uIn Service of Lolth</>")
         actor:send("This quest is only available to neutral and evil-aligned characters.")

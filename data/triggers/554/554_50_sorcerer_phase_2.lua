@@ -20,29 +20,15 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
     -- 
     -- pertinient object definitions for this class
     -- destroyed armor
-    local vnum_destroyed_gloves5 = 5331
-    local vnum_destroyed_boots5 = 5335
-    local vnum_destroyed_bracer5 = 5339
-    local vnum_destroyed_helm5 = 5343
-    local vnum_destroyed_arm5 = 5347
-    local vnum_destroyed_legs5 = 5351
-    local vnum_destroyed_chest5 = 5355
     -- gems for this class
-    local vnum_gem_gloves5 = 5602
-    local vnum_gem_boots5 = 5613
-    local vnum_gem_bracer5 = 5624
-    local vnum_gem_helm5 = 5631
-    local vnum_gem_arm5 = 5646
-    local vnum_gem_legs5 = 5657
-    local vnum_gem_chest5 = 5668
     -- rewards for this class
-    local vnum_reward_helm = 55475
-    local vnum_reward_arms = 55476
-    local vnum_reward_chest = 55477
-    local vnum_reward_legs = 55478
-    local vnum_reward_boots = 55479
-    local vnum_reward_bracer = 55480
-    local vnum_reward_gloves = 55481
+    local vnum_reward_helm = 75
+    local vnum_reward_arms = 76
+    local vnum_reward_chest = 77
+    local vnum_reward_legs = 78
+    local vnum_reward_boots = 79
+    local vnum_reward_bracer = 80
+    local vnum_reward_gloves = 81
     -- 
     -- attempt to reinitialize slutty dg variables to "" (nothing)
     -- so this switch will work.
@@ -106,7 +92,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
         local vnum_gem = vnum_gem_gloves
         local vnum_reward = vnum_reward_gloves
     else
-        _return_value = false
+        _return_value = true
         wait(1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
@@ -133,7 +119,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
             world.destroy(object.name)
             actor:save()
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             self:command("eye " .. tostring(actor.name))
             wait(1)
@@ -154,7 +140,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            self.room:spawn_object(554, vnum_reward)
             wait(1)
             -- 
             -- loop for exp award.
@@ -194,7 +180,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
             world.destroy(object.name)
             actor:save()
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             self:command("eye " .. tostring(actor.name))
             wait(1)
@@ -215,7 +201,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            self.room:spawn_object(554, vnum_reward)
             wait(1)
             -- 
             -- loop for exp award.
@@ -242,7 +228,7 @@ else
     -- the player in the first place and make it look
     -- like homeslice is giving the object back.
     -- 
-    _return_value = false
+    _return_value = true
     wait(1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")

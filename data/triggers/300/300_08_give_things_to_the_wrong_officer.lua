@@ -10,14 +10,14 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 if object.id == 30212 or object.id == 30208 then
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " tries to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You try to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ", but " .. tostring(self.name) .. " refuses.")
     wait(1)
     self:say("Eh?  Don't bother me with this stuff.")
     self:say("Give it to the general, he does all the planning around here.")
 else
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " tries to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You try to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ", but " .. tostring(self.name) .. " refuses.")
     wait(1)

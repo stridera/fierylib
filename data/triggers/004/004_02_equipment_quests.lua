@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "equipment") then
-    _return_value = false
+    _return_value = true
     local anti = "Anti-Paladin"
     local hunterclasses = "Warrior Ranger Berserker Mercenary"
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"

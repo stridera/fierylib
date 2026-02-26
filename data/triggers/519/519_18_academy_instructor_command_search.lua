@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on arg
@@ -36,12 +36,12 @@ if actor:get_quest_var("school:explore") == 3 then
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Type <b:green>open curtain</> to see how it works.'")
     end
-    _return_value = false
+    _return_value = true
 else
     if actor:get_quest_var("school:explore") == 3 then
         actor:send(tostring(self.name) .. " tells you, 'No no, you have to <b:green>search curtain</>.'")
     else
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

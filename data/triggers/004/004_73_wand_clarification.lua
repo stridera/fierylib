@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 if arg == "wand" then
     local sorcererclasses = "Sorcerer Cryomancer Pyromancer Illusionist Necromancer"
     if string.find(sorcererclasses, "actor.class") then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         actor:send("Acid Wand")
         actor:send("Air Wand")

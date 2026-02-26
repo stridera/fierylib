@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "h" or cmd == "hi" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:fight") == 1 then
@@ -37,5 +37,5 @@ if actor:get_quest_var("school:fight") == 1 then
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'Type <b:green>consider monster</> and see what happens.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

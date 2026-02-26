@@ -13,7 +13,7 @@ if not (cmd == "list") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 actor:send("Available pets are:")
 actor:send("a steady warhorse - <yellow>40</> c")
 return _return_value

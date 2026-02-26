@@ -40,47 +40,23 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
     local vnum_gem_3eg_neck = 55571
     local vnum_gem_3eg_arm = 55572
     local vnum_gem_3eg_wrist = 55573
-    local vnum_gem_3eg_gloves = 55574
-    local vnum_gem_3eg_jerkin = 55575
-    local vnum_gem_3eg_robe = 55589
-    local vnum_gem_3eg_belt = 55576
-    local vnum_gem_3eg_legs = 55577
-    local vnum_gem_3eg_boots = 55578
-    local vnum_gem_3eg_mask = 55579
-    local vnum_gem_3eg_symbol = 55580
     local vnum_gem_3eg_staff = 55581
     local vnum_gem_3eg_ssword = 55582
     local vnum_gem_3eg_whammer = 55583
     local vnum_gem_3eg_flail = 55584
-    local vnum_gem_3eg_shiv = 55585
-    local vnum_gem_3eg_lsword = 55586
-    local vnum_gem_3eg_smace = 55587
-    local vnum_gem_3eg_light = 55588
     local vnum_gem_3eg_food = 55566
     local vnum_gem_3eg_drink = 55567
     -- rewards
-    local vnum_3eg_cap = 5518
-    local vnum_3eg_neck = 5520
-    local vnum_3eg_arm = 5522
-    local vnum_3eg_wrist = 5524
-    local vnum_3eg_gloves = 5526
-    local vnum_3eg_jerkin = 5528
-    local vnum_3eg_belt = 5530
-    local vnum_3eg_legs = 5532
-    local vnum_3eg_boots = 5534
-    local vnum_3eg_mask = 5536
-    local vnum_3eg_robe = 5538
-    local vnum_3eg_symbol = 5516
-    local vnum_3eg_staff = 5546
-    local vnum_3eg_ssword = 5547
-    local vnum_3eg_whammer = 5548
-    local vnum_3eg_flail = 5549
-    local vnum_3eg_shiv = 5550
-    local vnum_3eg_lsword = 5551
-    local vnum_3eg_smace = 5552
-    local vnum_3eg_light = 5554
-    local vnum_3eg_food = 5556
-    local vnum_3eg_drink = 5558
+    local vnum_3eg_cap = 18
+    local vnum_3eg_neck = 20
+    local vnum_3eg_arm = 22
+    local vnum_3eg_wrist = 24
+    local vnum_3eg_staff = 46
+    local vnum_3eg_ssword = 47
+    local vnum_3eg_whammer = 48
+    local vnum_3eg_flail = 49
+    local vnum_3eg_food = 56
+    local vnum_3eg_drink = 58
     -- 
     -- attempt to reinitialize slutty dg variables to '' (nothing)
     -- so this switch will work.
@@ -186,7 +162,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         local vnum_trophy = vnum_3bl_symbol
         local faction_multiplier = 3
     else
-        _return_value = false
+        _return_value = true
         wait(1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
@@ -229,7 +205,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies] + 1
                 actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
             else
-                _return_value = false
+                _return_value = true
             end
             wait(2)
             self:command("eye " .. tostring(actor.name))
@@ -295,7 +271,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         local rewards = actor.quest_variable[black_legion:vnum_reward_reward]
         actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", rewards)
         if actor.alignment <= -151 then
-            _return_value = false
+            _return_value = true
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite good enough for these")
             actor:send("</>rewards.'")
@@ -308,7 +284,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Guard thanks you for your")
             actor:send("</>efforts.  Take this to aid you in your battles.'")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            self.room:spawn_object(55, vnum_reward)
             wait(1)
             if actor.quest_variable[black_legion:vnum_reward_reward] == 1 then
                 -- 
@@ -355,7 +331,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             self:command("give all " .. tostring(actor.name))
             actor.name:save()
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with our cause")
             actor:send("</>to earn that reward.'")
@@ -365,7 +341,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
     end
 else
     -- Alignment not high enough or hasn't started the quest yet.
-    _return_value = false
+    _return_value = true
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with our cause")
     actor:send("</>to earn our rewards.  You need a higher alignment or to start these quests by")

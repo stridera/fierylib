@@ -12,7 +12,7 @@ local _return_value = true  -- Default: allow action
 -- Normally, they're up in the tree, so a player wouldn't be able to
 -- reach. The preferred way to access the cherries is to tickle a
 -- gnome, who will float up and grab one, and then drop it.
-_return_value = false
+_return_value = true
 if actor.id == 61550 or actor.id == 61500 then
     self.room:send(tostring(actor.name) .. " tries to grab a purple cherry, but accidentally knocks it down!")
     wait(1)

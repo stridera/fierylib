@@ -11,7 +11,7 @@
 -- Here we go, the big evil vilekka_stew quest of DEATH!! :)
 -- This is a quest designed for neutral and evil types only.
 -- If good players want a quest, see the sunfire_rescue quest.
-if actor.id ~= -1 or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
+if actor.is_npc or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
     return _return_value
 end
 wait(1)

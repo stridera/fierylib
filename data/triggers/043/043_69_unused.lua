@@ -14,10 +14,10 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "restart")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     self:set_flag("sentinel", true)
     get_room(43, 51):at(function()
-        run_room_trigger(4363)
+        run_room_trigger(43, 63)
     end)
     if actor:get_quest_stage("theatre") == 0 then
         actor:start_quest("theatre")

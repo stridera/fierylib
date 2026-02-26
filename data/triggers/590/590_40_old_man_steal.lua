@@ -46,6 +46,6 @@ elseif (rnd <= 25) and (rnd >= 16) then
 elseif rnd <= 15 then
     local loot = "gem"
 end
-if (target.id == -1) and (target.level < 100) then
+if (target.is_player) and (target.level < 100) then
     self:command("steal " .. tostring(loot) .. " " .. tostring(target.name))
 end

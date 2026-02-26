@@ -87,7 +87,7 @@ while i >= a do
                 person:set_quest_var("elemental_chaos", "bounty", "dead")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

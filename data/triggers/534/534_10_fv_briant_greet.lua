@@ -12,7 +12,7 @@
 if not percent_chance(20) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     actor:send(tostring(self.name) .. " tells you, 'Hello Traveler, my name is Briant.'")
     if actor.gender == "male" then
         actor:send("As Briant smiles a welcome to you you feel yourself smiling like a fool!")

@@ -34,6 +34,6 @@ if not arg then
     actor:send("- Only characters in core classes within the proper level range will see what quests are available to them on this page.")
     actor:send("_")
     actor:send("Read or look at any of the five sections above to see what's currently available: ADVENTURE, EQUIPMENT, HIRE, SPELL, SUBCLASS.")
-    _return_value = false
+    _return_value = true
 end
 return _return_value

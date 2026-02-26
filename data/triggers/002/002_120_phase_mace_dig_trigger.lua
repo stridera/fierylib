@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" or cmd == "di" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("phase_mace") == 2 then
@@ -32,27 +32,27 @@ if actor:get_quest_stage("phase_mace") == 2 then
     -- Graveyard*
     if room.id >= 47000 and room.id <= 47404 then
         local dig = "yes"
-        local item = 18522
+        local item = 22
         local num = 3
         -- Cathedral*
     elseif room.id >= 8504 and room.id <= 8509 then
         local dig = "yes"
-        local item = 18523
+        local item = 23
         local num = 4
         -- Pyramid*
     elseif room.id >= 16200 and room.id <= 16299 then
         local dig = "yes"
-        local item = 18524
+        local item = 24
         local num = 5
         -- Barrow*
     elseif room.id >= 48000 and room.id <= 48099 then
         local dig = "yes"
-        local item = 18525
+        local item = 25
         local num = 6
     end
     if dig == "yes" then
         actor:send("You dig up a handful of dirt.")
-        self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
+        self.room:spawn_object(185, item)
         actor:set_quest_var("phase_mace", "dirt%num%", 1)
         actor:command("get dirt")
         local dirt3 = actor:get_quest_var("phase_mace:dirt3")
@@ -69,6 +69,6 @@ if actor:get_quest_stage("phase_mace") == 2 then
         actor:send("This isn't the proper place to dig for grave dirt.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

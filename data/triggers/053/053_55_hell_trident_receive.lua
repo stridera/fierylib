@@ -14,7 +14,7 @@ local hellstage = actor:get_quest_stage("hell_trident")
 -- switch on self.id
 -- Black Priestess p2
 if self.id == 6032 then
-    local reward = 2339
+    local reward = 39
     local phase = 1
     local level = 65
     local spell1 = actor:get_has_completed("banish")
@@ -30,7 +30,7 @@ if self.id == 6032 then
         local go = "trident"
     end
 elseif self.id == 12526 then
-    local reward = 2340
+    local reward = 40
     local phase = 2
     local level = 90
     local spell1 = actor:get_has_completed("resurrection_quest")
@@ -102,7 +102,7 @@ if go == "gem" then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
@@ -165,7 +165,7 @@ elseif go == "trident" then
                 actor:send("<red>You must be level " .. tostring(level) .. " or greater to continue this quest.</>")
             end
         end
-        self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+        self.room:spawn_object(23, reward)
         self:command("give trident " .. tostring(actor))
         local expcap = level
         if expcap < 17 then
@@ -206,7 +206,7 @@ elseif go == "trident" then
     end
 end
 if refuse then
-    _return_value = false
+    _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(reason) .. "'")

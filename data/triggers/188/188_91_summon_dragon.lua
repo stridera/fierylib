@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "su" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local last_summon = actor:get_quest_var("quest_items:dragonhelm_time")

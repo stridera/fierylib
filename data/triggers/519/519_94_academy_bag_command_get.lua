@@ -30,5 +30,5 @@ if actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick") then
         actor:send("You can <b:green>say yes</> or <b:green>say no</>.'")
     end
 end
-_return_value = false
+_return_value = true
 return _return_value

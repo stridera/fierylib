@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-if (actor.id == -1) and (actor.alignment > 349) then
+if (actor.is_player) and (actor.alignment > 349) then
     if actor:get_quest_stage("sunfire_rescue") == 0 then
         -- Responding to the trigger in 23721...rescuing poor elf boy.
         self.room:send("The prisoner smiles.")
@@ -42,7 +42,7 @@ if (actor.id == -1) and (actor.alignment > 349) then
         self:whisper(actor.name, "You should leave here before the guards come!")
         self:emote("relaxes back into a position of pain, though he smiles at you.")
     end
-elseif (actor.id == -1) and (actor.alignment <= 349) then
+elseif (actor.is_player) and (actor.alignment <= 349) then
     actor.name:send("The prisoner sighs and turns away from you.")
     self:say("I cannot be helped by one such as you.")
 end

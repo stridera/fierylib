@@ -17,7 +17,7 @@ elseif mode <= 6 then
 elseif mode <= 8 then
     wait(2)
     self:command("roar")
-elseif actor and (actor.room == self.room) and (actor.id == -1) then
+elseif actor and (actor.room == self.room) and (actor.is_player) then
     wait(1)
     self.room:send(tostring(self.name) .. " suddenly breaks apart into <cyan>millions of droplets of moisture</>!")
     wait(1)

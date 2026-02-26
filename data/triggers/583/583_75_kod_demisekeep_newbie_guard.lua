@@ -13,7 +13,7 @@ if not (cmd == "east") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 30 then
         self:command("smile")
         self:whisper(actor.name, "I would not suggest going any further.")
@@ -26,7 +26,7 @@ if actor.id == -1 then
         wait(5)
         actor:move("east")
     else
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

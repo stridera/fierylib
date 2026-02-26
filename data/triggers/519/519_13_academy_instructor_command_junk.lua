@@ -27,5 +27,5 @@ if actor:get_quest_var("school:gear") == 11 and arg.id == 51902 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Give me a stick by typing <b:green>give stick instructor</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

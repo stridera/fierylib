@@ -36,7 +36,7 @@ if stage == 1 then
         actor:send("</>A scale from Tri-Aszp will remind our hatchling of the legacy it bears.")
         actor:send("</>Bring back one of her scales as a trophy.'")
     else
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " says, 'Hmmm, this doesn't seem to have the proper draconic energies.'")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
@@ -66,7 +66,7 @@ elseif stage == 2 then
         actor:send(tostring(self.name) .. " says, 'Destroy her spawn, the black dragons Thelriki and Jerajai, and")
         actor:send("</>return with the stone.'")
     else
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, '" .. tostring(object.shortdesc) .. " is not one of Tri-Aszp's scales.'")
@@ -95,20 +95,20 @@ elseif stage == 3 then
             wait(4)
             actor:send(tostring(self.name) .. " says, 'May Bahamut watch over you and grant you fortune!'")
         elseif actor:get_quest_var("dragons_health:thelriki") and not actor:get_quest_var("dragons_health:jerajai") then
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'Jerajai still lives!  You must destroy him first!'")
         elseif not actor:get_quest_var("dragons_health:thelriki") and actor:get_quest_var("dragons_health:jerajai") then
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'Thelriki still lives!  You must destroy her first!'")
         else
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'The hell-dragon spawn still live!  You must destroy them first!'")
         end
     else
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'This is not part of their hoard.'")
     end
@@ -116,12 +116,12 @@ elseif stage == 4 then
     local sagece = actor:get_quest_var("dragons_health:sagece")
     if object.id == 52016 or object.id == 52017 or object.id == 52022 or object.id == 52023 then
         if not sagece then
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'You must slay Sagece first!'")
         else
             if actor.quest_variable[dragons_health:object.vnum] then
-                _return_value = false
+                _return_value = true
                 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 actor:send(tostring(self.name) .. " says, 'You have already given this to me.'")
                 return _return_value
@@ -170,14 +170,14 @@ elseif stage == 4 then
             actor:send(tostring(self.name) .. " says, 'Good.  Do you have the remaining artifacts?'")
         end
     else
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'This is not significant enough to Sagece.'")
         return _return_value
     end
 elseif stage == 5 then
     if object.cost == 0 and object.level < 60 then
-        _return_value = false
+        _return_value = true
         wait(2)
         self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
         wait(1)
@@ -208,7 +208,7 @@ elseif stage == 5 then
     local value = actor:get_quest_var("dragons_health:hoard")
     if value >= 10000000 then
         actor.name:advance_quest("dragons_health")
-        run_room_trigger(58604)
+        run_room_trigger(586, 4)
     else
         local total = (10000000 - value)
         local plat = (total / 1000)
@@ -219,7 +219,7 @@ elseif stage == 5 then
         actor:send(tostring(self.name) .. " says, 'We need " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper more in treasure and coins.'")
     end
 else
-    _return_value = false
+    _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'I'm not looking for anything right now.'")

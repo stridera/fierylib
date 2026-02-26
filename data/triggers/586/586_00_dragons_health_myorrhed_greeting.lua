@@ -11,7 +11,7 @@ wait(2)
 if actor:get_quest_stage("dragons_health") > 0 then
     self:command("wave " .. tostring(actor.name))
     self:say("Welcome back!")
-elseif actor.id == -1 then
+elseif actor.is_player then
     self:command("growl " .. tostring(actor.name))
     self:say("Stay back!  I will not allow you to harm this egg!")
 end

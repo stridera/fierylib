@@ -23,28 +23,28 @@ if actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then
     if actor:get_quest_var("beast_master:hunt") then
         -- switch on actor:get_quest_stage("beast_master")
         if actor:get_quest_stage("beast_master") == 1 then
-            local notice = 5300
+            local notice = 0
         elseif actor:get_quest_stage("beast_master") == 2 then
-            local notice = 5301
+            local notice = 1
         elseif actor:get_quest_stage("beast_master") == 3 then
-            local notice = 5302
+            local notice = 2
         elseif actor:get_quest_stage("beast_master") == 4 then
-            local notice = 5303
+            local notice = 3
         elseif actor:get_quest_stage("beast_master") == 5 then
-            local notice = 5304
+            local notice = 4
         elseif actor:get_quest_stage("beast_master") == 6 then
-            local notice = 5305
+            local notice = 5
         elseif actor:get_quest_stage("beast_master") == 7 then
-            local notice = 5306
+            local notice = 6
         elseif actor:get_quest_stage("beast_master") == 8 then
-            local notice = 5307
+            local notice = 7
         elseif actor:get_quest_stage("beast_master") == 9 then
-            local notice = 5308
+            local notice = 8
         elseif actor:get_quest_stage("beast_master") == 10 then
-            local notice = 5309
+            local notice = 9
         end
         self:command("grumble")
-        self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
+        self.room:spawn_object(53, notice)
         self:command("give assignment " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Don't lose this one!'")
     end

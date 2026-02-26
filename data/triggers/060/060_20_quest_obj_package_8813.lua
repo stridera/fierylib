@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
     if self.room ~= 8828 then
-        _return_value = false
+        _return_value = true
         self.room:send_except(actor, tostring(self.shortdesc) .. " suddenly bursts into flames!")
         actor:send(tostring(self.shortdesc) .. " suddenly bursts into flames from being handled too much!")
         world.destroy(self)

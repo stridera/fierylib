@@ -10,7 +10,7 @@
 local dice = random(1, 50)
 local damage = 100 + dice
 local victim = room.actors[random(1, #room.actors)]
-if victim.id == -1 then
+if victim.is_player then
     if victim.gender == "Female" then
         self.room:send_except(victim, "The Incubus grabs hold of " .. tostring(victim.name) .. " and gives her a passionate kiss. (<blue>" .. tostring(damage) .. "</>)")
         victim:send("The Incubus grabs you tenderly and gives you an amazingly passionate kiss... (<b:red>" .. tostring(damage) .. "</>)")

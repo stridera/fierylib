@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("degeneration")
 if stage == 0 then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:command("hiss actor")
     wait(2)
@@ -227,7 +227,7 @@ elseif stage == 9 and object.id == 12526 then
     skills.set_level(actor.name, "degeneration", 100)
     actor.name:complete_quest("degeneration")
 else
-    _return_value = false
+    _return_value = true
     self:command("hiss " .. tostring(actor))
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)

@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- Makes the red leather bag explode when you try to drop or give it.
 -- Applied to: o30209
-_return_value = false
+_return_value = true
 self.room:send_except(actor, tostring(actor.alias) .. " tries to let go of " .. tostring(self.shortdesc) .. ", but it suddenly <b:red>explodes!</>")
 actor:send("As you release " .. tostring(self.shortdesc) .. ", it suddenly <b:red>explodes!</>")
 local damage = actor.level * 3 + random(1, 19)

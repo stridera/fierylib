@@ -52,7 +52,7 @@ if arg == "assignment" then
         local stage = 10
     end
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:send("This is a notice to slay " .. tostring(victim1) .. ".")

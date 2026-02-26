@@ -48,7 +48,7 @@ if object.id == 4302 then
         wait(5)
         self:command("wave")
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refused " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("How did you get this?")

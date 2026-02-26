@@ -1,5 +1,5 @@
 -- Trigger: Templace Gate
--- Zone: 1000, ID: 13
+-- Zone: 0, ID: 13
 -- Type: MOB, Flags: GREET
 -- Status: NEEDS_REVIEW
 --   Syntax error: luac: <Templace Gate>:8: unexpected symbol near '$'

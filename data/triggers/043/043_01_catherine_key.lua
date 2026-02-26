@@ -90,7 +90,7 @@ if actor:get_quest_stage("theatre") >= 1 then
             wait(1)
             self:say("Oh!  I think Lewis's key got locked in my dressing room...")
             get_room(43, 51):at(function()
-                run_room_trigger(4365)
+                run_room_trigger(43, 65)
             end)
             wait(2)
             self:say("He might want that back.")
@@ -105,7 +105,7 @@ else
     local refuse = "person"
 end
 if refuse then
-    _return_value = false
+    _return_value = true
     if refuse == "lashes" then
         self.room:send(tostring(self.name) .. " blinks in confusion.")
         wait(2)

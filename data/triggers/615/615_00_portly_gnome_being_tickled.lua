@@ -35,6 +35,6 @@ if rightobj ==1 then
     wait(10)
     self:emote("descends slowly back to the ground.")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

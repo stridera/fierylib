@@ -75,7 +75,7 @@ if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "p
                     actor:send("<b:white>A vision of starlight beckons you back to " .. tostring(room.name) .. ".</>")
                     actor.name:advance_quest("heavens_gate")
                 else
-                    _return_value = false
+                    _return_value = true
                 end
             end
         end
@@ -83,6 +83,6 @@ if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "p
         actor:send("There are no active rifts here to seal.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #3025: Magistrate_intro
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(5)
     actor:send(tostring(self.name) .. " says to you, 'Greetings, " .. tostring(actor.name) .. ".  It is good to see you.  If you would like, I have some <b:cyan>[quests]</> you could give me a hand with.'")
     wait(1)

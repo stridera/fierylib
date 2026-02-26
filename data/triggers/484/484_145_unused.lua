@@ -25,13 +25,13 @@ elseif paralysis_victim_5 and (paralysis_victim_5.name == actor.name) then
     local block = 1
 end
 if block then
-    _return_value = true
+    _return_value = false
     if message then
         actor:send(tostring(message))
     else
         actor:send("You are trapped, and unable to move!")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

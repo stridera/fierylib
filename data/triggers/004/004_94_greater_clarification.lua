@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if arg == "greater" then
-    _return_value = false
+    _return_value = true
     actor:send("Please specify:")
     if string.find(actor.class, "ranger") then
         actor:send("Greater Displacement")

@@ -10,7 +10,7 @@
 -- Converted from DG Script #13312: tell_raph_Please
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     if actor.quest_stageget_raph_food == 9 then
         actor.name:complete_quest("get_raph_food")
         if string.find(actor.class, "Cleric") then

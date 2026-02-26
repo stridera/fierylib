@@ -1,5 +1,5 @@
 -- Trigger: antipaladin quest
--- Zone: 1000, ID: 87
+-- Zone: 0, ID: 87
 -- Type: MOB, Flags: RECEIVE
 -- Status: CLEAN
 --

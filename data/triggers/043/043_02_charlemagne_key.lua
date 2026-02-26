@@ -131,7 +131,7 @@ elseif refuse then
         wait(1)
         self:say("This isn't what I'm looking for.  Stop wasting time and help me look.")
     else
-        _return_value = false
+        _return_value = true
         if refuse == "person" then
             self:command("gasp")
             self:say("Are you a Ceiling Monkey in disguise?!")

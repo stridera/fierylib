@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #13300: bloodline
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     self:say("Hello " .. tostring(actor.name))
     self:say("How are you today?")
     wait(2)

@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #61504: Spark pixy offers help
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if string.find(direction, "north") and heart_inplace ~= 1 and actor.id == -1 and actor.level < 100 then
+if string.find(direction, "north") and heart_inplace ~= 1 and actor.is_player and actor.level < 100 then
     wait(1)
     if actor.room ~= self.room then
         return _return_value

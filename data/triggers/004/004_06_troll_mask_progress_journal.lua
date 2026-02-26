@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "tribal") or string.find(arg, "trouble") or string.find(arg, "tribal_trouble") or string.find(arg, "troll_mask") or string.find(arg, "troll") or string.find(arg, "troll") mask quest then
     if string.find(actor.race, "troll") then
         if actor.level >= 45 then
-            _return_value = false
+            _return_value = true
             local job1 = actor:get_quest_var("troll_quest:got_item:37080")
             local job2 = actor:get_quest_var("troll_quest:got_item:37081")
             local job3 = actor:get_quest_var("troll_quest:got_item:37082")

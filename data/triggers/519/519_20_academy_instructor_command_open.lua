@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "o" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on arg
@@ -34,5 +34,5 @@ if actor:get_quest_var("school:explore") == 4 then
         actor:send(tostring(self.name) .. " tells you, 'Give it a go!  Type <b:green>scan</>.'")
     end
 end
-_return_value = false
+_return_value = true
 return _return_value

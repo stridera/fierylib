@@ -8,5 +8,5 @@
 -- Converted from DG Script #52052: sagece-dead
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 get_room(520, 93):at(function()
-    run_room_trigger(52054)
+    run_room_trigger(520, 54)
 end)

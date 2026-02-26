@@ -12,7 +12,7 @@
 if not percent_chance(20) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'Hello Traveler, my name is Gwion'")
     self:command("bow")

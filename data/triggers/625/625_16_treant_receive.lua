@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #62516: treant receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if world.count_mobiles("62500") > 0 then
+if world.count_mobiles(625, 0) > 0 then
     wait(2)
     world.destroy(object)
     wait(8)
@@ -17,7 +17,7 @@ if world.count_mobiles("62500") > 0 then
     self:say("Accept this token of gratitude on behalf of the forest.")
     self.room:spawn_object(625, 6)
     self:command("give badge " .. tostring(actor))
-elseif world.count_mobiles("62500") == 0 then
+elseif world.count_mobiles(625, 0) == 0 then
     wait(2)
     world.destroy(object)
     wait(8)

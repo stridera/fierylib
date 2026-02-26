@@ -11,5 +11,5 @@ local _return_value = true  -- Default: allow action
 wait(1)
 actor.name:send("As you place the white mask to your face, it starts to flow untill it conforms to your face.")
 self.room:send_except(actor.name, "a white mask flows like liquid as it conforms to " .. tostring(actor.name) .. "'s face.")
-_return_value = true
+_return_value = false
 return _return_value

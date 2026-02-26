@@ -16,10 +16,10 @@ local worn = self.worn_by
 local carried = self.carried_by
 if not worn and not carried then
     return _return_value
-elseif worn.id == -1 then
+elseif worn.is_player then
     worn:send("Desire for thawkinixa overwhelms your thoughts!")
     spells.cast(self, "confusion", worn, self.level)
-elseif carried.id == -1 then
+elseif carried.is_player then
     carried:send("Desire for thawkinixa overwhelms your thoughts!")
     spells.cast(self, "confusion", carried, self.level)
 end

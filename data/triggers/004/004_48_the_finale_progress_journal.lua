@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg, "theater") or string.find(arg, "finale") then
-    _return_value = false
+    _return_value = true
     local stage = actor:get_quest_stage("theatre")
     actor:send("<b:green>&uThe Finale</>")
     actor:send("Defeat wild monkeys, recover keys, and help the theatre troupe perform their fiery Finale!")

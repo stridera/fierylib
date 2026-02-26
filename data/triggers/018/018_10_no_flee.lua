@@ -15,5 +15,5 @@ end
 local _return_value = true  -- Default: allow action
 self.room:send_except(actor, tostring(actor.name) .. " panics, but cannot flee the void!")
 actor:send("You PANIC as you cannot flee the void!")
-_return_value = true
+_return_value = false
 return _return_value

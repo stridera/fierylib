@@ -12,7 +12,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, "armor")) and (string.find(arg, "three") or string.find(arg, "3"))) or string.find(arg, "guild_armor_phase_three") or string.find(arg, "guild_armor_phase_3") or string.find(arg, "phase_armor_three") or string.find(arg, "phase_armor_3") then
-    _return_value = false
+    _return_value = true
     actor:send("<b:green>&uGuild Armor Phase Three</>")
     actor:send("Mininum Level: 41")
     actor:send("Items for this quest drop from mobs above level 41.")

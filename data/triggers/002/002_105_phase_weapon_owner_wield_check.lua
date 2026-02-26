@@ -21,7 +21,7 @@ if self.id >= 300 and self.id <= 339 then
         local type = "acid"
     end
     if actor.quest_stage[type_wand] < (self.level% / 10) + 2 then
-        _return_value = false
+        _return_value = true
         actor:send("This weapon is bound to someone else!")
     else
         -- switch on self.id
@@ -39,7 +39,7 @@ elseif self.id >= 340 and self.id <= 349 then
         end
     end
     if actor:get_quest_stage("phase_mace")self.level% / 10) + 1 then
-        _return_value = false
+        _return_value = true
         actor:send("This weapon is bound to someone else!")
     end
 end

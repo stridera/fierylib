@@ -28,7 +28,7 @@ if stage == 3 or stage == 4 then
             actor:send("Practice makes perfect.'")
             actor:send("</>")
             wait(3)
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")
                 wait(1)
@@ -63,14 +63,14 @@ if stage == 3 or stage == 4 then
             actor:send("Like most combat skills, there is a brief stun after using it.")
             actor:send("So spamming it can trap you in a very deadly situation.'")
             wait(3)
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")
                 wait(1)
             end
             actor:send(tostring(self.name) .. " tells you, 'I want you to practice bashing now.")
             actor:send("</>Type <b:green>bash monster</>.  Don't worry, I'm here to protect you.'</>")
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
             elseif actor:get_quest_var("school:fight") == "last" then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")

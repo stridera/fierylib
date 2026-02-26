@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "gate" then
     if actor.level >= 75 and (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         if string.find(actor.class, "Priest") then
             actor:send("Heavens Gate")

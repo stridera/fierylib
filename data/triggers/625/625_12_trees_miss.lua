@@ -11,9 +11,9 @@ local _return_value = true  -- Default: allow action
 local smash = random(1, 100)
 if smash < 30 then
     self.room:send("A branch from " .. tostring(self.name) .. " smashes the ground!")
-    _return_value = true
+    _return_value = false
     return _return_value
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

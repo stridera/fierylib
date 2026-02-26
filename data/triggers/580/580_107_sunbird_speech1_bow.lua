@@ -13,7 +13,7 @@ if not (cmd == "bow") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 -- switch on cmd
 if cmd == "b" then
     return _return_value

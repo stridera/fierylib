@@ -16,7 +16,7 @@ local _return_value = true  -- Default: allow action
 local thing = "horrible-little-monster"
 -- switch on cmd
 if cmd == "c" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:fight") == 7 then
@@ -38,5 +38,5 @@ if actor:get_quest_var("school:fight") == 7 then
     actor:send(tostring(self.name) .. " tells you, 'When you've killed the monster, I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
     actor:send("<b:green>Say loot</> when you're ready to continue.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

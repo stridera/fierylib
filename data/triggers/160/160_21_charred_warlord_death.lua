@@ -26,7 +26,7 @@ while i >= a do
     a = a + 1
 end
 -- load charred Blacksmith and maybe equip
-if world.count_mobiles("16019") < 1 then
+if world.count_mobiles(160, 19) < 1 then
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 19)
     end)

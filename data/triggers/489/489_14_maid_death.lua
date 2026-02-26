@@ -10,4 +10,4 @@
 if self.room ~= 48980 then
     self:teleport(get_room(489, 80))
 end
-run_room_trigger(48915)
+run_room_trigger(489, 15)

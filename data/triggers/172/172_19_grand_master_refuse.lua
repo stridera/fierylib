@@ -14,7 +14,7 @@ if not percent_chance(0) then
 end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-_return_value = false
+_return_value = true
 wait(1)
 actor:send(tostring(self.name) .. " says, 'Eh?  Err... no thank you.'")
 wait(2)

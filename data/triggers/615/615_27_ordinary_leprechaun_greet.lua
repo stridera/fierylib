@@ -12,7 +12,7 @@
 if not percent_chance(60) then
     return true
 end
-if actor.id == -1 and actor.level < 50 then
+if actor.is_player and actor.level < 50 then
     wait(8)
     self:say("Oh no you can't have it!  It's mine!")
     wait(3)

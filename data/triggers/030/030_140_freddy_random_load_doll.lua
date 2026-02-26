@@ -31,22 +31,22 @@ end
 -- Figure out which object to load.  Better chance for lower vnums.
 local p = random(1, 100)
 if p < 31 then
-    local p = 3139 + random(1, 7)
+    local p = 139 + random(1, 7)
 elseif p < 82 then
-    local p = 3146 + random(1, 35)
+    local p = 146 + random(1, 35)
 elseif p < 93 then
-    local p = 3181 + random(1, 10)
+    local p = 181 + random(1, 10)
 else
-    local p = 3191 + random(1, 7)
+    local p = 191 + random(1, 7)
 end
 -- In case one of the randoms returned 0 somehow
-if p == 3139 then
-    local p = 3140 + random(1, 58)
+if p == 139 then
+    local p = 140 + random(1, 58)
 end
-self.room:spawn_object(vnum_to_zone(p), vnum_to_local(p))
+self.room:spawn_object(30, p)
 -- Special handling for certain dolls:
 -- Imanhotep's sarcophagus
-if p == 3182 then
+if p == 182 then
     self.room:spawn_object(30, 199)
     get_room(11, 0):at(function()
         self:command("open sarcophagus")
@@ -58,7 +58,7 @@ if p == 3182 then
         self:command("close sarcophagus")
     end)
     -- The Chosen boxed set
-elseif p == 3198 then
+elseif p == 198 then
     self.room:spawn_object(30, 175)
     self.room:spawn_object(30, 176)
     self.room:spawn_object(30, 177)

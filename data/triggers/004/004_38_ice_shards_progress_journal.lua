@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "ice") shards or string.find(arg, "shards") or string.find(arg, "ice_shards") then
     if string.find(actor.class, "Cryomancer") and actor.level >= 85 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("ice_shards")
         actor:send("<b:green>&uIce Shards</>")
         actor:send("Minimum Level: 89")

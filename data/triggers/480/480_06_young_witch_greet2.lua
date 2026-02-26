@@ -7,6 +7,6 @@
 
 -- Converted from DG Script #48006: young_witch_greet2
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     actor.name:send("The young witch drops her book and hisses at you.")
 end

@@ -13,10 +13,10 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     self:set_flag("sentinel", true)
     get_room(43, 51):at(function()
-        run_room_trigger(4363)
+        run_room_trigger(43, 63)
     end)
     local person = actor
     local i = person.group_size

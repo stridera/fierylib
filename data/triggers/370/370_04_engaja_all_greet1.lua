@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #37004: Engaja_all_greet1
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     actor:send(tostring(self.name) .. " says, 'What took you so long?'")
     actor:send(tostring(self.name) .. " says, 'Mesmeriz expected you at least a week ago...'")
 else

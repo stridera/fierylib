@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 if actor.level < 100 then
     if actor.gender == "female" then
         actor:send("That room is for men only!")
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

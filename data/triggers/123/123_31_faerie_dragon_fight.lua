@@ -17,7 +17,7 @@ self.room:send("A faerie dragon exhales a cloud of <red>e<b:yellow>u<red>p<green
 local room = self.room
 local person = room.people
 while person do
-    if person.id == -1 then
+    if person.is_player then
         spells.cast(self, "confusion", person, self.level)
     end
     person = person.next_in_room

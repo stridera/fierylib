@@ -43,7 +43,7 @@ if stage == 2 then
         actor.name:set_quest_var("group_heal", "room", room)
         actor.name:advance_quest("group_heal")
     else
-        _return_value = false
+        _return_value = true
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'These aren't our missing supplies.")
         actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
@@ -82,7 +82,7 @@ elseif stage == 4 then
         wait(3)
         self:say("Thank you for your help!")
     else
-        _return_value = false
+        _return_value = true
         wait(2)
         self:say("This doesn't look like it will be of any help.")
         actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
@@ -90,7 +90,7 @@ elseif stage == 4 then
 elseif stage == 5 then
     if object.id == 18515 or object.id == 18516 or object.id == 18517 or object.id == 18518 or object.id == 18519 or object.id == 18520 then
         if actor.quest_variable[group_heal:object.vnum] == 1 then
-            _return_value = false
+            _return_value = true
             wait(2)
             self:command("shake")
             self:say("You already brought me " .. tostring(object.shortdesc) .. ".")
@@ -175,12 +175,12 @@ elseif stage == 6 then
         wait(2)
         self:command("wave " .. tostring(actor.name))
     else
-        _return_value = false
+        _return_value = true
         self:say("I'm afraid this won't be of much use to me right now.")
         actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     end
 else
-    _return_value = false
+    _return_value = true
     self:say("I'm afraid this won't be of much use to me right now.")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
 end

@@ -17,7 +17,7 @@ local _return_value = true  -- Default: allow action
 if object.id == "%wandgem%" or object.id == "%wandvnum%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" then
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'What is this for?'")

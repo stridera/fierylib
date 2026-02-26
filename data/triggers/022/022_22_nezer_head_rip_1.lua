@@ -13,7 +13,7 @@ wait(5)
 local casters = 0
 local victim = self.people
 while victim do
-    if (victim.id == -1) and (victim.level < 100) then
+    if (victim.is_player) and (victim.level < 100) then
         if string.find(victim.class, "Cleric") or string.find(victim.class, "Priest") or string.find(victim.class, "Druid") or string.find(victim.class, "Diabolist") or string.find(victim.class, "Sorcerer") or string.find(victim.class, "Cryomancer") or string.find(victim.class, "Pyromancer") or string.find(victim.class, "Necromancer") then
             casters = casters + 1
         end

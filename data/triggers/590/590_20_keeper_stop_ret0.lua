@@ -13,5 +13,5 @@ if not (cmd == "op") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 return _return_value

@@ -24,6 +24,6 @@ if actor:get_quest_stage("doom_entrance") == 1 then
         self.room:send("The deer boldly stands its ground, nostrils flaring at the scent of blood.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

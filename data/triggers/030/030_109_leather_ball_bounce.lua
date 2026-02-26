@@ -18,14 +18,14 @@ if not (cmd == "bounce") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 if arg then
     if actor.room ~= arg.room then
         actor:send("Bounce the ball on who?  They don't seem to be here!")
     else
         arg:teleport(get_room(11, 0))
         self.room:send_except(actor, tostring(actor.name) .. " throws " .. tostring(self.shortdesc) .. " at " .. tostring(arg.name) .. ", bouncing it off " .. tostring(arg.possessive) .. " forehead!")
-        arg:teleport(get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)))
+        arg:teleport(actor.room)
         arg:send(tostring(actor.name) .. " throws " .. tostring(self.shortdesc) .. " at you, bouncing it off your forehead!")
         actor:send("You launch " .. tostring(self.shortdesc) .. " at " .. tostring(arg.name) .. ", bouncing it off " .. tostring(arg.possessive) .. " forehead!")
     end

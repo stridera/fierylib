@@ -8,9 +8,9 @@
 -- Converted from DG Script #23815: mage_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- Reset quest in tempest room
-if world.count_mobiles("23803") then
+if world.count_mobiles(238, 3) > 0 then
     get_room(238, 90):at(function()
-        run_room_trigger(23814)
+        run_room_trigger(238, 14)
     end)
 end
 wait(1)

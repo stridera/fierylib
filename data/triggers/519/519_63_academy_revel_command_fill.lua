@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "f" or cmd == "fi" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:rest") == 5 then
@@ -38,5 +38,5 @@ if actor:get_quest_var("school:rest") == 5 then
     actor:send(tostring(self.name) .. " tells you, 'Come, feast with me!  Type <b:green>eat meat</>!'")
     self.room:spawn_object(203, 5)
 end
-_return_value = false
+_return_value = true
 return _return_value

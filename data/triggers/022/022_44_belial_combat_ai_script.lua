@@ -26,13 +26,13 @@ if belial_ai > 0 then
     if action == 1 then
         -- Deadly Spell
         -- line 10
-        run_room_trigger(2246)
+        run_room_trigger(22, 46)
     elseif action == 2 then
         -- Severe Spell
-        run_room_trigger(2247)
+        run_room_trigger(22, 47)
     elseif action == 3 then
         -- Severe Spell
-        run_room_trigger(2248)
+        run_room_trigger(22, 48)
         -- line 20
     elseif action == 4 then
         self.room:send("Belial says in common, 'Fear my wrath, puny mortal!'")
@@ -50,7 +50,7 @@ if belial_ai > 0 then
         -- line 40
         -- Show random caster Fun Lovin's!
         if self:get_mexists("15") < 1 then
-            run_room_trigger(2249)
+            run_room_trigger(22, 49)
         end
         -- Kick / Switch Opponents
         local victim = room.actors[random(1, #room.actors)]
@@ -65,12 +65,12 @@ if belial_ai > 0 then
         -- Random Banter
         -- line 60
         -- Severe Spell
-        run_room_trigger(2248)
+        run_room_trigger(22, 48)
         -- Severe Spell
-        run_room_trigger(2247)
+        run_room_trigger(22, 47)
         -- line 70
         -- Deadly Spell
-        run_room_trigger(2246)
+        run_room_trigger(22, 46)
         self:say("Your soul belongs to the Nines!")
         skills.execute(self, "kick", self.fighting)
         -- line 80

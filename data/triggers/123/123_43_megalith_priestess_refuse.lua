@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("megalith_quest")
 if stage ~= 1 and stage ~= 3 then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     local response = "I need your help with something else."
@@ -30,7 +30,7 @@ elseif stage == 3 then
     end
 end
 if response then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)

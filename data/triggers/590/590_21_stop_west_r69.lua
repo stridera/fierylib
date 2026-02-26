@@ -15,7 +15,7 @@ if not (cmd == "west") then
 end
 local _return_value = true  -- Default: allow action
 if actor.class == "Paladin" then
-    _return_value = false
+    _return_value = true
 else
     actor:send(tostring(self.name) .. " jumps in front of you, preventing you from getting by.")
     self.room:send_except(actor, tostring(self.name) .. " jumps in front of " .. tostring(actor.name) .. ", preventing " .. tostring(actor.object) .. " from getting")

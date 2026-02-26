@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "trident") or string.find(arg, "hell") trident or string.find(arg, "hell_trident") or string.find(arg, "Infernal") Weaponry or string.find(arg, "infernal") or string.find(arg, "weaponry") or string.find(arg, "infernal_weaponry") then
     if string.find(actor.class, "Diabolist") then
-        _return_value = false
+        _return_value = true
         actor:send("<b:green>&uInfernal Weaponry</>")
         actor:send("Weapons of the lower realms await a diabolist dedicated enough to claim them.")
         local hellstage = actor:get_quest_stage("hell_trident")

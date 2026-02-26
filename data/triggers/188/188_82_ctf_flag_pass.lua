@@ -37,7 +37,7 @@ elseif arg.room ~= actor.room then
 elseif arg.level > 99 then
     actor:send("You can't pass to an immortal!")
     -- Player tries to pass to a player or the referee mob
-elseif (arg.id == -1) or (arg.id == "referee") then
+elseif (arg.is_player) or (arg.id == "referee") then
     -- Player tries to pass to someone on team A
     if arg.wearing[vnum_a] then
         local arg_team = team_a
@@ -60,19 +60,19 @@ elseif (arg.id == -1) or (arg.id == "referee") then
         -- Player passes to someone on the same team
         if arg_team == self.id then
             arg:send(tostring(actor.name) .. " quickly passes " .. tostring(self.shortdesc) .. " to you.")
-            arg:teleport(get_room(1000, 0))
+            arg:teleport(get_room(0, 0))
             actor:send("You slyly hand off " .. tostring(self.shortdesc) .. " to " .. tostring(arg.name) .. ".")
             self.room:send_except(actor, tostring(actor.name) .. " quietly passes a flag to " .. tostring(arg.name) .. ".")
-            arg:teleport(get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)))
-            self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
+            arg:teleport(actor.room)
+            self.room:spawn_object(self.zone_id, self.id)
             arg:command("get ctf-flag")
             world.destroy(self)
             -- Player passes to someone on an enemy team (Reset flag)
         else
             actor:send("You accidentally pass the flag to " .. tostring(arg.name) .. ", resetting it.")
-            actor:teleport(get_room(vnum_to_zone(actor_flag_room), vnum_to_local(actor_flag_room)))
-            self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
-            actor:teleport(get_room(vnum_to_zone(arg.room), vnum_to_local(arg.room)))
+            actor:teleport(get_room(math.floor(actor_flag_room / 100), actor_flag_room % 100))
+            self.room:spawn_object(self.zone_id, self.id)
+            actor:teleport(arg.room)
             world.destroy(self)
         end
     end

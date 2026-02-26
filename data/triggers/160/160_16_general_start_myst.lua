@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #16016: general_start_myst
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if object.id == 3026 then
         -- advance the quest
         local i = actor.group_size

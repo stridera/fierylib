@@ -19,17 +19,17 @@ end
 -- 
 -- switch on arg
 if arg == "inn" then
-    local lookroom = 3054
+    local lookroom = 54
 elseif arg == "board" then
-    local lookroom = 3002
+    local lookroom = 2
 elseif arg == "fountain" then
-    local lookroom = 3009
+    local lookroom = 9
 else
     actor:send("Observe <blue>where</>?")
     return _return_value
 end
 actor:send("You peer out the window into the world below.")
 self.room:send_except(actor, tostring(actor.alias) .. " peers out the window.")
-actor:teleport(get_room(vnum_to_zone(lookroom), vnum_to_local(lookroom)))
+actor:teleport(get_room(30, lookroom))
 -- actor looks around
 actor:teleport(get_room(188, 2))

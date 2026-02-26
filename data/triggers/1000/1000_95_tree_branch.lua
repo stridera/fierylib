@@ -1,5 +1,5 @@
 -- Trigger: tree branch
--- Zone: 1000, ID: 95
+-- Zone: 0, ID: 95
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

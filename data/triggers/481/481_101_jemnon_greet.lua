@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48201: jemnon_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Aaaaaaaaand who - '")
     wait(4)

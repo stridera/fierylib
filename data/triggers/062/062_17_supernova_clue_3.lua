@@ -9,7 +9,7 @@
 -- Converted from DG Script #6217: supernova clue 3
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 local stage = actor:get_quest_stage("supernova")
 -- 
 -- Is the person on the quest?

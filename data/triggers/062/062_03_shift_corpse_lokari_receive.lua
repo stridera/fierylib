@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if object.id == 6228 and actor:get_quest_stage("shift_corpse") == 1 then
-    _return_value = false
+    _return_value = true
     actor.name:advance_quest("shift_corpse")
     self.room:send(tostring(objects.template(62, 28).name) .. " flares with <blue>&9darkness visible!</>")
     wait(1)

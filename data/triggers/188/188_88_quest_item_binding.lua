@@ -32,9 +32,9 @@ local _return_value = true  -- Default: allow action
 -- quest variable quest_items laoris 18890 0
 -- 
 if actor.quest_variable[quest_items:self.vnum] then
-    _return_value = true
-else
     _return_value = false
+else
+    _return_value = true
     if self.type == "WEAPON" then
         actor:send("You do not feel worthy enough to wield " .. tostring(self.shortdesc) .. "!")
     else

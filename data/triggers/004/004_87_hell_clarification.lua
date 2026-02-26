@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "hell" then
     if string.find(actor.class, "Diabolist") then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         actor:send("Hellfire and Brimstone")
         actor:send("Infernal Weaponry")

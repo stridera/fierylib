@@ -25,7 +25,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
             self:say("I need to get the water in something functional.  Can you go get a pitcher?  That would do the job wonderfully.")
             self:command("smile " .. tostring(actor))
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("This isn't the thorny wood I need.")

@@ -31,57 +31,45 @@ if will_drop <= 60 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop a gem from the previous wear pos set
-        local gem_vnum = what_gem_drop + 55681
-        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+        self.room:spawn_object(556, 81 + what_gem_drop)
     elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
-        local gem_vnum = what_gem_drop + 55692
-        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+        self.room:spawn_object(556, 92 + what_gem_drop)
     else
         -- We're in the BONUS ROUND!!
         -- drop a gem from the next wear pos set
-        local gem_vnum = what_gem_drop + 55703
-        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+        self.room:spawn_object(557, 3 + what_gem_drop)
     end
 elseif will_drop >=61 and will_drop <= 80 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- 
-        local armor_vnum = what_armor_drop + 55359
-        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+        self.room:spawn_object(553, 59 + what_armor_drop)
     elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
-        local armor_vnum = what_armor_drop + 55363
-        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+        self.room:spawn_object(553, 63 + what_armor_drop)
     else
         -- We're in the BONUS ROUND!!
         -- drop a piece of armor from next wear pos
-        local armor_vnum = what_armor_drop + 55367
-        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+        self.room:spawn_object(553, 67 + what_armor_drop)
     end
 else
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop armor and gem from previous wear pos
-        local gem_vnum = what_gem_drop + 55681
-        local armor_vnum = what_armor_drop + 55359
-        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+        self.room:spawn_object(556, 81 + what_gem_drop)
+        self.room:spawn_object(553, 59 + what_armor_drop)
     elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
-        local gem_vnum = what_gem_drop + 55692
-        local armor_vnum = what_armor_drop + 55363
-        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
-        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+        self.room:spawn_object(553, 63 + what_armor_drop)
+        self.room:spawn_object(556, 92 + what_gem_drop)
     else
         -- We're in the BONUS ROUND!!
         -- drop armor and gem from next wear pos
-        local gem_vnum = what_gem_drop + 55703
-        local armor_vnum = what_armor_drop + 55367
-        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+        self.room:spawn_object(557, 3 + what_gem_drop)
+        self.room:spawn_object(553, 67 + what_armor_drop)
     end
 end

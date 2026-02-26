@@ -12,5 +12,5 @@
 if not percent_chance(30) then
     return true
 end
-run_room_trigger(48257)
+run_room_trigger(481, 157)
 wait(10)

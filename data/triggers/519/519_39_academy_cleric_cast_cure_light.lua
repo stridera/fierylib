@@ -27,5 +27,5 @@ if actor:get_quest_var("school:fight") == 2 and spell == "cure light" then
     actor:send("</>")
     actor:send("Check your current recovery status by typing <b:green>study</> now.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

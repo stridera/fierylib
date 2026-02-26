@@ -20,14 +20,14 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (arg ~= "doll") and (arg ~= "ehlissa") and (arg ~= "miniature-ehlissa-doll") and (arg ~= "miniature") and (arg ~= "little") and (arg ~= "little-ehlissa-doll") and (arg ~= "ehlissa-doll") then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 self.room:send(tostring(actor.name) .. " squeezes " .. tostring(hisher) .. " doll.")
 local i = 99
 while i > 0 do

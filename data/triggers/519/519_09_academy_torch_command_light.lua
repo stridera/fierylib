@@ -20,7 +20,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "l" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:gear") == 5 and arg.id == 23 then
@@ -38,5 +38,5 @@ if actor:get_quest_var("school:gear") == 5 and arg.id == 23 then
     actor:send("</>")
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Stop wearing that torch by typing <b:green>remove torch</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

@@ -21,15 +21,15 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "h" or cmd == "ha" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor.class == "Paladin" then
     local color = "golden"
-    local vnum = 18890
+    local vnum = 90
 elseif string.find(actor.class, "Anti") then
     local color = "black"
-    local vnum = 18891
+    local vnum = 91
 else
     actor:send("You get the feeling that this egg is not meant for you.")
 end
@@ -46,7 +46,7 @@ if color then
     self.room:send("The dragon egg continues to split into pieces.")
     wait(2)
     self.room:send("A small, " .. tostring(color) .. " dragon emerges from the broken egg shell.")
-    self.room:spawn_mobile(vnum_to_zone(vnum), vnum_to_local(vnum))
+    self.room:spawn_mobile(188, vnum)
     actor:send("The " .. tostring(color) .. " dragon looks at you.")
     self.room:send_except(actor, "The " .. tostring(color) .. " dragon looks at " .. tostring(actor.name) .. ".")
     wait(3)
@@ -64,7 +64,7 @@ if color then
     wait(2)
     actor:send("A strange-looking helmet falls from behind the dragon, landing near you.")
     self.room:send_except(actor, "A strange-looking helmet falls from behind the dragon, landing near " .. tostring(actor.name) .. ".")
-    self.room:spawn_object(vnum_to_zone(vnum), vnum_to_local(vnum))
+    self.room:spawn_object(188, vnum)
     if actor:get_quest_stage("quest_items") == 0 then
         actor.name:start_quest("quest_items")
     end

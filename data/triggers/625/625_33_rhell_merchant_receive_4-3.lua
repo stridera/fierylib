@@ -38,7 +38,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
                 self:command("give " .. tostring(object) .. " " .. tostring(actor) .. ".")
             end
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("I'm not sure how one gets milk out of this.")

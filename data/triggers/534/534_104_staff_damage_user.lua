@@ -19,7 +19,7 @@ if not (cmd == "use") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 -- switch on cmd
 if cmd == "u" then
     return _return_value

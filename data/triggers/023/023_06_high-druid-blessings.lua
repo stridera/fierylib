@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #2306: high-druid-blessings
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if string.find(actor.class, "Druid") then
         wait(1)
         self:command("nod")

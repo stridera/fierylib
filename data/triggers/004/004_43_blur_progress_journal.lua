@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "blur") then
     if string.find(actor.class, "Ranger") and actor.level >= 75 then
-        _return_value = false
+        _return_value = true
         local east = actor:get_quest_var("blur:east")
         local etimer = actor:get_quest_var("blur:east_timer")
         local west = actor:get_quest_var("blur:west")

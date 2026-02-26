@@ -9,7 +9,7 @@
 -- Converted from DG Script #39009: flood_frozen_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("<b:cyan>" .. tostring(self.name) .. " shatters into a thousand pieces!</>")
 local person = actor
 local i = actor.group_size

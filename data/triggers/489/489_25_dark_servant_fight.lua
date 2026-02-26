@@ -34,7 +34,7 @@ elseif (chance == 2) and (self.id == 48909) then
         end
         max_tries = max_tries - 1
     end
-    if (max_tries == -1) and (victim.id == -1) then
+    if (max_tries == -1) and (victim.is_player) then
         combat.engage(self, victim.name)
         return _return_value
     end

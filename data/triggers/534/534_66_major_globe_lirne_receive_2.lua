@@ -25,7 +25,7 @@ if stage == 7 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Yes... go and <b:cyan>banish five unique elementals</> and bring back their energies!'")
 elseif stage < 7 then
-    _return_value = false
+    _return_value = true
     self:command("eyebrow")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'How could you have found this?  Do the quest in order!'")

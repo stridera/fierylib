@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "major") globe or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
     if actor.level >= 50 and string.find(relocateclasses, "actor.class") then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("major_globe_spell")
         actor:send("<b:green>&uMajor Globe</>")
         actor:send("Minimum Level: 57")

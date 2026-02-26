@@ -12,7 +12,7 @@ if fight == "last" then
     actor:set_quest_var("school", "fight", "complete")
     actor:advance_quest("school")
 else
-    if world.count_mobiles("51900") == 0 then
+    if world.count_mobiles(519, 0) == 0 then
         self.room:spawn_mobile(519, 0)
         self.room:send("Another horrible monster appears!")
     end

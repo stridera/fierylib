@@ -22,7 +22,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
             wait(2)
             self:say("I'm willing to do that... but not sober.  Fetch me something to drink, and make it strong!")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("What is this garbage?  I need the king's jeweled dagger.  Only it has the radiant power to kill the beast.")

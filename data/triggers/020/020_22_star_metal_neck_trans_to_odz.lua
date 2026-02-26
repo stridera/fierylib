@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #2022: star_metal_neck_trans_to_odz
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(2)
     self.room:send_except(actor, "A strange little glow appears around " .. tostring(actor.name) .. ", making you light-headed.")
     actor:send("A strange glow appears around you and you feel light headed.")

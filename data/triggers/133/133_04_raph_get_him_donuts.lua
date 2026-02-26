@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #13304: raph_get_him_donuts
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id== -1 then
+if actor.is_player then
     wait(3)
     if object.vnun == 16211 then
         if actor:get_quest_stage("get_raph_food") == 2 then

@@ -20,8 +20,8 @@
 -- more evil.
 if actor.level > 30 and actor:get_quest_stage("dragon_slayer") ~= 3 then
     local rnd_range = random(1, 126)
-    local rnd_room = rnd_range + 8049
+    local rnd_room = rnd_range + 49
     self.room:send(tostring(self.name) .. " flies off because you seem to be a bit to powerful.")
     self.room:send("(Let the newbies < 30 do this)")
-    self.room:find_actor("drakling"):teleport(find_room_by_name("%rnd_room%"))
+    self.room:find_actor("drakling"):teleport(get_room(80, rnd_room))
 end

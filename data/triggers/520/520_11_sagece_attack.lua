@@ -22,9 +22,9 @@ elseif value == 2 or value == 3 then
 elseif value == 4 or value == 5 then
     self:command("roar")
 elseif value == 6 then
-    run_room_trigger(52020)
+    run_room_trigger(520, 20)
 elseif value == 7 then
-    run_room_trigger(52021)
+    run_room_trigger(520, 21)
 else
     self:command("growl")
 end

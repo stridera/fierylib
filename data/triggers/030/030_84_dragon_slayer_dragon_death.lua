@@ -64,7 +64,7 @@ while i >= a do
             person:set_quest_var("dragon_slayer", "hunt", "dead")
             person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

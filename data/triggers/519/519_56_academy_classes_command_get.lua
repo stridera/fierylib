@@ -32,5 +32,5 @@ if actor:get_quest_var("school:loot") == 1 then
         actor:send("Type <b:green>toggle autoloot</> to loot future kills!'")
     end
 end
-_return_value = false
+_return_value = true
 return _return_value

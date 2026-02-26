@@ -28,7 +28,7 @@ if object.type == "LIQCONTAINER" then
                     person:start_quest("griffin_quest")
                 end
                 person:set_quest_var("griffin_quest", "ladder", 1)
-            elseif person and person.id == -1 then
+            elseif person and person.is_player then
                 i = i + 1
             end
             a = a + 1
@@ -44,7 +44,7 @@ if object.type == "LIQCONTAINER" then
         self:command("drop " .. tostring(object))
     end
 else
-    _return_value = false
+    _return_value = true
     self:say("What's this for?")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 end

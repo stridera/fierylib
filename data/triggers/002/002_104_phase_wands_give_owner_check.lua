@@ -131,17 +131,17 @@ else
     local type = "none"
     local wandstep = 0
 end
-if actor.id == -1 then
+if actor.is_player then
     if type ~= "energy" then
         local refuse = 1
     elseif actor.quest_stage[energy_wand] < wandstep then
         local refuse = 2
     end
     if refuse == 1 then
-        _return_value = false
+        _return_value = true
         actor:send("You shouldn't give away something so precious!")
     elseif refuse == 2 then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(victim.name) .. " refuses " .. tostring(self.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(victim.name) .. " tells you, 'This isn't yours!  I can't help you properly improve with a " .. tostring(weapon) .. " that doesn't belong to you.'")

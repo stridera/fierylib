@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- This is the reception of the strawberry
 -- that kicks off the whole affair to Mugnork
-if actor.id == -1 then
+if actor.is_player then
     if object.id == 32425 then
         wait(1)
         actor:teleport(get_room(324, 197))

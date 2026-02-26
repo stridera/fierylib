@@ -21,13 +21,13 @@ else
     -- switch on actor:get_quest_stage("school")
     if actor:get_quest_stage("school") == 1 then
         local lesson = "&3&bCOMMUNICATION&0, &3&bGEAR&0, and &3&bEXPLORATION&0"
-        local holding = 51900
+        local holding = 0
         local direction = "east"
         self:command("unlock gates")
         self:command("open gates")
     elseif actor:get_quest_stage("school") == 2 then
         local lesson = "&3&bHIT POINTS&0 and &3&bSCORE&0"
-        local holding = 51909
+        local holding = 9
         local direction = "east"
         if actor:get_quest_stage("school") == 3 then
         elseif actor:get_quest_stage("school") == 3 or actor:get_quest_stage("school") == 4 then
@@ -48,12 +48,12 @@ else
             actor:send(tostring(self.name) .. " tells you, 'I don't know how you got to this point.  Please find a god!'")
             return _return_value
         end
-        local holding = 51908
+        local holding = 8
         local lesson = "&3&bRESTING&0 and &3&bMONEY&0"
-        local holding = 51910
+        local holding = 10
         local direction = "east"
         local lesson = "&3&bLEVELING&0"
-        local holding = 51910
+        local holding = 10
         local direction = "east"
         actor:send(tostring(self.name) .. " tells you, 'You are taking lessons on " .. tostring(lesson) .. ".")
         actor:send("Tutorial commands will appear <b:green>in green text</>.")
@@ -62,8 +62,8 @@ else
         actor:send(tostring(self.name) .. " escorts you into the Academy.")
         actor:send("</>")
         actor:send(tostring(self.name) .. " tells you, 'You can say <magenta>EXIT</> at any time to leave.'")
-        actor:teleport(get_room(vnum_to_zone(holding), vnum_to_local(holding)))
-        get_room(vnum_to_zone(holding), vnum_to_local(holding)):at(function()
+        actor:teleport(get_room(519, holding))
+        get_room(519, holding):at(function()
             actor:command("%direction%")
         end)
         if actor:get_quest_stage("school") == 1 then

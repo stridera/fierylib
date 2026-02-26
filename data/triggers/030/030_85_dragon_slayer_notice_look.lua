@@ -50,7 +50,7 @@ elseif self.id == 3089 then
     local victim1 = "the Hydra"
     local go = "hunt"
 end
-_return_value = false
+_return_value = true
 actor:send("This is a notice to slay " .. tostring(victim1) .. ".")
 if actor:get_quest_var("dragon_slayer:hunt") == "dead" and actor:get_quest_stage("dragon_slayer") == "stage" then
     actor:send("You have completed the hunt.")

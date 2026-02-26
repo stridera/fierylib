@@ -15,7 +15,7 @@ if object.id == 51022 then
     self:say("Hmm...a damaged spellbook.")
     wait(2)
     self:say("Look, " .. tostring(actor.name) .. ", why don't you fix this and then maybe we can talk.")
-    _return_value = false
+    _return_value = true
     local clericquest = 2
     globals.clericquest = globals.clericquest or true
     -- complete spellbook - did we do this in one go (bonus)
@@ -61,7 +61,7 @@ elseif object.id == 51028 then
 elseif object.id == 8550 then
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)

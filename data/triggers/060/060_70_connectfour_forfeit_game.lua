@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "f" or cmd == "fo" or cmd == "for" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (status == 0) or (not player1) or (not player2) then

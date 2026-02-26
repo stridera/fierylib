@@ -55,14 +55,14 @@ if stage == 1 then
         self.room:send(tostring(self.name) .. " says, 'Let's split up.  See what you can find and")
         self.room:send("</>I'll meet you back here.'")
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("I don't think this is what we need.")
     end
 elseif stage == 2 then
     if object.id == 8303 or object.id == 23709 or object.id == 49008 or object.id == 52012 or object.id == 52013 or object.id == 53402 or object.id == 58109 then
         if actor.quest_variable[hell_gate:object.vnum] then
-            _return_value = false
+            _return_value = true
             self:say("You already brought that key.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
@@ -105,7 +105,7 @@ elseif stage == 2 then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not one of the seven keys.")
     end
@@ -120,12 +120,12 @@ elseif stage == 3 then
             self:command("give dagger " .. tostring(actor.name))
             self:say("Return to hunting your sacrifices.")
         else
-            _return_value = false
+            _return_value = true
             self:say("This is not an appropriate dagger.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         end
     else
-        _return_value = false
+        _return_value = true
         self:say("I don't need anything from you right now.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
@@ -157,12 +157,12 @@ elseif stage == 4 then
         self.room:find_actor("angel"):command("kill %actor%")
         self:teleport(get_room(11, 0))
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("No, the dagger, quickly!")
     end
 else
-    _return_value = false
+    _return_value = true
     self:say("What is this for?")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 end

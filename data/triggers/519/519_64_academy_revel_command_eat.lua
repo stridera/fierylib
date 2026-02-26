@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "e" or cmd == "ea" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local meat = "large-chunk-meat"
@@ -34,5 +34,5 @@ if actor:get_quest_var("school:rest") == 6 and (string.find(meat, "arg") or stri
     actor:send(tostring(self.name) .. " tells you, 'The <b:cyan>HELP ZONE</> file will show you lots of places to explore.")
     actor:send("Type <b:green>help zone</> and check it out.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

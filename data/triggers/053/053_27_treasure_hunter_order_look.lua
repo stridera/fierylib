@@ -8,7 +8,7 @@
 -- Converted from DG Script #5327: Treasure Hunter order look
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 -- switch on self.id
 if self.id == 5310 then
     local stage = 1

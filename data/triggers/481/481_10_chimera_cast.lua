@@ -12,7 +12,7 @@
 if not percent_chance(30) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(2)
     self:emote("turns its dragon head to look at you.")
     spells.cast(self, "ray of enf", actor)

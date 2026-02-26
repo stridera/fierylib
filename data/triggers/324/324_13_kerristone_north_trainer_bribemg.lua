@@ -18,7 +18,7 @@ end
 -- on how they deliver the players to the destination
 -- but there's no reason why this trig can't exist
 -- as is to kick it off
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     self.room:send(tostring(self.name) .. " says, '</>Ahh Thankyou! You will not be disappointed.</>'")
     self.room:send(tostring(self.name) .. " says, '</>I have one of the fastest </><blue>&9stallions</> in the land for you!'")

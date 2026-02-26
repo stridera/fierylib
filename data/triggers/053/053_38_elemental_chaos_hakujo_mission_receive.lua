@@ -119,7 +119,7 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
         end
     end
 elseif actor:get_quest_stage("elemental_chaos") > stage then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses the mission.")
     wait(2)
@@ -131,7 +131,7 @@ elseif actor:get_quest_stage("elemental_chaos") < stage then
     self.room:send(tostring(self.name) .. " rips up the mission!")
     world.destroy(object)
 elseif actor:get_quest_var("elemental_chaos:bounty") == "running" then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses the mission.")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You have to complete your mission first!")

@@ -32,7 +32,7 @@ local person = self.people
 while person do
     if person.id == 36301 then
         local gannigan = person
-    elseif person.id == -1 and person:get_quest_stage("illusionist_subclass") > 1 then
+    elseif person.is_player and person:get_quest_stage("illusionist_subclass") > 1 then
         local quester = person
     end
     person = person.next_in_room

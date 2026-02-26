@@ -9,5 +9,5 @@
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 wait(2)
 self.room:send("<b:red>A trapdoor clicks open, </><red>leading down.</>")
-doors.set_state(get_room(22, 17), "down", {action = "room"})
-doors.set_description(get_room(22, 17), "down", "&1&bRed stairs lead &1down to the unknown.&0")
+get_room(22, 17):exit("down"):set_state({hidden = false})
+get_room(22, 17):exit("down"):set_state({description = "&1&bRed stairs lead &1down to the unknown.&0"})

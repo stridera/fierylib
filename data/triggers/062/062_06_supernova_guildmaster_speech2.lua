@@ -26,7 +26,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     elseif rnd1 == 3 then
         local step3 = 58062
     else
-        _return_value = false
+        _return_value = true
     end
     actor.name:set_quest_var("supernova", "step3", step3)
     local rnd2 = random(1, 3)
@@ -38,7 +38,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     elseif rnd2 == 3 then
         local step4 = 8561
     else
-        _return_value = false
+        _return_value = true
     end
     actor.name:set_quest_var("supernova", "step4", step4)
     local rnd3 = random(1, 3)
@@ -50,7 +50,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     elseif rnd3 == 3 then
         local step5 = 16278
     else
-        _return_value = false
+        _return_value = true
     end
     actor.name:set_quest_var("supernova", "step5", step5)
     local rnd4 = random(1, 3)
@@ -62,7 +62,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     elseif rnd4 == 3 then
         local step6 = 55422
     else
-        _return_value = false
+        _return_value = true
     end
     actor.name:set_quest_var("supernova", "step6", step6)
     local step7 = random(1, 3)
@@ -84,7 +84,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
         self.room:send(tostring(self.name) .. " says, 'She occasionally visits a small remote island")
         self.room:send("</>theatre, where she enjoys meditating in their reflecting room.'")
     else
-        _return_value = false
+        _return_value = true
     end
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'You may be able to find a clue to her whereabouts")

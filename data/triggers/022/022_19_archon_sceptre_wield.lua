@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #2219: archon_sceptre_wield
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     if string.find(actor.class, "Anti") then
         actor:send("You feel a great surge of power rush through your body.")

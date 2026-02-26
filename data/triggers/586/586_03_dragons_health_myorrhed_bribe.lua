@@ -37,7 +37,7 @@ if actor:get_quest_stage("dragons_health") == 5 then
     local value = actor:get_quest_var("dragons_health:hoard")
     if value >= 10000000 then
         actor.name:advance_quest("dragons_health")
-        run_room_trigger(58604)
+        run_room_trigger(586, 4)
     else
         local total = (10000000 - value)
         local plat = (total / 1000)

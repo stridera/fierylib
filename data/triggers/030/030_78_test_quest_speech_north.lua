@@ -12,7 +12,7 @@
 if not percent_chance(1) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("zzurs_funky_quest") == 1 then
         actor:send(tostring(self.name) .. " says to you, 'My brother is looking for me?'")
         actor.name:advance_quest("zzurs_funky_quest")

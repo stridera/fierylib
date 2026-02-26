@@ -16,10 +16,10 @@ local _return_value = true  -- Default: allow action
 local boots = actor:get_quest_var("sunfire_rescue:boots")
 local cloak = actor:get_quest_var("sunfire_rescue:cloak")
 local ring = actor:get_quest_var("sunfire_rescue:ring")
-if actor.id ~= -1 then
-    _return_value = false
+if actor.is_npc then
+    _return_value = true
 elseif actor.level > 99 then
-    _return_value = false
+    _return_value = true
     wait(1)
     self:command("eyebrow")
 else
@@ -27,7 +27,7 @@ else
         -- switch on object.id
         if boots == 1 then
             if object.id == 52008 then
-                _return_value = false
+                _return_value = true
                 self:say("You have already given me these.")
             else
                 actor.name:set_quest_var("sunfire_rescue", "boots", 1)
@@ -39,7 +39,7 @@ else
             end
         elseif object.id == 52024 then
             -- Cursed boots
-            _return_value = false
+            _return_value = true
             self:emote("looks at the boots carefully.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, 'These are the cursed boots.  If you have the real ones,")
@@ -47,7 +47,7 @@ else
             self.room:send("</>them.'")
             return _return_value
         elseif object.id == 52018 then
-            _return_value = false
+            _return_value = true
             self:command("frown " .. tostring(actor.name))
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("What kind of cruel trick is this?")
@@ -57,7 +57,7 @@ else
             -- covers the cursed ring...
             if cloak == 1 then
             elseif object.id == 52009 then
-                _return_value = false
+                _return_value = true
                 self:say("You have already given me the cloak.")
             else
                 wait(2)
@@ -70,7 +70,7 @@ else
             end
         elseif object.id == 52026 then
             -- Cursed cloak
-            _return_value = false
+            _return_value = true
             self:emote("runs his hands over the cloak quickly.")
             self:say("This is the cursed cloak!")
             self:emote("looks angry.")
@@ -82,7 +82,7 @@ else
             return _return_value
             if ring == 1 then
             elseif object.id == 52001 then
-                _return_value = false
+                _return_value = true
                 self:say("You have already given me this ring.")
             else
                 wait(2)
@@ -93,15 +93,15 @@ else
                 -- that ought to cover everything...
             end
         else
-            _return_value = false
+            _return_value = true
             self:say("This isnt going to help me!")
             self:command("roll")
         end
     elseif actor:get_has_completed("sunfire_rescue") then
-        _return_value = false
+        _return_value = true
         self:say("You have already helped me.  I am grateful to you.")
     else
-        _return_value = false
+        _return_value = true
         self:say("What are you doing?")
     end
     local boots = actor:get_quest_var("sunfire_rescue:boots")

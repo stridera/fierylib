@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "chef") or string.find(arg, "resort_cooking") or string.find(arg, "resort") or string.find(arg, "cooking") or string.find(arg, "phoenix_sous_chef") then
     if actor.level >= 50 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("resort_cooking")
         actor:send("<b:green>&uPhoenix Sous Chef</>")
         actor:send("Recommended Level: 90")

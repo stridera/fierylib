@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "exit") or string.find(string.lower(speech), "exit?")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(2)
     self:command("nod " .. tostring(actor))
     actor:send(tostring(self.name) .. " tells you, 'Certainly.  Come back any time.'")

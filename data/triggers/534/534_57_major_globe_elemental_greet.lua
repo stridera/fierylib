@@ -11,22 +11,22 @@
 -- switch on self.id
 -- plant elemental
 if self.id == 2328 then
-    local load_ward = 53453
+    local load_ward = 53
     local wand = actor:get_quest_stage("acid_wand")
     -- Mist elemental
 elseif self.id == 2806 or self.id == 2807 then
-    local load_ward = 53454
+    local load_ward = 54
     local wand = actor:get_quest_stage("air_wand")
     -- Water elemental
 elseif self.id == 2808 or self.id == 2809 or self.id == 48631 then
-    local load_ward = 53455
+    local load_ward = 55
     -- flame elemental
 elseif self.id == 5212 or self.id == 12523 or self.id == 48500 or self.id == 48511 or self.id == 48512 then
-    local load_ward = 53456
+    local load_ward = 56
     local wand = actor:get_quest_stage("fire_wand")
     -- ice elemental
 elseif self.id == 53312 or self.id == 53313 or self.id == 48630 or self.id == 48632 then
-    local load_ward = 53457
+    local load_ward = 57
     local wand = actor:get_quest_stage("ice_wand")
 end
 -- If random is 1
@@ -45,7 +45,7 @@ if actor:get_quest_stage("major_globe_spell") == 8 or wand == 8 then
     -- If rolled 1, load
     if do_load == 1 then
         if load_ward then
-            self.room:spawn_object(vnum_to_zone(load_ward), vnum_to_local(load_ward))
+            self.room:spawn_object(534, load_ward)
             if actor:get_quest_stage("major_globe_spell") == 8 then
                 actor.name:set_quest_var("major_globe_spell", "ward_%load_ward%", 1)
             end

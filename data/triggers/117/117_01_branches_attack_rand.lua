@@ -8,7 +8,7 @@
 -- Converted from DG Script #11701: branches_attack_rand
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 wait(2)
-if actor.id == -1 &actor.level < 100 then
+if actor.is_player &actor.level < 100 then
     local dice1 = random(1, 55)
     local dice2 = random(1, 55)
     local damage = dice1 + dice2

@@ -16,7 +16,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on arg
 if arg == "d" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:money") == 1 and string.find(arg, "1") gold 1 silver 1 copper then
@@ -36,5 +36,5 @@ if actor:get_quest_stage("school") == 5 then
         actor:send(tostring(self.name) .. " tells you, '<b:green>Say resting</> to finish your last lesson, or say <magenta>SKIP</> to jump to the end of the Academy.'")
     end
 end
-_return_value = false
+_return_value = true
 return _return_value

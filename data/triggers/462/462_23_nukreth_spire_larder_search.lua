@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("nukreth_spire") then
@@ -37,12 +37,12 @@ if actor:get_quest_stage("nukreth_spire") then
             self.room:send_except(actor, tostring(actor.name) .. " finds a strange stone hidden amongst the bodies!")
             self.room:spawn_object(462, 15)
         else
-            _return_value = false
+            _return_value = true
         end
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

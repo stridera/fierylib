@@ -22,7 +22,7 @@ local _return_value = true  -- Default: allow action
 -- For Aria of Dissonance on item 55004
 -- switch on cmd
 if cmd == "m" or cmd == "me" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("monk_vision") > 6 and actor:get_quest_stage("monk_chants") == 4 and actor.level >= 60 and actor.room == 2786 then
@@ -71,9 +71,9 @@ if actor:get_quest_stage("monk_vision") > 6 and actor:get_quest_stage("monk_chan
             world.destroy(self)
         end
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

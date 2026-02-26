@@ -15,11 +15,11 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "b" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-if actor.id == -1 then
-    _return_value = true
+if actor.is_player then
+    _return_value = false
     self.room:send_except(actor, tostring(actor.name) .. " bows before " .. tostring(self.name) .. ".")
     actor:send("you bow before " .. tostring(self.name) .. ".")
     wait(1)
@@ -34,6 +34,6 @@ if actor.id == -1 then
     wait(2)
     self:say("If you bring me some, I can help you with those awful spiders, oh yes...  Mind you, I'm particular to cherries.")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

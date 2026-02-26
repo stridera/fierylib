@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "degeneration") then
     if string.find(actor.class, "Necromancer") and actor.level >= 75 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("degeneration")
         actor:send("<b:green>&uDegeneration</>")
         actor:send("Minimum Level: 81")

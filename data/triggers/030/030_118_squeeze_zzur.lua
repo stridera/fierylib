@@ -20,14 +20,14 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (arg ~= "plushie") and (arg ~= "zzur-plushie") and (arg ~= "zzur") and (arg ~= "toy") and (arg ~= "little-plushie") and (arg ~= "little") then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 -- switch on random(1, 9)
 if random(1, 9) == 1 then
     local phrase = "Done yet?"

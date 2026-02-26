@@ -11,18 +11,18 @@
 -- Now for the cycle portion..
 -- 
 -- Does next mob in spawn cycle already exist?
-if world.count_mobiles("8033") < 1 then
+if world.count_mobiles(80, 33) < 1 then
     -- Generate random room number to spawn drakes in.
     -- Thanks to the evil Pergus for inspiring me to be
     -- more evil.
     local rnd_range = random(1, 126)
-    local rnd_room = rnd_range + 8049
+    local rnd_room = rnd_range + 49
     get_room(160, 95):at(function()
         self.room:spawn_mobile(80, 33)
     end)
     local rnd = random(1, 100)
     get_room(160, 95):at(function()
-        self.room:find_actor("emerald"):teleport(find_room_by_name("%rnd_room%"))
+        self.room:find_actor("emerald"):teleport(get_room(80, rnd_room))
     end)
     -- Sometimes creatures don't get teleported out of the loading
     -- room so we're gonna go back and purge it just incase.

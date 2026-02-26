@@ -10,5 +10,5 @@
 local _return_value = true  -- Default: allow action
 self.room:send(tostring(self.shortdesc) .. " emitts a dark glow through out the room.")
 wait(2)
-_return_value = false
+_return_value = true
 return _return_value

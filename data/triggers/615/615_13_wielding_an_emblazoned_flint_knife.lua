@@ -8,9 +8,9 @@
 -- Converted from DG Script #61513: Wielding an emblazoned flint knife
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.room == 61549 or actor.room == 61566 then
-        _return_value = false
+        _return_value = true
         -- If you wield the emblazoned flint knife in a room that
         -- could have webs, it gets excited and flies out of your hand.
         wait(2)

@@ -66,7 +66,7 @@ if string.find(arg, "contract") then
         local go = "hunt"
     end
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if stage ~= 2 and stage ~= 3 then

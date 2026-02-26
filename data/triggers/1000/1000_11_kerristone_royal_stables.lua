@@ -1,5 +1,5 @@
 -- Trigger: Kerristone (Royal Stables)
--- Zone: 1000, ID: 11
+-- Zone: 0, ID: 11
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
 --

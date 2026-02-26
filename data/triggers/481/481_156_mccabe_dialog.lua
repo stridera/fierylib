@@ -35,7 +35,7 @@ if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer
         wait(3)
         self.room:send(tostring(self.name) .. " starts casting '<b:yellow>celneptin</>'...")
         wait(2)
-        run_room_trigger(48257)
+        run_room_trigger(481, 157)
         wait(3)
         self:command("sigh")
         actor:send(tostring(self.name) .. " tells you, 'I suppose you wish to do more than observe, am I right?  " .. tostring(actor.name) .. ", would you like to try to learn this rather difficult spell?'")
@@ -105,7 +105,6 @@ if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer
                 local bar_num = 30089
             else
                 -- Flirting Puppy
-                local bar_vnum = 51045
             end
             actor.name:set_quest_var("meteorswarm", "bar_num", bar_num)
             wait(2)

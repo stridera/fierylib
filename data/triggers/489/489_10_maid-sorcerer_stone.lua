@@ -17,6 +17,6 @@ if actor.id == 48901 then
     local stone = 1
     globals.stone = globals.stone or true
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "blizzards") or string.find(arg, "blizzards") of saint augustine or string.find(arg, "blizzards_of_saint_augustine") then
     if string.find(actor.class, "Monk") then
-        _return_value = false
+        _return_value = true
         local chantstage = actor:get_quest_stage("monk_chants")
         local visionstage = actor:get_quest_stage("monk_vision")
         local master = mobiles.template(53, 8).name

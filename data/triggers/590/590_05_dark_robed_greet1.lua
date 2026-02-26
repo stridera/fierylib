@@ -15,7 +15,7 @@
 if not percent_chance(60) then
     return true
 end
-if actor.id == -1 and actor.level < 100 then
+if actor.is_player and actor.level < 100 then
     if actor:get_quest_stage("sacred_haven") == 1 &actor:get_quest_var("sacred_haven:given_light") ~= 1 then
         wait(6)
         actor:send(tostring(self.name) .. " whispers to you, 'Have you located the adornment of light")
@@ -31,7 +31,7 @@ if actor.id == -1 and actor.level < 100 then
         local room = get.room[self.room]
         local target = room.people
         while target do
-            if (target.alignment <= -350) and (target.id == -1) &(target.level < 100) then
+            if (target.alignment <= -350) and (target.is_player) &(target.level < 100) then
                 self:whisper(target.name, "Ah, I sense a wicked aura around your soul.")
                 wait(5)
                 target:send(tostring(self.name) .. " slowly walks up and leans in close towards you.")

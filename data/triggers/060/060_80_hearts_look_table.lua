@@ -357,6 +357,6 @@ if (arg == "table") or (arg == "hearts") then
         actor:send("It is " .. tostring(player4.name) .. "'s turn.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

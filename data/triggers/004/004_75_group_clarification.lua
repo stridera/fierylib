@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "group" then
     if actor.level >= 50 and (string.find(actor.class, "Priest") or string.find(actor.class, "Cleric") or string.find(actor.class, "Diabolist")) then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         actor:send("Group Heal")
         if string.find(actor.class, "Priest") or (actor.level >= 65 and string.find(actor.class, "Cleric")) then

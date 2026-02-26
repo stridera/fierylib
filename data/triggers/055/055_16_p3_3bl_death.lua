@@ -12,10 +12,10 @@ self:command("recite all.scroll")
 self.room:send(tostring(self.name) .. "'s gear is destroyed in the battle!")
 self:destroy_item("all.eldoria-reward")
 self:destroy_item("all.scroll")
-local vnum_trophy1 = 5509
-local vnum_trophy2 = 5511
-local vnum_trophy3 = 5513
-local vnum_trophy4 = 5515
+local vnum_trophy1 = 9
+local vnum_trophy2 = 11
+local vnum_trophy3 = 13
+local vnum_trophy4 = 15
 -- 
 -- Death trigger for random trophy drops
 -- 
@@ -29,11 +29,11 @@ if will_drop <= 10 then
     return _return_value
 end
 if will_drop <= 50 then
-    self.room:spawn_object(vnum_to_zone(vnum_trophy1), vnum_to_local(vnum_trophy1))
+    self.room:spawn_object(55, vnum_trophy1)
 elseif will_drop >= 51 and will_drop <= 70 then
-    self.room:spawn_object(vnum_to_zone(vnum_trophy2), vnum_to_local(vnum_trophy2))
+    self.room:spawn_object(55, vnum_trophy2)
 elseif will_drop >= 71 and will_drop <= 90 then
-    self.room:spawn_object(vnum_to_zone(vnum_trophy3), vnum_to_local(vnum_trophy3))
+    self.room:spawn_object(55, vnum_trophy3)
 else
-    self.room:spawn_object(vnum_to_zone(vnum_trophy4), vnum_to_local(vnum_trophy4))
+    self.room:spawn_object(55, vnum_trophy4)
 end

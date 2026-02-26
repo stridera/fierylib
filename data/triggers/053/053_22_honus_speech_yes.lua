@@ -39,27 +39,27 @@ while i >= a do
                     person:send(tostring(self.name) .. " says, 'Excellent!'")
                     -- switch on person:get_quest_stage("treasure_hunter")
                     if person:get_quest_stage("treasure_hunter") == 1 then
-                        local order = 5310
+                        local order = 10
                     elseif person:get_quest_stage("treasure_hunter") == 2 then
-                        local order = 5311
+                        local order = 11
                     elseif person:get_quest_stage("treasure_hunter") == 3 then
-                        local order = 5312
+                        local order = 12
                     elseif person:get_quest_stage("treasure_hunter") == 4 then
-                        local order = 5313
+                        local order = 13
                     elseif person:get_quest_stage("treasure_hunter") == 5 then
-                        local order = 5314
+                        local order = 14
                     elseif person:get_quest_stage("treasure_hunter") == 6 then
-                        local order = 5315
+                        local order = 15
                     elseif person:get_quest_stage("treasure_hunter") == 7 then
-                        local order = 5316
+                        local order = 16
                     elseif person:get_quest_stage("treasure_hunter") == 8 then
-                        local order = 5317
+                        local order = 17
                     elseif person:get_quest_stage("treasure_hunter") == 9 then
-                        local order = 5318
+                        local order = 18
                     elseif person:get_quest_stage("treasure_hunter") == 10 then
-                        local order = 5319
+                        local order = 19
                     end
-                    self.room:spawn_object(vnum_to_zone(order), vnum_to_local(order))
+                    self.room:spawn_object(53, order)
                     self:command("give order " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've secured the goods, bring it and that order back to me.  I'll reward you then.  You can check your <b:cyan>[progress]</> at any time.'")
@@ -94,7 +94,7 @@ while i >= a do
                 person:send(tostring(self.name) .. " says, 'There's still plenty of treasure out there, but it's too dangerous without more experience.  Come back when you've grown a little more.'")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

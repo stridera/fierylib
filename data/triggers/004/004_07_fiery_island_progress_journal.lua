@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg, "liberate") fiery island or string.find(arg, "fieryisle_quest") or string.find(arg, "fieryisle") or string.find(arg, "liberate_fiery_island") or string.find(arg, "fiery_isle") or string.find(arg, "fiery") island quest then
     if actor.level >= 35 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("fieryisle_quest")
         actor:send("<b:green>&uLiberate Fiery Island</>")
         actor:send("Recommended Level: 55")

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "friend")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     self:say("Then you are not welcome here, you must leave at once!")
     actor.name:move("w")
 end

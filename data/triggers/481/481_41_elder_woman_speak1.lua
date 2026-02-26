@@ -38,14 +38,14 @@ while i >= a do
         elseif person:get_quest_stage("fieryisle_quest") == 3 or person:get_quest_stage("fieryisle_quest") == 4 then
             local ash = 2
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1
 end
 if ash == 1 then
     self.room:send(tostring(self.name) .. " says, 'If you want me to help you, then you must do me a favor.  Kill the ash lord and bring me his crown.'")
-    if world.count_mobiles("48107") < 1 then
+    if world.count_mobiles(481, 7) < 1 then
         get_room(11, 0):at(function()
             self.room:spawn_mobile(481, 7)
         end)

@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "h" or cmd == "hi" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local maskstage = actor:get_quest_stage("assassin_mask")
@@ -69,6 +69,6 @@ if continue == "yes" then
     actor:send("&9<blue>" .. tostring(self.shortdesc) .. " seems to absorb the shadowy darkness around you!")
     actor:set_quest_var("assassin_mask", "masktask4", 1)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

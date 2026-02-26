@@ -15,10 +15,10 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 self.room:send_except(actor, tostring(actor.alias) .. " reaches for " .. tostring(self.shortdesc) .. ", but it suddenly <b:red>explodes!</>")
 actor:send("As you reach for " .. tostring(self.shortdesc) .. ", it suddenly <b:red>explodes!</>")
 local damage = actor.level * 3 + random(1, 19)

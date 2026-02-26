@@ -15,6 +15,6 @@ end
 local _return_value = true  -- Default: allow action
 if arg == "pool" or arg == "granite" then
     actor:heal(400)
-    _return_value = false
+    _return_value = true
 end
 return _return_value

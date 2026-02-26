@@ -23,7 +23,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "i" or cmd == "im" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on self.id
@@ -149,35 +149,35 @@ elseif self.id == 303 then
     if actor.room >= 55001 and actor.room <= 55003 and actor.quest_variable[type_wand:greet] == 1 then
         local continue = "yes"
     else
-        _return_value = false
+        _return_value = true
     end
 elseif self.id == 313 then
     if actor.room >= 5200 and actor.room <= 5299 and actor.quest_variable[type_wand:greet] == 1 then
         local continue = "yes"
     else
-        _return_value = false
+        _return_value = true
     end
 elseif self.id == 323 then
     if actor.room >= 39001 and actor.room <= 39189 and actor.quest_variable[type_wand:greet] == 1 then
         local continue = "yes"
     else
-        _return_value = false
+        _return_value = true
     end
 elseif self.id == 333 then
     if actor.room >= 7300 and actor.room <= 7457 and actor.quest_variable[type_wand:greet] == 1 then
         local continue = "yes"
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 if continue == "yes" then
     actor:send("You imbue your wand with the energy of the " .. tostring(area) .. "!")
     actor:set_quest_var("%type%_wand", "wandtask4", 1)
 elseif reward == "yes" then
     local nextstaff = self.id + 1
-    self.room:spawn_object(vnum_to_zone(nextstaff), vnum_to_local(nextstaff))
+    self.room:spawn_object(math.floor(nextstaff / 100), nextstaff % 100)
     actor:command("get " .. tostring(nextname))
     local expcap = self.level
     local expmod = 0
@@ -222,6 +222,6 @@ elseif reward == "yes" then
     end
     world.destroy(self)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

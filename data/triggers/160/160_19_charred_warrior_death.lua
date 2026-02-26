@@ -26,9 +26,9 @@ while i >= a do
     a = a + 1
 end
 -- load charred sentry then maybe equip
-if world.count_mobiles("16017") < 1 then
+if world.count_mobiles(160, 17) < 1 then
     local rnd_range = random(1, 78)
-    local rnd_room = rnd_range + 15999
+    local rnd_room = rnd_range - 1
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 17)
     end)
@@ -41,11 +41,11 @@ if world.count_mobiles("16017") < 1 then
             self.room:find_actor("sentry"):command("wear all")
         end)
         get_room(160, 95):at(function()
-            self.room:find_actor("sentry"):teleport(find_room_by_name("%rnd_room%"))
+            self.room:find_actor("sentry"):teleport(get_room(160, rnd_room))
         end)
     else
         get_room(160, 95):at(function()
-            self.room:find_actor("sentry"):teleport(find_room_by_name("%rnd_room%"))
+            self.room:find_actor("sentry"):teleport(get_room(160, rnd_room))
         end)
     end
     -- Sometimes creatures don't get teleported out of the loading

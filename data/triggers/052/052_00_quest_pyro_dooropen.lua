@@ -15,10 +15,10 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "se" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 actor:send("<blue>Something doesn't seem quite right here...</>")
 wait(1)
 actor:send("You feel a sharp gust of air suck at you as a wall to the east opens.")
@@ -29,9 +29,9 @@ self.room:send_except(actor, tostring(actor.name) .. " suddenly is pulled into t
 get_room(52, 20):at(function()
     self.room:send("A shift in the flamewall allows " .. tostring(actor.name) .. " to pop through.")
 end)
-doors.set_state(get_room(52, 19), "east", {action = "room"})
+get_room(52, 19):exit("east"):set_state({hidden = false})
 actor.name:move("east")
 wait(1)
 self.room:send("The wall closes again as if it were never there.")
-doors.set_state(get_room(52, 19), "east", {action = "purge"})
+get_room(52, 19):exit("east"):set_state({hidden = true})
 return _return_value

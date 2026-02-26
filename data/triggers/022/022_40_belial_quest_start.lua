@@ -10,9 +10,9 @@
 -- Set the quest in motion, prevent retriggering stages
 -- until completion or reboot/crash/etc.
 if belial_queue then
-    run_room_trigger(2242)
+    run_room_trigger(22, 42)
 else
     local belial_queue = 1
     globals.belial_queue = globals.belial_queue or true
-    run_room_trigger(2241)
+    run_room_trigger(22, 41)
 end

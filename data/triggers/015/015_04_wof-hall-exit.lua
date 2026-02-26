@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "exit")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     self.room:send("The <magenta>runes</> fly off the walls and float to the center of the room.")
     wait(2)

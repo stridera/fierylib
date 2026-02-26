@@ -14,10 +14,10 @@ if not (cmd == "north") then
 end
 local _return_value = true  -- Default: allow action
 if web_present == 1 then
-    _return_value = true
+    _return_value = false
     self.room:send_except(actor, tostring(actor.name) .. " tries to walk through a glistening web, and nearly cuts " .. tostring(actor.object) .. "self!")
     actor:send("You find the delicate-looking web completely impassable.")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

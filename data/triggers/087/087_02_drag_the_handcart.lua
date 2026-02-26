@@ -18,7 +18,7 @@ if not (cmd == "drag") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 wait(1)
 if string.find(arg, "cart") or string.find(arg, "wagon") then
     actor:send("The handcart creaks along behind you.")

@@ -26,7 +26,7 @@ if actor:get_quest_stage("ursa_quest") == 2 then
             wait(2)
             self:say("I feel the sceptre longing for it.  Find the sunstone and bring it to me.")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("This isn't the king's golden sceptre.")

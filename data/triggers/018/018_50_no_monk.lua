@@ -10,6 +10,6 @@
 local _return_value = true  -- Default: allow action
 if string.find(actor.class, "Monk") then
     actor:send("You cannot use  " .. tostring(self.shortdesc) .. ".")
-    _return_value = false
+    _return_value = true
 end
 return _return_value

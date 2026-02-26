@@ -62,6 +62,6 @@ if string.find(self.class, "sorcerer") or string.find(self.class, "pyromancer") 
         self.room:send("'unable to help with that.'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

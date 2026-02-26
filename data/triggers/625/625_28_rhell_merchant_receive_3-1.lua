@@ -25,7 +25,7 @@ if actor:get_quest_stage("ursa_quest") == 3 then
             wait(1)
             self:say("Please find one, and bring it back here.  I have almost everything called for on these instructions.")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("This isn't it.  What I'm after right now is a plant from the Blue-Fog Trail that binds itself to just about anything.")

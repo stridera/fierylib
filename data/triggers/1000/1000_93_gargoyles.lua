@@ -1,5 +1,5 @@
 -- Trigger: gargoyles
--- Zone: 1000, ID: 93
+-- Zone: 0, ID: 93
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

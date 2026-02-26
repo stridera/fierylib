@@ -28,5 +28,5 @@ if not actor:get_quest_var("school:rest") then
     actor:send(tostring(self.name) .. " tells you, 'Take a quick nap!")
     actor:send("Type <b:green>sleep</> to lay down.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

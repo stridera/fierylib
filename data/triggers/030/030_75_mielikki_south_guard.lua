@@ -13,7 +13,7 @@ if not (cmd == "south") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 30 then
         self:whisper(actor.name, "You are much too little to venture south of here.")
         wait(1)
@@ -21,9 +21,9 @@ if actor.id == -1 then
         self:command("nudge " .. tostring(actor.name))
         self:emote("points at the sign.")
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

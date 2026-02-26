@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GLOBAL, RANDOM, probability: 100%
 if in_battle ~= 1 then
     if self.room == 61566 then
-        run_room_trigger(61533)
+        run_room_trigger(615, 33)
     end
 end
 local in_battle = 0

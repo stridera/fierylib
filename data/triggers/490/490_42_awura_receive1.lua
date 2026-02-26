@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 if object.id == 49001 then
     wait(2)
     self:destroy_item("griffin-skin")
-    if not (world.count_mobiles("49010")) then
+    if world.count_mobiles(490, 10) == 0 then
         get_room(490, 190):at(function()
             self.room:spawn_mobile(490, 10)
         end)
@@ -43,7 +43,7 @@ if object.id == 49001 then
     wait(4)
     self.room:send(tostring(self.name) .. " says, 'Now, seek out and destroy Dagon's demonic essence, Adramalech.  A portal to its home realm is locked beneath the well.  The cult leader must have had a key of some kind.'")
 else
-    _return_value = false
+    _return_value = true
     actor:send("<b:white>" .. tostring(self.name) .. " tells you, 'No, thank you.'</>")
 end
 return _return_value

@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "e" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:gear") == 3 then
@@ -30,11 +30,11 @@ if actor:get_quest_var("school:gear") == 3 then
         actor:send("You started play with a torch.'")
     else
         actor:send("Here, take this torch for example.'")
-        self.room:spawn_object(1000, 23)
+        self.room:spawn_object(0, 23)
         self:command("give torch " .. tostring(actor))
     end
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'Type <b:green>hold torch</> to equip it.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

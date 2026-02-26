@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #11839: mist_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-run_room_trigger(11840)
+run_room_trigger(117, 140)

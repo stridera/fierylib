@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #53301: sorcha_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     self:command("gasp")
     self:say("You dare to approach the altar of the mighty Tri-Aszp?!")
     self:emote("prays silently for a few seconds to her overlord.")

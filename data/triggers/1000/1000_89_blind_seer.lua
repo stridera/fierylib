@@ -1,5 +1,5 @@
 -- Trigger: blind seer
--- Zone: 1000, ID: 89
+-- Zone: 0, ID: 89
 -- Type: MOB, Flags: ENTRY
 -- Status: CLEAN
 --

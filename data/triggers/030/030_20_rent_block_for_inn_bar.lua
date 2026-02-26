@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "r" or cmd == "re" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:send(self.name .. " tells you, '" .. "If you want to rent a room, please go upstairs to the Reception Area." .. "'")

@@ -12,7 +12,7 @@ local action = random(1, 10)
 if action > 7 then
     -- 30% chance to punch the tank
     wait(2)
-    if actor and (actor.room == self.room) and (actor.id == -1) then
+    if actor and (actor.room == self.room) and (actor.is_player) then
         local damage = 300 + random(1, 50)
         if actor:has_effect(Effect.Sanctuary) then
             damage = damage / 2
@@ -46,7 +46,7 @@ elseif action > 4 then
     local room = self.room
     local person = room.people
     while person do
-        if person.id == -1 then
+        if person.is_player then
             spells.cast(self, "blindness", person, 100)
         end
         person = person.next_in_room

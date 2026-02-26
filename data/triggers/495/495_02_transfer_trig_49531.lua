@@ -17,7 +17,7 @@ end
 if not (cmd == "west" or cmd == "w") then
     return true  -- Not our command
 end
-if actor.id == -1 then
+if actor.is_player then
     if string.find(actor.class, "Necromancer") or Anti-Paladin or Thief or Assassin or Mercenary then
         if actor.alignment < -349 then
             actor:send("Reality blurs and melts as you find yourself in a more dark and confined place.")

@@ -111,7 +111,7 @@ end
 -- if you already gave us this item.  The value %item% has been set to appends item here, resulting in item1, item2, item3, and item4.
 -- 
 if actor.quest_variable[megalith_quest:itemitem] then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
     self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
     return _return_value
@@ -195,7 +195,7 @@ if item1 and item2 and item3 and item4 then
         -- Return the same drinking vessel from Stage 1
         -- 
         local goblet = actor:get_quest_var("megalith_quest:goblet")
-        self.room:spawn_object(vnum_to_zone(goblet), vnum_to_local(goblet))
+        self.room:spawn_object(math.floor(goblet / 100), goblet % 100)
         self.room:send("The coven high priestess takes " .. "%get.obj_shortdesc[%goblet%]% from the altar.")
         -- (empty room echo)
         self:command("pour goblet out")

@@ -47,24 +47,24 @@ if object.id == 58420 then
         wait(4)
         self.room:send(tostring(self.name) .. " says, 'Are you ready to try?'")
     elseif actor:get_quest_stage("blur") == 2 then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'It seems the Warder still roams.  Please go back and")
         self.room:send("</>destroy him.'")
     elseif actor:get_quest_stage("blur") > 3 then
-        _return_value = false
+        _return_value = true
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'You have already brought me " .. tostring(object.name) .. ".")
         self.room:send("</>Please, keep it.'")
     end
 elseif actor:get_quest_stage("blur") == 3 then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     self:say("This is not the proper blade.")
 else
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     self:say("I have no need for this at the moment.")

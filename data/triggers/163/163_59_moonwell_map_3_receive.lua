@@ -29,7 +29,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 9 then
         wait(5)
         actor:send(tostring(self.name) .. " tells you, 'Get this orb that we might protect ourselves!'")
     else
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)

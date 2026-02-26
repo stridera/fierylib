@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "horrors") or string.find(arg, "nukreth") or string.find(arg, "spire") or string.find(arg, "nukreth_spire") then
     if actor.level >= 10 then
-        _return_value = false
+        _return_value = true
         actor:send("<b:green>&uThe Horrors of Nukreth Spire</>")
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 20")

@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "creeping") or string.find(arg, "creeping") doom or string.find(arg, "creeping_doom") then
     if actor.level >= 75 and string.find(actor.class, "Druid") then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("creeping_doom")
         actor:send("<b:green>&uCreeping Doom</>")
         actor:send("Minimum Level: 81")

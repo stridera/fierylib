@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48007: kingspriest_fight1_long
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     self:shout("You will never truely defeat me!")
     self.room:send("<yellow>The Undead KingPriest throws up his head and</> <b:yellow>his eyes</> <b:red>glow</> <b:white>white</> <yellow>with rage!</>")
     self:teleport(get_room(480, 84))

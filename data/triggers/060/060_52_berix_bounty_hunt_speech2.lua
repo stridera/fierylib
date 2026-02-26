@@ -39,29 +39,29 @@ while i >= a do
                     person:send(tostring(self.name) .. " says, 'Splendid.'")
                     -- switch on person:get_quest_stage("bounty_hunt")
                     if person:get_quest_stage("bounty_hunt") == 1 then
-                        local contract = 6050
+                        local contract = 50
                     elseif person:get_quest_stage("bounty_hunt") == 2 then
-                        local contract = 6051
+                        local contract = 51
                     elseif person:get_quest_stage("bounty_hunt") == 3 then
-                        local contract = 6052
+                        local contract = 52
                     elseif person:get_quest_stage("bounty_hunt") == 4 then
-                        local contract = 6053
+                        local contract = 53
                     elseif person:get_quest_stage("bounty_hunt") == 5 then
-                        local contract = 6054
+                        local contract = 54
                     elseif person:get_quest_stage("bounty_hunt") == 6 then
-                        local contract = 6055
+                        local contract = 55
                     elseif person:get_quest_stage("bounty_hunt") == 7 then
-                        local contract = 6056
+                        local contract = 56
                     elseif person:get_quest_stage("bounty_hunt") == 8 then
-                        local contract = 6057
+                        local contract = 57
                     elseif person:get_quest_stage("bounty_hunt") == 9 then
-                        local contract = 6058
+                        local contract = 58
                     elseif person:get_quest_stage("bounty_hunt") == 10 then
-                        local contract = 6059
+                        local contract = 59
                     else
-                        local contract = 6050
+                        local contract = 50
                     end
-                    self.room:spawn_object(vnum_to_zone(contract), vnum_to_local(contract))
+                    self.room:spawn_object(60, contract)
                     self:command("give contract " .. tostring(person))
                     local accept = "yes"
                     person:send("</>")
@@ -97,7 +97,7 @@ while i >= a do
                 person:send(tostring(self.name) .. " says, 'All my other jobs are too risky for someone without more experience.  Come back when you've seen a little more.'")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

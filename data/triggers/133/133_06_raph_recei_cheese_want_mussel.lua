@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #13306: raph_recei_cheese_want_mussel
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id== -1 then
+if actor.is_player then
     wait(3)
     if object.vnun == 16015 then
         if actor:get_quest_stage("get_raph_food") == 6 then

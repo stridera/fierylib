@@ -1,5 +1,5 @@
 -- Trigger: Eye peck
--- Zone: 1000, ID: 16
+-- Zone: 0, ID: 16
 -- Type: MOB, Flags: FIGHT
 -- Status: CLEAN
 --

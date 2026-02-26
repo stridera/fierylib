@@ -23,13 +23,13 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" or cmd == "de" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if player1 and player2 and player3 and player4 then
     if (player1.name ~= actor.name) and (player2.name ~= actor.name) and (player3.name ~= actor.name) and  then
         -- UNCONVERTED: (%player4.name% != %actor.name%)
-        _return_value = false
+        _return_value = true
         return _return_value
     end
     if status > 1 then
@@ -140,7 +140,7 @@ if player1 and player2 and player3 and player4 then
             if (player1 and (player1.name == actor.name)) or (player2 and (player2.name == actor.name)) or (player3 and (player3.name == actor.name)) then
                 actor:send("You can't deal until four people have joined!")
             else
-                _return_value = false
+                _return_value = true
             end
         end
     end  -- auto-close block

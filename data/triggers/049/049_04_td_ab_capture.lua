@@ -21,8 +21,8 @@ local _return_value = true  -- Default: allow action
 -- Team Domination Armband Capture (Command) Trigger
 if TteamT ~= "TT" then
     actor:command("xcapture T%team%T")
-    _return_value = true
-else
     _return_value = false
+else
+    _return_value = true
 end
 return _return_value

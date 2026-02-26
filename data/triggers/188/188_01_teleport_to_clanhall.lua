@@ -20,16 +20,16 @@ end
 local _return_value = true  -- Default: allow action
 if arg == "out" then
     if actor.room ~= 18800 then
-        _return_value = true
+        _return_value = false
         self.room:send_except(actor, tostring(actor.name) .. " ducks quietly out of the room.")
         actor:send("Glancing around, you duck quietly out of the room.")
         actor:teleport(get_room(188, 0))
         self.room:send_except(actor, tostring(actor.name) .. " suddenly fades into existance, walking in from the east.")
         actor:command("look")
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

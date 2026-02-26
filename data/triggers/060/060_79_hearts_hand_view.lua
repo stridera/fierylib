@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "h" or cmd == "ha" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if player1 and (actor.name == player1.name) then
@@ -34,7 +34,7 @@ elseif player3 and (actor.name == player3.name) then
 elseif player4 and (actor.name == player4.name) then
     local plyr = 4
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if status < 2 then

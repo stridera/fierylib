@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "c" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("school") == 3 and not actor:get_quest_var("school:fight") then
@@ -28,5 +28,5 @@ if actor:get_quest_stage("school") == 3 and not actor:get_quest_var("school:figh
     actor:send("Warriors have a wide variety of special <b:cyan>SKILLS</>.")
     actor:send("Type <b:green>skill</> to see what they are.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

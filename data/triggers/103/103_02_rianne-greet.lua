@@ -8,7 +8,7 @@
 -- Converted from DG Script #10302: rianne-greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(1)
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("resort_cooking") >= 1 then
         -- switch on actor:get_quest_stage("resort_cooking")
         if actor:get_quest_stage("resort_cooking") == 1 then

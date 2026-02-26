@@ -12,7 +12,7 @@
 if not percent_chance(60) then
     return true
 end
-if actor.id == -1 and actor.level < 31 then
+if actor.is_player and actor.level < 31 then
     wait(2)
     self.room:send_except(actor, tostring(actor.name) .. " triggered a hidden tripwire!")
     actor:send("You triggered a hidden tripwire!")

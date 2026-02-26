@@ -13,9 +13,9 @@ if not (cmd == "south") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 10 then
-        _return_value = true
+        _return_value = false
         actor:send(tostring(self.name) .. " places a hand in front of you.")
         self.room:send_except(actor, tostring(self.name) .. " places a hand up in front of " .. tostring(actor.name) .. ".")
         self:whisper(actor.name, "Hold on there!  South of here is terribly dangerous for someone of your skill.")
@@ -23,9 +23,9 @@ if actor.id == -1 then
         self:whisper(actor.name, "I suggest adventuring elsewhere for now.")
         self:command("bow " .. tostring(actor.name))
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

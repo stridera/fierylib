@@ -13,7 +13,7 @@ if not percent_chance(1) then
     return true
 end
 -- This is to confirm the quest and advance more
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("major_spell_quest") == 1 then
         wait(1)
         actor:send(tostring(self.name) .. " says to you, 'Oh thank you!'")

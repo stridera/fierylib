@@ -1,5 +1,5 @@
 -- Trigger: King of dreams (Swan Princess)
--- Zone: 1000, ID: 14
+-- Zone: 0, ID: 14
 -- Type: MOB, Flags: RECEIVE
 -- Status: CLEAN
 --

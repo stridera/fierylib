@@ -92,6 +92,6 @@ if string.find(self.class, "diabolist") then
         self:say("Apologies, I haven't the faintest clue where to begin looking.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

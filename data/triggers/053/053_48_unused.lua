@@ -22,7 +22,7 @@ local _return_value = true  -- Default: allow action
 -- For Tempest of Saint Augustine on item 12508
 -- switch on cmd
 if cmd == "m" or cmd == "me" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("monk_vision") > 4 and actor:get_quest_stage("monk_chants") == 2 and actor.level >= 40 and actor.room == 58186 then
@@ -71,9 +71,9 @@ if actor:get_quest_stage("monk_vision") > 4 and actor:get_quest_stage("monk_chan
             world.destroy(self)
         end
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

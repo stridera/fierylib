@@ -17,7 +17,7 @@ local _return_value = true  -- Default: allow action
 if object.id == "%wandgem%" or object.id == "%wandvnum%" then
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     wait(2)
     actor:send(tostring(self.name) .. " says, 'What is this?'")
     wait(3)

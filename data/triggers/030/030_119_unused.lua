@@ -20,5 +20,5 @@ end
 local _return_value = true  -- Default: allow action
 -- This trigger makes sure the command "pr" does its normal function,
 -- instead of triggering the press trigger.
-_return_value = false
+_return_value = true
 return _return_value

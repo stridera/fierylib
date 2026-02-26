@@ -41,11 +41,11 @@ if speech == "floor phrase is open sesame" then
 end
 if flagit == 1 then
     self.room:send("The ground begins to rumble and the dirt begins to part.")
-    doors.set_state(get_room(510, 30), "d", {action = "room"})
-    doors.set_description(get_room(510, 30), "d", "You see flashes of colour in the darkness below...this looks unnatural.")
+    get_room(510, 30):exit("d"):set_state({hidden = false})
+    get_room(510, 30):exit("d"):set_state({description = "You see flashes of colour in the darkness below...this looks unnatural."})
     wait(7)
     self.room:send("The ground again begins to tremble as the passageway dissolves.")
     wait(5)
     self.room:send("The floor returns to normal without a trace of the secret it holds.")
-    doors.set_state(get_room(510, 30), "d", {action = "purge"})
+    get_room(510, 30):exit("d"):set_state({hidden = true})
 end

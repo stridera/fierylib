@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "island" or arg == "isle" then
     if actor.level >= 35 then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         if actor.level >= 35 then
             actor:send("Liberate Fiery Island")

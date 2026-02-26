@@ -18,5 +18,5 @@ else
     actor:send("OUCH! The chemicals burn as they drip through your fingers. (<green>" .. tostring(damage_dealt) .. "</>)")
     self.room:send_except(actor, tostring(actor.name) .. " yelps as " .. tostring(actor.possessive) .. " fingers are burned by some chemicals. (<green>" .. tostring(damage_dealt) .. "</>)")
 end
-_return_value = false
+_return_value = true
 return _return_value

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- this is a comment
 if object.id == 47019 then
-    if actor.id == -1 then
+    if actor.is_player then
         if actor.level > 99 then
             wait(1)
             actor:send(tostring(self.name) .. " says, '<b:yellow>Silly immortal, tricks are for kids!</>'")

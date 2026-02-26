@@ -29,7 +29,7 @@ if actor:get_quest_var("waterform:new") /= yes then
         self:command("give dragon-bone-cup " .. tostring(actor.name))
         self:say("Don't lose this again!")
     else
-        _return_value = false
+        _return_value = true
         wait(2)
         self:say("I can't make a new cup from this.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -67,7 +67,7 @@ elseif stage == 1 then
         self.room:send(tostring(self.name) .. " says, 'I apologize, but if you wish to continue, you will have")
         self.room:send("</>to find a few other things.'")
     else
-        _return_value = false
+        _return_value = true
         self:say("This isn't armor made of water.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
@@ -96,19 +96,19 @@ elseif stage == 3 then
         self.room:send(tostring(self.name) .. " says, 'Once you've gathered the four samples, return and give me")
         self.room:send("</>the cup.'")
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This won't make a usable vessel.")
     end
 elseif stage == 4 then
     if object.id == 2808 then
-        _return_value = false
+        _return_value = true
         self:say("It seems you haven't collected all four samples yet.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
     else
-        _return_value = false
+        _return_value = true
         self:say("Why are you bringing me this?")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
@@ -117,7 +117,7 @@ elseif stage == 4 then
 elseif stage == 5 then
     if object.id == 2808 then
         actor.name:advance_quest("waterform")
-        _return_value = false
+        _return_value = true
         self:say("Yes, these samples are perfect.")
         wait(2)
         self:emote("rises up, coaxing wavering orbs of water out of the dragon bone cup.")
@@ -145,19 +145,19 @@ elseif stage == 5 then
         self.room:send(tostring(self.name) .. " says, 'Once you have examined all six sites, return and I shall")
         self.room:send("</>try the transformation again.'")
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " says, 'You haven't been trying to collect samples in this have")
         self.room:send("</>you?'")
     end
 elseif stage == 6 then
     if object.id == 2808 then
-        _return_value = false
+        _return_value = true
         self:say("You haven't completed all of your examinations yet!")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your<b:white>[progress]</>?'")
     else
-        _return_value = false
+        _return_value = true
         self:say("What is this for?")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
@@ -184,12 +184,12 @@ elseif stage == 7 then
         actor:send("<b:blue>The Great Wave imparts the method to transform your body into pure raging water!</>")
         actor.name:complete_quest("waterform")
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not the dragon bone cup.")
     end
 else
-    _return_value = false
+    _return_value = true
     self:say("I don't remember asking you to retrieve this.")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 end

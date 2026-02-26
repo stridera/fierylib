@@ -8,7 +8,7 @@
 -- Converted from DG Script #18843: globe_drop
 -- Original: OBJECT trigger, flags: GLOBAL, DROP, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 local owner = actor.name
 globals.owner = globals.owner or true
 self.room:send_except(actor, tostring(self.shortdesc) .. " hovers away from " .. tostring(actor.name) .. " slowly.")

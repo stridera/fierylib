@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "cold") or string.find(arg, "frost")) and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "ice_wand") or string.find(arg, "ice_wands") or string.find(arg, "ice_staff") or string.find(arg, "water_wand") or string.find(arg, "water_wands") or string.find(arg, "water_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
     if string.find(sorcererclasses, "actor.class") then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("ice_wand")
         local minlevel = (stage - 1) * 10
         if minlevel < 1 then

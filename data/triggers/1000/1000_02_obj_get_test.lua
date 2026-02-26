@@ -1,5 +1,5 @@
 -- Trigger: obj get test
--- Zone: 1000, ID: 2
+-- Zone: 0, ID: 2
 -- Type: OBJECT, Flags: GET
 -- Status: CLEAN
 --

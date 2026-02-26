@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: REMOVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor.can_be_seen and actor.level < 100 then
-    _return_value = false
+    _return_value = true
     actor:send("The broad silver belt flares white, burning you as you attempt to remove it!")
     self.room:send_except(actor, "A broad silver belt flares and lets off smoke as " .. tostring(actor.name) .. " reaches for its buckle.")
     actor:damage(100)  -- type: fire

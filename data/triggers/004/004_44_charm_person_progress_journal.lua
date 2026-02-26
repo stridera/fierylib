@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "charm") or string.find(arg, "person") or string.find(arg, "charm_person") then
     if actor.level >= 85 then
         if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Bard") or string.find(actor.class, "Illusionist") then
-            _return_value = false
+            _return_value = true
             local master = mobiles.template(580, 38).name
             local stage = actor:get_quest_stage("charm_person")
             actor:send("<b:green>&uCharm Person</>")

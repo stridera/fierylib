@@ -15,8 +15,8 @@ if object.id == 61505 and web_present == 1 then
     self.room:send("The web is shredded.  Its translucent fragments drift away on a light breeze.")
     -- The web is implemented by a useless exit.  Replace the bad exit
     -- with an ordinary one.
-    doors.set_state(get_room(615, 66), "north", {action = "purge"})
-    doors.set_state(get_room(615, 66), "north", {action = "room"})
+    get_room(615, 66):exit("north"):set_state({hidden = true})
+    get_room(615, 66):exit("north"):set_state({hidden = false})
     world.destroy(self.room:find_actor("blocking-web"))
     local web_present = 0
     globals.web_present = globals.web_present or true

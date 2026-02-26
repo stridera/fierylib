@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "se" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local cloakstage = actor:get_quest_stage("rogue_cloak")
@@ -68,6 +68,6 @@ if continue == "yes" then
     actor:send("<b:yellow>You have found your target!</>")
     actor:set_quest_var("rogue_cloak", "cloaktask4", 1)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

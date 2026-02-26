@@ -1,5 +1,5 @@
 -- Trigger: command_trig_test
--- Zone: 1000, ID: 1
+-- Zone: 0, ID: 1
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --

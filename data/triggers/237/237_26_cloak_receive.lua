@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #23726: cloak_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("sunfire_rescue") == 2 then
         if object.id == 52009 then
             wait(1)

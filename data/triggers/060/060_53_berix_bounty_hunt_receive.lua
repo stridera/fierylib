@@ -166,7 +166,7 @@ elseif object.id == 55743 then
     local item = "gem"
     local go = "mask"
 else
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
@@ -253,7 +253,7 @@ if go == "hunt" then
             end
         end
     elseif actor:get_quest_stage("bounty_hunt") > stage then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the contract.")
         wait(2)
@@ -265,7 +265,7 @@ if go == "hunt" then
         self.room:send(tostring(self.name) .. " rips up the contract!")
         world.destroy(object)
     elseif actor:get_quest_var("bounty_hunt:bounty") ~= "dead" then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses the contract.")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You have to finish the job first!'")
@@ -285,25 +285,25 @@ if go == "hunt" then
     end
 elseif go == "mask" then
     if actor:get_quest_stage("bounty_hunt") < actor:get_quest_stage("assassin_mask") then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Complete some more contract jobs first.'")
     elseif actor.level < (actor:get_quest_stage("assassin_mask") * 10) then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
     elseif maskstage > actor:get_quest_stage("assassin_mask") then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Your mask doesn't involve that yet.  Be patient!'")
     elseif maskstage < actor:get_quest_stage("assassin_mask") then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
@@ -320,7 +320,7 @@ elseif go == "mask" then
                 world.destroy(object)
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'Well done!  You've proven your qualifications.'")
-                self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+                self.room:spawn_object(math.floor(reward / 100), reward % 100)
                 self:command("give mask " .. tostring(actor))
                 local expcap = maskstage * 10
                 if expcap < 17 then
@@ -354,7 +354,7 @@ elseif go == "mask" then
                     actor:complete_quest("assassin_mask")
                 end
             else
-                _return_value = false
+                _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 wait(2)
@@ -376,7 +376,7 @@ elseif go == "mask" then
             end
         end
         if accept == "no" then
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")

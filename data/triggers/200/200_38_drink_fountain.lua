@@ -13,7 +13,7 @@ if not (cmd == "drink") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 wait(1)
 if actor.level < 99 then
     actor:damage(50)  -- type: physical

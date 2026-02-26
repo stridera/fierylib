@@ -61,28 +61,28 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     local vnum_gem_3bl_food = 55566
     local vnum_gem_3bl_drink = 55567
     -- rewards
-    local vnum_3bl_cap = 5517
-    local vnum_3bl_neck = 5519
-    local vnum_3bl_arm = 5521
-    local vnum_3bl_wrist = 5523
-    local vnum_3bl_gloves = 5525
-    local vnum_3bl_jerkin = 5527
-    local vnum_3bl_belt = 5529
-    local vnum_3bl_legs = 5531
-    local vnum_3bl_boots = 5533
-    local vnum_3bl_mask = 5535
-    local vnum_3bl_robe = 5537
-    local vnum_3bl_symbol = 5515
-    local vnum_3bl_staff = 5539
-    local vnum_3bl_ssword = 5540
-    local vnum_3bl_whammer = 5541
-    local vnum_3bl_flail = 5542
-    local vnum_3bl_shiv = 5543
-    local vnum_3bl_lsword = 5544
-    local vnum_3bl_smace = 5545
-    local vnum_3bl_light = 5553
-    local vnum_3bl_food = 5555
-    local vnum_3bl_drink = 5557
+    local vnum_3bl_cap = 17
+    local vnum_3bl_neck = 19
+    local vnum_3bl_arm = 21
+    local vnum_3bl_wrist = 23
+    local vnum_3bl_gloves = 25
+    local vnum_3bl_jerkin = 27
+    local vnum_3bl_belt = 29
+    local vnum_3bl_legs = 31
+    local vnum_3bl_boots = 33
+    local vnum_3bl_mask = 35
+    local vnum_3bl_robe = 37
+    local vnum_3bl_symbol = 15
+    local vnum_3bl_staff = 39
+    local vnum_3bl_ssword = 40
+    local vnum_3bl_whammer = 41
+    local vnum_3bl_flail = 42
+    local vnum_3bl_shiv = 43
+    local vnum_3bl_lsword = 44
+    local vnum_3bl_smace = 45
+    local vnum_3bl_light = 53
+    local vnum_3bl_food = 55
+    local vnum_3bl_drink = 57
     -- 
     -- attempt to reinitialize slutty dg variables to '' (nothing)
     -- so this switch will work.
@@ -260,7 +260,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         local vnum_trophy = vnum_3el_symbol
         local faction_multiplier = 3
     else
-        _return_value = false
+        _return_value = true
         wait(1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
@@ -303,7 +303,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
                 local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies] + 1
                 actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
             else
-                _return_value = false
+                _return_value = true
             end
             wait(2)
             self:command("eye " .. tostring(actor.name))
@@ -365,7 +365,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         local rewards = actor.quest_variable[black_legion:vnum_reward_reward]
         actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", rewards)
         if actor.alignment >= 151 then
-            _return_value = false
+            _return_value = true
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite evil enough for")
             actor:send("</>these rewards.'")
@@ -378,7 +378,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Legion thanks you for")
             actor:send("</>your efforts.  Take this to aid you in your battles.'")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            self.room:spawn_object(55, vnum_reward)
             wait(1)
             if actor.quest_variable[black_legion:vnum_reward_reward] == 1 then
                 -- 
@@ -423,7 +423,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             self:command("give all " .. tostring(actor.name))
             actor.name:save()
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough")
             actor:send("</>with our cause to earn that reward.'")
@@ -433,7 +433,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     end
 else
     -- Alignment not low enough or hasn't started the quest yet.
-    _return_value = false
+    _return_value = true
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with")
     actor:send("</>our cause to earn our rewards.  You need a lower alignment or to start these")

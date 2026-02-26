@@ -16,7 +16,7 @@ local person = self.people
 while person do
     local next = person.next_in_room
     if string.find(tank, "person.name") then
-        if person.id == -1 then
+        if person.is_player then
             local damage = 390 + random(1, 40)
         else
             -- If a mob is tanking, hit it for massive damage!

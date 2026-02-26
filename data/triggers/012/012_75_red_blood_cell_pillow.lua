@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: GLOBAL, GIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if (actor.name == "Laoris") and (victim.level <= 99) then
-    _return_value = true
+    _return_value = false
     wait(1)
     victim:command("wear red-blood-cell-pillow")
 end

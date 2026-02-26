@@ -51,7 +51,7 @@ elseif stage then
         self.room:send(tostring(self.name) .. " says, 'Come, speak the prayer aloud: <b:magenta>vibugp</>!'")
         return _return_value
     else
-        _return_value = false
+        _return_value = true
     end
     self.room:send(tostring(self.name) .. " says, 'To learn Banish you must next:'")
     self.room:send("- kill " .. "%get.mob_shortdesc[%mob%]% in %place%.")

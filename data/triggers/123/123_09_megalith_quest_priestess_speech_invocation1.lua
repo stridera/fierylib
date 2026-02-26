@@ -24,7 +24,7 @@ local speech3 = "great lady of the stars, hear our prayer!"
 local stage = actor:get_quest_stage("megalith_quest")
 if string.find(speech, "speech1") or string.find(speech, "speech2") or string.find(speech, "speech3") then
     if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_quest:prayer") == 1) then
-        run_room_trigger(12317)
+        run_room_trigger(123, 17)
         wait(5)
         self.room:send(tostring(self.name) .. " chants:")
         self.room:send("</>'We call you from the realm behind")

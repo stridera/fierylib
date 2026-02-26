@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 wait(5)
 self.room:send("The stone door slides shut!")
-doors.set_state(get_room(580, 25), "east", {action = "purge"})
+get_room(580, 25):exit("east"):set_state({hidden = true})
 get_room(580, 25):at(function()
     self.room:send("The stone door slides shut!")
 end)

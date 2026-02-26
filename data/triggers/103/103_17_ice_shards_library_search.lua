@@ -19,6 +19,6 @@ if actor:get_quest_stage("ice_shards") == 9 then
     actor:send("You find " .. tostring(objects.template(103, 25).name) .. "!")
     self.room:send_except(actor, tostring(actor.name) .. " finds " .. tostring(objects.template(103, 25).name) .. "!")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

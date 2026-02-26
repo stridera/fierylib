@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- Team Domination Pylon Capture (Command) Trigger
 if not arg then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local i = 0
@@ -51,10 +51,10 @@ while i < teams do
             self.room:send_except(actor, tostring(actor.name) .. " touches the " .. tostring(pylonname) .. ", and it starts pulsating.")
             self.room:find_actor("teamdominationmc"):say("TDCommand Countdown T" .. tostring(candidate) .. "T P" .. tostring(pylon) .. "P")
         end
-        _return_value = true
+        _return_value = false
         return _return_value
     end
     i = i + 1
 end
-_return_value = false
+_return_value = true
 return _return_value

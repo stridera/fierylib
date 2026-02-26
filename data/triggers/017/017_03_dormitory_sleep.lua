@@ -14,13 +14,13 @@ if not (cmd == "sleep") then
 end
 local _return_value = true  -- Default: allow action
 if not actor then
-    _return_value = false
+    _return_value = true
 elseif actor.id >= 0 then
-    _return_value = false
+    _return_value = true
 elseif s == "cmd" then
-    _return_value = false
+    _return_value = true
 elseif actor.stance ~= "resting" and actor.stance ~= "alert" then
-    _return_value = false
+    _return_value = true
 else
     actor:send("You retreat into your cubicle, lay down your belongings, and rest.")
     self.room:send_except(actor, tostring(actor.name) .. " enters " .. tostring(actor.possessive) .. " cubicle and tunes out the world.")

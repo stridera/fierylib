@@ -8,5 +8,5 @@
 -- Converted from DG Script #49004: dagon_in_combat
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
 if dagonisweak ~= 1 then
-    run_room_trigger(49005)
+    run_room_trigger(490, 5)
 end

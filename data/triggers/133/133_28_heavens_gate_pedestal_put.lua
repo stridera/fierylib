@@ -50,7 +50,7 @@ if actor:get_quest_stage("heavens_gate") == 1 then
     if actor:get_quest_stage("heavens_gate") == 2 then
         if actor.quest_variable[heavens_gate:target.vnum] then
         elseif target.id == 4005 or target.id == 12142 or target.id == 23709 or target.id == 47009 or target.id == 49008 or target.id == 52012 or target.id == 52013 then
-            _return_value = false
+            _return_value = true
             actor:send("The star knight refuses to take a second copy of the key.")
             return _return_value
         else

@@ -13,7 +13,7 @@ if not (cmd == "buy") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 if arg == "steady" or arg == "warhorse" or arg == "horse" then
     actor:teleport(get_room(30, 91))
     get_room(30, 91):at(function()

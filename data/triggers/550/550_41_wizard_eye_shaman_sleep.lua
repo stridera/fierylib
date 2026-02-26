@@ -14,7 +14,7 @@ if not (cmd == "sleep") then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("wizard_eye") == 12 then
-    _return_value = false
+    _return_value = true
     wait(1)
     actor:send("A hazy dreamscape appears before you.")
     -- (empty room echo)
@@ -37,6 +37,6 @@ if actor:get_quest_stage("wizard_eye") == 12 then
     skills.set_level(actor, "wizard eye", 100)
     actor:send("<b:cyan>You have learned Wizard Eye!</>")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

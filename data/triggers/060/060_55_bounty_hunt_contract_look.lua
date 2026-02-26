@@ -54,7 +54,7 @@ elseif self.id == 6059 then
     local victim1 = "the Goblin King"
     local go = "hunt"
 end
-_return_value = false
+_return_value = true
 if stage ~= 2 and stage ~= 3 then
     actor:send("This is a contract for the death of " .. tostring(victim1) .. ".")
 elseif stage == 2 then

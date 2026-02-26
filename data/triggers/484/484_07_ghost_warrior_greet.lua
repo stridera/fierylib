@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48407: ghost warrior greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     self.room:send("The warrior murmurs some words...")
     wait(2)

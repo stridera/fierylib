@@ -134,7 +134,7 @@ elseif object.id == 61551 then
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'If you see a web, just drop this nearby it.  I've given it an innate hatred of webs, you'll see!'")
     else
-        _return_value = false
+        _return_value = true
         self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
         actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
         wait(8)
@@ -143,14 +143,14 @@ elseif object.id == 61551 then
         self.room:send(tostring(self.name) .. " gives " .. tostring(object.shortdesc) .. " back.")
     end
 elseif object.id == 61504 then
-    _return_value = true
+    _return_value = false
     wait(8)
     self:emote("quickly shields his eyes from " .. tostring(object.shortdesc) .. "'s intense glow.")
     self:say("Ach!  Are you trying to blind me?")
     wait(8)
     self:command("drop " .. tostring(object.name))
 elseif object.id == 61505 then
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)
@@ -160,7 +160,7 @@ elseif object.id == 61505 then
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
 elseif object.id == 55755 then
     -- dried fruit
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(1)
@@ -171,7 +171,7 @@ elseif object.id == 55755 then
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
 elseif object.id == 62076 then
     -- banana
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(4)
@@ -186,7 +186,7 @@ elseif object.id == 62076 then
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
 else
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)

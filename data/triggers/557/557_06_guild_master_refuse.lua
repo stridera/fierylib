@@ -21,7 +21,7 @@ end
 if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%feet_armor%" or object.id == "%feet_gem%" or object.id == "%wrist_armor%" or object.id == "%wrist_gem%" or object.id == "%head_armor%" or object.id == "%head_gem%" or object.id == "%arms_armor%" or object.id == "%arms_gem%" or object.id == "%legs_armor%" or object.id == "%legs_gem%" or object.id == "%body_armor%" or object.id == "%body_gem%" then
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     wait(1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")

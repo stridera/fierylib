@@ -21,7 +21,7 @@ while i >= a do
         if (person:has_equipped("4318") or person:has_item("4318")) and person:get_quest_stage("theatre") >= 6 then
             local check = 1
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1
@@ -44,7 +44,7 @@ if check then
             if not leader then
                 local leader = person
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1

@@ -16,7 +16,7 @@ local worn = self.worn_by
 if not worn then
     return _return_value
 else
-    if worn.id == -1 then
+    if worn.is_player then
         self.worn_by:send(tostring(self.shortdesc) .. " whispers words of madness to you!")
         spells.cast(self, "insanity", self.worn_by, self.level)
     end

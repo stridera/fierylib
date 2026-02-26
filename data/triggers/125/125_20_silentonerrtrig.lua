@@ -39,5 +39,5 @@ while i >= a do
     a = a + 1
 end
 if run then
-    run_room_trigger(12518)
+    run_room_trigger(125, 18)
 end

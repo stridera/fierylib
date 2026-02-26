@@ -17,7 +17,7 @@ end
 -- OK, this is in response to 23750, the beginning of the vilekka_stew quest.
 -- By responding favorably to her, they begin. 23755 is the drow master
 -- head-spawning death trigger.
-if actor.id ~= -1 or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
+if actor.is_npc or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
     return _return_value
 end
 wait(1)
@@ -57,7 +57,7 @@ if actor:get_quest_stage("vilekka_stew") < 2 then
                     person.name:start_quest("vilekka_stew")
                     person:send("<b:white>The quest has now begun!</>")
                 end
-            elseif person and person.id == -1 then
+            elseif person and person.is_player then
                 i = i + 1
             end
             a = a + 1

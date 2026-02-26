@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "siege") or string.find(arg, "mystwatch") or string.find(arg, "fortress") or string.find(arg, "mystwatch_quest") or string.find(arg, "siege_mystwatch_fortress") then
     if actor.level >= 35 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("mystwatch_quest")
         actor:send("<b:green>&uSiege Mystwatch Fortress</>")
         actor:send("Recommended Level: 45")

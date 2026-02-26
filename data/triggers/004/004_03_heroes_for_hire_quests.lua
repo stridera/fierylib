@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "heroes") or string.find(arg, "hire") then
-    _return_value = false
+    _return_value = true
     actor:send("<yellow>=========== HEROES FOR HIRE ===========</>")
     actor:send("These hired jobs provide some quick cash and good thrills with some of Ethilien's most iconic creatures.")
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")

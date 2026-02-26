@@ -12,7 +12,7 @@
 if not percent_chance(25) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     local rndm = room.actors[random(1, #room.actors)]
     rndm:damage(65)  -- type: cold

@@ -9,7 +9,7 @@
 -- Converted from DG Script #17206: Ill-subclass: Drop the vial
 -- Original: OBJECT trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 wait(1)
 if actor.room > 36314 and actor.room < 36340 and actor:get_quest_stage("illusionist_subclass") == 1 then
     self.room:send("The vial breaks easily, and the small gray puff of gas quickly disperses.")

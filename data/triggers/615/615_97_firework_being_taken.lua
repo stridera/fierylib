@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local _return_value = true  -- Default: allow action
 if burning == 1 then
-    _return_value = false
+    _return_value = true
     actor:damage(2)  -- type: fire
     if damage_dealt ~= 0 then
         self.room:send_except(actor, tostring(actor.name) .. " tries to take " .. tostring(self.shortdesc) .. ", but burns " .. tostring(actor.possessive) .. " fingers! (<red>" .. tostring(damage_dealt) .. "</>)")
@@ -19,7 +19,7 @@ if burning == 1 then
         self.room:send_except(actor, tostring(actor.name) .. " reaches for " .. tostring(self.shortdesc) .. ", but a smoke pixie swoops down and kicks it away!")
     end
 else
-    _return_value = true
+    _return_value = false
     local on_ground = 0
     globals.on_ground = globals.on_ground or true
 end

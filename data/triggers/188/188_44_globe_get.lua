@@ -20,15 +20,15 @@ if actor.quest_variable[quest_items:self.vnum] then
                     if now - last_use >= 1 then
                         local can_use = "yes"
                     else
-                        _return_value = true
+                        _return_value = false
                         self.room:send(tostring(self.shortdesc) .. " flares brightly, but then fades.")
                     end
                 else
                     local can_use = "yes"
                 end
                 if can_use == "yes" then
-                    _return_value = false
-                    self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
+                    _return_value = true
+                    self.room:spawn_object(self.zone_id, self.id)
                     actor:command("get globe")
                     actor:command("hold globe")
                     actor:command("use globe")
@@ -36,18 +36,18 @@ if actor.quest_variable[quest_items:self.vnum] then
                     world.destroy(self)
                 end
             else
-                _return_value = true
+                _return_value = false
                 actor:send("You must have your primary hand free to activate " .. tostring(self.shortdesc) .. ".")
             end
         else
-            _return_value = false
+            _return_value = true
             actor:send(tostring(self.shortdesc) .. ": you can't take that!")
         end
     else
-        _return_value = true
+        _return_value = false
     end
 else
-    _return_value = false
+    _return_value = true
     actor:send(tostring(self.shortdesc) .. ": you can't take that!")
 end
 return _return_value

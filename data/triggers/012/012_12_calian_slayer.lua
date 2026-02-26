@@ -10,11 +10,11 @@
 -- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor.quest_variable[quest_items:self.vnum] then
-    _return_value = true
+    _return_value = false
     self.room:send_except(actor, "A &9<blue>black <white>haze </>surrounds " .. tostring(actor.name) .. ", obscuring " .. tostring(actor.object) .. " from view.")
     actor:send("A &9<blue>black <white>haze </>surrounds you, momentarily obscuring your view.")
 else
-    _return_value = false
+    _return_value = true
     actor:send("You do not feel worthy enough to wield " .. tostring(self.shortdesc) .. "!")
 end
 return _return_value

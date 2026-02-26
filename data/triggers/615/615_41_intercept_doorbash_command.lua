@@ -15,14 +15,14 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" or cmd == "do" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if web_present == 1 then
-    _return_value = true
+    _return_value = false
     self.room:send_except(actor, tostring(actor.name) .. " charges at the web, but just bounces off.")
     actor:send("You charge into the springy web and are tossed back.")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

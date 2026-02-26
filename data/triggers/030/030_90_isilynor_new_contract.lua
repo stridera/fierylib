@@ -23,28 +23,28 @@ if actor.level >= (actor:get_quest_stage("dragon_slayer") - 1) * 10 then
     if actor:get_quest_stage("dragon_slayer") then
         -- switch on actor:get_quest_stage("dragon_slayer")
         if actor:get_quest_stage("dragon_slayer") == 1 then
-            local notice = 3080
+            local notice = 80
         elseif actor:get_quest_stage("dragon_slayer") == 2 then
-            local notice = 3081
+            local notice = 81
         elseif actor:get_quest_stage("dragon_slayer") == 3 then
-            local notice = 3082
+            local notice = 82
         elseif actor:get_quest_stage("dragon_slayer") == 4 then
-            local notice = 3083
+            local notice = 83
         elseif actor:get_quest_stage("dragon_slayer") == 5 then
-            local notice = 3084
+            local notice = 84
         elseif actor:get_quest_stage("dragon_slayer") == 6 then
-            local notice = 3085
+            local notice = 85
         elseif actor:get_quest_stage("dragon_slayer") == 7 then
-            local notice = 3086
+            local notice = 86
         elseif actor:get_quest_stage("dragon_slayer") == 8 then
-            local notice = 3087
+            local notice = 87
         elseif actor:get_quest_stage("dragon_slayer") == 9 then
-            local notice = 3088
+            local notice = 88
         elseif actor:get_quest_stage("dragon_slayer") == 10 then
-            local notice = 3089
+            local notice = 89
         end
         self:command("grumble")
-        self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
+        self.room:spawn_object(30, notice)
         self:command("give notice " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Truly, be less caprecious.'")
     end

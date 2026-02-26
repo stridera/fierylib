@@ -12,7 +12,7 @@
 if not percent_chance(20) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     self:command("consider " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'Ok " .. tostring(actor.name) .. ", we don't want any trouble here.'")
 else

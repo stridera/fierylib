@@ -14,7 +14,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who") or string.find(string.lower(speech), "continue")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "who") are you or string.find(speech, "continue")) and actor.id == -1 then
+if (string.find(speech, "who") are you or string.find(speech, "continue")) and actor.is_player then
     -- switch on self.id
     -- switch on random(1, 4)
     if random(1, 4) == 1 then

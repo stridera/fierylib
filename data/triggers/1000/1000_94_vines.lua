@@ -1,5 +1,5 @@
 -- Trigger: vines
--- Zone: 1000, ID: 94
+-- Zone: 0, ID: 94
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

@@ -24,7 +24,7 @@ elseif action > 7 then
     skills.execute(self, "kick", self.fighting)
 elseif action > 5 then
     -- 10% chance to dispel magic
-    if actor.id == -1 then
+    if actor.is_player then
         if self.id == 48911 then
             self.room:spawn_object(489, 28)
         else

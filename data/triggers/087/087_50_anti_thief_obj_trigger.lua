@@ -9,9 +9,9 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(actor.class, "thief") then
-    _return_value = false
+    _return_value = true
     actor:send("You cannot use " .. tostring(self.shortdesc) .. ".")
 else
-    _return_value = true
+    _return_value = false
 end
 return _return_value

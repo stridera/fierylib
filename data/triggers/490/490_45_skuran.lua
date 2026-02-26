@@ -13,7 +13,7 @@ if not percent_chance(50) then
     return true
 end
 self:command("peer " .. tostring(actor.id))
-if actor.id == -1 then
+if actor.is_player then
     self:say("I hope you are not here to cause any trouble, " .. tostring(actor.name) .. ".")
     actor.name:send("Skuran flexes a very large set of claws in your face.")
 end

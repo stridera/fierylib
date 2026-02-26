@@ -1,5 +1,5 @@
 -- Trigger: instant reboot
--- Zone: 1000, ID: 25
+-- Zone: 0, ID: 25
 -- Type: WORLD, Flags: SPEECH
 -- Status: NEEDS_REVIEW
 --   Syntax error: luac: <instant reboot>:14: ')' expected near '.3054'

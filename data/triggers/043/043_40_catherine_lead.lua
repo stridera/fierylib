@@ -7,11 +7,11 @@
 
 -- Converted from DG Script #4340: catherine_lead
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-if world.count_mobiles("4310") < 1 then
+if world.count_mobiles(43, 10) < 1 then
     self.room:spawn_mobile(43, 10)
     self.room:find_actor("theo"):spawn_object(43, 12)
     self.room:find_actor("theo"):spawn_object(502, 5)
-    self.room:find_actor("theo"):spawn_object(1000, 38)
+    self.room:find_actor("theo"):spawn_object(0, 38)
     self.room:find_actor("theo"):spawn_object(43, 17)
     self.room:find_actor("theo"):command("wear all")
     self.room:find_actor("theo"):follow(self.room:find_actor("lauren"))

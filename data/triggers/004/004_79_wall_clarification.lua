@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "wall" then
     if actor.level >= 50 and (string.find(actor.class, "Cryomancer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         if string.find(actor.class, "Cryomancer") then
             actor:send("Wall of Ice")

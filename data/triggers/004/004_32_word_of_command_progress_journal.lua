@@ -12,7 +12,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "word") of command or string.find(arg, "word_command") then
     if actor.level >= 65 then
         if string.find(actor.class, "diabolist") or string.find(actor.class, "Priest") then
-            _return_value = false
+            _return_value = true
             local stage = actor:get_quest_stage("word_command")
             actor:send("<b:green>&uWord of Command</>")
             if actor:get_has_completed("word_command") then

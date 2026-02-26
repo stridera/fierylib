@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #3077: test_quest_rece_south
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if object.id == 3080 then
         if actor:get_quest_stage("zzurs_funky_quest") == 4 then
             wait(1)

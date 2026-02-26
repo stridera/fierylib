@@ -11,5 +11,5 @@ local _return_value = true  -- Default: allow action
 wait(1)
 actor.name:send("As you lift the cat's eyes towards your own, they are absorbed into your eye sockets.")
 self.room:send_except(actor.name, tostring(actor.name) .. " lifts a pair of green eyes to his own, and they are absorbed into " .. tostring(actor.possessive) .. " own.")
-_return_value = true
+_return_value = false
 return _return_value

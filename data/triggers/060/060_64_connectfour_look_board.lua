@@ -21,7 +21,7 @@ if not (cmd == "look") then
 end
 local _return_value = true  -- Default: allow action
 if (arg ~= "board") and (arg ~= "connectfour") and (arg ~= "game") then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:send("<blue> Connect Four!</>")

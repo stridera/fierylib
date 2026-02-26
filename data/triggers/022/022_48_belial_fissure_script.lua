@@ -15,7 +15,7 @@ if count > 3 then
 end
 while count > 0 do
     local victim = room.actors[random(1, #room.actors)]
-    if victim.id == -1 then
+    if victim.is_player then
         local damage = 225 + random(1, 75)
         local which = random(1, 3)
         local fireproof = not victim:has_effect(Effect.HeatResistance)

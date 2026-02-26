@@ -17,7 +17,7 @@ end
 -- head. (Why is she questioning? Check 23754 part 2..her goddess
 -- is requiring that she eat the head and heart the player returns to her.
 wait(2)
-if (actor.id == -1) and (actor:get_quest_stage("vilekka_stew") == 5) then
+if (actor.is_player) and (actor:get_quest_stage("vilekka_stew") == 5) then
     self:emote("looks shrewdly around the room.")
     wait(2)
     self:say("It is not that I question the will of my Goddess...")

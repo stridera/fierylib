@@ -19,5 +19,5 @@ while person do
 end
 wait(2)
 self.room:send("<b:white>As the smoke <white>subsides, a stairway down appears.</>")
-doors.set_state(get_room(22, 15), "down", {action = "room"})
-doors.set_description(get_room(22, 15), "down", "Down the stairs, there is a faint sound of cheering...")
+get_room(22, 15):exit("down"):set_state({hidden = false})
+get_room(22, 15):exit("down"):set_state({description = "Down the stairs, there is a faint sound of cheering..."})

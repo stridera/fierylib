@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
 local stage = actor:get_quest_stage("group_heal")
-if actor.id == -1 and stage == 0 then
+if actor.is_player and stage == 0 then
     self:say("Greetings!")
     wait(2)
     self:say("What kind of healing I can assist you with today?")
@@ -17,7 +17,7 @@ elseif stage == 1 then
     self:say("Welcome back!")
     wait(2)
     self:say("Have you been able to track down the bandit raiders yet?")
-    if world.count_mobiles("18522") == 0 then
+    if world.count_mobiles(185, 22) == 0 then
         get_room(11, 0):at(function()
             self.room:spawn_mobile(185, 22)
         end)

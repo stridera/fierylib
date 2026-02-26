@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-if world.count_mobiles("8712") == 0 then
+if world.count_mobiles(87, 12) == 0 then
     actor:send(tostring(self.name) .. " says, 'Thank you, thank you I will ever be in your debt if you")
     actor:send("</>find Doren.  He will be traveling here from the dwarven mines near Anduin.  If")
     actor:send("</>you find Doren tell him that his uncle sent you.  Please hurry!  He could be")

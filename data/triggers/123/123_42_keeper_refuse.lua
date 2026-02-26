@@ -33,13 +33,13 @@ if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wand
     return _return_value
 else
     if actor:get_quest_stage("megalith_quest") < 2 then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("I'm sorry, I'm quite busy right now.")
     elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and actor.quest_variable[megalith_quest:itempart] == 1) then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self:say("I don't need any additional assistance at the moment, thank you.")
         if self.id == 12306 then
@@ -49,7 +49,7 @@ else
         end
     elseif actor:get_quest_stage("megalith_quest") == 2 then
         if (actor.quest_variable[megalith_quest:direction] == 0) and (not actor.quest_variable[megalith_quest:itempart]) then
-            _return_value = false
+            _return_value = true
             if self.id == 12303 then
                 self:command("eye " .. tostring(actor.name))
                 self:say("I haven't yet told you what I need.")
@@ -67,7 +67,7 @@ else
             if (self.id == 12303 and object.id == 55020) or (self.id == 12304 and object.id == 48109) or (self.id == 12305 and object.id == 8301) or (self.id == 12306 and ((object.id == 41110) or (object.id == 41111) or (object.id == 18512))) then
                 return _return_value
             else
-                _return_value = false
+                _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 wait(2)

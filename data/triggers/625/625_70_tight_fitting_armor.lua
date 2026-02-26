@@ -9,9 +9,9 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor.size == "tiny" or actor.size == "small" or actor.size == "medium" then
-    _return_value = true
-else
     _return_value = false
+else
+    _return_value = true
     actor:send("It's too small for you!")
     self.room:send_except(actor, tostring(actor.name) .. " struggles and fails to squeeze into " .. tostring(self.shortdesc) .. ".")
 end

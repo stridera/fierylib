@@ -43,5 +43,5 @@ elseif actor:get_quest_var("school:fight") == 10 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Type <b:green>meditate</> to start.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

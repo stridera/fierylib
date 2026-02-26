@@ -29,7 +29,7 @@ elseif person:get_quest_stage("vilekka_stew") == 1 then
     local quest = "yes"
 end
 if quest == "yes" then
-    _return_value = false
+    _return_value = true
     self.room:spawn_object(237, 21)
     self.room:send("The drow master's last breath echoes softly as he dies.")
     self.room:send("'Mother...why...'")

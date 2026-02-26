@@ -20,7 +20,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "c" or cmd == "co" or cmd == "com" or cmd == "comm" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("group_armor") == 3 and self.room == 13358 then
@@ -41,6 +41,6 @@ if actor:get_quest_stage("group_armor") == 3 and self.room == 13358 then
     wait(2)
     world.destroy(self)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

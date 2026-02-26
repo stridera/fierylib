@@ -8,4 +8,4 @@
 -- Converted from DG Script #2230: nalfeshnee-death-exits
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 self.room:send("<cyan>A fierce <blue>wail</><cyan> echoes over the sea!</>")
-run_room_trigger(2231)
+run_room_trigger(22, 31)

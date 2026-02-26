@@ -10,7 +10,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 get_room(238, 90):at(function()
-    run_room_trigger(23814)
+    run_room_trigger(238, 14)
 end)
 -- flameball
 if actor:get_quest_stage("emmath_flameball") == 2 and actor.quest_stage[type_wand] ~= "step" then
@@ -46,19 +46,19 @@ end
 if actor.quest_stage[type_wand] then
     local minlevel = (step - 1) * 10
     if actor.level < ((step - 1) * 10) then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'You'll need to be at least level " .. tostring(minlevel) .. " before I can improve your bond with your weapon.'")
         return _return_value
     elseif actor.has_completed[type_wand] then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'You already have the most powerful " .. tostring(type) .. " " .. tostring(weapon) .. " in existence!'")
         return _return_value
     elseif actor.quest_stage[type_wand] < step then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Your " .. tostring(weapon) .. " isn't ready for improvement yet.'")
@@ -66,7 +66,7 @@ if actor.quest_stage[type_wand] then
     elseif actor.quest_stage[type_wand] == "step" then
         local stage = actor.quest_stage[type_wand]
         if actor.quest_variable[type_wand:task2] then
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
             actor:send(tostring(self.name) .. " says, 'You already gave me this.'")

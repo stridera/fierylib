@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "escort")) then
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 wait(4)
 if (self:get_people("12019")) and not (self:get_people("12021")) and not (self:get_people("12022")) then
     self.room:find_actor("haggard-brownie"):command("nod " .. tostring(actor.name))

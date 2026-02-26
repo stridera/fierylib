@@ -57,7 +57,7 @@ if is_fig or is_bac then
         local max_tries = 5
         while %max_tries > 0 do
             local victim = room.actors[random(1, #room.actors)]
-            if (victim.id ~= -1) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
+            if (victim.is_npc) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
                 combat.rescue(self, victim.name)
                 local attempted = 1
             end

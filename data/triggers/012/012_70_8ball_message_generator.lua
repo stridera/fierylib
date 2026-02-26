@@ -20,7 +20,7 @@ if not (cmd == "shake") then
 end
 local _return_value = true  -- Default: allow action
 if arg == 8ball then
-    _return_value = true
+    _return_value = false
     self.room:send(tostring(actor.name) .. " shakes a magic 8ball.")
     local rndm = random(1, 20)
     -- switch on rndm
@@ -66,6 +66,6 @@ if arg == 8ball then
         self.room:send(tostring(self.shortdesc) .. " shows, \"You may rely on it.\"")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

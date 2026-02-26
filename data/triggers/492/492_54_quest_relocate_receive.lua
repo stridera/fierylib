@@ -114,7 +114,7 @@ elseif stage == 7 then
         actor:send("A lost mage tells you, 'Please get my quill back, then I shall share the spell")
         actor:send("</>with you!'")
         self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
-        run_room_trigger(49225)
+        run_room_trigger(492, 25)
     end
 elseif stage == 8 then
     if object.id == 49251 then
@@ -159,7 +159,7 @@ elseif stage == 9 then
         world.destroy(self.room:find_actor("self"))
     end
 else
-    _return_value = false
+    _return_value = true
     wait(2)
     actor:send("A lost mage tells you, 'This item doesn't help me.'")
     actor:send("A lost mage returns your item.")

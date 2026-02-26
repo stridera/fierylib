@@ -54,7 +54,7 @@ end
 local mode = random(1, 4)
 if mode == 1 then
     wait(2)
-    run_room_trigger(48503)
+    run_room_trigger(484, 103)
     return _return_value
 end
 -- 75% chance to attempt to entangle
@@ -89,7 +89,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
         -- find a victim, preferably an assassin
         -- but will settle for any player if no assassin found
         local victim = room.actors[random(1, #room.actors)]
-        if victim.id == -1 then
+        if victim.is_player then
             if (paralysis_victim_1 and (paralysis_victim_1.name == victim.name)) or (paralysis_victim_2 and (paralysis_victim_2.name == victim.name)) or (paralysis_victim_3 and (paralysis_victim_3.name == victim.name)) then
                 local victim = self
             elseif victim.class == "Assassin" then
@@ -101,7 +101,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
         max_tries = max_tries - 1
     end
     -- quit if no players
-    if victim.id == -1 then
+    if victim.is_player then
     elseif secondary_victim then
         local victim = secondary_victim
     else

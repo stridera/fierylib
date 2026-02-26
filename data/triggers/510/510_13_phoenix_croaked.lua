@@ -8,7 +8,7 @@
 -- Converted from DG Script #51013: phoenix_croaked
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("The phoenix closes its eyes and bursts into flame!")
 self.room:spawn_object(510, 28)
 actor:award_exp(-28000)

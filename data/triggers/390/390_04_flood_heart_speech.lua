@@ -21,7 +21,7 @@ if not (cmd == "say") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 wait(2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room
@@ -33,7 +33,7 @@ if actor:get_quest_stage("flood") == 1 then
         if zone >= 2800 and zone <= 2910 then
             local color = "&4"
             local spirit = mobiles.template(390, 13).name
-            if world.count_mobiles("39013") == 0 and not actor:get_quest_var("flood:water1") then
+            if world.count_mobiles(390, 13) == 0 and not actor:get_quest_var("flood:water1") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 13)
@@ -45,7 +45,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone == 10314 or zone == 10316 or zone >= 10318 and zone <= 10335 then
             local color = "&6"
             local spirit = mobiles.template(390, 14).name
-            if world.count_mobiles("39014") == 0 and not actor:get_quest_var("flood:water2") then
+            if world.count_mobiles(390, 14) == 0 and not actor:get_quest_var("flood:water2") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 14)
@@ -57,7 +57,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone == 17802 or (zone >= 17811 and zone <= 17813) or zone == 17816 or zone == 17817 or (zone >= 17823 and zone <= 17827) then
             local color = "&4&b"
             local spirit = mobiles.template(390, 15).name
-            if world.count_mobiles("39015") == 0 and not actor:get_quest_var("flood:water3") then
+            if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 15)
@@ -66,7 +66,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone == 17834 or (zone >= 17839 and zone <= 17841 or zone == 17847 or zone == 17850 or (zone >= 17853 and zone <= 17856) then
             local color = "&4&b"
             local spirit = mobiles.template(390, 15).name
-            if world.count_mobiles("39015") == 0 and not actor:get_quest_var("flood:water3") then
+            if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 15)
@@ -75,7 +75,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone == 17862 or zone == 17867 then
             local color = "&4&b"
             local spirit = mobiles.template(390, 15).name
-            if world.count_mobiles("39015") == 0 and not actor:get_quest_var("flood:water3") then
+            if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 15)
@@ -87,7 +87,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone >= 36200 and zone <= 36231 then
             local color = "&2"
             local spirit = mobiles.template(390, 16).name
-            if world.count_mobiles("39016") == 0 and not actor:get_quest_var("flood:water4") then
+            if world.count_mobiles(390, 16) == 0 and not actor:get_quest_var("flood:water4") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 16)
@@ -104,8 +104,8 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone == 41243 then
             local color = "&4&b"
             local spirit = mobiles.template(390, 17).name
-            if world.count_mobiles("41119") == 0 then
-                if world.count_mobiles("39017") == 0 and not actor:get_quest_var("flood:water5") then
+            if world.count_mobiles(411, 19) == 0 then
+                if world.count_mobiles(390, 17) == 0 and not actor:get_quest_var("flood:water5") then
                     self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                     wait(1)
                     self.room:spawn_mobile(390, 17)
@@ -121,7 +121,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone >= 53438 and zone <= 53440 or zone >= 53445 and zone <= 53449 or zone == 53452 or zone == 53455 or zone == 53456 or zone == 53464 then
             local color = "&7&b"
             local spirit = mobiles.template(390, 18).name
-            if world.count_mobiles("39018") == 0 and not actor:get_quest_var("flood:water6") then
+            if world.count_mobiles(390, 18) == 0 and not actor:get_quest_var("flood:water6") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 18)
@@ -130,7 +130,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif zone == 53467 or zone == 53468 or zone >= 53472 and zone <= 53475 or zone == 53481 or zone == 53482 then
             local color = "&7&b"
             local spirit = mobiles.template(390, 18).name
-            if world.count_mobiles("39018") == 0 and actor:get_quest_var("flood:water6") then
+            if world.count_mobiles(390, 18) == 0 and actor:get_quest_var("flood:water6") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 18)
@@ -142,7 +142,7 @@ if actor:get_quest_stage("flood") == 1 then
         elseif (zone >= 56402 and zone <= 56404) or (zone >= 56406 and zone <= 56431) or zone == 37072 then
             local color = "&9&b"
             local spirit = mobiles.template(390, 19).name
-            if world.count_mobiles("39019") == 0 and not actor:get_quest_var("flood:water7") then
+            if world.count_mobiles(390, 19) == 0 and not actor:get_quest_var("flood:water7") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                 wait(1)
                 self.room:spawn_mobile(390, 19)
@@ -155,7 +155,7 @@ if actor:get_quest_stage("flood") == 1 then
             local color = "&6&b"
             local spirit = mobiles.template(390, 20).name
             if time.hour > 19 or time.hour < 5 then
-                if world.count_mobiles("39020") == 0 and not actor:get_quest_var("flood:water8") then
+                if world.count_mobiles(390, 20) == 0 and not actor:get_quest_var("flood:water8") then
                     self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
                     wait(1)
                     self.room:spawn_mobile(390, 20)

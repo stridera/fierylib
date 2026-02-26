@@ -75,20 +75,15 @@ def vnum_to_zone_and_local(vnum: int) -> tuple[int, int]:
 
     If the zone range map is initialized, looks up which zone contains the vnum.
     Falls back to naive vnum // 100 / % 100 if no range map.
-    Zone 0 is mapped to zone 1000.
     """
     if _zone_ranges:
         for base, top, zone_id in _zone_ranges:
             if base <= vnum <= top:
                 local_id = vnum - base
-                if zone_id == 0:
-                    zone_id = 1000
                 return zone_id, local_id
     # Fallback: naive division
     zone_id = vnum // 100
     local_id = vnum % 100
-    if zone_id == 0:
-        zone_id = 1000
     return zone_id, local_id
 
 
@@ -938,10 +933,12 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
         return f'{ind}return _return_value'
 
     if cmd_lower == 'return 0':
-        return f'{ind}_return_value = false'
+        # DG 'return 0' = allow = C++ Continue (true)
+        return f'{ind}_return_value = true'
 
     if cmd_lower == 'return 1':
-        return f'{ind}_return_value = true'
+        # DG 'return 1' = block = C++ Halt (false)
+        return f'{ind}_return_value = false'
 
     # === Spawning ===
     # Modern API uses composite IDs: self.room:spawn_mobile(zone_id, local_id)

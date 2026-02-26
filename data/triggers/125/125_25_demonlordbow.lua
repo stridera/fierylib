@@ -16,7 +16,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "b" or cmd == "bo" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local person = actor
@@ -89,6 +89,6 @@ if go then
         end
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

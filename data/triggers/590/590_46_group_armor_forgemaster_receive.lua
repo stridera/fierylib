@@ -16,7 +16,7 @@ local stage = actor:get_quest_stage("group_armor")
 if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id == 16906 then
     if actor.quest_variable[group_armor:object.vnum] == 1 then
         if stage == 1 then
-            _return_value = false
+            _return_value = true
             self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
         else
             actor.name:set_quest_var("group_armor", "%object.vnum%", 1)
@@ -56,7 +56,7 @@ if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id ==
             end
         end
     else
-        _return_value = false
+        _return_value = true
         self:say(tostring(object.shortdesc) .. " doesn't cast Armor ya daffy spriggan!")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:command("laugh")
@@ -77,12 +77,12 @@ if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id ==
         self.room:send("</>sacred places for us dwarves.'")
         actor.name:advance_quest("group_armor")
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This isn't a forging hammer!")
     end
 elseif stage == 3 then
-    _return_value = false
+    _return_value = true
     if object.id == 59039 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("Where did you find this?")
@@ -112,7 +112,7 @@ elseif stage == 3 then
         wait(3)
         self:say("Find it and bring it back here.")
     else
-        _return_value = false
+        _return_value = true
         self:say("What in the heck is this?")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
@@ -139,14 +139,14 @@ elseif stage == 3 then
         self:say("Good luck and Moradin guard you!")
         actor.name:advance_quest("group_armor")
     else
-        _return_value = false
+        _return_value = true
         self:say("This won't be a very effective focus.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
     if object.id == 47004 or object.id == 47018 or object.id == 53003 then
         if actor.quest_variable[group_armor:object.vnum] == 1 then
         elseif stage == 6 then
-            _return_value = false
+            _return_value = true
             self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
         else
             wait(2)
@@ -229,12 +229,12 @@ elseif stage == 3 then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This isn't going to serve for Group Armor.")
     end
 else
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:say("What is this for?")
 end

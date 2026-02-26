@@ -100,13 +100,13 @@ if item ~= 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Here you are my dear!'")
         world.destroy(object)
-        self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
+        self.room:spawn_object(math.floor(item / 100), item % 100)
         self:command("give all " .. tostring(actor))
         wait(2)
         actor:send(tostring(self.name) .. " says, 'A pleasure connecting lost things to their owners!'")
         actor:set_quest_var("armor_exchange", "armor_vnum", 0)
     else
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " refuses to perform the exchange.")
         wait(1)
         if object.id >= 55300 and object.id <=55383 then
@@ -116,7 +116,7 @@ if item ~= 0 then
         end
     end
 else
-    _return_value = false
+    _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'I don't have any lost treasures for you dearie.'")

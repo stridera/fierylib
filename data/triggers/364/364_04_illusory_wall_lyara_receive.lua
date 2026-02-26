@@ -15,13 +15,13 @@ if actor:get_quest_stage("illusory_wall") == 1 then
     local item3 = actor:get_quest_var("illusory_wall:41005")
     local item4 = actor:get_quest_var("illusory_wall:51017")
     if actor.quest_variable[illusory_wall:object.vnum] == 1 then
-        _return_value = false
+        _return_value = true
         wait(1)
         self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_shortdesc) .. ".")
         self:command("shake")
         self:say("You have already given me this.")
     elseif (item1 == 1 and object.id == 10307) or (item2 == 1 and object.id == 18511) then
-        _return_value = false
+        _return_value = true
         wait(1)
         self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_shortdesc) .. ".")
         self:command("shake")
@@ -49,7 +49,7 @@ if actor:get_quest_stage("illusory_wall") == 1 then
             self.room:send(tostring(self.name) .. " looks at the odd glowing lump.")
             self:say("Ah yes, plenty of extra juice in here.")
         else
-            _return_value = false
+            _return_value = true
             wait(1)
             self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_shortdesc) .. ".")
             self:command("shake")
@@ -89,12 +89,12 @@ if actor:get_quest_stage("illusory_wall") == 1 then
         end
     end
 elseif actor:get_quest_stage("illusory_wall") > 1 then
-    _return_value = false
+    _return_value = true
     wait(1)
     self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_shortdesc) .. ".")
     self:say("There's nothing else you need to bring me.")
 else
-    _return_value = false
+    _return_value = true
     wait(1)
     self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_shortdesc) .. ".")
     self:say("No need for supplies, soldier.")

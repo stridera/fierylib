@@ -1,5 +1,5 @@
 -- Trigger: Shadow Doom 2
--- Zone: 1000, ID: 9
+-- Zone: 0, ID: 9
 -- Type: MOB, Flags: RECEIVE
 -- Status: CLEAN
 --
@@ -17,6 +17,6 @@ else
     wait(5)
     self:say("What the hell is this?!")
     self:command("drop " .. tostring(object.name))
-    _return_value = false
+    _return_value = true
 end
 return _return_value

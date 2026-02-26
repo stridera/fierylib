@@ -23,8 +23,9 @@ HeaderBlock layout (100 bytes):
   - from: 4 bytes (sender player ID)
   - to: 4 bytes (recipient player ID)
   - vnum: 2 bytes (attached object VNUM, -1 for none)
+  - padding: 2 bytes (struct alignment for time_t)
   - mail_time: 4 bytes (Unix timestamp)
-  - txt: 77 bytes + null terminator
+  - txt: 75 bytes + null terminator
 
 DataBlock layout (100 bytes):
   - block_type: 4 bytes (-2 if last, or offset to next block)
@@ -52,8 +53,10 @@ SIZEOF_TIME_T = 4
 SIZEOF_CHAR = 1
 
 # Calculated data sizes
-HEADER_DATA_SIZE = SIZEOF_LONG + SIZEOF_LONG + SIZEOF_LONG + SIZEOF_SHORT + SIZEOF_TIME_T  # 18 bytes
-HEADER_BLOCK_DATASIZE = BLOCK_SIZE - SIZEOF_LONG - HEADER_DATA_SIZE - SIZEOF_CHAR  # 77 bytes
+# HeaderData has 2 bytes of padding after vnum (sh_int) for alignment of mail_time (time_t)
+HEADER_DATA_PADDING = 2
+HEADER_DATA_SIZE = SIZEOF_LONG + SIZEOF_LONG + SIZEOF_LONG + SIZEOF_SHORT + HEADER_DATA_PADDING + SIZEOF_TIME_T  # 20 bytes
+HEADER_BLOCK_DATASIZE = BLOCK_SIZE - SIZEOF_LONG - HEADER_DATA_SIZE - SIZEOF_CHAR  # 75 bytes
 DATA_BLOCK_DATASIZE = BLOCK_SIZE - SIZEOF_LONG - SIZEOF_CHAR  # 95 bytes
 
 
@@ -149,18 +152,20 @@ def _parse_header_block(
     # [8:12]  from (long) - sender player ID
     # [12:16] to (long) - recipient player ID
     # [16:18] vnum (short) - attached object VNUM
-    # [18:22] mail_time (time_t) - Unix timestamp
-    # [22:99] txt (77 bytes) - first part of message text
+    # [18:20] padding (2 bytes for alignment)
+    # [20:24] mail_time (time_t) - Unix timestamp
+    # [24:99] txt (75 bytes) - first part of message text
     # [99]    null terminator
 
     # Unpack header fields
+    # Note: 2 bytes of padding after vnum (sh_int) for alignment of mail_time (time_t)
     block_type, next_block, from_id, to_id, vnum, mail_time = struct.unpack(
-        "<llllhl",  # 4 longs, 1 short, 1 long (for time_t)
-        block_data[0:22],
+        "<llllhxxl",  # 4 longs, 1 short, 2 pad bytes, 1 long (for time_t)
+        block_data[0:24],
     )
 
-    # Extract text from header block (77 bytes after header data)
-    header_text = block_data[22:99]
+    # Extract text from header block (75 bytes after header data)
+    header_text = block_data[24:99]
 
     # Find null terminator in text
     null_pos = header_text.find(b"\x00")

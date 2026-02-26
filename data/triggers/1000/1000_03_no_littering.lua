@@ -1,5 +1,5 @@
 -- Trigger: no littering
--- Zone: 1000, ID: 3
+-- Zone: 0, ID: 3
 -- Type: WORLD, Flags: DROP
 -- Status: CLEAN
 --
@@ -9,5 +9,5 @@
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
 actor:send("You cannot litter here!")
-_return_value = false
+_return_value = true
 return _return_value

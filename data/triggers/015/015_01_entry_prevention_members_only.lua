@@ -13,7 +13,7 @@ if direction == "west" then
     else
         actor:send("You pass through the portal without seeming to go anywhere.")
         self.room:send_except(actor, tostring(actor.name) .. " walks into the portal, but stays among the waves.")
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

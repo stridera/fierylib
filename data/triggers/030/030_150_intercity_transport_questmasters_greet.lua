@@ -24,7 +24,7 @@ elseif self.id == 3150 then
 else
     local myname = "elf"
 end
-if actor.level < 16 and actor.id == -1 and actor:get_quest_stage("intercity_transport") == 0 then
+if actor.level < 16 and actor.is_player and actor:get_quest_stage("intercity_transport") == 0 then
     actor:send("<blue>The " .. tostring(myname) .. " tells you, 'Would you like a trip to a faraway city?'</>")
     actor:send("<blue>The " .. tostring(myname) .. " tells you, 'If so, just ask me <b:white>Yes</><blue> and I'll tell you all about it.'</>")
 end

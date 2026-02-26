@@ -59,5 +59,5 @@ elseif actor:get_quest_var("school:explore") == 2 and arg == "curtain" then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'But for now, type <b:green>search curtain</> and take a look!'")
 end
-_return_value = false
+_return_value = true
 return _return_value

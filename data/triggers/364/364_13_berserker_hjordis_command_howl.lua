@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "h" or cmd == "ho" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("berserker_subclass") == 3 then
@@ -49,6 +49,6 @@ if actor:get_quest_stage("berserker_subclass") == 3 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Find the beast of your Wild Hunt and join our ranks.  Remember, this quest must be undertaken <b:red>ALONE</>.  If you are grouped when you fight your prey, there will be consequences!'")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

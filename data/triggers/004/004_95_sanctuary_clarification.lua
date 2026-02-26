@@ -12,7 +12,7 @@ if arg == "sanctuary" or arg == "sanc" then
     local majorsancclasses = "Cleric Priest Diabolist Paladin Anti-Paladin"
     local greatersancclasses = "Cleric Priest Diabolist"
     if string.find(majorsancclasses, "actor.class") then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         if actor.level >= 75 then
             actor:send("Major Sanctuary")

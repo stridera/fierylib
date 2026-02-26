@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "st" or cmd == "sta" or cmd == "star" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if status then

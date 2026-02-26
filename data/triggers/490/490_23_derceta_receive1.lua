@@ -30,7 +30,7 @@ if object.id == 49016 then
             else
                 local leader = actor
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1
@@ -48,7 +48,7 @@ if object.id == 49016 then
     wait(8)
     self:command("wear earring ear")
 else
-    _return_value = false
+    _return_value = true
     self:command("shake")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
 end

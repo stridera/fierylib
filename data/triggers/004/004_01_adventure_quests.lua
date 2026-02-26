@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "adventure") or string.find(arg, "adventures") then
-    _return_value = false
+    _return_value = true
     actor:send("<yellow>=========== ADVENTURE QUESTS ==========</>")
     actor:send("Adventure is waiting!")
     actor:send("Explore the regions of Ethilien.")

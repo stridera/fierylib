@@ -13,7 +13,7 @@ if not percent_chance(20) then
     return true
 end
 local _return_value = true  -- Default: allow action
-run_room_trigger(12531)
-_return_value = false
+run_room_trigger(125, 31)
+_return_value = true
 self:teleport(get_room(125, 94))
 return _return_value

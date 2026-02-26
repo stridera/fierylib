@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "t" or cmd == "ta" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local zone_a_start = 3000
@@ -41,7 +41,7 @@ if (arg == "self") or (actor.name == arg.name) then
     actor:send("Now that seems a little pointless, doesn't it?")
 elseif actor.room ~= arg.room then
     actor:send("Tag who? They don't seem to be here!")
-elseif arg.id ~= -1 then
+elseif arg.is_npc then
     actor:send("You can only tag players!")
 elseif arg.level > 99 then
     actor:send("You cannot tag immortals!")
@@ -80,11 +80,11 @@ else
     if actor.room == "actor_jail" then
         if arg_same_team == "yes" then
             -- Tagging teammate in opponent jail, rescue them
-            arg:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
+            arg:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
             arg:send(tostring(actor.name) .. " tags you, returning you to home!")
             self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", returning " .. tostring(arg.object) .. " to home!")
             actor:send("You tag " .. tostring(arg.name) .. ", returning " .. tostring(arg.object) .. " to home!")
-            actor:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
+            actor:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
             arg:command("look")
             actor:command("look")
         else
@@ -98,7 +98,7 @@ else
             -- Tagging opponent in home zone, teleport opponent to jail
             arg:command("remove fiery-tag-bat")
             arg:command("junk fiery-tag-bat")
-            arg:teleport(get_room(vnum_to_zone(actor_jail), vnum_to_local(actor_jail)))
+            arg:teleport(get_room(math.floor(actor_jail / 100), actor_jail % 100))
             self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. "!  To jail " .. tostring(arg.name) .. " goes!")
             actor:send("You tag " .. tostring(arg.name) .. ", sending " .. tostring(arg.object) .. " to jail!")
             arg:send(tostring(actor.name) .. " tags you, sending you to jail!")
@@ -111,11 +111,11 @@ else
             arg:heal(10)
             arg:command("wake")
             arg:command("get fiery-tag-bat")
-            arg:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
+            arg:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
             arg:send(tostring(actor.name) .. " tags you, rescuing you from your imprisonment!")
             self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", returning both of them to their zone!")
             actor:send("You tag " .. tostring(arg.name) .. ", rescuing " .. tostring(arg.object) .. " from " .. tostring(arg.possessive) .. " imprisonment!")
-            actor:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
+            actor:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
             arg:command("look")
             actor:command("look")
         else

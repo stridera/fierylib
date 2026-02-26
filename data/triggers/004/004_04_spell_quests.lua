@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "chant") or string.find(arg, "chants") or string.find(arg, "song") or string.find(arg, "songs") or string.find(arg, "music") then
-    _return_value = false
+    _return_value = true
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
     local spellquestclasses = "Ranger Druid Sorcerer Illusionist Cryomancer Pyromancer Diabolist Cleric Priest Bard Necromancer Monk"
     actor:send("<yellow>==== SPELL, CHANT, AND SONG QUESTS ====</>")

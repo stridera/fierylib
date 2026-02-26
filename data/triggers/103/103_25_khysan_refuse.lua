@@ -42,7 +42,7 @@ else
     end
     local response = "Oh, is this a gift for me?  I appreciate it, but I'm fine for now."
     if response then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say(tostring(response))

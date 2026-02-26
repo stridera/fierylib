@@ -16,12 +16,12 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "rope") then
     actor:send("As you pull the rope, you think you hear the faint ringing of a bell.")
     self.room:send_except(actor, "As " .. tostring(actor.name) .. " pulls the rope, you seem to hear a bell ringing.")
-    if world.count_objects("12521") or world.count_objects("12522") then
+    if world.count_objects(125, 21) > 0 or world.count_objects(125, 22) > 0 then
         get_room(126, 2):at(function()
             world.destroy(self.room:find_actor("field"))
         end)
     end
-    if world.count_objects("12521") or world.count_objects("12522") then
+    if world.count_objects(125, 21) > 0 or world.count_objects(125, 22) > 0 then
         get_room(126, 2):at(function()
             world.destroy(self.room:find_actor("field"))
         end)
@@ -39,6 +39,6 @@ if string.find(arg, "rope") then
         self.room:send("In response, glowing fields envelope the tunnel entrances to the west and east.")
     end)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

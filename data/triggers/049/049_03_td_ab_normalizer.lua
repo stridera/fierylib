@@ -19,5 +19,5 @@ if not (cmd == "ca") then
 end
 local _return_value = true  -- Default: allow action
 -- Team Domination Armband Capture Normalization (Command) Trigger
-_return_value = false
+_return_value = true
 return _return_value

@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 local _return_value = true  -- Default: allow action
 if (actor.id >= 53500) & (actor.id <= 53508) then
-    _return_value = false
+    _return_value = true
     actor:send("You can't go that way!")
 end
 return _return_value

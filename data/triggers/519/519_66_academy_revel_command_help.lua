@@ -36,5 +36,5 @@ if actor:get_quest_stage("school") == 5 then
         actor:send(tostring(self.name) .. " tells you, '<b:green>Say money</> to finish your last lesson, or say <magenta>SKIP</> to jump to the end of the Academy.'")
     end
 end
-_return_value = false
+_return_value = true
 return _return_value

@@ -23,7 +23,7 @@ if not (string.find(string.lower(speech), "help") or string.find(string.lower(sp
 end
 wait(1)
 speech = speech
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("ursa_quest") < 1 then
         if string.find(speech, "help") or string.find(speech, "help")? or string.find(speech, "ok") or string.find(speech, "yes") then
             actor.name:start_quest("ursa_quest")

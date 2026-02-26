@@ -15,7 +15,7 @@ end
 -- At a random chance attack a player in the room
 local rnd = room.actors[random(1, #room.actors)]
 if rnd.level < 100 then
-    if rnd.id == -1 then
+    if rnd.is_player then
         combat.engage(self, rnd.name)
     else
     end

@@ -19,10 +19,10 @@ if not (cmd == "squeeze") then
 end
 local _return_value = true  -- Default: allow action
 if arg == "legs" then
-    _return_value = true
+    _return_value = false
     self.room:send(tostring(actor.name) .. " squeezes the legs of a Dakhod action figure.")
     self.room:send("The Dakhod action figure swings its arm in a wicked karate chop!")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

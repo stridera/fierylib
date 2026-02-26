@@ -20,7 +20,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "r" or cmd == "ru" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:send("Playing Connect Four is simple!  Your goal is simply to get four of your pieces")

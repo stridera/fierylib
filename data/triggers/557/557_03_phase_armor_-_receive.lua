@@ -15,13 +15,13 @@ local _return_value = true  -- Default: allow action
 if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%feet_armor%" or object.id == "%feet_gem%" or object.id == "%wrist_armor%" or object.id == "%wrist_gem%" or object.id == "%head_armor%" or object.id == "%head_gem%" or object.id == "%arms_armor%" or object.id == "%arms_gem%" or object.id == "%legs_armor%" or object.id == "%legs_gem%" or object.id == "%body_armor%" or object.id == "%body_gem%" then
     local anti = "Anti-Paladin"
     if not actor or not actor.can_be_seen then
-        _return_value = false
+        _return_value = true
         self:command("peer")
         actor:send(tostring(self.name) .. " says, 'I can't help you if I can't see you.'")
         return _return_value
     end
     if not (string.find(classes, "actor.class")) or (classes == "anti" and actor.class == "Paladin") then
-        _return_value = false
+        _return_value = true
         if string.find(classes, "and") then
             actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " classes only.'")
         else
@@ -29,12 +29,12 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
         end
         return _return_value
     elseif actor.level <= 20 * (phase - 1) then
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " tells you, 'Sorry, why don't you come back when you've gained more experience?'")
         actor:send(tostring(self.name) .. " refuses your item.")
         return _return_value
     elseif actor:get_quest_stage("phase_armor") < phase then
-        _return_value = false
+        _return_value = true
         actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my armor quests yet.'")
         actor:send(tostring(self.name) .. " refuses your item.")
         return _return_value
@@ -45,50 +45,36 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
         local is_armor = 1
     elseif object_vnum == "%hands_gem%" then
         local exp_x = 1
-        local armor_vnum = hands_armor
-        local gem_vnum = hands_gem
         local reward_vnum = hands_reward
     elseif object_vnum == "%feet_armor%" then
         local is_armor = 1
     elseif object_vnum == "%feet_gem%" then
         local exp_x = 2
-        local armor_vnum = feet_armor
-        local gem_vnum = feet_gem
         local reward_vnum = feet_reward
     elseif object_vnum == "%wrist_armor%" then
         local is_armor = 1
     elseif object_vnum == "%wrist_gem%" then
         local exp_x = 3
-        local armor_vnum = wrist_armor
-        local gem_vnum = wrist_gem
         local reward_vnum = wrist_reward
     elseif object_vnum == "%head_armor%" then
         local is_armor = 1
     elseif object_vnum == "%head_gem%" then
         local exp_x = 4
-        local armor_vnum = head_armor
-        local gem_vnum = head_gem
         local reward_vnum = head_reward
     elseif object_vnum == "%arms_armor%" then
         local is_armor = 1
     elseif object_vnum == "%arms_gem%" then
         local exp_x = 6
-        local armor_vnum = arms_armor
-        local gem_vnum = arms_gem
         local reward_vnum = arms_reward
     elseif object_vnum == "%legs_armor%" then
         local is_armor = 1
     elseif object_vnum == "%legs_gem%" then
         local exp_x = 8
-        local armor_vnum = legs_armor
-        local gem_vnum = legs_gem
         local reward_vnum = legs_reward
     elseif object_vnum == "%body_armor%" then
         local is_armor = 1
     elseif object_vnum == "%body_gem%" then
         local exp_x = 10
-        local armor_vnum = body_armor
-        local gem_vnum = body_gem
         local reward_vnum = body_reward
     end
     if is_armor then
@@ -97,7 +83,7 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
         end
         local armor_count = actor.quest_variable[phase_armor:object_vnum_armor_acquired]
         if armor_count < 1 then
-            _return_value = true
+            _return_value = false
             wait(1)
             world.destroy(object.name)
             armor_count = armor_count + 1
@@ -106,7 +92,7 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
             actor:send("</>I've been looking for this for some time.")
             actor:send("</>You have now given me " .. "%get.obj_shortdesc[%object_vnum%]%.'")
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'Hey now, you've already given me one of these!'")
@@ -119,7 +105,7 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
         end
         local gem_count = actor.quest_variable[phase_armor:object_vnum_gems_acquired]
         if gem_count < 3 then
-            _return_value = true
+            _return_value = false
             wait(1)
             world.destroy(object.name)
             gem_count = gem_count + 1
@@ -134,7 +120,7 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
                 actor:send(tostring(self.name) .. " tells you, 'You have given me " .. tostring(gem_count) .. " " .. "%get.obj_pldesc[%object_vnum%]%.'")
             end
         else
-            _return_value = false
+            _return_value = true
             wait(1)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'Hey now, you've already given me " .. tostring(gem_count) .. " of these!'")
@@ -176,7 +162,7 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
             actor:award_exp(exp)
             lap = lap + 1
         end
-        self.room:spawn_object(vnum_to_zone(reward_vnum), vnum_to_local(reward_vnum))
+        self.room:spawn_object(math.floor(reward_vnum / 100), reward_vnum % 100)
         self:command("give all " .. tostring(actor.name))
         self:command("drop all")
         actor:save()

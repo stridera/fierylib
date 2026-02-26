@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if arg == "sacred" then
     if actor.level >= 25 then
-        _return_value = false
+        _return_value = true
         actor:send("Please specify:")
         actor:send("Infiltrate the Sacred Haven")
         if actor.level >= 50 then

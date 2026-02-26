@@ -60,7 +60,7 @@ if not self:has_equipped("18701") then
         end
         if base > 55560 then
             local gem = base + extra
-            self.room:spawn_object(vnum_to_zone(gem), vnum_to_local(gem))
+            self.room:spawn_object(math.floor(gem / 100), gem % 100)
             self:command("sell gem elspeth")
         end
         itt = itt + 1

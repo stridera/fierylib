@@ -34,7 +34,7 @@ if stage == 1 then
         self:say("Go and watch this in action.  Bring back the fire ring as a token of your experience.")
         self:command("bow " .. tostring(actor.name))
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not the Rod of Discipline.")
     end
@@ -70,14 +70,14 @@ elseif stage == 2 then
         self:say("Once you have found all five of these, come back to me so I may check their condition and ensure their proper tuning.")
         self:command("bow " .. tostring(actor.name))
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not one of the souvenirs the theatre company gives out after a performance.")
     end
 elseif stage == 3 then
     if object.id == 58017 or object.id == 16312 or object.id == 48925 or object.id == 37012 or object.id == 41119 then
         if actor.quest_variable[charm_person:object.vnum] then
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("You have already brought me " .. tostring(object.shortdesc) .. ".")
         else
@@ -127,12 +127,12 @@ elseif stage == 3 then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say(tostring(object.shortdesc) .. " is not a musical instrument.")
     end
 else
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:say("I am in need of nothing at the moment, thank you.")

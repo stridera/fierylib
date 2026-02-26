@@ -27,8 +27,8 @@ if actor.level > 70 then
 else
     self:say("A shame he sends one still so inexperienced.  However, this should put the result beyond doubt.")
 end
-if world.count_mobiles("48012") < 2 then
-    local needed = 2 - world.count_mobiles("48012")
+if world.count_mobiles(480, 12) < 2 then
+    local needed = 2 - world.count_mobiles(480, 12)
     self.room:send(tostring(self.name) .. " calls out the spirits of his Royal Guard!")
     local loop = 0
     while loop < needed do

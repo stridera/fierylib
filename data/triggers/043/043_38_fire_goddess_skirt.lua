@@ -79,7 +79,7 @@ if object.id == 4305 then
         self:say("We'll be waiting for you.")
     end
 else
-    _return_value = false
+    _return_value = true
     actor:send("The Fire Goddess looks at you funny.")
     self.room:send_except(actor, "The Fire Goddess looks at " .. tostring(actor.name) .. " with an odd expression.")
     wait(2)

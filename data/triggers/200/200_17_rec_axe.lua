@@ -9,7 +9,7 @@
 
 -- Converted from DG Script #20017: rec_axe
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if object.id == 20046 then
         wait(1)
         self.room:send(tostring(self.name) .. " begins to jump up and down excitedly.")

@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on arg
 if arg == "s" or arg == "se" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (actor:get_quest_stage("group_heal") == 3) and (actor:get_quest_var("group_heal:room") == self.id) then
@@ -24,6 +24,6 @@ if (actor:get_quest_stage("group_heal") == 3) and (actor:get_quest_var("group_he
     actor:send("<blue>You have found " .. tostring(objects.template(185, 14).name) .. "!</>")
     actor.name:advance_quest("group_heal")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

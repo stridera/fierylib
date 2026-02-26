@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "monkey") or string.find(string.lower(speech), "monkey?") or string.find(string.lower(speech), "monkeys") or string.find(string.lower(speech), "monkeys?") or string.find(string.lower(speech), "key") or string.find(string.lower(speech), "key?")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(2)
     self:emote("points up to the ceiling.")
     wait(1)

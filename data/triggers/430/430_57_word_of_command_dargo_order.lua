@@ -25,6 +25,6 @@ if string.find(arg, "enter") door then
         self:say("I'm not free from the curse yet!")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

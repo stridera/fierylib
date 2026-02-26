@@ -32,7 +32,7 @@ if object.id == 53424 then
         self:command("junk snow-globe")
     end
 else
-    _return_value = false
+    _return_value = true
     wait(2)
     actor:send("The observer tells you, 'This isn't my globe!'")
     actor:send("The observer returns your item to you.")

@@ -20,7 +20,7 @@ else
     local response = "What is this garbage?"
 end
 if response then
-    _return_value = false
+    _return_value = true
     actor:send(self.name .. " scoffs at " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")

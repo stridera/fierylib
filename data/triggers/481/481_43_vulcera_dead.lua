@@ -23,7 +23,7 @@ if self.room ~= 48223 then
     local room = get_room("48223")
     local person = room.people
     while person do
-        if person.id == -1 then
+        if person.is_player then
             -- person looks around
             person = person.next_in_room
         end
@@ -43,7 +43,7 @@ while i >= a do
         if person:get_quest_stage("fieryisle_quest") == 9 then
             person:set_quest_var("fieryisle_quest", "reward", "yes")
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1
@@ -51,4 +51,4 @@ end
 -- 
 -- Complete Fiery Island
 -- 
-run_room_trigger(48145)
+run_room_trigger(481, 45)

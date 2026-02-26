@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg, "twisted_sorrow") or string.find(arg, "twisted") forest quest then
-    _return_value = false
+    _return_value = true
     actor:send("<b:green>&uTwisted Sorrow</>")
     actor:send("Recommended Level: 10")
     if actor:get_has_completed("twisted_sorrow") then

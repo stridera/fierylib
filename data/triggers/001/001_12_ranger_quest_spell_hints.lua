@@ -28,6 +28,6 @@ if string.find(self.class, "ranger") then
         self.room:send("'the Ranger Guild.'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- sapling given back
-_return_value = false
+_return_value = true
 wait(4)
 self:say("Keep it, " .. tostring(actor.name) .. "!  You'll need to drop it by the altar.  Otherwise you will never defeat Dagon's material form!")
 wait(2)

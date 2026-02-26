@@ -21,6 +21,6 @@ local _return_value = true  -- Default: allow action
 if (actor.id > 0) and not (actor:has_effect(Effect.Charm)) then
     actor:damage(arg)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

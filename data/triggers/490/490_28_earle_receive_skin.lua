@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- griffin skin given
-_return_value = false
+_return_value = true
 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 wait(2)

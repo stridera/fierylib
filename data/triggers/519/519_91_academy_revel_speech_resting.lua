@@ -44,7 +44,7 @@ if actor:get_quest_stage("school") == 5 then
         wait(3)
         if not actor:has_item("20") and not actor:has_equipped("20") then
             actor:send(tostring(self.name) .. " tells you, 'Here's a new waterskin for you.")
-            self.room:spawn_object(1000, 20)
+            self.room:spawn_object(0, 20)
             self:command("give waterskin " .. tostring(actor))
         else
             actor:send(tostring(self.name) .. " tells you, 'You started play with a full waterskin.")

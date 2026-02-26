@@ -36,6 +36,6 @@ end
 if rightobj ==1 then
     combat.engage(self, actor.name)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

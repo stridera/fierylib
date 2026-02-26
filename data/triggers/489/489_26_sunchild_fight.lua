@@ -20,7 +20,7 @@ elseif chance <= 2 then
     local room = self.room
     local person = room.people
     while person do
-        if person.id == -1 then
+        if person.is_player then
             spells.cast(self, "sunray", person, 100)
         end
         person = person.next_in_room

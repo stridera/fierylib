@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:rest") == 1 then
@@ -32,5 +32,5 @@ if actor:get_quest_var("school:rest") == 1 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'So type <b:green>wake</> and get up!'</>")
 end
-_return_value = false
+_return_value = true
 return _return_value

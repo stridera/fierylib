@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
 wait(4)
-if actor:get_quest_stage("sacred_haven") >= 2 and actor.id == -1 and actor.level < 100 then
+if actor:get_quest_stage("sacred_haven") >= 2 and actor.is_player and actor.level < 100 then
     self:command("grin")
     actor:send(tostring(self.name) .. " whispers to you, 'Good, we have been trying to retrieve")
     actor:send("</>our stolen artifacts when I was captured and place here.'")

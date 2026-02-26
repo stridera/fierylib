@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if arg == "guild" or arg == "phase" or arg == "guild phase armor" or arg == "guild armor" or arg == "phase armor" or arg == "phase_armor" then
-    _return_value = false
+    _return_value = true
     actor:send("Please specify:")
     actor:send("Guild Armor Phase One")
     actor:send("Guild Armor Phase Two")

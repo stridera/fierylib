@@ -30,14 +30,14 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
     if chant == 1 then
         actor.name:set_quest_var("megalith_quest", "invoke", 1)
         wait(2)
-        run_room_trigger(12322)
+        run_room_trigger(123, 22)
         wait(1)
         self:say("Again!")
         self.room:send("<b:cyan>We invoke thee!</>")
     elseif chant == 2 then
         actor.name:set_quest_var("megalith_quest", "invoke", 2)
         wait(2)
-        run_room_trigger(12322)
+        run_room_trigger(123, 22)
         wait(1)
         self:say("Once more!")
         self.room:send("<b:cyan>We invoke thee!</>")
@@ -58,7 +58,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
         if actor:get_quest_var("megalith_quest:bad4") then
             local bad4 = 1
         end
-        run_room_trigger(12322)
+        run_room_trigger(123, 22)
         wait(2)
         self.room:send(tostring(self.name) .. " cries, 'Great Mother, come to me!'")
         wait(2)
@@ -116,7 +116,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 self.room:send("<b:white>She looks as old as time itself yet younger than a child.</>")
                 wait(5)
                 self.room:send(tostring(self.name) .. " exclaims, 'O Great Mother, Goddess of the moon and stars, joyously we welcome you!'")
-                if world.count_mobiles("12300") == 0 then
+                if world.count_mobiles(123, 0) == 0 then
                     self.room:spawn_mobile(123, 0)
                 end
                 -- (empty room echo)
@@ -150,7 +150,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 self.room:send("The stars coalesce into the nearly transparent form of a celestial, gossamer-winged goddess.")
                 self.room:send(tostring(self.name) .. " and " .. "%get.mob_shortdesc[12307]% bow before %get.mob_shortdesc[12300]%.")
                 self.room:send(tostring(self.name) .. " says, 'O Great Mother, watcher from the deep, we come to seek thy blessing!'")
-                if world.count_mobiles("12300") == 0 then
+                if world.count_mobiles(123, 0) == 0 then
                     self.room:spawn_mobile(123, 0)
                 end
                 self.room:send(tostring(mobiles.template(123, 0).name) .. " says, 'My daughters, you shall always have my blessing.'")

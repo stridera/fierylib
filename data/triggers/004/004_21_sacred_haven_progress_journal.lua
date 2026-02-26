@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "infiltrate") the sacred haven or string.find(arg, "sacred_haven") or string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred") haven or string.find(arg, "haven") then
     if actor.level >= 25 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("sacred_haven")
         actor:send("<b:green>&uInfiltrate the Sacred Haven</>")
         actor:send("This quest is only available to neutral and evil-aligned characters.")

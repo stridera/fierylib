@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (actor:get_quest_stage("major_globe_spell") == 6) and (actor:get_quest_var("major_globe_spell:room") == actor.room) then
@@ -24,6 +24,6 @@ if (actor:get_quest_stage("major_globe_spell") == 6) and (actor:get_quest_var("m
     actor:send("<blue>You have found " .. tostring(objects.template(534, 52).name) .. "!</>")
     actor.name:advance_quest("major_globe_spell")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

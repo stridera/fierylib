@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #52010: bronze_guard_greet1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if actor.level > 100 then
         self:command("glare " .. tostring(actor.name))
         self:say("I was supposed to get PAID for this gig.")

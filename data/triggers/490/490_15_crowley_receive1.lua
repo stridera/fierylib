@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if object.id == 49001 then
-    _return_value = true
+    _return_value = false
     wait(4)
     self:emote("examines the griffin skin carefully.")
     self.room:send(tostring(self.name) .. " says, 'This is fantastic!  You have defeated his earthly form!")
@@ -26,7 +26,7 @@ if object.id == 49001 then
     self.room:send(tostring(self.name) .. " says, 'If you can't bear to use it, give it to Awura who will")
     self.room:send("</>destroy it.  Maybe she will give you something more to your taste.'")
 elseif object.id == 49042 then
-    _return_value = true
+    _return_value = false
     wait(8)
     self:emote("looks rather surprised.")
     wait(2)
@@ -57,7 +57,7 @@ elseif object.id == 49042 then
         self:command("drop mirror-lettered-scroll")
     end
 else
-    _return_value = false
+    _return_value = true
     wait(1)
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'No, thank you.'</>")
 end

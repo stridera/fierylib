@@ -62,7 +62,7 @@ if string.find(actor.class, "Monk") then
         local clue2 = "at an altar deep in the outer realms surrounded by those who's vengeance was never satisfied."
     end
     if read == "yes" then
-        _return_value = false
+        _return_value = true
         local chantstage = actor:get_quest_stage("monk_chants")
         local visionstage = actor:get_quest_stage("monk_vision")
         local master = mobiles.template(53, 8).name

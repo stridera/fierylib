@@ -36,7 +36,7 @@ local _return_value = true  -- Default: allow action
 -- xamount - only meaningful for some spell types, ie., 100
 -- 
 if (actor.id >= 18820) and (actor.id <= 18842) then
-    _return_value = true
+    _return_value = false
     -- Must use x-decide to select a spell first
     if not xname then
         actor:send("You have not chosen a spell to x-cast yet!")
@@ -132,17 +132,17 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
                         arg:send(tostring(actor.name) .. " waves a hand at you, whisking you away!")
                         local max_tries = 20
                         while max_tries > 0 do
-                            arg:teleport(get_room(vnum_to_zone(random(1, 60000)), vnum_to_local(random(1, 60000))))
+                            arg:teleport(get_room(math.floor(random(1, 60000 / 100)), (random(1, 60000 % 100))))
                             if arg.room ~= actor.room then
                                 local max_tries = 0
                             end
                             max_tries = max_tries - 1
                         end
                         if not max_tries then
-                            arg:teleport(get_room(1000, 0))
+                            arg:teleport(get_room(0, 0))
                         end
                     else
-                        arg:teleport(get_room(vnum_to_zone(xamount), vnum_to_local(xamount)))
+                        arg:teleport(get_room(math.floor(xamount / 100), xamount % 100))
                     end
                     arg:command("look")
                 elseif xeffect == "area" then
@@ -189,6 +189,6 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     end
 else
     -- Do nothing for non-dragonquest mobs
-    _return_value = false
+    _return_value = true
 end
 return _return_value

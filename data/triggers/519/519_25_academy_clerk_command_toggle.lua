@@ -48,6 +48,6 @@ if actor:get_quest_var("school:fight") == 3 and string.find(arg, "autosplit") th
         actor:send(self.name .. " tells you, '" .. "Proceed north to her arena." .. "'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

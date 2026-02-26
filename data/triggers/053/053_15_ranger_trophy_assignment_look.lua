@@ -40,7 +40,7 @@ elseif self.id == 5309 then
     local victim1 = "the medusa"
     local stage = 10
 end
-_return_value = false
+_return_value = true
 actor:send("This is a notice to slay " .. tostring(victim1) .. ".")
 if actor:get_quest_var("beast_master:hunt") == "dead" and actor:get_quest_stage("beast_master") == "stage" then
     actor:send("You have completed the hunt.")

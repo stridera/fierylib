@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "rhell") or string.find(arg, "forest") or string.find(arg, "mystery") or string.find(arg, "ursa_quest") or string.find(arg, "mystery_of_the_rhell_forest") then
     if actor.level >= 35 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("ursa_quest")
         local path = actor:get_quest_var("ursa_quest:choice")
         actor:send("<b:green>&uMystery of the Rhell Forest</>")

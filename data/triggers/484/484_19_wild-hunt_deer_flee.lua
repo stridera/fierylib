@@ -17,7 +17,7 @@ local _return_value = true  -- Default: allow action
 -- the rag, flee!  Unfortunately, players can force the
 -- deer to flee any time, so don't tell any of them this
 -- keyword.
-_return_value = false
+_return_value = true
 if actor:get_quest_stage("doom_entrance") and actor:get_quest_var("doom_entrance:wild_hunt") == 1 and arg == "ragtoscarewhitetaileddeer" then
     wait(1)
     local room = self.room

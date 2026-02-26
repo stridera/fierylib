@@ -50,6 +50,6 @@ if string.find(self.class, "druid") then
         self.room:send("'magical traditions, not ours.'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

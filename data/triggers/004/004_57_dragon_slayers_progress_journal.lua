@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.find(arg, "slayer") or string.find(arg, "dragon") slayer or string.find(arg, "dragon") slayers then
-    _return_value = false
+    _return_value = true
     local stage = actor:get_quest_stage("dragon_slayer")
     local master = mobiles.template(30, 80).name
     local hunt = actor:get_quest_var("dragon_slayer:hunt")

@@ -15,7 +15,7 @@ local stage = actor:get_quest_stage("creeping_doom")
 if stage == 1 then
     if object.id == 11812 or object.id == 16213 or object.id == 48029 then
         if actor.quest_variable[creeping_doom:object.vnum] == 1 then
-            _return_value = false
+            _return_value = true
             self:say("You already brought me " .. "%get.obj_shortdesc[%object.vnum%]%")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
@@ -48,7 +48,7 @@ if stage == 1 then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         wait(2)
         self:say("This isn't going to help.")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -88,14 +88,14 @@ elseif stage == 2 then
             self.room:send(tostring(remaining) .. " more to go.'")
         end
     else
-        _return_value = false
+        _return_value = true
         self:say("This isn't a swarm!!")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 3 then
     if object.id == 48416 or object.id == 52034 or object.id == 62503 then
         if actor.quest_variable[creeping_doom:object.vnum] == 1 then
-            _return_value = false
+            _return_value = true
             self:say("You already found this.")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
@@ -142,12 +142,12 @@ elseif stage == 3 then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         self:say("The heck is this??")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 else
-    _return_value = false
+    _return_value = true
     self:say("The heck is this??")
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 end

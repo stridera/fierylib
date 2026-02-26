@@ -19,7 +19,7 @@ if not (string.find(string.lower(speech), "ball") or string.find(string.lower(sp
     return true  -- No matching keywords
 end
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("emmath_flameball") == 1 then
         self:command("sigh")
         self:say("You've already inquired about the ball of flame.")

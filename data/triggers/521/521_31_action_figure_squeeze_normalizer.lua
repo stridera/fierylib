@@ -20,5 +20,5 @@ end
 local _return_value = true  -- Default: allow action
 -- This trigger is needed on the action figure to return the command "s"
 -- back to its default function, rather than triggering the squeeze trigger.
-_return_value = false
+_return_value = true
 return _return_value

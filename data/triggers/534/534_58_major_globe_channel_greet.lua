@@ -10,17 +10,17 @@
 if actor:get_quest_stage("major_globe_spell") == 9 then
     -- switch on self.id
     if self.id == 2322 then
-        local load_channel = 53458
+        local load_channel = 58
     elseif self.id == 58008 then
-        local load_channel = 53459
+        local load_channel = 59
     elseif self.id == 16003 then
-        local load_channel = 53460
+        local load_channel = 60
     elseif self.id == 23711 then
-        local load_channel = 53461
+        local load_channel = 61
     end
     if load_channel then
         self:destroy_item("majorglobe-channel")
-        self.room:spawn_object(vnum_to_zone(load_channel), vnum_to_local(load_channel))
+        self.room:spawn_object(534, load_channel)
         wait(1)
         actor:send("<blue>" .. tostring(self.name) .. "'s eyes flash briefly as you approach.</>")
         self.room:send_except(actor, "<blue>" .. tostring(self.name) .. "'s eyes flash briefly as " .. tostring(actor.name) .. " approaches.</>")

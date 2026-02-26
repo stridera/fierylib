@@ -10,20 +10,18 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 if object.id == 30212 then
-    _return_value = true
+    _return_value = false
     wait(4)
     self:destroy_item("scroll")
     self:say("Why thank you... good spy.  I'll have my warlocks extract this message,")
     self:say("and find out what those self-righteous paladins are up to.")
     wait(2)
     self:say("Here is something for your trouble.")
-    local gemvnum = 55581 + random(1, 8)
-    self.room:spawn_object(vnum_to_zone(gemvnum), vnum_to_local(gemvnum))
-    local gemvnum = 55581 + random(1, 8)
-    self.room:spawn_object(vnum_to_zone(gemvnum), vnum_to_local(gemvnum))
+    self.room:spawn_object(555, 81 + random(1, 8))
+    self.room:spawn_object(555, 81 + random(1, 8))
     self:command("give all.gem " .. tostring(actor.name))
 elseif object.id == 30208 then
-    _return_value = true
+    _return_value = false
     wait(3)
     self:destroy_item("parchment")
     self:command("growl")
@@ -47,7 +45,7 @@ elseif object.id == 30208 then
         -- actor looks around
     end
 else
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " tries to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You try to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ", but " .. tostring(self.name) .. " refuses.")
     wait(1)

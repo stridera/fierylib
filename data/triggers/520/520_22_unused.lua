@@ -8,4 +8,4 @@
 -- Converted from DG Script #52022: UNUSED
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 self.room:send("A HUGE glob of acid from Sagece's corpse spews forth and hits you.")
-run_room_trigger(52024)
+run_room_trigger(520, 24)

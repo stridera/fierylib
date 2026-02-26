@@ -8,6 +8,6 @@
 -- Converted from DG Script #8795: Tr'ven(greet)
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(1)
-if actor.id == -1 then
+if actor.is_player then
     self:say("Welcome to my shop. Is there something I can fix for you?")
 end

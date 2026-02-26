@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #20002: guard greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if direction == "west" then
         if actor.alignment > -350 then
             actor:send(tostring(self.name) .. " says to you, 'I cannot allow you to pass this point.'")

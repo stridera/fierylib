@@ -16,22 +16,22 @@ if object.id == 300 then
     local type = "air"
     local wandgem = 55577
     local wand = "yes"
-    local next_vnum = 301
+    local next_vnum = 101
 elseif object.id == 310 then
     local type = "fire"
     local wandgem = 55575
     local wand = "yes"
-    local next_vnum = 311
+    local next_vnum = 111
 elseif object.id == 320 then
     local type = "ice"
     local wandgem = 55574
     local wand = "yes"
-    local next_vnum = 321
+    local next_vnum = 121
 elseif object.id == 330 then
     local type = "acid"
     local wandgem = 55576
     local wand = "yes"
-    local next_vnum = 331
+    local next_vnum = 131
 elseif object.id == 55577 then
     local type = "air"
     local wandgem = "yes"
@@ -67,7 +67,7 @@ if wand == "yes" or wandgem == "yes" then
                 world.destroy(object)
                 wait(2)
                 actor:send(tostring(self.name) .. " presents you with a new wand!")
-                self.room:spawn_object(vnum_to_zone(next_vnum), vnum_to_local(next_vnum))
+                self.room:spawn_object(2, next_vnum)
                 self:command("give wand " .. tostring(actor))
                 local expcap = 10
                 local expmod = 690
@@ -106,7 +106,7 @@ if wand == "yes" or wandgem == "yes" then
                     end
                 end
             else
-                _return_value = false
+                _return_value = true
                 self.room:send(tostring(self.name) .. " scrutinizes " .. tostring(object.shortdesc) .. " with suspicion.")
                 wait(1)
                 self.room:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. ".")
@@ -147,13 +147,13 @@ if wand == "yes" or wandgem == "yes" then
             self:say("Do that and I'll be able to improve it.")
             self:command("give wand " .. tostring(actor))
         elseif wandgem then
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " declines " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("Before you give me anything else, give me the wand you wish to improve.")
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("I've already upgraded your wand as much as I know how.")

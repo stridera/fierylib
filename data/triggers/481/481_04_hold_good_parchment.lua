@@ -8,7 +8,7 @@
 
 -- Converted from DG Script #48104: hold_good_parchment
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(5)
     actor:send("You feel a slight tickling sensation as the parchment draws strength from you to activate.")
     actor:damage(20)  -- type: physical
@@ -37,7 +37,7 @@ if actor.id == -1 then
                         person.name:advance_quest("fieryisle_quest")
                         person:send("<b:white>You have advanced your quest!</>")
                     end
-                elseif person and person.id == -1 then
+                elseif person and person.is_player then
                     i = i + 1
                 end
                 a = a + 1

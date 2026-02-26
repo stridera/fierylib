@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("school") == 3 and not actor:get_quest_var("school:fight") then
@@ -41,5 +41,5 @@ if actor:get_quest_stage("school") == 3 and not actor:get_quest_var("school:figh
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'Go ahead and give it a try!  Type <b:green>hide</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

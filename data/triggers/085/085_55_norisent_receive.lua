@@ -12,7 +12,7 @@
 local _return_value = true  -- Default: allow action
 if object.id == 4008 then
     if actor:get_quest_stage("resurrection_quest") == 4 then
-        _return_value = false
+        _return_value = true
         self:emote("refuses to take it.")
         self:say("First, give me the talisman, to be sure this was done right.")
         return _return_value
@@ -35,7 +35,7 @@ if object.id == 4008 then
     return _return_value
 elseif object.id == 53307 then
     if actor:get_quest_stage("resurrection_quest") == 6 then
-        _return_value = false
+        _return_value = true
         self:emote("refuses your item.")
         self:say("First, give me the talisman.  I want to be sure things are in order.")
         return _return_value
@@ -71,10 +71,10 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             self:say("Ah, the angelic book!  You have done well to keep this from him.")
             actor.name:advance_quest("resurrection_quest")
         elseif actor.class == "DIABOLIST" then
-            _return_value = false
+            _return_value = true
             self:say("Wrong one, dummy.")
         else
-            _return_value = false
+            _return_value = true
             self:say("What's your class?")
             return _return_value
         end
@@ -86,27 +86,27 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             self:say("Ah, the phoenix heart!  You've done well to keep this from him.")
             actor.name:advance_quest("resurrection_quest")
         elseif actor.class == "cleric" or actor.class == "priest" then
-            _return_value = false
+            _return_value = true
             self:say("Wrong one, dummy.")
         else
-            _return_value = false
+            _return_value = true
             self:say("What's your class?")
             return _return_value
         end
     elseif object.id == 51022 then
         -- switch on actor.class
         if actor.class == "CLERIC" or actor.class == "PRIEST" then
-            _return_value = false
+            _return_value = true
             self:say("This book is incomplete!  Something has drained its magic!  Fix that and then bring the book back.")
         elseif actor.class == "DIABOLIST" then
-            _return_value = false
+            _return_value = true
             self:say("Wrong one, dummy.")
         else
-            _return_value = false
+            _return_value = true
             self:say("What's your class?")
             return _return_value
         end
-        _return_value = false
+        _return_value = true
         self:say("This isn't the power Luchiaans seeks.  Go find it.")
         return _return_value
     end
@@ -133,7 +133,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
 elseif actor:get_quest_stage("resurrection_quest") == 10 then
     if object.id == 52001 then
         self:say("Give me the talisman first.  I must know the crazed mage is truly dead at last.")
-        _return_value = false
+        _return_value = true
         self:emote("refuses your item.")
     end
 elseif actor:get_quest_stage("resurrection_quest") == 11 then
@@ -148,7 +148,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 11 then
         globals.complete = globals.complete or true
     end
 else
-    _return_value = false
+    _return_value = true
     wait(1)
     self:emote("refuses your offering.")
     self:say("This isn't what we're after.")

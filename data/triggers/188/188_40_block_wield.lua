@@ -20,7 +20,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "w" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:send("You cannot wield another weapon with " .. tostring(self.shortdesc) .. "!")

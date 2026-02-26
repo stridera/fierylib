@@ -82,7 +82,7 @@ while i >= a do
                 end
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1
@@ -93,7 +93,7 @@ if accept == 1 then
     self:command("grin")
     self.room:send(tostring(self.name) .. " says, 'Excellent!  Now just give me the order paperwork and I can pay you.'")
 elseif refuse then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     if refuse == 1 then

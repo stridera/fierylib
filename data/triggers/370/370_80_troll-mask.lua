@@ -9,11 +9,11 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(actor.race, "troll") then
-    _return_value = true
+    _return_value = false
     self.room:send_except(actor, tostring(actor.name) .. " looks suddenly more fierce.")
     actor:send("You feel the strength of the Trolls in your blood!")
 else
-    _return_value = false
+    _return_value = true
     actor:send("You cannot wear the trollish mask.")
 end
 return _return_value

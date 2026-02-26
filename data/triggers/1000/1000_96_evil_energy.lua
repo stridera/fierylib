@@ -1,5 +1,5 @@
 -- Trigger: Evil energy
--- Zone: 1000, ID: 96
+-- Zone: 0, ID: 96
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

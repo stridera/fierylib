@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48131: warlord_greet1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     self:emote("looks up quickly as you enter.")
     self:command("sigh")
     wait(2)

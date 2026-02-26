@@ -17,6 +17,6 @@ if actor.id == self.id then
     local dagonisweak = 1
     globals.dagonisweak = globals.dagonisweak or true
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

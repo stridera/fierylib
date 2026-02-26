@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #49033: eldest_greet1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 and actor.level < 100 then
+if actor.is_player and actor.level < 100 then
     wait(1)
     -- switch on actor:get_quest_stage("major_globe_spell")
     if actor:get_quest_stage("major_globe_spell") == 2 then

@@ -16,7 +16,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "l" or cmd == "le" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:send(tostring(self.name) .. " says, 'Sorry, I'm not a guild master.'")

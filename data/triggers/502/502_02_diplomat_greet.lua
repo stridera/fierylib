@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #50202: Diplomat greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 and actor.level < 100 then
+if actor.is_player and actor.level < 100 then
     wait(2)
     actor:send("The ghost of a diplomat stares at you for a moment.")
     self.room:send_except(actor, "The ghost of a diplomat stares at " .. tostring(actor.name) .. ".")

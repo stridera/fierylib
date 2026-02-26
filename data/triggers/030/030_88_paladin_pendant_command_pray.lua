@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "p" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local anti = "Anti-Paladin"
@@ -74,6 +74,6 @@ if continue == "yes" then
     end
     actor:set_quest_var("paladin_pendant", "necklacetask4", 1)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

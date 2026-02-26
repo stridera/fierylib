@@ -47,14 +47,14 @@ if question then
     end
     if correct == "no" then
         local question = 0
-        if not world.count_mobiles("23803") then
+        if world.count_mobiles(238, 3) == 0 then
             get_room(238, 90):at(function()
                 self.room:spawn_mobile(238, 3)
             end)
         end
-        if world.count_mobiles("23803") then
+        if world.count_mobiles(238, 3) > 0 then
             get_room(238, 90):at(function()
-                run_room_trigger(23813)
+                run_room_trigger(238, 13)
             end)
         end
         globals.question = globals.question or true

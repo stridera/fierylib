@@ -35,5 +35,5 @@ if actor:get_quest_var("school:gear") == 1 then
     wait(7)
     actor:send(tostring(self.name) .. " tells you, 'Go ahead and type <b:green>wear all</> and see what happens.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

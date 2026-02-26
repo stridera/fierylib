@@ -23,7 +23,7 @@ if alreadydone ~= 1 then
     local victim = self.people
     while victim do
         local next = victim.next_in_room
-        if (victim.id == -1) &(victim.level < 100) then
+        if (victim.is_player) &(victim.level < 100) then
             local damage = 350 + random(1, 50)
             local damage_dealt = victim:damage(damage)  -- type: crush
             if damage_dealt == 0 then

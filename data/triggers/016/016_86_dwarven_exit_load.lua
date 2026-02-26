@@ -19,7 +19,7 @@ if string.find(speech, "yes") then
     self:emote("cautiously moves toward the back of the cell.")
     wait(3)
     self.room:send("A haggard dwarf scratches at some rocks in the wall.")
-    run_room_trigger(1685)
+    run_room_trigger(16, 85)
 end
 if string.find(speech, "no") then
     self:say("Then you are not friend to us!")

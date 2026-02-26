@@ -17,9 +17,9 @@ if actor:get_quest_stage("ursa_quest") == 5 then
             world.destroy(object)
             actor.name:advance_quest("ursa_quest")
             wait(1)
-            run_room_trigger(62550)
+            run_room_trigger(625, 50)
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("This won't do the job.  I need the anvil.")

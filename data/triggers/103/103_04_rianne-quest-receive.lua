@@ -23,7 +23,7 @@ if actor:get_quest_stage("group_heal") == 5 then
     else
         if object.id == 18514 then
             actor.name:set_quest_var("group_heal", "%self.vnum%", 1)
-            _return_value = false
+            _return_value = true
             self:say("Well you've definitely come to the right place!")
             wait(4)
             self:emote("reads over the ritual recipe.")
@@ -108,7 +108,7 @@ elseif stage == 5 then
     local item2 = 37013
     local item3 = 23760
 else
-    _return_value = false
+    _return_value = true
     self:say("I don't have time for that right now.")
     self:emote("refuses your item.")
     return _return_value
@@ -130,12 +130,12 @@ elseif object.id == "%item6%" then
 elseif object.id == "%item7%" then
     local item = 7
 else
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " says, 'The recipe doesn't call for this!  Perhaps you should consult the recipe on the wall to refresh your memory.'")
     return _return_value
 end
 if actor.quest_variable[resort_cooking:itemitem] then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " says, 'You already brought in " .. tostring(object.shortdesc) .. ", so we don't need more.'")
     self:emote("hands your item back to you.")
     return _return_value
@@ -196,7 +196,7 @@ if item1 and item2 and item3 and item4 and item5 and item6 and item7 then
         local gem = 0
         while gem < 3 do
             local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, 36 + random(1, 11))
             gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor))

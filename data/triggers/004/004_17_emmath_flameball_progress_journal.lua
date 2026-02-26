@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "flameball") or string.find(arg, "emmath_flameball") or string.find(arg, "emmath") then
     if actor.level >= 75 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("emmath_flameball")
         actor:send("<b:green>&uPower of Flame</>")
         actor:send("Recommended Level: 85")

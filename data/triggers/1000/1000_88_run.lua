@@ -1,5 +1,5 @@
 -- Trigger: run
--- Zone: 1000, ID: 88
+-- Zone: 0, ID: 88
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

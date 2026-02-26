@@ -76,7 +76,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
                 local continue = "yes"
             elseif stage == 6 or stage == 8 then
                 actor:set_quest_var("%type%_wand", "wandtask5", 1)
-                self.room:spawn_object(vnum_to_zone(wandtask4), vnum_to_local(wandtask4))
+                self.room:spawn_object(math.floor(wandtask4 / 100), wandtask4 % 100)
                 wait(2)
                 if stage == 6 then
                     wait(2)
@@ -131,7 +131,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
             local continue = "no"
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("What's that for?")
@@ -186,7 +186,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         else
             self:say("Here you go, your new " .. tostring(weapon) .. "!")
         end
-        self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+        self.room:spawn_object(math.floor(reward / 100), reward % 100)
         self:command("give all " .. tostring(actor))
         local expcap = ((wandstep - 1) * 10)
         local expmod = 0
@@ -237,7 +237,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
             number = number + 1
         end
     elseif continue == "no" then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         if not job1 and (not job2 or not job3 or not job4) then
@@ -284,7 +284,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
             self:say("Do you have the rest?")
         end
     elseif response then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say(tostring(response))

@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "group") recall then
     if actor.level >= 65 and string.find(actor.class, "Cleric") then
-        _return_value = false
+        _return_value = true
         actor:send("This quest is not yet available in game.")
         actor:send("Petition the gods for a quest.")
     end

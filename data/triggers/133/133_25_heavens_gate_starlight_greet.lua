@@ -14,11 +14,11 @@ if string.find(actor.class, "Priest") and actor.level > 80 then
     if stage == 0 then
         -- (empty send to actor)
         actor:send("<b:white>A strange light glints off a strange rock formation near the center of the cavern.</>")
-        if world.count_objects("13350") == 0 then
+        if world.count_objects(133, 50) == 0 then
             self.room:spawn_object(133, 50)
         end
     elseif stage == 1 then
-        if world.count_objects("13350") == 0 then
+        if world.count_objects(133, 50) == 0 then
             self.room:spawn_object(133, 50)
         end
         actor:send("<b:white>" .. tostring(self.name) .. " coalesces into the ephemeral shape of a bent old woman, standing before the rock formation.</>")
@@ -26,7 +26,7 @@ if string.find(actor.class, "Priest") and actor.level > 80 then
         -- (empty send to actor)
         actor:send("<b:white>The crone invites you to <b:cyan>[commune] <b:white>for visions of your progress.</>")
     elseif stage == 2 then
-        if world.count_objects("13350") == 0 then
+        if world.count_objects(133, 50) == 0 then
             self.room:spawn_object(133, 50)
         end
         actor:send("<b:white>The floating apparition of a valiant young knight constructed from starbeams hovers over the pedestal.</>")

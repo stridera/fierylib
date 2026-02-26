@@ -25,23 +25,23 @@ if actor:get_quest_stage("nukreth_spire") then
                 local leader = actor.name
                 globals.leader = globals.leader or true
             else
-                _return_value = false
+                _return_value = true
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 self:command("shake")
                 self:say("I only want me stone.")
             end
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:command("shake")
             self:say("I already have me stone.")
         end
     else
-        _return_value = false
+        _return_value = true
         actor:send("<b:red>You have already completed this quest path.</>")
     end
 else
-    _return_value = false
+    _return_value = true
     actor:send("<b:red>You must first start this quest before you can earn rewards.</>")
 end
 return _return_value

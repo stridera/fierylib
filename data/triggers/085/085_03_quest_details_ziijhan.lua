@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "quest")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("nec_dia_ant_subclass") == 1 then
         actor.name:advance_quest("nec_dia_ant_subclass")
     end

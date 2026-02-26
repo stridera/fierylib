@@ -13,7 +13,7 @@ if not percent_chance(60) then
     return true
 end
 -- attack them players!
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 100 then
         wait(1)
         self.room:send_except(actor, tostring(self.name) .. " flies into a rage!")

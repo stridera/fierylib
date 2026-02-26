@@ -16,7 +16,7 @@ if object.id => 1 then
     world.destroy(object)
     wait(1)
     self:say("Yes, I think I can make " .. tostring(name) .. " as good as new.")
-    self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
+    self.room:spawn_object(math.floor(item / 100), item % 100)
     wait(1)
     actor:send("<blue>The air shudders as Tr'ven mutters a few words over " .. tostring(name) .. ".</>")
     self.room:send_except(actor, "The air shudders as Tr'ven mutters a few words over " .. tostring(name) .. ".")

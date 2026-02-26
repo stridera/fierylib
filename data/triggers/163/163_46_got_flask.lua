@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("moonwell_spell_quest") == 4 then
     if got_flask == 1 then
         self.room:send("Eleweiss' Flask grows dark as its power fades.")
-        _return_value = false
+        _return_value = true
     else
         actor.name:advance_quest("moonwell_spell_quest")
     end

@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48106: ash_crown-get
 -- Original: OBJECT trigger, flags: GET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     local stage = 3
     local person = actor
     local i = person.group_size
@@ -23,7 +23,7 @@ if actor.id == -1 then
                 person.name:advance_quest("fieryisle_quest")
                 person:send("<b:white>You have advanced your quest!</>")
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1

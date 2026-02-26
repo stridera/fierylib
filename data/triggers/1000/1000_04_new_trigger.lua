@@ -1,5 +1,5 @@
 -- Trigger: new trigger
--- Zone: 1000, ID: 4
+-- Zone: 0, ID: 4
 -- Type: MOB, Flags: COMMAND
 -- Status: CLEAN
 --
@@ -18,6 +18,6 @@ if not (cmd == "kneel") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("Command trigger (cackle) running")
 return _return_value

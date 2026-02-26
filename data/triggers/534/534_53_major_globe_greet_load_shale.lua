@@ -11,7 +11,7 @@ if actor:get_quest_stage("major_globe_spell") == 2 then
     self:destroy_item("majorglobe-shale")
     self.room:spawn_object(534, 51)
     wait(2)
-    if world.count_mobiles("48125") and (self.room == 48112) then
+    if world.count_mobiles(481, 25) > 0 and (self.room == 48112) then
         self.room:send("The savage children laugh and play, tossing a rock between themselves.")
         wait(1)
         self.room:send("One child, larger than the rest, suddenly grabs the rock out of the air.")

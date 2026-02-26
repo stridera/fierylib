@@ -8,7 +8,7 @@
 
 -- Converted from DG Script #16023: shadow_demon_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-if world.count_mobiles("16008") < 1 then
+if world.count_mobiles(160, 8) < 1 then
     -- load storm demon and maybe equip orb
     -- but definitely load key
     get_room(160, 95):at(function()

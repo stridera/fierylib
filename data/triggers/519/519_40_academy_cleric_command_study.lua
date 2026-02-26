@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "st" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:fight") == 3 then
@@ -27,5 +27,5 @@ if actor:get_quest_var("school:fight") == 3 then
     actor:send("First, get comfortable.")
     actor:send("Type <b:green>rest</> to take a seat and settle down.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

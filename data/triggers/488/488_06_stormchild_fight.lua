@@ -18,13 +18,13 @@ local mode = random(1, 10)
 if mode < 5 then
     self.room:send("<cyan>A sudden gale starts from nowhere, throwing lightning everywhere!</>")
     wait(1)
-    run_room_trigger(48851)
+    run_room_trigger(488, 51)
 elseif mode < 8 then
     wait(1)
-    run_room_trigger(48852)
+    run_room_trigger(488, 52)
 else
     self:emote("cries, 'Stop it, " .. tostring(actor.name) .. "!'")
-    if actor.id == -1 then
+    if actor.is_player then
         local damage = 390 + random(1, 40)
     else
         -- If a mob is tanking, hit it for massive damage!

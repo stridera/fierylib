@@ -15,13 +15,13 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "e" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("griffin_quest") > 7 then
-    _return_value = false
-else
     _return_value = true
+else
+    _return_value = false
     self.room:send_except(actor, tostring(actor.name) .. " hops into the pool, but gets " .. tostring(actor.possessive) .. " feet wet.")
     actor:send("You hop into the pool, but only get your feet wet.")
 end

@@ -17,7 +17,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "c" or cmd == "co" or cmd == "com" or cmd == "comm" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local stage = actor:get_quest_stage("heavens_gate")
@@ -184,7 +184,7 @@ if stage > 0 or actor:get_has_completed("heavens_gate") then
         end
         -- switch on sealed
         if sealed == 0 then
-            _return_value = false
+            _return_value = true
         elseif sealed == 1 then
             local phrase = "yamo lv"
         elseif sealed == 2 then
@@ -200,7 +200,7 @@ if stage > 0 or actor:get_has_completed("heavens_gate") then
         elseif sealed == 7 then
             local phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj bzjbie"
         else
-            _return_value = false
+            _return_value = true
             return _return_value
         end
         if sealed then
@@ -221,6 +221,6 @@ if stage > 0 or actor:get_has_completed("heavens_gate") then
         actor:send("<b:cyan>You feel you have learned all you can from this place.</>")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

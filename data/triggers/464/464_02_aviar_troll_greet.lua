@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 -- Simple greet trig
 local percent = random(1, 100)
-if actor.id == -1 then
+if actor.is_player then
     if actor.level > 99 then
         wait(1)
         actor:send(tostring(self.name) .. " cringes in terror as you appear!")

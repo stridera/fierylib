@@ -8,7 +8,7 @@
 -- Converted from DG Script #62520: merchant greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("ursa_quest") < 1 then
         local greet = random(1, 100)
         if greet > 70 then

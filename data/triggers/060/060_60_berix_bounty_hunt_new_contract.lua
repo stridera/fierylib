@@ -23,31 +23,31 @@ if actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then
     if actor:get_quest_var("bounty_hunt:bounty") then
         -- switch on actor:get_quest_stage("bounty_hunt")
         if actor:get_quest_stage("bounty_hunt") == 1 then
-            local contract = 6050
+            local contract = 50
         elseif actor:get_quest_stage("bounty_hunt") == 2 then
-            local contract = 6051
+            local contract = 51
         elseif actor:get_quest_stage("bounty_hunt") == 3 then
-            local contract = 6052
+            local contract = 52
         elseif actor:get_quest_stage("bounty_hunt") == 4 then
-            local contract = 6053
+            local contract = 53
         elseif actor:get_quest_stage("bounty_hunt") == 5 then
-            local contract = 6054
+            local contract = 54
         elseif actor:get_quest_stage("bounty_hunt") == 6 then
-            local contract = 6055
+            local contract = 55
         elseif actor:get_quest_stage("bounty_hunt") == 7 then
-            local contract = 6056
+            local contract = 56
         elseif actor:get_quest_stage("bounty_hunt") == 8 then
-            local contract = 6057
+            local contract = 57
         elseif actor:get_quest_stage("bounty_hunt") == 9 then
-            local contract = 6058
+            local contract = 58
         elseif actor:get_quest_stage("bounty_hunt") == 10 then
-            local contract = 6059
+            local contract = 59
         else
-            local contract = 6050
+            local contract = 50
         end
         self:command("whap " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Don't be such an idiot again!'")
-        self.room:spawn_object(vnum_to_zone(contract), vnum_to_local(contract))
+        self.room:spawn_object(60, contract)
         self:command("give contract " .. tostring(actor))
     end
 end

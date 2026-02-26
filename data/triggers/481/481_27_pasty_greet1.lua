@@ -13,7 +13,7 @@ if not percent_chance(80) then
     return true
 end
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     self:emote("mutters to himself.")
     self:say("Where has he gone?")
     wait(2)

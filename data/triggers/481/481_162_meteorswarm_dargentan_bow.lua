@@ -22,6 +22,6 @@ if string.find(arg, "dargentan") or string.find(arg, "dar") or string.find(arg, 
         actor:send(tostring(self.name) .. " says, 'Wherefore hast thou awakened one such as this from deepest slumber?'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

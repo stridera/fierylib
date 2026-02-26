@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local color = "&4&b"
@@ -60,6 +60,6 @@ if actor:get_quest_stage("flood") == 1 then
         actor:send("Something seems to be off about your preparations.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

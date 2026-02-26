@@ -37,7 +37,7 @@ if ((string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or
     wait(6)
     self.room:send(tostring(self.name) .. " says, 'Please, do whatever you need to recover those supplies and")
     self.room:send("</>bring them to me.'")
-    if world.count_mobiles("18522") == 0 then
+    if world.count_mobiles(185, 22) == 0 then
         get_room(11, 0):at(function()
             self.room:spawn_mobile(185, 22)
         end)

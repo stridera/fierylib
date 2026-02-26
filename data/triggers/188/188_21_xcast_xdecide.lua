@@ -37,7 +37,7 @@ local _return_value = true  -- Default: allow action
 -- 
 if (actor.id >= 18820) and (actor.id <= 18842) then
     -- Block 'Huh?!?' message
-    _return_value = true
+    _return_value = false
     -- Choose spell
     -- These if statements allow the user to only type part of the spell
     -- name, such as just 'arc' for 'arctic blast'.  However, this also
@@ -142,6 +142,6 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     end
 else
     -- Do nothing for non-dragonquest mobs
-    _return_value = false
+    _return_value = true
 end
 return _return_value

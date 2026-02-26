@@ -46,7 +46,7 @@ else
     local response = "What is this?"
 end
 if response then
-    _return_value = false
+    _return_value = true
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

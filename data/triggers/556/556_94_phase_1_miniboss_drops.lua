@@ -26,7 +26,7 @@ if will_drop <= 30 then
     -- 30% to drop nothing
 elseif will_drop <= 70 then
     -- 40% to drop a gem
-    local gem_vnum = what_gem_drop + 55565
+    local gem_vnum = what_gem_drop + 65
 elseif will_drop >= 71 and will_drop <= 90 then
     -- 20% to drop armor
     -- drop destroyed armor 55299 is the vnum before the
@@ -48,10 +48,10 @@ elseif will_drop >= 71 and will_drop <= 90 then
     elseif armor_vnum == 55327 then
         local armor_vnum = 55324
     end
-    self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    self.room:spawn_object(math.floor(armor_vnum / 100), armor_vnum % 100)
 else
     -- 10% chance to drop armor and gem
-    local gem_vnum = what_gem_drop + 55565
+    local gem_vnum = what_gem_drop + 65
     local armor_vnum = what_armor_drop + 55299
     -- do this because decayed medium armor isn't used, replace with warrior/cleric
     if armor_vnum == 55303 then
@@ -69,6 +69,6 @@ else
     elseif armor_vnum == 55327 then
         local armor_vnum = 55324
     end
-    self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
-    self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    self.room:spawn_object(555, gem_vnum)
+    self.room:spawn_object(math.floor(armor_vnum / 100), armor_vnum % 100)
 end

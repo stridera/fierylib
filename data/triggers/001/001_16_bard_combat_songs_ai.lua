@@ -23,7 +23,7 @@ if self.level >= 70 then
             local room = self.room
             local person = room.people
             while person do
-                if person.id == -1 then
+                if person.is_player then
                     if not self:get_has_spell("terror") and not self:get_has_spell("ballad of tears") then
                         self:perform("ballad of tears", person, self.level)
                         local now2 = time.stamp

@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "f" or cmd == "fo" or cmd == "for" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local trophystage = actor:get_quest_stage("ranger_trophy")
@@ -69,6 +69,6 @@ if continue == "yes" then
     actor:send("<b:green>Your connection to " .. tostring(self.shortdesc) .. " takes on new meaning!</>")
     actor:set_quest_var("ranger_trophy", "trophytask4", 1)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

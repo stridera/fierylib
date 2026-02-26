@@ -34,7 +34,7 @@ while i >= a do
                 person:send("<b:red>You have sufficiently bathed in the blood of the " .. tostring(word) .. "!</>")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

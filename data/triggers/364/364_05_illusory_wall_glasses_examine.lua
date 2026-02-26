@@ -24,11 +24,11 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "e" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if arg then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local room = self.room
@@ -234,7 +234,7 @@ if actor:get_quest_stage("illusory_wall") == 2 and not actor:get_has_completed("
     if room:get_up("bits") /= DOOR or room:get_down("bits") /= DOOR or room:get_east("bits") /= DOOR or room:get_west("bits") /= DOOR or room:get_north("bits") /= DOOR or room:get_south("bits") /= DOOR then
         if actor.quest_variable[illusory_wall:region] then
             actor:send("<b:white>You have already learned all you can from this region.</>")
-            _return_value = false
+            _return_value = true
             return _return_value
         else
             actor.name:set_quest_var("illusory_wall", "%region%", 1)
@@ -260,9 +260,9 @@ if actor:get_quest_stage("illusory_wall") == 2 and not actor:get_has_completed("
             end
         end
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

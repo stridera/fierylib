@@ -14,7 +14,7 @@ if not percent_chance(40) then
 end
 -- Random chance to attack!
 local rnd = room.actors[random(1, #room.actors)]
-if rnd.id == -1 then
+if rnd.is_player then
     if rnd.level < 100 then
         wait(1)
         self.room:send_except(rnd, tostring(self.name) .. " flies into a rage!")

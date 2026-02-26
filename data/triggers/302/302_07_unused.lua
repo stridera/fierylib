@@ -16,5 +16,5 @@ local _return_value = true  -- Default: allow action
 -- Allows normal use of 'd' command around red leather bag (it intercepts
 -- the "drag" command in trigger 30206).
 -- Applied to: o30209
-_return_value = false
+_return_value = true
 return _return_value

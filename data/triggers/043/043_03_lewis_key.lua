@@ -53,7 +53,7 @@ else
     local refuse = "item"
 end
 if refuse then
-    _return_value = false
+    _return_value = true
     if refuse == "quest" then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)

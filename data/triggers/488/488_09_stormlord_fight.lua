@@ -23,7 +23,7 @@ elseif mode < 8 then
     local max_hits = 5
     while max_hits > 0 do
         local victim = room.actors[random(1, #room.actors)]
-        if (victim.id == -1) and not (string.find(victim_list, "victim.name")) then
+        if (victim.is_player) and not (string.find(victim_list, "victim.name")) then
             local damage = 150 + random(1, 50)
             if victim:has_effect(Effect.Sanctuary) then
                 damage = damage / 2
@@ -53,7 +53,7 @@ else
     wait(1)
     self.room:send("<blue>Lightning begins to crackle around " .. tostring(self.name) .. "'s right arm.</>")
     wait(1)
-    if actor and (actor.room == self.room) and (actor.id == -1) then
+    if actor and (actor.room == self.room) and (actor.is_player) then
         self.room:send("<blue>The glowing lightning flows into " .. tostring(self.name) .. "'s index finger.</>")
         self.room:send_except(actor, tostring(self.name) .. " points " .. tostring(self.possessive) .. " finger at " .. tostring(actor.name) .. ".")
         actor:send(tostring(self.name) .. " points " .. tostring(self.possessive) .. " finger at you.")

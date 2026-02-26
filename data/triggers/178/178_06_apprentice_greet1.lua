@@ -12,7 +12,7 @@
 if not percent_chance(75) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     self:command("sigh")
     self:emote("mumbles to himself about completing his training.")
     self:say("If you need help, just ask.")

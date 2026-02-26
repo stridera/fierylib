@@ -17,7 +17,7 @@ if random(1, 10) < 4 then
     self.room:send("The electrical charge around the Tempest grows stronger than the air can handle.")
     wait(1)
     self.room:send("Powerful arcs of <b:blue>lightning</> jump from the Tempest Manifest, saturating the air with energy!")
-    run_room_trigger(23818)
+    run_room_trigger(238, 18)
 else
     wait(1)
     self.room:send("Lightning crackles through the Tempest, electrifying the air around its body.")

@@ -40,7 +40,7 @@ while person do
                 local zone = 554
             end
             local place = ((zone * 100) + 99 + random)
-            person:teleport(get_room(vnum_to_zone(place), vnum_to_local(place)))
+            person:teleport(get_room(math.floor(place / 100), place % 100))
             -- person looks around
         end
     end

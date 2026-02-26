@@ -15,13 +15,13 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if string.find(arg, "purple") or string.find(arg, "cherry") then
-    _return_value = true
+    _return_value = false
     actor:send("You can't reach that high!")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

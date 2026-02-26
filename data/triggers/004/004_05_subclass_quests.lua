@@ -11,7 +11,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "subclass") then
-    _return_value = false
+    _return_value = true
     -- add RESTRICTED races to these defines here!!
     local necromancerraces = "faerie_seelie elf"
     local cryoraces = "arborean dragonborn_fire"

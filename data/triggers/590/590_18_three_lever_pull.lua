@@ -21,7 +21,7 @@ if first_kill ~= 2 and (arg == "left" or arg == "center" or arg == "right") then
         self.room:find_actor("sacred-haven-ai"):command("mat 59056 m_run_room_trig 59022")
     end)
 end
-if world.count_objects("59035") == 1 then
+if world.count_objects(590, 35) == 1 then
     if actor.level <=40 then
         local dmg = (2 * actor.level) +  random(1, 70)
     elseif actor.level >=41 and actor.level <=70 then
@@ -45,8 +45,8 @@ if world.count_objects("59035") == 1 then
                 get_room(590, 55):at(function()
                     self.room:send("The large stone door slowly slides open.")
                 end)
-                doors.set_flags(get_room(590, 56), "south", "a")
-                doors.set_flags(get_room(590, 55), "north", "a")
+                get_room(590, 56):exit("south"):set_state({has_door = true})
+                get_room(590, 55):exit("north"):set_state({has_door = true})
                 world.destroy(self.room:find_actor("large-silver-levers"))
                 first_kill = nil
                 last_pin = nil
@@ -99,8 +99,8 @@ if world.count_objects("59035") == 1 then
                 get_room(590, 55):at(function()
                     self.room:send("The large stone door slowly slides open.")
                 end)
-                doors.set_flags(get_room(590, 56), "south", "a")
-                doors.set_flags(get_room(590, 55), "north", "a")
+                get_room(590, 56):exit("south"):set_state({has_door = true})
+                get_room(590, 55):exit("north"):set_state({has_door = true})
                 world.destroy(self.room:find_actor("large-silver-levers"))
                 first_kill = nil
                 last_pin = nil
@@ -153,8 +153,8 @@ if world.count_objects("59035") == 1 then
                 get_room(590, 55):at(function()
                     self.room:send("The large stone door slowly slides open.")
                 end)
-                doors.set_flags(get_room(590, 56), "south", "a")
-                doors.set_flags(get_room(590, 55), "north", "a")
+                get_room(590, 56):exit("south"):set_state({has_door = true})
+                get_room(590, 55):exit("north"):set_state({has_door = true})
                 world.destroy(self.room:find_actor("large-silver-levers"))
                 first_kill = nil
                 last_pin = nil
@@ -196,6 +196,6 @@ if world.count_objects("59035") == 1 then
         actor:send("Pull what?")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

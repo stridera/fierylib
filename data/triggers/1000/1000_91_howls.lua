@@ -1,5 +1,5 @@
 -- Trigger: howls
--- Zone: 1000, ID: 91
+-- Zone: 0, ID: 91
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

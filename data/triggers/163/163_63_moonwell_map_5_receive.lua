@@ -32,7 +32,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 11 then
         self.room:send("<b:cyan>The moonwell beings to <b:magenta>swirl</>!")
         wait(25)
         -- mecho &5A swirling &0moonwell &5appears at %self.name%'s feet!&0
-        run_room_trigger(16348)
+        run_room_trigger(163, 48)
         wait(30)
         self.room:send("A soft yet loud voice says, 'You have done well young dryad.  Perhaps you truly")
         self.room:send("</>are repentant.  For your service, I release you from your shackles.'")
@@ -49,7 +49,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 11 then
         skills.set_level(actor.name, "moonwell", 100)
         world.destroy(self)
     else
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)

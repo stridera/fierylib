@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "beast") or string.find(arg, "masters") or string.find(arg, "beast_masters") then
-    _return_value = false
+    _return_value = true
     local stage = actor:get_quest_stage("beast_master")
     local master = mobiles.template(53, 6).name
     local bounty = actor:get_quest_var("beast_master:hunt")

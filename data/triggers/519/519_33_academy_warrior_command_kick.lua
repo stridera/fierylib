@@ -31,5 +31,5 @@ if actor:get_quest_var("school:fight") == 2 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Equip that with <b:green>wear shield</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

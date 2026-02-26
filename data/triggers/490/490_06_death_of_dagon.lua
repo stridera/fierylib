@@ -8,10 +8,10 @@
 -- Converted from DG Script #49006: death_of_dagon
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("Dagon utters a blood curdling scream as his demonic spirit returns to its realm.")
-run_room_trigger(49007)
-if not (world.count_mobiles("49010")) then
+run_room_trigger(490, 7)
+if world.count_mobiles(490, 10) == 0 then
     get_room(490, 190):at(function()
         self.room:spawn_mobile(490, 10)
     end)

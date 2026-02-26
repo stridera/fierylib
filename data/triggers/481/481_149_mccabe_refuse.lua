@@ -17,7 +17,7 @@ local _return_value = true  -- Default: allow action
 if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wandvnum%" then
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     self:command("eye")
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'And what exactly am I supposed to do with this?'")

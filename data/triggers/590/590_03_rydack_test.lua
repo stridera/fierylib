@@ -13,7 +13,7 @@ if not (cmd == "fire") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 if actor:get_worn("shield") ~= -1 then
     self.room:send("ok, not wearing shield")
     local vnum = actor:get_worn("shield")

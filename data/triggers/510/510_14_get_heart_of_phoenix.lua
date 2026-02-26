@@ -14,12 +14,12 @@ if already_got ~= 1 then
     if actor:has_equipped("51026") then
         actor:send("The corpse is extremely hot and may combust soon!")
         actor:award_exp(30000)
-        _return_value = true
+        _return_value = false
         local already_got = 1
         globals.already_got = globals.already_got or true
     else
         actor:send("The corpse is too hot to touch without special protection!")
-        _return_value = false
+        _return_value = true
     end
     wait(2)
     self.room:send("The corpse suddenly crumbles to ash.")

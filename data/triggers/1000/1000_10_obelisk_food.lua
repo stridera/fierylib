@@ -1,5 +1,5 @@
 -- Trigger: Obelisk (Food)
--- Zone: 1000, ID: 10
+-- Zone: 0, ID: 10
 -- Type: WORLD, Flags: SPEECH
 -- Status: CLEAN
 --
@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "all") or string.find(string.lower(speech), "hail") or string.find(string.lower(speech), "uklor")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     self.room:send("</>&9<blue>The ancient </><magenta>obelisk</>&9<blue> hums with pleasure.</>")
     self.room:send("A gust of </><white></>divine</><b:yellow> energy</> sweeps through the room, leaving a loaf of </><yellow>bread</> in its wake.")
     self.room:spawn_object(147, 11)

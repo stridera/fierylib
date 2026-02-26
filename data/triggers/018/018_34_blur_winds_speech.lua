@@ -46,7 +46,7 @@ if actor:get_quest_stage("blur") == 4 then
         local home = 12597
         local color = "&3&b"
         local room = get_room("12597")
-        if world.count_mobiles("48105") == 0 then
+        if world.count_mobiles(481, 5) == 0 then
             self:say("Then let it be so!")
             wait(1)
             self.room:send(tostring(self.name) .. " says, 'Reach " .. tostring(color) .. tostring(room.name) .. "</>")
@@ -66,12 +66,11 @@ if actor:get_quest_stage("blur") == 4 then
         wait(3)
         self.room:send(tostring(self.name) .. " says, 'I'll be riding the fastest animal in Gothra!")
         self.room:send("</>If you can find me, then we can race!'")
-        local load = 20308 + random(1, 46)
-        get_room(vnum_to_zone(load), vnum_to_local(load)):at(function()
+        get_room(203, 8 + random(1, 46)):at(function()
             self.room:spawn_mobile(203, 21)
         end)
     else
-        _return_value = false
+        _return_value = true
     end
     self:teleport(get_room(11, 0))
     local count = 450

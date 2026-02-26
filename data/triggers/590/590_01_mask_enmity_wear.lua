@@ -8,9 +8,9 @@
 -- Converted from DG Script #59001: mask_enmity_wear
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.alignment > -350 then
-        _return_value = false
+        _return_value = true
         wait(1)
         self.room:send("The mask of enmity starts to &9<blue>smoke</> violently!")
         wait(2)

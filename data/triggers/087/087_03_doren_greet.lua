@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #8703: doren greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     self:shout("Help!  Help!")
     self.room:find_actor("bandit"):command("kill %actor%")

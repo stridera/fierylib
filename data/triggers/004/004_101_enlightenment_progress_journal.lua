@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "enlightenment") or string.find(arg, "monk") vision or string.find(arg, "monk_vision") then
     if string.find(actor.class, "Monk") then
-        _return_value = false
+        _return_value = true
         local missionstage = actor:get_quest_stage("elemental_chaos")
         local visionstage = actor:get_quest_stage("monk_vision")
         local master = mobiles.template(53, 8).name

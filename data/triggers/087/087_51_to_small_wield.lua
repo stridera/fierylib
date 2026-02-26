@@ -10,8 +10,8 @@
 local _return_value = true  -- Default: allow action
 if actor.size == "tiny" or actor.size == "small" or actor.size == "medium" then
     actor:send("It's too big for you!")
-    _return_value = false
-else
     _return_value = true
+else
+    _return_value = false
 end
 return _return_value

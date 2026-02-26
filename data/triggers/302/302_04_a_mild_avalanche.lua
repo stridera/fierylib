@@ -17,7 +17,7 @@ end
 -- smacked by a rock and moved to a downhill room unless they escape.
 -- Applied to: r30216, r30220, r30230, r30234, r30239, r30244
 local victim = room.actors[random(1, #room.actors)]
-if victim == 0 or victim.id ~= -1 then
+if victim == 0 or victim.is_npc then
     return _return_value
 end
 local startroom = victim.room
@@ -55,7 +55,7 @@ if victim.room == "startroom" then
             self.room:send_except(victim, tostring(victim.name) .. " tumbles downhill!")
             victim:send("You try to dodge the boulders, but a large stone whacks you in the chest! (<red>" .. tostring(damage_dealt) .. "</>)")
             victim:send("You are knocked down!")
-            victim:teleport(get_room(vnum_to_zone(destroom), vnum_to_local(destroom)))
+            victim:teleport(get_room(math.floor(destroom / 100), destroom % 100))
             self.room:send_except(victim, tostring(victim.name) .. " tumbles down the trail from above, and comes to a rest.")
             wait(1)
             -- victim looks around

@@ -16,6 +16,6 @@ if victim.id ~= 52012 then
     if room == 52086 then
         local room = 52083
     end
-    victim:teleport(get_room(vnum_to_zone(room), vnum_to_local(room)))
+    victim:teleport(room)
     -- victim looks around
 end

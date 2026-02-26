@@ -21,18 +21,18 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "l" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if string.find(arg.id, "self.id") then
     if burning == 1 then
-        _return_value = true
+        _return_value = false
         actor:send("It's already lit!")
     elseif on_ground == 0 then
-        _return_value = true
+        _return_value = false
         actor:send("To avoid being horribly disfigured by fire, dropping it first might be a good idea.")
     else
-        _return_value = true
+        _return_value = false
         local burning = 1
         globals.burning = globals.burning or true
         self.room:send_except(actor, tostring(actor.name) .. " lights " .. tostring(self.shortdesc) .. ".")
@@ -66,6 +66,6 @@ if string.find(arg.id, "self.id") then
         world.destroy(self.name)
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

@@ -8,7 +8,7 @@
 -- Converted from DG Script #3050: Armor Exchange greeting
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     local item = actor:get_quest_var("armor_exchange:gem_vnum")
     if actor:get_quest_stage("armor_exchange") == 1 then
         actor:send(tostring(self.name) .. " shouts to you, 'Well howdy-hoo!  Welcome back!'")

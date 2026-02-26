@@ -26,7 +26,7 @@ if actor:get_quest_stage("ursa_quest") == 3 then
             wait(3)
             self:say("It absorbs no light, it seems, but is made of such fine gold and gems that it radiates light.  The priests of South Caelia recognize its fierce beauty.  You will find it there still.")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("This isn't the sunstone.  Find and return it.")

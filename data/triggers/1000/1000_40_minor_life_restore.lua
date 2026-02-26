@@ -1,5 +1,5 @@
 -- Trigger: Minor Life Restore
--- Zone: 1000, ID: 40
+-- Zone: 0, ID: 40
 -- Type: OBJECT, Flags: DEATH
 -- Status: CLEAN
 --

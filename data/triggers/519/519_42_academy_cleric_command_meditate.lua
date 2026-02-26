@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "m" or cmd == "me" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:fight") == 5 then
@@ -31,5 +31,5 @@ if actor:get_quest_var("school:fight") == 5 then
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'When you're done, type <b:green>stand</> so I know you're ready to continue.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

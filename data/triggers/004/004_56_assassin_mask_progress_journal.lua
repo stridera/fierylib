@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(arg, "deadly_promotion") or arg /=assassin_mask then
     if string.find(actor.class, "Assassin") then
-        _return_value = false
+        _return_value = true
         local bountystage = actor:get_quest_stage("bounty_hunt")
         local maskstage = actor:get_quest_stage("assassin_mask")
         local master = mobiles.template(60, 51).name

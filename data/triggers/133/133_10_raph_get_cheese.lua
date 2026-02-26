@@ -8,12 +8,12 @@
 -- Converted from DG Script #13310: raph_get_cheese
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("get_raph_food") == 5 then
         if already_retrieved_cheese == 1 then
             self.room:send_except(actor, "The cheese turns to a mushy goo in " .. tostring(actor.name) .. "'s hands.")
             actor:send("You squished the cheese into goo!")
-            _return_value = false
+            _return_value = true
         else
             actor.name:advance_quest("get_raph_food")
         end

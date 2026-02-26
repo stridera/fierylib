@@ -18,5 +18,5 @@ else
     actor:send("The shards of glass fall through your fingers, leaving large slices in your hands! (<red>" .. tostring(damage_dealt) .. "</>)")
     self.room:send_except(actor, tostring(actor.name) .. " curses as some shards of glass fall through " .. tostring(actor.possessive) .. " fingers. (<red>" .. tostring(damage_dealt) .. "</>)")
 end
-_return_value = false
+_return_value = true
 return _return_value

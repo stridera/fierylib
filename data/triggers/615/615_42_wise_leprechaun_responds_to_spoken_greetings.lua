@@ -14,8 +14,8 @@ if not (string.find(string.lower(speech), "hi") or string.find(string.lower(spee
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
-    _return_value = true
+if actor.is_player then
+    _return_value = false
     wait(1)
     self:say("Why hello to you too!")
     wait(1)
@@ -29,6 +29,6 @@ if actor.id == -1 then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'If you bring me some, I can help you with those awful spiders, oh yes...  Mind you, I'm particular to cherries.'")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

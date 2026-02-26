@@ -8,7 +8,7 @@
 -- Converted from DG Script #3000: Receptionist_no_item_trigger
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 actor:send(tostring(self.name) .. " says, 'I'm sorry, but I cannot accept this.'")
 actor:send(tostring(self.name) .. " refuses your item.")
 return _return_value

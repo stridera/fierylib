@@ -25,7 +25,7 @@ while i >= a do
     end
     a = a + 1
 end
-if world.count_mobiles("16010") < 1 then
+if world.count_mobiles(160, 10) < 1 then
     -- load shadow demon and equip keys
     -- It would be nice to check to see if the keys
     -- are already in the game and not load them.

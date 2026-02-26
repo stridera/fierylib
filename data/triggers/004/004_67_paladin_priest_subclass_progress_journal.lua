@@ -19,7 +19,7 @@ if actor.level > 10 then
         local check = "yes"
     end
     if string.find(check, "yes") then
-        _return_value = false
+        _return_value = true
         actor:send("Quest Master: " .. tostring(mobiles.template(185, 81).name))
         actor:send("</>")
         actor:send("Minimum Level: 10")

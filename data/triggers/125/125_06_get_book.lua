@@ -10,9 +10,9 @@
 local _return_value = true  -- Default: allow action
 actor:damage(100)  -- type: slash
 if damage_dealt == 0 then
-    _return_value = true
-else
     _return_value = false
+else
+    _return_value = true
     actor:send("As you grab the book, blades rip through your hand - it must have been trapped! (<b:yellow>" .. tostring(damage_dealt) .. "</>)")
     self.room:send_except(actor, tostring(actor.name) .. " grabs the green book, and screams in pain as blades rip through " .. tostring(actor.possessive) .. " hand. (<b:yellow>" .. tostring(damage_dealt) .. "</>)")
 end

@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "t" or cmd == "tr" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:loot") == 4 then
@@ -39,5 +39,5 @@ if actor:get_quest_var("school:loot") == 4 then
     actor:send(tostring(self.name) .. " tells you, 'Looks like you're ready for some rest!")
     actor:send("Head <b:green>east</> to the banquet hall.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

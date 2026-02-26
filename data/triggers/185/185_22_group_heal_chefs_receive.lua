@@ -11,7 +11,7 @@
 -- Converted from DG Script #18522: group_heal_chefs_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 if object.id == 18514 and actor:get_quest_stage("group_heal") == 5 then
     if actor.quest_variable[group_heal:self.vnum] then
         if self.id == 50203 then
@@ -110,7 +110,7 @@ if object.id == 18514 and actor:get_quest_stage("group_heal") == 5 then
             wait(1)
             self:command("drop notes")
         else
-            _return_value = false
+            _return_value = true
         end
         self:command("give notes " .. tostring(actor.name))
     end

@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if (actor.id == 18890) or (actor.id == 18891) then
 else
-    _return_value = false
+    _return_value = true
     if actor.canbeseen then
         actor:send("As you take hold of " .. tostring(self.shortdesc) .. ", it melts between your fingers.")
         self.room:send_except(actor, "As " .. tostring(actor.name) .. " takes hold of " .. tostring(self.shortdesc) .. ", it melts between " .. tostring(actor.possessive) .. " fingers.")

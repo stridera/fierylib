@@ -13,28 +13,28 @@ if not (cmd == "kneel") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 -- switch on cmd
 if cmd == "k" then
     return _return_value
 end
 if actor.alignment > -349 then
-    actor.name:send("A bright white beam of light descends upon you.")
-    self.room:send_except(actor.name, "A bright beam of white light descends upon " .. tostring(actor.name) .. ".")
-    doors.set_flags(get_room(185, 66), "west", "a")
-    doors.set_state(get_room(185, 66), "west", {action = "room"})
-    doors.set_name(get_room(185, 66), "west", "large wooden door")
-    doors.set_key(get_room(185, 66), "west", -1)
-    doors.set_description(get_room(185, 66), "west", "A large wooden door bars your way.")
+    actor:send("A bright white beam of light descends upon you.")
+    self.room:send_except(actor, "A bright beam of white light descends upon " .. tostring(actor.name) .. ".")
+    get_room(185, 66):exit("west"):set_state({has_door = true})
+    get_room(185, 66):exit("west"):set_state({hidden = false})
+    get_room(185, 66):exit("west"):set_state({name = "large wooden door"})
+    -- doors.set_key not supported
+    get_room(185, 66):exit("west"):set_state({description = "A large wooden door bars your way."})
     wait(3)
-    actor.name:send("A door in the cross to the west opens silently.")
-    self.room:send_except(actor.name, "A door in the cross to the west opens silently.")
+    actor:send("A door in the cross to the west opens silently.")
+    self.room:send_except(actor, "A door in the cross to the west opens silently.")
 else
-    actor.name:send("A bright white beam of light descends upon you.")
-    self.room:send_except(actor.name, "A bright white beam of light descends upon " .. tostring(actor.name) .. ".")
+    actor:send("A bright white beam of light descends upon you.")
+    self.room:send_except(actor, "A bright beam of white light descends upon " .. tostring(actor.name) .. ".")
     wait(2)
-    actor.name:send("The light becomes increasingly bright, and turns painful!")
-    actor.name:damage(179)  -- type: physical
-    self.room:send_except(actor.name, "The light brightens significantly, burning " .. tostring(actor.name) .. "'s skin.")
+    actor:send("The light becomes increasingly bright, and turns painful!")
+    actor:damage(179)  -- type: physical
+    self.room:send_except(actor, "The light brightens significantly, burning " .. tostring(actor.name) .. "'s skin.")
 end
 return _return_value

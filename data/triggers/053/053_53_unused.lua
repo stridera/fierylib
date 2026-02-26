@@ -22,7 +22,7 @@ local _return_value = true  -- Default: allow action
 -- For Seed of Destruction on item 48037
 -- switch on cmd
 if cmd == "m" or cmd == "me" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_stage("monk_vision") >= 9 and actor:get_quest_stage("monk_chants") == 7 and actor.level == 99 and actor.room == 48913 then
@@ -71,9 +71,9 @@ if actor:get_quest_stage("monk_vision") >= 9 and actor:get_quest_stage("monk_cha
             world.destroy(self)
         end
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

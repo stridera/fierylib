@@ -17,7 +17,7 @@ if actor:get_quest_stage("ursa_quest") == 6 then
                 -- The following regular items can be picked up and have large enough values: 3147, 16102, 55029
                 wait(2)
                 world.destroy(object)
-                run_room_trigger(62550)
+                run_room_trigger(625, 50)
             else
                 wait(1)
                 self:command("shake")
@@ -25,7 +25,7 @@ if actor:get_quest_stage("ursa_quest") == 6 then
                 self:command("give " .. tostring(object) .. " " .. tostring(actor))
             end
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("I need a body-bag or a large chest...")

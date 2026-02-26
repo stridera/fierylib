@@ -39,29 +39,29 @@ while i >= a do
                     person:send(tostring(self.name) .. " says, 'Splendid.'")
                     -- switch on person:get_quest_stage("elemental_chaos")
                     if person:get_quest_stage("elemental_chaos") == 1 then
-                        local mission = 5320
+                        local mission = 20
                     elseif person:get_quest_stage("elemental_chaos") == 2 then
-                        local mission = 5321
+                        local mission = 21
                     elseif person:get_quest_stage("elemental_chaos") == 3 then
-                        local mission = 5322
+                        local mission = 22
                     elseif person:get_quest_stage("elemental_chaos") == 4 then
-                        local mission = 5323
+                        local mission = 23
                     elseif person:get_quest_stage("elemental_chaos") == 5 then
-                        local mission = 5324
+                        local mission = 24
                     elseif person:get_quest_stage("elemental_chaos") == 6 then
-                        local mission = 5325
+                        local mission = 25
                     elseif person:get_quest_stage("elemental_chaos") == 7 then
-                        local mission = 5326
+                        local mission = 26
                     elseif person:get_quest_stage("elemental_chaos") == 8 then
-                        local mission = 5327
+                        local mission = 27
                     elseif person:get_quest_stage("elemental_chaos") == 9 then
-                        local mission = 5328
+                        local mission = 28
                     elseif person:get_quest_stage("elemental_chaos") == 10 then
-                        local mission = 5329
+                        local mission = 29
                     else
-                        local mission = 5320
+                        local mission = 20
                     end
-                    self.room:spawn_object(vnum_to_zone(mission), vnum_to_local(mission))
+                    self.room:spawn_object(53, mission)
                     self:command("give mission " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've completed your task, bring that mission back to me.  I can give you a modest reward.  You can check your <b:cyan>[progress]</> at any time.'")
@@ -97,7 +97,7 @@ while i >= a do
                 person:send(tostring(self.name) .. " says, 'Give me more time to strategize how to bring Balance to Chaos.  Come back after you've gained some more experience.'")
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

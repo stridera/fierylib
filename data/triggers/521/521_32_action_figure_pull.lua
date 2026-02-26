@@ -19,7 +19,7 @@ if not (cmd == "pull") then
 end
 local _return_value = true  -- Default: allow action
 if arg == "string" then
-    _return_value = true
+    _return_value = false
     -- switch on random(1, 9)
     if random(1, 9) == 1 then
         local phrase = "Ahoy scurvey mateys!"
@@ -45,6 +45,6 @@ if arg == "string" then
     self.room:send(tostring(actor.name) .. " pulls the string on a Dakhod action figure.")
     self.room:send("The Dakhod action figure says, '" .. tostring(phrase) .. "'")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

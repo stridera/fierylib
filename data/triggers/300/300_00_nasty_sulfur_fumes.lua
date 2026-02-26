@@ -13,7 +13,7 @@ if not percent_chance(40) then
     return true
 end
 local victim = room.actors[random(1, #room.actors)]
-if victim == 0 or victim.id ~= -1 then
+if victim == 0 or victim.is_npc then
     return _return_value
 end
 local damage = 2

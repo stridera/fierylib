@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "d" or cmd == "dr" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (actor.name == player1.name) or (actor.name == player2.name) then
@@ -47,7 +47,7 @@ elseif actor.name == player2.name then
     end
     local piece = p2colO&0
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if arg == 1 then

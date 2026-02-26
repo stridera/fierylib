@@ -8,4 +8,4 @@
 -- Converted from DG Script #2205: pit-fiend-death-exit
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 self.room:send("<yellow>The ground shakes violently!</>")
-run_room_trigger(2206)
+run_room_trigger(22, 6)

@@ -46,6 +46,6 @@ if string.find(self.class, "diabolist") then
         self:say("That spell isn't part of our magical tradition.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

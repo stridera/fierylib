@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "m" or cmd == "me" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on self.id
@@ -154,9 +154,9 @@ if actor:get_quest_stage("monk_vision") > visionstage and actor:get_quest_stage(
             world.destroy(self)
         end
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

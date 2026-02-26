@@ -8,5 +8,5 @@
 -- Converted from DG Script #12009: Dark pixie tormentor dies
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 if self.room == 12103 then
-    run_room_trigger(12008)
+    run_room_trigger(120, 8)
 end

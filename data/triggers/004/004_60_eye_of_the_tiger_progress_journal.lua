@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "eye") of the tiger or string.find(arg, "tiger") then
     local hunterclasses = "Warrior Ranger Berserker Mercenary"
     if string.find(hunterclasses, "actor.class") then
-        _return_value = false
+        _return_value = true
         local huntstage = actor:get_quest_stage("beast_master")
         local trophystage = actor:get_quest_stage("ranger_trophy")
         local job1 = actor:get_quest_var("ranger_trophy:trophytask1")

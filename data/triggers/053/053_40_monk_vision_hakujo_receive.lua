@@ -94,25 +94,25 @@ elseif object.id == 55741 then
     local item = "gem"
 end
 if actor:get_quest_stage("elemental_chaos") < actor:get_quest_stage("monk_vision") then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Undertake more missions in service of Balance first.'")
 elseif actor.level < (actor:get_quest_stage("monk_vision") * 10) then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
 elseif visionstage > actor:get_quest_stage("monk_vision") then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Your vision doesn't involve that yet.  Be patient!'")
 elseif visionstage < actor:get_quest_stage("monk_vision") then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
@@ -129,7 +129,7 @@ else
             world.destroy(object)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'Well done!  You've earned your next vision mark.'")
-            self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+            self.room:spawn_object(math.floor(reward / 100), reward % 100)
             self:command("give vision " .. tostring(actor))
             local expcap = visionstage * 10
             if expcap < 17 then
@@ -174,7 +174,7 @@ else
                 end
             end
         else
-            _return_value = false
+            _return_value = true
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
@@ -182,7 +182,7 @@ else
         end
     elseif item == "book" or item == "gem" then
         if not actor:get_quest_var("monk_vision:visiontask4") then
-            _return_value = false
+            _return_value = true
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
@@ -207,7 +207,7 @@ else
         end
     end
     if accept == "no" then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You already gave me that.'")

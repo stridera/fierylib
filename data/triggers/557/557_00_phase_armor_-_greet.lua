@@ -14,12 +14,12 @@ local _return_value = true  -- Default: allow action
 wait(2)
 local anti = "Anti-Paladin"
 if not actor or not actor.can_be_seen then
-    _return_value = false
+    _return_value = true
 else
     if actor.level <= (20 * (phase - 1)) then
-        _return_value = false
+        _return_value = true
     elseif not (string.find(classes, "actor.class")) or (classes == "anti" and actor.class == "Paladin") then
-        _return_value = false
+        _return_value = true
     elseif actor:get_quest_stage("phase_armor") == (phase - 1) then
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Welcome, would you like to do some armor quests?  If so, just ask me about them.'")

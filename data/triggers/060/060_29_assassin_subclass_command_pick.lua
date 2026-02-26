@@ -21,9 +21,9 @@ if self.room == 3062 then
         self.room:send_except(actor, tostring(self.name) .. " shoves " .. tostring(actor.name) .. " away from the door.")
         actor:send(tostring(self.name) .. " shoves you away from the door.")
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

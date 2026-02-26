@@ -11,11 +11,11 @@
 local mode = random(1, 10)
 if mode < 7 then
     wait(2)
-    if actor and (actor.room == self.room) and (actor.id == -1) then
+    if actor and (actor.room == self.room) and (actor.is_player) then
         local max_tries = 5
         while max_tries > 0 do
             local victim = room.actors[random(1, #room.actors)]
-            if (victim.id == -1) and (victim.name ~= actor.name) then
+            if (victim.is_player) and (victim.name ~= actor.name) then
                 local okay = 1
                 local max_tries = 0
             end
@@ -44,12 +44,12 @@ if mode < 7 then
         self.room:send_except(actor, "The vortex flings " .. tostring(actor.name) .. " out, and right into " .. tostring(victim.name) .. "! (<blue>" .. tostring(actor_damage) .. "</>) (<blue>" .. tostring(victim_damage) .. "</>)")
         actor:teleport(get_room(11, 0))
         -- Teleport back and forth to break combat
-        actor:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
-        victim:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
+        actor:teleport(self.room)
+        victim:teleport(self.room)
     end
 else
     wait(2)
-    if actor and (actor.room == self.room) and (actor.id == -1) then
+    if actor and (actor.room == self.room) and (actor.is_player) then
         local damage = 120 + random(1, 100)
         if actor:has_effect(Effect.Sanctuary) then
             damage = damage / 2
@@ -58,8 +58,7 @@ else
         actor:send("<cyan>" .. tostring(self.name) .. " throws a tremendous burst of wind at you, throwing you from the area!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, "<cyan>" .. tostring(self.name) .. " throws a tremendous burst of wind at " .. tostring(actor.name) .. ", throwing " .. tostring(actor.object) .. " from the area!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
         if actor &(actor.room == self.room) then
-            local location = 48801 + random(1, 29)
-            actor:teleport(get_room(vnum_to_zone(location), vnum_to_local(location)))
+            actor:teleport(get_room(488, 1 + random(1, 29)))
             -- actor looks around
         end
     end

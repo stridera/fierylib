@@ -27,7 +27,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 7 then
         wait(4)
         actor:send("</>But be careful, for 'tis a dangerous place for the unprepared!'")
     else
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)

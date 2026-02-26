@@ -60,7 +60,7 @@ if stage == 5 then
     wait(5)
     actor:send(tostring(self.name) .. " says, 'Well?  Quickly, now!'")
 elseif stage < 5 then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Perhaps you should do the steps of this quest in order.  Go talk to Earle.'")

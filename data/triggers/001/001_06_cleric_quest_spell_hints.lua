@@ -66,6 +66,6 @@ if string.find(self.class, "cleric") or string.find(self.class, "priest") then
         self.room:send("'my knowledge of that spell is limited.'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

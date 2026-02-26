@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:fight") == 1 then
@@ -39,5 +39,5 @@ if actor:get_quest_var("school:fight") == 1 then
     actor:send(tostring(self.name) .. " tells you, 'Give it a try!")
     actor:send("Type <b:green>kick monster</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

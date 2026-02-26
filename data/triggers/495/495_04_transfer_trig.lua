@@ -18,7 +18,7 @@ end
 if not (cmd == "east" or cmd == "e") then
     return true  -- Not our command
 end
-if actor.id == -1 then
+if actor.is_player then
     if string.find(actor.class, "Priest") or Cleric or Paladin or Ranger or Monk or Druid then
         if actor.alignment < +350 then
             actor:send("You have no business here in the realm of shadow and death.")

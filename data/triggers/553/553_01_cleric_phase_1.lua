@@ -37,13 +37,13 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
     local vnum_gem_legs = 55586
     local vnum_gem_chest = 55590
     -- rewards for this class
-    local vnum_reward_helm = 55391
-    local vnum_reward_arms = 55392
-    local vnum_reward_chest = 55393
-    local vnum_reward_legs = 55394
-    local vnum_reward_boots = 55395
-    local vnum_reward_bracer = 55396
-    local vnum_reward_gloves = 55397
+    local vnum_reward_helm = 91
+    local vnum_reward_arms = 92
+    local vnum_reward_chest = 93
+    local vnum_reward_legs = 94
+    local vnum_reward_boots = 95
+    local vnum_reward_bracer = 96
+    local vnum_reward_gloves = 97
     -- 
     -- attempt to reinitialize slutty dg variables to "" (nothing)
     -- so this switch will work.
@@ -107,7 +107,7 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
         local vnum_gem = vnum_gem_gloves
         local vnum_reward = vnum_reward_gloves
     else
-        _return_value = false
+        _return_value = true
         wait(1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
@@ -134,7 +134,7 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
             world.destroy(object.name)
             actor:save()
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             self:command("eye " .. tostring(actor.name))
             wait(1)
@@ -155,7 +155,7 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            self.room:spawn_object(553, vnum_reward)
             wait(1)
             -- 
             -- loop for exp award.
@@ -194,7 +194,7 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
             world.destroy(object.name)
             actor:save()
         else
-            _return_value = false
+            _return_value = true
             wait(2)
             self:command("eye " .. tostring(actor.name))
             wait(1)
@@ -215,7 +215,7 @@ if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
+            self.room:spawn_object(553, vnum_reward)
             wait(1)
             -- 
             -- loop for exp award.
@@ -241,7 +241,7 @@ else
     -- the player in the first place and make it look
     -- like homeslice is giving the object back.
     -- 
-    _return_value = false
+    _return_value = true
     wait(1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")

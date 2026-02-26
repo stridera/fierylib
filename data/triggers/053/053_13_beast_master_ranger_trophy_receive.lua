@@ -162,7 +162,7 @@ elseif object.id == 55741 then
     local item = "gem"
     local go = "trophy"
 else
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
@@ -248,7 +248,7 @@ if go == "hunt" then
             end
         end
     elseif actor:get_quest_stage("beast_master") > stage then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the notice.")
         wait(2)
@@ -260,38 +260,38 @@ if go == "hunt" then
         self.room:send(tostring(self.name) .. " rips up the notice!")
         world.destroy(object)
     elseif actor:get_quest_var("beast_master:hunt") ~= "dead" then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses the notice.")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You have to slay kill the beast first!  " .. tostring(victim1) .. " is still out there.")
     end
 elseif go == "trophy" then
     if actor.class ~= "warrior" and actor.class ~= "ranger" and actor.class ~= "mercenary" and actor.class ~= "berserker" then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.class) .. "s aren't fit for these kinds of tests.'")
     elseif actor:get_quest_stage("beast_master") < actor:get_quest_stage("ranger_trophy") then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Defeat some more monsters first.'")
     elseif actor.level < (actor:get_quest_stage("ranger_trophy") * 10) then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
     elseif trophystage > actor:get_quest_stage("ranger_trophy") then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You don't need that to demonstrate your skills yet.  Be patient!'")
     elseif trophystage < actor:get_quest_stage("ranger_trophy") then
-        _return_value = false
+        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
@@ -308,7 +308,7 @@ elseif go == "trophy" then
                 world.destroy(object)
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'Well done!  You've demonstrated your skills well.'")
-                self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+                self.room:spawn_object(math.floor(reward / 100), reward % 100)
                 self:command("give trophy " .. tostring(actor))
                 local expcap = trophystage * 10
                 if expcap < 17 then
@@ -350,7 +350,7 @@ elseif go == "trophy" then
                     actor:complete_quest("ranger_trophy")
                 end
             else
-                _return_value = false
+                _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 wait(2)
@@ -373,7 +373,7 @@ elseif go == "trophy" then
             end
         end
         if accept == "no" then
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")

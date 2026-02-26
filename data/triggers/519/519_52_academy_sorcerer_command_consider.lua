@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "c" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local thing = "horrible-little-monster"
@@ -53,5 +53,5 @@ if actor:get_quest_var("school:fight") == 7 then
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'When you've killed the monster, <b:green>say recovery</> I'll teach you about <b:yellow>SPELL RECOVERY</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

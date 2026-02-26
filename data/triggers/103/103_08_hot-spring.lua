@@ -20,7 +20,7 @@ if not actor then
     return _return_value
 end
 local fireproof = not actor:has_effect(Effect.HeatResistance)
-if actor.id == -1 then
+if actor.is_player then
     if actor.class == "Pyromancer" then
     elseif fireproof then
     else

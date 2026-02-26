@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "tower_in_the_wastes") or string.find(arg, "krisenna_quest") or string.find(arg, "krisenna") quest then
     if actor.level >= 30 then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("krisenna_quest")
         actor:send("<b:green>&uTower in the Wastes</>")
         actor:send("Recommended Level: 40")

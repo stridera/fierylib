@@ -28,7 +28,7 @@ elseif stage == 10 and (object.id == 4003 or object.id == 16353) then
 elseif stage == 11 and (object.id == 55020 or object.id == 16354 or object.id == 16355) then
     return _return_value
 else
-    _return_value = false
+    _return_value = true
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'I do not want this from you.'")
     actor:send(tostring(self.name) .. " returns your item to you.")

@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "sh" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if string.find(self.name, "arg") then
@@ -61,6 +61,6 @@ if string.find(self.name, "arg") then
         actor:send("You need to hold it to shake it!")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

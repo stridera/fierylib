@@ -28,7 +28,7 @@ if actor:get_quest_stage("ursa_quest") == 2 then
             self:command("grumble")
             self:say("I guess you'll just have to search the Highlands.  Let me know when you figure out what the hermit meant.")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("I don't think this is the ring...")

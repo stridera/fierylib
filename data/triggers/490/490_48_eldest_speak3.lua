@@ -33,7 +33,7 @@ while i >= a do
             person.name:start_quest("griffin_quest")
             person:send("<b:white>You have begun the Griffin Isle quest!</>")
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

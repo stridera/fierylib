@@ -1,5 +1,5 @@
 -- Trigger: Obz Kwan Yin Release
--- Zone: 1000, ID: 15
+-- Zone: 0, ID: 15
 -- Type: MOB, Flags: RECEIVE
 -- Status: CLEAN
 --

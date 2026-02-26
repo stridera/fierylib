@@ -14,14 +14,14 @@ if actor:get_quest_stage("group_heal") == 5 then
         self.room:send_except(actor, tostring(actor.name) .. " shows " .. tostring(victim.name) .. " " .. tostring(self.shortdesc) .. ".")
         return _return_value
     else
-        _return_value = false
+        _return_value = true
         actor:send("You should not give away something so precious!")
     end
 elseif actor:get_quest_stage("group_heal") == 6 then
     if victim.id == 18521 then
         return _return_value
     else
-        _return_value = false
+        _return_value = true
         actor:send("You should not give away something so precious!")
     end
 end

@@ -1,5 +1,5 @@
 -- Trigger: firecaster
--- Zone: 1000, ID: 6
+-- Zone: 0, ID: 6
 -- Type: OBJECT, Flags: GET, WEAR
 -- Status: CLEAN
 --
@@ -9,5 +9,5 @@
 -- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 self.room:send("A <red>Flame</> snakes up and down the blade of " .. tostring(self.shortdesc))
-_return_value = true
+_return_value = false
 return _return_value

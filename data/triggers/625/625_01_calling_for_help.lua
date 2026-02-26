@@ -28,7 +28,7 @@ if self.id == 62501 then
 end
 if self.id == 62508 then
     wait(3)
-    if world.count_mobiles("62509") > 5 then
+    if world.count_mobiles(625, 9) > 5 then
         return _return_value
     elseif if random(1, 10) > 6 then
         if self:has_effect(Effect.Silence) then
@@ -51,7 +51,7 @@ if self.id == 62508 then
     end
 end
 if self.id == 62509 then
-    if world.count_mobiles("62509") > 4 then
+    if world.count_mobiles(625, 9) > 4 then
         return _return_value
     elseif random(1, 10) > 6 then
         wait(3)

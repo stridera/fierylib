@@ -25,7 +25,7 @@ while i >= a do
     end
     a = a + 1
 end
-if world.count_mobiles("16011") < 1 then
+if world.count_mobiles(160, 11) < 1 then
     -- load demon lord and maybe equip shield
     -- but definitely load shard
     get_room(160, 95):at(function()
@@ -53,6 +53,6 @@ if world.count_mobiles("16011") < 1 then
         self.room:find_actor("lord"):teleport(get_room(164, 6))
     end)
     get_room(160, 95):at(function()
-        run_room_trigger(16050)
+        run_room_trigger(160, 50)
     end)
 end

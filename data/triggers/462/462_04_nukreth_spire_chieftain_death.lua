@@ -12,7 +12,7 @@
 if not actor then
     local rnd = random(1, 4)
 end
-if actor.id == -1 then
+if actor.is_player then
     local person = actor
     local i = person.group_size
     if i then
@@ -40,11 +40,11 @@ if actor.id == -1 then
     end
 end
 if rnd == 1 then
-    run_room_trigger(46200)
+    run_room_trigger(462, 0)
 elseif rnd == 2 then
-    run_room_trigger(46201)
+    run_room_trigger(462, 1)
 elseif rnd == 3 then
-    run_room_trigger(46202)
+    run_room_trigger(462, 2)
 elseif rnd == 4 then
-    run_room_trigger(46203)
+    run_room_trigger(462, 3)
 end

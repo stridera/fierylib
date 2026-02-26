@@ -8,7 +8,7 @@
 
 -- Converted from DG Script #1855: test_for_nok
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     actor:send("You land with a loud thump on the fiery floor.")
     self.room:send_except(actor, tostring(actor.name) .. " lands on the fiery floor with a loud thump.")

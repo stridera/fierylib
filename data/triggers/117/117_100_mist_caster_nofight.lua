@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
 local _return_value = true  -- Default: allow action
 self.room:spawn_object(117, 100)
-_return_value = false
+_return_value = true
 self.room:send("The mist begins to fall apart...")
 self:command("drop ball")
 self.room:send("The violent magic has dispersed the mist temporarily.")

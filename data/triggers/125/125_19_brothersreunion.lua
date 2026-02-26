@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if object.id == 12502 then
-    _return_value = true
+    _return_value = false
     if actor:get_quest_stage("krisenna_quest") == 4 then
         self:destroy_item("warhammer")
         wait(1)
@@ -27,8 +27,7 @@ if object.id == 12502 then
         self:say("And take these as well.")
         local gem = 0
         while gem < 3 do
-            local drop = random(1, 11) + 55703
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, 3 + random(1, 11))
             gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))
@@ -103,7 +102,7 @@ if object.id == 12502 then
         self:destroy_item("warhammer")
     end
 else
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)

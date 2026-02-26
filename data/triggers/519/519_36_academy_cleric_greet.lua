@@ -68,7 +68,7 @@ if stage == 3 or stage == 4 then
             actor:send("It will be harder for you to kill creatures alone.'")
             actor:send("</>")
             actor:send(tostring(self.name) .. " tells you, 'Type <b:green>consider monster</> for see chances.'")
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
             elseif actor:get_quest_var("school:fight") == "last" then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")

@@ -94,20 +94,20 @@ else
         end
         local random_gem = random(1, 11)
         local which_gem = random_gem + 55736
-        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
+        self.room:spawn_object(557, 36 + random_gem)
         local random_gem = random(1, 11)
         local which_gem = random_gem + 55736
-        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
+        self.room:spawn_object(557, 36 + random_gem)
         local random_gem = random(1, 11)
         local which_gem = random_gem + 55736
-        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
+        self.room:spawn_object(557, 36 + random_gem)
         self:command("give all.gem " .. tostring(actor.name))
         self:say("Here is a small token of my appreciation.")
         self:say("Now move along.")
     else
         wait(1)
         self:say("What is this? I can not use this.")
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

@@ -77,7 +77,7 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
         victim:emote("briskly refuses.")
         victim:say("I don't want this from you.  Do not lose that talisman.")
     end
-    _return_value = false
+    _return_value = true
     victim:emote("returns the death talisman to you.")
     return _return_value
     actor:set_quest_var("resurrection_quest", "%victim.vnum%", 1)

@@ -16,7 +16,7 @@ if not (cmd == "kneel") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 -- switch on cmd
 if cmd == "k" then
     return _return_value
@@ -46,7 +46,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         local gem = 0
         while gem < 3 do
             local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, 36 + random(1, 11))
             gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))
@@ -65,7 +65,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         local gem = 0
         while gem < 3 do
             local drop = random(1, 11) + 55736
-            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            self.room:spawn_object(557, 36 + random(1, 11))
             gem = gem + 1
         end
         self:command("give all " .. tostring(actor.name))

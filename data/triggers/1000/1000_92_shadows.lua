@@ -1,5 +1,5 @@
 -- Trigger: shadows
--- Zone: 1000, ID: 92
+-- Zone: 0, ID: 92
 -- Type: WORLD, Flags: RANDOM
 -- Status: CLEAN
 --

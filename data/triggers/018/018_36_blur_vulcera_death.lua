@@ -18,7 +18,7 @@ person = nil
 while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
-        if (person:get_quest_stage("blur") == 4) and (not person:get_quest_var("blur:east")) and world.count_mobiles("1821") then
+        if (person:get_quest_stage("blur") == 4) and (not person:get_quest_var("blur:east")) and world.count_mobiles(18, 21) > 0 then
             local lair = get_room("12597")
             person:send(tostring(mobiles.template(18, 21).name) .. " thanks you heartily!")
             self.room:send_except(person, "%get.mob_shortdesc[1821]% thanks %person.name% heartily!")
@@ -27,7 +27,7 @@ while i >= a do
             self.room:send(tostring(mobiles.template(18, 21).name) .. " takes off like a rocket and vanishes!")
             person.name:set_quest_var("blur", "east", 1)
             person = person.next_in_room
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
         a = a + 1

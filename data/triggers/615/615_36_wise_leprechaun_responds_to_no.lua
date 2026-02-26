@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "no")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     if actor.gender == "female" then
         self:say("Well skedaddle off and fetch some then, won't you lass?")
     else

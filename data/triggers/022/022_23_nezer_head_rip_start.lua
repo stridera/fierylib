@@ -12,4 +12,4 @@
 if not percent_chance(10) then
     return true
 end
-run_room_trigger(2222)
+run_room_trigger(22, 22)

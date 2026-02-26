@@ -12,7 +12,7 @@ wait(1)
 self.room:send("Belial throws his hands in the air, uttering in demonic, 'Verai Thak!")
 local victim = self.people
 while victim do
-    if (victim.id == -1) and (victim.level < 100) then
+    if (victim.is_player) and (victim.level < 100) then
         local damage = 325 + random(1, 75)
         victim:send("You cover your ears in horror upon hearing the demonic oath! (<b:red>" .. tostring(damage) .. "</>)")
         self.room:send_except(victim, tostring(victim.name) .. " covers " .. tostring(victim.possessive) .. " ears in horror upon hearing the demonic oath! (<blue>" .. tostring(damage) .. "</>)")
@@ -26,7 +26,7 @@ self.room:send("Belial throws his hands in the air, uttering in demonic, 'Verai 
 local victim = self.people
 while victim do
     local next = victim.next_in_room
-    if (victim.id == -1) and (victim.level < 100) then
+    if (victim.is_player) and (victim.level < 100) then
         local damage = 325 + random(1, 75)
         victim:send("You cover your ears in horror upon hearing the demonic oath! (<b:red>" .. tostring(damage) .. "</>)")
         self.room:send_except(victim, tostring(victim.name) .. " covers " .. tostring(victim.possessive) .. " ears in horror upon hearing the demonic oath! (<blue>" .. tostring(damage) .. "</>)")

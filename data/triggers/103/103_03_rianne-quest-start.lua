@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes?")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 and actor:get_quest_stage("resort_cooking") < 1 then
+if actor.is_player and actor:get_quest_stage("resort_cooking") < 1 then
     actor.name:start_quest("resort_cooking")
     wait(5)
     self.room:send(tostring(self.name) .. " says, 'Excellent!  The dish I am making next is <b:white>Peach Cobbler</>.'")

@@ -12,7 +12,7 @@
 if not percent_chance(5) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     self.room:send("You notice some larger clumps of snow slipping onto you.")
     wait(2)
     self.room:send("AVALANCHE!!! Run for your lives!")

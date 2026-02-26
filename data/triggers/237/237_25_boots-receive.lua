@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #23725: boots-receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     if actor:get_quest_stage("sunfire_rescue") == 1 then
         if object.id == 52008 then

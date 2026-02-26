@@ -17,7 +17,7 @@ if actor.level < 100 then
             local damage_dealt = actor:damage(damage)  -- type: fire
             actor:send("The flames scorch you as you try to approach the wall. (" .. tostring(damage_dealt) .. ")")
             actor:send("You seem to hear a voice whisper, 'This room is not for you.'")
-            _return_value = false
+            _return_value = true
         end
     end
 end

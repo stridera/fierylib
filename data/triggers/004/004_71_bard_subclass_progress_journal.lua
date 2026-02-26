@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local bardraces = "none"
     if string.find(arg, "Bard") and string.find(actor.class, "Rogue") and actor.level <= 25 and not (string.find(bardraces, "actor.race")) then
-        _return_value = false
+        _return_value = true
         actor:send("<b:magenta>Bard</>")
         actor:send("Quest Master: " .. tostring(mobiles.template(43, 98).name))
         actor:send("</>")

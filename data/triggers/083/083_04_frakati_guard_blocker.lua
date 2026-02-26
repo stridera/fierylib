@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 -- Then apply the trigger to the room beyond the guard.
 local entryroom = 8352
 local guardvnum = 8332
-if get.mob_count[guardvnum] and actor.room == "entryroom" and actor.id == -1 then
+if get.mob_count[guardvnum] and actor.room == "entryroom" and actor.is_player then
     local blocked = 0
     local person = self.people
     while person do
@@ -28,23 +28,23 @@ if get.mob_count[guardvnum] and actor.room == "entryroom" and actor.id == -1 the
     if blocked then
         if actor.level < 100 then
             local entrydir = get.opposite_dir[direction]
-            get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)):at(function()
+            actor.room:at(function()
                 self.room:send_except(actor, tostring(guard.name) .. " blocks " .. tostring(actor.name) .. " as " .. tostring(actor.heshe) .. " tries to go " .. tostring(entrydir) .. ".")
             end)
-            get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)):at(function()
+            actor.room:at(function()
                 actor:send(tostring(guard.name) .. " steps purposefully into your way.")
             end)
-            _return_value = false
+            _return_value = true
         else
-            get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)):at(function()
+            actor.room:at(function()
                 self.room:send_except(actor, tostring(guard.name) .. " makes no move as " .. tostring(actor.name) .. " passes.")
             end)
-            _return_value = true
+            _return_value = false
         end
     else
-        _return_value = true
+        _return_value = false
     end
 else
-    _return_value = true
+    _return_value = false
 end
 return _return_value

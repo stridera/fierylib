@@ -60,5 +60,5 @@ elseif actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick") ba
     actor:send("Would you like to review?")
     actor:send("You can <b:green>say yes</> or <b:green>say no</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

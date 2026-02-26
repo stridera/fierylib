@@ -14,15 +14,15 @@ wait(1)
 local person = 0
 while person < 1 do
     local victim = room.actors[random(1, #room.actors)]
-    if victim.id == -1 then
+    if victim.is_player then
         if victim.class == "sorcerer" or victim.class == "cryomancer" or victim.class == "pyromancer" or victim.class == "priest" or victim.class == "druid" or victim.class == "cleric" then
             victim:send("To Victim test")
             self.room:send_except(victim, "To Room test")
-            self.room:spawn_mobile(1000, 15)
+            self.room:spawn_mobile(0, 15)
             self.room:find_actor("wraith"):command("kill %victim.name%")
-            self.room:spawn_mobile(1000, 15)
+            self.room:spawn_mobile(0, 15)
             self.room:find_actor("wraith"):command("kill %victim.name%")
-            self.room:spawn_mobile(1000, 15)
+            self.room:spawn_mobile(0, 15)
             self.room:find_actor("wraith"):command("kill %victim.name%")
             person = person + 1
         end

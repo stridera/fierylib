@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- Only do this if killer %actor% exists, otherwise they were killed by death of body!
 if actor then
     -- return 0 for no death cry...
-    _return_value = false
+    _return_value = true
     -- If killer holds a lit branch (obj 52034) then no new head
     local no_head = 0
     if actor:has_equipped("52035") then
@@ -32,7 +32,7 @@ if actor then
         self.room:spawn_mobile(520, 9)
         self.room:spawn_mobile(520, 9)
     end
-    if world.count_mobiles("52009") >= 30 then
+    if world.count_mobiles(520, 9) >= 30 then
         self.room:send("The heads begin to scream and fly in all directions, and COMPLETELY ANNIHILATE YOU!")
     end
 end

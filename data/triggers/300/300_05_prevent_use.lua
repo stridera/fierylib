@@ -15,9 +15,9 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "u" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 actor:send("You cannot use wands or staves in a shop or guild!")
 return _return_value

@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- you must break glass to get reset sword out
 if arg == "glass" or arg == "case" then
-    _return_value = true
+    _return_value = false
     -- check to see what PC can break case with
     local item = 0
     if actor:get_worn("shield") then
@@ -53,6 +53,6 @@ if arg == "glass" or arg == "case" then
     world.destroy(self.room:find_object("dusty-glass-case"))
     self.room:spawn_object(590, 24)
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

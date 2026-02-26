@@ -111,7 +111,7 @@ end
 if actor:get_quest_stage("hellfire_brimstone") == 3 then
     if object.id == 4318 or object.id == 5211 or object.id == 5212 or object.id == 17308 or object.id == 48110 or object.id == 53000 then
         if actor.quest_variable[hellfire_brimstone:object.vnum] then
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
             self:say("I have no need for a second " .. "%get.obj_noadesc[%object.vnum%]%!")
@@ -151,7 +151,7 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
             self:say("Bring me the rest of the fiery tributes!")
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("I have no need for this!")

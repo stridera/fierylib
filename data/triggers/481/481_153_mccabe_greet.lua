@@ -46,7 +46,7 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
             self:emote("focuses closely on the seagull flying overhead.")
             self.room:send(tostring(self.name) .. " starts casting '<b:yellow>meteorswarm</>' at an unsuspecting seagull.")
             wait(1)
-            run_room_trigger(48257)
+            run_room_trigger(481, 157)
             self.room:find_actor("seagull"):command("panic")
             self.room:find_actor("seagull"):emote("panics and flees to the north.")
             world.destroy(self.room:find_actor("seagull"))

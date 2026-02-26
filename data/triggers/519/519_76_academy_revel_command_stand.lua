@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if actor:get_quest_var("school:rest") == 4 then
@@ -24,5 +24,5 @@ if actor:get_quest_var("school:rest") == 4 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Now you can <b:green>fill waterskin fountain</>.'")
 end
-_return_value = false
+_return_value = true
 return _return_value

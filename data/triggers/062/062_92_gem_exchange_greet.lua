@@ -8,7 +8,7 @@
 -- Converted from DG Script #6292: Gem Exchange greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
-if actor.id == -1 then
+if actor.is_player then
     local item = actor:get_quest_var("gem_exchange:gem_vnum")
     if actor:get_quest_stage("gem_exchange") == 1 then
         self:say("Welcome back!")

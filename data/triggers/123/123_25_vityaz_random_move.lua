@@ -97,7 +97,7 @@ elseif rndm >= 3 then
         self:move("east")
         return _return_value
     else
-        _return_value = false
+        _return_value = true
     end
 end
 return _return_value

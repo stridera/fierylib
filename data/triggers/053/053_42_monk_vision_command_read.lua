@@ -21,7 +21,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "r" or cmd == "re" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 local visionstage = actor:get_quest_stage("monk_vision")
@@ -149,6 +149,6 @@ if continue == "yes" then
         actor:set_quest_var("monk_vision", "visiontask4", 1)
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

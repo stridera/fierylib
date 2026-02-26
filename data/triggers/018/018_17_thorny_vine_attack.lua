@@ -12,7 +12,7 @@
 if not percent_chance(14) then
     return true
 end
-if actor.id == -1 and actor.level < 100 then
+if actor.is_player and actor.level < 100 then
     actor.name:send("You step on a thorny vine, which attempts to wrap around your leg!")
     self.room:send_except(actor.name, tostring(actor.name) .. " steps on a thorny vine, which flails wildly in response.")
     combat.engage(self, actor.name)

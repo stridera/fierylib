@@ -8,7 +8,7 @@
 -- Converted from DG Script #23720: serin-greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 -- This is the beginning of the quest to rescue the elven prisoner.
-if actor.id == -1 then
+if actor.is_player then
     if actor:get_quest_stage("sunfire_rescue") == 0 then
         actor.name:send("The prisoner looks up at " .. tostring(actor.name) .. " hopefully.")
         actor.name:send("The prisoner says, 'Can you help me?'")

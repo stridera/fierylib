@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     if string.find(speech, "yes") then
         self:say("So you want to help me do you? Well that is useful, maybe I will survive.")
         actor.name:start_quest("get_raph_food")

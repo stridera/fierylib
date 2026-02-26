@@ -36,7 +36,7 @@ elseif stage == 3 then
         self.room:send(tostring(self.name) .. " says, 'She occasionally visits a small remote island")
         self.room:send("</>theatre, where she enjoys meditating in their reflecting room.'")
     else
-        _return_value = false
+        _return_value = true
     end
     wait(2)
     self:say("You may be able to find a clue to her whereabouts there.")

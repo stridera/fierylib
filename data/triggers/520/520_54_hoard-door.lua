@@ -7,11 +7,11 @@
 
 -- Converted from DG Script #52054: hoard-door
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-doors.set_flags(get_room(520, 93), "east", "abce")
-doors.set_state(get_room(520, 93), "east", {action = "room"})
-doors.set_name(get_room(520, 93), "east", "panel massive")
-doors.set_state(get_room(520, 93), "east", {action = "key"})
-doors.set_flags(get_room(520, 94), "west", "abc")
-doors.set_state(get_room(520, 94), "west", {action = "room"})
-doors.set_name(get_room(520, 94), "west", "panel massive")
-doors.set_state(get_room(520, 94), "west", {action = "key"})
+get_room(520, 93):exit("east"):set_state({has_door = true, closed = true, locked = true, hidden = true})
+get_room(520, 93):exit("east"):set_state({hidden = false})
+get_room(520, 93):exit("east"):set_state({name = "panel massive"})
+get_room(520, 93):exit("east"):set_state({action = "key"})
+get_room(520, 94):exit("west"):set_state({has_door = true, closed = true, locked = true})
+get_room(520, 94):exit("west"):set_state({hidden = false})
+get_room(520, 94):exit("west"):set_state({name = "panel massive"})
+get_room(520, 94):exit("west"):set_state({action = "key"})

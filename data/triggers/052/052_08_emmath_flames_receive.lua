@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 if object.id == 23822 then
     get_room(238, 90):at(function()
-        run_room_trigger(23814)
+        run_room_trigger(238, 14)
     end)
     if actor.quest_stage[type_wand] == "wandstep" and not actor.quest_variable[type_wand:wandtask2] then
         return _return_value
@@ -89,7 +89,7 @@ if subclass_item then
     end
 elseif flameball_item then
     if actor:get_quest_stage("emmath_flameball") == 1 then
-        _return_value = false
+        _return_value = true
         wait(2)
         self:command("frown")
         actor:send(tostring(self.name) .. " says, 'But I didn't even tell you what I wanted yet!'")
@@ -103,7 +103,7 @@ elseif flameball_item then
                 actor.name:set_quest_var("emmath_flameball", "count", count)
                 actor.name:set_quest_var("emmath_flameball", "%object.vnum%", 1)
             else
-                _return_value = false
+                _return_value = true
                 wait(2)
                 actor:send(tostring(self.name) .. " says, 'You have already brought me " .. tostring(object.shortdesc) .. "!'")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

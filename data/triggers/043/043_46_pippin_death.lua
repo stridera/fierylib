@@ -9,6 +9,6 @@
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 if self.room == 4336 then
     get_room(43, 33):at(function()
-        run_room_trigger(4398)
+        run_room_trigger(43, 98)
     end)
 end

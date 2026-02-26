@@ -10,5 +10,5 @@
 local chance = random(1, 10)
 if chance > 5 then
     wait(2)
-    run_room_trigger(48631)
+    run_room_trigger(484, 231)
 end

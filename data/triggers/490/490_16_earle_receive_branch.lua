@@ -24,13 +24,13 @@ while i >= a do
             person:send("<b:white>You have now begun the Griffin Isle quest!</>")
         end
         person:set_quest_var("griffin_quest", "oak", 1)
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1
 end
 self:destroy_item("small-oak-branch")
-if not world.count_mobiles("49001") then
+if world.count_mobiles(490, 1) == 0 then
     get_room(490, 81):at(function()
         self.room:spawn_mobile(490, 1)
     end)

@@ -20,18 +20,18 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "b" or cmd == "bo" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 actor:command("bow")
 self.room:find_actor("monk_quest_priest"):emote("smiles broadly, pressing in a crack in the wall.")
-doors.set_flags(get_room(580, 25), "east", "a")
-doors.set_state(get_room(580, 25), "east", {action = "room"})
-doors.set_name(get_room(580, 25), "east", "heavy stone door")
-doors.set_key(get_room(580, 25), "east", -1)
-doors.set_description(get_room(580, 25), "east", "A heavy slab of stone sits in your way.")
+get_room(580, 25):exit("east"):set_state({has_door = true})
+get_room(580, 25):exit("east"):set_state({hidden = false})
+get_room(580, 25):exit("east"):set_state({name = "heavy stone door"})
+-- doors.set_key not supported
+get_room(580, 25):exit("east"):set_state({description = "A heavy slab of stone sits in your way."})
 wait(3)
 self.room:send(tostring(mobiles.template(51, 31).name) .. " presses a little harder, fully opening the stone door.")
-self.room:send_except(actor, "%get.mob_shortdesc[5131]% points to the east and nudges %actor.name% forward.")
+self.room:send_except(actor, tostring(mobiles.template(51, 31).name) .. " points to the east and nudges " .. tostring(actor.name) .. " forward.")
 actor:send(tostring(mobiles.template(51, 31).name) .. " points to the east and nudges you forward.")
 return _return_value

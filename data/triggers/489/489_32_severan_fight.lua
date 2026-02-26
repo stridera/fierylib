@@ -26,6 +26,6 @@ if action > 9 then
     self:attack_all()
 elseif action > 6 then
     -- 20% chance for Shockwave area attack, 150-300 damage
-    run_room_trigger(48933)
+    run_room_trigger(489, 33)
 end
 -- 70% chance to do nothing!

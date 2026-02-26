@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 -- we wont hold the magic...
-_return_value = false
+_return_value = true
 -- actor must be holding the magic book
 if actor:has_equipped("51022") then
     actor:send("You feel a strong attraction between the book and the magic - you can't hold them apart!")

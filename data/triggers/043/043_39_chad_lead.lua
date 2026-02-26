@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #4339: chad_lead
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
-if world.count_mobiles("4302") < 1 then
+if world.count_mobiles(43, 2) < 1 then
     self.room:spawn_mobile(43, 2)
     wait(1)
     self.room:find_actor("nick"):spawn_object(43, 12)

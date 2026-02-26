@@ -20,7 +20,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "w" or cmd == "wh" or cmd == "whi" or cmd == "whis" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 self.room:send_except(actor, tostring(actor.name) .. " places a bird whistle to " .. tostring(actor.possessive) .. " lips and lets out a twitter.")

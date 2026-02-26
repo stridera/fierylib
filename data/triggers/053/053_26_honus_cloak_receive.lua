@@ -94,25 +94,25 @@ elseif object.id == 55741 then
     local item = "gem"
 end
 if actor:get_quest_stage("treasure_hunter") < actor:get_quest_stage("rogue_cloak") then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Find some more treasure first.'")
 elseif actor.level < (actor:get_quest_stage("rogue_cloak") * 10) then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
 elseif cloakstage > actor:get_quest_stage("rogue_cloak") then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Your promotion doesn't involve that yet.  Be patient!'")
 elseif cloakstage < actor:get_quest_stage("rogue_cloak") then
-    _return_value = false
+    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
@@ -129,7 +129,7 @@ else
             world.destroy(object)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'Well done!  You've earned your promotion.'")
-            self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
+            self.room:spawn_object(math.floor(reward / 100), reward % 100)
             self:command("give cloak " .. tostring(actor))
             local expcap = cloakstage * 10
             if expcap < 17 then
@@ -164,7 +164,7 @@ else
                 actor:complete_quest("rogue_cloak")
             end
         else
-            _return_value = false
+            _return_value = true
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
@@ -186,7 +186,7 @@ else
         end
     end
     if accept == "no" then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You already gave me that.'")

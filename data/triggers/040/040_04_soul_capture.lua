@@ -19,7 +19,7 @@ if not (cmd == "kill" or cmd == "hit" or cmd == "cast" or cmd == "kick" or cmd =
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 wait(1)
 local player = self.worn_by
 if player.is_fighting then

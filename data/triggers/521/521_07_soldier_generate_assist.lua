@@ -22,7 +22,7 @@ if kids < 6 then
     self.room:send("A Bright flash of light fills the room and two soldiers crawl forth through it.")
     self.room:spawn_mobile(521, 18)
     self.room:spawn_mobile(521, 18)
-    if rnd.id == -1 then
+    if rnd.is_player then
         self.room:find_actor("soldier"):command("hit %rnd.name%")
     else
         self.room:find_actor("dragon"):command("hit %actor.name%")

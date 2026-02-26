@@ -22,7 +22,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "s" or cmd == "se" or cmd == "sel" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (status == 0) and player1 and (actor.name == player1.name) then
@@ -168,6 +168,6 @@ if (status == 0) and player1 and (actor.name == player1.name) then
     globals.g6 = globals.g6 or true
     globals.g7 = globals.g7 or true
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

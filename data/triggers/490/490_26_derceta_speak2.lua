@@ -35,7 +35,7 @@ while i >= a do
                     person:send("<b:white>You have advanced the quest!</>")
                 end
             end
-        elseif person and person.id == -1 then
+        elseif person and person.is_player then
             i = i + 1
         end
     end
@@ -46,7 +46,7 @@ if level then
     if accept then
         self:emote("spits on her hands and starts to move the boulder.")
         self:say("Phew this is one heavy rock!")
-        run_room_trigger(49000)
+        run_room_trigger(490, 0)
         self:set_flag("sentinel", false)
         self:follow(self.room:find_actor("self"))
     else

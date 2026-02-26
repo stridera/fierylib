@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #20030: assistant_receive ball
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if object.id == 3218 then
         self:command("pat " .. tostring(actor.name))
         self:say("You have done well")

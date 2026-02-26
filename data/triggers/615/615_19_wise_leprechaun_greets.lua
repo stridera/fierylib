@@ -12,7 +12,7 @@
 if not percent_chance(40) then
     return true
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(6)
     if actor.gender == "female" then
         self:say("Well hello there, little lassie!")

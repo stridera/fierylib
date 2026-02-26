@@ -9,6 +9,6 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(8)
 local victim = room.actors[random(1, #room.actors)]
-if victim.level <100 and victim.id == -1 then
+if victim.level <100 and victim.is_player then
     combat.engage(self, victim.name)
 end

@@ -21,12 +21,12 @@ if actor.id == 46225 and task ~= "done" then
     wait(1)
     self:say("Now, who's leading us out of this hellhole?")
     return _return_value
-elseif actor.id == -1 then
+elseif actor.is_player then
     if actor:get_quest_stage("nukreth_spire") then
         if not actor.quest_variable[nukreth_spire:pathnumber] then
             if self.room == 46278 then
                 -- the spiritbreaker is still alive
-                if world.count_mobiles("46224") > 0 then
+                if world.count_mobiles(462, 24) > 0 then
                     local kill = 1
                 else
                     -- the spiritbreaker is not alive, but they need to find something first
@@ -38,7 +38,7 @@ elseif actor.id == -1 then
                     end
                 end
             elseif self.room == 46265 or self.room == 46220 or self.room == 46205 then
-                if world.count_mobiles("46201") > 0 then
+                if world.count_mobiles(462, 1) > 0 then
                     -- the gnoll trackers are alive
                     local kill = 2
                 else

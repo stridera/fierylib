@@ -39,7 +39,7 @@ if actor:get_quest_var("trainer_3160:actor_level") == actor.level then
         actor:send(tostring(self.name) .. " says, 'I don't accept installments.  It's got to be all up front.'")
     end
 else
-    _return_value = false
+    _return_value = true
     wait(2)
     self:command("consider " .. tostring(actor))
     wait(2)

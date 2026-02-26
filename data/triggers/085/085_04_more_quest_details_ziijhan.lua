@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "brother") or string.find(string.lower(speech), "brother?") or string.find(string.lower(speech), "remedy") or string.find(string.lower(speech), "remedy?") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "how?")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 and actor:get_quest_stage("nec_dia_ant_subclass") > 1 then
+if actor.is_player and actor:get_quest_stage("nec_dia_ant_subclass") > 1 then
     if actor:get_quest_stage("nec_dia_ant_subclass") == 2 then
         actor.name:advance_quest("nec_dia_ant_subclass")
     end

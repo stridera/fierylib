@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- switch on actor:get_quest_stage("bard_subclass")
 if actor:get_quest_stage("bard_subclass") == 3 then
-    _return_value = false
+    _return_value = true
     actor:send(tostring(self.name) .. " says, 'Ummmmm, what exactly is this for?'")
     actor:send(tostring(self.name) .. " slaps " .. tostring(object.shortdesc) .. " out of your hand!")
     self.room:send_except(actor, tostring(self.name) .. " slaps " .. tostring(object.shortdesc) .. " out of " .. tostring(actor.name) .. "'s hand!")

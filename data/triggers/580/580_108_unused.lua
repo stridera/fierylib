@@ -8,5 +8,5 @@
 -- Converted from DG Script #58108: **UNUSED**
 -- Original: MOB trigger, flags: ACT, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 return _return_value

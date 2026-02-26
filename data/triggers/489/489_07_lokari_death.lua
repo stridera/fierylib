@@ -8,11 +8,11 @@
 -- Converted from DG Script #48907: lokari death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("Lokari's form dissipates, banished from this realm.")
 self.room:send(tostring(objects.template(489, 14).name) .. " falls from Lokari's hand as he disappears.")
 self:destroy_item("glass-shard")
-run_room_trigger(48916)
+run_room_trigger(489, 16)
 local i = actor.group_size
 if i then
     local a = 1

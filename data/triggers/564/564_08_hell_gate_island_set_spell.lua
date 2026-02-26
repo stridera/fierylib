@@ -11,7 +11,7 @@ self.room:send(tostring(mobiles.template(564, 0).name) .. " comes out of hiding.
 get_room(11, 0):at(function()
     find_player("diabolist"):teleport(get_room(564, 31))
 end)
-if world.count_mobiles("56402") == 0 then
+if world.count_mobiles(564, 2) == 0 then
     wait(1)
     self.room:send("Larathiel's golden celestial blood seeps into the steaming ground.")
     wait(3)

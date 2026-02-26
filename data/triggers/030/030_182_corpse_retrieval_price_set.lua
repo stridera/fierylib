@@ -15,7 +15,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "corpse") or string.find(string.lower(speech), "retrieval") or string.find(string.lower(speech), "services") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "help")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     wait(2)
     local cha = actor.real_cha
     -- make sure they have a quest record for saving variables

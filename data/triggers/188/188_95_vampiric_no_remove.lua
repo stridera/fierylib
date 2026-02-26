@@ -9,5 +9,5 @@
 -- Original: OBJECT trigger, flags: REMOVE, probability: 100%
 local _return_value = true  -- Default: allow action
 actor:send("The teeth have grown themselves into your jaws and won't budge!")
-_return_value = false
+_return_value = true
 return _return_value

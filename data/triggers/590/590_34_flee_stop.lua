@@ -13,7 +13,7 @@ if not (cmd == "flee") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 local rnd = random(1, 10)
 -- switch on rnd
 if rnd == 1 or rnd == 2 or rnd == 3 or rnd == 4 or rnd == 5 then

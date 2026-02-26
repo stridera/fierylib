@@ -76,6 +76,6 @@ if string.find(self.class, "cryomancer") then
         self:say("Wall spells are not part of our Guild teachings.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

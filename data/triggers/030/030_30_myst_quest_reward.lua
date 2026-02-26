@@ -131,7 +131,7 @@ if not actor:get_has_completed("mystwatch_quest") and actor:get_quest_var("mystw
         loop = loop + 1
     end
 end
-if world.count_mobiles("16007") < 1 then
+if world.count_mobiles(160, 7) < 1 then
     get_room(160, 64):at(function()
         self.room:spawn_mobile(160, 7)
     end)

@@ -1,5 +1,5 @@
 -- Trigger: arena
--- Zone: 1000, ID: 12
+-- Zone: 0, ID: 12
 -- Type: MOB, Flags: FIGHT
 -- Status: CLEAN
 --

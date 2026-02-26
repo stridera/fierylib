@@ -21,7 +21,7 @@ else
     local response = "What is this for?"
 end
 if response then
-    _return_value = false
+    _return_value = true
     actor:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     -- UNCONVERTED: msend %actor

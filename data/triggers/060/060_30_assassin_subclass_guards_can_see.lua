@@ -18,6 +18,6 @@ if actor.can_be_seen and actor.hiddenness < 1 then
     actor:send(tostring(self.name) .. " asks you, 'Do you have an appointment?'")
     self.room:send_except(actor, tostring(self.name) .. " stands in " .. tostring(actor.name) .. "'s way.")
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

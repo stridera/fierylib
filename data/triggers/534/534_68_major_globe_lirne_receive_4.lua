@@ -44,7 +44,7 @@ elseif stage < 10 then
     local response = "I'm not ready for that yet.  Do the quest in the right order."
 end
 if response then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")

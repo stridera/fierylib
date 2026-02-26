@@ -20,14 +20,14 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "p" or cmd == "pi" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 if (arg ~= "puppet") and (arg ~= "laoris") and (arg ~= "laoris-puppet") and (arg ~= "toy") and (arg ~= "little") and (arg ~= "colorful") and (arg ~= "hand") and (arg ~= "hand-puppet") then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
-_return_value = true
+_return_value = false
 -- switch on random(1, 9)
 if random(1, 9) == 1 then
     local phrase = "Rarr!"

@@ -45,7 +45,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
     if (item == "need") or (me == 12306 and (item == 41110 or item == 41111 or item == 18512)) then
         -- Already given, right item
         if actor.quest_variable[megalith_quest:itempart] == 1 then
-            _return_value = false
+            _return_value = true
             self:command("shake")
             self:say("You've already given me this.")
             return _return_value
@@ -54,7 +54,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             if part > 1 then
                 local check = part - 1
                 if actor.quest_variable[megalith_quest:itemcheck] == 0 then
-                    _return_value = false
+                    _return_value = true
                     self:command("shake")
                     self.room:send(tostring(self.name) .. " says, 'We must cast the circle in order:")
                     self.room:send("East, South, West, North.")
@@ -64,7 +64,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             end
             -- Right set, wrong specific vessel at West
             if (me == 12306) and ((item ~= "need") or (object.val2 ~= 0)) then
-                _return_value = false
+                _return_value = true
                 self:command("shake")
                 self:say("I need water returned in the cup " .. tostring(mobiles.template(123, 1).name) .. " has consecrated.")
                 return _return_value

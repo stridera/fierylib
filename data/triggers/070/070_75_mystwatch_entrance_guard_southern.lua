@@ -13,16 +13,16 @@ if not (cmd == "north") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 30 then
         self:whisper(actor.name, "Young adventurer, you are far too small to venture north of here.")
         wait(1)
         self:whisper(actor.name, "Try a safer location to pick battles for now.")
         self:command("smile " .. tostring(actor.name))
     else
-        _return_value = false
+        _return_value = true
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

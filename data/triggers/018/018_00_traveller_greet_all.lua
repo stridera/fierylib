@@ -13,7 +13,7 @@ if self.room == 1802 and actor.level < 100 then
     actor:send("Thelmor tells you, 'Thank you for freeing me.'")
     actor:send("Thelmor mutters something about Izaro.")
     wait(2)
-    if world.count_mobiles("1808") == 0 then
+    if world.count_mobiles(18, 8) == 0 then
         actor:send("Thelmor wails pitifully.")
         actor:send("Thelmor says, 'My revenge is fulfilled, and I am free!'")
         self:command("rem blade")
@@ -31,7 +31,7 @@ if self.room == 1802 and actor.level < 100 then
         wait(2)
         actor:send("Izaro streaks in from the forest.")
         wait(1)
-        self.room:find_actor("fallen-nymph"):teleport(find_room_by_name("thelmor"))
+        self.room:find_actor("fallen-nymph"):teleport(self.room)
         combat.engage(self, self.room:find_actor("fallen-nymph"))
     end
 end

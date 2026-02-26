@@ -10,9 +10,9 @@
 local _return_value = true  -- Default: allow action
 wait(15)
 self.room:send(tostring(self.shortdesc) .. "  creates a small pool of blood on the ground.")
-if actor.id == -1 then
-    self.room:spawn_object(1000, 34)
+if actor.is_player then
+    self.room:spawn_object(0, 34)
 end
 wait(2)
-_return_value = false
+_return_value = true
 return _return_value

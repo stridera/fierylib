@@ -1,5 +1,5 @@
 -- Trigger: Kerristone Castle (South)
--- Zone: 1000, ID: 7
+-- Zone: 0, ID: 7
 -- Type: MOB, Flags: RECEIVE
 -- Status: CLEAN
 --

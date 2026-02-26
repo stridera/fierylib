@@ -12,7 +12,7 @@
 if not percent_chance(20) then
     return true
 end
-if world.count_mobiles("48815") < 6 then
+if world.count_mobiles(488, 15) < 6 then
     wait(1)
     self:emote("holds a bird whistle to his lips and lets out a loud whistle!")
     wait(1)

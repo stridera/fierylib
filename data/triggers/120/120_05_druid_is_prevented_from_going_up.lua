@@ -9,6 +9,6 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor.id == 12018 then
-    _return_value = false
+    _return_value = true
 end
 return _return_value

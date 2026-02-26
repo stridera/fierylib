@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #62511: ursa greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if actor.level < 100 then
         self:command("stand")
         self:command("roar")

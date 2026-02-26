@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "no") or string.find(string.lower(spee
     return true  -- No matching keywords
 end
 wait(2)
-if actor.id == -1 and actor.alignment > 349 then
+if actor.is_player and actor.alignment > 349 then
     if actor:get_quest_stage("sunfire_rescue") == 0 then
         -- Responding to trigger 23722 in the prisoner quest.
         -- This leads directly to the actual quest trigger.

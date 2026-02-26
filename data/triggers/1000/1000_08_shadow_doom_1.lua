@@ -1,5 +1,5 @@
 -- Trigger: Shadow Doom 1
--- Zone: 1000, ID: 8
+-- Zone: 0, ID: 8
 -- Type: MOB, Flags: GREET
 -- Status: CLEAN
 --
@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #8: Shadow Doom 1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     if direction == "east" then
         self.room:spawn_object(90, 36)
         self:command("give badge " .. tostring(actor.name) .. "%")

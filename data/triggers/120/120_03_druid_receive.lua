@@ -12,7 +12,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("twisted_sorrow") > 1 then
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)
@@ -22,7 +22,7 @@ if actor:get_quest_stage("twisted_sorrow") > 1 then
 elseif actor:get_quest_stage("twisted_sorrow") == 1 then
     if object.type == "LIQCONTAINER" then
         if self.room == 12015 then
-            _return_value = false
+            _return_value = true
             self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
             actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
             wait(4)
@@ -32,7 +32,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
             self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
         else
             if object.val1 == 0 then
-                _return_value = false
+                _return_value = true
                 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 wait(4)
@@ -43,7 +43,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                 actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
                 self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
             elseif actor.quest_variable[twisted_sorrow:satisfied_tree:self.room] == 1 then
-                _return_value = false
+                _return_value = true
                 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 wait(4)
@@ -52,7 +52,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                 actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
                 self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
             else
-                _return_value = true
+                _return_value = false
                 wait(1)
                 self:emote("peers into " .. tostring(object.shortdesc) .. ".")
                 wait(2)
@@ -191,7 +191,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
             end
         end
     else
-        _return_value = false
+        _return_value = true
         self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
         actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
         wait(4)
@@ -201,7 +201,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
         self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
     end
 else
-    _return_value = false
+    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)

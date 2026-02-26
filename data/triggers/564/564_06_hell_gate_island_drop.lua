@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("hell_gate") == 3 then
     if actor.quest_variable[hell_gate:object.vnum] then
-        _return_value = false
+        _return_value = true
         self.room:send(tostring(mobiles.template(564, 0).name) .. " says, 'We have already gathered this blood.'")
     elseif object.id == 56400 or object.id == 56401 or object.id == 56402 or object.id == 56403 or object.id == 56404 or object.id == 56405 or object.id == 56406 then
         actor.name:set_quest_var("hell_gate", "%object.vnum%", 1)

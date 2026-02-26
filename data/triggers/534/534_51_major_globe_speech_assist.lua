@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "assist") or string.find(string.lower(speech), "assist?") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "help?")) then
     return true  -- No matching keywords
 end
-if (actor.id == -1) and (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class== "pyromancer") and (actor.level >= 57) and not (actor:get_has_completed("major_globe_spell")) and (actor:get_quest_stage("major_globe_spell") == 0) then
+if (actor.is_player) and (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class== "pyromancer") and (actor.level >= 57) and not (actor:get_has_completed("major_globe_spell")) and (actor:get_quest_stage("major_globe_spell") == 0) then
     actor.name:start_quest("major_globe_spell")
     wait(2)
     self:emote("nods slowly.")

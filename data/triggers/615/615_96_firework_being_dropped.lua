@@ -8,7 +8,7 @@
 -- Converted from DG Script #61596: Firework being dropped
 -- Original: OBJECT trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = true
+_return_value = false
 local on_ground = 1
 globals.on_ground = globals.on_ground or true
 return _return_value

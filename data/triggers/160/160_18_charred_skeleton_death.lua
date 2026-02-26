@@ -26,9 +26,9 @@ while i >= a do
     end
     a = a + 1
 end
-if world.count_mobiles("16016") < 1 then
+if world.count_mobiles(160, 16) < 1 then
     local rnd_range = random(1, 78)
-    local rnd_room = rnd_range + 15999
+    local rnd_room = rnd_range - 1
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 16)
     end)
@@ -41,11 +41,11 @@ if world.count_mobiles("16016") < 1 then
             self.room:find_actor("warrior"):command("wear all")
         end)
         get_room(160, 95):at(function()
-            self.room:find_actor("warrior"):teleport(find_room_by_name("%rnd_room%"))
+            self.room:find_actor("warrior"):teleport(get_room(160, rnd_room))
         end)
     else
         get_room(160, 95):at(function()
-            self.room:find_actor("warrior"):teleport(find_room_by_name("%rnd_room%"))
+            self.room:find_actor("warrior"):teleport(get_room(160, rnd_room))
         end)
     end
     -- Sometimes creatures don't get teleported out of the loading

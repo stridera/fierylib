@@ -16,22 +16,22 @@ end
 if actor:get_quest_stage("hell_gate") == 3 and actor:has_equipped("56407") then
     -- switch on self.id
     if self.id == 12010 then
-        local blood = 56400
+        local blood = 0
     elseif self.id == 30054 then
-        local blood = 56401
+        local blood = 1
     elseif self.id == 32408 then
-        local blood = 56402
+        local blood = 2
     elseif self.id == 48125 then
-        local blood = 56403
+        local blood = 3
     elseif self.id == 48126 then
-        local blood = 56404
+        local blood = 4
     elseif self.id == 51003 or self.id == 51018 or self.id == 51023 then
-        local blood = 56405
+        local blood = 5
     elseif self.id == 55238 then
-        local blood = 56406
+        local blood = 6
     end
     if actor.quest_variable[hell_gate:bloodblood] == 0 then
         actor:set_quest_var("hell_gate", "blood%blood%", 1)
-        self.room:spawn_object(vnum_to_zone(blood), vnum_to_local(blood))
+        self.room:spawn_object(564, blood)
     end
 end

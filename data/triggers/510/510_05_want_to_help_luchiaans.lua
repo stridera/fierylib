@@ -16,7 +16,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "partners?") or string.find(string.lower(speech), "teach?")) then
     return true  -- No matching keywords
 end
-if actor.id == -1 then
+if actor.is_player then
     if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
         local class = "C"
     end

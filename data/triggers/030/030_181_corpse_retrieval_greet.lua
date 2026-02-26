@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #3181: corpse retrieval greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(4)
     self.room:send(tostring(self.name) .. " says, 'Welcome to the headquarters of the Bloody Red Cross.  We provide")
     self.room:send("</>corpse retrieval services for unlucky adventurers.'")

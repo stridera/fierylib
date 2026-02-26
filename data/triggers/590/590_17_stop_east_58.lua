@@ -14,7 +14,7 @@ if not (cmd == "open") then
 end
 local _return_value = true  -- Default: allow action
 if actor.class == "Paladin" then
-    _return_value = false
+    _return_value = true
 else
     -- switch on arg
     if arg == "door" or arg == "door e" or arg == "door ea" or arg == "door eas" or arg == "door east" then

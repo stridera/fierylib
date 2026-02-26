@@ -7,6 +7,6 @@
 
 -- Converted from DG Script #2209: Incubus_Succubus_Death_Exit
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-if world.count_mobiles("2210") + world.count_mobiles("2211") == 1 then
-    run_room_trigger(2218)
+if world.count_mobiles(22, 10) + world.count_mobiles(22, 11) == 1 then
+    run_room_trigger(22, 18)
 end

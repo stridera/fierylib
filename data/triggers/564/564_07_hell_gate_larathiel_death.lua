@@ -8,7 +8,7 @@
 -- Converted from DG Script #56407: hell_gate_larathiel_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("With an anguished cry, Larathiel dies screaming in agony!")
 local person = actor
 local i = actor.group_size
@@ -29,5 +29,5 @@ if i then
 elseif person:get_quest_stage("hell_gate") == 5 then
     person.name:advance_quest("hell_gate")
 end
-run_room_trigger(56408)
+run_room_trigger(564, 8)
 return _return_value

@@ -14,7 +14,7 @@ if not (cmd == "look") then
 end
 local _return_value = true  -- Default: allow action
 if (arg == "carving") or (arg == "carvings") then
-    _return_value = true
+    _return_value = false
     local now = time.stamp
     if (mist_loaded ~= 1) and (last_load < now - 2) then
         local mist_loaded = 1
@@ -34,6 +34,6 @@ if (arg == "carving") or (arg == "carvings") then
         actor:send("The mists around the carvings seem ominous and hostile.")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

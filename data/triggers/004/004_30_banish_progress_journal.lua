@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "banish") then
     if actor.level >= 50 and (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) then
-        _return_value = false
+        _return_value = true
         local stage = actor:get_quest_stage("banish")
         local master = mobiles.template(302, 16).name
         actor:send("<b:green>&uBanish</>")

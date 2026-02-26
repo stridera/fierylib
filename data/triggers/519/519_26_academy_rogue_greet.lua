@@ -36,7 +36,7 @@ if stage == 3 or stage == 4 then
             actor:send("Use the <b:cyan>(CON)SIDER</> command to see what your chances are against it.")
             actor:send("Bare in mind FieryMUD is made for groups of 4-8, so the results of <b:cyan>CONSIDER</> aren't perfect.'")
             wait(7)
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")
             end
@@ -54,7 +54,7 @@ if stage == 3 or stage == 4 then
             actor:send("But if you try to flee and fail, you'll be stunned for a little bit.")
             actor:send("So don't wait until the last second to run!'")
             wait(3)
-            if world.count_mobiles("51900") == 0 then
+            if world.count_mobiles(519, 0) == 0 then
                 self.room:spawn_mobile(519, 0)
                 self.room:send(tostring(self.name) .. " summons a horrible little monster!")
             end

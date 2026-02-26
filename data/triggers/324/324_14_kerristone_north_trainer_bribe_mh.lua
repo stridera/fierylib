@@ -17,7 +17,7 @@ end
 -- morgan hill.  The horse portion will change
 -- radically from the prog format but will
 -- achieve the same goals.
-if actor.id == -1 then
+if actor.is_player then
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'Ahh Thankyou! You will not be disappointed.'")
     self.room:send(tostring(self.name) .. " says, 'I have one of the fastest horses in the land for you!'")

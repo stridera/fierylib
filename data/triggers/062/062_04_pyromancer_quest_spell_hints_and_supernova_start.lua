@@ -77,6 +77,6 @@ if string.find(self.class, "pyromancer") then
         self.room:send("</>spell.'")
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

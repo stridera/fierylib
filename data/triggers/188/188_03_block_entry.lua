@@ -19,12 +19,12 @@ if direction == "east" then
     elseif actor:get_worn("12") == 18801 then
         actor:send("The TCD-GUARD squints at you and then nods and waves you in.")
         self.room:send_except(actor, "The TCD-GUARD squints at " .. tostring(actor.alias) .. " and waves " .. tostring(actor.possessive) .. " in.")
-        _return_value = true
+        _return_value = false
     else
         actor:send("The TCD-GUARD puts his hand out in front of you.")
         actor:send("The TCD-GUARD says, 'Hmmph!  Think again, buddy.'")
         self.room:send_except(actor, "The TCD-GUARD puts his hand up, blocking " .. tostring(actor.alias) .. " from entering the guild.")
-        _return_value = false
+        _return_value = true
     end
 else
 end  -- auto-close block

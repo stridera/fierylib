@@ -10,5 +10,5 @@
 local _return_value = true  -- Default: allow action
 self.room:spawn_object(520, 34)
 self:emote("whispers 'Ah, the relief...'")
-_return_value = false
+_return_value = true
 return _return_value

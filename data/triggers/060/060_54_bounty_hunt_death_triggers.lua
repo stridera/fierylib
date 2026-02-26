@@ -95,7 +95,7 @@ while i >= a do
                 end
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

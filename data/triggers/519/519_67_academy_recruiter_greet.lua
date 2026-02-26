@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51967: academy_recruiter_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-if actor.id == -1 then
+if actor.is_player then
     wait(3)
     if actor:get_quest_stage("school") == 0 then
         actor:send(tostring(self.name) .. " tells you, 'Hello there!  What kind of training are you here for?")

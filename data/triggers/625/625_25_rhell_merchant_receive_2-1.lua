@@ -24,7 +24,7 @@ if actor:get_quest_stage("ursa_quest") == 2 then
             wait(1)
             self:say("... I think.")
         else
-            _return_value = false
+            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             self:say("This isn't what I need right now.  Please bring me some pepper.")

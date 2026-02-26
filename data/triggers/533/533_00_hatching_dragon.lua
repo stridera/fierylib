@@ -8,7 +8,7 @@
 -- Converted from DG Script #53300: hatching_dragon
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 actor:send("As you touch the egg it vibrates and cracks open!")
 self.room:send_except(actor, "As " .. tostring(actor.name) .. " touches the egg it hatches!")
 self.room:spawn_mobile(533, 1)

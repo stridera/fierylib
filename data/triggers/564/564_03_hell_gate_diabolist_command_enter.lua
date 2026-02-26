@@ -15,7 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on cmd
 if cmd == "e" then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on arg
@@ -44,6 +44,6 @@ if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") 
         actor:send("There is no " .. tostring(arg) .. " here.")
     end
 else
-    _return_value = false
+    _return_value = true
     return _return_value
 end

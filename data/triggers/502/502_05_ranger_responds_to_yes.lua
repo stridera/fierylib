@@ -14,9 +14,9 @@ if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
 wait(6)
-if world.count_mobiles("50209") < 1 then
+if world.count_mobiles(502, 9) < 1 then
     self:command("peer " .. tostring(actor.name))
 else
     self:say("Well, a ghostly fellow ran by here just a moment ago.")
-    run_room_trigger(50206)
+    run_room_trigger(502, 6)
 end

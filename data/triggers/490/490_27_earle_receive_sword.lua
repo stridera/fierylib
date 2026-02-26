@@ -10,7 +10,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- Rune sword given
-_return_value = false
+_return_value = true
 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 local person = actor
@@ -34,7 +34,7 @@ while i >= a do
                 accept = accept + 1
             end
         end
-    elseif person and person.id == -1 then
+    elseif person and person.is_player then
         i = i + 1
     end
     a = a + 1

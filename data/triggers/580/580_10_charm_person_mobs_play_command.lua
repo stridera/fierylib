@@ -16,13 +16,13 @@ if not (cmd == "play") then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("charm_person") ~= 4 then
-    _return_value = false
+    _return_value = true
     return _return_value
 end
 -- switch on arg
 if self.id ~= 3010 then
     if arg == "mandolin" then
-        _return_value = false
+        _return_value = true
         return _return_value
     elseif actor:get_quest_stage("charm_person") == 4 and self.id ==3010 and (actor:has_equipped("48925") or actor:has_item("48925")) then
         actor:send("You strum a beautiful tune on the mandolin.")
@@ -32,7 +32,7 @@ if self.id ~= 3010 then
         actor.name:set_quest_var("charm_person", "charm1", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
-        _return_value = false
+        _return_value = true
         return _return_value
     end
     if actor:get_quest_stage("charm_person") == 4 and self.id == 58017 and (actor:has_equipped("37012") or actor:has_item("37012")) then
@@ -51,7 +51,7 @@ if self.id ~= 3010 then
         actor.name:set_quest_var("charm_person", "charm5", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
-        _return_value = false
+        _return_value = true
         return _return_value
     end
     if actor:get_quest_stage("charm_person") == 4 and self.id == 4353 and (actor:has_equipped("16312") or actor:has_item("16312")) then
@@ -63,7 +63,7 @@ if self.id ~= 3010 then
         actor.name:set_quest_var("charm_person", "charm3", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
-        _return_value = false
+        _return_value = true
         return _return_value
     end
     if actor:get_quest_stage("charm_person") == 4 and self.id == 23721 and (actor:has_equipped("58017") or actor:has_item("58017")) then
@@ -75,7 +75,7 @@ if self.id ~= 3010 then
         actor.name:set_quest_var("charm_person", "charm4", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
-        _return_value = false
+        _return_value = true
         return _return_value
     end
     if actor:get_quest_stage("charm_person") == 4 and self.id == 58406 and (actor:has_equipped("41119") or actor:has_item("41119")) then
@@ -87,11 +87,11 @@ if self.id ~= 3010 then
         actor.name:set_quest_var("charm_person", "charm5", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
-        _return_value = false
+        _return_value = true
         return _return_value
     end
 else
-    _return_value = false
+    _return_value = true
 end
 if actor:get_quest_var("charm_person:charm1") and actor:get_quest_var("charm_person:charm2") and actor:get_quest_var("charm_person:charm3") and actor:get_quest_var("charm_person:charm4") and actor:get_quest_var("charm_person:charm5") then
     wait(4)

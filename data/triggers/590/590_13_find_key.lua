@@ -19,7 +19,7 @@ if not (cmd == "move") then
 end
 local _return_value = true  -- Default: allow action
 if arg == "stones" then
-    _return_value = true
+    _return_value = false
     actor:send("You move the stone from the wall, and a bent key falls to the ground.")
     self.room:send_except(actor, tostring(actor.name) .. " moves a stone from the wall, and a bent key falls to the ground.")
     self.room:spawn_object(590, 27)
@@ -27,6 +27,6 @@ if arg == "stones" then
         actor.name:set_quest_var("sacred_haven", "find_key", 2)
     end
 else
-    _return_value = false
+    _return_value = true
 end
 return _return_value

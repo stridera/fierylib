@@ -8,7 +8,7 @@
 -- Converted from DG Script #1806: evil_nymph_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 self.room:send("running")
-if self.room == 1802 and world.count_mobiles("1813") then
+if self.room == 1802 and world.count_mobiles(18, 13) > 0 then
     self.room:send("As the nymph dies, the shade of Thelmor dissipates in peace.")
     world.destroy(self.room:find_actor("shade"))
 end

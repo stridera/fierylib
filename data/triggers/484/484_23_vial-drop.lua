@@ -8,7 +8,7 @@
 -- Converted from DG Script #48423: vial-drop
 -- Original: OBJECT trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 if actor:get_quest_stage("doom_entrance") == 5 then
     if actor.room == 23731 then
         self.room:send("The vial of sunlight <b:white>flares brightly!</>")

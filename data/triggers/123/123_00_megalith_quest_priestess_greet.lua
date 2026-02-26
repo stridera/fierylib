@@ -13,7 +13,7 @@ local item1 = (actor:get_quest_var("megalith_quest:item1"))
 local item2 = (actor:get_quest_var("megalith_quest:item2"))
 local item3 = (actor:get_quest_var("megalith_quest:item3"))
 local item4 = (actor:get_quest_var("megalith_quest:item4"))
-if (actor.id == -1) and (actor:get_quest_stage("megalith_quest") < 1) and (actor.level < 100) then
+if (actor.is_player) and (actor:get_quest_stage("megalith_quest") < 1) and (actor.level < 100) then
     wait(2)
     self.room:send(tostring(self.name) .. " looks up, startled to see new faces.")
     self:say("Goddess be praised!")

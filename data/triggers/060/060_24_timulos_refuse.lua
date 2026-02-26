@@ -22,7 +22,7 @@ else
     local response = "What is this? Are you trying to trick me?"
 end
 if response then
-    _return_value = false
+    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     self:command("eye " .. tostring(actor.name))

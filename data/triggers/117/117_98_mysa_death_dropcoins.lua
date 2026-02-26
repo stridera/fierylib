@@ -8,7 +8,7 @@
 -- Converted from DG Script #11798: mysa_death_dropcoins
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local _return_value = true  -- Default: allow action
-_return_value = false
+_return_value = true
 self.room:send("With a mighty roar Mysa falls!!")
 self.room:spawn_object(117, 98)
 self:command("drop treasure")

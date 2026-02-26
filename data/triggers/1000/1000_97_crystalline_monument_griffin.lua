@@ -1,5 +1,5 @@
 -- Trigger: crystalline monument (griffin)
--- Zone: 1000, ID: 97
+-- Zone: 0, ID: 97
 -- Type: OBJECT, Flags: RANDOM
 -- Status: CLEAN
 --

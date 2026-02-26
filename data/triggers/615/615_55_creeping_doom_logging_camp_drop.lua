@@ -24,11 +24,11 @@ if object.id == 61518 then
         local area = get.room[number]
         local person = area.people
         while person do
-            if person.id ~= -1 and person.id ~= 8708 and person.id ~= 8710 and person.id ~= 8711 and person.id ~= 8714 then
-                get_room(vnum_to_zone(area), vnum_to_local(area)):at(function()
+            if person.is_npc and person.id ~= 8708 and person.id ~= 8710 and person.id ~= 8711 and person.id ~= 8714 then
+                get_room(math.floor(area / 100), area % 100):at(function()
                     person:damage(5000)  -- type: physical
                 end)
-                get_room(vnum_to_zone(area), vnum_to_local(area)):at(function()
+                get_room(math.floor(area / 100), area % 100):at(function()
                     self.room:send("<blue>&9An endless wave of crawling </><red>arachnoids<blue>&9 and </><green>insects<blue>&9 consumes " .. tostring(person.name) .. "!</>")
                 end)
                 zone.echo(87, "Someone screams as he is consumed by an endless wave of crawling <red>arachnoids</> and <green>insects</>!")
