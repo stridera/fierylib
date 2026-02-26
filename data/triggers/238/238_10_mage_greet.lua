@@ -1,7 +1,8 @@
 -- Trigger: mage_greet
 -- Zone: 238, ID: 10
 -- Type: MOB, Flags: GREET
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <mage_greet>:7: function arguments expected near ']'
 --
 -- Original DG Script: #23810
 
@@ -11,7 +12,7 @@ wait(2)
 if actor.quest_stage[type_wand] == "wandstep" then
     local minlevel = (wandstep - 1) * 10
     if actor.level >= minlevel then
-        if actor.quest_variable["type_wand:greet"] == 0 then
+        if actor.quest_variable[type_wand:greet] == 0 then
             self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
             self:say("Do you have what I need for the " .. tostring(weapon) .. "?")

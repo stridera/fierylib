@@ -22,9 +22,9 @@ while i >= a do
             local found = 1
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if found then
     self.room:send("<blue>Rhalean's presence fills the room as her evil sister shrieks in pain!</>")

@@ -3,7 +3,7 @@
 -- Type: MOB, Flags: COMMAND
 -- Status: NEEDS_REVIEW
 --   Complex nesting: 36 if statements
---   Large script: 9547 chars
+--   Large script: 9548 chars
 --
 -- Original DG Script: #13331
 
@@ -43,7 +43,7 @@ if stage > 0 or actor:get_has_completed("heavens_gate") then
                 actor:send(tostring(objects.template(40, 5).name))
             end
             if key2 then
-                actor:send(tostring(objects.template(121, 42).name))
+                actor:send(tostring(objects.template(120, 142).name))
             end
             if key3 then
                 actor:send(tostring(objects.template(237, 9).name))

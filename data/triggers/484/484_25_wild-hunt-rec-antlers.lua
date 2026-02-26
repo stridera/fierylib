@@ -28,9 +28,9 @@ while i >= a do
             local accept = 1
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if not accept then
     actor:send(tostring(self.name) .. " says, 'What is this?'")

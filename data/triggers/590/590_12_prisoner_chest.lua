@@ -23,7 +23,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("sacred_haven") >= stage then
             local continue = "yes"
@@ -31,9 +31,9 @@ while i >= a do
             person:send("<b:white>You have advanced the quest!</>")
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if continue then
     actor:send(tostring(self.name) .. " whispers to you, 'Yes, I swiped the key for the chest off of one of the guards before I was confined, and hid it in the courtyard.'")

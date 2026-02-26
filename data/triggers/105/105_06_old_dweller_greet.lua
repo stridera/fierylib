@@ -1,7 +1,8 @@
 -- Trigger: Old_Dweller_greet
 -- Zone: 105, ID: 6
 -- Type: MOB, Flags: GREET_ALL
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 6 if statements
 --
 -- Original DG Script: #10506
 

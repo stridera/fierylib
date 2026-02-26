@@ -53,7 +53,7 @@ else
             local smuggler_here = 1
             local smuggler = person
         end
-        local person = person.next_in_room
+        person = person.next_in_room
     end
     if smuggler_here == 1 then
         local num = random(1, 5)

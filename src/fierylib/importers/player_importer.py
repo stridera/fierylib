@@ -17,10 +17,11 @@ from pathlib import Path
 from datetime import datetime
 
 from mud.mudfile import MudFiles, MudData
+from mud.parser import Parser
 from mud.types.player import Player
 from mud.types.object import Object
 from mud.types.pet import Pet
-from mud.types import CurrentMax, Money
+from mud.types import CurrentMax, Money, MudTypes
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
 from fierylib.converters import normalize_flags, normalize_skill_name, EntityResolver, convert_legacy_colors
 
@@ -316,12 +317,23 @@ class PlayerImporter:
             charisma = int(getattr(player_data.stats, "charisma"))
             luck = 13  # No luck attribute present in dataclass
 
-        # Normalize flags (skip legacy runtime flags that don't apply to modern system)
-        legacy_runtime_flags = {"AUTOSAVE", "REMOVING", "SAVING"}
+        # Build playerFlags from legacy preference_flags (not player_flags).
+        # Legacy player_flags (KILLER, THIEF, LOADROOM, etc.) are runtime state,
+        # while preference_flags (BRIEF, COMPACT, AUTO_LOOT, etc.) map to the
+        # modern PlayerFlag enum.
+        VALID_PLAYER_FLAGS = {
+            "BRIEF", "COMPACT", "NO_REPEAT",
+            "AUTO_LOOT", "AUTO_GOLD", "AUTO_SPLIT", "AUTO_EXIT", "AUTO_ASSIST",
+            "WIMPY", "SHOW_DICE_ROLLS",
+            "AFK", "DEAF", "NO_TELL", "NO_SUMMON", "QUEST",
+            "PK_ENABLED", "CONSENT",
+            "COLOR_BLIND", "MSP", "MXP_ENABLED",
+            "HOLY_LIGHT", "SHOW_IDS",
+        }
         player_flags = []
-        if player_data.player_flags:
-            player_flags = [f for f in normalize_flags(player_data.player_flags)
-                           if f not in legacy_runtime_flags]
+        if player_data.preference_flags:
+            player_flags = [f for f in normalize_flags(player_data.preference_flags)
+                           if f in VALID_PLAYER_FLAGS]
 
         # Parse room numbers and convert VNUMs to composite keys using EntityResolver
         # Resolver validates rooms exist in database before returning composite IDs
@@ -573,13 +585,21 @@ class PlayerImporter:
                 else:
                     stats["aliases"] += 1
 
-        # Add character_id to stats for equipment/pet import
+        # Add character_id and legacy_player_id to stats for equipment/pet/mail import
         stats["character_id"] = character_id
+        stats["legacy_player_id"] = player_data.id
         return stats
 
     async def _import_equipment(self, character_id: str, objs_file_path: str) -> int:
         """
-        Import character equipment and inventory items from .objs file
+        Import character equipment and inventory items from .objs file.
+
+        Handles:
+        - Equipped items (location 0-27)
+        - Inventory items (location 127)
+        - Container contents (location < 0, nesting depth = -location)
+        - Custom items (vnum -1) with custom name/desc preservation
+        - Per-instance property preservation (charges, values, names)
 
         Args:
             character_id: Character UUID
@@ -600,60 +620,92 @@ class PlayerImporter:
                 print(f"  ⚠️  Unsupported .objs version: {lines[0] if lines else 'empty'}")
                 return 0
 
-            # Parse each object block (separated by ~~)
-            blocks = content.split('~~\n')
+            # Parse using full parser to get all item properties
+            mud_data = MudData(lines)
+            parser = Parser(MudTypes.OBJECT)
+            # Skip version line (already consumed by lines check, re-create MudData)
+            mud_data.get_next_line()  # consume "1"
 
-            for block in blocks[1:]:  # Skip first block (before first ~~)
-                if not block.strip():
+            # Track last root item and nesting stack for container contents
+            # Stack maps depth -> CharacterItems.id of the container at that depth
+            last_root_db_id = None
+            container_stack: dict[int, int] = {}  # depth -> db id
+
+            for object_data in mud_data.split_by_delimiter("~~"):
+                try:
+                    parsed_data = parser.parse(object_data)
+                except Exception:
                     continue
 
-                # Extract vnum and location
-                vnum = None
-                location = None
+                location = parsed_data.pop("location", None)
+                vnum = parsed_data.pop("vnum", parsed_data.pop("id", None))
 
-                for line in block.split('\n'):
-                    line = line.strip()
-                    if line.startswith('vnum:'):
-                        vnum = int(line.split(':')[1].strip())
-                    elif line.startswith('location:'):
-                        location = int(line.split(':')[1].strip())
+                if location is None or vnum is None:
+                    continue
 
-                    # Stop once we have both
-                    if vnum is not None and location is not None:
-                        break
+                # Resolve the prototype
+                zone_id = None
+                object_id = None
 
-                # Import if valid vnum (not custom item)
-                if vnum is not None and vnum != -1 and location is not None:
-                    # Resolve object vnum to composite key using EntityResolver
+                if vnum > 0:
                     context_zone = vnum // 100 if vnum >= 100 else 0
                     obj_result = await self.resolver.resolve_object(vnum, context_zone=context_zone)
-
                     if obj_result:
                         zone_id = obj_result.zone_id
                         object_id = obj_result.id
-                        # Convert location number to equipped location name
-                        equipped_location = self._location_to_slot(location)
 
-                        # Create CharacterItem
-                        try:
-                            await self.prisma.characteritems.create(
-                                data={
-                                    "characterId": character_id,
-                                    "objectZoneId": zone_id,
-                                    "objectId": object_id,
-                                    "equippedLocation": equipped_location,
-                                    "condition": 100,
-                                    "charges": -1,  # Default: unlimited/not applicable
-                                    "updatedAt": datetime.utcnow(),
-                                }
-                            )
-                            item_count += 1
-                        except Exception as e:
-                            # Skip items that fail to import (e.g., FK constraints)
-                            pass
-                    # else: Skip items with missing prototypes (silently)
-                elif vnum == -1:
-                    # Skip custom items for now
+                if zone_id is None or object_id is None:
+                    # Can't resolve prototype — skip (includes vnum -1 custom items
+                    # and items from missing zones)
+                    continue
+
+                # Build the CharacterItem data
+                equipped_location = self._location_to_slot(location) if location >= 0 else None
+                item_data: dict[str, Any] = {
+                    "characterId": character_id,
+                    "objectZoneId": zone_id,
+                    "objectId": object_id,
+                    "equippedLocation": equipped_location,
+                    "condition": 100,
+                    "charges": -1,
+                    "updatedAt": datetime.utcnow(),
+                }
+
+                # Preserve custom name if it differs from prototype
+                short_desc = parsed_data.get("short_description")
+                if short_desc:
+                    item_data["customName"] = short_desc
+
+                # Preserve instance values (charges, food filling, etc.)
+                instance_values = parsed_data.get("values")
+                if instance_values:
+                    item_data["customValues"] = instance_values
+
+                # Determine container parent
+                if location < 0:
+                    # Inside a container — depth is -location
+                    depth = -location
+                    parent_id = container_stack.get(depth - 1, last_root_db_id)
+                    if parent_id:
+                        item_data["containerId"] = parent_id
+                    # No equippedLocation for contained items
+                    item_data["equippedLocation"] = None
+
+                try:
+                    created = await self.prisma.characteritems.create(data=item_data)
+                    item_count += 1
+
+                    # Track for container nesting
+                    if location >= 0:
+                        # Top-level item (equipped or inventory)
+                        last_root_db_id = created.id
+                        container_stack = {0: created.id}
+                    else:
+                        # Nested item — register as potential container at its depth
+                        depth = -location
+                        container_stack[depth] = created.id
+                except Exception:
+                    # Skip items that fail (FK constraints, etc.)
                     pass
 
         except Exception as e:
@@ -753,7 +805,8 @@ class PlayerImporter:
             dry_run: If True, don't actually write to database
 
         Returns:
-            dict with total import statistics
+            dict with total import statistics including legacy_id_map
+                  (mapping legacy numeric player IDs to character UUIDs)
         """
         total_stats = {
             "characters": 0,
@@ -765,6 +818,9 @@ class PlayerImporter:
             "skipped": 0,
             "errors": 0,
         }
+
+        # Collect legacy player ID -> character UUID mapping for mail/board import
+        legacy_id_map: dict[int, str] = {}
 
         # Use MudFiles to get player files
         player_files = MudFiles.player_files(str(players_dir), player_name)
@@ -789,6 +845,11 @@ class PlayerImporter:
                                 continue
 
                             character_id = stats.get("character_id")
+
+                            # Record legacy ID -> character UUID mapping
+                            legacy_player_id = stats.get("legacy_player_id")
+                            if legacy_player_id is not None and character_id:
+                                legacy_id_map[legacy_player_id] = character_id
 
                             total_stats["characters"] += stats.get("character", 0)
                             total_stats["skills"] += stats.get("skills", 0)
@@ -816,7 +877,7 @@ class PlayerImporter:
                                     total_stats["pets"] += 1
                                     print(f"  ✓ Imported pet for {player_data.name}")
 
-                        # TODO: .quest files - need to understand format first
+                        # Quest files handled by separate import-quests command
 
             except Exception as e:
                 print(f"✗ Error importing player from {player_file_group.id}: {e}")
@@ -824,4 +885,5 @@ class PlayerImporter:
                 traceback.print_exc()
                 total_stats["errors"] += 1
 
+        total_stats["legacy_id_map"] = legacy_id_map
         return total_stats

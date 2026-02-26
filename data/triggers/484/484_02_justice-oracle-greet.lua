@@ -44,7 +44,7 @@ while i >= a do
             end
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end

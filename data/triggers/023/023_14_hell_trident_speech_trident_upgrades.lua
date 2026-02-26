@@ -1,7 +1,9 @@
 -- Trigger: Hell Trident speech trident upgrades
 -- Zone: 23, ID: 14
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 23 if statements
+--   Large script: 7185 chars
 --
 -- Original DG Script: #2314
 

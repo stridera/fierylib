@@ -17,7 +17,7 @@ if actor.id == -1 then
     else
         local dmg = random(1, 100)
         actor:send("Your mind is " .. tostring(actor.class) .. " by horrific images and a sense of extreme pain.")
-        local dmg = dmg + 150
+        dmg = dmg + 150
         local damage_dealt = actor:damage(dmg)  -- type: physical
         actor:command("remove sceptre")
         actor:command("drop sceptre")

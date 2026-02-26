@@ -38,7 +38,7 @@ if string.find(speech, "speech1") or string.find(speech, "speech2") or string.fi
             -- 
             while item <= 5 do
                 actor.name:set_quest_var("megalith_quest", "item%item%", 0)
-                local item = item + 1
+                item = item + 1
             end
             item = nil
             wait(1)

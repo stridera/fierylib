@@ -31,7 +31,7 @@ if string.find(self.name, "arg") then
         if actor.room == 53466 or actor.room == 53570 then
             self.room:send("The snow in the globe swirls...and your vision blurs for a second!")
             if actor.room == 53466 then
-                self.room:teleport_all(get_room(535, 70))
+                self.room:teleport_all(get_room(534, 170))
                 self.room:find_actor("all"):command("look")
                 local person = actor
                 local i = person.group_size
@@ -48,9 +48,9 @@ if string.find(self.name, "arg") then
                         end
                         person:set_quest_var("frost_valley_quest", "shake", 1)
                     elseif person then
-                        local i = i + 1
+                        i = i + 1
                     end
-                    local a = a + 1
+                    a = a + 1
                 end
             elseif actor.room == 53570 then
                 self.room:teleport_all(get_room(534, 66))

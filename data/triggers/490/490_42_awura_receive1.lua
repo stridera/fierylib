@@ -12,15 +12,15 @@ if object.id == 49001 then
     wait(2)
     self:destroy_item("griffin-skin")
     if not (world.count_mobiles("49010")) then
-        get_room(491, 90):at(function()
+        get_room(490, 190):at(function()
             self.room:spawn_mobile(490, 10)
         end)
     end
     if actor:get_quest_stage("griffin_quest") == 7 then
-        get_room(491, 90):at(function()
+        get_room(490, 190):at(function()
             self.room:find_actor("adramalech"):spawn_object(490, 62)
         end)
-        get_room(491, 90):at(function()
+        get_room(490, 190):at(function()
             self.room:find_actor("adramalech"):spawn_object(490, 19)
         end)
         actor:advance_quest("griffin_quest")

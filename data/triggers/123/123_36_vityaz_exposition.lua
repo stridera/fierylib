@@ -1,7 +1,8 @@
 -- Trigger: vityaz_exposition
 -- Zone: 123, ID: 36
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <vityaz_exposition>:9: ')' expected near 'are'
 --
 -- Original DG Script: #12336
 
@@ -13,7 +14,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who") or string.find(string.lower(speech), "continue")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.id == -1 then
+if (string.find(speech, "who") are you or string.find(speech, "continue")) and actor.id == -1 then
     wait(2)
     if actor:get_quest_var("megalith_quest:vexpo") == 0 then
         self:say("I am a sorcerer-warrior of the Tzigane people.  Though others call us by a cruder name, you've certainly seen us around the world before.  I myself come from a family caravan which is usually camped not far to the east of here.")

@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 28
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Supernova progress journal>:116: 'end' expected (to close 'if' at line 23) near 'if'
 --   Complex nesting: 18 if statements
 --   Large script: 8145 chars
 --
@@ -120,9 +121,9 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 end
                 -- end clue 5 switch
                 actor:send("Talk to Phayla.")
-            end
-            -- ends the stage switch
-            if stage > 3 then
+                return _return_value
+                -- ends the stage switch
+                if stage > 3 then
                     if actor:has_item("48917") or actor:has_equipped("48917") then
                         if stage == 4 then
                             actor:send("Learning is a life-long process.")
@@ -147,4 +148,5 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
             end
         end
     end
+end  -- auto-close block
 return _return_value

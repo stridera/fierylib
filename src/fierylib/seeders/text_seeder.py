@@ -263,13 +263,13 @@ Heroes are needed. Will you answer the call?
                     A classic fantasy MUD, forged in fire.
 ================================================================================
 
-  Enter your username or email to login.
+  Enter your email to login.
   New players: Visit https://fierymud.org to register.
 
 """),
-            (LoginStage.USERNAME_PROMPT, "Enter account username or email: "),
+            (LoginStage.EMAIL_PROMPT, "Enter account email: "),
             (LoginStage.PASSWORD_PROMPT, "Password: "),
-            (LoginStage.INVALID_LOGIN, "\nInvalid username or password. Please try again.\n"),
+            (LoginStage.INVALID_LOGIN, "\nInvalid email or password. Please try again.\n"),
             (LoginStage.TOO_MANY_ATTEMPTS, "\nToo many failed login attempts. Please try again later.\n"),
             (LoginStage.CHARACTER_SELECT, """
 ================================================================================
@@ -315,6 +315,10 @@ Welcome to FieryMUD, {character_name}!
 Your adventure begins now. Type 'help newbie' for beginner tips.
 """),
             (LoginStage.RECONNECT_MESSAGE, "\nReconnecting to existing session...\n"),
+            (LoginStage.LOGIN_APPROVAL_PENDING, "\nA login approval request has been sent to your Muditor dashboard.\nPlease approve it there to continue. This request expires in 5 minutes.\n"),
+            (LoginStage.LOGIN_APPROVAL_APPROVED, "\nLogin approved! Loading your characters...\n"),
+            (LoginStage.LOGIN_APPROVAL_DENIED, "\nLogin request was denied. Disconnecting.\n"),
+            (LoginStage.LOGIN_APPROVAL_EXPIRED, "\nLogin request expired. Please try again.\n"),
         ]
 
         for stage, message in messages:

@@ -2,6 +2,7 @@
 -- Zone: 553, ID: 20
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <warrior_phase_1>:113: function arguments expected near ']'
 --   Complex nesting: 15 if statements
 --   Large script: 10586 chars
 --
@@ -119,14 +120,14 @@ if WARRIOR_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 
     -- 
     if not is_armor then
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable["phase_armor:vnum_gem_gems_acquired"] then
+        if actor.quest_variable[phase_armor:vnum_gem_gems_acquired] then
         else
             actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", 0)
         end
-        local gems = actor.quest_variable["phase_armor:vnum_gem_gems_acquired"]
+        local gems = actor.quest_variable[phase_armor:vnum_gem_gems_acquired]
         actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", gems)
         if gems < 3 then
-            local gems = actor.quest_variable["phase_armor:vnum_gem_gems_acquired"] + 1
+            local gems = actor.quest_variable[phase_armor:vnum_gem_gems_acquired] + 1
             actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", gems)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
@@ -150,13 +151,12 @@ if WARRIOR_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 
         -- 
         -- check to see if the quest is complete and the reward can be given..
         -- 
-        if gems == 3 and actor.quest_variable["phase_armor:vnum_armor_armor_acquired"] == 1 then
+        if gems == 3 and actor.quest_variable[phase_armor:vnum_armor_armor_acquired] == 1 then
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            -- vnum_reward values are 553xx-555xx => zone = vnum_reward // 100, local_id = vnum_reward % 100
-            self.room:spawn_object(vnum_reward // 100, vnum_reward % 100)
+            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
             wait(1)
             -- 
             -- loop for exp award.
@@ -165,7 +165,7 @@ if WARRIOR_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 
             local lap = 1
             while lap <= exp_multiplier do
                 actor:award_exp(2640)
-                local lap = lap + 1
+                lap = lap + 1
             end
             -- Note while loops can't be indented, due to dumbass
             -- coders.
@@ -181,14 +181,14 @@ if WARRIOR_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 
         -- here is where the armor section goes
         -- that is true for is_armor == 1
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable["phase_armor:vnum_armor_armor_acquired"] then
+        if actor.quest_variable[phase_armor:vnum_armor_armor_acquired] then
         else
             actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", 0)
         end
-        local armor = actor.quest_variable["phase_armor:vnum_armor_armor_acquired"]
+        local armor = actor.quest_variable[phase_armor:vnum_armor_armor_acquired]
         actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", armor)
         if armor < 1 then
-            local armor = actor.quest_variable["phase_armor:vnum_armor_armor_acquired"] + 1
+            local armor = actor.quest_variable[phase_armor:vnum_armor_armor_acquired] + 1
             actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", armor)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")
@@ -212,13 +212,12 @@ if WARRIOR_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 
         -- 
         -- check to see if the quest is complete and the reward can be given..
         -- 
-        if armor == 1 and actor.quest_variable["phase_armor:vnum_gem_gems_acquired"] == 3 then
+        if armor == 1 and actor.quest_variable[phase_armor:vnum_gem_gems_acquired] == 3 then
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
             actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
             wait(1)
-            -- vnum_reward values are 553xx-555xx => zone = vnum_reward // 100, local_id = vnum_reward % 100
-            self.room:spawn_object(vnum_reward // 100, vnum_reward % 100)
+            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
             wait(1)
             -- 
             -- loop for exp award.
@@ -227,7 +226,7 @@ if WARRIOR_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 
             local lap = 1
             while lap <= exp_multiplier do
                 actor:award_exp(2640)
-                local lap = lap + 1
+                lap = lap + 1
             end
             -- Note while loops can't be indented, due to dumbass
             -- coders.

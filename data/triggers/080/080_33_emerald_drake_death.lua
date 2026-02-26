@@ -1,7 +1,7 @@
 -- Trigger: emerald_drake_death
 -- Zone: 80, ID: 33
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN (reviewed)
+-- Status: CLEAN
 --
 -- Original DG Script: #8033
 
@@ -22,10 +22,7 @@ if world.count_mobiles("8034") < 1 then
     end)
     local rnd = random(1, 100)
     get_room(160, 95):at(function()
-        local wug_drake = self.room:find_actor("wug")
-        if wug_drake then
-            wug_drake:teleport(get_room(80, rnd_room - 8000))
-        end
+        self.room:find_actor("wug"):teleport(find_room_by_name("%rnd_room%"))
     end)
     -- Sometimes creatures don't get teleported out of the loading
     -- room so we're gonna go back and purge it just incase.

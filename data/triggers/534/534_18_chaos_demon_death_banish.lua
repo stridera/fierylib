@@ -19,7 +19,7 @@ if i then
                 person:send("<b:magenta>A single letter pops into your mind. - <b:cyan>G</>")
             end
         end
-        local i = i - 1
+        i = i - 1
     end
 elseif person:get_quest_stage("banish") == 5 then
     person.name:advance_quest("banish")

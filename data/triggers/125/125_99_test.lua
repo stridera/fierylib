@@ -13,4 +13,4 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "foo")) then
     return true  -- No matching keywords
 end
-get_room(125, 0):exit("north"):set_state({hidden = false})
+doors.set_state(get_room(125, 0), "north", {action = "room"})

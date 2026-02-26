@@ -2,15 +2,16 @@
 -- Zone: 4, ID: 45
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Hell Gate progress journal>:4: 'then' expected near 'gate'
 --   Complex nesting: 29 if statements
---   Large script: 7834 chars
+--   Large script: 7837 chars
 --
 -- Original DG Script: #445
 
 -- Converted from DG Script #445: Hell Gate progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "hell_gate") or string.find(arg, "hell_gate") then
+if string.find(arg, "hell") gate or string.find(arg, "hell_gate") then
     if string.find(actor.class, "Diabolist") and actor.level >= 75 then
         _return_value = false
         local stage = actor:get_quest_stage("hell_gate")
@@ -30,7 +31,7 @@ if string.find(arg, "hell_gate") or string.find(arg, "hell_gate") then
             actor:send("</>")
             -- switch on stage
             if stage == 1 then
-                actor:send("You are preparing to open a door to Garl'lixxil and release one of the demon lords.  Find " .. tostring(objects.template(32, 13).name) .. ".")
+                actor:send("You are preparing to open a door to Garl'lixxil and release one of the demon lords.  Find " .. tostring(objects.template(30, 213).name) .. ".")
             elseif stage == 2 then
                 local key1 = actor:get_quest_var("hell_gate:8303")
                 local key2 = actor:get_quest_var("hell_gate:23709")
@@ -62,7 +63,7 @@ if string.find(arg, "hell_gate") or string.find(arg, "hell_gate") then
                         actor:send("<red>" .. tostring(objects.template(534, 2).name) .. "</>")
                     end
                     if key7 then
-                        actor:send("<red>" .. tostring(objects.template(581, 9).name) .. "</>")
+                        actor:send("<red>" .. tostring(objects.template(580, 109).name) .. "</>")
                     end
                 end
                 actor:send("</>")

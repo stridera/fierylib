@@ -126,12 +126,10 @@ else
         if job1 and job2 and job3 and job4 then
             wait(2)
             local reward = object.id + 1
-            local reward_zone, reward_local = reward // 100, reward % 100
-            if reward_zone == 0 then reward_zone = 1000 end
             world.destroy(object)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'Well done!  You've earned your next vision mark.'")
-            self.room:spawn_object(reward_zone, reward_local)
+            self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
             self:command("give vision " .. tostring(actor))
             local expcap = visionstage * 10
             if expcap < 17 then
@@ -147,17 +145,17 @@ else
             else
                 local expmod = 20940 + ((expcap - 89) * 600)
             end
-            local expmod = expmod + ((expmod * 2) / 15)
+            expmod = expmod + ((expmod * 2) / 15)
             actor:send("<b:yellow>You gain experience!</>")
             local setexp = (expmod * 10)
             local loop = 0
             while loop < 7 do
                 actor:award_exp(setexp)
-                local loop = loop + 1
+                loop = loop + 1
             end
             local number = 1
             while number < 5 do
-                actor:set_quest_var("monk_vision", "visiontask" .. number, 0)
+                actor:set_quest_var("monk_vision", "visiontask%number%", 0)
                 number = number + 1
             end
             if actor:get_quest_stage("monk_vision") < 9 then

@@ -27,8 +27,9 @@ if object.id == 12502 then
         self:say("And take these as well.")
         local gem = 0
         while gem < 3 do
-            self.room:spawn_object(557, random(1, 11) + 3)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55703
+            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))
         actor.name:complete_quest("krisenna_quest")
@@ -81,7 +82,7 @@ if object.id == 12502 then
             -- 
             local expmod = (expmod + (expmod * 2) / 5)
         else
-            local expmod = expmod
+            expmod = expmod
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
@@ -92,7 +93,7 @@ if object.id == 12502 then
             -- Pick depending on what is running the trigger
             -- 
             actor:award_exp(setexp)
-            local loop = loop + 1
+            loop = loop + 1
         end
         wait(2)
         self.room:send(tostring(self.name) .. " becomes very silent.")

@@ -30,9 +30,9 @@ if actor:get_quest_stage("theatre") >= 1 then
                     local accept_lashes = 1
                 end
             elseif person then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         if not accept_lashes then
             local refuse = "lashes"
@@ -68,9 +68,9 @@ if actor:get_quest_stage("theatre") >= 1 then
                     local accept_key = 1
                 end
             elseif person then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         if not accept_key then
             wait(2)

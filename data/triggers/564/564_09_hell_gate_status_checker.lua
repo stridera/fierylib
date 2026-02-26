@@ -3,7 +3,7 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
 --   Complex nesting: 27 if statements
---   Large script: 6310 chars
+--   Large script: 6313 chars
 --
 -- Original DG Script: #56409
 
@@ -20,7 +20,7 @@ wait(2)
 -- switch on stage
 if stage == 1 then
     self.room:send(tostring(self.name) .. " says, 'We are preparing to open a door to")
-    self.room:send("</>Garl'lixxil and release one of our demon lords.  Find " .. tostring(objects.template(32, 13).name) .. ".'")
+    self.room:send("</>Garl'lixxil and release one of our demon lords.  Find " .. tostring(objects.template(30, 213).name) .. ".'")
 elseif stage == 2 then
     local key1 = actor:get_quest_var("hell_gate:8303")
     local key2 = actor:get_quest_var("hell_gate:23709")
@@ -52,7 +52,7 @@ elseif stage == 2 then
             self.room:send("<red>" .. tostring(objects.template(534, 2).name) .. "</>")
         end
         if key7 then
-            self.room:send("<red>" .. tostring(objects.template(581, 9).name) .. "</>")
+            self.room:send("<red>" .. tostring(objects.template(580, 109).name) .. "</>")
         end
     end
     -- (empty room echo)

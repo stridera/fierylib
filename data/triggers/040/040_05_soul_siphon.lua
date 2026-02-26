@@ -1,8 +1,8 @@
 -- Trigger: soul siphon
 -- Zone: 40, ID: 5
 -- Type: OBJECT, Flags: RANDOM
--- Status: CLEAN
---   Note: Logic uses globals for state persistence across calls
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 6 if statements
 --
 -- Original DG Script: #4005
 
@@ -12,7 +12,7 @@ if self.worn_by then
     local actor = self.worn_by
     if actor.is_fighting then
         if count then
-            local count = count + 1
+            count = count + 1
             globals.count = globals.count or true
             if count == 4 then
                 self.room:send("<magenta>The ring of souls <blue>glows <red>radiantly!</>")

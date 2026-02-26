@@ -22,16 +22,16 @@ if object.type == "LIQCONTAINER" then
             local a = 0
         end
         while i >= a do
-            local person = person.group_member[a]
+            person = person.group_member[a]
             if person.room == self.room then
                 if not person:get_quest_stage("griffin_quest") then
                     person:start_quest("griffin_quest")
                 end
                 person:set_quest_var("griffin_quest", "ladder", 1)
             elseif person and person.id == -1 then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         self:command("give ladder " .. tostring(actor.name))
         self:say("That completes my part of the bargain.")

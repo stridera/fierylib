@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 56
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Assassin Mask progress journal>:4: unexpected symbol near '='
 --   Complex nesting: 18 if statements
 --   Large script: 5730 chars
 --
@@ -10,7 +11,7 @@
 -- Converted from DG Script #456: Assassin Mask progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(arg, "deadly_promotion") or string.find(arg, "assassin_mask") then
+if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(arg, "deadly_promotion") or arg /=assassin_mask then
     if string.find(actor.class, "Assassin") then
         _return_value = false
         local bountystage = actor:get_quest_stage("bounty_hunt")

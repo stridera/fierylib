@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 35
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Creeping Doom progress journal>:4: 'then' expected near 'doom'
 --   Complex nesting: 12 if statements
 --
 -- Original DG Script: #435
@@ -9,7 +10,7 @@
 -- Converted from DG Script #435: Creeping Doom progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "creeping") or string.find(arg, "creeping_doom") or string.find(arg, "creeping_doom") then
+if string.find(arg, "creeping") or string.find(arg, "creeping") doom or string.find(arg, "creeping_doom") then
     if actor.level >= 75 and string.find(actor.class, "Druid") then
         _return_value = false
         local stage = actor:get_quest_stage("creeping_doom")
@@ -60,9 +61,9 @@ if string.find(arg, "creeping") or string.find(arg, "creeping_doom") or string.f
                 actor:send("return to the very angry pixie.")
                 return _return_value
             end
-            local job1 = actor.quest_variable[creeping_doom .. ":item1"]
-            local job2 = actor.quest_variable[creeping_doom .. ":item2"]
-            local job3 = actor.quest_variable[creeping_doom .. ":item3"]
+            local job1 = actor.quest_variable[creeping_doom:item1]
+            local job2 = actor.quest_variable[creeping_doom:item2]
+            local job3 = actor.quest_variable[creeping_doom:item3]
             actor:send("You are trying to " .. tostring(step) .. ".")
             actor:send("</>")
             if job1 or job2 or job3 then

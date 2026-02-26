@@ -31,7 +31,7 @@ if self.level >= 70 then
                         return _return_value
                     end
                 end
-                local person = person.next_in_room
+                person = person.next_in_room
             end
         end
     end

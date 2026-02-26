@@ -14,7 +14,7 @@ if room.people then
     self.room:send("The dragon blasts a gout of <b:red>flame</>, incinerating the room.")
     local prsn = room.actors[random(1, #room.actors)]
     local dmg = random(1, 100)
-    local dmg = dmg + 50
+    dmg = dmg + 50
     local damage_dealt = prsn:damage(dmg)  -- type: fire
     if damage_dealt == 0 then
         if fireproof then

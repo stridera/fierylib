@@ -1,7 +1,7 @@
 -- Trigger: necromancer_quest_spell_hints_and_shift_corpse_start
 -- Zone: 62, ID: 1
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #6201

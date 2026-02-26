@@ -2,6 +2,7 @@
 -- Zone: 462, ID: 6
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Nukreth Spire captive follow me>:16: function arguments expected near ']'
 --   Complex nesting: 14 if statements
 --
 -- Original DG Script: #46206
@@ -21,7 +22,7 @@ if not (string.find(string.lower(speech), "follow") or string.find(string.lower(
 end
 wait(2)
 if actor:get_quest_stage("nukreth_spire") then
-    if not actor:get_quest_var("nukreth_spire:pathnumber") then
+    if not actor.quest_variable[nukreth_spire:pathnumber] then
         if self.room == 46278 then
             -- the spiritbreaker is still alive
             if world.count_mobiles("46224") > 0 then

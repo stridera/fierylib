@@ -1,7 +1,7 @@
 -- Trigger: berserker_hjordis_speech2
 -- Zone: 364, ID: 10
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN (reviewed 2026-01-22)
+-- Status: CLEAN
 --
 -- Original DG Script: #36410
 
@@ -23,7 +23,7 @@ if string.find(actor.class, "Warrior") then
     -- break
     wait(2)
     if actor.level >= 10 and actor.level <= 25 then
-        actor:start_quest("berserker_subclass", "Ber")
+        actor.name:start_quest("berserker_subclass", "Ber")
         actor:send(tostring(self.name) .. " says, 'Then prove it!'")
         self:command("laugh")
         wait(2)

@@ -11,7 +11,7 @@ if actor:get_quest_stage("fieryisle_quest") == 8 then
     wait(2)
     actor.name:advance_quest("fieryisle_quest")
     actor:send("<b:white>You have advanced your quest!</>")
-    if world.count_mobiles("48127") == 0 then
+    if not world.count_mobiles("48127") then
         get_room(481, 97):at(function()
             self.room:spawn_mobile(481, 27)
         end)
@@ -37,9 +37,9 @@ if actor:get_quest_stage("fieryisle_quest") == 8 then
     self.room:spawn_object(481, 26)
     self:command("wear cloak-fire")
     self:say("If you want this cloak, you better think again, begone mortal!")
-    self.room:teleport_all(get_room(482, 0))
-    get_room(482, 0):at(function()
+    self.room:teleport_all(get_room(481, 100))
+    get_room(481, 100):at(function()
         self.room:send("You can hear Vulcera's laughter ringing in your ears.")
     end)
-    self:teleport(get_room(482, 23))
+    self:teleport(get_room(481, 123))
 end

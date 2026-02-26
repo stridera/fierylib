@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 21
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Sacred Haven progress journal>:4: 'then' expected near 'the'
 --   Complex nesting: 12 if statements
 --
 -- Original DG Script: #421
@@ -9,7 +10,7 @@
 -- Converted from DG Script #421: Sacred Haven progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred_haven") or string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred_haven") or string.find(arg, "haven") then
+if string.find(arg, "infiltrate") the sacred haven or string.find(arg, "sacred_haven") or string.find(arg, "infiltrate_the_sacred_haven") or string.find(arg, "sacred") haven or string.find(arg, "haven") then
     if actor.level >= 25 then
         _return_value = false
         local stage = actor:get_quest_stage("sacred_haven")

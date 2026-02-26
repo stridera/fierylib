@@ -2,6 +2,7 @@
 -- Zone: 557, ID: 4
 -- Type: MOB, Flags: SPEECH_TO
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Phase Armor - Status>:32: function arguments expected near ']'
 --   Complex nesting: 28 if statements
 --   Large script: 6280 chars
 --
@@ -38,20 +39,20 @@ elseif actor:get_quest_stage("phase_armor") < phase then
     actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my quests yet.'")
     return _return_value
 end
-local got_hands = actor:get_quest_var("phase_armor:" .. hands_armor .. "_armor_acquired")
-local got_feet = actor:get_quest_var("phase_armor:" .. feet_armor .. "_armor_acquired")
-local got_wrist = actor:get_quest_var("phase_armor:" .. wrist_armor .. "_armor_acquired")
-local got_head = actor:get_quest_var("phase_armor:" .. head_armor .. "_armor_acquired")
-local got_arms = actor:get_quest_var("phase_armor:" .. arms_armor .. "_armor_acquired")
-local got_legs = actor:get_quest_var("phase_armor:" .. legs_armor .. "_armor_acquired")
-local got_body = actor:get_quest_var("phase_armor:" .. body_armor .. "_armor_acquired")
-local hands_count = actor:get_quest_var("phase_armor:" .. hands_gem .. "_gems_acquired")
-local feet_count = actor:get_quest_var("phase_armor:" .. feet_gem .. "_gems_acquired")
-local wrist_count = actor:get_quest_var("phase_armor:" .. wrist_gem .. "_gems_acquired")
-local head_count = actor:get_quest_var("phase_armor:" .. head_gem .. "_gems_acquired")
-local arms_count = actor:get_quest_var("phase_armor:" .. arms_gem .. "_gems_acquired")
-local legs_count = actor:get_quest_var("phase_armor:" .. legs_gem .. "_gems_acquired")
-local body_count = actor:get_quest_var("phase_armor:" .. body_gem .. "_gems_acquired")
+local got_hands = actor.quest_variable[phase_armor:hands_armor_armor_acquired]
+local got_feet = actor.quest_variable[phase_armor:feet_armor_armor_acquired]
+local got_wrist = actor.quest_variable[phase_armor:wrist_armor_armor_acquired]
+local got_head = actor.quest_variable[phase_armor:head_armor_armor_acquired]
+local got_arms = actor.quest_variable[phase_armor:arms_armor_armor_acquired]
+local got_legs = actor.quest_variable[phase_armor:legs_armor_armor_acquired]
+local got_body = actor.quest_variable[phase_armor:body_armor_armor_acquired]
+local hands_count = actor.quest_variable[phase_armor:hands_gem_gems_acquired]
+local feet_count = actor.quest_variable[phase_armor:feet_gem_gems_acquired]
+local wrist_count = actor.quest_variable[phase_armor:wrist_gem_gems_acquired]
+local head_count = actor.quest_variable[phase_armor:head_gem_gems_acquired]
+local arms_count = actor.quest_variable[phase_armor:arms_gem_gems_acquired]
+local legs_count = actor.quest_variable[phase_armor:legs_gem_gems_acquired]
+local body_count = actor.quest_variable[phase_armor:body_gem_gems_acquired]
 local done_hands = got_hands == 1  and  hands_count == 3
 local done_feet = got_feet == 1  and  feet_count == 3
 local done_wrist = got_wrist == 1  and  wrist_count == 3
@@ -60,10 +61,10 @@ local done_arms = got_arms == 1  and  arms_count == 3
 local done_legs = got_legs == 1  and  legs_count == 3
 local done_body = got_body == 1  and  body_count == 3
 local given = got_hands + got_feet + got_wrist + got_head + got_arms + got_legs + got_body
-local given = given + hands_count + feet_count + wrist_count + head_count + arms_count + legs_count + body_count
+given = given + hands_count + feet_count + wrist_count + head_count + arms_count + legs_count + body_count
 local unrewarded = (got_hands + hands_count  ~=  4) + (got_feet + feet_count  ~=  4) + (got_wrist + wrist_count  ~=  4)
-local unrewarded = unrewarded + (got_head + head_count  ~=  4) + (got_arms + arms_count  ~=  4)
-local unrewarded = unrewarded + (got_legs + legs_count  ~=  4) + (got_body + body_count  ~=  4)
+unrewarded = unrewarded + (got_head + head_count  ~=  4) + (got_arms + arms_count  ~=  4)
+unrewarded = unrewarded + (got_legs + legs_count  ~=  4) + (got_body + body_count  ~=  4)
 actor:send(tostring(self.name) .. " tells you, 'Look for treasures from creatures:")
 if phase == 1 then
     actor:send("<b:cyan>below level 20</>.'_")

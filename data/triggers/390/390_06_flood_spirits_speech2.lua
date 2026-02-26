@@ -1,7 +1,8 @@
 -- Trigger: flood_spirits_speech2
 -- Zone: 390, ID: 6
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Large script: 9311 chars
 --
 -- Original DG Script: #39006
 

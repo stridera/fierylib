@@ -41,9 +41,9 @@ if object.id == 58435 then
             end
             person:set_quest_var("kod_quest", "alicorn", 1)
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     world.destroy(self.room:find_actor("girl"))
 end

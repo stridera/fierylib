@@ -2,6 +2,7 @@
 -- Zone: 18, ID: 34
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <blur_winds_speech>:79: function arguments expected near ']'
 --   Complex nesting: 11 if statements
 --   Large script: 5157 chars
 --
@@ -19,57 +20,54 @@ local _return_value = true  -- Default: allow action
 wait(2)
 if actor:get_quest_stage("blur") == 4 then
     -- switch on self.id
-    local direction = nil
-    local home = nil
-    local color = nil
-    local room = nil
     if self.id == 1819 then
-        direction = "north"
-        home = 30262
-        color = "&2&b"
-        room = get_room(302, 62)
+        local direction = "north"
+        local home = 30262
+        local color = "&2&b"
+        local room = get_room("30262")
         self.room:send(tostring(self.name) .. " says, 'Then you will have to beat me to: " .. tostring(color) .. tostring(room.name) .. "</>")
         self.room:send("</>in Bluebonnet Pass.'")
         self:emote("laughs mightily as it vanishes!")
-        actor:set_quest_var("blur", direction, 1)
+        actor.name:set_quest_var("blur", "%direction%", 1)
     elseif self.id == 1820 then
-        direction = "south"
-        home = 53557
-        color = "&1&b"
-        room = get_room(535, 57)
+        local direction = "south"
+        local home = 53557
+        local color = "&1&b"
+        local room = get_room("53557")
         self.room:send(tostring(self.name) .. " says, 'Long has it been since one such as yourself has made this")
         self.room:send("</>request.  Now show me your speed!'")
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'Try to reach " .. tostring(color) .. tostring(room.name) .. "</>")
         self.room:send("</>before I do!'")
         self:emote("rustles away with the sound of the leaves.")
-        actor:set_quest_var("blur", direction, 1)
+        actor.name:set_quest_var("blur", "%direction%", 1)
     elseif self.id == 1821 then
-        direction = "east"
-        home = 12597
-        color = "&3&b"
-        room = get_room(125, 97)
-        if world.count_mobiles(48105) == 0 then
+        local direction = "east"
+        local home = 12597
+        local color = "&3&b"
+        local room = get_room("12597")
+        if world.count_mobiles("48105") == 0 then
             self:say("Then let it be so!")
             wait(1)
             self.room:send(tostring(self.name) .. " says, 'Reach " .. tostring(color) .. tostring(room.name) .. "</>")
             self.room:send("</>before me!'")
-            actor:set_quest_var("blur", direction, 1)
+            actor.name:set_quest_var("blur", "%direction%", 1)
         else
             self:say("Then please help me escape from the clutches of this madwoman!")
             wait(1)
             self.room:send("Vulcera throws back her head and cackles!")
         end
     elseif self.id == 1822 then
-        direction = "west"
-        home = 4236
-        color = "&6&b"
-        room = get_room(42, 36)
+        local direction = "west"
+        local home = 4236
+        local color = "&6&b"
+        local room = get_room("4236")
         self:say("Well, let's play a different game first...")
         wait(3)
         self.room:send(tostring(self.name) .. " says, 'I'll be riding the fastest animal in Gothra!")
         self.room:send("</>If you can find me, then we can race!'")
-        get_room(203, random(1, 46) + 8):at(function()
+        local load = 20308 + random(1, 46)
+        get_room(vnum_to_zone(load), vnum_to_local(load)):at(function()
             self.room:spawn_mobile(203, 21)
         end)
     else
@@ -82,39 +80,39 @@ if actor:get_quest_stage("blur") == 4 then
             local time = count - 450
             local count = time
         else
-            actor:set_quest_var("blur", direction .. "_timer", count)
+            actor:set_quest_var("blur", "%direction%_timer", count)
             local time = count - 5
             wait(5)
             local count = time
         end
     end
-    if direction and actor:get_quest_var("blur:" .. direction) == 2 then
+    if actor.quest_variable[blur:direction] == 2 then
         world.destroy(self)
     else
         if actor.room == "home" then
-            if direction and actor:get_quest_var("blur:" .. direction) == 1 then
+            if actor.quest_variable[blur:direction] == 1 then
                 actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Wow you're fast!  Incredible!</>'")
-                actor:set_quest_var("blur", direction, 2)
+                actor.name:set_quest_var("blur", "%direction%", 2)
                 if actor:get_quest_var("blur:east") == 2 and actor:get_quest_var("blur:west") == 2 and actor:get_quest_var("blur:north") == 2 and actor:get_quest_var("blur:south") == 2 then
                     skills.set_level(actor.name, "blur", 100)
                     wait(2)
                     actor:send("You have matched the greatest speeds of nature!")
                     actor:send("You have learned <red>Blur</>!")
-                    actor:complete_quest("blur")
+                    actor.name:complete_quest("blur")
                 end
             else
                 if self.id == 1822 then
                     actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "You never found me, too bad!</>'")
-                    actor:set_quest_var("blur", direction, 0)
+                    actor.name:set_quest_var("blur", "%direction%", 0)
                 elseif self.id == 1821 then
                     actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "You didn't rescue me in time!</>'")
-                    actor:set_quest_var("blur", direction, 0)
+                    actor.name:set_quest_var("blur", "%direction%", 0)
                 end
             end
         else
             actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Sorry, too slow!</>'")
             actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Come back if you want a rematch!</>'")
-            actor:set_quest_var("blur", direction, 0)
+            actor.name:set_quest_var("blur", "%direction%", 0)
         end
     end
 end

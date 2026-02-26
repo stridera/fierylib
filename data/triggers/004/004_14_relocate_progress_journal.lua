@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 14
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Relocate progress journal>:20: unexpected symbol near 'in'
 --   Complex nesting: 7 if statements
 --
 -- Original DG Script: #414
@@ -25,7 +26,7 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("relocate_spell_quest") then
-            local master1 = mobiles.template(492, 50).name .. " in the Black Ice Desert"
+            local master1 = mobiles.template(492, 50).name in the Black Ice Desert
             local master2 = mobiles.template(492, 51).name
             -- switch on stage
             if stage == 1 or stage == 2 then

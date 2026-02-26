@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 96
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Treasure Hunter progress journal>:4: 'then' expected near 'hunter'
 --   Complex nesting: 9 if statements
 --
 -- Original DG Script: #496
@@ -9,7 +10,7 @@
 -- Converted from DG Script #496: Treasure Hunter progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg, "treasure_hunter") then
+if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg, "treasure") hunter then
     _return_value = false
     local stage = actor:get_quest_stage("treasure_hunter")
     local master = mobiles.template(53, 7).name

@@ -1,7 +1,7 @@
 -- Trigger: connectfour reset game
 -- Zone: 60, ID: 68
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #6068

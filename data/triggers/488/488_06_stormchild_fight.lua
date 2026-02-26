@@ -1,7 +1,8 @@
 -- Trigger: stormchild fight
 -- Zone: 488, ID: 6
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 6 if statements
 --
 -- Original DG Script: #48806
 
@@ -31,7 +32,7 @@ else
     end
     -- Halve damage for sanc
     if actor:has_effect(Effect.Sanctuary) then
-        local damage = damage / 2
+        damage = damage / 2
     end
     self.room:send_except(actor, "Lightning crackles around the Stormchild as she points a finger at " .. tostring(actor.name) .. ".")
     actor:send("Lightning crackles around the Stormchild as she points a finger at you!")

@@ -20,5 +20,5 @@ while person do
     if person.id == -1 then
         spells.cast(self, "major paralysis", person, 2)
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

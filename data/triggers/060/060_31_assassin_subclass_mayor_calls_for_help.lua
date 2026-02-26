@@ -39,7 +39,8 @@ elseif round == 15 then
     actor:send("The City Hall guard throws himself on you and breaks up the fight.")
     actor:send("You are dragged out of the building and thrown out of town!")
     -- teleport the player anywhere in the farmlands other than the fields*
-    actor:teleport(get_room(80, random(1, 225) + 0))
+    local place = 8000 + random(1, 225)
+    actor:teleport(get_room(vnum_to_zone(place), vnum_to_local(place)))
     wait(2)
     -- actor looks around
     wait(2)
@@ -50,5 +51,5 @@ elseif round == 15 then
     actor:send("You'll have to go back to " .. tostring(mobiles.template(60, 50).name) .. " and start over!")
     return _return_value
 end
-local round = round + 1
+round = round + 1
 globals.round = globals.round or true

@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 42
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Wizard Eye progress journal>:4: 'then' expected near 'eye'
 --   Complex nesting: 16 if statements
 --
 -- Original DG Script: #442
@@ -9,7 +10,7 @@
 -- Converted from DG Script #442: Wizard Eye progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "wizard_eye") or string.find(arg, "wizard") or string.find(arg, "wizard_eye") then
+if string.find(arg, "wizard") eye or string.find(arg, "wizard") or string.find(arg, "wizard_eye") then
     if string.find(actor.class, "Sorcerer") and actor.level >= 75 then
         _return_value = false
         local stage = actor:get_quest_stage("wizard_eye")
@@ -32,42 +33,42 @@ if string.find(arg, "wizard_eye") or string.find(arg, "wizard") or string.find(a
             -- switch on stage
             if stage == 1 then
                 local master = mobiles.template(324, 10).name
-                local task = "You are trying to find " .. tostring(master) .. " in South Caelia Highlands to ask her about Wizard Eye."
+                local task = You are trying to find master in South Caelia Highlands to ask her about Wizard Eye.
             elseif stage == 2 then
-                local task = "Find marigold poultice from a healer on the beachhead and give it to " .. tostring(master) .. "."
+                local task = Find marigold poultice from a healer on the beachhead and give it to master.
             elseif stage == 3 then
                 local master = mobiles.template(490, 3).name
-                local task = "Go visit " .. tostring(master) .. " of Griffin Isle to ask her about Wizard Eye and see what you need to do next."
+                local task = Go visit master of Griffin Isle to ask her about Wizard Eye and see what you need to do next.
             elseif stage == 4 then
                 local master = mobiles.template(490, 3).name
-                local task = "Have " .. tostring(master) .. " make you an herbal sachet."
+                local task = Have master make you an herbal sachet.
                 local thing1 = objects.template(23, 29).name
                 local thing2 = objects.template(237, 53).name
                 local thing3 = objects.template(480, 5).name
             elseif stage == 5 then
-                local task = "Give " .. tostring(master) .. " the sachet."
+                local task = Give master the sachet.
             elseif stage == 6 then
                 local task = "You are looking for the apothecary in Anduin."
             elseif stage == 7 then
                 local master = mobiles.template(60, 22).name
                 local task = "Get The Green Woman to make you incense."
                 local thing1 = objects.template(237, 54).name
-                local thing2 = objects.template(32, 98).name
+                local thing2 = objects.template(30, 298).name
                 local thing3 = objects.template(238, 47).name
                 local thing4 = objects.template(180, 1).name
             elseif stage == 8 then
-                local task = "Give " .. tostring(master) .. " the incense."
+                local task = Give master the incense.
             elseif stage == 9 or stage == 10 then
                 local master = mobiles.template(484, 10).name
-                local thing1 = objects.template(32, 18).name
+                local thing1 = objects.template(30, 218).name
                 local thing2 = objects.template(534, 24).name
                 local thing3 = objects.template(430, 21).name
                 local thing4 = objects.template(40, 3).name
                 local task = "See the Oracle of Justice."
             elseif stage == 11 then
-                local task = "Give " .. tostring(master) .. " the crystal ball."
+                local task = Give master the crystal ball.
             elseif stage == 12 then
-                local task = "Return to " .. tostring(master) .. " and lay back and go to sleep."
+                local task = Return to master and lay back and go to sleep.
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

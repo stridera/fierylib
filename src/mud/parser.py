@@ -47,7 +47,7 @@ class Parser:
     def parse_flags(self, flags) -> list:
         match self.type:
             case MudTypes.OBJECT:
-                list(BitFlags.read_flag_list(flags, OBJECT_FLAGS))
+                return list(BitFlags.read_flag_list(flags, OBJECT_FLAGS))
 
     def parse(self, mudfile: MudData) -> dict[str, any]:
         prototype = defaultdict()
@@ -300,8 +300,8 @@ class Parser:
                     for line in mudfile.read_until_starts("~"):
                         key, value = line.split(" ", 1)
                         prototype["script_variables"][key] = value
-                case "id":
-                    prototype["id"] = int(value)
+                case "vnum":
+                    prototype["vnum"] = int(value)
                 case "wear":
                     prototype["wear_flags"] = list(list(BitFlags.read_flags(value, WEAR_FLAGS)))
                 case "weight":

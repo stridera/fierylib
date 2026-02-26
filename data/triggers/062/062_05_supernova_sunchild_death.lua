@@ -17,9 +17,9 @@ if i then
                 person.name:advance_quest("supernova")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif actor:get_quest_stage("supernova") == 1 then
     actor.name:advance_quest("supernova")

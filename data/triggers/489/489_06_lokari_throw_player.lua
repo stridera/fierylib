@@ -14,7 +14,7 @@ while max_tries > 0 do
     if ((victim1.id < 48900) or (victim1.id > 48999)) and (victim1.level < 100) then
         local max_tries = 0
     end
-    local max_tries = max_tries - 1
+    max_tries = max_tries - 1
 end
 if max_tries ~= -1 then
     return _return_value
@@ -25,7 +25,7 @@ while max_tries > 0 do
     if ((victim2.id < 48900) or (victim2.id > 48999)) and (victim2.level < 100) and (victim1.name ~= victim2.name) then
         local max_tries = 0
     end
-    local max_tries = max_tries - 1
+    max_tries = max_tries - 1
 end
 if max_tries ~= -1 then
     return _return_value
@@ -34,33 +34,33 @@ local damage1 = 75 + random(1, 50)
 local damage2 = 75 + random(1, 50)
 if victim1:has_effect(Effect.Sanctuary) then
     -- Half damage for sanc
-    local damage1 = damage1 / 2
+    damage1 = damage1 / 2
 end
 if victim1:has_effect(Effect.Stone) then
     -- Another 50 damage for target2 if target1 has stoneskin
-    local damage2 = damage2 + 50
+    damage2 = damage2 + 50
 end
 -- Chance for critical hit
 local variant = random(1, 15)
 if variant == 1 then
-    local damage1 = damage1 / 2
+    damage1 = damage1 / 2
 elseif variant == 15 then
-    local damage1 = damage1 * 2
+    damage1 = damage1 * 2
 end
 if victim2:has_effect(Effect.Sanctuary) then
     -- Half damage for sanc
-    local damage2 = damage2 / 2
+    damage2 = damage2 / 2
 end
 if victim2:has_effect(Effect.Stone) then
     -- Another 50 damage for target1 if target2 has stoneskin
-    local damage1 = damage1 + 50
+    damage1 = damage1 + 50
 end
 -- Chance for critical hit
 local variant = random(1, 15)
 if variant == 1 then
-    local damage2 = damage2 / 2
+    damage2 = damage2 / 2
 elseif variant == 15 then
-    local damage2 = damage2 * 2
+    damage2 = damage2 * 2
 end
 self.room:send_except(victim1, "Lokari waves a hand at " .. tostring(victim1.name) .. ", picking " .. tostring(victim1.object) .. " up into the air!")
 victim1:send("Lokari waves a hand at you, picking you up into the air!")

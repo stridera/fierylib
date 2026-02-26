@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 10
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Vilekka Stew progress journal>:4: 'then' expected near 'boots'
 --   Complex nesting: 21 if statements
 --   Large script: 5439 chars
 --
@@ -10,7 +11,7 @@
 -- Converted from DG Script #410: Vilekka Stew progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, "vilekka_stew") or string.find(arg, "vilekka") or string.find(arg, "stew") or string.find(arg, "drow_boots") or string.find(arg, "in_service_of_lolth") or string.find(arg, "drow_boots") or string.find(arg, "drow") then
+if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, "vilekka_stew") or string.find(arg, "vilekka") or string.find(arg, "stew") or string.find(arg, "drow") boots or string.find(arg, "in_service_of_lolth") or string.find(arg, "drow_boots") or string.find(arg, "drow") then
     if actor.level >= 25 then
         _return_value = false
         local stage = actor:get_quest_stage("vilekka_stew")

@@ -23,7 +23,7 @@ while i >= a do
             person:send("<b:white>Group credit will not be given for returning the emerald shard to the Templar Magistrate.</>")
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end

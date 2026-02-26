@@ -1,7 +1,10 @@
 -- Trigger: Druid receive
 -- Zone: 120, ID: 3
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN (fixed missing paren line 154, fixed %self.room% line 90)
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Druid receive>:35: function arguments expected near ':'
+--   Complex nesting: 11 if statements
+--   Large script: 11647 chars
 --
 -- Original DG Script: #12003
 
@@ -39,7 +42,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                 wait(4)
                 actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
                 self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
-            elseif actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) == 1 then
+            elseif actor.quest_variable[twisted_sorrow:satisfied_tree:self.room] == 1 then
                 _return_value = false
                 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
@@ -85,7 +88,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                 if success == 1 then
                     local num_trees = 1 + actor:get_quest_var("twisted_sorrow:num_trees")
                     actor.name:set_quest_var("twisted_sorrow", "num_trees", num_trees)
-                    actor.name:set_quest_var("twisted_sorrow", "satisfied_tree:" .. tostring(self.room), 1)
+                    actor.name:set_quest_var("twisted_sorrow", "satisfied_tree:%self.room%", 1)
                     self.room:send("A deep throbbing hum is emanating from the ground.")
                     wait(3)
                     self.room:send("The hum gets louder and louder, causing twigs and leaves to dance upon the ground!")
@@ -149,7 +152,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                             -- 
                             -- 115% of standard
                             -- 
-                            local expmod = (expmod + ((expmod * 2) / 15))
+                            local expmod = (expmod + ((expmod * 2) / 15)
                         elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
                             -- 
                             -- 120% of standard
@@ -161,7 +164,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                             -- 
                             local expmod = (expmod + (expmod * 2) / 5)
                         else
-                            local expmod = expmod
+                            expmod = expmod
                         end
                         actor:send("<b:yellow>You gain experience!</>")
                         local setexp = (expmod * 10)
@@ -172,7 +175,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                             -- Pick depending on what is running the trigger
                             -- 
                             actor:award_exp(expmod)
-                            local loop = loop + 1
+                            loop = loop + 1
                         end
                         self:teleport(get_room(120, 15))
                     end

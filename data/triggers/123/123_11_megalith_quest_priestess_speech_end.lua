@@ -98,7 +98,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
             local item = 1
             while item <= 4 do
                 actor.name:set_quest_var("megalith_quest", "bad%item%", 0)
-                local item = item + 1
+                item = item + 1
             end
             actor.name:fail_quest("megalith_quest")
             return _return_value
@@ -190,7 +190,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 local item = 1
                 while item <= 5 do
                     actor.name:set_quest_var("megalith_quest", "bad%item%", 0)
-                    local item = item + 1
+                    item = item + 1
                 end
                 actor.name:fail_quest("megalith_quest")
             end

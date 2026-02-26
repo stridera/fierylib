@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 6
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Troll Mask progress journal>:4: 'then' expected near 'mask'
 --   Complex nesting: 12 if statements
 --
 -- Original DG Script: #406
@@ -9,7 +10,7 @@
 -- Converted from DG Script #406: Troll Mask progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "tribal") or string.find(arg, "trouble") or string.find(arg, "tribal_trouble") or string.find(arg, "troll_mask") or string.find(arg, "troll") or string.find(arg, "troll_mask_quest") then
+if string.find(arg, "tribal") or string.find(arg, "trouble") or string.find(arg, "tribal_trouble") or string.find(arg, "troll_mask") or string.find(arg, "troll") or string.find(arg, "troll") mask quest then
     if string.find(actor.race, "troll") then
         if actor.level >= 45 then
             _return_value = false

@@ -15,7 +15,7 @@ if actor.level < 100 then
             local entry = 1
             globals.entry = globals.entry or true
         else
-            local entry = entry + 1
+            entry = entry + 1
         end
     else
         actor:send("You can't seem to enter the room!  It is like stepping against a solid wall,")

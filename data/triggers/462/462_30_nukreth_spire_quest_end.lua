@@ -18,7 +18,7 @@ if destination == 46200 then
         self.room:send(tostring(self.name) .. " says, 'I don't know how we'll ever be able to repay you.'")
         wait(1)
         self:say("Please, take these.  It's all we have left.")
-        self.room:spawn_object(5, 36)
+        self.room:spawn_object(4, 136)
         self:command("give sandals " .. tostring(leader))
         wait(2)
         self:say("Now, we'll have to try to start over.  Come on honey.")
@@ -76,7 +76,7 @@ if destination == 46200 then
         local loop = 1
         while loop < 5 do
             leader:set_quest_var("nukreth_spire", "path%loop%", 0)
-            local loop = loop + 1
+            loop = loop + 1
         end
     end
     world.destroy(self)

@@ -2,6 +2,7 @@
 -- Zone: 550, ID: 8
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Master Shaman refuse>:13: 'end' expected (to close 'if' at line 11) near 'if'
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #55008
@@ -16,30 +17,33 @@ end
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("wizard_eye")
 -- switch on object.id
-if object.id == wandgem or object.id == wandvnum or object.id == wandtask3 then
+if object.id == "%wandgem%" or object.id == "%wandvnum%" or object.id == "%wandtask3%" then
     return _return_value
+    if stage == 2 then
+    elseif object.id == 58609 then
+        return _return_value
+    end
+    if stage == 5 then
+    elseif object.id == 55030 then
+        return _return_value
+    end
+    if stage == 8 then
+    elseif object.id == 55032 then
+        return _return_value
+    end
+    if stage == 11 then
+    elseif object.id == 55033 then
+        return _return_value
+    end
 end
-if stage == 2 and object.id == 58609 then
-    return _return_value
-end
-if stage == 5 and object.id == 55030 then
-    return _return_value
-end
-if stage == 8 and object.id == 55032 then
-    return _return_value
-end
-if stage == 11 and object.id == 55033 then
-    return _return_value
-end
-local response = nil
 if stage == 2 then
-    response = "Is " .. tostring(object.shortdesc) .. " really what she sent you to find?"
+    local response = Is object.shortdesc really what she sent you to find?
 elseif stage == 5 or stage == 8 then
-    response = "Is " .. tostring(object.shortdesc) .. " really what she suggested you use?"
+    local response = Is object.shortdesc really what she suggested you use?
 elseif stage == 11 then
-    response = "What? " .. tostring(object.shortdesc) .. "? This can't be right."
+    local response = What?  object.shortdesc?  This can't be right.
 else
-    response = "What is this?"
+    local response = "What is this?"
 end
 if response then
     _return_value = false

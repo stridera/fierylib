@@ -13,6 +13,6 @@ if actor.id == -1 then
         self:say("Eat up while it's still hot.")
         wait(1)
         self:command("give pork " .. tostring(actor.name))
-        actor:command("eat pork")
+        actor.name:command("eat pork")
     end
 end

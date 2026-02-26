@@ -153,7 +153,7 @@ class UserSeeder:
                 "create": {
                     "id": str(uuid.uuid4()),
                     "email": "admin@muditor.dev",
-                    "username": "admin",
+                    "displayName": "admin",
                     "passwordHash": admin_password.decode("utf-8"),
                     "role": UserRole.PLAYER,  # Will be updated based on character level
                 },
@@ -187,7 +187,7 @@ class UserSeeder:
                 "create": {
                     "id": str(uuid.uuid4()),
                     "email": "builder@muditor.dev",
-                    "username": "builder",
+                    "displayName": "builder",
                     "passwordHash": builder_password.decode("utf-8"),
                     "role": UserRole.PLAYER,  # Will be updated based on character level
                 },
@@ -221,7 +221,7 @@ class UserSeeder:
                 "create": {
                     "id": str(uuid.uuid4()),
                     "email": "player@muditor.dev",
-                    "username": "testplayer",
+                    "displayName": "testplayer",
                     "passwordHash": player_password.decode("utf-8"),
                     "role": UserRole.PLAYER,
                 },

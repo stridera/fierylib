@@ -16,7 +16,7 @@ if not (string.find(string.lower(speech), "run") or string.find(string.lower(spe
 end
 self.room:send("The ivory ring seems to shimmer for a second.")
 if self.room ~= 48223 then
-    self.room:teleport_all(get_room(482, 23))
+    self.room:teleport_all(get_room(481, 123))
     self.room:send("</>")
     self.room:send("<b:red>A burning hole erupts, sucking everything through it!</>")
     self.room:send("</>")
@@ -25,7 +25,7 @@ if self.room ~= 48223 then
     while person do
         if person.id == -1 then
             -- person looks around
-            local person = person.next_in_room
+            person = person.next_in_room
         end
     end
 end
@@ -44,9 +44,9 @@ while i >= a do
             person:set_quest_var("fieryisle_quest", "reward", "yes")
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 -- 
 -- Complete Fiery Island

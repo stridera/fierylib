@@ -1,7 +1,8 @@
 -- Trigger: rock_demon_call_rock
 -- Zone: 520, ID: 0
 -- Type: WORLD, Flags: GLOBAL
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <rock_demon_call_rock>:18: unexpected symbol near '='
 --
 -- Original DG Script: #52000
 
@@ -11,24 +12,24 @@ wait(1)
 self.room:send("The demon has animated some rocks which spin around you!")
 wait(1)
 local numhits = random(1, 3)
-local numhits = numhits + 2
+numhits = numhits + 2
 local thishit = 0
 while thishit < numhits do
     local dmg = random(1, 50)
-    local dmg = dmg + 50
+    dmg = dmg + 50
     local rnd = room.actors[random(1, #room.actors)]
     if rnd.id == 52017 then
         self.room:send_except(rnd, "A lump of rock merges with " .. tostring(rnd.name) .. " and he seems stronger! (<yellow>" .. tostring(dmg) .. "</>)")
         rnd:send("You absorb strength from the rock! (<yellow>" .. tostring(dmg) .. "</>)")
         rnd:heal(dmg)
     else
-        if rnd:get_quest_stage("meteorswarm") == 2 or rnd:get_quest_var("meteorswarm:new") ~= "yes" then
+        if rnd:get_quest_stage("meteorswarm") == 2 or rnd:get_quest_var("meteorswarm:new") /= yes then
             if rnd:get_quest_stage("meteorswarm") == 2 then
                 rnd:advance_quest("meteorswarm")
-            elseif rnd:get_quest_var("meteorswarm:new") ~= "yes" then
+            elseif rnd:get_quest_var("meteorswarm:new") /= yes then
                 rnd:set_quest_var("meteorswarm", "new", "no")
             end
-            self.room:spawn_object(482, 52)
+            self.room:spawn_object(481, 152)
             rnd:send("<b:red>A flaming meteor shoots off the towering rock demon,</>")
             rnd:send("<b:red>soars through the sky, and begins to fall toward the ground!</>")
             self.room:send_except(rnd, "<b:red>A flaming meteor shoots off the towering rock demon,</>")
@@ -46,5 +47,5 @@ while thishit < numhits do
             end
         end
     end
-    local thishit = thishit + 1
+    thishit = thishit + 1
 end

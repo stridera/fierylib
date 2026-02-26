@@ -3,11 +3,10 @@ Mail Importer - Imports mail messages from legacy plrmail binary file to Postgre
 
 Handles:
 - Parsing binary plrmail format (CircleMUD/FieryMUD)
-- Converting legacy player IDs to modern character references (when possible)
+- Resolving legacy player IDs to character UUIDs via in-memory mapping from player import
 - Storing attached object references with composite keys
 """
 
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -31,6 +30,7 @@ class MailImporter:
     async def import_mail(
         self,
         mail_message: MailMessage,
+        legacy_to_char: dict[int, str],
         dry_run: bool = False,
     ) -> dict[str, Any]:
         """
@@ -38,6 +38,7 @@ class MailImporter:
 
         Args:
             mail_message: Parsed MailMessage from binary file
+            legacy_to_char: Mapping from legacy player ID to character UUID
             dry_run: If True, don't actually write to database
 
         Returns:
@@ -60,18 +61,18 @@ class MailImporter:
             if obj_result:
                 attached_zone_id = obj_result.zone_id
                 attached_object_id = obj_result.id
-            # If resolver returns None, object doesn't exist - leave as None
 
-        # Prepare mail data
-        # Store legacy numeric player IDs - these will be remapped to character UUIDs
-        # after character import via a separate migration script
+        # Resolve sender/recipient legacy IDs to character UUIDs
+        sender_char_id = legacy_to_char.get(mail_message.sender_id)
+        recipient_char_id = legacy_to_char.get(mail_message.recipient_id)
+
         mail_data = {
             # Legacy IDs (numeric player IDs from CircleMUD)
             "legacySenderId": mail_message.sender_id,
             "legacyRecipientId": mail_message.recipient_id,
-            # Character IDs are null until remapped after character import
-            "senderCharacterId": None,
-            "recipientCharacterId": None,
+            # Resolved character IDs (null if character was deleted/not imported)
+            "senderCharacterId": sender_char_id,
+            "recipientCharacterId": recipient_char_id,
             # Mail content
             "body": mail_message.body,
             "sentAt": mail_message.mail_time,
@@ -102,6 +103,7 @@ class MailImporter:
     async def import_from_file(
         self,
         file_path: str | Path,
+        legacy_to_char: dict[int, str] | None = None,
         dry_run: bool = False,
         verbose: bool = False,
     ) -> dict[str, Any]:
@@ -110,6 +112,9 @@ class MailImporter:
 
         Args:
             file_path: Path to the plrmail binary file
+            legacy_to_char: Mapping from legacy player ID to character UUID
+                           (from player import). If None, sender/recipient
+                           character IDs will be null.
             dry_run: If True, don't actually write to database
             verbose: If True, print details for each message
 
@@ -120,6 +125,9 @@ class MailImporter:
 
         if not file_path.exists():
             raise FileNotFoundError(f"Mail file not found: {file_path}")
+
+        if legacy_to_char is None:
+            legacy_to_char = {}
 
         # Get file stats first
         file_stats = analyze_plrmail(file_path)
@@ -132,7 +140,12 @@ class MailImporter:
             "skipped": 0,
             "errors": 0,
             "with_attachments": 0,
+            "senders_resolved": 0,
+            "recipients_resolved": 0,
         }
+
+        if verbose:
+            print(f"  Legacy ID lookup has {len(legacy_to_char)} characters")
 
         # Clear existing mail if not dry run
         if not dry_run:
@@ -149,9 +162,14 @@ class MailImporter:
                         f"({mail_message.mail_time.strftime('%Y-%m-%d %H:%M')})"
                     )
 
-                stats = await self.import_mail(mail_message, dry_run=dry_run)
+                stats = await self.import_mail(mail_message, legacy_to_char, dry_run=dry_run)
                 total_stats["imported"] += stats.get("imported", 0)
                 total_stats["skipped"] += stats.get("skipped", 0)
+
+                if mail_message.sender_id in legacy_to_char:
+                    total_stats["senders_resolved"] += 1
+                if mail_message.recipient_id in legacy_to_char:
+                    total_stats["recipients_resolved"] += 1
 
                 if mail_message.attached_vnum:
                     total_stats["with_attachments"] += 1
@@ -166,6 +184,7 @@ class MailImporter:
 async def import_mail_cli(
     prisma_client,
     file_path: str,
+    legacy_to_char: dict[int, str] | None = None,
     dry_run: bool = False,
     verbose: bool = False,
 ) -> dict[str, Any]:
@@ -175,6 +194,7 @@ async def import_mail_cli(
     Args:
         prisma_client: Prisma client instance
         file_path: Path to plrmail binary file
+        legacy_to_char: Mapping from legacy player ID to character UUID
         dry_run: If True, don't write to database
         verbose: If True, print details
 
@@ -182,4 +202,6 @@ async def import_mail_cli(
         Import statistics
     """
     importer = MailImporter(prisma_client)
-    return await importer.import_from_file(file_path, dry_run=dry_run, verbose=verbose)
+    return await importer.import_from_file(
+        file_path, legacy_to_char=legacy_to_char, dry_run=dry_run, verbose=verbose
+    )

@@ -1,7 +1,8 @@
 -- Trigger: Justice refuse
 -- Zone: 484, ID: 28
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Justice refuse>:10: syntax error near 'can'
 --
 -- Original DG Script: #48428
 
@@ -14,7 +15,7 @@ if actor:get_quest_stage("wizard_eye") == 10 then
     if object.id == 3218 or object.id == 53424 or object.id == 43021 or object.id == 4003 then
         return _return_value
     else
-        local response = "This " .. tostring(object.shortdesc) .. " can't possibly be what you needed to ask me about."
+        local response = This get.obj_noadesc[object.vnum] can't possibly be what you needed to ask me about.
     end
 else
     local response = "I'm sorry, do you need something?"

@@ -1,7 +1,8 @@
 -- Trigger: word_of_command_dargo_order
 -- Zone: 430, ID: 57
 -- Type: MOB, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <word_of_command_dargo_order>:9: 'then' expected near 'door'
 --
 -- Original DG Script: #43057
 
@@ -13,7 +14,7 @@ if not (cmd == "order") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if string.find(arg, "enter door") then
+if string.find(arg, "enter") door then
     if actor:get_quest_stage("word_command") == 3 then
         if self.room == 43176 then
             self:command("enter door")

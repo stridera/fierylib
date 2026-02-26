@@ -2,6 +2,7 @@
 -- Zone: 43, ID: 62
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <LP2_bard_subclass_speech3>:14: 'then' expected near 'believe'
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #4362
@@ -19,7 +20,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "i")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "I believe if I refuse to grow old I can stay young til I die") or string.find(speech, "I believe if I refuse to grow old, I can stay young til I die") then
+if string.find(speech, "I") believe if I refuse to grow old I can stay young til I die or string.find(speech, "I") believe if I refuse to grow old, I can stay young til I die then
     if actor:get_quest_stage("bard_subclass") == 5 then
         wait(1)
         self.room:send(tostring(self.name) .. " wipes a tear from his eye.")

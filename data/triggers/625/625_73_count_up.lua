@@ -11,7 +11,7 @@ if delay > 0 and obj.worn_by ~= 0 then
     wait(delay)
     if charges >= 0 and charges <= maxcharge then
         if charges < maxcharge then
-            local charges = charges + 1
+            charges = charges + 1
             globals.charges = globals.charges or true
             self.room:send("<b:yellow>" .. tostring(self.shortdesc) .. " hums lightly.</>")
         elseif charges == "maxcharges" then

@@ -2,6 +2,7 @@
 -- Zone: 615, ID: 56
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <creeping_doom_status_checker>:53: function arguments expected near ']'
 --   Complex nesting: 10 if statements
 --
 -- Original DG Script: #61556
@@ -58,26 +59,26 @@ else
 end
 self.room:send("You are trying to " .. tostring(step) .. ".")
 -- (empty room echo)
-if actor:get_quest_var("creeping_doom:" .. tostring(item1)) or actor:get_quest_var("creeping_doom:" .. tostring(item2)) or actor:get_quest_var("creeping_doom:" .. tostring(item3)) then
+if actor.quest_variable[creeping_doom:item1] or actor.quest_variable[creeping_doom:item2] or actor.quest_variable[creeping_doom:item3] then
     self.room:send("You have brought me:")
-    if actor:get_quest_var("creeping_doom:" .. tostring(item1)) then
-        self.room:send("- " .. tostring(world.get_obj_shortdesc(item1)))
+    if actor.quest_variable[creeping_doom:item1] then
+        self.room:send("- " .. "%get.obj_shortdesc[%item1%]%")
     end
-    if actor:get_quest_var("creeping_doom:" .. tostring(item2)) then
-        self.room:send("- " .. tostring(world.get_obj_shortdesc(item2)))
+    if actor.quest_variable[creeping_doom:item2] then
+        self.room:send("- " .. "%get.obj_shortdesc[%item2%]%")
     end
-    if actor:get_quest_var("creeping_doom:" .. tostring(item3)) then
-        self.room:send("- " .. tostring(world.get_obj_shortdesc(item3)))
+    if actor.quest_variable[creeping_doom:item3] then
+        self.room:send("- " .. "%get.obj_shortdesc[%item3%]%")
     end
 end
 -- (empty room echo)
 self.room:send("I still need:")
-if not actor:get_quest_var("creeping_doom:" .. tostring(item1)) then
-    self.room:send("- " .. tostring(world.get_obj_shortdesc(item1)) .. " from " .. tostring(place1))
+if not actor.quest_variable[creeping_doom:item1] then
+    self.room:send("- " .. "%get.obj_shortdesc[%item1%]% from %place1%")
 end
-if not actor:get_quest_var("creeping_doom:" .. tostring(item2)) then
-    self.room:send("- " .. tostring(world.get_obj_shortdesc(item2)) .. " from " .. tostring(place2))
+if not actor.quest_variable[creeping_doom:item2] then
+    self.room:send("- " .. "%get.obj_shortdesc[%item2%]% from %place2%")
 end
-if not actor:get_quest_var("creeping_doom:" .. tostring(item3)) then
-    self.room:send("- " .. tostring(world.get_obj_shortdesc(item3)) .. " from " .. tostring(place3))
+if not actor.quest_variable[creeping_doom:item3] then
+    self.room:send("- " .. "%get.obj_shortdesc[%item3%]% from %place3%")
 end

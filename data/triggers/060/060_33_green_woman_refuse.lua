@@ -1,7 +1,8 @@
 -- Trigger: Green Woman refuse
 -- Zone: 60, ID: 33
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Green Woman refuse>:10: 'end' expected (to close 'if' at line 7) near 'local'
 --
 -- Original DG Script: #6033
 
@@ -13,9 +14,8 @@ if actor:get_quest_stage("wizard_eye") == 7 then
     -- switch on object.id
     if object.id == 23754 or object.id == 3298 or object.id == 23847 or object.id == 18001 then
         return _return_value
-    else
         -- default (typo: defalt)
-        local response = "This " .. tostring(object.shortdesc) .. " isn't roses or cinnamon."
+        local response = This get.obj_noadesc[object.vnum] isn't roses or cinnamon.
     end
 else
     local response = "I only take coin, not trade."

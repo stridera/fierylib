@@ -2,6 +2,7 @@
 -- Zone: 185, ID: 2
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <quest_preamble_silania>:14: ')' expected near '?'
 --   Complex nesting: 14 if statements
 --
 -- Original DG Script: #18502
@@ -19,7 +20,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "destiny") or string.find(string.lower(speech), "destiny?") or string.find(string.lower(speech), "destinies") or string.find(string.lower(speech), "destinies?") or string.find(string.lower(speech), "i")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "destiny") or string.find(speech, "destinies") or string.find(speech, "I")) and not actor:get_quest_stage("pri_pal_subclass") then
+if (string.find(speech, "destiny") or string.find(speech, "destinies") or string.find(speech, "destiny")? or string.find(speech, "destinies")? or string.find(speech, "I") know) and not actor:get_quest_stage("pri_pal_subclass") then
     if string.find(actor.class, "Cleric") then
         -- switch on actor.race
         if actor.level >= 10 and actor.level <= 35 then

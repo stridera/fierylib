@@ -36,7 +36,8 @@ if actor:get_quest_stage("blur") == 0 or actor:get_has_completed("blur") then
     self.room:send("The woman retreats into the trees.")
     world.destroy(self.room:find_actor("nymph"))
     if world.count_objects("1899") < 2 then
-        get_room(18, random(1, 13) + 2):at(function()
+        local keyroom = 1802 + random(1, 13)
+        get_room(vnum_to_zone(keyroom), vnum_to_local(keyroom)):at(function()
             self.room:spawn_object(18, 99)
         end)
     end

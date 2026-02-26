@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 44
 -- Type: OBJECT, Flags: GLOBAL, GET
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <globe_get>:4: function arguments expected near '.'
 --   Complex nesting: 7 if statements
 --
 -- Original DG Script: #18844
@@ -9,11 +10,11 @@
 -- Converted from DG Script #18844: globe_get
 -- Original: OBJECT trigger, flags: GLOBAL, GET, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor:get_quest_var("quest_items:" .. tostring(self.vnum)) then
+if actor.quest_variable[quest_items:self.vnum] then
     if owner then
         if owner == actor.name then
             if not (actor:get_worn("held")) and not (actor:get_worn("wield")) and not (actor:get_worn("2hwield")) then
-                local last_use = actor:get_quest_var("quest_items:globe" .. tostring(self.vnum) .. "_time")
+                local last_use = actor.quest_variable[quest_items:globeself.vnum_time]
                 local now = time.stamp
                 if last_use then
                     if now - last_use >= 1 then
@@ -27,11 +28,11 @@ if actor:get_quest_var("quest_items:" .. tostring(self.vnum)) then
                 end
                 if can_use == "yes" then
                     _return_value = false
-                    self.room:spawn_object(self.zone_id, self.id)
+                    self.room:spawn_object(vnum_to_zone(self.id), vnum_to_local(self.id))
                     actor:command("get globe")
                     actor:command("hold globe")
                     actor:command("use globe")
-                    actor:set_quest_var("quest_items", "globe" .. tostring(self.vnum) .. "_time", now)
+                    actor.name:set_quest_var("quest_items", "globe%self.vnum%_time", now)
                     world.destroy(self)
                 end
             else

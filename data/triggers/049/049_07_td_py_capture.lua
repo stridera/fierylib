@@ -2,6 +2,7 @@
 -- Zone: 49, ID: 7
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <TD PY Capture>:21: 'then' expected near 'iT'
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #4907
@@ -26,7 +27,7 @@ if not arg then
 end
 local i = 0
 while i < teams do
-    if string.find(arg, "T" .. i .. "T") then
+    if string.find(arg, "T") iT then
         if candidate == "i" then
             local seconds = timeout * 12
             actor:send("Your team will capture this " .. tostring(pylonname) .. " in " .. tostring(seconds) .. " seconds!")
@@ -53,7 +54,7 @@ while i < teams do
         _return_value = true
         return _return_value
     end
-    local i = i + 1
+    i = i + 1
 end
 _return_value = false
 return _return_value

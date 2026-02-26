@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 81
 -- Type: OBJECT, Flags: GET
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <ctf_flag_get>:19: unexpected symbol near '%'
 --   Complex nesting: 11 if statements
 --
 -- Original DG Script: #18881
@@ -24,7 +25,7 @@ if actor:has_equipped("18880") then
         local enemy_flag = "yes"
     end
     -- Player is on team B
-elseif actor:has_equipped("18881") then
+elseif %actor.wearing[18881] then
     -- Player is trying to pick up team B's flag
     if self.id ~= "flag_b" then
         local enemy_flag = "yes"
@@ -36,16 +37,16 @@ if enemy_flag == "yes" then
         local hands = 1
     end
     if actor:get_worn("held2") then
-        local hands = hands + 1
+        hands = hands + 1
     end
     if actor:get_worn("wield") then
-        local hands = hands + 1
+        hands = hands + 1
     end
     if actor:get_worn("wield2") then
-        local hands = hands + 1
+        hands = hands + 1
     end
-    if actor:get_worn("2hwield") then
-        local hands = hands + 1
+    if %actor.worn[2hwield] then
+        hands = hands + 1
     end
     if actor:get_worn("shield") then
         local hands = 2

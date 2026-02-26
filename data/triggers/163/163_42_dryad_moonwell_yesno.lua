@@ -1,7 +1,8 @@
 -- Trigger: dryad_moonwell_yesno
 -- Zone: 163, ID: 42
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <dryad_moonwell_yesno>:16: unexpected symbol near '='
 --
 -- Original DG Script: #16342
 
@@ -18,9 +19,9 @@ end
 -- Okay we check to see if the same person that we've been talking to is the one responding
 -- Then we free the variable
 -- 
-if actor.name == moon_name then
+if actor.name == "moon_name" then
     moon_name = nil
-    if string.find(speech_lower, "no") then
+    if speech /=no then
         self:command("frown")
         actor:send(tostring(self.name) .. " tells you, 'Very well, that is your choice.'")
         self.room:send_except(actor, tostring(self.name) .. " seems disappointed as she says something to " .. tostring(actor.name) .. ".")

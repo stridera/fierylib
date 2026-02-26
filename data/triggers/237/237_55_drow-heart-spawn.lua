@@ -21,9 +21,9 @@ if i then
                 local quest = "yes"
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif person:get_quest_stage("vilekka_stew") == 1 then
     local quest = "yes"

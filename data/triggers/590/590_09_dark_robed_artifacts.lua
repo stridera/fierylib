@@ -24,7 +24,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_var("sacred_haven:given_light") == 1 and person.alignment <= -350 then
             local continue = "yes"
@@ -35,9 +35,9 @@ while i >= a do
             end
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if continue then
     actor:send(tostring(self.name) .. " whispers to you, 'I had a vial of dragon's blood, a trinket of tattered leather, and a small shadow forged earring stolen from me.  They are held somewhere inside the Sacred Haven.'")

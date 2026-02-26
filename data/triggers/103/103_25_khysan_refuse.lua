@@ -2,6 +2,7 @@
 -- Zone: 103, ID: 25
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Khysan refuse>:26: syntax error near 'think'
 --   Complex nesting: 9 if statements
 --
 -- Original DG Script: #10325
@@ -31,7 +32,7 @@ else
         local response = "Weird, this doesn't look like a map of Ickle."
     end
     if object.id ~= 53423 then
-        local response = "Do you think we can get new information from object.shortdesc?  I doubt it..."
+        local response = Do you think we can get new information from object.shortdesc?  I doubt it...
     end
     if object.id ~= 43013 then
         local response = "Is this a book?"

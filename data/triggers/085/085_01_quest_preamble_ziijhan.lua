@@ -1,7 +1,10 @@
 -- Trigger: quest_preamble_ziijhan
 -- Zone: 85, ID: 1
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN (reviewed)
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <quest_preamble_ziijhan>:9: 'then' expected near 'know'
+--   Complex nesting: 18 if statements
+--   Large script: 5047 chars
 --
 -- Original DG Script: #8501
 
@@ -13,7 +16,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "destiny") or string.find(string.lower(speech), "destiny?") or string.find(string.lower(speech), "destinies") or string.find(string.lower(speech), "destinies?") or string.find(string.lower(speech), "i")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "destiny") or string.find(speech, "destinies") or string.find(speech, "I know") then
+if string.find(speech, "destiny") or string.find(speech, "destinies") or string.find(speech, "I") know then
     if not actor:get_quest_stage("nec_dia_ant_subclass") then
         if string.find(actor.class, "Warrior") then
             -- switch on actor.race

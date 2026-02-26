@@ -84,5 +84,5 @@ while victim do
             return _return_value
         end
     end
-    local victim = victim.next_in_room
+    victim = victim.next_in_room
 end

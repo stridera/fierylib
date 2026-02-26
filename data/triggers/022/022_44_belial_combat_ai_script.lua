@@ -76,7 +76,7 @@ if belial_ai > 0 then
         -- line 80
     end
     if belial_ai >= 1 then
-        local belial_ai = belial_ai - 1
+        belial_ai = belial_ai - 1
     else
         local belial_ai = timer
     end

@@ -2,6 +2,7 @@
 -- Zone: 580, ID: 8
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <charm_person_status_checker>:16: unexpected symbol near 'then'
 --   Complex nesting: 25 if statements
 --   Large script: 5598 chars
 --
@@ -22,7 +23,7 @@ if not (string.find(string.lower(speech), "spell") or string.find(string.lower(s
 end
 wait(2)
 local stage = actor:get_quest_stage("charm_person")
-if actor:get_has_completed("charm_person") then
+if actor:get_has_completed("charm_person")% then
     self:say("I have already taught you my signature spell.")
 elseif stage == 0 then
     self:say("I have not yet agreed to train you.")

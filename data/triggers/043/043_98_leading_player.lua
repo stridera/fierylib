@@ -28,7 +28,7 @@ while person do
         person:complete_quest("theatre")
         person:command("get fire-ring")
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end
 wait(4)
 self.room:send("The Leading Player blows a kiss over his shoulder and slinks off into the shadows.")

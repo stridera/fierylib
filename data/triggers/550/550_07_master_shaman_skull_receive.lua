@@ -23,9 +23,9 @@ while i >= a do
         end
         person.name:set_quest_var("tech_mysteries_quest", "cloak", 1)
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 self:destroy_item("skull")
 self:say("Oh my!  You have destroyed a great evil!  My kingdom will never be threatened by it again!")

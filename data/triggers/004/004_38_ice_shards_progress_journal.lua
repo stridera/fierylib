@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 38
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Ice Shards progress journal>:4: 'then' expected near 'shards'
 --   Complex nesting: 14 if statements
 --
 -- Original DG Script: #438
@@ -9,7 +10,7 @@
 -- Converted from DG Script #438: Ice Shards progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "ice_shards") or string.find(arg, "shards") or string.find(arg, "ice_shards") then
+if string.find(arg, "ice") shards or string.find(arg, "shards") or string.find(arg, "ice_shards") then
     if string.find(actor.class, "Cryomancer") and actor.level >= 85 then
         _return_value = false
         local stage = actor:get_quest_stage("ice_shards")

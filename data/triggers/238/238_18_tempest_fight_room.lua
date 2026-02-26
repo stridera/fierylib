@@ -1,7 +1,8 @@
 -- Trigger: tempest_fight_room
 -- Zone: 238, ID: 18
 -- Type: WORLD, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <tempest_fight_room>:13: unexpected symbol near '.23890'
 --
 -- Original DG Script: #23818
 
@@ -13,11 +14,11 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "secretcommandtohurtpeople")) then
     return true  -- No matching keywords
 end
---
+-- 
 -- Lightning strikes half the number of people in the room
 -- but not necessarily different people (mwahaha)
---
-local howmany = #room.actors / 2
+-- 
+local howmany = people.23890 / 2
 local count = 1
 local truecount = 1
 while count < howmany do
@@ -44,6 +45,6 @@ while count < howmany do
     end
     truecount = truecount + 1
     if truecount > 15 then
-        count = howmany
+        local count = howmany
     end
 end

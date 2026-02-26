@@ -24,7 +24,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if not person:get_quest_stage("beast_master") then
             person:start_quest("beast_master")
@@ -55,9 +55,11 @@ while i >= a do
                     elseif person:get_quest_stage("beast_master") == 8 then
                         local notice = 5307
                     elseif person:get_quest_stage("beast_master") == 9 then
+                        local notice = 5308
                     elseif person:get_quest_stage("beast_master") == 10 then
+                        local notice = 5309
                     end
-                    self.room:spawn_object(53, 9)
+                    self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
                     self:command("give assignment " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've slayed the creature, bring that assignment back to me.  I'll reward you then.'")
@@ -93,7 +95,7 @@ while i >= a do
             end
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end  -- auto-close block

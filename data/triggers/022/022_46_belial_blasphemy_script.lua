@@ -18,7 +18,7 @@ while victim do
         self.room:send_except(victim, tostring(victim.name) .. " covers " .. tostring(victim.possessive) .. " ears in horror upon hearing the demonic oath! (<blue>" .. tostring(damage) .. "</>)")
         local damage_dealt = victim:damage(damage)  -- type: physical
     end
-    local victim = victim.next_in_room
+    victim = victim.next_in_room
 end
 -- blasphemy = 325-400hp demonic unholy word!
 wait(1)

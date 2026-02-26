@@ -57,7 +57,7 @@ if string.find(arg.id, "self.id") then
                 self.room:send("A stream of <b:red>m<yellow>u<blue>l<magenta>t<green>i<cyan>c<yellow>o<red><blue><green>l<magenta>o<yellow>r<blue>e<red>d</> <blue>sparks</> is surging up out of " .. tostring(self.shortdesc) .. "!")
             end
             wait(1)
-            local counter = counter - 1
+            counter = counter - 1
         end
         wait(1)
         self.room:send(tostring(self.shortdesc) .. " shoots out a few sputtering sparks.")

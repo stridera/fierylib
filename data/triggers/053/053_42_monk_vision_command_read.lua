@@ -135,7 +135,7 @@ if continue == "yes" then
         while i < 3 do
             actor:send("<magenta>You continue to read...</>")
             wait(4)
-            local i = i + 1
+            i = i + 1
             if actor.is_fighting then
                 actor:send("<magenta>You cannot properly focus while fighting!</>")
                 return _return_value

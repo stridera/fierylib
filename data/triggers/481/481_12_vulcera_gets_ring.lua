@@ -10,8 +10,8 @@
 if object.id == 48127 then
     wait(2)
     world.destroy(self.room:find_actor("ivory-ring"))
-    find_player("vulcera"):teleport(get_room(482, 9))
-    get_room(482, 9):at(function()
+    find_player("vulcera"):teleport(get_room(481, 109))
+    get_room(481, 109):at(function()
         self.room:find_actor("ai"):say("vulcera-load-ring")
     end)
 end

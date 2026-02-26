@@ -1,7 +1,8 @@
 -- Trigger: dark servant fight
 -- Zone: 489, ID: 25
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 11 if statements
 --
 -- Original DG Script: #48925
 
@@ -31,7 +32,7 @@ elseif (chance == 2) and (self.id == 48909) then
         if (victim.class == "Assassin") or (victim.class == "Thief") then
             local max_tries = 0
         end
-        local max_tries = max_tries - 1
+        max_tries = max_tries - 1
     end
     if (max_tries == -1) and (victim.id == -1) then
         combat.engage(self, victim.name)
@@ -45,13 +46,13 @@ else
     local max_tries = 5
     while max_tries > 0 do
         local victim = room.actors[random(1, #room.actors)]
-        if victim and ((victim.id < 48900) or (victim.id > 48999)) then
+        if victim &((victim.id < 48900) or (victim.id > 48999)) then
             local max_tries = 0
         end
-        local max_tries = max_tries - 1
+        max_tries = max_tries - 1
     end
     if max_tries == -1 then
-        if (victim.id > 48900) and (victim.id < 48999) and actor then
+        if (victim.id > 48900) and (victim.id < 48999) &actor then
             local victim = actor
         else
             return _return_value
@@ -61,7 +62,7 @@ else
     end
     local casters = "Sorcerer Cryomancer Pyromancer Necromancer Cleric Priest Diabolist Druid Conjurer Shaman"
     -- Be nice to casters
-    if string.find(casters, victim.class) then
+    if string.find(casters, "victim.class") then
         local damage = 200 + random(1, 30)
     else
         local damage = 380 + random(1, 30)

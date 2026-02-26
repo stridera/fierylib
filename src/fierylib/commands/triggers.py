@@ -227,12 +227,18 @@ def convert_legacy(
     import tempfile
 
     from fierylib.parsers.trigger_parser import parse_all_triggers
-    from fierylib.converters.dg_to_lua import convert_trigger
+    from fierylib.converters.dg_to_lua import convert_trigger, init_zone_ranges
 
     # Resolve lib path
     if lib_path is None:
         lib_path = os.getenv("LEGACY_LIB_PATH", "../lib")
     lib_path = Path(lib_path)
+
+    # Initialize zone range map for accurate vnum -> (zone_id, local_id) conversion
+    zon_dir = lib_path / "world" / "zon"
+    if zon_dir.exists():
+        init_zone_ranges(zon_dir)
+        click.echo(f"Loaded zone ranges from {zon_dir}")
 
     # Resolve output path
     if output is None:
@@ -351,7 +357,10 @@ def convert_legacy(
         click.echo(f"\n{output_path}/REVIEW_STATUS.md")
         return
 
-    # Create output directory
+    # Clean and create output directory
+    import shutil
+    if output_path.exists():
+        shutil.rmtree(output_path)
     output_path.mkdir(parents=True, exist_ok=True)
 
     # Write trigger files

@@ -1,8 +1,8 @@
 -- Trigger: Major Globe Lirne receive 3
 -- Zone: 534, ID: 67
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
--- Fixed: Corrected quest_variable syntax, fixed variable scoping, converted %placeholders%
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Major Globe Lirne receive 3>:7: function arguments expected near '.'
 --
 -- Original DG Script: #53467
 
@@ -12,57 +12,53 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 8 then
     wait(1)
-    local ward_key = "ward_" .. tostring(object.vnum)
-    local ward = actor:get_quest_var("major_globe_spell:" .. ward_key) or 0
+    local ward = actor.quest_variable[major_globe_spell:ward_object.vnum]
+    local number = object.id
     self:destroy_item("majorglobe-ward")
     if ward == 0 then
         self:command("frown")
         actor:send(tostring(self.name) .. " says, 'How could you have gotten this?  Do the quest yourself!'")
     elseif ward == 1 then
-        actor:set_quest_var("major_globe_spell", ward_key, 2)
-        local wards = (actor:get_quest_var("major_globe_spell:ward_count") or 0) + 1
-        actor:set_quest_var("major_globe_spell", "ward_count", wards)
+        local ward = actor.quest_variable[major_globe_spell:ward_number] + 1
+        actor.name:set_quest_var("major_globe_spell", "ward_%number%", ward)
+        ward = nil
+        local wards = actor:get_quest_var("major_globe_spell:ward_count") + 1
+        actor.name:set_quest_var("major_globe_spell", "ward_count", wards)
         local wards_left = 5 - wards
         self:command("smile")
-        if wards_left > 0 then
+        if wards_left then
             actor:send(tostring(self.name) .. " says, 'Excellent, only " .. tostring(wards_left) .. " more, and we'll be almost ready.'")
         else
-            actor:advance_quest("major_globe_spell")
+            actor.name:advance_quest("major_globe_spell")
             actor:send(tostring(self.name) .. " says, 'Okay!  That's enough elemental wards to power the spell.  We only need one more item to channel the power...'")
             self:command("think")
             self:emote("quickly studies the spellbook again.")
-            local roll = random(1, 4)
-            local final_item
-            local place
-            -- switch on roll
-            if roll == 1 then
-                final_item = 53458
-                place = "in a border keep"
-            elseif roll == 2 then
-                final_item = 53459
-                place = "on an emerald isle"
-            elseif roll == 3 then
-                final_item = 53460
-                place = "within a misty fortress"
+            local item = random(1, 4)
+            -- switch on item
+            if item == 1 then
+                local item = 53458
+                local place = "in a border keep"
+            elseif item == 2 then
+                local item = 53459
+                local place = "on an emerald isle"
+            elseif item == 3 then
+                local item = 53460
+                local place = "within a misty fortress"
             else
-                final_item = 53461
-                place = "in an underground city"
+                local item = 53461
+                local place = "in an underground city"
             end
-            actor:set_quest_var("major_globe_spell", "final_item", final_item)
+            actor.name:set_quest_var("major_globe_spell", "final_item", item)
             wait(3)
-            -- final_item values: 53458, 53459, 53460, 53461 => zone 534, local ids 58-61
-            local final_item_zone = 534
-            local final_item_local = final_item % 100
-            local item_obj = objects.template(final_item_zone, final_item_local)
-            actor:send(tostring(self.name) .. " says, 'Yes, the last item for the spell is here.  It is <b:yellow>" .. tostring(item_obj.shortdesc) .. "</>.'")
+            actor:send(tostring(self.name) .. " says, 'Yes, the last item for the spell is here.  It is <b:yellow>" .. "%get.obj_shortdesc[%item%]%</>.'")
             self:emote("thinks hard for a moment.")
             wait(2)
-            actor:send(tostring(self.name) .. " says, 'It is rumored that it can be found <b:cyan>" .. place .. "</>.'")
+            actor:send(tostring(self.name) .. " says, 'It is rumored that it can be found <b:cyan>" .. tostring(place) .. "</>.'")
             wait(4)
             actor:send(tostring(self.name) .. " says, 'Quickly, go now and retrieve it so that we might defeat the demon!'")
         end
     elseif ward == 2 then
-        local wards_left = 5 - (actor:get_quest_var("major_globe_spell:ward_count") or 0)
+        local wards_left = 5 - actor:get_quest_var("major_globe_spell:ward_count")
         self:command("eyebrow")
         if wards_left > 1 then
             actor:send(tostring(self.name) .. " says, 'You've already given me this ward.  We still need " .. tostring(wards_left) .. " different ones!")

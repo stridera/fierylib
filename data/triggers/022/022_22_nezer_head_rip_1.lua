@@ -15,10 +15,10 @@ local victim = self.people
 while victim do
     if (victim.id == -1) and (victim.level < 100) then
         if string.find(victim.class, "Cleric") or string.find(victim.class, "Priest") or string.find(victim.class, "Druid") or string.find(victim.class, "Diabolist") or string.find(victim.class, "Sorcerer") or string.find(victim.class, "Cryomancer") or string.find(victim.class, "Pyromancer") or string.find(victim.class, "Necromancer") then
-            local casters = casters + 1
+            casters = casters + 1
         end
     end
-    local victim = victim.next_in_room
+    victim = victim.next_in_room
 end
 -- So if we have casters, pick one, we don't want the same
 -- one or to have a set order, so lets pick a random caster.
@@ -27,7 +27,7 @@ if casters > 0 then
     while gotyou == 0 do
         local victim = room.actors[random(1, #room.actors)]
         if string.find(victim.class, "Cleric") or string.find(victim.class, "Priest") or string.find(victim.class, "Druid") or string.find(victim.class, "Diabolist") or string.find(victim.class, "Sorcerer") or string.find(victim.class, "Cryomancer") or string.find(victim.class, "Pyromancer") or string.find(victim.class, "Necromancer") then
-            local gotyou = gotyou + 1
+            gotyou = gotyou + 1
         end
     end
     -- Hello target, now you must die!
@@ -44,13 +44,13 @@ if casters > 0 then
                 victim:send("You just barely side step a bite by Nezer's head. Lucky you.")
             elseif message == 3 then
                 local damage = random(1, 20)
-                local damage = damage + 105
+                damage = damage + 105
                 self.room:send_except(victim, "Nezer's head darts at " .. tostring(victim.name) .. " again, this time grabbing " .. tostring(victim.possessive) .. " in his razor sharp teeth! (<blue>" .. tostring(damage) .. "</>)")
                 victim:send("Nezer's head darts at you again, this time grabbing at you with it's shapr teeth, OUCH! (<b:red>" .. tostring(damage) .. "</>)")
                 local damage_dealt = victim:damage(damage)  -- type: physical
             elseif message == 4 then
                 local damage = random(1, 20)
-                local damage = damage + 150
+                damage = damage + 150
                 self.room:send_except(victim, "Nezer's second head notices the first chewing on something. (<blue>" .. tostring(damage) .. "</>)")
                 victim:send("Nezer's second head notices you as the first chomps down on you hard, OUCH! (<b:red>" .. tostring(damage) .. "</>)")
                 local damage_dealt = victim:damage(damage)  -- type: physical
@@ -58,14 +58,14 @@ if casters > 0 then
                 self.room:send_except(victim, "Nezer's second head bites onto the half of " .. tostring(victim.name) .. " that was sticking out before RIPPING " .. tostring(victim.possessive) .. " in half! (<blue>DEAD</>)")
                 victim:send("Nezer's second head bites onto the half of you that wasn't already being consumed before RIPPING you in half! You are DEAD! (<b:red>DEAD</>)")
                 victim:damage(10000)  -- type: physical
-                local keepgoing = keepgoing + 1
+                keepgoing = keepgoing + 1
             else
             end
         else
             self.room:send("Nezer looks around for something that is no longer there.")
-            local keepgoing = keepgoing + 1
+            keepgoing = keepgoing + 1
         end
         wait(8)
-        local message = message + 1
+        message = message + 1
     end
 end

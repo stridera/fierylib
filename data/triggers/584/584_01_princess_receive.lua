@@ -32,8 +32,8 @@ if object.id == 58417 then
             end
             person:set_quest_var("kod_quest", "feather", 1)
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 end

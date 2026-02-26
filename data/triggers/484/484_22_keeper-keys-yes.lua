@@ -30,9 +30,9 @@ while i >= a do
             person:send("<b:white>You have begun the quest to enter Lokari's Keep!</>")
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if begin then
     wait(2)

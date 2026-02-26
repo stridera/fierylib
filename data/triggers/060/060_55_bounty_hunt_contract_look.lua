@@ -1,7 +1,7 @@
 -- Trigger: Bounty hunt contract look
 -- Zone: 60, ID: 55
 -- Type: OBJECT, Flags: LOOK
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6055

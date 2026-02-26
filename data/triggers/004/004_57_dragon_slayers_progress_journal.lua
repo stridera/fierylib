@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 57
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Dragon Slayers progress journal>:4: 'then' expected near 'slayer'
 --   Complex nesting: 9 if statements
 --
 -- Original DG Script: #457
@@ -9,7 +10,7 @@
 -- Converted from DG Script #457: Dragon Slayers progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.find(arg, "slayer") or string.find(arg, "dragon_slayer") or string.find(arg, "dragon_slayers") then
+if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.find(arg, "slayer") or string.find(arg, "dragon") slayer or string.find(arg, "dragon") slayers then
     _return_value = false
     local stage = actor:get_quest_stage("dragon_slayer")
     local master = mobiles.template(30, 80).name

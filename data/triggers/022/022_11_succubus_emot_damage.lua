@@ -17,7 +17,7 @@ while target == 0 do
         if loop > 10 then
             local target = 1
         else
-            local loop = loop + 1
+            loop = loop + 1
         end
     else
         local target = 1

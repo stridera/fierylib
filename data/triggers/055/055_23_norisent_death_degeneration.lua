@@ -19,9 +19,9 @@ if i then
                 self.room:send("<b:green>A small book slips from " .. tostring(self.name) .. "'s robes.</>")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif actor:get_quest_stage("degeneration") == 7 then
     actor:advance_quest("degeneration")

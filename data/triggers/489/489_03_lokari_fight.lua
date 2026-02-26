@@ -1,27 +1,28 @@
 -- Trigger: lokari fight
 -- Zone: 489, ID: 3
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   -- UNCONVERTED: stone
+--   Complex nesting: 9 if statements
 --
 -- Original DG Script: #48903
 
 -- Converted from DG Script #48903: lokari fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
--- Cast stone skin on self if not already active
 if not (self:has_effect(Effect.Stone)) then
-    spells.cast(self, "stone skin", self, 100)
+    -- UNCONVERTED: stone
 end
 combat.rescue(self, self.room:find_actor("maid-rogue"))
 combat.rescue(self, self.room:find_actor("maid-sorcerer"))
 combat.rescue(self, self.room:find_actor("maid-cleric"))
 if actor.id ~= -1 then
-    if world.count_mobiles("48915") > 0 then
+    if world.count_mobiles("48915") then
         self.room:find_actor("maid-rogue"):command("assist lok")
     end
-    if world.count_mobiles("48922") > 0 then
+    if world.count_mobiles("48922") then
         self.room:find_actor("maid-sorcerer"):command("assist lok")
     end
-    if world.count_mobiles("48923") > 0 then
+    if world.count_mobiles("48923") then
         self.room:find_actor("maid-cleric"):command("assist lok")
     end
 end
@@ -48,7 +49,7 @@ elseif (0) and (mode < 40) and actor and (actor.id ~= -1) then
     wait(1)
     if actor and (actor.room ~= self.room) then
         -- Bring back the victim if he/she has left the room
-        actor:teleport(get_room(self.room.zone_id, self.room.local_id))
+        actor:teleport(get_room(vnum_to_zone(self.room), vnum_to_local(self.room)))
     end
     if actor then
         self.room:send("<b:cyan>Lokari's prophecy comes to pass!</>")

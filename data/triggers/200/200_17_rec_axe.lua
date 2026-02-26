@@ -3,6 +3,7 @@
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
 --   -- UNCONVERTED: clothes.
+--   Syntax error: luac: <rec_axe>:24: 'end' expected (to close 'if' at line 4) near 'else'
 --
 -- Original DG Script: #20017
 
@@ -25,6 +26,10 @@ if actor.id == -1 then
         self:say("I must return to my children!")
         self.room:send("The small hurt woman quickly sneaks to the north.")
         world.destroy(self.room:find_actor("woman"))
+    else
+        self:move("e")
+        self:move("n")
+        self:move("d")
     else
         self:move("e")
         self:move("n")

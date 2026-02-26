@@ -28,12 +28,12 @@ if object.id == 48124 then
                 person:send("<b:white>You have advanced your quest!</>")
             end
         elseif person and person.id == -1 then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     if accept == "yes" then
-        if world.count_mobiles("48107") == 0 then
+        if not world.count_mobiles("48107") then
             get_room(11, 0):at(function()
                 self.room:spawn_mobile(481, 7)
             end)
@@ -45,7 +45,7 @@ if object.id == 48124 then
             end)
             self.room:find_actor("ash-lord"):teleport(get_room(481, 57))
         end
-        if world.count_mobiles("48127") == 0 then
+        if not world.count_mobiles("48127") then
             get_room(481, 97):at(function()
                 self.room:spawn_mobile(481, 27)
             end)

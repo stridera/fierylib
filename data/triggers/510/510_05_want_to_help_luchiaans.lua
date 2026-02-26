@@ -1,8 +1,10 @@
 -- Trigger: want_to_help_Luchiaans
 -- Zone: 510, ID: 5
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN (reviewed 2026-01-22)
---   Note: Complex nesting (8 if statements)
+-- Status: NEEDS_REVIEW
+--   -- UNCONVERTED: it.
+--   Syntax error: luac: <want_to_help_Luchiaans>:16: 'then' expected near '?'
+--   Complex nesting: 8 if statements
 --
 -- Original DG Script: #51005
 
@@ -15,26 +17,26 @@ if not (string.find(string.lower(speech), "partners?") or string.find(string.low
     return true  -- No matching keywords
 end
 if actor.id == -1 then
-    local class = nil
     if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
-        class = "C"
+        local class = "C"
     end
     if string.find(actor.class, "Necromancer") or string.find(actor.class, "Sorcerer") then
-        class = "S"
+        local class = "S"
     end
-    if string.find(speech, "teach") then
+    if string.find(speech, "teach")? then
         if class ~= "C" then
             self:command("laugh " .. tostring(actor.name))
             self:say("I have nothing to learn from you, " .. tostring(actor.name) .. " you upstart!")
         elseif clericquest == 3 then
             self:say("Thanks, but I don't need any more cleric books.")
         else
-            self:say("Yes, well, not exactly teach, there is a book of cleric spells in the town, but only a cleric can get it.")
+            self:say("Yes, well, not exactly teach, there is a book of cleric spells in the town, but only a cleric can get")
+            -- UNCONVERTED: it.
             self:command("chuckle")
             self:say("If you bring it to me I will reward you.")
             if clericquest ~= 2 then
-                clericquest = 1
-                globals.clericquest = 1
+                local clericquest = 1
+                globals.clericquest = globals.clericquest or true
             end
         end
     else
@@ -52,8 +54,8 @@ if actor.id == -1 then
             self:say("I need it for my regeneration potions.")
             self:emote("rubs his hands together in glee.")
             self:say("I think Rana Theroxa has a pet phoenix somewhere near the council chambers.")
-            magequest = 1
-            globals.magequest = 1
+            local magequest = 1
+            globals.magequest = globals.magequest or true
         end
     end
 end

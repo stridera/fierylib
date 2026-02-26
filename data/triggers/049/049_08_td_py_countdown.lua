@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
 -- Team Domination Pylon Countdown (Random) Trigger
 if timeout then
-    local timeout = timeout - 1
+    timeout = timeout - 1
     globals.timeout = globals.timeout or true
     if timeout < 1 then
         self.room:send("The " .. tostring(pylonname) .. " glows brightly, erupting in light!")

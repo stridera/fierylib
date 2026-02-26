@@ -1,9 +1,9 @@
 -- Trigger: Green Woman Apothecary shop load
 -- Zone: 60, ID: 3
 -- Type: MOB, Flags: LOAD
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 10 if statements
---   Large script: 6419 chars
+--   Large script: 6446 chars
 --
 -- Original DG Script: #6003
 
@@ -45,46 +45,46 @@ a = nil
 local potion1 = random(1, 12)
 -- switch on potion1
 if potion1 == 1 then
-    self.room:spawn_object(32, 48)
+    self.room:spawn_object(30, 248)
 elseif potion1 == 2 then
-    self.room:spawn_object(32, 51)
+    self.room:spawn_object(30, 251)
 elseif potion1 == 3 then
-    self.room:spawn_object(32, 54)
+    self.room:spawn_object(30, 254)
 elseif potion1 == 4 then
-    self.room:spawn_object(32, 57)
+    self.room:spawn_object(30, 257)
 elseif potion1 == 5 or potion1 == 6 then
-    self.room:spawn_object(32, 61)
+    self.room:spawn_object(30, 261)
 elseif potion1 == 7 or potion1 == 8 then
-    self.room:spawn_object(32, 64)
+    self.room:spawn_object(30, 264)
 elseif potion1 == 9 or potion1 == 10 then
-    self.room:spawn_object(32, 67)
+    self.room:spawn_object(30, 267)
 else
-    self.room:spawn_object(32, 70)
+    self.room:spawn_object(30, 270)
 end
 local potion2 = random(1, 16)
 -- switch on potion2
 if potion2 == 1 or potion2 == 2 then
-    self.room:spawn_object(32, 73)
+    self.room:spawn_object(30, 273)
 elseif potion2 == 3 then
-    self.room:spawn_object(32, 75)
+    self.room:spawn_object(30, 275)
 elseif potion2 == 4 or potion2 == 5 then
-    self.room:spawn_object(32, 77)
+    self.room:spawn_object(30, 277)
 elseif potion2 == 6 then
-    self.room:spawn_object(32, 79)
+    self.room:spawn_object(30, 279)
 elseif potion2 == 7 or potion2 == 8 then
-    self.room:spawn_object(32, 81)
+    self.room:spawn_object(30, 281)
 elseif potion2 == 9 then
-    self.room:spawn_object(32, 83)
+    self.room:spawn_object(30, 283)
 elseif potion2 == 10 or potion2 == 11 then
-    self.room:spawn_object(32, 85)
+    self.room:spawn_object(30, 285)
 elseif potion2 == 12 then
-    self.room:spawn_object(32, 87)
+    self.room:spawn_object(30, 287)
 elseif potion2 == 13 or potion2 == 14 then
-    self.room:spawn_object(32, 89)
+    self.room:spawn_object(30, 289)
 elseif potion2 == 15 then
-    self.room:spawn_object(32, 93)
+    self.room:spawn_object(30, 293)
 else
-    self.room:spawn_object(32, 95)
+    self.room:spawn_object(30, 295)
 end
 local a = 1
 while a < 4 do
@@ -103,19 +103,19 @@ while a < 4 do
     elseif potion3 == 6 then
         self.room:spawn_object(30, 59)
     elseif potion3 == 7 then
-        self.room:spawn_object(31, 38)
+        self.room:spawn_object(30, 138)
     elseif potion3 == 8 then
-        self.room:spawn_object(32, 0)
+        self.room:spawn_object(30, 200)
     elseif potion3 == 9 then
-        self.room:spawn_object(32, 15)
+        self.room:spawn_object(30, 215)
     elseif potion3 == 10 then
-        self.room:spawn_object(32, 16)
+        self.room:spawn_object(30, 216)
     elseif potion3 == 11 then
-        self.room:spawn_object(32, 29)
+        self.room:spawn_object(30, 229)
     elseif potion3 == 12 then
-        self.room:spawn_object(32, 30)
+        self.room:spawn_object(30, 230)
     elseif potion3 == 13 then
-        self.room:spawn_object(32, 46)
+        self.room:spawn_object(30, 246)
     elseif potion3 == 14 then
         self.room:spawn_object(51, 0)
     elseif potion3 == 15 then

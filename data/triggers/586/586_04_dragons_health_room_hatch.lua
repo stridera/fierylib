@@ -44,5 +44,5 @@ while person do
         person:send("<b:yellow>From the Song of the Dragons you have learned Dragons Health!</>")
         person.name:complete_quest("dragons_health")
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

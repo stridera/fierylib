@@ -50,15 +50,15 @@ else
         local a = 0
     end
     while i >= a do
-        local person = person.group_member[a]
+        person = person.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("griffin_quest") == "stage" then
                 person.name:advance_quest("griffin_quest")
                 person:send("<b:white>You have advanced the quest!</>")
             end
         elseif person and person.id == -1 then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 end

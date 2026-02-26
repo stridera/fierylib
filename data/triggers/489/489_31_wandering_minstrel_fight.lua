@@ -1,13 +1,14 @@
 -- Trigger: wandering minstrel fight
 -- Zone: 489, ID: 31
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 10 if statements
 --
 -- Original DG Script: #48931
 
 -- Converted from DG Script #48931: wandering minstrel fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if (actor.id >= 48900) and (actor.id <= 48999) then
+if (actor.id >= 48900) &(actor.id <= 48999) then
     -- Stop combat if fighting another doom mobile
     wait(1)
     get_room(11, 0):at(function()
@@ -31,7 +32,7 @@ if self.level >= 70 then
                         return _return_value
                     end
                 end
-                local person = person.next_in_room
+                person = person.next_in_room
             end
         end
     end

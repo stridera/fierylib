@@ -50,7 +50,7 @@ if actor:get_quest_stage("monk_vision") > 5 and actor:get_quest_stage("monk_chan
             while i < 3 do
                 actor:send("<magenta>You continue to meditate...</>")
                 wait(4)
-                local i = i + 1
+                i = i + 1
                 if actor.room ~= "place" then
                     actor:send("<magenta>You must be in the proper place to keep reading!</>")
                     return _return_value

@@ -1,7 +1,10 @@
 -- Trigger: stormlord fight
 -- Zone: 488, ID: 9
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   -- UNCONVERTED: %victim.o%.&0 (&4%damdone%&0)
+--   Syntax error: luac: <stormlord fight>:39: syntax error near 'end'
+--   Complex nesting: 8 if statements
 --
 -- Original DG Script: #48809
 
@@ -20,16 +23,17 @@ elseif mode < 8 then
     local max_hits = 5
     while max_hits > 0 do
         local victim = room.actors[random(1, #room.actors)]
-        if (victim.id == -1) and not (victim_list and string.find(victim_list, victim.name)) then
+        if (victim.id == -1) and not (string.find(victim_list, "victim.name")) then
             local damage = 150 + random(1, 50)
             if victim:has_effect(Effect.Sanctuary) then
-                local damage = damage / 2
+                damage = damage / 2
             end
             if victim:has_effect(Effect.Stone) then
                 -- More damage for stoneskin
-                local damage = damage + 80
+                damage = damage + 80
                 local damage_dealt = victim:damage(damage)  -- type: physical
-                self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. "'s stone-like skin grows massive cracks as the thunder rolls into " .. tostring(victim.object) .. "!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
+                self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. "'s stone-like skin grows massive cracks as the thunder rolls into")
+                -- UNCONVERTED: %victim.o%.&0 (&4%damdone%&0)
                 victim:send("<yellow>The thundering howl shatters your stone-like skin, causing immense pain!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
             else
                 local damage_dealt = victim:damage(damage)  -- type: crush
@@ -41,9 +45,9 @@ elseif mode < 8 then
                     victim:send("<yellow>Pain breaks out in your head as the thunder pounds your ears!</> (<b:red>" .. tostring(damage) .. "</>)")
                 end
             end
-            victim_list = (victim_list or "") .. " " .. victim.name
+            victim_list = victim_list victim.name
         end
-        local max_hits = max_hits - 1
+        max_hits = max_hits - 1
     end
 else
     wait(1)
@@ -55,7 +59,7 @@ else
         actor:send(tostring(self.name) .. " points " .. tostring(self.possessive) .. " finger at you.")
         local damage = 350 + random(1, 100)
         if actor:has_effect(Effect.Sanctuary) then
-            local damage = damage / 2
+            damage = damage / 2
         end
         local damage_dealt = actor:damage(damage)  -- type: shock
         if damage_dealt == 0 then

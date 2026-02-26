@@ -29,9 +29,9 @@ if actor:get_quest_stage("doom_entrance") == 5 then
                     person:send("<b:white>You have advanced the quest!</>")
                 end
             elseif person then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         self.room:send("&9<blue>The vial dissolves in a flash of light.</>")
         world.destroy(self)

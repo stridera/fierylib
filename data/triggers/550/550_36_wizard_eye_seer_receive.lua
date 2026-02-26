@@ -2,6 +2,7 @@
 -- Zone: 550, ID: 36
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <wizard_eye_seer_receive>:13: function arguments expected near ']'
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #55036
@@ -18,7 +19,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
     elseif object.id == 48005 then
         local item = 3
     end
-    if actor:get_quest_var("wizard_eye:item" .. item) then
+    if actor.quest_variable[wizard_eye:itemitem] then
         _return_value = false
         actor:send(tostring(self.name) .. " says, 'You already brought me this!'")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -33,7 +34,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
             local item = 1
             while item <= 4 do
                 actor.name:set_quest_var("wizard_eye", "item%item%", 0)
-                local item = item + 1
+                item = item + 1
             end
             wait(2)
             actor:send(tostring(self.name) .. " says, 'Let me just stitch up a little bag for you.'")

@@ -30,9 +30,9 @@ if room:get_people("4312") then
                 end
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     if leader then
         self.room:find_actor("pippin"):command("mmobflag pippin sentinel on")

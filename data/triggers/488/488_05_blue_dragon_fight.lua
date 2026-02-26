@@ -18,10 +18,10 @@ elseif mode <= 4 then
 elseif (mode <= 5) and actor and (actor.room == self.room) and (actor.id == -1) then
     local damage = 290 + random(1, 50)
     if actor:has_effect(Effect.Sanctuary) then
-        local damage = damage / 2
+        damage = damage / 2
     end
     if actor:has_effect(Effect.Stone) then
-        local damage = damage / 2
+        damage = damage / 2
     end
     local damage_dealt = actor:damage(damage)  -- type: shock
     self.room:send("<b:blue>Lightning crackles across the scales of " .. tostring(self.name) .. "!</>")

@@ -25,9 +25,9 @@ if object.id == 55004 then
             end
             person.name:set_quest_var("tech_mysteries_quest", "girth", 1)
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     self.room:send(tostring(self.name) .. " says, 'You did it!  You have the book!  The only way would have been to venture to the planes and destroy Xapizo!'")
     self:destroy_item("codex")

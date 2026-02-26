@@ -3,7 +3,7 @@
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
 --   Complex nesting: 9 if statements
---   Large script: 5588 chars
+--   Large script: 5591 chars
 --
 -- Original DG Script: #5338
 
@@ -82,14 +82,14 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
     elseif person.class == "Necromancer" or person.class == "Monk" then
         local expmod = (expmod + (expmod * 2) / 5)
     else
-        local expmod = expmod
+        expmod = expmod
     end
     actor:send("<b:yellow>You gain experience!</>")
     local setexp = (expmod * 10)
     local loop = 0
     while loop < 3 do
         actor:award_exp(setexp)
-        local loop = loop + 1
+        loop = loop + 1
     end
     actor:set_quest_var("elemental_chaos", "target1", 0)
     actor:set_quest_var("elemental_chaos", "bounty", 0)
@@ -102,13 +102,13 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
         actor:send(tostring(self.name) .. " says, 'You have done Balance a great service.'")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'May this ring ever remind you to ever walk the Way.'")
-        self.room:spawn_object(124, 6)
+        self.room:spawn_object(123, 106)
         self:command("give ring " .. tostring(actor))
     end
     if string.find(actor.class, "Monk") and actor:get_quest_stage("monk_vision") == 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You are ready to begin your own path to <b:cyan>[Enlightenment]</>.'")
-        self.room:spawn_object(3, 90)
+        self.room:spawn_object(2, 190)
         self:command("give vision " .. tostring(actor))
         wait(1)
         actor:send(tostring(self.name) .. " says, 'These markings represent your voyage.'")

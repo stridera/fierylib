@@ -17,9 +17,9 @@ if i then
                 person.name:set_quest_var("merc_ass_thi_subclass", "mayor", 1)
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" and actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
     actor.name:set_quest_var("merc_ass_thi_subclass", "mayor", 1)

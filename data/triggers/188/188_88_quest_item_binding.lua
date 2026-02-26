@@ -1,7 +1,8 @@
 -- Trigger: quest_item_binding
 -- Zone: 188, ID: 88
 -- Type: OBJECT, Flags: WEAR
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <quest_item_binding>:26: function arguments expected near '.'
 --
 -- Original DG Script: #18888
 
@@ -30,7 +31,7 @@ local _return_value = true  -- Default: allow action
 -- 
 -- quest variable quest_items laoris 18890 0
 -- 
-if actor.quest_variable["quest_items"][self.vnum] then
+if actor.quest_variable[quest_items:self.vnum] then
     _return_value = true
 else
     _return_value = false

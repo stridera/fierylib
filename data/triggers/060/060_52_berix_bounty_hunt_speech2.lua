@@ -1,7 +1,7 @@
 -- Trigger: Berix bounty hunt speech2
 -- Zone: 60, ID: 52
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 9 if statements
 --   Large script: 6004 chars
 --
@@ -24,7 +24,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if not person:get_quest_stage("bounty_hunt") then
             person:start_quest("bounty_hunt")
@@ -61,8 +61,7 @@ while i >= a do
                     else
                         local contract = 6050
                     end
-                    local contract_zone, contract_local = contract // 100, contract % 100
-                    self.room:spawn_object(contract_zone, contract_local)
+                    self.room:spawn_object(vnum_to_zone(contract), vnum_to_local(contract))
                     self:command("give contract " .. tostring(person))
                     local accept = "yes"
                     person:send("</>")
@@ -99,7 +98,7 @@ while i >= a do
             end
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end  -- auto-close block

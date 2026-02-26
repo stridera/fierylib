@@ -12,7 +12,7 @@ _return_value = false
 self.room:send(tostring(self.name) .. " emits a bone-rattling roar that fades away into a low rattle.")
 self.room:send(tostring(self.name) .. " disintegrates into darkly glowing spots that fade from view.")
 if self.room ~= 49190 then
-    self.room:teleport_all(get_room(491, 90))
+    self.room:teleport_all(get_room(490, 190))
     self.room:send("</>")
     self.room:send("<b:white>A rift opens in the fabric of reality and pulls you through!</>")
     self.room:send("</>")
@@ -21,7 +21,7 @@ if self.room ~= 49190 then
     while person do
         if person.id == -1 then
             -- person looks around
-            local person = person.next_in_room
+            person = person.next_in_room
         end
     end
 end
@@ -35,17 +35,17 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("griffin_quest") == "stage" then
             person.name:advance_quest("griffin_quest")
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
-get_room(491, 90):at(function()
+get_room(490, 190):at(function()
     run_room_trigger(49009)
 end)
 return _return_value

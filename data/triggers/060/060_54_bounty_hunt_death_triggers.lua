@@ -1,7 +1,7 @@
 -- Trigger: Bounty hunt death triggers
 -- Zone: 60, ID: 54
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6054
@@ -96,7 +96,7 @@ while i >= a do
             end
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end

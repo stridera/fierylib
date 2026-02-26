@@ -20,9 +20,9 @@ if i then
                 local drophead = 1
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif person:get_quest_stage("nec_dia_ant_subclass") == 3 then
     local drophead = 1

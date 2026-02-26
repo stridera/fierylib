@@ -2,15 +2,16 @@
 -- Zone: 4, ID: 33
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Heavens Gate progress journal>:4: 'then' expected near 'gate'
 --   Complex nesting: 37 if statements
---   Large script: 11119 chars
+--   Large script: 11120 chars
 --
 -- Original DG Script: #433
 
 -- Converted from DG Script #433: Heavens Gate progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "heavens_gate") or string.find(arg, "heavens") or string.find(arg, "heaven's_gate") or string.find(arg, "heaven's") or string.find(arg, "heavens_gate") or string.find(arg, "heaven's_gate") then
+if string.find(arg, "heavens") gate or string.find(arg, "heavens") or string.find(arg, "heaven")'s gate or string.find(arg, "heaven")'s or string.find(arg, "heavens_gate") or string.find(arg, "heaven")'s_gate then
     if actor.level >= 75 and string.find(actor.class, "Priest") then
         _return_value = false
         local stage = actor:get_quest_stage("heavens_gate")
@@ -46,7 +47,7 @@ if string.find(arg, "heavens_gate") or string.find(arg, "heavens") or string.fin
                         actor:send(tostring(objects.template(40, 5).name))
                     end
                     if key2 then
-                        actor:send(tostring(objects.template(121, 42).name))
+                        actor:send(tostring(objects.template(120, 142).name))
                     end
                     if key3 then
                         actor:send(tostring(objects.template(237, 9).name))

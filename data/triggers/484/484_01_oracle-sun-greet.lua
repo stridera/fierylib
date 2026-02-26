@@ -2,6 +2,7 @@
 -- Zone: 484, ID: 1
 -- Type: MOB, Flags: GREET_ALL
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <oracle-sun-greet>:11: function arguments expected near ']'
 --   Complex nesting: 25 if statements
 --   Large script: 7932 chars
 --
@@ -15,9 +16,9 @@ if wandstep then
 elseif macestep then
     local minlevel = macestep * 10
 end
-if actor:get_quest_stage("type_wand") == "wandstep" and actor:get_quest_stage("doom_entrance") ~= 5 and actor:get_quest_stage("doom_entrance") ~= 6 and not actor:get_has_completed("doom_entrance") then
+if actor.quest_stage[type_wand] == "wandstep" and actor:get_quest_stage("doom_entrance") ~= 5 and actor:get_quest_stage("doom_entrance") ~= 6 and not actor:get_has_completed("doom_entrance") then
     if actor.level >= minlevel then
-        if actor:get_quest_var("type_wand:greet") == 0 then
+        if actor.quest_variable[type_wand:greet] == 0 then
             actor:send(tostring(self.name) .. " says, 'Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
         else
             actor:send(tostring(self.name) .. " says, 'Do you have what I require to craft your staff?'")
@@ -44,9 +45,9 @@ elseif actor:get_quest_stage("doom_entrance") == 5 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Then drop it on the ground and fill the place with holy light!  Once you have completed this task, return to me and I shall inform the Keeper of the Keys that you are indeed worthy.'")
     wait(4)
-    if actor:get_quest_stage("type_wand") == "wandstep" then
+    if actor.quest_stage[type_wand] == "wandstep" then
         if actor.level >= minlevel then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if actor.quest_variable[type_wand:greet] == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -86,17 +87,17 @@ elseif actor:get_quest_stage("doom_entrance") == 6 then
                 person:send(tostring(self.name) .. " says, 'Do not forget to show the Keeper of the Keys that you have finished!'")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     self.room:spawn_object(484, 21)
     self:command("give key " .. tostring(actor.name))
-    if actor:get_quest_stage("type_wand") == "wandstep" then
+    if actor.quest_stage[type_wand] == "wandstep" then
         local minlevel = (wandstep - 1) * 10
         if actor.level >= minlevel then
             wait(3)
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if actor.quest_variable[type_wand:greet] == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -125,10 +126,10 @@ elseif actor:get_has_completed("doom_entrance") then
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Go now, the Universe awaits!'")
     wait(1)
-    if actor:get_quest_stage("type_wand") == "wandstep" then
+    if actor.quest_stage[type_wand] == "wandstep" then
         local minlevel = (wandstep - 1) * 10
         if actor.level >= minlevel then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if actor.quest_variable[type_wand:greet] == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
                 wait(1)
             else

@@ -12,8 +12,8 @@
 if actor.id == -1 then
     if object.id == 32421 then
         wait(1)
-        actor:teleport(get_room(325, 97))
-        self:teleport(get_room(325, 97))
+        actor:teleport(get_room(324, 197))
+        self:teleport(get_room(324, 197))
         self:destroy_item("carrot")
         -- Label reference: do_it_to_it
         wait(5)

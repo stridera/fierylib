@@ -27,7 +27,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("krisenna_quest") == 2 then
             local krisenna = person:get_quest_stage("krisenna_quest")
@@ -36,9 +36,9 @@ while i >= a do
             local go = "zone"
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if actor:get_quest_stage("hell_trident") == 2 then
     local hell = actor:get_quest_stage("hell_trident")

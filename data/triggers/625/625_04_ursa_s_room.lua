@@ -23,6 +23,6 @@ while count < pop do
             self.room:send_except(target, "<yellow>Ursa's roar causes " .. tostring(target.name) .. " to shrink in pain.</> (<blue>" .. tostring(damage_dealt) .. "</>)")
         end
     end
-    local target = target.next_in_room
-    local count = count + 1
+    target = target.next_in_room
+    count = count + 1
 end

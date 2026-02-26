@@ -38,8 +38,8 @@ if object.id == 2023 then
             end
             person.name:set_quest_var("desert_quest", "lever", 1)
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 end

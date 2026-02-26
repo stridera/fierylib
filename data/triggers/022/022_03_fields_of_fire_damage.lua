@@ -16,7 +16,7 @@ while count > 0 do
     if victim.id ~= 2214 then
         local damage = 40 + random(1, 20)
         local which = random(1, 3)
-        local damage = damage * 2
+        damage = damage * 2
         -- switch on which
         if which == 1 then
             local damage_dealt = victim:damage(damage)  -- type: fire
@@ -31,12 +31,12 @@ while count > 0 do
             victim:send("The sharp leaves of a lava bush cut at your legs! (<b:red>" .. tostring(damage_dealt) .. "</>)")
             self.room:send_except(victim, tostring(victim.name) .. " yelps as a lava bush's sharp leaves slice into " .. tostring(victim.possessive) .. " legs. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
         else
-            local damage = damage * 1.5
+            damage = damage * 1.5
             local damage_dealt = victim:damage(damage)  -- type: fire
             victim:send("Some of your hair spontaneously catches fire, burning your scalp! (<b:red>" .. tostring(damage_dealt) .. "</>)")
             self.room:send_except(victim, "A caustic odor fills the air as " .. tostring(victim.name) .. "'s hair suddenly bursts into flame. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
         end
     end
-    local count = count - 1
+    count = count - 1
     wait(3)
 end

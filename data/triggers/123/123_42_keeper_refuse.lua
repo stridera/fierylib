@@ -2,6 +2,7 @@
 -- Zone: 123, ID: 42
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Keeper refuse>:32: function arguments expected near ']'
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #12342
@@ -37,7 +38,7 @@ else
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("I'm sorry, I'm quite busy right now.")
-    elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and actor:get_quest_var("megalith_quest:item" .. tostring(part)) == 1) then
+    elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and actor.quest_variable[megalith_quest:itempart] == 1) then
         _return_value = false
         self:command("shake")
         self:say("I don't need any additional assistance at the moment, thank you.")
@@ -47,7 +48,7 @@ else
             self:command("bow " .. tostring(actor.name))
         end
     elseif actor:get_quest_stage("megalith_quest") == 2 then
-        if (actor:get_quest_var("megalith_quest:" .. tostring(direction)) == 0) and (not actor:get_quest_var("megalith_quest:item" .. tostring(part))) then
+        if (actor.quest_variable[megalith_quest:direction] == 0) and (not actor.quest_variable[megalith_quest:itempart]) then
             _return_value = false
             if self.id == 12303 then
                 self:command("eye " .. tostring(actor.name))

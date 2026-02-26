@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 70
 -- Type: MOB, Flags: FIGHT
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <smart combat>:3: unexpected symbol near ')'
 --   Complex nesting: 10 if statements
 --   Large script: 8449 chars
 --
@@ -9,7 +10,7 @@
 
 -- Converted from DG Script #18870: smart combat
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-local now = (((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
+local now = ((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
 local level = self.level
 local class = self.class
 local flags = self.flags
@@ -21,7 +22,7 @@ local is_arc = is_sor  or  is_cry  or  is_pyr  or  is_nec
 local is_war = class == Warrior
 local is_ran = class == Ranger
 local is_pal = class == Paladin
-local is_ant = string.find(class, "Anti")
+local is_ant = class /= Anti
 local is_mon = class == Monk
 local is_com = is_ran  or  is_pal  or  is_ant
 local is_fig = is_war  or  is_mon  or  is_com
@@ -54,13 +55,13 @@ local mode = random(1, 10)
 if is_fig or is_bac then
     if (mode < 4) and ((is_ran and (level > 34)) or (is_war and (level > 14)) or ((is_ant or is_pal) and (level > 9))) then
         local max_tries = 5
-        while max_tries > 0 do
+        while %max_tries > 0 do
             local victim = room.actors[random(1, #room.actors)]
             if (victim.id ~= -1) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
                 combat.rescue(self, victim.name)
                 local attempted = 1
             end
-            local max_tries = max_tries - 1
+            max_tries = max_tries - 1
         end
         if attempted then
             return _return_value
@@ -84,9 +85,9 @@ if not defensive then
 end
 -- Attempt to cast support spells
 if mode <= defensive then
-    if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not string.find(flags, "HASTE")) then
+    if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not (flags% /= HASTE)) then
         spells.cast(self, "haste")
-    elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not string.find(flags, "STONE")) then
+    elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not (flags% /= STONE)) then
         spells.cast(self, "stone skin")
     elseif ((is_ran and cir_3) or is_dru) and (barkskin + 6 + (level / 10) < now) then
         spells.cast(self, "barkskin")
@@ -104,7 +105,7 @@ if mode <= defensive then
         spells.cast(self, "demonic aspect")
         local demonic = now
         globals.demonic = globals.demonic or true
-    elseif is_pyr and cir_4 and (mirage + 10 < now) then
+    elseif is_pyr and cir_4 and (mirage + 10 < now%) then
         spells.cast(self, "mirage")
         local mirage = now
         globals.mirage = globals.mirage or true
@@ -153,7 +154,7 @@ if mode > 5 then
         spells.cast(self, "energy drain")
     elseif (is_sor or is_cry) and cir_5 then
         spells.cast(self, "cone of cold")
-    elseif (is_cle or is_dru) and cir_5 then
+    elseif (is_cle or is_dru) and cir_5% then
         spells.cast(self, "harm")
     elseif is_pyr and cir_5 then
         spells.cast(self, "heatwave")

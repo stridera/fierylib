@@ -20,12 +20,13 @@ if i then
                 self.room:spawn_object(185, 13)
             elseif person.id == -1 then
                 local what_gem_drop = random(1, 11)
-                self.room:spawn_object(557, what_gem_drop + 36)
+                local gem_vnum = what_gem_drop + 55736
+                self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif person:get_quest_stage("group_heal") == 1 then
     person.name:advance_quest("group_heal")

@@ -58,9 +58,9 @@ if actor:get_quest_stage("vilekka_stew") < 2 then
                     person:send("<b:white>The quest has now begun!</>")
                 end
             elseif person and person.id == -1 then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
     end
 elseif actor:get_quest_stage("vilekka_stew") == 2 then

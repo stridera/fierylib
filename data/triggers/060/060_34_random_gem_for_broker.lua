@@ -1,7 +1,7 @@
 -- Trigger: random gem for broker
 -- Zone: 60, ID: 34
 -- Type: MOB, Flags: GREET
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6034
@@ -57,10 +57,9 @@ if not self:has_equipped("18701") then
         end
         if base > 55560 then
             local gem = base + extra
-            local gem_zone, gem_local = gem // 100, gem % 100
-            self.room:spawn_object(gem_zone, gem_local)
+            self.room:spawn_object(vnum_to_zone(gem), vnum_to_local(gem))
             self:command("sell gem broker")
         end
-        local itt = itt + 1
+        itt = itt + 1
     end
 end

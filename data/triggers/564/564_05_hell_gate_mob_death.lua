@@ -1,7 +1,8 @@
 -- Trigger: hell_gate_mob_death
 -- Zone: 564, ID: 5
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN (fixed)
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <hell_gate_mob_death>:25: function arguments expected near ']'
 --
 -- Original DG Script: #56405
 
@@ -13,25 +14,24 @@ if not percent_chance(35) then
     return true
 end
 if actor:get_quest_stage("hell_gate") == 3 and actor:has_equipped("56407") then
-    -- switch on self.id (zone_id, local_id pairs)
-    local blood_zone, blood_local = nil, nil
-    if self.zone_id == 120 and self.id == 10 then
-        blood_zone, blood_local = 564, 0
-    elseif self.zone_id == 300 and self.id == 54 then
-        blood_zone, blood_local = 564, 1
-    elseif self.zone_id == 324 and self.id == 8 then
-        blood_zone, blood_local = 564, 2
-    elseif self.zone_id == 481 and self.id == 25 then
-        blood_zone, blood_local = 564, 3
-    elseif self.zone_id == 481 and self.id == 26 then
-        blood_zone, blood_local = 564, 4
-    elseif self.zone_id == 510 and (self.id == 3 or self.id == 18 or self.id == 23) then
-        blood_zone, blood_local = 564, 5
-    elseif self.zone_id == 552 and self.id == 38 then
-        blood_zone, blood_local = 564, 6
+    -- switch on self.id
+    if self.id == 12010 then
+        local blood = 56400
+    elseif self.id == 30054 then
+        local blood = 56401
+    elseif self.id == 32408 then
+        local blood = 56402
+    elseif self.id == 48125 then
+        local blood = 56403
+    elseif self.id == 48126 then
+        local blood = 56404
+    elseif self.id == 51003 or self.id == 51018 or self.id == 51023 then
+        local blood = 56405
+    elseif self.id == 55238 then
+        local blood = 56406
     end
-    if blood_zone and not actor:get_quest_var("hell_gate:blood" .. blood_zone .. "_" .. blood_local) then
-        actor:set_quest_var("hell_gate", "blood" .. blood_zone .. "_" .. blood_local, 1)
-        self.room:spawn_object(blood_zone, blood_local)
+    if actor.quest_variable[hell_gate:bloodblood] == 0 then
+        actor:set_quest_var("hell_gate", "blood%blood%", 1)
+        self.room:spawn_object(vnum_to_zone(blood), vnum_to_local(blood))
     end
 end

@@ -33,17 +33,17 @@ if actor:get_quest_stage("nukreth_spire") then
         if not running then
             local running = "yes"
             globals.running = globals.running or true
-            if world.count_mobiles("46206") == 0 then
+            if not world.count_mobiles("46206") then
                 get_room(462, 62):at(function()
                     self.room:spawn_mobile(462, 6)
                 end)
             end
-            if world.count_mobiles("46207") == 0 then
+            if not world.count_mobiles("46207") then
                 get_room(462, 62):at(function()
                     self.room:spawn_mobile(462, 7)
                 end)
             end
-            if world.count_mobiles("46208") == 0 then
+            if not world.count_mobiles("46208") then
                 get_room(462, 62):at(function()
                     self.room:spawn_mobile(462, 8)
                 end)

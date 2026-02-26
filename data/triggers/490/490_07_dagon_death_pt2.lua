@@ -14,5 +14,5 @@ while person do
         person:send("<b:white>You have advanced the quest!</>")
         person:send("<b:white>Proof of the deed must be delivered individually.</>")
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

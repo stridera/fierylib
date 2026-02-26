@@ -1,7 +1,7 @@
 -- Trigger: quest_timulos_status
 -- Zone: 60, ID: 25
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 10 if statements
 --   Large script: 6759 chars
 --

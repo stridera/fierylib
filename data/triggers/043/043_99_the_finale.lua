@@ -120,7 +120,7 @@ else
         else
             person:damage(200)  -- type: physical
         end
-        local person = person.next_in_room
+        person = person.next_in_room
     end
     wait(2)
     self.room:teleport_all(get_room(43, 33))
@@ -130,9 +130,9 @@ else
     get_room(43, 33):at(function()
         self.room:spawn_object(43, 22)
     end)
-    get_room(43, 36):exit("down"):set_state({hidden = false})
+    doors.set_state(get_room(43, 36), "down", {action = "room"})
     wait(2)
-    get_room(43, 36):exit("down"):set_state({hidden = true})
+    doors.set_state(get_room(43, 36), "down", {action = "purge"})
     if get_people("1100") then
         local room = get_room("1100")
         if room:get_people("4399") then

@@ -1,9 +1,10 @@
 -- Trigger: Berix bounty hunt receive
 -- Zone: 60, ID: 53
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Berix bounty hunt receive>:200: ')' expected (to close '(' at line 199) near 'elseif'
 --   Complex nesting: 23 if statements
---   Large script: 15393 chars
+--   Large script: 15394 chars
 --
 -- Original DG Script: #6053
 
@@ -205,20 +206,20 @@ if go == "hunt" then
         if person.class == "Warrior" or person.class == "Berserker" then
             local expmod = (expmod + (expmod / 10))
         elseif person.class == "Paladin" or person.class == "Anti-Paladin" or person.class == "Ranger" then
-            local expmod = (expmod + ((expmod * 2) / 15))
+            local expmod = (expmod + ((expmod * 2) / 15)
         elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
             local expmod = (expmod + (expmod / 5))
         elseif person.class == "Necromancer" or person.class == "Monk" then
             local expmod = (expmod + (expmod * 2) / 5)
         else
-            local expmod = expmod
+            expmod = expmod
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
         local loop = 0
         while loop < 3 do
             actor:award_exp(setexp)
-            local loop = loop + 1
+            loop = loop + 1
         end
         actor:set_quest_var("bounty_hunt", "target1", 0)
         actor:set_quest_var("bounty_hunt", "target2", 0)
@@ -239,7 +240,7 @@ if go == "hunt" then
         if string.find(actor.class, "Assassin") and actor:get_quest_stage("assassin_mask") == 0 then
             wait(2)
             actor:send(tostring(self.name) .. " says, 'I think you've earned this too.'")
-            self.room:spawn_object(3, 50)
+            self.room:spawn_object(2, 150)
             self:command("give mask " .. tostring(actor))
             wait(1)
             actor:send(tostring(self.name) .. " says, 'Masks like these show the rank of members of the Assassin Guild.'")
@@ -316,12 +317,10 @@ elseif go == "mask" then
             if job1 and job2 and job3 and job4 then
                 wait(2)
                 local reward = object.id + 1
-                local reward_zone, reward_local = reward // 100, reward % 100
-                if reward_zone == 0 then reward_zone = 1000 end
                 world.destroy(object)
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'Well done!  You've proven your qualifications.'")
-                self.room:spawn_object(reward_zone, reward_local)
+                self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
                 self:command("give mask " .. tostring(actor))
                 local expcap = maskstage * 10
                 if expcap < 17 then
@@ -342,12 +341,12 @@ elseif go == "mask" then
                 local loop = 0
                 while loop < 7 do
                     actor:award_exp(setexp)
-                    local loop = loop + 1
+                    loop = loop + 1
                 end
                 local number = 1
                 while number < 5 do
                     actor:set_quest_var("assassin_mask", "masktask%number%", 0)
-                    local number = number + 1
+                    number = number + 1
                 end
                 if actor:get_quest_stage("assassin_mask") < 9 then
                     actor:advance_quest("assassin_mask")

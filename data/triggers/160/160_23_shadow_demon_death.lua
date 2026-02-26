@@ -52,9 +52,9 @@ if world.count_mobiles("16008") < 1 then
                     person:send("<b:white>You have advanced the quest!</>")
                 end
             elseif person then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         get_room(160, 95):at(function()
             self.room:find_actor("storm"):spawn_object(160, 22)

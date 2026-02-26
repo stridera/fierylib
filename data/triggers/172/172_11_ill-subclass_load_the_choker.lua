@@ -16,7 +16,7 @@ if actor:get_quest_stage("illusionist_subclass") == 4 then
         if obj.id == 17214 then
             local chokerpresent = 1
         end
-        local obj = obj.next_in_room
+        obj = obj.next_in_room
     end
     if chokerpresent == 0 then
         self.room:spawn_object(172, 14)

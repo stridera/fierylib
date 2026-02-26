@@ -28,9 +28,9 @@ if i then
                 skills.set_level(person.name, "shift corpse", 100)
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif actor:get_quest_stage("shift_corpse") == 2 then
     self.room:send("<blue>&9Swirling energy as black as the moonless night slithers from " .. tostring(objects.template(62, 28).name) .. ".<blue>&9")

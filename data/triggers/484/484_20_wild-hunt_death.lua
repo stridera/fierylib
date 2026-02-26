@@ -13,26 +13,24 @@ local _return_value = true  -- Default: allow action
 -- hart who runs away from the questor.
 -- If this deer is normal, load two more deer.
 -- If this deer is the spirit of the white hart, load the antlers.
--- self.id is now local_id; these mobs are in zone 552
-if self.id == 44 then  -- was 55244
+if self.id == 55244 then
     if actor:get_quest_stage("doom_entrance") == 1 then
         _return_value = false
         self.room:send("The spirit of the white hart breaks from the body and scampers off!")
         self.room:spawn_mobile(552, 45)
     end
-elseif self.id == 14 then  -- was 55214
+elseif self.id == 55214 then
     if actor:get_quest_stage("doom_entrance") == 1 then
-        -- room was 55211-55292, which is zone 552, locals 11-92
-        local room_local = 10 + random(1, 82)
-        get_room(552, room_local):at(function()
+        local room = 55210 + random(1, 82)
+        get_room(vnum_to_zone(room), vnum_to_local(room)):at(function()
             self.room:spawn_mobile(552, 14)
         end)
-        room_local = 10 + random(1, 82)
-        get_room(552, room_local):at(function()
+        local room = 55210 + random(1, 82)
+        get_room(vnum_to_zone(room), vnum_to_local(room)):at(function()
             self.room:spawn_mobile(552, 14)
         end)
     end
-elseif self.id == 45 then  -- was 55245
+elseif self.id == 55245 then
     local i = actor.group_size
     if i then
         local a = 1
@@ -48,9 +46,9 @@ elseif self.id == 45 then  -- was 55245
                 local load = "yes"
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     if load == "yes" then
         self.room:spawn_object(484, 29)

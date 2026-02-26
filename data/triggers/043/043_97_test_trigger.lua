@@ -29,10 +29,10 @@ while i >= a do
     if person.room == self.room then
         self.room:send("Person is in the room")
     elseif person then
-        local i = i + 1
+        i = i + 1
         self.room:send("Person is not in the room")
     end
-    local a = a + 1
+    a = a + 1
     self.room:send("Evaluating a")
 end
 self.room:send("done")

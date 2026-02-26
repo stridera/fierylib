@@ -39,9 +39,9 @@ while i >= a do
             local ash = 2
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if ash == 1 then
     self.room:send(tostring(self.name) .. " says, 'If you want me to help you, then you must do me a favor.  Kill the ash lord and bring me his crown.'")

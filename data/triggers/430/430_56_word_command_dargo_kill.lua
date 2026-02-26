@@ -16,5 +16,5 @@ while person do
             person:command("kill %self%")
         end
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

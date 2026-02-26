@@ -2,6 +2,7 @@
 -- Zone: 123, ID: 6
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <megalith_quest_priestess_receive>:69: syntax error near 'if'
 --   Complex nesting: 15 if statements
 --   Large script: 8676 chars
 --
@@ -37,17 +38,17 @@ if actor:get_quest_stage("megalith_quest") == 1 then
         -- hemlock goblet - BAD1
     elseif object.id == 41111 then
         local item = 2
-        local goblet_zone, goblet_local = 411, 11
+        local goblet = 41111
         local this = "a drinking vessel"
         -- rowan goblet
     elseif object.id == 41110 then
         local this = "a drinking vessel"
         local item = 2
-        local goblet_zone, goblet_local = 411, 10
+        local goblet = 41110
         -- chalice
     elseif object.id == 18512 then
         local item = 2
-        local goblet_zone, goblet_local = 185, 12
+        local goblet = 18512
         local this = "a drinking vessel"
         -- censer
     elseif object.id == 8507 then
@@ -69,7 +70,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
         return _return_value
     end
 elseif actor:get_quest_stage("megalith_quest") == 3 then
-    local step = "summon " .. tostring(mobiles.template(123, 0).name)
+    local step = summon mobiles.template(123, 0).name
     -- 
     -- Set the potential items that could be returned in Stage 3
     -- 
@@ -109,7 +110,7 @@ end
 -- 
 -- if you already gave us this item.  The value %item% has been set to appends item here, resulting in item1, item2, item3, and item4.
 -- 
-if actor:get_quest_var("megalith_quest:item" .. tostring(item)) then
+if actor.quest_variable[megalith_quest:itemitem] then
     _return_value = false
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
     self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
@@ -120,10 +121,9 @@ end
 -- 
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
-actor.name:set_quest_var("megalith_quest", "item" .. tostring(item), 1)
+actor.name:set_quest_var("megalith_quest", "item%item%", 1)
 if object.id == 41110 or object.id == 18512 or object.id == 41111 then
-    actor.name:set_quest_var("megalith_quest", "goblet_zone", goblet_zone)
-    actor.name:set_quest_var("megalith_quest", "goblet_local", goblet_local)
+    actor.name:set_quest_var("megalith_quest", "goblet", goblet)
     if object.id == 41111 then
         actor.name:set_quest_var("megalith_quest", "bad1", 1)
     end
@@ -139,7 +139,7 @@ world.destroy(object.name)
 local item = 1
 while item <= 4 do
     item[item] = 0
-    local item = item + 1
+    item = item + 1
 end
 if actor:get_quest_var("megalith_quest:item1") then
     local item1 = 1
@@ -165,8 +165,8 @@ if item1 and item2 and item3 and item4 then
     -- This quest uses 5 item variables, but only 4 are ever checked in this receive trigger.  Clear all 5 here just to be safe.
     -- 
     while item <= 5 do
-        actor.name:set_quest_var("megalith_quest", "item" .. tostring(item), 0)
-        local item = item + 1
+        actor.name:set_quest_var("megalith_quest", "item%item%", 0)
+        item = item + 1
     end
     wait(1)
     self:say("I believe we're ready to proceed!")
@@ -191,12 +191,11 @@ if item1 and item2 and item3 and item4 then
         wait(2)
         self:say("Oh wait, I almost forgot!")
         wait(2)
-        --
+        -- 
         -- Return the same drinking vessel from Stage 1
-        --
-        local goblet_zone = actor:get_quest_var("megalith_quest:goblet_zone")
-        local goblet_local = actor:get_quest_var("megalith_quest:goblet_local")
-        self.room:spawn_object(goblet_zone, goblet_local)
+        -- 
+        local goblet = actor:get_quest_var("megalith_quest:goblet")
+        self.room:spawn_object(vnum_to_zone(goblet), vnum_to_local(goblet))
         self.room:send("The coven high priestess takes " .. "%get.obj_shortdesc[%goblet%]% from the altar.")
         -- (empty room echo)
         self:command("pour goblet out")

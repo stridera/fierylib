@@ -2,6 +2,7 @@
 -- Zone: 557, ID: 0
 -- Type: MOB, Flags: GREET_ALL
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Phase Armor - Greet>:100: 'then' expected near 'self'
 --   Complex nesting: 24 if statements
 --   Large script: 7045 chars
 --
@@ -106,7 +107,7 @@ elseif (self.class == "cleric" or self.class == "priest" or self.class == "Diabo
         end
     end
 end
-if actor:get_quest_stage("ursa_quest") and self.vnum == 6007 then
+if actor:get_quest_stage("ursa_quest")self.vnum% == 6007 then
     wait(1)
     actor:send(tostring(self.name) .. " notices the concerned look on your face.")
     wait(1)

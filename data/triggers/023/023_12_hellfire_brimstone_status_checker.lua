@@ -1,7 +1,8 @@
 -- Trigger: hellfire_brimstone_status_checker
 -- Zone: 23, ID: 12
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 19 if statements
 --
 -- Original DG Script: #2312
 

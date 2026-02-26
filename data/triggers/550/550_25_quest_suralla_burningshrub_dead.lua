@@ -20,9 +20,9 @@ if i then
                 person.name:advance_quest("cryomancer_subclass")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif person:get_quest_stage("cryomancer_subclass") == 3 then
     person.name:advance_quest("cryomancer_subclass")

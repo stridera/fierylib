@@ -57,9 +57,9 @@ class ShopImporter:
         vnum = shop_id - (zone_id * 100)  # Relative to zone base
 
         # Resolve keeper mob using EntityResolver
+        # A shop without a valid keeper doesn't actually exist in-game
         keeper_zone_id = None
         keeper_id = None
-        keeper_exists = False
         if shop.keeper:
             keeper_result = await self.resolver.resolve_mob(
                 int(shop.keeper), context_zone=zone_id
@@ -67,7 +67,15 @@ class ShopImporter:
             if keeper_result:
                 keeper_zone_id = keeper_result.zone_id
                 keeper_id = keeper_result.id
-                keeper_exists = True
+
+        if keeper_zone_id is None or keeper_id is None:
+            return {
+                "success": False,
+                "zone_id": zone_id,
+                "vnum": vnum,
+                "action": "skipped",
+                "reason": f"No valid keeper mob (keeper={shop.keeper})",
+            }
 
         # Build message arrays from legacy fields
         no_such_item_messages = []
@@ -107,6 +115,8 @@ class ShopImporter:
             create_data = {
                 "id": vnum,
                 "zoneId": zone_id,
+                "keeperZoneId": keeper_zone_id,
+                "keeperId": keeper_id,
                 "buyProfit": float(shop.buy_profit) if shop.buy_profit else 1.2,
                 "sellProfit": float(shop.sell_profit) if shop.sell_profit else 0.8,
                 "temper": int(shop.temper1) if hasattr(shop, 'temper1') and shop.temper1 else 0,
@@ -118,6 +128,8 @@ class ShopImporter:
             }
 
             update_data = {
+                "keeperZoneId": keeper_zone_id,
+                "keeperId": keeper_id,
                 "buyProfit": float(shop.buy_profit) if shop.buy_profit else 1.2,
                 "sellProfit": float(shop.sell_profit) if shop.sell_profit else 0.8,
                 "temper": int(shop.temper1) if hasattr(shop, 'temper1') and shop.temper1 else 0,
@@ -127,13 +139,6 @@ class ShopImporter:
                 "buyMessages": buy_messages,
                 "sellMessages": sell_messages,
             }
-
-            # Only set keeper fields if keeper mob exists in database
-            if keeper_exists:
-                create_data["keeperZoneId"] = keeper_zone_id
-                create_data["keeperId"] = keeper_id
-                update_data["keeperZoneId"] = keeper_zone_id
-                update_data["keeperId"] = keeper_id
 
             # Upsert shop with composite key
             shop_record = await self.prisma.shops.upsert(
@@ -150,35 +155,30 @@ class ShopImporter:
             )
 
             # Add SHOPKEEPER flag to the keeper mob
-            if keeper_exists:
-                try:
-                    # Get current mob flags
-                    keeper_mob = await self.prisma.mobs.find_unique(
-                        where={
-                            "zoneId_id": {
-                                "zoneId": keeper_zone_id,
-                                "id": keeper_id,
-                            }
+            try:
+                keeper_mob = await self.prisma.mobs.find_unique(
+                    where={
+                        "zoneId_id": {
+                            "zoneId": keeper_zone_id,
+                            "id": keeper_id,
                         }
-                    )
-                    if keeper_mob:
-                        # Case-insensitive check for existing SHOPKEEPER flag
-                        existing_flags_upper = [f.upper() for f in keeper_mob.mobFlags]
-                        if "SHOPKEEPER" not in existing_flags_upper:
-                            # Add SHOPKEEPER and deduplicate
-                            new_flags = list(dict.fromkeys(keeper_mob.mobFlags)) + ["SHOPKEEPER"]
-                            await self.prisma.mobs.update(
-                                where={
-                                    "zoneId_id": {
-                                        "zoneId": keeper_zone_id,
-                                        "id": keeper_id,
-                                    }
-                                },
-                                data={"mobFlags": new_flags}
-                            )
-                except Exception as e:
-                    # Non-fatal - just log the warning
-                    pass
+                    }
+                )
+                if keeper_mob:
+                    existing_flags_upper = [f.upper() for f in keeper_mob.mobFlags]
+                    if "SHOPKEEPER" not in existing_flags_upper:
+                        new_flags = list(dict.fromkeys(keeper_mob.mobFlags)) + ["SHOPKEEPER"]
+                        await self.prisma.mobs.update(
+                            where={
+                                "zoneId_id": {
+                                    "zoneId": keeper_zone_id,
+                                    "id": keeper_id,
+                                }
+                            },
+                            data={"mobFlags": new_flags}
+                        )
+            except Exception:
+                pass
 
             # Import shop items (selling inventory)
             items_imported = 0
@@ -230,10 +230,6 @@ class ShopImporter:
                 "rooms": rooms_imported,
                 "hours": hours_imported,
             }
-
-            # Add warning if keeper mob doesn't exist
-            if shop.keeper and not keeper_exists:
-                result["warning"] = f"Keeper mob {shop.keeper} ({keeper_zone_id}:{keeper_id}) not found"
 
             return result
 

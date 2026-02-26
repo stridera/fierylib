@@ -22,9 +22,9 @@ while i >= a do
             person:send("<b:white>You have advanced the quest!</>")
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 if world.count_mobiles("16016") < 1 then
     local rnd_range = random(1, 78)

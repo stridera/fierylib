@@ -1,7 +1,8 @@
 -- Trigger: **UNUSED**
 -- Zone: 410, ID: 6
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 11 if statements
 --
 -- Original DG Script: #41006
 
@@ -24,7 +25,7 @@ if i then
                 end
             end
         end
-        local i = i - 1
+        i = i - 1
     end
 elseif person:get_quest_stage("creeping_doom") == 2 or (person.level > 80 and (person.id >= 1000 and person.id <= 1038)) then
     local rnd = random(1, 50)
@@ -55,46 +56,58 @@ if will_drop <= 70 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop a gem from the previous wear pos set
-        self.room:spawn_object(555, what_gem_drop + 69)
-    elseif bonus >= 51 and bonus <= 90 then
+        local gem_vnum = what_gem_drop + 55569
+        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+    elseif bonus >= 51 &bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
-        self.room:spawn_object(555, what_gem_drop + 73)
+        local gem_vnum = what_gem_drop + 55573
+        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
     else
         -- We're in the BONUS ROUND!!
         -- drop a gem from the next wear pos set
-        self.room:spawn_object(555, what_gem_drop + 77)
+        local gem_vnum = what_gem_drop + 55577
+        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
     end
-elseif will_drop >= 71 and will_drop <= 90 then
+elseif will_drop >= 71 &will_drop <= 90 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop destroyed armor 55299 is the vnum before the
         -- first piece of armor.
-        self.room:spawn_object(553, what_armor_drop + 3)
-    elseif bonus >= 51 and bonus <= 90 then
+        local armor_vnum = what_armor_drop + 55303
+        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    elseif bonus >= 51 &bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
-        self.room:spawn_object(553, what_armor_drop + 7)
+        local armor_vnum = what_armor_drop + 55307
+        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
     else
         -- We're in the BONUS ROUND!!
         -- drop a piece of armor from next wear pos
-        self.room:spawn_object(553, what_armor_drop + 11)
+        local armor_vnum = what_armor_drop + 55311
+        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
     end
 else
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop armor and gem from previous wear pos
-        self.room:spawn_object(555, what_gem_drop + 69)
-        self.room:spawn_object(553, what_armor_drop + 3)
-    elseif bonus >= 51 and bonus <= 90 then
+        local gem_vnum = what_gem_drop + 55569
+        local armor_vnum = what_armor_drop + 55303
+        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+    elseif bonus >= 51 &bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
-        self.room:spawn_object(553, what_armor_drop + 7)
-        self.room:spawn_object(555, what_gem_drop + 73)
+        local armor_vnum = what_armor_drop + 55307
+        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
+        local gem_vnum = what_gem_drop + 55573
+        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
     else
         -- We're in the BONUS ROUND!!
         -- drop armor and gem from next wear pos
-        self.room:spawn_object(555, what_gem_drop + 77)
-        self.room:spawn_object(553, what_armor_drop + 11)
+        local gem_vnum = what_gem_drop + 55577
+        self.room:spawn_object(vnum_to_zone(gem_vnum), vnum_to_local(gem_vnum))
+        local armor_vnum = what_armor_drop + 55311
+        self.room:spawn_object(vnum_to_zone(armor_vnum), vnum_to_local(armor_vnum))
     end
 end

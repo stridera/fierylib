@@ -55,7 +55,7 @@ elseif stage == 7 then
     local who = "her"
     local visit = "get The Green Woman to make you incense"
     local thing1 = objects.template(237, 54).name
-    local thing2 = objects.template(32, 98).name
+    local thing2 = objects.template(30, 298).name
     local thing3 = objects.template(238, 47).name
     local thing4 = objects.template(180, 1).name
 elseif stage == 8 then
@@ -63,7 +63,7 @@ elseif stage == 8 then
     return _return_value
 elseif stage == 9 or stage == 10 then
     local who = "him"
-    local thing1 = objects.template(32, 18).name
+    local thing1 = objects.template(30, 218).name
     local thing2 = objects.template(534, 24).name
     local thing3 = objects.template(430, 21).name
     local thing4 = objects.template(40, 3).name

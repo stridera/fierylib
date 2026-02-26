@@ -7,6 +7,6 @@
 
 -- Converted from DG Script #8303: Death_reload
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-get_room(84, 23):at(function()
+get_room(83, 123):at(function()
     self.room:spawn_mobile(83, 9)
 end)

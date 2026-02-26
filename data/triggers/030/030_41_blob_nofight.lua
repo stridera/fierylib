@@ -11,5 +11,5 @@ local room = self.room
 self:emote("seems to disintegrate, melting into the ground.")
 self:teleport(get_room(11, 0))
 wait(5)
-self:teleport(room)
+self:teleport(get_room(vnum_to_zone(room), vnum_to_local(room)))
 self.room:send("Green gelatin suddenly bubbles out of the ground, wriggling into a blob.")

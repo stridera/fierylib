@@ -21,9 +21,9 @@ while i >= a do
             person:send("<b:white>You have advanced the quest!</>")
         end
     elseif person then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 -- load charred Blacksmith and maybe equip
 if world.count_mobiles("16019") < 1 then

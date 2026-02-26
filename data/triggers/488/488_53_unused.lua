@@ -24,7 +24,7 @@ while person do
         end
         -- Halve damage for sanc
         if person:has_effect(Effect.Sanctuary) then
-            local damage = damage / 2
+            damage = damage / 2
         end
         self.room:send_except(person, "Lightning crackles around the Stormchild as she points a finger at " .. tostring(person.name) .. ".")
         person:send("Lightning crackles around the Stormchild as she points a finger at you!")

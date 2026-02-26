@@ -1,7 +1,7 @@
 -- Trigger: Assassin mask progress checker
 -- Zone: 60, ID: 59
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 19 if statements
 --   Large script: 8214 chars
 --

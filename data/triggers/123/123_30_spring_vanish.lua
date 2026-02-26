@@ -10,6 +10,6 @@
 if time.hour > 5 and time.hour < 19 then
     if self.people ~= 0 then
         self.room:send("As the moon sets, the world shifts and the spring fades from view.")
-        self.room:teleport_all(get_room(124, 0))
+        self.room:teleport_all(get_room(123, 100))
     end
 end

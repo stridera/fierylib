@@ -76,7 +76,7 @@ if string.find(arg, "firework") or string.find(arg, "firecracker") or string.fin
                 self.room:send("<b:blue>BANG!</>  <b:red>BANG!</>")
             end
             wait(3)
-            local counter = counter - 1
+            counter = counter - 1
         end
         wait(1)
         self.room:send(tostring(self.shortdesc) .. " shoots out a few sputtering sparks.")

@@ -2,6 +2,7 @@
 -- Zone: 123, ID: 15
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <megalith_quest_keeper_receive>:37: function arguments expected near ']'
 --   Complex nesting: 10 if statements
 --   Large script: 6302 chars
 --
@@ -43,16 +44,16 @@ end
 if actor:get_quest_stage("megalith_quest") == 2 then
     if (item == "need") or (me == 12306 and (item == 41110 or item == 41111 or item == 18512)) then
         -- Already given, right item
-        if actor:get_quest_var("megalith_quest:item" .. tostring(part)) == 1 then
+        if actor.quest_variable[megalith_quest:itempart] == 1 then
             _return_value = false
             self:command("shake")
             self:say("You've already given me this.")
             return _return_value
-        elseif actor:get_quest_var("megalith_quest:" .. tostring(direction)) == 1 then
+        elseif actor.quest_variable[megalith_quest:direction] == 1 then
             -- Right item, wrong order
             if part > 1 then
                 local check = part - 1
-                if actor:get_quest_var("megalith_quest:item" .. tostring(check)) == 0 then
+                if actor.quest_variable[megalith_quest:itemcheck] == 0 then
                     _return_value = false
                     self:command("shake")
                     self.room:send(tostring(self.name) .. " says, 'We must cast the circle in order:")

@@ -1,7 +1,8 @@
 -- Trigger: group_heal_doctor_speech2
 -- Zone: 185, ID: 18
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <group_heal_doctor_speech2>:15: 'then' expected near ')'
 --
 -- Original DG Script: #18518
 
@@ -19,8 +20,8 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-if ((string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 56) and actor:get_quest_stage("group_heal") == 0 then
-    actor:start_quest("group_heal")
+if ((string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 56)) and actor:get_quest_stage("group_heal") == 0 then
+    actor.name:start_quest("group_heal")
     self:say("Thank you so much!")
     wait(1)
     self:say("There is an immediate problem I need your help with.")

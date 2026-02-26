@@ -86,9 +86,7 @@ class ResetImporter:
 
         # Build shopkeeper set: mob vnums that are shopkeepers
         # G commands are skipped for these mobs (shop inventory comes from ShopItems)
-        shops = await self.prisma.shops.find_many(
-            where={"keeperZoneId": {"not": None}, "keeperId": {"not": None}}
-        )
+        shops = await self.prisma.shops.find_many()
         for shop in shops:
             vnum = (shop.keeperZoneId * 100) + shop.keeperId if shop.keeperZoneId != 1000 else shop.keeperId
             self.shopkeeper_vnums.add(vnum)

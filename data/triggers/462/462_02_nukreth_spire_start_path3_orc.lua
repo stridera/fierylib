@@ -1,13 +1,14 @@
 -- Trigger: Nukreth Spire start path3 orc
 -- Zone: 462, ID: 2
 -- Type: WORLD, Flags: GLOBAL
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Nukreth Spire start path3 orc>:3: 'then' expected near 'get'
 --
 -- Original DG Script: #46202
 
 -- Converted from DG Script #46202: Nukreth Spire start path3 orc
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-if world.count_mobiles("46220") < 1 and world.count_mobiles("46221") < 1 and world.count_mobiles("46222") < 1 and world.count_mobiles("46223") < 1 then
+if world.count_mobiles("46220")get.mob_count[46221] < 1 and world.count_mobiles("46222")get.mob_count[46223] < 1 then
     wait(2)
     zone.echo(462, "With the chieftain's death the slaves begin to rise up!")
     zone.echo(462, "Mad cackling tears through the caverns followed by shouts and cries.")

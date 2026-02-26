@@ -1,8 +1,10 @@
 -- Trigger: 3eg_turn_in
 -- Zone: 41, ID: 7
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
---   Note: Complex quest turn-in script for Eldorian Guard faction
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <3eg_turn_in>:193: function arguments expected near ']'
+--   Complex nesting: 16 if statements
+--   Large script: 15096 chars
 --
 -- Original DG Script: #4107
 
@@ -95,91 +97,91 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
     -- the NPC by the player.
     -- 
     -- switch on object.id
-    if object.id == vnum_gem_3eg_cap then
+    if object.id == "%vnum_gem_3eg_cap%" then
         local is_gem = 1
         local exp_multiplier = 10
         local vnum_reward = vnum_3eg_cap
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_food then
+    elseif object.id == "%vnum_gem_3eg_food%" then
         local is_gem = 1
         local exp_multiplier = 10
         local vnum_reward = vnum_3eg_food
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_drink then
+    elseif object.id == "%vnum_gem_3eg_drink%" then
         local is_gem = 1
         local exp_multiplier = 10
         local vnum_reward = vnum_3eg_drink
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_ssword then
+    elseif object.id == "%vnum_gem_3eg_ssword%" then
         local is_gem = 1
         local exp_multiplier = 10
         local vnum_reward = vnum_3eg_ssword
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_neck then
+    elseif object.id == "%vnum_gem_3eg_neck%" then
         local is_gem = 1
         local exp_multiplier = 12
         local vnum_reward = vnum_3eg_neck
         local faction_required = 40
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_staff then
+    elseif object.id == "%vnum_gem_3eg_staff%" then
         local is_gem = 1
         local exp_multiplier = 12
         local vnum_reward = vnum_3eg_staff
         local faction_required = 40
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_arm then
+    elseif object.id == "%vnum_gem_3eg_arm%" then
         local is_gem = 1
         local exp_multiplier = 14
         local vnum_reward = vnum_3eg_arm
         local faction_required = 55
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_whammer then
+    elseif object.id == "%vnum_gem_3eg_whammer%" then
         local is_gem = 1
         local exp_multiplier = 14
         local vnum_reward = vnum_3eg_whammer
         local faction_required = 55
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_wrist then
+    elseif object.id == "%vnum_gem_3eg_wrist%" then
         local is_gem = 1
         local exp_multiplier = 16
         local vnum_reward = vnum_3eg_wrist
         local faction_required = 70
         local faction_multiplier = 1
-    elseif object.id == vnum_gem_3eg_flail then
+    elseif object.id == "%vnum_gem_3eg_flail%" then
         local is_gem = 1
         local exp_multiplier = 16
         local vnum_reward = vnum_3eg_flail
         local faction_required = 70
         local faction_multiplier = 1
-    elseif object.id == vnum_3bl_skull then
+    elseif object.id == "%vnum_3bl_skull%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_skull
         local faction_multiplier = 1
-    elseif object.id == vnum_3bl_ring then
+    elseif object.id == "%vnum_3bl_ring%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_ring
         local faction_multiplier = 1
-    elseif object.id == vnum_3bl_badge then
+    elseif object.id == "%vnum_3bl_badge%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_badge
         local faction_multiplier = 1
-    elseif object.id == vnum_3bl_token then
+    elseif object.id == "%vnum_3bl_token%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_token
         local faction_multiplier = 2
-    elseif object.id == vnum_3bl_insignia then
+    elseif object.id == "%vnum_3bl_insignia%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_insignia
         local faction_multiplier = 2
-    elseif object.id == vnum_3bl_wand then
+    elseif object.id == "%vnum_3bl_wand%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_wand
         local faction_multiplier = 2
-    elseif object.id == vnum_3bl_symbol then
+    elseif object.id == "%vnum_3bl_symbol%" then
         local exp_multiplier = 2
         local vnum_trophy = vnum_3bl_symbol
         local faction_multiplier = 3
@@ -198,21 +200,21 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         local faction_advance = 0
         local exp_advance = 0
         -- hrmm Jelos' magical variable declaration
-        if actor:get_quest_var("black_legion:" .. tostring(vnum_trophy) .. "_trophies") then
+        if actor.quest_variable[black_legion:vnum_trophy_trophies] then
         else
-            actor.name:set_quest_var("black_legion", tostring(vnum_trophy) .. "_trophies", 0)
+            actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", 0)
         end
-        local trophies = actor:get_quest_var("black_legion:" .. tostring(vnum_trophy) .. "_trophies")
-        actor.name:set_quest_var("black_legion", tostring(vnum_trophy) .. "_trophies", trophies)
+        local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies]
+        actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
         -- The highest faction a player can gain from interacting with the 3rd front creatures will
         -- be 200.  For this section the trophy turn in will reply on this and other checks.
         if actor:get_quest_var("black_legion:eg_faction") < 100 then
-            local trophies = actor:get_quest_var("black_legion:" .. tostring(vnum_trophy) .. "_trophies") + 1
-            actor.name:set_quest_var("black_legion", tostring(vnum_trophy) .. "_trophies", trophies)
+            local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies] + 1
+            actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'Hrm, yes... you have been out fighting the")
             actor:send("</>influence of the Black Legion.  I see from my records you have now turned in")
-            actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "(trophy item)</>.'")
+            actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%vnum_trophy%]%</>.'")
             world.destroy(object.name)
             actor:save()
             if trophies < 10 then
@@ -224,8 +226,8 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         else
             if trophies < 10 then
                 local exp_advance = 1
-                local trophies = actor:get_quest_var("black_legion:" .. tostring(vnum_trophy) .. "_trophies") + 1
-                actor.name:set_quest_var("black_legion", tostring(vnum_trophy) .. "_trophies", trophies)
+                local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies] + 1
+                actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
             else
                 _return_value = false
             end
@@ -252,7 +254,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             local lap = 1
             while lap <= exp_multiplier do
                 actor:award_exp(2640)
-                local lap = lap + 1
+                lap = lap + 1
             end
             -- 
             -- end exp loop
@@ -274,7 +276,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 -- 
                 local faction2 = actor:get_quest_var("black_legion:bl_faction") - 1
                 actor.name:set_quest_var("black_legion", "bl_faction", faction2)
-                local lap = lap + 1
+                lap = lap + 1
             end
             -- 
             -- end faction loop
@@ -286,12 +288,12 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
     end
     if is_gem then
         -- hrmm Jelos' magical variable declaration
-        if actor:get_quest_var("black_legion:" .. tostring(vnum_reward) .. "_reward") then
+        if actor.quest_variable[black_legion:vnum_reward_reward] then
         else
-            actor.name:set_quest_var("black_legion", tostring(vnum_reward) .. "_reward", 0)
+            actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", 0)
         end
-        local rewards = actor:get_quest_var("black_legion:" .. tostring(vnum_reward) .. "_reward")
-        actor.name:set_quest_var("black_legion", tostring(vnum_reward) .. "_reward", rewards)
+        local rewards = actor.quest_variable[black_legion:vnum_reward_reward]
+        actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", rewards)
         if actor.alignment <= -151 then
             _return_value = false
             wait(2)
@@ -300,16 +302,15 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             return _return_value
         end
         if actor:get_quest_var("black_legion:eg_faction") >= faction_required then
-            local rewards = actor:get_quest_var("black_legion:" .. tostring(vnum_reward) .. "_reward") + 1
-            actor.name:set_quest_var("black_legion", tostring(vnum_reward) .. "_reward", rewards)
+            local rewards = actor.quest_variable[black_legion:vnum_reward_reward] + 1
+            actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", rewards)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Guard thanks you for your")
             actor:send("</>efforts.  Take this to aid you in your battles.'")
             wait(1)
-            local vnum_reward_zone, vnum_reward_local = vnum_reward // 100, vnum_reward % 100
-            self.room:spawn_object(vnum_reward_zone, vnum_reward_local)
+            self.room:spawn_object(vnum_to_zone(vnum_reward), vnum_to_local(vnum_reward))
             wait(1)
-            if actor:get_quest_var("black_legion:" .. tostring(vnum_reward) .. "_reward") == 1 then
+            if actor.quest_variable[black_legion:vnum_reward_reward] == 1 then
                 -- 
                 -- loop for exp award.
                 -- 
@@ -318,7 +319,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 local lap = 1
                 while lap <= exp_multiplier do
                     actor:award_exp(2640)
-                    local lap = lap + 1
+                    lap = lap + 1
                 end
                 -- 
                 -- end exp loop
@@ -342,7 +343,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                     -- 
                     local faction2 = actor:get_quest_var("black_legion:bl_faction") - 1
                     actor.name:set_quest_var("black_legion", "bl_faction", faction2)
-                    local lap = lap + 1
+                    lap = lap + 1
                 end
                 -- 
                 -- end faction loop

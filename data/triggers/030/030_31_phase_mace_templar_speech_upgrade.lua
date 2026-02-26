@@ -29,7 +29,7 @@ if actor.level > 9 then
         actor:send("- <b:yellow>" .. tostring(objects.template(136, 14).name) .. "</> for their protection against malevolent spirits")
         actor:send("- <b:yellow>" .. tostring(objects.template(588, 9).name) .. "</> as a flame to ward against the dark")
         actor:send("</>")
-        actor:send("Also attack with " .. tostring(objects.template(3, 40).name) .. " <b:yellow>50</> times to fully bond with it.")
+        actor:send("Also attack with " .. tostring(objects.template(2, 140).name) .. " <b:yellow>50</> times to fully bond with it.")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You can ask about your <b:cyan>[mace progress]</> at any time.'")
     elseif actor:get_has_completed("phase_mace") then

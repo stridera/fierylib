@@ -2,6 +2,7 @@
 -- Zone: 123, ID: 39
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <east_exposition>:9: ')' expected near 'are'
 --   Large script: 5835 chars
 --
 -- Original DG Script: #12339
@@ -14,7 +15,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who") or string.find(string.lower(speech), "continue")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.id == -1 then
+if (string.find(speech, "who") are you or string.find(speech, "continue")) and actor.id == -1 then
     wait(2)
     if actor:get_quest_var("megalith_quest:eexpo") == 0 then
         self:say("Who am I?  Are you sure you want to know?")

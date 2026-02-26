@@ -1,7 +1,8 @@
 -- Trigger: Block_entry
 -- Zone: 188, ID: 3
 -- Type: WORLD, Flags: PREENTRY
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Block_entry>:10: unexpected symbol near 'then'
 --
 -- Original DG Script: #18803
 
@@ -14,8 +15,7 @@ local _return_value = true  -- Default: allow action
 -- If not, doesn't allow entry.
 -- 
 if direction == "east" then
-    if actor.level > 99 then
-        -- Immortals pass freely
+    if actor.level > 99 or actor.level == then
     elseif actor:get_worn("12") == 18801 then
         actor:send("The TCD-GUARD squints at you and then nods and waves you in.")
         self.room:send_except(actor, "The TCD-GUARD squints at " .. tostring(actor.alias) .. " and waves " .. tostring(actor.possessive) .. " in.")

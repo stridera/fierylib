@@ -35,9 +35,9 @@ if object.id == 50203 then
                 person.name:start_quest("bayou_quest")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     self:command("thank " .. tostring(actor.name))
     self:emote("gazes upon the earring, overwhelmed by its beauty.")
@@ -93,9 +93,9 @@ elseif object.id == 50215 then
                 person.name:start_quest("bayou_quest")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     wait(2)
     world.destroy(object)

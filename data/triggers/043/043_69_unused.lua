@@ -30,7 +30,7 @@ if actor.id == -1 then
         while i >= a do
             local person = actor.group_member[a]
             if person == "actor" then
-                local a = a + 1
+                a = a + 1
             else
                 if person.room == self.room then
                     if person:get_quest_stage("theatre") == 0 then
@@ -38,10 +38,10 @@ if actor.id == -1 then
                         person:send("<b:white>You have begun the theatre quest!</>")
                     end
                 elseif person then
-                    local i = i + 1
+                    i = i + 1
                 end
             end
-            local a = a + 1
+            a = a + 1
         end
     end
     wait(2)

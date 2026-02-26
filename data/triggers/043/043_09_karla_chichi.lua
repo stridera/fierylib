@@ -1,7 +1,8 @@
 -- Trigger: karla_chichi
 -- Zone: 43, ID: 9
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <karla_chichi>:15: unexpected symbol near '%'
 --
 -- Original DG Script: #4309
 
@@ -19,7 +20,7 @@ if not (string.find(string.lower(speech), "don't") or string.find(string.lower(s
     return true  -- No matching keywords
 end
 local room = self.room
-if room:find_mob(4301) then
+if %room.people[4301] ~= 0 then
     self:emote("gets up in a player's face.")
     self:say("Oh no you di'in' Chichi!")
     wait(5)

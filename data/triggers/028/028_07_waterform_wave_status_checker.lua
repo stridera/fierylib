@@ -1,7 +1,9 @@
 -- Trigger: waterform_wave_status_checker
 -- Zone: 28, ID: 7
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 22 if statements
+--   Large script: 5025 chars
 --
 -- Original DG Script: #2807
 

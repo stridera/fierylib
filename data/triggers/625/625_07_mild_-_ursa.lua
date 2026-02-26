@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
 local mode = random(1, 10)
 if mode > 7 then
-    local actor = actor.name
+    actor = actor.name
     self.room:send_except(self, "<b:yellow>" .. tostring(self.name) .. " falls to his knees, letting out a disturbing ROAR!!</>")
     wait(2)
     self.room:send_except(self, "<b:yellow>" .. tostring(self.name) .. " stretches to twice his normal size!</>")

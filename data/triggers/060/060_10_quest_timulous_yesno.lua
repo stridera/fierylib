@@ -1,7 +1,7 @@
 -- Trigger: quest_timulous_yesno
 -- Zone: 60, ID: 10
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6010

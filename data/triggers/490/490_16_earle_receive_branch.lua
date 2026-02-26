@@ -17,7 +17,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("griffin_quest") == 0 then
             person.name:start_quest("griffin_quest")
@@ -25,12 +25,12 @@ while i >= a do
         end
         person:set_quest_var("griffin_quest", "oak", 1)
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end
 self:destroy_item("small-oak-branch")
-if world.count_mobiles("49001") == 0 then
+if not world.count_mobiles("49001") then
     get_room(490, 81):at(function()
         self.room:spawn_mobile(490, 1)
     end)

@@ -33,7 +33,7 @@ if i then
             end
             person:send("<b:yellow>You have finished the infidel's duel!</>")
         end
-        local i = i - 1
+        i = i - 1
     end
 else
     if person:get_quest_stage("hell_trident") == 2 then

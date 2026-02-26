@@ -1,7 +1,10 @@
 -- Trigger: quest_relocate_receive
 -- Zone: 492, ID: 54
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   -- UNCONVERTED: sta
+--   Complex nesting: 9 if statements
+--   Large script: 7784 chars
 --
 -- Original DG Script: #49254
 
@@ -137,7 +140,7 @@ elseif stage == 9 then
         self.room:send("A lost mage puts on her spectacles and begins to scribe.")
         wait(20)
         self.room:send("A lost mage puts away her spectacles and stops scribing.")
-        self:command("stand")
+        -- UNCONVERTED: sta
         self:command("fly")
         wait(1)
         actor:send("A lost mage tells you, 'Very well, I'm done!  Thank you so much,")

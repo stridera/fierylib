@@ -23,7 +23,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("hell_trident") == "phase" then
             local kills = person:get_quest_var("hell_trident:celestials") + 1
@@ -35,7 +35,7 @@ while i >= a do
             end
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end

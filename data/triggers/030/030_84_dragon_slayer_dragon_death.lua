@@ -57,7 +57,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("dragon_slayer") == "stage" and person:get_quest_var("dragon_slayer:hunt") == "running" then
             person:set_quest_var("dragon_slayer", "target1", target1)
@@ -65,7 +65,7 @@ while i >= a do
             person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end

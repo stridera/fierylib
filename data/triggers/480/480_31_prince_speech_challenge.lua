@@ -34,7 +34,7 @@ if world.count_mobiles("48012") < 2 then
     while loop < needed do
         self.room:send(tostring(self.name) .. " summons " .. tostring(mobiles.template(480, 12).name) .. "!")
         self.room:spawn_mobile(480, 12)
-        local loop = loop + 1
+        loop = loop + 1
     end
 end
 if not self:has_equipped("48003") then

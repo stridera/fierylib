@@ -17,7 +17,7 @@ local delay = 200
 globals.maxcharge = globals.maxcharge or true
 globals.delay = globals.delay or true
 if charges > 0 then
-    local charges = charges - 1
+    charges = charges - 1
     globals.charges = globals.charges or true
     self.room:send(tostring(self.shortdesc) .. " flashes brightly.")
     self.room:spawn_mobile(625, 69)

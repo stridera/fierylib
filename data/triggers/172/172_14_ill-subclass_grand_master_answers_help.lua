@@ -1,7 +1,8 @@
 -- Trigger: Ill-subclass: Grand Master answers 'help'
 -- Zone: 172, ID: 14
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Ill-subclass: Grand Master answers 'help'>:30: 'end' expected (to close 'if' at line 11) near
 --
 -- Original DG Script: #17214
 
@@ -33,6 +34,7 @@ elseif actor:get_quest_stage("illusionist_subclass") == 3 or actor:get_quest_sta
     actor:send(tostring(self.name) .. " says, 'Give it some time.  Then come back here and say <b:cyan>'restart'</> to try again.'")
 elseif actor:get_quest_stage("illusionist_subclass") == 6 then
     actor:send(tostring(self.name) .. " says, 'You got the choker, you say?  Hand it over!'")
+else
 elseif actor:get_quest_stage("illusionist_subclass") == 0 then
     actor:send(tostring(self.name) .. " says, 'Help you?  Something the matter?'")
     wait(3)

@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 91
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <summon_dragon>:20: unexpected symbol near ')'
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #18891
@@ -25,7 +26,7 @@ if cmd == "s" or cmd == "su" then
     return _return_value
 end
 local last_summon = actor:get_quest_var("quest_items:dragonhelm_time")
-local now = (((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
+local now = ((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
 if last_summon then
     if now - last_summon >= 168 then
         local can_summon = "yes"

@@ -1,10 +1,10 @@
 -- Trigger: hearts deal
 -- Zone: 60, ID: 77
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   -- UNCONVERTED: (%player4.name% != %actor.name%)
+--   Syntax error: luac: <hearts deal>:20: unexpected symbol near 'then'
 --   Complex nesting: 13 if statements
---   Note: This trigger has fundamental design issues from the original DG Script
---   and cannot function properly as-is. Marked CLEAN for syntax but needs redesign.
 --
 -- Original DG Script: #6077
 
@@ -27,7 +27,8 @@ if cmd == "d" or cmd == "de" then
     return _return_value
 end
 if player1 and player2 and player3 and player4 then
-    if (player1.name ~= actor.name) and (player2.name ~= actor.name) and (player3.name ~= actor.name) and (player4.name ~= actor.name) then
+    if (player1.name ~= actor.name) and (player2.name ~= actor.name) and (player3.name ~= actor.name) and  then
+        -- UNCONVERTED: (%player4.name% != %actor.name%)
         _return_value = false
         return _return_value
     end
@@ -78,9 +79,9 @@ if player1 and player2 and player3 and player4 then
         elseif suit == 4 then
             local suit = "Hearts"
         end
-        name[card] = rank .. " of " .. suit
-        globals["name" .. card] = globals["name" .. card] or true
-        local card = card + 1
+        name[card] = rank% of %suit
+        globals.name%card% = globals.name%card% or true
+        card = card + 1
     end
     local count = 0
     local plyr = 1
@@ -90,33 +91,33 @@ if player1 and player2 and player3 and player4 then
             local dlt = 0
             local dlt_cnt = 0
             while not dlt do
-                local dlt_cnt = dlt_cnt + 1
+                dlt_cnt = dlt_cnt + 1
                 local card = random(1, 52)
                 local desc = XcardX
                 if not (string.find(cards, "desc")) then
                     card[card] = plyr
-                    globals["card" .. card] = globals["card" .. card] or true
+                    globals.card%card% = globals.card%card% or true
                     local cards = cardsdesc
                     local dlt = 1
                 end
             end
             while not dlt do
-                local dlt_cnt = dlt_cnt + 1
+                dlt_cnt = dlt_cnt + 1
                 local card = random(1, 52)
                 local desc = XcardX
                 if not (string.find(cards, "desc")) then
                     card[card] = plyr
-                    globals["card" .. card] = globals["card" .. card] or true
+                    globals.card%card% = globals.card%card% or true
                     local cards = cardsdesc
                     local dlt = 1
                 end
             end
-            local cnt = cnt + 1
+            cnt = cnt + 1
             if cnt < 13 then
                 actor:send("Dealing of cards failed; please attempt again.")
                 return _return_value
             end
-            local plyr = plyr + 1
+            plyr = plyr + 1
             if card1 == 1 then
                 local turn = 1
                 player1:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
@@ -135,13 +136,13 @@ if player1 and player2 and player3 and player4 then
             globals.first_turn = globals.first_turn or true
             local status = 3
             globals.status = globals.status or true
+        else
+            if (player1 and (player1.name == actor.name)) or (player2 and (player2.name == actor.name)) or (player3 and (player3.name == actor.name)) then
+                actor:send("You can't deal until four people have joined!")
+            else
+                _return_value = false
+            end
         end
-    end
-else
-    if (player1 and (player1.name == actor.name)) or (player2 and (player2.name == actor.name)) or (player3 and (player3.name == actor.name)) then
-        actor:send("You can't deal until four people have joined!")
-    else
-        _return_value = false
-    end
-end
+    end  -- auto-close block
+end  -- auto-close block
 return _return_value

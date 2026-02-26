@@ -26,10 +26,10 @@ while i >= a do
             person:send("'I already started the clock...'")
             self.room:send(tostring(mobiles.template(18, 21).name) .. " takes off like a rocket and vanishes!")
             person.name:set_quest_var("blur", "east", 1)
-            local person = person.next_in_room
+            person = person.next_in_room
         elseif person and person.id == -1 then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 end

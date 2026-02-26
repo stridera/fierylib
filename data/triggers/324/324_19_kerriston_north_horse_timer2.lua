@@ -12,8 +12,8 @@
 if actor.id == -1 then
     if object.id == 32425 then
         wait(1)
-        actor:teleport(get_room(325, 97))
-        self:teleport(get_room(325, 97))
+        actor:teleport(get_room(324, 197))
+        self:teleport(get_room(324, 197))
         self:destroy_item("strawberry")
         -- Label reference: do_it_to_it
         wait(5)
@@ -27,8 +27,8 @@ if actor.id == -1 then
         wait(5)
         self.room:send("The tall grass whips by your feet so quickly it stings!")
         wait(5)
-        actor:teleport(get_room(325, 98))
-        self:teleport(get_room(325, 98))
+        actor:teleport(get_room(324, 198))
+        self:teleport(get_room(324, 198))
         wait(1)
         -- Label reference: do_it_to_it2
         self.room:send("Are you slowing down?")
@@ -43,8 +43,8 @@ if actor.id == -1 then
         wait(5)
         self.room:send("PHEW Nearly teeth, hair, and eyeballs everywhere!")
         wait(3)
-        actor:teleport(get_room(325, 65))
-        self:teleport(get_room(325, 65))
+        actor:teleport(get_room(324, 165))
+        self:teleport(get_room(324, 165))
         wait(1)
         -- actor looks around
         self:command("pant")

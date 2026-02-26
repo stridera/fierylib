@@ -1,7 +1,8 @@
 -- Trigger: flood_frozen_death
 -- Zone: 390, ID: 9
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 6 if statements
 --
 -- Original DG Script: #39009
 
@@ -23,9 +24,9 @@ if i then
                 local envoy = "yes"
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif person:get_quest_stage("flood") == 1 then
     person.name:set_quest_var("flood", "water6", 1)
@@ -51,7 +52,7 @@ while person do
             person.name:send("<b:blue>You have garnered the support of all the great waters!</>")
         end
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end
 self:teleport(get_room(11, 0))
 return _return_value

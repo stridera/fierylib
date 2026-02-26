@@ -17,5 +17,5 @@ while person do
         person:send(tostring(mobiles.template(18, 22).name) .. " blasts away into the sky!")
         person.name:set_quest_var("blur", "west", 1)
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

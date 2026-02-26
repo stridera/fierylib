@@ -11,4 +11,5 @@
 -- in different places, but it can't be a wanderer, because that would make it
 -- lose its hidden status.
 -- Applied to: m30214
-self:teleport(get_room(302, random(1, 35) + 13))
+local destination = 30213 + random(1, 35)
+self:teleport(get_room(vnum_to_zone(destination), vnum_to_local(destination)))

@@ -38,7 +38,7 @@ while i >= a do
             person:send("<b:white>You have advanced your quest!</>")
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end

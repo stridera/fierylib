@@ -30,7 +30,7 @@ while person do
     elseif person.id == -1 and person:get_quest_stage("illusionist_subclass") > 1 then
         local quester = person
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end
 if quester and gannigan then
     if quester:get_quest_stage("illusionist_subclass") == 2 then

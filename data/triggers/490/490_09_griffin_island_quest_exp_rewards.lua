@@ -61,7 +61,7 @@ while person do
             -- 
             local expmod = (expmod + (expmod * 2) / 5)
         else
-            local expmod = expmod
+            expmod = expmod
         end
         person:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
@@ -72,15 +72,16 @@ while person do
             -- Pick depending on what is running the trigger
             -- Griffin Isle, xexp = wexp
             person:award_exp(setexp)
-            local loop = loop + 1
+            loop = loop + 1
         end
         local gem = 0
         while gem < 3 do
-            self.room:spawn_object(557, random(1, 11) + 36)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55736
+            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
             person:command("get gem")
         end
         person.name:complete_quest("griffin_quest")
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

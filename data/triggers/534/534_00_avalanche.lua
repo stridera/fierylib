@@ -17,5 +17,5 @@ if actor.id == -1 then
     wait(2)
     self.room:send("AVALANCHE!!! Run for your lives!")
     wait(1)
-    self.room:teleport_all(get_room(535, 67))
+    self.room:teleport_all(get_room(534, 167))
 end

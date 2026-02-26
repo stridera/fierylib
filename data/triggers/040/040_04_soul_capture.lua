@@ -1,8 +1,8 @@
 -- Trigger: soul capture
 -- Zone: 40, ID: 4
 -- Type: OBJECT, Flags: RANDOM, COMMAND
--- Status: CLEAN
---   Note: Logic uses globals for state persistence across calls
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 8 if statements
 --
 -- Original DG Script: #4004
 

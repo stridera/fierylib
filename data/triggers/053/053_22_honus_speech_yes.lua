@@ -24,7 +24,7 @@ else
     local a = 0
 end
 while i >= a do
-    local person = person.group_member[a]
+    person = person.group_member[a]
     if person.room == self.room then
         if not person:get_quest_stage("treasure_hunter") then
             person:start_quest("treasure_hunter")
@@ -59,8 +59,7 @@ while i >= a do
                     elseif person:get_quest_stage("treasure_hunter") == 10 then
                         local order = 5319
                     end
-                    local order_zone, order_local = order // 100, order % 100
-                    self.room:spawn_object(order_zone, order_local)
+                    self.room:spawn_object(vnum_to_zone(order), vnum_to_local(order))
                     self:command("give order " .. tostring(person))
                     person:send("</>")
                     person:send(tostring(self.name) .. " says, 'When you've secured the goods, bring it and that order back to me.  I'll reward you then.  You can check your <b:cyan>[progress]</> at any time.'")
@@ -96,7 +95,7 @@ while i >= a do
             end
         end
     elseif person and person.id == -1 then
-        local i = i + 1
+        i = i + 1
     end
-    local a = a + 1
+    a = a + 1
 end  -- auto-close block

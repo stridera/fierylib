@@ -19,5 +19,5 @@ if actor.size == "tiny" or actor.size == "small" or actor.size == "medium" then
     self.room:send_except(actor, tostring(actor.name) .. " enters from below.")
 else
     actor:send("You're too large to go there.")
-    return false
+    return _return_value
 end

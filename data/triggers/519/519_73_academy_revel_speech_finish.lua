@@ -37,7 +37,7 @@ if actor:get_quest_stage("school") == 6 then
         local lap = 1
         while lap <= loops do
             actor:award_exp(cap)
-            local lap = lap + 1
+            lap = lap + 1
         end
         actor:award_exp(diff)
         -- switch on actor.class

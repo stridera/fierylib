@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 80
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <ctf_armband_tag>:152: unexpected symbol near ')'
 --   Complex nesting: 14 if statements
 --   Large script: 8043 chars
 --
@@ -25,19 +26,19 @@ local referee = 18880
 -- Objects
 local vnum_a = 18880
 local vnum_b = 18881
-local flag_a_zone, flag_a_local = 188, 82
-local flag_b_zone, flag_b_local = 188, 83
+local flag_a = 18882
+local flag_b = 18883
 -- Rooms
 local zone_a_start = 3500
 local zone_a_end = 3599
-local jail_a_zone, jail_a_local = 188, 80
-local home_a_zone, home_a_local = 35, 0
-local flag_room_a_zone, flag_room_a_local = 35, 0
+local jail_a = 18880
+local home_a = 3500
+local flag_room_a = 3500
 local zone_b_start = 8000
 local zone_b_end = 8199
-local jail_b_zone, jail_b_local = 188, 81
-local home_b_zone, home_b_local = 80, 25
-local flag_room_b_zone, flag_room_b_local = 80, 50
+local jail_b = 18881
+local home_b = 8025
+local flag_room_b = 8050
 -- Player has been forced to deactivate their armband
 if arg == "DeactivateArmband" then
     local inactive = "yes"
@@ -77,20 +78,20 @@ elseif (arg.id == -1) or (arg.id == "referee") then
     if arg_team then
         -- Player is on team A
         if self.id == "vnum_a" then
-            local actor_home_zone, actor_home_local = home_a_zone, home_a_local
-            local actor_jail_zone, actor_jail_local = jail_a_zone, jail_a_local
-            local actor_flag_room_zone, actor_flag_room_local = flag_room_a_zone, flag_room_a_local
-            local actor_flag_zone, actor_flag_local = flag_a_zone, flag_a_local
+            local actor_home = home_a
+            local actor_jail = jail_a
+            local actor_flag_room = flag_room_a
+            local actor_flag = flag_a
             -- Player is in home zone
             if (actor.room >= zone_a_start) and (actor.room <= zone_a_end) then
                 local at_home = "yes"
             end
             -- Player is on team B
         elseif self.id == "vnum_b" then
-            local actor_home_zone, actor_home_local = home_b_zone, home_b_local
-            local actor_jail_zone, actor_jail_local = jail_b_zone, jail_b_local
-            local actor_flag_room_zone, actor_flag_room_local = flag_room_b_zone, flag_room_b_local
-            local actor_flag_zone, actor_flag_local = flag_b_zone, flag_b_local
+            local actor_home = home_b
+            local actor_jail = jail_b
+            local actor_flag_room = flag_room_b
+            local actor_flag = flag_b
             -- Player is in home zone
             if (actor.room >= zone_b_start) and (actor.room <= zone_b_end) then
                 local at_home = "yes"
@@ -104,13 +105,13 @@ elseif (arg.id == -1) or (arg.id == "referee") then
         if arg_team == self.id then
             -- Player tags teammate in jail (Return both to team home room)
             if in_jail == "yes" then
-                arg:teleport(get_room(actor_home_zone, actor_home_local))
+                arg:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
                 arg:send(tostring(actor.name) .. " tags you, rescuing you from jail!")
                 self.room:send_except(arg, tostring(actor.name) .. " appears in a bright flash of light!")
                 self.room:send_except(arg, tostring(arg.name) .. " appears in a bright flash of light!")
                 self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", rescuing " .. tostring(arg.object) .. " from jail!")
                 actor:send("You tag " .. tostring(arg.name) .. ", rescuing " .. tostring(arg.object) .. " from jail!")
-                actor:teleport(get_room(actor_home_zone, actor_home_local))
+                actor:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
                 arg:command("tag ReactivateArmband")
                 actor:command("look")
                 arg:command("look")
@@ -130,12 +131,12 @@ elseif (arg.id == -1) or (arg.id == "referee") then
                     actor:send(tostring(arg.name) .. " is already in your jail!")
                     -- Player tags enemy in enemy's jail (Send enemy to jail and player to home)
                 else
-                    arg:teleport(get_room(actor_jail_zone, actor_jail_local))
+                    arg:teleport(get_room(vnum_to_zone(actor_jail), vnum_to_local(actor_jail)))
                     arg:send(tostring(actor.name) .. " tags you, banishing you for jail-guarding!")
                     self.room:send_except(arg, tostring(arg.name) .. " appears in a bright flash of light!")
                     self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", banishing " .. tostring(arg.object) .. " for jail-guarding!")
                     actor:send("You tag " .. tostring(arg.name) .. ", banishing " .. tostring(arg.object) .. " for jail-guarding!")
-                    actor:teleport(get_room(actor_home_zone, actor_home_local))
+                    actor:teleport(get_room(vnum_to_zone(actor_home), vnum_to_local(actor_home)))
                     self.room:send_except(actor, tostring(actor.name) .. " appears in a bright flash of light!")
                     arg:command("tag DeactivateArmband")
                     actor:command("look")
@@ -147,7 +148,7 @@ elseif (arg.id == -1) or (arg.id == "referee") then
                 -- Player tags enemy in player's zone (Send enemy to player's jail)
             elseif at_home == "yes" then
                 arg:send(tostring(actor.name) .. " tags you, sending you to " .. tostring(actor.object) .. " jail!")
-                arg:teleport(get_room(actor_jail_zone, actor_jail_local))
+                arg:teleport(get_room(vnum_to_zone(actor_jail), vnum_to_local(actor_jail)))
                 self.room:send_except(arg, tostring(arg.name) .. " appears in a bright flash of light!")
                 self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", sending " .. tostring(arg.object) .. " to jail!")
                 actor:send("You tag " .. tostring(arg.name) .. ", sending " .. tostring(arg.object) .. " to your jail!")
@@ -158,13 +159,12 @@ elseif (arg.id == -1) or (arg.id == "referee") then
                 actor:send("Tagging " .. tostring(arg.name) .. " has no effect outside your zone!")
             end
             -- Player tags enemy holding flag
-            if (arg.wearing[flag_a]) or (arg.wearing[flag_b]) then
-                local actor_room_zone = actor.room.zone_id
-                local actor_room_local = actor.room.local_id
+            if (arg.wearing[flag_a]) or (arg.wearing[flag_b]%) then
+                local actor_room = actor.room
                 arg:command("remove ctf-flag")
-                actor:teleport(get_room(actor_flag_room_zone, actor_flag_room_local))
-                self.room:spawn_object(actor_flag_zone, actor_flag_local)
-                actor:teleport(get_room(actor_room_zone, actor_room_local))
+                actor:teleport(get_room(vnum_to_zone(actor_flag_room), vnum_to_local(actor_flag_room)))
+                self.room:spawn_object(vnum_to_zone(actor_flag), vnum_to_local(actor_flag))
+                actor:teleport(get_room(vnum_to_zone(actor_room), vnum_to_local(actor_room)))
             end
         end
     end

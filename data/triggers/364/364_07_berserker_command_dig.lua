@@ -27,8 +27,8 @@ if actor.id == -1 then
     get_room(364, 31):at(function()
         self.room:send("The way north has been cleared.")
     end)
-    get_room(364, 29):exit("south"):set_state({hidden = false})
-    get_room(364, 31):exit("north"):set_state({hidden = false})
+    doors.set_state(get_room(364, 29), "south", {action = "room"})
+    doors.set_state(get_room(364, 31), "north", {action = "room"})
     wait(15)
     get_room(364, 29):at(function()
         self.room:send("The snow begins to drift back in...")
@@ -43,7 +43,7 @@ if actor.id == -1 then
     get_room(364, 31):at(function()
         self.room:send("The snow has completely covered the path north.")
     end)
-    get_room(364, 29):exit("south"):set_state({hidden = true})
-    get_room(364, 31):exit("north"):set_state({hidden = true})
+    doors.set_state(get_room(364, 29), "south", {action = "purge"})
+    doors.set_state(get_room(364, 31), "north", {action = "purge"})
 end
 return _return_value

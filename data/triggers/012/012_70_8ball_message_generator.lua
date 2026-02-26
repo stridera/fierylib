@@ -1,7 +1,8 @@
 -- Trigger: 8ball message generator
 -- Zone: 12, ID: 70
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <8ball message generator>:14: malformed number near '8bal'
 --
 -- Original DG Script: #1270
 
@@ -18,7 +19,7 @@ if not (cmd == "shake") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if arg == "8ball" then
+if arg == 8ball then
     _return_value = true
     self.room:send(tostring(actor.name) .. " shakes a magic 8ball.")
     local rndm = random(1, 20)

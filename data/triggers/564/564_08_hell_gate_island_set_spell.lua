@@ -42,5 +42,5 @@ while person do
         end
         self.room:find_actor("diabolist"):command("mskillset %person.name% hell gate")
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

@@ -46,9 +46,9 @@ if object.id == 48122 then
                 local lowlevel = 1
             end
         elseif person and person.id == -1 then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 end
 if levelcheck then

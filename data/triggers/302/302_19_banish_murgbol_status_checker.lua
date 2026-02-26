@@ -23,43 +23,39 @@ elseif stage == 0 then
     self:say("I'm not teaching you right now...")
 elseif stage then
     -- switch on stage
-    local mob = nil
-    local place = nil
-    local known = nil
     if stage == 1 then
-        mob = 41119
-        place = "her chamber under the ocean waves"
-        known = "Nothing."
+        local mob = 41119
+        local place = "her chamber under the ocean waves"
+        local known = "Nothing."
     elseif stage == 2 then
-        mob = 53313
-        place = "the frozen tunnels of the north"
-        known = "v"
+        local mob = 53313
+        local place = "the frozen tunnels of the north"
+        local known = "v"
     elseif stage == 3 then
-        mob = 37000
-        place = "a deep and ancient mine"
-        known = "vi"
+        local mob = 37000
+        local place = "a deep and ancient mine"
+        local known = "vi"
     elseif stage == 4 then
-        mob = 48005
-        place = "a room filled with art in an ancient barrow"
-        known = "vib"
+        local mob = 48005
+        local place = "a room filled with art in an ancient barrow"
+        local known = "vib"
     elseif stage == 5 then
-        mob = 53417
-        place = "the cold valley of the far north"
-        known = "vibu"
+        local mob = 53417
+        local place = "the cold valley of the far north"
+        local known = "vibu"
     elseif stage == 6 then
-        mob = 23811
-        place = "a nearby fortress of clouds and crystals"
-        known = "vibug"
+        local mob = 23811
+        local place = "a nearby fortress of clouds and crystals"
+        local known = "vibug"
     elseif stage == 7 then
         self.room:send(tostring(self.name) .. " says, 'Come, speak the prayer aloud: <b:magenta>vibugp</>!'")
         return _return_value
     else
         _return_value = false
     end
-    if mob then
-        self.room:send(tostring(self.name) .. " says, 'To learn Banish you must next:'")
-        self.room:send("- kill the target in " .. tostring(place) .. ".")
-        self.room:send("Your knowledge of the prayer so far: \"<b:cyan>" .. tostring(known) .. "</>\"")
-    end
+    self.room:send(tostring(self.name) .. " says, 'To learn Banish you must next:'")
+    self.room:send("- kill " .. "%get.mob_shortdesc[%mob%]% in %place%.")
+    -- (empty room echo)
+    self.room:send("</>Your knowledge of the prayer so far: \"<b:cyan>" .. tostring(known) .. "</>\"")
 end
 return _return_value

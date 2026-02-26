@@ -2,6 +2,7 @@
 -- Zone: 49, ID: 2
 -- Type: WORLD, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <TD WR Capture>:22: syntax error near '%'
 --   Complex nesting: 7 if statements
 --
 -- Original DG Script: #4902
@@ -22,12 +23,12 @@ end
 -- Team Domination War Room Capture (Speech) Trigger
 local i = 0
 while i < pylons do
-    if string.find(speech, "P" .. i .. "P") then
+    if string.find(speech, "PiP") then
         local j = 0
         while j < teams do
-            if string.find(speech, "T" .. j .. "T") then
+            if string.find(speech, "TjT") then
                 pylon[i] = j
-                globals["pylon" .. i] = globals["pylon" .. i] or true
+                globals.pylon%i% = globals.pylon%i% or true
                 -- switch on j
                 if j == 0 then
                     local team = team0
@@ -49,16 +50,16 @@ while i < pylons do
                 else
                     local suffix = "th"
                 end
-                self.room:find_actor("teamdominationmc"):command("gossip " .. team .. " captures the " .. num .. suffix .. " " .. pylonname .. "!")
+                self.room:find_actor("teamdominationmc"):command("gossip %team% captures the %num%%suffix% %pylonname%!")
                 self.room:send("Team Domination pylon " .. tostring(i) .. " captured by team " .. tostring(j) .. ".")
                 return _return_value
             end
-            local j = j + 1
+            j = j + 1
             if j >= teams then
                 trigger_log("TD Error: Bad team identifier to WR Capture trigger")
             end
             return _return_value
         end
-        local i = i + 1
+        i = i + 1
     end  -- auto-close block
 end  -- auto-close block

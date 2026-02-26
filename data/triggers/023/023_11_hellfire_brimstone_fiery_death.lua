@@ -17,5 +17,5 @@ while person do
             self.room:spawn_object(23, 37)
         end
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

@@ -23,16 +23,16 @@ elseif rnd < 70 and rnd >= 30 then
         self.room:spawn_object(83, 42)
     elseif random(1, 19) == 2 then
         -- strength
-        self.room:spawn_object(32, 74)
+        self.room:spawn_object(30, 274)
     elseif random(1, 19) == 3 then
         -- wisdom
-        self.room:spawn_object(32, 78)
+        self.room:spawn_object(30, 278)
     elseif random(1, 19) == 4 then
         -- monk fire
-        self.room:spawn_object(32, 49)
+        self.room:spawn_object(30, 249)
     elseif random(1, 19) == 5 then
         -- monk acid
-        self.room:spawn_object(32, 58)
+        self.room:spawn_object(30, 258)
     elseif random(1, 19) == 6 then
         -- bless, remove curse, cure serious
         self.room:spawn_object(117, 1)
@@ -44,37 +44,37 @@ elseif rnd < 70 and rnd >= 30 then
         self.room:spawn_object(178, 8)
     elseif random(1, 19) == 9 then
         -- prot cold, monk ice
-        self.room:spawn_object(32, 41)
+        self.room:spawn_object(30, 241)
     elseif random(1, 19) == 10 then
         -- monk lightning
-        self.room:spawn_object(32, 55)
+        self.room:spawn_object(30, 255)
     elseif random(1, 19) == 11 then
         -- monk ice
-        self.room:spawn_object(32, 52)
+        self.room:spawn_object(30, 252)
     elseif random(1, 19) == 12 then
         -- prot cold
-        self.room:spawn_object(32, 65)
+        self.room:spawn_object(30, 265)
     elseif random(1, 19) == 13 then
         -- prot fire
-        self.room:spawn_object(32, 62)
+        self.room:spawn_object(30, 262)
     elseif random(1, 19) == 14 then
         -- prot air
-        self.room:spawn_object(32, 68)
+        self.room:spawn_object(30, 268)
     elseif random(1, 19) == 15 then
         -- prot earth
-        self.room:spawn_object(32, 71)
+        self.room:spawn_object(30, 271)
     elseif random(1, 19) == 16 then
         -- intelligence
-        self.room:spawn_object(32, 82)
+        self.room:spawn_object(30, 282)
     elseif random(1, 19) == 17 then
         -- charisma
-        self.room:spawn_object(32, 86)
+        self.room:spawn_object(30, 286)
     elseif random(1, 19) == 18 then
         -- constitution
-        self.room:spawn_object(32, 90)
+        self.room:spawn_object(30, 290)
     elseif random(1, 19) == 19 then
         -- dexterity
-        self.room:spawn_object(32, 94)
+        self.room:spawn_object(30, 294)
     else
         self:say("This quest reward has a broken potion random chance, let a god know.")
     end
@@ -121,14 +121,14 @@ if not actor:get_has_completed("mystwatch_quest") and actor:get_quest_var("mystw
     elseif actor.class == "Necromancer" or actor.class == "Monk" then
         local expmod = (expmod + ((expmod * 2) / 5))
     else
-        local expmod = expmod
+        expmod = expmod
     end
     actor:send("<b:yellow>You gain experience!</>")
     local setexp = (expmod * 10)
     local loop = 0
     while loop < 3 do
         actor:award_exp(setexp)
-        local loop = loop + 1
+        loop = loop + 1
     end
 end
 if world.count_mobiles("16007") < 1 then

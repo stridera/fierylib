@@ -24,7 +24,7 @@ if teams then
     while i < teams do
         team[i] = nil
         abbr[i] = nil
-        local i = i + 1
+        i = i + 1
     end
     teams = nil
 end
@@ -32,7 +32,7 @@ if pylons then
     local i = 0
     while i < pylons do
         pylon[i] = nil
-        local i = i + 1
+        i = i + 1
     end
     pylons = nil
 end

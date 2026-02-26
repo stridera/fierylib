@@ -1,7 +1,9 @@
 -- Trigger: norisent speech
 -- Zone: 85, ID: 51
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: CLEAN (reviewed)
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <norisent speech>:15: unexpected symbol near '='
+--   Complex nesting: 10 if statements
 --
 -- Original DG Script: #8551
 
@@ -18,12 +20,12 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "resurrection") or string.find(string.lower(speech), "teach") or string.find(string.lower(speech), "resurrect") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "payment") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "how?") or string.find(string.lower(speech), "please") or string.find(string.lower(speech), "useful") or string.find(string.lower(speech), "command") or string.find(string.lower(speech), "souls")) then
     return true  -- No matching keywords
 end
-local speech = speech
-if actor.id ~= -1 then
+speech = speech
+if actor.id /= -1 then
     if actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" then
         if actor:get_quest_stage("resurrection_quest") <= 1 or actor.level >= 81 then
-            if string.find(speech, "resurrection") then
-                actor:start_quest("resurrection_quest")
+            if string.find(speech, "resurrection") or string.find(speech, "resurrection")? then
+                actor.name:start_quest("resurrection_quest")
                 wait(1)
                 self:emote("smirks ever so slightly, with a creepy glint of foreboding.")
                 self:say("So it's happened.  I knew someday your order would forget how.  Though, it's happened much sooner than I would have thought.  It only took a thousand years.")
@@ -33,7 +35,7 @@ if actor.id ~= -1 then
                 return _return_value
             end
         end
-        if actor:get_quest_stage("resurrection_quest") ~= 1 then
+        if actor:get_quest_stage("resurrection_quest") /= 1 then
             if string.find(speech, "teach") or string.find(speech, "resurrect") or string.find(speech, "yes") then
                 wait(1)
                 self:say("And what could you possibly offer me as payment?  I require nothing of food or drink.  Riches and knowledge are mine.  Glory and honor are lost on me.  I owe no living man my loyalty.")
@@ -48,9 +50,9 @@ if actor.id ~= -1 then
                 actor:advance_quest("resurrection_quest")
                 return _return_value
             end
-        elseif actor:get_quest_stage("resurrection_quest") ~= 3 then
-            if string.find(speech, "useful") or string.find(speech, "how") then
-                actor:advance_quest("resurrection_quest")
+        elseif actor:get_quest_stage("resurrection_quest") /= 3 then
+            if string.find(speech, "useful") or string.find(speech, "how") or string.find(speech, "how")? then
+                actor.name:advance_quest("resurrection_quest")
                 wait(1)
                 self:say("Yes, there is something more you could do for me.")
                 wait(1)

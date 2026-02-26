@@ -37,9 +37,9 @@ if actor.id == -1 then
                 end
                 actor.name:set_quest_var("mystwatch_quest", "step", "totem")
             elseif person then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
         actor:send(tostring(self.name) .. " says to you, 'Splendid, Mielikki be praised that one valiant enough has come amongst us to help rid us of this nuisance.'")

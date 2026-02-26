@@ -2,6 +2,7 @@
 -- Zone: 123, ID: 23
 -- Type: MOB, Flags: COMMAND
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <megalith_quest_mother_act_kneel_rewards>:113: ')' expected (to close '(' at line 112) near 'e
 --   Complex nesting: 11 if statements
 --   Large script: 5001 chars
 --
@@ -44,8 +45,9 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         self:command("give starseed " .. tostring(actor))
         local gem = 0
         while gem < 3 do
-            self.room:spawn_object(557, random(1, 11) + 36)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55736
+            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))
     elseif total > 0 then
@@ -54,7 +56,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'I bestow upon you a gift of stars.  May its light")
         self.room:send("</>guide you the rest of your days.'")
-        local random = random(1, 2)
+        random = random(1, 2)
         if random == 1 then
             self.room:spawn_object(123, 98)
         elseif random == 2 then
@@ -62,8 +64,9 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         end
         local gem = 0
         while gem < 3 do
-            self.room:spawn_object(557, random(1, 11) + 36)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55736
+            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
         end
         self:command("give all " .. tostring(actor.name))
         wait(4)
@@ -76,7 +79,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
     while item <= 5 do
         actor.name:set_quest_var("megalith_quest", "bad%item%", 0)
         bad[item] = nil
-        local item = item + 1
+        item = item + 1
     end
     actor.name:complete_quest("megalith_quest")
     -- 
@@ -116,7 +119,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         -- 
         -- 115% of standard
         -- 
-        local expmod = (expmod + ((expmod * 2) / 15))
+        local expmod = (expmod + ((expmod * 2) / 15)
     elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
         -- 
         -- 120% of standard
@@ -128,7 +131,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         -- 
         local expmod = (expmod + (expmod * 2) / 5)
     else
-        local expmod = expmod
+        expmod = expmod
     end
     actor:send("<b:yellow>You gain experience!</>")
     local setexp = (expmod * 10)
@@ -139,7 +142,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         -- Pick depending on what is running the trigger
         -- 
         actor:award_exp(setexp)
-        local loop = loop + 1
+        loop = loop + 1
     end
 end
 return _return_value

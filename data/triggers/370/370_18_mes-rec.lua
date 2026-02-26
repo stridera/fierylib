@@ -1,7 +1,8 @@
 -- Trigger: mes-rec
 -- Zone: 370, ID: 18
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN (reviewed 2026-01-22)
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <mes-rec>:9: unexpected symbol near '%'
 --   Complex nesting: 11 if statements
 --   Large script: 5049 chars
 --
@@ -13,26 +14,26 @@ local _return_value = true  -- Default: allow action
 -- first lets check the PC is the right race!
 if string.find(actor.race, "troll") then
     -- now lets check to make sure the item is correct and we didn't already have it, if both are good then lets mark it gotten.
-    local gooditem = 0
-    local gotitem = 0
     if object.id == 37080 then
-        gooditem = 1
-        if actor:get_quest_var("troll_quest:got_item:37080") ~= 1 then
-            gotitem = 1
-            actor:set_quest_var("troll_quest", "got_item:37080", 1)
+        local gooditem = 1
+        if %actor.quest_variable[troll_quest:got_item:37080] ~= 1 then
+            local gotitem = 1
+            actor.name:set_quest_var("troll_quest", "got_item:37080", 1)
         end
     elseif object.id == 37081 then
-        gooditem = 1
-        if actor:get_quest_var("troll_quest:got_item:37081") ~= 1 then
-            gotitem = 1
-            actor:set_quest_var("troll_quest", "got_item:37081", 1)
+        local gooditem = 1
+        if %actor.quest_variable[troll_quest:got_item:37081] ~= 1 then
+            local gotitem = 1
+            actor.name:set_quest_var("troll_quest", "got_item:37081", 1)
         end
     elseif object.id == 37082 then
-        gooditem = 1
-        if actor:get_quest_var("troll_quest:got_item:37082") ~= 1 then
-            gotitem = 1
-            actor:set_quest_var("troll_quest", "got_item:37082", 1)
+        local gooditem = 1
+        if %actor.quest_variable[troll_quest:got_item:37082] ~= 1 then
+            local gotitem = 1
+            actor.name:set_quest_var("troll_quest", "got_item:37082", 1)
         end
+    else
+        local gooditem = 0
     end
     -- alright, do we have everything now?
     if actor:get_quest_var("troll_quest:got_item:37080") == 1 and actor:get_quest_var("troll_quest:got_item:37081") == 1 and actor:get_quest_var("troll_quest:got_item:37082") == 1 and not actor:get_has_completed("troll_quest") then
@@ -48,7 +49,7 @@ if string.find(actor.race, "troll") then
         self.room:send("A red light erupts from the center of the branch, nearly blinding you!")
         wait(2)
         self.room:send("When the smoke clears and the light is gone, " .. tostring(self.name) .. " smiles proudly.")
-        actor:complete_quest("troll_quest")
+        actor.name:complete_quest("troll_quest")
         self:say("Here you go, little one.  May your ambitions guide you and lead you to prosperity and rulership.")
         self.room:spawn_object(370, 83)
         self:command("give troll-mask " .. tostring(actor.name))
@@ -92,11 +93,14 @@ else
             lap = lap + 1
         end
         local random_gem = random(1, 11)
-        self.room:spawn_object(557, random_gem + 36)
+        local which_gem = random_gem + 55736
+        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
         local random_gem = random(1, 11)
-        self.room:spawn_object(557, random_gem + 36)
+        local which_gem = random_gem + 55736
+        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
         local random_gem = random(1, 11)
-        self.room:spawn_object(557, random_gem + 36)
+        local which_gem = random_gem + 55736
+        self.room:spawn_object(vnum_to_zone(which_gem), vnum_to_local(which_gem))
         self:command("give all.gem " .. tostring(actor.name))
         self:say("Here is a small token of my appreciation.")
         self:say("Now move along.")

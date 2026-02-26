@@ -2,6 +2,7 @@
 -- Zone: 1, ID: 7
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Priest Quest Spell Hints>:27: unexpected symbol near '%'
 --   Complex nesting: 8 if statements
 --   Large script: 5129 chars
 --
@@ -33,7 +34,7 @@ if string.find(self.class, "diabolist") then
             self:say("Our traditions use inferal methods of travel, not lunar ones.")
         end
     elseif string.find(self.class, "priest") then
-        if string.find(actor.class, "diabolist") then
+        if %string.find(actor.class, "diabolist") then
             self:say("Members of priestly orders travel by the Will of")
             self.room:send("'Heaven. We do not spread the knowledge of Infernal magics.'")
         elseif string.find(actor.class, "priest") then

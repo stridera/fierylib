@@ -3,7 +3,7 @@
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
 --   Complex nesting: 36 if statements
---   Large script: 12356 chars
+--   Large script: 12357 chars
 --
 -- Original DG Script: #450
 
@@ -80,7 +80,7 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                 local wandtask3 = 43018
                 local wandtask4 = 11705
             elseif stage == 8 then
-                local master = mobiles.template(482, 50).name
+                local master = mobiles.template(481, 150).name
                 local hint = "You're headed back to Fiery Island.  Crazy old McCabe can help you improve your staff further."
                 local wandgem = 55716
                 local wandtask3 = 53000

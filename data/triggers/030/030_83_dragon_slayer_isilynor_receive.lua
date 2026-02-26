@@ -3,7 +3,7 @@
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
 --   Complex nesting: 19 if statements
---   Large script: 15100 chars
+--   Large script: 15102 chars
 --
 -- Original DG Script: #3083
 
@@ -209,14 +209,14 @@ if go == "hunt" then
         elseif person.class == "Necromancer" or person.class == "Monk" then
             local expmod = (expmod + (expmod * 2) / 5)
         else
-            local expmod = expmod
+            expmod = expmod
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
         local loop = 0
         while loop < 3 do
             actor:award_exp(setexp)
-            local loop = loop + 1
+            loop = loop + 1
         end
         actor:set_quest_var("dragon_slayer", "target1", 0)
         actor:set_quest_var("dragon_slayer", "hunt", 0)
@@ -229,13 +229,13 @@ if go == "hunt" then
             actor:send(tostring(self.name) .. " says, 'You have earned your place among the greatest dragon slayers in the realm!'")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'I bestow upon you this crest in recognition of your might.  Wear this proudly.'")
-            self.room:spawn_object(5, 49)
+            self.room:spawn_object(4, 149)
             self:command("give crest " .. tostring(actor))
         end
         if (string.find(actor.class, "paladin") or string.find(actor.class, "anti")) and actor:get_quest_stage("paladin_pendant") == 0 then
             wait(2)
             actor:send(tostring(self.name) .. " says, 'I think you've earned this too.'")
-            self.room:spawn_object(3, 60)
+            self.room:spawn_object(2, 160)
             self:command("give necklace " .. tostring(actor))
             wait(1)
             actor:send(tostring(self.name) .. " says, 'Necklaces like these are proof of your devotion to your causes.'")
@@ -298,12 +298,11 @@ elseif go == "necklace" then
             local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
             if job1 and job2 and job3 and job4 then
                 wait(2)
-                -- reward is object.id + 1, and object.id is already local_id
-                local reward_local = object.id + 1
+                local reward = object.id + 1
                 world.destroy(object)
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'Well done!  You've proven your devotion.'")
-                self.room:spawn_object(self.room.zone_id, reward_local)
+                self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
                 self:command("give necklace " .. tostring(actor))
                 local expcap = pendantstage * 10
                 if expcap < 17 then
@@ -319,18 +318,18 @@ elseif go == "necklace" then
                 else
                     local expmod = 20940 + ((expcap - 89) * 600)
                 end
-                local expmod = expmod + ((expmod * 2) / 15)
+                expmod = expmod + ((expmod * 2) / 15)
                 actor:send("<b:yellow>You gain experience!</>")
                 local setexp = (expmod * 10)
                 local loop = 0
                 while loop < 7 do
                     actor:award_exp(setexp)
-                    local loop = loop + 1
+                    loop = loop + 1
                 end
                 local number = 1
                 while number < 5 do
                     actor:set_quest_var("paladin_pendant", "necklacetask%number%", 0)
-                    local number = number + 1
+                    number = number + 1
                 end
                 if actor:get_quest_stage("paladin_pendant") < 9 then
                     actor:advance_quest("paladin_pendant")

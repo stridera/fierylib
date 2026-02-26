@@ -2,6 +2,7 @@
 -- Zone: 237, ID: 52
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <receive-rewards>:94: function arguments expected near ':'
 --   Complex nesting: 40 if statements
 --   Large script: 10470 chars
 --
@@ -29,9 +30,9 @@ if object.id == 23721 then
                 local accepted = 1
             end
         elseif person and person.id == -1 then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     if accepted then
         wait(1)
@@ -68,9 +69,9 @@ if object.id == 23720 then
                 end
             end
         elseif person and person.id == -1 then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     if accepted then
         wait(1)
@@ -100,7 +101,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
         end
     end
     -- Make sure it's valid, and we haven't gotten it yet
-    if accepted == 1 and actor.quest_variable["vilekka_stew:got_spice:" .. num] == 1 then
+    if accepted == 1 and actor.quest_variable[vilekka_stew:got_spice:num] == 1 then
         local accepted = 0
     end
     if accepted == 0 then
@@ -248,7 +249,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
             -- 
             local expmod = (expmod + (expmod * 2) / 5)
         else
-            local expmod = expmod
+            expmod = expmod
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
@@ -259,7 +260,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
             -- Pick depending on what is running the trigger
             -- 
             actor:award_exp(setexp)
-            local loop = loop + 1
+            loop = loop + 1
         end
         self:command("give boots " .. tostring(actor.name))
         wait(1)

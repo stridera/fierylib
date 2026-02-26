@@ -2,6 +2,7 @@
 -- Zone: 625, ID: 71
 -- Type: OBJECT, Flags: RANDOM
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <the BIG hurt>:11: 'end' expected (to close 'if' at line 8) near 'if'
 --   Complex nesting: 12 if statements
 --   Large script: 12247 chars
 --
@@ -15,6 +16,7 @@ local target = wielder.is_fighting
 if target then
     -- switch on wielder.size
     if wielder.size == "medium" then
+        return _return_value
         -- switch on target.size
         if target.size == "large" then
             return _return_value
@@ -68,7 +70,7 @@ if target then
             return _return_value
         end
         -- switch on random(1, 16)
-        if rm:get_down("room") == -1 or rm:get_down("room") == 0 or not target:has_flag("nobash") then
+        if rm:get_down("room") == -1 or rm:get_down("room") == 0 or target.flags /= not bash then
             if random(1, 16) == 1 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -78,12 +80,12 @@ if target then
             else
                 local dam = 250 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(rm.down.zone_id, rm.down.local_id))
+                target:teleport(get_room(vnum_to_zone(rm.down), vnum_to_local(rm.down)))
                 wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing down!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing down!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_north("room") == -1 or rm:get_north("room") == 0 or not target:has_flag("nobash") then
+            if rm:get_north("room") == -1 or rm:get_north("room") == 0 or target.flags /= not bash then
             elseif random(1, 16) == 2 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -93,12 +95,12 @@ if target then
             else
                 local dam = 250 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(rm.north.zone_id, rm.north.local_id))
+                target:teleport(get_room(vnum_to_zone(rm.north), vnum_to_local(rm.north)))
                 wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing north!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing north!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_south("room") == -1 or rm:get_south("room") == 0 or not target:has_flag("nobash") then
+            if rm:get_south("room") == -1 or rm:get_south("room") == 0 or target.flags /= not bash then
             elseif random(1, 16) == 3 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -108,12 +110,12 @@ if target then
             else
                 local dam = 250 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(rm.south.zone_id, rm.south.local_id))
+                target:teleport(get_room(vnum_to_zone(rm.south), vnum_to_local(rm.south)))
                 wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing south!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing south!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_east("room") == -1 or rm:get_east("room") == 0 or not target:has_flag("nobash") then
+            if rm:get_east("room") == -1 or rm:get_east("room") == 0 or target.flags /= not bash then
             elseif random(1, 16) == 4 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -123,12 +125,12 @@ if target then
             else
                 local dam = 250 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(rm.east.zone_id, rm.east.local_id))
+                target:teleport(get_room(vnum_to_zone(rm.east), vnum_to_local(rm.east)))
                 wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing east!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing east!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")
             end
-            if rm:get_west("room") == -1 or rm:get_west("room") == 0 or not target:has_flag("nobash") then
+            if rm:get_west("room") == -1 or rm:get_west("room") == 0 or target.flags /= not bash then
             elseif random(1, 16) == 5 then
                 local dam = 150 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
@@ -138,7 +140,7 @@ if target then
             else
                 local dam = 250 +random(1, 100)
                 local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(rm.west.zone_id, rm.west.local_id))
+                target:teleport(get_room(vnum_to_zone(rm.west), vnum_to_local(rm.west)))
                 wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing west!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
                 self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing west!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 target:command("abort")

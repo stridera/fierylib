@@ -1,7 +1,8 @@
 -- Trigger: ***UNUSED***
 -- Zone: 237, ID: 24
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <***UNUSED***>:33: <eof> expected near 'end'
 --
 -- Original DG Script: #23724
 
@@ -36,4 +37,5 @@ if actor:get_quest_stage("sunfire_rescue") == 1 then
         actor.name:move("north")
         -- Oooh, he gets really mad here.
     end
+end
 end

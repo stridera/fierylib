@@ -16,7 +16,7 @@ if start_q == 1 then
         if string.find(person.name, "q_plyr") then
             local questerhere = 1
         end
-        local person = person.next_in_room
+        person = person.next_in_room
     end
     if questerhere == 0 then
         self:say("Hmm, where did " .. tostring(q_plyr) .. " go?")

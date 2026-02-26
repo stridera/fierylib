@@ -24,9 +24,9 @@ if i then
                 person:send("A voice from the forest whispers, 'You have done the forest a great service.  Meet me at the nearby spring.'")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 elseif person.class == "Ranger" and person.level > 80 and not person:get_quest_stage("blur") then
     person.name:start_quest("blur")

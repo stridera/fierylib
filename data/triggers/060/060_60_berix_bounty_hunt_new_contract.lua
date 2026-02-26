@@ -47,8 +47,7 @@ if actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then
         end
         self:command("whap " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Don't be such an idiot again!'")
-        local contract_zone, contract_local = contract // 100, contract % 100
-        self.room:spawn_object(contract_zone, contract_local)
+        self.room:spawn_object(vnum_to_zone(contract), vnum_to_local(contract))
         self:command("give contract " .. tostring(actor))
     end
 end

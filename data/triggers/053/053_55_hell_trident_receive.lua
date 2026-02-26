@@ -77,16 +77,14 @@ if go == "gem" then
     if gem_count < 6 then
         wait(2)
         world.destroy(object.name)
-        local gem_count = gem_count + 1
+        gem_count = gem_count + 1
         actor.name:set_quest_var("hell_trident", "gems", gem_count)
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
         wait(2)
         if gem_count == 1 then
-            local gem_zone, gem_local = gem_vnum // 100, gem_vnum % 100
-            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. objects.template(gem_zone, gem_local).pldesc .. ".'")
+            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
         else
-            local gem_zone, gem_local = gem_vnum // 100, gem_vnum % 100
-            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. objects.template(gem_zone, gem_local).pldesc .. ".'")
+            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
         end
         wait(2)
         if gem_count >= 6 then
@@ -107,8 +105,7 @@ if go == "gem" then
         _return_value = false
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
-        local gem_zone, gem_local = gem_vnum // 100, gem_vnum % 100
-        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. objects.template(gem_zone, gem_local).pldesc .. ".'")
+        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
     end
 elseif go == "trident" then
     local job1 = actor:get_quest_var("hell_trident:helltask1")
@@ -168,8 +165,7 @@ elseif go == "trident" then
                 actor:send("<red>You must be level " .. tostring(level) .. " or greater to continue this quest.</>")
             end
         end
-        local reward_zone, reward_local = reward // 100, reward % 100
-        self.room:spawn_object(reward_zone, reward_local)
+        self.room:spawn_object(vnum_to_zone(reward), vnum_to_local(reward))
         self:command("give trident " .. tostring(actor))
         local expcap = level
         if expcap < 17 then
@@ -190,11 +186,11 @@ elseif go == "trident" then
         local loop = 0
         while loop < 10 do
             actor:award_exp(setexp)
-            local loop = loop + 1
+            loop = loop + 1
         end
         local number = 1
         while number < 7 do
-            actor:set_quest_var("hell_trident", "helltask" .. number, 0)
+            actor:set_quest_var("hell_trident", "helltask%number%", 0)
             number = number + 1
         end
         actor:set_quest_var("hell_trident", "gems", 0)

@@ -2,6 +2,7 @@
 -- Zone: 237, ID: 28
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <serin-receive>:48: 'end' expected (to close 'if' at line 18) near 'if'
 --   Complex nesting: 10 if statements
 --   Large script: 8044 chars
 --
@@ -23,9 +24,9 @@ elseif actor.level > 99 then
     self:command("eyebrow")
 else
     if actor:get_quest_stage("sunfire_rescue") == 1 then
-        -- Handle boots (object 52008)
-        if object.id == 52008 then
-            if boots == 1 then
+        -- switch on object.id
+        if boots == 1 then
+            if object.id == 52008 then
                 _return_value = false
                 self:say("You have already given me these.")
             else
@@ -36,15 +37,15 @@ else
                 self:say("Thank you.")
                 wait(1)
             end
-        -- Cursed boots
         elseif object.id == 52024 then
+            -- Cursed boots
             _return_value = false
             self:emote("looks at the boots carefully.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, 'These are the cursed boots.  If you have the real ones,")
             self.room:send("</>please...  These cannot help me at all.  Do you have the real ones?  I need")
             self.room:send("</>them.'")
-        -- Cursed ring
+            return _return_value
         elseif object.id == 52018 then
             _return_value = false
             self:command("frown " .. tostring(actor.name))
@@ -52,9 +53,10 @@ else
             self:say("What kind of cruel trick is this?")
             wait(1)
             self:say("Well, do you have the real one to give to me?")
-        -- Handle cloak (object 52009)
-        elseif object.id == 52009 then
+            return _return_value
+            -- covers the cursed ring...
             if cloak == 1 then
+            elseif object.id == 52009 then
                 _return_value = false
                 self:say("You have already given me the cloak.")
             else
@@ -66,8 +68,8 @@ else
                 wait(1)
                 self:say("Then I can finally escape....")
             end
-        -- Cursed cloak
         elseif object.id == 52026 then
+            -- Cursed cloak
             _return_value = false
             self:emote("runs his hands over the cloak quickly.")
             self:say("This is the cursed cloak!")
@@ -77,9 +79,9 @@ else
             wait(1)
             self:say("Well?  Do you have the real cloak to give to me?")
             self:emote("taps his foot impatiently.")
-        -- Handle ring (object 52001)
-        elseif object.id == 52001 then
+            return _return_value
             if ring == 1 then
+            elseif object.id == 52001 then
                 _return_value = false
                 self:say("You have already given me this ring.")
             else
@@ -120,64 +122,65 @@ else
         self:emote("vanishes from sight.")
         -- The badge reward is level 50, but the players have to be 70 or so
         -- to handle the boots, cloak etc anyway....:)
-        --
+        -- 
         -- Set X to the level of the award - code does not run without it
-        --
-        local expcap
+        -- 
         if actor.level < 85 then
-            expcap = actor.level
+            local expcap = actor.level
         else
-            expcap = 85
+            local expcap = 85
         end
         local expmod = 0
         if expcap < 9 then
-            expmod = (((expcap * expcap) + expcap) / 2) * 55
+            local expmod = (((expcap * expcap) + expcap) / 2) * 55
         elseif expcap < 17 then
-            expmod = 440 + ((expcap - 8) * 125)
+            local expmod = 440 + ((expcap - 8) * 125)
         elseif expcap < 25 then
-            expmod = 1440 + ((expcap - 16) * 175)
+            local expmod = 1440 + ((expcap - 16) * 175)
         elseif expcap < 34 then
-            expmod = 2840 + ((expcap - 24) * 225)
+            local expmod = 2840 + ((expcap - 24) * 225)
         elseif expcap < 49 then
-            expmod = 4640 + ((expcap - 32) * 250)
+            local expmod = 4640 + ((expcap - 32) * 250)
         elseif expcap < 90 then
-            expmod = 8640 + ((expcap - 48) * 300)
+            local expmod = 8640 + ((expcap - 48) * 300)
         else
-            expmod = 20940 + ((expcap - 89) * 600)
+            local expmod = 20940 + ((expcap - 89) * 600)
         end
-        --
+        -- 
         -- Adjust exp award by class so all classes receive the same proportionate amount
-        --
+        -- 
         -- switch on actor.class
         if actor.class == "Warrior" or actor.class == "Berserker" then
-            --
+            -- 
             -- 110% of standard
-            --
-            expmod = (expmod + (expmod / 10))
+            -- 
+            local expmod = (expmod + (expmod / 10))
         elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
-            --
+            -- 
             -- 115% of standard
-            --
-            expmod = (expmod + ((expmod * 2) / 15))
+            -- 
+            local expmod = (expmod + ((expmod * 2) / 15))
         elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
-            --
+            -- 
             -- 120% of standard
-            --
-            expmod = (expmod + (expmod / 5))
+            -- 
+            local expmod = (expmod + (expmod / 5))
         elseif actor.class == "Necromancer" or actor.class == "Monk" then
-            --
+            -- 
             -- 130% of standard
-            --
-            expmod = (expmod + ((expmod * 2) / 5))
+            -- 
+            local expmod = (expmod + ((expmod * 2) / 5))
+        else
+            expmod = expmod
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
         local loop = 0
         while loop < 10 do
-            --
+            -- 
             -- Xexp must be replaced by mexp, oexp, or wexp for this code to work
             -- Pick depending on what is running the trigger
-            --
+            -- 
             actor:award_exp(setexp)
             loop = loop + 1
         end

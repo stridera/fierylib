@@ -23,13 +23,13 @@ if rnd.room == actor.room then
         self.room:send_except(rnd, tostring(rnd.name) .. " slips and falls!")
         -- switch on actor.room
         if actor.room == 53530 then
-            local dam = dam + 100
+            dam = dam + 100
         elseif actor.room == 53529 then
-            local dam = dam + 75
+            dam = dam + 75
         elseif actor.room == 53528 then
-            local dam = dam + 50
+            dam = dam + 50
         elseif actor.room == 53527 then
-            local dam = dam + 25
+            dam = dam + 25
         end
         rnd:teleport(get_room(534, 17))
         local damage_dealt = rnd:damage(dam)  -- type: physical

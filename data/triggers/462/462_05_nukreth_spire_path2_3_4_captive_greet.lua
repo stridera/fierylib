@@ -2,6 +2,7 @@
 -- Zone: 462, ID: 5
 -- Type: MOB, Flags: GREET
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Nukreth Spire path2 3 4 captive greet>:5: function arguments expected near ']'
 --   Complex nesting: 11 if statements
 --
 -- Original DG Script: #46205
@@ -10,7 +11,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
 if actor:get_quest_stage("nukreth_spire") then
-    if not actor:get_quest_var("nukreth_spire:pathnumber") then
+    if not actor.quest_variable[nukreth_spire:pathnumber] then
         if self.room == 46278 then
             -- the spiritbreaker is still alive
             if world.count_mobiles("46224") > 0 then

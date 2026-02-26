@@ -29,7 +29,7 @@ if alreadydone ~= 1 then
             if damage_dealt == 0 then
                 victim:send("Nezer's shockwave passes through you like a shot, momentarily disorienting you.")
             elseif victim:has_effect(Effect.Flying) then
-                local damage = damage / 2
+                damage = damage / 2
                 victim:send("Nezer's shockwave sends you flying into the arena wall! (<b:red>" .. tostring(damage_dealt) .. "</>)")
                 self.room:send_except(victim, tostring(victim.name) .. " is thrown violently into the arena's wall! (<blue>" .. tostring(damage_dealt) .. "</>)")
             else

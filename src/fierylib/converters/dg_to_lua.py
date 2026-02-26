@@ -15,9 +15,81 @@ Handles:
 
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Optional
 
 from fierylib.parsers.trigger_parser import DGTrigger
+
+
+# Zone range map: sorted list of (base, top, zone_id) for vnum -> composite ID lookup
+# Populated by init_zone_ranges() before conversion
+_zone_ranges: list[tuple[int, int, int]] = []
+
+
+def build_zone_ranges(zon_dir: Path) -> list[tuple[int, int, int]]:
+    """
+    Build a zone range map from .zon files.
+
+    Each .zon file has the format:
+        #zone_id
+        name~
+        top_vnum lifespan reset_mode ...
+
+    Returns sorted list of (base, top, zone_id) sorted by base descending,
+    where base = zone_id * 100.
+    """
+    ranges = []
+    for zon_file in zon_dir.glob("*.zon"):
+        try:
+            lines = zon_file.read_text(encoding="latin-1").splitlines()
+            if len(lines) < 3:
+                continue
+            # Line 1: #zone_id
+            zone_line = lines[0].strip()
+            if not zone_line.startswith("#"):
+                continue
+            zone_id = int(zone_line[1:])
+            # Line 3: top_vnum lifespan reset_mode ...
+            parts = lines[2].strip().split()
+            if not parts:
+                continue
+            top = int(parts[0])
+            base = zone_id * 100
+            ranges.append((base, top, zone_id))
+        except (ValueError, IndexError):
+            continue
+    # Sort by base descending so we can iterate and find the first match
+    ranges.sort(key=lambda r: r[0], reverse=True)
+    return ranges
+
+
+def init_zone_ranges(zon_dir: Path) -> None:
+    """Initialize the module-level zone range map from .zon files."""
+    global _zone_ranges
+    _zone_ranges = build_zone_ranges(zon_dir)
+
+
+def vnum_to_zone_and_local(vnum: int) -> tuple[int, int]:
+    """
+    Convert a legacy vnum to (zone_id, local_id) using the zone range map.
+
+    If the zone range map is initialized, looks up which zone contains the vnum.
+    Falls back to naive vnum // 100 / % 100 if no range map.
+    Zone 0 is mapped to zone 1000.
+    """
+    if _zone_ranges:
+        for base, top, zone_id in _zone_ranges:
+            if base <= vnum <= top:
+                local_id = vnum - base
+                if zone_id == 0:
+                    zone_id = 1000
+                return zone_id, local_id
+    # Fallback: naive division
+    zone_id = vnum // 100
+    local_id = vnum % 100
+    if zone_id == 0:
+        zone_id = 1000
+    return zone_id, local_id
 
 
 # Color code conversions (DG/CircleMUD to FieryMUD markup)
@@ -55,11 +127,11 @@ class LuaTrigger:
 
     @property
     def zone_id(self) -> int:
-        return self.vnum // 100
+        return vnum_to_zone_and_local(self.vnum)[0]
 
     @property
     def local_id(self) -> int:
-        return self.vnum % 100
+        return vnum_to_zone_and_local(self.vnum)[1]
 
 
 def convert_colors(text: str) -> str:
@@ -99,11 +171,7 @@ def _vnum_to_composite(vnum: str) -> str:
     """
     try:
         vnum_int = int(vnum)
-        zone_id = vnum_int // 100
-        local_id = vnum_int % 100
-        # Zone 0 maps to zone 1000
-        if zone_id == 0:
-            zone_id = 1000
+        zone_id, local_id = vnum_to_zone_and_local(vnum_int)
         return f'{zone_id}, {local_id}'
     except ValueError:
         # If not a valid number, return as-is (might be a variable)
@@ -533,7 +601,27 @@ def convert_condition(cond: str) -> str:
     return result
 
 
-def convert_command(cmd: str, indent: int = 0) -> Optional[str]:
+def _var_decl(var_name: str, declared_vars: set | None, value_expr: str = '') -> str:
+    """Return 'local ' if this is the first assignment to var_name, else ''.
+
+    Avoids emitting 'local' when var_name appears in value_expr, since
+    'local x = x + 1' shadows x with nil in Lua (the new local x is not
+    yet initialized when the RHS is evaluated).
+    """
+    # If the variable is referenced in its own value expression, never use local
+    if value_expr and re.search(r'\b' + re.escape(var_name) + r'\b', value_expr):
+        if declared_vars is not None:
+            declared_vars.add(var_name)
+        return ''
+    if declared_vars is None:
+        return 'local '
+    if var_name in declared_vars:
+        return ''
+    declared_vars.add(var_name)
+    return 'local '
+
+
+def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None) -> Optional[str]:
     """Convert a single DG Script command to Lua."""
     cmd = cmd.strip()
     if not cmd:
@@ -1651,7 +1739,8 @@ def convert_command(cmd: str, indent: int = 0) -> Optional[str]:
     if match:
         var_name = match.group(1)
         value = convert_variable_expr(match.group(2))
-        return f'{ind}local {var_name} = {value}'
+        decl = _var_decl(var_name, declared_vars, value)
+        return f'{ind}{decl}{var_name} = {value}'
 
     match = re.match(r'^set\s+(\w+)\s+(.+)$', cmd, re.IGNORECASE)
     if match:
@@ -1678,7 +1767,8 @@ def convert_command(cmd: str, indent: int = 0) -> Optional[str]:
         else:
             value = value.replace('\\', '\\\\').replace('"', '\\"')
             value = f'"{value}"'
-        return f'{ind}local {var_name} = {value}'
+        decl = _var_decl(var_name, declared_vars, value)
+        return f'{ind}{decl}{var_name} = {value}'
 
     # eval with dynamic variable name: eval varname%index% expr
     match = re.match(r'^eval\s+(\w+)%([^%]+)%\s+(.+)$', cmd, re.IGNORECASE)
@@ -1703,7 +1793,8 @@ def convert_command(cmd: str, indent: int = 0) -> Optional[str]:
         expr = expr.replace('&&', ' and ')
         expr = expr.replace('||', ' or ')
         expr = re.sub(r'(?<!\|)\|(?!\|)', ' or ', expr)
-        return f'{ind}local {var_name} = {expr}'
+        decl = _var_decl(var_name, declared_vars, expr)
+        return f'{ind}{decl}{var_name} = {expr}'
 
     # === Misc ===
 
@@ -2033,6 +2124,7 @@ def convert_script_body(commands: str) -> str:
     switch_has_if = False  # Track if switch generated an if statement
     pending_cases = []  # For collecting fall-through cases
     has_return_value = False  # Track if we need the _return_value variable
+    declared_vars: set[str] = set()  # Track declared variables to avoid re-declaring with 'local'
 
     # Check if script uses return 0/1 (not immediately followed by halt)
     commands_lower = commands.lower()
@@ -2174,7 +2266,7 @@ def convert_script_body(commands: str) -> str:
             pending_cases = []
 
         # Regular command
-        converted = convert_command(line, indent)
+        converted = convert_command(line, indent, declared_vars)
         if converted:
             # Skip redundant halt after setting _return_value
             # In DG Scripts, "return 0" followed by "halt" is common

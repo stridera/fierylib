@@ -15,11 +15,11 @@ while person do
         local damage = 150 + random(1, 50)
         -- Halve damage for sanc
         if person:has_effect(Effect.Sanctuary) then
-            local damage = damage / 2
+            damage = damage / 2
         end
         if person:has_effect(Effect.Stone) then
             -- Double damage for stoneskin
-            local damage = damage + damage
+            damage = damage + damage
         end
         local damage_dealt = person:damage(damage)  -- type: crush
         if damage_dealt == 0 then

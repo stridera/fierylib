@@ -26,7 +26,7 @@ if actor.id == -1 and actor:get_quest_stage("resort_cooking") < 1 then
     self:say("I will need you to find the following ingredients for me:")
     self.room:send("- <b:white>" .. tostring(objects.template(615, 1).name) .. "</>")
     self.room:send("- <b:white>" .. tostring(objects.template(237, 54).name) .. "</>")
-    self.room:send("- <b:white>" .. tostring(objects.template(31, 14).name) .. "</>")
+    self.room:send("- <b:white>" .. tostring(objects.template(30, 114).name) .. "</>")
     self.room:send("- <b:white>" .. tostring(objects.template(350, 1).name) .. "</>")
     wait(2)
     self:say("Bring them to me quickly so that I may begin!")

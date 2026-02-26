@@ -39,10 +39,12 @@ if actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then
         elseif actor:get_quest_stage("beast_master") == 8 then
             local notice = 5307
         elseif actor:get_quest_stage("beast_master") == 9 then
+            local notice = 5308
         elseif actor:get_quest_stage("beast_master") == 10 then
+            local notice = 5309
         end
         self:command("grumble")
-        self.room:spawn_object(53, 9)
+        self.room:spawn_object(vnum_to_zone(notice), vnum_to_local(notice))
         self:command("give assignment " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Don't lose this one!'")
     end

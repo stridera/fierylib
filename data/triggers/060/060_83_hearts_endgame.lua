@@ -1,7 +1,7 @@
 -- Trigger: hearts endgame
 -- Zone: 60, ID: 83
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 22 if statements
 --   Large script: 5677 chars
 --
@@ -32,43 +32,43 @@ if status == 4 then
             local score = 13
         end
         if card40 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card41 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card42 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card43 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card44 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card45 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card46 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card47 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card48 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card49 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card50 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card51 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if card52 == plyr + 4 then
-            local score = score + 1
+            score = score + 1
         end
         if plyr == 1 then
             local score1 = score
@@ -119,10 +119,10 @@ if status == 4 then
             local score4 = 0
         end
     end
-    local total1 = total1 + score1
-    local total2 = total2 + score2
-    local total3 = total3 + score3
-    local total4 = total4 + score4
+    total1 = total1 + score1
+    total2 = total2 + score2
+    total3 = total3 + score3
+    total4 = total4 + score4
     player1:send("You scored " .. tostring(score1) .. " points this round, bringing your total to " .. tostring(total1) .. ".")
     player2:send("You scored " .. tostring(score2) .. " points this round, bringing your total to " .. tostring(total2) .. ".")
     player3:send("You scored " .. tostring(score3) .. " points this round, bringing your total to " .. tostring(total3) .. ".")

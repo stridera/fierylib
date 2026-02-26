@@ -1,7 +1,10 @@
 -- Trigger: Herlequin volcano trigger 2
 -- Zone: 63, ID: 92
 -- Type: OBJECT, Flags: RANDOM
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   -- UNCONVERTED: %victim.name%!
+--   -- UNCONVERTED: %victim.name% right on the head! (&1&b%damdone%&0)
+--   -- UNCONVERTED: OUCH! (&1&b%damdone%&0)
 --
 -- Original DG Script: #6392
 
@@ -15,9 +18,12 @@ self.room:send("A massive volcano shoots out a <b:red>flaming rock</>!")
 wait(2)
 local damage_dealt = victim:damage(damage)  -- type: crush
 if damage_dealt == 0 then
-    self.room:send_except(victim, "A <b:red>flaming</> rock falls right next to " .. tostring(victim.name) .. "!")
+    self.room:send_except(victim, "A <b:red>flaming</> rock falls right next to")
+    -- UNCONVERTED: %victim.name%!
     victim:send("A <b:red>flaming</> rock falls right next to you!")
 else
-    self.room:send_except(victim, "A <b:red>flaming</> rock falls from the sky, smashing " .. tostring(victim.name) .. " right on the head! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-    victim:send("A <b:red>flaming rock</> slams you directly on the head! OUCH! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(victim, "A <b:red>flaming</> rock falls from the sky, smashing")
+    -- UNCONVERTED: %victim.name% right on the head! (&1&b%damdone%&0)
+    victim:send("A <b:red>flaming rock</> slams you directly on the head!")
+    -- UNCONVERTED: OUCH! (&1&b%damdone%&0)
 end

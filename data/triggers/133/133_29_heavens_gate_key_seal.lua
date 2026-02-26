@@ -2,6 +2,7 @@
 -- Zone: 133, ID: 29
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <heavens_gate_key_seal>:17: function arguments expected near '.'
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #13329
@@ -22,7 +23,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "pool") or string.find(arg, "arch") then
     local seal = actor:get_quest_var("heavens_gate:sealed")
     if self.room == 51077 or self.room == 16407 or self.room == 16094 or self.room == 55735 or self.room == 49024 or self.room == 55126 or self.room == 55112 then
-        if actor:get_quest_var("heavens_gate:" .. tostring(self.room)) then
+        if actor.quest_variable[heavens_gate:self.room] then
             actor:send("You have already sealed this anomaly.")
         else
             if actor:get_quest_stage("heavens_gate") == 3 then

@@ -2,6 +2,7 @@
 -- Zone: 4, ID: 18
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Twisted Sorrow progress journal>:4: 'then' expected near 'forest'
 --   Complex nesting: 14 if statements
 --
 -- Original DG Script: #418
@@ -9,7 +10,7 @@
 -- Converted from DG Script #418: Twisted Sorrow progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg, "twisted_sorrow") or string.find(arg, "twisted_forest_quest") then
+if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg, "twisted_sorrow") or string.find(arg, "twisted") forest quest then
     _return_value = false
     actor:send("<b:green>&uTwisted Sorrow</>")
     actor:send("Recommended Level: 10")

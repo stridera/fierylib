@@ -29,5 +29,5 @@ while person do
             end
         end
     end
-    local person = person.next_in_room
+    person = person.next_in_room
 end

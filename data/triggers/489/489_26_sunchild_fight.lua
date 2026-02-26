@@ -23,6 +23,6 @@ elseif chance <= 2 then
         if person.id == -1 then
             spells.cast(self, "sunray", person, 100)
         end
-        local person = person.next_in_room
+        person = person.next_in_room
     end
 end

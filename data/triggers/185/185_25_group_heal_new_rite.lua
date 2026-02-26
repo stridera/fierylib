@@ -1,7 +1,8 @@
 -- Trigger: group_heal_new_rite
 -- Zone: 185, ID: 25
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <group_heal_new_rite>:15: unexpected symbol near 'elseif'
 --
 -- Original DG Script: #18525
 
@@ -19,7 +20,7 @@ if not (string.find(string.lower(speech), "i") or string.find(string.lower(speec
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_quest_stage("group_heal") == 5 or actor:get_quest_stage("group_heal") == 6 then
+if actor:get_quest_stage("group_heal") == 5 or elseif actor:get_quest_stage("group_heal") == 6 then
     self:say("You need to be more careful!")
     wait(1)
     self:say("Fortunately I made a copy of the original.")

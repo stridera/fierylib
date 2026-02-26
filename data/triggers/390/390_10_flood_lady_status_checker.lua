@@ -1,7 +1,8 @@
 -- Trigger: flood_lady_status_checker
 -- Zone: 390, ID: 10
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 24 if statements
 --
 -- Original DG Script: #39010
 

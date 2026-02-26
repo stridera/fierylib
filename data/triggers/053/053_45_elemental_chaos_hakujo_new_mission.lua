@@ -44,8 +44,7 @@ if actor.level >= (actor:get_quest_stage("elemental_chaos") - 1) * 10 then
             local mission = 5329
         end
         self:command("grumble")
-        local mission_zone, mission_local = mission // 100, mission % 100
-        self.room:spawn_object(mission_zone, mission_local)
+        self.room:spawn_object(vnum_to_zone(mission), vnum_to_local(mission))
         self:command("give mission " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Be more careful next time.'")
     end

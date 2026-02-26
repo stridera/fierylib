@@ -17,9 +17,9 @@ if i then
                 person:set_quest_var("nukreth_spire", "treasure", 3)
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
 else
     if actor:get_quest_var("nukreth_spire:treasure") == 2 then

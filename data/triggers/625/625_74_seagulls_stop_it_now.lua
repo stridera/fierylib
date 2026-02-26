@@ -19,9 +19,9 @@ if count > 0 then
         spells.cast(self, "minor paralysis", actor, self.level)
         local add = damage / 100
         self.room:send("First Add: " .. tostring(add))
-        local add = add + 1
+        add = add + 1
         self.room:send("Second Add: " .. tostring(add))
-        local count = count + add
+        count = count + add
         self.room:send("count: " .. tostring(count))
         wait(count)
     end

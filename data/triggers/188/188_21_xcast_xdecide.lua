@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 21
 -- Type: OBJECT, Flags: GLOBAL, COMMAND
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <xcast_xdecide>:37: 'then' expected near 'string'
 --   Complex nesting: 12 if statements
 --
 -- Original DG Script: #18821
@@ -42,7 +43,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     -- name, such as just 'arc' for 'arctic blast'.  However, this also
     -- allows 'blast', so making another spell 'blast of fire' is a bad
     -- idea.  Use unique spell names.
-    if string.find(arg, "deadly") or string.find(arg, "screech") then
+    if deadly string.find(screech, "arg") then
         local xid = 1
         local xname = "deadly screech"
         local xstars = 0
@@ -50,7 +51,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "area"
         local xmode = "self"
         local xamount = 300
-    elseif string.find(arg, "blizzard") then
+    elseif string.find(blizzard, "arg") then
         local xid = 2
         local xname = "blizzard"
         local xstars = 2
@@ -58,7 +59,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "area"
         local xmode = "self"
         local xamount = 300
-    elseif string.find(arg, "reconstitution") then
+    elseif string.find(reconstitution, "arg") then
         local xid = 3
         local xname = "reconstitution"
         local xstars = 2
@@ -66,7 +67,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "heal"
         local xmode = "self"
         local xamount = 1000
-    elseif string.find(arg, "hand") or string.find(arg, "transport") then
+    elseif hand of string.find(transport, "arg") then
         local xid = 4
         local xname = "hand of transport"
         local xstars = 2
@@ -74,7 +75,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "transport"
         local xmode = "victim"
         local xamount = -1
-    elseif string.find(arg, "defamation") then
+    elseif string.find(defamation, "arg") then
         local xid = 5
         local xname = "defamation"
         local xstars = 2
@@ -82,7 +83,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "area"
         local xmode = "self"
         local xamount = 400
-    elseif string.find(arg, "iron") or string.find(arg, "maiden") then
+    elseif iron string.find(maiden, "arg") then
         local xid = 6
         local xname = "iron maiden"
         local xstars = 1
@@ -90,7 +91,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "transport"
         local xmode = "victim"
         local xamount = 18820
-    elseif string.find(arg, "bodily") or string.find(arg, "charge") then
+    elseif bodily string.find(charge, "arg") then
         local xid = 7
         local xname = "bodily charge"
         local xstars = 3
@@ -98,7 +99,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "area"
         local xmode = "self"
         local xamount = 500
-    elseif string.find(arg, "archons") or string.find(arg, "curse") then
+    elseif archons string.find(curse, "arg") then
         local xid = 8
         local xname = "archons curse"
         local xstars = 2
@@ -106,7 +107,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "damage"
         local xmode = "victim"
         local xamount = 500
-    elseif string.find(arg, "caustic") or string.find(arg, "conflaguration") then
+    elseif caustic string.find(conflaguration, "arg") then
         local xid = 9
         local xname = "caustic conflaguration"
         local xstars = 2

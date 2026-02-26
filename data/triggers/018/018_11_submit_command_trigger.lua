@@ -22,17 +22,18 @@ if rm == 1 then
 elseif rm == 2 then
     actor.name:teleport(get_room(480, 80))
 elseif rm == 3 then
-    actor.name:teleport(get_room(118, 34))
+    actor.name:teleport(get_room(117, 134))
 elseif rm == 4 then
-    actor.name:teleport(get_room(118, 35))
+    actor.name:teleport(get_room(117, 135))
 elseif rm == 5 then
-    actor.name:teleport(get_room(431, random(1, 13) + 44))
+    local dest = 43144 + random(1, 13)
+    actor.name:teleport(get_room(vnum_to_zone(dest), vnum_to_local(dest)))
 elseif rm == 6 then
     actor.name:teleport(get_room(101, 0))
 elseif rm == 7 then
     actor.name:teleport(get_room(551, 5))
 elseif rm == 8 then
-    actor.name:teleport(get_room(325, 89))
+    actor.name:teleport(get_room(324, 189))
 elseif rm == 9 then
     actor.name:teleport(get_room(127, 1))
 end  -- auto-close switch

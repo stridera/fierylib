@@ -1,7 +1,8 @@
 -- Trigger: supernova_phayla_receive
 -- Zone: 62, ID: 12
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <supernova_phayla_receive>:5: function arguments expected near '.'
 --
 -- Original DG Script: #6212
 
@@ -9,7 +10,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if object.id == 51073 or object.id == 48917 then
-    if actor.quest_variable["supernova:" .. object.vnum] == 1 then
+    if actor.quest_variable[supernova:object.vnum] == 1 then
         _return_value = false
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("You've already given me this.")

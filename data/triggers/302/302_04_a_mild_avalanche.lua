@@ -1,7 +1,8 @@
 -- Trigger: A mild avalanche
 -- Zone: 302, ID: 4
 -- Type: WORLD, Flags: RANDOM
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Complex nesting: 7 if statements
 --
 -- Original DG Script: #30204
 
@@ -27,24 +28,20 @@ self.room:send("They clatter as they tumble.")
 wait(2)
 self.room:send("Large rocks are tumbling past you!  They look heavy!")
 wait(1)
-local dest_local
--- self.id is already a local_id, destroom is relative to same zone
-if self.id == 34 then  -- was 30234
-    dest_local = self.id + 1
+if self.id == 30234 then
+    local destroom = self.id + 1
 else
-    dest_local = self.id - 1
+    local destroom = self.id - 1
 end
-local damage
+local damage = 80 + random(1, 50)
 if victim.level < 10 then
-    damage = 3 + random(1, 5)
+    local damage = 3 + random(1, 5)
 elseif victim.level < 20 then
-    damage = 10 + random(1, 8)
+    local damage = 10 + random(1, 8)
 elseif victim.level < 40 then
-    damage = 30 + random(1, 30)
-else
-    damage = 80 + random(1, 50)
+    local damage = 30 + random(1, 30)
 end
-if victim.room == startroom then
+if victim.room == "startroom" then
     if victim.class == "Ranger" then
         self.room:send_except(victim, tostring(victim.name) .. " is nearly smacked by a large rock, but " .. tostring(victim.name) .. " steps aside at the last moment.")
         victim:send("A big rock comes hurtling toward you, but you step smoothly aside.")
@@ -58,7 +55,7 @@ if victim.room == startroom then
             self.room:send_except(victim, tostring(victim.name) .. " tumbles downhill!")
             victim:send("You try to dodge the boulders, but a large stone whacks you in the chest! (<red>" .. tostring(damage_dealt) .. "</>)")
             victim:send("You are knocked down!")
-            victim:teleport(get_room(self.zone_id, dest_local))
+            victim:teleport(get_room(vnum_to_zone(destroom), vnum_to_local(destroom)))
             self.room:send_except(victim, tostring(victim.name) .. " tumbles down the trail from above, and comes to a rest.")
             wait(1)
             -- victim looks around

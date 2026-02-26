@@ -9,6 +9,6 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 wait(1)
 self.room:send_except(actor, "The winds shift violently ripping up the sands and ground, leaving the way unknown.")
-get_room(492, 19):exit("down"):set_state({hidden = false})
+doors.set_state(get_room(492, 19), "down", {action = "room"})
 wait(15)
-get_room(492, 19):exit("down"):set_state({hidden = true})
+doors.set_state(get_room(492, 19), "down", {action = "purge"})

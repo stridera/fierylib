@@ -1,7 +1,8 @@
 -- Trigger: wizard_eye_apothecary_receive
 -- Zone: 550, ID: 39
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <wizard_eye_apothecary_receive>:15: function arguments expected near ']'
 --
 -- Original DG Script: #55039
 
@@ -19,7 +20,7 @@ if actor:get_quest_stage("wizard_eye") == 7 then
     elseif object.id == 18001 then
         local item = 4
     end
-    if actor:get_quest_var("wizard_eye:item" .. item) then
+    if actor.quest_variable[wizard_eye:itemitem] then
         _return_value = false
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'You already brought me " .. tostring(object.shortdesc) .. ".'")
@@ -34,7 +35,7 @@ if actor:get_quest_stage("wizard_eye") == 7 then
             local item = 1
             while item <= 4 do
                 actor.name:set_quest_var("wizard_eye", "item%item%", 0)
-                local item = item + 1
+                item = item + 1
             end
             actor:send(tostring(self.name) .. " says, 'That looks like everything.  Let me grind this all up!'")
             wait(2)

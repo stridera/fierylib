@@ -91,9 +91,9 @@ elseif object.id == 61551 then
             end
             person.name:set_quest_var("enchanted_hollow_quest", "got_cherry", 1)
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     if got_cherry then
     elseif object.id == 61506 then
@@ -116,9 +116,9 @@ elseif object.id == 61551 then
                 end
                 person.name:set_quest_var("enchanted_hollow_quest", "got_cherry", 0)
             elseif person then
-                local i = i + 1
+                i = i + 1
             end
-            local a = a + 1
+            a = a + 1
         end
         self:say("Well now!  I suppose I owe you an enchantment!")
         wait(4)

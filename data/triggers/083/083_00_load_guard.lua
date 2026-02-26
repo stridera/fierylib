@@ -10,7 +10,7 @@
 if actor.alignment < -349 then
     wait(2)
     self.room:send("A giant guard pops out from behind the coffin.")
-    get_room(84, 23):at(function()
+    get_room(83, 123):at(function()
         find_player("frakatiguard"):teleport(get_room(83, 63))
     end)
 end

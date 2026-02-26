@@ -1,19 +1,21 @@
 -- Trigger: quest_eleweiss_ranger_druid_subclass_speak1
 -- Zone: 163, ID: 2
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <quest_eleweiss_ranger_druid_subclass_speak1>:9: ')' expected near '?'
+--   Complex nesting: 11 if statements
 --
 -- Original DG Script: #16302
 
 -- Converted from DG Script #16302: quest_eleweiss_ranger_druid_subclass_speak1
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: ways woods
+-- Speech keywords: ways ways? woods woods? I
 local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "ways") or string.find(speech_lower, "woods") or string.find(speech_lower, "i know")) then
+if not (string.find(string.lower(speech), "ways") or string.find(string.lower(speech), "ways?") or string.find(string.lower(speech), "woods") or string.find(string.lower(speech), "woods?") or string.find(string.lower(speech), "i")) then
     return true  -- No matching keywords
 end
-if (string.find(speech_lower, "ways") or string.find(speech_lower, "woods") or string.find(speech_lower, "i know")) and not actor:get_quest_stage("ran_dru_subclass") then
+if (string.find(speech, "ways") or string.find(speech, "ways")? or string.find(speech, "I") know) and not actor:get_quest_stage("ran_dru_subclass") then
     if string.find(actor.class, "Cleric") then
         -- switch on actor.race
         -- case ADD NEW RESTRICTED RACES HERE

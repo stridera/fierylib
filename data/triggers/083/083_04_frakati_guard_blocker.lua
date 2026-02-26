@@ -1,7 +1,7 @@
 -- Trigger: Frakati guard blocker
 -- Zone: 83, ID: 4
 -- Type: WORLD, Flags: PREENTRY
--- Status: CLEAN (reviewed)
+-- Status: CLEAN
 --
 -- Original DG Script: #8304
 
@@ -13,27 +13,32 @@ local _return_value = true  -- Default: allow action
 -- Then apply the trigger to the room beyond the guard.
 local entryroom = 8352
 local guardvnum = 8332
-if world.count_mobiles(tostring(guardvnum)) > 0 and actor.room == entryroom and actor.id == -1 then
-    local blocked = false
-    local guard = nil
+if get.mob_count[guardvnum] and actor.room == "entryroom" and actor.id == -1 then
+    local blocked = 0
     local person = self.people
     while person do
-        if person.vnum == guardvnum then
-            guard = person
-            if person:is_standing() or person:is_fighting() or person:is_flying() then
-                blocked = true
+        if person.id == "guardvnum" then
+            local guard = person
+            if string.find(guard.position, "Standing") or string.find(guard.position, "Fighting") or string.find(guard.position, "Flying") then
+                local blocked = 1
             end
         end
         person = person.next_in_room
     end
-    if blocked and guard then
+    if blocked then
         if actor.level < 100 then
-            local entrydir = get_opposite_dir(direction)
-            actor.room:send_except(actor, tostring(guard.name) .. " blocks " .. tostring(actor.name) .. " as " .. tostring(actor.heshe) .. " tries to go " .. tostring(entrydir) .. ".")
-            actor:send(tostring(guard.name) .. " steps purposefully into your way.")
+            local entrydir = get.opposite_dir[direction]
+            get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)):at(function()
+                self.room:send_except(actor, tostring(guard.name) .. " blocks " .. tostring(actor.name) .. " as " .. tostring(actor.heshe) .. " tries to go " .. tostring(entrydir) .. ".")
+            end)
+            get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)):at(function()
+                actor:send(tostring(guard.name) .. " steps purposefully into your way.")
+            end)
             _return_value = false
         else
-            actor.room:send_except(actor, tostring(guard.name) .. " makes no move as " .. tostring(actor.name) .. " passes.")
+            get_room(vnum_to_zone(actor.room), vnum_to_local(actor.room)):at(function()
+                self.room:send_except(actor, tostring(guard.name) .. " makes no move as " .. tostring(actor.name) .. " passes.")
+            end)
             _return_value = true
         end
     else

@@ -1,7 +1,8 @@
 -- Trigger: Resurrect_greet
 -- Zone: 85, ID: 50
 -- Type: MOB, Flags: GREET
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Resurrect_greet>:10: unexpected symbol near '='
 --
 -- Original DG Script: #8550
 
@@ -14,7 +15,7 @@ if actor.class == "cleric" or actor.class == "priest" or actor.class == "diaboli
         self:say("You've done well for yourself, little one.  Come back when you are stronger and perhaps I'll have something for you.")
         self:command("pat " .. tostring(actor.name))
     elseif actor.level < 100 then
-        if actor:get_quest_var("resurrection_quest:new") ~= new then
+        if actor:get_quest_var("resurrection_quest:new") /= new then
             self:say("I've heard what happened.  Ziijhan will be furious!")
             self:command("cackle")
             wait(2)

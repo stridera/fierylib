@@ -2,6 +2,7 @@
 -- Zone: 625, ID: 50
 -- Type: WORLD, Flags: GLOBAL
 -- Status: NEEDS_REVIEW
+--   Syntax error: luac: <quest room>:63: unexpected symbol near '%'
 --   Complex nesting: 7 if statements
 --   Large script: 10169 chars
 --
@@ -15,7 +16,7 @@ if quester == 0 then
     return _return_value
 end
 while quester:get_quest_stage("ursa_quest") ~= 6 do
-    local quester = quester.next_in_room
+    quester = quester.next_in_room
 end
 if quester:get_quest_stage("ursa_quest") == 6 then
     -- now find the right script to run, based on that players questvar: choice
@@ -61,14 +62,15 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("mild"):say("And have these as a show of my gratitude.")
         local gem = 0
         while gem < 3 do
-            self.room:find_actor("mild"):spawn_object(557, random(1, 11) + 36)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55736
+            self.room:find_actor("mild"):spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
         end
         self.room:find_actor("mild"):command("give all.gem " .. tostring(quester))
         self.room:find_actor("mild"):command("tip " .. tostring(quester))
         self.room:find_actor("mild"):emote("leaves north toward Blue Fog Trail.")
         world.destroy(self.room:find_actor("merchant"))
-    elseif quester:get_quest_var("ursa_quest:choice") == 2 then
+    elseif %quester.quest_variable[ursa_quest:choice] == 2 then
         wait(1)
         self.room:find_actor("mild"):say("Good enough.")
         self.room:find_actor("mild"):command("wear " .. tostring(object))
@@ -103,11 +105,12 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:send("Several glittering gems wash up along with it.")
         local gem = 0
         while gem < 3 do
-            self.room:spawn_object(557, random(1, 11) + 36)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55736
+            self.room:spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
         end
         self.room:spawn_object(625, 8)
-    elseif quester:get_quest_var("ursa_quest:choice") == 3 then
+    elseif %quester.quest_variable[ursa_quest:choice] == 3 then
         wait(1)
         self.room:find_actor("mild"):emote("tosses the anvil to the ground with a grunt.")
         wait(3)
@@ -135,8 +138,9 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("ursa"):command("wi sword")
         local gem = 0
         while gem < 3 do
-            self.room:find_actor("ursa"):spawn_object(557, random(1, 11) + 36)
-            local gem = gem + 1
+            local drop = random(1, 11) + 55736
+            self.room:find_actor("ursa"):spawn_object(vnum_to_zone(drop), vnum_to_local(drop))
+            gem = gem + 1
         end
     end
     -- 
@@ -176,7 +180,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         -- 
         -- 115% of standard
         -- 
-        local expmod = (expmod + ((expmod * 2) / 15))
+        local expmod = (expmod + ((expmod * 2) / 15)
     elseif quester.class == "Sorcerer" or quester.class == "Pyromancer" or quester.class == "Cryomancer" or quester.class == "Illusionist" or quester.class == "Bard" then
         -- 
         -- 120% of standard
@@ -188,7 +192,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         -- 
         local expmod = (expmod + (expmod * 2) / 5)
     else
-        local expmod = expmod
+        expmod = expmod
     end
     quester:send("<b:yellow>You gain experience!</>")
     local setexp = (expmod * 10)
@@ -199,7 +203,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         -- Pick depending on what is running the trigger
         -- 
         quester:award_exp(setexp)
-        local loop = loop + 1
+        loop = loop + 1
     end
     quester:complete_quest("ursa_quest")
 end

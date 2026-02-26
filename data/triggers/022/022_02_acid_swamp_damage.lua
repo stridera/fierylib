@@ -33,6 +33,6 @@ while count > 0 do
         else
         end
     end
-    local count = count - 1
+    count = count - 1
     wait(3)
 end

@@ -1,14 +1,15 @@
 -- Trigger: Griffin quest progress journal
 -- Zone: 4, ID: 8
 -- Type: OBJECT, Flags: LOOK
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Griffin quest progress journal>:4: 'then' expected near 'island'
 --
 -- Original DG Script: #408
 
 -- Converted from DG Script #408: Griffin quest progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg, "cult") or string.find(arg, "destroy_the_cult_of_the_griffin") or string.find(arg, "griffin_quest") or string.find(arg, "griffin_island_quest") or string.find(arg, "griffin_island") or string.find(arg, "griffin_island_quest") then
+if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg, "cult") or string.find(arg, "destroy_the_cult_of_the_griffin") or string.find(arg, "griffin_quest") or string.find(arg, "griffin_island_quest") or string.find(arg, "griffin_island") or string.find(arg, "griffin") island quest then
     if actor.level >= 45 then
         _return_value = false
         local stage = actor:get_quest_stage("griffin_quest")

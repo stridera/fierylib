@@ -1,7 +1,8 @@
 -- Trigger: Berix bounty hunt greet
 -- Zone: 60, ID: 50
 -- Type: MOB, Flags: GREET_ALL
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <Berix bounty hunt greet>:6: 'then' expected near '='
 --
 -- Original DG Script: #6050
 
@@ -10,7 +11,7 @@
 wait(2)
 if not actor:get_has_completed("bounty_hunt") then
     if not actor:get_quest_stage("bounty_hunt") then
-        if actor.alignment <= -350 or string.find(actor.class, "Assassin") or string.find(actor.class, "Mercenary") then
+        if actor.alignment =< -350 or string.find(actor.class, "Assassin") or string.find(actor.class, "Mercenary") then
             actor:send(tostring(self.name) .. " says, 'Well hello there.  You look like quite a piece of work.  I think I have a <b:cyan>[job]</> for you.'")
         else
             actor:send(tostring(self.name) .. " says, 'What do you want?'")

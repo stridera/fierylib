@@ -1,7 +1,8 @@
 -- Trigger: StoneCultWhat
 -- Zone: 125, ID: 32
 -- Type: MOB, Flags: RANDOM, GREET
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <StoneCultWhat>:8: unexpected symbol near '.5'
 --
 -- Original DG Script: #12532
 
@@ -12,7 +13,7 @@
 if not percent_chance(25) then
     return true
 end
-local delay = rand(5)
+local delay = rand.5
 wait(delay)
 self:emote("bows before the statue.")
 wait(2)

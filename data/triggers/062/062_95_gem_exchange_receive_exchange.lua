@@ -1,7 +1,7 @@
 -- Trigger: Gem Exchange receive exchange
 -- Zone: 62, ID: 95
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 25 if statements
 --
 -- Original DG Script: #6295
@@ -100,8 +100,7 @@ if item ~= 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Here you are, as requested!'")
         world.destroy(object)
-        local item_zone, item_local = item // 100, item % 100
-        self.room:spawn_object(item_zone, item_local)
+        self.room:spawn_object(vnum_to_zone(item), vnum_to_local(item))
         self:command("give all " .. tostring(actor))
         wait(2)
         actor:send(tostring(self.name) .. " says, 'A pleasure doing business with you!'")

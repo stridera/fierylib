@@ -1,7 +1,8 @@
 -- Trigger: south_exposition
 -- Zone: 123, ID: 38
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   Syntax error: luac: <south_exposition>:9: ')' expected near 'are'
 --
 -- Original DG Script: #12338
 
@@ -13,7 +14,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who") or string.find(string.lower(speech), "continue")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.id == -1 then
+if (string.find(speech, "who") are you or string.find(speech, "continue")) and actor.id == -1 then
     wait(2)
     if actor:get_quest_var("megalith_quest:sexpo") == 0 then
         self:say("I am Keeper of the South, the warden of fire.  As befits my station, I hail from an island where molten fire reigns supreme.  It flows from the mountain, touches the sky, and meets the ocean.")

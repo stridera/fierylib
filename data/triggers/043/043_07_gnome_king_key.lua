@@ -33,9 +33,9 @@ if actor.id == -1 then
                 person:send("<b:white>You have begun the theatre quest!</>")
             end
         elseif person then
-            local i = i + 1
+            i = i + 1
         end
-        local a = a + 1
+        a = a + 1
     end
     wait(2)
     self:command("grin")

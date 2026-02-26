@@ -1,7 +1,7 @@
 -- Trigger: quest_timulos_assassin
 -- Zone: 60, ID: 8
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #6008

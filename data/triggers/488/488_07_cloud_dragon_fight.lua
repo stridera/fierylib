@@ -24,7 +24,7 @@ elseif actor and (actor.room == self.room) and (actor.id == -1) then
     if actor and (actor.room == self.room) then
         local damage = 350 + random(1, 50)
         if actor:has_effect(Effect.Sanctuary) then
-            local damage = damage / 2
+            damage = damage / 2
         end
         local damage_dealt = actor:damage(damage)  -- type: cold
         if damage_dealt == 0 then

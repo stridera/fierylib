@@ -1,7 +1,7 @@
 -- Trigger: connectfour drop piece
 -- Zone: 60, ID: 66
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --   Complex nesting: 21 if statements
 --   Large script: 8646 chars
 --

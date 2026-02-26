@@ -16,7 +16,7 @@ while victim == 0 do
     if victim.id == 52012 then
         local victim = 0
     end
-    local count = count + 1
+    count = count + 1
     if count > 10 then
         self.room:send("<yellow>Sagece of Raymif slowly returns to the floor, rattling the hall.</>")
         return _return_value

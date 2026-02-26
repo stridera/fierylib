@@ -12,6 +12,6 @@
 if not percent_chance(0) then
     return true
 end
-get_room(585, 22):at(function()
+get_room(584, 122):at(function()
     self.room:spawn_object(492, 51)
 end)
