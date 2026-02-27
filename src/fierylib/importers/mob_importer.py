@@ -452,7 +452,7 @@ class MobImporter:
 
         try:
             # Build vnum map entry (for reset lookups later)
-            legacy_vnum = (zone_id * 100) + vnum if zone_id != 1000 else vnum
+            legacy_vnum = zone_id * 100 + vnum
             if self.vnum_map is not None:
                 self.vnum_map[legacy_vnum] = (mob_zone_id, vnum)
 

@@ -16,6 +16,7 @@ from typing import Optional, cast, Any
 from pathlib import Path
 from datetime import datetime
 
+from prisma import Json
 from mud.mudfile import MudFiles, MudData
 from mud.parser import Parser
 from mud.types.player import Player
@@ -657,6 +658,7 @@ class PlayerImporter:
                 if zone_id is None or object_id is None:
                     # Can't resolve prototype — skip (includes vnum -1 custom items
                     # and items from missing zones)
+                    print(f"    ⚠️  Could not resolve object vnum {vnum} (location={location}), skipping")
                     continue
 
                 # Build the CharacterItem data
@@ -679,7 +681,14 @@ class PlayerImporter:
                 # Preserve instance values (charges, food filling, etc.)
                 instance_values = parsed_data.get("values")
                 if instance_values:
-                    item_data["customValues"] = instance_values
+                    # Convert non-serializable types (e.g. Dice) to plain dicts
+                    cleaned = {}
+                    for k, v in instance_values.items():
+                        if hasattr(v, 'num') and hasattr(v, 'size') and hasattr(v, 'bonus'):
+                            cleaned[k] = {"num": v.num, "size": v.size, "bonus": v.bonus}
+                        else:
+                            cleaned[k] = v
+                    item_data["customValues"] = Json(cleaned)
 
                 # Determine container parent
                 if location < 0:

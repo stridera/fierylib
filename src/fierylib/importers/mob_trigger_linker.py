@@ -29,7 +29,7 @@ This module:
 from pathlib import Path
 from typing import Optional
 
-from fierylib.converters import convert_zone_id, EntityResolver
+from fierylib.converters import EntityResolver
 
 
 def parse_mob_trigger_attachments(mob_file: Path) -> dict[int, list[int]]:
@@ -108,16 +108,6 @@ class MobTriggerLinker:
         self.prisma = prisma_client
         self.resolver = EntityResolver(prisma_client)
 
-    async def build_trigger_composite_key_set(self) -> set[tuple[int, int]]:
-        """
-        Build a set of valid trigger composite keys (zoneId, id).
-
-        Returns:
-            Set of (zoneId, id) tuples for existing triggers
-        """
-        triggers = await self.prisma.triggers.find_many()
-        return {(t.zoneId, t.id) for t in triggers}
-
     async def link_mob_triggers(
         self,
         world_dir: Path,
@@ -143,11 +133,15 @@ class MobTriggerLinker:
             total_attachments = sum(len(v) for v in attachments.values())
             print(f"Total trigger attachments: {total_attachments}")
 
-        # Build set of valid trigger composite keys
-        valid_triggers = await self.build_trigger_composite_key_set()
+        # Build trigger lookup: legacy vnum → (zoneId, id)
+        triggers = await self.prisma.triggers.find_many()
+        trigger_by_vnum: dict[int, tuple[int, int]] = {}
+        for t in triggers:
+            vnum = t.zoneId * 100 + t.id
+            trigger_by_vnum[vnum] = (t.zoneId, t.id)
 
         if verbose:
-            print(f"Valid trigger composite keys: {len(valid_triggers)}")
+            print(f"Trigger vnum lookup entries: {len(trigger_by_vnum)}")
 
         results = {
             "success": True,
@@ -181,20 +175,15 @@ class MobTriggerLinker:
             results["mobs_processed"] += 1
 
             for trigger_vnum in trigger_vnums:
-                # Decompose trigger vnum into composite key (zoneId, id)
-                trigger_zone_id = trigger_vnum // 100
-                trigger_local_id = trigger_vnum % 100
-                # Handle zone 0 → 1000 conversion
-                if trigger_zone_id == 0:
-                    trigger_zone_id = 1000
+                trigger_key = trigger_by_vnum.get(trigger_vnum)
 
-                trigger_key = (trigger_zone_id, trigger_local_id)
-
-                if trigger_key not in valid_triggers:
+                if trigger_key is None:
                     if verbose:
-                        print(f"  Warning: Trigger {trigger_vnum} ({trigger_zone_id}:{trigger_local_id}) not found, skipping")
+                        print(f"  Warning: Trigger {trigger_vnum} not found, skipping")
                     results["links_skipped"] += 1
                     continue
+
+                trigger_zone_id, trigger_local_id = trigger_key
 
                 if dry_run:
                     results["links_created"] += 1

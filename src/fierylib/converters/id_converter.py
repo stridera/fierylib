@@ -181,25 +181,25 @@ def composite_to_legacy_id(zone_id: int, vnum: int) -> int:
 
     Args:
         zone_id: Zone ID
-        vnum: Virtual number (0-99)
+        vnum: Virtual number (0+)
 
     Returns:
         Legacy flat ID
 
     Raises:
-        IdConversionError: If vnum is out of range
+        IdConversionError: If vnum is negative
 
     Examples:
         >>> composite_to_legacy_id(30, 45)
         3045
         >>> composite_to_legacy_id(0, 0)
         0
-        >>> composite_to_legacy_id(123, 99)
-        12399
+        >>> composite_to_legacy_id(73, 175)
+        7475
     """
-    if vnum < 0 or vnum > 99:
+    if vnum < 0:
         raise IdConversionError(
-            zone_id * 100 + vnum, f"vnum {vnum} must be in range 0-99"
+            zone_id * 100 + vnum, f"vnum {vnum} cannot be negative"
         )
 
     return zone_id * 100 + vnum
@@ -222,9 +222,9 @@ def validate_composite_id(zone_id: int, vnum: int) -> bool:
     if zone_id < 0:
         raise IdConversionError(zone_id * 100 + vnum, "Zone ID cannot be negative")
 
-    if vnum < 0 or vnum > 99:
+    if vnum < 0:
         raise IdConversionError(
-            zone_id * 100 + vnum, f"vnum {vnum} must be in range 0-99"
+            zone_id * 100 + vnum, f"vnum {vnum} cannot be negative"
         )
 
     return True
@@ -258,6 +258,7 @@ class EntityResolver:
             prisma_client: Prisma client instance for database lookups
         """
         self.prisma = prisma_client
+        self._vnum_cache: dict[str, dict[int, CompositeId]] = {}
 
     async def resolve_object(
         self, legacy_vnum: int, context_zone: Optional[int] = None
@@ -329,6 +330,27 @@ class EntityResolver:
         """
         return await self._resolve_entity("triggers", legacy_vnum, context_zone)
 
+    async def _build_vnum_cache(self, table: str) -> dict[int, CompositeId]:
+        """
+        Build a vnum → CompositeId cache for all entities of a given type.
+
+        The cache maps legacy vnums (zone_id * 100 + id) back to their
+        composite IDs, handling extended zones where id >= 100.
+
+        Args:
+            table: Prisma table name ('objects', 'mobs', 'room', 'triggers')
+
+        Returns:
+            Dict mapping legacy vnum → CompositeId
+        """
+        model = getattr(self.prisma, table)
+        entities = await model.find_many()
+        cache: dict[int, CompositeId] = {}
+        for entity in entities:
+            vnum = entity.zoneId * 100 + entity.id
+            cache[vnum] = CompositeId(zone_id=entity.zoneId, id=entity.id)
+        return cache
+
     async def _resolve_entity(
         self, table: str, legacy_vnum: int, context_zone: Optional[int]
     ) -> Optional[CompositeId]:
@@ -336,7 +358,7 @@ class EntityResolver:
         Internal method to resolve any entity type
 
         Args:
-            table: Prisma table name ('objects', 'mobs', 'rooms')
+            table: Prisma table name ('objects', 'mobs', 'room', 'triggers')
             legacy_vnum: Legacy vnum
             context_zone: Zone context
 
@@ -357,6 +379,13 @@ class EntityResolver:
         calc_id = vnum % 100
         if await self._entity_exists(table, calc_zone, calc_id):
             return CompositeId(zone_id=calc_zone, id=calc_id)
+
+        # Strategy 3: Full cache lookup (handles extended zones like zone 30 with vnums 3000-3499)
+        if table not in self._vnum_cache:
+            self._vnum_cache[table] = await self._build_vnum_cache(table)
+        result = self._vnum_cache[table].get(vnum)
+        if result is not None:
+            return result
 
         # Not found
         return None

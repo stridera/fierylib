@@ -107,28 +107,6 @@ class RoomTriggerLinker:
         """
         self.prisma = prisma_client
 
-    async def build_trigger_composite_key_set(self) -> set[tuple[int, int]]:
-        """
-        Build a set of valid trigger composite keys (zoneId, id).
-
-        Returns:
-            Set of (zoneId, id) tuples for existing triggers
-        """
-        triggers = await self.prisma.triggers.find_many()
-        return {(t.zoneId, t.id) for t in triggers}
-
-    async def build_room_composite_key_set(self) -> set[tuple[int, int]]:
-        """
-        Build a set of valid room composite keys (zoneId, id).
-
-        Returns:
-            Set of (zoneId, id) tuples for existing rooms
-        """
-        rooms = await self.prisma.room.find_many(
-            where={},
-        )
-        return {(r.zoneId, r.id) for r in rooms}
-
     async def link_room_triggers(
         self,
         world_dir: Path,
@@ -154,13 +132,20 @@ class RoomTriggerLinker:
             total_attachments = sum(len(v) for v in attachments.values())
             print(f"Total trigger attachments: {total_attachments}")
 
-        # Build sets of valid composite keys
-        valid_triggers = await self.build_trigger_composite_key_set()
-        valid_rooms = await self.build_room_composite_key_set()
+        # Build vnum lookup dicts: legacy vnum → (zoneId, id)
+        triggers = await self.prisma.triggers.find_many()
+        trigger_by_vnum: dict[int, tuple[int, int]] = {}
+        for t in triggers:
+            trigger_by_vnum[t.zoneId * 100 + t.id] = (t.zoneId, t.id)
+
+        rooms = await self.prisma.room.find_many()
+        room_by_vnum: dict[int, tuple[int, int]] = {}
+        for r in rooms:
+            room_by_vnum[r.zoneId * 100 + r.id] = (r.zoneId, r.id)
 
         if verbose:
-            print(f"Valid trigger composite keys: {len(valid_triggers)}")
-            print(f"Valid room composite keys: {len(valid_rooms)}")
+            print(f"Trigger vnum lookup entries: {len(trigger_by_vnum)}")
+            print(f"Room vnum lookup entries: {len(room_by_vnum)}")
 
         results = {
             "success": True,
@@ -178,38 +163,27 @@ class RoomTriggerLinker:
 
         # Process each room's trigger attachments
         for room_vnum, trigger_vnums in attachments.items():
-            # Decompose room vnum to composite key
-            room_zone_id = room_vnum // 100
-            room_local_id = room_vnum % 100
-            # Handle zone 0 → 1000 conversion
-            if room_zone_id == 0:
-                room_zone_id = 1000
+            room_key = room_by_vnum.get(room_vnum)
 
-            room_key = (room_zone_id, room_local_id)
-
-            if room_key not in valid_rooms:
+            if room_key is None:
                 results["errors"].append(
-                    f"Room {room_vnum} ({room_zone_id}:{room_local_id}) not found in database"
+                    f"Room {room_vnum} not found in database"
                 )
                 continue
 
+            room_zone_id, room_local_id = room_key
             results["rooms_processed"] += 1
 
             for trigger_vnum in trigger_vnums:
-                # Decompose trigger vnum into composite key (zoneId, id)
-                trigger_zone_id = trigger_vnum // 100
-                trigger_local_id = trigger_vnum % 100
-                # Handle zone 0 → 1000 conversion
-                if trigger_zone_id == 0:
-                    trigger_zone_id = 1000
+                trigger_key = trigger_by_vnum.get(trigger_vnum)
 
-                trigger_key = (trigger_zone_id, trigger_local_id)
-
-                if trigger_key not in valid_triggers:
+                if trigger_key is None:
                     if verbose:
-                        print(f"  Warning: Trigger {trigger_vnum} ({trigger_zone_id}:{trigger_local_id}) not found, skipping")
+                        print(f"  Warning: Trigger {trigger_vnum} not found, skipping")
                     results["links_skipped"] += 1
                     continue
+
+                trigger_zone_id, trigger_local_id = trigger_key
 
                 if dry_run:
                     results["links_created"] += 1
