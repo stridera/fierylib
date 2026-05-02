@@ -12,6 +12,7 @@ from .level_seeder import LevelSeeder
 from .text_seeder import TextSeeder
 from .command_seeder import CommandSeeder
 from .liquid_seeder import seed_liquids
+from .achievement_seeder import AchievementSeeder, seed_achievements_async
 
 __all__ = [
     "UserSeeder",
@@ -27,4 +28,6 @@ __all__ = [
     "TextSeeder",
     "CommandSeeder",
     "seed_liquids",
+    "AchievementSeeder",
+    "seed_achievements_async",
 ]

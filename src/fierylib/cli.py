@@ -2163,6 +2163,24 @@ def seed_liquids(dry_run: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="achievements")
+def seed_achievements():
+    """Seed the achievement catalog.
+
+    Combat / progression entries are hardcoded; one zone-clear
+    achievement is generated per zone with rooms.
+    """
+    import asyncio
+    from fierylib.seeders.achievement_seeder import seed_achievements_async
+
+    click.echo("🏆 Seeding Achievements")
+    click.echo("=" * 60)
+    stats = asyncio.run(seed_achievements_async())
+    click.echo(f"  Created:  {stats['created']}")
+    click.echo(f"  Updated:  {stats['updated']}")
+    click.echo("✅ Done")
+
+
 @seed.command(name="abilities")
 def seed_abilities_deprecated():
     """[DEPRECATED] Use 'seed magic-system' or 'import-legacy' instead.
