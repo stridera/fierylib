@@ -78,6 +78,46 @@ STATIC_ACHIEVEMENTS = [
         False,
         1000,
     ),
+    (
+        "kills_100",
+        "Centurion",
+        "Defeat 100 monsters.",
+        "COMBAT",
+        False,
+        1100,
+    ),
+    (
+        "kills_500",
+        "Slayer",
+        "Defeat 500 monsters.",
+        "COMBAT",
+        False,
+        1500,
+    ),
+    (
+        "kills_1000",
+        "Annihilator",
+        "Defeat 1,000 monsters.",
+        "COMBAT",
+        False,
+        2000,
+    ),
+    (
+        "kills_5000",
+        "Death Incarnate",
+        "Defeat 5,000 monsters.",
+        "COMBAT",
+        False,
+        2500,
+    ),
+    (
+        "kills_10000",
+        "Legend of Slaughter",
+        "Defeat 10,000 monsters.",
+        "COMBAT",
+        False,
+        3000,
+    ),
 ]
 
 
