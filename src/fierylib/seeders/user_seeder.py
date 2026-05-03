@@ -49,7 +49,8 @@ class UserSeeder:
         name: str,
         level: int,
         race: Race = Race.HUMAN,
-        password: str = "test123"
+        password: str = "test123",
+        class_plain_name: str = "Warrior",
     ) -> dict:
         """
         Create a test character for a user
@@ -60,10 +61,27 @@ class UserSeeder:
             level: Character level
             race: Character race (default HUMAN)
             password: Character password (for legacy claiming)
+            class_plain_name: CharacterClass.plain_name to assign;
+                resolved to classId at write time. The runtime treats
+                a NULL classId as "Classless"; pass a real class so
+                test characters surface that way in `score`. A missing
+                row prints a loud WARNING and falls through to NULL.
 
         Returns:
             Created character data
         """
+        # Resolve class id from plain_name.
+        class_row = await self.prisma.characterclass.find_unique(
+            where={"plainName": class_plain_name}
+        )
+        if class_row is None:
+            click.echo(
+                f"    WARNING: no CharacterClass row with plain_name='{class_plain_name}' — {name} will be classless"
+            )
+            class_id = None
+        else:
+            class_id = class_row.id
+
         # Hash password for character
         password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(rounds=12))
 
@@ -72,55 +90,59 @@ class UserSeeder:
 
         if existing:
             # Update existing character
+            update_data = {
+                "level": level,
+                "race": race,
+                "passwordHash": password_hash.decode("utf-8"),
+                "userId": user_id,
+                # Set stats based on level (higher level = better stats)
+                "strength": min(18, 10 + (level // 10)),
+                "intelligence": min(18, 10 + (level // 10)),
+                "wisdom": min(18, 10 + (level // 10)),
+                "dexterity": min(18, 10 + (level // 10)),
+                "constitution": min(18, 10 + (level // 10)),
+                "charisma": min(18, 10 + (level // 10)),
+                # HP/Stamina based on level
+                "hitPoints": level * 10,
+                "hitPointsMax": level * 10,
+                "stamina": 100 + (level * 2),
+                "staminaMax": 100 + (level * 2),
+            }
+            if class_id is not None:
+                update_data["classId"] = class_id
             character = await self.prisma.characters.update(
                 where={"name": name},
-                data={
-                    "level": level,
-                    "race": race,
-                    "passwordHash": password_hash.decode("utf-8"),
-                    "userId": user_id,
-                    # Set stats based on level (higher level = better stats)
-                    "strength": min(18, 10 + (level // 10)),
-                    "intelligence": min(18, 10 + (level // 10)),
-                    "wisdom": min(18, 10 + (level // 10)),
-                    "dexterity": min(18, 10 + (level // 10)),
-                    "constitution": min(18, 10 + (level // 10)),
-                    "charisma": min(18, 10 + (level // 10)),
-                    # HP/Stamina based on level
-                    "hitPoints": level * 10,
-                    "hitPointsMax": level * 10,
-                    "stamina": 100 + (level * 2),
-                    "staminaMax": 100 + (level * 2),
-                }
+                data=update_data,
             )
             click.echo(f"    Updated character: {name} (Level {level})")
         else:
             # Create new character
             character_id = str(uuid.uuid4())
-            character = await self.prisma.characters.create(
-                data={
-                    "id": character_id,
-                    "name": name,
-                    "level": level,
-                    "race": race,
-                    "gender": "male",
-                    "passwordHash": password_hash.decode("utf-8"),
-                    "userId": user_id,
-                    "birthTime": datetime.now(),
-                    # Set stats based on level (higher level = better stats)
-                    "strength": min(18, 10 + (level // 10)),
-                    "intelligence": min(18, 10 + (level // 10)),
-                    "wisdom": min(18, 10 + (level // 10)),
-                    "dexterity": min(18, 10 + (level // 10)),
-                    "constitution": min(18, 10 + (level // 10)),
-                    "charisma": min(18, 10 + (level // 10)),
-                    # HP/Stamina based on level
-                    "hitPoints": level * 10,
-                    "hitPointsMax": level * 10,
-                    "stamina": 100 + (level * 2),
-                    "staminaMax": 100 + (level * 2),
-                }
-            )
+            create_data = {
+                "id": character_id,
+                "name": name,
+                "level": level,
+                "race": race,
+                "gender": "male",
+                "passwordHash": password_hash.decode("utf-8"),
+                "userId": user_id,
+                "birthTime": datetime.now(),
+                # Set stats based on level (higher level = better stats)
+                "strength": min(18, 10 + (level // 10)),
+                "intelligence": min(18, 10 + (level // 10)),
+                "wisdom": min(18, 10 + (level // 10)),
+                "dexterity": min(18, 10 + (level // 10)),
+                "constitution": min(18, 10 + (level // 10)),
+                "charisma": min(18, 10 + (level // 10)),
+                # HP/Stamina based on level
+                "hitPoints": level * 10,
+                "hitPointsMax": level * 10,
+                "stamina": 100 + (level * 2),
+                "staminaMax": 100 + (level * 2),
+            }
+            if class_id is not None:
+                create_data["classId"] = class_id
+            character = await self.prisma.characters.create(data=create_data)
             click.echo(f"    Created character: {name} (Level {level})")
 
         return character
@@ -168,7 +190,7 @@ class UserSeeder:
 
             # Create GOD-level character (level 105 - max level)
             if with_characters:
-                await self.create_character(admin.id, "AdminChar", 105, Race.HUMAN, "admin123")
+                await self.create_character(admin.id, "AdminChar", 105, Race.HUMAN, "admin123", class_plain_name="Warrior")
                 characters_created += 1
 
                 # Update user role based on max character level
@@ -202,7 +224,7 @@ class UserSeeder:
 
             # Create BUILDER-level character (level 102)
             if with_characters:
-                await self.create_character(builder.id, "BuilderChar", 102, Race.ELF, "builder123")
+                await self.create_character(builder.id, "BuilderChar", 102, Race.ELF, "builder123", class_plain_name="Mage")
                 characters_created += 1
 
                 # Update user role based on max character level
@@ -236,9 +258,9 @@ class UserSeeder:
 
             # Create multiple PLAYER-level characters
             if with_characters:
-                await self.create_character(player.id, "TestWarrior", 25, Race.HUMAN, "player123")
-                await self.create_character(player.id, "TestMage", 15, Race.ELF, "player123")
-                await self.create_character(player.id, "TestRogue", 10, Race.HALFLING, "player123")
+                await self.create_character(player.id, "TestWarrior", 25, Race.HUMAN, "player123", class_plain_name="Warrior")
+                await self.create_character(player.id, "TestMage", 15, Race.ELF, "player123", class_plain_name="Mage")
+                await self.create_character(player.id, "TestRogue", 10, Race.HALFLING, "player123", class_plain_name="Rogue")
                 characters_created += 3
 
                 # Update user role based on max character level (25 = still PLAYER)
