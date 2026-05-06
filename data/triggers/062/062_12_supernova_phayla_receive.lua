@@ -10,12 +10,12 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if object.id == 51073 or object.id == 48917 then
-    if actor.quest_variable[supernova:object.vnum] == 1 then
+    if actor:get_quest_var("supernova:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("You've already given me this.")
     else
-        actor.name:set_quest_var("supernova", "%object.vnum%", 1)
+        actor:set_quest_var("supernova", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
         wait(2)
         self:command("nod")
         world.destroy(object)
@@ -43,7 +43,7 @@ if object.id == 51073 or object.id == 48917 then
             self.room:send_except(actor, tostring(actor.name) .. " radiates with inner arcane fire!")
             actor:send("<b:red>You have mastered Supernova!</>")
             skills.set_level(actor.name, "supernova", 100)
-            actor.name:complete_quest("supernova")
+            actor:complete_quest("supernova")
         else
             self:say("And the other?")
         end

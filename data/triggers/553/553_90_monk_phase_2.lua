@@ -21,91 +21,91 @@ if actor.class == "class" and actor.level >= 21 and actor:get_quest_stage("phase
     -- 
     -- pertinient object definitions for this class
     -- destroyed armor
-    local vnum_destroyed_gloves = 55330
-    local vnum_destroyed_boots = 55334
-    local vnum_destroyed_bracer = 55338
-    local vnum_destroyed_helm = 55342
-    local vnum_destroyed_arm = 55346
-    local vnum_destroyed_legs = 55350
-    local vnum_destroyed_chest = 55354
+    local id_destroyed_gloves = 55330
+    local id_destroyed_boots = 55334
+    local id_destroyed_bracer = 55338
+    local id_destroyed_helm = 55342
+    local id_destroyed_arm = 55346
+    local id_destroyed_legs = 55350
+    local id_destroyed_chest = 55354
     -- gems for this class
-    local vnum_gem_gloves = 55597
-    local vnum_gem_boots = 55608
-    local vnum_gem_bracer = 55619
-    local vnum_gem_helm = 55630
-    local vnum_gem_arm = 55641
-    local vnum_gem_legs = 55652
-    local vnum_gem_chest = 55663
+    local id_gem_gloves = 55597
+    local id_gem_boots = 55608
+    local id_gem_bracer = 55619
+    local id_gem_helm = 55630
+    local id_gem_arm = 55641
+    local id_gem_legs = 55652
+    local id_gem_chest = 55663
     -- rewards for this class
-    local vnum_reward_helm = 61
-    local vnum_reward_arms = 62
-    local vnum_reward_chest = 63
-    local vnum_reward_legs = 64
-    local vnum_reward_boots = 65
-    local vnum_reward_bracer = 66
-    local vnum_reward_gloves = 67
+    local id_reward_helm = 61
+    local id_reward_arms = 62
+    local id_reward_chest = 63
+    local id_reward_legs = 64
+    local id_reward_boots = 65
+    local id_reward_bracer = 66
+    local id_reward_gloves = 67
     -- 
     -- attempt to reinitialize slutty dg variables to "" (nothing)
     -- so this switch will work.
     -- 
-    vnum_armor = nil
-    vnum_gem = nil
-    vnum_reward = nil
+    team_a_idrmor = nil
+    id_gem = nil
+    id_reward = nil
     -- 
     -- 
     -- These cases set varialbes for the
     -- quest.
     -- 
     -- switch on object.id
-    if object.id == "%vnum_destroyed_helm%" then
+    if object.id == "%id_destroyed_helm%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_helm%" then
+    elseif object.id == "%id_gem_helm%" then
         local exp_multiplier = 7
-        local vnum_armor = vnum_destroyed_helm
-        local vnum_gem = vnum_gem_helm
-        local vnum_reward = vnum_reward_helm
-    elseif object.id == "%vnum_destroyed_arm%" then
+        local team_a_idrmor = id_destroyed_helm
+        local id_gem = id_gem_helm
+        local id_reward = id_reward_helm
+    elseif object.id == "%id_destroyed_arm%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_arm%" then
+    elseif object.id == "%id_gem_arm%" then
         local exp_multiplier = 8
-        local vnum_armor = vnum_destroyed_arm
-        local vnum_gem = vnum_gem_arm
-        local vnum_reward = vnum_reward_arms
-    elseif object.id == "%vnum_destroyed_chest%" then
+        local team_a_idrmor = id_destroyed_arm
+        local id_gem = id_gem_arm
+        local id_reward = id_reward_arms
+    elseif object.id == "%id_destroyed_chest%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_chest%" then
+    elseif object.id == "%id_gem_chest%" then
         local exp_multiplier = 10
-        local vnum_armor = vnum_destroyed_chest
-        local vnum_gem = vnum_gem_chest
-        local vnum_reward = vnum_reward_chest
-    elseif object.id == "%vnum_destroyed_legs%" then
+        local team_a_idrmor = id_destroyed_chest
+        local id_gem = id_gem_chest
+        local id_reward = id_reward_chest
+    elseif object.id == "%id_destroyed_legs%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_legs%" then
+    elseif object.id == "%id_gem_legs%" then
         local exp_multiplier = 9
-        local vnum_armor = vnum_destroyed_legs
-        local vnum_gem = vnum_gem_legs
-        local vnum_reward = vnum_reward_legs
-    elseif object.id == "%vnum_destroyed_boots%" then
+        local team_a_idrmor = id_destroyed_legs
+        local id_gem = id_gem_legs
+        local id_reward = id_reward_legs
+    elseif object.id == "%id_destroyed_boots%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_boots%" then
+    elseif object.id == "%id_gem_boots%" then
         local exp_multiplier = 5
-        local vnum_armor = vnum_destroyed_boots
-        local vnum_gem = vnum_gem_boots
-        local vnum_reward = vnum_reward_boots
-    elseif object.id == "%vnum_destroyed_bracer%" then
+        local team_a_idrmor = id_destroyed_boots
+        local id_gem = id_gem_boots
+        local id_reward = id_reward_boots
+    elseif object.id == "%id_destroyed_bracer%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_bracer%" then
+    elseif object.id == "%id_gem_bracer%" then
         local exp_multiplier = 6
-        local vnum_armor = vnum_destroyed_bracer
-        local vnum_gem = vnum_gem_bracer
-        local vnum_reward = vnum_reward_bracer
-    elseif object.id == "%vnum_destroyed_gloves%" then
+        local team_a_idrmor = id_destroyed_bracer
+        local id_gem = id_gem_bracer
+        local id_reward = id_reward_bracer
+    elseif object.id == "%id_destroyed_gloves%" then
         local is_armor = 1
-    elseif object.id == "%vnum_gem_gloves%" then
+    elseif object.id == "%id_gem_gloves%" then
         local exp_multiplier = 4
-        local vnum_armor = vnum_destroyed_gloves
-        local vnum_gem = vnum_gem_gloves
-        local vnum_reward = vnum_reward_gloves
+        local team_a_idrmor = id_destroyed_gloves
+        local id_gem = id_gem_gloves
+        local id_reward = id_reward_gloves
     else
         _return_value = true
         wait(1)
@@ -119,18 +119,18 @@ if actor.class == "class" and actor.level >= 21 and actor:get_quest_stage("phase
     -- 
     if not is_armor then
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable[phase_armor:vnum_gem_gems_acquired] then
+        if actor.quest_variable[phase_armor:id_gem_gems_acquired] then
         else
-            actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", 0)
+            actor.name:set_quest_var("phase_armor", "%id_gem%_gems_acquired", 0)
         end
-        local gems = actor.quest_variable[phase_armor:vnum_gem_gems_acquired]
-        actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", gems)
+        local gems = actor.quest_variable[phase_armor:id_gem_gems_acquired]
+        actor.name:set_quest_var("phase_armor", "%id_gem%_gems_acquired", gems)
         if gems < 3 then
-            local gems = actor.quest_variable[phase_armor:vnum_gem_gems_acquired] + 1
-            actor.name:set_quest_var("phase_armor", "%vnum_gem%_gems_acquired", gems)
+            local gems = actor.quest_variable[phase_armor:id_gem_gems_acquired] + 1
+            actor.name:set_quest_var("phase_armor", "%id_gem%_gems_acquired", gems)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
-            actor:send(tostring(self.name) .. " tells you, \"realm.  You have now given me " .. tostring(gems) .. " " .. "%get.obj_shortdesc[%vnum_gem%]%.\"")
+            actor:send(tostring(self.name) .. " tells you, \"realm.  You have now given me " .. tostring(gems) .. " " .. "%get.obj_shortdesc[%id_gem%]%.\"")
             world.destroy(object.name)
             actor:save()
         else
@@ -150,12 +150,12 @@ if actor.class == "class" and actor.level >= 21 and actor:get_quest_stage("phase
         -- 
         -- check to see if the quest is complete and the reward can be given..
         -- 
-        if gems == 3 and actor.quest_variable[phase_armor:vnum_armor_armor_acquired] == 1 then
+        if gems == 3 and actor.quest_variable[phase_armor:team_a_idrmor_armor_acquired] == 1 then
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
-            actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
+            actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%id_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(554, vnum_reward)
+            self.room:spawn_object(554, id_reward)
             wait(1)
             -- 
             -- loop for exp award.
@@ -180,18 +180,18 @@ if actor.class == "class" and actor.level >= 21 and actor:get_quest_stage("phase
         -- here is where the armor section goes
         -- that is true for is_armor == 1
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable[phase_armor:vnum_armor_armor_acquired] then
+        if actor.quest_variable[phase_armor:team_a_idrmor_armor_acquired] then
         else
-            actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", 0)
+            actor.name:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", 0)
         end
-        local armor = actor.quest_variable[phase_armor:vnum_armor_armor_acquired]
-        actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", armor)
+        local armor = actor.quest_variable[phase_armor:team_a_idrmor_armor_acquired]
+        actor.name:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", armor)
         if armor < 1 then
-            local armor = actor.quest_variable[phase_armor:vnum_armor_armor_acquired] + 1
-            actor.name:set_quest_var("phase_armor", "%vnum_armor%_armor_acquired", armor)
+            local armor = actor.quest_variable[phase_armor:team_a_idrmor_armor_acquired] + 1
+            actor.name:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", armor)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")
-            actor:send(tostring(self.name) .. " tells you, \"for quite some time.  You have now given me " .. "%get.obj_shortdesc[%vnum_armor%]%.\"")
+            actor:send(tostring(self.name) .. " tells you, \"for quite some time.  You have now given me " .. "%get.obj_shortdesc[%team_a_idrmor%]%.\"")
             world.destroy(object.name)
             actor:save()
         else
@@ -199,7 +199,7 @@ if actor.class == "class" and actor.level >= 21 and actor:get_quest_stage("phase
             wait(2)
             self:command("eye " .. tostring(actor.name))
             wait(1)
-            actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me " .. "%get.obj_shortdesc[%vnum_armor%]% already!\"")
+            actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me " .. "%get.obj_shortdesc[%team_a_idrmor%]% already!\"")
             actor:send(tostring(self.name) .. " returns your item to you.")
             -- 
             -- Halt here so that the reward section isn't checked if the max
@@ -211,12 +211,12 @@ if actor.class == "class" and actor.level >= 21 and actor:get_quest_stage("phase
         -- 
         -- check to see if the quest is complete and the reward can be given..
         -- 
-        if armor == 1 and actor.quest_variable[phase_armor:vnum_gem_gems_acquired] == 3 then
+        if armor == 1 and actor.quest_variable[phase_armor:id_gem_gems_acquired] == 3 then
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
-            actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%vnum_reward%]%!\"")
+            actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%id_reward%]%!\"")
             wait(1)
-            self.room:spawn_object(554, vnum_reward)
+            self.room:spawn_object(554, id_reward)
             wait(1)
             -- 
             -- loop for exp award.

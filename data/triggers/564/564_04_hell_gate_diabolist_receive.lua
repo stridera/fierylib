@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("hell_gate")
 if stage == 1 then
     if object.id == 3213 then
-        actor.name:advance_quest("hell_gate")
+        actor:advance_quest("hell_gate")
         wait(1)
         self:say("Yes, this seems to match the description.")
         self.room:send(tostring(self.name) .. " lifts " .. tostring(object.shortdesc) .. " in offering.")
@@ -61,12 +61,12 @@ if stage == 1 then
     end
 elseif stage == 2 then
     if object.id == 8303 or object.id == 23709 or object.id == 49008 or object.id == 52012 or object.id == 52013 or object.id == 53402 or object.id == 58109 then
-        if actor.quest_variable[hell_gate:object.vnum] then
+        if actor:get_quest_var("hell_gate:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
             _return_value = true
             self:say("You already brought that key.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
-            actor.name:set_quest_var("hell_gate", "%object.vnum%", 1)
+            actor:set_quest_var("hell_gate", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(1)
             self:destroy_item("key")
         end
@@ -95,7 +95,7 @@ elseif stage == 2 then
             wait(1)
             self.room:send("<red>'Now go, seek out seven different kinds of children, sacrifice them, and <blue>drop</>")
             self.room:send("</><red>their blood here.'</>")
-            actor.name:advance_quest("hell_gate")
+            actor:advance_quest("hell_gate")
         else
             local keys = key1 + key2 + key3 + key4 + key5 + key6 + key7
             if keys < 6 then
@@ -133,7 +133,7 @@ elseif stage == 4 then
     if object.id == 56407 then
         wait(1)
         self:destroy_item("dagger")
-        actor.name:advance_quest("hell_gate")
+        actor:advance_quest("hell_gate")
         wait(2)
         self.room:send(tostring(self.name) .. " swirls the dagger through the pool of blood while reciting an incantation.")
         self.room:send(tostring(self.name) .. " smears each key with the crimson mixture.")

@@ -14,7 +14,11 @@ if not percent_chance(50) then
 end
 -- This needs to change him back to merchant if out of a fight for some time
 local here = self.room
-local look = get.people[here.vnum]
+-- DG `%get.people[X]%` returned the headcount in room X. The
+-- runtime exposes `room.actor_count` (every located actor —
+-- mobs + players) so an idle merchant in a 1-actor room
+-- (himself only) resumes normal posture.
+local look = here.actor_count
 if look == 1 then
     self:emote("calms down, and reverts to his normal self.")
     self.room:spawn_mobile(625, 6)

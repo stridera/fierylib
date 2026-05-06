@@ -47,7 +47,7 @@ if arg == "glass" or arg == "case" then
     end
     wait(1)
     self.room:send("A pristine iridescent sword falls out of the broken case, landing on the ground.")
-    vnum = nil
+    obj = nil
     -- destroy case and load it in rm 59091 to prevent it from loading here again, as it is a reset item
     self.room:spawn_object(590, 24)
     world.destroy(self.room:find_object("dusty-glass-case"))

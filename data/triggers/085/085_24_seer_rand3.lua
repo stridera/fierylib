@@ -12,5 +12,10 @@
 if not percent_chance(40) then
     return true
 end
-self:command("smirk " .. tostring(actor.name))
-self:say("Perhaps you are not worthy.")
+-- RANDOM triggers have no actor; pick a random player from the room
+local actors = self.room.actors
+if #actors > 0 then
+    local target = actors[random(1, #actors)]
+    self:command("smirk " .. tostring(target.name))
+    self:say("Perhaps you are not worthy.")
+end

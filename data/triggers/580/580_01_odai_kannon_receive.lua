@@ -51,7 +51,7 @@ if actor.is_player then
             elseif will_drop >=61 &will_drop <= 80 then
                 -- Normal non-bonus drops
                 if bonus <= 50 then
-                    -- drop destroyed armor 55299 is the vnum before the
+                    -- drop destroyed armor 55299 is the ID before the
                     -- first piece of armor.
                     self.room:spawn_object(553, 43 + what_armor_drop)
                 elseif bonus >= 51 &bonus <= 90 then

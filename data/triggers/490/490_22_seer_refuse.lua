@@ -11,7 +11,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wandvnum%" then
+if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wand_id%" then
     return _return_value
     if actor:get_quest_stage("wizard_eye") == 4 then
     elseif object.id == 2329 or object.id == 23753 or object.id == 48005 then

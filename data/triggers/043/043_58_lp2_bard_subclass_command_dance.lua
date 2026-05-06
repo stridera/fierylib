@@ -29,7 +29,7 @@ if actor:get_quest_stage("bard_subclass") == 2 then
         actor:send(tostring(self.name) .. " says, 'Woah woah woah " .. tostring(actor.name) .. "!")
         wait(2)
         if shoes then
-            actor:send(tostring(self.name) .. " says, 'How in the world do you expect to dance in " .. "%get.obj_shortdesc[%shoes.vnum%]%??'")
+            actor:send(tostring(self.name) .. " says, 'How in the world do you expect to dance in " .. ("%get.obj_shortdesc[" .. tostring(shoes.zone_id) .. "_" .. tostring(shoes.local_id) .. "]%??'"))
         else
             actor:send(tostring(self.name) .. " says, 'How in the world do you expect to dance barefoot??'")
         end

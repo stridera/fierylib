@@ -15,7 +15,7 @@ if not percent_chance(0) then
 end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%wandgem%" or object.id == "%wandvnum%" or object.id == "%macevnum%" then
+if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%mace_id%" then
     return _return_value
 else
     local response = "What is this for?"

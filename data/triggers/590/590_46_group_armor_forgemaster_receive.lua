@@ -14,12 +14,12 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("group_armor")
 -- switch on stage
 if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id == 16906 then
-    if actor.quest_variable[group_armor:object.vnum] == 1 then
+    if actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
         if stage == 1 then
             _return_value = true
             self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
         else
-            actor.name:set_quest_var("group_armor", "%object.vnum%", 1)
+            actor:set_quest_var("group_armor", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(2)
             world.destroy(object.name)
             wait(2)
@@ -29,7 +29,7 @@ if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id ==
             local item3 = actor:get_quest_var("group_armor:11707")
             local item4 = actor:get_quest_var("group_armor:16906")
             if item1 and item2 and item3 and item4 then
-                actor.name:advance_quest("group_armor")
+                actor:advance_quest("group_armor")
                 wait(2)
                 self:say("That looks like everything!")
                 self:emote("places the four objects near the altar.")
@@ -75,7 +75,7 @@ if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id ==
         wait(4)
         self.room:send(tostring(self.name) .. " says, 'Places where ore and stone are mined often become")
         self.room:send("</>sacred places for us dwarves.'")
-        actor.name:advance_quest("group_armor")
+        actor:advance_quest("group_armor")
     else
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -95,7 +95,7 @@ elseif stage == 3 then
     end
     if object.id == 59039 then
     elseif stage == 4 then
-        actor.name:advance_quest("group_armor")
+        actor:advance_quest("group_armor")
         wait(2)
         world.destroy(object.name)
         wait(2)
@@ -137,20 +137,20 @@ elseif stage == 3 then
         self.room:send("</>often worn by the dead as they can interact with them.'")
         wait(2)
         self:say("Good luck and Moradin guard you!")
-        actor.name:advance_quest("group_armor")
+        actor:advance_quest("group_armor")
     else
         _return_value = true
         self:say("This won't be a very effective focus.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
     if object.id == 47004 or object.id == 47018 or object.id == 53003 then
-        if actor.quest_variable[group_armor:object.vnum] == 1 then
+        if actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
         elseif stage == 6 then
             _return_value = true
             self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
         else
             wait(2)
-            actor.name:set_quest_var("group_armor", "%object.vnum%", 1)
+            actor:set_quest_var("group_armor", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             self.room:send(tostring(self.name) .. " places " .. tostring(object.shortdesc) .. " near the altar.")
             world.destroy(object.name)
             wait(1)
@@ -220,7 +220,7 @@ elseif stage == 3 then
                 self:say("Aye, our work is finished.  Thank you acolyte.")
                 self:emote("bows and says, 'May the Dwarffather shield you ever more!'")
                 wait(2)
-                actor.name:complete_quest("group_armor")
+                actor:complete_quest("group_armor")
                 actor:send("You feel a stirring in your soul!")
                 actor:send("<b:white>Moradin blesses you with the knowledge of Group Armor!</>")
                 skills.set_level(actor.name, "group armor", 100)

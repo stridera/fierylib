@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-local item = actor:get_quest_var("armor_exchange:armor_vnum")
+local item = actor:get_quest_var("armor_exchange:armor_id")
 if string.find(speech, "yes") then
     if item == 0 then
         actor:send(tostring(self.name) .. " says, 'I don't think you asked me for anything, no sir.'")
@@ -92,6 +92,6 @@ if string.find(speech, "yes") then
     actor:send(tostring(self.name) .. " says, 'Consult the chart for degrees of rarity.'")
     actor:send(tostring(self.name) .. " points to the sign.")
 else
-    actor:set_quest_var("gem_exchange", "gem_vnum", 0)
+    actor:set_quest_var("gem_exchange", "gem_id", 0)
     actor:send(tostring(self.name) .. " says, 'Alright, what DO you want then?'")
 end

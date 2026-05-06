@@ -29,7 +29,7 @@ elseif self.id == 12306 then
     local need = actor:get_quest_var("megalith_quest:goblet")
 end
 -- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wandvnum%" then
+if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wand_id%" then
     return _return_value
 else
     if actor:get_quest_stage("megalith_quest") < 2 then

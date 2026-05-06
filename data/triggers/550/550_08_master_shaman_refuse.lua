@@ -17,7 +17,7 @@ end
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("wizard_eye")
 -- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wandvnum%" or object.id == "%wandtask3%" then
+if object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%wandtask3%" then
     return _return_value
     if stage == 2 then
     elseif object.id == 58609 then

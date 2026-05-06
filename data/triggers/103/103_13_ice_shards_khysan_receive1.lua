@@ -11,13 +11,13 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("ice_shards")
 if stage == 1 then
-    if actor.quest_variable[ice_shards:object.vnum] == 1 then
+    if actor:get_quest_var("ice_shards:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         self:say("Thanks, but you already delivered " .. tostring(object.shortdesc) .. " to me.")
     else
-        actor.name:set_quest_var("ice_shards", "%object.vnum%", 1)
+        actor:set_quest_var("ice_shards", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
         self:destroy_item("book")
         wait(2)
         self.room:send(tostring(self.name) .. "'s eyes grow wide.")
@@ -29,7 +29,7 @@ if stage == 1 then
         local book3 = actor:get_quest_var("ice_shards:55003")
         local book4 = actor:get_quest_var("ice_shards:58415")
         if book1 and book2 and book3 and book4 then
-            actor.name:advance_quest("ice_shards")
+            actor:advance_quest("ice_shards")
             self:emote("slowly reads through the contents of each book.")
             wait(4)
             self:emote("takes copious notes.")

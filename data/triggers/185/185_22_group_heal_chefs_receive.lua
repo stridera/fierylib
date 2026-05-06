@@ -13,7 +13,7 @@
 local _return_value = true  -- Default: allow action
 _return_value = true
 if object.id == 18514 and actor:get_quest_stage("group_heal") == 5 then
-    if actor.quest_variable[group_heal:self.vnum] then
+    if actor:get_quest_var("group_heal:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
         if self.id == 50203 then
             actor:send(tostring(self.name) .. " moans and swats your hand away.")
             self.room:send_except(actor, tostring(self.name) .. " moans and swats " .. tostring(actor.name) .. "'s hand away.")
@@ -25,7 +25,7 @@ if object.id == 18514 and actor:get_quest_stage("group_heal") == 5 then
             self:say("I've told you everything I can.  Good luck!")
         end
     else
-        actor.name:set_quest_var("group_heal", "%self.vnum%", 1)
+        actor:set_quest_var("group_heal", (tostring(self.zone_id) .. "_" .. tostring(self.local_id)), 1)
         -- switch on self.id
         if self.id == 8307 then
             -- the Frakati Chef

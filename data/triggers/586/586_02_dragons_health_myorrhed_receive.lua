@@ -20,7 +20,7 @@ if stage == 1 then
         wait(1)
         self:command("nod")
         actor:send(tostring(self.name) .. " says, 'I had little doubt you would succeed.'")
-        actor.name:advance_quest("dragons_health")
+        actor:advance_quest("dragons_health")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Your next target is considerably more powerful so be prepared.'")
         wait(2)
@@ -42,7 +42,7 @@ if stage == 1 then
     end
 elseif stage == 2 then
     if object.id == 53325 then
-        actor.name:advance_quest("dragons_health")
+        actor:advance_quest("dragons_health")
         wait(2)
         self:emote("runs her eyes over " .. tostring(object.shortdesc) .. ".")
         world.destroy(object)
@@ -74,7 +74,7 @@ elseif stage == 2 then
 elseif stage == 3 then
     if object.id == 48024 then
         if actor:get_quest_var("dragons_health:thelriki") and actor:get_quest_var("dragons_health:jerajai") then
-            actor.name:advance_quest("dragons_health")
+            actor:advance_quest("dragons_health")
             wait(2)
             self:emote("looks suspiciously at " .. tostring(object.shortdesc) .. ".")
             world.destroy(object)
@@ -120,13 +120,13 @@ elseif stage == 4 then
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'You must slay Sagece first!'")
         else
-            if actor.quest_variable[dragons_health:object.vnum] then
+            if actor:get_quest_var("dragons_health:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
                 _return_value = true
                 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 actor:send(tostring(self.name) .. " says, 'You have already given this to me.'")
                 return _return_value
             else
-                actor.name:set_quest_var("dragons_health", "%object.vnum%", 1)
+                actor:set_quest_var("dragons_health", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
                 wait(2)
                 local emote = random(1, 4)
                 -- switch on emote
@@ -148,7 +148,7 @@ elseif stage == 4 then
         local item4 = actor:get_quest_var("dragons_health:52023")
         wait(1)
         if item1 and item2 and item3 and item4 then
-            actor.name:advance_quest("dragons_health")
+            actor:advance_quest("dragons_health")
             actor:send(tostring(self.name) .. " says, 'I can't believe she's finally gone.'")
             wait(2)
             self:emote("places the remnants of the other dragons' hoards around the egg.'")
@@ -204,10 +204,10 @@ elseif stage == 5 then
     end
     local hoard = actor:get_quest_var("dragons_health:hoard")
     local wealth = (hoard + price)
-    actor.name:set_quest_var("dragons_health", "hoard", wealth)
+    actor:set_quest_var("dragons_health", "hoard", wealth)
     local value = actor:get_quest_var("dragons_health:hoard")
     if value >= 10000000 then
-        actor.name:advance_quest("dragons_health")
+        actor:advance_quest("dragons_health")
         run_room_trigger(586, 4)
     else
         local total = (10000000 - value)

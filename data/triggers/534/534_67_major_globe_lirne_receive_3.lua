@@ -12,24 +12,24 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 8 then
     wait(1)
-    local ward = actor.quest_variable[major_globe_spell:ward_object.vnum]
+    local ward = actor:get_quest_var("major_globe_spell:" .. tostring(ward_object.zone_id) .. "_" .. tostring(ward_object.local_id))
     local number = object.id
     self:destroy_item("majorglobe-ward")
     if ward == 0 then
         self:command("frown")
         actor:send(tostring(self.name) .. " says, 'How could you have gotten this?  Do the quest yourself!'")
     elseif ward == 1 then
-        local ward = actor.quest_variable[major_globe_spell:ward_number] + 1
-        actor.name:set_quest_var("major_globe_spell", "ward_%number%", ward)
+        local ward = actor:get_quest_var("major_globe_spell:ward_number") + 1
+        actor:set_quest_var("major_globe_spell", "ward_%number%", ward)
         ward = nil
         local wards = actor:get_quest_var("major_globe_spell:ward_count") + 1
-        actor.name:set_quest_var("major_globe_spell", "ward_count", wards)
+        actor:set_quest_var("major_globe_spell", "ward_count", wards)
         local wards_left = 5 - wards
         self:command("smile")
         if wards_left then
             actor:send(tostring(self.name) .. " says, 'Excellent, only " .. tostring(wards_left) .. " more, and we'll be almost ready.'")
         else
-            actor.name:advance_quest("major_globe_spell")
+            actor:advance_quest("major_globe_spell")
             actor:send(tostring(self.name) .. " says, 'Okay!  That's enough elemental wards to power the spell.  We only need one more item to channel the power...'")
             self:command("think")
             self:emote("quickly studies the spellbook again.")
@@ -48,7 +48,7 @@ if stage == 8 then
                 local item = 53461
                 local place = "in an underground city"
             end
-            actor.name:set_quest_var("major_globe_spell", "final_item", item)
+            actor:set_quest_var("major_globe_spell", "final_item", item)
             wait(3)
             actor:send(tostring(self.name) .. " says, 'Yes, the last item for the spell is here.  It is <b:yellow>" .. "%get.obj_shortdesc[%item%]%</>.'")
             self:emote("thinks hard for a moment.")

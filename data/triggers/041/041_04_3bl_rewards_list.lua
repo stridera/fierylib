@@ -14,27 +14,27 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "reward") or string.find(string.lower(speech), "rewards")) then
     return true  -- No matching keywords
 end
-local vnum_gem_3bl_cap = 55570
-local vnum_gem_3bl_neck = 55571
-local vnum_gem_3bl_arm = 55572
-local vnum_gem_3bl_wrist = 55573
-local vnum_gem_3bl_staff = 55581
-local vnum_gem_3bl_ssword = 55582
-local vnum_gem_3bl_whammer = 55583
-local vnum_gem_3bl_flail = 55584
-local vnum_gem_3bl_food = 55566
-local vnum_gem_3bl_drink = 55567
+local id_gem_3bl_cap = 55570
+local id_gem_3bl_neck = 55571
+local id_gem_3bl_arm = 55572
+local id_gem_3bl_wrist = 55573
+local id_gem_3bl_staff = 55581
+local id_gem_3bl_ssword = 55582
+local id_gem_3bl_whammer = 55583
+local id_gem_3bl_flail = 55584
+local id_gem_3bl_food = 55566
+local id_gem_3bl_drink = 55567
 -- rewards
-local vnum_3bl_cap = 5517
-local vnum_3bl_neck = 5519
-local vnum_3bl_arm = 5521
-local vnum_3bl_wrist = 5523
-local vnum_3bl_staff = 5539
-local vnum_3bl_ssword = 5540
-local vnum_3bl_whammer = 5541
-local vnum_3bl_flail = 5542
-local vnum_3bl_food = 5555
-local vnum_3bl_drink = 5557
+local id_3bl_cap = 5517
+local id_3bl_neck = 5519
+local id_3bl_arm = 5521
+local id_3bl_wrist = 5523
+local id_3bl_staff = 5539
+local id_3bl_ssword = 5540
+local id_3bl_whammer = 5541
+local id_3bl_flail = 5542
+local id_3bl_food = 5555
+local id_3bl_drink = 5557
 -- 
 -- Check faction and react accordingly
 -- 
@@ -57,22 +57,22 @@ if actor.alignment <= 150 then
             actor:send("</>suppose we can trust you with some of our goods.'")
             -- (empty send to actor)
             actor:send("</>You have access to:")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_food%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_food%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_drink%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_drink%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_cap%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_cap%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_ssword%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_ssword%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_food%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_food%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_drink%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_drink%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_cap%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_cap%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_ssword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_ssword%]%</>")
         end
         if actor:get_quest_var("black_legion:bl_faction") >= 40 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_neck%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_neck%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_staff%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_staff%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_neck%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_neck%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_staff%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_staff%]%</>")
         end
         if actor:get_quest_var("black_legion:bl_faction") >= 55 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_arm%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_arm%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_whammer%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_whammer%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_arm%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_arm%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_whammer%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_whammer%]%</>")
         end
         if actor:get_quest_var("black_legion:bl_faction") >= 70 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_wrist%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_wrist%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%vnum_3bl_flail%]%</> for <magenta>%get.obj_shortdesc[%vnum_gem_3bl_flail%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_wrist%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_wrist%]%</>")
+            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3bl_flail%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3bl_flail%]%</>")
         end
         if actor:get_quest_var("black_legion:bl_faction") < 70 then
             -- (empty send to actor)

@@ -28,7 +28,7 @@ end
 if p ~= 15 then
     return _return_value
 end
--- Figure out which object to load.  Better chance for lower vnums.
+-- Figure out which object to load.  Better chance for lower IDs.
 local p = random(1, 100)
 if p < 31 then
     local p = 139 + random(1, 7)

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
 if actor.is_player then
-    local item = actor:get_quest_var("armor_exchange:gem_vnum")
+    local item = actor:get_quest_var("armor_exchange:gem_id")
     if actor:get_quest_stage("armor_exchange") == 1 then
         actor:send(tostring(self.name) .. " shouts to you, 'Well howdy-hoo!  Welcome back!'")
         self:command("grin " .. tostring(actor))

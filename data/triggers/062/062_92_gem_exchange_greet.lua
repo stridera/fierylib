@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
 if actor.is_player then
-    local item = actor:get_quest_var("gem_exchange:gem_vnum")
+    local item = actor:get_quest_var("gem_exchange:gem_id")
     if actor:get_quest_stage("gem_exchange") == 1 then
         self:say("Welcome back!")
         self:command("bow " .. tostring(actor))

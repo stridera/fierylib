@@ -18,12 +18,12 @@ end
 if not (cmd == "pass") then
     return true  -- Not our command
 end
--- *** Set vnum variables ****
+-- *** Set entity IDs ****
 -- Mobiles
 local referee = 18880
 -- Objects
-local vnum_a = 18880
-local vnum_b = 18881
+local team_a_id = 18880
+local team_b_id = 18881
 -- Rooms
 local flag_room_a = 3520
 local flag_room_b = 8600
@@ -39,10 +39,10 @@ elseif arg.level > 99 then
     -- Player tries to pass to a player or the referee mob
 elseif (arg.is_player) or (arg.id == "referee") then
     -- Player tries to pass to someone on team A
-    if arg.wearing[vnum_a] then
+    if arg.wearing[team_a_id] then
         local arg_team = team_a
         -- Player tries to pass to someone on team B
-    elseif arg.wearing[vnum_b] then
+    elseif arg.wearing[team_b_id] then
         local arg_team = team_b
         -- Player tries to pass to someone who isn't playing
     else
@@ -51,10 +51,10 @@ elseif (arg.is_player) or (arg.id == "referee") then
     -- Player passes to someone who is playing
     if arg_team then
         -- Player is on team A
-        if self.id == "vnum_a" then
+        if self.id == "team_a_id" then
             local actor_flag_room = flag_room_a
             -- Player is on team B
-        elseif self.id == "vnum_b" then
+        elseif self.id == "team_b_id" then
             local actor_flag_room = flag_room_b
         end
         -- Player passes to someone on the same team

@@ -14,7 +14,7 @@ if not (cmd == "observe") then
 end
 -- 
 -- Observation trigger
--- Player supplies an argument which evaluates to a vnum.  The player
+-- Player supplies an argument which evaluates to a room ID.  The player
 -- is then shown that room.
 -- 
 -- switch on arg

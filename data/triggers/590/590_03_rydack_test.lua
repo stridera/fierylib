@@ -16,8 +16,8 @@ local _return_value = true  -- Default: allow action
 _return_value = false
 if actor:get_worn("shield") ~= -1 then
     self.room:send("ok, not wearing shield")
-    local vnum = actor:get_worn("shield")
-    self.room:send(tostring(vnum))
+    local shield_obj = actor:get_worn("shield")
+    self.room:send(tostring(shield_obj))
 end
-vnum = nil
+shield_obj = nil
 return _return_value

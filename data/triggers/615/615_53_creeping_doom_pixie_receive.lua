@@ -14,17 +14,17 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("creeping_doom")
 if stage == 1 then
     if object.id == 11812 or object.id == 16213 or object.id == 48029 then
-        if actor.quest_variable[creeping_doom:object.vnum] == 1 then
+        if actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
             _return_value = true
-            self:say("You already brought me " .. "%get.obj_shortdesc[%object.vnum%]%")
+            self:say("You already brought me " .. ("%get.obj_shortdesc[" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id) .. "]%"))
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
-            actor.name:set_quest_var("creeping_doom", "%object.vnum%", 1)
+            actor:set_quest_var("creeping_doom", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(2)
             world.destroy(object)
             self:say("Just what we need.")
             if actor:get_quest_var("creeping_doom:11812") and actor:get_quest_var("creeping_doom:16213") and actor:get_quest_var("creeping_doom:48029") then
-                actor.name:advance_quest("creeping_doom")
+                actor:advance_quest("creeping_doom")
                 wait(1)
                 self:say("Yesssss... Raaaaaaage...")
                 wait(2)
@@ -58,11 +58,11 @@ elseif stage == 2 then
         wait(2)
         self:say("Yesssss...  More essences!")
         local spiders = actor:get_quest_var("Creeping_doom:spiders") + 1
-        actor.name:set_quest_var("creeping_doom", "spiders", spiders)
+        actor:set_quest_var("creeping_doom", "spiders", spiders)
         self:destroy_item("essence-of-swarms")
         wait(2)
         if actor:get_quest_var("Creeping_doom:spiders") == 11 then
-            actor.name:advance_quest("creeping_doom")
+            actor:advance_quest("creeping_doom")
             self.room:send(tostring(self.name) .. " says, 'The Rage and Doom are hyped, but we need to keep 'em")
             self.room:send("</>from going too aggro.  Trophies from ending Nature's suffering'll temper them")
             self.room:send("</>into a focused, deadly weapon.  The scythe to cut down Nature's enemies...'")
@@ -94,18 +94,18 @@ elseif stage == 2 then
     end
 elseif stage == 3 then
     if object.id == 48416 or object.id == 52034 or object.id == 62503 then
-        if actor.quest_variable[creeping_doom:object.vnum] == 1 then
+        if actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
             _return_value = true
             self:say("You already found this.")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
-            actor.name:set_quest_var("creeping_doom", "%object.vnum%", 1)
+            actor:set_quest_var("creeping_doom", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(1)
             self:say("This is it!")
             world.destroy(object)
             if actor:get_quest_var("creeping_doom:48416") and actor:get_quest_var("creeping_doom:52034") and actor:get_quest_var("creeping_doom:62503") then
                 self:say("These are all the parts we need!")
-                actor.name:advance_quest("creeping_doom")
+                actor:advance_quest("creeping_doom")
                 wait(1)
                 self.room:send(tostring(self.name) .. " ties the bit of vine to the treant limb.")
                 wait(2)

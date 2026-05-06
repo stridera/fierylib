@@ -15,7 +15,7 @@ if object.id == 23822 then
     get_room(238, 90):at(function()
         run_room_trigger(238, 14)
     end)
-    if actor.quest_stage[type_wand] == "wandstep" and not actor.quest_variable[type_wand:wandtask2] then
+    if actor:get_quest_stage("type_wand") == "wandstep" and not actor:get_quest_var("type_wand:wandtask2") then
         return _return_value
     elseif actor:get_quest_stage("emmath_flameball") > 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
         local flameball_item = "yes"
@@ -60,7 +60,7 @@ if subclass_item then
             self:command("shake " .. tostring(actor.name))
             self:command("grin")
             wait(2)
-            actor.name:complete_quest("pyromancer_subclass")
+            actor:complete_quest("pyromancer_subclass")
             actor:command("subclass")
         else
             self:command("eyebrow")
@@ -98,10 +98,10 @@ elseif flameball_item then
         actor:send(tostring(self.name) .. " says, 'How do you expect to gain power like this?'")
     elseif actor:get_quest_stage("emmath_flameball") == 2 then
         if (object.id == 5211) or (object.id == 5212) or (object.id == 17308) then
-            if actor.quest_variable[emmath_flameball:object.vnum] ~= 1 then
+            if actor:get_quest_var("emmath_flameball:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) ~= 1 then
                 local count = 1 + actor:get_quest_var("emmath_flameball:count")
-                actor.name:set_quest_var("emmath_flameball", "count", count)
-                actor.name:set_quest_var("emmath_flameball", "%object.vnum%", 1)
+                actor:set_quest_var("emmath_flameball", "count", count)
+                actor:set_quest_var("emmath_flameball", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             else
                 _return_value = true
                 wait(2)
@@ -117,7 +117,7 @@ elseif flameball_item then
                 elseif count == 2 then
                     actor:send(tostring(self.name) .. " says, 'Good, good.  That's two.  One more!'")
                 elseif count == 3 then
-                    actor.name:advance_quest("emmath_flameball")
+                    actor:advance_quest("emmath_flameball")
                     self:command("smile")
                     actor:send(tostring(self.name) .. " says, 'I'm glad you were able to tame the three flames.'")
                     wait(2)
@@ -169,7 +169,7 @@ elseif flameball_item then
             wait(2)
             self:command("look " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " says, 'Well now I suppose I owe you something, don't I?  You seem ready for the power.'")
-            actor.name:erase_quest("emmath_flameball")
+            actor:erase_quest("emmath_flameball")
             wait(2)
             actor:send(tostring(self.name) .. " says, 'But remember!  With great power, comes great responsibility.'")
             self.room:spawn_object(52, 10)

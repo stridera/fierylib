@@ -26,10 +26,10 @@ if cmd == "h" or cmd == "ha" then
 end
 if actor.class == "Paladin" then
     local color = "golden"
-    local vnum = 90
+    local obj_id = 90
 elseif string.find(actor.class, "Anti") then
     local color = "black"
-    local vnum = 91
+    local obj_id = 91
 else
     actor:send("You get the feeling that this egg is not meant for you.")
 end
@@ -46,7 +46,7 @@ if color then
     self.room:send("The dragon egg continues to split into pieces.")
     wait(2)
     self.room:send("A small, " .. tostring(color) .. " dragon emerges from the broken egg shell.")
-    self.room:spawn_mobile(188, vnum)
+    self.room:spawn_mobile(188, obj_id)
     actor:send("The " .. tostring(color) .. " dragon looks at you.")
     self.room:send_except(actor, "The " .. tostring(color) .. " dragon looks at " .. tostring(actor.name) .. ".")
     wait(3)
@@ -64,11 +64,11 @@ if color then
     wait(2)
     actor:send("A strange-looking helmet falls from behind the dragon, landing near you.")
     self.room:send_except(actor, "A strange-looking helmet falls from behind the dragon, landing near " .. tostring(actor.name) .. ".")
-    self.room:spawn_object(188, vnum)
+    self.room:spawn_object(188, obj_id)
     if actor:get_quest_stage("quest_items") == 0 then
         actor.name:start_quest("quest_items")
     end
-    actor.name:set_quest_var("quest_items", "%vnum%", 1)
+    actor.name:set_quest_var("quest_items", tostring(obj_id), 1)
     actor:command("get dragonhelm")
     world.destroy(self)
 end

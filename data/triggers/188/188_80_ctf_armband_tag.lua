@@ -20,12 +20,12 @@ end
 if not (cmd == "tag") then
     return true  -- Not our command
 end
--- *** Set vnum variables ****
+-- *** Set entity IDs ****
 -- Mobiles
 local referee = 18880
 -- Objects
-local vnum_a = 18880
-local vnum_b = 18881
+local team_a_id = 18880
+local team_b_id = 18881
 local flag_a = 82
 local flag_b = 83
 -- Rooms
@@ -65,11 +65,11 @@ elseif (actor.wearing[flag_a]) or (actor.wearing[flag_b]) then
     -- Player tries to tag player or referee mob
 elseif (arg.is_player) or (arg.id == "referee") then
     -- Player tries to tag someone on team A
-    if arg.wearing[vnum_a] then
-        local arg_team = vnum_a
+    if arg.wearing[team_a_id] then
+        local arg_team = team_a_id
         -- Player tries to tag someone on team B
-    elseif arg.wearing[vnum_b] then
-        local arg_team = vnum_b
+    elseif arg.wearing[team_b_id] then
+        local arg_team = team_b_id
         -- Player tries to tag someone who isn't playing
     else
         actor:send(tostring(arg.name) .. " doesn't seem to be playing.")
@@ -77,7 +77,7 @@ elseif (arg.is_player) or (arg.id == "referee") then
     -- Player tries to tag someone who is playing
     if arg_team then
         -- Player is on team A
-        if self.id == "vnum_a" then
+        if self.id == "team_a_id" then
             local actor_home = home_a
             local actor_jail = jail_a
             local actor_flag_room = flag_room_a
@@ -87,7 +87,7 @@ elseif (arg.is_player) or (arg.id == "referee") then
                 local at_home = "yes"
             end
             -- Player is on team B
-        elseif self.id == "vnum_b" then
+        elseif self.id == "team_b_id" then
             local actor_home = home_b
             local actor_jail = jail_b
             local actor_flag_room = flag_room_b

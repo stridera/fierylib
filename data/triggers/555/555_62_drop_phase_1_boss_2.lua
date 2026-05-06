@@ -30,7 +30,7 @@ end
 if will_drop <= 60 then
     -- Normal non-bonus drops
     if bonus <= 80 then
-        -- drop a gem 55565 is the vnum before very first gem
+        -- drop a gem 55565 is the ID before very first gem
         self.room:spawn_object(555, 65 + what_gem_drop)
     else
         -- We're in the BONUS ROUND!!
@@ -40,7 +40,7 @@ if will_drop <= 60 then
 elseif will_drop >=61 and will_drop <= 80 then
     -- Normal non-bonus drops
     if bonus <= 80 then
-        -- drop destroyed armor 55299 is the vnum before the
+        -- drop destroyed armor 55299 is the ID before the
         -- first piece of armor.
         self.room:spawn_object(552, 99 + what_armor_drop)
     else

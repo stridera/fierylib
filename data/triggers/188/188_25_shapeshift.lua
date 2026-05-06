@@ -25,32 +25,32 @@ if cmd == "s" or cmd == "sh" or cmd == "sha" then
 end
 -- switch on actor.id
 if actor.id == 18820 then
-    local mob_vnum = 22
+    local mob_id = 22
     local mob_name = "pryrian-duclia"
     local shape_name = "the shape of a gargantuan black dragon"
-    local obj_vnum = 26
+    local obj_id = 26
 elseif actor.id == 18821 then
-    local mob_vnum = 23
+    local mob_id = 23
     local mob_name = "eralshar-duclia"
     local shape_name = "the shape of a sinewy golden dragon"
-    local obj_vnum = 27
+    local obj_id = 27
 elseif actor.id == 18822 then
-    local mob_vnum = 20
+    local mob_id = 20
     local mob_name = "human-pryrian"
     local shape_name = "human form"
-    local obj_vnum = 20
+    local obj_id = 20
 elseif actor.id == 18823 then
-    local mob_vnum = 21
+    local mob_id = 21
     local mob_name = "human-eralshar"
     local shape_name = "human form"
-    local obj_vnum = 25
+    local obj_id = 25
 else
     _return_value = true
     return _return_value
 end
 self.room:send("The cracks of bones reforming are heard as " .. tostring(actor.name) .. " takes " .. tostring(shape_name) .. ".")
-self.room:spawn_mobile(188, mob_vnum)
-mob_name:spawn_object(188, obj_vnum)
+self.room:spawn_mobile(188, mob_id)
+mob_name:spawn_object(188, obj_id)
 actor:send("Loaded " .. tostring(mob_name) .. "; ready to be switched into.")
 world.destroy(actor)
 world.destroy(self)

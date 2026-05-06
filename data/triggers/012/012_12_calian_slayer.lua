@@ -9,7 +9,7 @@
 -- Converted from DG Script #1212: calian_slayer
 -- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor.quest_variable[quest_items:self.vnum] then
+if actor:get_quest_var("quest_items:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
     _return_value = false
     self.room:send_except(actor, "A &9<blue>black <white>haze </>surrounds " .. tostring(actor.name) .. ", obscuring " .. tostring(actor.object) .. " from view.")
     actor:send("A &9<blue>black <white>haze </>surrounds you, momentarily obscuring your view.")

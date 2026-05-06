@@ -37,36 +37,36 @@ elseif actor:get_quest_stage("phase_armor") < phase then
 end
 if hands_name? /= speech then
     local name = pair of hands_name
-    local gem_vnum = hands_gem
-    local armor_vnum = hands_armor
+    local gem_id = hands_gem
+    local armor_id = hands_armor
 elseif feet_name? /= speech then
     local name = pair of feet_name
-    local gem_vnum = feet_gem
-    local armor_vnum = feet_armor
+    local gem_id = feet_gem
+    local armor_id = feet_armor
 elseif wrist_name? /= speech then
     local name = wrist_name
-    local gem_vnum = wrist_gem
-    local armor_vnum = wrist_armor
+    local gem_id = wrist_gem
+    local armor_id = wrist_armor
 elseif head_name? /= speech then
     local name = head_name
-    local gem_vnum = head_gem
-    local armor_vnum = head_armor
+    local gem_id = head_gem
+    local armor_id = head_armor
 elseif arms_name? /= speech then
     local name = pair of arms_name
-    local gem_vnum = arms_gem
-    local armor_vnum = arms_armor
+    local gem_id = arms_gem
+    local armor_id = arms_armor
 elseif legs_name? /= speech then
     local name = pair of legs_name
-    local gem_vnum = legs_gem
-    local armor_vnum = legs_armor
+    local gem_id = legs_gem
+    local armor_id = legs_armor
 elseif body_name? /= speech then
     local name = body_name
-    local gem_vnum = body_gem
-    local armor_vnum = body_armor
+    local gem_id = body_gem
+    local armor_id = body_armor
 end
 if name then
     actor:send(tostring(self.name) .. " tells you, 'Well, I can make a fine " .. tostring(name) .. " for you, but")
-    actor:send("</>I'll need <b:cyan>" .. "%get.obj_shortdesc[%armor_vnum%]%</> and <b:cyan>three %get.obj_pldesc[%gem_vnum%]%</>.")
+    actor:send("</>I'll need <b:cyan>" .. "%get.obj_shortdesc[%armor_id%]%</> and <b:cyan>three %get.obj_pldesc[%gem_id%]%</>.")
     actor:send("</>Bring these things to me in any order, at any time, and I will reward you.'")
     -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'You will find them on creatures across the world.")

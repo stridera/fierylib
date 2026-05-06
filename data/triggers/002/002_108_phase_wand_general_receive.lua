@@ -16,9 +16,9 @@ local job2 = actor.quest_variable[type_wand:wandtask2]
 local job3 = actor.quest_variable[type_wand:wandtask3]
 local job4 = actor.quest_variable[type_wand:wandtask4]
 local job5 = actor.quest_variable[type_wand:wandtask5]
-local reward = wandvnum + 1
+local reward = wand_id + 1
 local stage = actor.quest_stage[type_wand]
-if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2" or object.id == "wandtask3" or object.id == "wandtask4" then
+if object.id == "wandgem" or object.id == "wand_id" or object.id == "wandtask2" or object.id == "wandtask3" or object.id == "wandtask4" then
     -- Note: Mob 48105 is Vulcera.  She has slightly modified responses because she's a real asshole.
     if not stage then
         -- Are they on the quest?
@@ -54,7 +54,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
     elseif actor.quest_variable[type_wand:greet] == 0 then
         -- Have they greeted the quest master properly?
         local response = "Tell me why you're here first."
-    elseif (object.id == "wandgem" and job2) or (object.id == "wandtask3" and job3) or (object.id == "wandtask4" and job4) or ((stage == 6 or stage == 8) and object.id == "wandvnum" and job5) then
+    elseif (object.id == "wandgem" and job2) or (object.id == "wandtask3" and job3) or (object.id == "wandtask4" and job4) or ((stage == 6 or stage == 8) and object.id == "wand_id" and job5) then
         -- Have they already given the crafter this item?
         local response = "You already gave me this."
     elseif object.id == "wandgem" then
@@ -66,7 +66,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
     elseif object.id == "wandtask4" then
         actor:set_quest_var("%type%_wand", "wandtask4", 1)
         local check = "yes"
-    elseif object.id == "wandvnum" then
+    elseif object.id == "wand_id" then
         local job1 = actor.quest_variable[type_wand:wandtask1]
         local job2 = actor.quest_variable[type_wand:wandtask2]
         local job3 = actor.quest_variable[type_wand:wandtask3]
@@ -80,11 +80,11 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
                 wait(2)
                 if stage == 6 then
                     wait(2)
-                    self.room:send(tostring(self.name) .. " slides " .. "%get.obj_shortdesc[%wandtask3%]% around %get.obj_shortdesc[%wandvnum%]%.")
+                    self.room:send(tostring(self.name) .. " slides " .. "%get.obj_shortdesc[%wandtask3%]% around %get.obj_shortdesc[%wand_id%]%.")
                     wait(3)
                     self.room:send(tostring(self.name) .. " whispers some arcane syllables.")
                     wait(3)
-                    self.room:send("%get.obj_shortdesc[%wandvnum%]% begins to hum!")
+                    self.room:send("%get.obj_shortdesc[%wand_id%]% begins to hum!")
                     wait(2)
                     self.room:send(tostring(self.name) .. " says, 'Now, <b:cyan>play</> " .. "%get.obj_shortdesc[%wandtask4%]% to unlock your wand's full potential.'")
                 elseif stage == 8 then
@@ -144,29 +144,29 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         self:say("Perfect, let me get to work.")
         wait(2)
         if stage ~= 7 then
-            self.room:send(tostring(self.name) .. " inlays " .. "%get.obj_shortdesc[%wandgem%]% in %get.obj_shortdesc[%wandvnum%]%.")
+            self.room:send(tostring(self.name) .. " inlays " .. "%get.obj_shortdesc[%wandgem%]% in %get.obj_shortdesc[%wand_id%]%.")
             wait(2)
         end
         if stage == 3 then
-            self.room:send(tostring(self.name) .. " burns " .. "%get.obj_shortdesc[%wandtask3%]% and passes %get.obj_shortdesc[%wandvnum%]% through the smoke.")
+            self.room:send(tostring(self.name) .. " burns " .. "%get.obj_shortdesc[%wandtask3%]% and passes %get.obj_shortdesc[%wand_id%]% through the smoke.")
         elseif stage == 4 then
-            self.room:send(tostring(self.name) .. " melds " .. "%get.obj_shortdesc[%wandtask3%]% with %get.obj_shortdesc[%wandvnum%]%.")
+            self.room:send(tostring(self.name) .. " melds " .. "%get.obj_shortdesc[%wandtask3%]% with %get.obj_shortdesc[%wand_id%]%.")
             wait(2)
-            self.room:send(tostring(self.name) .. " binds " .. "%get.obj_shortdesc[%wandtask4%]% to the top of %get.obj_shortdesc[%wandvnum%]%.")
+            self.room:send(tostring(self.name) .. " binds " .. "%get.obj_shortdesc[%wandtask4%]% to the top of %get.obj_shortdesc[%wand_id%]%.")
         elseif stage == 5 then
-            self.room:send(tostring(self.name) .. " discharges the potency of " .. "%get.obj_shortdesc[%wandtask3%]% into %get.obj_shortdesc[%wandvnum%]%.")
+            self.room:send(tostring(self.name) .. " discharges the potency of " .. "%get.obj_shortdesc[%wandtask3%]% into %get.obj_shortdesc[%wand_id%]%.")
         elseif stage == 7 then
             if self.id == 48105 then
-                self.room:send(tostring(self.name) .. " lavishly discharges the power of " .. "%get.obj_shortdesc[%wandvnum%]% into %get.obj_shortdesc[%wandtask3%]%, transferring its power.")
+                self.room:send(tostring(self.name) .. " lavishly discharges the power of " .. "%get.obj_shortdesc[%wand_id%]% into %get.obj_shortdesc[%wandtask3%]%, transferring its power.")
             else
-                self.room:send(tostring(self.name) .. " discharges the power of " .. "%get.obj_shortdesc[%wandvnum%]% into %get.obj_shortdesc[%wandtask3%]%, transferring its power.")
+                self.room:send(tostring(self.name) .. " discharges the power of " .. "%get.obj_shortdesc[%wand_id%]% into %get.obj_shortdesc[%wandtask3%]%, transferring its power.")
             end
             wait(2)
             self.room:send(tostring(self.name) .. " inlays " .. "%get.obj_shortdesc[%wandgem%]% in %get.obj_shortdesc[%wandtask3%]% and afixes %get.obj_shortdesc[%wandtask4%]% to the top.")
         elseif stage == 9 then
             self.room:send(tostring(self.name) .. " carefully speaks an incantation to unravel the magic bindings of " .. "%get.obj_shortdesc[%wandtask3%]%.")
             wait(2)
-            self.room:send(tostring(self.name) .. " draws the power out of " .. "%get.obj_shortdesc[%wandtask3%]% and fuses it into %get.obj_shortdesc[%wandvnum%]%.")
+            self.room:send(tostring(self.name) .. " draws the power out of " .. "%get.obj_shortdesc[%wandtask3%]% and fuses it into %get.obj_shortdesc[%wand_id%]%.")
         end
         wait(2)
         self.room:send(tostring(self.name) .. " utters a few mystic words.")
@@ -174,7 +174,7 @@ if object.id == "wandgem" or object.id == "wandvnum" or object.id == "wandtask2"
         if stage == 7 then
             self.room:send("%get.obj_shortdesc[%wandtask3%]% is transformed into %get.obj_shortdesc[%reward%]%!")
         else
-            self.room:send("%get.obj_shortdesc[%wandvnum%]% is transformed into %get.obj_shortdesc[%reward%]%!")
+            self.room:send("%get.obj_shortdesc[%wand_id%]% is transformed into %get.obj_shortdesc[%reward%]%!")
         end
         wait(1)
         if stage == 7 then

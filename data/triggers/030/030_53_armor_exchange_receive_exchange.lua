@@ -9,7 +9,7 @@
 -- Converted from DG Script #3053: Armor Exchange receive exchange
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-local item = actor:get_quest_var("armor_exchange:armor_vnum")
+local item = actor:get_quest_var("armor_exchange:armor_id")
 if item ~= 0 then
     if item <= 55303 then
         if object.id >= 55300 and object.id <=55383 then
@@ -104,7 +104,7 @@ if item ~= 0 then
         self:command("give all " .. tostring(actor))
         wait(2)
         actor:send(tostring(self.name) .. " says, 'A pleasure connecting lost things to their owners!'")
-        actor:set_quest_var("armor_exchange", "armor_vnum", 0)
+        actor:set_quest_var("armor_exchange", "armor_id", 0)
     else
         _return_value = true
         actor:send(tostring(self.name) .. " refuses to perform the exchange.")

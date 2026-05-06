@@ -23,43 +23,43 @@ if right_class then
         actor:send(tostring(self.name) .. " tells you, 'You need to gain more experience first.'")
     elseif actor:get_quest_stage("phase_armor") >= quest_stage then
         -- destroyed armor
-        local vnum_destroyed_gloves = 55330
-        local vnum_destroyed_boots = 55334
-        local vnum_destroyed_bracer = 55338
-        local vnum_destroyed_helm = 55342
-        local vnum_destroyed_arm = 55346
-        local vnum_destroyed_legs = 55350
-        local vnum_destroyed_chest = 55354
+        local id_destroyed_gloves = 55330
+        local id_destroyed_boots = 55334
+        local id_destroyed_bracer = 55338
+        local id_destroyed_helm = 55342
+        local id_destroyed_arm = 55346
+        local id_destroyed_legs = 55350
+        local id_destroyed_chest = 55354
         -- gems for this class
-        local vnum_gem_gloves = 55596
-        local vnum_gem_boots = 55607
-        local vnum_gem_bracer = 55618
-        local vnum_gem_helm = 55629
-        local vnum_gem_arm = 55640
-        local vnum_gem_legs = 55651
-        local vnum_gem_chest = 55662
+        local id_gem_gloves = 55596
+        local id_gem_boots = 55607
+        local id_gem_bracer = 55618
+        local id_gem_helm = 55629
+        local id_gem_arm = 55640
+        local id_gem_legs = 55651
+        local id_gem_chest = 55662
         -- rewards for this class
-        local vnum_reward_helm = 55447
-        local vnum_reward_arms = 55448
-        local vnum_reward_chest = 55449
-        local vnum_reward_legs = 55450
-        local vnum_reward_boots = 55451
-        local vnum_reward_bracer = 55452
-        local vnum_reward_gloves = 55453
-        local gloves_armor = actor.quest_variable[phase_armor:vnum_destroyed_gloves_armor_acquired]
-        local boots_armor = actor.quest_variable[phase_armor:vnum_destroyed_boots_armor_acquired]
-        local bracer_armor = actor.quest_variable[phase_armor:vnum_destroyed_bracer_armor_acquired]
-        local helm_armor = actor.quest_variable[phase_armor:vnum_destroyed_helm_armor_acquired]
-        local arm_armor = actor.quest_variable[phase_armor:vnum_destroyed_arm_armor_acquired]
-        local legs_armor = actor.quest_variable[phase_armor:vnum_destroyed_legs_armor_acquired]
-        local chest_armor = actor.quest_variable[phase_armor:vnum_destroyed_chest_armor_acquired]
-        local gloves_gems = actor.quest_variable[phase_armor:vnum_gem_gloves_gems_acquired]
-        local boots_gems = actor.quest_variable[phase_armor:vnum_gem_boots_gems_acquired]
-        local bracer_gems = actor.quest_variable[phase_armor:vnum_gem_bracer_gems_acquired]
-        local helm_gems = actor.quest_variable[phase_armor:vnum_gem_helm_gems_acquired]
-        local arm_gems = actor.quest_variable[phase_armor:vnum_gem_arm_gems_acquired]
-        local legs_gems = actor.quest_variable[phase_armor:vnum_gem_legs_gems_acquired]
-        local chest_gems = actor.quest_variable[phase_armor:vnum_gem_chest_gems_acquired]
+        local id_reward_helm = 55447
+        local id_reward_arms = 55448
+        local id_reward_chest = 55449
+        local id_reward_legs = 55450
+        local id_reward_boots = 55451
+        local id_reward_bracer = 55452
+        local id_reward_gloves = 55453
+        local gloves_armor = actor.quest_variable[phase_armor:id_destroyed_gloves_armor_acquired]
+        local boots_armor = actor.quest_variable[phase_armor:id_destroyed_boots_armor_acquired]
+        local bracer_armor = actor.quest_variable[phase_armor:id_destroyed_bracer_armor_acquired]
+        local helm_armor = actor.quest_variable[phase_armor:id_destroyed_helm_armor_acquired]
+        local arm_armor = actor.quest_variable[phase_armor:id_destroyed_arm_armor_acquired]
+        local legs_armor = actor.quest_variable[phase_armor:id_destroyed_legs_armor_acquired]
+        local chest_armor = actor.quest_variable[phase_armor:id_destroyed_chest_armor_acquired]
+        local gloves_gems = actor.quest_variable[phase_armor:id_gem_gloves_gems_acquired]
+        local boots_gems = actor.quest_variable[phase_armor:id_gem_boots_gems_acquired]
+        local bracer_gems = actor.quest_variable[phase_armor:id_gem_bracer_gems_acquired]
+        local helm_gems = actor.quest_variable[phase_armor:id_gem_helm_gems_acquired]
+        local arm_gems = actor.quest_variable[phase_armor:id_gem_arm_gems_acquired]
+        local legs_gems = actor.quest_variable[phase_armor:id_gem_legs_gems_acquired]
+        local chest_gems = actor.quest_variable[phase_armor:id_gem_chest_gems_acquired]
         local done_gloves = gloves_armor == 1  and  gloves_gems == 3
         local done_boots = boots_armor == 1  and  boots_gems == 3
         local done_bracer = bracer_armor == 1  and  bracer_gems == 3
@@ -76,70 +76,70 @@ if right_class then
             return _return_value
         end
         if gloves_armor and not done_gloves then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_gloves%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_gloves%]%'")
         end
         if gloves_gems and not done_gloves then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(gloves_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_gloves%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(gloves_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_gloves%]%'")
         end
         if boots_armor and not done_boots then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_boots%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_boots%]%'")
         end
         if boots_gems and not done_boots then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(boots_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_boots%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(boots_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_boots%]%'")
         end
         if bracer_armor and not done_bracer then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_bracer%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_bracer%]%'")
         end
         if bracer_gems and not done_bracer then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(bracer_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_bracer%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(bracer_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_bracer%]%'")
         end
         if helm_armor and not done_helm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_helm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_helm%]%'")
         end
         if helm_gems and not done_helm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(helm_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_helm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(helm_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_helm%]%'")
         end
         if arm_armor and not done_arm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_arm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_arm%]%'")
         end
         if arm_gems and not done_arm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(arm_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_arm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(arm_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_arm%]%'")
         end
         if legs_armor and not done_legs then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_legs%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_legs%]%'")
         end
         if legs_gems and not done_legs then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(legs_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_legs%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(legs_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_legs%]%'")
         end
         if chest_armor and not done_chest then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_destroyed_chest%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_chest%]%'")
         end
         if chest_gems and not done_chest then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(chest_gems) .. " of " .. "%get.obj_shortdesc[%vnum_gem_chest%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(chest_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_chest%]%'")
         end
         if done_gloves or done_boots or done_bracer or done_helm or done_arm or done_legs or done_chest then
             actor:send(tostring(self.name) .. " tells you, 'You have completed quests for:'")
         end
         if done_gloves then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_gloves%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_gloves%]%'")
         end
         if done_boots then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_boots%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_boots%]%'")
         end
         if done_bracer then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_bracer%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_bracer%]%'")
         end
         if done_helm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_helm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_helm%]%'")
         end
         if done_arm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_arms%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_arms%]%'")
         end
         if done_legs then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_legs%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_legs%]%'")
         end
         if done_chest then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%vnum_reward_chest%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_chest%]%'")
         end
     else
         actor:send(tostring(self.name) .. " tells you, 'You haven't even talked to me about armor quests yet!'")

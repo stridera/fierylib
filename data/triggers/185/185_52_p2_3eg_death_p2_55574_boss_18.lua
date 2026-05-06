@@ -11,10 +11,10 @@
 -- Adapted from Eldorian quest.  There is no gear to destroy in this rendition.
 -- mecho %self.name%'s gear is destroyed in the battle!
 -- mjunk all.eldoria-reward
-local vnum_trophy1 = 8
-local vnum_trophy2 = 10
-local vnum_trophy3 = 12
-local vnum_trophy4 = 14
+local id_trophy1 = 8
+local id_trophy2 = 10
+local id_trophy3 = 12
+local id_trophy4 = 14
 -- 
 -- Death trigger for random trophy drops
 -- 
@@ -27,13 +27,13 @@ if will_drop <= 10 then
     -- drop nothing and bail
 end
 if will_drop <= 50 then
-    self.room:spawn_object(55, vnum_trophy1)
+    self.room:spawn_object(55, id_trophy1)
 elseif will_drop >= 51 &will_drop <= 70 then
-    self.room:spawn_object(55, vnum_trophy2)
+    self.room:spawn_object(55, id_trophy2)
 elseif will_drop >= 71 &will_drop <= 90 then
-    self.room:spawn_object(55, vnum_trophy3)
+    self.room:spawn_object(55, id_trophy3)
 else
-    self.room:spawn_object(55, vnum_trophy4)
+    self.room:spawn_object(55, id_trophy4)
 end
 -- 
 -- Death trigger for random gem and armor drops
@@ -71,7 +71,7 @@ if will_drop <= 60 then
 elseif will_drop >=61 &will_drop <= 80 then
     -- Normal non-bonus drops
     if bonus <= 50 then
-        -- drop destroyed armor 55299 is the vnum before the
+        -- drop destroyed armor 55299 is the ID before the
         -- first piece of armor.
         self.room:spawn_object(553, 19 + what_armor_drop)
     elseif bonus >= 51 &bonus <= 90 then

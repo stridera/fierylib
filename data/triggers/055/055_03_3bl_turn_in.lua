@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the Edorian
 -- combat quests installed on the mud. This trigger
--- will be generic and the vnums and variables set
+-- will be generic and the IDs and variables set
 -- to reflect which faction it applies to.
 -- 
 -- 3bl is Third Black Legion - The player MUST be
@@ -26,72 +26,72 @@ if actor:get_quest_var("Black_Legion:eg_ally") then
     return _return_value
 end
 if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
-    actor.name:set_quest_var("Black_Legion", "bl_ally", 1)
+    actor:set_quest_var("Black_Legion", "bl_ally", 1)
     -- 
     -- pertinent object definitions for this faction
     -- trophies
-    local vnum_3el_skull = 5504
-    local vnum_3el_ring = 5506
-    local vnum_3el_badge = 5508
-    local vnum_3el_token = 5510
-    local vnum_3el_insignia = 5512
-    local vnum_3el_wand = 5514
-    local vnum_3el_symbol = 5516
+    local id_3el_skull = 5504
+    local id_3el_ring = 5506
+    local id_3el_badge = 5508
+    local id_3el_token = 5510
+    local id_3el_insignia = 5512
+    local id_3el_wand = 5514
+    local id_3el_symbol = 5516
     -- gems for this faction
-    local vnum_gem_3bl_cap = 55570
-    local vnum_gem_3bl_neck = 55571
-    local vnum_gem_3bl_arm = 55572
-    local vnum_gem_3bl_wrist = 55573
-    local vnum_gem_3bl_gloves = 55574
-    local vnum_gem_3bl_jerkin = 55575
-    local vnum_gem_3bl_robe = 55589
-    local vnum_gem_3bl_belt = 55576
-    local vnum_gem_3bl_legs = 55577
-    local vnum_gem_3bl_boots = 55578
-    local vnum_gem_3bl_mask = 55579
-    local vnum_gem_3bl_symbol = 55580
-    local vnum_gem_3bl_staff = 55581
-    local vnum_gem_3bl_ssword = 55582
-    local vnum_gem_3bl_whammer = 55583
-    local vnum_gem_3bl_flail = 55584
-    local vnum_gem_3bl_shiv = 55585
-    local vnum_gem_3bl_lsword = 55586
-    local vnum_gem_3bl_smace = 55587
-    local vnum_gem_3bl_light = 55588
-    local vnum_gem_3bl_food = 55566
-    local vnum_gem_3bl_drink = 55567
+    local id_gem_3bl_cap = 55570
+    local id_gem_3bl_neck = 55571
+    local id_gem_3bl_arm = 55572
+    local id_gem_3bl_wrist = 55573
+    local id_gem_3bl_gloves = 55574
+    local id_gem_3bl_jerkin = 55575
+    local id_gem_3bl_robe = 55589
+    local id_gem_3bl_belt = 55576
+    local id_gem_3bl_legs = 55577
+    local id_gem_3bl_boots = 55578
+    local id_gem_3bl_mask = 55579
+    local id_gem_3bl_symbol = 55580
+    local id_gem_3bl_staff = 55581
+    local id_gem_3bl_ssword = 55582
+    local id_gem_3bl_whammer = 55583
+    local id_gem_3bl_flail = 55584
+    local id_gem_3bl_shiv = 55585
+    local id_gem_3bl_lsword = 55586
+    local id_gem_3bl_smace = 55587
+    local id_gem_3bl_light = 55588
+    local id_gem_3bl_food = 55566
+    local id_gem_3bl_drink = 55567
     -- rewards
-    local vnum_3bl_cap = 17
-    local vnum_3bl_neck = 19
-    local vnum_3bl_arm = 21
-    local vnum_3bl_wrist = 23
-    local vnum_3bl_gloves = 25
-    local vnum_3bl_jerkin = 27
-    local vnum_3bl_belt = 29
-    local vnum_3bl_legs = 31
-    local vnum_3bl_boots = 33
-    local vnum_3bl_mask = 35
-    local vnum_3bl_robe = 37
-    local vnum_3bl_symbol = 15
-    local vnum_3bl_staff = 39
-    local vnum_3bl_ssword = 40
-    local vnum_3bl_whammer = 41
-    local vnum_3bl_flail = 42
-    local vnum_3bl_shiv = 43
-    local vnum_3bl_lsword = 44
-    local vnum_3bl_smace = 45
-    local vnum_3bl_light = 53
-    local vnum_3bl_food = 55
-    local vnum_3bl_drink = 57
+    local id_3bl_cap = 17
+    local id_3bl_neck = 19
+    local id_3bl_arm = 21
+    local id_3bl_wrist = 23
+    local id_3bl_gloves = 25
+    local id_3bl_jerkin = 27
+    local id_3bl_belt = 29
+    local id_3bl_legs = 31
+    local id_3bl_boots = 33
+    local id_3bl_mask = 35
+    local id_3bl_robe = 37
+    local id_3bl_symbol = 15
+    local id_3bl_staff = 39
+    local id_3bl_ssword = 40
+    local id_3bl_whammer = 41
+    local id_3bl_flail = 42
+    local id_3bl_shiv = 43
+    local id_3bl_lsword = 44
+    local id_3bl_smace = 45
+    local id_3bl_light = 53
+    local id_3bl_food = 55
+    local id_3bl_drink = 57
     -- 
     -- attempt to reinitialize slutty dg variables to '' (nothing)
     -- so this switch will work.
     -- 
     is_gem = nil
     exp_multiplier = nil
-    vnum_trophy = nil
+    id_trophy = nil
     faction_multiplier = nil
-    vnum_reward = nil
+    id_reward = nil
     faction_required = nil
     -- 
     -- These case set the variables for the quests.
@@ -99,165 +99,165 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     -- the NPC by the player.
     -- 
     -- switch on object.id
-    if object.id == "%vnum_gem_3bl_cap%" then
+    if object.id == "%id_gem_3bl_cap%" then
         local is_gem = 1
         local exp_multiplier = 10
-        local vnum_reward = vnum_3bl_cap
+        local id_reward = id_3bl_cap
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_food%" then
+    elseif object.id == "%id_gem_3bl_food%" then
         local is_gem = 1
         local exp_multiplier = 10
-        local vnum_reward = vnum_3bl_food
+        local id_reward = id_3bl_food
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_drink%" then
+    elseif object.id == "%id_gem_3bl_drink%" then
         local is_gem = 1
         local exp_multiplier = 10
-        local vnum_reward = vnum_3bl_drink
+        local id_reward = id_3bl_drink
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_ssword%" then
+    elseif object.id == "%id_gem_3bl_ssword%" then
         local is_gem = 1
         local exp_multiplier = 10
-        local vnum_reward = vnum_3bl_ssword
+        local id_reward = id_3bl_ssword
         local faction_required = 20
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_neck%" then
+    elseif object.id == "%id_gem_3bl_neck%" then
         local is_gem = 1
         local exp_multiplier = 12
-        local vnum_reward = vnum_3bl_neck
+        local id_reward = id_3bl_neck
         local faction_required = 40
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_staff%" then
+    elseif object.id == "%id_gem_3bl_staff%" then
         local is_gem = 1
         local exp_multiplier = 12
-        local vnum_reward = vnum_3bl_staff
+        local id_reward = id_3bl_staff
         local faction_required = 40
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_arm%" then
+    elseif object.id == "%id_gem_3bl_arm%" then
         local is_gem = 1
         local exp_multiplier = 14
-        local vnum_reward = vnum_3bl_arm
+        local id_reward = id_3bl_arm
         local faction_required = 55
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_whammer%" then
+    elseif object.id == "%id_gem_3bl_whammer%" then
         local is_gem = 1
         local exp_multiplier = 14
-        local vnum_reward = vnum_3bl_whammer
+        local id_reward = id_3bl_whammer
         local faction_required = 55
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_wrist%" then
+    elseif object.id == "%id_gem_3bl_wrist%" then
         local is_gem = 1
         local exp_multiplier = 16
-        local vnum_reward = vnum_3bl_wrist
+        local id_reward = id_3bl_wrist
         local faction_required = 70
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_flail%" then
+    elseif object.id == "%id_gem_3bl_flail%" then
         local is_gem = 1
         local exp_multiplier = 16
-        local vnum_reward = vnum_3bl_flail
+        local id_reward = id_3bl_flail
         local faction_required = 70
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_gloves%" then
+    elseif object.id == "%id_gem_3bl_gloves%" then
         local is_gem = 1
         local exp_multiplier = 18
-        local vnum_reward = vnum_3bl_gloves
+        local id_reward = id_3bl_gloves
         local faction_required = 85
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_symbol%" then
+    elseif object.id == "%id_gem_3bl_symbol%" then
         local is_gem = 1
         local exp_multiplier = 18
-        local vnum_reward = vnum_3bl_symbol
+        local id_reward = id_3bl_symbol
         local faction_required = 85
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_belt%" then
+    elseif object.id == "%id_gem_3bl_belt%" then
         local is_gem = 1
         local exp_multiplier = 20
-        local vnum_reward = vnum_3bl_belt
+        local id_reward = id_3bl_belt
         local faction_required = 100
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_shiv%" then
+    elseif object.id == "%id_gem_3bl_shiv%" then
         local is_gem = 1
         local exp_multiplier = 20
-        local vnum_reward = vnum_3bl_shiv
+        local id_reward = id_3bl_shiv
         local faction_required = 100
         local faction_multiplier = 1
-    elseif object.id == "%vnum_gem_3bl_boots%" then
+    elseif object.id == "%id_gem_3bl_boots%" then
         local is_gem = 1
         local exp_multiplier = 22
-        local vnum_reward = vnum_3bl_boots
+        local id_reward = id_3bl_boots
         local faction_required = 115
         local faction_multiplier = 2
-    elseif object.id == "%vnum_gem_3bl_lsword%" then
+    elseif object.id == "%id_gem_3bl_lsword%" then
         local is_gem = 1
         local exp_multiplier = 22
-        local vnum_reward = vnum_3bl_lsword
+        local id_reward = id_3bl_lsword
         local faction_required = 115
         local faction_multiplier = 2
-    elseif object.id == "%vnum_gem_3bl_legs%" then
+    elseif object.id == "%id_gem_3bl_legs%" then
         local is_gem = 1
         local exp_multiplier = 24
-        local vnum_reward = vnum_3bl_legs
+        local id_reward = id_3bl_legs
         local faction_required = 130
         local faction_multiplier = 2
-    elseif object.id == "%vnum_gem_3bl_robe%" then
+    elseif object.id == "%id_gem_3bl_robe%" then
         local is_gem = 1
         local exp_multiplier = 26
-        local vnum_reward = vnum_3bl_robe
+        local id_reward = id_3bl_robe
         local faction_required = 145
         local faction_multiplier = 2
-    elseif object.id == "%vnum_gem_3bl_jerkin%" then
+    elseif object.id == "%id_gem_3bl_jerkin%" then
         local is_gem = 1
         local exp_multiplier = 26
-        local vnum_reward = vnum_3bl_jerkin
+        local id_reward = id_3bl_jerkin
         local faction_required = 145
         local faction_multiplier = 2
-    elseif object.id == "%vnum_gem_3bl_light%" then
+    elseif object.id == "%id_gem_3bl_light%" then
         local is_gem = 1
         local exp_multiplier = 26
-        local vnum_reward = vnum_3bl_light
+        local id_reward = id_3bl_light
         local faction_required = 85
         local faction_multiplier = 2
-    elseif object.id == "%vnum_gem_3bl_mask%" then
+    elseif object.id == "%id_gem_3bl_mask%" then
         local is_gem = 1
         local exp_multiplier = 28
-        local vnum_reward = vnum_3bl_mask
+        local id_reward = id_3bl_mask
         local faction_required = 160
         local faction_multiplier = 3
-    elseif object.id == "%vnum_gem_3bl_smace%" then
+    elseif object.id == "%id_gem_3bl_smace%" then
         local is_gem = 1
         local exp_multiplier = 28
-        local vnum_reward = vnum_3bl_smace
+        local id_reward = id_3bl_smace
         local faction_required = 160
         local faction_multiplier = 3
-    elseif object.id == "%vnum_3el_skull%" then
+    elseif object.id == "%id_3el_skull%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_skull
+        local id_trophy = id_3el_skull
         local faction_multiplier = 1
-    elseif object.id == "%vnum_3el_ring%" then
+    elseif object.id == "%id_3el_ring%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_ring
+        local id_trophy = id_3el_ring
         local faction_multiplier = 1
-    elseif object.id == "%vnum_3el_badge%" then
+    elseif object.id == "%id_3el_badge%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_badge
+        local id_trophy = id_3el_badge
         local faction_multiplier = 1
-    elseif object.id == "%vnum_3el_token%" then
+    elseif object.id == "%id_3el_token%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_token
+        local id_trophy = id_3el_token
         local faction_multiplier = 2
-    elseif object.id == "%vnum_3el_insignia%" then
+    elseif object.id == "%id_3el_insignia%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_insignia
+        local id_trophy = id_3el_insignia
         local faction_multiplier = 2
-    elseif object.id == "%vnum_3el_wand%" then
+    elseif object.id == "%id_3el_wand%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_wand
+        local id_trophy = id_3el_wand
         local faction_multiplier = 2
-    elseif object.id == "%vnum_3el_symbol%" then
+    elseif object.id == "%id_3el_symbol%" then
         local exp_multiplier = 2
-        local vnum_trophy = vnum_3el_symbol
+        local id_trophy = id_3el_symbol
         local faction_multiplier = 3
     else
         _return_value = true
@@ -274,21 +274,21 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         local faction_advance = 0
         local exp_advance = 0
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable[black_legion:vnum_trophy_trophies] then
+        if actor:get_quest_var("black_legion:id_trophy_trophies") then
         else
-            actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", 0)
+            actor:set_quest_var("black_legion", "%id_trophy%_trophies", 0)
         end
-        local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies]
-        actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
+        local trophies = actor:get_quest_var("black_legion:id_trophy_trophies")
+        actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
         -- The highest faction a player can gain from interacting with the 3rd front creatures will
         -- be 200.  For this section the trophy turn in will reply on this and other checks.
         if actor:get_quest_var("black_legion:bl_faction") < 200 then
-            local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies] + 1
-            actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
+            local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
+            actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'Hrm, yes.. you have been out")
             actor:send("</>fighting the Eldorian Guard.  I see from my records you have now given me")
-            actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%vnum_trophy%]%</>.'")
+            actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%id_trophy%]%</>.'")
             world.destroy(object.name)
             actor:save()
             if trophies < 10 then
@@ -300,8 +300,8 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         else
             if trophies < 10 then
                 local exp_advance = 1
-                local trophies = actor.quest_variable[black_legion:vnum_trophy_trophies] + 1
-                actor.name:set_quest_var("black_legion", "%vnum_trophy%_trophies", trophies)
+                local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
+                actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             else
                 _return_value = true
             end
@@ -340,12 +340,12 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             local lap = 1
             while lap <= faction_multiplier do
                 local faction = actor:get_quest_var("black_legion:bl_faction") + 1
-                actor.name:set_quest_var("black_legion", "bl_faction", faction)
+                actor:set_quest_var("black_legion", "bl_faction", faction)
                 -- 
                 -- slight bug for now the trigger code can't seem to evaluate negative numbers?
                 -- 
                 local faction2 = actor:get_quest_var("black_legion:eg_faction") - 1
-                actor.name:set_quest_var("black_legion", "eg_faction", faction2)
+                actor:set_quest_var("black_legion", "eg_faction", faction2)
                 lap = lap + 1
             end
             -- 
@@ -358,12 +358,12 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     end
     if is_gem then
         -- hrmm Jelos' magical variable declaration
-        if actor.quest_variable[black_legion:vnum_reward_reward] then
+        if actor:get_quest_var("black_legion:id_reward_reward") then
         else
-            actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", 0)
+            actor:set_quest_var("black_legion", "%id_reward%_reward", 0)
         end
-        local rewards = actor.quest_variable[black_legion:vnum_reward_reward]
-        actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", rewards)
+        local rewards = actor:get_quest_var("black_legion:id_reward_reward")
+        actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
         if actor.alignment >= 151 then
             _return_value = true
             wait(2)
@@ -372,15 +372,15 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             return _return_value
         end
         if actor:get_quest_var("black_legion:bl_faction") >= faction_required then
-            local rewards = actor.quest_variable[black_legion:vnum_reward_reward] + 1
-            actor.name:set_quest_var("black_legion", "%vnum_reward%_reward", rewards)
+            local rewards = actor:get_quest_var("black_legion:id_reward_reward") + 1
+            actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Legion thanks you for")
             actor:send("</>your efforts.  Take this to aid you in your battles.'")
             wait(1)
-            self.room:spawn_object(55, vnum_reward)
+            self.room:spawn_object(55, id_reward)
             wait(1)
-            if actor.quest_variable[black_legion:vnum_reward_reward] == 1 then
+            if actor:get_quest_var("black_legion:id_reward_reward") == 1 then
                 -- 
                 -- loop for exp award.
                 -- 
@@ -405,12 +405,12 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
                 local lap = 1
                 while lap <= faction_multiplier do
                     local faction = actor:get_quest_var("black_legion:bl_faction") + 1
-                    actor.name:set_quest_var("black_legion", "bl_faction", faction)
+                    actor:set_quest_var("black_legion", "bl_faction", faction)
                     -- 
                     -- slight bug for now the trigger code can't seem to evaluate negative numbers?
                     -- 
                     local faction2 = actor:get_quest_var("black_legion:eg_faction") - 1
-                    actor.name:set_quest_var("black_legion", "eg_faction", faction2)
+                    actor:set_quest_var("black_legion", "eg_faction", faction2)
                     lap = lap + 1
                 end
                 -- 

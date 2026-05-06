@@ -110,14 +110,14 @@ end
 -- 
 if actor:get_quest_stage("hellfire_brimstone") == 3 then
     if object.id == 4318 or object.id == 5211 or object.id == 5212 or object.id == 17308 or object.id == 48110 or object.id == 53000 then
-        if actor.quest_variable[hellfire_brimstone:object.vnum] then
+        if actor:get_quest_var("hellfire_brimstone:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
-            self:say("I have no need for a second " .. "%get.obj_noadesc[%object.vnum%]%!")
+            self:say("I have no need for a second " .. ("%get.obj_noadesc[" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id) .. "]%!"))
         else
             wait(2)
-            actor.name:set_quest_var("hellfire_brimstone", "%object.vnum%", 1)
+            actor:set_quest_var("hellfire_brimstone", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             self.room:send(tostring(self.name) .. " holds " .. tostring(object.shortdesc) .. " in his gnarled fist.")
             self:say("You have done well " .. tostring(actor.name) .. ".")
             world.destroy(object.name)
@@ -142,7 +142,7 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
             wait(4)
             actor:send("<b:red>Gazing into the burning sigil, you feel the words to a prayer to the Dark One forming in your soul.</>_")
             actor:send("You have learned the prayers for <b:red>H<yellow>e<red>llf<yellow>i<red>re</> <red>and <blue>Br<yellow>i<red>mst<yellow>o<red>ne</>!")
-            actor.name:complete_quest("hellfire_brimstone")
+            actor:complete_quest("hellfire_brimstone")
             if not actor:get_quest_var("hell_trident:helltask4") and actor:get_quest_stage("hell_trident") == 1 then
                 actor:set_quest_var("hell_trident", "helltask4", 1)
             end

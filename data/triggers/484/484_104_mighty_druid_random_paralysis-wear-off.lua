@@ -1,14 +1,13 @@
 -- Trigger: mighty druid random paralysis-wear-off
 -- Zone: 484, ID: 104
 -- Type: MOB, Flags: RANDOM
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48504
 
 -- Converted from DG Script #48504: mighty druid random paralysis-wear-off
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
-local now = time.stamp
+local now = timestamp()
 if paralysis_victim_1 and ((paralysis_victim_1.room ~= self.room) or (paralysis_expire_1 <= now)) then
     if paralysis_victim_1.room == self.room then
         self.room:send_except(paralysis_victim_1, "<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_1.name) .. " from its grasp.</>")

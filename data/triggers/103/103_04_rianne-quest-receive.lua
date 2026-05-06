@@ -15,14 +15,14 @@ local _return_value = true  -- Default: allow action
 -- Added by Daedela 3-9-2021 for Group Heal quest
 -- 
 if actor:get_quest_stage("group_heal") == 5 then
-    if actor.quest_variable[group_heal:self.vnum] then
+    if actor:get_quest_var("group_heal:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
         if object.id == 18514 then
             self:say("I've told you everything I can.  Good luck!")
             return _return_value
         end
     else
         if object.id == 18514 then
-            actor.name:set_quest_var("group_heal", "%self.vnum%", 1)
+            actor:set_quest_var("group_heal", (tostring(self.zone_id) .. "_" .. tostring(self.local_id)), 1)
             _return_value = true
             self:say("Well you've definitely come to the right place!")
             wait(4)
@@ -134,7 +134,7 @@ else
     self.room:send(tostring(self.name) .. " says, 'The recipe doesn't call for this!  Perhaps you should consult the recipe on the wall to refresh your memory.'")
     return _return_value
 end
-if actor.quest_variable[resort_cooking:itemitem] then
+if actor:get_quest_var("resort_cooking:itemitem") then
     _return_value = true
     self.room:send(tostring(self.name) .. " says, 'You already brought in " .. tostring(object.shortdesc) .. ", so we don't need more.'")
     self:emote("hands your item back to you.")
@@ -144,7 +144,7 @@ wait(1)
 world.destroy(object.name)
 wait(4)
 self.room:send(tostring(self.name) .. " says, 'Just what we need for <b:white>" .. tostring(recipe) .. "</>!'")
-actor.name:set_quest_var("resort_cooking", "item%item%", 1)
+actor:set_quest_var("resort_cooking", "item%item%", 1)
 -- See if we've turned in everything for this recipe
 local item = 1
 while item <= 7 do
@@ -166,7 +166,7 @@ end
 if stage == 1 or stage == 5 or actor:get_quest_var("resort_cooking:item5") then
     local item5 = 1
 end
-if (stage ~= 2 and stage ~= 3) or actor.quest_variable[resort_cooking:item6]% then
+if (stage ~= 2 and stage ~= 3) or actor:get_quest_var("resort_cooking:item6")% then
     local item6 = 1
 end
 if stage ~= 3 or actor:get_quest_var("resort_cooking:item7") then
@@ -174,11 +174,11 @@ if stage ~= 3 or actor:get_quest_var("resort_cooking:item7") then
 end
 -- If all the items have been turned in, start mixing
 if item1 and item2 and item3 and item4 and item5 and item6 and item7 then
-    actor.name:advance_quest("resort_cooking")
+    actor:advance_quest("resort_cooking")
     local item = 1
     -- Reset item variables
     while item <= 7 do
-        actor.name:set_quest_var("resort_cooking", "item%item%", 0)
+        actor:set_quest_var("resort_cooking", "item%item%", 0)
         item = item + 1
     end
     self:say("I think I can start preparing it now.")
@@ -262,7 +262,7 @@ if item1 and item2 and item3 and item4 and item5 and item6 and item7 then
             actor:award_exp(setexp)
             loop = loop + 1
         end
-        actor.name:complete_quest("resort_cooking")
+        actor:complete_quest("resort_cooking")
     else
         self.room:send(tostring(self.name) .. " says, 'I'll keep preparing this while you collect items for the next recipe.'")
         self:command("ponder")

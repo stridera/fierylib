@@ -13,7 +13,7 @@ if not percent_chance(0) then
     return true
 end
 -- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wandvnum%" or object.id == "%wandtask3%" then
+if object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%wandtask3%" then
     return _return_value
 else
     wait(1)

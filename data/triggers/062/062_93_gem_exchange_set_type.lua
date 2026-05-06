@@ -21,432 +21,432 @@ if not actor:get_quest_stage("gem_exchange") then
 end
 if string.find(speech, "amber") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55575
+        local gem_id = 55575
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55567
+        local gem_id = 55567
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55602
+        local gem_id = 55602
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55624
+        local gem_id = 55624
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55583
+        local gem_id = 55583
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55723
+        local gem_id = 55723
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55701
+        local gem_id = 55701
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55679
+        local gem_id = 55679
     else
-        local gem_vnum = 55646
+        local gem_id = 55646
     end
 elseif string.find(speech, "agate") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55599
+        local gem_id = 55599
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55621
+        local gem_id = 55621
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55676
+        local gem_id = 55676
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55698
+        local gem_id = 55698
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55720
+        local gem_id = 55720
     else
-        local gem_vnum = 55643
+        local gem_id = 55643
     end
 elseif string.find(speech, "amethyst") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55574
+        local gem_id = 55574
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55566
+        local gem_id = 55566
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55601
+        local gem_id = 55601
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55623
+        local gem_id = 55623
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55582
+        local gem_id = 55582
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55722
+        local gem_id = 55722
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55700
+        local gem_id = 55700
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55678
+        local gem_id = 55678
     else
-        local gem_vnum = 55645
+        local gem_id = 55645
     end
 elseif string.find(speech, "aquamarine") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55579
+        local gem_id = 55579
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55571
+        local gem_id = 55571
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55613
+        local gem_id = 55613
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55635
+        local gem_id = 55635
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55587
+        local gem_id = 55587
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55734
+        local gem_id = 55734
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55712
+        local gem_id = 55712
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55690
+        local gem_id = 55690
     else
-        local gem_vnum = 55657
+        local gem_id = 55657
     end
 elseif string.find(speech, "beryl") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55606
+        local gem_id = 55606
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55628
+        local gem_id = 55628
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55605
+        local gem_id = 55605
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55727
+        local gem_id = 55727
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55705
+        local gem_id = 55705
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55683
+        local gem_id = 55683
     else
-        local gem_vnum = 55650
+        local gem_id = 55650
     end
 elseif string.find(speech, "bloodstone") or string.find(speech, "blood") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55598
+        local gem_id = 55598
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55620
+        local gem_id = 55620
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55675
+        local gem_id = 55675
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55697
+        local gem_id = 55697
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55719
+        local gem_id = 55719
     else
-        local gem_vnum = 55642
+        local gem_id = 55642
     end
 elseif string.find(speech, "carnelian") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55595
+        local gem_id = 55595
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55617
+        local gem_id = 55617
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55672
+        local gem_id = 55672
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55694
+        local gem_id = 55694
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55716
+        local gem_id = 55716
     else
-        local gem_vnum = 55639
+        local gem_id = 55639
     end
 elseif string.find(speech, "citrine") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55577
+        local gem_id = 55577
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55569
+        local gem_id = 55569
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55604
+        local gem_id = 55604
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55626
+        local gem_id = 55626
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55585
+        local gem_id = 55585
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55725
+        local gem_id = 55725
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55703
+        local gem_id = 55703
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55681
+        local gem_id = 55681
     else
-        local gem_vnum = 55648
+        local gem_id = 55648
     end
 elseif string.find(speech, "diamond") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55591
+        local gem_id = 55591
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55665
+        local gem_id = 55665
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55664
+        local gem_id = 55664
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55741
+        local gem_id = 55741
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55742
+        local gem_id = 55742
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55745
+        local gem_id = 55745
     else
-        local gem_vnum = 55668
+        local gem_id = 55668
     end
 elseif string.find(speech, "emerald") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55593
+        local gem_id = 55593
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55663
+        local gem_id = 55663
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55660
+        local gem_id = 55660
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55737
+        local gem_id = 55737
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55740
+        local gem_id = 55740
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55747
+        local gem_id = 55747
     else
-        local gem_vnum = 55670
+        local gem_id = 55670
     end
 elseif string.find(speech, "garnet") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55578
+        local gem_id = 55578
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55570
+        local gem_id = 55570
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55612
+        local gem_id = 55612
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55634
+        local gem_id = 55634
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55586
+        local gem_id = 55586
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55733
+        local gem_id = 55733
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55711
+        local gem_id = 55711
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55689
+        local gem_id = 55689
     else
-        local gem_vnum = 55656
+        local gem_id = 55656
     end
 elseif string.find(speech, "hematite") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55594
+        local gem_id = 55594
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55616
+        local gem_id = 55616
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55671
+        local gem_id = 55671
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55693
+        local gem_id = 55693
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55715
+        local gem_id = 55715
     else
-        local gem_vnum = 55638
+        local gem_id = 55638
     end
 elseif string.find(speech, "jade") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55608
+        local gem_id = 55608
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55630
+        local gem_id = 55630
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55610
+        local gem_id = 55610
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55729
+        local gem_id = 55729
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55707
+        local gem_id = 55707
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55685
+        local gem_id = 55685
     else
-        local gem_vnum = 55652
+        local gem_id = 55652
     end
 elseif string.find(speech, "jasper") then
     actor:send(tostring(self.name) .. " says, 'I'm sorry, we don't stock jasper.'")
     self:command("half")
 elseif string.find(speech, "labradorite") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55611
+        local gem_id = 55611
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55633
+        local gem_id = 55633
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55688
+        local gem_id = 55688
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55710
+        local gem_id = 55710
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55732
+        local gem_id = 55732
     else
-        local gem_vnum = 55655
+        local gem_id = 55655
     end
 elseif string.find(speech, "lapis") or string.find(speech, "lapis")-lazuli or string.find(speech, "lazuli") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55600
+        local gem_id = 55600
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55622
+        local gem_id = 55622
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55721
+        local gem_id = 55721
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55699
+        local gem_id = 55699
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55677
+        local gem_id = 55677
     else
-        local gem_vnum = 55644
+        local gem_id = 55644
     end
 elseif string.find(speech, "malachite") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55603
+        local gem_id = 55603
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55568
+        local gem_id = 55568
     elseif string.find(speech, "crushed") then
-        local gem_vnum = 55576
+        local gem_id = 55576
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55584
+        local gem_id = 55584
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55625
+        local gem_id = 55625
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55680
+        local gem_id = 55680
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55702
+        local gem_id = 55702
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55724
+        local gem_id = 55724
     elseif string.find(speech, "chunk") then
         actor:send(tostring(self.name) .. " says, 'That is not an item we trade in the gem exchange.'")
         self:command("half")
     else
-        local gem_vnum = 55647
+        local gem_id = 55647
     end
 elseif string.find(speech, "moonstone") or string.find(speech, "moon") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55596
+        local gem_id = 55596
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55618
+        local gem_id = 55618
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55673
+        local gem_id = 55673
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55695
+        local gem_id = 55695
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55717
+        local gem_id = 55717
     else
-        local gem_vnum = 55640
+        local gem_id = 55640
     end
 elseif string.find(speech, "onyx") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55609
+        local gem_id = 55609
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55631
+        local gem_id = 55631
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55686
+        local gem_id = 55686
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55708
+        local gem_id = 55708
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55730
+        local gem_id = 55730
     else
-        local gem_vnum = 55653
+        local gem_id = 55653
     end
 elseif string.find(speech, "opal") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55610
+        local gem_id = 55610
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55632
+        local gem_id = 55632
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55731
+        local gem_id = 55731
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55709
+        local gem_id = 55709
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55687
+        local gem_id = 55687
     else
-        local gem_vnum = 55654
+        local gem_id = 55654
     end
 elseif string.find(speech, "pearl") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55607
+        local gem_id = 55607
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55629
+        local gem_id = 55629
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55728
+        local gem_id = 55728
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55706
+        local gem_id = 55706
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55684
+        local gem_id = 55684
     else
-        local gem_vnum = 55651
+        local gem_id = 55651
     end
 elseif string.find(speech, "peridot") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55615
+        local gem_id = 55615
     elseif string.find(speech, "crushed") then
-        local gem_vnum = 55581
+        local gem_id = 55581
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55573
+        local gem_id = 55573
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55589
+        local gem_id = 55589
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55637
+        local gem_id = 55637
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55692
+        local gem_id = 55692
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55714
+        local gem_id = 55714
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55736
+        local gem_id = 55736
     else
-        local gem_vnum = 55659
+        local gem_id = 55659
     end
 elseif string.find(speech, "ruby") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55590
+        local gem_id = 55590
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55662
+        local gem_id = 55662
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55661
+        local gem_id = 55661
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55738
+        local gem_id = 55738
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55739
+        local gem_id = 55739
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55744
+        local gem_id = 55744
     else
-        local gem_vnum = 55667
+        local gem_id = 55667
     end
 elseif string.find(speech, "sapphire") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55592
+        local gem_id = 55592
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55666
+        local gem_id = 55666
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55689
+        local gem_id = 55689
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55743
+        local gem_id = 55743
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55746
+        local gem_id = 55746
     else
-        local gem_vnum = 55669
+        local gem_id = 55669
     end
 elseif string.find(speech, "topaz") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55605
+        local gem_id = 55605
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55627
+        local gem_id = 55627
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55726
+        local gem_id = 55726
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55704
+        local gem_id = 55704
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55682
+        local gem_id = 55682
     else
-        local gem_vnum = 55649
+        local gem_id = 55649
     end
 elseif string.find(speech, "tourmaline") then
     if string.find(speech, "crushed") then
-        local gem_vnum = 55580
+        local gem_id = 55580
     elseif string.find(speech, "dust") then
-        local gem_vnum = 55572
+        local gem_id = 55572
     elseif string.find(speech, "uncut") then
-        local gem_vnum = 55614
+        local gem_id = 55614
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55636
+        local gem_id = 55636
     elseif string.find(speech, "shard") then
-        local gem_vnum = 55588
+        local gem_id = 55588
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55735
+        local gem_id = 55735
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55713
+        local gem_id = 55713
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55691
+        local gem_id = 55691
     else
-        local gem_vnum = 55658
+        local gem_id = 55658
     end
 elseif string.find(speech, "turquoise") then
     if string.find(speech, "uncut") then
-        local gem_vnum = 55597
+        local gem_id = 55597
     elseif string.find(speech, "flawed") then
-        local gem_vnum = 55619
+        local gem_id = 55619
     elseif string.find(speech, "enchanted") then
-        local gem_vnum = 55718
+        local gem_id = 55718
     elseif string.find(speech, "radiant") then
-        local gem_vnum = 55696
+        local gem_id = 55696
     elseif string.find(speech, "perfect") then
-        local gem_vnum = 55674
+        local gem_id = 55674
     else
-        local gem_vnum = 55641
+        local gem_id = 55641
     end
 end
-actor:send(tostring(self.name) .. " asks you, 'You want " .. "%get.obj_shortdesc[%gem_vnum%]%?'")
-actor:set_quest_var("gem_exchange", "gem_vnum", gem_vnum)
+actor:send(tostring(self.name) .. " asks you, 'You want " .. "%get.obj_shortdesc[%gem_id%]%?'")
+actor:set_quest_var("gem_exchange", "gem_id", gem_id)

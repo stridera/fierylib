@@ -20,30 +20,30 @@ local maxlevel = 15
 -- This is the barbarian, who sends people to Ickle.
 if self.id == 3151 or self.id == 30075 then
     local myname = "barbarian"
-    local dvnum = 10046
+    local dest_room = 10046
     local dsname = "Ickle"
 elseif self.id == 3152 then
     -- This is the dwarf, who sends people to Anduin.
     local myname = "dwarf"
-    local dvnum = 6015
+    local dest_room = 6015
     local dsname = "Anduin"
 elseif self.id == 30074 then
     local myname = "drow"
-    local dvnum = 6015
+    local dest_room = 6015
     local dsname = "Anduin"
 elseif self.id == 30076 then
     local myname = "human"
-    local dvnum = 3016
+    local dest_room = 3016
     local dsname = "Mielikki"
 elseif self.id == 30077 then
     local myname = "orc"
-    local dvnum = 30115
+    local dest_room = 30115
     local dsname = "Ogakh"
 elseif self.id == 3150 then
 else
     -- This is the elf, who sends people to Mielikki.
     local myname = "elf"
-    local dvnum = 3016
+    local dest_room = 3016
     local dsname = "Mielikki"
 end
 wait(4)
@@ -52,7 +52,7 @@ wait(4)
 -- **************************
 if actor.level > 99 then
     self:command("eyebrow " .. tostring(actor.name))
-    actor:send("<blue>The " .. tostring(myname) .. " tells you, 'Just goto " .. tostring(dvnum) .. ".'")
+    actor:send("<blue>The " .. tostring(myname) .. " tells you, 'Just goto " .. tostring(dest_room) .. ".'")
     return _return_value
 elseif minlevel > actor.level then
     self:command("shake")
@@ -90,8 +90,8 @@ wait(4)
 self.room:send_except(actor, tostring(self.name) .. " makes a magical gesture at " .. tostring(actor.name) .. ".")
 actor:send(tostring(self.name) .. " makes a magical gesture at you.")
 self.room:send_except(actor, tostring(actor.name) .. " disappears in a cloud of gray smoke.")
-actor:teleport(get_room(math.floor(dvnum / 100), dvnum % 100))
-get_room(math.floor(dvnum / 100), dvnum % 100):at(function()
+actor:teleport(get_room(math.floor(dest_room / 100), dest_room % 100))
+get_room(math.floor(dest_room / 100), dest_room % 100):at(function()
     self.room:send_except(actor, tostring(actor.name) .. " arrives in a cloud of " .. tostring(dcolor) .. " smoke.")
 end)
 -- actor looks around

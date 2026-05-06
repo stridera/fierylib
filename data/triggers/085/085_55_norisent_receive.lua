@@ -19,7 +19,7 @@ if object.id == 4008 then
     elseif actor:get_quest_stage("resurrection_quest") == 5 then
         wait(1)
         world.destroy(object)
-        actor.name:advance_quest("resurrection_quest")
+        actor:advance_quest("resurrection_quest")
         self:say("Excellent.  The Tres Keeper was using this ring to gain power over the connection between soul and body.  It should not be in such careless hands as his.")
         wait(3)
         self:say("Another of the dark mages focused his research on extending life.  He is using robes imbued with the power of a mighty dragon to manipulate the flow of time and extend his life.'")
@@ -42,7 +42,7 @@ elseif object.id == 53307 then
     elseif actor:get_quest_stage("resurrection_quest") == 7 then
         wait(1)
         world.destroy(object)
-        actor.name:advance_quest("resurrection_quest")
+        actor:advance_quest("resurrection_quest")
         self:say("Good.  Aelfric's work with lengthening life was disrupting the flow of time itself.  Very foolish of him.")
         wait(3)
         self:say("There is one whose necromancy has become quite advanced, as brutish as it is.")
@@ -69,7 +69,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             wait(2)
             world.destroy(object)
             self:say("Ah, the angelic book!  You have done well to keep this from him.")
-            actor.name:advance_quest("resurrection_quest")
+            actor:advance_quest("resurrection_quest")
         elseif actor.class == "DIABOLIST" then
             _return_value = true
             self:say("Wrong one, dummy.")
@@ -84,7 +84,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             wait(2)
             world.destroy(object)
             self:say("Ah, the phoenix heart!  You've done well to keep this from him.")
-            actor.name:advance_quest("resurrection_quest")
+            actor:advance_quest("resurrection_quest")
         elseif actor.class == "cleric" or actor.class == "priest" then
             _return_value = true
             self:say("Wrong one, dummy.")
@@ -117,7 +117,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
     -- say There is another mage trapped by a malevolent god between life and death.  The continued existence of the mighty battlemage, Solek, is the cause of great instability.  Along with him, his compatriot Velocity, named for the speeds she harnessed in life, is bound by the same god in his keep.  Their continued existence as puppets of a cruel god tears at the very fabric of order and structure.
     -- wait 3s
     -- say You must find the power to stop Velocity. The utterance will help you.  Bring swift and lasting death to Solek, and return the source of his arcane wisdoms.
-    -- elseif %actor.quest_stage[resurrection_quest]% == 10
+    -- elseif %actor:get_quest_stage("resurrection_quest")% == 10
     -- if %object.vnum% == 48906
     -- say Give me the talisman first. I must know that Solek is truly dead.
     -- return 0

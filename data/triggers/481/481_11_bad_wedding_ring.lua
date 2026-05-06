@@ -13,7 +13,7 @@ if actor.id ~= 48105 then
     actor:damage(100)  -- type: fire
     if damage_dealt ~= 0 then
         self.room:send_except(actor, tostring(actor.name) .. " shouts in surprise and pain. (<b:red>" .. tostring(damage_dealt) .. "</>)")
-        if actor.inventory[self.vnum] then
+        if actor:has_item(self.zone_id, self.local_id) then
             actor:send("You are burnt by the ring and drop it! (<b:red>" .. tostring(damage_dealt) .. "</>)")
             actor:command("drop ivory-ring")
         else

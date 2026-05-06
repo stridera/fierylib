@@ -34,7 +34,7 @@ if string.find(self.class, "necromancer") then
     end
 elseif string.find(self.class, "pyromancer") then
     if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor:has_equipped("48917")) then
-        actor.name:advance_quest("supernova")
+        actor:advance_quest("supernova")
         local rnd1 = random(1, 3)
         -- switch on rnd1
         if rnd1 == 1 then
@@ -44,7 +44,7 @@ elseif string.find(self.class, "pyromancer") then
         elseif rnd1 == 3 then
             local step3 = 58062
         end
-        actor.name:set_quest_var("supernova", "step3", step3)
+        actor:set_quest_var("supernova", "step3", step3)
         local rnd2 = random(1, 3)
         -- switch on rnd2
         if rnd2 == 1 then
@@ -54,7 +54,7 @@ elseif string.find(self.class, "pyromancer") then
         elseif rnd2 == 3 then
             local step4 = 8561
         end
-        actor.name:set_quest_var("supernova", "step4", step4)
+        actor:set_quest_var("supernova", "step4", step4)
         local rnd3 = random(1, 3)
         -- switch on rnd3
         if rnd3 == 1 then
@@ -64,7 +64,7 @@ elseif string.find(self.class, "pyromancer") then
         elseif rnd3 == 3 then
             local step5 = 16278
         end
-        actor.name:set_quest_var("supernova", "step5", step5)
+        actor:set_quest_var("supernova", "step5", step5)
         local rnd4 = random(1, 3)
         -- switch on rnd4
         if rnd4 == 1 then
@@ -74,9 +74,9 @@ elseif string.find(self.class, "pyromancer") then
         elseif rnd4 == 3 then
             local step6 = 55422
         end
-        actor.name:set_quest_var("supernova", "step6", step6)
+        actor:set_quest_var("supernova", "step6", step6)
         local step7 = random(1, 3)
-        actor.name:set_quest_var("supernova", "step7", step7)
+        actor:set_quest_var("supernova", "step7", step7)
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Ah I see you found one of Phayla's lamps!'")
         wait(3)
@@ -107,7 +107,11 @@ elseif (self.class == "cleric" or self.class == "priest" or self.class == "Diabo
         end
     end
 end
-if actor:get_quest_stage("ursa_quest")self.vnum% == 6007 then
+-- TODO(parity): converter mashed two conditions together. Original
+-- DG read approximately `actor:get_quest_stage("ursa_quest") and
+-- self.vnum == 6007` — gating an info dump on (60, 7) the actor's
+-- mob. Restored that conservative reading; verify against legacy.
+if actor:get_quest_stage("ursa_quest") > 0 and self.zone_id == 60 and self.local_id == 7 then
     wait(1)
     actor:send(tostring(self.name) .. " notices the concerned look on your face.")
     wait(1)

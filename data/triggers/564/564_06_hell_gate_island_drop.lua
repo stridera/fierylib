@@ -10,11 +10,11 @@
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("hell_gate") == 3 then
-    if actor.quest_variable[hell_gate:object.vnum] then
+    if actor:get_quest_var("hell_gate:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
         _return_value = true
         self.room:send(tostring(mobiles.template(564, 0).name) .. " says, 'We have already gathered this blood.'")
     elseif object.id == 56400 or object.id == 56401 or object.id == 56402 or object.id == 56403 or object.id == 56404 or object.id == 56405 or object.id == 56406 then
-        actor.name:set_quest_var("hell_gate", "%object.vnum%", 1)
+        actor:set_quest_var("hell_gate", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
         wait(1)
         self.room:send(tostring(object.shortdesc) .. " spills on the ground, gathering in a pool.")
         world.destroy(self.room:find_actor("blood"))
@@ -26,7 +26,7 @@ if actor:get_quest_stage("hell_gate") == 3 then
         local blood6 = actor:get_quest_var("hell_gate:56405")
         local blood7 = actor:get_quest_var("hell_gate:56406")
         if blood1 and blood2 and blood3 and blood4 and blood5 and blood6 and blood7 then
-            actor.name:advance_quest("hell_gate")
+            actor:advance_quest("hell_gate")
             wait(2)
             self.room:send(tostring(mobiles.template(564, 0).name) .. " says, 'I shall need the dagger to finish this step_of the unsealing.  Please give it to me.'")
         else

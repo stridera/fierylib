@@ -49,7 +49,7 @@ if stage == 2 then
             actor:send("'Never forget what you have witnessed here today.'")
             wait(1)
             actor:send("It whispers the eldritch formula for summoning such a cataclysm again.")
-            actor.name:complete_quest("flood")
+            actor:complete_quest("flood")
             skills.set_level(actor.name, "flood", 100)
             actor:send("<b:blue>You have learned Flood.</>")
             wait(2)
@@ -72,7 +72,7 @@ elseif self.id == 39014 then
             self.room:send(tostring(self.name) .. " submerges the feather in the steaming water.")
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I can entrust the safety of the springs to this</>")
             self.room:send("</>" .. tostring(color) .. "feather's magical energy for a short while.  I will join the ocean's crusade.'</>")
-            actor.name:set_quest_var("flood", "water2", 1)
+            actor:set_quest_var("flood", "water2", 1)
             wait(2)
             self.room:send(tostring(color) .. "With a mighty cry " .. tostring(self.name) .. " dives back into the water.</>")
         else
@@ -88,16 +88,16 @@ elseif self.id == 39016 then
     local color = "&2"
     if stage == 1 then
         if object.type == "food" then
-            if actor.quest_variable[flood:object.vnum] then
+            if actor:get_quest_var("flood:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
                 wait(2)
                 self.room:send(tostring(self.name) .. " wails in anger as she thrashes about!")
                 self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the sea!")
                 self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have already eaten that!  I refuse to eat it again!'</>")
             else
-                actor.name:set_quest_var("flood", "%object.vnum%", 1)
+                actor:set_quest_var("flood", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
                 local full = actor:get_quest_var("flood:hunger")
                 local hunger = (full + object.val0)
-                actor.name:set_quest_var("flood", "hunger", hunger)
+                actor:set_quest_var("flood", "hunger", hunger)
                 self:destroy_item("food")
                 self.room:send(tostring(self.name) .. " greedily devours " .. tostring(object.shortdesc) .. ".")
                 if hunger >= 200 then
@@ -112,7 +112,7 @@ elseif self.id == 39016 then
                     self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'We will join with the ocean in her revenge.'")
                     wait(1)
                     self.room:send(tostring(color) .. tostring(self.name) .. " sinks beneath the waves.</>")
-                    actor.name:set_quest_var("flood", "water4", 1)
+                    actor:set_quest_var("flood", "water4", 1)
                 else
                     wait(2)
                     self.room:send(tostring(self.name) .. " licks her massive chops.")
@@ -135,7 +135,7 @@ elseif self.id == 39019 then
     if stage == 1 then
         if object.type == "light" then
             if object.val1 == -1 then
-                actor.name:set_quest_var("flood", "water7", 1)
+                actor:set_quest_var("flood", "water7", 1)
                 wait(2)
                 self.room:send(tostring(self.name) .. " grins with a sick malevolence.")
                 wait(2)
@@ -184,7 +184,7 @@ if stage == 1 then
     local water7 = actor:get_quest_var("flood:water7")
     local water8 = actor:get_quest_var("flood:water8")
     if water1 and water2 and water3 and water4 and water5 and water6 and water7 and water8 then
-        actor.name:advance_quest("flood")
+        actor:advance_quest("flood")
         wait(1)
         actor:send("<b:blue>You have garnered the support of all the great waters!</>")
     end

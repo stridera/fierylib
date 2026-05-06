@@ -7,22 +7,20 @@
 
 -- Converted from DG Script #12522: FireBreather
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
-local room = get.room[self.room]
-if room.people then
-    self.room:send("The dragon starts to rumble.")
+-- Note: self is an Object; use 'room' global for the containing room
+local actors = room.actors
+if #actors > 0 then
+    room:send("The dragon starts to rumble.")
     wait(2)
-    self.room:send("The dragon blasts a gout of <b:red>flame</>, incinerating the room.")
-    local prsn = room.actors[random(1, #room.actors)]
-    local dmg = random(1, 100)
-    dmg = dmg + 50
-    local damage_dealt = prsn:damage(dmg)  -- type: fire
+    room:send("The dragon blasts a gout of <b:red>flame</>, incinerating the room.")
+    local prsn = actors[random(1, #actors)]
+    local dmg = random(1, 100) + 50
+    local damage_dealt = prsn:damage(dmg)
     if damage_dealt == 0 then
-        if fireproof then
-            self.room:send_except(prsn.name, "A fiery blast is absorbed by " .. tostring(prsn.name) .. ".")
-            prsn.name:send("Your body is hit by a <red>fiery</> blast! Luckily you absorb the blast.")
-        else
-            self.room:send_except(prsn.name, tostring(prsn.name) .. " is caught in the fiery blast! (<red>" .. tostring(damage_dealt) .. "</>)")
-            prsn.name:send("You are caught in the <red>fiery</> blast! (<red>" .. tostring(damage_dealt) .. "</>)")
-        end
+        room:send_except(prsn, "A fiery blast is absorbed by " .. tostring(prsn.name) .. ".")
+        prsn:send("Your body is hit by a <red>fiery</> blast! Luckily you absorb the blast.")
+    else
+        room:send_except(prsn, tostring(prsn.name) .. " is caught in the fiery blast! (<red>" .. tostring(damage_dealt) .. "</>)")
+        prsn:send("You are caught in the <red>fiery</> blast! (<red>" .. tostring(damage_dealt) .. "</>)")
     end
 end

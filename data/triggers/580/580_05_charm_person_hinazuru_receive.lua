@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("charm_person")
 if stage == 1 then
     if object.id == 48008 then
-        actor.name:advance_quest("charm_person")
+        actor:advance_quest("charm_person")
         wait(2)
         self:destroy_item("discipline")
         wait(1)
@@ -40,7 +40,7 @@ if stage == 1 then
     end
 elseif stage == 2 then
     if object.id == 4319 then
-        actor.name:advance_quest("charm_person")
+        actor:advance_quest("charm_person")
         wait(2)
         self:destroy_item("ring")
         wait(1)
@@ -76,12 +76,12 @@ elseif stage == 2 then
     end
 elseif stage == 3 then
     if object.id == 58017 or object.id == 16312 or object.id == 48925 or object.id == 37012 or object.id == 41119 then
-        if actor.quest_variable[charm_person:object.vnum] then
+        if actor:get_quest_var("charm_person:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("You have already brought me " .. tostring(object.shortdesc) .. ".")
         else
-            actor.name:set_quest_var("charm_person", "%object.vnum%", 1)
+            actor:set_quest_var("charm_person", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(2)
             self.room:send(tostring(self.name) .. " checks " .. tostring(object.shortdesc) .. " for tuning and quality.")
             wait(1)
@@ -98,7 +98,7 @@ elseif stage == 3 then
             self:say("Hold on to that instrument, you'll need it later.")
             wait(2)
             if actor:get_quest_var("charm_person:58017") and actor:get_quest_var("charm_person:16312") and actor:get_quest_var("charm_person:48925") and actor:get_quest_var("charm_person:37012") and actor:get_quest_var("charm_person:41119") then
-                actor.name:advance_quest("charm_person")
+                actor:advance_quest("charm_person")
                 wait(4)
                 self:say("You now have at least a modicum of experience in five instruments.  It is time to put your skills to the test and see what you have learned!")
                 wait(2)

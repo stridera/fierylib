@@ -14,90 +14,27 @@ if not percent_chance(40) then
 end
 local _return_value = true  -- Default: allow action
 -- Pretty fluff.  Makes sparks.  Pure aesthetics.
--- 
+--
 local rndm = random(1, 5)
 if rndm == 1 then
     self.room:send(tostring(mobiles.template(123, 2).name) .. " utters a few arcane words in the old Tzigane tongue.")
 elseif rndm == 2 then
-    if self:has_equipped("12308") then
-        self.room:send("<b:white>S</><b:yellow>P</><b:cyan>A</><b:yellow>R</><b:white>K</><b:yellow>S</> fly as " .. "%get.mob_shortdesc[12302]% trails %get.obj_shortdesc[12308]% along the ground.")
+    if self:has_equipped(123, 8) then
+        local mob_name = mobiles.template(123, 2) and tostring(mobiles.template(123, 2).name) or "the warrior"
+        local obj_name = objects.template(123, 8) and tostring(objects.template(123, 8).name) or "a weapon"
+        self.room:send("<b:white>S</><b:yellow>P</><b:cyan>A</><b:yellow>R</><b:white>K</><b:yellow>S</> fly as " .. mob_name .. " trails " .. obj_name .. " along the ground.")
     end
 elseif rndm >= 3 then
-    -- switch on self.room
-    if self.room == 12347 then
+    -- Patrol route: all rooms in zone 123
+    local rid = self.room.local_id
+    if rid == 45 or rid == 46 or rid == 47 or rid == 48 or rid == 58 or rid == 63 then
         self:move("south")
-        return _return_value
-    elseif self.room == 12348 then
-        self:move("south")
-        return _return_value
-    elseif self.room == 12363 then
-        self:move("south")
-        return _return_value
-    elseif self.room == 12358 then
-        self:move("south")
-        return _return_value
-    elseif self.room == 12345 then
-        self:move("south")
-        return _return_value
-    elseif self.room == 12346 then
-        self:move("south")
-        return _return_value
-    elseif self.room == 12349 then
+    elseif rid == 49 or rid == 64 or rid == 78 or rid == 92 or rid == 112 or rid == 126 then
         self:move("west")
-        return _return_value
-    elseif self.room == 12364 then
-        self:move("west")
-        return _return_value
-    elseif self.room == 12378 then
-        self:move("west")
-        return _return_value
-    elseif self.room == 12392 then
-        self:move("west")
-        return _return_value
-    elseif self.room == 12412 then
-        self:move("west")
-        return _return_value
-    elseif self.room == 12426 then
-        self:move("west")
-        return _return_value
-    elseif self.room == 12427 then
+    elseif rid == 127 or rid == 141 or rid == 140 or rid == 139 or rid == 138 or rid == 122 then
         self:move("north")
-        return _return_value
-    elseif self.room == 12441 then
-        self:move("north")
-        return _return_value
-    elseif self.room == 12440 then
-        self:move("north")
-        return _return_value
-    elseif self.room == 12439 then
-        self:move("north")
-        return _return_value
-    elseif self.room == 12438 then
-        self:move("north")
-        return _return_value
-    elseif self.room == 12422 then
-        self:move("north")
-        return _return_value
-    elseif self.room == 12437 then
+    elseif rid == 137 or rid == 121 or rid == 106 or rid == 86 or rid == 72 or rid == 59 then
         self:move("east")
-        return _return_value
-    elseif self.room == 12421 then
-        self:move("east")
-        return _return_value
-    elseif self.room == 12406 then
-        self:move("east")
-        return _return_value
-    elseif self.room == 12386 then
-        self:move("east")
-        return _return_value
-    elseif self.room == 12372 then
-        self:move("east")
-        return _return_value
-    elseif self.room == 12359 then
-        self:move("east")
-        return _return_value
-    else
-        _return_value = true
     end
 end
 return _return_value

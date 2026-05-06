@@ -8,5 +8,5 @@
 -- Converted from DG Script #115: Bard AI
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
 if not self:get_has_spell("inspiration") then
-    self:perform("inspiration", self, self.level)
+    self:cast("inspiration")
 end

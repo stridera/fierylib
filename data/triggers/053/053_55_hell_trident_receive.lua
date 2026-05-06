@@ -72,7 +72,7 @@ elseif hellstage > phase then
     local reason = "I've already done everything I can to help."
 end
 if go == "gem" then
-    local gem_vnum = object.id
+    local gem_id = object.id
     local gem_count = actor:get_quest_var("hell_trident:gems")
     if gem_count < 6 then
         wait(2)
@@ -82,9 +82,9 @@ if go == "gem" then
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
         wait(2)
         if gem_count == 1 then
-            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
+            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
         else
-            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
+            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
         end
         wait(2)
         if gem_count >= 6 then
@@ -105,7 +105,7 @@ if go == "gem" then
         _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
-        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_vnum%]%.'")
+        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
     end
 elseif go == "trident" then
     local job1 = actor:get_quest_var("hell_trident:helltask1")

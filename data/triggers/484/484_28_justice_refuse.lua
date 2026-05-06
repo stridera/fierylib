@@ -9,16 +9,20 @@
 -- Converted from DG Script #48428: Justice refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
--- switch on object.id
+-- `response` is set inside the branches below; declared here so
+-- both the outer if/else and the inner else can write to the
+-- same binding (the converter emitted `local response = ...`
+-- inside each branch, scoping each to its branch and breaking
+-- the post-block `if response then` test).
+local response = nil
 if actor:get_quest_stage("wizard_eye") == 10 then
-    -- switch on object.id
     if object.id == 3218 or object.id == 53424 or object.id == 43021 or object.id == 4003 then
         return _return_value
     else
-        local response = This get.obj_noadesc[object.vnum] can't possibly be what you needed to ask me about.
+        response = "This " .. tostring(object.shortdesc) .. " can't possibly be what you needed to ask me about."
     end
 else
-    local response = "I'm sorry, do you need something?"
+    response = "I'm sorry, do you need something?"
 end
 if response then
     _return_value = true

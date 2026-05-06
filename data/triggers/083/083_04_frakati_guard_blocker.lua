@@ -12,12 +12,12 @@ local _return_value = true  -- Default: allow action
 -- To use it, make a copy of the trigger, and modify these two variables.
 -- Then apply the trigger to the room beyond the guard.
 local entryroom = 8352
-local guardvnum = 8332
-if get.mob_count[guardvnum] and actor.room == "entryroom" and actor.is_player then
+local guard_id = 8332
+if get.mob_count[guard_id] and actor.room == "entryroom" and actor.is_player then
     local blocked = 0
     local person = self.people
     while person do
-        if person.id == "guardvnum" then
+        if person.id == "guard_id" then
             local guard = person
             if string.find(guard.position, "Standing") or string.find(guard.position, "Fighting") or string.find(guard.position, "Flying") then
                 local blocked = 1

@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- switch on self.id
 -- switch on object.id
-if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%macevnum%" then
+if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%mace_id%" then
     return _return_value
 end
 -- switch on object.id

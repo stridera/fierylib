@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 -- This trigger checks if a player is "registered" to wear certain quest eq.
 -- In order to be registered, a player must have the quest_items quest and a
--- quest variable whose name is the vnum of the object this trigger is on
+-- quest variable whose name is the ID of the object this trigger is on
 -- and whose value is true (a simple 1 or yes will suffice).
 -- 
 -- To register a player for equipment, first check to see if they already have
@@ -31,7 +31,7 @@ local _return_value = true  -- Default: allow action
 -- 
 -- quest variable quest_items laoris 18890 0
 -- 
-if actor.quest_variable[quest_items:self.vnum] then
+if actor:get_quest_var("quest_items:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
     _return_value = false
 else
     _return_value = true

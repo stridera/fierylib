@@ -18,13 +18,13 @@ if actor:get_quest_var("Black_Legion:bl_ally") then
     actor:send("</>darkness!  Suffer under your choice!'")
     return _return_value
 end
-local vnum_trophy1 = 5503
-local vnum_trophy2 = 5505
-local vnum_trophy3 = 5507
-local vnum_trophy4 = 5509
-local vnum_trophy5 = 5511
-local vnum_trophy6 = 5513
-local vnum_trophy7 = 5515
+local id_trophy1 = 5503
+local id_trophy2 = 5505
+local id_trophy3 = 5507
+local id_trophy4 = 5509
+local id_trophy5 = 5511
+local id_trophy6 = 5513
+local id_trophy7 = 5515
 if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") == 1 then
     -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'As you fight the allies of the Black Legion")
@@ -32,11 +32,11 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") == 1 then
     actor:send("</>prove that you are working with us.'")
     -- (empty send to actor)
     actor:send("</>Items we're interested in are:")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy1%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy2%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy3%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy4%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy5%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy6%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%vnum_trophy7%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy1%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy2%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy3%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy4%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy5%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy6%]%")
+    actor:send("- " .. "%get.obj_shortdesc[%id_trophy7%]%")
 end

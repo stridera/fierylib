@@ -10,9 +10,9 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 -- number of gems to load -- statring at 3, but that might be too many
 local loop = 3
--- gem vnums go from  to 55566-55751
--- p1 vnums from 55566-55593
--- p2 vnums from 55594-55670
+-- gem IDs go from  to 55566-55751
+-- p1 IDs from 55566-55593
+-- p2 IDs from 55594-55670
 -- P3 cnums from 55671-55747 (there are gems up to 55751, but not used.
 -- random # -- 1-10 to create probabilites of good gem
 -- 0 = NO GEM

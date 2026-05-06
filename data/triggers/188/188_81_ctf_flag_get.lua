@@ -10,7 +10,7 @@
 -- Converted from DG Script #18881: ctf_flag_get
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local _return_value = true  -- Default: allow action
--- *** Set vnum variables ****
+-- *** Set entity IDs ****
 -- Mobiles
 local referee = 18880
 -- Objects

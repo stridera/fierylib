@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 if self.id == 18502 then
     self:set_flag("sentinel", true)
 end
-if object.id == "maceitem2" or object.id == "maceitem3" or object.id == "maceitem4" or object.id == "maceitem5" or object.id == "maceitem6" or object.id == "macevnum" then
+if object.id == "maceitem2" or object.id == "maceitem3" or object.id == "maceitem4" or object.id == "maceitem5" or object.id == "maceitem6" or object.id == "mace_id" then
     if actor.class == "cleric" or actor.class == "priest" then
         if actor.level >= (macestep * 10) then
             if actor:get_quest_stage("phase_mace") == "macestep" then
@@ -72,7 +72,7 @@ if object.id == "maceitem2" or object.id == "maceitem3" or object.id == "maceite
                                 end
                             end
                         end
-                    elseif object.id == "macevnum" then
+                    elseif object.id == "mace_id" then
                         if self.id == 3025 and not actor:get_quest_stage("phase_mace") then
                             actor:start_quest("phase_mace")
                             wait(2)
@@ -151,10 +151,10 @@ end
 if check == "continue" then
     wait(1)
     self:command("nod")
-    actor:send(tostring(self.name) .. " says, 'Give me the " .. "%get.obj_noadesc[%macevnum%]%.'")
+    actor:send(tostring(self.name) .. " says, 'Give me the " .. "%get.obj_noadesc[%mace_id%]%.'")
 elseif check == "count" then
     wait(2)
-    actor:send(tostring(self.name) .. " says, 'Now just keep practicing with " .. "%get.obj_shortdesc[%macevnum%]%.'")
+    actor:send(tostring(self.name) .. " says, 'Now just keep practicing with " .. "%get.obj_shortdesc[%mace_id%]%.'")
 elseif check == "stop" then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Do you have the other materials?'")
@@ -172,17 +172,17 @@ elseif reward == "yes" then
     self:command("nod")
     actor:send(tostring(self.name) .. " says, 'Yes, this is everything.'")
     wait(1)
-    actor:send(tostring(self.name) .. " inlays " .. "%get.obj_shortdesc[%maceitem2%]% into %get.obj_shortdesc[%macevnum%]%.")
+    actor:send(tostring(self.name) .. " inlays " .. "%get.obj_shortdesc[%maceitem2%]% into %get.obj_shortdesc[%mace_id%]%.")
     wait(2)
     if self.id == 18502 then
-        actor:send(self.name .. " recites several long prayers as he sprinkles the handfuls of dirt over " .. "%get.obj_shortdesc[%macevnum%]%.")
+        actor:send(self.name .. " recites several long prayers as he sprinkles the handfuls of dirt over " .. "%get.obj_shortdesc[%mace_id%]%.")
     else
-        actor:send(tostring(self.name) .. " etches the markings from " .. "%get.obj_shortdesc[%maceitem3%]% to %get.obj_shortdesc[%macevnum%]%.")
+        actor:send(tostring(self.name) .. " etches the markings from " .. "%get.obj_shortdesc[%maceitem3%]% to %get.obj_shortdesc[%mace_id%]%.")
         wait(3)
         actor:send("By the light of " .. "%get.obj_shortdesc[%maceitem5%]%, %self.name% sets recites several long prayers.")
     end
     wait(2)
-    actor:send("%get.obj_shortdesc[%macevnum%]% is transformed!")
+    actor:send("%get.obj_shortdesc[%mace_id%]% is transformed!")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Here you are, " .. "%get.obj_shortdesc[%reward_mace%]%!'")
     self.room:spawn_object(math.floor(reward_mace / 100), reward_mace % 100)
@@ -207,7 +207,7 @@ elseif reward == "yes" then
         loop = loop + 1
     end
 elseif reward == "count" then
-    local response = Keep practicing with get.obj_shortdesc[macevnum].
+    local response = Keep practicing with get.obj_shortdesc[mace_id].
 elseif reward == "stop" then
     local response = "Bring me the other materials first."
 end

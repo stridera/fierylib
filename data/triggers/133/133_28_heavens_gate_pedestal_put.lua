@@ -15,7 +15,7 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("heavens_gate") == 1 then
     if target.id == 23817 then
         wait(2)
-        actor.name:advance_quest("heavens_gate")
+        actor:advance_quest("heavens_gate")
         world.destroy(self.room:find_object("bowl"))
         wait(2)
         self.room:send("Starlight settles on the burnished silver of " .. tostring(objects.template(238, 17).name) .. ".")
@@ -48,13 +48,13 @@ if actor:get_quest_stage("heavens_gate") == 1 then
         local response = "default"
     end
     if actor:get_quest_stage("heavens_gate") == 2 then
-        if actor.quest_variable[heavens_gate:target.vnum] then
+        if actor:get_quest_var("heavens_gate:" .. tostring(target.zone_id) .. "_" .. tostring(target.local_id)) then
         elseif target.id == 4005 or target.id == 12142 or target.id == 23709 or target.id == 47009 or target.id == 49008 or target.id == 52012 or target.id == 52013 then
             _return_value = true
             actor:send("The star knight refuses to take a second copy of the key.")
             return _return_value
         else
-            actor.name:set_quest_var("heavens_gate", "%target.vnum%", 1)
+            actor:set_quest_var("heavens_gate", (tostring(target.zone_id) .. "_" .. tostring(target.local_id)), 1)
             wait(1)
             world.destroy(self.contents)
             wait(2)
@@ -66,7 +66,7 @@ if actor:get_quest_stage("heavens_gate") == 1 then
             local key6 = actor:get_quest_var("heavens_gate:52012")
             local key7 = actor:get_quest_var("heavens_gate:52013")
             if (key1 + key2 + key3 + key4 + key5 + key6 + key7) == 7 then
-                actor.name:advance_quest("heavens_gate")
+                actor:advance_quest("heavens_gate")
                 wait(1)
                 actor:send("<b:white>The starry knight lifts the seven keys into the air.</>")
                 wait(2)

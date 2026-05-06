@@ -12,7 +12,7 @@
 if not percent_chance(5) then
     return true
 end
-if self:has_equipped("48924") then
+if self:has_equipped(489, 24) then
     self:command("remove instrument-case")
     self:command("open instrument-case")
     self:command("get mandolin instrument-case")
