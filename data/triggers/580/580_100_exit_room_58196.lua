@@ -17,7 +17,7 @@ if direction == "north" then
         wait(1)
         rnd:send("The goddess says, 'Speak my name to leave this room, Yajiro was ever the joker...'")
         wait(1)
-        rnd:send("The goddess gets enfolded into a large pearl and then suddenly she disappears.")
+        rnd:send("The goddess gets enfolded into a large pearl then suddenly she disappears.")
         running = nil
     end
 end

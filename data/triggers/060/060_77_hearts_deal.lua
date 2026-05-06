@@ -2,7 +2,7 @@
 -- Zone: 60, ID: 77
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   -- UNCONVERTED: (%player4.name% != %actor.name%)
+--   -- UNCONVERTED: ( player4.name% != %actor.name%)
 --   Syntax error: luac: <hearts deal>:20: unexpected symbol near 'then'
 --   Complex nesting: 13 if statements
 --
@@ -27,8 +27,8 @@ if cmd == "d" or cmd == "de" then
     return _return_value
 end
 if player1 and player2 and player3 and player4 then
-    if (player1.name ~= actor.name) and (player2.name ~= actor.name) and (player3.name ~= actor.name) and  then
-        -- UNCONVERTED: (%player4.name% != %actor.name%)
+    if (player1.name ~= actor.name) and (player2.name ~= actor.name) and (player3.name ~= actor.name) then
+        -- UNCONVERTED: ( player4.name% != %actor.name%)
         _return_value = true
         return _return_value
     end
@@ -80,7 +80,7 @@ if player1 and player2 and player3 and player4 then
             local suit = "Hearts"
         end
         name[card] = rank% of %suit
-        globals.name%card% = globals.name%card% or true
+        globals["name" .. card] = globals["name" .. card] or true
         card = card + 1
     end
     local count = 0
@@ -96,7 +96,7 @@ if player1 and player2 and player3 and player4 then
                 local desc = XcardX
                 if not (string.find(cards, "desc")) then
                     card[card] = plyr
-                    globals.card%card% = globals.card%card% or true
+                    globals["card" .. card] = globals["card" .. card] or true
                     local cards = cardsdesc
                     local dlt = 1
                 end
@@ -107,7 +107,7 @@ if player1 and player2 and player3 and player4 then
                 local desc = XcardX
                 if not (string.find(cards, "desc")) then
                     card[card] = plyr
-                    globals.card%card% = globals.card%card% or true
+                    globals["card" .. card] = globals["card" .. card] or true
                     local cards = cardsdesc
                     local dlt = 1
                 end

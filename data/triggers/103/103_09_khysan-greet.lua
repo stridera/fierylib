@@ -10,13 +10,13 @@
 -- Converted from DG Script #10309: khysan-greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor:get_quest_stage("ice_shards") then
-    local return = "yes"
+    local _return = "yes"
 end
 if actor:get_quest_stage("type_wand") > wandstep then
-    local return = "yes"
+    local _return = "yes"
 end
 if actor:get_quest_stage("type_wand") == "wandstep" and actor:get_quest_var("type_wand:greet") == 1 then
-    local return = "yes"
+    local _return = "yes"
 end
 wait(1)
 actor:send(tostring(self.name) .. " looks up at your approach.")

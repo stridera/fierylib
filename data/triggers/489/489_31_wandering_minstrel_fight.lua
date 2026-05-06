@@ -8,7 +8,7 @@
 
 -- Converted from DG Script #48931: wandering minstrel fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if (actor.id >= 48900) &(actor.id <= 48999) then
+if (actor.id >= 48900) and (actor.id <= 48999) then
     -- Stop combat if fighting another doom mobile
     wait(1)
     get_room(11, 0):at(function()

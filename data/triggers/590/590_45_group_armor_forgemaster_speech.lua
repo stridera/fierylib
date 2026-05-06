@@ -34,7 +34,7 @@ if (string.find(actor.class, "Cleric") and actor.level > 72) or (string.find(act
     elseif stage == 2 then
         self:say("Thank you so much!")
         wait(1)
-        self.room:send(tostring(self.name) .. " says, 'Bring back a forging hammer and then I can tell")
+        self.room:send(tostring(self.name) .. " says, 'Bring back a forging hammer then I can tell")
         self.room:send("</>you what to do next.'")
     elseif stage == 3 or stage == 4 then
         self:say("Let me test out the new hammer then!")

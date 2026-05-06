@@ -32,7 +32,7 @@ if object.id == 50203 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if not person:get_quest_stage("bayou_quest") then
-                person.name:start_quest("bayou_quest")
+                person:start_quest("bayou_quest")
             end
         elseif person then
             i = i + 1
@@ -90,7 +90,7 @@ elseif object.id == 50215 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if not person:get_quest_stage("bayou_quest") then
-                person.name:start_quest("bayou_quest")
+                person:start_quest("bayou_quest")
             end
         elseif person then
             i = i + 1

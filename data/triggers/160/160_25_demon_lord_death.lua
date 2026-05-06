@@ -18,7 +18,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("mystwatch_quest") then
-            person.name:set_quest_var("mystwatch_quest", "step", "complete")
+            person:set_quest_var("mystwatch_quest", "step", "complete")
             person:send("<b:white>You have slain the Demon Lord of Mystwatch!</>")
             person:send("<b:white>Group credit will not be given for returning the emerald shard to the Templar Magistrate.</>")
         end

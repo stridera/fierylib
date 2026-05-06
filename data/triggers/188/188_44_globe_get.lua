@@ -14,7 +14,7 @@ if actor:get_quest_var("quest_items:" .. tostring(self.zone_id) .. "_" .. tostri
     if owner then
         if owner == actor.name then
             if not (actor:get_worn("held")) and not (actor:get_worn("wield")) and not (actor:get_worn("2hwield")) then
-                local last_use = actor.quest_variable[quest_items:globeself.id_time]
+                local last_use = actor:get_quest_var("quest_items:" .. tostring(globeself.id_time))
                 local now = time.stamp
                 if last_use then
                     if now - last_use >= 1 then

@@ -28,7 +28,7 @@ if object.id == 58417 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if not person:get_quest_stage("kod_quest") then
-                person.name:start_quest("kod_quest")
+                person:start_quest("kod_quest")
             end
             person:set_quest_var("kod_quest", "feather", 1)
         elseif person then

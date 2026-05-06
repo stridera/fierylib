@@ -28,7 +28,7 @@ while i < pylons do
         while j < teams do
             if string.find(speech, "TjT") then
                 pylon[i] = j
-                globals.pylon%i% = globals.pylon%i% or true
+                globals["pylon" .. i] = globals["pylon" .. i] or true
                 -- switch on j
                 if j == 0 then
                     local team = team0

@@ -77,7 +77,7 @@ if actor.class == "Warrior" or actor.class == "Ranger" or actor.class == "Berser
         actor:send(tostring(self.name) .. " says, 'You must <b:cyan>[hunt]</> a great beast to demonstrate your skills first.'")
         return _return_value
     elseif (trophystage >= huntstage) and not actor:get_has_completed("beast_master") then
-        actor:send(tostring(self.name) .. " says, 'Prove your dominion over some more great beasts first and then we can talk.'")
+        actor:send(tostring(self.name) .. " says, 'Prove your dominion over some more great beasts first then we can talk.'")
         return _return_value
     end
     -- switch on trophystage

@@ -19,7 +19,7 @@ if (string.find(speech, "ways") or string.find(speech, "ways?") or string.find(s
     if string.find(actor.class, "Cleric") then
         -- switch on actor.race
         -- case ADD NEW RESTRICTED RACES HERE
-        -- if %actor.level% >= 10 && %actor.level% <= 35
+        -- if actor.level% >= 10 && %actor.level% <= 35
         -- msend %actor% &1Your race may not subclass to druid.&0
         -- halt
         -- endif
@@ -46,7 +46,7 @@ if (string.find(speech, "ways") or string.find(speech, "ways?") or string.find(s
     elseif string.find(actor.class, "Warrior") then
         -- switch on actor.race
         -- case ADD NEW RESTRICTED RACES HERE
-        -- if %actor.level% >= 10 && %actor.level% <= 25
+        -- if actor.level% >= 10 && %actor.level% <= 25
         -- msend %actor% &1Your race may not subclass to ranger.&0
         -- halt
         -- endif

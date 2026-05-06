@@ -23,7 +23,7 @@ if actor:has_equipped("18880") then
         local enemy_flag = "yes"
     end
     -- Player is on team B
-elseif %actor.wearing[18881] then
+elseif actor.wearing[18881] then
     -- Player is trying to pick up team B's flag
     if self.id ~= "flag_b" then
         local enemy_flag = "yes"
@@ -43,7 +43,7 @@ if enemy_flag == "yes" then
     if actor:get_worn("wield2") then
         hands = hands + 1
     end
-    if %actor.worn[2hwield] then
+    if actor.worn[2hwield] then
         hands = hands + 1
     end
     if actor:get_worn("shield") then

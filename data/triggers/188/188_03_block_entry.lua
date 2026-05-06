@@ -17,7 +17,7 @@ local _return_value = true  -- Default: allow action
 if direction == "east" then
     if actor.level > 99 or actor.level == then
     elseif actor:get_worn("12") == 18801 then
-        actor:send("The TCD-GUARD squints at you and then nods and waves you in.")
+        actor:send("The TCD-GUARD squints at you then nods and waves you in.")
         self.room:send_except(actor, "The TCD-GUARD squints at " .. tostring(actor.alias) .. " and waves " .. tostring(actor.possessive) .. " in.")
         _return_value = false
     else

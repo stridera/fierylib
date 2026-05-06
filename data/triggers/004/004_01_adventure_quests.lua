@@ -12,12 +12,12 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "adventure") or string.find(arg, "adventures") then
     _return_value = true
-    actor:send("<yellow>=========== ADVENTURE QUESTS ==========</>")
+    actor:send("<yellow>=========== ADVENTURE QUESTS ========<==/>")
     actor:send("Adventure is waiting!")
     actor:send("Explore the regions of Ethilien.")
     actor:send("Fight epic monsters, earn legendary rewards, and increase your might.")
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
-    actor:send("<yellow>=======================================</>_")
+    actor:send("<yellow>=====================================<==/>_")
     actor:send("<b:green>AVAILABLE QUESTS:</>_")
     actor:send("<b:green>&uTwisted Sorrow</>")
     actor:send("Can you heal the sorrows of the Twisted Forest?")

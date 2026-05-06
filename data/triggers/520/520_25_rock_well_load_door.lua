@@ -15,9 +15,9 @@ local person = self.people
 while person do
     if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") ~= yes then
         if person:get_quest_stage("meteorswarm") == 2 then
-            person.name:advance_quest("meteorswarm")
+            person:advance_quest("meteorswarm")
         elseif person:get_quest_var("meteorswarm:new") ~= yes then
-            person.name:set_quest_var("meteorswarm", "new", "no")
+            person:set_quest_var("meteorswarm", "new", "no")
         end
         self.room:spawn_object(481, 152)
         self.room:send("A flaming meteor shoots off the towering rock demon, soars through the sky, and begins to fall toward the ground!")

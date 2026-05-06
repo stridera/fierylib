@@ -84,7 +84,7 @@ elseif self.room == 43000 then
                     person:send(tostring(self.name) .. " gives you a disintegrating scroll with an ancient spell on it.")
                     skills.set_level(person.name, "word of command", 100)
                     person:send("<b:magenta>You have learned Word of Command!</>")
-                    person.name:complete_quest("word_command")
+                    person:complete_quest("word_command")
                 elseif person.is_player then
                     person:send(self.name .. " tells you, '" .. "To show my gratitude, take this." .. "'")
                     local count = 0

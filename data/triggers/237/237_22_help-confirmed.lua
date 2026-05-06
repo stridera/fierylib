@@ -31,7 +31,7 @@ if (actor.is_player) and (actor.alignment > 349) then
         wait(1)
         self:emote("pauses a moment.")
         wait(2)
-        self.room:send(tostring(self.name) .. " says, 'Oh, and do not bother with the cursed items.  I can tell")
+        self.room:send(tostring(self.name) .. " says, 'Oh, do not bother with the cursed items.  I can tell")
         self.room:send("</>the difference.'")
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'If you forget what you need to do, you can ask me for a")

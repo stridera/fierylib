@@ -18,7 +18,7 @@ if object.id == 48104 then
     self:command("sniff")
     wait(1)
     self.room:spawn_object(481, 1)
-    self.room:send(tostring(self.name) .. " says, 'If you find him, please give him this, and do all you can to help him.'")
+    self.room:send(tostring(self.name) .. " says, 'If you find him, please give him this, do all you can to help him.'")
     local person = actor
     local i = person.group_size
     if i then
@@ -30,10 +30,10 @@ if object.id == 48104 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if not person:get_quest_stage("fieryisle_quest") then
-                person.name:start_quest("fieryisle_quest")
+                person:start_quest("fieryisle_quest")
                 person:send("<b:white>You have now begun the Fiery Island quest!</>")
             end
-            person.name:set_quest_var("fieryisle_quest", "shell", 1)
+            person:set_quest_var("fieryisle_quest", "shell", 1)
         elseif person and person.is_player then
             i = i + 1
         end

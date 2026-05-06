@@ -17,7 +17,7 @@ end
 if actor:get_quest_stage("ran_dru_subclass") == 0 then
     if string.find(actor.class, "Cleric") then
         -- case ADD NEW RESTRICTED RACES HERE
-        -- if %actor.level% >= 10 && %actor.level% <= 35
+        -- if actor.level% >= 10 && %actor.level% <= 35
         -- msend %actor% &1Your race may not subclass to druid.&0
         -- halt
         -- endif
@@ -32,7 +32,7 @@ if actor:get_quest_stage("ran_dru_subclass") == 0 then
     elseif string.find(actor.class, "Warrior") then
         -- switch on actor.race
         -- case ADD NEW RESTRICTED RACES HERE
-        -- if %actor.level% >= 10 && %actor.level% <= 25
+        -- if actor.level% >= 10 && %actor.level% <= 25
         -- msend %actor% &1Your race may not subclass to ranger.&0
         -- halt
         -- endif

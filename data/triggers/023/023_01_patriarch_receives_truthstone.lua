@@ -73,7 +73,7 @@ if object.id == 2300 then
             -- for Hellfire Trident
             -- 
             if actor.level >= 65 then
-                self:say("Hell hungers for more and will reward you greatly if you feed it.  Attack with that trident 666 times and then seek out the Black Priestess, the left hand of Ruin Wormheart.  She will guide your offerings.")
+                self:say("Hell hungers for more and will reward you greatly if you feed it.  Attack with that trident 666 times then seek out the Black Priestess, the left hand of Ruin Wormheart.  She will guide your offerings.")
             else
                 self:say("Other forces of Hell will eventually take notice of you too now.  Seek out the left hand of Ruin Wormheart, the Black Priestess, after you have grown more.  She will be your emissary.")
                 actor:send("<red>Reach level 65 to continue this quest.</>")

@@ -36,7 +36,7 @@ while person do
         person:send("</><b:red>As promised, I shall teach you a great secret.'</>_")
         person:send("Your mind is flooded with images of fire and pain as Brolgoroth's mind connects with yours.")
         person:send("<b:red>The secrets of Hell Gate are seared into your memory!</>")
-        person.name:complete_quest("hell_gate")
+        person:complete_quest("hell_gate")
         if not actor:get_quest_var("hell_trident:helltask4") and actor:get_quest_stage("hell_trident") == 2 then
             actor:set_quest_var("hell_trident", "helltask4", 1)
         end

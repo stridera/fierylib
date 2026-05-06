@@ -17,7 +17,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("cryomancer_subclass") == 3 then
-                person.name:advance_quest("cryomancer_subclass")
+                person:advance_quest("cryomancer_subclass")
             end
         elseif person then
             i = i + 1
@@ -25,5 +25,5 @@ if i then
         a = a + 1
     end
 elseif person:get_quest_stage("cryomancer_subclass") == 3 then
-    person.name:advance_quest("cryomancer_subclass")
+    person:advance_quest("cryomancer_subclass")
 end

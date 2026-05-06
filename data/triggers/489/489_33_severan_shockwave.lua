@@ -15,7 +15,7 @@ local casters = "Sorcerer Necromancer Cryomancer Pyromancer Cleric Druid Diaboli
 local person = self.people
 while person do
     local next = person.next_in_room
-    if ((person.id < 48900) or (person.id > 48999)) &(person.level < 100) then
+    if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
         if string.find(casters, "person.class") then
             local damage = 100 + random(1, 50)
         else

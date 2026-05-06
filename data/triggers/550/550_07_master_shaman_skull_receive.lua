@@ -19,9 +19,9 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if not person:get_quest_stage("tech_mysteries_quest") then
-            person.name:start_quest("tech_mysteries_quest")
+            person:start_quest("tech_mysteries_quest")
         end
-        person.name:set_quest_var("tech_mysteries_quest", "cloak", 1)
+        person:set_quest_var("tech_mysteries_quest", "cloak", 1)
     elseif person then
         i = i + 1
     end

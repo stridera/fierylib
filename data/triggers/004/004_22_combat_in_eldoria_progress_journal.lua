@@ -160,67 +160,67 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
         if status >= 20 then
             actor:send("You have access to:")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_food%]%</> for <magenta>%get.obj_shortdesc[%id_gem_food%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_food%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_food%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_drink%]%</> for <magenta>%get.obj_shortdesc[%id_gem_drink%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_drink%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_drink%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_cap%]%</> for <magenta>%get.obj_shortdesc[%id_gem_cap%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_cap%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_cap%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_ssword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_ssword%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_ssword%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_ssword%_reward])_")
         end
         if status >= 40 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_neck%]%</> for <magenta>%get.obj_shortdesc[%id_gem_neck%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_neck%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_neck%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_staff%]%</> for <magenta>%get.obj_shortdesc[%id_gem_staff%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_staff%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_staff%_reward])_")
         end
         if status >= 55 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%team_a_idrm%]%</> for <magenta>%get.obj_shortdesc[%id_gem_arm%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%team_a_idrm%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%team_a_idrm%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_whammer%]%</> for <magenta>%get.obj_shortdesc[%id_gem_whammer%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_whammer%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_whammer%_reward])_")
         end
         if status >= 70 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_wrist%]%</> for <magenta>%get.obj_shortdesc[%id_gem_wrist%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_wrist%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_wrist%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_flail%]%</> for <magenta>%get.obj_shortdesc[%id_gem_flail%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_flail%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_flail%_reward])_")
         end
         if status >= 85 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_gloves%]%</> for <magenta>%get.obj_shortdesc[%id_gem_gloves%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_gloves%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_gloves%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_symbol%]%</> for <magenta>%get.obj_shortdesc[%id_gem_symbol%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_symbol%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_symbol%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_light%]%</> for <magenta>%get.obj_shortdesc[%id_gem_light%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_light%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_light%_reward])_")
         end
         if status >= 100 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%team_b_idelt%]%</> for <magenta>%get.obj_shortdesc[%id_gem_belt%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%team_b_idelt%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%team_b_idelt%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_shiv%]%</> for <magenta>%get.obj_shortdesc[%id_gem_shiv%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_shiv%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_shiv%_reward])_")
         end
         if status >= 115 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%team_b_idoots%]%</> for <magenta>%get.obj_shortdesc[%id_gem_boots%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%team_b_idoots%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%team_b_idoots%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_lsword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_lsword%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_lsword%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_lsword%_reward])_")
         end
         if status >= 130 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_legs%]%</> for <magenta>%get.obj_shortdesc[%id_gem_legs%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_legs%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_legs%_reward])_")
         end
         if status >= 145 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_robe%]%</> for <magenta>%get.obj_shortdesc[%id_gem_robe%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_robe%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_robe%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_jerkin%]%</> for <magenta>%get.obj_shortdesc[%id_gem_jerkin%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_jerkin%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_jerkin%_reward])_")
         end
         if status >= 160 then
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_mask%]%</> for <magenta>%get.obj_shortdesc[%id_gem_mask%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_mask%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_mask%_reward])_")
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_smace%]%</> for <magenta>%get.obj_shortdesc[%id_gem_smace%]%</>")
-            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_smace%_reward]%)_")
+            actor:send("- times claimed: (" .. "%actor.quest_variable[black_legion:%id_smace%_reward])_")
         end
         if statu < 160 then
             actor:send("As your standing with the " .. tostring(legion) .. " improves you will have access to more rewards.")

@@ -31,7 +31,7 @@ while i >= a do
     if person.room == self.room then
         if person:get_quest_stage("krisenna_quest") == 2 then
             local krisenna = person:get_quest_stage("krisenna_quest")
-            person.name:advance_quest("krisenna_quest")
+            person:advance_quest("krisenna_quest")
             person:send("<b:white>You have advanced the quest!</>")
             local go = "zone"
         end

@@ -48,7 +48,7 @@ if world.count_mobiles(160, 8) < 1 then
                     end)
                 end
                 if person:get_quest_stage("mystwatch_quest") then
-                    person.name:set_quest_var("mystwatch_quest", "step", "storm")
+                    person:set_quest_var("mystwatch_quest", "step", "storm")
                     person:send("<b:white>You have advanced the quest!</>")
                 end
             elseif person then

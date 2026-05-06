@@ -60,7 +60,7 @@ if actor.id ~= -1 then
                 wait(3)
                 self:say("In his attempts to reunite a body and soul, he left them each alive, severed from one another.")
                 wait(3)
-                self.room:send(tostring(self.name) .. " says, 'You must go and find Lajon's two severed halves, loose them of their undead states, and then destroy them both.  The soul must be rebuked with the words of power <b:blue>Dhewsost Konre</>, before purging him.'")
+                self.room:send(tostring(self.name) .. " says, 'You must go and find Lajon's two severed halves, loose them of their undead states, then destroy them both.  The soul must be rebuked with the words of power <b:blue>Dhewsost Konre</>, before purging him.'")
                 wait(5)
                 self:say("To purge the rogue body, however, you'll need to give him this to help you finalize his death.")
                 wait(4)

@@ -31,7 +31,7 @@ if actor.is_player and actor.level < 100 then
         local room = get.room[self.room]
         local target = room.people
         while target do
-            if (target.alignment <= -350) and (target.is_player) &(target.level < 100) then
+            if (target.alignment <= -350) and (target.is_player) and (target.level < 100) then
                 self:whisper(target.name, "Ah, I sense a wicked aura around your soul.")
                 wait(5)
                 target:send(tostring(self.name) .. " slowly walks up and leans in close towards you.")

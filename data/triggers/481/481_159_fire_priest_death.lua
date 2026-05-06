@@ -16,7 +16,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("meteorswarm") == 3 then
-                person.name:set_quest_var("meteorswarm", "fire", 1)
+                person:set_quest_var("meteorswarm", "fire", 1)
             end
         elseif person then
             i = i + 1
@@ -24,5 +24,5 @@ if i then
         a = a + 1
     end
 elseif person:get_quest_stage("meteorswarm") == 3 then
-    person.name:set_quest_var("meteorswarm", "fire", 1)
+    person:set_quest_var("meteorswarm", "fire", 1)
 end

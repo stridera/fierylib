@@ -11,10 +11,10 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "heroes") or string.find(arg, "hire") then
     _return_value = true
-    actor:send("<yellow>=========== HEROES FOR HIRE ===========</>")
+    actor:send("<yellow>=========== HEROES FOR HIRE =========<==/>")
     actor:send("These hired jobs provide some quick cash and good thrills with some of Ethilien's most iconic creatures.")
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
-    actor:send("<yellow>=======================================</>_")
+    actor:send("<yellow>=====================================<==/>_")
     actor:send("<b:green>AVAILABLE QUESTS:</>_")
     actor:send("<b:green>&uBeast Masters</>")
     actor:send("Battle the most ferocious animals on Ethilien, mundane and magical alike.")

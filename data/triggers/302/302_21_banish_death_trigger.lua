@@ -45,7 +45,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("banish") == "stage" then
-            person.name:advance_quest("banish")
+            person:advance_quest("banish")
             person:set_quest_var("banish", "greet", 0)
             person:send("<b:magenta>A single letter pops into your mind - <b:cyan>" .. tostring(letter) .. "</>")
         end

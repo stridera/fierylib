@@ -98,7 +98,7 @@ if go == "gem" then
             if job1 and job2 and job3 and job4 and job5 and job6 then
                 actor:send(tostring(self.name) .. " says, 'Now present the trident.'")
             else
-                actor:send(tostring(self.name) .. " says, 'Complete your other sacrifices and then return to me.'")
+                actor:send(tostring(self.name) .. " says, 'Complete your other sacrifices then return to me.'")
             end
         end
     else

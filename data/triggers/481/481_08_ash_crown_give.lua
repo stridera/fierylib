@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: GIVE, probability: 100%
 if victim.is_player then
     if victim:get_quest_stage("fieryisle_quest") == 3 then
-        victim.name:advance_quest("fieryisle_quest")
+        victim:advance_quest("fieryisle_quest")
         victim:send("<b:white>You have advanced your quest!</>")
     end
 end

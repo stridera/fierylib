@@ -28,7 +28,7 @@ while i >= a do
         if person:get_quest_stage("krisenna_quest") < 2 then
             local instruct = 1
             if not person:get_quest_stage("krisenna_quest") then
-                person.name:start_quest("krisenna_quest")
+                person:start_quest("krisenna_quest")
                 person:send("<b:white>You have now begun the Tower in the Wastes quest!</>")
             end
         end

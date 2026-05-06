@@ -25,7 +25,7 @@ if actor:get_quest_stage("sunfire_rescue") == 1 then
             self:emote("smiles brightly at " .. tostring(actor.name) .. " and looks hopeful.")
             self:say("Thank you! Please return to me with the items and I will be most grateful.")
             self:emote("pauses a moment.")
-            self:say("Oh, and do not bother with the cursed items.  I can tell the difference.")
+            self:say("Oh, do not bother with the cursed items.  I can tell the difference.")
             self.room:send("The prisoner looks apprehensive.")
             self:whisper(actor.name, "You should leave here before the guards come!")
             self:emote("relaxes back into a position of pain, though he smiles at you.")

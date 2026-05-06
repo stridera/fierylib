@@ -42,7 +42,7 @@ while person do
     if person:get_quest_stage("dragons_health") == 6 then
         self.room:find_actor("dragonborn"):command("mskillset %person% dragons health")
         person:send("<b:yellow>From the Song of the Dragons you have learned Dragons Health!</>")
-        person.name:complete_quest("dragons_health")
+        person:complete_quest("dragons_health")
     end
     person = person.next_in_room
 end

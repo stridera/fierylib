@@ -80,7 +80,7 @@ while person do
             gem = gem + 1
         end
         person:command("get all.gem")
-        person.name:complete_quest("fieryisle_quest")
+        person:complete_quest("fieryisle_quest")
     end
     person = person.next_in_room
 end

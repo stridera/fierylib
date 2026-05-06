@@ -34,7 +34,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("fieryisle_quest") == "stage" then
-            person.name:advance_quest("fieryisle_quest")
+            person:advance_quest("fieryisle_quest")
             person:send("<b:white>You have advanced your quest!</>")
         end
     elseif person and person.is_player then

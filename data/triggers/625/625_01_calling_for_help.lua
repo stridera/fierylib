@@ -15,7 +15,7 @@ if not percent_chance(33) then
     return true
 end
 if self.id == 62501 then
-    if %get.mob_count[62502] < 5 then
+    if get.mob_count[62502] < 5 then
         self.room:send("<b:green>" .. tostring(self.name) .. " touches a nearby Rhell tree, calling on it for help.</>")
         wait(1)
         self.room:send("<b:green> A Mighty Rhell Tree springs to life!</>")

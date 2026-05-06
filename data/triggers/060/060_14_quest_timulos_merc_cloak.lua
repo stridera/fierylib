@@ -24,7 +24,7 @@ if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "mercenary" and
     actor:send(tostring(self.name) .. " says, 'All the Lord was able to tell me is they said something about wanting it for their queen.'")
     self:command("shrug")
     wait(2)
-    actor:send(tostring(self.name) .. " says, 'I think you should go find it now.  Come back when you have the <b:yellow>cloak</>, or do not come back at all.'")
+    actor:send(tostring(self.name) .. " says, 'I think you should go find it now.  Come back when you have the <b:yellow>cloak</>, do not come back at all.'")
     self:command("open fence")
     self:emote("pushes " .. tostring(actor.name) .. " away.")
     actor.name:move("north")

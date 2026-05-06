@@ -16,7 +16,7 @@ end
 if string.find(actor.class, "Rogue") then
     -- switch on actor.race
     -- case ADD NEW RESTRICTED RACES HERE
-    -- if %actor.level% >= 10 && %actor.level% <= 25
+    -- if actor.level% >= 10 && %actor.level% <= 25
     -- msend %actor% &1Your race may not subclass to mercenary.&0
     -- halt
     -- endif

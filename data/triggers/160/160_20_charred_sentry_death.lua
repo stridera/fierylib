@@ -17,7 +17,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("mystwatch_quest") then
-            person.name:set_quest_var("mystwatch_quest", "step", "warlord")
+            person:set_quest_var("mystwatch_quest", "step", "warlord")
             person:send("<b:white>You have advanced the quest!</>")
         end
     elseif person then

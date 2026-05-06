@@ -54,7 +54,7 @@ if subclass_item then
     -- switch on actor:get_quest_stage("pyromancer_subclass")
     if right_item == "yes" then
         if actor:get_quest_stage("pyromancer_subclass") == 4 then
-            self:emote("hops up and down rapidly.")
+            self:emote("hops up down rapidly.")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'Goodness the spirit of the flame is complete once again!'")
             self:command("shake " .. tostring(actor.name))

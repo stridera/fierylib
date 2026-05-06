@@ -25,7 +25,7 @@ while i >= a do
             person:send("%get.mob_shortdesc[1821]% tells you, 'See if you can get to<b:yellow> %lair.name% </>first!'")
             person:send("'I already started the clock...'")
             self.room:send(tostring(mobiles.template(18, 21).name) .. " takes off like a rocket and vanishes!")
-            person.name:set_quest_var("blur", "east", 1)
+            person:set_quest_var("blur", "east", 1)
             person = person.next_in_room
         elseif person and person.is_player then
             i = i + 1

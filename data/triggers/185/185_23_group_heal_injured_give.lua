@@ -25,7 +25,7 @@ if actor:get_quest_stage("group_heal") == 6 then
             wait(1)
             self.room:send(tostring(victim.name) .. "'s wounds begin to heal as they consume the magical feast.")
             wait(2)
-            if victim.id == 18506 or victim.id == 43020 or victim.id == 12513 or victim.id == 58803 or victim.id == 30054 or  then
+            if victim.id == 18506 or victim.id == 43020 or victim.id == 12513 or victim.id == 58803 or victim.id == 30054 then
                 self.room:send(tostring(victim.name) .. " says, 'Thank you so much for coming to my aid!'")
                 wait(1)
                 self.room:send(tostring(victim.name) .. " bows and departs.")

@@ -25,7 +25,7 @@ if object.id == 23721 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("vilekka_stew") == 1 then
-                person.name:advance_quest("vilekka_stew")
+                person:advance_quest("vilekka_stew")
                 person:send("<b:white>You have advanced the quest!</>")
                 local accepted = 1
             end
@@ -60,7 +60,7 @@ if object.id == 23720 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("vilekka_stew") == 3 then
-                person.name:advance_quest("vilekka_stew")
+                person:advance_quest("vilekka_stew")
                 person:send("<b:white>You have advanced the quest!</>")
                 local accepted = 1
                 if not person:get_quest_var("hell_trident:helltask6") and person:get_quest_stage("hell_trident") == 1 then
@@ -101,7 +101,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
         end
     end
     -- Make sure it's valid, and we haven't gotten it yet
-    if accepted == 1 and actor.quest_variable[vilekka_stew:got_spice:num] == 1 then
+    if accepted == 1 and actor:get_quest_var("vilekka_stew:got_spice:num") == 1 then
         local accepted = 0
     end
     if accepted == 0 then

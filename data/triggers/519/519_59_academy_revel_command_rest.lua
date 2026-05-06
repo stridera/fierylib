@@ -22,7 +22,7 @@ if not actor:get_quest_var("school:rest") then
     actor:send(tostring(self.name) .. " tells you, 'If you want to speed things up even more, you can lay down and go to <b:cyan>SLEEP</>.")
     actor:send("There're some risks with sleeping.")
     actor:send("You won't be able to hear or see the world around you, so you won't know if danger is approaching.")
-    actor:send("You won't be able to use <b:cyan>SAY</> or <b:cyan>SHOUT</>, or do anything most people can't normally do in their sleep.")
+    actor:send("You won't be able to use <b:cyan>SAY</> or <b:cyan>SHOUT</>, do anything most people can't normally do in their sleep.")
     actor:send("You can still <b:cyan>GOSSIP</>, <b:cyan>TELL</>, and check your <b:cyan>INVENTORY</> or <b:cyan>EQUIPMENT</> though!'")
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'Take a quick nap!")

@@ -29,14 +29,14 @@ if string.find(arg, "subclass") then
     local mercenaryraces = "none"
     local thiefraces = "none"
     local bardraces = "none"
-    actor:send("<yellow>=========== SUBCLASS QUESTS ===========</>")
+    actor:send("<yellow>=========== SUBCLASS QUESTS =========<==/>")
     if (string.find(actor.class, "cleric") and actor.level < 35) or (string.find(actor.class, "sorcerer") and actor.level < 45) or ((string.find(actor.class, "warrior") or string.find(actor.class, "rogue")) and actor.level < 25) then
         actor:send("Subclass quests involve finding a specific quest master and performing some kind of special deed.")
         actor:send("Eligibility for subclasses depends on your base class, your race, and your alignment.")
         actor:send("Characters must be at least level 10 to subclass._")
         actor:send("A character may only ever undertake a single subclass quest.")
         actor:send("Once a subclass quest has begun, it is not possible to start a different one.")
-        actor:send("<yellow>=======================================</>_")
+        actor:send("<yellow>=====================================<==/>_")
         actor:send("<b:green>AVAILABLE QUESTS:</>")
         if actor:get_quest_var("nec_dia_ant_subclass:subclass_name") == "Nec" then
             actor:send("- &9<blue>Necromancer</>")

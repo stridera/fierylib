@@ -26,7 +26,7 @@ else
                 if person:get_quest_stage("griffin_quest") >= stage then
                     local load = "yes"
                     if person:get_quest_stage("griffin_quest") == "stage" then
-                        person.name:advance_quest("griffin_quest")
+                        person:advance_quest("griffin_quest")
                         person:send("<b:white>You have advanced the quest!</>")
                     end
                 end

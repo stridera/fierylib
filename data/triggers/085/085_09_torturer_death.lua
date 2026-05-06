@@ -16,10 +16,10 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("resurrection_quest") == 2 then
-                person.name:advance_quest("resurrection_quest")
+                person:advance_quest("resurrection_quest")
                 local run = "yes"
             elseif person:get_quest_var("resurrection_quest:new") == "yes" then
-                person.name:set_quest_var("resurrection_quest", "new", "new")
+                person:set_quest_var("resurrection_quest", "new", "new")
                 local run = "yes"
             end
         elseif person then
@@ -28,10 +28,10 @@ if i then
         a = a + 1
     end
 elseif person:get_quest_stage("resurrection_quest") == 2 then
-    person.name:advance_quest("resurrection_quest")
+    person:advance_quest("resurrection_quest")
     local run = "yes"
 elseif person:get_quest_var("resurrection_quest:new") == "yes" then
-    person.name:set_quest_var("resurrection_quest", "new", "new")
+    person:set_quest_var("resurrection_quest", "new", "new")
     local run = "yes"
 end
 if string.find(run, "yes") then

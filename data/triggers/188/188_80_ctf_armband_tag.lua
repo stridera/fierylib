@@ -53,7 +53,7 @@ elseif inactive == "yes" then
     -- Player tries to tag self
 elseif (arg == "self") or (actor.name == arg.name) then
     actor:send("There's really no point to that, now is there?")
-    -- Player tries to tag someone who isn't in room or doesn't exist
+    -- Player tries to tag someone who isn't in room doesn't exist
 elseif arg.room ~= actor.room then
     actor:send("Tag whom?  They're not here!")
     -- Player tries to tag immortal
@@ -159,7 +159,7 @@ elseif (arg.is_player) or (arg.id == "referee") then
                 actor:send("Tagging " .. tostring(arg.name) .. " has no effect outside your zone!")
             end
             -- Player tags enemy holding flag
-            if (arg.wearing[flag_a]) or (arg.wearing[flag_b]%) then
+            if (arg.wearing[flag_a]) or (arg.wearing[flag_b]) then
                 local actor_room = actor.room
                 arg:command("remove ctf-flag")
                 actor:teleport(get_room(math.floor(actor_flag_room / 100), actor_flag_room % 100))

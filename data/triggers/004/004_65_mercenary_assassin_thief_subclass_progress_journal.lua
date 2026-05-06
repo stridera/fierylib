@@ -66,7 +66,7 @@ if actor.level > 10 then
                     actor:send("It was made off with in a raid on his castle by some bothersome insect warriors.")
                     actor:send("All the Lord was able to tell me is they said something about wanting it for their queen._")
                     actor:send("I think you should go find it now._")
-                    actor:send("Come back when you ave the cloak, or do not come back at all.")
+                    actor:send("Come back when you ave the cloak, do not come back at all.")
                 elseif questname == "assassin" then
                     actor:send("Ah yes, the politics of it all.")
                     actor:send("Personally I am not one for them, but some people get all mixed up in those._")
@@ -78,7 +78,7 @@ if actor.level > 10 then
                     actor:send("That is right, a package was taken by a farmer who hould not have it._")
                     actor:send("I know this: he got it from the post office in Mielikki and he lives near there.")
                     actor:send("Go get it back and I will make it worth it to you._")
-                    actor:send("Do not let anyone see you and do not leave a trail of bodies behind you.")
+                    actor:send("Do not let anyone see you do not leave a trail of bodies behind you.")
                     actor:send("And be careful!  If you jostle the package too much it just might explode.")
                 end
             end

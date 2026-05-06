@@ -97,7 +97,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
         -- switch on actor.class
         if actor.class == "CLERIC" or actor.class == "PRIEST" then
             _return_value = true
-            self:say("This book is incomplete!  Something has drained its magic!  Fix that and then bring the book back.")
+            self:say("This book is incomplete!  Something has drained its magic!  Fix that then bring the book back.")
         elseif actor.class == "DIABOLIST" then
             _return_value = true
             self:say("Wrong one, dummy.")
@@ -117,8 +117,8 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
     -- say There is another mage trapped by a malevolent god between life and death.  The continued existence of the mighty battlemage, Solek, is the cause of great instability.  Along with him, his compatriot Velocity, named for the speeds she harnessed in life, is bound by the same god in his keep.  Their continued existence as puppets of a cruel god tears at the very fabric of order and structure.
     -- wait 3s
     -- say You must find the power to stop Velocity. The utterance will help you.  Bring swift and lasting death to Solek, and return the source of his arcane wisdoms.
-    -- elseif %actor:get_quest_stage("resurrection_quest")% == 10
-    -- if %object.vnum% == 48906
+    -- elseif actor:get_quest_stage("resurrection_quest")% == 10
+    -- if object.vnum% == 48906
     -- say Give me the talisman first. I must know that Solek is truly dead.
     -- return 0
     -- emote refuses your item.

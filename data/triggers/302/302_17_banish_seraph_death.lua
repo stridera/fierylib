@@ -15,13 +15,13 @@ if i then
         local person = actor.group_member[i]
         if person.room == self.room then
             if person:get_quest_stage("banish") == 6 then
-                person.name:advance_quest("banish")
+                person:advance_quest("banish")
                 person:send("<b:magenta>A single letter pops into your mind - <b:cyan>P</>")
             end
         end
         i = i - 1
     end
 elseif person:get_quest_stage("banish") == 6 then
-    person.name:advance_quest("banish")
+    person:advance_quest("banish")
     person:send("<b:magenta>A single letter pops into your mind - <b:cyan>P</>")
 end

@@ -18,7 +18,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("desert_quest") then
-            person.name:set_quest_var("desert_quest", "scorpion", 1)
+            person:set_quest_var("desert_quest", "scorpion", 1)
         end
     elseif person then
         i = i + 1

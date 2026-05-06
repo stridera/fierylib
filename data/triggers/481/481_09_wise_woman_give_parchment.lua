@@ -24,7 +24,7 @@ if object.id == 48124 then
         if person.room == self.room then
             if person:get_quest_stage("fieryisle_quest") == "stage" then
                 local accept = "yes"
-                person.name:advance_quest("fieryisle_quest")
+                person:advance_quest("fieryisle_quest")
                 person:send("<b:white>You have advanced your quest!</>")
             end
         elseif person and person.is_player then

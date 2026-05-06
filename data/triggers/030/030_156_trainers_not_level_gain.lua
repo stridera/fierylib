@@ -54,7 +54,7 @@ elseif self.id == 3160 then
     elseif string.find(clerics, "actor.class") then
         actor:send(tostring(self.name) .. " says, 'The Cleric Guild Masters are north of Town Center by the Temple to Mielikki.'")
     elseif string.find(rogues, "actor.class") then
-        actor:send(tostring(self.name) .. " says, 'Your guild master is right around the corner!  Go north and down.'")
+        actor:send(tostring(self.name) .. " says, 'Your guild master is right around the corner!  Go north down.'")
     elseif string.find(sorcerers, "actor.class") then
         actor:send(tostring(self.name) .. " says, 'The Sorcerer Guild Masters are located near Bigby's Magic Shope just west and south of Town Center.  But don't go to Fecil's study hall!'")
     end

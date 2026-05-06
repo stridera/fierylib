@@ -21,7 +21,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("doom_entrance") == 2 then
-            person.name:advance_quest("doom_entrance")
+            person:advance_quest("doom_entrance")
             self:command("bow " .. tostring(person.name))
             person:send(tostring(self.name) .. " says, 'You are indeed worthy, " .. tostring(person.name) .. ".  Please continue on to the Oracle of Justice.'")
             person:send("<b:white>You have advanced the quest!</>")

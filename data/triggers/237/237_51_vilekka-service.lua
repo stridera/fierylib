@@ -54,7 +54,7 @@ if actor:get_quest_stage("vilekka_stew") < 2 then
             local person = actor.group_member[a]
             if person.room == self.room then
                 if person:get_quest_stage("vilekka_stew") == 0 then
-                    person.name:start_quest("vilekka_stew")
+                    person:start_quest("vilekka_stew")
                     person:send("<b:white>The quest has now begun!</>")
                 end
             elseif person and person.is_player then

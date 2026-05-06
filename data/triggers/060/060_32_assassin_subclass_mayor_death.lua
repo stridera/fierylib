@@ -14,7 +14,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" and person:get_quest_stage("merc_ass_thi_subclass") == 3 then
-                person.name:set_quest_var("merc_ass_thi_subclass", "mayor", 1)
+                person:set_quest_var("merc_ass_thi_subclass", "mayor", 1)
             end
         elseif person then
             i = i + 1

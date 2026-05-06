@@ -86,7 +86,7 @@ if actor.class == "Assassin" then
         actor:send(tostring(self.name) .. " says, 'Sure.  You gotta do a <b:cyan>[job]</> for me first though.'")
         return _return_value
     elseif (maskstage >= bountystage) and not actor:get_has_completed("bounty_hunt") then
-        actor:send(tostring(self.name) .. " says, 'Complete some more contract jobs and then we can talk.'")
+        actor:send(tostring(self.name) .. " says, 'Complete some more contract jobs then we can talk.'")
         return _return_value
     end
     -- switch on maskstage

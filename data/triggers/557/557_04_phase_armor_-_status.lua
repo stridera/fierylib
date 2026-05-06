@@ -121,7 +121,7 @@ end
 if body_count and not done_body then
     actor:send("</>  " .. tostring(body_count) .. " of " .. "%get.obj_shortdesc[%body_gem%]%")
 end
-if done_hands or done_feet or done_wrist or done_head or done_arms or done_legs or done_body then
+if done_hands done_feet done_wrist done_head done_arms done_legs done_body then
     actor:send("_")
     actor:send(tostring(self.name) .. " tells you, 'You have completed quests for:'")
 end

@@ -15,12 +15,12 @@ if string.find(arg, "equipment") then
     local anti = "Anti-Paladin"
     local hunterclasses = "Warrior Ranger Berserker Mercenary"
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
-    actor:send("<yellow>=========== EQUIPMENT QUESTS ==========</>")
+    actor:send("<yellow>=========== EQUIPMENT QUESTS ========<==/>")
     actor:send("These quests often take a large amount of time to complete, spanning dozens of levels.")
     actor:send("Characters should expect to need large numbers of unique and hard-to-find items.")
     actor:send("They are generally not intended to be completed quickly.")
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
-    actor:send("<yellow>=======================================</>_")
+    actor:send("<yellow>=====================================<==/>_")
     actor:send("<b:green>AVAILABLE QUESTS:</>_")
     actor:send("<b:green>&uGuild Armor Phase One</>")
     actor:send("Crafters across Ethilien will ask you to bring them gems and junked up armor so they can fix it up and present you with something new.")

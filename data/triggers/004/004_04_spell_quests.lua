@@ -14,10 +14,10 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
     _return_value = true
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
     local spellquestclasses = "Ranger Druid Sorcerer Illusionist Cryomancer Pyromancer Diabolist Cleric Priest Bard Necromancer Monk"
-    actor:send("<yellow>==== SPELL, CHANT, AND SONG QUESTS ====</>")
+    actor:send("<yellow>==== SPELL, CHANT, AND SONG QUESTS ==<==/>")
     if string.find(spellquestclasses, "actor.class") then
         actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
-        actor:send("<yellow>=======================================</>_")
+        actor:send("<yellow>=====================================<==/>_")
         actor:send("<b:green>AVAILABLE QUESTS:</>_")
         if actor.level >= 30 then
             if string.find(actor.class, "Monk") then
@@ -466,7 +466,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
         end
     else
         actor:send("There are no spell, song, or chant quests available for " .. tostring(actor.class) .. " characters._")
-        actor:send("<yellow>=======================================</>")
+        actor:send("<yellow>=====================================<==/>")
     end
 end
 return _return_value

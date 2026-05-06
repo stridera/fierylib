@@ -16,7 +16,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("group_heal") == 1 then
-                person.name:advance_quest("group_heal")
+                person:advance_quest("group_heal")
                 self.room:spawn_object(185, 13)
             elseif person.is_player then
                 local what_gem_drop = random(1, 11)
@@ -28,6 +28,6 @@ if i then
         a = a + 1
     end
 elseif person:get_quest_stage("group_heal") == 1 then
-    person.name:advance_quest("group_heal")
+    person:advance_quest("group_heal")
     self.room:spawn_object(185, 13)
 end

@@ -20,7 +20,7 @@ if actor.is_player then
             local person = actor.group_member[a]
             if person.room == self.room then
                 if person:get_quest_stage("mystwatch_quest") then
-                    person.name:set_quest_var("mystwatch_quest", "step", "general")
+                    person:set_quest_var("mystwatch_quest", "step", "general")
                     person:send("<b:white>You have delivered the totem to the General!</>")
                 end
             elseif person then

@@ -179,7 +179,7 @@ elseif reward == "yes" then
     else
         actor:send(tostring(self.name) .. " etches the markings from " .. "%get.obj_shortdesc[%maceitem3%]% to %get.obj_shortdesc[%mace_id%]%.")
         wait(3)
-        actor:send("By the light of " .. "%get.obj_shortdesc[%maceitem5%]%, %self.name% sets recites several long prayers.")
+        actor:send("By the light of " .. "%get.obj_shortdesc[%maceitem5%]%, self.name% sets recites several long prayers.")
     end
     wait(2)
     actor:send("%get.obj_shortdesc[%mace_id%]% is transformed!")

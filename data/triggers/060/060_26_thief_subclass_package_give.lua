@@ -15,7 +15,7 @@ if victim:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and vi
         actor:send(tostring(self.shortdesc) .. " suddenly bursts into flames from being handled too much!")
         world.destroy(self)
     else
-        victim.name:advance_quest("merc_ass_thi_subclass")
+        victim:advance_quest("merc_ass_thi_subclass")
         victim:send("You've secured the package!")
     end
 end

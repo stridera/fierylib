@@ -48,16 +48,16 @@ if i then
     local a = 1
     while i >= a do
         local person = actor.group_member[a]
-        local stage = person.quest_stage[type_wand]
+        local stage = person:get_quest_stage("type_wand")
         if person.room == self.room then
-            if person.quest_stage[type_wand] == 9 then
-                if not person.quest_variable[type_wand:wandtask4] then
+            if person:get_quest_stage("type_wand") == 9 then
+                if not person:get_quest_var("type_wand:wandtask4") then
                     person:set_quest_var("%type%_wand", "wandtask4", 1)
                     person:send(tostring(color) .. "%get.obj_shortdesc[%wand_id%]% crackles with vibrant energy!</>")
                     person:send(tostring(color) .. "It is primed for reforging!</>")
                 end
-            elseif person.quest_stage[type_wand] == 10 then
-                if not person.quest_variable[type_wand:wandtask3] then
+            elseif person:get_quest_stage("type_wand") == 10 then
+                if not person:get_quest_var("type_wand:wandtask3") then
                     person:set_quest_var("%type%_wand", "wandtask3", 1)
                     person:send(tostring(color) .. "%get.obj_shortdesc[%wand_id%]% crackles with vibrant energy!</>")
                     person:send(tostring(color) .. "It is primed for reforging!</>")

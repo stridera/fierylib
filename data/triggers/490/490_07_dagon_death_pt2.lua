@@ -10,7 +10,7 @@
 local person = self.people
 while person do
     if person:get_quest_stage("griffin_quest") == 6 then
-        person.name:advance_quest("griffin_quest")
+        person:advance_quest("griffin_quest")
         person:send("<b:white>You have advanced the quest!</>")
         person:send("<b:white>Proof of the deed must be delivered individually.</>")
     end

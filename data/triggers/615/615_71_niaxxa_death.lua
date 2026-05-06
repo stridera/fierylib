@@ -18,7 +18,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("enchanted_hollow_quest") and not person:get_has_completed("enchanted_hollow_quest") then
-            person.name:complete_quest("enchanted_hollow_quest")
+            person:complete_quest("enchanted_hollow_quest")
         end
     elseif person then
         i = i + 1

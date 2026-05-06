@@ -62,4 +62,4 @@ if victim.room == "startroom" then
         end
     end
 end
-self.room:send("The remnants of the avalanche tumble past, and then silence returns to the mountains.")
+self.room:send("The remnants of the avalanche tumble past, then silence returns to the mountains.")

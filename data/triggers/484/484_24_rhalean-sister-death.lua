@@ -17,7 +17,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("doom_entrance") == 3 then
-            person.name:advance_quest("doom_entrance")
+            person:advance_quest("doom_entrance")
             person:send("<b:white>You have advanced the quest!</>")
             local found = 1
         end

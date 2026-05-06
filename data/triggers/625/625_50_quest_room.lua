@@ -70,7 +70,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("mild"):command("tip " .. tostring(quester))
         self.room:find_actor("mild"):emote("leaves north toward Blue Fog Trail.")
         world.destroy(self.room:find_actor("merchant"))
-    elseif %quester.quest_variable[ursa_quest:choice] == 2 then
+    elseif quester:get_quest_var("ursa_quest:choice") == 2 then
         wait(1)
         self.room:find_actor("mild"):say("Good enough.")
         self.room:find_actor("mild"):command("wear " .. tostring(object))
@@ -87,7 +87,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         wait(5)
         self.room:find_actor("mild"):command("groan")
         wait(3)
-        self.room:find_actor("mild"):emote("looks himself up and down.")
+        self.room:find_actor("mild"):emote("looks himself up down.")
         wait(1)
         self.room:find_actor("mild"):say("It worked!  I did it!")
         wait(1)
@@ -110,7 +110,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
             gem = gem + 1
         end
         self.room:spawn_object(625, 8)
-    elseif %quester.quest_variable[ursa_quest:choice] == 3 then
+    elseif quester:get_quest_var("ursa_quest:choice") == 3 then
         wait(1)
         self.room:find_actor("mild"):emote("tosses the anvil to the ground with a grunt.")
         wait(3)

@@ -62,7 +62,7 @@ if string.find(arg, "recipe") or string.find(arg, "wall") or string.find(arg, "p
     actor:send("The wall is covered in slips of paper, each with a different recipe.  One")
     actor:send("</>especially stands out among the mess.")
     actor:send("</>")
-    actor:send("</>==========<b:white>" .. tostring(recipe) .. "</>==========")
+    actor:send("</>========<==b:white>" .. tostring(recipe) .. "</>==========")
     if item1 then
         actor:send("</>  " .. "%get.obj_shortdesc[%item1%]%")
     end

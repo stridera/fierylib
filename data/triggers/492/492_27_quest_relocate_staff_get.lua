@@ -11,5 +11,5 @@ if actor:get_quest_stage("relocate_spell_quest") == 1 then
     actor:advance_quest("relocate_spell_quest")
 end
 if victim:get_quest_stage("relocate_spell_quest") == 1 then
-    victim.name:advance_quest("relocate_spell_quest")
+    victim:advance_quest("relocate_spell_quest")
 end

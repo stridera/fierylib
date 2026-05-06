@@ -32,7 +32,7 @@ if actor.is_player then
             local person = actor.group_member[a]
             if person.room == self.room then
                 if not person:get_quest_stage("mystwatch_quest") then
-                    person.name:start_quest("mystwatch_quest")
+                    person:start_quest("mystwatch_quest")
                     person:send("<b:white>You have begun the Mystwatch quest!</>")
                 end
                 actor:set_quest_var("mystwatch_quest", "step", "totem")

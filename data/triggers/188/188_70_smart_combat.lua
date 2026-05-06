@@ -126,9 +126,9 @@ if mode > 5 then
         spells.cast(self, "unholy word")
     elseif is_sor and cir_9 and mode <= 2 then
         spells.cast(self, "disintegrate")
-        -- elseif %is_cry% && %cir_9%
+        -- elseif is_cry% && %cir_9%
         -- cast 'iceball'
-        -- elseif %is_pyr% && %cir_9%
+        -- elseif is_pyr% && %cir_9%
         -- cast 'immolate'
     elseif is_dru and cir_9 and ((not (string.find(actor.flags, "BLIND"))) or not outside) then
         spells.cast(self, "sunray")

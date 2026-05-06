@@ -38,7 +38,7 @@ while i >= a do
     person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("griffin_quest") == "stage" then
-            person.name:advance_quest("griffin_quest")
+            person:advance_quest("griffin_quest")
         end
     elseif person and person.is_player then
         i = i + 1

@@ -23,9 +23,9 @@ end
 while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
-        if person.quest_stage[type_wand] == "wandstep" then
+        if person:get_quest_stage("type_wand") == "wandstep" then
             if person.level >= 60 then
-                if person.quest_variable[type_wand:greet] == 0 then
+                if person:get_quest_var("type_wand:greet") == 0 then
                     wait(2)
                     self:say("What do you want pathetic mortal?")
                 else
@@ -34,7 +34,7 @@ while i >= a do
             end
         end
         if person:get_quest_stage("fieryisle_quest") == "stage" then
-            person.name:advance_quest("fieryisle_quest")
+            person:advance_quest("fieryisle_quest")
             person:send("<b:white>You have advanced your quest!</>")
             if person:has_item("48116") then
                 wait(2)

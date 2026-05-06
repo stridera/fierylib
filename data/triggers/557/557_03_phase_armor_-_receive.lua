@@ -151,10 +151,10 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
             local exp = 6900
         end
         if phase == 2 then
-            -- eval exp (%exp% * 433) / 100
+            -- eval exp ( exp% * 433) / 100
             local exp = (exp * 608) / 100
         elseif phase == 3 then
-            -- eval exp (%exp% * 870) / 100
+            -- eval exp ( exp% * 870) / 100
             local exp = (exp * 1340) / 100
         end
         local lap = 1

@@ -8,6 +8,6 @@
 -- Converted from DG Script #6: firecaster
 -- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
-self.room:send("A <red>Flame</> snakes up and down the blade of " .. tostring(self.shortdesc))
+self.room:send("A <red>Flame</> snakes up down the blade of " .. tostring(self.shortdesc))
 _return_value = false
 return _return_value

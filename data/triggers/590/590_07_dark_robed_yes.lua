@@ -28,7 +28,7 @@ while i >= a do
         if person.alignment <= -350 then
             local continue = "yes"
             if not person:get_quest_stage("sacred_haven") then
-                person.name:start_quest("sacred_haven")
+                person:start_quest("sacred_haven")
                 person:send("<b:white>You have begun the Sacred Haven quest!</>")
             end
         end

@@ -20,7 +20,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("flood") == 1 then
-                person.name:set_quest_var("flood", "water6", 1)
+                person:set_quest_var("flood", "water6", 1)
                 local envoy = "yes"
             end
         elseif person then
@@ -29,7 +29,7 @@ if i then
         a = a + 1
     end
 elseif person:get_quest_stage("flood") == 1 then
-    person.name:set_quest_var("flood", "water6", 1)
+    person:set_quest_var("flood", "water6", 1)
     local envoy = "yes"
 end
 if envoy == "yes" then
@@ -48,7 +48,7 @@ while person do
         local water7 = person:get_quest_var("flood:water7")
         local water8 = person:get_quest_var("flood:water8")
         if water1 and water2 and water3 and water4 and water5 and water6 and water7 and water8 then
-            person.name:advance_quest("flood")
+            person:advance_quest("flood")
             person.name:send("<b:blue>You have garnered the support of all the great waters!</>")
         end
     end

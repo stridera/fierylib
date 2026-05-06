@@ -20,7 +20,7 @@ while i >= a do
     person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("griffin_quest") == 0 then
-            person.name:start_quest("griffin_quest")
+            person:start_quest("griffin_quest")
             person:send("<b:white>You have now begun the Griffin Isle quest!</>")
         end
         person:set_quest_var("griffin_quest", "oak", 1)

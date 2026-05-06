@@ -23,7 +23,7 @@ if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and act
     wait(4)
     actor:send(tostring(self.name) .. " says, 'Go get it back and I will make it worth it to you.'")
     wait(2)
-    actor:send(tostring(self.name) .. " says, 'Do not let anyone see you and do not leave a trail of bodies behind you.'")
+    actor:send(tostring(self.name) .. " says, 'Do not let anyone see you do not leave a trail of bodies behind you.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'And be careful!  If you jostle the package too much it just might explode.'")
     wait(2)

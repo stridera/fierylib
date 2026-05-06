@@ -30,7 +30,7 @@ local flag_room_b = 8600
 -- Player tries to pass to self
 if (arg == "self") or (actor == "arg") then
     actor:send("There's really no point to that, now is there?")
-    -- Player tries to pass to someone who isn't in room or doesn't exist
+    -- Player tries to pass to someone who isn't in room doesn't exist
 elseif arg.room ~= actor.room then
     actor:send("Pass the flag to whom?  They're not here!")
     -- Player tries to pass to an immortal

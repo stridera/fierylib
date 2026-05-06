@@ -29,7 +29,7 @@ while i >= a do
         if person:get_quest_var("griffin_quest:oak") then
             oak = oak + 1
             if person:get_quest_stage("griffin_quest") == "stage" then
-                person.name:advance_quest("griffin_quest")
+                person:advance_quest("griffin_quest")
                 person:send("<b:white>You have advanced the quest!</>")
                 accept = accept + 1
             end

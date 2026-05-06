@@ -31,7 +31,7 @@ while i >= a do
             if self.room == "location" then
                 local level = "yes"
                 if person:get_quest_stage("griffin_quest") == "stage" then
-                    person.name:advance_quest("griffin_quest")
+                    person:advance_quest("griffin_quest")
                     person:send("<b:white>You have advanced the quest!</>")
                 end
             end

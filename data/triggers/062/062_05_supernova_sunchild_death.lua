@@ -14,7 +14,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("supernova") == 1 then
-                person.name:advance_quest("supernova")
+                person:advance_quest("supernova")
             end
         elseif person then
             i = i + 1

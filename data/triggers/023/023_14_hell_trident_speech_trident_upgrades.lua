@@ -111,7 +111,7 @@ if hellstep then
         actor:send(tostring(self.name) .. " says, 'You must make the initial offerings with another dark priest.'")
     elseif response == "stage2" then
         if actor.level >= level then
-            actor:send(tostring(self.name) .. " says, 'Hell hungers for more and will reward you greatly if you feed it.  Attack with that trident 666 times and then seek out the Black Priestess, the left hand of Ruin Wormheart.  She will guide your offerings.'")
+            actor:send(tostring(self.name) .. " says, 'Hell hungers for more and will reward you greatly if you feed it.  Attack with that trident 666 times then seek out the Black Priestess, the left hand of Ruin Wormheart.  She will guide your offerings.'")
         else
             actor:send(tostring(self.name) .. " says, 'Other forces of Hell will eventually take notice of you too now.  Seek out the left hand of Ruin Wormheart, the Black Priestess, after you have grown more.  She will be your emissary.'")
             actor:send("<red>You must be level " .. tostring(level) .. " or greater to continue this quest.</>")

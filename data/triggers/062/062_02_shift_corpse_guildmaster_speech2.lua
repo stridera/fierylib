@@ -34,7 +34,7 @@ if actor:get_quest_stage("shift_corpse") == 1 then
     self.room:spawn_object(62, 28)
     self:command("give glowing-black-crystal " .. tostring(actor))
     wait(2)
-    self.room:send(tostring(self.name) .. " says, 'Give it to Lokari and then banish him from the realm.  The")
+    self.room:send(tostring(self.name) .. " says, 'Give it to Lokari then banish him from the realm.  The")
     self.room:send("</>crystal will steal part of his divine spark and give you the energy you need,'")
     wait(3)
     self:say("This will not be easy.")

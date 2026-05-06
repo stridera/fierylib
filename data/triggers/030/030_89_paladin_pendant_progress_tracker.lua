@@ -84,7 +84,7 @@ if actor.class == "paladin" or actor.class == "anti" then
         actor:send(tostring(self.name) .. " says, 'Your first act of devotion should be to <b:cyan>[hunt]</> a dragon.'")
         return _return_value
     elseif (pendantstage >= huntstage) and not actor:get_has_completed("dragon_slayer") then
-        actor:send(tostring(self.name) .. " says, 'Slay a few more dragons and then we can talk.'")
+        actor:send(tostring(self.name) .. " says, 'Slay a few more dragons then we can talk.'")
         return _return_value
     end
     -- switch on pendantstage

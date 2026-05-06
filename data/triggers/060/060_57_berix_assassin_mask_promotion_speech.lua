@@ -38,7 +38,7 @@ if maskstage == 0 then
     self.room:send(tostring(self.name) .. " says, 'Sure.  You gotta do a <b:cyan>[job]</> for me first though.'")
     return _return_value
 elseif (maskstage >= bountystage) and not actor:get_has_completed("bounty_hunt") then
-    actor:send(tostring(self.name) .. " says, 'Complete some more contract jobs and then we can talk.'")
+    actor:send(tostring(self.name) .. " says, 'Complete some more contract jobs then we can talk.'")
     return _return_value
 elseif job1 and job2 and job3 and job4 then
     actor:send(tostring(self.name) .. " says, 'You're all ready, just give me your old mask.'")

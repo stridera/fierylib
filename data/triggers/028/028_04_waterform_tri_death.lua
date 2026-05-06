@@ -16,7 +16,7 @@ if i then
         if person.room == self.room then
             if person:get_quest_stage("waterform") == 2 or person:get_quest_var("waterform:new") ~= yes then
                 self.room:spawn_object(28, 7)
-                person.name:advance_quest("waterform")
+                person:advance_quest("waterform")
             end
         elseif person then
             i = i + 1

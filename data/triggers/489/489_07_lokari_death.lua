@@ -24,7 +24,7 @@ if i then
                 person:send("<blue>&9It fills you with limitless arcane power as it forces its way into your body!</>")
                 person:send("<blue>&9Your awareness of death now stretches beyond the boundaries of the planes themselves!</>")
                 self.room:send_except(person, "<blue>&9It forces its way into " .. tostring(person.name) .. "'s body!</>")
-                person.name:complete_quest("shift_corpse")
+                person:complete_quest("shift_corpse")
                 skills.set_level(person.name, "shift corpse", 100)
             end
         elseif person then

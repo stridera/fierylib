@@ -29,7 +29,7 @@ while i >= a do
         if person:get_quest_stage("krisenna_quest") < cap then
             local run = "yes"
             if person:get_quest_stage("krisenna_quest") == "stage" then
-                person.name:advance_quest("krisenna_quest")
+                person:advance_quest("krisenna_quest")
                 person:send("<b:white>You have furthered the quest!</>")
             end
         end

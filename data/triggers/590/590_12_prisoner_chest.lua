@@ -27,7 +27,7 @@ while i >= a do
     if person.room == self.room then
         if person:get_quest_stage("sacred_haven") >= stage then
             local continue = "yes"
-            person.name:set_quest_var("sacred_haven", "find_key", 1)
+            person:set_quest_var("sacred_haven", "find_key", 1)
             person:send("<b:white>You have advanced the quest!</>")
         end
     elseif person then

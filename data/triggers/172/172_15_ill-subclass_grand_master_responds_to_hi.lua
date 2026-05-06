@@ -17,7 +17,7 @@ end
 if string.find(actor.class, "Sorcerer") then
     -- switch on actor.race
     -- case ADD RESTRICTED RACES HERE
-    -- if %actor.level% >= 10 && %actor.level% <= 45
+    -- if actor.level% >= 10 && %actor.level% <= 45
     -- msend %actor% &1Your race may not subclass to illusionist.&0
     -- endif
     -- break

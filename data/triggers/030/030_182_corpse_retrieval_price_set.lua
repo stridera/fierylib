@@ -53,7 +53,7 @@ if actor.is_player then
             self.room:send(tostring(self.name) .. " says, '... and you probably had it coming.")
             self.room:send("</>So, this is really gonna cost ya.'")
         else
-            self:say("... but we all get into tight scrapes now and then.")
+            self:say("... but we all get into tight scrapes now then.")
         end
     elseif actor.level < 50 then
         self:say("You've seen your fair share of action...")

@@ -17,7 +17,7 @@ end
 if actor.id == 48127 then
     wait(2)
     self.room:send("There is a swirling in the air and you see a face appear.")
-    self.room:send("The face grins unpleasantly and then cackles.")
+    self.room:send("The face grins unpleasantly then cackles.")
     wait(1)
     self.room:send("The apparition says 'So, you dare to challenge Lokari?!'")
     self.room:send("The apparition glares at you.")

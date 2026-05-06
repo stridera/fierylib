@@ -138,8 +138,8 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 wait(3)
                 self.room:send("The coven cheers in unison, 'So mote it be!'")
                 wait(4)
-                self.room:send_except(actor, "Turning to " .. tostring(actor.name) .. ", " .. "%get.mob_shortdesc[12300]% says, 'And you, %actor.name%.")
-                actor:send("Turning to you, " .. "%get.mob_shortdesc[12300]% says, 'And you, %actor.name%.")
+                self.room:send_except(actor, "Turning to " .. tostring(actor.name) .. ", " .. "%get.mob_shortdesc[12300]% says, 'And you, actor.name%.")
+                actor:send("Turning to you, " .. "%get.mob_shortdesc[12300]% says, 'And you, actor.name%.")
                 self.room:send("</>I wish to thank you for helping my daughters.  <b:cyan>Kneel</>, and receive my blessing.'")
                 return _return_value
                 -- 
@@ -163,8 +163,8 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 wait(6)
                 self.room:send(tostring(mobiles.template(123, 0).name) .. " declares, 'Let this sacred megalith be home to our coven once again!  Thus I charge you with the tending and care of this holy monument.  May you keep well this sacred duty.'")
                 wait(7)
-                self.room:send_except(actor, "Turning to " .. tostring(actor.name) .. ", " .. "%get.mob_shortdesc[12300]% says, 'And you, %actor.name%.")
-                actor:send("Turning to you, " .. "%get.mob_shortdesc[12300]% says, 'And you, %actor.name%.")
+                self.room:send_except(actor, "Turning to " .. tostring(actor.name) .. ", " .. "%get.mob_shortdesc[12300]% says, 'And you, actor.name%.")
+                actor:send("Turning to you, " .. "%get.mob_shortdesc[12300]% says, 'And you, actor.name%.")
                 self.room:send("</>I would thank you for helping my daughters.  If you wish to receive my blessing, <b:cyan>kneel</>.'")
                 return _return_value
                 -- 

@@ -14,7 +14,7 @@ if object.id == 51022 then
     wait(5)
     self:say("Hmm...a damaged spellbook.")
     wait(2)
-    self:say("Look, " .. tostring(actor.name) .. ", why don't you fix this and then maybe we can talk.")
+    self:say("Look, " .. tostring(actor.name) .. ", why don't you fix this then maybe we can talk.")
     _return_value = true
     local clericquest = 2
     globals.clericquest = globals.clericquest or true

@@ -23,7 +23,7 @@ if actor:get_quest_var("school:explore") == 6 then
         actor:send("</>   Tiny but crucial hints can appear in room descriptions - keep your eyes open!")
         actor:send("</>")
         actor:send("</><b:magenta>2. The visible exits from the room.</>")
-        actor:send("</>   FieryMUD uses six directions: north, south, east, west, up, and down.")
+        actor:send("</>   FieryMUD uses six directions: north, south, east, west, up, down.")
         actor:send("</>   If an exit is visible, it will appear after a hyphen.")
         actor:send("</>   Closed exits like doors and trapdoors will have a # sign after them.")
         actor:send("</>")

@@ -24,7 +24,7 @@ if actor:get_quest_var("school:rest") == 3 and (string.find(waterskin, "arg") or
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Cheers!'")
     wait(1)
-    actor:send(tostring(self.name) .. " tells you, 'Every now and then you'll have to <b:cyan>FILL</> your drinking vessel.'")
+    actor:send(tostring(self.name) .. " tells you, 'Every now then you'll have to <b:cyan>FILL</> your drinking vessel.'")
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'Throughout the world you'll find many springs and fountains.'")
     wait(1)

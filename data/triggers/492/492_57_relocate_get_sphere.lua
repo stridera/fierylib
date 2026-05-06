@@ -12,7 +12,7 @@ if actor:get_quest_stage("relocate_spell_quest") == 3 then
     local echo = 1
 end
 if victim:get_quest_stage("relocate_spell_quest") == 3 then
-    victim.name:advance_quest("relocate_spell_quest")
+    victim:advance_quest("relocate_spell_quest")
     local echo = 1
 end
 if echo then

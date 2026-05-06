@@ -22,7 +22,7 @@ while i >= a do
         -- Added by Daedela 3-2021 for Wizard Eye
         -- 
         if person:get_quest_stage("wizard_eye") == 9 then
-            person.name:advance_quest("wizard_eye")
+            person:advance_quest("wizard_eye")
             person:send(tostring(self.name) .. " says, 'I have foreseen this moment and anticipated your arrival.  If you seek my guidance, present to me the crystals in question.'")
         else
             if person:get_quest_stage("doom_entrance") == 3 then
@@ -32,7 +32,7 @@ while i >= a do
                 wait(1)
                 person:send(tostring(self.name) .. " says, 'To prove yourself, return here after you have slain this vile creature.'")
             elseif person:get_quest_stage("doom_entrance") == 4 then
-                person.name:advance_quest("doom_entrance")
+                person:advance_quest("doom_entrance")
                 person:send("<b:white>You have advanced the quest!</>")
                 person:send(tostring(self.name) .. " says, 'Excellent!'")
                 wait(1)

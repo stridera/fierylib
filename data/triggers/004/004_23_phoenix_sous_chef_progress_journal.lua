@@ -67,7 +67,7 @@ if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "
                 local item3 = 23760
             end
             actor:send("You are trying to make:")
-            actor:send("</>==========<b:white>" .. tostring(recipe) .. "</>==========")
+            actor:send("</>========<==b:white>" .. tostring(recipe) .. "</>==========")
             if item1 then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item1%]%")
             end

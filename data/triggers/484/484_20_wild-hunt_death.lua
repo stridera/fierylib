@@ -41,7 +41,7 @@ elseif self.id == 55245 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("doom_entrance") == 1 then
-                person.name:advance_quest("doom_entrance")
+                person:advance_quest("doom_entrance")
                 person:send("<b:white>You have advanced the quest!</>")
                 local load = "yes"
             end

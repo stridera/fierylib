@@ -12,7 +12,7 @@
 if actor.is_player then
     if object.id == 20046 then
         wait(1)
-        self.room:send(tostring(self.name) .. " begins to jump up and down excitedly.")
+        self.room:send(tostring(self.name) .. " begins to jump up down excitedly.")
         self:say("Thank you very much!")
         self:say("Here is your reward for assisting me.")
         self.room:spawn_object(200, 47)

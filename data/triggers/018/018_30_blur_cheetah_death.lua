@@ -15,7 +15,7 @@ while person do
         person:send("<b:white>" .. tostring(mobiles.template(18, 22).name) .. " says, 'Well that was fun!</>")
         person:send("</><b:white>Now see if you can reach <b:cyan>" .. tostring(lair.name) .. "</><b:white> before I do!'</>")
         person:send(tostring(mobiles.template(18, 22).name) .. " blasts away into the sky!")
-        person.name:set_quest_var("blur", "west", 1)
+        person:set_quest_var("blur", "west", 1)
     end
     person = person.next_in_room
 end

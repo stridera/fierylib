@@ -38,7 +38,7 @@ if trophystage == 0 then
     self.room:send(tostring(self.name) .. " says, 'Sure.  You must <b:cyan>[hunt]</> a great beast first though.'")
     return _return_value
 elseif (trophystage >= huntstage) and not actor:get_has_completed("beast_master") then
-    actor:send(tostring(self.name) .. " says, 'Prove your dominion over some more great beasts first and then we can talk.'")
+    actor:send(tostring(self.name) .. " says, 'Prove your dominion over some more great beasts first then we can talk.'")
     return _return_value
 elseif job1 and job2 and job3 and job4 then
     actor:send(tostring(self.name) .. " says, 'You're all ready, just give me your old trophy.'")

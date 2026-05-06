@@ -39,8 +39,8 @@ if quester and gannigan then
         gannigan:say("Cestia, you must hide!")
         wait(2)
         gannigan:say("Do you recall the incantation?  The one that will reveal the passage above the falls?")
-        quester.name:advance_quest("illusionist_subclass")
-        quester.name:advance_quest("illusionist_subclass")
+        quester:advance_quest("illusionist_subclass")
+        quester:advance_quest("illusionist_subclass")
     elseif quester:get_quest_stage("illusionist_subclass") == 3 then
         gannigan:say("An attack?  Cestia!  What have you done?  It is betrayal!")
         wait(2)
@@ -53,7 +53,7 @@ if quester and gannigan then
         gannigan:emote("hesitates.")
         wait(3)
         gannigan:say("But I cannot bring myself to raise my sword against you.")
-        quester.name:advance_quest("illusionist_subclass")
-        quester.name:advance_quest("illusionist_subclass")
+        quester:advance_quest("illusionist_subclass")
+        quester:advance_quest("illusionist_subclass")
     end
 end

@@ -35,11 +35,11 @@ if object.id == 48122 then
                 local levelcheck = 1
                 if person:get_quest_stage("fieryisle_quest") <= 1 then
                     if person:get_quest_stage("fieryisle_quest") == 0 then
-                        person.name:start_quest("fieryisle_quest")
+                        person:start_quest("fieryisle_quest")
                         person:send("<b:white>You have now begun the Fiery Island quest!</>")
                     end
                     local queststart = 1
-                    person.name:set_quest_var("fieryisle_quest", "chimera", "dead")
+                    person:set_quest_var("fieryisle_quest", "chimera", "dead")
                 end
             else
                 person:send("<red>You are too low level to continue this quest.</>")

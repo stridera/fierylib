@@ -26,8 +26,8 @@ if cmd == "s" or cmd == "sh" then
 end
 if string.find(self.name, "arg") then
     if actor:has_equipped("53424") then
-        actor:send("You shake the glass globe up and down vigorously.")
-        self.room:send_except(actor, tostring(actor.name) .. " shakes a glass globe up and down vigorously.")
+        actor:send("You shake the glass globe up down vigorously.")
+        self.room:send_except(actor, tostring(actor.name) .. " shakes a glass globe up down vigorously.")
         if actor.room == 53466 or actor.room == 53570 then
             self.room:send("The snow in the globe swirls...and your vision blurs for a second!")
             if actor.room == 53466 then

@@ -20,7 +20,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person.class == "Ranger" and person.level > 80 and not person:get_quest_stage("blur") then
-                person.name:start_quest("blur")
+                person:start_quest("blur")
                 person:send("A voice from the forest whispers, 'You have done the forest a great service.  Meet me at the nearby spring.'")
             end
         elseif person then
@@ -29,6 +29,6 @@ if i then
         a = a + 1
     end
 elseif person.class == "Ranger" and person.level > 80 and not person:get_quest_stage("blur") then
-    person.name:start_quest("blur")
+    person:start_quest("blur")
     person:send("A voice from the forest whispers, 'You have done the forest a great service.  Meet me at the nearby spring.'")
 end

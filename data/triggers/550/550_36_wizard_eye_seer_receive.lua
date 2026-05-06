@@ -60,7 +60,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
             end
             if not actor:get_quest_var("wizard_eye:item2") then
                 wait(1)
-                actor:send(tostring(self.name) .. " says, 'Oh and do you have the thyme?'")
+                actor:send(tostring(self.name) .. " says, 'Oh do you have the thyme?'")
                 wait(1)
                 actor:send(tostring(self.name) .. " says, 'Of course you don't, you don't have a wristwatch!'")
                 self:command("laugh")

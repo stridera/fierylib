@@ -16,19 +16,19 @@ if string.find(actor.race, "troll") then
     -- now lets check to make sure the item is correct and we didn't already have it, if both are good then lets mark it gotten.
     if object.id == 37080 then
         local gooditem = 1
-        if %actor.quest_variable[troll_quest:got_item:37080] ~= 1 then
+        if actor:get_quest_var("troll_quest:got_item:37080") ~= 1 then
             local gotitem = 1
             actor:set_quest_var("troll_quest", "got_item:37080", 1)
         end
     elseif object.id == 37081 then
         local gooditem = 1
-        if %actor.quest_variable[troll_quest:got_item:37081] ~= 1 then
+        if actor:get_quest_var("troll_quest:got_item:37081") ~= 1 then
             local gotitem = 1
             actor:set_quest_var("troll_quest", "got_item:37081", 1)
         end
     elseif object.id == 37082 then
         local gooditem = 1
-        if %actor.quest_variable[troll_quest:got_item:37082] ~= 1 then
+        if actor:get_quest_var("troll_quest:got_item:37082") ~= 1 then
             local gotitem = 1
             actor:set_quest_var("troll_quest", "got_item:37082", 1)
         end

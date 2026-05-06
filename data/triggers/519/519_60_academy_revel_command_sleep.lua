@@ -24,7 +24,7 @@ if actor:get_quest_var("school:rest") == 1 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Sweet dreams!'")
     wait(1)
-    actor:send(tostring(self.name) .. " tells you, 'Remember, you may want to enter commands every now and then to update your display and see how close you are to full health and movement.")
+    actor:send(tostring(self.name) .. " tells you, 'Remember, you may want to enter commands every now then to update your display and see how close you are to full health and movement.")
     actor:send("The display won't update on its own.'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'The <b:cyan>WAKE</> command makes you stop sleeping and sit up.")

@@ -87,9 +87,9 @@ elseif object.id == 61551 then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("enchanted_hollow_quest") == 0 then
-                person.name:start_quest("enchanted_hollow_quest")
+                person:start_quest("enchanted_hollow_quest")
             end
-            person.name:set_quest_var("enchanted_hollow_quest", "got_cherry", 1)
+            person:set_quest_var("enchanted_hollow_quest", "got_cherry", 1)
         elseif person then
             i = i + 1
         end
@@ -112,9 +112,9 @@ elseif object.id == 61551 then
             local person = actor.group_member[a]
             if person.room == self.room then
                 if person:get_quest_stage("enchanted_hollow_quest") == 0 then
-                    person.name:start_quest("enchanted_hollow_quest")
+                    person:start_quest("enchanted_hollow_quest")
                 end
-                person.name:set_quest_var("enchanted_hollow_quest", "got_cherry", 0)
+                person:set_quest_var("enchanted_hollow_quest", "got_cherry", 0)
             elseif person then
                 i = i + 1
             end

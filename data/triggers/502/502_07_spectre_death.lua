@@ -18,7 +18,7 @@ while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("bayou_quest") and not person:get_has_completed("bayou_quest") then
-            person.name:complete_quest("bayou_quest")
+            person:complete_quest("bayou_quest")
         end
     elseif person then
         i = i + 1

@@ -28,9 +28,9 @@ while i >= a do
     if person.room == self.room then
         if person:get_quest_var("sacred_haven:given_light") == 1 and person.alignment <= -350 then
             local continue = "yes"
-            person.name:set_quest_var("sacred_haven", "find_blood", 1)
+            person:set_quest_var("sacred_haven", "find_blood", 1)
             if person:get_quest_stage("sacred_haven") == "stage" then
-                person.name:advance_quest("sacred_haven")
+                person:advance_quest("sacred_haven")
                 person:send("<b:white>You have advanced the quest!</>")
             end
         end

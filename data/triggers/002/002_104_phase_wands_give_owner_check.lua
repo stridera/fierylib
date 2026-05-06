@@ -10,13 +10,13 @@
 -- Converted from DG Script #304: phase wands give owner check
 -- Original: OBJECT trigger, flags: GIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if self.id >= 300 and self.id =< 309 then
+if self.id >= 300 and self.id <= 309 then
     local energy = "air"
-elseif self.id >= 310 and self.id =< 319 then
+elseif self.id >= 310 and self.id <= 319 then
     local energy = "fire"
-elseif self.id >= 320 and self.id =< 329 then
+elseif self.id >= 320 and self.id <= 329 then
     local energy = "ice"
-elseif self.id >= 330 and self.id =< 339 then
+elseif self.id >= 330 and self.id <= 339 then
     local energy = "acid"
 end
 -- switch on victim.id

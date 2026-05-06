@@ -167,9 +167,9 @@ if actor:get_quest_stage("flood") == 1 then
         end
         wait(1)
         if string.find(arg, "the arabel ocean calls for aid") then
-            self.room:find_actor("spirit"):command("mecho %spirit% says, %color%'Why does the ocean call for aid?'&0")
+            self.room:find_actor("spirit"):command("mecho %spirit% says, color%'Why does the ocean call for aid?'&0")
         else
-            self.room:find_actor("spirit"):command("mecho %spirit% says, %color%'Do you have what I asked for?'&0")
+            self.room:find_actor("spirit"):command("mecho %spirit% says, color%'Do you have what I asked for?'&0")
         end
     end
 end

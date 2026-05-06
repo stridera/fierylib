@@ -16,7 +16,7 @@ if i then
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("dragons_health") == 4 then
-                person.name:set_quest_var("dragons_health", "sagece", 1)
+                person:set_quest_var("dragons_health", "sagece", 1)
             end
         elseif person then
             i = i + 1
@@ -24,5 +24,5 @@ if i then
         a = a + 1
     end
 elseif person:get_quest_stage("dragons_health") == 4 then
-    person.name:set_quest_var("dragons_health", "sagece", 1)
+    person:set_quest_var("dragons_health", "sagece", 1)
 end

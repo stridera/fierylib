@@ -82,7 +82,7 @@ elseif actor:get_quest_stage("doom_entrance") == 6 then
                 person:send(tostring(self.name) .. " says, 'You have done well, " .. tostring(person.name) .. ". Your task is completed.'")
                 wait(1)
                 person:send(tostring(self.name) .. " says, 'May the light of the Sun find you even in the depths of Severan's Doom.'")
-                person.name:complete_quest("doom_entrance")
+                person:complete_quest("doom_entrance")
                 wait(1)
                 person:send(tostring(self.name) .. " says, 'Do not forget to show the Keeper of the Keys that you have finished!'")
             end
