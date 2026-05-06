@@ -66,9 +66,9 @@ if color then
     self.room:send_except(actor, "A strange-looking helmet falls from behind the dragon, landing near " .. tostring(actor.name) .. ".")
     self.room:spawn_object(188, obj_id)
     if actor:get_quest_stage("quest_items") == 0 then
-        actor.name:start_quest("quest_items")
+        actor:start_quest("quest_items")
     end
-    actor.name:set_quest_var("quest_items", tostring(obj_id), 1)
+    actor:set_quest_var("quest_items", tostring(obj_id), 1)
     actor:command("get dragonhelm")
     world.destroy(self)
 end

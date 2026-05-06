@@ -22,7 +22,7 @@ elseif actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
         self:emote("clears his throat and says, 'You have done well, congratulations!'")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Type '<b:red>subclass</>' to proceed.'")
-        actor.name:complete_quest("merc_ass_thi_subclass")
+        actor:complete_quest("merc_ass_thi_subclass")
     end
 else
     actor:send(tostring(self.name) .. " says, 'Well this is nifty, I think I will hold on to that, thank you.'")

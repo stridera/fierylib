@@ -65,7 +65,7 @@ if can_summon == "yes" then
         self.room:find_actor("dragon-mount"):command("wear dragonsaddle")
         world.destroy(self.room:find_object("dragonsquire"))
         -- Timestamp
-        actor.name:set_quest_var("quest_items", "dragonhelm_time", now)
+        actor:set_quest_var("quest_items", "dragonhelm_time", now)
     end
 end
 return _return_value

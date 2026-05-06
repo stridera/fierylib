@@ -2,7 +2,7 @@
 -- Zone: 590, ID: 5
 -- Type: MOB, Flags: GREET
 -- Status: NEEDS_REVIEW
---   -- UNCONVERTED: %actor.quest_variable[sacred_haven:given_earring]% != 1)
+--   -- UNCONVERTED: %actor:get_quest_var("sacred_haven:given_earring")% != 1)
 --   Syntax error: luac: <dark_robed_greet1>:13: ')' expected near 'then'
 --   Complex nesting: 6 if statements
 --
@@ -22,7 +22,7 @@ if actor.is_player and actor.level < 100 then
         actor:send("</>for me?'")
     elseif actor:get_quest_stage("sacred_haven") > 1 &(actor:get_quest_var("sacred_haven:given_blood") then
     elseif actor:get_quest_stage("sacred_haven") > 1 &(actor:get_quest_var("sacred_haven:given_blood") then
-        -- UNCONVERTED: %actor.quest_variable[sacred_haven:given_earring]% != 1)
+        -- UNCONVERTED: %actor:get_quest_var("sacred_haven:given_earring")% != 1)
         wait(4)
         self:whisper(actor.name, "Have you brought me my artifacts?")
         return _return_value

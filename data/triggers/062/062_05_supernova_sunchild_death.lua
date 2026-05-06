@@ -22,5 +22,5 @@ if i then
         a = a + 1
     end
 elseif actor:get_quest_stage("supernova") == 1 then
-    actor.name:advance_quest("supernova")
+    actor:advance_quest("supernova")
 end

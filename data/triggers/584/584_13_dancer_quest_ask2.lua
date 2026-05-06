@@ -20,7 +20,7 @@ if actor.is_player then
         actor:send(tostring(self.name) .. " says to you, 'You must gain the princes favor..'")
         actor:send(tostring(self.name) .. " says to you, 'then maybe he will give me to you so you can set me free.'")
         self.room:send_except(actor, tostring(self.name) .. " whispers something to " .. tostring(actor.name))
-        actor.name:advance_quest("major_spell_quest")
+        actor:advance_quest("major_spell_quest")
         -- this sets the player to level 2 in the quest
         wait(5)
         self.room:find_actor("prince"):say("Hey, what are you talking to them about?!")

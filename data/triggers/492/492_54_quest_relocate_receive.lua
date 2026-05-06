@@ -32,7 +32,7 @@ if stage == 1 then
 elseif stage == 2 then
     if object.id == 49250 then
         wait(2)
-        actor.name:advance_quest("relocate_spell_quest")
+        actor:advance_quest("relocate_spell_quest")
         actor:send("A lost mage tells you, 'Excellent, thank you! Thank you!'")
         wait(10)
         self:command("hold mystics")
@@ -58,7 +58,7 @@ elseif stage == 4 then
 elseif stage == 5 then
     if object.id == 49252 then
         wait(2)
-        actor.name:advance_quest("relocate_spell_quest")
+        actor:advance_quest("relocate_spell_quest")
         actor:send("A lost mage tells you, 'Yes, yes! Thank you!")
         wait(10)
         self:command("hold telescope")
@@ -73,7 +73,7 @@ elseif stage == 5 then
     end
 elseif stage == 6 then
     if object.id == 12520 then
-        actor.name:advance_quest("relocate_spell_quest")
+        actor:advance_quest("relocate_spell_quest")
         actor:save()
         wait(2)
         actor:send("A lost mage tells you, 'Perfect! Only two items left!'")
@@ -95,7 +95,7 @@ elseif stage == 6 then
     end
 elseif stage == 7 then
     if object.id == 58608 then
-        actor.name:advance_quest("relocate_spell_quest")
+        actor:advance_quest("relocate_spell_quest")
         wait(2)
         actor:send("A lost mage tells you, 'Almost there, one more!'")
         wait(10)
@@ -149,7 +149,7 @@ elseif stage == 9 then
         actor:send("A lost mage tells you, 'And, as I promised, here is the spell!'")
         actor:send("A lost mage shows you the spell scribed in her spellbook.")
         skills.set_level(actor.name, "relocate", 100)
-        actor.name:complete_quest("relocate_spell_quest")
+        actor:complete_quest("relocate_spell_quest")
         self.room:send_except(actor, "A lost mage shows " .. tostring(actor.name) .. " her spellbook, teaching " .. tostring(actor.possessive) .. " her secrets.")
         wait(20)
         self.room:send("A lost mage starts casting <b:yellow>'relocate'</>...")

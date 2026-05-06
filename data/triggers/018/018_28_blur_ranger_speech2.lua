@@ -19,10 +19,10 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "let's") or string.find(string.lower(speech), "begin")) then
     return true  -- No matching keywords
 end
-actor.name:set_quest_var("blur", "east", 0)
-actor.name:set_quest_var("blur", "west", 0)
-actor.name:set_quest_var("blur", "south", 0)
-actor.name:set_quest_var("blur", "north", 0)
+actor:set_quest_var("blur", "east", 0)
+actor:set_quest_var("blur", "west", 0)
+actor:set_quest_var("blur", "south", 0)
+actor:set_quest_var("blur", "north", 0)
 if actor:get_quest_stage("blur") == 4 then
     wait(2)
     self:say("Ready...")

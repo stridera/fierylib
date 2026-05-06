@@ -33,7 +33,7 @@ if (string.find(speech, "speech1")) or (string.find(speech, "speech2")) then
             self.room:send("</>To bring you home is our desire.'")
             wait(4)
             run_room_trigger(123, 19)
-            actor.name:set_quest_var("megalith_quest", "summon", 2)
+            actor:set_quest_var("megalith_quest", "summon", 2)
         elseif summon == 2 then
             run_room_trigger(123, 20)
             wait(2)
@@ -42,7 +42,7 @@ if (string.find(speech, "speech1")) or (string.find(speech, "speech2")) then
             self.room:send("</>On shooting stars and moonbridge high.'")
             wait(4)
             run_room_trigger(123, 21)
-            actor.name:set_quest_var("megalith_quest", "summon", 3)
+            actor:set_quest_var("megalith_quest", "summon", 3)
         elseif summon == 3 then
             -- 
             -- 12320 is a wecho of just the phrase 'We summon and stir thee'

@@ -23,7 +23,7 @@ if actor:get_quest_stage("banish") == 7 then
     skills.set_level(actor.name, "banish", 100)
     wait(1)
     actor:send("<b:red>You have mastered the prayer for Banish!</>")
-    actor.name:complete_quest("banish")
+    actor:complete_quest("banish")
     if not actor:get_quest_var("hell_trident:helltask5") and actor:get_quest_stage("hell_trident") == 1 then
         actor:set_quest_var("hell_trident", "helltask5", 1)
     end

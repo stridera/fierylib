@@ -11,8 +11,8 @@
 if actor:get_quest_stage("ursa_quest") == 1 then
     wait(2)
     world.destroy(object)
-    actor.name:set_quest_var("ursa_quest", "choice", 3)
-    actor.name:advance_quest("ursa_quest")
+    actor:set_quest_var("ursa_quest", "choice", 3)
+    actor:advance_quest("ursa_quest")
     wait(8)
     self:say("He has always told me he's found a cure for everything he's ever heard of.  I just need you to help gather some things.")
     wait(2)

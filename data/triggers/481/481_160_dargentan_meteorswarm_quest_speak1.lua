@@ -30,7 +30,7 @@ if actor:get_quest_stage("meteorswarm") == 4 then
         wait(4)
         actor:send(tostring(self.name) .. " says, 'Dost thine ears perceive thus?  Tis the music of the spheres!  Remember it upon thy conjuring!'")
         actor:send("<b:white>You feel your mastery of the air growing!</>")
-        actor.name:advance_quest("meteorswarm")
+        actor:advance_quest("meteorswarm")
         wait(5)
         self:say("Alloweth this one to return thus to rest anon.")
         wait(2)
@@ -47,6 +47,6 @@ if actor:get_quest_stage("meteorswarm") == 4 then
         wait(1)
         actor:send("<b:white>The meteorite begins to hum!")
         actor:send("Strangely enough, you do feel you have learned something significant about the power of the air.</>")
-        actor.name:advance_quest("meteorswarm")
+        actor:advance_quest("meteorswarm")
     end
 end

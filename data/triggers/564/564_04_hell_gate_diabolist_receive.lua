@@ -110,7 +110,7 @@ elseif stage == 2 then
         self:say("This is not one of the seven keys.")
     end
 elseif stage == 3 then
-    if actor:get_quest_var("hell_gate:new") /= yes then
+    if actor:get_quest_var("hell_gate:new") ~= yes then
         if object.id == 3213 then
             wait(2)
             self:say("Yes, this is a suitable replacement.")

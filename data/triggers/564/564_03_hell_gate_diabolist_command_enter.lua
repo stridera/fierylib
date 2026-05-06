@@ -34,7 +34,7 @@ if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") 
             self.room:send("The fires die down as the voice grows silent.")
             wait(3)
             actor:send(tostring(priest) .. " says, 'I will do my part.  I count on you to do yours.  If you need a reminder of your <b:cyan>[progress]</> you can ask me at any time.'")
-            actor.name:start_quest("hell_gate")
+            actor:start_quest("hell_gate")
         else
             actor:send("Your lack of experience prevents you from entering the circle of flames!")
             actor:send("</>")

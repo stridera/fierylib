@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "brother") or string.find(string.lower
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then
-    actor.name:advance_quest("krisenna_quest")
+    actor:advance_quest("krisenna_quest")
     actor:send("<b:white>You have furthered the quest!</>")
     actor:send("<b:white>Group credit will not be awarded for the next step of this quest.</>")
     wait(1)

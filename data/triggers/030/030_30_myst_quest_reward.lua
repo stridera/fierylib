@@ -89,7 +89,7 @@ self:say("Here, " .. tostring(actor.name) .. " you have earned this as a reward.
 wait(1)
 self:command("give all " .. tostring(actor.name))
 if not actor:get_has_completed("mystwatch_quest") and actor:get_quest_var("mystwatch_quest:step") == "complete" then
-    actor.name:complete_quest("mystwatch_quest")
+    actor:complete_quest("mystwatch_quest")
     if actor.level < 50 then
         local expcap = actor.level
     else

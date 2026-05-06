@@ -24,5 +24,5 @@ if actor:get_quest_stage("ran_dru_subclass") == 2 then
     actor:send(tostring(self.name) .. " says, 'But for now, it is time for you to depart I think.'")
     self:command("sigh")
     actor:send(tostring(self.name) .. " says, 'You have brought up painful memories for me to relive.'")
-    actor.name:advance_quest("ran_dru_subclass")
+    actor:advance_quest("ran_dru_subclass")
 end

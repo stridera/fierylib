@@ -11,5 +11,5 @@ if actor:get_quest_stage("berserker_subclass") == 4 and actor:get_quest_var("ber
     actor:send("<b:cyan>Congratulations, you have succeeded in your Wild Hunt!</>")
     actor:send("<b:cyan>You have earned the right to become a &9<blue>Ber<red>ser&9ker<b:cyan>!</>")
     actor:send("Type '<b:yellow>subclass</>' to proceed.")
-    actor.name:complete_quest("berserker_subclass")
+    actor:complete_quest("berserker_subclass")
 end

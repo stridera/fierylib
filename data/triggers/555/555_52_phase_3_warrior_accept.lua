@@ -14,7 +14,7 @@
 if actor.class == "warrior" then
     wait(2)
     if actor:get_quest_stage("phase_armor") == 2 then
-        actor.name:advance_quest("phase_armor")
+        actor:advance_quest("phase_armor")
     end
     actor:send(tostring(self.name) .. " tells you, \"Excellent, I can make nice boots, a helm, gauntlets,\"")
     actor:send(tostring(self.name) .. " tells you, \"vambraces, greaves, plate, and a bracer.\"")

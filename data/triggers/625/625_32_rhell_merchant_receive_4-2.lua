@@ -14,7 +14,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
         if object.id == 59012 then
             wait(2)
             world.destroy(object)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             wait(1)
             self:say("Fantastic.  Rylee knew it had too much power to be wielded by just anyone.  Only this dagger can end the curse inside me.")
             wait(1)

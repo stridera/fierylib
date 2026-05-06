@@ -11,7 +11,7 @@ if actor.is_player then
     wait(1)
     if actor:get_quest_stage("sunfire_rescue") == 1 then
         if object.id == 52008 then
-            actor.name:advance_quest("sunfire_rescue")
+            actor:advance_quest("sunfire_rescue")
             self:command("smile " .. tostring(actor.name))
             self:emote("slips his feet out of the shackles and wears the boots.")
             self:say("Thank you.")

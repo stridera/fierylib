@@ -23,7 +23,7 @@ if actor.is_player then
     if string.find(actor.class, "Necromancer") or string.find(actor.class, "Sorcerer") then
         local class = "S"
     end
-    if string.find(speech, "teach")? then
+    if string.find(speech, "teach?") then
         if class ~= "C" then
             self:command("laugh " .. tostring(actor.name))
             self:say("I have nothing to learn from you, " .. tostring(actor.name) .. " you upstart!")

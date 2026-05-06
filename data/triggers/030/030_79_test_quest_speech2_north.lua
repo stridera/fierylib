@@ -17,7 +17,7 @@ if actor.is_player then
         actor:send(tostring(self.name) .. " says to you, 'I would love to send him proof of my doings but I am so busy.'")
         self:command("sigh")
         actor:send(tostring(self.name) .. " says to you, 'I need a diadem of bone.'")
-        actor.name:advance_quest("zzurs_funky_quest")
+        actor:advance_quest("zzurs_funky_quest")
     else
     end
 else

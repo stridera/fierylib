@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 5 then
-    actor.name:advance_quest("major_globe_spell")
+    actor:advance_quest("major_globe_spell")
     local room = random(1, 5)
     -- switch on room
     -- Haunted House
@@ -32,7 +32,7 @@ if stage == 5 then
     else
         local room = 53078
     end
-    actor.name:set_quest_var("major_globe_spell", "room", room)
+    actor:set_quest_var("major_globe_spell", "room", room)
     wait(1)
     self:destroy_item("majorglobe-salve")
     self:command("smile")

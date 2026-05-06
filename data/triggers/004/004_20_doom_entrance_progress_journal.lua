@@ -9,7 +9,7 @@
 -- Converted from DG Script #420: Doom Entrance progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "doom") entrance or string.find(arg, "the") planes of doom or string.find(arg, "planes") of doom or string.find(arg, "doom_entrance") or string.find(arg, "the_planes_of_doom") or string.find(arg, "planes_of_doom") or string.find(arg, "planes") then
+if string.find(arg, "doom entrance") or string.find(arg, "the planes of doom") or string.find(arg, "planes of doom") or string.find(arg, "doom_entrance") or string.find(arg, "the_planes_of_doom") or string.find(arg, "planes_of_doom") or string.find(arg, "planes") then
     if actor.level >= 85 then
         _return_value = true
         local stage = actor:get_quest_stage("doom_entrance")

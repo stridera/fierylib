@@ -13,13 +13,13 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("waterform")
-if actor:get_quest_var("waterform:new") /= yes then
+if actor:get_quest_var("waterform:new") ~= yes then
     if object.id == 2807 then
         -- UNCONVERTED: quest
         wait(2)
         self:say("Yes, I can make a new dragon bone cup from this.")
         world.destroy(object)
-        actor.name:set_quest_var("waterform", "new", 0)
+        actor:set_quest_var("waterform", "new", 0)
         wait(2)
         self.room:send(tostring(self.name) .. " transforms into a torrential swirling column!")
         self.room:send("The riptide whittles away at the ice white bone, carving it into a smooth cup.")
@@ -36,7 +36,7 @@ if actor:get_quest_var("waterform:new") /= yes then
     end
 elseif stage == 1 then
     if object.id == 51009 then
-        actor.name:advance_quest("waterform")
+        actor:advance_quest("waterform")
         wait(2)
         self:destroy_item("shield")
         self:say("Yes, this will do nicely.")
@@ -73,7 +73,7 @@ elseif stage == 1 then
     end
 elseif stage == 3 then
     if object.id == 2807 then
-        actor.name:advance_quest("waterform")
+        actor:advance_quest("waterform")
         wait(2)
         self.room:send(tostring(self.name) .. " examines " .. tostring(object.shortdesc) .. ".")
         self:destroy_item("thigh-bone")
@@ -116,7 +116,7 @@ elseif stage == 4 then
     end
 elseif stage == 5 then
     if object.id == 2808 then
-        actor.name:advance_quest("waterform")
+        actor:advance_quest("waterform")
         _return_value = true
         self:say("Yes, these samples are perfect.")
         wait(2)
@@ -182,7 +182,7 @@ elseif stage == 7 then
         wait(5)
         skills.set_level(actor, "waterform", 100)
         actor:send("<b:blue>The Great Wave imparts the method to transform your body into pure raging water!</>")
-        actor.name:complete_quest("waterform")
+        actor:complete_quest("waterform")
     else
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

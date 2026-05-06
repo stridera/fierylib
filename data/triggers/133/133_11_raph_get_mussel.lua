@@ -15,7 +15,7 @@ if actor.is_player then
             actor:send("The mussel slips from your hands, darn slimy things.")
             _return_value = true
         else
-            actor.name:advance_quest("get_raph_food")
+            actor:advance_quest("get_raph_food")
         end
     end
 end

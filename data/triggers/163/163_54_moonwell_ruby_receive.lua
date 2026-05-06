@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_stage("moonwell_spell_quest") == 6 then
     wait(2)
-    actor.name:set_quest_var("moonwell_spell_quest", "map", 1)
+    actor:set_quest_var("moonwell_spell_quest", "map", 1)
     actor:send(tostring(self.name) .. " tells you, 'Good.  Thank you!'")
     wait(15)
     self.room:send(tostring(self.name) .. " places " .. tostring(object.shortdesc) .. " along the circumference of the circle and utters a prayer.")

@@ -17,7 +17,7 @@ if object.id == 48251 then
     self:command("shake")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Go <b:cyan>use</> this new treasure; don't give it back to me!'")
-elseif actor:get_quest_var("meteorswarm:new") /= no then
+elseif actor:get_quest_var("meteorswarm:new") ~= no then
     _return_value = true
     self.room:send(tostring(self.name) .. " accepts the meteorite.")
     wait(2)
@@ -53,7 +53,7 @@ else
             actor:send(tostring(self.name) .. " tells you, 'The charge from such energy will be ideal for conjuring.'")
             wait(2)
             actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
-            actor.name:set_quest_var("meteorswarm", "earth", 1)
+            actor:set_quest_var("meteorswarm", "earth", 1)
         else
             _return_value = true
             actor:send(tostring(self.name) .. " tells you, 'Yes yes, you have already proven it's a lovely focus.'")
@@ -75,7 +75,7 @@ else
             self:command("give meteorite " .. tostring(actor.name))
             wait(1)
             actor:send(tostring(self.name) .. " tells you, 'Go somewhere safe, and <b:cyan>use it</> to unlock its potential.'")
-            actor.name:set_quest_var("meteorswarm", "air", 1)
+            actor:set_quest_var("meteorswarm", "air", 1)
         else
             _return_value = true
             actor:send(tostring(self.name) .. " tells you, 'Where did you find a second one of these?  You don't need it.'")

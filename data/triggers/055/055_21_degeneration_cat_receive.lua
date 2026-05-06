@@ -17,7 +17,7 @@ if stage == 0 then
     wait(2)
     self:say("Who are you?  Why are you giving me this?")
 elseif stage == 1 and object.id == 58008 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("book")
     self:emote("studies the book closely.")
@@ -41,7 +41,7 @@ elseif stage == 1 and object.id == 58008 then
     self.room:send(tostring(self.name) .. " says, 'Bring back the necklace he carries so I can see how much")
     self.room:send("</>progress he's made.'")
 elseif stage == 2 and object.id == 37015 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("necklace")
     self.room:send(tostring(self.name) .. " utters the words, '<b:yellow>oculoinfra kariq</>'.")
@@ -67,7 +67,7 @@ elseif stage == 2 and object.id == 37015 then
     self.room:send("</>which he uses as his focus.  It's a bit vulgar, but it should serve my")
     self.room:send("</>purposes.  Secure it and bring it back.'")
 elseif stage == 3 and object.id == 51075 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("mask")
     wait(1)
@@ -95,7 +95,7 @@ elseif stage == 3 and object.id == 51075 then
     self.room:send(tostring(self.name) .. " says, 'Bring me his magical focus, " .. tostring(objects.template(430, 20).name) .. ".")
     self.room:send("</>It should give me sufficient insight to Voliangloch's magic.'")
 elseif stage == 4 and object.id == 43020 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("rod")
     wait(1)
@@ -120,7 +120,7 @@ elseif stage == 4 and object.id == 43020 then
     self.room:send(tostring(self.name) .. " says, 'He wears a unique robe that I'd like to get my paws on.  Get")
     self.room:send("</>it and bring it back to me.'")
 elseif stage == 5 and object.id == 47003 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("robe")
     self:emote("gingerly sniffs " .. tostring(objects.template(470, 3).name) .. ".")
@@ -147,7 +147,7 @@ elseif stage == 5 and object.id == 47003 then
     wait(3)
     self:say("I'm quite excited for this one, so hurry up!")
 elseif stage == 6 and object.id == 48009 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("statuette")
     self:say("Well done my little one, well done.")
@@ -178,7 +178,7 @@ elseif stage == 6 and object.id == 48009 then
     self.room:send("</>days.  While I think I could manage this without his notes, I want to be")
     self.room:send("</>completely sure.'")
 elseif stage == 8 and object.id == 8551 then
-    actor.name:advance_quest("degeneration")
+    actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("book")
     self:emote("flips through the pages of the book.")
@@ -225,7 +225,7 @@ elseif stage == 9 and object.id == 12526 then
     actor:send("Looking at the notes, you understand what " .. tostring(self.name) .. " has done.")
     actor:send("<b:white>You have learned &9Degeneration<white>!</>")
     skills.set_level(actor.name, "degeneration", 100)
-    actor.name:complete_quest("degeneration")
+    actor:complete_quest("degeneration")
 else
     _return_value = true
     self:command("hiss " .. tostring(actor))

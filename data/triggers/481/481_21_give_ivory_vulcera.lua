@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_stage("fieryisle_quest") == 8 then
     wait(2)
-    actor.name:advance_quest("fieryisle_quest")
+    actor:advance_quest("fieryisle_quest")
     actor:send("<b:white>You have advanced your quest!</>")
     if world.count_mobiles(481, 27) == 0 then
         get_room(481, 97):at(function()

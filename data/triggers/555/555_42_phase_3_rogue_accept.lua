@@ -14,7 +14,7 @@
 if actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary" then
     wait(2)
     if actor:get_quest_stage("phase_armor") == 2 then
-        actor.name:advance_quest("phase_armor")
+        actor:advance_quest("phase_armor")
     end
     actor:send(tostring(self.name) .. " tells you, \"Excellent, I can make nice boots, a cap, gloves,\"")
     actor:send(tostring(self.name) .. " tells you, \"sleeves, leggings, tunic, and a bracer.\"")

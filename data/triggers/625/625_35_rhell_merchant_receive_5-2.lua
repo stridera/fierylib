@@ -17,7 +17,7 @@ if actor:get_quest_stage("ursa_quest") == 5 then
             wait(1)
             if object.val2 == 7 then
                 self:say("This is the good stuff!")
-                actor.name:advance_quest("ursa_quest")
+                actor:advance_quest("ursa_quest")
                 wait(1)
                 self:command("drink " .. tostring(object))
                 wait(1)

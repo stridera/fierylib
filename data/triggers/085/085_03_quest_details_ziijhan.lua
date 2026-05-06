@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "quest")) then
 end
 if actor.is_player then
     if actor:get_quest_stage("nec_dia_ant_subclass") == 1 then
-        actor.name:advance_quest("nec_dia_ant_subclass")
+        actor:advance_quest("nec_dia_ant_subclass")
     end
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Many years ago, my pact with the demon realm allowed me to be master of this domain.  All were subjugated, man, woman, and beast.'")

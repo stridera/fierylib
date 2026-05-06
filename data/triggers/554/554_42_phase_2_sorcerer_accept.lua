@@ -14,7 +14,7 @@
 if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" then
     wait(2)
     if actor:get_quest_stage("phase_armor") == 1 then
-        actor.name:advance_quest("phase_armor")
+        actor:advance_quest("phase_armor")
     end
     actor:send(tostring(self.name) .. " tells you, \"Excellent, I can make nice <b:white>slippers</>, a <b:white>coif</>, <b:white>gloves</>,\"")
     actor:send(tostring(self.name) .. " tells you, \"<b:white>sleeves</>, <b:white>pants</>, <b:white>robe</>, and a <b:white>bracelet</>.\"")

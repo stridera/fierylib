@@ -8,5 +8,5 @@
 -- Converted from DG Script #48205: meteorite_get
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 if actor:get_quest_stage("meteorswarm") == 2 then
-    actor.name:advance_quest("meteorswarm")
+    actor:advance_quest("meteorswarm")
 end

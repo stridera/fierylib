@@ -16,7 +16,7 @@ if self.room == 8591 then
             actor:send("The chalice slips from your fingers!")
             _return_value = true
         else
-            actor.name:advance_quest("pri_pal_subclass")
+            actor:advance_quest("pri_pal_subclass")
         end
     end
     local already_got = 1

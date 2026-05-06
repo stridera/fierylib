@@ -19,7 +19,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "old") or string.find(string.lower(speech), "why?")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "old") gods or if string.find(speech, "old") gods? or if string.find(speech, "why")? then
+if string.find(speech, "old gods") or string.find(speech, "old gods?") or string.find(speech, "why?") then
     wait(2)
     self:say("You see, when the Nine Hells cracked open to vomit forth Sagece on Templace, the putrid rift she crawled through so corrupted the world around it, many of the Old Gods found their holy sites defiled and their physical access to Ethilien severed.")
     wait(6)

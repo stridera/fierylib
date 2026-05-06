@@ -20,7 +20,7 @@ if actor.is_player then
     local cha = actor.real_cha
     -- make sure they have a quest record for saving variables
     if actor:get_quest_stage("corpse_retrieval") < 1 then
-        actor.name:start_quest("corpse_retrieval")
+        actor:start_quest("corpse_retrieval")
     end
     self:say("We can certainly help you with that...")
     wait(1)
@@ -115,6 +115,6 @@ if actor.is_player then
     self:say("My fee is " .. tostring(speech) .. " for " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper.")
     -- (empty room echo)
     self:say("Just get me the money and I'll cast the appropriate spells.")
-    actor.name:set_quest_var("corpse_retrieval", "price", price)
-    actor.name:set_quest_var("corpse_retrieval", "actor_level", actor.level)
+    actor:set_quest_var("corpse_retrieval", "price", price)
+    actor:set_quest_var("corpse_retrieval", "actor_level", actor.level)
 end

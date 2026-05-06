@@ -10,8 +10,8 @@
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("moonwell_spell_quest") == 10 then
     if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
-        actor.name:advance_quest("moonwell_spell_quest")
-        actor.name:set_quest_var("moonwell_spell_quest", "map", 0)
+        actor:advance_quest("moonwell_spell_quest")
+        actor:set_quest_var("moonwell_spell_quest", "map", 0)
         wait(2)
         self:destroy_item("map")
         wait(15)

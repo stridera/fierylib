@@ -11,7 +11,7 @@
 local stage = actor:get_quest_stage("ice_shards")
 if stage == 8 then
     wait(2)
-    actor.name:advance_quest("ice_shards")
+    actor:advance_quest("ice_shards")
     self.room:send("Khysan carefully opens " .. tostring(object.shortdesc) .. " and starts to read.")
     wait(2)
     self.room:send("<b:yellow>Letters and images float up out of " .. tostring(object.shortdesc) .. " and begin to dance around Khysan.</>")

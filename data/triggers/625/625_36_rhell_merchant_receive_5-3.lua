@@ -15,7 +15,7 @@ if actor:get_quest_stage("ursa_quest") == 5 then
         if object.id == 8702 then
             wait(2)
             world.destroy(object)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             wait(1)
             run_room_trigger(625, 50)
         else

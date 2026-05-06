@@ -10,7 +10,7 @@
 -- Converted from DG Script #427: Group Armor progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "group") armor or string.find(arg, "group_armor") then
+if string.find(arg, "group armor") or string.find(arg, "group_armor") then
     if (actor.level >= 50 and string.find(actor.class, "Priest")) or (actor.level >= 65 and string.find(actor.class, "Cleric")) then
         _return_value = true
         local stage = actor:get_quest_stage("group_armor")

@@ -28,7 +28,7 @@ if not actor:get_quest_stage("pyromancer_subclass") and string.find(actor.class,
                 return _return_value
             else
                 wait(2)
-                actor.name:start_quest("pyromancer_subclass", "Pyr")
+                actor:start_quest("pyromancer_subclass", "Pyr")
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'Only the best and most motivated of mages will complete the <b:red>quest</> I lay before you.'")
                 self:command("smile")

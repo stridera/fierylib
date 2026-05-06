@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
 if string.find(actor.class, "Diabolist") and actor.level > 56 and actor:get_quest_stage("hellfire_brimstone") == 0 then
-    actor.name:start_quest("hellfire_brimstone")
+    actor:start_quest("hellfire_brimstone")
     wait(2)
     self:command("grin")
     self.room:send(tostring(self.name) .. " says, 'Then first, you must prove your dedication to the dark")

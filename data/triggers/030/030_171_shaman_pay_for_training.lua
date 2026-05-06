@@ -15,7 +15,7 @@ if not percent_chance(1) then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("trainer_3170:word2") then
-    if actor:get_quest_var("trainer_3170:skill_name") /= sphere then
+    if actor:get_quest_var("trainer_3170:skill_name") ~= sphere then
         local full_skill = actor:get_quest_var("trainer_3170:skill_name") of actor:get_quest_var("trainer_3170:word2")
     else
         local full_skill = actor:get_quest_var("trainer_3170:skill_name") actor:get_quest_var("trainer_3170:word2")
@@ -36,7 +36,7 @@ if actor:get_quest_var("trainer_3170:actor_level") == actor.level then
         wait(3)
         actor:send("You feel your skill in " .. tostring(full_skill) .. " improving dramatically!")
         skills.set_level(actor, "%full_skill%", 100)
-        actor.name:erase_quest("trainer_3170")
+        actor:erase_quest("trainer_3170")
     else
         actor:send(tostring(self.name) .. " says, 'I appreciate your voluntary donation, but I'm afraid that's all it was.'")
         self:command("snicker " .. tostring(actor))
@@ -51,6 +51,6 @@ else
     self:command("ponder")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Something is different about you.  What skill were you going to train again?'")
-    actor.name:erase_quest("trainer_3170")
+    actor:erase_quest("trainer_3170")
 end
 return _return_value

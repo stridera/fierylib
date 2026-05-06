@@ -15,7 +15,7 @@ if actor.is_player then
             wait(3)
             self:command("shake " .. tostring(actor.name))
             self:say("I thank you for all of your effort, but I am afraid you are too late.  Death is coming for me.")
-            actor.name:advance_quest("get_raph_food")
+            actor:advance_quest("get_raph_food")
             actor.name:send(self.name .. " tells you, '" .. "If you would like your prize, 'tell raph Please'." .. "'")
             wait(2)
         else

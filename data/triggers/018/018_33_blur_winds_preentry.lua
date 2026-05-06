@@ -26,7 +26,7 @@ if actor:get_quest_stage("blur") == 4 then
     else
         _return_value = true
     end
-    if actor.quest_variable[blur:direction] == 0 and get.mob_count[mob] == 0 then
+    if actor:get_quest_var("blur:direction") == 0 and get.mob_count[mob] == 0 then
         self.room:spawn_mobile(18, mob)
     end
 end

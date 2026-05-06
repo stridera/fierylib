@@ -32,7 +32,7 @@ if string.find(self.class, "Necromancer") then
                 self.room:send("</>taught - it must be taken.'")
                 wait(2)
                 self:say("You must steal the power of a god.")
-                actor.name:start_quest("shift_corpse")
+                actor:start_quest("shift_corpse")
             end
         else
             self.room:send_except(actor, tostring(self.name) .. " sneers at " .. tostring(actor.name) .. ".")

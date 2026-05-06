@@ -20,7 +20,7 @@ if actor:get_has_completed("twisted_sorrow") then
     self:say("The trees are satisfied, my friend.")
 else
     if actor:get_quest_stage("twisted_sorrow") == 0 then
-        actor.name:start_quest("twisted_sorrow")
+        actor:start_quest("twisted_sorrow")
     end
     self.room:send("The hooded druid says, 'Very well.  Each tree sups of its own liquid, that much")
     self.room:send("</>I know.  But what specifically they desire, I'm afraid, is knowledge from")

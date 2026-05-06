@@ -63,8 +63,8 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or ac
     else
         local number = 4
     end
-    if actor.quest_variable[waterform:regionnumber] == 0 then
-        actor.name:set_quest_var("waterform", "region%number%", 1)
+    if actor:get_quest_var("waterform:regionnumber") == 0 then
+        actor:set_quest_var("waterform", "region%number%", 1)
         actor:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
         self.room:send_except(actor, "<b:blue>" .. tostring(actor.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
     end
@@ -75,6 +75,6 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or ac
     local region5 = actor:get_quest_var("waterform:region5")
     if region1 + region2 + region3 + region4 + region5 > 3 then
         actor:send("<b:blue>You have gathered all the samples of living water you need!</>")
-        actor.name:advance_quest("waterform")
+        actor:advance_quest("waterform")
     end
 end

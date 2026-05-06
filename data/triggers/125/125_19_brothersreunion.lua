@@ -31,7 +31,7 @@ if object.id == 12502 then
             gem = gem + 1
         end
         self:command("give all.gem " .. tostring(actor.name))
-        actor.name:complete_quest("krisenna_quest")
+        actor:complete_quest("krisenna_quest")
         -- 
         -- Set X to the level of the award - code does not run without it
         -- 

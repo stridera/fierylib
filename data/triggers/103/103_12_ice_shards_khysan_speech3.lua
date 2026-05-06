@@ -17,7 +17,7 @@ end
 wait(2)
 if string.find(actor.class, "Cryomancer") then
     if actor.level > 88 and actor:get_quest_stage("ice_shards") == 0 then
-        actor.name:start_quest("ice_shards")
+        actor:start_quest("ice_shards")
         self:command("beam")
         self:say("Excellent!  I'm excited!")
         wait(2)

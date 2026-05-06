@@ -24,7 +24,7 @@ if cmd == "c" or cmd == "co" or cmd == "com" or cmd == "comm" then
     return _return_value
 end
 if actor:get_quest_stage("group_armor") == 3 and self.room == 13358 then
-    actor.name:advance_quest("group_armor")
+    actor:advance_quest("group_armor")
     self.room:send("Holding " .. tostring(self.shortdesc) .. " up to the shaft of light, it begins to hum!")
     wait(3)
     self.room:send("The hammer grows warm.")

@@ -17,7 +17,7 @@ local stage = actor:get_quest_stage("group_armor")
 wait(2)
 if (string.find(actor.class, "Cleric") and actor.level > 72) or (string.find(actor.class, "Priest") and actor.level > 56) then
     if stage == 0 then
-        actor.name:start_quest("group_armor")
+        actor:start_quest("group_armor")
         self:say("Then welcome aboard!")
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'First, I need four things that cast the Armor")

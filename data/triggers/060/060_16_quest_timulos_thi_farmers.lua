@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "farmers?") or string.find(string.lowe
 end
 wait(2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and actor:get_quest_stage("merc_ass_thi_subclass") == 2 then
-    actor.name:advance_quest("merc_ass_thi_subclass")
+    actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'That is right, a <b:yellow>package</> was taken by a farmer who should not have it.'")
     self:command("grumble")
     wait(2)

@@ -21,7 +21,7 @@ if actor:get_quest_stage("sunfire_rescue") == 1 then
     -- Fairly straightforward...
     if speech == "yes" then
         if actor.alignment > 349 then
-            actor.name:start_quest("sunfire_rescue")
+            actor:start_quest("sunfire_rescue")
             self:emote("smiles brightly at " .. tostring(actor.name) .. " and looks hopeful.")
             self:say("Thank you! Please return to me with the items and I will be most grateful.")
             self:emote("pauses a moment.")

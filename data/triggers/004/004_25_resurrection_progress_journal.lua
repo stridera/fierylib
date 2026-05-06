@@ -77,10 +77,10 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
             end
         end
         if stage == 4 or stage == 6 or stage == 8 or stage == 10 then
-            local target1 = actor.quest_variable[resurrection_quest:mob1]
-            local target2 = actor.quest_variable[resurrection_quest:mob2]
+            local target1 = actor:get_quest_var("resurrection_quest:mob1")
+            local target2 = actor:get_quest_var("resurrection_quest:mob2")
             if stage ~= 6 and stage ~= 10 then
-                local target3 = actor.quest_variable[resurrection_quest:mob3]
+                local target3 = actor:get_quest_var("resurrection_quest:mob3")
             end
             actor:send("You must eliminate:")
             actor:send(tostring(hunt))

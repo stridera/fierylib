@@ -33,5 +33,5 @@ if actor:get_quest_stage("cryomancer_subclass") == 2 then
     self:command("smile")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Go about it now.'")
-    actor.name:advance_quest("cryomancer_subclass")
+    actor:advance_quest("cryomancer_subclass")
 end

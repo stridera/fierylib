@@ -23,7 +23,7 @@ end
 -- If starting for the first time
 -- 
 if actor:get_quest_stage("megalith_quest") < 1 then
-    actor.name:start_quest("megalith_quest")
+    actor:start_quest("megalith_quest")
     wait(2)
     self:say("May the Goddess smile upon you!")
     wait(1)
@@ -71,7 +71,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
     -- 
     -- If ready to continue stage 4
     -- 
-elseif (actor:get_quest_stage("megalith_quest")self.room == 12389) and (actor.quest_variable[megalith_quest:reliquary]% == 1) then
+elseif (actor:get_quest_stage("megalith_quest")self.room == 12389) and (actor:get_quest_var("megalith_quest:reliquary")% == 1) then
     wait(2)
     self:say("The Great Rite of Invocation has a great deal of call and response.  I will chant a line and you must repeat it to continue the ritual.  The coven will chant their response after you do.")
     wait(4)
@@ -79,5 +79,5 @@ elseif (actor:get_quest_stage("megalith_quest")self.room == 12389) and (actor.qu
     wait(2)
     self:emote("raises her arms to the sky.")
     self.room:send(tostring(self.name) .. " chants, '<b:cyan>Great Lady of the Stars, hear our prayer!</>'")
-    actor.name:set_quest_var("megalith_quest", "prayer", 1)
+    actor:set_quest_var("megalith_quest", "prayer", 1)
 end

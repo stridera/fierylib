@@ -23,7 +23,7 @@ self.room:send("DEBUG: Trigger running for " .. tostring(actor.name) .. " of cla
 if actor.is_player then
     if actor.level >= 65 then
         if actor:get_quest_stage("major_spell_quest") < 1 then
-            if actor:get_has_completed("major_spell_quest") /= false then
+            if actor:get_has_completed("major_spell_quest") ~= false then
                 local gogogo = 0
                 if string.find(actor.class, "Sorcerer") then
                     local gogogo = 1
@@ -43,7 +43,7 @@ if actor.is_player then
                     wait(1)
                     actor:send(tostring(self.name) .. " says to you, 'The Prince has me enslaved against my will, will you help set me free?'")
                     self:say("Yer a " .. tostring(actor.class))
-                    actor.name:start_quest("major_spell_quest")
+                    actor:start_quest("major_spell_quest")
                 else
                     self:command("grumble")
                     self:say("Ok, I can talk, I swear " .. tostring(actor.name) .. " is a doofus.")

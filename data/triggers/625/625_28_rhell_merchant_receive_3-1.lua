@@ -13,7 +13,7 @@ if actor:get_quest_stage("ursa_quest") == 3 then
     if actor:get_quest_var("ursa_quest:choice") == 1 then
         if object.id == 11810 then
             wait(2)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             wait(1)
             self:emote("looks at " .. tostring(object.shortdesc) .. ".")
             world.destroy(object)

@@ -32,7 +32,7 @@ if obj == 59026 then
         actor:send("</>clutches of the brothers from the Sacred Haven.'")
         wait(2)
         self:emote("grumbles loudly.")
-        actor.name:set_quest_var("sacred_haven", "given_light", 1)
+        actor:set_quest_var("sacred_haven", "given_light", 1)
         -- last line just set var to let code know light has been given
     elseif actor:get_quest_var("sacred_haven:given_light") == 1 then
         -- return light if already given
@@ -66,7 +66,7 @@ if obj == 59026 then
         wait(2)
         self:say("Good, now I have the vial of dragon's blood.")
         self:destroy_item("vial-dragons-blood")
-        actor.name:set_quest_var("sacred_haven", "given_blood", 1)
+        actor:set_quest_var("sacred_haven", "given_blood", 1)
         -- check to see if all 3 items have been returned
         if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
             local reward = "yes"
@@ -93,7 +93,7 @@ if obj == 59026 then
         actor:send(tostring(self.name) .. " says, 'Ahhh, I savor the feel of my skin against my trinket")
         self.room:send("</>of tattered leather.'")
         world.destroy(object.name)
-        actor.name:set_quest_var("sacred_haven", "given_trinket", 1)
+        actor:set_quest_var("sacred_haven", "given_trinket", 1)
         -- check to see if all 3 items have been returned
         if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
             local reward = "yes"
@@ -120,7 +120,7 @@ if obj == 59026 then
         wait(5)
         actor:send(tostring(self.name) .. " says, 'Yes... I have not seen the shadow forged earring in")
         self.room:send("</>quite some time.'")
-        actor.name:set_quest_var("sacred_haven", "given_earring", 1)
+        actor:set_quest_var("sacred_haven", "given_earring", 1)
         -- check to see if all 3 items have been returned
         if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
             local reward = "yes"
@@ -162,8 +162,8 @@ if reward == "yes" then
         self.room:send(tostring(self.name) .. " says, 'Ahhh, you've been such a foolish one to complete")
         self.room:send("</>my deeds for me.'")
         wait(2)
-        actor.name:complete_quest("sacred_haven")
-        actor.name:erase_quest("sacred_haven")
+        actor:complete_quest("sacred_haven")
+        actor:erase_quest("sacred_haven")
         spells.cast(self, "cause crit", actor.name)
     elseif rnd == 8 or rnd == 9 or rnd == 10 then
     else
@@ -180,8 +180,8 @@ if reward == "yes" then
         wait(3)
         actor:send(tostring(self.name) .. " turns away from you.")
         self.room:send_except(actor.name, tostring(self.name) .. " turns away from " .. tostring(actor.name) .. ".")
-        actor.name:complete_quest("sacred_haven")
-        actor.name:erase_quest("sacred_haven")
+        actor:complete_quest("sacred_haven")
+        actor:erase_quest("sacred_haven")
     end
 elseif reward == "no" then
     -- ask for more stuff

@@ -78,16 +78,16 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
         local reward_id = body_reward
     end
     if is_armor then
-        if not actor.quest_variable[phase_armor:object_team_a_idrmor_acquired] then
-            actor.name:set_quest_var("phase_armor", "%object_id%_armor_acquired", 0)
+        if not actor:get_quest_var("phase_armor:object_team_a_idrmor_acquired") then
+            actor:set_quest_var("phase_armor", "%object_id%_armor_acquired", 0)
         end
-        local armor_count = actor.quest_variable[phase_armor:object_team_a_idrmor_acquired]
+        local armor_count = actor:get_quest_var("phase_armor:object_team_a_idrmor_acquired")
         if armor_count < 1 then
             _return_value = false
             wait(1)
             world.destroy(object.name)
             armor_count = armor_count + 1
-            actor.name:set_quest_var("phase_armor", "%object_id%_armor_acquired", armor_count)
+            actor:set_quest_var("phase_armor", "%object_id%_armor_acquired", armor_count)
             actor:send(tostring(self.name) .. " tells you, 'Hey now, what have we here!?")
             actor:send("</>I've been looking for this for some time.")
             actor:send("</>You have now given me " .. "%get.obj_shortdesc[%object_id%]%.'")
@@ -100,16 +100,16 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
             return _return_value
         end
     else
-        if not actor.quest_variable[phase_armor:object_id_gems_acquired] then
-            actor.name:set_quest_var("phase_armor", "%object_id%_gems_acquired", 0)
+        if not actor:get_quest_var("phase_armor:object_id_gems_acquired") then
+            actor:set_quest_var("phase_armor", "%object_id%_gems_acquired", 0)
         end
-        local gem_count = actor.quest_variable[phase_armor:object_id_gems_acquired]
+        local gem_count = actor:get_quest_var("phase_armor:object_id_gems_acquired")
         if gem_count < 3 then
             _return_value = false
             wait(1)
             world.destroy(object.name)
             gem_count = gem_count + 1
-            actor.name:set_quest_var("phase_armor", "%object_id%_gems_acquired", gem_count)
+            actor:set_quest_var("phase_armor", "%object_id%_gems_acquired", gem_count)
             actor:send(tostring(self.name) .. " tells you, 'Hey, very nice.'")
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'It is good to see that adventurers are out conquering the realm.'")
@@ -131,7 +131,7 @@ if object.id == "%hands_armor%" or object.id == "%hands_gem%" or object.id == "%
     -- 
     -- Check to see if the quest is complete and if the reward can be given.
     -- 
-    if (actor.quest_variable[phase_armor:gem_id_gems_acquired] == 3) and (actor.quest_variable[phase_armor:armor_team_a_idrmor_acquired] == 1) then
+    if (actor:get_quest_var("phase_armor:gem_id_gems_acquired") == 3) and (actor:get_quest_var("phase_armor:armor_team_a_idrmor_acquired") == 1) then
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Excellent work, intrepid adventurer!")
         actor:send("</>You have provided me with all I need to reward you with:")

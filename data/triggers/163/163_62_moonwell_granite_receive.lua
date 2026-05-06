@@ -10,7 +10,7 @@
 if actor:get_quest_stage("moonwell_spell_quest") == 11 then
     wait(2)
     self:destroy_item("ring")
-    actor.name:set_quest_var("moonwell_spell_quest", "map", 1)
+    actor:set_quest_var("moonwell_spell_quest", "map", 1)
     wait(15)
     actor:send(tostring(self.name) .. " tells you, 'Excellent, hand me your map so that I may finish this.'")
 end

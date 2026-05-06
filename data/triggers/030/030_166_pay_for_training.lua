@@ -31,7 +31,7 @@ if actor:get_quest_var("trainer_3165:actor_level") == actor.level then
         wait(3)
         actor:send("You feel your skill in " .. tostring(full_skill) .. " improving dramatically!")
         skills.set_level(actor, "%full_skill%", 100)
-        actor.name:erase_quest("trainer_3165")
+        actor:erase_quest("trainer_3165")
     else
         actor:send(tostring(self.name) .. " says, 'I appreciate your voluntary donation, but I'm afraid that's all it was.'")
         self:command("snicker " .. tostring(actor))
@@ -45,6 +45,6 @@ else
     self:command("ponder")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Something is different about you.  What skill were you going to train again?'")
-    actor.name:erase_quest("trainer_3165")
+    actor:erase_quest("trainer_3165")
 end
 return _return_value

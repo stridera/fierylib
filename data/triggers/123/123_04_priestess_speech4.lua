@@ -19,7 +19,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "slipping") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "what")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "slipping") away or string.find(speech, "slipping") away? or string.find(speech, "how") terrible or string.find(speech, "how") sad or string.find(speech, "what") can be done? then
+if string.find(speech, "slipping away") or string.find(speech, "slipping away?") or string.find(speech, "how terrible") or string.find(speech, "how sad") or string.find(speech, "what can be done?") then
     wait(2)
     self:say("We began to lose hope until we found this ancient circle of standing stones.  But I believe this place is powerful enough for us to perform the Great Invocation Rite.")
     wait(4)

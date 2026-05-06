@@ -16,7 +16,7 @@ local WARRIOR_SUB = (actor.class == warrior  or  actor.class == paladin  or  act
 if WARRIOR_SUB then
     wait(2)
     if actor:get_quest_stage("phase_armor") == 0 then
-        actor.name:start_quest("phase_armor")
+        actor:start_quest("phase_armor")
     end
     actor:send(tostring(self.name) .. " tells you, \"Excellent, I can make nice [<b:white>boots</>], a [<b:white>helm</>], [<b:white>gauntlets</>],\"")
     actor:send(tostring(self.name) .. " tells you, \"[<b:white>vambraces</>], [<b:white>greaves</>], [<b:white>plate</>], and a [<b:white>bracer</>].\"")

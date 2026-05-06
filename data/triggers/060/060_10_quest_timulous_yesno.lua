@@ -34,7 +34,7 @@ if string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 2
             return _return_value
         end
         if use_subclass then
-            actor.name:start_quest("merc_ass_thi_subclass", use_subclass)
+            actor:start_quest("merc_ass_thi_subclass", use_subclass)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'So, you truly wish to continue.'")
             wait(1)

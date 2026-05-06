@@ -33,7 +33,7 @@ elseif actor:get_quest_stage("cryomancer_subclass") == 4 then
     self:command("bow " .. tostring(actor.name))
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Type <b:cyan>'subclass'</> to proceed.'")
-    actor.name:complete_quest("cryomancer_subclass")
+    actor:complete_quest("cryomancer_subclass")
 else
     actor:send(tostring(self.name) .. " says, 'What is going on?  The voices again, it is all happening again......'")
     wait(2)

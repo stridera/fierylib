@@ -13,7 +13,7 @@ if actor:get_quest_stage("ursa_quest") == 3 then
     if actor:get_quest_var("ursa_quest:choice") == 3 then
         if object.id == 16305 then
             wait(2)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             world.destroy(object)
             wait(1)
             self:say("Oh, Golden Druidstaff!  Well, now that makes a lot of sense.")

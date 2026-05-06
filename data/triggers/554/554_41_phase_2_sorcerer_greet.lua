@@ -11,7 +11,7 @@ wait(2)
 -- Set up test mud to test if these parenthesis work on the conditionals.. They do!!
 if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer") and actor.level >= 21 then
     if actor:get_quest_stage("phase_armor") == 0 then
-        actor.name:start_quest("phase_armor")
+        actor:start_quest("phase_armor")
     end
     if actor:get_quest_stage("phase_armor") <= 1 then
         wait(2)

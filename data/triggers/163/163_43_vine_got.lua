@@ -13,7 +13,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 1 then
         self.room:send("The Vine of Mielikki glows brightly then fades...its holy glow fading.")
         _return_value = true
     else
-        actor.name:advance_quest("moonwell_spell_quest")
+        actor:advance_quest("moonwell_spell_quest")
     end
 end
 return _return_value

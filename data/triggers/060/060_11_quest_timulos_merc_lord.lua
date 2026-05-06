@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "lord") or string.find(string.lower(sp
 end
 wait(2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "mercenary" and actor:get_quest_stage("merc_ass_thi_subclass") == 1 then
-    actor.name:advance_quest("merc_ass_thi_subclass")
+    actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Well, a great Lord, who shall remain unnamed, has lost a cloak.'")
     self:command("smirk")
     wait(2)

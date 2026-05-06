@@ -19,7 +19,7 @@ if actor:get_quest_stage("illusionist_subclass") == 6 then
     actor:send(tostring(self.name) .. " says, 'I can see that your skill in misdirection is extremely extremely promising.  You have my leave to join the illusionists.'")
     wait(4)
     actor:send(tostring(self.name) .. " says, 'Now, type <b:magenta>'subclass'</>.'")
-    actor.name:complete_quest("illusionist_subclass")
+    actor:complete_quest("illusionist_subclass")
     wait(2)
     self:command("wink " .. tostring(actor.name))
 else

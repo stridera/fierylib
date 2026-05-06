@@ -27,7 +27,7 @@ if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "p
             actor:send("You have already sealed this anomaly.")
         else
             if actor:get_quest_stage("heavens_gate") == 3 then
-                actor.name:set_quest_var("heavens_gate", "%self.room%", 1)
+                actor:set_quest_var("heavens_gate", "%self.room%", 1)
                 actor:send("You begin to chant...")
                 self.room:send_except(actor, tostring(actor.name) .. " begins to chant...")
                 actor:send("The power of the heavens courses through " .. tostring(self.shortdesc) .. ".")
@@ -46,7 +46,7 @@ if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "p
                     world.destroy(self.room:find_object("portal"))
                 end
                 local sealed = seal + 1
-                actor.name:set_quest_var("heavens_gate", "sealed", sealed)
+                actor:set_quest_var("heavens_gate", "sealed", sealed)
                 wait(1)
                 -- switch on sealed
                 if sealed == 1 then
@@ -73,7 +73,7 @@ if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "p
                     wait(2)
                     local room = get_room("13358")
                     actor:send("<b:white>A vision of starlight beckons you back to " .. tostring(room.name) .. ".</>")
-                    actor.name:advance_quest("heavens_gate")
+                    actor:advance_quest("heavens_gate")
                 else
                     _return_value = true
                 end

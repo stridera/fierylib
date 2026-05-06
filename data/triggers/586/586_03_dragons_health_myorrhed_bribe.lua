@@ -33,10 +33,10 @@ if actor:get_quest_stage("dragons_health") == 5 then
     self:emote("places the money next to the egg.")
     local hoard = actor:get_quest_var("dragons_health:hoard")
     local wealth = hoard + ((platinum * 1000) + (gold * 100) + (silver * 10) + copper)
-    actor.name:set_quest_var("dragons_health", "hoard", wealth)
+    actor:set_quest_var("dragons_health", "hoard", wealth)
     local value = actor:get_quest_var("dragons_health:hoard")
     if value >= 10000000 then
-        actor.name:advance_quest("dragons_health")
+        actor:advance_quest("dragons_health")
         run_room_trigger(586, 4)
     else
         local total = (10000000 - value)

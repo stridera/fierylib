@@ -27,7 +27,7 @@ if not arg then
 end
 local i = 0
 while i < teams do
-    if string.find(arg, "T") iT then
+    if string.find(arg, "T iT") then
         if candidate == "i" then
             local seconds = timeout * 12
             actor:send("Your team will capture this " .. tostring(pylonname) .. " in " .. tostring(seconds) .. " seconds!")

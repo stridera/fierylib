@@ -22,7 +22,7 @@ local is_arc = is_sor  or  is_cry  or  is_pyr  or  is_nec
 local is_war = class == Warrior
 local is_ran = class == Ranger
 local is_pal = class == Paladin
-local is_ant = class /= Anti
+local is_ant = class ~= Anti
 local is_mon = class == Monk
 local is_com = is_ran  or  is_pal  or  is_ant
 local is_fig = is_war  or  is_mon  or  is_com
@@ -85,9 +85,9 @@ if not defensive then
 end
 -- Attempt to cast support spells
 if mode <= defensive then
-    if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not (flags% /= HASTE)) then
+    if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not (flags% ~= HASTE)) then
         spells.cast(self, "haste")
-    elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not (flags% /= STONE)) then
+    elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not (flags% ~= STONE)) then
         spells.cast(self, "stone skin")
     elseif ((is_ran and cir_3) or is_dru) and (barkskin + 6 + (level / 10) < now) then
         spells.cast(self, "barkskin")

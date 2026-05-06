@@ -13,7 +13,7 @@ if actor:get_quest_stage("ursa_quest") == 2 then
     if actor:get_quest_var("ursa_quest:choice") == 1 then
         if object.id == 23755 then
             wait(2)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             world.destroy(object)
             wait(1)
             self:say("Good!  You managed to find some pepper.")

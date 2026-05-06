@@ -30,7 +30,7 @@ if string.find(actor.class, "Necromancer") and actor.level > 80 and actor:get_qu
     wait(6)
     self.room:send(tostring(self.name) .. " says, 'Bring me his book so I may glean what information I can")
     self.room:send("</>about his techniques.'")
-    actor.name:start_quest("degeneration")
+    actor:start_quest("degeneration")
     wait(3)
     self.room:send(tostring(self.name) .. " says, 'If you need, I can remind you of your <b:white>[spell progress]</>.'")
     wait(2)

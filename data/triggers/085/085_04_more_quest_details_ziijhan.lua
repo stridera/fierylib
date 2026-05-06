@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "brother") or string.find(string.lower
 end
 if actor.is_player and actor:get_quest_stage("nec_dia_ant_subclass") > 1 then
     if actor:get_quest_stage("nec_dia_ant_subclass") == 2 then
-        actor.name:advance_quest("nec_dia_ant_subclass")
+        actor:advance_quest("nec_dia_ant_subclass")
     end
     self:command("nod " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, 'Yes!  My wretched sibling, Ber...  I shall not utter his name!'")

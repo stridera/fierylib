@@ -14,7 +14,7 @@ if actor:get_quest_stage("ursa_quest") == 2 then
         if object.id == 16201 then
             wait(2)
             world.destroy(object)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             wait(1)
             self:emote("runs his hand down the shaft of the golden sceptre.")
             wait(2)

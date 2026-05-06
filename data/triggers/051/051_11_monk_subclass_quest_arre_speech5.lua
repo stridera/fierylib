@@ -26,7 +26,7 @@ if actor:get_quest_stage("monk_subclass") == 2 then
     self:emote("sighs again.")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Enough, I have grown tired of your company.  You bring back bad memories.'")
-    actor.name:advance_quest("monk_subclass")
+    actor:advance_quest("monk_subclass")
     self.room:send(tostring(self.name) .. " dismisses you.")
     self.room:teleport_all(get_room(580, 25))
     self.room:find_actor("all"):command("look")

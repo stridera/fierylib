@@ -45,7 +45,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 11 then
         self.room:send("</>again!'")
         wait(2)
         self.room:send("The beautiful druid bows deeply, enters the moonwell and disappears!")
-        actor.name:complete_quest("moonwell_spell_quest")
+        actor:complete_quest("moonwell_spell_quest")
         skills.set_level(actor.name, "moonwell", 100)
         world.destroy(self)
     else

@@ -19,7 +19,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "assist") or string.find(string.lower(speech), "assistance") or string.find(string.lower(speech), "assist?") or string.find(string.lower(speech), "assistance?") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "what")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "assist") or string.find(speech, "assistance") or string.find(speech, "assist")? or string.find(speech, "assistance")? or string.find(speech, "how") can I help? or string.find(speech, "how") can I assist? or string.find(speech, "what") can I do? or string.find(speech, "what") can I do to assist? then
+if string.find(speech, "assist") or string.find(speech, "assistance") or string.find(speech, "assist?") or string.find(speech, "assistance?") or string.find(speech, "how can I help?") or string.find(speech, "how can I assist?") or string.find(speech, "what can I do?") or string.find(speech, "what can I do to assist?") then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Our coven came to this megalith to perform the <b:white>Great Rite of Invocation</> and summon our faerie goddess The Great Mother, the Lady of the Stars.'")
 end

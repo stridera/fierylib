@@ -13,7 +13,7 @@ get_room(238, 90):at(function()
     run_room_trigger(238, 14)
 end)
 -- flameball
-if actor:get_quest_stage("emmath_flameball") == 2 and actor.quest_stage[type_wand] ~= "step" then
+if actor:get_quest_stage("emmath_flameball") == 2 and actor:get_quest_stage("type_wand") ~= "step" then
     wait(2)
     self:destroy_item("blue-flame")
     self:command("eye")
@@ -36,14 +36,14 @@ elseif actor:get_quest_stage("emmath_flameball") == 3 then
     wait(2)
     self:command("look " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, 'Well now I suppose I owe you something, don't I.  You seem ready for the power.'")
-    actor.name:erase_quest("emmath_flameball")
+    actor:erase_quest("emmath_flameball")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'But remember!  With great power, comes great responsibility.'")
     self.room:spawn_object(52, 10)
     self:command("give ball " .. tostring(actor.name))
 end
 -- phase wand
-if actor.quest_stage[type_wand] then
+if actor:get_quest_stage("type_wand") then
     local minlevel = (step - 1) * 10
     if actor.level < ((step - 1) * 10) then
         _return_value = true
@@ -57,15 +57,15 @@ if actor.quest_stage[type_wand] then
         wait(1)
         actor:send(tostring(self.name) .. " says, 'You already have the most powerful " .. tostring(type) .. " " .. tostring(weapon) .. " in existence!'")
         return _return_value
-    elseif actor.quest_stage[type_wand] < step then
+    elseif actor:get_quest_stage("type_wand") < step then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Your " .. tostring(weapon) .. " isn't ready for improvement yet.'")
         return _return_value
-    elseif actor.quest_stage[type_wand] == "step" then
-        local stage = actor.quest_stage[type_wand]
-        if actor.quest_variable[type_wand:task2] then
+    elseif actor:get_quest_stage("type_wand") == "step" then
+        local stage = actor:get_quest_stage("type_wand")
+        if actor:get_quest_var("type_wand:task2") then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
@@ -76,9 +76,9 @@ if actor.quest_stage[type_wand] then
             world.destroy(object)
             actor:send(tostring(self.name) .. " says, 'This is just what I need.'")
             wait(1)
-            local job1 = actor.quest_variable[type_wand:task1]
-            local job2 = actor.quest_variable[type_wand:task2]
-            local job3 = actor.quest_variable[type_wand:task3]
+            local job1 = actor:get_quest_var("type_wand:task1")
+            local job2 = actor:get_quest_var("type_wand:task2")
+            local job3 = actor:get_quest_var("type_wand:task3")
             if job1 and job2 and job3 then
                 actor:send(tostring(self.name) .. " says, 'Let me prime the " .. tostring(weapon) .. ".'")
             else

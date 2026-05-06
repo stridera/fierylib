@@ -10,7 +10,7 @@
 -- Converted from DG Script #497: Rogue Cloak progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "cloak") and dagger or string.find(arg, "rogue_cloak") then
+if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "cloak and dagger") or string.find(arg, "rogue_cloak") then
     if string.find(actor.class, "Rogue") or string.find(actor.class, "Bard") or actor.class ~= "Thief" then
         _return_value = true
         local huntstage = actor:get_quest_stage("treasure_hunter")

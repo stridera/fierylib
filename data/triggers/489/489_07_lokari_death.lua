@@ -37,7 +37,7 @@ elseif actor:get_quest_stage("shift_corpse") == 2 then
     actor:send("<blue>&9It fills you with limitless arcane power as it forces its way into your body!</>")
     actor:send("<blue>&9Your awareness of death now stretches beyond the boundaries of planes themselves!</>")
     self.room:send_except(actor, "<blue>&9It forces its way into " .. tostring(actor.name) .. "'s body!</>")
-    actor.name:complete_quest("shift_corpse")
+    actor:complete_quest("shift_corpse")
     skills.set_level(actor.name, "shift corpse", 100)
 end
 self:teleport(get_room(11, 0))

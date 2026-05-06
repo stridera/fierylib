@@ -13,10 +13,10 @@ get_room(22, 1):exit("up"):set_state({description = "A ruin mansion lies just ab
 get_room(22, 1):exit("up"):set_state({name = "Basement Ceiling"})
 local person = self.people
 while person do
-    if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") /= yes then
+    if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") ~= yes then
         if person:get_quest_stage("meteorswarm") == 2 then
             person.name:advance_quest("meteorswarm")
-        elseif person:get_quest_var("meteorswarm:new") /= yes then
+        elseif person:get_quest_var("meteorswarm:new") ~= yes then
             person.name:set_quest_var("meteorswarm", "new", "no")
         end
         self.room:spawn_object(481, 152)

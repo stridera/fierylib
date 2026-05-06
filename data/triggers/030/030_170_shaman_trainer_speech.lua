@@ -19,10 +19,10 @@ end
 wait(2)
 -- make sure they have a quest record for saving variables
 if actor:get_quest_stage("trainer_3170") < 1 then
-    actor.name:start_quest("trainer_3170")
+    actor:start_quest("trainer_3170")
 else
-    actor.name:erase_quest("trainer_3170")
-    actor.name:start_quest("trainer_3170")
+    actor:erase_quest("trainer_3170")
+    actor:start_quest("trainer_3170")
 end
 -- introductions: lists the skills available
 if speech == "training?" or speech == "training" or speech == "yes" then
@@ -187,11 +187,11 @@ else
     self:say("I'll teach you " .. tostring(speech) .. " for " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper.")
     -- (empty room echo)
     self:say("Just get me the money, and I'll get started.")
-    actor.name:set_quest_var("trainer_3170", "skill_name", speech)
+    actor:set_quest_var("trainer_3170", "skill_name", speech)
     if word2 then
-        actor.name:set_quest_var("trainer_3170", "word2", word2)
+        actor:set_quest_var("trainer_3170", "word2", word2)
     end
-    actor.name:set_quest_var("trainer_3170", "skill_level", skill)
-    actor.name:set_quest_var("trainer_3170", "price", price)
-    actor.name:set_quest_var("trainer_3170", "actor_level", actor.level)
+    actor:set_quest_var("trainer_3170", "skill_level", skill)
+    actor:set_quest_var("trainer_3170", "price", price)
+    actor:set_quest_var("trainer_3170", "actor_level", actor.level)
 end

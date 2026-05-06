@@ -15,7 +15,7 @@ if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and act
         actor:send(tostring(self.shortdesc) .. " suddenly bursts into flames from being handled too much!")
         world.destroy(self)
     else
-        actor.name:advance_quest("merc_ass_thi_subclass")
+        actor:advance_quest("merc_ass_thi_subclass")
         actor:send("&9<blue>You've secured the package!")
         actor:send("Now get out carefully!</>")
     end

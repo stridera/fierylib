@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "where?") or string.find(string.lower(
 end
 wait(2)
 if actor:get_quest_stage("meteorswarm") == 1 then
-    actor.name:advance_quest("meteorswarm")
+    actor:advance_quest("meteorswarm")
     actor:send(tostring(self.name) .. " says, 'Ooohhhhh you wann kno wheeeeere itis?!'")
     actor:send(tostring(self.name) .. " angrily shouts, 'You outta jus' say so!!'")
     wait(2)

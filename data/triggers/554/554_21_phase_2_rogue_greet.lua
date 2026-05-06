@@ -11,7 +11,7 @@
 wait(2)
 if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary") and actor.level >= 21 then
     if actor:get_quest_stage("phase_armor") == 0 then
-        actor.name:start_quest("phase_armor")
+        actor:start_quest("phase_armor")
     end
     if actor:get_quest_stage("phase_armor") == 1 then
         wait(2)

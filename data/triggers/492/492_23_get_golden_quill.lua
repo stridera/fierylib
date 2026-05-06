@@ -10,7 +10,7 @@
 -- Inspired by ranger/druid quest
 if actor:get_quest_stage("relocate_spell_quest") == 8 then
     self.room:send("The quill begins to glow brightly!")
-    actor.name:advance_quest("relocate_spell_quest")
+    actor:advance_quest("relocate_spell_quest")
 elseif actor:get_quest_stage("relocate_spell_quest") == 9 then
     self.room:send("The quill begins to glow brightly!")
 else

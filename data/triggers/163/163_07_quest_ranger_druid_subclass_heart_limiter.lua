@@ -8,5 +8,5 @@
 -- Converted from DG Script #16307: quest_ranger_druid_subclass_heart_limiter
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 if actor:get_quest_stage("ran_dru_subclass") == 3 then
-    actor.name:advance_quest("ran_dru_subclass")
+    actor:advance_quest("ran_dru_subclass")
 end

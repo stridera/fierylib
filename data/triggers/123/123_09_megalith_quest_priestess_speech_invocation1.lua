@@ -33,7 +33,7 @@ if string.find(speech, "speech1") or string.find(speech, "speech2") or string.fi
         self.room:send("</>Ringing now the bell in three")
         self.room:send("</>Hear our prayer")
         self.room:send("</><b:cyan>We summon and stir thee</>!'")
-        actor.name:set_quest_var("megalith_quest", "prayer", 2)
-        actor.name:set_quest_var("megalith_quest", "summon", 1)
+        actor:set_quest_var("megalith_quest", "prayer", 2)
+        actor:set_quest_var("megalith_quest", "summon", 1)
     end
 end

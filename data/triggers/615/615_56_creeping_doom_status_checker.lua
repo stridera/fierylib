@@ -59,26 +59,26 @@ else
 end
 self.room:send("You are trying to " .. tostring(step) .. ".")
 -- (empty room echo)
-if actor.quest_variable[creeping_doom:item1] or actor.quest_variable[creeping_doom:item2] or actor.quest_variable[creeping_doom:item3] then
+if actor:get_quest_var("creeping_doom:item1") or actor:get_quest_var("creeping_doom:item2") or actor:get_quest_var("creeping_doom:item3") then
     self.room:send("You have brought me:")
-    if actor.quest_variable[creeping_doom:item1] then
+    if actor:get_quest_var("creeping_doom:item1") then
         self.room:send("- " .. "%get.obj_shortdesc[%item1%]%")
     end
-    if actor.quest_variable[creeping_doom:item2] then
+    if actor:get_quest_var("creeping_doom:item2") then
         self.room:send("- " .. "%get.obj_shortdesc[%item2%]%")
     end
-    if actor.quest_variable[creeping_doom:item3] then
+    if actor:get_quest_var("creeping_doom:item3") then
         self.room:send("- " .. "%get.obj_shortdesc[%item3%]%")
     end
 end
 -- (empty room echo)
 self.room:send("I still need:")
-if not actor.quest_variable[creeping_doom:item1] then
+if not actor:get_quest_var("creeping_doom:item1") then
     self.room:send("- " .. "%get.obj_shortdesc[%item1%]% from %place1%")
 end
-if not actor.quest_variable[creeping_doom:item2] then
+if not actor:get_quest_var("creeping_doom:item2") then
     self.room:send("- " .. "%get.obj_shortdesc[%item2%]% from %place2%")
 end
-if not actor.quest_variable[creeping_doom:item3] then
+if not actor:get_quest_var("creeping_doom:item3") then
     self.room:send("- " .. "%get.obj_shortdesc[%item3%]% from %place3%")
 end

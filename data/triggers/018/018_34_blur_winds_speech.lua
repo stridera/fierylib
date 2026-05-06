@@ -28,7 +28,7 @@ if actor:get_quest_stage("blur") == 4 then
         self.room:send(tostring(self.name) .. " says, 'Then you will have to beat me to: " .. tostring(color) .. tostring(room.name) .. "</>")
         self.room:send("</>in Bluebonnet Pass.'")
         self:emote("laughs mightily as it vanishes!")
-        actor.name:set_quest_var("blur", "%direction%", 1)
+        actor:set_quest_var("blur", "%direction%", 1)
     elseif self.id == 1820 then
         local direction = "south"
         local home = 53557
@@ -40,7 +40,7 @@ if actor:get_quest_stage("blur") == 4 then
         self.room:send(tostring(self.name) .. " says, 'Try to reach " .. tostring(color) .. tostring(room.name) .. "</>")
         self.room:send("</>before I do!'")
         self:emote("rustles away with the sound of the leaves.")
-        actor.name:set_quest_var("blur", "%direction%", 1)
+        actor:set_quest_var("blur", "%direction%", 1)
     elseif self.id == 1821 then
         local direction = "east"
         local home = 12597
@@ -51,7 +51,7 @@ if actor:get_quest_stage("blur") == 4 then
             wait(1)
             self.room:send(tostring(self.name) .. " says, 'Reach " .. tostring(color) .. tostring(room.name) .. "</>")
             self.room:send("</>before me!'")
-            actor.name:set_quest_var("blur", "%direction%", 1)
+            actor:set_quest_var("blur", "%direction%", 1)
         else
             self:say("Then please help me escape from the clutches of this madwoman!")
             wait(1)
@@ -85,33 +85,33 @@ if actor:get_quest_stage("blur") == 4 then
             local count = time
         end
     end
-    if actor.quest_variable[blur:direction] == 2 then
+    if actor:get_quest_var("blur:direction") == 2 then
         world.destroy(self)
     else
         if actor.room == "home" then
-            if actor.quest_variable[blur:direction] == 1 then
+            if actor:get_quest_var("blur:direction") == 1 then
                 actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Wow you're fast!  Incredible!</>'")
-                actor.name:set_quest_var("blur", "%direction%", 2)
+                actor:set_quest_var("blur", "%direction%", 2)
                 if actor:get_quest_var("blur:east") == 2 and actor:get_quest_var("blur:west") == 2 and actor:get_quest_var("blur:north") == 2 and actor:get_quest_var("blur:south") == 2 then
                     skills.set_level(actor.name, "blur", 100)
                     wait(2)
                     actor:send("You have matched the greatest speeds of nature!")
                     actor:send("You have learned <red>Blur</>!")
-                    actor.name:complete_quest("blur")
+                    actor:complete_quest("blur")
                 end
             else
                 if self.id == 1822 then
                     actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "You never found me, too bad!</>'")
-                    actor.name:set_quest_var("blur", "%direction%", 0)
+                    actor:set_quest_var("blur", "%direction%", 0)
                 elseif self.id == 1821 then
                     actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "You didn't rescue me in time!</>'")
-                    actor.name:set_quest_var("blur", "%direction%", 0)
+                    actor:set_quest_var("blur", "%direction%", 0)
                 end
             end
         else
             actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Sorry, too slow!</>'")
             actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Come back if you want a rematch!</>'")
-            actor.name:set_quest_var("blur", "%direction%", 0)
+            actor:set_quest_var("blur", "%direction%", 0)
         end
     end
 end

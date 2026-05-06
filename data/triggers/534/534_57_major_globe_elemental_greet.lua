@@ -47,7 +47,7 @@ if actor:get_quest_stage("major_globe_spell") == 8 or wand == 8 then
         if load_ward then
             self.room:spawn_object(534, load_ward)
             if actor:get_quest_stage("major_globe_spell") == 8 then
-                actor.name:set_quest_var("major_globe_spell", "ward_%load_ward%", 1)
+                actor:set_quest_var("major_globe_spell", "ward_%load_ward%", 1)
             end
             wait(1)
             actor:send("<blue>" .. tostring(self.name) .. " flares briefly as you approach.</>")

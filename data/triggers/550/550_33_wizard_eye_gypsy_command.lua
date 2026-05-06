@@ -32,7 +32,7 @@ if actor:get_quest_stage("wizard_eye") == 1 and (string.find(arg, "palm") or str
     wait(3)
     actor:send(tostring(self.name) .. " says, 'Good luck!  Come back and see me sometime!'")
     self:command("wave")
-    actor.name:advance_quest("wizard_eye")
+    actor:advance_quest("wizard_eye")
 else
     _return_value = true
 end

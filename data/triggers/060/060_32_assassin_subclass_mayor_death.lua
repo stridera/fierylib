@@ -22,5 +22,5 @@ if i then
         a = a + 1
     end
 elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" and actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
-    actor.name:set_quest_var("merc_ass_thi_subclass", "mayor", 1)
+    actor:set_quest_var("merc_ass_thi_subclass", "mayor", 1)
 end

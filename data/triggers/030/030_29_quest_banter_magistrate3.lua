@@ -35,7 +35,7 @@ if actor.is_player then
                     person.name:start_quest("mystwatch_quest")
                     person:send("<b:white>You have begun the Mystwatch quest!</>")
                 end
-                actor.name:set_quest_var("mystwatch_quest", "step", "totem")
+                actor:set_quest_var("mystwatch_quest", "step", "totem")
             elseif person then
                 i = i + 1
             end

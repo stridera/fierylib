@@ -10,7 +10,7 @@
 local stage = actor:get_quest_stage("ice_shards")
 if stage == 6 then
     wait(2)
-    actor.name:advance_quest("ice_shards")
+    actor:advance_quest("ice_shards")
     self:destroy_item("map")
     self:say("Incredible, you found it!")
     self:emote("excitedly lays out the map.")

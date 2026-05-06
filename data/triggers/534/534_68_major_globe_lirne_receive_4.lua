@@ -31,7 +31,7 @@ if stage == 10 then
         actor:send("<b:white>You feel your skill in spell knowledge improving!</>")
         self.room:send_except(actor, tostring(self.name) .. " stares at " .. tostring(actor.name) .. " and utters a quick incantation.")
         wait(1)
-        actor.name:complete_quest("major_globe_spell")
+        actor:complete_quest("major_globe_spell")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Now I must take my leave.  Wish me well!'")
         self:emote("hurries out of the room.")

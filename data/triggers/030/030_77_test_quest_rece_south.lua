@@ -18,7 +18,7 @@ if actor.is_player then
             self.room:spawn_object(160, 9)
             self:command("give shield " .. tostring(actor.name))
             self:say("take that as an expression of my grattitude!")
-            actor.name:complete_quest("zzurs_funky_quest")
+            actor:complete_quest("zzurs_funky_quest")
         else
             wait(1)
             self:say("Yes! My brother is alive!")

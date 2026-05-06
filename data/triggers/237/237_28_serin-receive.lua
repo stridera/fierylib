@@ -30,7 +30,7 @@ else
                 _return_value = true
                 self:say("You have already given me these.")
             else
-                actor.name:set_quest_var("sunfire_rescue", "boots", 1)
+                actor:set_quest_var("sunfire_rescue", "boots", 1)
                 wait(2)
                 world.destroy(object)
                 self:command("smile " .. tostring(actor.name))
@@ -61,7 +61,7 @@ else
                 self:say("You have already given me the cloak.")
             else
                 wait(2)
-                actor.name:set_quest_var("sunfire_rescue", "cloak", 1)
+                actor:set_quest_var("sunfire_rescue", "cloak", 1)
                 world.destroy(object)
                 self:emote("carefully looks at the cloak.")
                 self:say("This is it!  Thank you!")
@@ -87,7 +87,7 @@ else
             else
                 wait(2)
                 self.room:send("Looking at the ring, the prisoner looks overwhelmed with emotion.")
-                actor.name:set_quest_var("sunfire_rescue", "ring", 1)
+                actor:set_quest_var("sunfire_rescue", "ring", 1)
                 self:say("Escape is so close I can feel it!")
                 world.destroy(object)
                 -- that ought to cover everything...
@@ -115,7 +115,7 @@ else
         self:emote("unshackles his arms and wears the cloak on his shoulders.")
         wait(2)
         self.room:send("Looking hesitant, the prisoner slowly slides the ring onto his finger.")
-        actor.name:advance_quest("sunfire_rescue")
+        actor:advance_quest("sunfire_rescue")
         self.room:spawn_object(237, 16)
         self:destroy_item("all.elven")
         wait(3)
@@ -184,7 +184,7 @@ else
             actor:award_exp(setexp)
             loop = loop + 1
         end
-        actor.name:complete_quest("sunfire_rescue")
+        actor:complete_quest("sunfire_rescue")
         wait(2)
         actor:send(tostring(self.name) .. " whispers to you, 'Thank you for your help!  Please wear this badge as a token of my respect.'")
         self:command("give badge " .. tostring(actor.name))

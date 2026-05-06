@@ -22,7 +22,7 @@ elseif actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
         actor:send(tostring(self.name) .. " says, 'You have done well by me, so in return your request is granted.'")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Type '<red>subclass</>' to proceed.'")
-        actor.name:complete_quest("merc_ass_thi_subclass")
+        actor:complete_quest("merc_ass_thi_subclass")
     end
 else
     actor:send(tostring(self.name) .. " says, 'Well this is nifty, I think I will hold on to that, thank you.'")

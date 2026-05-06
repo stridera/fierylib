@@ -23,7 +23,7 @@ end
 if victim.id == "-1" then
     return _return_value
     if self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330 then
-        if not actor.quest_stage[energy_wand] then
+        if not actor:get_quest_stage("energy_wand") then
         elseif victim.id == 3013 then
             actor:start_quest("%energy%_wand")
         end
@@ -134,7 +134,7 @@ end
 if actor.is_player then
     if type ~= "energy" then
         local refuse = 1
-    elseif actor.quest_stage[energy_wand] < wandstep then
+    elseif actor:get_quest_stage("energy_wand") < wandstep then
         local refuse = 2
     end
     if refuse == 1 then

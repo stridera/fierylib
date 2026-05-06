@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "politics?") or string.find(string.low
 end
 wait(2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" and actor:get_quest_stage("merc_ass_thi_subclass") == 2 then
-    actor.name:advance_quest("merc_ass_thi_subclass")
+    actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Ah yes, the politics of it all.  Personally I am not one for them, but some people get all mixed up in those.'")
     wait(2)
     self:command("consider " .. tostring(actor.name))

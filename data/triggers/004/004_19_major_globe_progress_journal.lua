@@ -11,7 +11,7 @@
 -- Converted from DG Script #419: Major Globe progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "major") globe or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
+if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
     if actor.level >= 50 and string.find(relocateclasses, "actor.class") then
         _return_value = true

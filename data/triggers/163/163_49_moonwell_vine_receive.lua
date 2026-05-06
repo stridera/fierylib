@@ -14,7 +14,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 1 then
 elseif actor:get_quest_stage("moonwell_spell_quest") == 2 then
     wait(2)
     self:destroy_item("vine")
-    actor.name:advance_quest("moonwell_spell_quest")
+    actor:advance_quest("moonwell_spell_quest")
     actor:send(tostring(self.name) .. " tells you, 'Very good.  I can now lay out the well's boundaries.'")
     wait(10)
     self.room:send(tostring(self.name) .. " places the vine in a small circle on the ground.")

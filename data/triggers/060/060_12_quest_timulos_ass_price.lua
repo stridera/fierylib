@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "price?") or string.find(string.lower(
 end
 wait(2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" and actor:get_quest_stage("merc_ass_thi_subclass") == 1 then
-    actor.name:advance_quest("merc_ass_thi_subclass")
+    actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Yes, a great price.'")
     self:command("grin")
     wait(1)

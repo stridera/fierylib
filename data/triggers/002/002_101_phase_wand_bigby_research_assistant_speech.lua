@@ -33,23 +33,23 @@ if string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer"
             local wandgem = 55576
         else
             wait(2)
-            if actor.quest_stage[type_wand] < 2 then
+            if actor:get_quest_stage("type_wand") < 2 then
                 self:say("Yeah, I can help you upgrade any basic wand!")
                 wait(1)
                 self.room:send(tostring(self.name) .. " says, 'Tell me what element you would like to improve.  You can say <green>acid</>, <b:yellow>air</>, <red>fire</>, or <b:blue>ice</>.'")
-            elseif actor.quest_stage[type_wand] == 2 then
+            elseif actor:get_quest_stage("type_wand") == 2 then
                 self:say("Get some practice with the wand and bring me " .. "%get.obj_shortdesc[%wandgem%]%.")
-            elseif actor.quest_stage[type_wand] > 2 then
+            elseif actor:get_quest_stage("type_wand") > 2 then
                 self.room:send(tostring(self.name) .. " says, 'I can't do anything more myself, but I can tell you where to go.  Tell me what element you would like to improve.  You can say <green>acid</>, <b:white>air</>, <red>fire</>, or <b:blue>ice</>.'")
             end
             return _return_value
         end
-        local stage = actor.quest_stage[type_wand]
+        local stage = actor:get_quest_stage("type_wand")
         wait(2)
         if actor.has_completed[type_wand] then
             self.room:send(tostring(self.name) .. " says, 'It looks like you already have the most powerful weapon of " .. tostring(type) .. " in existence!'")
         elseif not stage or stage == 1 then
-            if not actor.quest_stage[type_wand] then
+            if not actor:get_quest_stage("type_wand") then
                 actor:start_quest("%type%_wand")
             end
             self.room:send(tostring(self.name) .. " says, 'I can upgrade your " .. tostring(type) .. " wand!  But what I will do is just the first step in a life-long journey.'")

@@ -34,5 +34,5 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
     self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
     wait(10)
     actor:send("A lost mage tells you, 'Please go, go get me the staff I require!'")
-    actor.name:start_quest("relocate_spell_quest")
+    actor:start_quest("relocate_spell_quest")
 end

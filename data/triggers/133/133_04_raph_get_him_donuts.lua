@@ -15,7 +15,7 @@ if actor.is_player then
             wait(3)
             self:command("shake " .. tostring(actor.name))
             self:say("Thank you for the grain but alas I'm too weak to make it into anything, go and get me a dozen donuts?")
-            actor.name:advance_quest("get_raph_food")
+            actor:advance_quest("get_raph_food")
             self:command("smile")
         else
             -- switch on actor:get_quest_stage("get_raph_food")

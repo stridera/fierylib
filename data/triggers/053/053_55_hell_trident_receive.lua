@@ -78,7 +78,7 @@ if go == "gem" then
         wait(2)
         world.destroy(object.name)
         gem_count = gem_count + 1
-        actor.name:set_quest_var("hell_trident", "gems", gem_count)
+        actor:set_quest_var("hell_trident", "gems", gem_count)
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
         wait(2)
         if gem_count == 1 then

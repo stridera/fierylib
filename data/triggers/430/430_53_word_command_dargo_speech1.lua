@@ -26,7 +26,7 @@ elseif actor:get_has_completed("word_command") then
 elseif (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 72 then
     self:say("Thank you!")
     if not actor:get_quest_stage("word_command") then
-        actor.name:start_quest("word_command")
+        actor:start_quest("word_command")
     end
     local questor = actor.name
     globals.questor = globals.questor or true

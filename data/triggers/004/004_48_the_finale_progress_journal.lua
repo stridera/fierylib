@@ -39,9 +39,9 @@ if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg,
         -- switch on stage
         if stage == 1 then
             actor:send("Get back Catherine's dressing room key from the ceiling monkeys, then bring her her eyelashes from her dressing room.")
-            if !%actor.quest_variable[theatre:lashes] then
+            if !%actor:get_quest_var("theatre:lashes") then
                 actor:send("Give Catherine her eyelashes.")
-            elseif %actor.quest_variable[theatre:lashes] == 1 then
+            elseif %actor:get_quest_var("theatre:lashes") == 1 then
                 actor:send("Give Catherine her dressing room key.")
             end
         elseif stage == 2 then

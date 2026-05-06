@@ -23,7 +23,7 @@ if string.find(self.class, "pyromancer") then
         if actor.level > 88 then
             if actor:get_quest_stage("supernova") == 0 then
                 if speech == "super" or speech == "super?" or speech == "nova" or speech == "nova?" or speech == "supernova" or speech == "supernova?" then
-                    actor.name:start_quest("supernova")
+                    actor:start_quest("supernova")
                     self.room:send(tostring(self.name) .. " says, 'Supernova is really only taught by one person:")
                     self.room:send("</>Phayla, daughter of the Sun.'")
                     wait(1)

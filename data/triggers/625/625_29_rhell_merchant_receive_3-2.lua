@@ -13,7 +13,7 @@ if actor:get_quest_stage("ursa_quest") == 3 then
     if actor:get_quest_var("ursa_quest:choice") == 2 then
         if object.id == 55014 then
             wait(2)
-            actor.name:advance_quest("ursa_quest")
+            actor:advance_quest("ursa_quest")
             world.destroy(object)
             wait(1)
             self:emote("inspects the stone.")

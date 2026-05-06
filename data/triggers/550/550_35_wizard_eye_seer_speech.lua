@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "yes")) then
 end
 wait(2)
 if actor:get_quest_stage("wizard_eye") == 3 then
-    actor.name:advance_quest("wizard_eye")
+    actor:advance_quest("wizard_eye")
     actor:send(tostring(self.name) .. " says, 'As I suspected.'")
     self:command("peer " .. tostring(actor))
     wait(1)

@@ -16,7 +16,7 @@ if not (string.find(string.lower(speech), "phalya") or string.find(string.lower(
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor:has_equipped("48917")) then
-    actor.name:advance_quest("supernova")
+    actor:advance_quest("supernova")
     local rnd1 = random(1, 3)
     -- switch on rnd1
     if rnd1 == 1 then
@@ -28,7 +28,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     else
         _return_value = true
     end
-    actor.name:set_quest_var("supernova", "step3", step3)
+    actor:set_quest_var("supernova", "step3", step3)
     local rnd2 = random(1, 3)
     -- switch on rnd2
     if rnd2 == 1 then
@@ -40,7 +40,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     else
         _return_value = true
     end
-    actor.name:set_quest_var("supernova", "step4", step4)
+    actor:set_quest_var("supernova", "step4", step4)
     local rnd3 = random(1, 3)
     -- switch on rnd3
     if rnd3 == 1 then
@@ -52,7 +52,7 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     else
         _return_value = true
     end
-    actor.name:set_quest_var("supernova", "step5", step5)
+    actor:set_quest_var("supernova", "step5", step5)
     local rnd4 = random(1, 3)
     -- switch on rnd4
     if rnd4 == 1 then
@@ -64,9 +64,9 @@ if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor
     else
         _return_value = true
     end
-    actor.name:set_quest_var("supernova", "step6", step6)
+    actor:set_quest_var("supernova", "step6", step6)
     local step7 = random(1, 3)
-    actor.name:set_quest_var("supernova", "step7", step7)
+    actor:set_quest_var("supernova", "step7", step7)
     self:say("Ah I see you found one of Phayla's lamps!")
     wait(3)
     self.room:send(tostring(self.name) .. " says, 'Phayla likes to visit the material plane to engage")

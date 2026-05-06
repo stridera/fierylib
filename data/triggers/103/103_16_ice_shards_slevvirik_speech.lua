@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "butcher")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("ice_shards") == 5 then
-    actor.name:advance_quest("ice_shards")
+    actor:advance_quest("ice_shards")
     wait(2)
     self:command("sigh")
     self.room:send(tostring(self.name) .. " says, 'Yes, I do know where he is and before you ask, no I don't mind")

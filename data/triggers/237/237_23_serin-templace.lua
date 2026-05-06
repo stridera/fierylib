@@ -27,12 +27,12 @@ if actor.is_player and actor.alignment > 349 then
         self:emote("smiles fiercely.")
         wait(1)
         self:say("I could finally escape.  Will you do this for me?")
-        actor.name:start_quest("sunfire_rescue")
+        actor:start_quest("sunfire_rescue")
     elseif actor:get_quest_stage("sunfire_rescue") == 1 then
         self:emote("frowns at " .. tostring(actor.name) .. " stormily.")
         self:say("Then waste my time no more, and begone!")
         actor.name:move("north")
         -- Oooh, he gets really mad here.
-        actor.name:erase_quest("sunfire_quest")
+        actor:erase_quest("sunfire_quest")
     end
 end

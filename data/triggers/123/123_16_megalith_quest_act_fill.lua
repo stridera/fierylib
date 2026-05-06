@@ -28,7 +28,7 @@ if cmd == "f" or cmd == "fi" then
 end
 if (actor:get_quest_stage("megalith_quest") == 2) and (actor.room == 12401) and (actor:get_quest_var("megalith_quest:goblet") == self.id) then
     actor.name:command("fill %arg%")
-    actor.name:set_quest_var("megalith_quest", "item5", 1)
+    actor:set_quest_var("megalith_quest", "item5", 1)
 else
     _return_value = true
 end

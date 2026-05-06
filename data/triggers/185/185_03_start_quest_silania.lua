@@ -55,7 +55,7 @@ if classquest == "yes" then
             if not use_subclass then
                 actor:send(tostring(self.name) .. " says, 'First, we must discuss your destiny.'")
             else
-                actor.name:start_quest("pri_pal_subclass", use_subclass)
+                actor:start_quest("pri_pal_subclass", use_subclass)
                 self:command("smile " .. tostring(actor.name))
                 actor:send(tostring(self.name) .. " says, 'You may check your <b:cyan>[subclass progress]</> or ask me to <b:cyan>[repeat]</> myself at any time.'")
                 wait(1)

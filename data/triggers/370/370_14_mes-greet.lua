@@ -16,7 +16,7 @@ if string.find(actor.race, "troll") then
         self:command("consider " .. tostring(actor.name))
         if actor.level >= 55 then
             actor:send(tostring(self.name) .. " says to you, 'It looks like we are still the strongest of the clans, my friend.  Perhaps we can help each other.'")
-            actor.name:start_quest("troll_quest")
+            actor:start_quest("troll_quest")
             actor:send(tostring(self.name) .. " says to you, 'Long ago, some powerful items of the trolls were stolen by jealous Shamen from different tribes and hidden away.'")
             actor:send(tostring(self.name) .. " says to you, 'If you were to bring the objects back to me, I could reward you quite handsomely.'")
             wait(1)

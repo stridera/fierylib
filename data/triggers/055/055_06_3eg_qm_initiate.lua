@@ -26,13 +26,13 @@ end
 if actor.alignment >= -150 then
     wait(2)
     if actor:get_quest_stage("Black_Legion") == 0 then
-        actor.name:start_quest("Black_Legion")
-        actor.name:set_quest_var("Black_Legion", "BL_FACTION", 0)
-        actor.name:set_quest_var("Black_Legion", "EG_FACTION", 0)
+        actor:start_quest("Black_Legion")
+        actor:set_quest_var("Black_Legion", "BL_FACTION", 0)
+        actor:set_quest_var("Black_Legion", "EG_FACTION", 0)
         -- Note that it is not necessary to initialize sub-quest
         -- variables to 0 because non-existent quest variables
         -- return the same as variables set to 0 in conditionals
-        actor.name:set_quest_var("Black_Legion", "eg_ally", 1)
+        actor:set_quest_var("Black_Legion", "eg_ally", 1)
     end
     actor:send(tostring(self.name) .. " tells you, 'Yes, You need to go")
     actor:send("</>assist our fighters.  Go, invade the 3rd Black Legion and lay waste to their")

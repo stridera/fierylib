@@ -19,7 +19,7 @@ if actor:get_quest_stage("major_spell_quest") == 3 then
     actor:send(tostring(self.name) .. " says to you, 'that now guards the entrance of that accursed village was to'")
     actor:send(tostring(self.name) .. " says to you, 'search the Underdark for an item for me.  Go to him and demand'")
     actor:send(tostring(self.name) .. " says to you, 'it in the name of the Gypsy Prince of Calia and I shall reward you.'")
-    actor.name:advance_quest("major_spell_quest")
+    actor:advance_quest("major_spell_quest")
     -- This sets the player to level 4 in the quest
 else
 end

@@ -29,8 +29,8 @@ if actor:get_quest_stage("illusory_wall") > 1 then
     wait(4)
     self:say("Once you do, you can resume your studies.")
     actor.name:restart_quest("illusory_wall")
-    actor.name:set_quest_var("illusory_wall", "10307", 0)
-    actor.name:set_quest_var("illusory_wall", "18511", 0)
-    actor.name:set_quest_var("illusory_wall", "41005", 0)
-    actor.name:set_quest_var("illusory_wall", "51017", 0)
+    actor:set_quest_var("illusory_wall", "10307", 0)
+    actor:set_quest_var("illusory_wall", "18511", 0)
+    actor:set_quest_var("illusory_wall", "41005", 0)
+    actor:set_quest_var("illusory_wall", "51017", 0)
 end

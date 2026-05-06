@@ -20,7 +20,7 @@ if actor.is_player then
             self:emote("looks sickly.")
             self:say("I have not had one since I was last down on that sea near those islands.")
             self:emote("licks his lips hungrily.")
-            actor.name:advance_quest("get_raph_food")
+            actor:advance_quest("get_raph_food")
             self:command("smile")
         else
             -- switch on actor:get_quest_stage("get_raph_food")

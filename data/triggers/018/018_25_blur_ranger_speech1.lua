@@ -17,7 +17,7 @@ wait(2)
 if actor:get_quest_stage("blur") == 1 then
     self.room:send("A twinkle shines in " .. tostring(self.name) .. "'s eye.")
     self:say("I had hoped so.")
-    actor.name:advance_quest("blur")
+    actor:advance_quest("blur")
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'There is a very powerful spell only we warriors of")
     self.room:send("</>nature know.  If you prove yourself worthy, you will be able to learn it as")
@@ -43,9 +43,9 @@ elseif actor:get_quest_stage("blur") == 4 then
     end
 elseif actor:get_has_failed("blur") and (string.find(speech, "yes") or string.find(speech, "ready")) then
     actor.name:restart_quest("blur")
-    actor.name:advance_quest("blur")
-    actor.name:advance_quest("blur")
-    actor.name:advance_quest("blur")
+    actor:advance_quest("blur")
+    actor:advance_quest("blur")
+    actor:advance_quest("blur")
     self.room:send(tostring(self.name) .. " says, 'Then you will need to find the winds again and race them.")
     self.room:send("</>You have one day to complete their challenges.'")
     wait(3)

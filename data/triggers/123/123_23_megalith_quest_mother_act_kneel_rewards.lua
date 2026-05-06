@@ -77,11 +77,11 @@ if actor:get_quest_stage("megalith_quest") == 5 then
     -- 
     local item = 1
     while item <= 5 do
-        actor.name:set_quest_var("megalith_quest", "bad%item%", 0)
+        actor:set_quest_var("megalith_quest", "bad%item%", 0)
         bad[item] = nil
         item = item + 1
     end
-    actor.name:complete_quest("megalith_quest")
+    actor:complete_quest("megalith_quest")
     -- 
     -- Set X to the level of the award - code does not run without it
     -- 

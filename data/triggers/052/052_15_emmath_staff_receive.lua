@@ -23,23 +23,23 @@ elseif actor.has_completed[type_wand] then
     wait(1)
     actor:send(tostring(self.name) .. " says, 'You already have the most powerful " .. tostring(type) .. " " .. tostring(weapon) .. " in existence!'")
     return _return_value
-elseif actor.quest_stage[type_wand] < step then
+elseif actor:get_quest_stage("type_wand") < step then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Your " .. tostring(weapon) .. " isn't ready for improvement yet.'")
     return _return_value
-elseif actor.quest_stage[type_wand] == "step" then
-    local stage = actor.quest_stage[type_wand]
-    if actor.quest_variable[type_wand:task4] then
+elseif actor:get_quest_stage("type_wand") == "step" then
+    local stage = actor:get_quest_stage("type_wand")
+    if actor:get_quest_var("type_wand:task4") then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'I already primed your " .. tostring(weapon) .. ".'")
     else
-        local job1 = actor.quest_variable[type_wand:task1]
-        local job2 = actor.quest_variable[type_wand:task2]
-        local job3 = actor.quest_variable[type_wand:task3]
+        local job1 = actor:get_quest_var("type_wand:task1")
+        local job2 = actor:get_quest_var("type_wand:task2")
+        local job3 = actor:get_quest_var("type_wand:task3")
         if job1 and job2 and job3 then
             local room = get.room[task4]
             actor:set_quest_var("%type%_wand", "task4", 1)
@@ -57,7 +57,7 @@ elseif actor.quest_stage[type_wand] == "step" then
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(1)
             if not job1 then
-                local remaining = ((actor.quest_stage[type_wand] - 1) * 50) - actor.quest_variable[type_wand:attack_counter]
+                local remaining = ((actor:get_quest_stage("type_wand") - 1) * 50) - actor:get_quest_var("type_wand:attack_counter")
                 actor:send(tostring(self.name) .. " says, 'You still need to attack " .. tostring(remaining) .. " more times to fully bond with your " .. tostring(weapon) .. "!'")
                 wait(1)
             end

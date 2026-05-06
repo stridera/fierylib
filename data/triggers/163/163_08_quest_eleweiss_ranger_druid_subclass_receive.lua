@@ -16,7 +16,7 @@ if actor:get_quest_stage("ran_dru_subclass") == 4 then
     self:command("grin")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Type <b:green>'subclass'</> to proceed.'")
-    actor.name:complete_quest("ran_dru_subclass")
+    actor:complete_quest("ran_dru_subclass")
 else
     -- switch on actor:get_quest_stage("ran_dru_subclass")
     if actor:get_quest_stage("ran_dru_subclass") == 1 or actor:get_quest_stage("ran_dru_subclass") == 2 then

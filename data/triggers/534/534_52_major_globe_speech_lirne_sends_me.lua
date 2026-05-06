@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "lirne") or string.find(string.lower(s
 end
 wait(1)
 if actor:get_quest_stage("major_globe_spell") == 1 then
-    actor.name:advance_quest("major_globe_spell")
+    actor:advance_quest("major_globe_spell")
     self:command("smirk")
     actor:send(tostring(self.name) .. " says, 'Ah yes, Lirne.  He never writes and only drops by when he's injured.'")
     wait(3)

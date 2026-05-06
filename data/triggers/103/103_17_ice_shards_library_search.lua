@@ -14,7 +14,7 @@ if not (cmd == "search") then
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("ice_shards") == 9 then
-    actor.name:advance_quest("ice_shards")
+    actor:advance_quest("ice_shards")
     self.room:spawn_object(103, 25)
     actor:send("You find " .. tostring(objects.template(103, 25).name) .. "!")
     self.room:send_except(actor, tostring(actor.name) .. " finds " .. tostring(objects.template(103, 25).name) .. "!")

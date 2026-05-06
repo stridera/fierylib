@@ -16,7 +16,7 @@ end
 if actor.is_player then
     if string.find(speech, "yes") then
         self:say("So you want to help me do you? Well that is useful, maybe I will survive.")
-        actor.name:start_quest("get_raph_food")
+        actor:start_quest("get_raph_food")
         self:command("smile")
         self:say("Please go get me some grain, I am very hungry and may pass on at any time.")
     end

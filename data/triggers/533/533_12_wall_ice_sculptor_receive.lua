@@ -10,13 +10,13 @@
 if actor:get_quest_stage("wall_ice") == 1 then
     wait(2)
     local ice = actor:get_quest_var("wall_ice:blocks") + 1
-    actor.name:set_quest_var("wall_ice", "blocks", ice)
+    actor:set_quest_var("wall_ice", "blocks", ice)
     self:say("Great, this is exactly what I need!")
     self.room:send(tostring(self.name) .. " adds " .. tostring(object.shortdesc) .. " to the wall blocking the tunnel.")
     self:destroy_item("all.block-living-ice")
     if actor:get_quest_var("wall_ice:blocks") == 20 then
         wait(1)
-        actor.name:advance_quest("wall_ice")
+        actor:advance_quest("wall_ice")
         self.room:send(tostring(self.name) .. " says, 'Excellent, this looks like enough ice!  Now all we have to do is cast the spell.  If you'd like to do the honors, just command the ice to <b:cyan>crystalize</>.'")
     else
         wait(2)

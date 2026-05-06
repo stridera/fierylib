@@ -21,7 +21,7 @@ if actor:get_quest_stage("major_spell_quest") == 4 then
     self:command("think")
     wait(2)
     self:say("Well that's just to bad, I guess I'll just dispatch you myself.")
-    actor.name:advance_quest("major_spell_quest")
+    actor:advance_quest("major_spell_quest")
     -- This sets the player to level 5 in the quest
     wait(2)
     combat.engage(self, actor.name)

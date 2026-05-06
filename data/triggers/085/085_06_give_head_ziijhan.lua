@@ -28,7 +28,7 @@ elseif actor:get_quest_stage("nec_dia_ant_subclass") == 4 then
     self:command("smi")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Type <red>'subclass'</> to proceed.'")
-    actor.name:complete_quest("nec_dia_ant_subclass")
+    actor:complete_quest("nec_dia_ant_subclass")
 else
     actor:send(tostring(self.name) .. " says, 'Well, what a lovely gift, I must stuff it and mount it on my wall.'")
     self:command("thank " .. tostring(actor.name))

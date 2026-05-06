@@ -17,7 +17,7 @@ if object.id == 53424 then
         self:command("rem telescope")
         actor:send("The observer tells you, 'Here, you may now have my Crystal Telescope.'")
         self:command("give telescope " .. tostring(actor.name))
-        actor.name:advance_quest("relocate_spell_quest")
+        actor:advance_quest("relocate_spell_quest")
         self:command("bow " .. tostring(actor.name))
         self.room:send("The observer leaves down.")
         world.destroy(self.room:find_actor("globe"))

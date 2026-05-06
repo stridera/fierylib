@@ -64,10 +64,10 @@ if self.id == 18581 or self.id == 48412 then
 end
 if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" or actor.class == "illusionist" or actor.class == "necromancer" then
     local minlevel = (wandstep - 1) * 10
-    if actor.quest_stage[type_wand] == "wandstep" then
+    if actor:get_quest_stage("type_wand") == "wandstep" then
         if actor.level >= minlevel then
             actor:set_quest_var("%type%_wand", "greet", 1)
-            if actor.quest_stage[type_wand] < 7 then
+            if actor:get_quest_stage("type_wand") < 7 then
                 if string.find(speech, "staff") then
                     actor:send(tostring(self.name) .. " says, 'I can't help you create a staff but I can help improve your wand's powers.'")
                 else
@@ -75,7 +75,7 @@ if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "p
                 end
                 wait(2)
                 actor:send(tostring(self.name) .. " says, 'You'll need to use your wand <b:yellow>" .. tostring(wandattack) .. "</> times.'")
-            elseif actor.quest_stage[type_wand] == 7 then
+            elseif actor:get_quest_stage("type_wand") == 7 then
                 actor:send(tostring(self.name) .. " says, 'Your wand has reached its maximum potential.  You're ready for a staff instead.'")
                 wait(2)
                 actor:send(tostring(self.name) .. " says, 'You'll need to use your current wand <b:yellow>" .. tostring(wandattack) .. "</> times.'")
@@ -135,9 +135,9 @@ if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "p
         else
             actor:send(tostring(self.name) .. " says, 'You'll need to be at least level " .. tostring(minlevel) .. " before I can improve your bond with your weapon.'")
         end
-    elseif actor.quest_stage[type_wand] < wandstep then
+    elseif actor:get_quest_stage("type_wand") < wandstep then
         actor:send(tostring(self.name) .. " says, 'Your " .. tostring(weapon) .. " isn't ready for improvement yet.'")
-    elseif actor.quest_stage[type_wand] > wandstep then
+    elseif actor:get_quest_stage("type_wand") > wandstep then
         actor:send(tostring(self.name) .. " says, 'I've done all I can already.'")
     end
 end

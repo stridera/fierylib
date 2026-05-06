@@ -12,7 +12,7 @@
 wait(2)
 if actor.is_player then
     if actor.quest_stageget_raph_food == 9 then
-        actor.name:complete_quest("get_raph_food")
+        actor:complete_quest("get_raph_food")
         if string.find(actor.class, "Cleric") then
             self:command("smile " .. tostring(actor.name))
             skills.set_level(actor.name, "'group heal' 1000", 100)

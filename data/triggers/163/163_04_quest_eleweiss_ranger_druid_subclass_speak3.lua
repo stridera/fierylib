@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "quest") or string.find(string.lower(s
 end
 wait(2)
 if actor:get_quest_stage("ran_dru_subclass") == 1 then
-    actor.name:advance_quest("ran_dru_subclass")
+    actor:advance_quest("ran_dru_subclass")
     actor:send(tostring(self.name) .. " says, 'Yes, quest.  I do suppose it would help if I told you about it.'")
     self:emote("rubs his chin thoughtfully.")
     wait(1)

@@ -17,7 +17,7 @@ if actor:get_quest_stage("pri_pal_subclass") == 3 then
     self:command("smi")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Type <b:white>'subclass'</> to proceed.'")
-    actor.name:complete_quest("pri_pal_subclass")
+    actor:complete_quest("pri_pal_subclass")
 elseif actor:get_quest_stage("pri_pal_subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'Hmmm, jumping the gun a bit aren't we?'")
     wait(1)

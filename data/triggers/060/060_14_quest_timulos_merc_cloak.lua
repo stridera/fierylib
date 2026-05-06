@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "cloak")) then
 end
 wait(2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "mercenary" and actor:get_quest_stage("merc_ass_thi_subclass") == 2 then
-    actor.name:advance_quest("merc_ass_thi_subclass")
+    actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Well yes, this cloak is worth much to him.'")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'It was made off with in a raid on his castle by some bothersome insect warriors.'")

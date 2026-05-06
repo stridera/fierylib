@@ -16,7 +16,7 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
     world.destroy(self.room:find_object("ai"))
     actor:send("<b:cyan>You have learned Resurrect.</>")
     self.room:send(tostring(self.shortdesc) .. " crumbles to dust and blows away.")
-    actor.name:complete_quest("resurrection_quest")
+    actor:complete_quest("resurrection_quest")
     if not actor:get_quest_var("hell_trident:helltask5") and actor:get_quest_stage("hell_trident") == 2 then
         actor:set_quest_var("hell_trident", "helltask5", 1)
     end

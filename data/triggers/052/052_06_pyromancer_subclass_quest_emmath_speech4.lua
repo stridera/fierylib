@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "control") or string.find(string.lower
 end
 wait(2)
 if actor:get_quest_stage("pyromancer_subclass") == 2 then
-    actor.name:advance_quest("pyromancer_subclass")
+    actor:advance_quest("pyromancer_subclass")
     self:command("nod " .. tostring(actor.name))
 elseif actor:get_quest_stage("pyromancer_subclass") > 2 then
     self:command("roll")

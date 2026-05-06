@@ -10,7 +10,7 @@
 if actor:get_quest_stage("major_globe_spell") == 4 then
     -- marigold salve
     wait(1)
-    actor.name:advance_quest("major_globe_spell")
+    actor:advance_quest("major_globe_spell")
     self:destroy_item("marigold-poultice")
     actor:send(tostring(self.name) .. " says, 'Excellent, let me just finish this salve then...'")
     self:emote("begins mixing the items in a clay bowl.")

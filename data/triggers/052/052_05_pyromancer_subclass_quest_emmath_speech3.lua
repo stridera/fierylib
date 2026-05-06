@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "quest") or string.find(string.lower(s
 end
 wait(2)
 if actor:get_quest_stage("pyromancer_subclass") == 1 then
-    actor.name:advance_quest("pyromancer_subclass")
+    actor:advance_quest("pyromancer_subclass")
     if actor.alignment >= 350 then
         local part = "white"
     elseif actor.alignment <= -350 then
@@ -28,7 +28,7 @@ if actor:get_quest_stage("pyromancer_subclass") == 1 then
     else
         local part = "gray"
     end
-    actor.name:set_quest_var("pyromancer_subclass", "part", part)
+    actor:set_quest_var("pyromancer_subclass", "part", part)
     actor:send(tostring(self.name) .. " says, 'I seem to have a problem now, because some time ago...'")
     self:emote("sighs, looking troubled.")
     wait(2)

@@ -22,7 +22,7 @@ if (actor:get_quest_stage("group_heal") == 3) and (actor:get_quest_var("group_he
     self.room:spawn_object(185, 14)
     self.room:send_except(actor, tostring(actor.name) .. " finds " .. tostring(objects.template(185, 14).name) .. "!")
     actor:send("<blue>You have found " .. tostring(objects.template(185, 14).name) .. "!</>")
-    actor.name:advance_quest("group_heal")
+    actor:advance_quest("group_heal")
 else
     _return_value = true
 end

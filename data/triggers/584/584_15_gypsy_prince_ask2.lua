@@ -26,7 +26,7 @@ if actor:get_quest_stage("major_spell_quest") == 2 then
     self:command("bow " .. tostring(actor.name))
     wait(1)
     self:command("ask " .. tostring(actor.name) .. " Will you gon on this quest for me?")
-    actor.name:advance_quest("major_spell_quest")
+    actor:advance_quest("major_spell_quest")
     -- This sets the player to level 3 in the quest
 else
 end

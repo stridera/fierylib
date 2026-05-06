@@ -28,24 +28,24 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
     local chant = invoke + 1
     -- switch on chant
     if chant == 1 then
-        actor.name:set_quest_var("megalith_quest", "invoke", 1)
+        actor:set_quest_var("megalith_quest", "invoke", 1)
         wait(2)
         run_room_trigger(123, 22)
         wait(1)
         self:say("Again!")
         self.room:send("<b:cyan>We invoke thee!</>")
     elseif chant == 2 then
-        actor.name:set_quest_var("megalith_quest", "invoke", 2)
+        actor:set_quest_var("megalith_quest", "invoke", 2)
         wait(2)
         run_room_trigger(123, 22)
         wait(1)
         self:say("Once more!")
         self.room:send("<b:cyan>We invoke thee!</>")
     elseif chant == 3 then
-        actor.name:set_quest_var("megalith_quest", "invoke", 0)
-        actor.name:set_quest_var("megalith_quest", "reliquary", 0)
-        actor.name:set_quest_var("megalith_quest", "summon", 0)
-        actor.name:set_quest_var("megalith_quest", "prayer", 0)
+        actor:set_quest_var("megalith_quest", "invoke", 0)
+        actor:set_quest_var("megalith_quest", "reliquary", 0)
+        actor:set_quest_var("megalith_quest", "summon", 0)
+        actor:set_quest_var("megalith_quest", "prayer", 0)
         if actor:get_quest_var("megalith_quest:bad1") then
             local bad1 = 1
         end
@@ -97,7 +97,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
             -- 
             local item = 1
             while item <= 4 do
-                actor.name:set_quest_var("megalith_quest", "bad%item%", 0)
+                actor:set_quest_var("megalith_quest", "bad%item%", 0)
                 item = item + 1
             end
             actor.name:fail_quest("megalith_quest")
@@ -108,7 +108,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
             -- The good ending - get two prizes
             -- 
             if total == 0 then
-                actor.name:advance_quest("megalith_quest")
+                actor:advance_quest("megalith_quest")
                 self.room:send("<b:white>Celestial light pours through the vortex.</>")
                 self.room:send("<b:white>It forms a gentle <cyan>pool of radiance <white>in the eye of the cosmic maelstrom.</>")
                 wait(5)
@@ -146,7 +146,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 -- The okay ending - get one prize
                 -- 
             elseif total == 1 then
-                actor.name:advance_quest("megalith_quest")
+                actor:advance_quest("megalith_quest")
                 self.room:send("The stars coalesce into the nearly transparent form of a celestial, gossamer-winged goddess.")
                 self.room:send(tostring(self.name) .. " and " .. "%get.mob_shortdesc[12307]% bow before %get.mob_shortdesc[12300]%.")
                 self.room:send(tostring(self.name) .. " says, 'O Great Mother, watcher from the deep, we come to seek thy blessing!'")
@@ -189,7 +189,7 @@ if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_ques
                 -- 
                 local item = 1
                 while item <= 5 do
-                    actor.name:set_quest_var("megalith_quest", "bad%item%", 0)
+                    actor:set_quest_var("megalith_quest", "bad%item%", 0)
                     item = item + 1
                 end
                 actor.name:fail_quest("megalith_quest")

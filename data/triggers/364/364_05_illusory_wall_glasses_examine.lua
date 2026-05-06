@@ -231,13 +231,13 @@ else
     return _return_value
 end
 if actor:get_quest_stage("illusory_wall") == 2 and not actor:get_has_completed("illusory_wall") then
-    if room:get_up("bits") /= DOOR or room:get_down("bits") /= DOOR or room:get_east("bits") /= DOOR or room:get_west("bits") /= DOOR or room:get_north("bits") /= DOOR or room:get_south("bits") /= DOOR then
-        if actor.quest_variable[illusory_wall:region] then
+    if room:get_up("bits") ~= DOOR or room:get_down("bits") ~= DOOR or room:get_east("bits") ~= DOOR or room:get_west("bits") ~= DOOR or room:get_north("bits") ~= DOOR or room:get_south("bits") ~= DOOR then
+        if actor:get_quest_var("illusory_wall:region") then
             actor:send("<b:white>You have already learned all you can from this region.</>")
             _return_value = true
             return _return_value
         else
-            actor.name:set_quest_var("illusory_wall", "%region%", 1)
+            actor:set_quest_var("illusory_wall", "%region%", 1)
             local clue = actor:get_quest_var("illusory_wall:total") + 1
             actor:send("<b:white>You begin to analyze the room.</>")
             wait(3)
@@ -248,13 +248,13 @@ if actor:get_quest_stage("illusory_wall") == 2 and not actor:get_has_completed("
             actor:send("<b:yellow>Analyzing...</>")
             wait(3)
             actor:send("<b:cyan>You gain more insight on doors and barriers!</>")
-            actor.name:set_quest_var("illusory_wall", "total", clue)
+            actor:set_quest_var("illusory_wall", "total", clue)
             if actor:get_quest_var("illusory_wall:total") >= 20 then
                 wait(2)
                 self.room:spawn_mobile(364, 2)
                 self.room:find_actor("post-commander"):command("mskillset %actor.name% illusory wall")
                 actor:send("<b:cyan>You have learned everything you need to cast illusory walls!</>")
-                actor.name:complete_quest("illusory_wall")
+                actor:complete_quest("illusory_wall")
                 wait(1)
                 world.destroy(mob)
             end

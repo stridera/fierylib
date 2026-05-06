@@ -39,7 +39,7 @@ if actor.is_player then
         self:command("sigh")
         self:say("The renegade flame--bring it to me.")
     else
-        actor.name:start_quest("emmath_flameball")
+        actor:start_quest("emmath_flameball")
         self:say("You seek this ball of flame, do you?")
         self:command("ponder")
         wait(2)

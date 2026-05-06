@@ -37,7 +37,7 @@ if actor:get_quest_stage("flood") == 1 then
         wait(3)
         self.room:send(tostring(self.name) .. " speaks in three voices:")
         self.room:send(tostring(color) .. "'You show proper respect for the Spirits of the Canyon and their children.  In turn, we will respect your position as Envoy and heed the call of the Ocean.'</>")
-        actor.name:set_quest_var("flood", "water3", 1)
+        actor:set_quest_var("flood", "water3", 1)
         wait(2)
         self.room:send(tostring(color) .. tostring(self.name) .. " continues to dance, gradually uniting with the river.</>")
         local water1 = actor:get_quest_var("flood:water1")
@@ -49,7 +49,7 @@ if actor:get_quest_stage("flood") == 1 then
         local water7 = actor:get_quest_var("flood:water7")
         local water8 = actor:get_quest_var("flood:water8")
         if water1 and water2 and water3 and water4 and water5 and water6 and water7 and water8 then
-            actor.name:advance_quest("flood")
+            actor:advance_quest("flood")
             wait(1)
             actor:send("<b:blue>You have garnered the support of all the great waters!</>")
         end

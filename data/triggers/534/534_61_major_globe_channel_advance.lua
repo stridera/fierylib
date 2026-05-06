@@ -13,6 +13,6 @@ if victim then
     end
 else
     if actor:get_quest_stage("major_globe_spell") == 9 then
-        actor.name:advance_quest("major_globe_spell")
+        actor:advance_quest("major_globe_spell")
     end
 end

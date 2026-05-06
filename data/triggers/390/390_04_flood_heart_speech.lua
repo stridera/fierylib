@@ -26,7 +26,7 @@ wait(2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room
     local zone = room.id
-    if string.find(arg, "the") Arabel ocean calls for aid or string.find(arg, "spirit") I have returned or string.find(arg, "spirit"), I have returned then
+    if string.find(arg, "the Arabel ocean calls for aid") or string.find(arg, "spirit I have returned") or string.find(arg, "spirit"), I have returned then
         -- 
         -- for Blue-Fog River and Lake
         -- 
@@ -166,7 +166,7 @@ if actor:get_quest_stage("flood") == 1 then
             end
         end
         wait(1)
-        if string.find(arg, "the") arabel ocean calls for aid then
+        if string.find(arg, "the arabel ocean calls for aid") then
             self.room:find_actor("spirit"):command("mecho %spirit% says, %color%'Why does the ocean call for aid?'&0")
         else
             self.room:find_actor("spirit"):command("mecho %spirit% says, %color%'Do you have what I asked for?'&0")

@@ -26,7 +26,7 @@ if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist
             actor:send(tostring(self.name) .. " says, 'There are four other master diviners in the world. You will need to visit each one to figure out which items are best attuned to you.'")
             wait(4)
             actor:send(tostring(self.name) .. " says, 'Let us start with the one furthest away.  There is a <b:cyan>gypsy witch who dwells in South Caelia</>.  Find her and <b:cyan>ask what you will need for Wizard Eye</>.'")
-            actor.name:start_quest("wizard_eye")
+            actor:start_quest("wizard_eye")
             wait(4)
             actor:send(tostring(self.name) .. " says, 'You may return to me and check your <b:cyan>[spell progress]</> at any time.'")
         elseif stage == 2 or stage == 5 or stage == 8 then

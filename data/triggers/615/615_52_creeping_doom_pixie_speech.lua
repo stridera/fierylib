@@ -16,7 +16,7 @@ end
 wait(2)
 if string.find(actor.class, "Druid") and actor:get_quest_stage("creeping_doom") == 0 and actor.level > 80 then
     self:command("grin")
-    actor.name:start_quest("creeping_doom")
+    actor:start_quest("creeping_doom")
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'This spell sends a carpet of living death made out of")
     self.room:send("</>Nature's Rage and Doom at your enemies and makes it EAT THEIR FACES OFF.  It's")

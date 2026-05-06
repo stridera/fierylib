@@ -11,7 +11,7 @@ local stage = actor:get_quest_stage("wizard_eye")
 if stage == 5 then
     wait(2)
     self:destroy_item("sachet")
-    actor.name:advance_quest("wizard_eye")
+    actor:advance_quest("wizard_eye")
     actor:send(tostring(self.name) .. " says, 'Very smart blend of herbs.  It will bring prophetic dreams.  She always did know her sachets.'")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'I will store it for you.'")

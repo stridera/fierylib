@@ -8,5 +8,5 @@
 -- Converted from DG Script #5207: quest_pyro_get
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 if actor:get_quest_stage("pyromancer_subclass") == 3 then
-    actor.name:advance_quest("pyromancer_subclass")
+    actor:advance_quest("pyromancer_subclass")
 end

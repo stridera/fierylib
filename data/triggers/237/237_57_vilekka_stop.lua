@@ -22,7 +22,7 @@ if (actor:get_quest_stage("vilekka_stew") == 2) and not (actor:get_quest_var("vi
     self.room:send(tostring(self.name) .. " says, 'It is fine if you do not think you are yet worthy of more service.  Take this as a token of my appreciation.'")
     self.room:spawn_object(237, 18)
     self:command("give cloak " .. tostring(actor.name))
-    actor.name:set_quest_var("vilekka_stew", "awarded_23718", 1)
+    actor:set_quest_var("vilekka_stew", "awarded_23718", 1)
     wait(1)
     self:emote("smiles fiercely.")
     self.room:send(tostring(self.name) .. " says, 'And should you ever wish to continue your service, just return to me.  Say you wish to continue, and I will give you more to do.'")
@@ -33,6 +33,6 @@ elseif (actor:get_quest_stage("vilekka_stew") == 4) and not (actor:get_quest_var
     wait(1)
     self:say("Wear this to show my thanks for your help.")
     self:command("give bracelet " .. tostring(actor.name))
-    actor.name:set_quest_var("vilekka_stew", "awarded_23717", 1)
+    actor:set_quest_var("vilekka_stew", "awarded_23717", 1)
     self.room:send(tostring(self.name) .. " says, 'But do return and say that you wish to continue when you are more experienced.'")
 end

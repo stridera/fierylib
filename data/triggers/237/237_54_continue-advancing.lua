@@ -22,7 +22,7 @@ end
 wait(2)
 if actor.is_player then
     if actor:get_quest_stage("vilekka_stew") == 4 then
-        actor.name:advance_quest("vilekka_stew")
+        actor:advance_quest("vilekka_stew")
         actor:send("<b:white>You have advanced the quest!</>")
         self:emote("looks pleased.")
         self.room:send("The High Priestess begins chanting to her goddess.")
@@ -32,7 +32,7 @@ if actor.is_player then
         self:emote("looks like she just swallowed something very unpleasant.")
         self:say("Disgusting.")
     elseif actor:get_quest_stage("vilekka_stew") == 2 then
-        actor.name:advance_quest("vilekka_stew")
+        actor:advance_quest("vilekka_stew")
         actor:send("<b:white>You have advanced the quest!</>")
         self:say("Yes, the driders....")
         self:command("shudder")

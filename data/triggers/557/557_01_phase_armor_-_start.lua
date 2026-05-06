@@ -33,9 +33,9 @@ elseif actor:get_quest_stage("phase_armor") < phase - 1 then
     return _return_value
 end
 if actor:get_quest_stage("phase_armor") == 0 then
-    actor.name:start_quest("phase_armor")
+    actor:start_quest("phase_armor")
 elseif actor:get_quest_stage("phase_armor") == "phase - 1" then
-    actor.name:advance_quest("phase_armor")
+    actor:advance_quest("phase_armor")
 end
 actor:send(tostring(self.name) .. " tells you, 'Excellent.  I can make " .. tostring(hands_name) .. ", " .. tostring(feet_name) .. ",")
 actor:send("</>a " .. tostring(wrist_name) .. ", a " .. tostring(head_name) .. ", " .. tostring(arms_name) .. ", " .. tostring(legs_name) .. ", or a " .. tostring(body_name) .. ".'")

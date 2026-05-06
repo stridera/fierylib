@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "horn") or string.find(string.lower(sp
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then
-    actor.name:advance_quest("krisenna_quest")
+    actor:advance_quest("krisenna_quest")
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'Well, I suppose I must honor my obligations, and you have")
     self.room:send("</>certainly earned it.'")

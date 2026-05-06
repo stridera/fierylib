@@ -31,7 +31,7 @@ if actor:get_quest_stage("wall_ice") == 1 and actor:has_item("53326") and self.i
                 local ice = 1
                 globals.ice = globals.ice or true
                 local count = (drop + 1)
-                actor.name:set_quest_var("wall_ice", "drop", count)
+                actor:set_quest_var("wall_ice", "drop", count)
             else
                 self.room:send("<cyan>The spell seems to have no effect!</>")
                 local ice = 2
@@ -49,6 +49,6 @@ elseif self.id == 53316 and actor:get_quest_stage("wall_ice") == 2 and actor:has
     wait(1)
     self:say("Keep the notes.  It should be everything you need to cast Wall of Ice yourself.")
     actor.name:send("<b:cyan>You have learned Wall of Ice!</>")
-    actor.name:complete_quest("wall_ice")
+    actor:complete_quest("wall_ice")
     skills.set_level(actor.name, "wall of ice", 100)
 end

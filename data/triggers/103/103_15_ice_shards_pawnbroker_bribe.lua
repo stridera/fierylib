@@ -8,7 +8,7 @@
 -- Converted from DG Script #10315: ice_shards_pawnbroker_bribe
 -- Original: MOB trigger, flags: BRIBE, probability: 100000%
 if actor:get_quest_stage("ice_shards") == 4 then
-    actor.name:advance_quest("ice_shards")
+    actor:advance_quest("ice_shards")
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'I don't know much, but I do know someone paid me to help")
     self.room:send("</>'im slip outta the city.  I'm talkin', they paid A LOT.  Was a dark-skinned elf")

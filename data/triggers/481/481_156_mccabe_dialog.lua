@@ -26,7 +26,7 @@ end
 local stage = actor:get_quest_stage("meteorswarm")
 wait(1)
 if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer")) and actor.level > 72 then
-    if not stage and (string.find(speech, "meteor") or string.find(speech, "meteors") or string.find(speech, "meteors")? or string.find(speech, "no")) then
+    if not stage and (string.find(speech, "meteor") or string.find(speech, "meteors") or string.find(speech, "meteors?") or string.find(speech, "no")) then
         actor:send(tostring(self.name) .. " tells you, 'Yes, they are the culmination of my life's work.  They are the perfect balance of earth, fire, and air.'")
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Now leave me to my fun.  I have a seagull to obliterate.'")
@@ -40,10 +40,10 @@ if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer
         self:command("sigh")
         actor:send(tostring(self.name) .. " tells you, 'I suppose you wish to do more than observe, am I right?  " .. tostring(actor.name) .. ", would you like to try to learn this rather difficult spell?'")
     elseif string.find(speech, "yes") then
-        if actor:get_quest_var("meteorswarm:new") /= no then
+        if actor:get_quest_var("meteorswarm:new") ~= no then
             self:say("Show me the meteorite.")
         elseif not stage then
-            actor.name:start_quest("meteorswarm")
+            actor:start_quest("meteorswarm")
             actor:send(tostring(self.name) .. " tells you, 'Yes, well first you need a powerful piece of earth.  Not just any rock will do.  It needs to be positively alive with great energy.'")
             wait(2)
             self:command("consider " .. tostring(actor))
@@ -106,7 +106,7 @@ if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer
             else
                 -- Flirting Puppy
             end
-            actor.name:set_quest_var("meteorswarm", "bar_num", bar_num)
+            actor:set_quest_var("meteorswarm", "bar_num", bar_num)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, 'You can check on your <b:cyan>[spell progress]</> with me at any time.'")
         elseif stage == 2 then

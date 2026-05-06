@@ -28,5 +28,5 @@ if string.find(actor.class, "Priest") and actor.level > 80 and actor:get_quest_s
     actor:send("<b:white>The raven invites you to <b:cyan>[commune] <b:white>to receive visions of your progress.</>")
     wait(2)
     actor:send("Returning to reality, you find yourself staring at the rock pedestal.")
-    actor.name:start_quest("heavens_gate")
+    actor:start_quest("heavens_gate")
 end

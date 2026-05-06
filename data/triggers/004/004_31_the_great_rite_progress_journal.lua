@@ -11,7 +11,7 @@
 -- Converted from DG Script #431: The Great Rite progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "the") great rite or string.find(arg, "megalith") or string.find(arg, "megalith_quest") or string.find(arg, "the_great_rite") or string.find(arg, "sacred") megalith quest or string.find(arg, "sacred_megalith_quest") or string.find(arg, "sacred") megalith then
+if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "the great rite") or string.find(arg, "megalith") or string.find(arg, "megalith_quest") or string.find(arg, "the_great_rite") or string.find(arg, "sacred megalith quest") or string.find(arg, "sacred_megalith_quest") or string.find(arg, "sacred megalith") then
     if actor.level >= 50 then
         _return_value = true
         local stage = actor:get_quest_stage("megalith_quest")

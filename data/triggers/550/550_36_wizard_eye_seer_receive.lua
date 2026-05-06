@@ -19,21 +19,21 @@ if actor:get_quest_stage("wizard_eye") == 4 then
     elseif object.id == 48005 then
         local item = 3
     end
-    if actor.quest_variable[wizard_eye:itemitem] then
+    if actor:get_quest_var("wizard_eye:itemitem") then
         _return_value = true
         actor:send(tostring(self.name) .. " says, 'You already brought me this!'")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     else
-        actor.name:set_quest_var("wizard_eye", "item%item%", 1)
+        actor:set_quest_var("wizard_eye", "item%item%", 1)
         wait(2)
         world.destroy(object)
         self:command("nod")
         actor:send(tostring(self.name) .. " says, 'Yep, this'll do.'")
         if actor:get_quest_var("wizard_eye:item1") and actor:get_quest_var("wizard_eye:item2") and actor:get_quest_var("wizard_eye:item3") then
-            actor.name:advance_quest("wizard_eye")
+            actor:advance_quest("wizard_eye")
             local item = 1
             while item <= 4 do
-                actor.name:set_quest_var("wizard_eye", "item%item%", 0)
+                actor:set_quest_var("wizard_eye", "item%item%", 0)
                 item = item + 1
             end
             wait(2)

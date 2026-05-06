@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_stage("moonwell_spell_quest") == 3 then
     wait(2)
-    actor.name:advance_quest("moonwell_spell_quest")
+    actor:advance_quest("moonwell_spell_quest")
     actor:send(tostring(self.name) .. " tells you, 'Very good! This will work perfectly as an anchor stone.'")
     self.room:send(tostring(self.name) .. " places " .. tostring(object.shortdesc) .. " in the center of the well's outline.")
     self:destroy_item("jewel")

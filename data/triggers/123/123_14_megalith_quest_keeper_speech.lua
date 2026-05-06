@@ -23,7 +23,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
 end
 wait(2)
 if actor:get_quest_stage("megalith_quest") == 2 then
-    if speech == "yes" or speech == "sure" or string.find(speech, "I") will or string.find(speech, "I") can then
+    if speech == "yes" or speech == "sure" or string.find(speech, "I will") or string.find(speech, "I can") then
         -- switch on self.id
         -- 
         -- North - get ring from Tech
@@ -38,7 +38,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self.room:send("</><b:yellow>East</>, <red>South</>, <b:cyan>West</>, <b:green>North</>")
                 self.room:send("</>so please start with <b:yellow>" .. tostring(mobiles.template(123, 5).name) .. "</>.'")
                 self:command("bow " .. tostring(actor.name))
-                actor.name:set_quest_var("megalith_quest", "north", 1)
+                actor:set_quest_var("megalith_quest", "north", 1)
                 return _return_value
             end
             -- 
@@ -49,7 +49,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self:say("Excellent.")
                 wait(4)
                 self.room:send(tostring(self.name) .. " says, 'There is an island in the sea where fires of the deep meet the outer world, ruled by a demigoddess.  My people know her magic to be the ultimate blending of divine spark and protean fire.  She carries <b:red>a jewel that burns with that same fire</>.  If you can retrieve it, I believe that would be the perfect offering to the Spirits of Fire.'")
-                actor.name:set_quest_var("megalith_quest", "south", 1)
+                actor:set_quest_var("megalith_quest", "south", 1)
                 wait(4)
                 self.room:send(tostring(self.name) .. " says, 'Remember, we must call the elements in order:")
                 self.room:send("</><b:yellow>East</>, <red>South</>, <b:cyan>West</>, <b:green>North</>")
@@ -80,7 +80,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self.room:send(tostring(self.name) .. " says, 'Remember, we have to cast in order:")
                 self.room:send("</></><b:yellow>East</>, <red>South</>, <b:cyan>West</>, <b:green>North</>")
                 self.room:send("</>So when you return the offerings, please start with <b:yellow>me</>!'")
-                actor.name:set_quest_var("megalith_quest", "east", 1)
+                actor:set_quest_var("megalith_quest", "east", 1)
                 wait(5)
                 self:say("Why are you still standing here?!")
                 wait(2)
@@ -102,7 +102,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 wait(6)
                 self:command("ponder")
                 self:say("Although this spring sounds ideal, I suppose any water will do.")
-                actor.name:set_quest_var("megalith_quest", "west", 1)
+                actor:set_quest_var("megalith_quest", "west", 1)
                 wait(3)
                 self.room:send(tostring(self.name) .. " says, 'Remember, we must call the elements in order:")
                 self.room:send("</><b:yellow>East</>, <red>South</>, <b:cyan>West</>, <b:green>North</>")

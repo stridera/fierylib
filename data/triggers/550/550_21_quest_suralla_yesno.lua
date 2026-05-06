@@ -25,7 +25,7 @@ if string.find(actor.class, "Sorcerer") then
         wait(2)
         if string.find(speech, "yes") then
             if actor.level >= 10 and actor.level <= 45 then
-                actor.name:start_quest("cryomancer_subclass", "Cry")
+                actor:start_quest("cryomancer_subclass", "Cry")
                 self:command("nod")
                 actor:send(tostring(self.name) .. " says, 'It will take a great mage with a dedication to the cold arts to complete the <b:cyan>quest</> I lay before you.  Your reward is simple if you succeed, and I am sure you will enjoy a life of the cold.'")
                 wait(2)

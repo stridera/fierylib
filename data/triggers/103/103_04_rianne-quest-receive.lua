@@ -166,7 +166,7 @@ end
 if stage == 1 or stage == 5 or actor:get_quest_var("resort_cooking:item5") then
     local item5 = 1
 end
-if (stage ~= 2 and stage ~= 3) or actor:get_quest_var("resort_cooking:item6")% then
+if (stage ~= 2 and stage ~= 3) or actor:get_quest_var("resort_cooking:item6") then
     local item6 = 1
 end
 if stage ~= 3 or actor:get_quest_var("resort_cooking:item7") then

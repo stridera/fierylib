@@ -17,9 +17,9 @@ local _return_value = true  -- Default: allow action
 if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wand_id%" then
     return _return_value
 else
-    if actor:get_quest_stage("wall_ice") and actor.quest_stage[type_wand] == "wandstep" then
+    if actor:get_quest_stage("wall_ice") and actor:get_quest_stage("type_wand") == "wandstep" then
         local response = "This won't help us build this wall and I can't craft with it."
-    elseif actor.quest_stage[type_wand] == "wandstep" then
+    elseif actor:get_quest_stage("type_wand") == "wandstep" then
         local response = "I can't craft with this."
     elseif actor:get_quest_stage("wall_ice") then
         local response = "This won't help us build this wall."

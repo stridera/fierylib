@@ -8,7 +8,7 @@
 -- Converted from DG Script #58004: charm_person_hinazuru_pay
 -- Original: MOB trigger, flags: BRIBE, probability: 100000%
 if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) and actor.level > 88 and actor:get_quest_stage("charm_person") == 0 then
-    actor.name:start_quest("charm_person")
+    actor:start_quest("charm_person")
     self:command("bow " .. tostring(actor.name))
     self:say("I give humble thanks for your payment.")
     wait(2)

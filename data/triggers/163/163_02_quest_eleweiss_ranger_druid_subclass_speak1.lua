@@ -15,7 +15,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "ways") or string.find(string.lower(speech), "ways?") or string.find(string.lower(speech), "woods") or string.find(string.lower(speech), "woods?") or string.find(string.lower(speech), "i")) then
     return true  -- No matching keywords
 end
-if (string.find(speech, "ways") or string.find(speech, "ways")? or string.find(speech, "I") know) and not actor:get_quest_stage("ran_dru_subclass") then
+if (string.find(speech, "ways") or string.find(speech, "ways?") or string.find(speech, "I know")) and not actor:get_quest_stage("ran_dru_subclass") then
     if string.find(actor.class, "Cleric") then
         -- switch on actor.race
         -- case ADD NEW RESTRICTED RACES HERE

@@ -8,8 +8,8 @@
 -- Converted from DG Script #17211: Ill-subclass: Load the choker
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 if actor:get_quest_stage("illusionist_subclass") == 4 then
-    actor.name:advance_quest("illusionist_subclass")
-    actor.name:advance_quest("illusionist_subclass")
+    actor:advance_quest("illusionist_subclass")
+    actor:advance_quest("illusionist_subclass")
     local obj = self.objects
     local chokerpresent = 0
     while obj do

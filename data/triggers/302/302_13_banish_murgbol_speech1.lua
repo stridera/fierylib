@@ -19,7 +19,7 @@ if string.find(actor.class, "priest") or string.find(actor.class, "diabolist") t
     if stage == 0 then
         if actor.level > 64 then
             self:say("Good, good...")
-            actor.name:start_quest("banish")
+            actor:start_quest("banish")
             wait(1)
             self:say("I shall see how the gods best wish me to teach you.")
             self.room:send("She closes her eyes and prays to the gods above and below.")

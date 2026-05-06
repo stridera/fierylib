@@ -10,7 +10,7 @@
 local stage = actor:get_quest_stage("ice_shards")
 if stage == 2 then
     wait(2)
-    actor.name:advance_quest("ice_shards")
+    actor:advance_quest("ice_shards")
     self:destroy_item("book")
     self:emote("cautiously takes " .. tostring(object.shortdesc) .. " and places it on the reception desk.")
     wait(2)

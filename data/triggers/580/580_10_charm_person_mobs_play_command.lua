@@ -29,7 +29,7 @@ if self.id ~= 3010 then
         self.room:send_except(actor, tostring(actor.name) .. " strums a beautiful tune on the mandolin.")
         wait(2)
         self.room:send(tostring(self.name) .. " hums along dreamily.")
-        actor.name:set_quest_var("charm_person", "charm1", 1)
+        actor:set_quest_var("charm_person", "charm1", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
         _return_value = true
@@ -41,14 +41,14 @@ if self.id ~= 3010 then
         self.room:send_except(actor, tostring(actor.name) .. " plays a melodious tune on the flute.")
         wait(2)
         self.room:send(tostring(self.name) .. " blushes furiously.")
-        actor.name:set_quest_var("charm_person", "charm2", 1)
+        actor:set_quest_var("charm_person", "charm2", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     elseif actor:get_quest_stage("charm_person") == 4 and self.id == 58406 and (actor:has_equipped("41119") or actor:has_item("41119")) then
         actor:send("You play a haunting, dulcet tune on the Sea's Flute.")
         self.room:send_except(actor, tostring(actor.name) .. " plays a haunting, dulcet tune on the Sea's Flute.")
         wait(2)
         self.room:send(tostring(self.name) .. " sighs with nostalgia and longing.")
-        actor.name:set_quest_var("charm_person", "charm5", 1)
+        actor:set_quest_var("charm_person", "charm5", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
         _return_value = true
@@ -60,7 +60,7 @@ if self.id ~= 3010 then
         self.room:send_except(actor, tostring(actor.name) .. " blows a wistful melody on the pipe.")
         wait(2)
         self.room:send(tostring(self.name) .. " closes her eyes and smiles.")
-        actor.name:set_quest_var("charm_person", "charm3", 1)
+        actor:set_quest_var("charm_person", "charm3", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
         _return_value = true
@@ -72,7 +72,7 @@ if self.id ~= 3010 then
         self.room:send_except(actor, tostring(actor.name) .. " plucks out a strange, complex arrangement on the biwa.")
         wait(2)
         self.room:send(tostring(self.name) .. " burbles with contentment.")
-        actor.name:set_quest_var("charm_person", "charm4", 1)
+        actor:set_quest_var("charm_person", "charm4", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
         _return_value = true
@@ -84,7 +84,7 @@ if self.id ~= 3010 then
         self.room:send_except(actor, tostring(actor.name) .. " plays a haunting, dulcet tune on the Sea's Flute.")
         wait(2)
         self.room:send(tostring(self.name) .. " sighs with nostalgia and longing.")
-        actor.name:set_quest_var("charm_person", "charm5", 1)
+        actor:set_quest_var("charm_person", "charm5", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
     else
         _return_value = true
@@ -97,7 +97,7 @@ if actor:get_quest_var("charm_person:charm1") and actor:get_quest_var("charm_per
     wait(4)
     actor:send("Your skill in charming has greatly improved!")
     actor:send("Hinazuru's training has paid off!")
-    actor.name:complete_quest("charm_person")
+    actor:complete_quest("charm_person")
     actor:send("<b:magenta>You have learned Charm Person!</>")
     skills.set_level(actor.name, "charm person", 100)
 end

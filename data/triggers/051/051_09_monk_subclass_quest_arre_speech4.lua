@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "quest") or string.find(string.lower(s
 end
 wait(2)
 if actor:get_quest_stage("monk_subclass") == 1 then
-    actor.name:advance_quest("monk_subclass")
+    actor:advance_quest("monk_subclass")
     actor:send(tostring(self.name) .. " says, 'Alright, well sit back.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Usually people come in here promising me the return of something long lost of mine.'")

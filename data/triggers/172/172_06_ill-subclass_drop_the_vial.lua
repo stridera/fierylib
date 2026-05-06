@@ -15,7 +15,7 @@ if actor.room > 36314 and actor.room < 36340 and actor:get_quest_stage("illusion
     self.room:send("The vial breaks easily, and the small gray puff of gas quickly disperses.")
     self.room:send("As the moments pass, you sense a magical tension building.")
     self.room:send("It spreads outward as its strength grows.")
-    actor.name:advance_quest("illusionist_subclass")
+    actor:advance_quest("illusionist_subclass")
     -- Now check for smugglers...
     local room = get.room[self.room]
     local person = room.people
@@ -49,7 +49,7 @@ if actor.room > 36314 and actor.room < 36340 and actor:get_quest_stage("illusion
         self.room:find_actor("smuggler"):say("Hey... ummm...  I'd better let the big guy know you're up to something...  No offense ma'am, but that didn't look too innocent.")
     end
     if smuggler_found == 1 then
-        actor.name:advance_quest("illusionist_subclass")
+        actor:advance_quest("illusionist_subclass")
     end
 else
     self.room:send("The vial breaks easily, and a small gray puff of gas quickly disperses.")

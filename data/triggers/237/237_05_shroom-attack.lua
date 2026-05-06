@@ -21,7 +21,7 @@ end
 if string.find(arg, "pink") then
     local rightobj = 1
 end
-if arg /=purple then
+if arg ~=purple then
     local rightobj = 1
 end
 if string.find(arg, "fungus") then

@@ -69,15 +69,15 @@ if i then
         a = a + 1
     end
 else
-    local stage = actor.quest_stage[type_wand]
-    if actor.quest_stage[type_wand] == 9 then
-        if not actor.quest_variable[type_wand:wandtask4] then
+    local stage = actor:get_quest_stage("type_wand")
+    if actor:get_quest_stage("type_wand") == 9 then
+        if not actor:get_quest_var("type_wand:wandtask4") then
             actor:set_quest_var("%type%_wand", "wandtask4", 1)
             actor:send(tostring(color) .. "%get.obj_shortdesc[%wand_id%]% crackles with vibrant energy!</>")
             actor:send(tostring(color) .. "It is primed for reforging!</>")
         end
-    elseif actor.quest_stage[type_wand] == 10 then
-        if not actor.quest_variable[type_wand:wandtask3] then
+    elseif actor:get_quest_stage("type_wand") == 10 then
+        if not actor:get_quest_var("type_wand:wandtask3") then
             actor:set_quest_var("%type%_wand", "wandtask3", 1)
             actor:send(tostring(color) .. "%get.obj_shortdesc[%wand_id%]% crackles with vibrant energy!</>")
             actor:send(tostring(color) .. "It is primed for reforging!</>")

@@ -44,16 +44,16 @@ end
 if actor:get_quest_stage("megalith_quest") == 2 then
     if (item == "need") or (me == 12306 and (item == 41110 or item == 41111 or item == 18512)) then
         -- Already given, right item
-        if actor.quest_variable[megalith_quest:itempart] == 1 then
+        if actor:get_quest_var("megalith_quest:itempart") == 1 then
             _return_value = true
             self:command("shake")
             self:say("You've already given me this.")
             return _return_value
-        elseif actor.quest_variable[megalith_quest:direction] == 1 then
+        elseif actor:get_quest_var("megalith_quest:direction") == 1 then
             -- Right item, wrong order
             if part > 1 then
                 local check = part - 1
-                if actor.quest_variable[megalith_quest:itemcheck] == 0 then
+                if actor:get_quest_var("megalith_quest:itemcheck") == 0 then
                     _return_value = true
                     self:command("shake")
                     self.room:send(tostring(self.name) .. " says, 'We must cast the circle in order:")
@@ -71,8 +71,8 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 -- unique part of the incantation
             else
                 wait(2)
-                actor.name:set_quest_var("megalith_quest", "%direction%", 0)
-                actor.name:set_quest_var("megalith_quest", "item%part%", 1)
+                actor:set_quest_var("megalith_quest", "%direction%", 0)
+                actor:set_quest_var("megalith_quest", "item%part%", 1)
                 if direction == "north" then
                     self:say("Ah, excellent!  This will make a perfect offering.")
                     wait(6)
@@ -104,7 +104,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                         wait(6)
                     else
                         self:say("This will do.")
-                        actor.name:set_quest_var("megalith_quest", "bad2", 1)
+                        actor:set_quest_var("megalith_quest", "bad2", 1)
                         wait(6)
                     end
                     self.room:send(tostring(self.name) .. " pours the water from " .. tostring(object.shortdesc) .. " before the menhir.")

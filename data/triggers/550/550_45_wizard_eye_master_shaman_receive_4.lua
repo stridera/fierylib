@@ -10,7 +10,7 @@
 local stage = actor:get_quest_stage("wizard_eye")
 if stage == 11 then
     wait(2)
-    actor.name:advance_quest("wizard_eye")
+    actor:advance_quest("wizard_eye")
     self:emote("admires the crystal ball.")
     actor:send(tostring(self.name) .. " says, 'Truly a perfect tool for scrying.  It suits you.  Keep it and treasure it.'")
     self:command("give crystal-ball " .. tostring(actor.name))

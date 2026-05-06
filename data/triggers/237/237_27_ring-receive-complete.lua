@@ -11,13 +11,13 @@ if actor.is_player then
     if actor:get_quest_stage("sunfire_rescue") ==3 then
         if object.id == 52001 then
             self.room:send("Looking hesitant, the prisoner slowly slides the ring onto his finger.")
-            actor.name:advance_quest("sunfire_rescue")
+            actor:advance_quest("sunfire_rescue")
             self.room:spawn_object(237, 16)
             self:destroy_item("all.elven")
             wait(2)
             self:emote("vanishes from sight.")
             self:command("give " .. tostring(actor.name) .. " badge")
-            actor.name:complete_quest("sunfire_rescue")
+            actor:complete_quest("sunfire_rescue")
             self:whisper(actor.name, "Thank you for your help!  Please wear this badge as a token of my respect.")
             self.room:send("A voice softly echos goodbye...")
             world.destroy(self.room:find_actor("serin"))

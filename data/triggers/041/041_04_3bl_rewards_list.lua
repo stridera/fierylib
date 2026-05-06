@@ -52,7 +52,7 @@ if actor.alignment <= 150 then
         end
         if actor:get_quest_var("black_legion:bl_faction") >= 20 then
             -- (empty send to actor)
-            -- msend %actor% %self.name% tells you,'Your bl faction is %actor.quest_variable[black_legion:bl_faction]%.
+            -- msend %actor% %self.name% tells you,'Your bl faction is %actor:get_quest_var("black_legion:bl_faction")%.
             actor:send(tostring(self.name) .. " tells you, 'Though you are a bit wet behind the ears I")
             actor:send("</>suppose we can trust you with some of our goods.'")
             -- (empty send to actor)

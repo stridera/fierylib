@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 7 then
-    actor.name:advance_quest("major_globe_spell")
+    actor:advance_quest("major_globe_spell")
     wait(1)
     self:destroy_item("majorglobe-spellbook")
     self:command("gasp")

@@ -87,8 +87,8 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                 wait(8)
                 if success == 1 then
                     local num_trees = 1 + actor:get_quest_var("twisted_sorrow:num_trees")
-                    actor.name:set_quest_var("twisted_sorrow", "num_trees", num_trees)
-                    actor.name:set_quest_var("twisted_sorrow", "satisfied_tree:%self.room%", 1)
+                    actor:set_quest_var("twisted_sorrow", "num_trees", num_trees)
+                    actor:set_quest_var("twisted_sorrow", "satisfied_tree:%self.room%", 1)
                     self.room:send("A deep throbbing hum is emanating from the ground.")
                     wait(3)
                     self.room:send("The hum gets louder and louder, causing twigs and leaves to dance upon the ground!")
@@ -114,7 +114,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                         self:follow(self.room:find_actor("me"))
                         wait(4)
                         self:emote("walks away quietly.")
-                        actor.name:complete_quest("twisted_sorrow")
+                        actor:complete_quest("twisted_sorrow")
                         -- 
                         -- Set X to the level of the award - code does not run without it
                         -- 

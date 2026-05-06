@@ -13,8 +13,8 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "downme")) then
     return true  -- No matching keywords
 end
-actor.name:award_exp(-100000)
-actor.name:award_exp(-100000)
-actor.name:award_exp(-100000)
-actor.name:award_exp(-100000)
-actor.name:award_exp(-100000)
+actor:award_exp(-100000)
+actor:award_exp(-100000)
+actor:award_exp(-100000)
+actor:award_exp(-100000)
+actor:award_exp(-100000)

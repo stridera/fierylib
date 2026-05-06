@@ -26,7 +26,7 @@ if string.find(actor.class, "Warrior") then
         wait(2)
         if actor.level >= 10 then
             if actor:get_quest_stage("monk_subclass") == 0 then
-                actor.name:start_quest("monk_subclass", "Mon")
+                actor:start_quest("monk_subclass", "Mon")
                 self:command("bow")
                 actor:send(tostring(self.name) .. " says, 'It is wonderful to hear of others wanting to join the Brotherhood of the Monks.  You will be rewarded for your success with wonderful training, but only those pure of mind will complete the <b:cyan>quest</>.'")
                 self.room:send("</>")

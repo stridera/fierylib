@@ -12,7 +12,7 @@ if object.id == 61518 then
     wait(1)
     world.destroy(object)
     if actor:get_quest_stage("creeping_doom") == 4 then
-        actor.name:advance_quest("creeping_doom")
+        actor:advance_quest("creeping_doom")
     end
     self.room:send("&9<blue>" .. tostring(The get:get_obj_shortdesc("61518")) .. " bursts open in a flood of insects!</>")
     wait(2)

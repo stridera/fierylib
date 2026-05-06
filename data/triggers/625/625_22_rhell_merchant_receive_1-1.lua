@@ -10,8 +10,8 @@
 -- the emperor's letter is returned, 'choice' is set to path 1: item is pepper, from graveyard.
 if actor:get_quest_stage("ursa_quest") == 1 then
     wait(1)
-    actor.name:set_quest_var("ursa_quest", "choice", 1)
-    actor.name:advance_quest("ursa_quest")
+    actor:set_quest_var("ursa_quest", "choice", 1)
+    actor:advance_quest("ursa_quest")
     self:say("News from the Emperor?!  This is fantastic!")
     wait(1)
     self:emote("breathes a sigh of relief.")

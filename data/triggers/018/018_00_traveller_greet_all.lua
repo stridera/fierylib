@@ -20,7 +20,7 @@ if self.room == 1802 and actor.level < 100 then
         self:command("drop blade")
         actor:send("Thelmor dissipates before your very eyes.")
         if actor.class == "Ranger" and actor.level > 80 then
-            actor.name:start_quest("blur")
+            actor:start_quest("blur")
             actor:send("A voice from the forest whispers, 'You have done the forest a great service.")
             actor:send("</>Meet me at the nearby spring.'")
         end

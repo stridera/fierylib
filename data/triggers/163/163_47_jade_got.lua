@@ -8,6 +8,6 @@
 -- Converted from DG Script #16347: jade_got
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 if actor:get_quest_stage("moonwell_spell_quest") == 8 then
-    actor.name:advance_quest("moonwell_spell_quest")
+    actor:advance_quest("moonwell_spell_quest")
     self.room:send(tostring(self.shortdesc) .. " begins to glow mysteriously.")
 end

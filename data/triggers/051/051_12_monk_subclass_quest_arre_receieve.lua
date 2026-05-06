@@ -28,7 +28,7 @@ elseif actor:get_quest_stage("monk_subclass") == 4 then
     self:command("grin")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Type &9<blue>'subclass'</> to proceed.'")
-    actor.name:complete_quest("monk_subclass")
+    actor:complete_quest("monk_subclass")
 else
     actor:send(tostring(self.name) .. " says, 'What a wonderful sash, thank you.'")
     wait(1)

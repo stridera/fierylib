@@ -23,7 +23,7 @@ if string.find(actor.class, "Warrior") then
     -- break
     wait(2)
     if actor.level >= 10 and actor.level <= 25 then
-        actor.name:start_quest("berserker_subclass", "Ber")
+        actor:start_quest("berserker_subclass", "Ber")
         actor:send(tostring(self.name) .. " says, 'Then prove it!'")
         self:command("laugh")
         wait(2)

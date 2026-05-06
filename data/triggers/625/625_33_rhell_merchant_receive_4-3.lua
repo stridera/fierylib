@@ -16,7 +16,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
             if object.val2 == 10 then
                 wait(2)
                 world.destroy(object)
-                actor.name:advance_quest("ursa_quest")
+                actor:advance_quest("ursa_quest")
                 wait(1)
                 self:say("Excellent.  Now to crush this ring...")
                 self:emote("drops the ring of stolen life.")

@@ -18,19 +18,19 @@ if string.find(actor.race, "troll") then
         local gooditem = 1
         if %actor.quest_variable[troll_quest:got_item:37080] ~= 1 then
             local gotitem = 1
-            actor.name:set_quest_var("troll_quest", "got_item:37080", 1)
+            actor:set_quest_var("troll_quest", "got_item:37080", 1)
         end
     elseif object.id == 37081 then
         local gooditem = 1
         if %actor.quest_variable[troll_quest:got_item:37081] ~= 1 then
             local gotitem = 1
-            actor.name:set_quest_var("troll_quest", "got_item:37081", 1)
+            actor:set_quest_var("troll_quest", "got_item:37081", 1)
         end
     elseif object.id == 37082 then
         local gooditem = 1
         if %actor.quest_variable[troll_quest:got_item:37082] ~= 1 then
             local gotitem = 1
-            actor.name:set_quest_var("troll_quest", "got_item:37082", 1)
+            actor:set_quest_var("troll_quest", "got_item:37082", 1)
         end
     else
         local gooditem = 0
@@ -49,7 +49,7 @@ if string.find(actor.race, "troll") then
         self.room:send("A red light erupts from the center of the branch, nearly blinding you!")
         wait(2)
         self.room:send("When the smoke clears and the light is gone, " .. tostring(self.name) .. " smiles proudly.")
-        actor.name:complete_quest("troll_quest")
+        actor:complete_quest("troll_quest")
         self:say("Here you go, little one.  May your ambitions guide you and lead you to prosperity and rulership.")
         self.room:spawn_object(370, 83)
         self:command("give troll-mask " .. tostring(actor.name))

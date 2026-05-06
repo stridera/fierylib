@@ -10,7 +10,7 @@
 if actor:get_quest_stage("major_globe_spell") == 2 then
     -- chunk of shale
     wait(1)
-    actor.name:advance_quest("major_globe_spell")
+    actor:advance_quest("major_globe_spell")
     self:destroy_item("majorglobe-shale")
     self:command("nod")
     actor:send(tostring(self.name) .. " says, 'This will do.'")

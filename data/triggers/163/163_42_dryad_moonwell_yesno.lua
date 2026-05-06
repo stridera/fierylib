@@ -21,7 +21,7 @@ end
 -- 
 if actor.name == "moon_name" then
     moon_name = nil
-    if speech /=no then
+    if speech ~=no then
         self:command("frown")
         actor:send(tostring(self.name) .. " tells you, 'Very well, that is your choice.'")
         self.room:send_except(actor, tostring(self.name) .. " seems disappointed as she says something to " .. tostring(actor.name) .. ".")
@@ -52,6 +52,6 @@ if actor.name == "moon_name" then
         wait(4)
         actor:send(tostring(self.name) .. " tells you, 'Go, recover part of this vine and bring it back safely!'")
         self.room:send_except(actor, tostring(self.name) .. " pleads with " .. tostring(actor.name) .. " desperately.")
-        actor.name:start_quest("moonwell_spell_quest")
+        actor:start_quest("moonwell_spell_quest")
     end
 end

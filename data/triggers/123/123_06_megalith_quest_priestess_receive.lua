@@ -110,7 +110,7 @@ end
 -- 
 -- if you already gave us this item.  The value %item% has been set to appends item here, resulting in item1, item2, item3, and item4.
 -- 
-if actor.quest_variable[megalith_quest:itemitem] then
+if actor:get_quest_var("megalith_quest:itemitem") then
     _return_value = true
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
     self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
@@ -121,16 +121,16 @@ end
 -- 
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
-actor.name:set_quest_var("megalith_quest", "item%item%", 1)
+actor:set_quest_var("megalith_quest", "item%item%", 1)
 if object.id == 41110 or object.id == 18512 or object.id == 41111 then
-    actor.name:set_quest_var("megalith_quest", "goblet", goblet)
+    actor:set_quest_var("megalith_quest", "goblet", goblet)
     if object.id == 41111 then
-        actor.name:set_quest_var("megalith_quest", "bad1", 1)
+        actor:set_quest_var("megalith_quest", "bad1", 1)
     end
 elseif object.id == 4318 or object.id == 4305 then
-    actor.name:set_quest_var("megalith_quest", "bad3", 1)
+    actor:set_quest_var("megalith_quest", "bad3", 1)
 elseif object.id == 58426 then
-    actor.name:set_quest_var("megalith_quest", "bad4", 1)
+    actor:set_quest_var("megalith_quest", "bad4", 1)
 end
 world.destroy(object.name)
 -- 
@@ -158,14 +158,14 @@ end
 -- 
 if item1 and item2 and item3 and item4 then
     wait(2)
-    actor.name:advance_quest("megalith_quest")
+    actor:advance_quest("megalith_quest")
     local item = 1
     -- 
     -- Reset item variables with a while-loop
     -- This quest uses 5 item variables, but only 4 are ever checked in this receive trigger.  Clear all 5 here just to be safe.
     -- 
     while item <= 5 do
-        actor.name:set_quest_var("megalith_quest", "item%item%", 0)
+        actor:set_quest_var("megalith_quest", "item%item%", 0)
         item = item + 1
     end
     wait(1)
@@ -208,7 +208,7 @@ if item1 and item2 and item3 and item4 then
         -- If turning everything in starts stage 4
         -- 
     elseif actor:get_quest_stage("megalith_quest") == 4 then
-        actor.name:set_quest_var("megalith_quest", "reliquary", 1)
+        actor:set_quest_var("megalith_quest", "reliquary", 1)
         self:emote("reverentially places each of the reliquaries on the altar.")
         wait(2)
         self:emote("whispers,")

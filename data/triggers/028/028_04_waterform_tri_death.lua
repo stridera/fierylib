@@ -14,7 +14,7 @@ if i then
     while i >= a do
         local person = actor.group_member[a]
         if person.room == self.room then
-            if person:get_quest_stage("waterform") == 2 or person:get_quest_var("waterform:new") /= yes then
+            if person:get_quest_stage("waterform") == 2 or person:get_quest_var("waterform:new") ~= yes then
                 self.room:spawn_object(28, 7)
                 person.name:advance_quest("waterform")
             end
@@ -23,7 +23,7 @@ if i then
         end
         a = a + 1
     end
-elseif actor:get_quest_stage("waterform") == 2 or actor:get_quest_var("waterform:new") /= yes then
+elseif actor:get_quest_stage("waterform") == 2 or actor:get_quest_var("waterform:new") ~= yes then
     self.room:spawn_object(28, 7)
-    actor.name:advance_quest("waterform")
+    actor:advance_quest("waterform")
 end

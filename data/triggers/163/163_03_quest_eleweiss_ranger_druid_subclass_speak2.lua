@@ -53,7 +53,7 @@ if classquest == "yes" then
             actor:send(tostring(self.name) .. " says, 'I cannot help until we talk about the ways of the woods.'")
             return _return_value
         end
-        actor.name:start_quest("ran_dru_subclass", use_subclass)
+        actor:start_quest("ran_dru_subclass", use_subclass)
         actor:send(tostring(self.name) .. " says, 'Only the most dedicated to the forests shall complete the <b:cyan>quest</> I set upon you.  You may inquire about your <b:cyan>[subclass progress]</> or ask me to <b:cyan>[repeat]</> myself at any time.'")
     else
         actor:send(tostring(self.name) .. " says, 'Leave my sight, you tire me.'")

@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "greed") or string.find(string.lower(s
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then
-    actor.name:advance_quest("krisenna_quest")
+    actor:advance_quest("krisenna_quest")
     wait(1)
     self:say("Ahh yes, the sin of sins.  Very well, I will give you my coins.")
     wait(2)

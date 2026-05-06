@@ -14,7 +14,7 @@ if actor:get_quest_stage("moonwell_spell_quest") == 4 then
 elseif actor:get_quest_stage("moonwell_spell_quest") == 5 then
     wait(2)
     self:destroy_item("flask")
-    actor.name:advance_quest("moonwell_spell_quest")
+    actor:advance_quest("moonwell_spell_quest")
     actor:send(tostring(self.name) .. " tells you, 'Thank you, thank you.'")
     wait(15)
     self.room:send(tostring(self.name) .. " opens the flask and pours the water into the boundary of the well while reciting a prayer to Mielikki.")

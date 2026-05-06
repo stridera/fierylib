@@ -22,7 +22,7 @@ if (actor:get_quest_stage("major_globe_spell") == 6) and (actor:get_quest_var("m
     self.room:spawn_object(534, 52)
     self.room:send_except(actor, tostring(actor.name) .. " finds " .. tostring(objects.template(534, 52).name) .. "!")
     actor:send("<blue>You have found " .. tostring(objects.template(534, 52).name) .. "!</>")
-    actor.name:advance_quest("major_globe_spell")
+    actor:advance_quest("major_globe_spell")
 else
     _return_value = true
 end

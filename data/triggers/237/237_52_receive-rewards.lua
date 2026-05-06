@@ -117,8 +117,8 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
     end
     wait(1)
     local num_spices = 1 + actor:get_quest_var("vilekka_stew:num_spices")
-    actor.name:set_quest_var("vilekka_stew", "num_spices", num_spices)
-    actor.name:set_quest_var("vilekka_stew", "got_spice:%num%", 1)
+    actor:set_quest_var("vilekka_stew", "num_spices", num_spices)
+    actor:set_quest_var("vilekka_stew", "got_spice:%num%", 1)
     if num_spices < 10 then
         self:destroy_item("herb")
         -- ok, here we have a way for the player to keep track
@@ -266,7 +266,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
         wait(1)
         self:command("smile")
         actor:send(tostring(self.name) .. " says, 'Wear them proudly!'")
-        actor.name:complete_quest("vilekka_stew")
+        actor:complete_quest("vilekka_stew")
     end
 end
 if accepted == 0 then

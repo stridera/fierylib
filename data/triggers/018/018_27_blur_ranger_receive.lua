@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if object.id == 58420 then
     if actor:get_quest_stage("blur") == 3 then
-        actor.name:advance_quest("blur")
+        actor:advance_quest("blur")
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'Thank you for ending his suffering.  That was a")
         self.room:send("</>truly heroic effort.'")

@@ -33,7 +33,7 @@ if actor:get_quest_stage("wizard_eye") == 12 then
     -- (empty room echo)
     actor:send("In the echoes of the roar, you can see shape distant lands!")
     actor:send("The nature of the spell becomes clear!")
-    actor.name:complete_quest("wizard_eye")
+    actor:complete_quest("wizard_eye")
     skills.set_level(actor, "wizard eye", 100)
     actor:send("<b:cyan>You have learned Wizard Eye!</>")
 else

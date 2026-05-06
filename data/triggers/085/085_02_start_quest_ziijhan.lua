@@ -42,7 +42,7 @@ end
 if classquest == 1 then
     if string.find(speech, "yes") then
         if actor:get_quest_stage("nec_dia_ant_subclass") == 0 then
-            actor.name:start_quest("nec_dia_ant_subclass", use_subclass)
+            actor:start_quest("nec_dia_ant_subclass", use_subclass)
         end
         use_subclass = nil
         wait(2)

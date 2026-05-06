@@ -28,7 +28,7 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send("</>" .. tostring(color) .. "are a few more?  I shall rally to her cause.'</>")
         wait(2)
         self:command("shrug")
-        actor.name:set_quest_var("flood", "water1", 1)
+        actor:set_quest_var("flood", "water1", 1)
         wait(3)
         self.room:send(tostring(color) .. tostring(self.name) .. " vanishes back into the water.</>")
         -- 
@@ -46,7 +46,7 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send("</>" .. tostring(color) .. "I ask.'</>")
         wait(2)
         self.room:send(tostring(color) .. "With a mighty cry " .. tostring(self.name) .. " dives back into the water.</>")
-        actor.name:set_quest_var("flood", "item2", 1)
+        actor:set_quest_var("flood", "item2", 1)
         -- 
         -- Three-Falls wants a water dance
         -- 
@@ -61,7 +61,7 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'Say <b:blue>[Spirit I have returned]</>" .. tostring(color) .. " when you return</>")
         self.room:send("</>" .. tostring(color) .. "with what I ask.'</>")
         wait(3)
-        actor.name:set_quest_var("flood", "item3", 1)
+        actor:set_quest_var("flood", "item3", 1)
         self.room:send(tostring(color) .. tostring(self.name) .. " rushes away with the river rapids.</>")
         -- 
         -- Greengreen wants to devour things
@@ -79,7 +79,7 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send("</>" .. tostring(color) .. "what I ask.'</>")
         wait(3)
         self.room:send(tostring(color) .. tostring(self.name) .. " sinks beneath the waves.</>")
-        actor.name:set_quest_var("flood", "item4", 1)
+        actor:set_quest_var("flood", "item4", 1)
         -- 
         -- Lullaby is free once the Sea Witch is defeated and is called from the Witch's lair
         -- 
@@ -89,13 +89,13 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send("</>" .. tostring(color) .. "I shall join thee in thy cause.'</>")
         -- (empty room echo)
         self.room:send(tostring(color) .. "Music echoes through the waves as the currents shift and rush back into the ocean!</>")
-        actor.name:set_quest_var("flood", "water5", 1)
+        actor:set_quest_var("flood", "water5", 1)
         -- 
         -- Frozen wants a fight
         -- 
     elseif self.id == 39018 then
         local color = "&7&b"
-        actor.name:set_quest_var("flood", "item6", 1)
+        actor:set_quest_var("flood", "item6", 1)
         self.room:send(tostring(self.name) .. " laughs in a voice as freezing as the blasting wind.")
         wait(1)
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'The Ocean thinks itself so mighty that the</>")
@@ -124,7 +124,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- (empty room echo)
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'Say <b:blue>[Spirit I have returned]</>" .. tostring(color) .. " when you</>")
         self.room:send("</>" .. tostring(color) .. "return with what I ask.'</>")
-        actor.name:set_quest_var("flood", "item7", 1)
+        actor:set_quest_var("flood", "item7", 1)
         -- (empty room echo)
         self.room:send(tostring(color) .. tostring(self.name) .. " descends back into the darkness from whence it came.</>")
         -- 
@@ -141,7 +141,7 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send(tostring(self.name) .. " chimes:")
         self.room:send(tostring(color) .. "'If the moon doth shine then I shall go</>")
         self.room:send("</>" .. tostring(color) .. "following Dreaming's ebb and flow.'</>")
-        actor.name:set_quest_var("flood", "water8", 1)
+        actor:set_quest_var("flood", "water8", 1)
         -- (empty room echo)
         self.room:send(tostring(color) .. tostring(self.name) .. " drifts away on the moonlit current.</>")
     end

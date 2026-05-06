@@ -33,7 +33,7 @@ if string.find(actor.class, "Druid") then
             skills.set_level(actor, "creeping doom", 100)
             actor:send("<blue>&9The nightmare of the Deep Dreaming touches your soul!")
             actor:send("You have mastered</> <red>Creeping <green>Doom<blue>&9!</>")
-            actor.name:complete_quest("creeping_doom")
+            actor:complete_quest("creeping_doom")
         elseif actor:get_quest_stage("creeping_doom") == 4 then
             self.room:send(tostring(self.name) .. " says, 'Is everything alright?")
             self.room:send("</>Do you need another seed?'")

@@ -21,7 +21,7 @@ end
 wait(2)
 -- switch on actor:get_quest_stage("emmath_flameball")
 if actor:get_quest_stage("emmath_flameball") == 1 then
-    actor.name:advance_quest("emmath_flameball")
+    actor:advance_quest("emmath_flameball")
     actor:send(tostring(self.name) .. " says, 'Yes, you would need to show mastery over the fire.'")
     self:emote("pulls out his well-used thinking cap, and begins to think.")
     wait(2)

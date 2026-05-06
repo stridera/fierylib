@@ -17,7 +17,7 @@ wait(2)
 local stage = actor:get_quest_stage("flood")
 if stage == 0 then
     if string.find(actor.class, "Cryomancer") and actor.level > 80 then
-        actor.name:start_quest("flood")
+        actor:start_quest("flood")
         self.room:send(tostring(self.name) .. " says, 'The masters of this settlement stole my most")
         self.room:send("</>precious treasures.  I will punish them with a cataclysm of rising tide and")
         self.room:send("</>raging torrents by calling to the great waters of Ethilien to my aid.  You will")

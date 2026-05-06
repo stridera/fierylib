@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #59023: chesters_testers
 -- Original: WORLD trigger, flags: DROP, probability: 100%
-actor.name:set_quest_var("sacred_haven", "find_key", 1)
+actor:set_quest_var("sacred_haven", "find_key", 1)

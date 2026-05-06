@@ -8,7 +8,7 @@
 -- Converted from DG Script #3151: Intercity transport questmasters talk
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 if actor:get_quest_stage("intercity_transport") == 0 then
-    actor.name:start_quest("intercity_transport")
+    actor:start_quest("intercity_transport")
 end
 -- switch on self.id
 if self.id == 3151 or self.id == 30075 then

@@ -23,7 +23,7 @@ if actor:get_quest_var("corpse_retrieval:actor_level") == actor.level then
         wait(1)
         spells.cast(self, "shift corpse", actor.name)
         self.room:send(tostring(self.name) .. " looks exhausted after casting.")
-        actor.name:erase_quest("corpse_retrieval")
+        actor:erase_quest("corpse_retrieval")
         actor:command("consent off")
     else
         self.room:send(tostring(self.name) .. " says, 'Thank you for your donation to the Bloody Red Cross, but I'm")
@@ -41,6 +41,6 @@ else
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Something is different about you.  We have to adjust the spell")
     self.room:send("</>for your new strength.  Do you still want a corpse retrieval?'")
-    actor.name:erase_quest("corpse_retrieval")
+    actor:erase_quest("corpse_retrieval")
 end
 return _return_value
