@@ -1,28 +1,21 @@
 -- Trigger: Ziijhan general receive
 -- Zone: 85, ID: 26
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
+--
+-- Default RECEIVE handler for Ziijhan: rejects any item that isn't part of
+-- the phase mace upgrade chain.
 --
 -- Original DG Script: #8526
 
 -- Converted from DG Script #8526: Ziijhan general receive
--- Original: MOB trigger, flags: RECEIVE, probability: 0%
+-- Original: MOB trigger, flags: RECEIVE, probability: 100%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-local _return_value = true  -- Default: allow action
--- switch on object.id
-if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%mace_id%" then
-    return _return_value
-else
-    local response = "What is this garbage?"
-end
-if response then
-    _return_value = true
-    actor:send(self.name .. " scoffs at " .. tostring(object.shortdesc) .. ".")
-    wait(2)
-    actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
-end
-return _return_value
+-- TODO(parity): the legacy DG matched object.id against the globals
+-- %maceitem2% .. %maceitem5% and %mace_id% (set somewhere in the
+-- phase_mace quest chain). Until those globals are migrated to the new
+-- quest var system, we always reject — restore the early-allow branch
+-- when the mace item ids are pinned down.
+actor:send(self.name .. " scoffs at " .. tostring(object.shortdesc) .. ".")
+wait(2)
+actor:send(tostring(self.name) .. " says, 'What is this garbage?'")
+return true

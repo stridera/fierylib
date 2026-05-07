@@ -13,4 +13,4 @@ if not percent_chance(63) then
     return true
 end
 actor:award_exp(-100000)
-actor.name:send("As you grab the fist, you feel a slight jolt, and feel your life force being drained.")
+actor:send("As you grab the fist, you feel a slight jolt, and feel your life force being drained.")

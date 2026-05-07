@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #8556: Norisent_death_resurrection
 -- Original: MOB trigger, flags: GLOBAL, DEATH, probability: 100%
-if complete then
+if globals.complete then
     self.room:spawn_object(85, 51)
     self.room:send("<b:green>A small book slips from " .. tostring(self.name) .. "'s robes.</>")
 end

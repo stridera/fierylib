@@ -1,8 +1,6 @@
 -- Trigger: drop_phase_3_boss_58
 -- Zone: 556, ID: 2
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
 --
 -- Original DG Script: #55602
 
@@ -25,14 +23,14 @@ local what_gem_drop = random(1, 11)
 -- 
 if will_drop <= 20 then
     -- drop nothing and bail
-    return _return_value
+    return true
 end
 if will_drop <= 60 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- drop a gem from the previous wear pos set
         self.room:spawn_object(557, 25 + what_gem_drop)
-    elseif bonus >= 51 & bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
         self.room:spawn_object(557, 36 + what_gem_drop)
@@ -41,12 +39,12 @@ if will_drop <= 60 then
         -- drop a gem from the next wear pos set
         self.room:spawn_object(557, 36 + what_gem_drop)
     end
-elseif will_drop >=61 & will_drop <= 80 then
+elseif will_drop >= 61 and will_drop <= 80 then
     -- Normal non-bonus drops from previous wear position
     if bonus <= 50 then
-        -- 
+        --
         self.room:spawn_object(553, 75 + what_armor_drop)
-    elseif bonus >= 51 & bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
         self.room:spawn_object(553, 79 + what_armor_drop)
@@ -61,7 +59,7 @@ else
         -- drop armor and gem from previous wear pos
         self.room:spawn_object(557, 25 + what_gem_drop)
         self.room:spawn_object(553, 75 + what_armor_drop)
-    elseif bonus >= 51 & bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
         self.room:spawn_object(553, 79 + what_armor_drop)

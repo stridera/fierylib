@@ -15,5 +15,5 @@ end
 -- Basically, let them stew in the pit for a little bit before they get whacked.
 if actor.level < 100 then
     wait(14)
-    combat.engage(self, actor.name)
+    combat.engage(actor)
 end

@@ -8,7 +8,7 @@
 -- Converted from DG Script #12519: BrothersReunion
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if object.id == 12502 then
+if object.zone_id == 125 and object.local_id == 2 then
     _return_value = false
     if actor:get_quest_stage("krisenna_quest") == 4 then
         self:destroy_item("warhammer")
@@ -32,56 +32,55 @@ if object.id == 12502 then
         end
         self:command("give all.gem " .. tostring(actor.name))
         actor:complete_quest("krisenna_quest")
-        -- 
+        --
         -- Set X to the level of the award - code does not run without it
-        -- 
+        --
+        local expcap
         if actor.level < 40 then
-            local expcap = actor.level
+            expcap = actor.level
         else
-            local expcap = 40
+            expcap = 40
         end
         local expmod = 0
         if expcap < 9 then
-            local expmod = (((expcap * expcap) + expcap) / 2) * 55
+            expmod = (((expcap * expcap) + expcap) / 2) * 55
         elseif expcap < 17 then
-            local expmod = 440 + ((expcap - 8) * 125)
+            expmod = 440 + ((expcap - 8) * 125)
         elseif expcap < 25 then
-            local expmod = 1440 + ((expcap - 16) * 175)
+            expmod = 1440 + ((expcap - 16) * 175)
         elseif expcap < 34 then
-            local expmod = 2840 + ((expcap - 24) * 225)
+            expmod = 2840 + ((expcap - 24) * 225)
         elseif expcap < 49 then
-            local expmod = 4640 + ((expcap - 32) * 250)
+            expmod = 4640 + ((expcap - 32) * 250)
         elseif expcap < 90 then
-            local expmod = 8640 + ((expcap - 48) * 300)
+            expmod = 8640 + ((expcap - 48) * 300)
         else
-            local expmod = 20940 + ((expcap - 89) * 600)
+            expmod = 20940 + ((expcap - 89) * 600)
         end
-        -- 
+        --
         -- Adjust exp award by class so all classes receive the same proprotionate amount
-        -- 
+        --
         -- switch on actor.class
         if actor.class == "Warrior" or actor.class == "Berserker" then
-            -- 
+            --
             -- 110% of standard
-            -- 
-            local expmod = (expmod + (expmod / 10))
+            --
+            expmod = (expmod + (expmod / 10))
         elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
-            -- 
+            --
             -- 115% of standard
-            -- 
-            local expmod = (expmod + ((expmod * 2) / 15))
+            --
+            expmod = (expmod + ((expmod * 2) / 15))
         elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
-            -- 
+            --
             -- 120% of standard
-            -- 
-            local expmod = (expmod + (expmod / 5))
+            --
+            expmod = (expmod + (expmod / 5))
         elseif actor.class == "Necromancer" or actor.class == "Monk" then
-            -- 
+            --
             -- 130% of standard
-            -- 
-            local expmod = (expmod + (expmod * 2) / 5)
-        else
-            expmod = expmod
+            --
+            expmod = (expmod + (expmod * 2) / 5)
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)

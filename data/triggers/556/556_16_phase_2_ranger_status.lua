@@ -1,15 +1,30 @@
 -- Trigger: phase_2_ranger_status
 -- Zone: 556, ID: 16
 -- Type: MOB, Flags: SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <phase_2_ranger_status>:39: function arguments expected near ']'
---   Complex nesting: 26 if statements
---   Large script: 7698 chars
 --
 -- Original DG Script: #55616
 
 -- Converted from DG Script #55616: phase_2_ranger_status
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
+
+-- TODO(parity): Status report relies on broken DG-Script remnants from auto-conversion.
+-- Issues to fix in a future rewrite of the phase_armor quest dispatch:
+--   * Quest-var keys are literal strings ("phase_armor:id_destroyed_gloves_armor_acquired")
+--     instead of being interpolated with the per-class id_destroyed_* values, so every
+--     class shares the same key namespace and the per-class id_* tables below are dead
+--     code.
+--   * Output uses raw "%get.obj_shortdesc[%X%]%" placeholders (DG syntax) instead of
+--     looking up object names via objects.template(zone, id).name.
+--   * 5-digit legacy vnums (55300+) need to be split into composite (zone, id) pairs
+--     and resolved through the object catalog.
+--   * The "given" truthiness check (line: "if given then") sums numeric quest vars,
+--     so it reports "You have given me:" even when the player has given nothing
+--     (0 is truthy in Lua).
+--   * "_return_value" is referenced but never defined.
+--   * Class identifiers (Warrior/Cleric/etc.) are bare globals instead of strings.
+-- The trigger is currently gated by "if not percent_chance(0) then return true end",
+-- so it never actually fires in production. Leaving the body intact for later rewrite.
+
 
 -- 0% chance to trigger
 if not percent_chance(0) then

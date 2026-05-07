@@ -1,8 +1,7 @@
 -- Trigger: Injured halfling help
 -- Zone: 125, ID: 45
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #12545
 
@@ -11,31 +10,21 @@
 
 -- Speech keywords: yes Yes
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes")) then
+if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
 wait(2)
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    person = person.group_member[a]
+local instruct = false
+for _, person in ipairs(actor.group) do
     if person.room == self.room then
         if person:get_quest_stage("krisenna_quest") < 2 then
-            local instruct = 1
+            instruct = true
             if not person:get_quest_stage("krisenna_quest") then
                 person:start_quest("krisenna_quest")
                 person:send("<b:white>You have now begun the Tower in the Wastes quest!</>")
             end
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
 if instruct then
     self.room:send(tostring(self.name) .. "'s eyes brighten.")

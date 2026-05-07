@@ -10,10 +10,14 @@
 if actor:get_quest_stage("resurrection_quest") > 10 then
     wait(1)
     actor:send("You thumb through the book and find Norisent has taught you all you need to know.")
-    self.room:spawn_mobile(85, 51)
-    self.room:find_actor("mob"):command("mskillset %actor.name% resurrect")
-    wait(2)
-    world.destroy(self.room:find_object("ai"))
+    -- Spawn the AI helper mob (mob 85,51) which is responsible for granting
+    -- the Resurrect spell, then have it teach the actor.
+    local ai_mob = self.room:spawn_mobile(85, 51)
+    if ai_mob then
+        ai_mob:command("mskillset " .. tostring(actor.name) .. " resurrect")
+        wait(2)
+        world.destroy(ai_mob)
+    end
     actor:send("<b:cyan>You have learned Resurrect.</>")
     self.room:send(tostring(self.shortdesc) .. " crumbles to dust and blows away.")
     actor:complete_quest("resurrection_quest")

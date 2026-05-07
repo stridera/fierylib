@@ -10,7 +10,7 @@
 
 -- Speech keywords: axe help yes okay where
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "axe") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "where")) then
+if not (string.find(speech_lower, "axe") or string.find(speech_lower, "help") or string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "where")) then
     return true  -- No matching keywords
 end
 wait(2)
@@ -28,9 +28,8 @@ if actor:get_quest_stage("nukreth_spire") then
         self:say("For some revenge...")
         wait(1)
         self:say("Go find it and bring it to me.  I'll hold this area.")
-        if not running then
-            local running = "yes"
-            globals.running = globals.running or true
+        if not globals.running then
+            globals.running = true
             get_room(11, 0):at(function()
                 self.room:spawn_mobile(462, 5)
             end)

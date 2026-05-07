@@ -25,6 +25,8 @@ else
     if damage_dealt == 0 then
         _return_value = false
     else
+        -- TODO(parity): on damage hit, original sets _return_value=true (allow default west).
+        -- That contradicts the flavor message ("forced back"). Confirm legacy intent.
         _return_value = true
         actor:send("The red field burns you, and you are forced back! (<red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, tostring(actor.name) .. " is forced back by the red field. (<red>" .. tostring(damage_dealt) .. "</>)")

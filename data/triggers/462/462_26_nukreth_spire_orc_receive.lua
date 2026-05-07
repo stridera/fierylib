@@ -10,8 +10,8 @@
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("nukreth_spire") then
     if actor:get_quest_var("nukreth_spire:path3") == 0 then
-        if task ~= "done" then
-            if object.id == 46213 then
+        if globals.task ~= "done" then
+            if object.zone_id == 462 and object.local_id == 13 then
                 wait(2)
                 self.room:send(tostring(self.name) .. " grins wickedly as he wraps his fingers around the axe.")
                 self:command("wie axe")
@@ -20,10 +20,8 @@ if actor:get_quest_stage("nukreth_spire") then
                 wait(2)
                 self:say("Now move out!")
                 self:follow(actor)
-                local task = "done"
-                globals.task = globals.task or true
-                local leader = actor.name
-                globals.leader = globals.leader or true
+                globals.task = "done"
+                globals.leader = actor.name
             else
                 _return_value = true
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

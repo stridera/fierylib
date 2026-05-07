@@ -21,11 +21,6 @@ if string.find(arg, "rope") then
             world.destroy(self.room:find_actor("field"))
         end)
     end
-    if world.count_objects(125, 21) > 0 or world.count_objects(125, 22) > 0 then
-        get_room(126, 2):at(function()
-            world.destroy(self.room:find_actor("field"))
-        end)
-    end
     get_room(126, 2):at(function()
         self.room:spawn_object(125, 21)
     end)

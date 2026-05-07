@@ -27,6 +27,7 @@ if will_drop <= 20 then
 elseif will_drop <= 60 then
     -- 40% to drop a gem
     local gem_id = what_gem_drop + 65
+    self.room:spawn_object(555, gem_id)
 elseif will_drop >= 61 and will_drop <= 80 then
     -- 20% to drop armor
     -- drop destroyed armor 55299 is the ID before the
@@ -34,19 +35,19 @@ elseif will_drop >= 61 and will_drop <= 80 then
     local armor_id = what_armor_drop + 55299
     -- do this because decayed medium armor isn't used, replace with warrior/cleric
     if armor_id == 55303 then
-        local armor_id = 55300
+        armor_id = 55300
     elseif armor_id == 55307 then
-        local armor_id = 55304
+        armor_id = 55304
     elseif armor_id == 55311 then
-        local armor_id = 55308
+        armor_id = 55308
     elseif armor_id == 55315 then
-        local armor_id = 55312
+        armor_id = 55312
     elseif armor_id == 55319 then
-        local armor_id = 55316
+        armor_id = 55316
     elseif armor_id == 55323 then
-        local armor_id = 55320
+        armor_id = 55320
     elseif armor_id == 55327 then
-        local armor_id = 55324
+        armor_id = 55324
     end
     self.room:spawn_object(math.floor(armor_id / 100), armor_id % 100)
 else
@@ -55,19 +56,19 @@ else
     local armor_id = what_armor_drop + 55299
     -- do this because decayed medium armor isn't used, replace with warrior/cleric
     if armor_id == 55303 then
-        local armor_id = 55300
+        armor_id = 55300
     elseif armor_id == 55307 then
-        local armor_id = 55304
+        armor_id = 55304
     elseif armor_id == 55311 then
-        local armor_id = 55308
+        armor_id = 55308
     elseif armor_id == 55315 then
-        local armor_id = 55312
+        armor_id = 55312
     elseif armor_id == 55319 then
-        local armor_id = 55316
+        armor_id = 55316
     elseif armor_id == 55323 then
-        local armor_id = 55320
+        armor_id = 55320
     elseif armor_id == 55327 then
-        local armor_id = 55324
+        armor_id = 55324
     end
     self.room:spawn_object(555, gem_id)
     self.room:spawn_object(math.floor(armor_id / 100), armor_id % 100)

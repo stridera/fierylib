@@ -10,7 +10,7 @@
 
 -- Speech keywords: hi hello hi? hello? progress progress? status status?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hi") or string.find(string.lower(speech), "hello") or string.find(string.lower(speech), "hi?") or string.find(string.lower(speech), "hello?") or string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?") or string.find(string.lower(speech), "status") or string.find(string.lower(speech), "status?")) then
+if not (string.find(speech_lower, "hi") or string.find(speech_lower, "hello") or string.find(speech_lower, "progress") or string.find(speech_lower, "status")) then
     return true  -- No matching keywords
 end
 -- switch on actor:get_quest_stage("krisenna_quest")

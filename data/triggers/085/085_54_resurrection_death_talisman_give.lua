@@ -1,10 +1,12 @@
 -- Trigger: Resurrection Death Talisman Give
 -- Zone: 85, ID: 54
 -- Type: OBJECT, Flags: GIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Resurrection Death Talisman Give>:73: 'end' expected (to close 'if' at line 9) near 'actor'
---   Complex nesting: 8 if statements
---   Large script: 5156 chars
+--
+-- When the player hands the death talisman to a quest target, this script
+-- is what Norisent uses to verify the kill chain. Each resurrection_quest
+-- stage maps to a set of mob ids that must have been dispatched (recorded
+-- as quest vars). On a clean check the stage advances; otherwise Norisent
+-- nags the player with what's still outstanding.
 --
 -- Original DG Script: #8554
 

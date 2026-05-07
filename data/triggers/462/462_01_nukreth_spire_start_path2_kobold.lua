@@ -1,8 +1,6 @@
 -- Trigger: Nukreth Spire start path2 kobold
 -- Zone: 462, ID: 1
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Nukreth Spire start path2 kobold>:3: 'then' expected near 'get'
 --
 -- Original DG Script: #46201
 

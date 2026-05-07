@@ -1,8 +1,7 @@
 -- Trigger: SilentOneRRTrig
 -- Zone: 125, ID: 20
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #12520
 
@@ -11,32 +10,22 @@
 
 -- Speech keywords: brother Brother
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "brother") or string.find(string.lower(speech), "brother")) then
+if not string.find(speech_lower, "brother") then
     return true  -- No matching keywords
 end
 local stage = 1
-local person = actor
 local cap = 4
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    person = person.group_member[a]
+local run = false
+for _, person in ipairs(actor.group) do
     if person.room == self.room then
         if person:get_quest_stage("krisenna_quest") < cap then
-            local run = "yes"
-            if person:get_quest_stage("krisenna_quest") == "stage" then
+            run = true
+            if person:get_quest_stage("krisenna_quest") == stage then
                 person:advance_quest("krisenna_quest")
                 person:send("<b:white>You have furthered the quest!</>")
             end
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
 if run then
     run_room_trigger(125, 18)

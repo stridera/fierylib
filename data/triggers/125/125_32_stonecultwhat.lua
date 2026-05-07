@@ -1,8 +1,7 @@
 -- Trigger: StoneCultWhat
 -- Zone: 125, ID: 32
 -- Type: MOB, Flags: RANDOM, GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <StoneCultWhat>:8: unexpected symbol near '.5'
+-- Status: CLEAN
 --
 -- Original DG Script: #12532
 

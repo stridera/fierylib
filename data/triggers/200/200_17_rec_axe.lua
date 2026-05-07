@@ -1,24 +1,21 @@
 -- Trigger: rec_axe
 -- Zone: 200, ID: 17
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: clothes.
---   Syntax error: luac: <rec_axe>:24: 'end' expected (to close 'if' at line 4) near 'else'
+-- Status: CLEAN
 --
 -- Original DG Script: #20017
 
 -- Converted from DG Script #20017: rec_axe
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
-    if object.id == 20046 then
+    if object.zone_id == 200 and object.local_id == 46 then
         wait(1)
         self.room:send(tostring(self.name) .. " begins to jump up down excitedly.")
         self:say("Thank you very much!")
         self:say("Here is your reward for assisting me.")
         self.room:spawn_object(200, 47)
         wait(2)
-        self.room:send("The small hurt woman pulls out a bright ball of light from inside her")
-        -- UNCONVERTED: clothes.
+        self.room:send("The small hurt woman pulls out a bright ball of light from inside her clothes.")
         wait(2)
         self:command("give sun " .. tostring(actor.name))
         self:destroy_item("axe")

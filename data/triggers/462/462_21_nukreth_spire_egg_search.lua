@@ -30,9 +30,9 @@ if actor:get_quest_stage("nukreth_spire") then
             self.room:send("The beastmaster and a dire hyena enter the pen and attack!")
             actor:send("<b:yellow>You better kill these things and search again!</>")
             self.room:spawn_mobile(462, 26)
-            self.room:find_actor("beastmaster"):command("kill %actor%")
+            self.room:find_actor("beastmaster"):command("kill " .. tostring(actor.name))
             self.room:spawn_mobile(462, 27)
-            self.room:find_actor("dire-hyena"):command("kill %actor%")
+            self.room:find_actor("dire-hyena"):command("kill " .. tostring(actor.name))
         elseif actor:get_quest_var("nukreth_spire:baby") == 4 then
             actor:set_quest_var("nukreth_spire", "baby", 0)
             actor:send("You find a speckled kobold egg hidden amongst the straw!")

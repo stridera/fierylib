@@ -15,5 +15,5 @@ if not (string.find(string.lower(speech), "friend")) then
 end
 if actor.is_player then
     self:say("Then you are not welcome here, you must leave at once!")
-    actor.name:move("w")
+    actor:move("w")
 end

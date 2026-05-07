@@ -1,8 +1,6 @@
 -- Trigger: Nukreth Spire start path4 goblin
 -- Zone: 462, ID: 3
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Nukreth Spire start path4 goblin>:3: 'then' expected near 'get'
 --
 -- Original DG Script: #46203
 

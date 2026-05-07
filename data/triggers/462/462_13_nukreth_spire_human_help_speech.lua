@@ -1,8 +1,6 @@
 -- Trigger: Nukreth Spire human help speech
 -- Zone: 462, ID: 13
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
 --
 -- Original DG Script: #46213
 
@@ -11,7 +9,7 @@
 
 -- Speech keywords: husband help yes okay who where
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "husband") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "who") or string.find(string.lower(speech), "where")) then
+if not (string.find(speech_lower, "husband") or string.find(speech_lower, "help") or string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "who") or string.find(speech_lower, "where")) then
     return true  -- No matching keywords
 end
 wait(2)
@@ -30,9 +28,8 @@ if actor:get_quest_stage("nukreth_spire") then
         if not actor:get_quest_var("nukreth_spire:rescue") then
             actor:set_quest_var("nukreth_spire", "rescue", 1)
         end
-        if not running then
-            local running = "yes"
-            globals.running = globals.running or true
+        if not globals.running then
+            globals.running = true
             if world.count_mobiles(462, 6) == 0 then
                 get_room(462, 62):at(function()
                     self.room:spawn_mobile(462, 6)

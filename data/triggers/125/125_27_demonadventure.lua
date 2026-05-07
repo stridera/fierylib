@@ -10,7 +10,7 @@
 
 -- Speech keywords: adventure explore exploration curiousity morning star
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "adventure") or string.find(string.lower(speech), "explore") or string.find(string.lower(speech), "exploration") or string.find(string.lower(speech), "curiousity") or string.find(string.lower(speech), "morning") or string.find(string.lower(speech), "star")) then
+if not (string.find(speech_lower, "adventure") or string.find(speech_lower, "explore") or string.find(speech_lower, "exploration") or string.find(speech_lower, "curiousity") or string.find(speech_lower, "morning") or string.find(speech_lower, "star")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then

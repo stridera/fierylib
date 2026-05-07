@@ -10,7 +10,7 @@
 
 -- Speech keywords: baby help yes okay what where
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "baby") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "what") or string.find(string.lower(speech), "where")) then
+if not (string.find(speech_lower, "baby") or string.find(speech_lower, "help") or string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "what") or string.find(speech_lower, "where")) then
     return true  -- No matching keywords
 end
 wait(2)

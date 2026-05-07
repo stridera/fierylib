@@ -26,6 +26,7 @@ if will_drop <= 30 then
     -- 30% to drop nothing
 elseif will_drop <= 70 then
     -- 40% to drop a gem
+    self.room:spawn_object(555, 93 + what_gem_drop)
 elseif will_drop >= 71 and will_drop <= 90 then
     -- 20% to drop armor
     self.room:spawn_object(553, 27 + what_armor_drop)

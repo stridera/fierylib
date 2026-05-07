@@ -8,9 +8,9 @@
 -- Converted from DG Script #12526: DemonGreed
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: greed money pouch  wergeld wergild
+-- Speech keywords: greed money pouch wergeld wergild
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "greed") or string.find(string.lower(speech), "money") or string.find(string.lower(speech), "pouch") or string.find(string.lower(speech), "wergeld") or string.find(string.lower(speech), "wergild")) then
+if not (string.find(speech_lower, "greed") or string.find(speech_lower, "money") or string.find(speech_lower, "pouch") or string.find(speech_lower, "wergeld") or string.find(speech_lower, "wergild")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then

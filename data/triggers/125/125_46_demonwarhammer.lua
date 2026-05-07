@@ -10,7 +10,7 @@
 
 -- Speech keywords: brother vengeance revenge hammer warhammer halfling
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "brother") or string.find(string.lower(speech), "vengeance") or string.find(string.lower(speech), "revenge") or string.find(string.lower(speech), "hammer") or string.find(string.lower(speech), "warhammer") or string.find(string.lower(speech), "halfling")) then
+if not (string.find(speech_lower, "brother") or string.find(speech_lower, "vengeance") or string.find(speech_lower, "revenge") or string.find(speech_lower, "hammer") or string.find(speech_lower, "halfling")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then

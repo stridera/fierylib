@@ -7,9 +7,11 @@
 
 -- Converted from DG Script #46228: Nukreth Spire ambush
 -- Original: WORLD trigger, flags: POSTENTRY, probability: 100%
-if actor.id == 46220 or actor.id == 46221 or actor.id == 46222 or actor.id == 46223 then
+if actor.zone_id == 462 and (actor.local_id == 20 or actor.local_id == 21 or actor.local_id == 22 or actor.local_id == 23) then
     wait(2)
-    self.room:find_actor("captive"):follow(self.room:find_actor("me"))
+    -- TODO(parity): legacy DG had captive `follow(me)` which referenced the
+    -- triggering room actor. We omit it; the captive should already be
+    -- following the leader from the receive/follow_me triggers.
     self.room:send("Two gnoll trackers leap out of the shadows and attack!")
     self.room:send("A gnoll tracker says, 'Devour it before it escapes!!'")
     self.room:spawn_mobile(462, 1)

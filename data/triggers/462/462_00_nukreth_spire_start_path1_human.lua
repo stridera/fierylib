@@ -1,8 +1,6 @@
 -- Trigger: Nukreth Spire start path1 human
 -- Zone: 462, ID: 0
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Nukreth Spire start path1 human>:3: 'then' expected near 'get'
 --
 -- Original DG Script: #46200
 

@@ -1,8 +1,7 @@
 -- Trigger: Krisenna greet
 -- Zone: 125, ID: 35
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #12535
 

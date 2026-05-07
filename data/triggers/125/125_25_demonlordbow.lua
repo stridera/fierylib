@@ -1,47 +1,36 @@
 -- Trigger: DemonLordBow
 -- Zone: 125, ID: 25
 -- Type: MOB, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 17 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #12525
 
 -- Converted from DG Script #12525: DemonLordBow
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
 
--- Command filter: bow
+-- Command filter: bow (reject the abbreviations 'b' and 'bo')
 if not (cmd == "bow") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
--- switch on cmd
 if cmd == "b" or cmd == "bo" then
-    _return_value = true
-    return _return_value
+    return true
 end
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    person = person.group_member[a]
+local _return_value = true  -- Default: allow action
+local krisenna = 0
+local hell = 0
+local go = nil
+for _, person in ipairs(actor.group) do
     if person.room == self.room then
         if person:get_quest_stage("krisenna_quest") == 2 then
-            local krisenna = person:get_quest_stage("krisenna_quest")
+            krisenna = person:get_quest_stage("krisenna_quest")
             person:advance_quest("krisenna_quest")
             person:send("<b:white>You have advanced the quest!</>")
-            local go = "zone"
+            go = "zone"
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
 if actor:get_quest_stage("hell_trident") == 2 then
-    local hell = actor:get_quest_stage("hell_trident")
+    hell = actor:get_quest_stage("hell_trident")
     if actor.level >= 90 then
         if not actor:get_quest_var("hell_trident:helltask5") then
             if actor:get_has_completed("resurrection_quest") then
@@ -54,10 +43,9 @@ if actor:get_quest_stage("hell_trident") == 2 then
             end
         end
         if actor:get_quest_var("hell_trident:greet") == 1 then
-            go = nil
-            local go = "trident"
+            go = "trident"
         else
-            local go = "zone"
+            go = "zone"
         end
     end
 end
@@ -88,7 +76,5 @@ if go then
             end
         end
     end
-else
-    _return_value = true
 end
 return _return_value

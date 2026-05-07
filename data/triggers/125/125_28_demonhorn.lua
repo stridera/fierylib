@@ -10,7 +10,7 @@
 
 -- Speech keywords: horn horns
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "horn") or string.find(string.lower(speech), "horns")) then
+if not string.find(speech_lower, "horn") then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then

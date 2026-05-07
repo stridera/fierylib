@@ -10,7 +10,7 @@
 
 -- Speech keywords: brother Brother brother? Brother?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "brother") or string.find(string.lower(speech), "brother") or string.find(string.lower(speech), "brother?") or string.find(string.lower(speech), "brother?")) then
+if not string.find(speech_lower, "brother") then
     return true  -- No matching keywords
 end
 -- switch on actor:get_quest_stage("krisenna_quest")

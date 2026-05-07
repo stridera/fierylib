@@ -7,10 +7,10 @@
 
 -- Converted from DG Script #46229: Nukreth Spire captive death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-if self.id == 46220 and world.count_mobiles(462, 25) > 0 then
+if self.local_id == 20 and world.count_mobiles(462, 25) > 0 then
     self.room:send("A limping slave tries to save his wife but is killed by the attack!")
     world.destroy(self.room:find_actor("limping-slave"))
-elseif self.id == 46225 and world.count_mobiles(462, 20) > 0 then
+elseif self.local_id == 25 and world.count_mobiles(462, 20) > 0 then
     self.room:send("A Soltan peasant tries to save her husband but is killed by the attack!")
     world.destroy(self.room:find_actor("soltan-captive"))
 end

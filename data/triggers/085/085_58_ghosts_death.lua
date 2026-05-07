@@ -7,8 +7,10 @@
 
 -- Converted from DG Script #8558: ghosts death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
+local quester = globals.quester
 if quester then
     quester:set_quest_var("resurrection_quest", (tostring(self.zone_id) .. "_" .. tostring(self.local_id)), 1)
     self.room:send("<b:cyan>" .. tostring(self.name) .. " is purged from this existance.</>")
     quester:send("<magenta>The death talisman twitches slightly. Creepy!</>")
+    globals.quester = nil
 end

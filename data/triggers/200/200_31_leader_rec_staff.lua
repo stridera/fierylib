@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #20031: leader_rec staff
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 3217 then
+if object.zone_id == 32 and object.local_id == 17 then
     wait(1)
     self:say("Very Good!")
     wait(1)
@@ -20,5 +20,5 @@ if object.id == 3217 then
     self:command("give bronze " .. tostring(actor.name))
     wait(1)
     self:command("grin")
-    world.destroy(self.room:find_actor("staff"))
+    world.destroy(self.room:find_object("staff"))
 end  -- auto-close block

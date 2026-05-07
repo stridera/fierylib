@@ -16,4 +16,4 @@ end
 self:command("grin")
 self:say("Very well done indeed!")
 self:emote("lifts his head and utters some obscure magical phrase.")
-actor.name:teleport(get_room(85, 83))
+actor:teleport(get_room(85, 83))

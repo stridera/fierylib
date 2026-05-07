@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #46208: Nukreth Spire spiritbreaker special death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-if self.room == 46278 then
+if self.room.zone_id == 462 and self.room.local_id == 78 then
     if world.count_mobiles(462, 20) > 0 then
         run_room_trigger(462, 9)
     elseif world.count_mobiles(462, 21) > 0 then

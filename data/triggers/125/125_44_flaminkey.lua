@@ -10,15 +10,15 @@
 local burn = 1
 wait(1)
 if string.find(actor.class, "Cry") then
-    actor.name:send("Your cool touch makes the fiery key's heat bearable.")
-    local burn = 0
+    actor:send("Your cool touch makes the fiery key's heat bearable.")
+    burn = 0
 end
 if string.find(actor.class, "Pyr") then
-    local burn = 0
-    actor.name:send("Your hands are accustomed to the heat, making the key easy to handle.")
+    burn = 0
+    actor:send("Your hands are accustomed to the heat, making the key easy to handle.")
 end
 if burn == 1 then
-    actor.name:damage(50)  -- type: fire
+    actor:damage(50)  -- type: fire
     if damage_dealt ~= 0 then
         actor:send("OUCH!  You grab the key, but it's burning your hand! (<red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, tostring(actor.name) .. " yelps as the key burns " .. tostring(actor.possessive) .. " hand! (<red>" .. tostring(damage_dealt) .. "</>)")

@@ -8,7 +8,7 @@
 -- Converted from DG Script #20030: assistant_receive ball
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
-    if object.id == 3218 then
+    if object.zone_id == 32 and object.local_id == 18 then
         self:command("pat " .. tostring(actor.name))
         self:say("You have done well")
         self.room:send("Yix'Xyua pulls something out of his clothes and gives it to his assistant.")
@@ -17,8 +17,8 @@ if actor.is_player then
         self:say("Here is your reward for your bravery.")
         self:command("give gaze " .. tostring(actor.name))
         self:say("When we come up with a plan to destroy Ruin we will call for you.")
-        world.destroy(self.room:find_actor("ball"))
-    elseif object.id == 3217 then
+        world.destroy(self.room:find_object("ball"))
+    elseif object.zone_id == 32 and object.local_id == 17 then
         wait(1)
         self:say("The leader will deal with this, give it to him.")
         self:command("give staff " .. tostring(actor.name))

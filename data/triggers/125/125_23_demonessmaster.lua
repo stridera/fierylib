@@ -10,7 +10,7 @@
 
 -- Speech keywords: master Master
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "master") or string.find(string.lower(speech), "master")) then
+if not string.find(speech_lower, "master") then
     return true  -- No matching keywords
 end
 wait(1)

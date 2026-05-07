@@ -12,5 +12,5 @@
 if not (cmd == "open" or cmd == "door") then
     return true  -- Not our command
 end
-actor.name:send("The demon stands before the door, guarding it.")
-self.room:send_except(actor.name, "The demon guards the door, preventing " .. tostring(actor.name) .. " from opening it.")
+actor:send("The demon stands before the door, guarding it.")
+self.room:send_except(actor, "The demon guards the door, preventing " .. tostring(actor.name) .. " from opening it.")

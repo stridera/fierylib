@@ -1,9 +1,18 @@
 -- Trigger: Norisent Receive
 -- Zone: 85, ID: 55
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
---   Large script: 8417 chars
+--
+-- Receives quest items from the player and advances resurrection_quest:
+--   stage 5 -> ring of souls (id 4008)
+--   stage 7 -> dragon-cult robes (id 53307)
+--   stage 9 -> class-appropriate book / phoenix heart (51023/51028; 51022 wrong)
+--   stage 11 -> mage's artifact (id 52001) - completes the chain
+-- Item ids 52001/53307/4008/etc are still raw legacy 5-digit vnums; see
+-- TODO(parity) below.
+--
+-- TODO(parity): the equality checks compare object.id to legacy 5-digit
+-- vnums (e.g. 4008 -> zone 40 / id 8). These need migration to composite
+-- (zone, id) keys once the new world ids are pinned down.
 --
 -- Original DG Script: #8555
 
@@ -64,13 +73,12 @@ elseif object.id == 53307 then
     return _return_value
 elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 or object.id == 51028 or object.id == 51022) then
     if object.id == 51023 then
-        -- switch on actor.class
-        if actor.class == "CLERIC" or actor.class == "PRIEST" then
+        if actor.class == "cleric" or actor.class == "priest" then
             wait(2)
             world.destroy(object)
             self:say("Ah, the angelic book!  You have done well to keep this from him.")
             actor:advance_quest("resurrection_quest")
-        elseif actor.class == "DIABOLIST" then
+        elseif actor.class == "diabolist" then
             _return_value = true
             self:say("Wrong one, dummy.")
         else
@@ -79,7 +87,6 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             return _return_value
         end
     elseif object.id == 51028 then
-        -- switch on actor.class
         if actor.class == "diabolist" then
             wait(2)
             world.destroy(object)
@@ -94,11 +101,10 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             return _return_value
         end
     elseif object.id == 51022 then
-        -- switch on actor.class
-        if actor.class == "CLERIC" or actor.class == "PRIEST" then
+        if actor.class == "cleric" or actor.class == "priest" then
             _return_value = true
             self:say("This book is incomplete!  Something has drained its magic!  Fix that then bring the book back.")
-        elseif actor.class == "DIABOLIST" then
+        elseif actor.class == "diabolist" then
             _return_value = true
             self:say("Wrong one, dummy.")
         else
@@ -144,8 +150,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 11 then
         wait(3)
         self:say("One yet remains of the foolish necromancers, who threatened the very existence of the world with their foolish search for immortality.  End me now, and let this be finished!")
         actor:advance_quest("resurrection_quest")
-        local complete = 1
-        globals.complete = globals.complete or true
+        globals.complete = true
     end
 else
     _return_value = true

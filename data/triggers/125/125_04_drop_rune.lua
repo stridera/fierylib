@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #12504: Drop_rune
 -- Original: WORLD trigger, flags: DROP, probability: 100%
-if object.id == 12504 then
+if object.zone_id == 125 and object.local_id == 4 then
     wait(1)
     world.destroy(object)
     wait(5)

@@ -8,4 +8,7 @@
 -- Converted from DG Script #46237: Nukreth Spire tracker load kill captive
 -- Original: MOB trigger, flags: LOAD, probability: 100%
 wait(2)
-combat.engage(self, self.room:find_actor("captive"))
+local captive = self.room:find_actor("captive")
+if captive then
+    combat.engage(self, captive)
+end

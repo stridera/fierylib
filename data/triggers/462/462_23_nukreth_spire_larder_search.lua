@@ -30,7 +30,7 @@ if actor:get_quest_stage("nukreth_spire") then
             self.room:send("The spiritbreaker roars and attacks!")
             actor:send("<b:yellow>You better kill this thing and search again!</>")
             self.room:spawn_mobile(462, 24)
-            self.room:find_actor("spiritbreaker"):command("kill %actor%")
+            self.room:find_actor("spiritbreaker"):command("kill " .. tostring(actor.name))
         elseif actor:get_quest_var("nukreth_spire:treasure") == 3 then
             actor:set_quest_var("nukreth_spire", "treasure", 0)
             actor:send("You find a strange stone hidden amongst the bodies!")

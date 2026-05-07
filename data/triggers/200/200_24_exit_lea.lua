@@ -17,4 +17,4 @@ self.room:send("The room suddenly becomes pitch dark and a bright flash of light
 self.room:spawn_object(200, 52)
 wait(1)
 self.room:send("Yix'Xyua says, 'Very well, on your way!'")
-actor.name:command("enter portal")
+actor:command("enter portal")

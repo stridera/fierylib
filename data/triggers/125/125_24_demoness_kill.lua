@@ -10,7 +10,7 @@
 
 -- Speech keywords: kill Kill
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "kill") or string.find(string.lower(speech), "kill")) then
+if not string.find(speech_lower, "kill") then
     return true  -- No matching keywords
 end
 wait(1)

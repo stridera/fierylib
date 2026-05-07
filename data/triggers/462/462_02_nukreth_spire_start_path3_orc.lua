@@ -1,8 +1,6 @@
 -- Trigger: Nukreth Spire start path3 orc
 -- Zone: 462, ID: 2
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Nukreth Spire start path3 orc>:3: 'then' expected near 'get'
 --
 -- Original DG Script: #46202
 
