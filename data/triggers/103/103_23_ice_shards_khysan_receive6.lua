@@ -2,14 +2,20 @@
 -- Zone: 103, ID: 23
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   -- UNCONVERTED: zone
 --
 -- Original DG Script: #10323
+-- Stage 8 turn-in: handing Khysan the Book of Redemption (legacy
+-- 43013) reveals the Time Cataclysm backstory and the existence
+-- of the time key. Advances to stage 9 → search the lost library.
+--
+-- TODO(parity): the original DG had a bare `zone` command between
+-- the "eyes glaze over" and "snaps back into reality" beats. That
+-- command does not exist in DG (it was likely meant to be `zecho`
+-- or `mecho` for a zone-wide flavor effect, but the legacy script
+-- was already broken). Left as a no-op until the intent is
+-- clarified.
 
--- Converted from DG Script #10323: ice_shards_khysan_receive6
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local stage = actor:get_quest_stage("ice_shards")
-if stage == 8 then
+if actor:get_quest_stage("ice_shards") == 8 then
     wait(2)
     actor:advance_quest("ice_shards")
     self.room:send("Khysan carefully opens " .. tostring(object.shortdesc) .. " and starts to read.")
@@ -18,7 +24,7 @@ if stage == 8 then
     self:destroy_item("book")
     wait(3)
     self.room:send("Khysan's eyes glaze over and his jaw goes slack.")
-    -- UNCONVERTED: zone
+    -- TODO(parity): legacy DG had a bare `zone` here (see header).
     wait(5)
     self.room:send("Khysan shakes his head and snaps back into reality.")
     wait(2)
@@ -37,6 +43,6 @@ if stage == 8 then
     wait(3)
     self:say("Well, I guess that means there's one more place to go!  Find that key, travel into the past, find a copy of Ice Shards, and bring it back to the future!")
     wait(2)
-    self:command("salute " .. tostring(actor.name))
+    self:command("salute " .. actor.name)
     self:say("Good luck my friend!")
 end

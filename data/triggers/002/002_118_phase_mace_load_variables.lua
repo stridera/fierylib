@@ -1,12 +1,12 @@
 -- Trigger: Phase mace load variables
 -- Zone: 2, ID: 118
 -- Type: MOB, Flags: LOAD
--- Status: CLEAN
 --
--- Original DG Script: #318
-
--- Converted from DG Script #318: Phase mace load variables
--- Original: MOB trigger, flags: LOAD, probability: 100%
+-- On load, identifies which mace-quest stage this priest represents (by
+-- zone_id + local_id) and exports the matching crafting parameters via
+-- globals so companion greet/speech/receive triggers can read them as
+-- `globals.macestep`, `globals.maceitem2..6`, `globals.maceattack`,
+-- `globals.mace_id`, `globals.reward_mace`.
 local maceitem2, maceitem3, maceitem4, maceitem5, maceitem6, maceattack, macestep
 local z, lid = self.zone_id, self.local_id
 

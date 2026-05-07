@@ -9,7 +9,8 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
     if actor:get_quest_stage("sunfire_rescue") == 2 then
-        if object.id == 52009 then
+        if object.zone_id == 520 and object.local_id == 9 then
+            -- Real elven cloak
             wait(1)
             actor:advance_quest("sunfire_rescue")
             self:emote("carefully looks at the cloak.")
@@ -19,7 +20,8 @@ if actor.is_player then
             self:say("And the ring?  If you have the ring, please give it to me!")
             self:say("Then I can finally escape....")
         end
-        if object.id == 52026 then
+        if object.zone_id == 520 and object.local_id == 26 then
+            -- Cursed cloak
             self:emote("runs his hands over the cloak quickly.")
             self:say("This is the cursed cloak!")
             self:emote("looks angry.")

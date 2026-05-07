@@ -10,7 +10,7 @@
 
 -- Speech keywords: yes yes! ok ok! okay okay! sure sure! help help?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes!") or string.find(string.lower(speech), "ok") or string.find(string.lower(speech), "ok!") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "okay!") or string.find(string.lower(speech), "sure") or string.find(string.lower(speech), "sure!") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "help?")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "ok") or string.find(speech_lower, "okay") or string.find(speech_lower, "sure") or string.find(speech_lower, "help")) then
     return true  -- No matching keywords
 end
 wait(2)
@@ -39,10 +39,10 @@ if (actor.is_player) and (actor.alignment > 349) then
         wait(3)
         self.room:send("The prisoner looks apprehensive.")
         wait(1)
-        self:whisper(actor.name, "You should leave here before the guards come!")
+        self:whisper(actor, "You should leave here before the guards come!")
         self:emote("relaxes back into a position of pain, though he smiles at you.")
     end
 elseif (actor.is_player) and (actor.alignment <= 349) then
-    actor.name:send("The prisoner sighs and turns away from you.")
+    actor:send("The prisoner sighs and turns away from you.")
     self:say("I cannot be helped by one such as you.")
 end

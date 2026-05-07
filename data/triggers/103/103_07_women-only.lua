@@ -4,14 +4,11 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10307
+-- Block men below level 100 from entering. PREENTRY returns
+-- false to veto the move; true allows it.
 
--- Converted from DG Script #10307: women-only
--- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-local _return_value = true  -- Default: allow action
-if actor.level < 100 then
-    if actor.gender == "male" then
-        actor:send("That room is for women only!")
-        _return_value = true
-    end
+if actor.level < 100 and actor.gender == "male" then
+    actor:send("That room is for women only!")
+    return false
 end
-return _return_value
+return true

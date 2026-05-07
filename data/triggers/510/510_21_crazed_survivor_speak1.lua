@@ -1,17 +1,14 @@
 -- Trigger: crazed_survivor_speak1
 -- Zone: 510, ID: 21
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
 -- Original DG Script: #51021
+-- Reacts to "book" — the survivor recounts finding the book in
+-- Luchiaans' office and the catastrophe that followed.
 
--- Converted from DG Script #51021: crazed_survivor_speak1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: book?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "book?")) then
-    return true  -- No matching keywords
+-- Speech keyword: "book"
+if not string.find(string.lower(speech or ""), "book") then
+    return true
 end
 self:say("Yes, I used to be a cleaner in the Council chambers and one day I found a book in the corner of Luchiaans' office.")
 self:emote("scratches his chin.")

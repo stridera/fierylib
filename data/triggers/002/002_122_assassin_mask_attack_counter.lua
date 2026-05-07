@@ -1,12 +1,9 @@
 -- Trigger: Assassin mask attack counter
 -- Zone: 2, ID: 122
 -- Type: OBJECT, Flags: ATTACK
--- Status: CLEAN
 --
--- Original DG Script: #322
-
--- Converted from DG Script #322: Assassin mask attack counter
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts wielder attacks; once they reach (stage * 100) the bond completes
+-- (masktask1) and the counter resets so the next stage can be earned.
 if actor:get_quest_stage("assassin_mask") >= 1 then
     if not actor:get_quest_var("assassin_mask:masktask1") then
         local attack_increase = actor:get_quest_var("assassin_mask:attack_counter") + 1

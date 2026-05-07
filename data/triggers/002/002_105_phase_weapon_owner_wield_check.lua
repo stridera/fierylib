@@ -1,45 +1,42 @@
 -- Trigger: phase weapon owner wield check
 -- Zone: 2, ID: 105
 -- Type: OBJECT, Flags: WEAR
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <phase weapon owner wield check>:14: unexpected symbol near '/'
---   Complex nesting: 8 if statements
 --
--- Original DG Script: #305
-
--- Converted from DG Script #305: phase weapon owner wield check
--- Original: OBJECT trigger, flags: WEAR, probability: 100%
+-- Wear-time gate for phase wands/staves (300-339) and phase maces (340-349).
+-- A wand/staff at level L (per the item template) requires the wielder to
+-- be at quest stage (L/10) + 2 in the matching <type>_wand quest; a phase
+-- mace requires (L/10) + 1 in phase_mace. The very first item in each
+-- range (300/310/320/330 wands, 340 mace) auto-starts the quest if the
+-- player has not begun yet.
 local _return_value = true  -- Default: allow action
+
 if self.id >= 300 and self.id <= 339 then
-    if self.id >= 300 and self.id <= 309 then
-        local type = "air"
-    elseif self.id >= 310 and self.id <= 319 then
-        local type = "fire"
-    elseif self.id >= 320 and self.id <= 329 then
-        local type = "ice"
-    elseif self.id >= 330 and self.id <= 339 then
-        local type = "acid"
-    end
-    if actor:get_quest_stage("type_wand") < (self.level / 10) + 2 then
-        _return_value = true
-        actor:send("This weapon is bound to someone else!")
+    local energy
+    if self.id <= 309 then
+        energy = "air"
+    elseif self.id <= 319 then
+        energy = "fire"
+    elseif self.id <= 329 then
+        energy = "ice"
     else
-        -- switch on self.id
-        if not actor:get_quest_stage("type_wand") then
-            if self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330 then
-                actor:start_quest("%type%_wand")
-            end
-        end
+        energy = "acid"
+    end
+    local quest = energy .. "_wand"
+    local stage = actor:get_quest_stage(quest)
+    if not stage and (self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330) then
+        actor:start_quest(quest)
+        stage = 0
+    end
+    if (stage or 0) < (self.level / 10) + 2 then
+        actor:send("This weapon is bound to someone else!")
     end
 elseif self.id >= 340 and self.id <= 349 then
-    -- switch on self.id
-    if not actor:get_quest_stage("phase_mace") then
-        if self.id == 340 then
-            actor:start_quest("phase_mace")
-        end
+    local stage = actor:get_quest_stage("phase_mace")
+    if not stage and self.id == 340 then
+        actor:start_quest("phase_mace")
+        stage = 0
     end
-    if actor:get_quest_stage("phase_mace") < (self.level / 10) + 1 then
-        _return_value = true
+    if (stage or 0) < (self.level / 10) + 1 then
         actor:send("This weapon is bound to someone else!")
     end
 end

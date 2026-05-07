@@ -1,20 +1,18 @@
 -- Trigger: minstrel_test
 -- Zone: 238, ID: 40
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #23840
-
--- Converted from DG Script #23840: minstrel_test
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Saying "test" within earshot of the minstrel makes her remove her instrument
+-- case (489:24, worn about body), play a mandolin piece, and pack everything
+-- back up. If she isn't wearing the case, she just complains.
 
 -- Speech keywords: test
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "test")) then
+if not string.find(speech_lower, "test") then
     return true  -- No matching keywords
 end
 self.room:send("Wheeeeeeee")
-if self:get_worn("12") == 48924 then
+if self:has_equipped(489, 24) then
     self:command("remove instrument-case")
     self:command("open instrument-case")
     self:command("get mandolin instrument-case")

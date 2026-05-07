@@ -10,7 +10,7 @@
 
 -- Speech keywords: no nope sorry
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "no") or string.find(string.lower(speech), "nope") or string.find(string.lower(speech), "sorry")) then
+if not (string.find(speech_lower, "no") or string.find(speech_lower, "nope") or string.find(speech_lower, "sorry")) then
     return true  -- No matching keywords
 end
 wait(2)
@@ -31,8 +31,10 @@ if actor.is_player and actor.alignment > 349 then
     elseif actor:get_quest_stage("sunfire_rescue") == 1 then
         self:emote("frowns at " .. tostring(actor.name) .. " stormily.")
         self:say("Then waste my time no more, and begone!")
-        actor.name:move("north")
+        actor:move("north")
         -- Oooh, he gets really mad here.
+        -- TODO(parity): original DG script erased "sunfire_quest" (likely typo for "sunfire_rescue").
+        -- Preserving original quest name to avoid silently abandoning the active quest.
         actor:erase_quest("sunfire_quest")
     end
 end

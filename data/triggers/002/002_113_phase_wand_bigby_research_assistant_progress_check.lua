@@ -1,19 +1,20 @@
--- Trigger: phase wand bigby research assistant progress checker
+-- Trigger: phase wand bigby research assistant progress check
 -- Zone: 2, ID: 113
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 41 if statements
---   Large script: 14444 chars
 --
--- Original DG Script: #313
-
--- Converted from DG Script #313: phase wand bigby research assistant progress checker
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: progress progress? status status?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?") or string.find(string.lower(speech), "status") or string.find(string.lower(speech), "status?")) then
-    return true  -- No matching keywords
+-- Bigby's "[wand progress]" status report. For each of the four wand
+-- quests the player is on, prints a banner, says what's done, what's
+-- left to do, or the next breadcrumb if they've moved past Bigby's tier.
+--
+-- TODO(parity): The original `get_obj_noadesc("300")` calls were a DG
+-- helper that looked up an object's "no-article" short description by
+-- vnum. The current binding is `objects.template(zone, id).name`; the
+-- (zone, id) pairs below pass the basic-wand template directly which
+-- yields a name with article — accept that minor cosmetic regression
+-- until a `noadesc` helper is exposed.
+local lower = string.lower(speech or "")
+if not (string.find(lower, "progress", 1, true) or string.find(lower, "status", 1, true)) then
+    return true
 end
 wait(2)
 local weapon = "wand"
@@ -28,7 +29,7 @@ if actor:get_quest_stage("air_wand") then
         self:say("I am crafting a new air wand for you.")
         if actor:get_quest_var("air_wand:wandtask1") and actor:get_quest_var("air_wand:wandtask2") then
             -- (empty room echo)
-            self.room:send("Simply give me your " .. get_obj_noadesc("300") .. ".")
+            self.room:send("Simply give me your " .. tostring(objects.template(2, 100).name) .. ".")
         else
             if actor:get_quest_var("air_wand:wandtask1") or actor:get_quest_var("air_wand:wandtask2") then
                 -- (empty room echo)
@@ -86,7 +87,7 @@ if actor:get_quest_stage("fire_wand") then
         self:say("I am crafting a new fire wand for you.")
         if actor:get_quest_var("fire_wand:wandtask1") and actor:get_quest_var("fire_wand:wandtask2") then
             -- (empty room echo)
-            self.room:send("Simply give me your " .. get_obj_noadesc("310") .. ".")
+            self.room:send("Simply give me your " .. tostring(objects.template(2, 110).name) .. ".")
         else
             if actor:get_quest_var("fire_wand:wandtask1") or actor:get_quest_var("fire_wand:wandtask2") then
                 -- (empty room echo)
@@ -144,7 +145,7 @@ if actor:get_quest_stage("ice_wand") then
         self:say("I am crafting a new ice wand for you.")
         if actor:get_quest_var("ice_wand:wandtask1") and actor:get_quest_var("ice_wand:wandtask2") then
             -- (empty room echo)
-            self.room:send("Simply give me your " .. get_obj_noadesc("320") .. ".")
+            self.room:send("Simply give me your " .. tostring(objects.template(2, 120).name) .. ".")
         else
             if actor:get_quest_var("ice_wand:wandtask1") or actor:get_quest_var("ice_wand:wandtask2") then
                 -- (empty room echo)
@@ -202,7 +203,7 @@ if actor:get_quest_stage("acid_wand") then
         self:say("I am crafting a new acid wand for you.")
         if actor:get_quest_var("acid_wand:wandtask1") and actor:get_quest_var("acid_wand:wandtask2") then
             -- (empty room echo)
-            self.room:send("Simply give me your " .. get_obj_noadesc("330") .. ".")
+            self.room:send("Simply give me your " .. tostring(objects.template(2, 130).name) .. ".")
         else
             if actor:get_quest_var("acid_wand:wandtask1") or actor:get_quest_var("acid_wand:wandtask2") then
                 -- (empty room echo)

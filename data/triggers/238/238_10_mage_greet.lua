@@ -1,26 +1,21 @@
 -- Trigger: mage_greet
 -- Zone: 238, ID: 10
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <mage_greet>:7: function arguments expected near ']'
 --
--- Original DG Script: #23810
+-- The mage acknowledges Sunfire-crested visitors. Original DG also gated a
+-- "wand-craft" upgrade hint on the type_wand quest, but the converter dropped
+-- the wandstep / weapon variable bindings, so that branch is left as TODO.
 
--- Converted from DG Script #23810: mage_greet
--- Original: MOB trigger, flags: GREET, probability: 100%
+-- TODO(parity): the converter lost the type_wand quest state machine. The
+-- original referenced %wandstep% and %weapon% locals that don't exist here.
+-- Reconstructing the upgrade-hint dialogue requires the full type_wand quest
+-- spec (see 238_15_mage_receive.lua for the quest hand-in side). Disabled
+-- until that quest is rebuilt.
+
 wait(2)
-if actor:get_quest_stage("type_wand") == "wandstep" then
-    local minlevel = (wandstep - 1) * 10
-    if actor.level >= minlevel then
-        if actor:get_quest_var("type_wand:greet") == 0 then
-            self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-        else
-            self:say("Do you have what I need for the " .. tostring(weapon) .. "?")
-        end
-    end
-end
--- Only greet people wearing the Sunfire crest
-if actor:has_equipped("23716") then
+
+-- Only greet people wearing the Sunfire crest (object 237:16)
+if actor:has_equipped(237, 16) then
     wait(2)
     self:command("blink")
     wait(2)

@@ -1,12 +1,9 @@
 -- Trigger: Ranger trophy attack counter
 -- Zone: 2, ID: 124
 -- Type: OBJECT, Flags: ATTACK
--- Status: CLEAN
 --
--- Original DG Script: #324
-
--- Converted from DG Script #324: Ranger trophy attack counter
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts wielder attacks; once they reach (stage * 100) the bond completes
+-- (trophytask1) and the counter resets so the next stage can be earned.
 if actor:get_quest_stage("ranger_trophy") >= 1 then
     if not actor:get_quest_var("ranger_trophy:trophytask1") then
         local attack_increase = actor:get_quest_var("ranger_trophy:attack_counter") + 1

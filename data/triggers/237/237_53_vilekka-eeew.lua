@@ -10,7 +10,7 @@
 
 -- Speech keywords: disgusting disgusting?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "disgusting") or string.find(string.lower(speech), "disgusting?")) then
+if not string.find(speech_lower, "disgusting") then
     return true  -- No matching keywords
 end
 -- OK, this is in response to 23752, the returning of the Drider King's

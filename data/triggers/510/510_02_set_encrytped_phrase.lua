@@ -1,30 +1,37 @@
 -- Trigger: set_encrytped_phrase
 -- Zone: 510, ID: 2
 -- Type: WORLD, Flags: PREENTRY
--- Status: CLEAN
 --
 -- Original DG Script: #51002
+-- On first entry, picks one of four encrypted phrases at random and
+-- writes its ciphertext into the description of the `n` exit of room
+-- (510, 30). Pairs with 510_00 (pawn_shop_nordus): only the matching
+-- plaintext spoken there will reveal the down exit. The picked
+-- index is published as the global `chosen` so 510_00 can validate.
 
--- Converted from DG Script #51002: set_encrytped_phrase
--- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-if running ~= "yes" then
-    local running = "yes"
-    globals.running = globals.running or true
-    chosen = nil
-    local chosen = random(1, 4)
-    globals.chosen = globals.chosen or true
-    -- we have 4 known phrases..it would be nice if this were completely dynamic though :)
-    -- switch on chosen
-    if chosen == 1 then
-        local descr = "PLTWK ZHWIL OIXWI ONXML KMJ"
-    elseif chosen == 2 then
-        local descr = "PLTWK ZHWIL OIXMB XGFVZ LIYBX"
-    elseif chosen == 3 then
-        local descr = "PLTWK ZHWIL OIXBK KVJZL ORIMW KNX"
-    elseif chosen == 4 then
-        local descr = "PLTWK ZHWIL OIXTX DMJQG NOWSN C"
-    end
-    get_room(510, 30):exit("n"):set_state({description = "%descr%"})
-    wait(2)
-    running = nil
+if running == "yes" then
+    return true
 end
+running = "yes"
+chosen = random(1, 4)
+
+local descr
+if chosen == 1 then
+    descr = "PLTWK ZHWIL OIXWI ONXML KMJ"
+elseif chosen == 2 then
+    descr = "PLTWK ZHWIL OIXMB XGFVZ LIYBX"
+elseif chosen == 3 then
+    descr = "PLTWK ZHWIL OIXBK KVJZL ORIMW KNX"
+elseif chosen == 4 then
+    descr = "PLTWK ZHWIL OIXTX DMJQG NOWSN C"
+end
+
+-- TODO(parity): The Lua runtime does not yet expose
+-- `room:exit(dir):set_state{description = ...}`. Original intent: write
+-- `descr` (the ciphertext) into the `n` exit description of (510, 30)
+-- so players reading the description can decode it and speak the
+-- plaintext at room (510, 0). Restore when the door API lands.
+local _ = descr  -- keep `descr` referenced until the door API is wired.
+
+wait(2)
+running = nil

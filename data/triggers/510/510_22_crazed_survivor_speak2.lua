@@ -1,17 +1,14 @@
 -- Trigger: crazed_survivor_speak2
 -- Zone: 510, ID: 22
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
 -- Original DG Script: #51022
+-- Reacts to "magic" — the survivor explains his family heirloom
+-- protected him alone from the spell that turned his neighbours.
 
--- Converted from DG Script #51022: crazed_survivor_speak2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: magic?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "magic?")) then
-    return true  -- No matching keywords
+-- Speech keyword: "magic"
+if not string.find(string.lower(speech or ""), "magic") then
+    return true
 end
 self:command("peer " .. tostring(actor.name))
 self:say("Hmm..yes..it's been in my family for years and we were taught as children that if we held it, we would be protected from some spells.")

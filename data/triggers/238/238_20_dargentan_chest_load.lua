@@ -1,21 +1,16 @@
 -- Trigger: dargentan_chest_load
 -- Zone: 238, ID: 20
 -- Type: WORLD, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #23820
-
--- Converted from DG Script #23820: dargentan_chest_load
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- Run-from-other-trigger entry point fired by 238_19_dargentan_drop_treasure
+-- (Dargentan's death). Spawns the treasure object (238:48) on the floor and
+-- prints the discovery line. The original DG declared probability 0% and used
+-- a secret-keyword speech filter to keep players from invoking it directly;
+-- we keep the keyword filter as defense-in-depth.
 
 -- Speech keywords: donteverletmecatchyouusingthisspeechtrigger
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "donteverletmecatchyouusingthisspeechtrigger")) then
+if not string.find(speech_lower, "donteverletmecatchyouusingthisspeechtrigger") then
     return true  -- No matching keywords
 end
 self.room:spawn_object(238, 48)

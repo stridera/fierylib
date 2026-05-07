@@ -4,11 +4,11 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10322
+-- Stage 7 turn-in: handing Khysan the Lost Library codex (legacy
+-- 53423) confirms Shiran's existence and points at the elusive
+-- Book of Redemption. Advances to stage 8.
 
--- Converted from DG Script #10322: ice_shards_khysan_receive5
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local stage = actor:get_quest_stage("ice_shards")
-if stage == 7 then
+if actor:get_quest_stage("ice_shards") == 7 then
     wait(2)
     actor:advance_quest("ice_shards")
     self:destroy_item("book")

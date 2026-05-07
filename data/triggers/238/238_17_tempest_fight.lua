@@ -1,12 +1,10 @@
 -- Trigger: tempest_fight
 -- Zone: 238, ID: 17
 -- Type: MOB, Flags: FIGHT
--- Status: CLEAN
 --
--- Original DG Script: #23817
-
--- Converted from DG Script #23817: tempest_fight
--- Original: MOB trigger, flags: FIGHT, probability: 35%
+-- Combat behavior for the Tempest Manifest. Each round (35% chance) it either
+-- unleashes a room-damaging lightning AoE (~30%) by delegating to the world
+-- trigger 238:18, or just produces flavor text.
 
 -- 35% chance to trigger
 if not percent_chance(35) then

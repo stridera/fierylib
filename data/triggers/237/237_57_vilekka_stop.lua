@@ -10,7 +10,7 @@
 
 -- Speech keywords: stop
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "stop")) then
+if not string.find(speech_lower, "stop") then
     return true  -- No matching keywords
 end
 -- OK, here we have the other side of trigger 23754

@@ -1,13 +1,12 @@
 -- Trigger: Phase Mace attack counter and damage
 -- Zone: 2, ID: 119
 -- Type: OBJECT, Flags: ATTACK
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
 --
--- Original DG Script: #319
-
--- Converted from DG Script #319: Phase Mace attack counter and damage
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts attacks toward the phase_mace bonding milestone (macetask1 at
+-- stage * 50 hits) and, on roughly 75% of hits, casts a divine spell whose
+-- power scales with mace stage:
+--   - vs ethereal undead: divine bolt (340-345) or divine ray (346-349)
+--   - vs other undead/demonic targets: divine bolt at half skill (343+)
 if actor:get_quest_stage("phase_mace") >= 1 then
     if not actor:get_quest_var("phase_mace:macetask1") then
         local attack_increase = actor:get_quest_var("phase_mace:attack_counter") + 1
@@ -20,24 +19,27 @@ if actor:get_quest_stage("phase_mace") >= 1 then
 end
 if random(1, 4) > 1 then
     local skill = self.level
+    local spell
     if victim.composition == "ether" and victim.lifeforce == "undead" then
-        -- switch on self.id
         if self.id == 340 or self.id == 341 then
-            return _return_value
+            return true
         elseif self.id == 342 or self.id == 343 or self.id == 344 or self.id == 345 then
-            local spell = "'divine bolt'"
+            spell = "divine bolt"
         elseif self.id == 346 or self.id == 347 or self.id == 348 or self.id == 349 then
-            local spell = "'divine ray'"
+            spell = "divine ray"
         end
-        spells.cast(self, "%spell% %victim%", skill, self.level)
+        if spell then
+            spells.cast(self, spell, victim, skill)
+        end
     elseif victim.lifeforce == "undead" or victim.lifeforce == "demonic" or victim.race == "demon" then
         skill = skill / 2
-        -- switch on self.id
         if self.id == 340 or self.id == 341 or self.id == 342 then
-            return _return_value
-        elseif self.id == 343 or self.id == 344 or self.id == 345 or self.id == 346 or self.id == 347 or self.id == 348 or self.id == 349 then
-            local spell = "'divine bolt'"
+            return true
+        elseif self.id >= 343 and self.id <= 349 then
+            spell = "divine bolt"
         end
-        spells.cast(self, "%spell% %victim%", skill, self.level)
+        if spell then
+            spells.cast(self, spell, victim, skill)
+        end
     end
 end

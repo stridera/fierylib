@@ -1,17 +1,17 @@
 -- Trigger: ***UNUSED***
 -- Zone: 237, ID: 24
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <***UNUSED***>:33: <eof> expected near 'end'
+-- Status: CLEAN
 --
 -- Original DG Script: #23724
 
 -- Converted from DG Script #23724: ***UNUSED***
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Marked unused in original codebase; logic mirrors 23722/23723 (yes/no branches).
 
 -- Speech keywords: yes no
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("sunfire_rescue") == 1 then
@@ -27,14 +27,14 @@ if actor:get_quest_stage("sunfire_rescue") == 1 then
             self:emote("pauses a moment.")
             self:say("Oh, do not bother with the cursed items.  I can tell the difference.")
             self.room:send("The prisoner looks apprehensive.")
-            self:whisper(actor.name, "You should leave here before the guards come!")
+            self:whisper(actor, "You should leave here before the guards come!")
             self:emote("relaxes back into a position of pain, though he smiles at you.")
         end
     end
     if speech == "no" then
         self:emote("frowns at " .. tostring(actor.name) .. " stormily.")
         self:say("Then waste my time no more, and begone!")
-        actor.name:move("north")
+        actor:move("north")
         -- Oooh, he gets really mad here.
     end
 end

@@ -4,21 +4,20 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10317
+-- Stage 9 search: typing `search` in the library room spawns the
+-- magic key (object 103,25), advances the quest, and consumes the
+-- command. Other stages let the default `search` command run.
 
--- Converted from DG Script #10317: ice_shards_library_search
--- Original: WORLD trigger, flags: COMMAND, probability: 100%
+if cmd ~= "search" then
+    return true
+end
+if actor:get_quest_stage("ice_shards") ~= 9 then
+    return true
+end
 
--- Command filter: search
-if not (cmd == "search") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
-if actor:get_quest_stage("ice_shards") == 9 then
-    actor:advance_quest("ice_shards")
-    self.room:spawn_object(103, 25)
-    actor:send("You find " .. tostring(objects.template(103, 25).name) .. "!")
-    self.room:send_except(actor, tostring(actor.name) .. " finds " .. tostring(objects.template(103, 25).name) .. "!")
-else
-    _return_value = true
-end
-return _return_value
+actor:advance_quest("ice_shards")
+self.room:spawn_object(103, 25)
+local key_name = objects.template(103, 25).name
+actor:send("You find " .. key_name .. "!")
+self.room:send_except(actor, actor.name .. " finds " .. key_name .. "!")
+return false

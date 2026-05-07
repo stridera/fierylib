@@ -1,39 +1,26 @@
 -- Trigger: vilekka_stew_status_check
 -- Zone: 237, ID: 99
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 17 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #23799
 
 -- Converted from DG Script #23799: vilekka_stew_status_check
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- "progress" report for the vilekka_stew quest. Lists current stage hint
+-- and, on stage 5, which of the ten herbs/spices have been delivered.
 
 -- Speech keywords: progress progress?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?")) then
+if not string.find(speech_lower, "progress") then
     return true  -- No matching keywords
 end
 wait(2)
-local num_spices = actor:get_quest_var("vilekka_stew:num_spices")
-local spice1 = actor:get_quest_var("vilekka_stew:got_spice:12552")
-local spice2 = actor:get_quest_var("vilekka_stew:got_spice:49022")
-local spice3 = actor:get_quest_var("vilekka_stew:got_spice:23750")
-local spice4 = actor:get_quest_var("vilekka_stew:got_spice:23751")
-local spice5 = actor:get_quest_var("vilekka_stew:got_spice:23752")
-local spice6 = actor:get_quest_var("vilekka_stew:got_spice:23753")
-local spice7 = actor:get_quest_var("vilekka_stew:got_spice:23754")
-local spice8 = actor:get_quest_var("vilekka_stew:got_spice:23755")
-local spice9 = actor:get_quest_var("vilekka_stew:got_spice:23756")
-local spice10 = actor:get_quest_var("vilekka_stew:got_spice:23757")
-local spice11 = actor:get_quest_var("vilekka_stew:got_spice:23758")
-local spice12 = actor:get_quest_var("vilekka_stew:got_spice:23759")
-local spice13 = actor:get_quest_var("vilekka_stew:got_spice:23760")
 if actor:get_has_completed("vilekka_stew") then
     self:say("You have already done me a great service.")
+    return true
 end
 local stage = actor:get_quest_stage("vilekka_stew")
--- switch on stage
 if stage == 1 then
     self.room:send(tostring(self.name) .. " says, 'Bring me the heart of the drow living in the")
     self.room:send("</>surface city!'")
@@ -46,52 +33,33 @@ elseif stage == 4 then
 elseif stage == 5 then
     self.room:send(tostring(self.name) .. " says, 'Bring me some spices so that I can make this head")
     self.room:send("</>and heart palatable.'")
+    local num_spices = actor:get_quest_var("vilekka_stew:num_spices") or 0
+    -- (key, zone, local_id) for each accepted spice.
+    local spices = {
+        { "12552", 125, 52 },
+        { "49022", 490, 22 },
+        { "23750", 237, 50 },
+        { "23751", 237, 51 },
+        { "23752", 237, 52 },
+        { "23753", 237, 53 },
+        { "23754", 237, 54 },
+        { "23755", 237, 55 },
+        { "23756", 237, 56 },
+        { "23757", 237, 57 },
+        { "23758", 237, 58 },
+        { "23759", 237, 59 },
+        { "23760", 237, 60 },
+    }
     if num_spices > 0 then
-        -- (empty room echo)
         self.room:send("So far you have brought me:")
-        if spice1 then
-            self.room:send("- " .. tostring(objects.template(125, 52).name))
-        end
-        if spice2 then
-            self.room:send("- " .. tostring(objects.template(490, 22).name))
-        end
-        if spice3 then
-            self.room:send("- " .. tostring(objects.template(237, 50).name))
-        end
-        if spice4 then
-            self.room:send("- " .. tostring(objects.template(237, 51).name))
-        end
-        if spice5 then
-            self.room:send("- " .. tostring(objects.template(237, 52).name))
-        end
-        if spice6 then
-            self.room:send("- " .. tostring(objects.template(237, 53).name))
-        end
-        if spice7 then
-            self.room:send("- " .. tostring(objects.template(237, 54).name))
-        end
-        if spice8 then
-            self.room:send("- " .. tostring(objects.template(237, 55).name))
-        end
-        if spice9 then
-            self.room:send("- " .. tostring(objects.template(237, 56).name))
-        end
-        if spice10 then
-            self.room:send("- " .. tostring(objects.template(237, 57).name))
-        end
-        if spice11 then
-            self.room:send("- " .. tostring(objects.template(237, 58).name))
-        end
-        if spice12 then
-            self.room:send("- " .. tostring(objects.template(237, 59).name))
-        end
-        if spice13 then
-            self.room:send("- " .. tostring(objects.template(237, 60).name))
+        for _, s in ipairs(spices) do
+            if actor:get_quest_var("vilekka_stew:got_spice:" .. s[1]) == 1 then
+                self.room:send("- " .. tostring(objects.template(s[2], s[3]).name))
+            end
         end
     end
-    -- (empty room echo)
-    local total = 10 - num_spices
-    self.room:send("Bring me " .. tostring(total) .. " more spices to prepare this stew.")
+    local remaining = 10 - num_spices
+    self.room:send("Bring me " .. tostring(remaining) .. " more spices to prepare this stew.")
 else
     self:say("You are not performing a service for me.")
 end

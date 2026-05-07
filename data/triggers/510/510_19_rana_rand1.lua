@@ -1,14 +1,11 @@
 -- Trigger: rana_rand1
 -- Zone: 510, ID: 19
 -- Type: MOB, Flags: RANDOM
--- Status: CLEAN
 --
 -- Original DG Script: #51019
+-- 20% per random tick: Rana sighs and second-guesses ignoring
+-- Shema's warnings.
 
--- Converted from DG Script #51019: rana_rand1
--- Original: MOB trigger, flags: RANDOM, probability: 20%
-
--- 20% chance to trigger
 if not percent_chance(20) then
     return true
 end

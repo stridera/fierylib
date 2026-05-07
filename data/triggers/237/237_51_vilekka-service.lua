@@ -1,24 +1,23 @@
 -- Trigger: vilekka-service
 -- Zone: 237, ID: 51
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #23751
 
 -- Converted from DG Script #23751: vilekka-service
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Response to 23750: starts the vilekka_stew quest for the speaker and any
+-- group members in the room. 23755 is the drow master heart-spawning death
+-- trigger that follows.
 
 -- Speech keywords: service service?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "service") or string.find(string.lower(speech), "service?")) then
+if not string.find(speech_lower, "service") then
     return true  -- No matching keywords
 end
--- OK, this is in response to 23750, the beginning of the vilekka_stew quest.
--- By responding favorably to her, they begin. 23755 is the drow master
--- head-spawning death trigger.
 if actor.is_npc or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
-    return _return_value
+    return true
 end
 wait(1)
 if actor:get_quest_stage("vilekka_stew") < 2 then
@@ -43,24 +42,12 @@ if actor:get_quest_stage("vilekka_stew") < 2 then
         self:say("Bring me his heart!  Then I shall reward you.")
         wait(3)
         self.room:send(tostring(self.name) .. " says, 'You may ask about your <b:white>[progress]</> if you need.'")
-        local person = actor
-        local i = person.group_size
-        if i then
-            local a = 1
-        else
-            local a = 0
-        end
-        while i >= a do
-            local person = actor.group_member[a]
-            if person.room == self.room then
-                if person:get_quest_stage("vilekka_stew") == 0 then
-                    person:start_quest("vilekka_stew")
-                    person:send("<b:white>The quest has now begun!</>")
-                end
-            elseif person and person.is_player then
-                i = i + 1
+        -- Start the quest for the speaker and any present group members.
+        for _, person in ipairs(actor.group) do
+            if person.room == self.room and person:get_quest_stage("vilekka_stew") == 0 then
+                person:start_quest("vilekka_stew")
+                person:send("<b:white>The quest has now begun!</>")
             end
-            a = a + 1
         end
     end
 elseif actor:get_quest_stage("vilekka_stew") == 2 then

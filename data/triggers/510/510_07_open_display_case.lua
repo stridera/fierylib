@@ -1,33 +1,30 @@
 -- Trigger: open_display_case
 -- Zone: 510, ID: 7
 -- Type: WORLD, Flags: SPEECH
--- Status: CLEAN
 --
 -- Original DG Script: #51007
+-- Reacts to the password "amehs": collapses the display case in this
+-- room and reveals the damaged book (510, 22). A spare display case
+-- prototype is reloaded into the holding room (510, 99) so the next
+-- reset will have one to place. Latched by `got_book`.
 
--- Converted from DG Script #51007: open_display_case
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+-- Speech keyword: "amehs"
+if not string.find(string.lower(speech or ""), "amehs") then
     return true
 end
 
--- Speech keywords: amehs
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "amehs")) then
-    return true  -- No matching keywords
-end
 if got_book == 1 then
     actor:send("You marvel at the resonant tones of your voice, perhaps you should be an actor.")
-else
-    self.room:send("The display case folds and collapses to the floor.")
-    world.destroy(self.room:find_actor("display-case"))
-    self.room:spawn_object(510, 22)
-    -- load the display case in the holding area to avoid a second oneloading
-    get_room(510, 99):at(function()
-        self.room:spawn_object(510, 21)
-    end)
-    local got_book = 1
-    globals.got_book = globals.got_book or true
+    return true
 end
+
+self.room:send("The display case folds and collapses to the floor.")
+local case = self.room:find_object("display-case")
+if case then
+    world.destroy(case)
+end
+self.room:spawn_object(510, 22)
+-- Stash a spare display case in the holding area so a future reset
+-- has one to drop here.
+get_room(510, 99):spawn_object(510, 21)
+globals.got_book = 1

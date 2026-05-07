@@ -4,18 +4,20 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10319
+-- Stage 2 turn-in: handing Khysan the Codex of War (legacy 55004)
+-- advances the quest to stage 3 with a long flavor monologue
+-- pointing the player toward Commander Thraja's journal.
+-- Original DG narg=100 → matches all RECEIVE triggers; the
+-- per-vnum filtering is implicit via the stage check below.
 
--- Converted from DG Script #10319: ice_shards_khysan_receive2
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local stage = actor:get_quest_stage("ice_shards")
-if stage == 2 then
+if actor:get_quest_stage("ice_shards") == 2 then
     wait(2)
     actor:advance_quest("ice_shards")
     self:destroy_item("book")
-    self:emote("cautiously takes " .. tostring(object.shortdesc) .. " and places it on the reception desk.")
+    self:emote("cautiously takes " .. object.shortdesc .. " and places it on the reception desk.")
     wait(2)
     self:say("Yikes, this looks pretty dangerous.")
-    self:emote("opens " .. tostring(object.shortdesc) .. " and begins to read.")
+    self:emote("opens " .. object.shortdesc .. " and begins to read.")
     wait(3)
     self:emote("quietly continues to read.")
     wait(2)
@@ -23,7 +25,7 @@ if stage == 2 then
     wait(1)
     self:say("The Codex also says something catastrophic happened to the elves' majestic city Shiran \"ages ago,\" though it doesn't say what or when exactly.")
     wait(7)
-    self:emote("closes " .. tostring(object.shortdesc) .. ".")
+    self:emote("closes " .. object.shortdesc .. ".")
     wait(3)
     self:say("But the fact that the elves are still here must mean something, right?")
     wait(3)

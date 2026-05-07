@@ -1,14 +1,11 @@
 -- Trigger: common_child_rand1
 -- Zone: 510, ID: 27
 -- Type: MOB, Flags: RANDOM
--- Status: CLEAN
 --
 -- Original DG Script: #51027
+-- 50% per random tick: the two-headed child squabbles over which
+-- head learned the decode-phrase first.
 
--- Converted from DG Script #51027: common_child_rand1
--- Original: MOB trigger, flags: RANDOM, probability: 50%
-
--- 50% chance to trigger
 if not percent_chance(50) then
     return true
 end

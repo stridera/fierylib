@@ -1,13 +1,14 @@
 -- Trigger: mage_receive
 -- Zone: 238, ID: 15
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
--- Original DG Script: #23815
+-- The player hands over the blue flame after banishing the Tempest. The mage
+-- consumes the flame, picks one of four random questions, stores it in a
+-- global so mage_speak3 can score the answer, and recites it. Also resets the
+-- Tempest room so a fresh quest can be started later (in case the player ever
+-- comes back via the wrong-answer path).
 
--- Converted from DG Script #23815: mage_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
--- Reset quest in tempest room
+-- If a Tempest is still in 238:90, reset its quest state.
 if world.count_mobiles(238, 3) > 0 then
     get_room(238, 90):at(function()
         run_room_trigger(238, 14)
@@ -22,8 +23,7 @@ self:emote("murmers some arcane phrases and the symbols on the wall begin to glo
 wait(2)
 actor:send(tostring(self.name) .. " says, 'It says...")
 local question = random(1, 4)
-globals.question = globals.question or true
--- switch on question
+globals.question = question
 if question == 1 then
     actor:send("What is the race of the one from Ickle?'")
 elseif question == 2 then

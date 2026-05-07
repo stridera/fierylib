@@ -1,19 +1,18 @@
 -- Trigger: ice_shards_khysan_speech3
 -- Zone: 103, ID: 12
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <ice_shards_khysan_speech3>:19: 'then' expected near '='
+-- Status: CLEAN
 --
 -- Original DG Script: #10312
+-- The "yes" follow-up. If a high-level cryomancer agrees to help
+-- track down the books, starts the ice_shards quest. Players
+-- under L89 are politely turned away.
 
--- Converted from DG Script #10312: ice_shards_khysan_speech3
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: yes sure yep okay
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "sure") or string.find(string.lower(speech), "yep") or string.find(string.lower(speech), "okay")) then
-    return true  -- No matching keywords
+local s = string.lower(speech)
+if not (string.find(s, "yes") or string.find(s, "sure") or string.find(s, "yep") or string.find(s, "okay")) then
+    return true
 end
+
 wait(2)
 if string.find(actor.class, "Cryomancer") then
     if actor.level > 88 and actor:get_quest_stage("ice_shards") == 0 then

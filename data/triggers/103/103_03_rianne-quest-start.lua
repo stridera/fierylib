@@ -4,20 +4,17 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10303
+-- Player says "yes" near Rianne; if they have not yet started
+-- the resort_cooking quest, kicks it off with the Peach Cobbler
+-- recipe and lists the four ingredients.
+-- DG narg=1 = word-boundary speech match (not a probability).
 
--- Converted from DG Script #10303: rianne-quest-start
--- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 1%
-
--- 1% chance to trigger
-if not percent_chance(1) then
+-- Speech keyword match: "yes"
+local s = string.lower(speech)
+if not (string.find(s, "yes") or string.find(s, "yes?")) then
     return true
 end
 
--- Speech keywords: yes yes?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes?")) then
-    return true  -- No matching keywords
-end
 if actor.is_player and actor:get_quest_stage("resort_cooking") < 1 then
     actor:start_quest("resort_cooking")
     wait(5)

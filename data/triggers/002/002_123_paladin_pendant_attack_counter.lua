@@ -1,12 +1,9 @@
 -- Trigger: Paladin pendant attack counter
 -- Zone: 2, ID: 123
 -- Type: OBJECT, Flags: ATTACK
--- Status: CLEAN
 --
--- Original DG Script: #323
-
--- Converted from DG Script #323: Paladin pendant attack counter
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts wielder attacks; once they reach (stage * 100) the bond completes
+-- (necklacetask1) and the counter resets so the next stage can be earned.
 if actor:get_quest_stage("paladin_pendant") >= 1 then
     if not actor:get_quest_var("paladin_pendant:necklacetask1") then
         local attack_increase = actor:get_quest_var("paladin_pendant:attack_counter") + 1

@@ -1,12 +1,9 @@
 -- Trigger: Monk vision attack counter
 -- Zone: 2, ID: 121
 -- Type: OBJECT, Flags: ATTACK
--- Status: CLEAN
 --
--- Original DG Script: #321
-
--- Converted from DG Script #321: Monk vision attack counter
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts wielder attacks; once they reach (stage * 100) the bond completes
+-- (visiontask1) and the counter resets so the next stage can be earned.
 if actor:get_quest_stage("monk_vision") >= 1 then
     if not actor:get_quest_var("monk_vision:visiontask1") then
         local attack_increase = actor:get_quest_var("monk_vision:attack_counter") + 1

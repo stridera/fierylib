@@ -1,72 +1,76 @@
 -- Trigger: phase wands attack counter
 -- Zone: 2, ID: 103
 -- Type: OBJECT, Flags: ATTACK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <phase wands attack counter>:49: function arguments expected near ']'
---   Complex nesting: 10 if statements
 --
--- Original DG Script: #303
-
--- Converted from DG Script #303: phase wands attack counter
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts wielder attacks for the type_wand quest (50 hits per stage),
+-- then on each swing has a (1 + bonus)/20 chance of casting the wand's
+-- bound spell. The wand id range identifies which element and which tier
+-- of spell to cast; the lower half (xx1-xx5) casts a low-level spell, the
+-- upper half (xx6-xx9) casts a higher-tier one at level - 50.
+--
+-- TODO(parity): Uses the player's "type_wand" quest namespace (see other
+-- phase wand triggers). The actual quest name is air_wand/fire_wand/
+-- ice_wand/acid_wand; treat that namespace as a stand-in until the engine
+-- exposes a typed quest binding.
+local type, spell, bonus, level
 if self.id >= 300 and self.id <= 309 then
-    local type = "air"
+    type = "air"
     if self.id >= 301 and self.id <= 305 then
-        local spell = "'shocking grasp'"
-        local bonus = self.id - 301
-        local level = self.level
+        spell = "shocking grasp"
+        bonus = self.id - 301
+        level = self.level
     else
-        local spell = "'lightning bolt'"
-        local bonus = self.id - 306
-        local level = self.level - 50
+        spell = "lightning bolt"
+        bonus = self.id - 306
+        level = self.level - 50
     end
 elseif self.id >= 310 and self.id <= 319 then
-    local type = "fire"
+    type = "fire"
     if self.id >= 311 and self.id <= 315 then
-        local spell = "'burning hands'"
-        local bonus = self.id - 311
-        local level = self.level
+        spell = "burning hands"
+        bonus = self.id - 311
+        level = self.level
     else
-        local spell = "'fireball'"
-        local bonus = self.id - 316
-        local level = self.level - 50
+        spell = "fireball"
+        bonus = self.id - 316
+        level = self.level - 50
     end
 elseif self.id >= 320 and self.id <= 329 then
-    local type = "ice"
+    type = "ice"
     if self.id >= 321 and self.id <= 325 then
-        local spell = "'chill touch'"
-        local bonus = self.id - 321
-        local level = self.level
+        spell = "chill touch"
+        bonus = self.id - 321
+        level = self.level
     else
-        local spell = "'cone of cold'"
-        local bonus = self.id - 326
-        local level = self.level - 50
+        spell = "cone of cold"
+        bonus = self.id - 326
+        level = self.level - 50
     end
 elseif self.id >= 330 and self.id <= 339 then
-    local type = "acid"
+    type = "acid"
     if self.id >= 331 and self.id <= 335 then
-        local spell = "'writhing weeds'"
-        local bonus = self.id - 331
-        local level = self.level
+        spell = "writhing weeds"
+        bonus = self.id - 331
+        level = self.level
     else
-        local spell = "'acid burst'"
-        local bonus = self.id - 336
-        local level = self.level - 50
+        spell = "acid burst"
+        bonus = self.id - 336
+        level = self.level - 50
     end
 end
-if actor:get_quest_stage("type_wand") > 1 then
+if (actor:get_quest_stage("type_wand") or 0) > 1 then
     if not actor:get_quest_var("type_wand:wandtask1") then
-        local attack_increase = actor:get_quest_var("type_wand:attack_counter") + 1
-        actor:set_quest_var("%type%_wand", "attack_counter", attack_increase)
-        if actor:get_quest_var("type_wand:attack_counter") >= (actor:get_quest_stage("type_wand") - 1) * 50 then
-            actor:set_quest_var("%type%_wand", "wandtask1", 1)
+        local attack_increase = (actor:get_quest_var("type_wand:attack_counter") or 0) + 1
+        actor:set_quest_var(tostring(type) .. "_wand", "attack_counter", attack_increase)
+        if attack_increase >= (actor:get_quest_stage("type_wand") - 1) * 50 then
+            actor:set_quest_var(tostring(type) .. "_wand", "wandtask1", 1)
             actor:send("<b:yellow>You have perfected your bond with " .. tostring(self.shortdesc) .. "!</>")
         end
     end
 end
 if spell then
-    local chance = 1 + bonus
+    local chance = 1 + (bonus or 0)
     if random(1, 20) <= chance then
-        spells.cast(self, "%spell% %victim%", level, self.level)
+        spells.cast(self, spell, victim, level)
     end
 end

@@ -12,5 +12,6 @@
 if not (cmd == "north") then
     return true  -- Not our command
 end
-actor.name:send("The guard smacks you in the head and says, 'No'.")
-self.room:send_except(actor.name, "The guard smacks " .. tostring(actor.name) .. " in the head, and says 'No'.")
+actor:send("The guard smacks you in the head and says, 'No'.")
+self.room:send_except(actor, "The guard smacks " .. tostring(actor.name) .. " in the head, and says 'No'.")
+return false  -- Block the movement

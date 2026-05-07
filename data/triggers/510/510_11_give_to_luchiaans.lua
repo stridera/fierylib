@@ -1,31 +1,39 @@
 -- Trigger: give_to_luchiaans
 -- Zone: 510, ID: 11
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #51011
+-- Gates Luchiaans' acceptance logic for the cleric-book and
+-- phoenix-heart quests:
+--   - (510, 22) damaged spellbook  → "fix it first" (clericquest = 2)
+--   - (510, 23) completed book     → reward branch driven by clericquest
+--   - (510, 28) phoenix heart      → reward branch driven by magequest
+--   - (85, 50) generic gate item   → silent halt
+--   - anything else                → returns the object to the giver
+local clericquest = clericquest or 0
+local magequest = magequest or 0
+local zone = object.zone_id
+local id = object.id
 
--- Converted from DG Script #51011: give_to_luchiaans
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
--- switch on object.id
--- damaged book...there is another part to do yet
-if object.id == 51022 then
+if zone == 510 and id == 22 then
+    -- Damaged book - more work to do.
     wait(5)
     self:say("Hmm...a damaged spellbook.")
     wait(2)
     self:say("Look, " .. tostring(actor.name) .. ", why don't you fix this then maybe we can talk.")
-    _return_value = true
-    local clericquest = 2
-    globals.clericquest = globals.clericquest or true
-    -- complete spellbook - did we do this in one go (bonus)
-elseif object.id == 51023 then
+    globals.clericquest = 2
+    return true
+elseif zone == 510 and id == 23 then
+    -- Completed spellbook - reward depends on whether they did it solo.
     wait(5)
     self:command("grin")
     self:say(tostring(actor.name) .. ", you've done me proud.")
     self:say("Although I guess you haven't really done any favours for the rest of the world!")
     self:command("cackle")
-    world.destroy(self.room:find_actor("book-of-healing"))
+    local book = self.room:find_object("book-of-healing")
+    if book then
+        world.destroy(book)
+    end
     if clericquest == 1 then
         self:say("And you did it all on your own initiative!  Well, here's a gift you can use.")
         self.room:spawn_object(510, 24)
@@ -38,35 +46,40 @@ elseif object.id == 51023 then
         self:say("Best of all, I didn't even ask you to do this, so I don't owe you anything.")
         self:command("cackle")
     end
-    local clericquest = 3
-    globals.clericquest = globals.clericquest or true
-elseif object.id == 51028 then
+    globals.clericquest = 3
+    return true
+elseif zone == 510 and id == 28 then
+    -- Phoenix heart.
     wait(5)
     self:say("Thanks, " .. tostring(actor.name) .. ".")
     self:say("Now I can generate an army of undead, unkillable zombies to help in my plans.")
     self:command("cackle")
-    world.destroy(self.room:find_actor("phoenix-heart"))
+    local heart = self.room:find_object("phoenix-heart")
+    if heart then
+        world.destroy(heart)
+    end
     if magequest == 1 then
         self:say("Oh... about that partner thing.  You know I was joking right?")
         self:emote("looks a bit sheepish.")
         self:say("Well... here's a token of my thanks, but that's all you're getting.")
         self.room:spawn_object(510, 29)
         self:command("give green " .. tostring(actor.name))
-        local magequest = 2
-        globals.magequest = globals.magequest or true
+        globals.magequest = 2
     else
         self:say("It was very generous of you to give this when I didn't ask for it!")
         self:command("grin")
     end
-elseif object.id == 8550 then
-    return _return_value
+    return true
+elseif zone == 85 and id == 50 then
+    -- Generic gate item - silently accept and stop.
+    return true
 else
-    _return_value = true
+    -- Unrecognized gift - return it.
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     wait(8)
     self:say("What am I supposed to do with this?")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
+    return false
 end
-return _return_value

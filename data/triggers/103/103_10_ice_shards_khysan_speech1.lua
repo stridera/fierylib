@@ -4,20 +4,21 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10310
+-- Word-boundary speech match (DG narg 1) on "spell"/"powerful"/
+-- "ever". Khysan teases the player with a fragment of cryomantic
+-- lore about Ice Shards. Cryomancer-only.
 
--- Converted from DG Script #10310: ice_shards_khysan_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+local s = string.lower(speech)
+if not (string.find(s, "spell") or string.find(s, "powerful") or string.find(s, "ever")) then
+    return true
+end
+if not string.find(actor.class, "Cryomancer") then
+    return true
+end
 
--- Speech keywords: spell spell? powerful powerful?  Ever ever?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "spell?") or string.find(string.lower(speech), "powerful") or string.find(string.lower(speech), "powerful?") or string.find(string.lower(speech), "ever") or string.find(string.lower(speech), "ever?")) then
-    return true  -- No matching keywords
-end
-if string.find(actor.class, "Cryomancer") then
-    wait(2)
-    self.room:send(tostring(self.name) .. " says, 'The spell was called Ice Shards.  Supreme cryomancers")
-    self.room:send("</>could conjure a multitude of glistening ice fragments to annihilate their")
-    self.room:send("</>foes.'")
-    wait(2)
-    self:say("But that magic is lost to us now.")
-end
+wait(2)
+self.room:send(self.name .. " says, 'The spell was called Ice Shards.  Supreme cryomancers")
+self.room:send("</>could conjure a multitude of glistening ice fragments to annihilate their")
+self.room:send("</>foes.'")
+wait(2)
+self:say("But that magic is lost to us now.")

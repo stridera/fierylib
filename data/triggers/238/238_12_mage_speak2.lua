@@ -1,19 +1,17 @@
 -- Trigger: mage_speak2
 -- Zone: 238, ID: 12
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #23812
-
--- Converted from DG Script #23812: mage_speak2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- When the player asks about the question/ice, the mage explains the Tempest
+-- backstory, asks the player to banish it, and arms the Tempest with a blue
+-- flame so the start-quest world trigger fires the first time around.
 
 -- Speech keywords: question? question ice? ice
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "question?") or string.find(string.lower(speech), "question") or string.find(string.lower(speech), "ice?") or string.find(string.lower(speech), "ice")) then
+if not (string.find(speech_lower, "question") or string.find(speech_lower, "ice")) then
     return true  -- No matching keywords
 end
--- Start the quest and give the Tempest a blue flame
+-- Spawn the Tempest in 238:90 if it isn't there, then start its quest.
 if world.count_mobiles(238, 3) == 0 then
     get_room(238, 90):at(function()
         self.room:spawn_mobile(238, 3)

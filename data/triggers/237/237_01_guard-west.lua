@@ -14,3 +14,4 @@ if not (cmd == "west") then
 end
 actor:send("The guard roars at you!")
 self.room:send_except(actor, "The guard roars at " .. tostring(actor.name) .. " and blocks the way.")
+return false  -- Block the movement

@@ -1,41 +1,38 @@
 -- Trigger: shroom-attack
 -- Zone: 237, ID: 5
 -- Type: MOB, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <shroom-attack>:15: unexpected symbol near '='
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #23705
 
 -- Converted from DG Script #23705: shroom-attack
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
+-- The shroom attacks anyone trying to pick its parts.
 
 -- Command filter: get
 if not (cmd == "get") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local rightobj = 0
 if string.find(arg, "mushroom") then
-    local rightobj = 1
+    rightobj = 1
 end
 if string.find(arg, "pink") then
-    local rightobj = 1
+    rightobj = 1
 end
-if arg ~=purple then
-    local rightobj = 1
+if string.find(arg, "purple") then
+    rightobj = 1
 end
 if string.find(arg, "fungus") then
-    local rightobj = 1
+    rightobj = 1
 end
 if string.find(arg, "bulb") then
-    local rightobj = 1
+    rightobj = 1
 end
 if string.find(arg, "cap") then
-    local rightobj = 1
+    rightobj = 1
 end
-if rightobj ==1 then
-    combat.engage(self, actor.name)
-else
-    _return_value = true
+if rightobj == 1 then
+    combat.engage(actor)
 end
-return _return_value
+return true

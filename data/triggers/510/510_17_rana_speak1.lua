@@ -1,17 +1,15 @@
 -- Trigger: rana_speak1
 -- Zone: 510, ID: 17
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
 -- Original DG Script: #51017
+-- Reacts to "cleaner" — Rana laments her exile and her plans for
+-- revenge on Luchiaans, who would burn her with magic if she got
+-- close.
 
--- Converted from DG Script #51017: rana_speak1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: cleaner?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "cleaner?")) then
-    return true  -- No matching keywords
+-- Speech keyword: "cleaner"
+if not string.find(string.lower(speech or ""), "cleaner") then
+    return true
 end
 self:say("Yes...")
 self:command("ponder")

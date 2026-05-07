@@ -1,20 +1,18 @@
 -- Trigger: glazed-stiletto-wield
 -- Zone: 237, ID: 81
 -- Type: OBJECT, Flags: WEAR
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <glazed-stiletto-wield>:4: function arguments expected near '.'
+-- Status: CLEAN
 --
 -- Original DG Script: #23781
 
 -- Converted from DG Script #23781: glazed-stiletto-wield
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-local _return_value = true  -- Default: allow action
+-- Only the player who completed the quest_items entry for this stiletto can
+-- wield it; everyone else gets the flavor refusal and is blocked from wielding.
 if actor:get_quest_var("quest_items:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
-    _return_value = false
     actor:send("You flip out the blade of " .. tostring(self.shortdesc) .. ".")
     self.room:send_except(actor, tostring(actor.name) .. " flips the blade out of " .. tostring(self.shortdesc) .. ".")
-else
-    _return_value = true
-    actor:send("You try to wield " .. tostring(self.shortdesc) .. ", but can't figure out how to open it.")
+    return true  -- Allow wear
 end
-return _return_value
+actor:send("You try to wield " .. tostring(self.shortdesc) .. ", but can't figure out how to open it.")
+return false  -- Block wear

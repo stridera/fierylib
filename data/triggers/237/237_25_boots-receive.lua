@@ -10,7 +10,8 @@
 if actor.is_player then
     wait(1)
     if actor:get_quest_stage("sunfire_rescue") == 1 then
-        if object.id == 52008 then
+        if object.zone_id == 520 and object.local_id == 8 then
+            -- Real elven boots
             actor:advance_quest("sunfire_rescue")
             self:command("smile " .. tostring(actor.name))
             self:emote("slips his feet out of the shackles and wears the boots.")
@@ -18,7 +19,8 @@ if actor.is_player then
             wait(1)
             self:say("And the cloak? Do you have the cloak? Give it to me, please!")
         end
-        if object.id == 52024 then
+        if object.zone_id == 520 and object.local_id == 24 then
+            -- Cursed boots
             self:emote("looks at the boots carefully.")
             self:say("These are the cursed boots.  If you have the real ones, please...")
             self:say("These cannot help me at all.")

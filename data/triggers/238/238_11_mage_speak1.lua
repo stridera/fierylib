@@ -1,16 +1,13 @@
 -- Trigger: mage_speak1
 -- Zone: 238, ID: 11
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #23811
-
--- Converted from DG Script #23811: mage_speak1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Mage delivers the framing riddle when the player greets him or asks about
+-- the riddle/quest. Tells the player the question itself is iced over.
 
 -- Speech keywords: riddle quest hi hello
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "riddle") or string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "hi") or string.find(string.lower(speech), "hello")) then
+if not (string.find(speech_lower, "riddle") or string.find(speech_lower, "quest") or string.find(speech_lower, "hi") or string.find(speech_lower, "hello")) then
     return true  -- No matching keywords
 end
 wait(1)

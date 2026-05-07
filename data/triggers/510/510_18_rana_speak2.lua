@@ -1,17 +1,14 @@
 -- Trigger: rana_speak2
 -- Zone: 510, ID: 18
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
 -- Original DG Script: #51018
+-- Reacts to "shema" — Rana retells how Luchiaans deceived the
+-- Council and a cleaner's discovered book exposed his true plans.
 
--- Converted from DG Script #51018: rana_speak2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: shema?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "shema?")) then
-    return true  -- No matching keywords
+-- Speech keyword: "shema"
+if not string.find(string.lower(speech or ""), "shema") then
+    return true
 end
 self:command("look " .. tostring(actor.name))
 self:command("nod")

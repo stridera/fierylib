@@ -1,12 +1,9 @@
 -- Trigger: Rogue cloak attack counter
 -- Zone: 2, ID: 125
 -- Type: OBJECT, Flags: ATTACK
--- Status: CLEAN
 --
--- Original DG Script: #325
-
--- Converted from DG Script #325: Rogue cloak attack counter
--- Original: OBJECT trigger, flags: ATTACK, probability: 100%
+-- Counts wielder attacks; once they reach (stage * 100) the bond completes
+-- (cloaktask1) and the counter resets so the next stage can be earned.
 if actor:get_quest_stage("rogue_cloak") >= 1 then
     if not actor:get_quest_var("rogue_cloak:cloaktask1") then
         local attack_increase = actor:get_quest_var("rogue_cloak:attack_counter") + 1

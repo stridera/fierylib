@@ -7,30 +7,17 @@
 
 -- Converted from DG Script #23756: drider-king-death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local _return_value = true  -- Default: allow action
--- This is for the vilekka_stew quest, stage 2.
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-    person = nil
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("vilekka_stew") == 3 then
-                local quest = "yes"
-            end
-        elseif person then
-            i = i + 1
-        end
-        a = a + 1
+-- vilekka_stew stage 3: when the drider king dies, drop his head (237/20)
+-- iff at least one group member in the room is on stage 3 of the quest.
+local on_quest = false
+for _, person in ipairs(actor.group) do
+    if person.room == self.room and person:get_quest_stage("vilekka_stew") == 3 then
+        on_quest = true
+        break
     end
-elseif person:get_quest_stage("vilekka_stew") == 3 then
-    local quest = "yes"
 end
-if quest == "yes" then
-    _return_value = true
+if on_quest then
     self.room:send("With a horrible shriek, the drider king's body melts!")
     self.room:spawn_object(237, 20)
 end
-return _return_value
+return true

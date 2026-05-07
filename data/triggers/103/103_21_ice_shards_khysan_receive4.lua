@@ -4,11 +4,11 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10321
+-- Stage 6 turn-in: hand Khysan the magical map of Ickle (legacy
+-- 48502) and he triangulates Shiran's location to a tower in
+-- Frost Lake. Advances to stage 7 → Ysgarran's Keep.
 
--- Converted from DG Script #10321: ice_shards_khysan_receive4
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local stage = actor:get_quest_stage("ice_shards")
-if stage == 6 then
+if actor:get_quest_stage("ice_shards") == 6 then
     wait(2)
     actor:advance_quest("ice_shards")
     self:destroy_item("map")

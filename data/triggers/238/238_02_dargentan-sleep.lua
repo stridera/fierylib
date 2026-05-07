@@ -1,16 +1,12 @@
 -- Trigger: dargentan-sleep
 -- Zone: 238, ID: 2
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #23802
-
--- Converted from DG Script #23802: dargentan-sleep
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- When someone mentions sleep/nap/etc to Dargentan, he yawns and goes back to sleep.
 
 -- Speech keywords: sleep nap naptime sleepytime
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "sleep") or string.find(string.lower(speech), "nap") or string.find(string.lower(speech), "naptime") or string.find(string.lower(speech), "sleepytime")) then
+if not (string.find(speech_lower, "sleep") or string.find(speech_lower, "nap") or string.find(speech_lower, "naptime") or string.find(speech_lower, "sleepytime")) then
     return true  -- No matching keywords
 end
 self:command("yawn")

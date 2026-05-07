@@ -4,19 +4,14 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10314
+-- Anyone says "butcher" near the pawnbroker. If the actor is at
+-- ice_shards stage 4, the broker plays coy and prompts for a
+-- bribe (handled by 103_15). Otherwise he warns them off.
+-- DG narg=0 = substring speech match.
 
--- Converted from DG Script #10314: ice_shards_pawnbroker_speech
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+local s = string.lower(speech)
+if not string.find(s, "butcher") then
     return true
-end
-
--- Speech keywords: butcher
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "butcher")) then
-    return true  -- No matching keywords
 end
 wait(2)
 if actor:get_quest_stage("ice_shards") == 4 then

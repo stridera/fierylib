@@ -1,27 +1,24 @@
 -- Trigger: only_clerics_enter
 -- Zone: 510, ID: 4
 -- Type: WORLD, Flags: PREENTRY
--- Status: CLEAN
 --
 -- Original DG Script: #51004
+-- Gates a sanctified chamber: clerics and priests pass through with a
+-- calming message; everyone else (sub-immortal) is bounced with a
+-- "this room is not for you" notice. Tracks an `entry` counter so
+-- subsequent triggers can tell first-comers from returners.
 
--- Converted from DG Script #51004: only_clerics_enter
--- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-local _return_value = true  -- Default: allow action
-if actor.level < 100 then
-    if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
-        actor:send("You feel a calmness come over you, as if the troubles of the world are washed away.")
-        if entry == "" then
-            local entry = 1
-            globals.entry = globals.entry or true
-        else
-            entry = entry + 1
-        end
-    else
-        actor:send("You can't seem to enter the room!  It is like stepping against a solid wall,")
-        actor:send("</>but you can see in.")
-        actor:send("You seem to hear a voice whisper, 'This room is not for you.'")
-        _return_value = true
-    end
+if actor.level >= 100 then
+    return true
 end
-return _return_value
+
+if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+    actor:send("You feel a calmness come over you, as if the troubles of the world are washed away.")
+    entry = (entry or 0) + 1
+    return true
+else
+    actor:send("You can't seem to enter the room!  It is like stepping against a solid wall,")
+    actor:send("&0but you can see in.")
+    actor:send("You seem to hear a voice whisper, 'This room is not for you.'")
+    return false
+end

@@ -1,12 +1,12 @@
 -- Trigger: phase wand questmaster setup load
 -- Zone: 2, ID: 111
 -- Type: MOB, Flags: LOAD
--- Status: CLEAN
 --
--- Original DG Script: #311
-
--- Converted from DG Script #311: phase wand questmaster setup load
--- Original: MOB trigger, flags: LOAD, probability: 100%
+-- On load, identifies which wand-quest stage this mob represents (by zone_id +
+-- local_id) and exports the matching crafting parameters via globals so the
+-- companion greet/speech/receive triggers can read them as `globals.wandstep`,
+-- `globals.wandgem`, `globals.wandtask3`, `globals.wandtask4`, `globals.wand_id`,
+-- `globals.type`, `globals.weapon`, and `globals.wandattack`.
 local type, wandgem, wandstep, wandtask3, wandtask4, wand_id, place
 local z, lid = self.zone_id, self.local_id
 

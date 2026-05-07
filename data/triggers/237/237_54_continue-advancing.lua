@@ -10,7 +10,7 @@
 
 -- Speech keywords: continue
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "continue")) then
+if not string.find(speech_lower, "continue") then
     return true  -- No matching keywords
 end
 -- OK, this is in two parts.  It represents the player wishing to

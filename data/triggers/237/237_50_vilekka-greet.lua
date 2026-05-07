@@ -1,18 +1,17 @@
 -- Trigger: vilekka-greet
 -- Zone: 237, ID: 50
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #23750
 
 -- Converted from DG Script #23750: vilekka-greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
--- Here we go, the big evil vilekka_stew quest of DEATH!! :)
--- This is a quest designed for neutral and evil types only.
--- If good players want a quest, see the sunfire_rescue quest.
+-- The vilekka_stew quest greet -- evil/neutral entry point for the
+-- High Priestess. Good-aligned visitors are sneered at and teleported
+-- back to room 237/93. Stage-aware reminders for in-progress players.
 if actor.is_npc or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
-    return _return_value
+    return true
 end
 wait(1)
 -- If they are coming back with the items she said to fetch...
@@ -38,15 +37,15 @@ elseif actor:get_quest_stage("vilekka_stew") == 5 then
 else
     -- IE, if they haven't started the quest.
     if actor.alignment < 349 then
-        actor.name:send(tostring(self.name) .. " looks up at you.")
+        actor:send(tostring(self.name) .. " looks up at you.")
         self.room:send_except(actor, tostring(self.name) .. " looks up at " .. tostring(actor.name) .. ".")
         self.room:send("She says, 'Welcome to my city!  All who are not followers of the path of good are welcome here.'")
         wait(2)
-        actor.name:send("She looks closely at you.")
+        actor:send("She looks closely at you.")
         self.room:send_except(actor, "She looks closely at " .. tostring(actor.name) .. ".")
         self.room:send(tostring(self.name) .. " says, 'In fact, perhaps you can help me.  Yes, I think you can help me perform a great service to the city.'")
     else
-        actor.name:send(tostring(self.name) .. " sneers at you.")
+        actor:send(tostring(self.name) .. " sneers at you.")
         self.room:send_except(actor, tostring(self.name) .. " sneers at " .. tostring(actor.name) .. ".")
         self:say("So, you think you can just wander around my city?")
         self.room:send(tostring(self.name) .. " laughs.")
@@ -54,15 +53,15 @@ else
         self.room:send(tostring(self.name) .. " says, 'Get out of my sight.  I find your presence annoying.'")
         wait(1)
         self.room:send_except(actor, "<magenta>Vilekka gestures at " .. tostring(actor.name) .. ", and " .. tostring(actor.name) .. " disappears.</>")
-        actor.name:teleport(get_room(237, 93))
+        actor:teleport(get_room(237, 93))
         wait(1)
         get_room(237, 93):at(function()
-            actor.name:send("<magenta>Vilekka gestures at you, and your vision wavers...</>")
+            actor:send("<magenta>Vilekka gestures at you, and your vision wavers...</>")
         end)
         -- Can't use mat while forcing them to look - they will see the
         -- priestess as she is temporarily in the room due to mat.
         get_room(237, 93):at(function()
-            actor.name:send("You find yourself back in the temple.")
+            actor:send("You find yourself back in the temple.")
         end)
     end
 end

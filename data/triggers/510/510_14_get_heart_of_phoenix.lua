@@ -1,27 +1,28 @@
 -- Trigger: get_heart_of_phoenix
 -- Zone: 510, ID: 14
 -- Type: OBJECT, Flags: GET
--- Status: CLEAN
 --
 -- Original DG Script: #51014
-
--- Converted from DG Script #51014: get_heart_of_phoenix
--- Original: OBJECT trigger, flags: GET, probability: 100%
-local _return_value = true  -- Default: allow action
--- this is only an issue if the heart has not already been got...
-if already_got ~= 1 then
-    -- need to be wearing (on hands) object 51026 to get heart
-    if actor:has_equipped("51026") then
-        actor:send("The corpse is extremely hot and may combust soon!")
-        actor:award_exp(30000)
-        _return_value = false
-        local already_got = 1
-        globals.already_got = globals.already_got or true
-    else
-        actor:send("The corpse is too hot to touch without special protection!")
-        _return_value = true
-    end
-    wait(2)
-    self.room:send("The corpse suddenly crumbles to ash.")
+-- The phoenix corpse is too hot to grab bare-handed. The player must
+-- be wearing the heat-resistant gloves (510, 26) to claim the heart;
+-- success awards 30k XP and latches `already_got` so the bonus is
+-- one-shot. Either way, the corpse crumbles to ash on the next tick.
+local already_got = already_got or 0
+if already_got == 1 then
+    return true
 end
-return _return_value
+
+local allowed
+if actor:has_equipped(510, 26) then
+    actor:send("The corpse is extremely hot and may combust soon!")
+    actor:award_exp(30000)
+    globals.already_got = 1
+    allowed = true
+else
+    actor:send("The corpse is too hot to touch without special protection!")
+    allowed = false
+end
+
+wait(2)
+self.room:send("The corpse suddenly crumbles to ash.")
+return allowed

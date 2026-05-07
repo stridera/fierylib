@@ -4,11 +4,11 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10320
+-- Stage 3 turn-in: handing Khysan Commander Thraja's journal
+-- (legacy 58806) advances to stage 4 and points the player at the
+-- Anduin pawnbroker for word of the Butcher.
 
--- Converted from DG Script #10320: ice_shards_khysan_receive3
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local stage = actor:get_quest_stage("ice_shards")
-if stage == 3 then
+if actor:get_quest_stage("ice_shards") == 3 then
     wait(2)
     actor:advance_quest("ice_shards")
     self:destroy_item("book")
