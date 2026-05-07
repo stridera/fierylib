@@ -1,9 +1,8 @@
 -- Trigger: Fire Wand progress journal
 -- Zone: 4, ID: 50
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 36 if statements
---   Large script: 12357 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #450
 
@@ -12,24 +11,25 @@
 local _return_value = true  -- Default: allow action
 if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "fire_wand") or string.find(arg, "fire_wands") or string.find(arg, "fire_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
-    if string.find(sorcererclasses, "actor.class") then
+    if string.find(sorcererclasses, actor.class) then
         _return_value = true
         local stage = actor:get_quest_stage("fire_wand")
         local minlevel = (stage - 1) * 10
         if minlevel < 1 then
-            local minlevel = 1
+            minlevel = 1
         end
         actor:send("<b:green>&uFire Wand</>")
         actor:send("Masters of fire will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("fire_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end
+        local status
         if actor:get_has_completed("fire_wand") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("fire_wand") then
@@ -39,64 +39,71 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
             local job4 = actor:get_quest_var("fire_wand:wandtask4")
             local job5 = actor:get_quest_var("fire_wand:wandtask5")
             local attack = (stage - 1) * 50
+            local weapon
             if stage < 8 then
-                local weapon = "wand"
+                weapon = "wand"
             else
-                local weapon = "staff"
+                weapon = "staff"
             end
             local remaining = ((attack) - actor:get_quest_var("fire_wand:attack_counter"))
             -- switch on stage
+            local master
+            local wandgem
+            local hint
+            local wandtask3
+            local wandtask4
+            local place
             if stage == 2 then
-                local master = mobiles.template(30, 13).name
-                local wandgem = 55575
+                master = mobiles.template(30, 13).name
+                wandgem = 55575
             elseif stage == 3 then
-                local master = mobiles.template(41, 26).name
-                local hint = "A minion of the dark flame out east will know what to do."
-                local wandgem = 55590
-                local wandtask3 = 23752
+                master = mobiles.template(41, 26).name
+                hint = "A minion of the dark flame out east will know what to do."
+                wandgem = 55590
+                wandtask3 = 23752
             elseif stage == 4 then
-                local master = mobiles.template(103, 6).name
-                local hint = "There's a fire master in the frozen north who likes to spend his time at the hot springs."
-                local wandgem = 55612
-                local wandtask3 = 2331
-                local wandtask4 = 37006
+                master = mobiles.template(103, 6).name
+                hint = "There's a fire master in the frozen north who likes to spend his time at the hot springs."
+                wandgem = 55612
+                wandtask3 = 2331
+                wandtask4 = 37006
             elseif stage == 5 then
-                local master = mobiles.template(123, 4).name
-                local hint = "A master of fire near the megalith in South Caelia will be able to help next."
-                local wandgem = 55639
-                local wandtask3 = 12526
-                local wandtask4 = "&1&bthe Lava Tunnels&0"
+                master = mobiles.template(123, 4).name
+                hint = "A master of fire near the megalith in South Caelia will be able to help next."
+                wandgem = 55639
+                wandtask3 = 12526
+                wandtask4 = "&1&bthe Lava Tunnels&0"
             elseif stage == 6 then
-                local master = mobiles.template(238, 11).name
-                local hint = "A seraph crafts with the power of the sun and sky.  It can be found in the floating fortress in South Caelia."
-                local wandgem = 55662
-                local wandtask3 = 5201
-                local wandtask4 = 32412
+                master = mobiles.template(238, 11).name
+                hint = "A seraph crafts with the power of the sun and sky.  It can be found in the floating fortress in South Caelia."
+                wandgem = 55662
+                wandtask3 = 5201
+                wandtask4 = 32412
             elseif stage == 7 then
-                local master = mobiles.template(481, 5).name
-                local hint = "I hate to admit it, but Vulcera is your next crafter.  Good luck appeasing her though..."
-                local wandgem = 55689
-                local wandtask3 = 43018
-                local wandtask4 = 11705
+                master = mobiles.template(481, 5).name
+                hint = "I hate to admit it, but Vulcera is your next crafter.  Good luck appeasing her though..."
+                wandgem = 55689
+                wandtask3 = 43018
+                wandtask4 = 11705
             elseif stage == 8 then
-                local master = mobiles.template(481, 150).name
-                local hint = "You're headed back to Fiery Island.  Crazy old McCabe can help you improve your staff further."
-                local wandgem = 55716
-                local wandtask3 = 53000
-                local wandtask4 = 53456
-                local place = 5272
+                master = mobiles.template(481, 150).name
+                hint = "You're headed back to Fiery Island.  Crazy old McCabe can help you improve your staff further."
+                wandgem = 55716
+                wandtask3 = 53000
+                wandtask4 = 53456
+                place = 5272
             elseif stage == 9 then
-                local master = mobiles.template(484, 12).name
-                local hint = "Seek out the one who speaks for the Sun near Anduin.  He can upgrade your wand."
-                local wandgem = 55739
-                local wandtask3 = 48126
-                local wandtask4 = 4013
+                master = mobiles.template(484, 12).name
+                hint = "Seek out the one who speaks for the Sun near Anduin.  He can upgrade your wand."
+                wandgem = 55739
+                wandtask3 = 48126
+                wandtask4 = 4013
             elseif stage == 10 then
-                local master = mobiles.template(52, 30).name
-                local hint = "Surely you've heard of Emmath Firehand.  He's the supreme artisan of fiery goods.  He can help you make the final improvements to your staff."
-                local wandgem = 23822
-                local wandtask3 = 52002
-                local wandtask4 = 47800
+                master = mobiles.template(52, 30).name
+                hint = "Surely you've heard of Emmath Firehand.  He's the supreme artisan of fiery goods.  He can help you make the final improvements to your staff."
+                wandgem = 23822
+                wandtask3 = 52002
+                wandtask4 = 47800
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

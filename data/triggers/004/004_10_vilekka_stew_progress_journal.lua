@@ -1,10 +1,7 @@
 -- Trigger: Vilekka Stew progress journal
 -- Zone: 4, ID: 10
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Vilekka Stew progress journal>:4: 'then' expected near 'boots'
---   Complex nesting: 21 if statements
---   Large script: 5439 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #410
 
@@ -19,12 +16,13 @@ if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, 
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("Recommended Level: 90")
         actor:send("- This quest starts at level 25 and continues through level 90.")
+        local status
         if actor:get_has_completed("vilekka_stew") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("vilekka_stew") then

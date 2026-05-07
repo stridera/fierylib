@@ -1,22 +1,30 @@
 -- Trigger: cleric_phase_1
 -- Zone: 553, ID: 1
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <cleric_phase_1>:112: function arguments expected near ']'
---   Complex nesting: 15 if statements
---   Large script: 10355 chars
 --
 -- Original DG Script: #55301
 
 -- Converted from DG Script #55301: cleric_phase_1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- TODO(parity): This trigger's gem/armor turn-in dispatch is broken end-to-end:
+--   * `if object.id == "%id_destroyed_helm%"` compares against a literal string
+--     instead of the local variable; none of the elseif branches will ever match.
+--   * `local exp_multiplier`, `local team_a_idrmor`, `local id_gem`, `local id_reward`
+--     are declared inside elseif blocks and go out of scope before they're used.
+--   * Quest var keys like "%id_gem%_gems_acquired" / "%team_a_idrmor%_armor_acquired"
+--     are stored as literal strings rather than being interpolated.
+--   * `%get.obj_shortdesc[%id_gem%]%` style placeholders remain in user-facing text.
+--   * `world.destroy(object.name)` should be `world.destroy(object)`.
+-- Needs a full rewrite (likely as a table dispatch keyed by object.id) before this
+-- quest can function. Left as-is to preserve original DG intent for the rewrite.
 local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the phased
 -- armor quests installed on the mud. This trigger
 -- is class and phase specific as defined below.
 -- 
-local CLERIC_SUB = (actor.class == cleric  or  actor.class == priest  or  actor.class == diabolist  or  actor.class == druid)
+local CLERIC_SUB = (actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid")
 if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
     -- 
     -- pertinient object definitions for this class

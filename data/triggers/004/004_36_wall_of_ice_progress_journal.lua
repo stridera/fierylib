@@ -1,8 +1,7 @@
 -- Trigger: Wall of Ice progress journal
 -- Zone: 4, ID: 36
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Wall of Ice progress journal>:4: 'then' expected near 'of'
+-- Status: CLEAN
 --
 -- Original DG Script: #436
 
@@ -14,12 +13,13 @@ if (string.find(arg, "wall") and string.find(arg, "ice")) or string.find(arg, "w
         _return_value = true
         actor:send("<b:green>&uWall of Ice</>")
         actor:send("Minimum Level: 57")
+        local status
         if actor:get_has_completed("wall_ice") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("wall_ice") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor:get_quest_stage("wall_ice") == 1 then

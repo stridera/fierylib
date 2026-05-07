@@ -8,8 +8,7 @@
 -- Converted from DG Script #55311: phase_1_warrior_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
-local anti = "Anti-Paladin"
-local WARRIOR_SUB = (actor.class == warrior  or  actor.class == paladin  or  actor.class == anti  or  actor.class == ranger  or  actor.class == monk)
+local WARRIOR_SUB = (actor.class == "warrior" or actor.class == "paladin" or actor.class == "anti" or actor.class == "ranger" or actor.class == "monk")
 if WARRIOR_SUB then
     if actor:get_quest_stage("phase_armor") == 0 then
         wait(2)

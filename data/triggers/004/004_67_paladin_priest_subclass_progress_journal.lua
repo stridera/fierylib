@@ -11,14 +11,15 @@ local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local priestraces = "drow faerie_unseelie"
     local paladinraces = "drow faerie_unseelie"
-    if string.find(arg, "Paladin") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(paladinraces, "actor.race")) then
+    local check
+    if string.find(arg, "Paladin") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(paladinraces, actor.race)) then
         actor:send("<b:white>Paladin</>")
-        local check = "yes"
-    elseif string.find(arg, "Priest") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(priestraces, "actor.race")) then
+        check = "yes"
+    elseif string.find(arg, "Priest") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(priestraces, actor.race)) then
         actor:send("<b:cyan>Priest</>")
-        local check = "yes"
+        check = "yes"
     end
-    if string.find(check, "yes") then
+    if check == "yes" then
         _return_value = true
         actor:send("Quest Master: " .. tostring(mobiles.template(185, 81).name))
         actor:send("</>")

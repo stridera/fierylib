@@ -1,8 +1,7 @@
 -- Trigger: Siege Mystwatch Fortress progress journal
 -- Zone: 4, ID: 61
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Siege Mystwatch Fortress progress journal>:20: syntax error near 'to'
+-- Status: CLEAN
 --
 -- Original DG Script: #461
 
@@ -15,39 +14,41 @@ if string.find(arg, "siege") or string.find(arg, "mystwatch") or string.find(arg
         local stage = actor:get_quest_stage("mystwatch_quest")
         actor:send("<b:green>&uSiege Mystwatch Fortress</>")
         actor:send("Recommended Level: 45")
+        local status
         if stage then
-            local status = "Repeatable"
+            status = "Repeatable"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage then
             actor:send("Quest Master: " .. tostring(mobiles.template(30, 25).name))
             -- switch on actor:get_quest_var("mystwatch_quest:step")
+            local task
             if actor:get_quest_var("mystwatch_quest:step") == "totem" then
-                local task = "Give " .. tostring(objects.template(30, 26).name) .. " to " .. tostring(mobiles.template(160, 7).name) .. "."
+                task = "Give " .. tostring(objects.template(30, 26).name) .. " to " .. tostring(mobiles.template(160, 7).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "general" then
-                local task = "Kill " .. tostring(mobiles.template(160, 7).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 7).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "skeleton" then
-                local task = "Kill " .. tostring(mobiles.template(160, 15).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 15).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "warrior" then
-                local task = "Kill " .. tostring(mobiles.template(160, 16).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 16).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "sentry" then
-                local task = "Kill " .. tostring(mobiles.template(160, 17).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 17).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "warlord" then
-                local task = "Kill " .. tostring(mobiles.template(160, 18).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 18).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "blacksmith" then
-                local task = "Kill " .. tostring(mobiles.template(160, 19).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 19).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "shadow" then
-                local task = "Kill " .. tostring(mobiles.template(160, 10).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 10).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "storm" then
-                local task = "Kill " .. tostring(mobiles.template(160, 8).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 8).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "lord" then
-                local task = "Kill " .. tostring(mobiles.template(160, 11).name) .. "."
+                task = "Kill " .. tostring(mobiles.template(160, 11).name) .. "."
             elseif actor:get_quest_var("mystwatch_quest:step") == "shard" then
-                local task = "Give " .. tostring(objects.template(160, 23).name) .. " to " .. tostring(mobiles.template(30, 25).name) .. "."
+                task = "Give " .. tostring(objects.template(160, 23).name) .. " to " .. tostring(mobiles.template(30, 25).name) .. "."
             else
-                local task = "Visit " .. tostring(mobiles.template(30, 25).name) .. " to restart this quest."
+                task = "Visit " .. tostring(mobiles.template(30, 25).name) .. " to restart this quest."
             end
             actor:send("</>")
             actor:send("Your next step: " .. tostring(task))

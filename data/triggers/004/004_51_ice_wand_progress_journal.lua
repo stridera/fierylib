@@ -1,9 +1,8 @@
 -- Trigger: Ice Wand progress journal
 -- Zone: 4, ID: 51
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 36 if statements
---   Large script: 12725 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #451
 
@@ -12,24 +11,25 @@
 local _return_value = true  -- Default: allow action
 if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "cold") or string.find(arg, "frost")) and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "ice_wand") or string.find(arg, "ice_wands") or string.find(arg, "ice_staff") or string.find(arg, "water_wand") or string.find(arg, "water_wands") or string.find(arg, "water_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
-    if string.find(sorcererclasses, "actor.class") then
+    if string.find(sorcererclasses, actor.class) then
         _return_value = true
         local stage = actor:get_quest_stage("ice_wand")
         local minlevel = (stage - 1) * 10
         if minlevel < 1 then
-            local minlevel = 1
+            minlevel = 1
         end
         actor:send("<b:green>&uIce Wand</>")
         actor:send("Masters of ice and water will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("ice_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end
+        local status
         if actor:get_has_completed("ice_wand") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("ice_wand") then
@@ -39,64 +39,71 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
             local job4 = actor:get_quest_var("ice_wand:wandtask4")
             local job5 = actor:get_quest_var("ice_wand:wandtask5")
             local attack = (stage - 1) * 50
+            local weapon
             if stage < 8 then
-                local weapon = "wand"
+                weapon = "wand"
             else
-                local weapon = "staff"
+                weapon = "staff"
             end
             local remaining = ((attack) - actor:get_quest_var("ice_wand:attack_counter"))
             -- switch on stage
+            local master
+            local wandgem
+            local hint
+            local wandtask3
+            local wandtask4
+            local place
             if stage == 2 then
-                local master = mobiles.template(30, 13).name
-                local wandgem = 55574
+                master = mobiles.template(30, 13).name
+                wandgem = 55574
             elseif stage == 3 then
-                local master = mobiles.template(178, 6).name
-                local hint = "The shaman near Three-Falls River has developed a powerful affinity for water from his life in the canyons.  Seek his advice."
-                local wandgem = 55592
-                local wandtask3 = 23753
+                master = mobiles.template(178, 6).name
+                hint = "The shaman near Three-Falls River has developed a powerful affinity for water from his life in the canyons.  Seek his advice."
+                wandgem = 55592
+                wandtask3 = 23753
             elseif stage == 4 then
-                local master = mobiles.template(23, 37).name
-                local hint = "Many of the best craftspeople aren't even mortal.  There is a water sprite of some renown deep in Anlun Vale."
-                local wandgem = 55607
-                local wandtask3 = 2333
-                local wandtask4 = 37006
+                master = mobiles.template(23, 37).name
+                hint = "Many of the best craftspeople aren't even mortal.  There is a water sprite of some renown deep in Anlun Vale."
+                wandgem = 55607
+                wandtask3 = 2333
+                wandtask4 = 37006
             elseif stage == 5 then
-                local master = mobiles.template(550, 13).name
-                local hint = "A master of spirits in the far north will be able to help next."
-                local wandgem = 55640
-                local wandtask3 = 58018
-                local wandtask4 = "&6&bthe Arabel Ocean&0"
+                master = mobiles.template(550, 13).name
+                hint = "A master of spirits in the far north will be able to help next."
+                wandgem = 55640
+                wandtask3 = 58018
+                wandtask4 = "&6&bthe Arabel Ocean&0"
             elseif stage == 6 then
-                local master = mobiles.template(238, 2).name
-                local hint = "Your next crafter is a distant relative of the Sunfire clan.  He's been squatting in a flying fortress for many months, trying to unlock its secrets."
-                local wandgem = 55666
-                local wandtask3 = 49011
-                local wandtask4 = 17309
+                master = mobiles.template(238, 2).name
+                hint = "Your next crafter is a distant relative of the Sunfire clan.  He's been squatting in a flying fortress for many months, trying to unlock its secrets."
+                wandgem = 55666
+                wandtask3 = 49011
+                wandtask4 = 17309
             elseif stage == 7 then
-                local master = mobiles.template(533, 16).name
-                local hint = "You'll need the advice of a master ice sculptor.  One works regularly up in Mt. Frostbite."
-                local wandgem = 55684
-                local wandtask3 = 55016
-                local wandtask4 = 23815
+                master = mobiles.template(533, 16).name
+                hint = "You'll need the advice of a master ice sculptor.  One works regularly up in Mt. Frostbite."
+                wandgem = 55684
+                wandtask3 = 55016
+                wandtask4 = 23815
             elseif stage == 8 then
-                local master = mobiles.template(103, 0).name
-                local hint = "There's another distant relative of the Sunfire clan who runs the hot springs near Ickle.  He's book smart and knows a thing or two about jewel crafting."
-                local wandgem = 55717
-                local wandtask3 = 23847
-                local wandtask4 = 53457
-                local place = 55105
+                master = mobiles.template(103, 0).name
+                hint = "There's another distant relative of the Sunfire clan who runs the hot springs near Ickle.  He's book smart and knows a thing or two about jewel crafting."
+                wandgem = 55717
+                wandtask3 = 23847
+                wandtask4 = 53457
+                place = 55105
             elseif stage == 9 then
-                local master = mobiles.template(100, 12).name
-                local hint = "The guild guard for the Sorcerer Guild in Ickle has learned plenty of secrets from the inner sanctum.  Talk to him."
-                local wandgem = 55743
-                local wandtask3 = 48018
-                local wandtask4 = 53300
+                master = mobiles.template(100, 12).name
+                hint = "The guild guard for the Sorcerer Guild in Ickle has learned plenty of secrets from the inner sanctum.  Talk to him."
+                wandgem = 55743
+                wandtask3 = 48018
+                wandtask4 = 53300
             elseif stage == 10 then
-                local master = mobiles.template(550, 20).name
-                local hint = "You must know Suralla Iceeye by now.  She's the master artisan of cold and ice.  She'll know how to make the final improvements to your staff."
-                local wandgem = 53314
-                local wandtask3 = 52005
-                local wandtask4 = 47708
+                master = mobiles.template(550, 20).name
+                hint = "You must know Suralla Iceeye by now.  She's the master artisan of cold and ice.  She'll know how to make the final improvements to your staff."
+                wandgem = 53314
+                wandtask3 = 52005
+                wandtask4 = 47708
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

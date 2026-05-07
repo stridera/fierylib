@@ -1,8 +1,7 @@
 -- Trigger: load random gems
 -- Zone: 30, ID: 180
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #3180
 
@@ -35,29 +34,21 @@ if not self:has_equipped("18701") then
     local itt = 1
     while itt <= loop do
         local p = random(1, 10)
+        local base = 0
+        local extra = 0
         if p == 10 then
-            -- say p3! %p%
-            local base = 55671
-            local extra = random(1, 76)
+            base = 55671
+            extra = random(1, 76)
+        elseif (p <= 9) and (p >= 7) then
+            -- p2 gem
+            base = 55594
+            extra = random(1, 76)
+        elseif (p <= 6) and (p >= 2) then
+            -- p1 gem
+            base = 55566
+            extra = random(1, 27)
         end
-        -- p2 gem
-        if (p <=9) and (p>=7) then
-            -- say p2 %p%555
-            local base = 55594
-            local extra = random(1, 76)
-        end
-        -- p1 gem
-        if (p <=6) and (p>=2) then
-            -- say p1 %p%
-            local base = 55566
-            local extra = random(1, 27)
-        end
-        -- no gem
-        if p < 2 then
-            -- say no gem - %p%
-            local base = 0
-            local extra = 0
-        end
+        -- p < 2 leaves base/extra at 0 (no gem)
         if base > 55560 then
             local gem = base + extra
             self.room:spawn_object(math.floor(gem / 100), gem % 100)

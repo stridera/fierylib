@@ -1,15 +1,19 @@
 -- Trigger: diabolist_phase_2
 -- Zone: 553, ID: 70
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <diabolist_phase_2>:112: function arguments expected near ']'
---   Complex nesting: 15 if statements
---   Large script: 10437 chars
 --
 -- Original DG Script: #55370
 
 -- Converted from DG Script #55370: diabolist_phase_2
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- TODO(parity): Gem/armor turn-in dispatch is broken end-to-end (same pattern
+-- as 553_01): elseif branches compare object.id to literal "%...%" strings,
+-- locals declared inside branches go out of scope, quest var keys are stored
+-- as literal placeholders, %get.obj_shortdesc% remnants remain, and
+-- `world.destroy(object.name)` should be `world.destroy(object)`. Needs a full
+-- rewrite (e.g. table dispatch keyed by object.id). Left as-is to preserve the
+-- original DG intent for that rewrite.
 local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the phased

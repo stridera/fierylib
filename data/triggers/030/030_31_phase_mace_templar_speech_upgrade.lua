@@ -1,8 +1,7 @@
 -- Trigger: Phase Mace Templar speech upgrade
 -- Zone: 30, ID: 31
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #3031
 

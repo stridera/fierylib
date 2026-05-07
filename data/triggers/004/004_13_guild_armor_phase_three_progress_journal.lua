@@ -1,10 +1,8 @@
 -- Trigger: Guild Armor Phase Three progress journal
 -- Zone: 4, ID: 13
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Guild Armor Phase Three progress journal>:322: function arguments expected near ']'
---   Complex nesting: 28 if statements
---   Large script: 19456 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #413
 
@@ -21,7 +19,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local clericclasses = "Cleric Priest"
         local rogueclasses = "Rogue Mercenary Assassin Thief"
         local anti = "Anti-Paladin"
-        if string.find(sorcererclasses, "actor.class") then
+        if string.find(sorcererclasses, actor.class) then
             local feet_gem = 55690
             local head_gem = 55712
             local hands_gem = 55679
@@ -43,14 +41,15 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55555
             local body_reward = 55554
             local wrist_reward = 55557
+            local master
             if string.find(actor.class, "Sorcerer") then
-                local master = "the Archmage of Anduin"
+                master = "the Archmage of Anduin"
             elseif string.find(actor.class, "Cryomancer") then
-                local master = "a cryomancer in Anduin"
+                master = "a cryomancer in Anduin"
             elseif string.find(actor.class, "Pyromancer") then
-                local master = "a pyromancer in Anduin"
+                master = "a pyromancer in Anduin"
             elseif string.find(actor.class, "Illusionist") then
-                local master = "Aylana in Anduin"
+                master = "Aylana in Anduin"
             end
         elseif string.find(actor.class, "Necromancer") then
             local feet_gem = 55686
@@ -75,7 +74,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55533
             local wrist_reward = 55536
             local master = "a necromancer in Anduin"
-        elseif string.find(clericclasses, "actor.class") then
+        elseif string.find(clericclasses, actor.class) then
             local feet_gem = 55689
             local head_gem = 55711
             local hands_gem = 55678
@@ -282,7 +281,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55776
             local wrist_reward = 55779
             local master = "Avaldr Mountainhelm"
-        elseif string.find(rogueclasses, "actor.class") then
+        elseif string.find(rogueclasses, actor.class) then
             local feet_gem = 55691
             local head_gem = 55713
             local hands_gem = 55680

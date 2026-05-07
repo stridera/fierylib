@@ -1,10 +1,7 @@
 -- Trigger: Heavens Gate progress journal
 -- Zone: 4, ID: 33
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Heavens Gate progress journal>:4: 'then' expected near 'gate'
---   Complex nesting: 37 if statements
---   Large script: 11120 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #433
 
@@ -17,12 +14,13 @@ if string.find(arg, "heavens gate") or string.find(arg, "heavens") or string.fin
         local stage = actor:get_quest_stage("heavens_gate")
         actor:send("<b:green>&uHeavens Gate</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("heavens_gate") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("heavens_gate") then

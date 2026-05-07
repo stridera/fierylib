@@ -1,8 +1,7 @@
 -- Trigger: Greater Displacement progress journal
 -- Zone: 4, ID: 91
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Greater Displacement progress journal>:4: 'then' expected near 'displacement'
+-- Status: CLEAN
 --
 -- Original DG Script: #491
 

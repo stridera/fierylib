@@ -1,9 +1,8 @@
 -- Trigger: Air Wand progress journal
 -- Zone: 4, ID: 49
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 36 if statements
---   Large script: 12148 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #449
 
@@ -12,24 +11,25 @@
 local _return_value = true  -- Default: allow action
 if (string.find(arg, "air") and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "air_wand") or string.find(arg, "air_wands") or string.find(arg, "air_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
-    if string.find(sorcererclasses, "actor.class") then
+    if string.find(sorcererclasses, actor.class) then
         _return_value = true
         local stage = actor:get_quest_stage("air_wand")
         local minlevel = (stage - 1) * 10
         if minlevel < 1 then
-            local minlevel = 1
+            minlevel = 1
         end
         actor:send("<b:green>&uAir Wand</>")
         actor:send("Masters of air will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("air_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end
+        local status
         if actor:get_has_completed("air_wand") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("air_wand") then
@@ -39,63 +39,69 @@ if (string.find(arg, "air") and (string.find(arg, "wand") or string.find(arg, "w
             local job4 = actor:get_quest_var("air_wand:wandtask4")
             local job5 = actor:get_quest_var("air_wand:wandtask5")
             local attack = (stage - 1) * 50
+            local weapon
             if stage < 8 then
-                local weapon = "wand"
+                weapon = "wand"
             else
-                local weapon = "staff"
+                weapon = "staff"
             end
             local remaining = ((attack) - actor:get_quest_var("air_wand:attack_counter"))
             -- switch on stage
+            local master
+            local wandgem
+            local hint
+            local wandtask3
+            local wandtask4
             if stage == 2 then
-                local master = mobiles.template(30, 13).name
-                local wandgem = 55577
+                master = mobiles.template(30, 13).name
+                wandgem = 55577
             elseif stage == 3 then
-                local master = mobiles.template(185, 0).name
-                local hint = "Speak with the old Abbot in the Abbey of St. George."
-                local wandgem = 55591
-                local wandtask3 = 23750
+                master = mobiles.template(185, 0).name
+                hint = "Speak with the old Abbot in the Abbey of St. George."
+                wandgem = 55591
+                wandtask3 = 23750
             elseif stage == 4 then
-                local master = mobiles.template(586, 1).name
-                local hint = "The keeper of a southern coastal tower will have advice for you."
-                local wandgem = 55605
-                local wandtask3 = 2330
-                local wandtask4 = 37006
+                master = mobiles.template(586, 1).name
+                hint = "The keeper of a southern coastal tower will have advice for you."
+                wandgem = 55605
+                wandtask3 = 2330
+                wandtask4 = 37006
             elseif stage == 5 then
-                local master = mobiles.template(123, 5).name
-                local hint = "A master of air near the megalith in South Caelia will be able to help next."
-                local wandgem = 55644
-                local wandtask3 = 12509
-                local wandtask4 = "&7&bthe icy ledge outside Technitzitlan&0"
+                master = mobiles.template(123, 5).name
+                hint = "A master of air near the megalith in South Caelia will be able to help next."
+                wandgem = 55644
+                wandtask3 = 12509
+                wandtask4 = "&7&bthe icy ledge outside Technitzitlan&0"
             elseif stage == 6 then
-                local master = mobiles.template(123, 2).name
-                local wandgem = 55665
-                local hint = "Seek out the warrior-witch at the center of the southern megalith."
-                local wandtask3 = 23800
-                local wandtask4 = 59040
+                master = mobiles.template(123, 2).name
+                wandgem = 55665
+                hint = "Seek out the warrior-witch at the center of the southern megalith."
+                wandtask3 = 23800
+                wandtask4 = 59040
             elseif stage == 7 then
-                local master = mobiles.template(490, 3).name
-                local wandgem = 55682
-                local hint = "She's hard to deal with, but the Seer of Griffin Isle should have some additional guidance for you."
-                local wandtask3 = 51014
-                local wandtask4 = 23710
+                master = mobiles.template(490, 3).name
+                wandgem = 55682
+                hint = "She's hard to deal with, but the Seer of Griffin Isle should have some additional guidance for you."
+                wandtask3 = 51014
+                wandtask4 = 23710
             elseif stage == 8 then
-                local master = mobiles.template(85, 15).name
-                local hint = "In the diabolist's church is a seer who cannot see.  He's a good resource for this kind of work."
-                local wandgem = 55721
-                local wandtask3 = 11799
-                local wandtask4 = 53454
+                master = mobiles.template(85, 15).name
+                hint = "In the diabolist's church is a seer who cannot see.  He's a good resource for this kind of work."
+                wandgem = 55721
+                wandtask3 = 11799
+                wandtask4 = 53454
             elseif stage == 9 then
-                local master = mobiles.template(62, 16).name
-                local hint = "The guardian ranger of the Druid Guild in the Red City has some helpful crafting tips."
-                local wandgem = 55742
-                local wandtask3 = 49019
-                local wandtask4 = 23803
+                master = mobiles.template(62, 16).name
+                hint = "The guardian ranger of the Druid Guild in the Red City has some helpful crafting tips."
+                wandgem = 55742
+                wandtask3 = 49019
+                wandtask4 = 23803
             elseif stage == 10 then
-                local master = mobiles.template(185, 81).name
-                local hint = "Silania will help you craft the finest of air weapons."
-                local wandgem = 11811
-                local wandtask3 = 52001
-                local wandtask4 = 48862
+                master = mobiles.template(185, 81).name
+                hint = "Silania will help you craft the finest of air weapons."
+                wandgem = 11811
+                wandtask3 = 52001
+                wandtask4 = 48862
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

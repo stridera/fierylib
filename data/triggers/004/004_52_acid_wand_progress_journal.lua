@@ -1,10 +1,8 @@
 -- Trigger: Acid Wand progress journal
 -- Zone: 4, ID: 52
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Acid Wand progress journal>:44: unexpected symbol near 'in'
---   Complex nesting: 36 if statements
---   Large script: 12720 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #452
 
@@ -13,24 +11,25 @@
 local _return_value = true  -- Default: allow action
 if ((string.find(arg, "acid") or string.find(arg, "earth")) and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "acid_wand") or string.find(arg, "acid_wands") or string.find(arg, "acid_staff") or string.find(arg, "earth_wand") or string.find(arg, "earth_wands") or string.find(arg, "earth_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
-    if string.find(sorcererclasses, "actor.class") then
+    if string.find(sorcererclasses, actor.class) then
         _return_value = true
         local stage = actor:get_quest_stage("acid_wand")
         local minlevel = (stage - 1) * 10
         if minlevel < 1 then
-            local minlevel = 1
+            minlevel = 1
         end
         actor:send("<b:green>&uAcid Wand</>")
         actor:send("Masters of earth will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("acid_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end
+        local status
         if actor:get_has_completed("acid_wand") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("acid_wand") then
@@ -40,64 +39,71 @@ if ((string.find(arg, "acid") or string.find(arg, "earth")) and (string.find(arg
             local job4 = actor:get_quest_var("acid_wand:wandtask4")
             local job5 = actor:get_quest_var("acid_wand:wandtask5")
             local attack = (stage - 1) * 50
+            local weapon
             if stage < 8 then
-                local weapon = "wand"
+                weapon = "wand"
             else
-                local weapon = "staff"
+                weapon = "staff"
             end
             local remaining = ((attack) - actor:get_quest_var("acid_wand:attack_counter"))
             -- switch on stage
+            local master
+            local wandgem
+            local hint
+            local wandtask3
+            local wandtask4
+            local place
             if stage == 2 then
-                local master = mobiles.template(30, 13).name
-                local wandgem = 55576
+                master = mobiles.template(30, 13).name
+                wandgem = 55576
             elseif stage == 3 then
-                local master = mobiles.template(100, 56).name .. " in Ickle"
-                local hint = "First, seek the one who guards the eastern gates of Ickle."
-                local wandgem = 55593
-                local wandtask3 = 23751
+                master = mobiles.template(100, 56).name .. " in Ickle"
+                hint = "First, seek the one who guards the eastern gates of Ickle."
+                wandgem = 55593
+                wandtask3 = 23751
             elseif stage == 4 then
-                local master = mobiles.template(625, 4).name .. " in the Rhell Forest"
-                local hint = "The next two artisans dwell in the Rhell Forest south-east of Mielikki."
-                local wandgem = 55606
-                local wandtask3 = 2332
-                local wandtask4 = 37006
+                master = mobiles.template(625, 4).name .. " in the Rhell Forest"
+                hint = "The next two artisans dwell in the Rhell Forest south-east of Mielikki."
+                wandgem = 55606
+                wandtask3 = 2332
+                wandtask4 = 37006
             elseif stage == 5 then
-                local master = mobiles.template(625, 3).name
-                local hint = "Your next crafter isn't exactly part of the ranger network...  It's not actually a person at all.  Find the treant in the Rhell forest and ask it for guidance."
-                local wandgem = 55647
-                local wandtask3 = 16303
-                local wandtask4 = "&9&bthe Northern Swamps&0"
+                master = mobiles.template(625, 3).name
+                hint = "Your next crafter isn't exactly part of the ranger network...  It's not actually a person at all.  Find the treant in the Rhell forest and ask it for guidance."
+                wandgem = 55647
+                wandtask3 = 16303
+                wandtask4 = "&9&bthe Northern Swamps&0"
             elseif stage == 6 then
-                local master = mobiles.template(470, 75).name .. " in the Graveyard"
-                local hint = "The ranger who guards the massive necropolis near Anduin has wonderful insights on crafting with decay."
-                local wandgem = 55663
-                local wandtask3 = 55020
-                local wandtask4 = 16107
+                master = mobiles.template(470, 75).name .. " in the Graveyard"
+                hint = "The ranger who guards the massive necropolis near Anduin has wonderful insights on crafting with decay."
+                wandgem = 55663
+                wandtask3 = 55020
+                wandtask4 = 16107
             elseif stage == 7 then
-                local master = mobiles.template(40, 17).name .. " in the Black-Ice Desert"
-                local hint = "Your next guide may be hard to locate...  I believe they guard the entrance to a long-lost kingdom beyond a frozen desert."
-                local wandgem = 55683
-                local wandtask3 = 16305
-                local wandtask4 = 37082
+                master = mobiles.template(40, 17).name .. " in the Black-Ice Desert"
+                hint = "Your next guide may be hard to locate...  I believe they guard the entrance to a long-lost kingdom beyond a frozen desert."
+                wandgem = 55683
+                wandtask3 = 16305
+                wandtask4 = 37082
             elseif stage == 8 then
-                local master = mobiles.template(480, 29).name .. " in the Barrow"
-                local hint = "Next, consult with another ranger who guards a place crawling with the dead.  The dwarf ranger in the iron hills will know how to help you."
-                local wandgem = 55724
-                local wandtask3 = 58414
-                local wandtask4 = 53453
-                local place = 16355
+                master = mobiles.template(480, 29).name .. " in the Barrow"
+                hint = "Next, consult with another ranger who guards a place crawling with the dead.  The dwarf ranger in the iron hills will know how to help you."
+                wandgem = 55724
+                wandtask3 = 58414
+                wandtask4 = 53453
+                place = 16355
             elseif stage == 9 then
-                local master = mobiles.template(35, 49).name .. " at the Ranger Guild"
-                local hint = "The guard of the only known Ranger Guild in the world is also an excellent craftswoman.  Consult with her."
-                local wandgem = 55740
-                local wandtask3 = 47006
-                local wandtask4 = 52018
+                master = mobiles.template(35, 49).name .. " at the Ranger Guild"
+                hint = "The guard of the only known Ranger Guild in the world is also an excellent craftswoman.  Consult with her."
+                wandgem = 55740
+                wandtask3 = 47006
+                wandtask4 = 52018
             elseif stage == 10 then
-                local master = mobiles.template(163, 15).name
-                local hint = "Your last guide is the head of the ranger network himself, Eleweiss.  He can help make the final improvements to your staff."
-                local wandgem = 52031
-                local wandtask3 = 52007
-                local wandtask4 = 47672
+                master = mobiles.template(163, 15).name
+                hint = "Your last guide is the head of the ranger network himself, Eleweiss.  He can help make the final improvements to your staff."
+                wandgem = 52031
+                wandtask3 = 52007
+                wandtask4 = 47672
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

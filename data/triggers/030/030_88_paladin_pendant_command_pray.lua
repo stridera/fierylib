@@ -1,8 +1,17 @@
 -- Trigger: Paladin pendant command pray
 -- Zone: 30, ID: 88
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter mangled the legacy switch-on-room-and-stage check
+-- into an outer `if actor.room == 5479 and pendantstage == 1` block that
+-- accidentally wraps every other room/stage pair. Each later branch uses
+-- `if room == X and pendantstage == N then\nelseif self.id == M then` which
+-- is structurally wrong (the elseif is unreachable when the room check
+-- passes; otherwise the empty `then` falls through). Also `local continue`
+-- is declared inside branches so it's nil at the outer `if continue == "yes"`
+-- check. Restructure to a single per-stage switch that sets `continue` and
+-- hoist the `local continue`.
 --
 -- Original DG Script: #3088
 

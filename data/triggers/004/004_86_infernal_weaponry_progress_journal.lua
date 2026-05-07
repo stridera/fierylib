@@ -1,10 +1,8 @@
 -- Trigger: Infernal Weaponry progress journal
 -- Zone: 4, ID: 86
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Infernal Weaponry progress journal>:4: 'then' expected near 'trident'
---   Complex nesting: 27 if statements
---   Large script: 7103 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #486
 
@@ -17,22 +15,24 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
         actor:send("<b:green>&uInfernal Weaponry</>")
         actor:send("Weapons of the lower realms await a diabolist dedicated enough to claim them.")
         local hellstage = actor:get_quest_stage("hell_trident")
+        local minlevel
         if not hellstage then
-            local minlevel = 35
+            minlevel = 35
         elseif hellstage == 1 then
-            local minlevel = 65
+            minlevel = 65
         elseif hellstage == 2 then
-            local minlevel = 90
+            minlevel = 90
         end
         if not actor:get_has_completed("hell_trident") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end
+        local status
         if actor:get_has_completed("hell_trident") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif hellstage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor:get_quest_stage("hell_trident") then

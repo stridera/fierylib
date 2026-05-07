@@ -1,8 +1,6 @@
 -- Trigger: drop_phase_3_boss_42
 -- Zone: 555, ID: 90
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
 --
 -- Original DG Script: #55590
 
@@ -25,7 +23,7 @@ local what_gem_drop = random(1, 11)
 -- 
 if will_drop <= 20 then
     -- drop nothing and bail
-    return _return_value
+    return true
 end
 if will_drop <= 60 then
     -- Normal non-bonus drops

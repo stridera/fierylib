@@ -28,28 +28,20 @@ if (arg ~= "button") and (arg ~= "figurine") and (arg ~= "kourrya-figurine") and
     return _return_value
 end
 _return_value = false
--- switch on random(1, 9)
-if random(1, 9) == 1 then
-    local phrase = "Find it yourself."
-elseif random(1, 9) == 2 then
-    local phrase = "Finish your existing quest first."
-elseif random(1, 9) == 3 then
-    local phrase = "Your soul belongs to me!"
-elseif random(1, 9) == 4 then
-    local phrase = "PHRASE4"
-elseif random(1, 9) == 5 then
-    local phrase = "PHRASE5"
-elseif random(1, 9) == 6 then
-    local phrase = "PHRASE6"
-elseif random(1, 9) == 7 then
-    local phrase = "PHRASE7"
-elseif random(1, 9) == 8 then
-    local phrase = "PHRASE8"
-elseif random(1, 9) == 9 then
-    local phrase = "PHRASE9"
-else
-    local phrase = "PHRASE0"
-end
+-- legacy "switch on random(1, 9)": single roll, then table-lookup phrase
+local roll = random(1, 9)
+local phrases = {
+    "Find it yourself.",
+    "Finish your existing quest first.",
+    "Your soul belongs to me!",
+    "PHRASE4",
+    "PHRASE5",
+    "PHRASE6",
+    "PHRASE7",
+    "PHRASE8",
+    "PHRASE9",
+}
+local phrase = phrases[roll] or "PHRASE0"
 self.room:send(tostring(actor.name) .. " presses the button in the Kourrya figurine's back.")
 self.room:send("The Kourrya figurine says, '" .. tostring(phrase) .. "'")
 return _return_value

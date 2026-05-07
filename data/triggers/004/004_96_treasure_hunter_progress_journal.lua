@@ -1,9 +1,7 @@
 -- Trigger: Treasure Hunter progress journal
 -- Zone: 4, ID: 96
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Treasure Hunter progress journal>:4: 'then' expected near 'hunter'
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #496
 
@@ -18,41 +16,44 @@ if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg
     local target1 = actor:get_quest_var("treasure_hunter:treasure1")
     actor:send("<b:green>&uTreasure Hunt</>")
     -- switch on stage
+    local treasure1
     if stage == 1 then
-        local treasure1 = "a singing chain"
+        treasure1 = "a singing chain"
     elseif stage == 2 then
-        local treasure1 = "a true fire ring"
+        treasure1 = "a true fire ring"
     elseif stage == 3 then
-        local treasure1 = "a sandstone ring"
+        treasure1 = "a sandstone ring"
     elseif stage == 4 then
-        local treasure1 = "a crimson-tinged electrum hoop"
+        treasure1 = "a crimson-tinged electrum hoop"
     elseif stage == 5 then
-        local treasure1 = "a Rainbow Shell"
+        treasure1 = "a Rainbow Shell"
     elseif stage == 6 then
-        local treasure1 = "the Stormshield"
+        treasure1 = "the Stormshield"
     elseif stage == 7 then
-        local treasure1 = "the Snow Leopard Cloak"
+        treasure1 = "the Snow Leopard Cloak"
     elseif stage == 8 then
-        local treasure1 = "a coiled rope ladder"
+        treasure1 = "a coiled rope ladder"
     elseif stage == 9 then
-        local treasure1 = "a glowing phoenix feather"
+        treasure1 = "a glowing phoenix feather"
     elseif stage == 10 then
-        local treasure1 = "a piece of sleet armor"
+        treasure1 = "a piece of sleet armor"
     end
+    local level
     if stage == 1 or not stage then
-        local level = 1
+        level = 1
     else
-        local level = (stage - 1) * 10
+        level = (stage - 1) * 10
     end
     if not actor:get_has_completed("treasure_hunter") then
         actor:send("Minimum Level: " .. tostring(level))
     end
+    local status
     if actor:get_has_completed("treasure_hunter") then
-        local status = "Completed!"
+        status = "Completed!"
     elseif stage then
-        local status = "In Progress"
+        status = "In Progress"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if stage > 0 and not actor:get_has_completed("bounty_hunt") then

@@ -1,8 +1,7 @@
 -- Trigger: Eldoria variable load
 -- Zone: 4, ID: 99
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Large script: 6905 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #499
 

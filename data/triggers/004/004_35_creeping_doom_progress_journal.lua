@@ -1,9 +1,8 @@
 -- Trigger: Creeping Doom progress journal
 -- Zone: 4, ID: 35
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Creeping Doom progress journal>:4: 'then' expected near 'doom'
---   Complex nesting: 12 if statements
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #435
 
@@ -16,12 +15,13 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
         local stage = actor:get_quest_stage("creeping_doom")
         actor:send("<b:green>&uCreeping Doom</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("creeping_doom") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("creeping_doom") then

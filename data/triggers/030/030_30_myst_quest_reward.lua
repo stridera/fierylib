@@ -1,10 +1,12 @@
 -- Trigger: Myst_quest_reward
 -- Zone: 30, ID: 30
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #3030
+-- TODO(parity): the legacy "switch on random(1, 19)" was converted to repeated
+-- random rolls per branch; semantics differ from a single roll. Consider
+-- hoisting `local roll = random(1, 19)` and switching on `roll` instead.
 
 -- Converted from DG Script #3030: Myst_quest_reward
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
@@ -90,38 +92,37 @@ wait(1)
 self:command("give all " .. tostring(actor.name))
 if not actor:get_has_completed("mystwatch_quest") and actor:get_quest_var("mystwatch_quest:step") == "complete" then
     actor:complete_quest("mystwatch_quest")
+    local expcap
     if actor.level < 50 then
-        local expcap = actor.level
+        expcap = actor.level
     else
-        local expcap = 50
+        expcap = 50
     end
     local expmod = 0
     if expcap < 9 then
-        local expmod = (((expcap * expcap) + expcap) / 2) * 55
+        expmod = (((expcap * expcap) + expcap) / 2) * 55
     elseif expcap < 17 then
-        local expmod = 440 + ((expcap - 8) * 125)
+        expmod = 440 + ((expcap - 8) * 125)
     elseif expcap < 25 then
-        local expmod = 1440 + ((expcap - 16) * 175)
+        expmod = 1440 + ((expcap - 16) * 175)
     elseif expcap < 34 then
-        local expmod = 2840 + ((expcap - 24) * 225)
+        expmod = 2840 + ((expcap - 24) * 225)
     elseif expcap < 49 then
-        local expmod = 4640 + ((expcap - 32) * 250)
+        expmod = 4640 + ((expcap - 32) * 250)
     elseif expcap < 90 then
-        local expmod = 8640 + ((expcap - 48) * 300)
+        expmod = 8640 + ((expcap - 48) * 300)
     else
-        local expmod = 20940 + ((expcap - 89) * 600)
+        expmod = 20940 + ((expcap - 89) * 600)
     end
     -- switch on actor.class
     if actor.class == "Warrior" or actor.class == "Berserker" then
-        local expmod = (expmod + (expmod / 10))
+        expmod = (expmod + (expmod / 10))
     elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
-        local expmod = (expmod + ((expmod * 2) / 15))
+        expmod = (expmod + ((expmod * 2) / 15))
     elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
-        local expmod = (expmod + (expmod / 5))
+        expmod = (expmod + (expmod / 5))
     elseif actor.class == "Necromancer" or actor.class == "Monk" then
-        local expmod = (expmod + ((expmod * 2) / 5))
-    else
-        expmod = expmod
+        expmod = (expmod + ((expmod * 2) / 5))
     end
     actor:send("<b:yellow>You gain experience!</>")
     local setexp = (expmod * 10)

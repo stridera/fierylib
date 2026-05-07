@@ -1,9 +1,7 @@
 -- Trigger: Dragon Slayer Isilynor Speech yes
 -- Zone: 30, ID: 82
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
---   Large script: 6184 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #3082
 
@@ -23,14 +21,15 @@ end
 wait(2)
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]
-    if person.room == self.room then
+    if person and person.room == self.room then
         if not person:get_quest_stage("dragon_slayer") and person.level > 4 then
             person:start_quest("dragon_slayer")
         end
@@ -44,27 +43,28 @@ while i >= a do
             if person.level >= (person:get_quest_stage("dragon_slayer") - 1) * 10 then
                 if person:get_quest_var("dragon_slayer:hunt") ~= "running" then
                     person:send(tostring(self.name) .. " says, 'Excellent!'")
+                    local notice
                     -- switch on person:get_quest_stage("dragon_slayer")
                     if person:get_quest_stage("dragon_slayer") == 1 then
-                        local notice = 80
+                        notice = 80
                     elseif person:get_quest_stage("dragon_slayer") == 2 then
-                        local notice = 81
+                        notice = 81
                     elseif person:get_quest_stage("dragon_slayer") == 3 then
-                        local notice = 82
+                        notice = 82
                     elseif person:get_quest_stage("dragon_slayer") == 4 then
-                        local notice = 83
+                        notice = 83
                     elseif person:get_quest_stage("dragon_slayer") == 5 then
-                        local notice = 84
+                        notice = 84
                     elseif person:get_quest_stage("dragon_slayer") == 6 then
-                        local notice = 85
+                        notice = 85
                     elseif person:get_quest_stage("dragon_slayer") == 7 then
-                        local notice = 86
+                        notice = 86
                     elseif person:get_quest_stage("dragon_slayer") == 8 then
-                        local notice = 87
+                        notice = 87
                     elseif person:get_quest_stage("dragon_slayer") == 9 then
-                        local notice = 88
+                        notice = 88
                     elseif person:get_quest_stage("dragon_slayer") == 10 then
-                        local notice = 89
+                        notice = 89
                     end
                     self.room:spawn_object(30, notice)
                     self:command("give notice " .. tostring(person))

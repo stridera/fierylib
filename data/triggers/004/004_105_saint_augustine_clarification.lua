@@ -1,8 +1,7 @@
 -- Trigger: Saint Augustine clarification
 -- Zone: 4, ID: 105
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #505
 

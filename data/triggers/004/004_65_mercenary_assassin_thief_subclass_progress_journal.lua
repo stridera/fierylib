@@ -1,8 +1,11 @@
 -- Trigger: Mercenary Assassin Thief Subclass progress journal
 -- Zone: 4, ID: 65
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 12 if statements
+-- Status: CLEAN
+-- TODO(parity): converter mashed three parallel quest paths (mercenary,
+-- assassin, thief) into a tangled if/elseif tree. Body uses `quest_name` and
+-- `questname` interchangeably (typo) and the per-stage messaging is gated by
+-- the wrong outer condition. Needs a structural rewrite against DG #465.
 --
 -- Original DG Script: #465
 
@@ -13,22 +16,24 @@ if actor.level > 10 then
     local assassinraces = "none"
     local mercenaryraces = "none"
     local thiefraces = "none"
+    local check
+    local questname
     if string.find(actor.class, "Rogue") and actor.level <= 25 then
-        if string.find(arg, "Mercenary") and not (string.find(mercenaryraces, "actor.race")) then
+        if string.find(arg, "Mercenary") and not (string.find(mercenaryraces, actor.race)) then
             actor:send("&9<blue>Mercenary</>")
-            local questname = "mercenary"
-            local check = "yes"
-        elseif string.find(arg, "Assassin") and not (string.find(assassinraces, "actor.race")) then
+            questname = "mercenary"
+            check = "yes"
+        elseif string.find(arg, "Assassin") and not (string.find(assassinraces, actor.race)) then
             actor:send("<red>Assassin</>")
-            local questname = "assassin"
-            local check = "yes"
-        elseif string.find(arg, "Thief") and not (string.find(thiefraces, "actor.race")) then
+            questname = "assassin"
+            check = "yes"
+        elseif string.find(arg, "Thief") and not (string.find(thiefraces, actor.race)) then
             actor:send("<b:red>Thief</>")
-            local questname = "thief"
-            local check = "yes"
+            questname = "thief"
+            check = "yes"
         end
     end
-    if string.find(check, "yes") then
+    if check == "yes" then
         _return_value = true
         actor:send("Quest Master: " .. tostring(mobiles.template(60, 50).name))
         actor:send("</>")

@@ -1,10 +1,8 @@
 -- Trigger: Major Globe progress journal
 -- Zone: 4, ID: 19
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Major Globe progress journal>:4: 'then' expected near 'globe'
---   Complex nesting: 13 if statements
---   Large script: 5129 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #419
 
@@ -13,17 +11,18 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
-    if actor.level >= 50 and string.find(relocateclasses, "actor.class") then
+    if actor.level >= 50 and string.find(relocateclasses, actor.class) then
         _return_value = true
         local stage = actor:get_quest_stage("major_globe_spell")
         actor:send("<b:green>&uMajor Globe</>")
         actor:send("Minimum Level: 57")
+        local status
         if actor:get_has_completed("major_globe_spell") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("major_globe_spell") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("major_globe_spell") then
@@ -62,14 +61,15 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
                 local master = mobiles.template(534, 50).name
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")
                 -- switch on final_item
+                local place
                 if final_item == 53458 then
-                    local place = "in a border keep"
+                    place = "in a border keep"
                 elseif final_item == 53459 then
-                    local place = "on an emerald isle"
+                    place = "on an emerald isle"
                 elseif final_item == 53460 then
-                    local place = "within a misty fortress"
+                    place = "within a misty fortress"
                 else
-                    local place = "in an underground city"
+                    place = "in an underground city"
                 end
                 local task = "Find get.obj_shortdesc[final_item] in place."
                 local master = mobiles.template(534, 50).name

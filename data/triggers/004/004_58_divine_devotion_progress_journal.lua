@@ -1,10 +1,8 @@
 -- Trigger: Divine Devotion progress journal
 -- Zone: 4, ID: 58
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Divine Devotion progress journal>:4: 'then' expected near 'pendant'
---   Complex nesting: 18 if statements
---   Large script: 5987 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #458
 
@@ -23,20 +21,22 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
         local job3 = actor:get_quest_var("paladin_pendant:necklacetask3")
         local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
         actor:send("<b:green>&uDivine Devotion</>")
+        local level
         if not pendantstage then
-            local level = 10
+            level = 10
         else
-            local level = pendantstage * 10
+            level = pendantstage * 10
         end
         if not actor:get_has_completed("paladin_pendant") then
             actor:send("Minimum Level: " .. tostring(level))
         end
+        local status
         if actor:get_has_completed("paladin_pendant") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif pendantstage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor.level >= level then
@@ -48,51 +48,55 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
                 return _return_value
             end
             -- switch on pendantstage
+            local necklace
+            local gem
+            local place
+            local hint
             if pendantstage == 1 then
-                local necklace = 12003
-                local gem = 55582
-                local place = "The Mist Temple Altar"
-                local hint = "in the Misty Caverns."
+                necklace = 12003
+                gem = 55582
+                place = "The Mist Temple Altar"
+                hint = "in the Misty Caverns."
             elseif pendantstage == 2 then
-                local necklace = 23708
-                local gem = 55590
-                local place = "Chamber of Chaos"
-                local hint = "in the Temple of Chaos."
+                necklace = 23708
+                gem = 55590
+                place = "Chamber of Chaos"
+                hint = "in the Temple of Chaos."
             elseif pendantstage == 3 then
-                local necklace = 58005
-                local gem = 55622
-                local place = "Altar of Borgan"
-                local hint = "in the lost city of Nymrill."
+                necklace = 58005
+                gem = 55622
+                place = "Altar of Borgan"
+                hint = "in the lost city of Nymrill."
             elseif pendantstage == 4 then
-                local necklace = 48123
-                local gem = 55654
-                local place = "A Hidden Altar Room"
-                local hint = "in a cave in South Caelia's Wailing Mountains."
+                necklace = 48123
+                gem = 55654
+                place = "A Hidden Altar Room"
+                hint = "in a cave in South Caelia's Wailing Mountains."
             elseif pendantstage == 5 then
-                local necklace = 12336
-                local gem = 55662
-                local place = "The Altar of the Snow Leopard Order"
-                local hint = "buried deep in Mt. Frostbite"
+                necklace = 12336
+                gem = 55662
+                place = "The Altar of the Snow Leopard Order"
+                hint = "buried deep in Mt. Frostbite"
             elseif pendantstage == 6 then
-                local necklace = 43019
-                local gem = 55677
-                local place = "Chapel Altar"
-                local hint = "deep underground in a lost castle."
+                necklace = 43019
+                gem = 55677
+                place = "Chapel Altar"
+                hint = "deep underground in a lost castle."
             elseif pendantstage == 7 then
-                local necklace = 37015
-                local gem = 55709
-                local place = "A Cliffside Altar"
-                local hint = "tucked away in the land of Dreams."
+                necklace = 37015
+                gem = 55709
+                place = "A Cliffside Altar"
+                hint = "tucked away in the land of Dreams."
             elseif pendantstage == 8 then
-                local necklace = 58429
-                local gem = 55738
-                local place = "Dark Altar"
-                local hint = "entombed with an ancient evil king."
+                necklace = 58429
+                gem = 55738
+                place = "Dark Altar"
+                hint = "entombed with an ancient evil king."
             elseif pendantstage == 9 then
-                local necklace = 52010
-                local gem = 55739
-                local place = "An Altar"
-                local hint = "far away in the Plane of Air."
+                necklace = 52010
+                gem = 55739
+                place = "An Altar"
+                hint = "far away in the Plane of Air."
             end
             local attack = pendantstage * 100
             actor:send("Quest Master: " .. tostring(master))

@@ -1,9 +1,7 @@
 -- Trigger: Waterform progress journal
 -- Zone: 4, ID: 39
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 25 if statements
---   Large script: 6284 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #439
 
@@ -16,12 +14,13 @@ if string.find(arg, "waterform") then
         local stage = actor:get_quest_stage("waterform")
         actor:send("<b:green>&uWaterform</>")
         actor:send("Minimum Level: 73")
+        local status
         if actor:get_has_completed("waterform") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("waterform") then

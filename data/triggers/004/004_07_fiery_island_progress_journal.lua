@@ -1,9 +1,7 @@
 -- Trigger: Fiery Island Progress journal
 -- Zone: 4, ID: 7
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Fiery Island Progress journal>:4: 'then' expected near 'fiery'
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #407
 
@@ -17,12 +15,13 @@ if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg,
         actor:send("<b:green>&uLiberate Fiery Island</>")
         actor:send("Recommended Level: 55")
         actor:send("Initial rewards can be received at level 35.")
+        local status
         if actor:get_has_completed("fieryisle_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("fieryisle_quest") then

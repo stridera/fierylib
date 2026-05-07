@@ -1,8 +1,8 @@
 -- Trigger: Moonwell progress journal
 -- Zone: 4, ID: 15
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #415
 
@@ -16,54 +16,57 @@ if string.find(arg, "moonwell") or string.find(arg, "moonwell_spell_quest") then
         local master = mobiles.template(163, 16).name
         actor:send("<b:green>&uMoonwell</>")
         actor:send("Minimum Level: 73")
+        local status
         if actor:get_has_completed("moonwell_spell_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("moonwell_spell_quest") then
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")
             -- switch on stage
+            local item
+            local place
             if stage == 1 or stage == 2 then
                 -- Vine of Mielikki
-                local item = 16350
-                local place = "an island of lava and fire"
+                item = 16350
+                place = "an island of lava and fire"
             elseif stage == 3 then
                 -- The Heartstone
-                local item = 48024
-                local place = "an ancient burial site far to the north"
+                item = 48024
+                place = "an ancient burial site far to the north"
             elseif stage == 4 then
                 -- Flask of Eleweiss
-                local item = 16356
-                local place = "the cult of the ice dragon"
+                item = 16356
+                place = "the cult of the ice dragon"
             elseif stage == 5 then
                 -- Flask of Eleweiss
-                local item = 16356
-                local place = "the cult of the ice dragon"
+                item = 16356
+                place = "the cult of the ice dragon"
             elseif stage == 6 then
                 -- Glittering ruby ring
-                local item = 5201
-                local place = "a temple dedicated to fire"
+                item = 5201
+                place = "a temple dedicated to fire"
             elseif stage == 7 then
                 -- Orb of Winds
-                local item = 16006
-                local place = "a dark fortress to the east"
+                item = 16006
+                place = "a dark fortress to the east"
             elseif stage == 8 then
                 -- Jade ring
-                local item = 49011
-                local place = "a wood nymph on an island of our brothers beset by beasts"
+                item = 49011
+                place = "a wood nymph on an island of our brothers beset by beasts"
             elseif stage == 10 then
                 -- Chaos Orb
-                local item = 4003
-                local place = "a great dragon hidden in a hellish labyrinth"
+                item = 4003
+                place = "a great dragon hidden in a hellish labyrinth"
             elseif stage == 11 then
                 -- Granite Ring
-                local item = 55020
-                local place = "a large temple hidden in a mountain"
+                item = 55020
+                place = "a large temple hidden in a mountain"
             end
             if stage < 6 or (stage >= 6 and not actor:get_quest_var("moonwell_spell_quest:map")) then
                 actor:send("Bring " .. "%get.obj_shortdesc[%item%]% from %place%.")

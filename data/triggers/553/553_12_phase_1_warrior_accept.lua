@@ -11,8 +11,7 @@
 -- This will recognize the acceptance of the phase armor quest
 -- by a player and set the quest variable for later interaction.
 -- 
-local anti = "Anti-Paladin"
-local WARRIOR_SUB = (actor.class == warrior  or  actor.class == paladin  or  actor.class == anti  or  actor.class == ranger  or  actor.class == monk)
+local WARRIOR_SUB = (actor.class == "warrior" or actor.class == "paladin" or actor.class == "anti" or actor.class == "ranger" or actor.class == "monk")
 if WARRIOR_SUB then
     wait(2)
     if actor:get_quest_stage("phase_armor") == 0 then

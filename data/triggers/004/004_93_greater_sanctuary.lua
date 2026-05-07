@@ -1,8 +1,7 @@
 -- Trigger: Greater Sanctuary
 -- Zone: 4, ID: 93
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Greater Sanctuary>:4: 'then' expected near 'sanctuary'
+-- Status: CLEAN
 --
 -- Original DG Script: #493
 

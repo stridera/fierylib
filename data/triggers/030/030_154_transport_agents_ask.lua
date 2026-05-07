@@ -17,34 +17,34 @@
 local minlevel = 1
 local maxlevel = 15
 -- switch on self.id
--- This is the barbarian, who sends people to Ickle.
+local myname = "elf"
+local dest_room = 3016
+local dsname = "Mielikki"
 if self.id == 3151 or self.id == 30075 then
-    local myname = "barbarian"
-    local dest_room = 10046
-    local dsname = "Ickle"
+    -- barbarian, sends to Ickle
+    myname = "barbarian"
+    dest_room = 10046
+    dsname = "Ickle"
 elseif self.id == 3152 then
-    -- This is the dwarf, who sends people to Anduin.
-    local myname = "dwarf"
-    local dest_room = 6015
-    local dsname = "Anduin"
+    -- dwarf, sends to Anduin
+    myname = "dwarf"
+    dest_room = 6015
+    dsname = "Anduin"
 elseif self.id == 30074 then
-    local myname = "drow"
-    local dest_room = 6015
-    local dsname = "Anduin"
+    myname = "drow"
+    dest_room = 6015
+    dsname = "Anduin"
 elseif self.id == 30076 then
-    local myname = "human"
-    local dest_room = 3016
-    local dsname = "Mielikki"
+    myname = "human"
+    dest_room = 3016
+    dsname = "Mielikki"
 elseif self.id == 30077 then
-    local myname = "orc"
-    local dest_room = 30115
-    local dsname = "Ogakh"
+    myname = "orc"
+    dest_room = 30115
+    dsname = "Ogakh"
 elseif self.id == 3150 then
-else
-    -- This is the elf, who sends people to Mielikki.
-    local myname = "elf"
-    local dest_room = 3016
-    local dsname = "Mielikki"
+    -- legacy: questmaster 3150 had no agent record; bail
+    return true
 end
 wait(4)
 -- **************************
@@ -68,18 +68,19 @@ end
 -- **************************
 -- The color says where they came from.
 -- It is seen by anyone standing at the destination.
+local dcolor
 if self.room == 3016 then
     -- Mielikki - GREEN
-    local dcolor = "&2green&0"
+    dcolor = "&2green&0"
 elseif self.room == 6015 then
     -- Anduin - RED
-    local dcolor = "&1red&0"
+    dcolor = "&1red&0"
 elseif self.room == 30115 then
     -- Ogakh - GRAY
-    local dcolor = "&9&bgray&0"
+    dcolor = "&9&bgray&0"
 else
     -- Ickle - BLUE
-    local dcolor = "&4blue&0"
+    dcolor = "&4blue&0"
 end
 -- **********************
 -- * Perform transport **

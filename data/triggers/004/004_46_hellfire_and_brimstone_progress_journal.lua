@@ -1,9 +1,7 @@
 -- Trigger: Hellfire and Brimstone progress journal
 -- Zone: 4, ID: 46
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 20 if statements
---   Large script: 5430 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #446
 
@@ -17,12 +15,13 @@ if string.find(arg, "hellfire") or string.find(arg, "brimstone") or string.find(
         local stage = actor:get_quest_stage("hellfire_brimstone")
         actor:send("<b:green>&uHellfire and Brimstone</>")
         actor:send("Minimum Level: 57")
+        local status
         if actor:get_has_completed("hellfire_brimstone") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("hellfire_brimstone") then

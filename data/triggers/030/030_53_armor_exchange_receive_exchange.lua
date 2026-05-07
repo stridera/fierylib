@@ -1,8 +1,12 @@
 -- Trigger: Armor Exchange receive exchange
 -- Zone: 30, ID: 53
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 25 if statements
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local found = 1` inside every nested branch,
+-- so `found` is always nil at the outer `if found == 1 then` check. Hoist
+-- `local found` and drop the `local` keyword in branches. Also replace
+-- `%get.obj_shortdesc[%item%]%` with `objects.template(math.floor(item/100), item%100).name`.
 --
 -- Original DG Script: #3053
 

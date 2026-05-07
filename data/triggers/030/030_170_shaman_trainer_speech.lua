@@ -1,10 +1,15 @@
 -- Trigger: shaman trainer speech
 -- Zone: 30, ID: 170
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: Let's talk about improving a skill you actually know.'
---   Complex nesting: 14 if statements
---   Large script: 8832 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local skill` and `local word2` inside
+-- every if/elseif branch. They are nil at the outer `local skill = 10 * skill`
+-- recomputation and at the `if word2 then` check before set_quest_var. Hoist
+-- those locals to the top of the trigger and drop the `local` keyword in
+-- branches. Also: there is a `-- UNCONVERTED: Let's talk about improving a
+-- skill you actually know.'` line inside the `if skill < 50` branch that
+-- should be a real `self.room:send(...)` continuation of the previous line.
 --
 -- Original DG Script: #3170
 

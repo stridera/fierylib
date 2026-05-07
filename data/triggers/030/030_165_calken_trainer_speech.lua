@@ -1,9 +1,13 @@
 -- Trigger: Calken trainer speech
 -- Zone: 30, ID: 165
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 17 if statements
---   Large script: 9416 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local skill`, `local word2`, `local cap`,
+-- and `local maxskill` inside every if/elseif branch. They are nil at the
+-- outer `local skill = 10 * skill` line and the cap/maxskill comparisons.
+-- Hoist those locals to the top of the trigger and drop the `local` keyword
+-- in branches.
 --
 -- Original DG Script: #3165
 

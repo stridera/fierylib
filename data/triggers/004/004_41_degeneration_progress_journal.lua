@@ -14,12 +14,13 @@ if string.find(arg, "degeneration") then
         local stage = actor:get_quest_stage("degeneration")
         actor:send("<b:green>&uDegeneration</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("degeneration") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage and not actor:get_has_completed("degeneration") then

@@ -1,11 +1,11 @@
 -- Trigger: corpse retrieval price set
 -- Zone: 30, ID: 182
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
---   Large script: 5606 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #3182
+-- Note: `speech` is the user's input keyword (corpse/retrieval/services/yes/help);
+-- the "for {speech}" line shows the keyword the user typed which mirrors legacy DG.
 
 -- Converted from DG Script #3182: corpse retrieval price set
 -- Original: MOB trigger, flags: SPEECH, probability: 100%

@@ -1,9 +1,7 @@
 -- Trigger: Blur progress journal
 -- Zone: 4, ID: 43
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
---   Large script: 5915 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #443
 
@@ -26,14 +24,15 @@ if string.find(arg, "blur") then
         local master = mobiles.template(18, 18).name
         actor:send("<b:green>&uBlur</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("blur") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_has_failed("blur") then
-            local status = "Failed"
+            status = "Failed"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if not stage then

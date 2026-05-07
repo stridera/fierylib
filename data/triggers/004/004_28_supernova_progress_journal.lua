@@ -1,10 +1,12 @@
 -- Trigger: Supernova progress journal
 -- Zone: 4, ID: 28
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Supernova progress journal>:116: 'end' expected (to close 'if' at line 23) near 'if'
---   Complex nesting: 18 if statements
---   Large script: 8145 chars
+-- Status: CLEAN
+-- TODO(parity): converter put clue2/clue3/clue4/clue5 declarations inside the
+-- `elseif stage == 3` branch (lines ~51-126) but they're referenced from
+-- stage 4/5/6 branches (lines ~132-140). The original DG script likely set
+-- these unconditionally based on quest_var lookups; needs to be hoisted out
+-- of the stage gate or reread per-stage.
 --
 -- Original DG Script: #428
 
@@ -17,12 +19,13 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
         local stage = actor:get_quest_stage("supernova")
         actor:send("<b:green>&uSupernova</>")
         actor:send("Minimum Level: 89")
+        local status
         if actor:get_has_completed("supernova") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("supernova") then
@@ -50,28 +53,30 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 actor:send("Find further clues to Phayla's whereabouts.")
                 actor:send("</>")
                 -- switch on actor:get_quest_var("supernova:step4")
+                local clue2
                 if actor:get_quest_var("supernova:step4") == 18577 then
-                    local clue2 = "I continue my journey where the sun rises amidst a sea of swirling worlds."
+                    clue2 = "I continue my journey where the sun rises amidst a sea of swirling worlds."
                     -- The Abbey, the rising sun room
                 elseif actor:get_quest_var("supernova:step4") == 17277 then
-                    local clue2 = "Atop a tower I visit a master who waits to give his final examination."
+                    clue2 = "Atop a tower I visit a master who waits to give his final examination."
                     -- Citadel of Testing
                 elseif actor:get_quest_var("supernova:step4") == 8561 then
-                    local clue2 = "I study in a secret place above a hall of misery beyond a gallery of horrors."
+                    clue2 = "I study in a secret place above a hall of misery beyond a gallery of horrors."
                     -- Cathedral of Betrayal near Norisent
                 end
                 -- end clue2 switch
                 actor:send("Find yet another clue to Phayla's whereabouts.")
                 actor:send("</>")
                 -- switch on actor:get_quest_var("supernova:step5")
+                local clue3
                 if actor:get_quest_var("supernova:step5") == 53219 then
-                    local clue3 = "Where DID the lizard men get that throne from?  I'll see if I can find out."
+                    clue3 = "Where DID the lizard men get that throne from?  I'll see if I can find out."
                     -- Lizard King's throne room, Sunken
                 elseif actor:get_quest_var("supernova:step5") == 47343 then
-                    local clue3 = "They often wonder what would happen if bones could talk.  I'll ask one who can make that happen!"
+                    clue3 = "They often wonder what would happen if bones could talk.  I'll ask one who can make that happen!"
                     -- Kryzanthor, Graveyard
                 elseif actor:get_quest_var("supernova:step5") == 16278 then
-                    local clue3 = "Waves of sand hold the remains of a child of the Sun God.  Supposedly.  I'll have to see for myself."
+                    clue3 = "Waves of sand hold the remains of a child of the Sun God.  Supposedly.  I'll have to see for myself."
                     -- Imanhotep, Pyramid
                 end
                 -- end clue3 switch
@@ -81,42 +86,46 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 -- switch on actor:get_quest_var("supernova:step6")
                 if actor:get_quest_var("supernova:step6") == 58657 then
                     -- A Hummock of Grass in the Beachhead
+                    local clue4
                     if step7 == 1 then
-                        local clue4 = "s pfqzqgc wq kecwk qy xug fwinlugev"
+                        clue4 = "s pfqzqgc wq kecwk qy xug fwinlugev"
                     elseif step7 == 2 then
-                        local clue4 = "d hlwzsuc rf xbnwk aq tyo oisukhvkq"
+                        clue4 = "d hlwzsuc rf xbnwk aq tyo oisukhvkq"
                     elseif step7 == 3 then
-                        local clue4 = "s oidfgjy fy yyojl au hyx tlotazlou"
+                        clue4 = "s oidfgjy fy yyojl au hyx tlotazlou"
                     end
                 elseif actor:get_quest_var("supernova:step6") == 35119 then
                     -- A Pile of Stones in the Brush Lands
+                    local clue4
                     if step7 == 1 then
-                        local clue4 = "s xtpr qj kbzrru mf bsi otykp weafw"
+                        clue4 = "s xtpr qj kbzrru mf bsi otykp weafw"
                     elseif step7 == 2 then
-                        local clue4 = "d pzvr sx kwoeof mf lke sbhwz ddnuc"
+                        clue4 = "d pzvr sx kwoeof mf lke sbhwz ddnuc"
                     elseif step7 == 3 then
-                        local clue4 = "s wwcx gm gkhflg zg los skmzv ctfkg"
+                        clue4 = "s wwcx gm gkhflg zg los skmzv ctfkg"
                     end
                 elseif actor:get_quest_var("supernova:step6") == 55422 then
                     -- The Trail Overlooking the Falls in the dark mountains
+                    local clue4
                     if step7 == 1 then
-                        local clue4 = "lpp xecmd wgiensgstrt vlw nlpyu mf bsi qcvc uzyaveavd"
+                        clue4 = "lpp xecmd wgiensgstrt vlw nlpyu mf bsi qcvc uzyaveavd"
                     elseif step7 == 2 then
-                        local clue4 = "whv deead ovvbysgclnx dui xsolj sa xzw gaiu zsmfwazxf"
+                        clue4 = "whv deead ovvbysgclnx dui xsolj sa xzw gaiu zsmfwazxf"
                     elseif step7 == 3 then
-                        local clue4 = "los kkspz fowyzfhcpbx mzl tredz we mzl rrkc tclglhwel"
+                        clue4 = "los kkspz fowyzfhcpbx mzl tredz we mzl rrkc tclglhwel"
                     end
                 end
                 -- end clue4 switch
                 -- switch on step7
+                local clue5
                 if step7 == 1 then
-                    local clue5 = "What disappears as soon as you say its name?"
+                    clue5 = "What disappears as soon as you say its name?"
                     -- Answer: Silence
                 elseif step7 == 2 then
-                    local clue5 = "The more there is, the less you see. What am I?"
+                    clue5 = "The more there is, the less you see. What am I?"
                     -- Answer: Darkness
                 elseif step7 == 3 then
-                    local clue5 = "What word becomes shorter when you add two to it?"
+                    clue5 = "What word becomes shorter when you add two to it?"
                     -- Answer: Short
                 end
                 -- end clue 5 switch

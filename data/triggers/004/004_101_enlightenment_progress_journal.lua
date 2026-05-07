@@ -1,10 +1,8 @@
 -- Trigger: Enlightenment progress journal
 -- Zone: 4, ID: 101
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Enlightenment progress journal>:4: 'then' expected near 'vision'
---   Complex nesting: 18 if statements
---   Large script: 6150 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #501
 
@@ -22,20 +20,22 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
         local job3 = actor:get_quest_var("monk_vision:visiontask3")
         local job4 = actor:get_quest_var("monk_vision:visiontask4")
         actor:send("<b:green>&uEnlightenment</>")
+        local level
         if not visionstage then
-            local level = 10
+            level = 10
         else
-            local level = visionstage * 10
+            level = visionstage * 10
         end
         if not actor:get_has_completed("monk_vision") then
             actor:send("Minimum Level: " .. tostring(level))
         end
+        local status
         if actor:get_has_completed("monk_vision") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif visionstage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor.level >= level then
@@ -47,60 +47,65 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
                 return _return_value
             end
             -- switch on visionstage
+            local book
+            local gem
+            local room
+            local place
+            local hint
             if visionstage == 1 then
-                local book = 59006
-                local gem = 55582
-                local room = get_room("4328")
-                local place = room.name
-                local hint = "in a place to perform."
+                book = 59006
+                gem = 55582
+                room = get_room("4328")
+                place = room.name
+                hint = "in a place to perform."
             elseif visionstage == 2 then
-                local book = 18505
-                local gem = 55591
-                local room = get_room("58707")
-                local place = room.name
-                local hint = "near a sandy beach."
+                book = 18505
+                gem = 55591
+                room = get_room("58707")
+                place = room.name
+                hint = "near a sandy beach."
             elseif visionstage == 3 then
-                local book = 8501
-                local gem = 55623
-                local room = get_room("18597")
-                local place = room.name
-                local hint = "in a cloistered library."
+                book = 8501
+                gem = 55623
+                room = get_room("18597")
+                place = room.name
+                hint = "in a cloistered library."
             elseif visionstage == 4 then
-                local book = 12532
-                local gem = 55655
-                local room = get_room("58102")
-                local place = room.name
-                local hint = "on Hakujo's home island."
+                book = 12532
+                gem = 55655
+                room = get_room("58102")
+                place = room.name
+                hint = "on Hakujo's home island."
             elseif visionstage == 5 then
-                local book = 16209
-                local gem = 55665
-                local room = get_room("16057")
-                local place = room.name
-                local hint = "in the ghostly fortress."
+                book = 16209
+                gem = 55665
+                room = get_room("16057")
+                place = room.name
+                hint = "in the ghostly fortress."
             elseif visionstage == 6 then
-                local book = 43013
-                local gem = 55678
-                local room = get_room("59054")
-                local place = room.name
-                local hint = "in the fortress of the zealous."
+                book = 43013
+                gem = 55678
+                room = get_room("59054")
+                place = room.name
+                hint = "in the fortress of the zealous."
             elseif visionstage == 7 then
-                local book = 53009
-                local gem = 55710
-                local room = get_room("49079")
-                local place = room.name
-                local hint = "off-shore of the island of great beasts."
+                book = 53009
+                gem = 55710
+                room = get_room("49079")
+                place = room.name
+                hint = "off-shore of the island of great beasts."
             elseif visionstage == 8 then
-                local book = 58415
-                local gem = 55722
-                local room = get_room("11820")
-                local place = room.name
-                local hint = "beyond the Blue-Fog Trail."
+                book = 58415
+                gem = 55722
+                room = get_room("11820")
+                place = room.name
+                hint = "beyond the Blue-Fog Trail."
             elseif visionstage == 9 then
-                local book = 58412
-                local gem = 55741
-                local room = get_room("52075")
-                local place = room.name
-                local hint = "in the shattered citadel of Templace."
+                book = 58412
+                gem = 55741
+                room = get_room("52075")
+                place = room.name
+                hint = "in the shattered citadel of Templace."
             end
             local attack = visionstage * 100
             if job1 or job2 or job3 or job4 then

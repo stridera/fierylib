@@ -1,8 +1,7 @@
 -- Trigger: Ranger Druid Subclass progress journal
 -- Zone: 4, ID: 68
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #468
 
@@ -12,14 +11,15 @@ local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local druidraces = "none"
     local rangerraces = "none"
-    if string.find(arg, "Ranger") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(rangerraces, "actor.race")) then
+    local check
+    if string.find(arg, "Ranger") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(rangerraces, actor.race)) then
         actor:send("<b:green>Ranger</>")
-        local check = "yes"
-    elseif string.find(arg, "Druid") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(druidraces, "actor.race")) then
+        check = "yes"
+    elseif string.find(arg, "Druid") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(druidraces, actor.race)) then
         actor:send("<green>Druid</>")
-        local check = "yes"
+        check = "yes"
     end
-    if string.find(check, "yes") then
+    if check == "yes" then
         _return_value = true
         actor:send("Quest Master: " .. tostring(mobiles.template(163, 15).name))
         actor:send("</>")

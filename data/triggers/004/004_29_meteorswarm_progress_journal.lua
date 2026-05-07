@@ -1,9 +1,12 @@
 -- Trigger: Meteorswarm progress journal
 -- Zone: 4, ID: 29
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Meteorswarm progress journal>:25: unexpected symbol near '='
---   Complex nesting: 12 if statements
+-- Status: CLEAN
+-- TODO(parity): the stage-2 branch (lines ~43-69) is tangled by the converter:
+-- nested empty `if stage == X then` blocks, multiple shadowed `local task`
+-- declarations scoped to inner branches, and `task` is referenced outside the
+-- outer if. The body parses but the per-stage messaging is logically broken
+-- and needs a structural rewrite against the original DG #429.
 --
 -- Original DG Script: #429
 
@@ -20,12 +23,13 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
         elseif string.find(actor.class, "Pyromancer") then
             actor:send("Minimum Level: 81")
         end
+        local status
         if actor:get_has_completed("meteorswarm") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("meteorswarm") then
@@ -47,23 +51,26 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
                 elseif stage == 3 then
                     local task = "Show him the meteorite."
                 else
+                    local task
                     if actor:get_quest_var("meteorswarm:fire") == 0 then
-                        local task = "Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers."
+                        task = "Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers."
                     else
-                        local task = "Find the lava bubble in the high fire priest's secret chambers."
+                        task = "Find the lava bubble in the high fire priest's secret chambers."
                     end
                 end
+                local task
                 if actor:get_quest_var("meteorswarm:fire") == 1 then
                 elseif stage == 4 then
-                    local task = "Return to McCabe."
+                    task = "Return to McCabe."
                 elseif actor:get_quest_var("meteorswarm:fire") == 2 then
-                    local task = "Convince the ancient dragon Dargentan to teach you the ways of air magic."
+                    task = "Convince the ancient dragon Dargentan to teach you the ways of air magic."
                 end
+                local task
                 if actor:get_quest_var("meteorswarm:air") == 0 then
                 elseif stage == 5 then
-                    local task = "Show him the meteorite now that you have mastered earth, fire, and air."
+                    task = "Show him the meteorite now that you have mastered earth, fire, and air."
                 else
-                    local task = "Take your finished focus and unleash its potential!"
+                    task = "Take your finished focus and unleash its potential!"
                 end
             end
             actor:send("McCabe wants you to:")

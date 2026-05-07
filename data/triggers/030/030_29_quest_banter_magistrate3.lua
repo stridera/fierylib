@@ -1,8 +1,7 @@
 -- Trigger: quest_banter_magistrate3
 -- Zone: 30, ID: 29
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #3029
 
@@ -21,16 +20,16 @@ if actor.is_player then
         self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
         actor:send(tostring(self.name) .. " says to you, 'Splendid, however, someone is currently after the Demon Lord's hide.  You will have to wait until they are finished or if they fail you can finish for them.'")
     else
-        local person = actor
-        local i = person.group_size
+        local i = actor.group_size
+        local a
         if i then
-            local a = 1
+            a = 1
         else
-            local a = 0
+            a = 0
         end
         while i >= a do
             local person = actor.group_member[a]
-            if person.room == self.room then
+            if person and person.room == self.room then
                 if not person:get_quest_stage("mystwatch_quest") then
                     person:start_quest("mystwatch_quest")
                     person:send("<b:white>You have begun the Mystwatch quest!</>")

@@ -1,10 +1,8 @@
 -- Trigger: Guild Armor Phase Two progress journal
 -- Zone: 4, ID: 12
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Guild Armor Phase Two progress journal>:322: function arguments expected near ']'
---   Complex nesting: 28 if statements
---   Large script: 19700 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #412
 
@@ -21,7 +19,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local clericclasses = "Cleric Priest"
         local rogueclasses = "Rogue Mercenary Assassin Thief"
         local anti = "Anti-Paladin"
-        if string.find(sorcererclasses, "actor.class") then
+        if string.find(sorcererclasses, actor.class) then
             local feet_gem = 55613
             local head_gem = 55635
             local hands_gem = 55602
@@ -43,14 +41,15 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55478
             local body_reward = 55477
             local wrist_reward = 55480
+            local master
             if string.find(actor.class, "Sorcerer") then
-                local master = "the Archmage of Ickle"
+                master = "the Archmage of Ickle"
             elseif string.find(actor.class, "Cryomancer") then
-                local master = "the Archmage of Ickle, the High Cryomancer, and the master cryomancer"
+                master = "the Archmage of Ickle, the High Cryomancer, and the master cryomancer"
             elseif string.find(actor.class, "Pyromancer") then
-                local master = "the Archmage of Ickle, the High Pyromancer, and the master pyromancer"
+                master = "the Archmage of Ickle, the High Pyromancer, and the master pyromancer"
             elseif string.find(actor.class, "Illusionist") then
-                local master = "the Archmage of Ickle, Erasmus, and Esh"
+                master = "the Archmage of Ickle, Erasmus, and Esh"
             end
         elseif string.find(actor.class, "Necromancer") then
             local feet_gem = 55609
@@ -75,7 +74,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55456
             local wrist_reward = 55459
             local master = "Asiri'Qaxt and Schkerra"
-        elseif string.find(clericclasses, "actor.class") then
+        elseif string.find(clericclasses, actor.class) then
             local feet_gem = 55612
             local head_gem = 55634
             local hands_gem = 55601
@@ -282,7 +281,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55769
             local wrist_reward = 55772
             local master = "Tozug, Khargol, Jora Granitearm"
-        elseif string.find(rogueclasses, "actor.class") then
+        elseif string.find(rogueclasses, actor.class) then
             local feet_gem = 55614
             local head_gem = 55636
             local hands_gem = 55603

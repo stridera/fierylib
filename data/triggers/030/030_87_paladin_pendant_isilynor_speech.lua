@@ -1,7 +1,14 @@
 -- Trigger: Paladin pendant Isilynor speech
 -- Zone: 30, ID: 87
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local necklace`, `local gem`, `local place`,
+-- and `local hint` inside every if/elseif branch. They are nil at the
+-- `actor:send(... %get.obj_shortdesc[%necklace%]% ...)` lines below. Hoist
+-- those locals, drop the `local` keyword in branches, and replace
+-- `%get.obj_shortdesc[%necklace%]%` / `%get.obj_shortdesc[%gem%]%` with
+-- `objects.template(math.floor(necklace/100), necklace%100).name`.
 --
 -- Original DG Script: #3087
 

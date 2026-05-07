@@ -1,9 +1,8 @@
 -- Trigger: Spirit Maces progress journal
 -- Zone: 4, ID: 53
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 26 if statements
---   Large script: 9263 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #453
 
@@ -20,12 +19,13 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
         if not actor:get_has_completed("phase_mace") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end
+        local status
         if actor:get_has_completed("phase_mace") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("phase_mace") then
@@ -38,70 +38,77 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
             local attack = stage * 50
             local remaining = ((attack) - actor:get_quest_var("phase_mace:attack_counter"))
             -- switch on stage
+            local master
+            local maceitem2
+            local maceitem3
+            local maceitem4
+            local maceitem5
+            local hint
+            local maceitem6
             if stage == 1 then
-                local master = mobiles.template(30, 25).name
-                local maceitem2 = 55577
-                local maceitem3 = 55211
-                local maceitem4 = 13614
-                local maceitem5 = 58809
-                local hint = "The Holy Templar Magistrate is a master of spiritual combat.  Perhaps he knows more."
+                master = mobiles.template(30, 25).name
+                maceitem2 = 55577
+                maceitem3 = 55211
+                maceitem4 = 13614
+                maceitem5 = 58809
+                hint = "The Holy Templar Magistrate is a master of spiritual combat.  Perhaps he knows more."
             elseif stage == 2 then
-                local master = mobiles.template(185, 2).name
-                local maceitem2 = 55593
-                local maceitem3 = 18522
-                local maceitem4 = 18523
-                local maceitem5 = 18524
-                local maceitem6 = 18525
-                local hint = "Someone familiar with the grave will be able to work on this mace.  Seek out the Sexton in the Abbey west of the Village of Mielikki."
+                master = mobiles.template(185, 2).name
+                maceitem2 = 55593
+                maceitem3 = 18522
+                maceitem4 = 18523
+                maceitem5 = 18524
+                maceitem6 = 18525
+                hint = "Someone familiar with the grave will be able to work on this mace.  Seek out the Sexton in the Abbey west of the Village of Mielikki."
             elseif stage == 3 then
-                local master = mobiles.template(100, 0).name
-                local maceitem2 = 55604
-                local maceitem3 = 32409
-                local maceitem4 = 59022
-                local maceitem5 = 2327
-                local hint = "The Cleric Guild is capable of some miraculous crafting.  Visit the Cleric Guild Master in the Arctic Village of Ickle and talk to High Priest Zalish.  He should be able to help you."
+                master = mobiles.template(100, 0).name
+                maceitem2 = 55604
+                maceitem3 = 32409
+                maceitem4 = 59022
+                maceitem5 = 2327
+                hint = "The Cleric Guild is capable of some miraculous crafting.  Visit the Cleric Guild Master in the Arctic Village of Ickle and talk to High Priest Zalish.  He should be able to help you."
             elseif stage == 4 then
-                local master = mobiles.template(62, 18).name
-                local maceitem2 = 55631
-                local maceitem3 = 16030
-                local maceitem4 = 47002
-                local maceitem5 = 5211
-                local hint = "Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin."
+                master = mobiles.template(62, 18).name
+                maceitem2 = 55631
+                maceitem3 = 16030
+                maceitem4 = 47002
+                maceitem5 = 5211
+                hint = "Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin."
             elseif stage == 5 then
-                local master = mobiles.template(85, 1).name
-                local maceitem2 = 55660
-                local maceitem3 = 43007
-                local maceitem4 = 59012
-                local maceitem5 = 17308
-                local hint = "Sometimes to battle the dead, we need to use their own dark natures against them.  Few are as knowledgeable about the dark arts as Ziijhan, the Defiler, in the Cathedral of Betrayal."
+                master = mobiles.template(85, 1).name
+                maceitem2 = 55660
+                maceitem3 = 43007
+                maceitem4 = 59012
+                maceitem5 = 17308
+                hint = "Sometimes to battle the dead, we need to use their own dark natures against them.  Few are as knowledgeable about the dark arts as Ziijhan, the Defiler, in the Cathedral of Betrayal."
             elseif stage == 6 then
-                local master = mobiles.template(185, 81).name
-                local maceitem2 = 55681
-                local maceitem3 = 23824
-                local maceitem4 = 53016
-                local maceitem5 = 16201
-                local hint = "Return again to the Abbey of St. George and seek out Silania.  Her mastry of spiritual matters will be necessary to improve this mace any further."
+                master = mobiles.template(185, 81).name
+                maceitem2 = 55681
+                maceitem3 = 23824
+                maceitem4 = 53016
+                maceitem5 = 16201
+                hint = "Return again to the Abbey of St. George and seek out Silania.  Her mastry of spiritual matters will be necessary to improve this mace any further."
             elseif stage == 7 then
-                local master = mobiles.template(60, 7).name
-                local maceitem2 = 55708
-                local maceitem3 = 49502
-                local maceitem4 = 4008
-                local maceitem5 = 47017
-                local hint = "Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne's servators."
+                master = mobiles.template(60, 7).name
+                maceitem2 = 55708
+                maceitem3 = 49502
+                maceitem4 = 4008
+                maceitem5 = 47017
+                hint = "Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne's servators."
             elseif stage == 8 then
-                local master = mobiles.template(484, 12).name
-                local maceitem2 = 55737
-                local maceitem3 = 53305
-                local maceitem4 = 12307
-                local maceitem5 = 51073
-                local hint = "The most powerful force in the war against the dead is the sun itself.  Consult with the sun's Oracle in the ancient pyramid near Anduin."
+                master = mobiles.template(484, 12).name
+                maceitem2 = 55737
+                maceitem3 = 53305
+                maceitem4 = 12307
+                maceitem5 = 51073
+                hint = "The most powerful force in the war against the dead is the sun itself.  Consult with the sun's Oracle in the ancient pyramid near Anduin."
             elseif stage == 9 then
-                local master = mobiles.template(30, 21).name
-                local maceitem2 = 55738
-                local maceitem3 = 48002
-                local maceitem4 = 52010
-                local maceitem5 = 3218
-                local hint = "With everything prepared, return to the very beginning of your journey.  The High Priestess of Mielikki, the very center of the Cleric Guild, will know what to do."
+                master = mobiles.template(30, 21).name
+                maceitem2 = 55738
+                maceitem3 = 48002
+                maceitem4 = 52010
+                maceitem5 = 3218
+                hint = "With everything prepared, return to the very beginning of your journey.  The High Priestess of Mielikki, the very center of the Cleric Guild, will know what to do."
             end
             if actor.level >= minlevel then
                 if actor:get_quest_var("phase_mace:greet") == 0 then

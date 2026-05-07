@@ -13,10 +13,11 @@ if not percent_chance(1) then
     return true
 end
 local _return_value = true  -- Default: allow action
+local full_skill
 if actor:get_quest_var("trainer_3160:word2") then
-    local full_skill = actor:get_quest_var("trainer_3160:skill_name") actor:get_quest_var("trainer_3160:word2")
+    full_skill = tostring(actor:get_quest_var("trainer_3160:skill_name")) .. " " .. tostring(actor:get_quest_var("trainer_3160:word2"))
 elseif actor:get_quest_var("trainer_3160:skill_name") then
-    local full_skill = actor:get_quest_var("trainer_3160:skill_name")
+    full_skill = actor:get_quest_var("trainer_3160:skill_name")
 end
 wait(1)
 if actor:get_quest_var("trainer_3160:actor_level") == actor.level then
@@ -30,7 +31,7 @@ if actor:get_quest_var("trainer_3160:actor_level") == actor.level then
         actor:send("You feel you are getting the hang of things.")
         wait(3)
         actor:send("You feel your skill in " .. tostring(full_skill) .. " improving dramatically!")
-        skills.set_level(actor, "%full_skill%", 100)
+        skills.set_level(actor, full_skill, 100)
         actor:erase_quest("trainer_3160")
     else
         actor:send(tostring(self.name) .. " says, 'I appreciate your voluntary donation, but I'm afraid that's all it was.'")

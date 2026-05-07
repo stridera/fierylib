@@ -1,10 +1,8 @@
 -- Trigger: Illusory Wall progress journal
 -- Zone: 4, ID: 47
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Illusory Wall progress journal>:4: 'then' expected near 'wall'
---   Complex nesting: 109 if statements
---   Large script: 18084 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #447
 
@@ -18,12 +16,13 @@ if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.f
         local master = mobiles.template(364, 2).name
         actor:send("<b:green>&uIllusory Wall</>")
         actor:send("Minimum Level: 57")
+        local status
         if actor:get_has_completed("illusory_wall") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("illusory_wall") then

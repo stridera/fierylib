@@ -11,25 +11,26 @@ if actor:get_quest_stage("intercity_transport") == 0 then
     actor:start_quest("intercity_transport")
 end
 -- switch on self.id
+local myname = "elf"
+local dest = "Mielikki"
 if self.id == 3151 or self.id == 30075 then
-    local myname = "barbarian"
-    local dest = "Ickle"
+    myname = "barbarian"
+    dest = "Ickle"
 elseif self.id == 3152 then
-    local myname = "dwarf"
-    local dest = "Anduin"
+    myname = "dwarf"
+    dest = "Anduin"
 elseif self.id == 30074 then
-    local myname = "drow"
-    local dest = "Anduin"
+    myname = "drow"
+    dest = "Anduin"
 elseif self.id == 30076 then
-    local myname = "human"
-    local dest = "Mielikki"
+    myname = "human"
+    dest = "Mielikki"
 elseif self.id == 30077 then
-    local myname = "orc"
-    local dest = "Ogakh"
+    myname = "orc"
+    dest = "Ogakh"
 elseif self.id == 3150 then
-else
-    local myname = "elf"
-    local dest = "Mielikki"
+    -- legacy: questmaster 3150 had no myname/dest; bail before sending speech
+    return true
 end
 wait(3)
 if actor.level < 16 then

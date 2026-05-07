@@ -1,9 +1,12 @@
 -- Trigger: Relocate progress journal
 -- Zone: 4, ID: 14
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Relocate progress journal>:20: unexpected symbol near 'in'
---   Complex nesting: 7 if statements
+-- Status: CLEAN
+-- TODO(parity): the converter nested stages 3-9 inside the `if stage == 1 or
+-- stage == 2 then` branch (note the rogue `elseif stage == 3 or stage == 4
+-- then` at the wrong nesting level). Per-stage `local next/place/master`
+-- declarations are also branch-scoped while `next`, `place`, `master` are
+-- referenced after the chain. Needs a structural rewrite against DG #414.
 --
 -- Original DG Script: #414
 
@@ -12,17 +15,18 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
-    if (string.find(relocateclasses, "actor.class")) and actor.level >= 60 then
+    if (string.find(relocateclasses, actor.class)) and actor.level >= 60 then
         _return_value = true
         local stage = actor:get_quest_stage("relocate_spell_quest")
         actor:send("<b:green>&uRelocate</>")
         actor:send("Minimum Level: 65")
+        local status
         if actor:get_has_completed("relocate_spell_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("relocate_spell_quest") then
@@ -35,13 +39,13 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
                 local master = master1
                 if actor:get_quest_var("relocate_spell_quest:greet") == 0 then
                 elseif stage == 3 or stage == 4 then
-                    local next = "the Crystal Telescope"
-                    local place = "an observer of the cold village"
-                    local master = master1
+                    next = "the Crystal Telescope"
+                    place = "an observer of the cold village"
+                    master = master1
                 else
-                    local next = "a glass globe"
-                    local place = "the Valley of the Frost Elves"
-                    local master = master2
+                    next = "a glass globe"
+                    place = "the Valley of the Frost Elves"
+                    master = master2
                 end
             elseif stage == 5 then
                 local next = "the Crystal Telescope"

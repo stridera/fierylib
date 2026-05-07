@@ -1,8 +1,7 @@
 -- Trigger: Emmath Flameball progress journal
 -- Zone: 4, ID: 17
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 12 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #417
 
@@ -16,12 +15,13 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
         actor:send("<b:green>&uPower of Flame</>")
         actor:send("Recommended Level: 85")
         actor:send("- This quest can be started at any level but requires level 85 to finish.")
+        local status
         if actor:get_has_completed("emmath_flameball") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("emmath_flameball") then

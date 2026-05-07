@@ -1,8 +1,7 @@
 -- Trigger: Crown of Madness progress journal
 -- Zone: 4, ID: 89
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Crown of Madness progress journal>:4: 'then' expected near 'of'
+-- Status: CLEAN
 --
 -- Original DG Script: #489
 

@@ -1,9 +1,7 @@
 -- Trigger: Elemental Chaos progress journal
 -- Zone: 4, ID: 100
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Elemental Chaos progress journal>:4: 'then' expected near 'chaos'
---   Complex nesting: 13 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #500
 
@@ -19,45 +17,49 @@ if string.find(arg, "elemental_chaos") or string.find(arg, "elemental") or strin
     local target2 = actor:get_quest_var("elemental_chaos:target2")
     local target3 = actor:get_quest_var("elemental_chaos:target3")
     actor:send("<b:green>&uElemental Chaos</>")
+    local mission
+    local victim1, victim2, victim3
     -- switch on actor:get_quest_stage("elemental_chaos")
     if actor:get_quest_stage("elemental_chaos") == 1 then
-        local mission = "investigate the news of an imp and dispatch it if you find one"
+        mission = "investigate the news of an imp and dispatch it if you find one"
     elseif actor:get_quest_stage("elemental_chaos") == 2 then
-        local mission = "silence the seductive song of the Leading Player"
+        mission = "silence the seductive song of the Leading Player"
     elseif actor:get_quest_stage("elemental_chaos") == 3 then
-        local mission = "destroy the Chaos and the cult worshipping it"
+        mission = "destroy the Chaos and the cult worshipping it"
     elseif actor:get_quest_stage("elemental_chaos") == 4 then
-        local mission = "undertake the vision quest from the shaman in Three-Falls Canyon and defeat whatever awaits at the end"
+        mission = "undertake the vision quest from the shaman in Three-Falls Canyon and defeat whatever awaits at the end"
     elseif actor:get_quest_stage("elemental_chaos") == 5 then
-        local mission = "dispatch the Fangs of Yeenoghu.  Be sure to destroy all of them"
-        local victim1 = "the shaman Fang of Yeenoghu"
-        local victim2 = "the necromancer Fang of Yeenoghu"
-        local victim3 = "the diabolist Fang of Yeenoghu"
+        mission = "dispatch the Fangs of Yeenoghu.  Be sure to destroy all of them"
+        victim1 = "the shaman Fang of Yeenoghu"
+        victim2 = "the necromancer Fang of Yeenoghu"
+        victim3 = "the diabolist Fang of Yeenoghu"
     elseif actor:get_quest_stage("elemental_chaos") == 6 then
-        local mission = "extinguish the fire elemental lord who serves Krisenna"
+        mission = "extinguish the fire elemental lord who serves Krisenna"
     elseif actor:get_quest_stage("elemental_chaos") == 7 then
-        local mission = "stop the acolytes in the Cathedral of Betrayal"
+        mission = "stop the acolytes in the Cathedral of Betrayal"
     elseif actor:get_quest_stage("elemental_chaos") == 8 then
-        local mission = "destroy Cyprianum the Reaper in the heart of his maze"
+        mission = "destroy Cyprianum the Reaper in the heart of his maze"
     elseif actor:get_quest_stage("elemental_chaos") == 9 then
-        local mission = "banish the Chaos Demon in Frost Valley"
+        mission = "banish the Chaos Demon in Frost Valley"
     elseif actor:get_quest_stage("elemental_chaos") == 10 then
-        local mission = "slay one of the Norhamen"
+        mission = "slay one of the Norhamen"
     end
+    local level
     if stage == 1 then
-        local level = 1
+        level = 1
     else
-        local level = (stage - 1) * 10
+        level = (stage - 1) * 10
     end
     if not actor:get_has_completed("dragon_slayer") then
         actor:send("Minimum Level: " .. tostring(level))
     end
+    local status
     if actor:get_has_completed("dragon_slayer") then
-        local status = "Completed!"
+        status = "Completed!"
     elseif stage then
-        local status = "In Progress"
+        status = "In Progress"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if stage > 0 and not actor:get_has_completed("elemental_chaos") then

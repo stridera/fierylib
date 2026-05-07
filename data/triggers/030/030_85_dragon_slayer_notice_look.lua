@@ -9,50 +9,57 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on self.id
+local stage
+local victim1
+local go
 if self.id == 3080 then
-    local stage = 1
-    local victim1 = "a dragon hedge"
-    local go = "hunt"
+    stage = 1
+    victim1 = "a dragon hedge"
+    go = "hunt"
 elseif self.id == 3081 then
-    local stage = 2
-    local victim1 = "the green wyrmling"
-    local go = "hunt"
+    stage = 2
+    victim1 = "the green wyrmling"
+    go = "hunt"
 elseif self.id == 3082 then
-    local stage = 3
-    local victim1 = "Wug the Fiery Drakling"
-    local go = "hunt"
+    stage = 3
+    victim1 = "Wug the Fiery Drakling"
+    go = "hunt"
 elseif self.id == 3083 then
-    local stage = 4
-    local victim1 = "the young blue dragon"
-    local go = "hunt"
+    stage = 4
+    victim1 = "the young blue dragon"
+    go = "hunt"
 elseif self.id == 3084 then
-    local stage = 5
-    local victim1 = "a faerie dragon"
-    local go = "hunt"
+    stage = 5
+    victim1 = "a faerie dragon"
+    go = "hunt"
 elseif self.id == 3085 then
-    local stage = 6
-    local victim1 = "the wyvern"
-    local go = "hunt"
+    stage = 6
+    victim1 = "the wyvern"
+    go = "hunt"
 elseif self.id == 3086 then
-    local stage = 7
-    local victim1 = "an ice lizard"
-    local go = "hunt"
+    stage = 7
+    victim1 = "an ice lizard"
+    go = "hunt"
 elseif self.id == 3087 then
-    local stage = 8
-    local victim1 = "the Beast of Borgan"
-    local go = "hunt"
+    stage = 8
+    victim1 = "the Beast of Borgan"
+    go = "hunt"
 elseif self.id == 3088 then
-    local stage = 9
-    local victim1 = "Tri-Aszp"
-    local go = "hunt"
+    stage = 9
+    victim1 = "Tri-Aszp"
+    go = "hunt"
 elseif self.id == 3089 then
-    local stage = 10
-    local victim1 = "the Hydra"
-    local go = "hunt"
+    stage = 10
+    victim1 = "the Hydra"
+    go = "hunt"
+else
+    return true
 end
 _return_value = true
 actor:send("This is a notice to slay " .. tostring(victim1) .. ".")
-if actor:get_quest_var("dragon_slayer:hunt") == "dead" and actor:get_quest_stage("dragon_slayer") == "stage" then
+-- TODO(parity): legacy DG had `stage` template-replaced; comparing against
+-- literal "stage" never matches. Should be `actor:get_quest_stage("dragon_slayer") == stage`.
+if actor:get_quest_var("dragon_slayer:hunt") == "dead" and actor:get_quest_stage("dragon_slayer") == stage then
     actor:send("You have completed the hunt.")
     actor:send("Return the notice to Isilynor for your reward!")
 end

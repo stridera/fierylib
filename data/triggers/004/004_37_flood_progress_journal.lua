@@ -1,9 +1,7 @@
 -- Trigger: Flood progress journal
 -- Zone: 4, ID: 37
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 27 if statements
---   Large script: 6697 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #437
 
@@ -16,12 +14,13 @@ if string.find(arg, "flood") then
         local stage = actor:get_quest_stage("flood")
         actor:send("<b:green>&uFlood</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("flood") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("flood") then

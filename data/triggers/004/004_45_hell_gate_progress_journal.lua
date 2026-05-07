@@ -1,10 +1,7 @@
 -- Trigger: Hell Gate progress journal
 -- Zone: 4, ID: 45
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Hell Gate progress journal>:4: 'then' expected near 'gate'
---   Complex nesting: 29 if statements
---   Large script: 7837 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #445
 
@@ -18,12 +15,13 @@ if string.find(arg, "hell gate") or string.find(arg, "hell_gate") then
         local master = mobiles.template(564, 0).name
         actor:send("<b:green>&uHell Gate</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("hell_gate") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("hell_gate") then

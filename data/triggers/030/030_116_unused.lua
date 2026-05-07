@@ -1,8 +1,7 @@
 -- Trigger: UNUSED
 -- Zone: 30, ID: 116
 -- Type: OBJECT, Flags: WEAR
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <UNUSED>:4: unexpected symbol near '%'
+-- Status: CLEAN
 --
 -- Original DG Script: #3116
 

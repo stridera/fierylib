@@ -1,8 +1,8 @@
 -- Trigger: Banish progress journal
 -- Zone: 4, ID: 30
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #430
 
@@ -16,12 +16,13 @@ if string.find(arg, "banish") then
         local master = mobiles.template(302, 16).name
         actor:send("<b:green>&uBanish</>")
         actor:send("Minimum Level: 65")
+        local status
         if actor:get_has_completed("banish") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("banish") then

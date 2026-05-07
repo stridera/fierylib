@@ -1,7 +1,13 @@
 -- Trigger: Armor Exchange confirm order
 -- Zone: 30, ID: 52
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local class` and `local tier` inside every
+-- if/elseif branch. They're nil by the time the say-line below references them.
+-- Hoist them, drop the `local` keyword in branches, and replace
+-- `%get.obj_shortdesc[%item%]%` / `%class%` / `%tier%` with proper Lua concat
+-- (e.g. `objects.template(math.floor(item/100), item%100).name` and `tostring(class)`).
 --
 -- Original DG Script: #3052
 

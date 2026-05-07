@@ -1,8 +1,7 @@
 -- Trigger: Group Recall progress journal
 -- Zone: 4, ID: 98
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Group Recall progress journal>:4: 'then' expected near 'recall'
+-- Status: CLEAN
 --
 -- Original DG Script: #498
 

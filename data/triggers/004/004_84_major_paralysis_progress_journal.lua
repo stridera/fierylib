@@ -1,8 +1,7 @@
 -- Trigger: Major Paralysis progress journal
 -- Zone: 4, ID: 84
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Major Paralysis progress journal>:4: 'then' expected near 'paralysis'
+-- Status: CLEAN
 --
 -- Original DG Script: #484
 

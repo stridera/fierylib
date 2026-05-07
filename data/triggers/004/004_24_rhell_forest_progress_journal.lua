@@ -1,8 +1,7 @@
 -- Trigger: Rhell Forest progress journal
 -- Zone: 4, ID: 24
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #424
 
@@ -17,12 +16,13 @@ if string.find(arg, "rhell") or string.find(arg, "forest") or string.find(arg, "
         actor:send("<b:green>&uMystery of the Rhell Forest</>")
         actor:send("Find the sick merchant in the Rhell Forest and help end his distress.")
         actor:send("Recommended Level: 45")
+        local status
         if actor:get_has_completed("ursa_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("ursa_quest") then

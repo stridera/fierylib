@@ -1,9 +1,7 @@
 -- Trigger: Adventure quests
 -- Zone: 4, ID: 1
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 16 if statements
---   Large script: 5912 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #401
 
@@ -22,12 +20,13 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     actor:send("<b:green>&uTwisted Sorrow</>")
     actor:send("Can you heal the sorrows of the Twisted Forest?")
     actor:send("Recommended Level: 10")
+    local status
     if actor:get_has_completed("twisted_sorrow") then
-        local status = "Completed!"
+        status = "Completed!"
     elseif actor:get_quest_stage("twisted_sorrow") then
-        local status = "In Progress"
+        status = "In Progress"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     actor:send("<b:green>&uCombat in Eldoria</>")
@@ -35,19 +34,21 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     actor:send("Characters may align themselves with the forces of good or the forces of evil.")
     actor:send("But beware, once made that decision cannot be changed!")
     actor:send("Minimum Level: 10")
+    local status
     if actor:get_quest_stage("black_legion") then
-        local status = "Continuous"
+        status = "Continuous"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     actor:send("<b:green>&uThe Finale</>")
     actor:send("Defeat wild monkeys, recover keys, and help the theatre troupe perform their fiery Finale!")
     actor:send("Recommended Level: 10")
+    local status
     if actor:get_quest_stage("theatre") then
-        local status = "Repeatable"
+        status = "Repeatable"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if actor.level >= 10 then
@@ -56,10 +57,11 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("Multiple outcomes and multiple rewards await!")
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 20")
+        local status
         if actor:get_quest_stage("nukreth_spire") then
-            local status = "Repeatable"
+            status = "Repeatable"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
@@ -68,12 +70,13 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("Save Fiery Island from the usurping demigod.")
         actor:send("Minimum Level: 55")
         actor:send("- Some rewards can be received starting at level 35.")
+        local status
         if actor:get_has_completed("fieryisle_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("fieryisle_quest") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
@@ -81,12 +84,13 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("<b:green>&uTower in the Wastes</>")
         actor:send("Help the injured halfling find his brother!")
         actor:send("Recommended Level: 40")
+        local status
         if actor:get_has_completed("krisenna_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("krisenna_quest") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
@@ -95,10 +99,11 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("The dead fortify their position just outside the town of Mielikki.")
         actor:send("Stop them before they can invade!")
         actor:send("Recommended Level: 45")
+        local status
         if actor:get_quest_stage("mystwatch_quest") then
-            local status = "Repeatable"
+            status = "Repeatable"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
@@ -107,12 +112,13 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("A sect of griffin-worshiping cultists has invaded a druid enclave in the middle of the Arabel Ocean.")
         actor:send("Smash the cult before they achieve their nefarious goals!")
         actor:send("Recommended Level: 60")
+        local status
         if actor:get_has_completed("griffin_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("griffin_quest") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
@@ -122,12 +128,13 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("This quest begins your voyage through the outer planes to banish Lokari, God of the Moonless night.")
         actor:send("Minimum Level: 85")
         actor:send("- This quest begins a storyline intended for characters of level 95+")
+        local status
         if actor:get_has_completed("doom_entrance") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("doom_entrance") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end

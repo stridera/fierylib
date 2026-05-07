@@ -1,8 +1,7 @@
 -- Trigger: Freddy random load doll
 -- Zone: 30, ID: 140
 -- Type: MOB, Flags: RANDOM, SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #3140
 
@@ -23,25 +22,25 @@ end
 local p = random(1, 15)
 -- If this is being triggered by an imm as a speech trig, ensure something loads
 if actor and actor.level > 100 then
-    local p = 15
+    p = 15
 end
 if p ~= 15 then
-    return _return_value
+    return true
 end
 -- Figure out which object to load.  Better chance for lower IDs.
-local p = random(1, 100)
+p = random(1, 100)
 if p < 31 then
-    local p = 139 + random(1, 7)
+    p = 139 + random(1, 7)
 elseif p < 82 then
-    local p = 146 + random(1, 35)
+    p = 146 + random(1, 35)
 elseif p < 93 then
-    local p = 181 + random(1, 10)
+    p = 181 + random(1, 10)
 else
-    local p = 191 + random(1, 7)
+    p = 191 + random(1, 7)
 end
 -- In case one of the randoms returned 0 somehow
 if p == 139 then
-    local p = 140 + random(1, 58)
+    p = 140 + random(1, 58)
 end
 self.room:spawn_object(30, p)
 -- Special handling for certain dolls:

@@ -1,8 +1,7 @@
 -- Trigger: Pyromancer Subclass progress journal
 -- Zone: 4, ID: 64
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #464
 
@@ -11,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local pyroraces = "arborean dragonborn_frost"
-    if string.find(arg, "Pyromancer") and string.find(actor.class, "Sorcerer") and actor.level <= 45 and not (string.find(pyroraces, "actor.race")) then
+    if string.find(arg, "Pyromancer") and string.find(actor.class, "Sorcerer") and actor.level <= 45 and not (string.find(pyroraces, actor.race)) then
         _return_value = true
         actor:send("<b:red>Pyromancer</>")
         actor:send("Quest Master: " .. tostring(mobiles.template(52, 30).name))
@@ -31,13 +30,14 @@ if actor.level > 10 then
                 actor:send("The " .. tostring(actor:get_quest_var("pyromancer_subclass:part")) .. " flame was taken from me._")
                 actor:send("To truly help, I suggest you stop loitering and go recover it.'")
                 -- switch on actor:get_quest_var("pyromancer_subclass:part")
+                local place
                 if actor:get_quest_var("pyromancer_subclass:part") == "white" then
-                    local place = "&bin some kind of mine&0"
+                    place = "&bin some kind of mine&0"
                 elseif actor:get_quest_var("pyromancer_subclass:part") == "black" then
-                    local place = "&bin some kind of temple&0"
+                    place = "&bin some kind of temple&0"
                 elseif actor:get_quest_var("pyromancer_subclass:part") == "gray" then
                 else
-                    local place = "&bnear some kind of hill&0"
+                    place = "&bnear some kind of hill&0"
                 end
                 actor:send("Last I heard, it was " .. tostring(place) .. ", or something of the like.")
             end

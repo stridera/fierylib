@@ -1,8 +1,7 @@
 -- Trigger: Tempest of Saint Augustine progress journal
 -- Zone: 4, ID: 103
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Tempest of Saint Augustine progress journal>:4: 'then' expected near 'of'
+-- Status: CLEAN
 --
 -- Original DG Script: #503
 
@@ -18,12 +17,13 @@ if string.find(arg, "tempest") or string.find(arg, "tempest of saint augustine")
         local level = 40
         actor:send("<b:green>&uTempest of Saint Augustine</>")
         actor:send("Minimum Level: " .. tostring(level))
+        local status
         if chantstage > 2 then
-            local status = "Completed!"
+            status = "Completed!"
         elseif chantstage == 2 then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor.level >= level and chantstage == 2 then

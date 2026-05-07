@@ -1,10 +1,8 @@
 -- Trigger: Guild Armor Phase One progress journal
 -- Zone: 4, ID: 11
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Guild Armor Phase One progress journal>:107: function arguments expected near ']'
---   Complex nesting: 27 if statements
---   Large script: 11289 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #411
 
@@ -21,98 +19,120 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local clericclasses = "Cleric Priest Druid Diabolist"
         local warriorclasses = "Warrior Anti-Paladin Ranger Paladin Monk Berserker"
         local rogueclasses = "Rogue Mercenary Assassin Thief Bard"
-        if string.find(sorcererclasses, "actor.class") then
-            local feet_gem = 55571
-            local head_gem = 55579
-            local hands_gem = 55567
-            local arms_gem = 55583
-            local legs_gem = 55587
-            local body_gem = 55591
-            local wrist_gem = 55575
-            local feet_armor = 55306
-            local head_armor = 55314
-            local hands_armor = 55302
-            local arms_armor = 55318
-            local legs_armor = 55322
-            local body_armor = 55326
-            local wrist_armor = 55310
-            local feet_reward = 55402
-            local head_reward = 55398
-            local hands_reward = 55404
-            local arms_reward = 55399
-            local legs_reward = 55401
-            local body_reward = 55400
-            local wrist_reward = 55403
-            local master = "the Archmage of Mielikki and Gagar"
-        elseif string.find(clericclasses, "actor.class") then
-            local feet_gem = 55570
-            local head_gem = 55578
-            local hands_gem = 55566
-            local arms_gem = 55582
-            local legs_gem = 55586
-            local body_gem = 55590
-            local wrist_gem = 55574
-            local feet_armor = 55304
-            local head_armor = 55312
-            local hands_armor = 55300
-            local arms_armor = 55316
-            local legs_armor = 55320
-            local body_armor = 55324
-            local wrist_armor = 55308
-            local feet_reward = 55395
-            local head_reward = 55391
-            local hands_reward = 55397
-            local arms_reward = 55392
-            local legs_reward = 55394
-            local body_reward = 55393
-            local wrist_reward = 55396
-            local master = "the High Priestess of Mielikki and Rorgdush"
-        elseif string.find(warriorclasses, "actor.class") then
-            local feet_gem = 55573
-            local head_gem = 55581
-            local hands_gem = 55569
-            local arms_gem = 55585
-            local legs_gem = 55589
-            local body_gem = 55593
-            local wrist_gem = 55577
-            local feet_armor = 55304
-            local head_armor = 55312
-            local hands_armor = 55300
-            local arms_armor = 55316
-            local legs_armor = 55320
-            local body_armor = 55324
-            local wrist_armor = 55308
-            local feet_reward = 55388
-            local head_reward = 55384
-            local hands_reward = 55390
-            local arms_reward = 55385
-            local legs_reward = 55387
-            local body_reward = 55386
-            local wrist_reward = 55389
-            local master = "the Warrior Coach of Mielikki and Grort"
-        elseif string.find(rogueclasses, "actor.class") then
-            local feet_gem = 55572
-            local head_gem = 55580
-            local hands_gem = 55568
-            local arms_gem = 55584
-            local legs_gem = 55588
-            local body_gem = 55592
-            local wrist_gem = 55576
-            local feet_armor = 55305
-            local head_armor = 55313
-            local hands_armor = 55301
-            local arms_armor = 55317
-            local legs_armor = 55321
-            local body_armor = 55325
-            local wrist_armor = 55309
-            local feet_reward = 55409
-            local head_reward = 55405
-            local hands_reward = 55411
-            local arms_reward = 55406
-            local legs_reward = 55408
-            local body_reward = 55407
-            local wrist_reward = 55410
-            local master = "the Master Rogue of Mielikki and Tinilas"
+        local feet_gem
+        local head_gem
+        local hands_gem
+        local arms_gem
+        local legs_gem
+        local body_gem
+        local wrist_gem
+        local feet_armor
+        local head_armor
+        local hands_armor
+        local arms_armor
+        local legs_armor
+        local body_armor
+        local wrist_armor
+        local feet_reward
+        local head_reward
+        local hands_reward
+        local arms_reward
+        local legs_reward
+        local body_reward
+        local wrist_reward
+        local master
+        if string.find(sorcererclasses, actor.class) then
+            feet_gem = 55571
+            head_gem = 55579
+            hands_gem = 55567
+            arms_gem = 55583
+            legs_gem = 55587
+            body_gem = 55591
+            wrist_gem = 55575
+            feet_armor = 55306
+            head_armor = 55314
+            hands_armor = 55302
+            arms_armor = 55318
+            legs_armor = 55322
+            body_armor = 55326
+            wrist_armor = 55310
+            feet_reward = 55402
+            head_reward = 55398
+            hands_reward = 55404
+            arms_reward = 55399
+            legs_reward = 55401
+            body_reward = 55400
+            wrist_reward = 55403
+            master = "the Archmage of Mielikki and Gagar"
+        elseif string.find(clericclasses, actor.class) then
+            feet_gem = 55570
+            head_gem = 55578
+            hands_gem = 55566
+            arms_gem = 55582
+            legs_gem = 55586
+            body_gem = 55590
+            wrist_gem = 55574
+            feet_armor = 55304
+            head_armor = 55312
+            hands_armor = 55300
+            arms_armor = 55316
+            legs_armor = 55320
+            body_armor = 55324
+            wrist_armor = 55308
+            feet_reward = 55395
+            head_reward = 55391
+            hands_reward = 55397
+            arms_reward = 55392
+            legs_reward = 55394
+            body_reward = 55393
+            wrist_reward = 55396
+            master = "the High Priestess of Mielikki and Rorgdush"
+        elseif string.find(warriorclasses, actor.class) then
+            feet_gem = 55573
+            head_gem = 55581
+            hands_gem = 55569
+            arms_gem = 55585
+            legs_gem = 55589
+            body_gem = 55593
+            wrist_gem = 55577
+            feet_armor = 55304
+            head_armor = 55312
+            hands_armor = 55300
+            arms_armor = 55316
+            legs_armor = 55320
+            body_armor = 55324
+            wrist_armor = 55308
+            feet_reward = 55388
+            head_reward = 55384
+            hands_reward = 55390
+            arms_reward = 55385
+            legs_reward = 55387
+            body_reward = 55386
+            wrist_reward = 55389
+            master = "the Warrior Coach of Mielikki and Grort"
+        elseif string.find(rogueclasses, actor.class) then
+            feet_gem = 55572
+            head_gem = 55580
+            hands_gem = 55568
+            arms_gem = 55584
+            legs_gem = 55588
+            body_gem = 55592
+            wrist_gem = 55576
+            feet_armor = 55305
+            head_armor = 55313
+            hands_armor = 55301
+            arms_armor = 55317
+            legs_armor = 55321
+            body_armor = 55325
+            wrist_armor = 55309
+            feet_reward = 55409
+            head_reward = 55405
+            hands_reward = 55411
+            arms_reward = 55406
+            legs_reward = 55408
+            body_reward = 55407
+            wrist_reward = 55410
+            master = "the Master Rogue of Mielikki and Tinilas"
         end
         local got_hands = actor:get_quest_var("phase_armor:hands_armor_armor_acquired")
         local got_feet = actor:get_quest_var("phase_armor:feet_armor_armor_acquired")

@@ -1,9 +1,13 @@
 -- Trigger: Armor Exchange set type
 -- Zone: 30, ID: 51
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 17 if statements
---   Large script: 8203 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local armor_id = ...` inside every if/elseif
+-- branch, so `armor_id` is always nil at the outer-scope `if not armor_id then`
+-- check below. Hoist `local armor_id` to top, drop the `local` keyword in
+-- branches, and replace `%get.obj_shortdesc[%armor_id%]%` with
+-- `objects.template(math.floor(armor_id/100), armor_id%100).name`.
 --
 -- Original DG Script: #3051
 

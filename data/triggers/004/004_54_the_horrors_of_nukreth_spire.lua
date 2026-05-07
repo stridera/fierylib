@@ -1,8 +1,7 @@
 -- Trigger: The Horrors of Nukreth Spire
 -- Zone: 4, ID: 54
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #454
 
@@ -15,10 +14,11 @@ if string.find(arg, "horrors") or string.find(arg, "nukreth") or string.find(arg
         actor:send("<b:green>&uThe Horrors of Nukreth Spire</>")
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 20")
+        local status
         if actor:get_quest_stage("nukreth_spire") then
-            local status = "Repeatable"
+            status = "Repeatable"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor:get_quest_stage("nukreth_spire") then

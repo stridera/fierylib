@@ -10,10 +10,10 @@
 local _return_value = true  -- Default: allow action
 if arg == "major" then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
-    if (actor.level >= 50 and string.find(relocateclasses, "actor.class")) or (actor.level >= 65 and string.find(actor.class, "Bard")) then
+    if (actor.level >= 50 and string.find(relocateclasses, actor.class)) or (actor.level >= 65 and string.find(actor.class, "Bard")) then
         _return_value = true
         actor:send("Please specify:")
-        if actor.level >= 50 and string.find(relocateclasses, "actor.class") then
+        if actor.level >= 50 and string.find(relocateclasses, actor.class) then
             actor:send("Major Globe")
         end
         if actor.level >= 65 and string.find(actor.class, "Bard") then

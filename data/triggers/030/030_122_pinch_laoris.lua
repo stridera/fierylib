@@ -28,28 +28,20 @@ if (arg ~= "puppet") and (arg ~= "laoris") and (arg ~= "laoris-puppet") and (arg
     return _return_value
 end
 _return_value = false
--- switch on random(1, 9)
-if random(1, 9) == 1 then
-    local phrase = "Rarr!"
-elseif random(1, 9) == 2 then
-    local phrase = "Hey want to try my mob's new combat proc?"
-elseif random(1, 9) == 3 then
-    local phrase = "Teeehehehehehe!"
-elseif random(1, 9) == 4 then
-    local phrase = "PHASE4"
-elseif random(1, 9) == 5 then
-    local phrase = "PHRASE5"
-elseif random(1, 9) == 6 then
-    local phrase = "PHRASE6"
-elseif random(1, 9) == 7 then
-    local phrase = "PHRASE7"
-elseif random(1, 9) == 8 then
-    local phrase = "PHRASE8"
-elseif random(1, 9) == 9 then
-    local phrase = "PHRASE9"
-else
-    local phrase = "PHRASE0"
-end
+-- legacy "switch on random(1, 9)": single roll, then table-lookup phrase
+local roll = random(1, 9)
+local phrases = {
+    "Rarr!",
+    "Hey want to try my mob's new combat proc?",
+    "Teeehehehehehe!",
+    "PHASE4",
+    "PHRASE5",
+    "PHRASE6",
+    "PHRASE7",
+    "PHRASE8",
+    "PHRASE9",
+}
+local phrase = phrases[roll] or "PHRASE0"
 self.room:send(tostring(actor.name) .. " pinches the Laoris puppet.")
 self.room:send("The Laoris puppet says, '" .. tostring(phrase) .. "'")
 return _return_value

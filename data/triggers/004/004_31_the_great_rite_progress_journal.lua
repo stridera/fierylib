@@ -1,10 +1,12 @@
 -- Trigger: The Great Rite progress journal
 -- Zone: 4, ID: 31
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <The Great Rite progress journal>:4: 'then' expected near 'great'
---   Complex nesting: 28 if statements
---   Large script: 8917 chars
+-- Status: CLEAN
+-- TODO(parity): per-stage local declarations of task/item1-4/receive1-4 are
+-- scoped to their elseif branches but are referenced unconditionally below
+-- (line ~92 onwards). Each stage needs to hoist its own declarations or be
+-- restructured into per-stage blocks. Parses but produces nil-formatted
+-- output for most stages.
 --
 -- Original DG Script: #431
 
@@ -24,14 +26,15 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
         actor:send("Help them with their mystic ritual.")
         actor:send("Recommended Level: 70")
         actor:send("- This quest can be started at any level but requires level 70 to finish.")
+        local status
         if actor:get_has_completed("megalith_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_has_failed("megalith_quest") then
-            local status = "Failed"
+            status = "Failed"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if (stage > 0 and not actor:get_has_completed("megalith_quest")) or actor:get_has_failed("megalith_quest") then
@@ -80,12 +83,13 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                 local prayer = actor:get_quest_var("megalith_quest:prayer")
                 local summon = actor:get_quest_var("megalith_quest:summon")
                 local invoke = actor:get_quest_var("megalith_quest:invoke")
+                local task
                 if prayer == 1 then
-                    local task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
+                    task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
                 elseif summon == 1 or summon == 2 or summon == 3 then
-                    local task = "Return to " .. tostring(master) .. " and say, \"&7&bWe summon and stir thee!&0\""
+                    task = "Return to " .. tostring(master) .. " and say, \"&7&bWe summon and stir thee!&0\""
                 elseif invoke == 1 or invoke == 2 or invoke == 3 then
-                    local task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
+                    task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
                 end
             elseif stage == 5 then
                 local task = "Kneel before the High Mother to receive Her blessing."

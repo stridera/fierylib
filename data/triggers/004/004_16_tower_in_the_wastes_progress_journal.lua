@@ -1,8 +1,7 @@
 -- Trigger: Tower in the Wastes progress journal
 -- Zone: 4, ID: 16
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Tower in the Wastes progress journal>:4: 'then' expected near 'quest'
+-- Status: CLEAN
 --
 -- Original DG Script: #416
 
@@ -15,12 +14,13 @@ if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "
         local stage = actor:get_quest_stage("krisenna_quest")
         actor:send("<b:green>&uTower in the Wastes</>")
         actor:send("Recommended Level: 40")
+        local status
         if actor:get_has_completed("krisenna_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif actor:get_quest_stage("krisenna_quest") then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("krisenna_quest") then
@@ -28,12 +28,13 @@ if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "
             actor:send("</>")
             actor:send("The injured halfling said:")
             -- switch on stage
+            local phrase
             if stage == 1 then
-                local phrase = "Have you found my brother yet?  He must be in the tower somewhere!"
+                phrase = "Have you found my brother yet?  He must be in the tower somewhere!"
             elseif stage == 2 then
-                local phrase = "He carried our grandfather's warhammer.  The warhammer is very precious to my family.  Would you please find it?  I will reward you as best I can!"
+                phrase = "He carried our grandfather's warhammer.  The warhammer is very precious to my family.  Would you please find it?  I will reward you as best I can!"
             elseif stage == 3 or stage == 4 then
-                local phrase = "A... demon has the warhammer, you say?  I must have the warhammer!  Losing my brother is bad enough!"
+                phrase = "A... demon has the warhammer, you say?  I must have the warhammer!  Losing my brother is bad enough!"
             end
             actor:send("The halfling said, '" .. tostring(phrase) .. "'")
         end

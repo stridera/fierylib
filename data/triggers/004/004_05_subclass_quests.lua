@@ -1,9 +1,7 @@
 -- Trigger: Subclass quests
 -- Zone: 4, ID: 5
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 22 if statements
---   Large script: 8298 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #405
 
@@ -88,62 +86,62 @@ if string.find(arg, "subclass") then
             local status = "running"
         else
             if string.find(actor.class, "Sorcerer") then
-                if not (string.find(cryoraces, "actor.race")) then
+                if not (string.find(cryoraces, actor.race)) then
                     actor:send("- <b:blue>Cryomancer</>_")
                 end
-                if not (string.find(illusionraces, "actor.race")) then
+                if not (string.find(illusionraces, actor.race)) then
                     actor:send("- <b:magenta>Illusionist</>_")
                 end
-                if not (string.find(necromancerraces, "actor.race")) then
+                if not (string.find(necromancerraces, actor.race)) then
                     actor:send("- &9<blue>Necromancer</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
                 end
-                if not (string.find(pyroraces, "actor.race")) then
+                if not (string.find(pyroraces, actor.race)) then
                     actor:send("- <b:red>Pyromancer</>_")
                 end
             elseif string.find(actor.class, "Cleric") then
-                if not (string.find(diabolistraces, "actor.race")) then
+                if not (string.find(diabolistraces, actor.race)) then
                     actor:send("- <magenta>Diabolist</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
                 end
-                if not (string.find(druidraces, "actor.race")) then
+                if not (string.find(druidraces, actor.race)) then
                     actor:send("- <green>Druid</>")
                     actor:send("</>   <cyan>(This class is for neutral characters only)</>_")
                 end
-                if not (string.find(priestraces, "actor.race")) then
+                if not (string.find(priestraces, actor.race)) then
                     actor:send("- <b:cyan>Priest</>")
                     actor:send("</>   <cyan>(This class is for good characters only)</>_")
                 end
             elseif string.find(actor.class, "Rogue") then
-                if not (string.find(assassinraces, "actor.race")) then
+                if not (string.find(assassinraces, actor.race)) then
                     actor:send("- <red>Assassin</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
                 end
-                if not (string.find(bardraces, "actor.race")) then
+                if not (string.find(bardraces, actor.race)) then
                     actor:send("- <b:magenta>Bard</>_")
                 end
-                if not (string.find(mercenaryraces, "actor.race")) then
+                if not (string.find(mercenaryraces, actor.race)) then
                     actor:send("- &9<blue>Mercenary</>_")
                 end
-                if not (string.find(thiefraces, "actor.race")) then
+                if not (string.find(thiefraces, actor.race)) then
                     actor:send("- <b:red>Thief</>_")
                 end
             elseif string.find(actor.class, "Warrior") then
-                if not (string.find(antipaladinraces, "actor.race")) then
+                if not (string.find(antipaladinraces, actor.race)) then
                     actor:send("- <b:red>Anti-Paladin</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
                 end
-                if not (string.find(berserkerraces, "actor.race")) then
+                if not (string.find(berserkerraces, actor.race)) then
                     actor:send("- &9<blue>Berserker</>_")
                 end
-                if not (string.find(monkraces, "actor.race")) then
+                if not (string.find(monkraces, actor.race)) then
                     actor:send("- <yellow>Monk</>_")
                 end
-                if not (string.find(paladinraces, "actor.race")) then
+                if not (string.find(paladinraces, actor.race)) then
                     actor:send("- <b:white>Paladin</>")
                     actor:send("</>   <cyan>(This class is for good characters only)</>_")
                 end
-                if not (string.find(rangerraces, "actor.race")) then
+                if not (string.find(rangerraces, actor.race)) then
                     actor:send("- <b:green>Ranger</>")
                     actor:send("</>   <cyan>(This class is for good characters only)</>_")
                 end

@@ -1,9 +1,14 @@
 -- Trigger: Dragon Slayers Isilynor Speech
 -- Zone: 30, ID: 81
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
---   Large script: 11715 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter produced a malformed nested if/elseif chain inside
+-- the `if actor:get_quest_var("dragon_slayer:hunt") == "running" then` block.
+-- Each stage check is wrapped in a no-op `if ... running then end` followed
+-- by an unreachable `elseif ... stage == N`, so only stage 1 ever fires.
+-- Restructure to a single switch on quest stage with the running/idle guard
+-- evaluated once at the top.
 --
 -- Original DG Script: #3081
 

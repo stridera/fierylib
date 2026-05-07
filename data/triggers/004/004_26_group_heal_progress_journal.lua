@@ -1,10 +1,7 @@
 -- Trigger: Group Heal progress journal
 -- Zone: 4, ID: 26
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Group Heal progress journal>:4: 'then' expected near 'heal'
---   Complex nesting: 24 if statements
---   Large script: 6800 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #426
 
@@ -18,12 +15,13 @@ if string.find(arg, "group heal") or string.find(arg, "heal") or string.find(arg
             local stage = actor:get_quest_stage("group_heal")
             actor:send("<b:green>&uGroup Heal</>")
             actor:send("Minimum Level: 57")
+            local status
             if actor:get_has_completed("group_heal") then
-                local status = "Completed!"
+                status = "Completed!"
             elseif stage then
-                local status = "In Progress"
+                status = "In Progress"
             else
-                local status = "Not Started"
+                status = "Not Started"
             end
             actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             if stage > 0 and not actor:get_has_completed("group_heal") then

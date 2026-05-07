@@ -1,9 +1,7 @@
 -- Trigger: Twisted Sorrow progress journal
 -- Zone: 4, ID: 18
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Twisted Sorrow progress journal>:4: 'then' expected near 'forest'
---   Complex nesting: 14 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #418
 
@@ -14,12 +12,13 @@ if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg,
     _return_value = true
     actor:send("<b:green>&uTwisted Sorrow</>")
     actor:send("Recommended Level: 10")
+    local status
     if actor:get_has_completed("twisted_sorrow") then
-        local status = "Completed!"
+        status = "Completed!"
     elseif actor:get_quest_stage("twisted_sorrow") then
-        local status = "In Progress"
+        status = "In Progress"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     local luck = actor:get_quest_var("twisted_sorrow:satisfied_tree:12016")

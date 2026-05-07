@@ -1,7 +1,11 @@
 -- Trigger: Armor Exchange greeting
 -- Zone: 30, ID: 50
 -- Type: MOB, Flags: GREET_ALL
--- Status: CLEAN
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): replace `%get.obj_shortdesc[%item%]%` with
+-- `objects.template(math.floor(item/100), item%100).name` once the runtime
+-- exposes a clear lookup helper for legacy-vnum-style ids.
 --
 -- Original DG Script: #3050
 

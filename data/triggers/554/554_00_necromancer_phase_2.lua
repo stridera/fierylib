@@ -1,15 +1,27 @@
 -- Trigger: necromancer_phase_2
 -- Zone: 554, ID: 0
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <necromancer_phase_2>:112: function arguments expected near ']'
---   Complex nesting: 15 if statements
---   Large script: 10441 chars
 --
 -- Original DG Script: #55400
 
 -- Converted from DG Script #55400: necromancer_phase_2
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- TODO(parity): Auto-converted body has multiple unrecoverable DG-Script semantics
+-- that need a full rewrite, not a mechanical fix:
+--   * outer guard reads `actor.class == "class"` (compares to literal string, not the
+--     `local class = "<class>"` declared above)
+--   * dispatch compares `object.id` (integer) against `"%id_destroyed_helm%"` etc.
+--     (literal DG `%var%` strings, never resolved)
+--   * branch-local `is_armor`, `team_a_idrmor`, `id_gem`, `id_reward`, `exp_multiplier`
+--     are declared inside `if/elseif` blocks, so the outer `if not is_armor` /
+--     reward-check sections always see them as `nil`
+--   * quest-var keys are literal `"%id_gem%_gems_acquired"` /
+--     `"%team_a_idrmor%_armor_acquired"`; reads use the literal
+--     `"phase_armor:id_gem_gems_acquired"` -- the variable's value never substitutes
+--   * `world.destroy(object.name)` passes a name string instead of the object
+--   * gem-vs-armor name swap in messages (`%get.obj_shortdesc[%id_gem%]%`)
+-- Leaving as-is for now; rewrite needs to reshape the dispatch into a table keyed by
+-- numeric object.id and use proper string concatenation for quest-var keys.
 local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the phased

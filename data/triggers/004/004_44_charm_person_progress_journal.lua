@@ -1,9 +1,7 @@
 -- Trigger: Charm Person progress journal
 -- Zone: 4, ID: 44
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 28 if statements
---   Large script: 6957 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #444
 
@@ -18,12 +16,13 @@ if string.find(arg, "charm") or string.find(arg, "person") or string.find(arg, "
             local stage = actor:get_quest_stage("charm_person")
             actor:send("<b:green>&uCharm Person</>")
             actor:send("Minimum Level: 89")
+            local status
             if actor:get_has_completed("charm_person") then
-                local status = "Completed!"
+                status = "Completed!"
             elseif stage then
-                local status = "In Progress"
+                status = "In Progress"
             else
-                local status = "Not Started"
+                status = "Not Started"
             end
             actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             if stage > 0 and not actor:get_has_completed("charm_person") then

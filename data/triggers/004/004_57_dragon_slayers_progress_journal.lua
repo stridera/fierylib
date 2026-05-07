@@ -1,9 +1,7 @@
 -- Trigger: Dragon Slayers progress journal
 -- Zone: 4, ID: 57
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Dragon Slayers progress journal>:4: 'then' expected near 'slayer'
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #457
 
@@ -18,41 +16,44 @@ if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.f
     local target1 = actor:get_quest_var("dragon_slayer:target1")
     actor:send("<b:green>&uDragon Slayers</>")
     -- switch on stage
+    local victim1
     if stage == 1 then
-        local victim1 = "a dragon hedge"
+        victim1 = "a dragon hedge"
     elseif stage == 2 then
-        local victim1 = "the green wyrmling"
+        victim1 = "the green wyrmling"
     elseif stage == 3 then
-        local victim1 = "Wug the Fiery Drakling"
+        victim1 = "Wug the Fiery Drakling"
     elseif stage == 4 then
-        local victim1 = "the young blue dragon"
+        victim1 = "the young blue dragon"
     elseif stage == 5 then
-        local victim1 = "a faerie dragon"
+        victim1 = "a faerie dragon"
     elseif stage == 6 then
-        local victim1 = "the wyvern"
+        victim1 = "the wyvern"
     elseif stage == 7 then
-        local victim1 = "an ice lizard"
+        victim1 = "an ice lizard"
     elseif stage == 8 then
-        local victim1 = "the Beast of Borgan"
+        victim1 = "the Beast of Borgan"
     elseif stage == 9 then
-        local victim1 = "Tri-Aszp"
+        victim1 = "Tri-Aszp"
     elseif stage == 10 then
-        local victim1 = "the Hydra"
+        victim1 = "the Hydra"
     end
+    local level
     if stage == 1 or not stage then
-        local level = 5
+        level = 5
     else
-        local level = (stage - 1) * 10
+        level = (stage - 1) * 10
     end
     if not actor:get_has_completed("dragon_slayer") then
         actor:send("Minimum Level: " .. tostring(level))
     end
+    local status
     if actor:get_has_completed("dragon_slayer") then
-        local status = "Completed!"
+        status = "Completed!"
     elseif stage then
-        local status = "In Progress"
+        status = "In Progress"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if stage > 0 and not actor:get_has_completed("dragon_slayer") then

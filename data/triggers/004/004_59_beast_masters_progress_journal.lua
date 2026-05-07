@@ -1,8 +1,7 @@
 -- Trigger: Beast Masters progress journal
 -- Zone: 4, ID: 59
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #459
 
@@ -17,41 +16,44 @@ if string.find(arg, "beast") or string.find(arg, "masters") or string.find(arg, 
     local target1 = actor:get_quest_var("beast_master:target1")
     actor:send("<b:green>&uBeast Masters</>")
     -- switch on stage
+    local victim1
     if stage == 1 then
-        local victim1 = "an abominable slime creature"
+        victim1 = "an abominable slime creature"
     elseif stage == 2 then
-        local victim1 = "a large buck"
+        victim1 = "a large buck"
     elseif stage == 3 then
-        local victim1 = "the giant scorpion"
+        victim1 = "the giant scorpion"
     elseif stage == 4 then
-        local victim1 = "a monstrous canopy spider"
+        victim1 = "a monstrous canopy spider"
     elseif stage == 5 then
-        local victim1 = "the chimera"
+        victim1 = "the chimera"
     elseif stage == 6 then
-        local victim1 = "the drider king"
+        victim1 = "the drider king"
     elseif stage == 7 then
-        local victim1 = "a beholder"
+        victim1 = "a beholder"
     elseif stage == 8 then
-        local victim1 = "the Banshee"
+        victim1 = "the Banshee"
     elseif stage == 9 then
-        local victim1 = "Baba Yaga"
+        victim1 = "Baba Yaga"
     elseif stage == 10 then
-        local victim1 = "the medusa"
+        victim1 = "the medusa"
     end
+    local level
     if stage == 1 or not stage then
-        local level = 1
+        level = 1
     else
-        local level = (stage - 1) * 10
+        level = (stage - 1) * 10
     end
     if not actor:get_has_completed("beast_master") then
         actor:send("Minimum Level: " .. tostring(level))
     end
+    local status
     if actor:get_has_completed("beast_master") then
-        local status = "Completed!"
+        status = "Completed!"
     elseif stage then
-        local status = "In Progress"
+        status = "In Progress"
     else
-        local status = "Not Started"
+        status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if stage > 0 and not actor:get_has_completed("bounty_hunt") then

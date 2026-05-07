@@ -14,12 +14,13 @@ if string.find(arg, "shift") or string.find(arg, "corpse") or string.find(arg, "
         local stage = actor:get_quest_stage("shift_corpse")
         actor:send("<b:green>&uShift Corpse</>")
         actor:send("Minimum Level: 97")
+        local status
         if actor:get_has_completed("shift_corpse") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("shift_corpse") then

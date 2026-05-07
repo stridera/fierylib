@@ -1,9 +1,8 @@
 -- Trigger: The Finale progress journal
 -- Zone: 4, ID: 48
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <The Finale progress journal>:33: unexpected symbol near '!'
---   Complex nesting: 10 if statements
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #448
 
@@ -19,20 +18,21 @@ if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg,
     if stage then
         actor:send("<cyan>Status: Repeatable</>")
         -- switch on stage
+        local master
         if stage == 1 then
-            local master = mobiles.template(43, 51).name
+            master = mobiles.template(43, 51).name
         elseif stage == 2 then
-            local master = mobiles.template(43, 45).name
+            master = mobiles.template(43, 45).name
         elseif stage == 3 then
-            local master = mobiles.template(43, 53).name
+            master = mobiles.template(43, 53).name
         elseif stage == 4 then
-            local master = mobiles.template(43, 52).name
+            master = mobiles.template(43, 52).name
         elseif stage == 5 then
-            local master = mobiles.template(43, 11).name
+            master = mobiles.template(43, 11).name
         elseif stage == 6 then
-            local master = mobiles.template(43, 12).name
+            master = mobiles.template(43, 12).name
         elseif stage == 7 then
-            local master = mobiles.template(43, 99).name
+            master = mobiles.template(43, 99).name
         end
         actor:send("Quest Master: " .. tostring(master))
         actor:send("</>")

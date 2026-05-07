@@ -1,8 +1,7 @@
 -- Trigger: Griffin quest progress journal
 -- Zone: 4, ID: 8
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Griffin quest progress journal>:4: 'then' expected near 'island'
+-- Status: CLEAN
 --
 -- Original DG Script: #408
 
@@ -16,12 +15,13 @@ if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         actor:send("<b:green>&uDestroy the Cult of the Griffin</>")
         actor:send("Recommended Level: 60")
+        local status
         if actor:get_has_completed("griffin_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("griffin_quest") then

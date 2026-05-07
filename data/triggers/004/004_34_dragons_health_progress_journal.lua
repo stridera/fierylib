@@ -1,10 +1,7 @@
 -- Trigger: Dragons Health Progress journal
 -- Zone: 4, ID: 34
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Dragons Health Progress journal>:4: 'then' expected near 's_health'
---   Complex nesting: 22 if statements
---   Large script: 5519 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #434
 
@@ -17,12 +14,13 @@ if string.find(arg, "dragons") or string.find(arg, "dragon's") or string.find(ar
         local stage = actor:get_quest_stage("dragons_health")
         actor:send("<b:green>&uDragons Health</>")
         actor:send("Minimum Level: 89")
+        local status
         if actor:get_has_completed("dragons_health") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("dragons_health") then

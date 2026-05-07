@@ -17,5 +17,5 @@ if actor:get_quest_stage("trainer_3170") == 1 then
     end
     actor:send(tostring(self.name) .. " says, 'You've been gaining power, have you?  Perhaps you could use some training?'")
 else
-    actor.name:send(self.name .. " tells you, '" .. "Greetings adventurer.  Improving your skills taking too long?  I can help you for a fee." .. "'")
+    actor:send(tostring(self.name) .. " tells you, 'Greetings adventurer.  Improving your skills taking too long?  I can help you for a fee.'")
 end

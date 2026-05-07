@@ -1,8 +1,7 @@
 -- Trigger: **UNUSED**
 -- Zone: 4, ID: 104
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <**UNUSED**>:4: 'then' expected near 'of'
+-- Status: CLEAN
 --
 -- Original DG Script: #504
 
@@ -18,12 +17,13 @@ if string.find(arg, "blizzards") or string.find(arg, "blizzards of saint augusti
         local level = 50
         actor:send("<b:green>&uBlizzards of Saint Augustine</>")
         actor:send("Minimum Level: " .. tostring(level))
+        local status
         if chantstage > 3 then
-            local status = "Completed!"
+            status = "Completed!"
         elseif chantstage == 3 then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor.level >= level and chantstage == 3 then

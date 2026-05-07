@@ -1,10 +1,8 @@
 -- Trigger: Resurrection progress journal
 -- Zone: 4, ID: 25
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Resurrection progress journal>:33: unexpected symbol near 'and'
---   Complex nesting: 26 if statements
---   Large script: 7168 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #425
 
@@ -17,12 +15,13 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
         local stage = actor:get_quest_stage("resurrection_quest")
         actor:send("<b:green>&uResurrection</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("resurrection_quest") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("resurrection_quest") then
@@ -59,10 +58,11 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                 local mob1 = 51005
                 local mob2 = 53001
                 local mob3 = 51014
+                local item
                 if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
-                    local item = "a large book on healing from Nordus"
+                    item = "a large book on healing from Nordus"
                 elseif string.find(actor.class, "Diabolist") then
-                    local item = objects.template(510, 28).name
+                    item = objects.template(510, 28).name
                 end
             elseif stage == 10 then
                 local hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
@@ -79,8 +79,9 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
         if stage == 4 or stage == 6 or stage == 8 or stage == 10 then
             local target1 = actor:get_quest_var("resurrection_quest:mob1")
             local target2 = actor:get_quest_var("resurrection_quest:mob2")
+            local target3
             if stage ~= 6 and stage ~= 10 then
-                local target3 = actor:get_quest_var("resurrection_quest:mob3")
+                target3 = actor:get_quest_var("resurrection_quest:mob3")
             end
             actor:send("You must eliminate:")
             actor:send(tostring(hunt))

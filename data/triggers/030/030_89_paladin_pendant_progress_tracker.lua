@@ -1,9 +1,14 @@
 -- Trigger: Paladin Pendant progress tracker
 -- Zone: 30, ID: 89
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
---   Large script: 8426 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local necklace`, `local gem`, `local place`,
+-- and `local hint` inside every if/elseif branch. They are nil at the outer
+-- `actor:send(... %get.obj_shortdesc[%necklace%]% ...)` lines below. Hoist
+-- the locals, drop the `local` keyword in branches, and replace
+-- `%get.obj_shortdesc[%necklace%]%` / `%get.obj_shortdesc[%gem%]%` with
+-- `objects.template(math.floor(necklace/100), necklace%100).name`.
 --
 -- Original DG Script: #3089
 

@@ -1,19 +1,16 @@
 -- Trigger: phase_2_cleric_boots
 -- Zone: 553, ID: 53
 -- Type: MOB, Flags: SPEECH_TO
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: >= 2
 --
 -- Original DG Script: #55353
 
 -- Converted from DG Script #55353: phase_2_cleric_boots
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
--- 
+--
 -- Boots ya ask?
--- 
+--
 -- This is for clerics only
-if (actor.class == "cleric" or actor.class == "priest") and actor.level >= 21 then
-    -- UNCONVERTED: >= 2
+if (actor.class == "cleric" or actor.class == "priest") and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, \"Boots ya ask? Well now I can make a fine pair of boots for the\"")
     actor:send(tostring(self.name) .. " tells you, \"cleric types but I'll need 3 uncut opals, and a set of\"")

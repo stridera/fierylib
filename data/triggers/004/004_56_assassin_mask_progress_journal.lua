@@ -1,10 +1,8 @@
 -- Trigger: Assassin Mask progress journal
 -- Zone: 4, ID: 56
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Assassin Mask progress journal>:4: unexpected symbol near '='
---   Complex nesting: 18 if statements
---   Large script: 5730 chars
+-- Status: CLEAN
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #456
 
@@ -22,20 +20,22 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
         local job3 = actor:get_quest_var("assassin_mask:masktask3")
         local job4 = actor:get_quest_var("assassin_mask:masktask4")
         actor:send("<b:green>&uDeadly Promotion</>")
+        local level
         if not stage then
-            local level = 10
+            level = 10
         else
-            local level = maskstage * 10
+            level = maskstage * 10
         end
         if not actor:get_has_completed("assassin_mask") then
             actor:send("Minimum Level: " .. tostring(level))
         end
+        local status
         if actor:get_has_completed("assassin_mask") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif maskstage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if actor.level >= level then
@@ -47,51 +47,55 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
                 return _return_value
             end
             -- switch on maskstage
+            local mask
+            local gem
+            local place
+            local hint
             if maskstage == 1 then
-                local mask = 4500
-                local gem = 55592
-                local place = "The Shadowy Lair"
-                local hint = "in the Misty Caverns."
+                mask = 4500
+                gem = 55592
+                place = "The Shadowy Lair"
+                hint = "in the Misty Caverns."
             elseif maskstage == 2 then
-                local mask = 17809
-                local gem = 55594
-                local place = "The Dark Chamber"
-                local hint = "behind a desert door."
+                mask = 17809
+                gem = 55594
+                place = "The Dark Chamber"
+                hint = "behind a desert door."
             elseif maskstage == 3 then
-                local mask = 59023
-                local gem = 55620
-                local place = "A Dark Tunnel"
-                local hint = "on the way to a dark, hidden city."
+                mask = 59023
+                gem = 55620
+                place = "A Dark Tunnel"
+                hint = "on the way to a dark, hidden city."
             elseif maskstage == 4 then
-                local mask = 10304
-                local gem = 55638
-                local place = "Dark Chamber"
-                local hint = "hidden below a ghostly fortress."
+                mask = 10304
+                gem = 55638
+                place = "Dark Chamber"
+                hint = "hidden below a ghostly fortress."
             elseif maskstage == 5 then
-                local mask = 16200
-                local gem = 55666
-                local place = "Darkness......"
-                local hint = "inside an enchanted closet."
+                mask = 16200
+                gem = 55666
+                place = "Darkness......"
+                hint = "inside an enchanted closet."
             elseif maskstage == 6 then
-                local mask = 43017
-                local gem = 55675
-                local place = "Surrounded by Darkness"
-                local hint = "in a volcanic shaft."
+                mask = 43017
+                gem = 55675
+                place = "Surrounded by Darkness"
+                hint = "in a volcanic shaft."
             elseif maskstage == 7 then
-                local mask = 51075
-                local gem = 55693
-                local place = "Dark Indecision"
-                local hint = "before an altar in a fallen maze."
+                mask = 51075
+                gem = 55693
+                place = "Dark Indecision"
+                hint = "before an altar in a fallen maze."
             elseif maskstage == 8 then
-                local mask = 49062
-                local gem = 55719
-                local place = "Heart of Darkness"
-                local hint = "buried deep in an ancient tomb."
+                mask = 49062
+                gem = 55719
+                place = "Heart of Darkness"
+                hint = "buried deep in an ancient tomb."
             elseif maskstage == 9 then
-                local mask = 48427
-                local gem = 55743
-                local place = "A Dark Room"
-                local hint = "under the ruins of a shop in an ancient city."
+                mask = 48427
+                gem = 55743
+                place = "A Dark Room"
+                hint = "under the ruins of a shop in an ancient city."
             end
             local attack = maskstage * 100
             actor:send("Quest Master: " .. tostring(master))

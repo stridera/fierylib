@@ -1,9 +1,7 @@
 -- Trigger: Sacred Haven progress journal
 -- Zone: 4, ID: 21
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Sacred Haven progress journal>:4: 'then' expected near 'the'
---   Complex nesting: 12 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #421
 
@@ -18,10 +16,11 @@ if string.find(arg, "infiltrate the sacred haven") or string.find(arg, "sacred_h
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 35")
+        local status
         if stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage then

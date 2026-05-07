@@ -1,8 +1,7 @@
 -- Trigger: Illusionist Subclass progress journal
 -- Zone: 4, ID: 66
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #466
 
@@ -11,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local illusionraces = "none"
-    if string.find(arg, "Illusionist") and string.find(actor.class, "Sorcerer") and actor.level <= 45 and not (string.find(illusionraces, "actor.race")) then
+    if string.find(arg, "Illusionist") and string.find(actor.class, "Sorcerer") and actor.level <= 45 and not (string.find(illusionraces, actor.race)) then
         _return_value = true
         actor:send("<b:magenta>Illusionist</>")
         actor:send("Quest Master: " .. tostring(mobiles.template(172, 0).name))

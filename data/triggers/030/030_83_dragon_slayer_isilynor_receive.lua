@@ -1,9 +1,22 @@
 -- Trigger: Dragon Slayer Isilynor Receive
 -- Zone: 30, ID: 83
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
---   Large script: 15102 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local stage`, `local victim1`, `local go`,
+-- `local pendantstage`, `local item`, `local accept`, `local expmod`,
+-- `local expcap`, etc. inside every if/elseif branch. They are nil at the
+-- outer-scope checks (`if go == "hunt"`, `if accept == "no"`, etc.). Hoist
+-- those declarations to the top of the trigger and drop the `local` keyword
+-- in branches.
+--
+-- Also: line 205 references `person.class == "%anti%"` which is a stray DG-
+-- Script interpolation; should be `actor.class == anti` (with `anti` declared
+-- as `"Anti-Paladin"` in line 174). And `person` itself is never assigned in
+-- this trigger — should iterate `actor.group_member` or just use `actor`.
+--
+-- Also: `actor:set_quest_var("paladin_pendant", "necklacetask%number%", 0)`
+-- on line 331 should be `"necklacetask" .. tostring(number)`.
 --
 -- Original DG Script: #3083
 

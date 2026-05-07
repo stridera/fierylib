@@ -1,9 +1,7 @@
 -- Trigger: Sunfire Rescue progress journal
 -- Zone: 4, ID: 9
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Sunfire Rescue progress journal>:4: 'then' expected near 'crest'
---   Complex nesting: 11 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #409
 
@@ -18,12 +16,13 @@ if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, 
         actor:send("This quest is only available to good-aligned characters.")
         actor:send("Minimum Level: 85")
         actor:send("- This quest can be started at any level but requires level 85 to finish.")
+        local status
         if actor:get_has_completed("sunfire_rescue") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage == 1 then

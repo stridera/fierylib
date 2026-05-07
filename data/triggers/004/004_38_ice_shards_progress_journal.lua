@@ -1,9 +1,7 @@
 -- Trigger: Ice Shards progress journal
 -- Zone: 4, ID: 38
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Ice Shards progress journal>:4: 'then' expected near 'shards'
---   Complex nesting: 14 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #438
 
@@ -16,12 +14,13 @@ if string.find(arg, "ice shards") or string.find(arg, "shards") or string.find(a
         local stage = actor:get_quest_stage("ice_shards")
         actor:send("<b:green>&uIce Shards</>")
         actor:send("Minimum Level: 89")
+        local status
         if actor:get_has_completed("ice_shards") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("ice_shards") then

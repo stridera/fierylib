@@ -10,19 +10,20 @@
 -- This is a greet trigger for the transportation assistants who
 -- move newbies between cities.
 -- switch on self.id
+local myname = "elf"
 if self.id == 30075 or self.id == 3151 then
-    local myname = "barbarian"
+    myname = "barbarian"
 elseif self.id == 3152 then
-    local myname = "dwarf"
+    myname = "dwarf"
 elseif self.id == 30074 then
-    local myname = "drow"
+    myname = "drow"
 elseif self.id == 30076 then
-    local myname = "human"
+    myname = "human"
 elseif self.id == 30077 then
-    local myname = "orc"
+    myname = "orc"
 elseif self.id == 3150 then
-else
-    local myname = "elf"
+    -- legacy: questmaster 3150 had no myname; bail before sending speech
+    return true
 end
 if actor.level < 16 and actor.is_player and actor:get_quest_stage("intercity_transport") == 0 then
     actor:send("<blue>The " .. tostring(myname) .. " tells you, 'Would you like a trip to a faraway city?'</>")

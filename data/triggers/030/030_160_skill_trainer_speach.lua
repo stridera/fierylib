@@ -1,9 +1,13 @@
 -- Trigger: ***skill trainer speach***
 -- Zone: 30, ID: 160
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Complex nesting: 16 if statements
---   Large script: 9333 chars
+-- Status: NEEDS_REWRITE
+--
+-- TODO(parity): converter declared `local skill`, `local word2`, `local cap`,
+-- and `local maxskill` inside every if/elseif branch. They are nil at the
+-- outer `local skill = 10 * skill` and `local maxskill = ...` recomputations,
+-- and inside the cap/maxskill comparisons. Hoist those locals to the top of
+-- the trigger and drop the `local` keyword in branches.
 --
 -- Original DG Script: #3160
 

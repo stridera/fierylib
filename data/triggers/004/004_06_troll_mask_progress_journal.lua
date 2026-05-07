@@ -1,9 +1,7 @@
 -- Trigger: Troll Mask progress journal
 -- Zone: 4, ID: 6
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Troll Mask progress journal>:4: 'then' expected near 'mask'
---   Complex nesting: 12 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #406
 
@@ -19,12 +17,13 @@ if string.find(arg, "tribal") or string.find(arg, "trouble") or string.find(arg,
             local job3 = actor:get_quest_var("troll_quest:got_item:37082")
             actor:send("<b:green>&uTribal Trouble</>")
             actor:send("Minimum Level: 55")
+            local status
             if not actor:get_quest_stage("troll_quest") then
-                local status = "Not Started"
+                status = "Not Started"
             elseif actor:get_has_completed("troll_quest") then
-                local status = "Completed!"
+                status = "Completed!"
             elseif actor:get_quest_stage("troll_quest") == 1 then
-                local status = "In Progress"
+                status = "In Progress"
             end
             actor:send("<cyan>Stats: " .. tostring(status) .. "</>_")
             if actor:get_quest_stage("troll_quest") == 1 then

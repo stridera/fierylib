@@ -1,15 +1,28 @@
 -- Trigger: ranger_phase_3
 -- Zone: 555, ID: 40
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <ranger_phase_3>:112: function arguments expected near ']'
---   Complex nesting: 15 if statements
---   Large script: 10435 chars
 --
 -- Original DG Script: #55540
 
 -- Converted from DG Script #55540: ranger_phase_3
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- TODO(parity): Body is heavily garbled by the DG->Lua converter and needs
+-- a full rewrite to be functional. Known issues:
+--   * `actor.class == "class"` compares the player's class to the literal
+--     string "class"; should be `actor.class == class` (the local above).
+--   * `object.id == "%id_destroyed_helm%"` etc. compare an int to a literal
+--     percent-wrapped string and never match -- every turn-in is rejected.
+--     Should be `object.id == id_destroyed_helm`.
+--   * `local is_armor`, `local id_gem`, `local id_reward`, `local team_a_idrmor`,
+--     `local exp_multiplier` are declared inside if/elseif branches and so
+--     are scoped to that block; they read as nil in the outer body.
+--   * Quest-var keys still contain literal `%id_gem%`, `%team_a_idrmor%`
+--     percent interpolations that should be Lua string concatenation
+--     (`id_gem .. "_gems_acquired"`).
+--   * `%get.obj_shortdesc[%id_gem%]%` should be
+--     `objects.template(555, id_gem).name`.
+-- Treat as parity-only until the receive flow can be rewritten end-to-end.
 local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the phased

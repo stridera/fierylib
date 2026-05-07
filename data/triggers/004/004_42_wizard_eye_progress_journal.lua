@@ -1,9 +1,7 @@
 -- Trigger: Wizard Eye progress journal
 -- Zone: 4, ID: 42
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Wizard Eye progress journal>:4: 'then' expected near 'eye'
---   Complex nesting: 16 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #442
 
@@ -20,55 +18,61 @@ if string.find(arg, "wizard eye") or string.find(arg, "wizard") or string.find(a
         local item4 = actor:get_quest_var("wizard_eye:item4")
         actor:send("<b:green>&uWizard Eye</>")
         actor:send("Minimum Level: 81")
+        local status
         if actor:get_has_completed("wizard_eye") then
-            local status = "Completed!"
+            status = "Completed!"
         elseif stage then
-            local status = "In Progress"
+            status = "In Progress"
         else
-            local status = "Not Started"
+            status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("wizard_eye") then
             local master = mobiles.template(550, 13).name
             -- switch on stage
+            local task
+            local thing1
+            local thing2
+            local thing3
+            local thing4
             if stage == 1 then
-                local master = mobiles.template(324, 10).name
-                local task = "You are trying to find " .. tostring(master) .. " in South Caelia Highlands to ask her about Wizard Eye."
+                master = mobiles.template(324, 10).name
+                task = "You are trying to find " .. tostring(master) .. " in South Caelia Highlands to ask her about Wizard Eye."
             elseif stage == 2 then
-                local task = "Find marigold poultice from a healer on the beachhead and give it to " .. tostring(master) .. "."
+                task = "Find marigold poultice from a healer on the beachhead and give it to " .. tostring(master) .. "."
             elseif stage == 3 then
-                local master = mobiles.template(490, 3).name
-                local task = "Go visit " .. tostring(master) .. " of Griffin Isle to ask her about Wizard Eye and see what you need to do next."
+                master = mobiles.template(490, 3).name
+                task = "Go visit " .. tostring(master) .. " of Griffin Isle to ask her about Wizard Eye and see what you need to do next."
             elseif stage == 4 then
-                local master = mobiles.template(490, 3).name
-                local task = "Have " .. tostring(master) .. " make you an herbal sachet."
-                local thing1 = objects.template(23, 29).name
-                local thing2 = objects.template(237, 53).name
-                local thing3 = objects.template(480, 5).name
+                master = mobiles.template(490, 3).name
+                task = "Have " .. tostring(master) .. " make you an herbal sachet."
+                thing1 = objects.template(23, 29).name
+                thing2 = objects.template(237, 53).name
+                thing3 = objects.template(480, 5).name
             elseif stage == 5 then
-                local task = "Give " .. tostring(master) .. " the sachet."
+                task = "Give " .. tostring(master) .. " the sachet."
             elseif stage == 6 then
-                local task = "You are looking for the apothecary in Anduin."
+                task = "You are looking for the apothecary in Anduin."
             elseif stage == 7 then
-                local master = mobiles.template(60, 22).name
-                local task = "Get The Green Woman to make you incense."
-                local thing1 = objects.template(237, 54).name
-                local thing2 = objects.template(30, 298).name
-                local thing3 = objects.template(238, 47).name
-                local thing4 = objects.template(180, 1).name
+                master = mobiles.template(60, 22).name
+                task = "Get The Green Woman to make you incense."
+                thing1 = objects.template(237, 54).name
+                thing2 = objects.template(30, 298).name
+                thing3 = objects.template(238, 47).name
+                thing4 = objects.template(180, 1).name
             elseif stage == 8 then
-                local task = "Give " .. tostring(master) .. " the incense."
+                task = "Give " .. tostring(master) .. " the incense."
             elseif stage == 9 or stage == 10 then
-                local master = mobiles.template(484, 10).name
-                local thing1 = objects.template(30, 218).name
-                local thing2 = objects.template(534, 24).name
-                local thing3 = objects.template(430, 21).name
-                local thing4 = objects.template(40, 3).name
-                local task = "See the Oracle of Justice."
+                master = mobiles.template(484, 10).name
+                thing1 = objects.template(30, 218).name
+                thing2 = objects.template(534, 24).name
+                thing3 = objects.template(430, 21).name
+                thing4 = objects.template(40, 3).name
+                task = "See the Oracle of Justice."
             elseif stage == 11 then
-                local task = "Give " .. tostring(master) .. " the crystal ball."
+                task = "Give " .. tostring(master) .. " the crystal ball."
             elseif stage == 12 then
-                local task = "Return to " .. tostring(master) .. " and lay back and go to sleep."
+                task = "Return to " .. tostring(master) .. " and lay back and go to sleep."
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

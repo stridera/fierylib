@@ -8,7 +8,7 @@
 -- Converted from DG Script #55302: phase_1_cleric_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 -- This is for clerics only
-local CLERIC_SUB = (actor.class == cleric  or  actor.class == priest  or  actor.class == diabolist  or  actor.class == druid)
+local CLERIC_SUB = (actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid")
 if CLERIC_SUB then
     if actor:get_quest_stage("phase_armor") == 0 then
         wait(2)
