@@ -10,7 +10,7 @@
 -- This is the reception of the carrot
 -- that kicks off the whole affair.
 if actor.is_player then
-    if object.id == 32421 then
+    if object.zone_id == 324 and object.local_id == 21 then
         wait(1)
         actor:teleport(get_room(324, 197))
         self:teleport(get_room(324, 197))
@@ -45,6 +45,4 @@ if actor.is_player then
         self:command("bite " .. tostring(actor.name))
         self:command("smile me")
     end
-else
 end
--- Label reference: purge_me

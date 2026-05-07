@@ -3,10 +3,13 @@
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
 --
--- Original DG Script: #58004
-
--- Converted from DG Script #58004: charm_person_hinazuru_pay
--- Original: MOB trigger, flags: BRIBE, probability: 100000%
+-- Accepts the player's payment and starts the charm_person quest if
+-- they qualify (Sorcerer/Illusionist/Bard, level > 88, stage 0).
+-- Otherwise just thanks them politely for the gratuity.
+--
+-- TODO: legacy DG probability was 100000% (effectively always); also
+-- doesn't enforce the 100 platinum amount Hinazuru quoted -- any bribe
+-- starts the quest. Confirm whether to gate by amount.
 if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) and actor.level > 88 and actor:get_quest_stage("charm_person") == 0 then
     actor:start_quest("charm_person")
     self:command("bow " .. tostring(actor.name))

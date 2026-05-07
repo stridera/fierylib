@@ -1,19 +1,16 @@
 -- Trigger: odai_kannon_receive
 -- Zone: 580, ID: 1
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
--- Original DG Script: #58001
-
--- Converted from DG Script #58001: odai_kannon_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
--- I'm going to restructure this one ever so
--- Slightly to purge Kannon after she bolts so
--- She's just not hanging out in the void.
--- 
--- Adding in a gem/gear loop as well.
--- 
+-- Receives the cage key (zone 582, id 200 in legacy 58200 format) from a
+-- player. Kannon is freed, drops a curated loot pile (gems + armor across
+-- previous/current/next wear-position sets), thanks the player, then
+-- teleports/purges herself.
+--
+-- TODO: spawn_object zone/id pairs use legacy vnum offsets; double-check
+-- that zones 553, 556 still own the gem/armor object IDs in the 37-72
+-- range after import.
 if actor.is_player then
     if object.id == 58200 then
         wait(1)
@@ -39,7 +36,7 @@ if actor.is_player then
                 if bonus <= 50 then
                     -- drop a gem from the previous wear pos set
                     self.room:spawn_object(556, 37 + what_gem_drop)
-                elseif bonus >= 51 &bonus <= 90 then
+                elseif bonus >= 51 and bonus <= 90 then
                     -- We're in the Normal drops from current wear pos set
                     -- drop a gem from the current wear pos set
                     self.room:spawn_object(556, 48 + what_gem_drop)
@@ -48,13 +45,13 @@ if actor.is_player then
                     -- drop a gem from the next wear pos set
                     self.room:spawn_object(556, 59 + what_gem_drop)
                 end
-            elseif will_drop >=61 &will_drop <= 80 then
+            elseif will_drop >= 61 and will_drop <= 80 then
                 -- Normal non-bonus drops
                 if bonus <= 50 then
                     -- drop destroyed armor 55299 is the ID before the
                     -- first piece of armor.
                     self.room:spawn_object(553, 43 + what_armor_drop)
-                elseif bonus >= 51 &bonus <= 90 then
+                elseif bonus >= 51 and bonus <= 90 then
                     -- We're in the Normal drops from current wear pos set
                     -- drop armor from the current wear pos set
                     self.room:spawn_object(553, 47 + what_armor_drop)
@@ -69,7 +66,7 @@ if actor.is_player then
                     -- drop armor and gem from previous wear pos
                     self.room:spawn_object(556, 37 + what_gem_drop)
                     self.room:spawn_object(553, 43 + what_armor_drop)
-                elseif bonus >= 51 &bonus <= 90 then
+                elseif bonus >= 51 and bonus <= 90 then
                     -- We're in the Normal drops from current wear pos set
                     -- drop a gem and armor from the current wear pos set
                     self.room:spawn_object(553, 47 + what_armor_drop)

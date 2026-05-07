@@ -3,14 +3,12 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
--- Original DG Script: #58103
+-- When asked about Kannon, the Sunbird performs the cinematic light
+-- show then explains that the goddess's power has waned.
 
--- Converted from DG Script #58103: Sunbird_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: kannon kannon? who? goddess goddes? mercy mercy?
+-- Speech keywords: kannon / who / goddess / mercy
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "kannon") or string.find(string.lower(speech), "kannon?") or string.find(string.lower(speech), "who?") or string.find(string.lower(speech), "goddess") or string.find(string.lower(speech), "goddes?") or string.find(string.lower(speech), "mercy") or string.find(string.lower(speech), "mercy?")) then
+if not (string.find(speech_lower, "kannon") or string.find(speech_lower, "who") or string.find(speech_lower, "goddess") or string.find(speech_lower, "mercy")) then
     return true  -- No matching keywords
 end
 wait(7)

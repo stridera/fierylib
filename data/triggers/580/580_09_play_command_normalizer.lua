@@ -1,12 +1,16 @@
 -- Trigger: play command normalizer
 -- Zone: 580, ID: 9
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --
--- Original DG Script: #58009
-
--- Converted from DG Script #58009: play command normalizer
--- Original: OBJECT trigger, flags: COMMAND, probability: 3%
+-- Stub. Original DG presumably normalised "p" -> "play" so abbreviations
+-- still hit the master-charmer instrument triggers; the body never made
+-- it through the converter. As written it just returns true.
+--
+-- TODO: implement actual rewrite (e.g. force_command(actor, "play "..arg)
+-- and return false to suppress the original "p" command), or delete the
+-- trigger entirely if the runtime command parser already handles "p" as
+-- a play prefix.
 
 -- 3% chance to trigger
 if not percent_chance(3) then

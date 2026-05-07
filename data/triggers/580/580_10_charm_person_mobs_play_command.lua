@@ -2,13 +2,24 @@
 -- Zone: 580, ID: 10
 -- Type: MOB, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
---   Large script: 5013 chars
 --
--- Original DG Script: #58010
-
--- Converted from DG Script #58010: charm_person_mobs_play_command
--- Original: MOB trigger, flags: COMMAND, probability: 100%
+-- Intended: when a stage-4 player runs `play <instrument>` in the same
+-- room as one of the five master charmers, the charmer reacts and the
+-- corresponding charm_person quest_var is set; once all five flags
+-- match, the player is granted Charm Person.
+--
+-- TODO: structure is mangled by the converter. Each charmer/instrument
+-- branch is wrapped in an outer `if self.id ~= 3010 then` then mixes
+-- empty `if cond then` bodies with `elseif arg == "..."` clauses that
+-- chain back to the *outer* if. Result: only the mandolin path is
+-- reachable, every other branch is dead. Needs a flat dispatch keyed
+-- on (self id, arg).
+-- TODO: self.id checks (3010, 58017, 4353, 23721, 58406) and
+-- has_equipped/has_item ids ("48925" etc) are legacy vnums. Under
+-- composite keys these never match -- update to (zone, local_id).
+-- TODO: quest_var keys "charm1".."charm5" here must agree with the
+-- progress reader in 580_08, which currently reads "charm_person:charm1"
+-- etc. Confirm a single key scheme.
 
 -- Command filter: play
 if not (cmd == "play") then

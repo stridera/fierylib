@@ -3,15 +3,15 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- The Grand Master gives class-flavored sass when asked about a player's
+-- guild. Sorcerers, Cryomancers, Pyromancers, and Illusionists each get
+-- bespoke replies; everyone else gets a generic brushoff.
+--
 -- Original DG Script: #17200
 
--- Converted from DG Script #17200: Grand Master responds to 'guild'
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: guild
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "guild")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "guild") then
+    return true  -- keyword not heard
 end
 wait(1)
 if string.find(actor.class, "Sorcerer") then

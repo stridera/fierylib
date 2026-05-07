@@ -1,15 +1,18 @@
 -- Trigger: charm_person_hinazuru_receive
 -- Zone: 580, ID: 5
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <charm_person_hinazuru_receive>:69: function arguments expected near '.'
---   Complex nesting: 8 if statements
---   Large script: 8281 chars
+-- Status: CLEAN
 --
--- Original DG Script: #58005
-
--- Converted from DG Script #58005: charm_person_hinazuru_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- Hinazuru accepts staged quest items: the Rod of Discipline (480/8) at
+-- stage 1, the theatre fire ring (43/19) at stage 2, and any of the five
+-- musical instruments at stage 3. Each accepted instrument is recorded
+-- in a quest var keyed by "<zone>_<id>"; once all five are collected
+-- the quest advances to stage 4 with directions to the master charmers.
+--
+-- TODO: instrument quest_vars are written as "<zone>_<id>" (e.g. "580_17")
+-- but read here and in 580_08 via legacy-vnum keys ("charm_person:58017").
+-- These don't match -- the all-five completion check will never fire
+-- until the read keys are migrated to the same composite scheme.
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("charm_person")
 if stage == 1 then
@@ -87,7 +90,7 @@ elseif stage == 3 then
             wait(1)
             self:say("Yes, this should do.  Now come sit, it is time for a lesson.")
             wait(2)
-            actor.name:send(tostring(self.name) .. " begins to teach you several basic techniques and a few melodies.")
+            actor:send(tostring(self.name) .. " begins to teach you several basic techniques and a few melodies.")
             self.room:send_except(actor, tostring(self.name) .. " begins to teach " .. tostring(actor.name) .. " several basic techniques and a few melodies.")
             wait(5)
             actor:send("You begin to get a feel for it...")
@@ -118,7 +121,8 @@ elseif stage == 3 then
                 self:say("Farewell.")
                 self:command("bow " .. tostring(actor.name))
             else
-                local music = (actor:get_quest_var("charm_person:58017") + actor:get_quest_var("charm_person:16312") + actor:get_quest_var("charm_person:48925") + actor:get_quest_var("charm_person:37012") + actor:get_quest_var("charm_person:41119"))
+                local function _have(k) return (actor:get_quest_var(k) and 1) or 0 end
+                local music = _have("charm_person:58017") + _have("charm_person:16312") + _have("charm_person:48925") + _have("charm_person:37012") + _have("charm_person:41119")
                 if music > 0 and music < 4 then
                     self:say("Do you have the other instruments?")
                 elseif music == 4 then

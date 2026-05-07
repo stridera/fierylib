@@ -1,56 +1,46 @@
 -- Trigger: Banish death trigger
 -- Zone: 302, ID: 21
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   TODO: Confirm the (zone, local_id) for each banish quest target. The original
+--   used legacy vnums (41119 -> 411/19, etc.). Verify each splits correctly,
+--   and confirm whether this trigger replaces the per-mob death triggers
+--   (302_14..17, 302_20) or runs alongside them.
 --
 -- Original DG Script: #30221
+-- Generic banish quest reward trigger applied to all six target mobs.
 
--- Converted from DG Script #30221: Banish death trigger
--- Original: MOB trigger, flags: DEATH, probability: 100%
--- switch on self.id
-if self.id == 41119 then
-    -- Sea Witch
-    local stage = 1
-    local letter = "V"
-elseif self.id == 53313 then
-    -- Ice Lord
-    local stage = 2
-    local letter = "I"
-elseif self.id == 37000 then
-    -- Mesmeriz
-    local stage = 3
-    local letter = "B"
-elseif self.id == 48005 then
-    -- Eidolon
-    local stage = 4
-    local letter = "U"
-elseif self.id == 53417 then
-    -- Chaos Demon
-    local stage = 5
-    local letter = "G"
-elseif self.id == 23811 then
-    -- lesser seraph
-    local stage = 6
-    local letter = "P"
+local mob_table = {
+    -- [zone] = { [local_id] = { stage = N, letter = "X" } }
+    [411] = { [19] = { stage = 1, letter = "V" } },  -- Sea Witch
+    [533] = { [13] = { stage = 2, letter = "I" } },  -- Ice Lord
+    [370] = { [0]  = { stage = 3, letter = "B" } },  -- Mesmeriz
+    [480] = { [5]  = { stage = 4, letter = "U" } },  -- Eidolon
+    [534] = { [17] = { stage = 5, letter = "G" } },  -- Chaos Demon
+    [238] = { [11] = { stage = 6, letter = "P" } },  -- lesser seraph
+}
+local zone_entry = mob_table[self.zone_id]
+local entry = zone_entry and zone_entry[self.local_id]
+if not entry then
+    return true
 end
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-person = nil
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_stage("banish") == "stage" then
-            person:advance_quest("banish")
-            person:set_quest_var("banish", "greet", 0)
-            person:send("<b:magenta>A single letter pops into your mind - <b:cyan>" .. tostring(letter) .. "</>")
-        end
-    elseif person then
-        i = i + 1
+local target_stage = entry.stage
+local letter = entry.letter
+
+local function reward(person)
+    if person and person.room == self.room
+            and person:get_quest_stage("banish") == target_stage then
+        person:advance_quest("banish")
+        person:set_quest_var("banish", "greet", 0)
+        person:send("<b:magenta>A single letter pops into your mind - <b:cyan>" .. tostring(letter) .. "</>")
     end
-    a = a + 1
+end
+
+local size = actor.group_size or 0
+if size > 0 then
+    for a = 1, size do
+        reward(actor.group_member[a])
+    end
+else
+    reward(actor)
 end

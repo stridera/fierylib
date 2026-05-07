@@ -3,15 +3,15 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- Player tells Gannigan "yes" (remembers the incantation). At stage 4 he
+-- urges them to escape across the falls. At 5 he condemns their
+-- treachery. Other stages get a glare.
+--
 -- Original DG Script: #17209
 
--- Converted from DG Script #17209: Ill-subclass: Tell Gannigan yes
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: yes
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "yes") then
+    return true  -- keyword not heard
 end
 wait(6)
 -- switch on actor:get_quest_stage("illusionist_subclass")

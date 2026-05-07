@@ -5,12 +5,8 @@
 --
 -- Original DG Script: #30208
 
--- Converted from DG Script #30208: Try to get rid of red bag, splode
--- Original: OBJECT trigger, flags: DROP, GIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 -- Makes the red leather bag explode when you try to drop or give it.
 -- Applied to: o30209
-_return_value = true
 self.room:send_except(actor, tostring(actor.alias) .. " tries to let go of " .. tostring(self.shortdesc) .. ", but it suddenly <b:red>explodes!</>")
 actor:send("As you release " .. tostring(self.shortdesc) .. ", it suddenly <b:red>explodes!</>")
 local damage = actor.level * 3 + random(1, 19)
@@ -23,4 +19,4 @@ else
     actor:send("OUCH!  The shards cut your legs painfully! (<red>" .. tostring(damage_dealt) .. "</>)")
 end
 world.destroy(self)
-return _return_value
+return true

@@ -1,17 +1,17 @@
 -- Trigger: banish_murgbol_greet
 -- Zone: 302, ID: 12
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Large script: 6154 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #30212
-
--- Converted from DG Script #30212: banish_murgbol_greet
--- Original: MOB trigger, flags: GREET, probability: 100%
+-- Greets priest/diabolist actors and dispenses the next banish quest task
+-- based on quest stage. The "banish:greet" var prevents repeated greets
+-- while the player loiters in the room.
 local stage = actor:get_quest_stage("banish")
 wait(4)
-if string.find(actor.class, "priest") or string.find(actor.class, "diabolist") then
-    if actor:get_quest_var("banish:greet") == 0 then
+local class_lower = string.lower(actor.class or "")
+if string.find(class_lower, "priest") or string.find(class_lower, "diabolist") then
+    if (actor:get_quest_var("banish:greet") or 0) ~= 1 then
         if stage == 0 then
             self:say("Wanna learn some spells kid?")
             -- (empty room echo)

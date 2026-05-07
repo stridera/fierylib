@@ -3,14 +3,12 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
--- Original DG Script: #58104
+-- After the Kannon cinematic, the Sunbird explains the conspiracy
+-- around Yajiro and asks the player to investigate.
 
--- Converted from DG Script #58104: Sunbird_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: what? terrible? something? happened?
+-- Speech keywords: what / terrible / something / happened
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "what?") or string.find(string.lower(speech), "terrible?") or string.find(string.lower(speech), "something?") or string.find(string.lower(speech), "happened?")) then
+if not (string.find(speech_lower, "what") or string.find(speech_lower, "terrible") or string.find(speech_lower, "something") or string.find(speech_lower, "happened")) then
     return true  -- No matching keywords
 end
 wait(5)

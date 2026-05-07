@@ -1,82 +1,69 @@
 -- Trigger: berserker_bear_death
 -- Zone: 364, ID: 16
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
+--
+-- Death trigger for the berserker miniboss bear:
+--   1. If the killer is on stage 4 of berserker_subclass and this mob is
+--      their assigned target, complete the quest.
+--   2. Roll a loot drop on the carcass:
+--        - 30% nothing
+--        - 40% gem only
+--        - 20% armor only
+--        - 10% gem + armor
+--      Each loot category has three sub-tiers (previous / current / next
+--      wear position set) chosen by a separate `bonus` roll.
 --
 -- Original DG Script: #36416
 
--- Converted from DG Script #36416: berserker_bear_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-if actor:get_quest_stage("berserker_subclass") == 4 and actor:get_quest_var("berserker_subclass:target") == self.id then
+if actor:get_quest_stage("berserker_subclass") == 4
+    and actor:get_quest_var("berserker_subclass:target") == self.id
+then
     actor:send("<b:cyan>Congratulations, you have succeeded in your Wild Hunt!</>")
     actor:send("<b:cyan>You have earned the right to become a &9<blue>Ber<red>ser&9ker<b:cyan>!</>")
     actor:send("Type '<b:yellow>subclass</>' to proceed.")
     actor:complete_quest("berserker_subclass")
 end
--- 
--- Death trigger for random gem and armor drops
--- 
--- set a random number to determine if a drop will
--- happen.
--- 
--- Miniboss setup
--- 
-local bonus = random(1, 100)
+
+-- Loot rolls. Roll each driver exactly once.
 local will_drop = random(1, 100)
--- 3 pieces of armor per sub_phase in phase_1
-local what_armor_drop = random(1, 3)
--- 4 classes questing in phase_1
-local what_gem_drop = random(1, 4)
--- 
 if will_drop <= 30 then
-    -- drop nothing and bail
-    return _return_value
+    return true
 end
+local bonus = random(1, 100)
+local what_armor_drop = random(1, 3)
+local what_gem_drop = random(1, 4)
+
+-- Pick which gem/armor sub-tier this `bonus` roll falls into.
+-- 1..50 = previous wear pos set, 51..90 = current, 91..100 = next.
+local function gem_id()
+    if bonus <= 50 then
+        return 73 + what_gem_drop  -- previous tier
+    elseif bonus <= 90 then
+        return 77 + what_gem_drop  -- current tier
+    else
+        return 81 + what_gem_drop  -- bonus next-tier
+    end
+end
+local function armor_id()
+    if bonus <= 50 then
+        return 7 + what_armor_drop
+    elseif bonus <= 90 then
+        return 11 + what_armor_drop
+    else
+        return 15 + what_armor_drop
+    end
+end
+
 if will_drop <= 70 then
-    -- Normal non-bonus drops
-    if bonus <= 50 then
-        -- drop a gem from the previous wear pos set
-        self.room:spawn_object(555, 73 + what_gem_drop)
-    elseif bonus >= 51 &bonus <= 90 then
-        -- We're in the Normal drops from current wear pos set
-        -- drop a gem from the current wear pos set
-        self.room:spawn_object(555, 77 + what_gem_drop)
-    else
-        -- We're in the BONUS ROUND!!
-        -- drop a gem from the next wear pos set
-        self.room:spawn_object(555, 81 + what_gem_drop)
-    end
-elseif will_drop >= 71 &will_drop <= 90 then
-    -- Normal non-bonus drops
-    if bonus <= 50 then
-        -- drop destroyed armor 55299 is the ID before the
-        -- first piece of armor.
-        self.room:spawn_object(553, 7 + what_armor_drop)
-    elseif bonus >= 51 &bonus <= 90 then
-        -- We're in the Normal drops from current wear pos set
-        -- drop armor from the current wear pos set
-        self.room:spawn_object(553, 11 + what_armor_drop)
-    else
-        -- We're in the BONUS ROUND!!
-        -- drop a piece of armor from next wear pos
-        self.room:spawn_object(553, 15 + what_armor_drop)
-    end
+    -- gem only (zone 555)
+    self.room:spawn_object(555, gem_id())
+elseif will_drop <= 90 then
+    -- armor only (zone 553)
+    self.room:spawn_object(553, armor_id())
 else
-    -- Normal non-bonus drops
-    if bonus <= 50 then
-        -- drop armor and gem from previous wear pos
-        self.room:spawn_object(555, 73 + what_gem_drop)
-        self.room:spawn_object(553, 7 + what_armor_drop)
-    elseif bonus >= 51 &bonus <= 90 then
-        -- We're in the Normal drops from current wear pos set
-        -- drop a gem and armor from the current wear pos set
-        self.room:spawn_object(553, 11 + what_armor_drop)
-        self.room:spawn_object(555, 77 + what_gem_drop)
-    else
-        -- We're in the BONUS ROUND!!
-        -- drop armor and gem from next wear pos
-        self.room:spawn_object(555, 81 + what_gem_drop)
-        self.room:spawn_object(553, 15 + what_armor_drop)
-    end
+    -- gem + armor (bonus round)
+    self.room:spawn_object(555, gem_id())
+    self.room:spawn_object(553, armor_id())
 end
+return true

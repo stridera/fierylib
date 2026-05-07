@@ -3,15 +3,10 @@
 -- Type: WORLD, Flags: COMMAND
 -- Status: CLEAN
 --
+-- Legacy stub that intercepts the abbreviated forms of `dig` ("d", "di") on
+-- a world trigger and lets them through. Kept as a no-op for parity; the
+-- real dig handler lives in 364_07.
+--
 -- Original DG Script: #36417
 
--- Converted from DG Script #36417: **UNUSED**
--- Original: WORLD trigger, flags: COMMAND, probability: 100%
-
--- Command filter: d di
-if not (cmd == "d" or cmd == "di") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
-_return_value = true
-return _return_value
+return true

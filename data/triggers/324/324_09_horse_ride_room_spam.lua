@@ -13,7 +13,7 @@ if not (cmd == "do_it_to_it") then
     return true  -- Not our command
 end
 local counter = 25
-while counter do
+while counter > 0 do
     get_room(324, 197):at(function()
         self.room:send("You catch a glimpse of the passing countryside!")
     end)
@@ -66,9 +66,6 @@ while counter do
     get_room(324, 197):at(function()
         self.room:send("part travelers are left to fend for themselves.</>")
     end)
-    counter = counter -1
+    counter = counter - 1
     wait(1)
-    if counter == 0 then
-    else
-    end
 end

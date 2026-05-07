@@ -3,15 +3,10 @@
 -- Type: MOB, Flags: COMMAND
 -- Status: CLEAN
 --
+-- Legacy stub that intercepts the abbreviated forms of `howl` ("h", "ho",
+-- "how") on a mob trigger and lets them through. Kept as a no-op for
+-- parity; the real howl handler lives in 364_13.
+--
 -- Original DG Script: #36418
 
--- Converted from DG Script #36418: **UNUSED**
--- Original: MOB trigger, flags: COMMAND, probability: 100%
-
--- Command filter: h ho how
-if not (cmd == "h" or cmd == "ho" or cmd == "how") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
-_return_value = true
-return _return_value
+return true

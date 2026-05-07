@@ -3,12 +3,13 @@
 -- Type: MOB, Flags: GREET
 -- Status: CLEAN
 --
+-- 10% chance, when a smuggler greets a player: react based on the
+-- player's quest stage. Stages 0-2 get friendly Cestia welcomes; stage 3
+-- (caught dropping the vial) earns a suspicious look; stages 4-5 worry
+-- about the invasion; stage 6 (carrying the choker) gets attacked.
+--
 -- Original DG Script: #17217
 
--- Converted from DG Script #17217: Ill-subclass: Smugglers react to quester
--- Original: MOB trigger, flags: GREET, probability: 10%
-
--- 10% chance to trigger
 if not percent_chance(10) then
     return true
 end
@@ -41,5 +42,5 @@ elseif actor:get_quest_stage("illusionist_subclass") == 6 then
     wait(1)
     self:say("Aha!  If it isn't the little thief herself!")
     wait(4)
-    combat.engage(self, actor.name)
+    combat.engage(actor)
 end

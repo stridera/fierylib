@@ -3,52 +3,52 @@
 -- Type: MOB, Flags: COMMAND
 -- Status: CLEAN
 --
+-- On stage 3, the player howls and the Spirits reveal a randomly chosen
+-- Wild Hunt quarry (one of four predator mobs across the world). Stores the
+-- target ID in `berserker_subclass:target` and advances the quest.
+--
+-- Each target is encoded as a single legacy id (zone*100 + local) so it can
+-- be compared cheaply in 364_14 / 364_15 / 364_20 against `self.id`.
+--
 -- Original DG Script: #36413
 
--- Converted from DG Script #36413: berserker_hjordis_command_howl
--- Original: MOB trigger, flags: COMMAND, probability: 100%
+if cmd ~= "howl" then
+    return true
+end
+if actor:get_quest_stage("berserker_subclass") ~= 3 then
+    return true
+end
 
--- Command filter: howl
-if not (cmd == "howl") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "h" or cmd == "ho" then
-    _return_value = true
-    return _return_value
-end
-if actor:get_quest_stage("berserker_subclass") == 3 then
-    actor:advance_quest("berserker_subclass")
-    actor:send("You raise your voice in a mighty howl to the Spirits!")
-    self.room:send_except(actor, tostring(actor.name) .. " raises " .. tostring(hisher) .. " voice in a mighty howl to the Spirits!")
-    wait(2)
-    -- switch on random(1, 4)
-    if random(1, 4) == 1 then
-        local target = 16105
-        local place = "a desert cave"
-    elseif random(1, 4) == 2 then
-        local target = 16310
-        local place = "some forested highlands"
-    elseif random(1, 4) == 3 then
-        local target = 20311
-        local place = "a vast plain"
-    elseif random(1, 4) == 4 then
-    else
-        local target = 55220
-        local place = "the frozen tundra"
-    end
-    actor:send(tostring(self.name) .. " throws her head back and howls along with you!")
-    self.room:send_except(actor, tostring(self.name) .. " throws her head back and howls along with " .. tostring(actor.name) .. "!")
-    wait(2)
-    actor:set_quest_var("berserker_subclass", "target", target)
-    actor:send("The Spirits reveal to you a vision of <b:yellow>" .. "%get.mob_shortdesc[%target%]%</>!")
-    actor:send("You see it is in <b:yellow>" .. tostring(place) .. "</>!")
-    wait(6)
-    actor:send(tostring(self.name) .. " says, 'The Spirits have spoken!'")
-    wait(2)
-    actor:send(tostring(self.name) .. " says, 'Find the beast of your Wild Hunt and join our ranks.  Remember, this quest must be undertaken <b:red>ALONE</>.  If you are grouped when you fight your prey, there will be consequences!'")
-else
-    _return_value = true
-end
-return _return_value
+actor:advance_quest("berserker_subclass")
+actor:send("You raise your voice in a mighty howl to the Spirits!")
+self.room:send_except(actor, tostring(actor.name) .. " raises " .. tostring(hisher) .. " voice in a mighty howl to the Spirits!")
+wait(2)
+
+-- TODO(parity): targets are stored as legacy 5-digit ids (zone*100 + local).
+-- This matches the comparisons in 364_14/15/20 which do `self.id`. When the
+-- runtime exposes `self.legacy_id` consistently this can stay; otherwise it
+-- needs to switch to (zone, local) tuples.
+local QUARRIES = {
+    { id = 16105, place = "a desert cave"           },
+    { id = 16310, place = "some forested highlands" },
+    { id = 20311, place = "a vast plain"            },
+    { id = 55220, place = "the frozen tundra"       },
+}
+local pick = QUARRIES[random(1, #QUARRIES)]
+local target = pick.id
+local place = pick.place
+
+actor:send(tostring(self.name) .. " throws her head back and howls along with you!")
+self.room:send_except(actor, tostring(self.name) .. " throws her head back and howls along with " .. tostring(actor.name) .. "!")
+wait(2)
+actor:set_quest_var("berserker_subclass", "target", target)
+local quarry_zone = math.floor(target / 100)
+local quarry_local = target % 100
+local quarry_name = mobiles.template(quarry_zone, quarry_local).name
+actor:send("The Spirits reveal to you a vision of <b:yellow>" .. tostring(quarry_name) .. "</>!")
+actor:send("You see it is in <b:yellow>" .. tostring(place) .. "</>!")
+wait(6)
+actor:send(tostring(self.name) .. " says, 'The Spirits have spoken!'")
+wait(2)
+actor:send(tostring(self.name) .. " says, 'Find the beast of your Wild Hunt and join our ranks.  Remember, this quest must be undertaken <b:red>ALONE</>.  If you are grouped when you fight your prey, there will be consequences!'")
+return true

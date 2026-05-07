@@ -1,21 +1,30 @@
 -- Trigger: charm_person_serenade_speech
 -- Zone: 580, ID: 6
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --
--- Original DG Script: #58006
+-- Five master charmers respond differently when the player asks "let me
+-- serenade you", each declaring their preferred instrument so the
+-- player knows which one to play.
+--
+-- TODO: legacy DG probability was 0% -- almost certainly a converter
+-- artifact (the keyword gate is the real driver). The 0% gate currently
+-- makes this trigger never fire, which breaks the stage-4 path.
+-- TODO: keyword "let / me / you" match nearly any sentence; should
+-- probably require the full phrase "let me serenade you" or just
+-- "serenade".
+-- TODO: branches dispatch on legacy vnums (self.id == 3010, 58017,
+-- 4353, 23721, 58406). Under composite keys self.id is local_id only,
+-- so these never match. Rewrite as (self.zone_id, self.local_id) checks.
 
--- Converted from DG Script #58006: charm_person_serenade_speech
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
+-- 0% chance to trigger (preserved from original DG -- see TODO)
 if not percent_chance(0) then
     return true
 end
 
 -- Speech keywords: let me serenade you
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "let") or string.find(string.lower(speech), "me") or string.find(string.lower(speech), "serenade") or string.find(string.lower(speech), "you")) then
+if not (string.find(speech_lower, "let") or string.find(speech_lower, "me") or string.find(speech_lower, "serenade") or string.find(speech_lower, "you")) then
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action

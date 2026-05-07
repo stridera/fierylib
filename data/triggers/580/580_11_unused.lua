@@ -3,10 +3,8 @@
 -- Type: MOB, Flags: COMMAND
 -- Status: CLEAN
 --
--- Original DG Script: #58011
-
--- Converted from DG Script #58011: **UNUSED**
--- Original: MOB trigger, flags: COMMAND, probability: 100%
+-- Unused stub from legacy DG #58011; preserved so import keeps the slot
+-- and so a future rewrite can drop in real behaviour without renumbering.
 
 -- Command filter: p
 if not (cmd == "p") then

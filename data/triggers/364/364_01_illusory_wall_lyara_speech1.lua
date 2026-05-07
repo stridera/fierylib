@@ -3,15 +3,15 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- Lyara introduces herself when an Illusionist/Bard >56 says "guard" or
+-- "reinforcements", revealing she is Post Commander Ruzhana Lyara and
+-- specialises in illusory walls.
+--
 -- Original DG Script: #36401
 
--- Converted from DG Script #36401: illusory_wall_lyara_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: reinforcements reinforcements? guard guard?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "reinforcements") or string.find(string.lower(speech), "reinforcements?") or string.find(string.lower(speech), "guard") or string.find(string.lower(speech), "guard?")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "reinforcements") or string.find(speech_lower, "guard")) then
+    return true
 end
 if (string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56 then
     wait(1)

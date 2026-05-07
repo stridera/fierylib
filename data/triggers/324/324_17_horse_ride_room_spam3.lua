@@ -13,7 +13,7 @@ if not (cmd == "do_it_to_it3") then
     return true  -- Not our command
 end
 local counter = 5
-while counter do
+while counter > 0 do
     get_room(324, 198):at(function()
         self.room:send("You catch a glimpse of the passing countryside!")
     end)
@@ -69,11 +69,7 @@ while counter do
     get_room(324, 198):at(function()
         self.room:send("of the hills, their outline weathered into grotesque shapes.</>")
     end)
-    counter = counter -1
+    counter = counter - 1
     wait(1)
-    if counter == 0 then
-        -- Label reference: do_it_to_it4
-    else
-    end
 end
 self.room:find_actor("horse"):command("do_it_to_it4")

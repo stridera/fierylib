@@ -3,10 +3,12 @@
 -- Type: MOB, Flags: GREET
 -- Status: CLEAN
 --
+-- Gannigan reacts when a player walks into his office. Lines branch on
+-- quest stage: he hugs the disguised "Cestia" early, grows wary at stage
+-- 3 (caught dropping the vial), pleads with her at 4, and rages at 5.
+--
 -- Original DG Script: #17207
 
--- Converted from DG Script #17207: Ill-subclass: Gannigan greets the quester
--- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
 -- switch on actor:get_quest_stage("illusionist_subclass")
 if actor:get_quest_stage("illusionist_subclass") == 1 or actor:get_quest_stage("illusionist_subclass") == 2 then

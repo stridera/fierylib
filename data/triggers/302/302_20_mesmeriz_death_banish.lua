@@ -5,23 +5,19 @@
 --
 -- Original DG Script: #30220
 
--- Converted from DG Script #30220: mesmeriz_death_banish
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = actor.group_size
-if i then
-    person = nil
-    while i > 0 do
+-- For each grouped player still in the room at the killer's death, advance
+-- the banish quest if they're at stage 3 (mesmeriz) and reveal the next letter.
+local size = actor.group_size or 0
+if size > 0 then
+    for i = 1, size do
         local person = actor.group_member[i]
-        if person.room == self.room then
-            if person:get_quest_stage("banish") == 3 then
-                person:advance_quest("banish")
-                person:send("<b:magenta>A single letter pops into your mind - <b:cyan>B</>")
-            end
+        if person and person.room == self.room
+                and person:get_quest_stage("banish") == 3 then
+            person:advance_quest("banish")
+            person:send("<b:magenta>A single letter pops into your mind - <b:cyan>B</>")
         end
-        i = i - 1
     end
-elseif person:get_quest_stage("banish") == 3 then
-    person:advance_quest("banish")
-    person:send("<b:magenta>A single letter pops into your mind - <b:cyan>B</>")
+elseif actor:get_quest_stage("banish") == 3 then
+    actor:advance_quest("banish")
+    actor:send("<b:magenta>A single letter pops into your mind - <b:cyan>B</>")
 end

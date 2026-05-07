@@ -3,19 +3,23 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
--- Original DG Script: #58003
+-- Hinazuru pitches her Charm Person training to qualifying casters
+-- (Sorcerer/Illusionist/Bard, level > 88) when they ask about her
+-- specialty services. Quotes a 100 platinum bribe; payment routes
+-- through the BRIBE trigger (580_04).
+--
+-- TODO: original DG probability was 1%. The keyword-gated speech
+-- trigger probably wants 100% (the 1% would make the offer effectively
+-- undiscoverable). Confirm intent before changing.
 
--- Converted from DG Script #58003: charm_person_hinazuru_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 1%
-
--- 1% chance to trigger
+-- 1% chance to trigger (preserved from original DG script -- see TODO)
 if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: specialty services yes like what? services? speciality?
+-- Speech keywords: specialty / services / yes / like / what / speciality
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "specialty") or string.find(string.lower(speech), "services") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "like") or string.find(string.lower(speech), "what?") or string.find(string.lower(speech), "services?") or string.find(string.lower(speech), "speciality?")) then
+if not (string.find(speech_lower, "specialty") or string.find(speech_lower, "services") or string.find(speech_lower, "yes") or string.find(speech_lower, "like") or string.find(speech_lower, "what") or string.find(speech_lower, "speciality")) then
     return true  -- No matching keywords
 end
 if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard") then

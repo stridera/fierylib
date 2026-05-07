@@ -34,5 +34,4 @@ if actor.is_player then
     self.room:send("</>A <yellow>horse</> trainer forces your hand towards the mouth of the horse.")
     actor:command("give strawberry stallion")
     self.room:send(tostring(self.name) .. " says, 'Good journey!'")
-else
 end

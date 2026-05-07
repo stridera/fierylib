@@ -3,14 +3,13 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
--- Original DG Script: #58106
+-- The tea master Chajin, confronted about the conspiracy, accepts his
+-- karma and readies for combat.
 
--- Converted from DG Script #58106: Chajin_speech
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: conspiracy conspiracy? key key? bowl bowl? Kannon kannon? Plot plot? Yajiro yajiro? Ceremony ceremony?
+-- Speech keywords: conspiracy / key / bowl / kannon / plot / yajiro /
+-- ceremony
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "conspiracy") or string.find(string.lower(speech), "conspiracy?") or string.find(string.lower(speech), "key") or string.find(string.lower(speech), "key?") or string.find(string.lower(speech), "bowl") or string.find(string.lower(speech), "bowl?") or string.find(string.lower(speech), "kannon") or string.find(string.lower(speech), "kannon?") or string.find(string.lower(speech), "plot") or string.find(string.lower(speech), "plot?") or string.find(string.lower(speech), "yajiro") or string.find(string.lower(speech), "yajiro?") or string.find(string.lower(speech), "ceremony") or string.find(string.lower(speech), "ceremony?")) then
+if not (string.find(speech_lower, "conspiracy") or string.find(speech_lower, "key") or string.find(speech_lower, "bowl") or string.find(speech_lower, "kannon") or string.find(speech_lower, "plot") or string.find(speech_lower, "yajiro") or string.find(speech_lower, "ceremony")) then
     return true  -- No matching keywords
 end
 wait(2)

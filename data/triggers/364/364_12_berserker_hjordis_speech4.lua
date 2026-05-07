@@ -3,15 +3,14 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- On stage 2, hearing "beast" advances to stage 3 and explains the rules of
+-- the Wild Hunt: hunt the quarry alone and slay it in single combat.
+--
 -- Original DG Script: #36412
 
--- Converted from DG Script #36412: berserker_hjordis_speech4
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: beast beast?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "beast") or string.find(string.lower(speech), "beast?")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "beast") then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("berserker_subclass") == 2 then

@@ -3,10 +3,8 @@
 -- Type: MOB, Flags: GREET
 -- Status: CLEAN
 --
--- Original DG Script: #58102
-
--- Converted from DG Script #58102: Sunbird_greet
--- Original: MOB trigger, flags: GREET, probability: 100%
+-- Sunbird greets sub-100 players by bowing and inviting them under
+-- Kannon's protection.
 if actor.is_player and actor.level < 100 then
     wait(1)
     self:command("bow " .. tostring(actor))

@@ -5,20 +5,13 @@
 --
 -- Original DG Script: #30206
 
--- Converted from DG Script #30206: Try to drag exploding bag: bang
--- Original: OBJECT trigger, flags: COMMAND, probability: 100%
+-- Makes the red leather bag explode if you try to drag it.
+-- Applied to: o30209
 
--- Command filter: drag
-if not (cmd == "drag") then
+-- Command filter: drag (must be the full word, not a prefix-match like 'd')
+if cmd ~= "drag" then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "d" then
-    _return_value = true
-    return _return_value
-end
-_return_value = false
 self.room:send_except(actor, tostring(actor.alias) .. " reaches for " .. tostring(self.shortdesc) .. ", but it suddenly <b:red>explodes!</>")
 actor:send("As you reach for " .. tostring(self.shortdesc) .. ", it suddenly <b:red>explodes!</>")
 local damage = actor.level * 3 + random(1, 19)
@@ -31,4 +24,4 @@ else
     actor:send("OUCH!  The shards cut your legs painfully! (<red>" .. tostring(damage_dealt) .. "</>)")
 end
 world.destroy(self)
-return _return_value
+return false  -- Block the drag command

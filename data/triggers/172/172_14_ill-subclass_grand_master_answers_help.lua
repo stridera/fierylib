@@ -1,18 +1,17 @@
 -- Trigger: Ill-subclass: Grand Master answers 'help'
 -- Zone: 172, ID: 14
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Ill-subclass: Grand Master answers 'help'>:30: 'end' expected (to close 'if' at line 11) near
+-- Status: CLEAN
+--
+-- Player asks the Grand Master for 'help'. Reply branches on quest stage,
+-- nudging them toward the right next action - drop the vial, stall the
+-- leader, restart, or hand over the choker.
 --
 -- Original DG Script: #17214
 
--- Converted from DG Script #17214: Ill-subclass: Grand Master answers 'help'
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: help
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "help")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "help") then
+    return true  -- keyword not heard
 end
 wait(1)
 -- switch on actor:get_quest_stage("illusionist_subclass")

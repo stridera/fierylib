@@ -15,13 +15,11 @@ end
 -- this is a room purge to see if a world
 -- purge will dump a mobile as mpurge %self%
 -- seems broken
-if actor.id == 32421 then
+if actor.zone_id == 324 and actor.local_id == 21 then
     wait(1)
     world.destroy(actor)
-else
 end
-if actor.id == 32423 then
+if actor.zone_id == 324 and actor.local_id == 23 then
     wait(1)
     world.destroy(actor)
-else
 end

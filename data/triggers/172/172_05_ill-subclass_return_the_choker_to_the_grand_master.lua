@@ -3,11 +3,12 @@
 -- Type: MOB, Flags: RECEIVE
 -- Status: CLEAN
 --
+-- Player gives the Grand Master an item. If it's the real choker and the
+-- quest is at the final stage (6), he completes the quest and prompts the
+-- player to subclass. Otherwise he returns the gift unimpressed.
+--
 -- Original DG Script: #17205
 
--- Converted from DG Script #17205: Ill-subclass: Return the choker to the Grand Master
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("illusionist_subclass") == 6 then
     wait(2)
     self:destroy_item("choker")
@@ -22,17 +23,17 @@ if actor:get_quest_stage("illusionist_subclass") == 6 then
     actor:complete_quest("illusionist_subclass")
     wait(2)
     self:command("wink " .. tostring(actor.name))
-else
-    _return_value = true
-    wait(2)
-    self:command("frown")
-    wait(2)
-    self:emote("peers closely at the choker.")
-    wait(3)
-    actor:send(tostring(self.name) .. " says, 'I'm sorry... there must be some mistake.  This isn't the choker I gave Cestia.'")
-    wait(1)
-    actor:send(tostring(self.name) .. " says, 'I'm certain of it.'")
-    wait(2)
-    self:emote("returns the choker.")
+    return true
 end
-return _return_value
+
+wait(2)
+self:command("frown")
+wait(2)
+self:emote("peers closely at the choker.")
+wait(3)
+actor:send(tostring(self.name) .. " says, 'I'm sorry... there must be some mistake.  This isn't the choker I gave Cestia.'")
+wait(1)
+actor:send(tostring(self.name) .. " says, 'I'm certain of it.'")
+wait(2)
+self:emote("returns the choker.")
+return true

@@ -3,10 +3,9 @@
 -- Type: MOB, Flags: GREET
 -- Status: CLEAN
 --
--- Original DG Script: #58002
-
--- Converted from DG Script #58002: charm_person_hinazuru_greet
--- Original: MOB trigger, flags: GREET, probability: 100%
+-- Hinazuru greets the player based on their charm_person quest stage,
+-- prompting their next objective. Stage 0 + qualifying class/level hints
+-- at the spell-training offer.
 local stage = actor:get_quest_stage("charm_person")
 wait(2)
 -- switch on stage

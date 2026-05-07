@@ -3,15 +3,14 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- Lyara offers tutelage to an eligible Illusionist/Bard who mentions teach
+-- / teacher / student, then asks if they are willing to learn.
+--
 -- Original DG Script: #36402
 
--- Converted from DG Script #36402: illusory_wall_lyara_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: teach teacher student teach? teacher? student?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "teach") or string.find(string.lower(speech), "teacher") or string.find(string.lower(speech), "student") or string.find(string.lower(speech), "teach?") or string.find(string.lower(speech), "teacher?") or string.find(string.lower(speech), "student?")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "teach") or string.find(speech_lower, "student")) then
+    return true
 end
 if (string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56 then
     wait(2)

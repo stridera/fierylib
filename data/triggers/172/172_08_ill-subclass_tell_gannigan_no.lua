@@ -3,15 +3,15 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- Player tells Gannigan "no" (does not remember the incantation). At
+-- stage 4 he reminds them of "where the dough ever rises". At 5 he
+-- decides he will see about their loyalty. Other stages get an eyebrow.
+--
 -- Original DG Script: #17208
 
--- Converted from DG Script #17208: Ill-subclass: Tell Gannigan no
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: no
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "no")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "no") then
+    return true  -- keyword not heard
 end
 wait(6)
 -- switch on actor:get_quest_stage("illusionist_subclass")

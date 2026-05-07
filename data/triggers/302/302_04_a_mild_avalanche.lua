@@ -2,23 +2,28 @@
 -- Zone: 302, ID: 4
 -- Type: WORLD, Flags: RANDOM
 -- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+--   TODO: Confirm avalanche destination rooms — original used `self.id ± 1`
+--   on legacy room vnums. Mapping (legacy -> dest):
+--     30216 -> 30215, 30220 -> 30219, 30230 -> 30229,
+--     30234 -> 30235, 30239 -> 30238, 30244 -> 30243.
+--   In zone-local terms (zone 302) that's source.id -> source.id - 1 except
+--   r30234 which goes uphill (+1). Verify against world data.
 --
 -- Original DG Script: #30204
-
--- Converted from DG Script #30204: A mild avalanche
--- Original: WORLD trigger, flags: RANDOM, probability: 50%
+-- Starts an avalanche. One player in the room is targeted, and will be
+-- smacked by a rock and moved to a downhill room unless they escape.
+-- Applied to: r30216, r30220, r30230, r30234, r30239, r30244
 
 -- 50% chance to trigger
 if not percent_chance(50) then
     return true
 end
--- Starts an avalanche. One player in the room is targeted, and will be
--- smacked by a rock and moved to a downhill room unless they escape.
--- Applied to: r30216, r30220, r30230, r30234, r30239, r30244
+if #room.actors == 0 then
+    return true
+end
 local victim = room.actors[random(1, #room.actors)]
-if victim == 0 or victim.is_npc then
-    return _return_value
+if not victim or victim.is_npc then
+    return true
 end
 local startroom = victim.room
 self.room:send("A quiet noise from above attracts your attention.")
@@ -28,20 +33,23 @@ self.room:send("They clatter as they tumble.")
 wait(2)
 self.room:send("Large rocks are tumbling past you!  They look heavy!")
 wait(1)
-if self.id == 30234 then
-    local destroom = self.id + 1
+local dest_local
+if self.id == 34 then
+    dest_local = self.id + 1
 else
-    local destroom = self.id - 1
+    dest_local = self.id - 1
 end
-local damage = 80 + random(1, 50)
+local damage
 if victim.level < 10 then
-    local damage = 3 + random(1, 5)
+    damage = 3 + random(1, 5)
 elseif victim.level < 20 then
-    local damage = 10 + random(1, 8)
+    damage = 10 + random(1, 8)
 elseif victim.level < 40 then
-    local damage = 30 + random(1, 30)
+    damage = 30 + random(1, 30)
+else
+    damage = 80 + random(1, 50)
 end
-if victim.room == "startroom" then
+if victim.room == startroom then
     if victim.class == "Ranger" then
         self.room:send_except(victim, tostring(victim.name) .. " is nearly smacked by a large rock, but " .. tostring(victim.name) .. " steps aside at the last moment.")
         victim:send("A big rock comes hurtling toward you, but you step smoothly aside.")
@@ -55,10 +63,9 @@ if victim.room == "startroom" then
             self.room:send_except(victim, tostring(victim.name) .. " tumbles downhill!")
             victim:send("You try to dodge the boulders, but a large stone whacks you in the chest! (<red>" .. tostring(damage_dealt) .. "</>)")
             victim:send("You are knocked down!")
-            victim:teleport(get_room(math.floor(destroom / 100), destroom % 100))
+            victim:teleport(get_room(302, dest_local))
             self.room:send_except(victim, tostring(victim.name) .. " tumbles down the trail from above, and comes to a rest.")
             wait(1)
-            -- victim looks around
         end
     end
 end

@@ -3,20 +3,16 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- On stage 1 of berserker_subclass, hearing "wild" or "hunt" advances the
+-- quest to stage 2 and explains the Wild Hunt. (Legacy probability was 0%,
+-- which is a converter artefact: the gate is purely keyword-driven.)
+--
 -- Original DG Script: #36411
 
--- Converted from DG Script #36411: berserker_hjordis_speech3
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: wild hunt
+-- Speech keywords: wild, hunt
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "wild") or string.find(string.lower(speech), "hunt")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "wild") or string.find(speech_lower, "hunt")) then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("berserker_subclass") == 1 then

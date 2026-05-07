@@ -8,14 +8,18 @@
 -- Converted from DG Script #30213: banish_murgbol_speech1
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes yes? sure yep okay yeah cool good
+-- Speech keywords: yes sure yep okay yeah cool good
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes?") or string.find(string.lower(speech), "sure") or string.find(string.lower(speech), "yep") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "yeah") or string.find(string.lower(speech), "cool") or string.find(string.lower(speech), "good")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "sure")
+        or string.find(speech_lower, "yep") or string.find(speech_lower, "okay")
+        or string.find(speech_lower, "yeah") or string.find(speech_lower, "cool")
+        or string.find(speech_lower, "good")) then
     return true  -- No matching keywords
 end
 wait(2)
 local stage = actor:get_quest_stage("banish")
-if string.find(actor.class, "priest") or string.find(actor.class, "diabolist") then
+local class_lower = string.lower(actor.class or "")
+if string.find(class_lower, "priest") or string.find(class_lower, "diabolist") then
     if stage == 0 then
         if actor.level > 64 then
             self:say("Good, good...")

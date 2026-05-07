@@ -1,25 +1,24 @@
 -- Trigger: illusory_wall_lyara_status
 -- Zone: 364, ID: 6
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 106 if statements
---   Large script: 14518 chars
+-- Status: CLEAN
+--
+-- Lyara summarises the player's progress on the Illusory Wall quest when
+-- they say "status" or "progress". Stage 1 lists which lens-component items
+-- have been delivered; stage 2 lists which regions of door studies are done.
 --
 -- Original DG Script: #36406
 
--- Converted from DG Script #36406: illusory_wall_lyara_status
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: status status? progress progress?
+-- Speech keywords: status, progress
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "status") or string.find(string.lower(speech), "status?") or string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "status") or string.find(speech_lower, "progress")) then
+    return true
 end
 local stage = actor:get_quest_stage("illusory_wall")
-local item1 = actor:get_quest_var("illusory_wall:10307")
-local item2 = actor:get_quest_var("illusory_wall:18511")
-local item3 = actor:get_quest_var("illusory_wall:41005")
-local item4 = actor:get_quest_var("illusory_wall:51017")
+local lens_a = actor:get_quest_var("illusory_wall:103_7")
+local lens_b = actor:get_quest_var("illusory_wall:185_11")
+local spur   = actor:get_quest_var("illusory_wall:410_5")
+local magic  = actor:get_quest_var("illusory_wall:510_17")
 wait(2)
 if actor.class ~= "illusionist" and actor.class ~= "bard" then
     self.room:send(tostring(self.name) .. " says, 'I appreciate your interest but I have nothing I")
@@ -32,37 +31,34 @@ elseif stage == 0 then
     self:say("I haven't agreed to teach you yet.")
 elseif stage == 1 then
     self:say("You're looking for things to make magical spectacles.")
-    if item1 or item2 or item3 or item4 then
-        -- (empty room echo)
+    if lens_a or lens_b or spur or magic then
         self.room:send("</>You have already brought me:")
-        if item1 then
+        if lens_a then
             self.room:send("- <b:white>" .. tostring(objects.template(103, 7).name) .. "</>")
         end
-        if item2 then
+        if lens_b then
             self.room:send("- <b:white>" .. tostring(objects.template(185, 11).name) .. "</>")
         end
-        if item3 then
+        if spur then
             self.room:send("- <b:white>" .. tostring(objects.template(410, 5).name) .. "</>")
         end
-        if item4 then
+        if magic then
             self.room:send("- <b:white>" .. tostring(objects.template(510, 17).name) .. "</>")
         end
     end
-    -- (empty room echo)
     self.room:send("You still need to find:")
-    if not item1 and not item2 then
-        self.room:send("- <b:yellow>" .. "%get.obj_shortdesc[10307]%</> or <b:yellow>%get.obj_shortdesc[18511]%</>")
+    if not lens_a and not lens_b then
+        self.room:send("- <b:yellow>" .. tostring(objects.template(103, 7).name) .. "</> or <b:yellow>" .. tostring(objects.template(185, 11).name) .. "</>")
     end
-    if not item3 then
+    if not spur then
         self.room:send("- <b:yellow>" .. tostring(objects.template(410, 5).name) .. "</>")
     end
-    if not item4 then
+    if not magic then
         self.room:send("- <b:yellow>" .. tostring(objects.template(510, 17).name) .. "</>")
     end
 elseif stage == 2 then
     self:say("Complete your study of doors in 20 regions.")
-    -- (empty room echo)
-    local doors = actor:get_quest_var("illusory_wall:total")
+    local doors = actor:get_quest_var("illusory_wall:total") or 0
     self.room:send("You have examined doors in <b:magenta>" .. tostring(doors) .. "</> regions:")
     if actor:get_quest_var("illusory_wall:Outback") then
         self.room:send("- <blue>Rocky Outback</>")
@@ -352,9 +348,7 @@ elseif stage == 2 then
     if actor:get_quest_var("illusory_wall:Rhell") then
         self.room:send("- <blue>The Rhell Forest</>")
     end
-    -- (empty room echo)
-    local remaining = (20 - doors)
+    local remaining = 20 - doors
     self.room:send("Locate doors in <b:magenta>" .. tostring(remaining) .. "</> more regions.")
-    -- (empty room echo)
     self.room:send("If you need new lenses say, <b:magenta>\"I need new glasses\"</>.")
 end

@@ -3,47 +3,31 @@
 -- Type: WORLD, Flags: COMMAND
 -- Status: CLEAN
 --
+-- Player digs a temporary path through the snow connecting rooms 364:29 and
+-- 364:31 for ~25 seconds, then the snow drifts back in and the exits hide.
+--
 -- Original DG Script: #36407
 
--- Converted from DG Script #36407: berserker_command_dig
--- Original: WORLD trigger, flags: COMMAND, probability: 100%
-
--- Command filter: dig
-if not (cmd == "dig") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "d" or cmd == "di" then
-    _return_value = true
-    return _return_value
+-- Command filter: full word "dig" only
+if cmd ~= "dig" then
+    return true
 end
 if actor.is_player then
+    local r29 = get_room(364, 29)
+    local r31 = get_room(364, 31)
     actor:send("You dig out a path through the snow.")
     self.room:send_except(actor, tostring(actor.name) .. " digs out a path through the snow.")
-    get_room(364, 29):at(function()
-        self.room:send("The way south has been cleared.")
-    end)
-    get_room(364, 31):at(function()
-        self.room:send("The way north has been cleared.")
-    end)
-    get_room(364, 29):exit("south"):set_state({hidden = false})
-    get_room(364, 31):exit("north"):set_state({hidden = false})
+    r29:send("The way south has been cleared.")
+    r31:send("The way north has been cleared.")
+    r29:exit("south"):set_state({hidden = false})
+    r31:exit("north"):set_state({hidden = false})
     wait(15)
-    get_room(364, 29):at(function()
-        self.room:send("The snow begins to drift back in...")
-    end)
-    get_room(364, 31):at(function()
-        self.room:send("The snow begins to drift back in...")
-    end)
+    r29:send("The snow begins to drift back in...")
+    r31:send("The snow begins to drift back in...")
     wait(10)
-    get_room(364, 29):at(function()
-        self.room:send("The snow has completely covered the path south.")
-    end)
-    get_room(364, 31):at(function()
-        self.room:send("The snow has completely covered the path north.")
-    end)
-    get_room(364, 29):exit("south"):set_state({hidden = true})
-    get_room(364, 31):exit("north"):set_state({hidden = true})
+    r29:send("The snow has completely covered the path south.")
+    r31:send("The snow has completely covered the path north.")
+    r29:exit("south"):set_state({hidden = true})
+    r31:exit("north"):set_state({hidden = true})
 end
-return _return_value
+return true

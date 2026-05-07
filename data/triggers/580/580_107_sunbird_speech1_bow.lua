@@ -1,23 +1,30 @@
 -- Trigger: Sunbird_speech1_bow
 -- Zone: 580, ID: 107
 -- Type: MOB, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --
--- Original DG Script: #58107
-
--- Converted from DG Script #58107: Sunbird_speech1_bow
--- Original: MOB trigger, flags: COMMAND, probability: 100%
+-- When a player bows to the Sunbird, replays the same Kannon cinematic
+-- as the speech1 keyword trigger.
+--
+-- TODO: the original DG checked the command argument (`%arg%`) to make
+-- sure the bow targeted the Sunbird specifically. The converter dropped
+-- it as `string.find(self.name, "arg")` -- a literal search for the
+-- string "arg" in the mob's name, which is never true, so the body is
+-- dead code. Replace with a check that `arg` matches one of the
+-- Sunbird's keywords (e.g. self:keyword_match(arg)).
+-- TODO: dead `if cmd == "b"` clause sits inside an outer `cmd == "bow"`
+-- guard -- can never be true. Drop it once the arg fix lands.
 
 -- Command filter: bow
 if not (cmd == "bow") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-_return_value = true
--- switch on cmd
+-- Dead branch (see TODO): cmd == "b" cannot occur after the bow filter.
 if cmd == "b" then
     return _return_value
 end
+-- Broken target check (see TODO): always false.
 if string.find(self.name, "arg") then
     wait(7)
     self:say("Through her holy benevolence, I once protected this entire island.")

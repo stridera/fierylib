@@ -1,16 +1,15 @@
 -- Trigger: banish_murgbol_speech2
 -- Zone: 302, ID: 18
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+--   TODO: Verify `skills.set_level(actor.name, ...)` API — may need actor itself
+--   rather than name. Verify `actor:complete_quest("banish")` exists in runtime.
 --
 -- Original DG Script: #30218
 
--- Converted from DG Script #30218: banish_murgbol_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: vibugp
+-- Speech keyword: vibugp
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "vibugp")) then
+if not string.find(speech_lower, "vibugp") then
     return true  -- No matching keywords
 end
 wait(2)

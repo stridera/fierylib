@@ -32,5 +32,4 @@ if actor.is_player then
     self.room:send("</>The <yellow>horse</> trainer forces your hand towards the mouth of the <yellow>horse</>.")
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Good journey!'")
-else
 end

@@ -2,23 +2,26 @@
 -- Zone: 580, ID: 8
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <charm_person_status_checker>:16: unexpected symbol near 'then'
---   Complex nesting: 25 if statements
---   Large script: 5598 chars
 --
--- Original DG Script: #58008
+-- Hinazuru reports the player's charm_person quest progress when they
+-- ask about "spell progress": which instruments have been collected at
+-- stage 3, which charmers have been serenaded at stage 4, etc.
+--
+-- TODO: legacy DG probability was 0%; preserved here, but the keyword
+-- gate is the real driver -- 0% means the trigger never actually fires.
+-- TODO: quest_vars are read using legacy-vnum keys
+-- ("charm_person:58017", ":charm1", etc). Set sites in 580_05 / 580_07 /
+-- 580_10 use composite "<zone>_<id>" keys, so these reads never see
+-- writes and the helpful progress lists stay empty. Unify the keys.
 
--- Converted from DG Script #58008: charm_person_status_checker
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
+-- 0% chance to trigger (preserved from original DG -- see TODO)
 if not percent_chance(0) then
     return true
 end
 
--- Speech keywords: spell progress
+-- Speech keywords: spell / progress
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "progress")) then
+if not (string.find(speech_lower, "spell") or string.find(speech_lower, "progress")) then
     return true  -- No matching keywords
 end
 wait(2)

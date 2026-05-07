@@ -2,12 +2,21 @@
 -- Zone: 580, ID: 7
 -- Type: OBJECT, Flags: USE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
 --
--- Original DG Script: #58007
-
--- Converted from DG Script #58007: charm_person_instruments_command
--- Original: OBJECT trigger, flags: USE, probability: 100%
+-- Intended: when a player at quest stage 4 USEs one of the five quest
+-- instruments in the room of the matching master charmer, mark that
+-- charmer's quest_var; once all five flags are set, complete the quest
+-- and grant Charm Person at level 100.
+--
+-- TODO: the converter mangled the if/elseif structure. Every charmer
+-- check is nested inside the outer `if room:get_people("3010")` guard,
+-- so only the mandolin/Mielikki branch is even reachable -- and the
+-- elseif chains that follow have empty if-bodies. Needs a full rewrite
+-- as a flat dispatch keyed on (mob present in room, instrument id).
+-- TODO: room:get_people takes a string; values are legacy vnums.
+-- Should be (zone, local_id) pairs.
+-- TODO: self.id and the constants here are legacy vnums; under composite
+-- keys these no longer match. Compare (self.zone_id, self.local_id).
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("charm_person") == 4 then
     _return_value = true

@@ -3,15 +3,16 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
+-- Player accepts Lyara's offer ("yes" / "willing" / "sure" / "okay"). Starts
+-- the illusory_wall quest and lists the three components needed for the
+-- magic spectacles. Eligibility: Illusionist or Bard, level > 56, no prior
+-- progress on the quest.
+--
 -- Original DG Script: #36403
 
--- Converted from DG Script #36403: illusory_wall_lyara_speech3
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: yes willing sure okay
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "willing") or string.find(string.lower(speech), "sure") or string.find(string.lower(speech), "okay")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "willing") or string.find(speech_lower, "sure") or string.find(speech_lower, "okay")) then
+    return true
 end
 if ((string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56) and not actor:get_quest_stage("illusory_wall") then
     actor:start_quest("illusory_wall")

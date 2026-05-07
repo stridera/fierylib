@@ -3,10 +3,12 @@
 -- Type: MOB, Flags: GREET_ALL
 -- Status: CLEAN
 --
+-- Lyara stands and salutes any newcomer. If they are a high-level
+-- Illusionist/Bard with no quest progress, drop a hook line about the
+-- Eldorian Guard. If mid-quest, prompt them about supplies / studies.
+--
 -- Original DG Script: #36400
 
--- Converted from DG Script #36400: illusory_wall_lyara_greet
--- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(1)
 self:emote("looks up in surprise.")
 self:say("Well hello there!")

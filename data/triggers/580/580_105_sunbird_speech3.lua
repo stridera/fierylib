@@ -3,14 +3,12 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: CLEAN
 --
--- Original DG Script: #58105
-
--- Converted from DG Script #58105: Sunbird_speech3
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Player accepts the Sunbird's request to investigate. Sunbird spawns
+-- and gives them the tea master's key (object 580/109), the lead-in
+-- to the Chajin / Yajiro arc.
 
 -- Speech keywords: yes
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes")) then
+if not string.find(string.lower(speech), "yes") then
     return true  -- No matching keywords
 end
 wait(1)
