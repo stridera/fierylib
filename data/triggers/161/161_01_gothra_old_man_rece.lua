@@ -4,10 +4,12 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #16101
+--
+-- When the player gives the lost bracelet to the old man, he rewards them by
+-- handing over a lever (object 161/4) and starts the desert_quest for every
+-- group member present in the room.
 
--- Converted from DG Script #16101: Gothra_Old_Man_rece
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
--- This is the script that give the prize for the effort
+-- TODO: confirm bracelet identity; legacy used vnum 2023 (zone 20, local 23?).
 if object.id == 2023 then
     wait(1)
     self:destroy_item("bracelet")
@@ -23,23 +25,23 @@ if object.id == 2023 then
     self.room:spawn_object(161, 4)
     self:command("give lever " .. tostring(actor.name))
     self:say("Good luck...")
-    local person = actor
-    local i = person.group_size
-    if i then
-        local a = 1
-    else
-        local a = 0
-    end
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if not person:get_quest_stage("desert_quest") then
-                person:start_quest("desert_quest")
+
+    -- Start desert_quest for the actor and any grouped members in the room.
+    local size = actor.group_size or 0
+    if size > 0 then
+        for i = 1, size do
+            local person = actor.group_member[i]
+            if person and person.room == self.room then
+                if not person:get_quest_stage("desert_quest") then
+                    person:start_quest("desert_quest")
+                end
+                person:set_quest_var("desert_quest", "lever", 1)
             end
-            person:set_quest_var("desert_quest", "lever", 1)
-        elseif person then
-            i = i + 1
         end
-        a = a + 1
+    else
+        if not actor:get_quest_stage("desert_quest") then
+            actor:start_quest("desert_quest")
+        end
+        actor:set_quest_var("desert_quest", "lever", 1)
     end
 end

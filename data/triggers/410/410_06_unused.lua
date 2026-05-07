@@ -2,99 +2,87 @@
 -- Zone: 410, ID: 6
 -- Type: MOB, Flags: DEATH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+--   Original DG had complex nesting; converted but not attached to any mob.
 --
 -- Original DG Script: #41006
+-- Death drop trigger for a Phase 1 miniboss (slightly earlier wear-pos
+-- progression than 41005). Two responsibilities:
+--   1. Creeping Doom quest (615:17) drop, per eligible group member.
+--   2. Random gem (555:*) and armor (553:*) drops, indexed lower than 41005.
+--
+-- TODO(parity): the `person.id >= 1000 and person.id <= 1038` branch is a
+-- legacy DG check for an old player vnum range. Confirm the equivalent in
+-- the new account model before re-enabling this trigger.
 
--- Converted from DG Script #41006: **UNUSED**
--- Original: MOB trigger, flags: DEATH, probability: 100%
--- 
--- Trigger 61554 for Creeping Doom
--- 
-local person = actor
-local i = actor.group_size
-if i then
-    person = nil
-    while i > 0 do
-        local person = actor.group_member[i]
-        if person.room == self.room then
-            if person:get_quest_stage("creeping_doom") == 2 or (person.level > 80 and (person.id >= 1000 and person.id <= 1038)) then
-                local rnd = random(1, 50)
-                if rnd <= self.level then
-                    self.room:spawn_object(615, 17)
-                end
-            end
+-- 1. Creeping Doom relic drop, per eligible group member.
+local function try_creeping_doom_drop(person)
+    if person == nil or person.room ~= self.room then
+        return
+    end
+    local stage_ok = person:get_quest_stage("creeping_doom") == 2
+    local test_ok = person.level > 80 and (person.id >= 1000 and person.id <= 1038)
+    if stage_ok or test_ok then
+        if random(1, 50) <= self.level then
+            self.room:spawn_object(615, 17)
         end
+    end
+end
+
+local size = actor.group_size
+if size and size > 0 then
+    local i = size
+    while i > 0 do
+        try_creeping_doom_drop(actor.group_member[i])
         i = i - 1
     end
-elseif person:get_quest_stage("creeping_doom") == 2 or (person.level > 80 and (person.id >= 1000 and person.id <= 1038)) then
-    local rnd = random(1, 50)
-    if rnd <= self.level then
-        self.room:spawn_object(615, 17)
-    end
+else
+    try_creeping_doom_drop(actor)
 end
--- 
--- Death trigger for random gem and armor drops - 55565
--- 
--- set a random number to determine if a drop will
--- happen.
--- 
--- Miniboss setup
--- 
-local bonus = random(1, 100)
+
+-- 2. Phase 1 miniboss drop table.
 local will_drop = random(1, 100)
--- 3 pieces of armor per sub_phase in phase_1
-local what_armor_drop = random(1, 3)
--- 4 classes questing in phase_1
-local what_gem_drop = random(1, 4)
--- 
 if will_drop <= 30 then
-    -- drop nothing and bail
-    return _return_value
+    -- 30% no drop.
+    return
 end
+
+local bonus = random(1, 100)
+local what_armor_drop = random(1, 3) -- 3 pieces of armor per sub_phase
+local what_gem_drop = random(1, 4)   -- 4 classes questing in phase_1
+
 if will_drop <= 70 then
-    -- Normal non-bonus drops
+    -- Gem-only tier.
     if bonus <= 50 then
-        -- drop a gem from the previous wear pos set
+        -- Previous wear-position gem set.
         self.room:spawn_object(555, 69 + what_gem_drop)
-    elseif bonus >= 51 &bonus <= 90 then
-        -- We're in the Normal drops from current wear pos set
-        -- drop a gem from the current wear pos set
+    elseif bonus <= 90 then
+        -- Current wear-position gem set.
         self.room:spawn_object(555, 73 + what_gem_drop)
     else
-        -- We're in the BONUS ROUND!!
-        -- drop a gem from the next wear pos set
+        -- Bonus: next wear-position gem set.
         self.room:spawn_object(555, 77 + what_gem_drop)
     end
-elseif will_drop >= 71 &will_drop <= 90 then
-    -- Normal non-bonus drops
+elseif will_drop <= 90 then
+    -- Armor-only tier.
     if bonus <= 50 then
-        -- drop destroyed armor 55299 is the ID before the
-        -- first piece of armor.
+        -- Previous wear-position armor set.
         self.room:spawn_object(553, 3 + what_armor_drop)
-    elseif bonus >= 51 &bonus <= 90 then
-        -- We're in the Normal drops from current wear pos set
-        -- drop armor from the current wear pos set
+    elseif bonus <= 90 then
+        -- Current wear-position armor set.
         self.room:spawn_object(553, 7 + what_armor_drop)
     else
-        -- We're in the BONUS ROUND!!
-        -- drop a piece of armor from next wear pos
+        -- Bonus: next wear-position armor set.
         self.room:spawn_object(553, 11 + what_armor_drop)
     end
 else
-    -- Normal non-bonus drops
+    -- Gem + armor tier (10%).
     if bonus <= 50 then
-        -- drop armor and gem from previous wear pos
         self.room:spawn_object(555, 69 + what_gem_drop)
         self.room:spawn_object(553, 3 + what_armor_drop)
-    elseif bonus >= 51 &bonus <= 90 then
-        -- We're in the Normal drops from current wear pos set
-        -- drop a gem and armor from the current wear pos set
+    elseif bonus <= 90 then
         self.room:spawn_object(553, 7 + what_armor_drop)
         self.room:spawn_object(555, 73 + what_gem_drop)
     else
-        -- We're in the BONUS ROUND!!
-        -- drop armor and gem from next wear pos
         self.room:spawn_object(555, 77 + what_gem_drop)
         self.room:spawn_object(553, 11 + what_armor_drop)
     end

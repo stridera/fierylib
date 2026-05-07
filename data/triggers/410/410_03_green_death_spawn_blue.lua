@@ -4,15 +4,12 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #41003
+-- On green queen's death, spawn the blue queen (410:11) in room 410:39
+-- if she is not already loaded. Either way, broadcast her dying lament.
 
--- Converted from DG Script #41003: green_death_spawn_blue
--- Original: MOB trigger, flags: DEATH, probability: 100%
--- checking if blue queen is already loaded
-if self:get_mexists("41011") < 1 then
+self.room:send(tostring(self.name) .. " mutters, 'Mother always said my blue sister would look after me...'")
+if world.count_mobiles(410, 11) < 1 then
     get_room(410, 39):at(function()
         self.room:spawn_mobile(410, 11)
     end)
-    self.room:send(tostring(self.name) .. " mutters, 'Mother always said my blue sister would look after me...'")
-else
-    self.room:send(tostring(self.name) .. " mutters, 'Mother always said my blue sister would look after me...'")
 end

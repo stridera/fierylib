@@ -4,14 +4,14 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #16104
+--
+-- When the player mentions "trouble", the old man boasts about his
+-- youthful adventures, including catching a giant scorpion -- a hint that
+-- pairs with the "scorpion" speech trigger.
 
--- Converted from DG Script #16104: Gothra_Old_Man_speech3
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: trouble
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "trouble")) then
-    return true  -- No matching keywords
+-- Speech keyword: trouble
+if not string.find(string.lower(speech), "trouble") then
+    return true
 end
 self:command("nod " .. tostring(actor.name))
 self:say("Yes I said trouble, kids today, why when I was your age I was taming the realms! And I even caught me a giant scorpion!")

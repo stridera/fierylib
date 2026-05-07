@@ -4,16 +4,17 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #4013
+-- Per combat round, 20% chance Borgan picks a special attack:
+--   1/10  fire breath (AOE)
+--   2/10  sweep
+--   2/10  roar
+--   5/10  growl
 
--- Converted from DG Script #4013: Borgan_Attack
--- Original: MOB trigger, flags: FIGHT, probability: 20%
-
--- 20% chance to trigger
 if not percent_chance(20) then
     return true
 end
+
 local val = random(1, 10)
--- switch on val
 if val == 1 then
     self:breath_attack("fire", nil)
 elseif val == 2 or val == 3 then

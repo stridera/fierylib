@@ -5,64 +5,35 @@
 --   Complex nesting: 8 if statements
 --
 -- Original DG Script: #4004
+-- A worn "ring of souls" that gradually wears down the wearer's
+-- combat target and finishes them off when they hit ~5% HP.
+--
+-- TODO: this conversion is structurally broken and almost certainly
+-- does nothing useful at runtime. Major issues to resolve before
+-- re-enabling:
+--   1. `actor.is_fighting` returns a boolean in the new runtime, not
+--      the opponent entity. The script assigns `victim =
+--      player.is_fighting` and treats it as an Actor, so every
+--      downstream `victim.name` / `victim.hit` / `victim:damage(...)`
+--      access is operating on `true`. We need a `current_opponent`
+--      / `:get_target()` accessor, or to pull the opponent some
+--      other way (e.g. iterate room actors and find one fighting
+--      the wearer).
+--   2. `globals.X = globals.X or true` does not persist real values.
+--      `globals` is a per-trigger-run scratchpad table that is
+--      rebound fresh on every invocation, so `validate`, `victim`,
+--      `soul`, `heal` cannot be carried across the RANDOM ticks
+--      that drive the state machine. Need genuine per-object
+--      persistent storage (object vars / triggers vars) to track
+--      `validate ∈ {0, 1, 2}` between ticks.
+--   3. `local validate = 1/2` declarations inside if-branches are
+--      block-scoped in Lua and therefore do nothing once the branch
+--      ends. The DG original meant "assign to the persistent var".
+--   4. `if player.is_fighting == "victim"` compares a boolean to the
+--      literal string "victim" — always false; the entire else
+--      branch is the only reachable path. Looks like a converter
+--      mis-handling of a DG `%fighting%` reference.
+-- Until the above are fixed, force the script to no-op so it can't
+-- corrupt combat state with bogus damage / heal calls.
 
--- Converted from DG Script #4004: soul capture
--- Original: OBJECT trigger, flags: RANDOM, COMMAND, probability: 1%
-
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
-
--- Command filter: kill hit cast kick backstab
-if not (cmd == "kill" or cmd == "hit" or cmd == "cast" or cmd == "kick" or cmd == "backstab") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
-_return_value = true
-wait(1)
-local player = self.worn_by
-if player.is_fighting then
-    if player.is_fighting == "victim" then
-    else
-        self.room:send("reseting variables")
-        local victim = player.is_fighting
-        local soul = victim.name
-        local heal = (victim.level * 5) + random(1, 10)
-        local validate = 0
-        globals.victim = globals.victim or true
-        globals.soul = globals.soul or true
-        globals.heal = globals.heal or true
-        globals.validate = globals.validate or true
-    end
-else
-    return _return_value
-end
-local health = victim.hit / victim.maxhit * 100
-if validate == 2 then
-    if victim == 0 then
-        player:send("<red>The soul of " .. tostring(soul) .. " is captured by the ring of souls.</> (<b:green>" .. tostring(heal) .. "</>)")
-        player:heal(heal)
-    elseif health <= 5 then
-        local damage_dealt = victim:damage(victim.hit)  -- type: physical
-        player:heal(heal)
-        player:send("<b:red>" .. tostring(soul) .. "'s soul is torn from its mortal frame.</> (<yellow>" .. tostring(damage_dealt) .. "</>) (<b:green>" .. tostring(heal) .. "</>)")
-    else
-        return _return_value
-    end
-    validate = nil
-    victim = nil
-elseif validate == 1 then
-    if health <= 20 then
-        local validate = 2
-        globals.validate = globals.validate or true
-        player:send("<magenta>You feel the ring of souls work more deeply on " .. tostring(victim.name) .. ".</>")
-    end
-elseif validate == 0 then
-    if health >= 50 then
-        local validate = 1
-        globals.validate = globals.validate or true
-        player:send("<magenta>You feel the ring of souls begin to work on " .. tostring(victim.name) .. ".</>")
-    end
-end
-return _return_value
+return true

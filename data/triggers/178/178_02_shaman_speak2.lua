@@ -8,9 +8,9 @@
 -- Converted from DG Script #17802: shaman_speak2
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes fear?
+-- Speech keywords: yes / fear
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "fear?")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "fear")) then
     return true  -- No matching keywords
 end
 self:say("This is no easy test, and many have failed.")

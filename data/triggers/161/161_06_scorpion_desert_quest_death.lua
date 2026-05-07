@@ -4,24 +4,18 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #16106
-
--- Converted from DG Script #16106: Scorpion desert quest death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_stage("desert_quest") then
+--
+-- When the giant scorpion dies, mark the desert_quest scorpion-step complete
+-- for every grouped player who is in the room and on the quest.
+local size = actor.group_size or 0
+if size > 0 then
+    for i = 1, size do
+        local person = actor.group_member[i]
+        if person and person.room == self.room
+                and person:get_quest_stage("desert_quest") then
             person:set_quest_var("desert_quest", "scorpion", 1)
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
+elseif actor:get_quest_stage("desert_quest") then
+    actor:set_quest_var("desert_quest", "scorpion", 1)
 end

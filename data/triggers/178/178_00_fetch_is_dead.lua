@@ -9,7 +9,6 @@
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 actor:teleport(get_room(178, 68))
 actor:send("Your vision suddenly blurs, and you find yourself back at the shaman.")
--- actor looks around
 if world.count_mobiles(178, 6) == 0 then
     get_room(178, 68):at(function()
         self.room:spawn_mobile(178, 6)

@@ -4,14 +4,14 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #16103
+--
+-- When the player mentions "scorpion", the old man brags that he trapped (but
+-- could not slay) the giant beast, and hints that the battle cost him
+-- something precious.
 
--- Converted from DG Script #16103: Gothra_Old_Man_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: scorpion
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "scorpion")) then
-    return true  -- No matching keywords
+-- Speech keyword: scorpion
+if not string.find(string.lower(speech), "scorpion") then
+    return true
 end
 self:command("grin " .. tostring(actor.name))
 self:say("Oh yea...")

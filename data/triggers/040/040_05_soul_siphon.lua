@@ -5,45 +5,24 @@
 --   Complex nesting: 6 if statements
 --
 -- Original DG Script: #4005
+-- Companion to 040_04. While the wearer is fighting, the ring
+-- accumulates a `count`; once combat ends, it converts the count
+-- into a heal scaled by tier (3+, 10+, 20+, 30+, 50+, 100+).
+--
+-- TODO: this conversion is structurally broken. Specific issues:
+--   1. `count` is a free global referenced before it ever exists,
+--      so the first tick takes the `else` branch and tries to
+--      assign `local count = 1` — block-scoped, lost on next tick.
+--      Real persistence requires object-var storage (the runtime
+--      `globals` table is per-run scratch, not per-object state).
+--   2. `globals.count = globals.count or true` stores a boolean,
+--      not the integer counter the rest of the script expects.
+--   3. Each `local heal = ...` branch is scoped to its `elseif`
+--      block; `actor:heal(heal)` after the cascade reads a nil heal.
+--   4. `return _return_value` references an undeclared local
+--      (`_return_value` is never defined in this trigger).
+-- Forcing the script to no-op until persistent counter storage and
+-- combat-target plumbing are wired up. Re-enable in tandem with
+-- the fix for 040_04 (they share the ring-of-souls state).
 
--- Converted from DG Script #4005: soul siphon
--- Original: OBJECT trigger, flags: RANDOM, probability: 100%
-if self.worn_by then
-    local actor = self.worn_by
-    if actor.is_fighting then
-        if count then
-            count = count + 1
-            globals.count = globals.count or true
-            if count == 4 then
-                self.room:send("<magenta>The ring of souls <blue>glows <red>radiantly!</>")
-            end
-        else
-            self.room:send("<magenta>The ring of souls begins <blue>glowing.</>")
-            local count = 1
-            globals.count = globals.count or true
-        end
-    else
-        if count then
-            if count > 100 then
-                local heal = 100 * 3 + random(1, 20)
-            elseif count > 50 then
-                local heal = count * 4 + random(1, 20)
-            elseif count > 30 then
-                local heal = count * 6 + random(1, 20)
-            elseif count > 20 then
-                local heal = count * 8 + random(1, 20)
-            elseif count > 10 then
-                local heal = count * 10 + random(1, 20)
-            elseif count > 3 then
-                local heal = count * 11 + random(1, 20)
-            else
-                count = nil
-                return _return_value
-            end
-            actor:heal(heal)
-            actor:send("<magenta>Your ring of souls captures the essence of death and channels strength into you!</> (<b:green>" .. tostring(heal) .. "</>)")
-            self.room:send_except(actor, "<b:magenta>" .. tostring(actor.name) .. "'s ring of souls captures the essence of death and channels strength into its master!</> (<b:green>" .. tostring(heal) .. "</>)")
-            count = nil
-        end
-    end
-end
+return true

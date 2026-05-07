@@ -4,9 +4,8 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #16105
-
--- Converted from DG Script #16105: Gothra_Old_Man_greet
--- Original: MOB trigger, flags: GREET, probability: 100%
+--
+-- Flavor greet: the old man eyes the newcomer and grumbles about adventurers.
 wait(1)
 self:command("eye")
 actor:send("An old man rubs his chin and ponders about you.")

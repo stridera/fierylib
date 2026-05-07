@@ -4,25 +4,24 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #4003
-
--- Converted from DG Script #4003: Domain_Newbie_Guard
--- Original: MOB trigger, flags: COMMAND, probability: 100%
+-- A guardian mob warns players below level 30 away from descending
+-- deeper into the domain. Higher-level players and NPCs pass freely.
+-- TODO: the original DG script likely returned 0 (block) on the
+-- low-level branch; the converter currently returns true (allow)
+-- and merely emits whisper + wink. Confirm intended block semantics
+-- and switch the warn branch to `return false` if it should hold the
+-- player back.
 
 -- Command filter: down
-if not (cmd == "down") then
+if cmd ~= "down" then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
-if actor.is_player then
-    if actor.level < 30 then
-        self:whisper(actor.name, "Greetings young one, thou art brave but not strong enough to stride forth into these depths.")
-        wait(1)
-        self:whisper(actor.name, "Move towards the blackened sands to find battle for now.")
-        self:command("wink " .. tostring(actor.name))
-    else
-        _return_value = true
-    end
-else
-    _return_value = true
+
+if actor.is_player and actor.level < 30 then
+    self:whisper(actor.name, "Greetings young one, thou art brave but not strong enough to stride forth into these depths.")
+    wait(1)
+    self:whisper(actor.name, "Move towards the blackened sands to find battle for now.")
+    self:command("wink " .. tostring(actor.name))
 end
-return _return_value
+
+return true

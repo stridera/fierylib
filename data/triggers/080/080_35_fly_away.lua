@@ -4,24 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #8035
+-- During combat: if attacker is over level 30 and not on the
+-- dragon_slayer quest at stage 3, the drakling flies off to a random
+-- room in zone 80 (range 50..175) to escape high-level players.
 
--- Converted from DG Script #8035: fly_away
--- Original: MOB trigger, flags: FIGHT, probability: 100%
--- 
--- this is intended to make the creature fly off
--- to a random room to avoid high levels killing
--- it..
--- 
--- Exception written in to allow players on the
--- dragon hunt to kill them.
--- 
--- Generate random room number to spawn drakes in.
--- Thanks to the evil Pergus for inspiring me to be
--- more evil.
 if actor.level > 30 and actor:get_quest_stage("dragon_slayer") ~= 3 then
-    local rnd_range = random(1, 126)
-    local rnd_room = rnd_range + 49
-    self.room:send(tostring(self.name) .. " flies off because you seem to be a bit to powerful.")
+    local rnd_room = random(1, 126) + 49
+    self.room:send(tostring(self.name) .. " flies off because you seem to be a bit too powerful.")
     self.room:send("(Let the newbies < 30 do this)")
     self.room:find_actor("drakling"):teleport(get_room(80, rnd_room))
 end

@@ -4,14 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #16102
+--
+-- When the player mentions "precious", the old man laments his lost bracelet
+-- (a gift from his merchant-rogue wife) and the wreck of his cart.
 
--- Converted from DG Script #16102: Gothra_Old_Man_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: precious
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "precious")) then
-    return true  -- No matching keywords
+-- Speech keyword: precious
+if not string.find(string.lower(speech), "precious") then
+    return true
 end
 self:command("sigh")
 self.room:send_except(actor, "An old man speaks to " .. tostring(actor.name) .. " in a low voice.")

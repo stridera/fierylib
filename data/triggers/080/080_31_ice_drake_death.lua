@@ -4,28 +4,20 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #8031
+-- On death: advances the drake spawn cycle (ice -> ash) by loading the
+-- next drake at the staging room (160, 95) and teleporting it to a
+-- random room in zone 80, then dropping the cycle marker object.
 
--- Converted from DG Script #8031: ice_drake_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
--- 
--- Now for the cycle portion..
--- 
--- Does next mob in spawn cycle already exist?
 if world.count_mobiles(80, 32) < 1 then
-    -- Generate random room number to spawn drakes in.
-    -- Thanks to the evil Pergus for inspiring me to be
-    -- more evil.
-    local rnd_range = random(1, 126)
-    local rnd_room = rnd_range + 49
+    -- Random destination room in zone 80, range 50..175
+    local rnd_room = random(1, 126) + 49
     get_room(160, 95):at(function()
         self.room:spawn_mobile(80, 32)
     end)
-    local rnd = random(1, 100)
     get_room(160, 95):at(function()
         self.room:find_actor("ash"):teleport(get_room(80, rnd_room))
     end)
-    -- Sometimes creatures don't get teleported out of the loading
-    -- room so we're gonna go back and purge it just incase.
+    -- Purge the staging room in case the drake didn't teleport out.
     get_room(160, 95):at(function()
         self.room:purge()
     end)
@@ -33,6 +25,3 @@ if world.count_mobiles(80, 32) < 1 then
     self.room:send("From somewhere else in the farmlands comes another mighty roar!")
     self.room:spawn_object(80, 31)
 end
--- 
--- 
--- 
