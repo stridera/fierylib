@@ -12,17 +12,13 @@
 if not (cmd == "west") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
-if actor.is_player then
-    if actor.level < 40 then
-        self:whisper(actor.name, "You are much too weak to venture through this tunnel.")
-        wait(1)
-        self:whisper(actor.name, "Try other areas first.")
-        self:command("nudge " .. tostring(actor.name))
-    else
-        _return_value = true
-    end
-else
-    _return_value = true
+-- Block low-level players from heading west; warn them and let high-level
+-- players (and non-players) pass through. Mirrors legacy DG #10201.
+if actor.is_player and actor.level < 40 then
+    self:whisper(actor.name, "You are much too weak to venture through this tunnel.")
+    wait(1)
+    self:whisper(actor.name, "Try other areas first.")
+    self:command("nudge " .. tostring(actor.name))
+    return false
 end
-return _return_value
+return true

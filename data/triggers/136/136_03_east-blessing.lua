@@ -6,17 +6,12 @@
 -- Original DG Script: #13603
 
 -- Converted from DG Script #13603: east-blessing
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
+-- Original: ROOM trigger, flags: SPEECH
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: I pray for a blessing from mother earth, creator of life and bringer of death
+-- Speech keyword: the entire phrase below must appear in what was said.
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "pray") or string.find(string.lower(speech), "for") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "blessing") or string.find(string.lower(speech), "from") or string.find(string.lower(speech), "mother") or string.find(string.lower(speech), "earth,") or string.find(string.lower(speech), "creator") or string.find(string.lower(speech), "of") or string.find(string.lower(speech), "life") or string.find(string.lower(speech), "and") or string.find(string.lower(speech), "bringer") or string.find(string.lower(speech), "of") or string.find(string.lower(speech), "death")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "i pray for a blessing from mother earth, creator of life and bringer of death", 1, true) then
+    return true  -- No matching phrase
 end
 self.room:send("The &9<blue>stone monoliths</> begin to <b:cyan>glow</> with power.")
 wait(4)

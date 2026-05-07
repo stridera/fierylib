@@ -7,17 +7,16 @@
 
 -- Converted from DG Script #53002: sunken_rand_attack
 -- Original: MOB trigger, flags: RANDOM, probability: 35%
+-- Picks a random actor in the room and attacks them if they are a low-level player.
 
--- 35% chance to trigger
 if not percent_chance(35) then
     return true
 end
--- At a random chance attack a player in the room
-local rnd = room.actors[random(1, #room.actors)]
-if rnd.level < 100 then
-    if rnd.is_player then
-        combat.engage(self, rnd.name)
-    else
-    end
-else
+local actors = self.room.actors
+if #actors == 0 then
+    return true
+end
+local rnd = actors[random(1, #actors)]
+if rnd.is_player and rnd.level < 100 then
+    combat.engage(rnd)
 end

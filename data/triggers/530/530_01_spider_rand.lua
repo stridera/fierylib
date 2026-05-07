@@ -7,15 +7,16 @@
 
 -- Converted from DG Script #53001: spider_rand
 -- Original: MOB trigger, flags: RANDOM, probability: 45%
+-- Picks a random actor in the room and attacks them if they are a low-level player.
 
--- 45% chance to trigger
 if not percent_chance(45) then
     return true
 end
--- At a random chance attack a player in the room
-local rnd = room.actors[random(1, #room.actors)]
-if rnd.level < 100 then
-    if rnd.is_player then
-        combat.engage(self, rnd.name)
-    end
+local actors = self.room.actors
+if #actors == 0 then
+    return true
+end
+local rnd = actors[random(1, #actors)]
+if rnd.is_player and rnd.level < 100 then
+    combat.engage(rnd)
 end

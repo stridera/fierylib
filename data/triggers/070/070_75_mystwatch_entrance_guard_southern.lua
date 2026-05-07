@@ -15,6 +15,7 @@ end
 local _return_value = true  -- Default: allow action
 if actor.is_player then
     if actor.level < 30 then
+        _return_value = false
         self:whisper(actor.name, "Young adventurer, you are far too small to venture north of here.")
         wait(1)
         self:whisper(actor.name, "Try a safer location to pick battles for now.")

@@ -12,8 +12,9 @@
 if not percent_chance(5) then
     return true
 end
-if self.id == 600 then
+-- Legacy mob 600 (zone 6, local 0) = cartographer; 603 (zone 6, local 3) = outcast cartographer
+if self.local_id == 0 then
     self.room:send(tostring(self.name) .. " mutters something about his memory fading...")
-elseif self.id == 603 then
+elseif self.local_id == 3 then
     self:say("What do you want?  I don't have all day.")
 end

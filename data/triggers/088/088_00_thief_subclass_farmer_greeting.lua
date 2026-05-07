@@ -15,7 +15,7 @@ if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" then
             actor:send(tostring(self.name) .. " shoos you off the farm!")
             actor:teleport(get_room(80, 6))
             wait(1)
-            -- actor looks around
+            actor:command("look")
             actor:fail_quest("merc_ass_thi_subclass")
             actor:send("<b:yellow>You have failed your quest!</>")
             actor:send("You'll have to go back to " .. tostring(mobiles.template(60, 50).name) .. " and start over!")
