@@ -4,10 +4,9 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #6
+-- Flame effect on get/wear. Original returned false to block the action.
+-- TODO(parity): blocking get/wear seems unusual for a flavor flame effect;
+--               verify whether the legacy intent was to allow (return true).
 
--- Converted from DG Script #6: firecaster
--- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
-local _return_value = true  -- Default: allow action
 self.room:send("A <red>Flame</> snakes up down the blade of " .. tostring(self.shortdesc))
-_return_value = false
-return _return_value
+return false

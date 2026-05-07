@@ -10,7 +10,7 @@
 
 -- Speech keywords: challenge?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "challenge?")) then
+if not (string.find(speech_lower, "challenge", 1, true)) then
     return true  -- No matching keywords
 end
 self:say("Yes, challenge.  I presume you have been sent by that young upstart.")

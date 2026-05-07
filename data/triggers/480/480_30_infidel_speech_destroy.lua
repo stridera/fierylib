@@ -10,7 +10,7 @@
 
 -- Speech keywords: destroy?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "destroy?")) then
+if not (string.find(speech_lower, "destroy", 1, true)) then
     return true  -- No matching keywords
 end
 if actor.alignment < -349 then

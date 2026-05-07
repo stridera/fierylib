@@ -1,8 +1,7 @@
 -- Trigger: Infidel receive
 -- Zone: 480, ID: 33
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48033
 
@@ -19,27 +18,24 @@ self.room:send(tostring(self.name) .. " dusts off his hands and produces a sickl
 wait(1)
 self:say("Take this as a reward.")
 self.room:spawn_object(480, 39)
-self:command("give infidels-staff " .. tostring(actor))
-local person = actor
-local i = person.group_size
-if i then
-    while i > 0 do
-        local person = actor.group_member[i]
-        if person.room == self.room then
-            if person:get_quest_stage("hell_trident") == 2 then
-                if not person:get_quest_var("hell_trident:helltask6") then
-                    person:set_quest_var("hell_trident", "helltask6", 1)
-                end
+self:command("give infidels-staff " .. tostring(actor.name))
+
+-- Credit every nearby group member with quest progress.
+local function credit(person)
+    if person.room == self.room then
+        if person:get_quest_stage("hell_trident") == 2 then
+            if not person:get_quest_var("hell_trident:helltask6") then
+                person:set_quest_var("hell_trident", "helltask6", 1)
             end
-            person:send("<b:yellow>You have finished the infidel's duel!</>")
         end
-        i = i - 1
+        person:send("<b:yellow>You have finished the infidel's duel!</>")
+    end
+end
+
+if actor.group then
+    for _, person in ipairs(actor.group) do
+        credit(person)
     end
 else
-    if person:get_quest_stage("hell_trident") == 2 then
-        if not person:get_quest_var("hell_trident:helltask6") then
-            person:set_quest_var("hell_trident", "helltask6", 1)
-        end
-    end
-    person:send("<b:yellow>You have finished the infidel's duel!</>")
+    credit(actor)
 end

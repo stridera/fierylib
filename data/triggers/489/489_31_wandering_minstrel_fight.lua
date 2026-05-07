@@ -1,13 +1,13 @@
 -- Trigger: wandering minstrel fight
 -- Zone: 489, ID: 31
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
+-- Status: CLEAN
 --
--- Original DG Script: #48931
+-- Wandering-minstrel combat AI with a 5-tick cooldown:
+--   * level >= 70: AOE 'ballad of tears' on the whole group
+--   * level >= 10: single-target 'terror' on the current attacker
+-- Skips when silenced or when the target is already affected.
 
--- Converted from DG Script #48931: wandering minstrel fight
--- Original: MOB trigger, flags: FIGHT, probability: 100%
 if (actor.id >= 48900) and (actor.id <= 48999) then
     -- Stop combat if fighting another doom mobile
     wait(1)
@@ -16,32 +16,33 @@ if (actor.id >= 48900) and (actor.id <= 48999) then
     end)
 end
 if self:get_eff_flagged("silence") then
-    return _return_value
+    return true
 end
+
+-- TODO(parity): cooldown originally tracked via per-trigger globals `now`/
+-- `now2`. We collapsed both into a single 5-tick gate keyed by
+-- `globals.minstrel_song_cooldown`; revisit if the level branches need
+-- independent cadence.
+local cooldown = globals.minstrel_song_cooldown
+if cooldown and (timestamp() - cooldown < 5) then
+    return true
+end
+
 if self.level >= 70 then
-    if (now2 and (time.stamp - now2 >= 5)) or not now2 then
-        if actor.group_size > 1 then
-            local room = self.room
-            local person = room.people
-            while person do
-                if person.is_player then
-                    if not self:get_has_spell("terror") and not self:get_has_spell("ballad of tears") then
-                        self:perform("ballad of tears", person, self.level)
-                        local now2 = time.stamp
-                        globals.now2 = globals.now2 or true
-                        return _return_value
-                    end
-                end
-                person = person.next_in_room
+    if actor.group_size and actor.group_size > 1 then
+        local person = self.room.people
+        while person do
+            if person.is_player and not person:get_has_spell("terror") and not person:get_has_spell("ballad of tears") then
+                self:perform("ballad of tears", person, self.level)
+                globals.minstrel_song_cooldown = timestamp()
+                return true
             end
+            person = person.next_in_room
         end
     end
 elseif self.level >= 10 then
-    if (now and (time.stamp - now >= 5)) or not now then
-        if not actor:get_has_spell("terror") and not actor:get_has_spell("ballad of tears") then
-            self:perform("terror", actor, self.level)
-            local now = time.stamp
-            globals.now = globals.now or true
-        end
+    if actor and not actor:get_has_spell("terror") and not actor:get_has_spell("ballad of tears") then
+        self:perform("terror", actor, self.level)
+        globals.minstrel_song_cooldown = timestamp()
     end
 end

@@ -7,17 +7,13 @@
 
 -- Converted from DG Script #52001: grow_hydra_head
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local _return_value = true  -- Default: allow action
 -- Only do this if killer %actor% exists, otherwise they were killed by death of body!
 if actor then
-    -- return 0 for no death cry...
-    _return_value = true
-    -- If killer holds a lit branch (obj 52034) then no new head
-    local no_head = 0
-    if actor:has_equipped("52035") then
-        local no_head = actor:has_equipped("52035")
-    elseif actor:has_equipped("52034") then
-        local no_head = actor:has_equipped("52034")
+    -- If killer holds a lit branch (obj 520:34) or burning branch (520:35),
+    -- the wound cauterises and no new head grows.
+    local no_head = actor:has_equipped(520, 35)
+    if not no_head then
+        no_head = actor:has_equipped(520, 34)
     end
     if no_head then
         self.room:send_except(actor, tostring(actor.name) .. " seals the Hydra's neck with " .. tostring(no_head.shortdesc) .. ", preventing another head from growing!")
@@ -36,4 +32,4 @@ if actor then
         self.room:send("The heads begin to scream and fly in all directions, and COMPLETELY ANNIHILATE YOU!")
     end
 end
-return _return_value
+return true

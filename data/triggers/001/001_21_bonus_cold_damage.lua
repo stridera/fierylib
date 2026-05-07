@@ -13,5 +13,5 @@
 if damage then
     local bonus = damage / 10
     self.room:send("<b:cyan>" .. tostring(self.shortdesc) .. " freezes " .. tostring(victim.name) .. "!</> (<yellow>" .. tostring(bonus) .. "</>)")
-    local damage_dealt = victim:damage(bonus)  -- type: cold
+    victim:damage(bonus)  -- type: cold
 end

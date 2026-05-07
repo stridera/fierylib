@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor and (actor.level < 100) then
     self:emote("screams, 'I have been waiting for you!!'")
-    combat.engage(self, actor.name)
+    combat.engage(actor)
     if actor.is_npc then
         self:breath_attack("fire", nil)
     end

@@ -4,10 +4,9 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #7
+-- Receive trigger: praises the giver if the gift is the right item.
 
--- Converted from DG Script #7: Kerristone Castle (South)
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 14750 then
+if object.zone_id == 147 and object.local_id == 50 then
     wait(5)
     self:say("Good!")
 else

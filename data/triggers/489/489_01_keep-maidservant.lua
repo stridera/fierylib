@@ -7,11 +7,16 @@
 
 -- Converted from DG Script #48901: keep-maidservant
 -- Original: MOB trigger, flags: GREET, probability: 100%
+--
+-- 50%-on-greet flavor: a freed-slave maid mutters a vow to protect Lokari.
+
+-- TODO(parity): the original DG bundled the "more to herself than you" tail
+-- onto the same say emit; the converter split it across two sends with a
+-- leading `</>` that doesn't belong. Restitched as a single line below.
 local chance = random(1, 10)
 if chance > 5 then
     wait(1)
-    self.room:send(tostring(self.name) .. " says, 'Lokari bought me out of slavery and freed me,' more")
-    self.room:send("</>to herself than you.")
+    self.room:send(tostring(self.name) .. " says, 'Lokari bought me out of slavery and freed me,' more to herself than you.")
     wait(1)
     self:say("I won't let you harm him.")
 end

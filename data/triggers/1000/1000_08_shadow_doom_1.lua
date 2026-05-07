@@ -4,14 +4,12 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #8
+-- Greets eastbound players with a badge spawn, gives the badge to them,
+-- then closes and locks the gate to the east behind them.
 
--- Converted from DG Script #8: Shadow Doom 1
--- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.is_player then
-    if direction == "east" then
-        self.room:spawn_object(90, 36)
-        self:command("give badge " .. tostring(actor.name) .. "%")
-        self:command("close gate east")
-        self:command("lock gate east")
-    end
-end  -- auto-close block
+if actor.is_player and direction == "east" then
+    self.room:spawn_object(90, 36)
+    self:command("give badge " .. tostring(actor.name))
+    self:command("close gate east")
+    self:command("lock gate east")
+end

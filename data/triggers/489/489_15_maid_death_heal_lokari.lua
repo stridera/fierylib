@@ -7,15 +7,22 @@
 
 -- Converted from DG Script #48915: maid death heal lokari
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local actor = room.actors[random(1, #room.actors)]
-if actor and world.count_mobiles(489, 1) > 0 then
+--
+-- Fired by trigger 14 (any maid's death). Lokari absorbs the dying maid's
+-- spirit for 2000 HP. If the cleric maid was the one that died, set the
+-- stop-casting flag so trigger 12's in-flight cast aborts.
+
+-- TODO(parity): the original DG checked `random(<#people>)` to pick an actor;
+-- the converter approximated that with room.actors but the value isn't really
+-- used beyond a non-nil guard. Drop the indirection if the runtime guarantees
+-- a triggering context.
+if world.count_mobiles(489, 1) > 0 then
     self.room:send("Lokari absorbs the maid's spirit as it leaves her body.")
     get_room(489, 15):at(function()
         self.room:find_actor("lokari"):heal(2000)
     end)
 end
 wait(1)
-if actor and (world.count_mobiles(489, 23) == 0) then
-    local stop_casting = 1
-    globals.stop_casting = globals.stop_casting or true
+if world.count_mobiles(489, 23) == 0 then
+    globals.stop_casting = 1
 end

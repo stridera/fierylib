@@ -1,13 +1,14 @@
 -- Trigger: lokari init
 -- Zone: 489, ID: 2
 -- Type: MOB, Flags: LOAD
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
--- Original DG Script: #48902
+-- Spawns Lokari's three maids (rogue/sorcerer/cleric) into his cell at 489/80,
+-- or restores existing instances from elsewhere (heals + teleports them home).
 
--- Converted from DG Script #48902: lokari init
--- Original: MOB trigger, flags: LOAD, probability: 100%
+-- TODO(parity): the rogue's wrist-dagger (489, 26) fallback path uses (10, 12)
+-- when an instance already exists in the world. Confirm whether that vnum pair
+-- is intentional or a converter artifact from the DG original.
 self:teleport(get_room(11, 0))
 if world.count_mobiles(489, 15) > 0 then
     do

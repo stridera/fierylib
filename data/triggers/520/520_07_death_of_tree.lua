@@ -7,8 +7,9 @@
 
 -- Converted from DG Script #52007: death_of_tree
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local _return_value = true  -- Default: allow action
+-- The Tree of Life dies. It drops a fresh branch (520:34) for the hydra
+-- fight (cauterises severed necks, see grow_hydra_head 520:1) and whispers
+-- a final relieved line.
 self.room:spawn_object(520, 34)
 self:emote("whispers 'Ah, the relief...'")
-_return_value = true
-return _return_value
+return true

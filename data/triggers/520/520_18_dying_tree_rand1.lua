@@ -12,11 +12,12 @@
 if not percent_chance(25) then
     return true
 end
--- switch on random(1, 3)
-if random(1, 3) == 1 then
+-- Pick one ambient line.
+local roll = random(1, 3)
+if roll == 1 then
     self.room:send("A few falling leaves burst into flames as they get too close to the burning tree.")
-elseif random(1, 3) == 2 then
+elseif roll == 2 then
     self.room:send("The burning tree emits a loud hissing noise that startles a few nearby rodents.")
-elseif random(1, 3) == 3 then
+else
     self:emote("curses the Hydra.")
 end

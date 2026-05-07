@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48908: maid-rogue fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if self.room ~= 48980 then
+if self.room ~= get_room(489, 80) then
     self:teleport(get_room(489, 80))
 end
 if (world.count_mobiles(489, 1) == 0) and not (self:has_effect(Effect.Blur)) then

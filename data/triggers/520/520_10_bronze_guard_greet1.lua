@@ -13,7 +13,7 @@ if actor.is_player then
         self:say("I was supposed to get PAID for this gig.")
         self:command("poke " .. tostring(actor.name))
     else
-        self.room:send_except(actor.name, "The statue's eyes seem to follow " .. tostring(actor.name) .. " around for a moment, they look a bit uncomfortable.")
-        actor.name:send("The statue's eyes seem to stare directly at you for a moment, how disturbing.")
+        self.room:send_except(actor, "The statue's eyes seem to follow " .. tostring(actor.name) .. " around for a moment, they look a bit uncomfortable.")
+        actor:send("The statue's eyes seem to stare directly at you for a moment, how disturbing.")
     end
 end

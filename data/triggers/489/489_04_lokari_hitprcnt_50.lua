@@ -8,12 +8,13 @@
 -- Converted from DG Script #48904: lokari hitprcnt 50
 -- Original: MOB trigger, flags: HIT_PERCENT, probability: 50%
 
--- 50% chance to trigger
+-- 50% chance to trigger; on the first such fire, prime the cleric-healing
+-- mode (trigger 13) and bump the global init counter so subsequent half-HP
+-- procs don't re-prime the same mode.
 if not percent_chance(50) then
     return true
 end
-if init == 1 then
+if globals.init == 1 then
     run_room_trigger(489, 13)
-    local init = 2
-    globals.init = globals.init or true
+    globals.init = 2
 end

@@ -7,16 +7,16 @@
 
 -- Converted from DG Script #48909: maid-sorcerer fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if self.room ~= 48980 then
+if self.room ~= get_room(489, 80) then
     self:teleport(get_room(489, 80))
 end
 if (world.count_mobiles(489, 1) == 0) and not (self:has_effect(Effect.Blur)) then
     self:emote("keens for her lost master, lashing out in an uncontrolled frenzy!")
     spells.cast(self, "blur", self, 100)
 end
-if stone then
+if globals.stone then
     spells.cast(self, "stone skin", self.room:find_actor("lokari"))
-    stone = nil
+    globals.stone = nil
 else
     local chance = random(1, 10)
     if chance > 7 then

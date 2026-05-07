@@ -4,8 +4,7 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #12
+-- Self-heal during combat (arena combatant heals itself).
 
--- Converted from DG Script #12: arena
--- Original: MOB trigger, flags: FIGHT, probability: 100%
-spells.cast(self, "heal", mobile)  -- typo: no space
+spells.cast(self, "heal", self)
 wait(15)

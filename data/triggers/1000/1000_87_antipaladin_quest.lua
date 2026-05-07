@@ -4,13 +4,12 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #87
+-- Antipaladin quest hand-in: delight at the right offering, scorn otherwise.
 
--- Converted from DG Script #87: antipaladin quest
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 8504 then
+if object.zone_id == 85 and object.local_id == 4 then
     wait(5)
     self:emote("throws his head back in childish delight!")
 else
     wait(5)
     self:say("You are a miserable failure!")
-end  -- auto-close block
+end

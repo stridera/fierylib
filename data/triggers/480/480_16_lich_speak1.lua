@@ -10,9 +10,9 @@
 
 -- Speech keywords: ureal
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "ureal")) then
+if not (string.find(speech_lower, "ureal", 1, true)) then
     return true  -- No matching keywords
 end
 self:command("ponder")
 self:say("You know my name, but do you know my power?")
-spells.cast(self, "disintegrate", actor.name)
+spells.cast(self, "disintegrate", actor)

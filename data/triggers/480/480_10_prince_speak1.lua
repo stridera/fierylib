@@ -15,7 +15,7 @@ end
 
 -- Speech keywords: trade?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "trade?")) then
+if not (string.find(speech_lower, "trade", 1, true)) then
     return true  -- No matching keywords
 end
 if actor.alignment > 350 and actor.level > 80 then

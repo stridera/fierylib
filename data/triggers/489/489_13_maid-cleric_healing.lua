@@ -7,5 +7,8 @@
 
 -- Converted from DG Script #48913: maid-cleric healing
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local healing = 1
-globals.healing = globals.healing or true
+--
+-- One-shot world trigger fired by trigger 4 once Lokari hits 50% HP. Sets a
+-- persistent flag that biases the cleric maid's spell loop (trigger 12) toward
+-- group heal instead of the consecration/sacrilege AOE.
+globals.healing = 1

@@ -12,8 +12,8 @@
 if not percent_chance(60) then
     return true
 end
-local now = time.stamp
-if now - 1 > fight then
+local now = timestamp()
+if globals.fight and now - 1 > globals.fight then
     self:emote("looks around for someone to fight.")
     self:command("sniff")
     self:command("remove scimitar")

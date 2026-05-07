@@ -1,20 +1,14 @@
 -- Trigger: UNUSED
 -- Zone: 520, ID: 6
 -- Type: WORLD, Flags: PREENTRY
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <UNUSED>:9: unexpected symbol near '.52059'
+-- Status: UNUSED
 --
 -- Original DG Script: #52006
+-- Marked UNUSED in source data; retained for parity. Counts how many actors
+-- entered room 520:59 in the last 5 ticks and stashes the delta in a global
+-- so a sibling trigger can scale a fight to the group size. Only valid for
+-- the most recent entry burst (legacy author flagged this limitation).
 
--- Converted from DG Script #52006: UNUSED
--- Original: WORLD trigger, flags: PREENTRY, probability: 100%
--- hope this works as well as the theory
--- idea is that this trigger runs _before_ players
--- enter. Course it only calcs the size of the last
--- group to enter, so if a player comes in later
--- the global var gets scragged :-(
--- hehe if only room had an ID field this could be generic!
-local peeps = get_room(520, 59).actor_count
+local peeps_before = get_room(520, 59).actor_count
 wait(5)
-local peeps = get_room(520, 59).actor_count - peeps
-globals.peeps = globals.peeps or true
+globals.peeps = get_room(520, 59).actor_count - peeps_before

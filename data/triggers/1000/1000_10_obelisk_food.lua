@@ -4,20 +4,17 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10
+-- Speech "All Hail Uklor" by a player makes the obelisk hum and produces bread.
+-- TODO(parity): original DG probability was 0% (effectively disabled). If this
+--               trigger should remain disabled, remove from the room's script
+--               list rather than gating here.
 
--- Converted from DG Script #10: Obelisk (Food)
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+-- Speech keywords: all hail uklor (all three required)
+local s = string.lower(speech)
+if not (string.find(s, "all") and string.find(s, "hail") and string.find(s, "uklor")) then
     return true
 end
 
--- Speech keywords: All Hail Uklor
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "all") or string.find(string.lower(speech), "hail") or string.find(string.lower(speech), "uklor")) then
-    return true  -- No matching keywords
-end
 if actor.is_player then
     self.room:send("</>&9<blue>The ancient </><magenta>obelisk</>&9<blue> hums with pleasure.</>")
     self.room:send("A gust of </><white></>divine</><b:yellow> energy</> sweeps through the room, leaving a loaf of </><yellow>bread</> in its wake.")

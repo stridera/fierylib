@@ -4,20 +4,15 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #4
-
--- Converted from DG Script #4: new trigger
--- Original: MOB trigger, flags: COMMAND, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- COMMAND trigger: intercepts the "kneel" command and announces it to the room.
+-- TODO(parity): original DG probability was 0% (effectively disabled). If this
+--               trigger should remain disabled, remove it from the mob's script
+--               list rather than gating on a 0% roll here.
 
 -- Command filter: kneel
-if not (cmd == "kneel") then
-    return true  -- Not our command
+if cmd ~= "kneel" then
+    return true  -- Not our command, allow normal handling
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
+
 self.room:send("Command trigger (cackle) running")
-return _return_value
+return true

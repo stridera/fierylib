@@ -1,7 +1,11 @@
 -- Trigger: Druid Quest Spell Hints
 -- Zone: 1, ID: 11
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: PARTIAL
+--
+-- TODO(parity): converter produced an empty `if class-match then` branch
+-- followed by `elseif speech == ...` for the moonwell hint. The speech replies
+-- only fire when the speaker class does NOT match. Needs DG source review.
 --
 -- Original DG Script: #111
 

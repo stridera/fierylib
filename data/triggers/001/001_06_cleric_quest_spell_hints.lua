@@ -1,7 +1,13 @@
 -- Trigger: Cleric Quest Spell Hints
 -- Zone: 1, ID: 6
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: PARTIAL
+--
+-- TODO(parity): converter produced empty `if class-match then` branches followed
+-- by `elseif speech == ...` for each hint group. As written, when the speaking
+-- mob IS the matching class the branch is a no-op; the speech replies only
+-- fire when the class does NOT match. Likely inverse of original intent;
+-- needs DG source review.
 --
 -- Original DG Script: #106
 

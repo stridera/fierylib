@@ -1,21 +1,11 @@
 -- Trigger: UNUSED
 -- Zone: 520, ID: 53
 -- Type: WORLD, Flags: SPEECH
--- Status: CLEAN
+-- Status: UNUSED
 --
 -- Original DG Script: #52053
+-- Marked UNUSED (probability 0) in source data; retained for parity. A
+-- builder backdoor: speaking the magic phrase spawns object 520:52. The
+-- 0% probability ensured the SPEECH hook never fired even if loaded.
 
--- Converted from DG Script #52053: UNUSED
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: nevereverusethistriggerorIeatyouforbreakfast
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "nevereverusethistriggerorieatyouforbreakfast")) then
-    return true  -- No matching keywords
-end
-self.room:spawn_object(520, 52)
+return true

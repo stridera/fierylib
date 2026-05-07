@@ -1,34 +1,36 @@
 -- Trigger: lokari throw player
 -- Zone: 489, ID: 6
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Complex nesting: 12 if statements
+-- Status: CLEAN
 --
--- Original DG Script: #48906
+-- Picks two distinct mortal players in the room and slams them into each
+-- other. Aborts if a second valid target can't be found.
 
--- Converted from DG Script #48906: lokari throw player
--- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local max_tries = 6
-while max_tries > 0 do
-    local victim1 = room.actors[random(1, #room.actors)]
-    if ((victim1.id < 48900) or (victim1.id > 48999)) and (victim1.level < 100) then
-        local max_tries = 0
+-- TODO(parity): the converter botched the victim1/victim2 picking loops:
+-- block-scoped `local max_tries = 0` rebinds didn't actually break the outer
+-- loop, victim1 was scoped inside the loop so unreachable below, and the
+-- `_return_value` orphan was undefined. The rewrite below restores intent.
+local victim1
+for _ = 1, 6 do
+    local candidate = room.actors[random(1, #room.actors)]
+    if candidate and ((candidate.id < 48900) or (candidate.id > 48999)) and (candidate.level < 100) then
+        victim1 = candidate
+        break
     end
-    max_tries = max_tries - 1
 end
-if max_tries ~= -1 then
-    return _return_value
+if not victim1 then
+    return true
 end
-local max_tries = 10
-while max_tries > 0 do
-    local victim2 = room.actors[random(1, #room.actors)]
-    if ((victim2.id < 48900) or (victim2.id > 48999)) and (victim2.level < 100) and (victim1.name ~= victim2.name) then
-        local max_tries = 0
+local victim2
+for _ = 1, 10 do
+    local candidate = room.actors[random(1, #room.actors)]
+    if candidate and ((candidate.id < 48900) or (candidate.id > 48999)) and (candidate.level < 100) and (victim1.name ~= candidate.name) then
+        victim2 = candidate
+        break
     end
-    max_tries = max_tries - 1
 end
-if max_tries ~= -1 then
-    return _return_value
+if not victim2 then
+    return true
 end
 local damage1 = 75 + random(1, 50)
 local damage2 = 75 + random(1, 50)

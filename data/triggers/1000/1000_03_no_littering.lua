@@ -4,10 +4,9 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #3
+-- Sends a "no littering" message when a player drops something here.
+-- TODO(parity): name suggests this should BLOCK littering, but original DG returns
+--               1 (allow). Preserved original semantics; verify intent.
 
--- Converted from DG Script #3: no littering
--- Original: WORLD trigger, flags: DROP, probability: 100%
-local _return_value = true  -- Default: allow action
 actor:send("You cannot litter here!")
-_return_value = true
-return _return_value
+return true

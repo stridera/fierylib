@@ -1,10 +1,14 @@
 -- Trigger: Priest Quest Spell Hints
 -- Zone: 1, ID: 7
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Priest Quest Spell Hints>:27: unexpected symbol near '%'
---   Complex nesting: 8 if statements
---   Large script: 5129 chars
+-- Status: PARTIAL
+--
+-- TODO(parity): converter produced an empty `if class-match then` branch followed
+-- by `elseif speech == ...` for each hint group. As written, when the speaking
+-- mob IS the matching class the branch is a no-op; the speech-hint replies only
+-- fire when the class does NOT match. Original DG Script intent was almost
+-- certainly the inverse: gate by class first, then dispatch by speech keyword.
+-- Logic preserved verbatim until DG source can be re-checked.
 --
 -- Original DG Script: #107
 

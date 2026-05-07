@@ -1,15 +1,16 @@
 -- Trigger: dark servant fight
 -- Zone: 489, ID: 25
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+-- Status: CLEAN
 --
--- Original DG Script: #48925
+-- Doom dark-servant combat AI. Three branches at low chance:
+--   * 10% hitall
+--   * 10% (warrior variant only) re-target onto a stealthy player
+--   * 10/20% reach a shadowy limb to drain life from a player and self-heal
 
--- Converted from DG Script #48925: dark servant fight
--- Original: MOB trigger, flags: FIGHT, probability: 100%
+-- Stop combat if our current target is another doom mobile (48900-48999)
+-- and rest in a holding room while we recover.
 if (actor.id >= 48900) and (actor.id <= 48999) then
-    -- Stop combat if fighting another doom mobile
     wait(1)
     get_room(11, 0):at(function()
         self.room:find_actor("dark-servant"):heal(1000)
@@ -18,54 +19,54 @@ end
 wait(2)
 local chance = random(1, 10)
 if chance > 3 then
-    -- Short-circuit
-    return _return_value
+    -- 70% chance to do nothing this round.
+    return true
 elseif chance == 1 then
     -- 10% chance to hitall
     self:attack_all()
-    return _return_value
+    return true
 elseif (chance == 2) and (self.id == 48909) then
-    -- 10% chance to switch to an assassin, if this is the warrior dark servant
-    local max_tries = 9
-    while max_tries > 0 do
-        local victim = room.actors[random(1, #room.actors)]
-        if (victim.class == "Assassin") or (victim.class == "Thief") then
-            local max_tries = 0
+    -- 10% chance for the warrior dark-servant to re-target onto an
+    -- Assassin or Thief in the room.
+    local victim
+    for _ = 1, 9 do
+        local candidate = room.actors[random(1, #room.actors)]
+        if candidate and (candidate.class == "Assassin" or candidate.class == "Thief") then
+            victim = candidate
+            break
         end
-        max_tries = max_tries - 1
     end
-    if (max_tries == -1) and (victim.is_player) then
-        combat.engage(self, victim.name)
-        return _return_value
+    if victim and victim.is_player then
+        combat.engage(victim)
     end
-    return _return_value
+    return true
 else
-    -- If warrior servant, 10% chance to chill someone, stealing their hp
-    -- If nonwarrior servant, 20% chance
-    -- Attempt to get a player no more than max_tries times
-    local max_tries = 5
-    while max_tries > 0 do
-        local victim = room.actors[random(1, #room.actors)]
-        if victim &((victim.id < 48900) or (victim.id > 48999)) then
-            local max_tries = 0
+    -- Warrior servant: 10% chill-drain. Non-warrior servants: 20% chill-drain.
+    -- Pick a non-doom player; fall back to the current attacker if it's the
+    -- dark-servant's current victim and is itself a doom mob (matches the
+    -- DG fallback path).
+    local victim
+    for _ = 1, 5 do
+        local candidate = room.actors[random(1, #room.actors)]
+        if candidate and ((candidate.id < 48900) or (candidate.id > 48999)) then
+            victim = candidate
+            break
         end
-        max_tries = max_tries - 1
     end
-    if max_tries == -1 then
-        if (victim.id > 48900) and (victim.id < 48999) &actor then
-            local victim = actor
+    if not victim then
+        if actor and (actor.id > 48900) and (actor.id < 48999) then
+            victim = actor
         else
-            return _return_value
+            return true
         end
-    else
-        return _return_value
     end
     local casters = "Sorcerer Cryomancer Pyromancer Necromancer Cleric Priest Diabolist Druid Conjurer Shaman"
     -- Be nice to casters
-    if string.find(casters, "victim.class") then
-        local damage = 200 + random(1, 30)
+    local damage
+    if string.find(casters, tostring(victim.class)) then
+        damage = 200 + random(1, 30)
     else
-        local damage = 380 + random(1, 30)
+        damage = 380 + random(1, 30)
     end
     local damage_dealt = victim:damage(damage)  -- type: heal
     if damage_dealt == 0 then

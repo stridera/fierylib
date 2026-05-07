@@ -1,28 +1,28 @@
 -- Trigger: Templace Gate
 -- Zone: 0, ID: 13
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Templace Gate>:8: unexpected symbol near '$'
+-- Status: CLEAN
 --
 -- Original DG Script: #13
-
--- Converted from DG Script #13: Templace Gate
--- Original: MOB trigger, flags: GREET, probability: 60%
+-- Greet at the city gate: high-level players are welcomed, low-level players
+-- are gently teleported home, and immortals receive worship.
 
 -- 60% chance to trigger
 if not percent_chance(60) then
     return true
 end
-if actor.level >= 80 then
-    self.room:send("$n $I tells you, 'Hi $n, Welcome to city of Templace!'")  -- from MPROG
-    self.room:send_except(actor, "self.name welcomes actor.name")  -- from MPROG
+
+if actor.is_immortal then
+    self:say(tostring(actor.name) .. ", the gatekeeper falls to the ground and starts worshipping you!")
+    self.room:send_except(actor, tostring(self.name) .. " falls to the ground in total awe of " .. tostring(actor.name) .. "'s power.")
+    return true
 end
-if actor.level <= 79 then
-    actor:send("self.name tells you, 'Hey, this is too dangerous a place for you!'")  -- from MPROG
-    self.room:send_except(actor, "self.name looks at actor.name doubtfully and makes a strange gesture.")  -- from MPROG
-    actor:teleport(get_room(30, 1))  -- from MPROG
-    if actor.is_immortal then
-        self.room:send("$n $I falls to the ground and starts worshiping you!")  -- from MPROG
-        self.room:send_except(actor, "self.name falls to the ground in total awe of actor.name's power.")  -- from MPROG
-    end
-end  -- auto-close block
+
+if actor.level >= 80 then
+    self:say("Hi " .. tostring(actor.name) .. ", welcome to the city of Templace!")
+    self.room:send_except(actor, tostring(self.name) .. " welcomes " .. tostring(actor.name) .. ".")
+else
+    self:say("Hey " .. tostring(actor.name) .. ", this is too dangerous a place for you!")
+    self.room:send_except(actor, tostring(self.name) .. " looks at " .. tostring(actor.name) .. " doubtfully and makes a strange gesture.")
+    actor:teleport(get_room(30, 1))
+end

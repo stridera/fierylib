@@ -28,10 +28,9 @@ if actor.is_player then
     self.room:send("<yellow>From the shell emerges the</> <b:cyan>Wraith of the KingPriest!</>")
     self.room:find_actor("wraith"):shout("Come to me my guardians!  We have souls to claim!")
     self.room:send("<b:green>The stone of the floor and wall erupt into statues of shadowy guardians!</>")
-    self.room:find_actor("wraith"):command("kill %actor.name%")
-    self.room:find_actor("shadow"):command("kill %actor.name%")
-    self.room:find_actor("2.shadow"):command("kill %actor.name%")
-    self.room:find_actor("3.shadow"):command("kill %actor.name%")
+    self.room:find_actor("wraith"):command("kill " .. tostring(actor.name))
+    self.room:find_actor("shadow"):command("kill " .. tostring(actor.name))
+    self.room:find_actor("2.shadow"):command("kill " .. tostring(actor.name))
+    self.room:find_actor("3.shadow"):command("kill " .. tostring(actor.name))
     self:teleport(get_room(480, 84))
-else
 end

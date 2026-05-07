@@ -14,5 +14,5 @@ if damage then
     local bonus = damage / 10
     self.room:send_except(victim, "<yellow>" .. tostring(self.shortdesc) .. " shocks " .. tostring(victim.name) .. "!</> (<yellow>" .. tostring(bonus) .. "</>)")
     victim:send("<yellow>" .. tostring(self.shortdesc) .. " shocks you!</> (<yellow>" .. tostring(bonus) .. "</>)")
-    local damage_dealt = victim:damage(bonus)  -- type: shock
+    victim:damage(bonus)  -- type: shock
 end

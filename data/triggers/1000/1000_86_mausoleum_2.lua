@@ -4,17 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #86
+-- Saying "path" reveals a downward trapdoor in room 85:25.
 
--- Converted from DG Script #86: Mausoleum 2
--- Original: WORLD trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: path
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "path")) then
-    return true  -- No matching keywords
+-- Speech keyword: path
+if not string.find(string.lower(speech), "path") then
+    return true
 end
-local _return_value = true  -- Default: allow action
+
 get_room(85, 25):exit("d"):set_state({hidden = false})
 self.room:send("The Blood of the Evil Runes begins to boil, and solidifies into a trapdoor.")
-_return_value = true
-return _return_value
+return true

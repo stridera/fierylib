@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48932: severan fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if self.room ~= 48960 then
+if self.room ~= get_room(489, 60) then
     self:emote("emits a loud wail, and returns to the site where he is bound.")
     self:teleport(get_room(489, 60))
 end

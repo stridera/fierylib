@@ -8,7 +8,7 @@
 -- Converted from DG Script #48009: prince_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
-    if object.id == 48031 then
+    if object.zone_id == 480 and object.local_id == 31 then
         if actor.alignment > 350 then
             self:say("Ah, even though I did not strike the killing blow, I can feel the years of desire for revenge have been completed.")
             self:say("Thank you " .. tostring(actor.name) .. ", I hope this gift will help you against the king.")

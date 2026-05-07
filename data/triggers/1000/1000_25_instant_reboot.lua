@@ -1,23 +1,20 @@
 -- Trigger: instant reboot
 -- Zone: 0, ID: 25
 -- Type: WORLD, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <instant reboot>:14: ')' expected near '.3054'
+-- Status: CLEAN
 --
 -- Original DG Script: #25
+-- Diagnostic: saying "reboot now" reports the actor count of two well-known
+-- rooms. Useful for quick population checks.
+-- TODO(parity): original DG probability was 0% (effectively disabled). If this
+--               diagnostic should remain disabled, remove it from the room's
+--               script list rather than gating here.
 
--- Converted from DG Script #25: instant reboot
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+-- Speech keywords: "reboot now" (both required)
+local s = string.lower(speech)
+if not (string.find(s, "reboot") and string.find(s, "now")) then
     return true
 end
 
--- Speech keywords: reboot now
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "reboot") or string.find(string.lower(speech), "now")) then
-    return true  -- No matching keywords
-end
 self.room:send(tostring(get_room(30, 54).actor_count))
 self.room:send(tostring(get_room(510, 36).actor_count))

@@ -8,15 +8,12 @@
 -- Converted from DG Script #48910: maid-sorcerer stone
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
 
--- Command filter: stone
+-- Command filter: stone -- Lokari (id 48901) issues "stone" to ask the
+-- sorcerer maid to stoneskin him on her next fight tick.
 if not (cmd == "stone") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
 if actor.id == 48901 then
-    local stone = 1
-    globals.stone = globals.stone or true
-else
-    _return_value = true
+    globals.stone = 1
 end
-return _return_value
+return true

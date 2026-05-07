@@ -10,7 +10,7 @@
 
 -- Speech keywords: help? hydra?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "help?") or string.find(string.lower(speech), "hydra?")) then
+if not (string.find(speech_lower, "help") or string.find(speech_lower, "hydra")) then
     return true  -- No matching keywords
 end
 self:command("sigh")

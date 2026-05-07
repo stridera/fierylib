@@ -14,8 +14,8 @@ if not percent_chance(75) then
 end
 if actor.is_player then
     if actor.level < 60 then
-        actor.name:send("The young witch says, 'I may still be learning, but I know enough to destroy you.'")
+        actor:send("The young witch says, 'I may still be learning, but I know enough to destroy you.'")
     else
-        actor.name:send("The young witch says, 'At last a chance to test myself on a worthy opponent.'")
+        actor:send("The young witch says, 'At last a chance to test myself on a worthy opponent.'")
     end
 end

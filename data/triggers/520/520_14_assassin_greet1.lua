@@ -14,7 +14,7 @@ if not percent_chance(80) then
 end
 if actor.level < 100 then
     self:emote("whispers, 'Trespassers!'")
-    skills.execute(self, "backstab", actor.name)
+    skills.execute(self, "backstab", actor)
 else
     self:command("bow " .. tostring(actor.name))
     self:say("Welcome, Diety.")

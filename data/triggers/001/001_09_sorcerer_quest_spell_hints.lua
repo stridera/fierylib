@@ -1,8 +1,12 @@
 -- Trigger: Sorcerer Quest Spell Hints
 -- Zone: 1, ID: 9
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: PARTIAL
+--
+-- TODO(parity): converter produced empty `if class-match then` branches followed
+-- by `elseif speech == ...` for each hint group. The speech replies only fire
+-- when the speaker class does NOT match the gating class. Likely inverse of
+-- original intent; needs DG source review.
 --
 -- Original DG Script: #109
 

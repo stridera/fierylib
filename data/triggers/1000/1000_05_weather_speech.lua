@@ -4,17 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #5
+-- Saying "weather" reveals a hidden door to the north into another zone.
 
--- Converted from DG Script #5: weather speech
--- Original: WORLD trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: weather
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "weather")) then
-    return true  -- No matching keywords
+-- Speech keyword: weather
+if not string.find(string.lower(speech), "weather") then
+    return true
 end
-local _return_value = true  -- Default: allow action
+
 get_room(12, 10):exit("n"):set_state({hidden = false})
 self.room:send("<cyan>The air wrinkles and swirls into a door to the north</>")
-_return_value = true
-return _return_value
+return true

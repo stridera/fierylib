@@ -15,7 +15,7 @@ end
 
 -- Speech keywords: help?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "help?")) then
+if not (string.find(speech_lower, "help", 1, true)) then
     return true  -- No matching keywords
 end
 if actor.alignment > 349 then

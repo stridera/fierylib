@@ -1,25 +1,25 @@
 -- Trigger: severan shockwave
 -- Zone: 489, ID: 33
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
--- Original DG Script: #48933
-
--- Converted from DG Script #48933: severan shockwave
--- Original: WORLD trigger, flags: GLOBAL, probability: 100%
+-- Severan's signature AOE: a crushing shockwave hits every non-doom, non-imm
+-- person in the room for 100-150 (casters) or 250-300 (others) base damage,
+-- with sanc/stone halving and a 1-in-15 crit (half) or anti-crit (double).
+-- Major-globe halves damage one more time on top.
 self.room:send("<b:white>The white aura around Severan's body intensifies, increasing in brightness.</>")
 wait(2)
 self.room:send("<b:white>A powerful shockwave leaps off Severan's body as the aura flares wildly!</>")
 local casters = "Sorcerer Necromancer Cryomancer Pyromancer Cleric Druid Diabolist Priest Shaman Conjurer"
 local person = self.people
 while person do
-    local next = person.next_in_room
+    local next_person = person.next_in_room
     if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
-        if string.find(casters, "person.class") then
-            local damage = 100 + random(1, 50)
+        local damage
+        if string.find(casters, tostring(person.class)) then
+            damage = 100 + random(1, 50)
         else
-            local damage = 250 + random(1, 50)
+            damage = 250 + random(1, 50)
         end
         if person:has_effect(Effect.Sanctuary) then
             damage = damage / 2
@@ -51,5 +51,5 @@ while person do
             person:send("<b:white>The blast strikes you violently, rending your flesh!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
         end
     end
-    local person = next
+    person = next_person
 end

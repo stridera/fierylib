@@ -1,32 +1,32 @@
 -- Trigger: rock_demon_call_rock
 -- Zone: 520, ID: 0
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <rock_demon_call_rock>:18: unexpected symbol near '='
+-- Status: CLEAN
 --
 -- Original DG Script: #52000
+-- Sub-routine invoked from rock_demon_fight (520:15) when the rock demon
+-- glows and gestures upward. Damages random non-rock-demon actors with
+-- flying rocks; if the actor is on the meteorswarm quest the rocks instead
+-- delivers a meteorite focus to advance the quest.
 
--- Converted from DG Script #52000: rock_demon_call_rock
--- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 wait(1)
 self.room:send("The demon has animated some rocks which spin around you!")
 wait(1)
-local numhits = random(1, 3)
-numhits = numhits + 2
+local numhits = random(1, 3) + 2
 local thishit = 0
 while thishit < numhits do
-    local dmg = random(1, 50)
-    dmg = dmg + 50
+    local dmg = random(1, 50) + 50
     local rnd = room.actors[random(1, #room.actors)]
-    if rnd.id == 52017 then
+    -- 520:17 is the rock demon itself - it absorbs the rocks instead of being hit
+    if rnd.zone_id == 520 and rnd.local_id == 17 then
         self.room:send_except(rnd, "A lump of rock merges with " .. tostring(rnd.name) .. " and he seems stronger! (<yellow>" .. tostring(dmg) .. "</>)")
         rnd:send("You absorb strength from the rock! (<yellow>" .. tostring(dmg) .. "</>)")
         rnd:heal(dmg)
     else
-        if rnd:get_quest_stage("meteorswarm") == 2 or rnd:get_quest_var("meteorswarm:new") ~= yes then
+        if rnd:get_quest_stage("meteorswarm") == 2 or rnd:get_quest_var("meteorswarm:new") ~= "yes" then
             if rnd:get_quest_stage("meteorswarm") == 2 then
                 rnd:advance_quest("meteorswarm")
-            elseif rnd:get_quest_var("meteorswarm:new") ~= yes then
+            elseif rnd:get_quest_var("meteorswarm:new") ~= "yes" then
                 rnd:set_quest_var("meteorswarm", "new", "no")
             end
             self.room:spawn_object(481, 152)

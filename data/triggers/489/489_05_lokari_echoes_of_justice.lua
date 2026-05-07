@@ -7,14 +7,13 @@
 
 -- Converted from DG Script #48905: lokari echoes of justice
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local majorglobe = "MAJOR_GLOBE"
 self.room:send("Lokari starts casting <b:yellow>'echoes of justice'</>...")
 wait(1)
 self.room:send("Lokari utters the words, 'sdorj lp kandiso'.")
 self.room:send("<green>Lokari's justice spreads through the room, striking down trespassers!</>")
 local person = self.people
 while person do
-    local next = person.next_in_room
+    local next_person = person.next_in_room
     if person and ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
         local damage = 150 + random(1, 100)
         if person:has_effect(Effect.Sanctuary) then
@@ -39,7 +38,7 @@ while person do
             self.room:send_except(person, "<yellow>" .. tostring(person.name) .. " slumps under the knowledge of " .. tostring(person.possessive) .. " own wrongdoing.</> (<blue>" .. tostring(damage) .. "</>)")
             person:send("<yellow>You slump under the knowledge of your own wrongdoing.</> (<b:red>" .. tostring(damage) .. "</>)")
         end
-        local damage_dealt = person:damage(damage)  -- type: physical
+        person:damage(damage)  -- type: physical
     end
-    local person = next
+    person = next_person
 end
