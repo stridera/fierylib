@@ -109,9 +109,9 @@ elseif (self.class == "cleric" or self.class == "priest" or self.class == "Diabo
     end
 end
 -- TODO(parity): converter mashed two conditions together. Original
--- DG read approximately `actor:get_quest_stage("ursa_quest") and
--- self.vnum == 6007` — gating an info dump on (60, 7) the actor's
--- mob. Restored that conservative reading; verify against legacy.
+-- DG gated an info dump on the ursa_quest stage AND the speaker
+-- being mob (60, 7). Restored that conservative reading via
+-- self.zone_id / self.local_id; verify against legacy.
 if actor:get_quest_stage("ursa_quest") > 0 and self.zone_id == 60 and self.local_id == 7 then
     wait(1)
     actor:send(tostring(self.name) .. " notices the concerned look on your face.")

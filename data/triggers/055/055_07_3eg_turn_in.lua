@@ -102,8 +102,8 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
     faction_required = nil
     -- 
     -- These cases set the variables for the quests.
-    -- Note the object.vnum is the vnum of the object handed to
-    -- the NPC by the player.
+    -- The cases below switch on object.id (the local id of the
+    -- proto handed to the NPC by the player).
     -- 
     -- switch on object.id
     if object.id == "%id_gem_3eg_cap%" then

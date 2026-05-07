@@ -10,10 +10,10 @@
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 8 then
     wait(1)
-    -- TODO(parity): original DG looked up "major_globe_spell:ward_<vnum>"
-    -- via `%get.quest_var(major_globe_spell, ward_%object.vnum%)%`. With
-    -- composite ids, key the var by the local object id within zone 534
-    -- (wards are objects 53-57 in zone 534 — see trigger 53457).
+    -- TODO(parity): original DG keyed the quest var by global vnum
+    -- of the handed-in ward. With composite ids, key by the object's
+    -- local id within zone 534 (wards are objects 53-57 in zone 534 —
+    -- see trigger 53457).
     local number = object.local_id
     local ward = actor:get_quest_var("major_globe_spell:ward_" .. tostring(number))
     self:destroy_item("majorglobe-ward")
