@@ -8,24 +8,17 @@
 -- Converted from DG Script #47075: GY_newbie_guard
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
 
--- Command filter: south
-if not (cmd == "south") then
+-- Command filter: block low-level players from heading south into the dangerous area.
+if cmd ~= "south" then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
-if actor.is_player then
-    if actor.level < 30 then
-        _return_value = false
-        actor:send(tostring(self.name) .. " places a hand in front of you.")
-        self.room:send_except(actor, tostring(self.name) .. " places a hand up in front of " .. tostring(actor.name) .. ".")
-        self:whisper(actor.name, "Hold on there!  South of here is terribly dangerous for someone of your skill.")
-        wait(1)
-        self:whisper(actor.name, "I suggest adventuring elsewhere for now.")
-        self:command("bow " .. tostring(actor.name))
-    else
-        _return_value = true
-    end
-else
-    _return_value = true
+if actor.is_player and actor.level < 30 then
+    actor:send(tostring(self.name) .. " places a hand in front of you.")
+    self.room:send_except(actor, tostring(self.name) .. " places a hand up in front of " .. tostring(actor.name) .. ".")
+    self:whisper(actor.name, "Hold on there!  South of here is terribly dangerous for someone of your skill.")
+    wait(1)
+    self:whisper(actor.name, "I suggest adventuring elsewhere for now.")
+    self:command("bow " .. tostring(actor.name))
+    return false  -- Block the south movement
 end
-return _return_value
+return true  -- Allow movement

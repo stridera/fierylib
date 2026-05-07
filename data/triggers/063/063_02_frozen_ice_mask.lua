@@ -7,4 +7,6 @@
 
 -- Converted from DG Script #6302: frozen ice mask
 -- Original: OBJECT trigger, flags: REMOVE, probability: 100%
+-- REMOVE trigger: return false to block the action.
 actor:send("You can't pull it off!  It's frozen itself to your skin!")
+return false

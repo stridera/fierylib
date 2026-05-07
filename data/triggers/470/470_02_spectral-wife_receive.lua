@@ -7,8 +7,8 @@
 
 -- Converted from DG Script #47002: spectral-wife_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
--- this is a comment
-if object.id == 47019 then
+-- React when the broken wedding ring (470,19) is given to the spectral wife.
+if object.zone_id == 470 and object.local_id == 19 then
     if actor.is_player then
         if actor.level > 99 then
             wait(1)
@@ -30,9 +30,7 @@ if object.id == 47019 then
             self:command("close folding-doors east")
             self:command("wear ethereal-ring-undead")
             self.room:send(tostring(self.name) .. " screams in tremendous rage, '<b:yellow>I will avenge my husband's death!!</>'")
-            combat.engage(self, actor.name)
+            combat.engage(actor)
         end
-    else
     end
-else
 end

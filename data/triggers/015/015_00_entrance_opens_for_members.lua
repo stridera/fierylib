@@ -4,18 +4,19 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #1500
+--
+-- When a member of the Wave of Fire clan (wearing the Soul Gem, obj 15:0)
+-- enters the room, opens the eastward portal in The Blue Fog Sea (390:23)
+-- for a brief window before collapsing it again. globals.wof_exit guards
+-- against concurrent firings opening overlapping portals.
 
--- Converted from DG Script #1500: Entrance opens for members
--- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-if actor:has_equipped("1500") then
-    if wof_exit ~= 1 then
-        local wof_exit = 1
-        globals.wof_exit = globals.wof_exit or true
+if actor:has_equipped(15, 0) then
+    if not globals.wof_exit then
+        globals.wof_exit = true
         wait(4)
         self.room:send_except(actor, tostring(actor.name) .. "'s <magenta>Soul Gem</> begins to glow.")
         actor:send("Your <magenta>Soul Gem</> begins to glow.")
         self.room:send("A light shimmering develops to the east, and resolves itself into a portal.")
-        get_room(390, 23):exit("east"):set_state({hidden = true})
         get_room(390, 23):exit("east"):set_state({hidden = false})
         get_room(390, 23):exit("east"):set_state({description = "A slowly shimmering portal leads east."})
         wait(8)
@@ -25,9 +26,7 @@ if actor:has_equipped("1500") then
         wait(4)
         self.room:send("There is a sharp *snap* and the portal collapses into nothingness.")
         get_room(390, 23):exit("east"):set_state({hidden = true})
-        get_room(390, 23):exit("east"):set_state({hidden = false})
         get_room(390, 23):exit("east"):set_state({description = "The Blue Fog Sea rolls on to the East."})
-        local wof_exit = 0
-        globals.wof_exit = globals.wof_exit or true
+        globals.wof_exit = false
     end
 end

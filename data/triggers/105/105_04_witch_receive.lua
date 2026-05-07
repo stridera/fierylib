@@ -4,13 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #10504
-
--- Converted from DG Script #10504: Witch_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- Reward the player based on which mushroom they hand over:
+--   (105, 9)  bad mushroom  -> give them food (waybread) instead
+--   (105, 8)  fair mushroom -> cast armor on them
+--   (105, 7)  good mushroom -> cast cure critic on them
+-- Anything else: just eye the actor.
 self:say("thanks " .. tostring(actor.alias))
--- This is the cute little script that gives players
--- spells for their efforts.
-if object.id == 10509 then
+if object.zone_id == 105 and object.local_id == 9 then
     wait(1)
     self:destroy_item("mushroom")
     spells.cast(self, "create food")
@@ -19,21 +19,17 @@ if object.id == 10509 then
     self:command("give mushroom " .. tostring(actor.name))
     self:command("give waybread " .. tostring(actor.name))
     self:say("Thanks for the thought, but thats no good for me.")
+elseif object.zone_id == 105 and object.local_id == 8 then
+    wait(1)
+    self:destroy_item("mushroom")
+    spells.cast(self, "armor", actor.name)
+    self:command("thank " .. tostring(actor.name))
+elseif object.zone_id == 105 and object.local_id == 7 then
+    wait(1)
+    self:command("junk mushroom")
+    self:command("thank " .. tostring(actor.name))
+    spells.cast(self, "cure crit", actor.name)
 else
-    if object.id == 10508 then
-        wait(1)
-        self:destroy_item("mushroom")
-        spells.cast(self, "armor", actor.name)
-        self:command("thank " .. tostring(actor.name))
-    else
-        if object.id == 10507 then
-            wait(1)
-            self:command("junk mushroom")
-            self:command("thank " .. tostring(actor.name))
-            spells.cast(self, "cure crit", actor.name)
-        else
-            wait(1)
-            self:command("eye " .. tostring(actor.name))
-        end
-    end
+    wait(1)
+    self:command("eye " .. tostring(actor.name))
 end
