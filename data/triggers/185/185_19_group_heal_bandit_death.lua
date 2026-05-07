@@ -1,33 +1,36 @@
 -- Trigger: group_heal_bandit_death
 -- Zone: 185, ID: 19
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
 --
--- Original DG Script: #18519
+-- When the bandit raider dies: any present group member at quest stage
+-- 1 of group_heal advances and triggers the supplies drop (185,13).
+-- For other present player members, drop a random class gem
+-- (557, 37..47).
 
--- Converted from DG Script #18519: group_heal_bandit_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-    person = nil
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("group_heal") == 1 then
-                person:advance_quest("group_heal")
-                self.room:spawn_object(185, 13)
-            elseif person.is_player then
-                local what_gem_drop = random(1, 11)
-                self.room:spawn_object(557, 36 + what_gem_drop)
-            end
-        elseif person then
-            i = i + 1
-        end
-        a = a + 1
+local supplies_dropped = false
+
+local function process(person)
+    if person.room ~= self.room then
+        return
     end
-elseif person:get_quest_stage("group_heal") == 1 then
-    person:advance_quest("group_heal")
-    self.room:spawn_object(185, 13)
+    if person:get_quest_stage("group_heal") == 1 then
+        if not supplies_dropped then
+            person:advance_quest("group_heal")
+            self.room:spawn_object(185, 13)
+            supplies_dropped = true
+        else
+            person:advance_quest("group_heal")
+        end
+    elseif person.is_player then
+        local what_gem_drop = random(1, 11)
+        self.room:spawn_object(557, 36 + what_gem_drop)
+    end
+end
+
+if actor.group and #actor.group > 0 then
+    for _, person in ipairs(actor.group) do
+        process(person)
+    end
+else
+    process(actor)
 end

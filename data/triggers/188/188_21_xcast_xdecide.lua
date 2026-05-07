@@ -1,14 +1,17 @@
 -- Trigger: xcast_xdecide
 -- Zone: 188, ID: 21
 -- Type: OBJECT, Flags: GLOBAL, COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <xcast_xdecide>:37: 'then' expected near 'string'
---   Complex nesting: 12 if statements
+-- Status: NEEDS_REVIEW (parses, behavior partly broken; see TODOs)
 --
 -- Original DG Script: #18821
-
 -- Converted from DG Script #18821: xcast_xdecide
 -- Original: OBJECT trigger, flags: GLOBAL, COMMAND, probability: 3%
+--
+-- TODO(parity): Conversion of the DG `if %arg.contains(...)` cascade is mangled;
+-- some branches test bare identifiers (e.g. `string.find(deadly, "arg")`) that
+-- are nil at runtime, so spell-name shortcuts will not match. Replace each
+-- branch with `string.find("arctic blast", arg, 1, true)` style tests against
+-- the canonical spell name and the user-supplied `arg` substring.
 
 -- 3% chance to trigger
 if not percent_chance(3) then
@@ -43,102 +46,47 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     -- name, such as just 'arc' for 'arctic blast'.  However, this also
     -- allows 'blast', so making another spell 'blast of fire' is a bad
     -- idea.  Use unique spell names.
-    if deadly and string.find(screech, "arg") then
-        local xid = 1
-        local xname = "deadly screech"
-        local xstars = 0
-        local xmagic = "shelak frhoonl"
-        local xeffect = "area"
-        local xmode = "self"
-        local xamount = 300
-    elseif string.find(blizzard, "arg") then
-        local xid = 2
-        local xname = "blizzard"
-        local xstars = 2
-        local xmagic = "shelaki"
-        local xeffect = "area"
-        local xmode = "self"
-        local xamount = 300
-    elseif string.find(reconstitution, "arg") then
-        local xid = 3
-        local xname = "reconstitution"
-        local xstars = 2
-        local xmagic = "mellagenipoir"
-        local xeffect = "heal"
-        local xmode = "self"
-        local xamount = 1000
-    elseif string.find("hand of transport", "arg") then
-        local xid = 4
-        local xname = "hand of transport"
-        local xstars = 2
-        local xmagic = "franti ay sakchorish"
-        local xeffect = "transport"
-        local xmode = "victim"
-        local xamount = -1
-    elseif string.find(defamation, "arg") then
-        local xid = 5
-        local xname = "defamation"
-        local xstars = 2
-        local xmagic = "rotulugeaf"
-        local xeffect = "area"
-        local xmode = "self"
-        local xamount = 400
-    elseif string.find("iron maiden", "arg") then
-        local xid = 6
-        local xname = "iron maiden"
-        local xstars = 1
-        local xmagic = "grak oblithron"
-        local xeffect = "transport"
-        local xmode = "victim"
-        local xamount = 18820
-    elseif string.find("bodily charge", "arg") then
-        local xid = 7
-        local xname = "bodily charge"
-        local xstars = 3
-        local xmagic = "corpeno elekar"
-        local xeffect = "area"
-        local xmode = "self"
-        local xamount = 500
-    elseif string.find("archons curse", "arg") then
-        local xid = 8
-        local xname = "archons curse"
-        local xstars = 2
-        local xmagic = "colrio goladhr"
-        local xeffect = "damage"
-        local xmode = "victim"
-        local xamount = 500
-    elseif string.find("caustic conflaguration", "arg") then
-        local xid = 9
-        local xname = "caustic conflaguration"
-        local xstars = 2
-        local xmagic = "akridsi donoeplarinius"
-        local xeffect = "damage"
-        local xmode = "victim"
-        local xamount = 300
+    local xid, xname, xstars, xmagic, xeffect, xmode, xamount
+    local needle = arg or ""
+    if string.find("deadly screech", needle, 1, true) then
+        xid = 1; xname = "deadly screech"; xstars = 0
+        xmagic = "shelak frhoonl"; xeffect = "area"; xmode = "self"; xamount = 300
+    elseif string.find("blizzard", needle, 1, true) then
+        xid = 2; xname = "blizzard"; xstars = 2
+        xmagic = "shelaki"; xeffect = "area"; xmode = "self"; xamount = 300
+    elseif string.find("reconstitution", needle, 1, true) then
+        xid = 3; xname = "reconstitution"; xstars = 2
+        xmagic = "mellagenipoir"; xeffect = "heal"; xmode = "self"; xamount = 1000
+    elseif string.find("hand of transport", needle, 1, true) then
+        xid = 4; xname = "hand of transport"; xstars = 2
+        xmagic = "franti ay sakchorish"; xeffect = "transport"; xmode = "victim"; xamount = -1
+    elseif string.find("defamation", needle, 1, true) then
+        xid = 5; xname = "defamation"; xstars = 2
+        xmagic = "rotulugeaf"; xeffect = "area"; xmode = "self"; xamount = 400
+    elseif string.find("iron maiden", needle, 1, true) then
+        xid = 6; xname = "iron maiden"; xstars = 1
+        xmagic = "grak oblithron"; xeffect = "transport"; xmode = "victim"; xamount = 18820
+    elseif string.find("bodily charge", needle, 1, true) then
+        xid = 7; xname = "bodily charge"; xstars = 3
+        xmagic = "corpeno elekar"; xeffect = "area"; xmode = "self"; xamount = 500
+    elseif string.find("archons curse", needle, 1, true) then
+        xid = 8; xname = "archons curse"; xstars = 2
+        xmagic = "colrio goladhr"; xeffect = "damage"; xmode = "victim"; xamount = 500
+    elseif string.find("caustic conflaguration", needle, 1, true) then
+        xid = 9; xname = "caustic conflaguration"; xstars = 2
+        xmagic = "akridsi donoeplarinius"; xeffect = "damage"; xmode = "victim"; xamount = 300
     else
         actor:send("That is not a valid x-cast spell.")
     end
     if xname then
         actor:send("x-cast spell set to: " .. tostring(xname))
-        globals.xname = globals.xname or true
-    end
-    if xid then
-        globals.xid = globals.xid or true
-    end
-    if xstars then
-        globals.xstars = globals.xstars or true
-    end
-    if xmagic then
-        globals.xmagic = globals.xmagic or true
-    end
-    if xeffect then
-        globals.xeffect = globals.xeffect or true
-    end
-    if xmode then
-        globals.xmode = globals.xmode or true
-    end
-    if xamount then
-        globals.xamount = globals.xamount or true
+        globals.xname = xname
+        globals.xid = xid
+        globals.xstars = xstars
+        globals.xmagic = xmagic
+        globals.xeffect = xeffect
+        globals.xmode = xmode
+        globals.xamount = xamount
     end
 else
     -- Do nothing for non-dragonquest mobs

@@ -7,16 +7,16 @@
 
 -- Converted from DG Script #18892: dragonsaddle_melt
 -- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
-local _return_value = true  -- Default: allow action
+-- Allow the dragon mounts (mob 18890/18891) to handle the saddle silently;
+-- anyone else picking it up causes it to melt away.
 if (actor.id == 18890) or (actor.id == 18891) then
-else
-    _return_value = true
-    if actor.canbeseen then
-        actor:send("As you take hold of " .. tostring(self.shortdesc) .. ", it melts between your fingers.")
-        self.room:send_except(actor, "As " .. tostring(actor.name) .. " takes hold of " .. tostring(self.shortdesc) .. ", it melts between " .. tostring(actor.possessive) .. " fingers.")
-    else
-        self.room:send(tostring(self.shortdesc) .. " spontaneously combusts.")
-    end
-    world.destroy(self)
+    return true
 end
-return _return_value
+if actor.canbeseen then
+    actor:send("As you take hold of " .. tostring(self.shortdesc) .. ", it melts between your fingers.")
+    self.room:send_except(actor, "As " .. tostring(actor.name) .. " takes hold of " .. tostring(self.shortdesc) .. ", it melts between " .. tostring(actor.possessive) .. " fingers.")
+else
+    self.room:send(tostring(self.shortdesc) .. " spontaneously combusts.")
+end
+world.destroy(self)
+return true

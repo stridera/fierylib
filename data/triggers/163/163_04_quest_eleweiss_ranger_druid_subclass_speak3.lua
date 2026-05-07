@@ -5,13 +5,11 @@
 --
 -- Original DG Script: #16304
 
--- Converted from DG Script #16304: quest_eleweiss_ranger_druid_subclass_speak3
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Player asks about the "quest" — Eleweiss tells them he lost something
+-- and advances them from stage 1 -> 2.
 
--- Speech keywords: quest quest?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "quest?")) then
-    return true  -- No matching keywords
+if not string.find(speech, "quest") then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("ran_dru_subclass") == 1 then

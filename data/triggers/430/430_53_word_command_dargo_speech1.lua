@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-if questor == actor.name then
+if globals.questor == actor.name then
     self:say("Lead on!")
 elseif actor:get_has_completed("word_command") then
     self:emote("stars in wide-eyed terror.")
@@ -28,8 +28,7 @@ elseif (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolis
     if not actor:get_quest_stage("word_command") then
         actor:start_quest("word_command")
     end
-    local questor = actor.name
-    globals.questor = globals.questor or true
+    globals.questor = actor.name
     self:follow(actor)
 else
     self.room:send(tostring(self.name) .. " says, 'I don't know if you can protect me from the demonic forces")

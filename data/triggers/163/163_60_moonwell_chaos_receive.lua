@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Chaos Receive
 -- Zone: 163, ID: 60
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16360
-
--- Converted from DG Script #16360: Moonwell Chaos Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives the Chaos Orb at stage 10. Sets the per-quest "map" flag so
+-- handing over the bark map next (16361) advances the stage. The orb is
+-- destroyed after being placed on the well perimeter.
 if actor:get_quest_stage("moonwell_spell_quest") == 10 then
     wait(2)
     actor:set_quest_var("moonwell_spell_quest", "map", 1)

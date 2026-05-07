@@ -9,7 +9,6 @@
 -- Original: MOB trigger, flags: SPEECH, BRIBE, probability: 100%
 
 -- Speech keywords: 10
-local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "10")) then
     return true  -- No matching keywords
 end

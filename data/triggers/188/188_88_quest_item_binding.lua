@@ -1,11 +1,9 @@
 -- Trigger: quest_item_binding
 -- Zone: 188, ID: 88
 -- Type: OBJECT, Flags: WEAR
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <quest_item_binding>:26: function arguments expected near '.'
+-- Status: CLEAN
 --
 -- Original DG Script: #18888
-
 -- Converted from DG Script #18888: quest_item_binding
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action

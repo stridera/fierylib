@@ -1,14 +1,16 @@
 -- Trigger: fierytag_bat_capturetheflag
 -- Zone: 188, ID: 97
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 18 if statements
---   Large script: 5218 chars
+-- Status: NEEDS_REVIEW (parses, room/jail comparisons need real IDs; see TODOs)
 --
 -- Original DG Script: #18897
-
 -- Converted from DG Script #18897: fierytag_bat_capturetheflag
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
+--
+-- TODO(parity): comparisons such as `actor.room == "actor_jail"` and
+-- `arg.room == "zone_a_jail"` compare a Room (or numeric vnum) against a
+-- string literal — these branches never fire. Replace with the resolved
+-- numeric vnum (or Room object) for actor_jail / each zone's jail.
 
 -- 3% chance to trigger
 if not percent_chance(3) then
@@ -46,36 +48,32 @@ elseif arg.is_npc then
 elseif arg.level > 99 then
     actor:send("You cannot tag immortals!")
 else
+    local actor_home, actor_jail, actor_at_home
+    local arg_same_team, arg_in_jail
     if actor.gender == "Male" then
-        local actor_home = zone_a_home
-        local actor_jail = zone_a_jail
-        if actor.room >= zone_a_start then
-            if actor.room <= zone_a_end then
-                local actor_at_home = "yes"
-            end
+        actor_home = zone_a_home
+        actor_jail = zone_a_jail
+        if actor.room >= zone_a_start and actor.room <= zone_a_end then
+            actor_at_home = "yes"
         end
     elseif actor.gender == "Female" then
-        local actor_home = zone_b_home
-        local actor_jail = zone_b_jail
-        if actor.room >= zone_b_start then
-            if actor.room <= zone_b_end then
-                local actor_at_home = "yes"
-            end
+        actor_home = zone_b_home
+        actor_jail = zone_b_jail
+        if actor.room >= zone_b_start and actor.room <= zone_b_end then
+            actor_at_home = "yes"
         end
     elseif actor.gender == "Neutral" then
-        local actor_home = zone_c_home
-        local actor_jail = zone_c_jail
-        if actor.room >= zone_c_start then
-            if actor.room <= zone_c_end then
-                local actor_at_home = "yes"
-            end
+        actor_home = zone_c_home
+        actor_jail = zone_c_jail
+        if actor.room >= zone_c_start and actor.room <= zone_c_end then
+            actor_at_home = "yes"
         end
     end
     if arg.gender == actor.gender then
-        local arg_same_team = "yes"
+        arg_same_team = "yes"
     end
     if (arg.room == "zone_a_jail") or (arg.room == "zone_b_jail") or (arg.room == "zone_c_jail") then
-        local arg_in_jail = "yes"
+        arg_in_jail = "yes"
     end
     if actor.room == "actor_jail" then
         if arg_same_team == "yes" then

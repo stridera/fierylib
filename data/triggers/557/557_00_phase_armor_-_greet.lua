@@ -1,10 +1,14 @@
 -- Trigger: Phase Armor - Greet
 -- Zone: 557, ID: 0
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Phase Armor - Greet>:100: 'then' expected near 'self'
---   Complex nesting: 24 if statements
---   Large script: 7045 chars
+--
+-- Greets adventurers entering the guildmaster's room. Reads `phase`,
+-- `classes`, and the per-slot armor/gem/reward globals set by the
+-- companion LOAD trigger (zone 557, ids 10-39). Branches into hooks
+-- for several non-armor quests (Necromancer's Lokari/shift_corpse,
+-- Pyromancer's supernova, Cleric/Priest/Diabolist phase_mace, the
+-- ursa_quest letter handoff at (60,7), and the hell_trident upgrade
+-- check on guildmaster id 6032).
 --
 -- Original DG Script: #55700
 
@@ -18,7 +22,7 @@ if not actor or not actor.can_be_seen then
 else
     if actor.level <= (20 * (phase - 1)) then
         _return_value = true
-    elseif not (string.find(classes, "actor.class")) or (classes == "anti" and actor.class == "Paladin") then
+    elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "Paladin") then
         _return_value = true
     elseif actor:get_quest_stage("phase_armor") == (phase - 1) then
         wait(2)
@@ -33,46 +37,43 @@ if string.find(self.class, "necromancer") then
         actor:send(tostring(self.name) .. " says, 'If you need a new crystal, msend " .. tostring(actor) .. " " .. tostring(self.name) .. " says, &9<blue>\"I need a new crystal\"</>.'")
     end
 elseif string.find(self.class, "pyromancer") then
-    if actor:get_quest_stage("supernova") == 2 and (actor:has_item("48917") or actor:has_equipped("48917")) then
+    if actor:get_quest_stage("supernova") == 2 and (actor:has_item(489, 17) or actor:has_equipped(489, 17)) then
         actor:advance_quest("supernova")
+        local step3, step4, step5, step6
         local rnd1 = random(1, 3)
-        -- switch on rnd1
         if rnd1 == 1 then
-            local step3 = 4318
+            step3 = 4318
         elseif rnd1 == 2 then
-            local step3 = 10316
+            step3 = 10316
         elseif rnd1 == 3 then
-            local step3 = 58062
+            step3 = 58062
         end
         actor:set_quest_var("supernova", "step3", step3)
         local rnd2 = random(1, 3)
-        -- switch on rnd2
         if rnd2 == 1 then
-            local step4 = 18577
+            step4 = 18577
         elseif rnd2 == 2 then
-            local step4 = 17277
+            step4 = 17277
         elseif rnd2 == 3 then
-            local step4 = 8561
+            step4 = 8561
         end
         actor:set_quest_var("supernova", "step4", step4)
         local rnd3 = random(1, 3)
-        -- switch on rnd3
         if rnd3 == 1 then
-            local step5 = 53219
+            step5 = 53219
         elseif rnd3 == 2 then
-            local step5 = 47343
+            step5 = 47343
         elseif rnd3 == 3 then
-            local step5 = 16278
+            step5 = 16278
         end
         actor:set_quest_var("supernova", "step5", step5)
         local rnd4 = random(1, 3)
-        -- switch on rnd4
         if rnd4 == 1 then
-            local step6 = 58657
+            step6 = 58657
         elseif rnd4 == 2 then
-            local step6 = 35119
+            step6 = 35119
         elseif rnd4 == 3 then
-            local step6 = 55422
+            step6 = 55422
         end
         actor:set_quest_var("supernova", "step6", step6)
         local step7 = random(1, 3)
@@ -123,10 +124,12 @@ if actor:get_quest_stage("ursa_quest") > 0 and self.zone_id == 60 and self.local
     actor:send(tostring(self.name) .. " dips his quill in a well of blood and scratches out a sinister letter.")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Quickly, take this to him!  Perhaps the Darkness still finds him...  amusing.'")
+    -- TODO(parity): verify (625, 10) is the intended (zone, local_id) for the
+    -- ursa-quest letter; converter may have left a 5-digit legacy vnum.
     self.room:spawn_object(625, 10)
     self:command("give letter " .. tostring(actor))
 end
-if actor:get_quest_stage("hell_trident") == 1 and self.id == 6032 then
+if actor:get_quest_stage("hell_trident") == 1 and self.zone_id == 60 and self.local_id == 32 then
     if actor.level >= 65 then
         wait(2)
         if not actor:get_quest_var("hell_trident:helltask5") then

@@ -1,13 +1,14 @@
 -- Trigger: group_heal_doctor_speech2
 -- Zone: 185, ID: 18
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <group_heal_doctor_speech2>:15: 'then' expected near ')'
 --
--- Original DG Script: #18518
-
--- Converted from DG Script #18518: group_heal_doctor_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 1%
+-- Player accepts the doctor's offer to help with the group_heal quest.
+-- Starts the quest and spawns the bandit raider in the desert.
+--
+-- TODO(parity): the elseif chain at the bandit-spawn block (stages
+-- 3/4/5) is unreachable because the outer guard requires stage 0.
+-- The legacy intent was likely a separate "yes" handler for later
+-- stages; needs review with the original DG to split correctly.
 
 -- 1% chance to trigger
 if not percent_chance(1) then

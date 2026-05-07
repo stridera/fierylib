@@ -1,12 +1,10 @@
 -- Trigger: group_heal_doctor_greet
 -- Zone: 185, ID: 16
 -- Type: MOB, Flags: GREET_ALL
--- Status: CLEAN
 --
--- Original DG Script: #18516
-
--- Converted from DG Script #18516: group_heal_doctor_greet
--- Original: MOB trigger, flags: GREET_ALL, probability: 100%
+-- Doctor greets a player based on their group_heal quest stage:
+-- not started, looking for the bandit (also re-spawns the bandit if
+-- needed), or further along in the quest.
 wait(2)
 local stage = actor:get_quest_stage("group_heal")
 if actor.is_player and stage == 0 then

@@ -1,29 +1,27 @@
 -- Trigger: group_heal_new_rite
 -- Zone: 185, ID: 25
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <group_heal_new_rite>:15: unexpected symbol near 'elseif'
 --
--- Original DG Script: #18525
+-- If the player has lost their copy of the rite, the doctor reissues
+-- it. Triggered by the phrase "I lost the Rite" while at stage 5 or 6
+-- of the group_heal quest.
+--
+-- TODO(parity): legacy DG marked this prob 0%, suggesting manual fire.
+-- Treating it as a real speech keyword match instead. Confirm whether
+-- the manual-fire path is required somewhere.
 
--- Converted from DG Script #18525: group_heal_new_rite
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+local s = string.lower(speech)
+if not (string.find(s, "i lost the rite") or
+        (string.find(s, "lost") and string.find(s, "rite"))) then
     return true
 end
 
--- Speech keywords: I lost the Rite
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "lost") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "rite")) then
-    return true  -- No matching keywords
-end
 wait(2)
-if actor:get_quest_stage("group_heal") == 5 or actor:get_quest_stage("group_heal") == 6 then
+local stage = actor:get_quest_stage("group_heal")
+if stage == 5 or stage == 6 then
     self:say("You need to be more careful!")
     wait(1)
     self:say("Fortunately I made a copy of the original.")
     self.room:spawn_object(185, 14)
-    self:command("give rite-heroes-feast " .. tostring(actor))
+    self:command("give rite-heroes-feast " .. tostring(actor.name))
 end

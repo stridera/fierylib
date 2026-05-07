@@ -1,15 +1,19 @@
 -- Trigger: ctf_armband_tag
 -- Zone: 188, ID: 80
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <ctf_armband_tag>:152: unexpected symbol near ')'
---   Complex nesting: 14 if statements
---   Large script: 8043 chars
+-- Status: NEEDS_REVIEW (parses, but several literal-vs-variable comparisons remain; see TODOs)
 --
 -- Original DG Script: #18880
-
 -- Converted from DG Script #18880: ctf_armband_tag
 -- Original: OBJECT trigger, flags: COMMAND, probability: 1%
+--
+-- TODO(parity): `self.id == "team_a_id"` etc. compare a numeric id against a
+-- string literal — these branches never fire today. Replace with
+-- `self.local_id == 80` / `self.local_id == 81` (or whatever the team armband
+-- ids are). Same for `actor.room == "jail_a"` comparisons.
+-- TODO(parity): `actor.wearing[18880]` style uses legacy 5-digit vnums; switch
+-- to `actor:has_equipped((188 * 100 + 80))`-style or composite-key lookups
+-- once the runtime API for "is wearing object id X" is finalized.
 
 -- 1% chance to trigger
 if not percent_chance(1) then
@@ -41,14 +45,14 @@ local home_b = 8025
 local flag_room_b = 8050
 -- Player has been forced to deactivate their armband
 if arg == "DeactivateArmband" then
-    local inactive = "yes"
-    globals.inactive = globals.inactive or true
+    globals.inactive = "yes"
+    return true
     -- Player has been forced to reactivate their armband
 elseif arg == "ReactivateArmband" then
-    local inactive = "no"
-    globals.inactive = globals.inactive or true
+    globals.inactive = "no"
+    return true
     -- Player is wearing an inactive armband
-elseif inactive == "yes" then
+elseif globals.inactive == "yes" then
     actor:send("Sorry, you can't tag anyone right now!")
     -- Player tries to tag self
 elseif (arg == "self") or (actor.name == arg.name) then
@@ -64,42 +68,45 @@ elseif (actor.wearing[flag_a]) or (actor.wearing[flag_b]) then
     actor:send("You cannot tag someone while holding the flag!")
     -- Player tries to tag player or referee mob
 elseif (arg.is_player) or (arg.id == "referee") then
+    local arg_team
     -- Player tries to tag someone on team A
     if arg.wearing[team_a_id] then
-        local arg_team = team_a_id
+        arg_team = team_a_id
         -- Player tries to tag someone on team B
     elseif arg.wearing[team_b_id] then
-        local arg_team = team_b_id
+        arg_team = team_b_id
         -- Player tries to tag someone who isn't playing
     else
         actor:send(tostring(arg.name) .. " doesn't seem to be playing.")
     end
     -- Player tries to tag someone who is playing
     if arg_team then
+        local actor_home, actor_jail, actor_flag_room, actor_flag
+        local at_home, in_jail
         -- Player is on team A
         if self.id == "team_a_id" then
-            local actor_home = home_a
-            local actor_jail = jail_a
-            local actor_flag_room = flag_room_a
-            local actor_flag = flag_a
+            actor_home = home_a
+            actor_jail = jail_a
+            actor_flag_room = flag_room_a
+            actor_flag = flag_a
             -- Player is in home zone
             if (actor.room >= zone_a_start) and (actor.room <= zone_a_end) then
-                local at_home = "yes"
+                at_home = "yes"
             end
             -- Player is on team B
         elseif self.id == "team_b_id" then
-            local actor_home = home_b
-            local actor_jail = jail_b
-            local actor_flag_room = flag_room_b
-            local actor_flag = flag_b
+            actor_home = home_b
+            actor_jail = jail_b
+            actor_flag_room = flag_room_b
+            actor_flag = flag_b
             -- Player is in home zone
             if (actor.room >= zone_b_start) and (actor.room <= zone_b_end) then
-                local at_home = "yes"
+                at_home = "yes"
             end
         end
         -- Player tries to tag someone in jail
         if (actor.room == "jail_a") or (actor.room == "jail_b") then
-            local in_jail = "yes"
+            in_jail = "yes"
         end
         -- Player tries to tag someone on the same team
         if arg_team == self.id then
@@ -164,6 +171,9 @@ elseif (arg.is_player) or (arg.id == "referee") then
                 arg:command("remove ctf-flag")
                 actor:teleport(get_room(math.floor(actor_flag_room / 100), actor_flag_room % 100))
                 self.room:spawn_object(188, actor_flag)
+                -- TODO(parity): teleporting back via numeric vnum math (`actor_room / 100`)
+                -- assumes actor.room is numeric. If the runtime gives a Room object,
+                -- store and re-teleport to the object directly.
                 actor:teleport(get_room(math.floor(actor_room / 100), actor_room % 100))
             end
         end

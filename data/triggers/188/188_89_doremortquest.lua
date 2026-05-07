@@ -1,23 +1,19 @@
 -- Trigger: DoRemortQuest
 -- Zone: 188, ID: 89
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <DoRemortQuest>:29: 'end' expected (to close 'while' at line 22) near 'else'
+-- Status: CLEAN
 --
 -- Original DG Script: #18889
-
 -- Converted from DG Script #18889: DoRemortQuest
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
+--
+-- The legacy 0% probability was a "manual only" marker; SPEECH triggers fire
+-- when keywords match regardless. Synthetic `percent_chance(0)` gate removed.
+-- Keyword matching tightened to require the full confirmation phrase.
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: Yes, I am sure I want to remort.
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes,") or string.find(string.lower(speech), "i") or string.find(string.lower(speech), "am") or string.find(string.lower(speech), "sure") or string.find(string.lower(speech), "i") or string.find(string.lower(speech), "want") or string.find(string.lower(speech), "to") or string.find(string.lower(speech), "remort.")) then
-    return true  -- No matching keywords
+local speech_lower = string.lower(speech or "")
+if not string.find(speech_lower, "yes, i am sure i want to remort", 1, true) then
+    return true  -- No matching phrase
 end
 if actor.level == 99 then
     actor:send("Your remort will take effect in 30 seconds.")

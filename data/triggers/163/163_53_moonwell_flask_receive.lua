@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Flask Receive
 -- Zone: 163, ID: 53
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16353
-
--- Converted from DG Script #16353: Moonwell Flask Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives Eleweiss' Flask. Stage 4 (haven't been told to fetch it
+-- yet) -> rebuke + destroy.  Stage 5 -> advance to 6, hand the player a map
+-- (163/51) and send them after the ruby ring.
 if actor:get_quest_stage("moonwell_spell_quest") == 4 then
     wait(2)
     self:destroy_item("flask")

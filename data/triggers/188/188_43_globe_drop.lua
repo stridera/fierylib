@@ -9,8 +9,7 @@
 -- Original: OBJECT trigger, flags: GLOBAL, DROP, probability: 100%
 local _return_value = true  -- Default: allow action
 _return_value = false
-local owner = actor.name
-globals.owner = globals.owner or true
+globals.owner = actor.name
 self.room:send_except(actor, tostring(self.shortdesc) .. " hovers away from " .. tostring(actor.name) .. " slowly.")
 actor:send(tostring(self.shortdesc) .. " slowly hovers away from you.")
 return _return_value

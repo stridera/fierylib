@@ -12,21 +12,22 @@
 if not (cmd == "observe") then
     return true  -- Not our command
 end
--- 
+--
 -- Observation trigger
 -- Player supplies an argument which evaluates to a room ID.  The player
 -- is then shown that room.
--- 
+--
 -- switch on arg
+local lookroom
 if arg == "inn" then
-    local lookroom = 54
+    lookroom = 54
 elseif arg == "board" then
-    local lookroom = 2
+    lookroom = 2
 elseif arg == "fountain" then
-    local lookroom = 9
+    lookroom = 9
 else
     actor:send("Observe <blue>where</>?")
-    return _return_value
+    return true
 end
 actor:send("You peer out the window into the world below.")
 self.room:send_except(actor, tostring(actor.alias) .. " peers out the window.")

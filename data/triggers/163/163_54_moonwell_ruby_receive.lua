@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Ruby Receive
 -- Zone: 163, ID: 54
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16354
-
--- Converted from DG Script #16354: Moonwell Ruby Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives the ruby ring at stage 6. Sets the per-quest "map" flag so
+-- handing over the bark map next will advance the stage (16355). The ruby
+-- ring itself is destroyed after being placed on the well perimeter.
 if actor:get_quest_stage("moonwell_spell_quest") == 6 then
     wait(2)
     actor:set_quest_var("moonwell_spell_quest", "map", 1)

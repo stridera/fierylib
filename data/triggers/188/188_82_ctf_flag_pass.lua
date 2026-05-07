@@ -1,13 +1,14 @@
 -- Trigger: ctf_flag_pass
 -- Zone: 188, ID: 82
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: NEEDS_REVIEW (parses, team checks need real IDs; see TODOs)
 --
 -- Original DG Script: #18882
-
 -- Converted from DG Script #18882: ctf_flag_pass
 -- Original: OBJECT trigger, flags: COMMAND, probability: 1%
+--
+-- TODO(parity): `self.id == "team_a_id"` is a string compare against a numeric
+-- id. Replace with the actual flag-object local_id check.
 
 -- 1% chance to trigger
 if not percent_chance(1) then
@@ -28,7 +29,7 @@ local team_b_id = 18881
 local flag_room_a = 3520
 local flag_room_b = 8600
 -- Player tries to pass to self
-if (arg == "self") or (actor == "arg") then
+if (arg == "self") or (actor.name == arg.name) then
     actor:send("There's really no point to that, now is there?")
     -- Player tries to pass to someone who isn't in room doesn't exist
 elseif arg.room ~= actor.room then
@@ -38,24 +39,26 @@ elseif arg.level > 99 then
     actor:send("You can't pass to an immortal!")
     -- Player tries to pass to a player or the referee mob
 elseif (arg.is_player) or (arg.id == "referee") then
+    local arg_team
     -- Player tries to pass to someone on team A
     if arg.wearing[team_a_id] then
-        local arg_team = team_a
+        arg_team = team_a_id
         -- Player tries to pass to someone on team B
     elseif arg.wearing[team_b_id] then
-        local arg_team = team_b
+        arg_team = team_b_id
         -- Player tries to pass to someone who isn't playing
     else
         actor:send(tostring(arg.name) .. " doesn't seem to be playing.")
     end
     -- Player passes to someone who is playing
     if arg_team then
+        local actor_flag_room
         -- Player is on team A
         if self.id == "team_a_id" then
-            local actor_flag_room = flag_room_a
+            actor_flag_room = flag_room_a
             -- Player is on team B
         elseif self.id == "team_b_id" then
-            local actor_flag_room = flag_room_b
+            actor_flag_room = flag_room_b
         end
         -- Player passes to someone on the same team
         if arg_team == self.id then

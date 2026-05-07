@@ -1,30 +1,28 @@
--- Trigger: Silania refuse
+-- Trigger: silania_refuse
 -- Zone: 185, ID: 31
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: msend %actor
 --
--- Original DG Script: #18531
+-- Silania refuses any object not tied to the wand/mace upgrade quests.
+--
+-- TODO(parity): same issue as 185_29 — the accepted ids are DG globals
+-- (maceitem2..5, wandgem, wand_id, mace_id) that are not converted.
+-- Until phase_mace/type_wand globals are exposed in the rs runtime,
+-- the literal-string compares can never match and Silania will refuse
+-- every gift. Legacy probability was 0% (manual fire); confirm that
+-- this should run as a normal RECEIVE trigger.
 
--- Converted from DG Script #18531: Silania refuse
--- Original: MOB trigger, flags: RECEIVE, probability: 0%
+local accepted_ids = {
+    "%maceitem2%", "%maceitem3%", "%maceitem4%", "%maceitem5%",
+    "%wandgem%",   "%wand_id%",   "%mace_id%",
+}
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
+for _, id in ipairs(accepted_ids) do
+    if object.id == id then
+        return true
+    end
 end
-local _return_value = true  -- Default: allow action
--- switch on object.id
-if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%mace_id%" then
-    return _return_value
-else
-    local response = "What is this for?"
-end
-if response then
-    _return_value = true
-    actor:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
-    -- UNCONVERTED: msend %actor
-    actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
-end
-return _return_value
+
+actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+wait(2)
+actor:send(tostring(self.name) .. " says, 'What is this for?'")
+return true

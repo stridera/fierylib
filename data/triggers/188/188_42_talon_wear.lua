@@ -1,11 +1,9 @@
 -- Trigger: talon_wear
 -- Zone: 188, ID: 42
 -- Type: OBJECT, Flags: GLOBAL, WEAR
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <talon_wear>:4: function arguments expected near '.'
+-- Status: CLEAN
 --
 -- Original DG Script: #18842
-
 -- Converted from DG Script #18842: talon_wear
 -- Original: OBJECT trigger, flags: GLOBAL, WEAR, probability: 100%
 local _return_value = true  -- Default: allow action

@@ -7,9 +7,6 @@
 
 -- Converted from DG Script #43028: not used - delete
 -- Original: OBJECT trigger, flags: GLOBAL, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
--- (placeholder trigger)
+-- TODO(parity): legacy script flagged "not used - delete"; placeholder retained
+-- so the trigger row still exists. Body is intentionally a no-op.
+return true

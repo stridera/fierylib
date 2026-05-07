@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Jade Receive
 -- Zone: 163, ID: 58
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16358
-
--- Converted from DG Script #16358: Moonwell Jade Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives the jade ring at stage 9. Sets the per-quest "map" flag so
+-- handing over the bark map next (16359) advances the stage. The ring is
+-- destroyed after being placed on the well perimeter.
 if actor:get_quest_stage("moonwell_spell_quest") == 9 then
     actor:set_quest_var("moonwell_spell_quest", "map", 1)
     wait(5)

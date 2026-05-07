@@ -1,15 +1,11 @@
 -- Trigger: create_moonwell
 -- Zone: 163, ID: 48
 -- Type: WORLD, Flags: GLOBAL
--- Status: CLEAN
 --
 -- Original DG Script: #16348
+-- Probability: 0% — invoked manually via run_room_trigger(163, 48) from
+-- 16363 at the climax of the moonwell ceremony.
+--
+-- Spawns the moonwell object (vnum 33 in legacy zone 0) into self.room.
 
--- Converted from DG Script #16348: create_moonwell
--- Original: WORLD trigger, flags: GLOBAL, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
 self.room:spawn_object(0, 33)

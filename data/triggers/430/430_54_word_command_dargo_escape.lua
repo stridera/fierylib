@@ -2,17 +2,20 @@
 -- Zone: 430, ID: 54
 -- Type: MOB, Flags: ENTRY
 -- Status: NEEDS_REVIEW
---   Complex nesting: 12 if statements
+--   TODO(parity): legacy logic was heavily DG-flavored; reworked to runtime
+--   semantics but the multi-room escape choreography (Cyprianum re-spawn,
+--   Dargo teleports) should be playtested end-to-end.
 --
 -- Original DG Script: #43054
 
 -- Converted from DG Script #43054: word_command_dargo_escape
 -- Original: MOB trigger, flags: ENTRY, probability: 100%
 wait(2)
-if not questor then
-    return _return_value
+if not globals.questor then
+    return true
 end
-if self.room == 43037 then
+local questor = self.room:find_actor(globals.questor)
+if self.room.zone_id == 430 and self.room.local_id == 37 then
     if world.count_mobiles(430, 17) > 0 then
         get_room(430, 176):at(function()
             self.room:find_actor("cyprianum"):shout("You can never escape me!")
@@ -22,22 +25,13 @@ if self.room == 43037 then
         self.room:send("Cackling laughter echoes through the halls.")
         self:teleport(get_room(430, 148))
     else
-        local i = questor.group_size
-        if i then
-            local a = 1
-        else
-            local a = 0
-        end
-        while i >= a do
-            local person = questor.group_member[i]
-            if person.room == self.room then
-                if person:get_quest_stage("word_command") == 3 then
-                    local escape = 1
+        local escape = false
+        if questor then
+            for _, person in ipairs(questor.group) do
+                if person.room == self.room and person:get_quest_stage("word_command") == 3 then
+                    escape = true
                 end
-            elseif person then
-                i = i + 1
             end
-            a = a + 1
         end
         if not escape then
             get_room(430, 92):at(function()
@@ -51,14 +45,14 @@ if self.room == 43037 then
             self:teleport(get_room(430, 148))
         end
     end
-elseif self.room == 43176 then
+elseif self.room.zone_id == 430 and self.room.local_id == 176 then
     if world.count_mobiles(430, 16) > 0 then
         self.room:send(tostring(mobiles.template(430, 16).name) .. " shouts, 'I will never allow you to harm my master!'")
         self.room:send("<b:red>" .. tostring(self.name) .. " is consumed in a crackle of red lightning and vanishes!</>")
         self.room:send("Cackling laughter echoes through the maze!")
         self:teleport(get_room(430, 148))
     end
-elseif self.room == 43000 then
+elseif self.room.zone_id == 430 and self.room.local_id == 0 then
     if world.count_mobiles(430, 17) > 0 then
         get_room(430, 176):at(function()
             self.room:find_actor("cyprianum"):shout("You can never escape me!")
@@ -70,37 +64,29 @@ elseif self.room == 43000 then
     else
         self:command("cheer")
         self:say("Thank you so much!")
-        local i = questor.group_size
-        if i then
-            local a = 1
-        else
-            local a = 0
-        end
-        while i >= a do
-            local person = questor.group_member[a]
-            if person.room == self.room then
-                if person:get_quest_stage("word_command") == 3 then
-                    person:send(self.name .. " tells you, '" .. "As promised, here is the spell." .. "'")
-                    person:send(tostring(self.name) .. " gives you a disintegrating scroll with an ancient spell on it.")
-                    skills.set_level(person.name, "word of command", 100)
-                    person:send("<b:magenta>You have learned Word of Command!</>")
-                    person:complete_quest("word_command")
-                elseif person.is_player then
-                    person:send(self.name .. " tells you, '" .. "To show my gratitude, take this." .. "'")
-                    local count = 0
-                    while count < 3 do
-                        local what_gem_drop = random(1, 11)
-                        self.room:spawn_object(557, 36 + what_gem_drop)
-                        count = count + 1
+        if questor then
+            for _, person in ipairs(questor.group) do
+                if person.room == self.room then
+                    if person:get_quest_stage("word_command") == 3 then
+                        person:send(self.name .. " tells you, 'As promised, here is the spell.'")
+                        person:send(tostring(self.name) .. " gives you a disintegrating scroll with an ancient spell on it.")
+                        skills.set_level(person.name, "word of command", 100)
+                        person:send("<b:magenta>You have learned Word of Command!</>")
+                        person:complete_quest("word_command")
+                    elseif person.is_player then
+                        person:send(self.name .. " tells you, 'To show my gratitude, take this.'")
+                        local count = 0
+                        while count < 3 do
+                            local what_gem_drop = random(1, 11)
+                            self.room:spawn_object(557, 36 + what_gem_drop)
+                            count = count + 1
+                        end
+                        self:command("give all.gem " .. tostring(person.name))
                     end
-                    self:command("give all.gem " .. tostring(person))
                 end
-            elseif person then
-                i = i + 1
             end
-            a = a + 1
-            self.room:send(tostring(self.name) .. " waves farewell!")
-            world.destroy(self)
         end
+        self.room:send(tostring(self.name) .. " waves farewell!")
+        world.destroy(self)
     end
-end  -- auto-close block
+end

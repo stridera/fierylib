@@ -12,20 +12,20 @@ local max_phase = 3
 if not actor or not actor.can_be_seen then
     self:command("peer")
     self:say("I can't help you if I can't see you.")
-    return _return_value
-elseif not (string.find(classes, "actor.class")) or (classes == "anti" and actor.class == "Paladin") then
+    return true
+elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "Paladin") then
     if string.find(classes, "and") then
         actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " classes only.'")
     else
         actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " class only.'")
     end
-    return _return_value
+    return true
 elseif actor.level <= 20 * (phase - 1) then
     actor:send(tostring(self.name) .. " tells you, 'Sorry, why don't you come back when you've gained more experience?'")
-    return _return_value
+    return true
 elseif actor:get_quest_stage("phase_armor") < phase - 1 then
     actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my quests yet.'")
-    return _return_value
+    return true
 end
 local low_level = (phase - 1) * 20 + 1
 local high_level = phase * 20

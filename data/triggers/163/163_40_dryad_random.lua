@@ -1,15 +1,10 @@
 -- Trigger: dryad_random
 -- Zone: 163, ID: 40
 -- Type: MOB, Flags: RANDOM
--- Status: CLEAN
 --
 -- Original DG Script: #16340
+-- Probability: 8% (data-layer probability gate handles activation)
+--
+-- The bound dryad whines occasionally as ambient flavor.
 
--- Converted from DG Script #16340: dryad_random
--- Original: MOB trigger, flags: RANDOM, probability: 8%
-
--- 8% chance to trigger
-if not percent_chance(8) then
-    return true
-end
 self:command("whine")

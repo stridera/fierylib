@@ -1,17 +1,13 @@
 -- Trigger: quest_details_silania
 -- Zone: 185, ID: 4
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #18504
+-- Silania describes the priest/paladin subclass quest in detail when
+-- the player asks about the "quest" at stage 1, advancing them to
+-- stage 2.
 
--- Converted from DG Script #18504: quest_details_silania
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: quest quest?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "quest?")) then
-    return true  -- No matching keywords
+if not string.find(string.lower(speech), "quest") then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("pri_pal_subclass") == 1 then

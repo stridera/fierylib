@@ -1,12 +1,11 @@
 -- Trigger: give_chalice_silania
 -- Zone: 185, ID: 5
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
--- Original DG Script: #18505
-
--- Converted from DG Script #18505: give_chalice_silania
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- Silania receives the bronze chalice. At stage 3 of the
+-- pri_pal_subclass quest this completes the quest. Earlier stages
+-- give thanks but warn against shortcutting; the chalice is destroyed
+-- in either case.
 wait(2)
 -- stage is set to 3 when chalice retrieved
 if actor:get_quest_stage("pri_pal_subclass") == 3 then

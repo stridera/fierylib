@@ -1,22 +1,23 @@
--- Trigger: Phase mace Sexton speech upgrade
+-- Trigger: phase_mace_sexton_speech_upgrade
 -- Zone: 185, ID: 28
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: 18528 - Sexton upgrade speech
---   Complex nesting: 6 if statements
---   Large script: 5970 chars
 --
--- Original DG Script: #18528
+-- Sexton describes the requirements for the current step of the
+-- phase_mace upgrade: kill count, items, and (at step 2) the four
+-- burial-ground pilgrimage. Also routes the player to the right NPC
+-- for steps already passed by the Sexton.
+--
+-- TODO(parity): heavy dependency on phase_mace global state that was
+-- never converted from DG: `macestep`, `maceattack`, `maceitem2/3/4/5`,
+-- `mace_id`, `wand_id`, `wandgem`. The `%get.obj_shortdesc[X]%` lookups
+-- need `objects.template(zone, id).shortdesc` once the IDs are real.
+-- The whole phase_mace system needs a design pass before this trigger
+-- can be made functional.
 
--- Converted from DG Script #18528: Phase mace Sexton speech upgrade
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: upgrade upgrades upgrading mace improvement improvements improving
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "upgrade") or string.find(string.lower(speech), "upgrades") or string.find(string.lower(speech), "upgrading") or string.find(string.lower(speech), "mace") or string.find(string.lower(speech), "improvement") or string.find(string.lower(speech), "improvements") or string.find(string.lower(speech), "improving")) then
-    return true  -- No matching keywords
+local s = string.lower(speech)
+if not (string.find(s, "upgrade") or string.find(s, "mace") or string.find(s, "improvement") or string.find(s, "improving")) then
+    return true
 end
--- UNCONVERTED: 18528 - Sexton upgrade speech
 wait(2)
 if actor.class == "cleric" or actor.class == "priest" then
     local minlevel = macestep * 10

@@ -1,12 +1,12 @@
 -- Trigger: chalice_dropped
 -- Zone: 185, ID: 14
 -- Type: OBJECT, Flags: DROP
--- Status: CLEAN
 --
--- Original DG Script: #18514
-
--- Converted from DG Script #18514: chalice_dropped
--- Original: OBJECT trigger, flags: DROP, probability: 100%
--- if the chalice is dropped it could be some1 trying to get round
--- the GET trigger...this should prevent that
+-- Anti-cheese: if the chalice is dropped, that could be a player trying
+-- to circumvent the GET trigger's "already_got" check (185_13).
+--
+-- TODO(parity): the legacy implementation only echoed a debug line. The
+-- intended behavior was to penalize/block the drop; needs design input
+-- before adding logic. Leaving the diagnostic echo so the slot is
+-- non-empty and visible during testing.
 self.room:send("the DROP trigger for " .. tostring(self.name) .. " is RUNNING")

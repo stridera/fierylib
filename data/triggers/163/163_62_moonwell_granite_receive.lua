@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Granite Receive
 -- Zone: 163, ID: 62
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16362
-
--- Converted from DG Script #16362: Moonwell Granite Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives the granite ring (final element) at stage 11. Sets the
+-- per-quest "map" flag so handing over the bark map next (16363) finishes
+-- the ceremony. The ring is destroyed.
 if actor:get_quest_stage("moonwell_spell_quest") == 11 then
     wait(2)
     self:destroy_item("ring")

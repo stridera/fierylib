@@ -1,12 +1,9 @@
 -- Trigger: xcast_xcast
 -- Zone: 188, ID: 20
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 21 if statements
---   Large script: 11992 chars
+-- Status: NEEDS_REVIEW (parses, but logic still has gaps; see TODOs)
 --
 -- Original DG Script: #18820
-
 -- Converted from DG Script #18820: xcast_xcast
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 
@@ -48,8 +45,11 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     elseif (xmode == "victim") and (arg.level > 99) then
         actor:send("You cannot x-cast at immortals!")
     else
+        local notarg
+        local spell_stop
+        local damage
         if xmode ~= "victim" then
-            local notarg = 1
+            notarg = 1
         end
         -- Begin casting messages
         if xmode == "victim" then
@@ -69,8 +69,8 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
                 wait(2)
                 stars = stars - 1
             else
-                local spell_stop = 1
-                local stars = 0
+                spell_stop = 1
+                stars = 0
             end
         end
         -- If player is still here, make with the magic
@@ -84,7 +84,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
                 end
                 actor:send("You complete your spell.")
                 if xeffect == "damage" then
-                    local damage = xamount + random(1, 50)
+                    damage = xamount + random(1, 50)
                 end
                 -- Show the message
                 if xid == 1 then
@@ -134,25 +134,26 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
                         while max_tries > 0 do
                             arg:teleport(get_room(math.floor(random(1, 60000 / 100)), (random(1, 60000 % 100))))
                             if arg.room ~= actor.room then
-                                local max_tries = 0
+                                max_tries = 0
                             end
                             max_tries = max_tries - 1
                         end
-                        if not max_tries then
-                            arg:teleport(get_room(0, 0))
-                        end
+                        -- TODO(parity): legacy used `if not max_tries` to detect "never escaped",
+                        -- but the loop now decrements past zero so the original safety net
+                        -- is dead code. Decide whether to bail to (0,0) on failure.
                     else
                         arg:teleport(get_room(math.floor(xamount / 100), xamount % 100))
                     end
                     arg:command("look")
                 elseif xeffect == "area" then
                     local max_tries = 20
+                    local target_list = ""
                     while max_tries > 0 do
                         local victim = room.actors[random(1, #room.actors)]
                         if victim then
-                            if (victim.id ~= actor.id) and not (string.find(target_list, "Xvictim.nameX")) then
-                                local target_list = target_listXvictim.nameX
-                                local damage = xamount + random(1, 50)
+                            if (victim.id ~= actor.id) and not (string.find(target_list, victim.name, 1, true)) then
+                                target_list = target_list .. victim.name .. ","
+                                damage = xamount + random(1, 50)
                                 if xid == 1 then
                                     victim:send("<yellow>The screech pierces into your head, causing great pain!</> (<b:red>" .. tostring(damage) .. "</>)")
                                     self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. " grasps " .. tostring(victim.possessive) .. " head in pain.</> (<blue>" .. tostring(damage) .. "</>)")
@@ -172,13 +173,13 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
                                 end
                             end
                         else
-                            local max_tries = 0
+                            max_tries = 0
                         end
                         max_tries = max_tries - 1
                     end
                 end
             else
-                local spell_stop = 1
+                spell_stop = 1
             end
         end
         -- If the player left somewhere along the way, fail spell

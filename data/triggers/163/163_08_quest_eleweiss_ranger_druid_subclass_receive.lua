@@ -1,12 +1,12 @@
 -- Trigger: quest_eleweiss_ranger_druid_subclass_receive
 -- Zone: 163, ID: 8
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
--- Original DG Script: #16308
-
--- Converted from DG Script #16308: quest_eleweiss_ranger_druid_subclass_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- Original DG Script: #16308 (matches obj 17212 — heart jewel)
+--
+-- Eleweiss receives the jewel of the heart. Stage 4 -> complete the
+-- subclass quest. Other stages get a flavor response. The jewel is
+-- always destroyed.
 wait(2)
 if actor:get_quest_stage("ran_dru_subclass") == 4 then
     self:emote("throws back his head and howls loudly with pleasure.")

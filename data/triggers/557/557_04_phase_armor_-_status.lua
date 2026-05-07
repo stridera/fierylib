@@ -1,26 +1,28 @@
 -- Trigger: Phase Armor - Status
 -- Zone: 557, ID: 4
 -- Type: MOB, Flags: SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Phase Armor - Status>:32: function arguments expected near ']'
---   Complex nesting: 28 if statements
---   Large script: 6280 chars
+--
+-- Speech handler: prints the player's progress against the
+-- phase_armor quest -- which slots are pending, the gem counts, and
+-- the rewards already earned. The legacy DG was tagged probability
+-- 0% because SPEECH_TO triggers ignore the probability roll; the
+-- converter's synthetic gate is removed so this script runs.
 --
 -- Original DG Script: #55704
 
 -- Converted from DG Script #55704: Phase Armor - Status
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- TODO(parity): the per-slot output lines below still emit literal
+-- DG placeholders like `%get.obj_shortdesc[%hands_armor%]%`.
+-- Replace with `objects.template(zone, id).name` once each slot id
+-- is known as a (zone, local_id) tuple.
+local anti = "Anti-Paladin"
 wait(2)
 if not actor or not actor.can_be_seen then
     self:command("peer")
     self:say("I can't help you if I can't see you.")
-    return _return_value
-elseif not (string.find(classes, "actor.class")) or (classes == "anti" and actor.class == "Paladin") then
+    return true
+elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "Paladin") then
     if string.find(classes, "and") then
         actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the")
         actor:send("</>" .. tostring(classes))
@@ -30,14 +32,14 @@ elseif not (string.find(classes, "actor.class")) or (classes == "anti" and actor
         actor:send("</>" .. tostring(classes))
         actor:send("</>class only.'")
     end
-    return _return_value
+    return true
 elseif actor.level <= 20 * (phase - 1) then
     actor:send(tostring(self.name) .. " tells you, 'Sorry, why don't you come back when you've")
     actor:send("</>gained more experience?'")
-    return _return_value
+    return true
 elseif actor:get_quest_stage("phase_armor") < phase then
     actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my quests yet.'")
-    return _return_value
+    return true
 end
 local got_hands = actor:get_quest_var("phase_armor:hands_armor_armor_acquired")
 local got_feet = actor:get_quest_var("phase_armor:feet_armor_armor_acquired")
@@ -60,11 +62,22 @@ local done_head = got_head == 1  and  head_count == 3
 local done_arms = got_arms == 1  and  arms_count == 3
 local done_legs = got_legs == 1  and  legs_count == 3
 local done_body = got_body == 1  and  body_count == 3
+-- Coerce nils to 0 so arithmetic and comparisons below are safe.
+got_hands = got_hands or 0; got_feet = got_feet or 0; got_wrist = got_wrist or 0
+got_head  = got_head  or 0; got_arms = got_arms or 0; got_legs  = got_legs  or 0
+got_body  = got_body  or 0
+hands_count = hands_count or 0; feet_count = feet_count or 0
+wrist_count = wrist_count or 0; head_count = head_count or 0
+arms_count  = arms_count  or 0; legs_count = legs_count or 0
+body_count  = body_count  or 0
 local given = got_hands + got_feet + got_wrist + got_head + got_arms + got_legs + got_body
 given = given + hands_count + feet_count + wrist_count + head_count + arms_count + legs_count + body_count
-local unrewarded = (got_hands + hands_count  ~=  4) + (got_feet + feet_count  ~=  4) + (got_wrist + wrist_count  ~=  4)
-unrewarded = unrewarded + (got_head + head_count  ~=  4) + (got_arms + arms_count  ~=  4)
-unrewarded = unrewarded + (got_legs + legs_count  ~=  4) + (got_body + body_count  ~=  4)
+-- Count slots that have any partial progress but aren't fully rewarded
+-- (i.e. armor + 3 gems = 4 turn-ins).
+local function _b2i(b) if b then return 1 else return 0 end end
+local unrewarded = _b2i(got_hands + hands_count ~= 4) + _b2i(got_feet + feet_count ~= 4) + _b2i(got_wrist + wrist_count ~= 4)
+unrewarded = unrewarded + _b2i(got_head + head_count ~= 4) + _b2i(got_arms + arms_count ~= 4)
+unrewarded = unrewarded + _b2i(got_legs + legs_count ~= 4) + _b2i(got_body + body_count ~= 4)
 actor:send(tostring(self.name) .. " tells you, 'Look for treasures from creatures:")
 if phase == 1 then
     actor:send("<b:cyan>below level 20</>.'_")
@@ -75,7 +88,7 @@ elseif phase == 3 then
 end
 if not given then
     actor:send(tostring(self.name) .. " tells you, 'You haven't given me anything yet.'")
-    return _return_value
+    return true
 elseif unrewarded then
     actor:send(tostring(self.name) .. " tells you, 'You have given me:'")
 end

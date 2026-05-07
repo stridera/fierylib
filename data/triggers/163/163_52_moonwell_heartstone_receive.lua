@@ -1,12 +1,11 @@
 -- Trigger: Moonwell Heartstone receive
 -- Zone: 163, ID: 52
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16352
-
--- Converted from DG Script #16352: Moonwell Heartstone receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives the Heartstone (480/24). Advances stage 3 -> 4 and tells
+-- the flask backstory.
 if actor:get_quest_stage("moonwell_spell_quest") == 3 then
     wait(2)
     actor:advance_quest("moonwell_spell_quest")

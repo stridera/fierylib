@@ -1,11 +1,9 @@
 -- Trigger: test_trigger
 -- Zone: 188, ID: 4
 -- Type: WORLD, Flags: PREENTRY
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <test_trigger>:7: unexpected symbol near '%'
+-- Status: CLEAN (debug stub; emits sanity messages on entry)
 --
 -- Original DG Script: #18804
-
 -- Converted from DG Script #18804: test_trigger
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 local var = 50

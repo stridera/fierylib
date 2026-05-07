@@ -5,13 +5,13 @@
 --
 -- Original DG Script: #16305
 
--- Converted from DG Script #16305: quest_eleweiss_ranger_druid_subclass_speak4
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Player asks "what is the lost something?" — Eleweiss reveals it was the
+-- jewel of his heart and advances them from stage 2 -> 3.
 
--- Speech keywords: something something? lost lost? it it? thing thing? what what?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "something") or string.find(string.lower(speech), "something?") or string.find(string.lower(speech), "lost") or string.find(string.lower(speech), "lost?") or string.find(string.lower(speech), "it") or string.find(string.lower(speech), "it?") or string.find(string.lower(speech), "thing") or string.find(string.lower(speech), "thing?") or string.find(string.lower(speech), "what") or string.find(string.lower(speech), "what?")) then
-    return true  -- No matching keywords
+local sl = string.lower(speech)
+if not (string.find(sl, "something") or string.find(sl, "lost") or string.find(sl, "it")
+    or string.find(sl, "thing") or string.find(sl, "what")) then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("ran_dru_subclass") == 2 then

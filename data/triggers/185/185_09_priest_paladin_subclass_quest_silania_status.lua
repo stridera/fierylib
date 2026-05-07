@@ -1,33 +1,30 @@
--- Trigger: Priest_Paladin_Subclass_Quest_Silania_Status
+-- Trigger: priest_paladin_subclass_quest_silania_status
 -- Zone: 185, ID: 9
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
 --
--- Original DG Script: #18509
+-- Status response for the priest/paladin subclass quest: tells the
+-- player where they are in the quest, or whether they are eligible.
+--
+-- TODO(parity): legacy DG marked this prob 0%. It must fire on speech
+-- to report status, so the gate is removed; confirm with rs design
+-- whether legacy intended a manual invocation path instead.
 
--- Converted from DG Script #18509: Priest_Paladin_Subclass_Quest_Silania_Status
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+local s = string.lower(speech)
+if not (string.find(s, "subclass") or string.find(s, "progress")) then
     return true
 end
 
--- Speech keywords: subclass progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "subclass") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
-end
 wait(2)
--- switch on actor:get_quest_stage("pri_pal_subclass")
-if actor:get_quest_stage("pri_pal_subclass") == 1 then
+
+local stage = actor:get_quest_stage("pri_pal_subclass")
+if stage == 1 then
     actor:send(tostring(self.name) .. " says, 'You want to join the holy ranks of priests and paladins.'")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'It is necessary to make a quest such as this quite tough to ensure you really want to do this.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'I am sure you will complete the <b:cyan>quest</> though.'")
-elseif actor:get_quest_stage("pri_pal_subclass") == 2 then
+    return
+elseif stage == 2 then
     actor:send(tostring(self.name) .. " says, 'This is your quest to join the ranks of priests and paladins.'")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'One of our guests made off with our most sacred bronze chalice.'")
@@ -40,37 +37,36 @@ elseif actor:get_quest_stage("pri_pal_subclass") == 2 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Good luck, your quest has begun!'")
     self:command("bow")
-elseif actor:get_quest_stage("pri_pal_subclass") == 3 then
+    return
+elseif stage == 3 then
     actor:send(tostring(self.name) .. " says, 'Have you found the bronze chalice the diabolists stole?'")
+    return
+end
+
+-- No active quest: assess eligibility.
+local check = false
+if string.find(actor.class, "Cleric") then
+    if actor.level >= 10 and actor.level <= 35 then
+        if actor.race == "drow" or actor.race == "faerie_unseelie" then
+            actor:send("<red>Your race may not subclass to priest.</>")
+            return true
+        end
+        check = true
+    end
+elseif string.find(actor.class, "Warrior") then
+    if actor.level >= 10 and actor.level <= 25 then
+        if actor.race == "drow" or actor.race == "faerie_unseelie" then
+            actor:send("<red>Your race may not subclass to paladin.</>")
+            return true
+        end
+        check = true
+    end
+end
+
+if check then
+    actor:send(tostring(self.name) .. " says, 'You are not working to join the holy order.'")
+elseif actor.level < 10 then
+    actor:send(tostring(self.name) .. " says, 'I appreciate your aspiring virtue.  Come and see me once you've gained more experience.'")
 else
-    if string.find(actor.class, "Cleric") then
-        -- switch on actor.race
-        if actor.level >= 10 and actor.level <= 35 then
-            if actor.race == "drow" or actor.race == "faerie_unseelie" then
-                actor:send("<red>Your race may not subclass to priest.</>")
-                return _return_value
-            end
-        else
-            local check = "yes"
-        end
-    elseif string.find(actor.class, "Warrior") then
-        -- switch on actor.race
-        if actor.level >= 10 and actor.level <= 25 then
-            if actor.race == "drow" or actor.race == "faerie_unseelie" then
-                actor:send("<red>Your race may not subclass to paladin.</>")
-                return _return_value
-            end
-        else
-            local check = "yes"
-        end
-    end
-    if check == "yes" then
-        if (string.find(actor.class, "Warrior") and actor.level >= 10 and actor.level <= 25) or (string.find(actor.class, "Cleric") and actor.level >= 10 and actor.level <= 35) then
-            actor:send(tostring(self.name) .. " says, 'You are not working to join the holy order.'")
-        elseif actor.level < 10 then
-            actor:send(tostring(self.name) .. " says, 'I appreciate your aspiring virtue.  Come and see me once you've gained more experience.'")
-        else
-            actor:send(tostring(self.name) .. " says, 'You are already following your destiny.  I cannot help you any further.'")
-        end
-    end
-end  -- auto-close block
+    actor:send(tostring(self.name) .. " says, 'You are already following your destiny.  I cannot help you any further.'")
+end

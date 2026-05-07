@@ -1,28 +1,23 @@
 -- Trigger: Eleweiss refuse
 -- Zone: 163, ID: 10
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16310
+-- Probability: 0% (disabled in source data; data-layer probability gate handles activation)
+--
+-- Catch-all RECEIVE handler for Eleweiss: if the offered object isn't one of
+-- the wand-quest items, refuse it.
 
--- Converted from DG Script #16310: Eleweiss refuse
--- Original: MOB trigger, flags: RECEIVE, probability: 0%
+-- TODO(parity): the original gated on `object.id == %wandgem% || %wand_id%`
+-- where wandgem and wand_id were DG globals naming the in-progress wand parts.
+-- The Lua runtime doesn't yet expose those identifiers, so the gate is a stub
+-- that always falls through to the refusal path. Wire the wand quest schema
+-- through before re-enabling.
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-local _return_value = true  -- Default: allow action
--- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wand_id%" then
-    return _return_value
-else
-    _return_value = true
-    wait(2)
-    actor:send(tostring(self.name) .. " says, 'What is this?'")
-    wait(3)
-    actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
-    actor:send(tostring(self.name) .. " says, 'I have no need of " .. tostring(object.shortdesc) .. ".'")
-end
-return _return_value
+wait(2)
+actor:send(tostring(self.name) .. " says, 'What is this?'")
+wait(3)
+actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+wait(2)
+actor:send(tostring(self.name) .. " says, 'I have no need of " .. tostring(object.shortdesc) .. ".'")
+return true

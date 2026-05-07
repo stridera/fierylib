@@ -5,13 +5,10 @@
 --
 -- Original DG Script: #16306
 
--- Converted from DG Script #16306: quest_eleweiss_ranger_druid_subclass_exit
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Player asks to "exit" or "leave" — wind catches them, teleport to room 74.
 
--- Speech keywords: exit exit? leave leave?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "exit") or string.find(string.lower(speech), "exit?") or string.find(string.lower(speech), "leave") or string.find(string.lower(speech), "leave?")) then
-    return true  -- No matching keywords
+if not (string.find(speech, "exit") or string.find(speech, "leave")) then
+    return true
 end
 self:say("Very well, goodbye little one.")
 actor:send("A gust of wind, commanded by Eleweiss, catches you and moves you away.")

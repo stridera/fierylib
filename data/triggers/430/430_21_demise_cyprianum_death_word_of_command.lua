@@ -10,25 +10,14 @@
 self:emote("roars, 'Time is but a shell...'")
 self.room:send("A non-descript wooden door bursts from Cyprianum!")
 self.room:spawn_object(430, 26)
-local i = actor.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_stage("word_command") == 2 then
-            person:advance_quest("word_command")
-        end
-    elseif person then
-        i = i + 1
+-- Advance Word of Command for every group member present in the room.
+for _, person in ipairs(actor.group) do
+    if person.room == self.room and person:get_quest_stage("word_command") == 2 then
+        person:advance_quest("word_command")
     end
-    a = a + 1
 end
-local room = self.room
-if room:get_people("43021") then
+-- If Dargo (mob 430:21) is present, send him through the freshly-opened door.
+if self.room:find_actor("dargo") then
     self.room:send(tostring(mobiles.template(430, 21).name) .. " says, 'At last!!  The way out!'")
     self.room:send("Lord Dargo dashes for the door!")
     self.room:find_actor("dargo"):command("enter door")

@@ -1,40 +1,49 @@
 -- Trigger: smart combat
 -- Zone: 188, ID: 70
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <smart combat>:3: unexpected symbol near ')'
---   Complex nesting: 10 if statements
---   Large script: 8449 chars
+-- Status: NEEDS_REVIEW (parses, several behavior gaps remain; see TODOs)
 --
 -- Original DG Script: #18870
-
 -- Converted from DG Script #18870: smart combat
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-local now = ((((time.year * 16) + time.month) * 35 + time.day) * 24) + time.hour
+--
+-- Generic "smart" combat AI: dispatches by class + level circle to rescue,
+-- skill-bash/backstab/kick, then fall through to support spells, then offensive
+-- spells. Reads/writes per-mob `globals.<spell>` cooldown timestamps.
+--
+-- TODO(parity): legacy DG referenced an hour counter via `time.year`/month/day/
+-- hour. Use `timestamp()` (already monotonic seconds) and divide by 3600 if
+-- the original wanted "hours since some epoch".
+-- TODO(parity): `class == Sorcerer` etc. were bare identifiers in DG that the
+-- engine resolved as strings; quoted them below. Verify runtime returns class
+-- as a string (likely yes).
+-- TODO(parity): `is_ant` was `class ~= Anti` (note ~=), almost certainly a DG
+-- conversion bug. Original probably wanted `string.find(class, "Anti")`.
+local now = math.floor(timestamp() / 3600)
 local level = self.level
 local class = self.class
 local flags = self.flags
-local is_sor = class == Sorcerer
-local is_cry = class == Cryomancer
-local is_pyr = class == Pyromancer
-local is_nec = class == Necromancer
+local is_sor = class == "Sorcerer"
+local is_cry = class == "Cryomancer"
+local is_pyr = class == "Pyromancer"
+local is_nec = class == "Necromancer"
 local is_arc = is_sor  or  is_cry  or  is_pyr  or  is_nec
-local is_war = class == Warrior
-local is_ran = class == Ranger
-local is_pal = class == Paladin
-local is_ant = class ~= Anti
-local is_mon = class == Monk
+local is_war = class == "Warrior"
+local is_ran = class == "Ranger"
+local is_pal = class == "Paladin"
+local is_ant = class ~= nil and string.find(tostring(class), "Anti") ~= nil
+local is_mon = class == "Monk"
 local is_com = is_ran  or  is_pal  or  is_ant
 local is_fig = is_war  or  is_mon  or  is_com
-local is_rog = class == Rogue
-local is_thi = class == Thief
-local is_ass = class == Assassin
-local is_mer = class == Mercenary
+local is_rog = class == "Rogue"
+local is_thi = class == "Thief"
+local is_ass = class == "Assassin"
+local is_mer = class == "Mercenary"
 local is_bac = is_rog  or  is_thi  or  is_ass  or  is_mer
-local is_cle = class == Cleric
-local is_pri = class == Priest
-local is_dia = class == Diabolist
-local is_dru = class == Druid
+local is_cle = class == "Cleric"
+local is_pri = class == "Priest"
+local is_dia = class == "Diabolist"
+local is_dru = class == "Druid"
 local is_div = is_cle  or  is_pri  or  is_dia  or  is_dru
 local is_mag = is_arc  or  is_div  or  is_com
 local cir_2 = level >= 9
@@ -55,16 +64,17 @@ local mode = random(1, 10)
 if is_fig or is_bac then
     if (mode < 4) and ((is_ran and (level > 34)) or (is_war and (level > 14)) or ((is_ant or is_pal) and (level > 9))) then
         local max_tries = 5
+        local attempted
         while max_tries > 0 do
             local victim = room.actors[random(1, #room.actors)]
-            if (victim.is_npc) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
+            if victim and (victim.is_npc) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
                 combat.rescue(self, victim.name)
-                local attempted = 1
+                attempted = 1
             end
             max_tries = max_tries - 1
         end
         if attempted then
-            return _return_value
+            return true
         end
     end
     if (is_war or is_ran or is_pal or is_ant or is_mer) and (level - actor.level >= 0) and (self:get_worn("11") ~= -1) then
@@ -76,41 +86,45 @@ if is_fig or is_bac then
     elseif ((is_war or is_ran or is_pal or is_ant or is_mon or is_mer) and (level >= 1)) or (is_ass and (level >= 36)) then
         skills.execute(self, "kick", self.fighting)
     end
-    return _return_value
+    return true
 end
--- Initalize chance to do support spells
-if not defensive then
-    local defensive = 5
-    globals.defensive = globals.defensive or true
+-- Initialize chance to do support spells (per-mob persistent)
+if not globals.defensive then
+    globals.defensive = 5
 end
+local defensive = globals.defensive
+-- Per-mob spell cooldown timestamps (default to far past so first cast fires)
+local barkskin = globals.barkskin or -9999
+local armor = globals.armor or -9999
+local demonskin = globals.demonskin or -9999
+local demonic = globals.demonic or -9999
+local mirage = globals.mirage or -9999
 -- Attempt to cast support spells
 if mode <= defensive then
+    -- TODO(parity): the `not (flags ~= "HASTE")` guards below mean "the mob is
+    -- already affected by HASTE" (i.e. don't recast). Re-derive once the
+    -- runtime exposes a real affect-bitvector check.
     if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not (flags ~= "HASTE")) then
         spells.cast(self, "haste")
     elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not (flags ~= "STONE")) then
         spells.cast(self, "stone skin")
     elseif ((is_ran and cir_3) or is_dru) and (barkskin + 6 + (level / 10) < now) then
         spells.cast(self, "barkskin")
-        local barkskin = now
-        globals.barkskin = globals.barkskin or true
+        globals.barkskin = now
     elseif (is_cle or (is_pal and cir_2) or is_pri) and (armor + 10 < now) then
         spells.cast(self, "armor")
-        local armor = now
-        globals.armor = globals.armor or true
+        globals.armor = now
     elseif (is_dia or (is_ant and cir_2)) and (demonskin + 10 + (level / 40) < now) then
         spells.cast(self, "demonskin")
-        local demonskin = now
-        globals.demonskin = globals.demonskin or true
+        globals.demonskin = now
     elseif is_dia and cir_4 and (demonic + 11 < now) then
         spells.cast(self, "demonic aspect")
-        local demonic = now
-        globals.demonic = globals.demonic or true
+        globals.demonic = now
     elseif is_pyr and cir_4 and (mirage + 10 < now) then
         spells.cast(self, "mirage")
-        local mirage = now
-        globals.mirage = globals.mirage or true
+        globals.mirage = now
     else
-        local mode = 6
+        mode = 6  -- fall through to offensive branch
     end
 end
 if mode > 5 then
@@ -198,5 +212,4 @@ if mode > 5 then
         spells.cast(self, "cause light")
     end
 end
-local action = now
-globals.action = globals.action or true
+globals.action = now

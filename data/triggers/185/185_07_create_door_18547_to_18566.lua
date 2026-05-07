@@ -1,18 +1,12 @@
 -- Trigger: create_door_18547_to_18566
 -- Zone: 185, ID: 7
 -- Type: WORLD, Flags: PREENTRY
--- Status: CLEAN
 --
--- Original DG Script: #18507
+-- Opens the hidden passage between rooms 185,47 and 185,66.
+-- Probability is 0% because this trigger is only fired manually via
+-- run_room_trigger from Silania's exit speech (185_06).
 
--- Converted from DG Script #18507: create_door_18547_to_18566
--- Original: WORLD trigger, flags: PREENTRY, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
--- only run from silanias trigger 18506
+-- only run from silania's trigger 185_06
 wait(2)
 self.room:send("The walls seem to flow away from an opening.")
 get_room(185, 47):exit("east"):set_state({hidden = false})

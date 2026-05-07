@@ -1,14 +1,9 @@
 -- Trigger: almoner_give_food
 -- Zone: 185, ID: 15
 -- Type: MOB, Flags: RANDOM
--- Status: CLEAN
 --
--- Original DG Script: #18515
-
--- Converted from DG Script #18515: almoner_give_food
--- Original: MOB trigger, flags: RANDOM, probability: 25%
-
--- 25% chance to trigger
+-- 25% chance: Almoner gives waybread (185,8) to a random visible
+-- low-level player in the room.
 if not percent_chance(25) then
     return true
 end

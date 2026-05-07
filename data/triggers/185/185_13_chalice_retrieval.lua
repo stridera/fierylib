@@ -1,25 +1,29 @@
 -- Trigger: chalice_retrieval
 -- Zone: 185, ID: 13
 -- Type: OBJECT, Flags: GET
--- Status: CLEAN
 --
--- Original DG Script: #18513
+-- Picking up the bronze chalice in its home room advances the
+-- pri_pal_subclass quest from stage 2 -> 3. If the same player has
+-- already grabbed it in this load, the chalice slips from their
+-- fingers (legacy anti-cheese behavior).
+--
+-- TODO(parity): the legacy 5-digit room vnum 8591 needs verification.
+-- Best guess: zone 85, id 91 (chalice room) — confirm against the
+-- imported world before relying on this trigger in production.
 
--- Converted from DG Script #18513: chalice_retrieval
--- Original: OBJECT trigger, flags: GET, probability: 100%
-local _return_value = true  -- Default: allow action
-if self.room == 8591 then
-    -- we are in chalice room so set the quest bit
+local CHALICE_ROOM_ZONE = 85
+local CHALICE_ROOM_ID = 91
+
+if self.room.zone_id == CHALICE_ROOM_ZONE and self.room.local_id == CHALICE_ROOM_ID then
     if actor:get_quest_stage("pri_pal_subclass") == 2 then
-        if already_got == 1 then
+        if globals.already_got then
             self.room:send_except(actor, "The chalice slips from " .. tostring(actor.possessive) .. " fingers!")
             actor:send("The chalice slips from your fingers!")
-            _return_value = true
+            return true
         else
             actor:advance_quest("pri_pal_subclass")
         end
     end
-    local already_got = 1
-    globals.already_got = globals.already_got or true
+    globals.already_got = true
 end
-return _return_value
+return true

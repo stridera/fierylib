@@ -8,8 +8,8 @@
 -- Converted from DG Script #43052: word_command_dargo_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
-if self.room == 43148 then
-    if questor then
+if self.room.zone_id == 430 and self.room.local_id == 148 then
+    if globals.questor and globals.questor == actor.name then
         self:say("Thank the gods you found me again!  Help me get out of here!")
     elseif (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 72 then
         self:say("Oh thank the gods, please help me!  Someone used a scroll")

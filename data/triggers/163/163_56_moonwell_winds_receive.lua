@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Winds Receive
 -- Zone: 163, ID: 56
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16356
-
--- Converted from DG Script #16356: Moonwell Winds Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives Orb of Winds at stage 7. Sets the per-quest "map" flag so
+-- handing over the bark map next (16357) advances the stage. The orb is
+-- destroyed after being placed on the well perimeter.
 if actor:get_quest_stage("moonwell_spell_quest") == 7 then
     wait(2)
     actor:set_quest_var("moonwell_spell_quest", "map", 1)

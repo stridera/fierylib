@@ -1,11 +1,9 @@
 -- Trigger: dragonegg_hatch
 -- Zone: 188, ID: 93
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #18893
-
 -- Converted from DG Script #18893: dragonegg_hatch
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 
@@ -24,12 +22,13 @@ if cmd == "h" or cmd == "ha" then
     _return_value = true
     return _return_value
 end
+local color, obj_id
 if actor.class == "Paladin" then
-    local color = "golden"
-    local obj_id = 90
+    color = "golden"
+    obj_id = 90
 elseif string.find(actor.class, "Anti") then
-    local color = "black"
-    local obj_id = 91
+    color = "black"
+    obj_id = 91
 else
     actor:send("You get the feeling that this egg is not meant for you.")
 end
@@ -50,17 +49,21 @@ if color then
     actor:send("The " .. tostring(color) .. " dragon looks at you.")
     self.room:send_except(actor, "The " .. tostring(color) .. " dragon looks at " .. tostring(actor.name) .. ".")
     wait(3)
-    self.room:find_actor("%color%-dragon"):command("bow")
-    if actor.gender == "Female" then
-        self.room:find_actor("%color%-dragon"):say("Mistress, thank you for protecting me.")
-    else
-        self.room:find_actor("%color%-dragon"):say("Master, thank you for protecting me.")
+    local dragon_name = color .. "-dragon"
+    local dragon = self.room:find_actor(dragon_name)
+    if dragon then
+        dragon:command("bow")
+        if actor.gender == "Female" then
+            dragon:say("Mistress, thank you for protecting me.")
+        else
+            dragon:say("Master, thank you for protecting me.")
+        end
+        dragon:say("Henceforth shall I be at your command.  Merely call and I shall answer!")
     end
-    self.room:find_actor("%color%-dragon"):say("Henceforth shall I be at your command.  Merely call and I shall answer!")
     wait(5)
-    self.room:find_actor("%color%-dragon"):emote("looks around itself.")
+    if dragon then dragon:emote("looks around itself.") end
     self.room:send("In a rush of wind, the dragon beats its wings, launching itself into the air.")
-    world.destroy(self.room:find_object("%color%-dragon"))
+    if dragon then world.destroy(dragon) end
     wait(2)
     actor:send("A strange-looking helmet falls from behind the dragon, landing near you.")
     self.room:send_except(actor, "A strange-looking helmet falls from behind the dragon, landing near " .. tostring(actor.name) .. ".")

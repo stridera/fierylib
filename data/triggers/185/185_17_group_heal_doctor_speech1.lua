@@ -1,22 +1,19 @@
 -- Trigger: group_heal_doctor_speech1
 -- Zone: 185, ID: 17
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
 --
--- Original DG Script: #18517
+-- Doctor explains group healing when asked about it. If the listener is
+-- a sufficiently high-level Cleric/Priest/Diabolist with no active
+-- group_heal quest, pitches the quest to them. The 1% probability is
+-- legacy DG flavor (rare unsolicited explanation).
 
--- Converted from DG Script #18517: group_heal_doctor_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 1%
-
--- 1% chance to trigger
 if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: healing healing? group assist?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "healing") or string.find(string.lower(speech), "healing?") or string.find(string.lower(speech), "group") or string.find(string.lower(speech), "assist?")) then
-    return true  -- No matching keywords
+local s = string.lower(speech)
+if not (string.find(s, "healing") or string.find(s, "group") or string.find(s, "assist")) then
+    return true
 end
 wait(2)
 self:command("nod")

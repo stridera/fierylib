@@ -1,23 +1,17 @@
 -- Trigger: quest_eleweiss_opening
 -- Zone: 163, ID: 0
 -- Type: WORLD, Flags: COMMAND
--- Status: CLEAN
 --
 -- Original DG Script: #16300
+-- Probability: 0% (disabled in source data; data-layer probability gate handles activation)
+--
+-- Look at the marked branch in the entry chamber: the wind catches the actor
+-- and lifts them up to room 163/74.
 
--- Converted from DG Script #16300: quest_eleweiss_opening
--- Original: WORLD trigger, flags: COMMAND, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Command filter: look
-if not (cmd == "look") then
+if cmd ~= "look" then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+
 if string.find(arg, "scrape") or string.find(arg, "mark") or string.find(arg, "branch") then
     actor:send("A sudden gust of air catches hold of you, swirling around and moving you!")
     self.room:send_except(actor, tostring(actor.name) .. " is swallowed by swirling air and disappears.")
@@ -31,7 +25,6 @@ if string.find(arg, "scrape") or string.find(arg, "mark") or string.find(arg, "b
     end)
     actor:move("up")
     get_room(163, 74):exit("up"):set_state({hidden = true})
-else
-    _return_value = true
 end
-return _return_value
+
+return true

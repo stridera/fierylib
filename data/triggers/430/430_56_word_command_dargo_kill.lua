@@ -7,14 +7,11 @@
 
 -- Converted from DG Script #43056: word_command_dargo_kill
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
-local room = self.room
-local person = room.people
-while person do
-    if person.is_npc and person.id ~= 43021 then
-        if not person:get_flagged("illusory") then
-            person:say("You will never escape this place, Dargo!")
-            person:command("kill %self%")
-        end
+-- Every non-illusory NPC in the room (other than Dargo himself) turns on him.
+for _, person in ipairs(self.room.people) do
+    if person.is_npc and not (person.zone_id == 430 and person.local_id == 21)
+       and not person:get_flagged("illusory") then
+        person:say("You will never escape this place, Dargo!")
+        person:command("kill " .. tostring(self.name))
     end
-    person = person.next_in_room
 end

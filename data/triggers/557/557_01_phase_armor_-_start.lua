@@ -13,7 +13,7 @@ if not actor or not actor.can_be_seen then
     self:command("peer")
     self:say("I can't help you if I can't see you.")
     return _return_value
-elseif not (string.find(classes, "actor.class")) or (classes == "anti" and actor.class == "Paladin") then
+elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "Paladin") then
     if string.find(classes, "and") then
         actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the")
         actor:send("</>" .. tostring(classes))
@@ -34,7 +34,7 @@ elseif actor:get_quest_stage("phase_armor") < phase - 1 then
 end
 if actor:get_quest_stage("phase_armor") == 0 then
     actor:start_quest("phase_armor")
-elseif actor:get_quest_stage("phase_armor") == "phase - 1" then
+elseif actor:get_quest_stage("phase_armor") == phase - 1 then
     actor:advance_quest("phase_armor")
 end
 actor:send(tostring(self.name) .. " tells you, 'Excellent.  I can make " .. tostring(hands_name) .. ", " .. tostring(feet_name) .. ",")
@@ -47,7 +47,7 @@ wait(2)
 actor:send(tostring(self.name) .. " tells you, 'Remember, you can ask me <b:cyan>armor progress</> at any")
 actor:send("</>time and I'll tell you what you have given me so far.'")
 wait(2)
-if not actor:has_item("299") and not actor:has_equipped("299") then
+if not actor:has_item(2, 99) and not actor:has_equipped(2, 99) then
     actor:send("You can also track the progress of all your quests in this journal.")
     self.room:spawn_object(2, 99)
     self:command("give quest-journal " .. tostring(actor.name))

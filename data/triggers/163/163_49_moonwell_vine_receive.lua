@@ -1,12 +1,12 @@
 -- Trigger: Moonwell Vine Receive
 -- Zone: 163, ID: 49
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #16349
-
--- Converted from DG Script #16349: Moonwell Vine Receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- Dryad receives the Vine of Mielikki. Stage 1 (haven't been told to fetch
+-- it yet) -> rebuke + destroy.  Stage 2 (sent to fetch it) -> advance to
+-- stage 3 and tell the heartstone backstory.
 if actor:get_quest_stage("moonwell_spell_quest") == 1 then
     wait(2)
     self:destroy_item("vine")
