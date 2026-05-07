@@ -12,14 +12,18 @@
 if not (cmd == "search") then
     return true  -- Not our command
 end
-local now = time.stamp
-if actor:get_quest_var("sacred_haven:blood_time") == 0 then
-    local last = now - 1
+local now = timestamp()
+local blood_time = actor:get_quest_var("sacred_haven:blood_time") or 0
+local last
+if blood_time == 0 then
+    last = now - 1
 else
-    local last = actor:get_quest_var("sacred_haven:blood_time") + 20
+    last = blood_time + 20
 end
+-- If quest hasn't been started, force the search to fail (now == last).
 if actor:get_quest_stage("sacred_haven") == 0 then
-    local now = 0
+    now = 0
+    last = 0
 end
 if now > last then
     actor:send("You find a vial of dark red dragons blood setting on top of the table.")

@@ -7,12 +7,13 @@
 
 -- Converted from DG Script #53502: Frost elf wield blade
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if not wielded then
-    if self:has_equipped("53420") then
+-- On first hit, draw the blade and mark the time so trigger 53503 knows when
+-- to sheathe it again.
+if not globals.wielded then
+    if self:has_equipped(534, 20) then
         self:emote("whispers, 'Trespassers!'")
         self:command("rem elven-blade")
         self:command("wield elven-blade")
-        local wielded = time.stamp
-        globals.wielded = globals.wielded or true
+        globals.wielded = timestamp()
     end
 end

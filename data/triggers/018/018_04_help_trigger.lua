@@ -10,7 +10,7 @@
 
 -- Speech keywords: help?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "help?")) then
+if not string.find(speech_lower, "help") then
     return true  -- No matching keywords
 end
 wait(1)

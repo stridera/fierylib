@@ -8,15 +8,18 @@
 -- Converted from DG Script #53458: major_globe_channel_greet
 -- Original: MOB trigger, flags: GLOBAL, GREET_ALL, probability: 100%
 if actor:get_quest_stage("major_globe_spell") == 9 then
-    -- switch on self.id
+    -- TODO(parity): self.id values below are legacy 5-digit mob vnums (2322,
+    -- 58008, 16003, 23711). Confirm composite (zone_id, local_id) mapping when
+    -- mob protos migrate.
+    local load_channel
     if self.id == 2322 then
-        local load_channel = 58
+        load_channel = 58
     elseif self.id == 58008 then
-        local load_channel = 59
+        load_channel = 59
     elseif self.id == 16003 then
-        local load_channel = 60
+        load_channel = 60
     elseif self.id == 23711 then
-        local load_channel = 61
+        load_channel = 61
     end
     if load_channel then
         self:destroy_item("majorglobe-channel")

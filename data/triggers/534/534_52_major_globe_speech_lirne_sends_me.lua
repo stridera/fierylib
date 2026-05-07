@@ -7,11 +7,9 @@
 
 -- Converted from DG Script #53452: major_globe_speech_lirne_sends_me
 -- Original: MOB trigger, flags: GLOBAL, SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- NOTE: legacy probability 0% on SPEECH triggers means "always run on keyword
+-- match" (the % is ignored for SPEECH); the converter's percent_chance(0)
+-- gate would have made the script unreachable, so it has been removed.
 
 -- Speech keywords: Lirne sends me
 local speech_lower = string.lower(speech)

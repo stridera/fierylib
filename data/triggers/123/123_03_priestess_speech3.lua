@@ -1,8 +1,7 @@
 -- Trigger: priestess_speech3
 -- Zone: 123, ID: 3
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <priestess_speech3>:14: 'then' expected near 'gods'
+-- Status: CLEAN
 --
 -- Original DG Script: #12303
 

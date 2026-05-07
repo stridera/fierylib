@@ -1,8 +1,7 @@
 -- Trigger: megalith_quest_priestess_speech_start
 -- Zone: 123, ID: 5
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <megalith_quest_priestess_speech_start>:66: ')' expected near 'self'
+-- Status: CLEAN
 --
 -- Original DG Script: #12305
 
@@ -32,7 +31,7 @@ if actor:get_quest_stage("megalith_quest") < 1 then
     -- If restarting
     -- 
 elseif actor:get_has_failed("megalith_quest") then
-    actor.name:restart_quest("megalith_quest")
+    actor:restart_quest("megalith_quest")
     self.room:send("</>")
     self:command("smile")
     self:say("Then let us give it another go!")
@@ -71,7 +70,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
     -- 
     -- If ready to continue stage 4
     -- 
-elseif actor:get_quest_stage("megalith_quest") and self.room == 12389 and actor:get_quest_var("megalith_quest:reliquary") == 1 then
+elseif actor:get_quest_stage("megalith_quest") and self.room.zone_id == 123 and self.room.local_id == 89 and actor:get_quest_var("megalith_quest:reliquary") == 1 then
     wait(2)
     self:say("The Great Rite of Invocation has a great deal of call and response.  I will chant a line and you must repeat it to continue the ritual.  The coven will chant their response after you do.")
     wait(4)

@@ -11,7 +11,9 @@ if actor:get_quest_stage("major_globe_spell") == 2 then
     self:destroy_item("majorglobe-shale")
     self.room:spawn_object(534, 51)
     wait(2)
-    if world.count_mobiles(481, 25) > 0 and (self.room == 48112) then
+    -- TODO(parity): legacy room vnum 48112 = zone 481/id 12 (savage children).
+    -- self.room is a Room object; compare via zone_id/local_id.
+    if world.count_mobiles(481, 25) > 0 and (self.room.zone_id == 481 and self.room.local_id == 12) then
         self.room:send("The savage children laugh and play, tossing a rock between themselves.")
         wait(1)
         self.room:send("One child, larger than the rest, suddenly grabs the rock out of the air.")

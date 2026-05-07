@@ -1,10 +1,7 @@
 -- Trigger: megalith_quest_priestess_receive
 -- Zone: 123, ID: 6
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <megalith_quest_priestess_receive>:69: syntax error near 'if'
---   Complex nesting: 15 if statements
---   Large script: 8676 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #12306
 
@@ -19,109 +16,114 @@ local _return_value = true  -- Default: allow action
 -- If there are 2 [bad] or more at the end, the final step of the quest will fail.
 -- If bad4 is on, DISASTER will occur!!
 -- There is currently no option to exchange items once they have been delivered
--- 
+--
+-- TODO(parity): legacy obj IDs (23756, 41111, etc.) are still bare 5-digit
+-- vnums. They need to be split to (zone, local_id) once the canonical
+-- mapping for these objects is settled. Same for the goblet variable
+-- stored in the quest var.
+
+-- Hoisted locals (these were branch-scoped in the converter output, which
+-- broke their use after the if/elseif chain).
+local item
+local this
+local goblet
+local step
+
 -- What item is being turned in?
--- 
 if actor:get_quest_stage("megalith_quest") == 1 then
-    local step = "replace our ritual implements"
-    -- 
-    -- Set the potential items that could be turned in in Stage 1
-    -- 
-    -- the expressions set item 2, set item 3, and set item 4 appear multiple times because multiple objects could satisfy the item requirement, but we only want to accept one.
-    -- Also create a variable so we can return the cup to the character in stage 3
-    -- 
-    -- switch on object.id
+    step = "replace our ritual implements"
+    -- Set the potential items that could be turned in in Stage 1.
+    -- The same item-slot is set by multiple object IDs because multiple
+    -- objects could satisfy the requirement, but we only want to accept one.
+    -- Also remember the goblet ID so we can return the cup in stage 3.
     -- salt
     if object.id == 23756 then
-        local item = 1
-        local this = object.shortdesc
-        -- hemlock goblet - BAD1
+        item = 1
+        this = object.shortdesc
+    -- hemlock goblet - BAD1
     elseif object.id == 41111 then
-        local item = 2
-        local goblet = 41111
-        local this = "a drinking vessel"
-        -- rowan goblet
+        item = 2
+        goblet = 41111
+        this = "a drinking vessel"
+    -- rowan goblet
     elseif object.id == 41110 then
-        local this = "a drinking vessel"
-        local item = 2
-        local goblet = 41110
-        -- chalice
+        this = "a drinking vessel"
+        item = 2
+        goblet = 41110
+    -- chalice
     elseif object.id == 18512 then
-        local item = 2
-        local goblet = 18512
-        local this = "a drinking vessel"
-        -- censer
+        item = 2
+        goblet = 18512
+        this = "a drinking vessel"
+    -- censer
     elseif object.id == 8507 then
-        local item = 3
-        local this = "an incense burner"
-        -- thurible
+        item = 3
+        this = "an incense burner"
+    -- thurible
     elseif object.id == 17300 then
-        local item = 3
-        local this = "an incense burner"
-        -- candle
+        item = 3
+        this = "an incense burner"
+    -- candle
     elseif object.id == 8612 then
-        local item = 4
-        local this = "spare candles"
-        -- candle
+        item = 4
+        this = "spare candles"
+    -- candle
     elseif object.id == 58809 then
-        local item = 4
-        local this = "spare candles"
+        item = 4
+        this = "spare candles"
     else
         return _return_value
     end
 elseif actor:get_quest_stage("megalith_quest") == 3 then
-    local step = "summon " .. tostring(mobiles.template(123, 0).name)
-    -- 
+    step = "summon " .. tostring(mobiles.template(123, 0).name)
     -- Set the potential items that could be returned in Stage 3
-    -- 
-    -- switch on object.id
     -- bowl
     if object.id == 23817 then
-        local item = 1
-        local this = object.shortdesc
-        -- goddess skirt - BAD3
+        item = 1
+        this = object.shortdesc
+    -- goddess skirt - BAD3
     elseif object.id == 4305 then
-        local item = 2
-        local this = "something from a goddess's regalia"
-        -- goddess torch - ALSO BAD3
+        item = 2
+        this = "something from a goddess's regalia"
+    -- goddess torch - ALSO BAD3
     elseif object.id == 4318 then
-        local item = 2
-        local this = "something from a goddess's regalia"
-        -- goddess bracelet
+        item = 2
+        this = "something from a goddess's regalia"
+    -- goddess bracelet
     elseif object.id == 58015 then
-        local item = 2
-        local this = "something from a goddess's regalia"
-        -- goddess ring
+        item = 2
+        this = "something from a goddess's regalia"
+    -- goddess ring
     elseif object.id == 58018 then
-        local item = 2
-        local this = "something from a goddess's regalia"
-        -- faerie elixir - BAD4 - THE REALLY BAD ONE
+        item = 2
+        this = "something from a goddess's regalia"
+    -- faerie elixir - BAD4 - THE REALLY BAD ONE
     elseif object.id == 58426 then
-        local this = "something to serve as Her icon"
-        local item = 3
-        -- faerie wings
+        this = "something to serve as Her icon"
+        item = 3
+    -- faerie wings
     elseif object.id == 58418 then
-        local item = 3
-        local this = "something to serve as Her icon"
+        item = 3
+        this = "something to serve as Her icon"
     else
         return _return_value
     end
+else
+    return _return_value
 end
--- 
--- if you already gave us this item.  The value %item% has been set to appends item here, resulting in item1, item2, item3, and item4.
--- 
-if actor:get_quest_var("megalith_quest:itemitem") then
-    _return_value = true
+
+-- if you already gave us this item.
+local item_key = "item" .. tostring(item)
+if actor:get_quest_var("megalith_quest:" .. item_key) then
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
     self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
     return _return_value
 end
--- 
--- Using the process above, if the thing turned in didn't match item1 item 2 item 3 or item4 we can accept it now and set the quest variable.
--- 
+
+-- Accept the item.
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
-actor:set_quest_var("megalith_quest", "item%item%", 1)
+actor:set_quest_var("megalith_quest", item_key, 1)
 if object.id == 41110 or object.id == 18512 or object.id == 41111 then
     actor:set_quest_var("megalith_quest", "goblet", goblet)
     if object.id == 41111 then
@@ -132,48 +134,29 @@ elseif object.id == 4318 or object.id == 4305 then
 elseif object.id == 58426 then
     actor:set_quest_var("megalith_quest", "bad4", 1)
 end
-world.destroy(object.name)
--- 
--- See if we've turned in everything for this step
--- 
-local item = 1
-while item <= 4 do
-    item[item] = 0
-    item = item + 1
-end
-if actor:get_quest_var("megalith_quest:item1") then
-    local item1 = 1
-end
-if actor:get_quest_var("megalith_quest:item2") then
-    local item2 = 1
-end
-if actor:get_quest_var("megalith_quest:item3") then
-    local item3 = 1
-end
+world.destroy(object)
+
+-- See if we've turned in everything for this step.
+local item1 = actor:get_quest_var("megalith_quest:item1") and 1 or nil
+local item2 = actor:get_quest_var("megalith_quest:item2") and 1 or nil
+local item3 = actor:get_quest_var("megalith_quest:item3") and 1 or nil
+-- item4 doesn't exist for stage 3, so treat that as satisfied there.
+local item4
 if (actor:get_quest_stage("megalith_quest") ~= 1) or actor:get_quest_var("megalith_quest:item4") then
-    local item4 = 1
+    item4 = 1
 end
--- 
--- If all the items have been turned in
--- 
+
 if item1 and item2 and item3 and item4 then
     wait(2)
     actor:advance_quest("megalith_quest")
-    local item = 1
-    -- 
-    -- Reset item variables with a while-loop
-    -- This quest uses 5 item variables, but only 4 are ever checked in this receive trigger.  Clear all 5 here just to be safe.
-    -- 
-    while item <= 5 do
-        actor:set_quest_var("megalith_quest", "item%item%", 0)
-        item = item + 1
+    -- Reset item variables (5 slots; only 4 are checked, but clear all to be safe).
+    for slot = 1, 5 do
+        actor:set_quest_var("megalith_quest", "item" .. tostring(slot), 0)
     end
     wait(1)
     self:say("I believe we're ready to proceed!")
     wait(1)
-    -- 
     -- If turning everything in starts stage 2
-    -- 
     if actor:get_quest_stage("megalith_quest") == 2 then
         self:emote("carefully places each tool in its proper position on the altar.")
         wait(2)
@@ -191,22 +174,23 @@ if item1 and item2 and item3 and item4 then
         wait(2)
         self:say("Oh wait, I almost forgot!")
         wait(2)
-        -- 
-        -- Return the same drinking vessel from Stage 1
-        -- 
-        local goblet = actor:get_quest_var("megalith_quest:goblet")
-        self.room:spawn_object(math.floor(goblet / 100), goblet % 100)
-        self.room:send("The coven high priestess takes " .. "%get.obj_shortdesc[%goblet%]% from the altar.")
-        -- (empty room echo)
-        self:command("pour goblet out")
-        self:command("give goblet " .. tostring(actor.name))
-        -- (empty room echo)
-        self.room:send(tostring(self.name) .. " says, 'You'll need this vessel again.  I've consecrated it for use in the Great Rite.'")
+        -- Return the same drinking vessel from Stage 1.
+        -- TODO(parity): goblet IDs are still legacy 5-digit vnums. Once
+        -- those are split into (zone, local_id), spawn from the catalog
+        -- rather than this floor-divide hack.
+        local saved_goblet = actor:get_quest_var("megalith_quest:goblet")
+        if saved_goblet and saved_goblet ~= 0 then
+            self.room:spawn_object(math.floor(saved_goblet / 100), saved_goblet % 100)
+            local goblet_name = objects.template(math.floor(saved_goblet / 100), saved_goblet % 100)
+            goblet_name = goblet_name and goblet_name.name or "the goblet"
+            self.room:send("The coven high priestess takes " .. tostring(goblet_name) .. " from the altar.")
+            self:command("pour goblet out")
+            self:command("give goblet " .. tostring(actor.name))
+            self.room:send(tostring(self.name) .. " says, 'You'll need this vessel again.  I've consecrated it for use in the Great Rite.'")
+        end
         wait(3)
         self:say("Now, go seek out the Keepers!")
-        -- 
-        -- If turning everything in starts stage 4
-        -- 
+    -- If turning everything in starts stage 4
     elseif actor:get_quest_stage("megalith_quest") == 4 then
         actor:set_quest_var("megalith_quest", "reliquary", 1)
         self:emote("reverentially places each of the reliquaries on the altar.")
@@ -221,10 +205,8 @@ if item1 and item2 and item3 and item4 then
         wait(2)
         self:emote("says in a hushed but excited tone, 'Are you ready?'")
     end
-    -- 
-    -- If we need more stuff
-    -- 
 else
+    -- We need more stuff.
     wait(2)
     self:say("If you have the other necessaries, please give them to me.")
 end

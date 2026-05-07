@@ -7,58 +7,25 @@
 
 -- Converted from DG Script #59022: set_levers
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-if first_kill ~= 2 then
+if globals.first_kill ~= 2 then
+    -- Randomize the (first, secnd, last) lever-pull permutation 1..3 -> 1..3
+    -- and seed the per-pin sentinels (1 = unpulled, 3 = pulled / used by 590_18).
     local rnd = random(1, 6)
-    -- switch on rnd
     if rnd == 1 then
-        local first = 1
-        local secnd = 2
-        local last = 3
-        globals.first = globals.first or true
-        globals.secnd = globals.secnd or true
-        globals.last = globals.last or true
+        globals.first, globals.secnd, globals.last = 1, 2, 3
     elseif rnd == 2 then
-        local first = 1
-        local secnd = 3
-        local last = 2
-        globals.first = globals.first or true
-        globals.secnd = globals.secnd or true
-        globals.last = globals.last or true
+        globals.first, globals.secnd, globals.last = 1, 3, 2
     elseif rnd == 3 then
-        local first = 2
-        local secnd = 3
-        local last = 1
-        globals.first = globals.first or true
-        globals.secnd = globals.secnd or true
-        globals.last = globals.last or true
+        globals.first, globals.secnd, globals.last = 2, 3, 1
     elseif rnd == 4 then
-        local first = 2
-        local secnd = 1
-        local last = 3
-        globals.first = globals.first or true
-        globals.secnd = globals.secnd or true
-        globals.last = globals.last or true
+        globals.first, globals.secnd, globals.last = 2, 1, 3
     elseif rnd == 5 then
-        local first = 3
-        local secnd = 2
-        local last = 1
-        globals.first = globals.first or true
-        globals.secnd = globals.secnd or true
-        globals.last = globals.last or true
+        globals.first, globals.secnd, globals.last = 3, 2, 1
     elseif rnd == 6 then
-        local first = 3
-        local secnd = 1
-        local last = 2
-        globals.first = globals.first or true
-        globals.secnd = globals.secnd or true
-        globals.last = globals.last or true
+        globals.first, globals.secnd, globals.last = 3, 1, 2
     end
-    local first_kill = 2
-    globals.first_kill = globals.first_kill or true
-    local first_pin = 1
-    local secnd_pin = 1
-    local last_pin = 1
-    globals.first_pin = globals.first_pin or true
-    globals.secnd_pin = globals.secnd_pin or true
-    globals.last_pin = globals.last_pin or true
+    globals.first_kill = 2
+    globals.first_pin = 1
+    globals.secnd_pin = 1
+    globals.last_pin = 1
 end

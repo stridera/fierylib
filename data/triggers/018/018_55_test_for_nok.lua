@@ -1,8 +1,7 @@
 -- Trigger: test_for_nok
 -- Zone: 18, ID: 55
 -- Type: WORLD, Flags: PREENTRY
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #1855
 
@@ -15,36 +14,36 @@ if actor.is_player then
     wait(1)
     actor:send("You feel yourself burning!")
     actor:damage(200)  -- type: physical
-    actor.name:shout("Help me!")
+    actor:shout("Help me!")
     wait(5)
-    if actor.room ~= 1841 then
-        return _return_value
+    if not (actor.room and actor.room.zone_id == 18 and actor.room.local_id == 41) then
+        return true
     end
     actor:send("You feel a burst of flame rip into your skin!")
     self.room:send_except(actor, "A burst of flame rips into " .. tostring(actor.name) .. ", almost burning him alive!")
     actor:damage(100)  -- type: physical
     wait(10)
-    if actor.room ~= 1841 then
-        return _return_value
+    if not (actor.room and actor.room.zone_id == 18 and actor.room.local_id == 41) then
+        return true
     end
     actor:send("You feel a burst of flame rip into your skin!")
     self.room:send_except(actor, "A burst of flame rips into " .. tostring(actor.name) .. ", almost burning him alive!")
     actor:damage(100)  -- type: physical
     wait(15)
-    if actor.room ~= 1841 then
-        return _return_value
+    if not (actor.room and actor.room.zone_id == 18 and actor.room.local_id == 41) then
+        return true
     end
-    actor.name:shout("help, I'm burning!")
+    actor:shout("help, I'm burning!")
     wait(1)
-    if actor.room ~= 1841 then
-        return _return_value
+    if not (actor.room and actor.room.zone_id == 18 and actor.room.local_id == 41) then
+        return true
     end
     actor:send("You feel a burst of flame rip into your skin!")
     self.room:send_except(actor, "A burst of flame rips into " .. tostring(actor.name) .. ", almost burning him alive!")
     actor:damage(100)  -- type: physical
     wait(20)
-    if actor.room ~= 1841 then
-        return _return_value
+    if not (actor.room and actor.room.zone_id == 18 and actor.room.local_id == 41) then
+        return true
     end
     actor:send("The flames consume you.")
     self.room:send_except(actor, "The searing flames consume " .. tostring(actor.name) .. ".")

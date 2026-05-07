@@ -7,8 +7,12 @@
 
 -- Converted from DG Script #1806: evil_nymph_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-self.room:send("running")
-if self.room == 1802 and world.count_mobiles(18, 13) > 0 then
+-- TODO(parity): debug "running" send is a leftover from DG; remove once verified.
+-- TODO(parity): legacy group iteration uses DG-specific group_member[i]/next_in_room
+-- semantics that may not match the Rust runtime. Validate that actor.group_size and
+-- actor.group_member[a] resolve correctly, otherwise rewrite using a proper group
+-- iterator (e.g. for _, p in ipairs(actor:group()) do ...).
+if self.room.zone_id == 18 and self.room.local_id == 2 and world.count_mobiles(18, 13) > 0 then
     self.room:send("As the nymph dies, the shade of Thelmor dissipates in peace.")
     world.destroy(self.room:find_actor("shade"))
 end

@@ -11,7 +11,7 @@ local stage = actor:get_quest_stage("wizard_eye")
 if stage == 8 then
     wait(2)
     actor:advance_quest("wizard_eye")
-    world.destroy(object.name)
+    world.destroy(object)
     self:emote("smells the cinnamon-rose blend.")
     actor:send(tostring(self.name) .. " says, 'Ahhh, what a gorgeous fragrance!'")
     wait(2)

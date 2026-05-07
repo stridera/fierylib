@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer") and (actor.level >= 57) then
     if actor:get_has_completed("major_globe_spell") then
-        return _return_value
+        return true
     end
     wait(1)
     -- switch on actor:get_quest_stage("major_globe_spell")
@@ -41,7 +41,9 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
         self.room:send_except(actor, tostring(self.name) .. " runs over to " .. tostring(actor.name) .. ".")
         wait(1)
         local final_item = actor:get_quest_var("major_globe_spell:final_item")
-        actor:send(tostring(self.name) .. " says, 'Do you have " .. "%get.obj_shortdesc[%final_item%]% to channel the power?  Please say you do!'")
+        -- final_item is a quest var holding an object's local id within zone 534
+        local item_name = objects.template(534, final_item).name
+        actor:send(tostring(self.name) .. " says, 'Do you have " .. tostring(item_name) .. " to channel the power?  Please say you do!'")
     else
         actor:send(tostring(self.name) .. " turns his head to look at you.")
         self.room:send_except(actor, tostring(self.name) .. " turns his head to look at " .. tostring(actor.name) .. ".")

@@ -1,8 +1,10 @@
 -- Trigger: cryomancer_subclass_status
 -- Zone: 550, ID: 28
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
+--
+-- "subclass progress" recap: Suralla re-summarises each stage of the
+-- cryomancer subclass quest, plus an out-of-quest branch for sorcerers
+-- who haven't started.
 --
 -- Original DG Script: #55028
 
@@ -56,21 +58,20 @@ elseif actor:get_quest_stage("cryomancer_subclass") == 4 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Say <b:cyan>\"The shrub suffers no longer\"</>, and the prize will be yours.'")
 else
-    if string.find(actor.class, "Sorcerer") then
-        -- switch on actor.race
+    if string.find(string.lower(actor.class), "sorcerer") then
         if actor.level >= 10 and actor.level <= 45 then
             if actor.race == "dragonborn_fire" or actor.race == "arborean" then
                 actor:send("<red>Your race cannot subclass to cryomancer.</>")
-            end
-        else
-            wait(2)
-            if actor.level >= 10 and actor.level <= 45 then
+            else
+                wait(2)
                 actor:send(tostring(self.name) .. " says, 'You are not yet on my quest.'")
-            elseif actor.level < 10 then
-                actor:send(tostring(self.name) .. " says, 'Come back to me once you've gained more experience.'")
-            elseif string.find(actor.class, "Sorcerer") and actor.level > 45 then
-                actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
             end
+        elseif actor.level < 10 then
+            wait(2)
+            actor:send(tostring(self.name) .. " says, 'Come back to me once you've gained more experience.'")
+        elseif actor.level > 45 then
+            wait(2)
+            actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
         end
     end
-end  -- auto-close block
+end

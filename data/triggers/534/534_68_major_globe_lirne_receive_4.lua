@@ -7,10 +7,11 @@
 
 -- Converted from DG Script #53468: Major Globe Lirne receive 4
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
+local response
 if stage == 10 then
-    if actor:get_quest_var("major_globe_spell:final_item") == object.id then
+    -- final_item quest var stores the chosen object's local id within zone 534
+    if actor:get_quest_var("major_globe_spell:final_item") == object.local_id then
         wait(1)
         self:destroy_item("majorglobe-channel")
         skills.set_level(actor.name, "major globe", 100)
@@ -38,15 +39,14 @@ if stage == 10 then
         self:teleport(get_room(11, 0))
         world.destroy(self)
     else
-        local response = "This isn't what the spell calls for..."
+        response = "This isn't what the spell calls for..."
     end
 elseif stage < 10 then
-    local response = "I'm not ready for that yet.  Do the quest in the right order."
+    response = "I'm not ready for that yet.  Do the quest in the right order."
 end
 if response then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
 end
-return _return_value
+return true

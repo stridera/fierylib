@@ -7,6 +7,9 @@
 
 -- Converted from DG Script #1826: blur_syric_warder_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
+-- TODO(parity): legacy DG group iteration uses actor.group_member[a]/i+1 idioms
+-- not present in the Rust runtime; replace with `for _, p in ipairs(actor:group()) do`
+-- once that helper is available.
 local i = actor.group_size
 local person = actor
 if i then

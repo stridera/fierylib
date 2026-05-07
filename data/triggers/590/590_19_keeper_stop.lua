@@ -20,6 +20,7 @@ if arg == "door" or arg == "door e" or arg == "door ea" or arg == "door eas" or 
     wait(2)
     actor:send(tostring(self.name) .. " pushes you away from the door.")
     self.room:send_except(actor, tostring(self.name) .. " gives " .. tostring(actor.name) .. " a swift shove sending " .. tostring(actor.object) .. " away from the door.")
+    _return_value = false  -- block the open
 else
     _return_value = true
 end

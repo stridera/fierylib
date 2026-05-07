@@ -1,46 +1,20 @@
 -- Trigger: wizard_eye_seer_greet
 -- Zone: 550, ID: 34
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <wizard_eye_seer_greet>:10: function arguments expected near ']'
---   Complex nesting: 9 if statements
+--
+-- Seer of Griffin Isle greet handler for the Wizard Eye quest.
+-- TODO(parity): legacy script also dispatched on a `wandstep`/`type_wand`
+-- crafting branch with level gate `(wandstep - 1) * 10`. Those tokens
+-- were DG-script substitutions whose values weren't preserved during
+-- conversion, so the wand-quest branch is omitted pending rewrite.
 --
 -- Original DG Script: #55034
 
 -- Converted from DG Script #55034: wizard_eye_seer_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
-local minlevel = (wandstep - 1) * 10
 if actor:get_quest_stage("wizard_eye") == 3 then
     actor:send(tostring(self.name) .. " says, 'I had a feeling you would show up soon.  The shaman from Technitzitlan has sent you to me, yes?'")
-    if actor:get_quest_stage("type_wand") == "wandstep" then
-        if actor.level >= minlevel then
-            wait(1)
-            if actor:get_quest_var("type_wand:greet") == 0 then
-                actor:send(tostring(self.name) .. " says, 'Or is there some other reason you're here?'")
-            else
-                actor:send(tostring(self.name) .. " says, 'Do you have what I need for the staff?'")
-            end
-        end
-    end
 elseif actor:get_quest_stage("wizard_eye") == 4 then
-    actor:send(tostring(self.name) .. " says, 'Do you have the herbs?")
-    if actor:get_quest_stage("type_wand") == "wandstep" then
-        if actor.level >= minlevel then
-            wait(1)
-            if actor:get_quest_var("type_wand:greet") == 0 then
-                actor:send(tostring(self.name) .. " says, 'Or is there some other reason you're here?'")
-            else
-                actor:send(tostring(self.name) .. " says, 'And do you have what I need for the staff?'")
-            end
-        end
-    end
-elseif actor:get_quest_stage("type_wand") == "wandstep" then
-    if actor.level >= minlevel then
-        if actor:get_quest_var("type_wand:greet") == 0 then
-            actor:send(tostring(self.name) .. " says, 'I've been expecting you!  Tell me, what brings you to me?'")
-        else
-            actor:send(tostring(self.name) .. " says, 'Do you have what I need for the staff?'")
-        end
-    end
+    actor:send(tostring(self.name) .. " says, 'Do you have the herbs?'")
 end

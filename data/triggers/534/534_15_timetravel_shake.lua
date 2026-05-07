@@ -1,8 +1,7 @@
 -- Trigger: timetravel_shake
 -- Zone: 534, ID: 15
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #53415
 
@@ -18,27 +17,33 @@ end
 if not (cmd == "shake") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "s" or cmd == "sh" then
-    _return_value = true
-    return _return_value
-end
-if string.find(self.name, "arg") then
-    if actor:has_equipped("53424") then
+-- TODO(parity): original DG checked `self.name == "%arg%"` (object self-name
+-- against the typed argument). Runtime semantics for matching the typed item
+-- to this object trigger should be confirmed; for now keep the legacy
+-- string.find behavior.
+if string.find(self.name, arg or "") then
+    if actor:has_equipped(534, 24) then
         actor:send("You shake the glass globe up down vigorously.")
         self.room:send_except(actor, tostring(actor.name) .. " shakes a glass globe up down vigorously.")
-        if actor.room == 53466 or actor.room == 53570 then
+        -- TODO(parity): legacy room vnum 53466 = zone 534/id 66 (Lirne's tower
+        -- ruined), 53570 = zone 535/id 70 (intact past tower). actor.room is
+        -- a Room object now; compare via zone_id/local_id.
+        local rzone = actor.room.zone_id
+        local rid = actor.room.local_id
+        local at_present = (rzone == 534 and rid == 66)
+        local at_past = (rzone == 535 and rid == 70)
+        if at_present or at_past then
             self.room:send("The snow in the globe swirls...and your vision blurs for a second!")
-            if actor.room == 53466 then
+            if at_present then
                 self.room:teleport_all(get_room(534, 170))
                 self.room:find_actor("all"):command("look")
-                local person = actor
-                local i = person.group_size
+                -- iterate group: hoist `a` out of the if/else so it's visible
+                local a
+                local i = actor.group_size
                 if i then
-                    local a = 1
+                    a = 1
                 else
-                    local a = 0
+                    a = 0
                 end
                 while i >= a do
                     local person = actor.group_member[a]
@@ -52,7 +57,7 @@ if string.find(self.name, "arg") then
                     end
                     a = a + 1
                 end
-            elseif actor.room == 53570 then
+            elseif at_past then
                 self.room:teleport_all(get_room(534, 66))
                 self.room:find_actor("all"):command("look")
             end
@@ -60,7 +65,5 @@ if string.find(self.name, "arg") then
     else
         actor:send("You need to hold it to shake it!")
     end
-else
-    _return_value = true
 end
-return _return_value
+return true

@@ -1,10 +1,13 @@
 -- Trigger: blur_ranger_speech2
 -- Zone: 18, ID: 28
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #1828
+-- TODO(parity): legacy DG used branch-scoped `local count = time` re-declarations
+-- that never updated the outer loop var — guarantees an infinite loop in Lua.
+-- The polling loop below has been hoisted to update the outer `count`. Validate
+-- the wait(25) / 1800-tick cadence matches the legacy 24-hour quest timer.
 
 -- Converted from DG Script #1828: blur_ranger_speech2
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
@@ -16,7 +19,7 @@ end
 
 -- Speech keywords: let's begin
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "let's") or string.find(string.lower(speech), "begin")) then
+if not (string.find(speech_lower, "let's") or string.find(speech_lower, "begin")) then
     return true  -- No matching keywords
 end
 actor:set_quest_var("blur", "east", 0)
@@ -37,13 +40,11 @@ if actor:get_quest_stage("blur") == 4 then
     actor:send("<b:white>24 hours (30:00 minutes) remain.</>")
     while count > 0 do
         if actor:get_has_completed("blur") then
-            local time = count - 1800
-            local count = time
+            count = 0
         else
             actor:set_quest_var("blur", "timer", count)
-            local time = count - 25
             wait(25)
-            local count = time
+            count = count - 25
             if count == 900 then
                 actor:send("<b:white>12 hours (15:00 minutes) remain.</>")
             elseif count == 450 then
@@ -60,7 +61,7 @@ if actor:get_quest_stage("blur") == 4 then
         end
     end
     if not actor:get_has_completed("blur") then
-        actor.name:fail_quest("blur")
+        actor:fail_quest("blur")
         actor:set_quest_var("blur", "race", "off")
         actor:send(self.name .. " tells you, '" .. "You'll have to be a little quicker on your toes next time." .. "'")
         wait(2)

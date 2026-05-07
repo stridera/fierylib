@@ -1,8 +1,7 @@
 -- Trigger: dark_robed_artifacts
 -- Zone: 590, ID: 9
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #59009
 
@@ -11,33 +10,23 @@
 
 -- Speech keywords: artifacts?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "artifacts?")) then
+if not string.find(speech_lower, "artifacts?") then
     return true  -- No matching keywords
 end
 wait(4)
-local stage = 1
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    person = person.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_var("sacred_haven:given_light") == 1 and person.alignment <= -350 then
-            local continue = "yes"
-            person:set_quest_var("sacred_haven", "find_blood", 1)
-            if person:get_quest_stage("sacred_haven") == "stage" then
-                person:advance_quest("sacred_haven")
-                person:send("<b:white>You have advanced the quest!</>")
-            end
+-- Walk the speaker's group; for any evil-aligned member that already gave the
+-- adornment of light, mark them as searching for blood and advance the quest
+-- if they're still on stage 1.
+local continue = false
+for _, person in ipairs(actor.group or { actor }) do
+    if person.room == self.room and person:get_quest_var("sacred_haven:given_light") == 1 and person.alignment <= -350 then
+        continue = true
+        person:set_quest_var("sacred_haven", "find_blood", 1)
+        if person:get_quest_stage("sacred_haven") == 1 then
+            person:advance_quest("sacred_haven")
+            person:send("<b:white>You have advanced the quest!</>")
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
 if continue then
     actor:send(tostring(self.name) .. " whispers to you, 'I had a vial of dragon's blood, a trinket of tattered leather, and a small shadow forged earring stolen from me.  They are held somewhere inside the Sacred Haven.'")

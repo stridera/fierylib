@@ -10,7 +10,7 @@
 
 -- Speech keywords: sacrifice Sacrifice
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "sacrifice") or string.find(string.lower(speech), "sacrifice")) then
+if not string.find(speech_lower, "sacrifice") then
     return true  -- No matching keywords
 end
-actor.name:send("The void guardians says to you, \"Give me something valuable, and I might set you free.\"")
+actor:send("The void guardians says to you, \"Give me something valuable, and I might set you free.\"")

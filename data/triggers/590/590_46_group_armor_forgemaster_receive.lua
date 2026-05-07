@@ -2,9 +2,16 @@
 -- Zone: 590, ID: 46
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <group_armor_forgemaster_receive>:7: function arguments expected near '.'
---   Complex nesting: 13 if statements
---   Large script: 12235 chars
+-- TODO(parity): same converter pathology as 590/8 (dark_robed_recieve1) -
+-- DG comment-delimited switch arms (`* armor items`, `* hammer`, `* amulet`,
+-- `* ethereal armor`) were chained into a single nested if/elseif chain.
+-- The hammer/amulet/ethereal arms are nested *inside* the armor-items
+-- branch and so unreachable. Needs a manual rewrite into a top-level
+-- switch on `object.id` that fans out to per-stage logic, with the legacy
+-- 5-digit IDs split: 6118 -> (61,18), 11704 -> (117,4), 11707 -> (117,7),
+-- 16906 -> (169,6), 8701 -> (87,1), 12500 -> (125,0), 47004 -> (470,4),
+-- 47018 -> (470,18), 53003 -> (530,3), 59039 -> (590,39). Held back
+-- pending in-game verification.
 --
 -- Original DG Script: #59046
 

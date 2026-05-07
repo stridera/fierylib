@@ -7,16 +7,20 @@
 
 -- Converted from DG Script #1823: drop_sacrifice
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- TODO(parity): legacy `object.id > 1100` was a 5-digit vnum gate (zone 11+).
+-- Re-evaluate semantics under composite (zone_id, local_id); likely intent
+-- was "anything not a noob-zone item" — replace with explicit zone whitelist
+-- or value/level threshold.
 if object.id > 1100 then
     if random(1, 100) < 5 then
         wait(1)
         self.room:send("The void guardian nods and says, \"I will accept this from you.  Begone!\"")
-        self.room:send_except(actor.name, "The void guardian envelops " .. tostring(actor.name) .. ", who disappears.")
-        actor.name:send("The void guardian envelops you, and you find yourself elsewhere.")
-        actor.name:teleport(get_room(18, 41))
+        self.room:send_except(actor, "The void guardian envelops " .. tostring(actor.name) .. ", who disappears.")
+        actor:send("The void guardian envelops you, and you find yourself elsewhere.")
+        actor:teleport(get_room(18, 41))
     else
         wait(1)
         self.room:send("The void guardian growls and says, \"You think this will appease me?  BAH!\"")
     end
 end
-world.destroy(object.name)
+world.destroy(object)

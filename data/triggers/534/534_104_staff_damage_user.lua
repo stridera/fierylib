@@ -1,8 +1,7 @@
 -- Trigger: Staff damage user
 -- Zone: 534, ID: 104
 -- Type: OBJECT, Flags: GLOBAL, COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Staff damage user>:20: unexpected symbol near ')'
+-- Status: CLEAN
 --
 -- Original DG Script: #53504
 
@@ -18,17 +17,14 @@ end
 if not (cmd == "use") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
--- switch on cmd
-if cmd == "u" then
-    return _return_value
-end
 local aliases = "elaborately-chiseled-staff deep-brown-maple-staff"
-if self.val2 and (arg ~= "") and (string.find(aliases, "arg")) and (actor:has_equipped("53504")) then
+-- self.val2 holds remaining charges. When the staff is used, deal heavy
+-- physical damage to the wielder (cursed staff). 53504 = zone 534/id 104
+-- (the staff item itself).
+if self.val2 and (arg ~= nil and arg ~= "") and string.find(aliases, arg) and actor:has_equipped(534, 104) then
     local damage = 480 + random(1, 50)
-    local damage_dealt = actor:damage(damage)  -- type: physical
+    actor:damage(damage)  -- type: physical
     actor:send("You double over in pain as " .. tostring(self.shortdesc) .. " touches the ground! (<b:red>" .. tostring(damage) .. "</>)")
     self.room:send_except(actor, tostring(actor.name) .. " doubles over in pain as " .. tostring(self.shortdesc) .. " touches the ground! (<blue>" .. tostring(damage) .. "</>)")
 end
-return _return_value
+return true

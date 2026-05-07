@@ -8,9 +8,9 @@
 -- Converted from DG Script #1825: blur_ranger_speech1
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes ready deeper ways nature deeper? ways? nature?
+-- Speech keywords: yes ready deeper ways nature
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "ready") or string.find(string.lower(speech), "deeper") or string.find(string.lower(speech), "ways") or string.find(string.lower(speech), "nature") or string.find(string.lower(speech), "deeper?") or string.find(string.lower(speech), "ways?") or string.find(string.lower(speech), "nature?")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "ready") or string.find(speech_lower, "deeper") or string.find(speech_lower, "ways") or string.find(speech_lower, "nature")) then
     return true  -- No matching keywords
 end
 wait(2)
@@ -32,7 +32,7 @@ if actor:get_quest_stage("blur") == 1 then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Check with me if you want to know your <b:white>[progress]</>.'")
 elseif actor:get_quest_stage("blur") == 4 then
-    if string.find(speech, "yes") or string.find(speech, "ready") then
+    if string.find(speech_lower, "yes") or string.find(speech_lower, "ready") then
         self.room:send(tostring(self.name) .. " says, 'You will only have one day to race all four winds,")
         self.room:send("</>and even less time for each wind individually.'")
         -- (empty room echo)
@@ -41,8 +41,8 @@ elseif actor:get_quest_stage("blur") == 4 then
         wait(4)
         self.room:send(tostring(self.name) .. " says, 'When you are ready, say <b:white>[let's begin]</>.'")
     end
-elseif actor:get_has_failed("blur") and (string.find(speech, "yes") or string.find(speech, "ready")) then
-    actor.name:restart_quest("blur")
+elseif actor:get_has_failed("blur") and (string.find(speech_lower, "yes") or string.find(speech_lower, "ready")) then
+    actor:restart_quest("blur")
     actor:advance_quest("blur")
     actor:advance_quest("blur")
     actor:advance_quest("blur")

@@ -1,10 +1,7 @@
 -- Trigger: megalith_quest_priestess_speech_progress
 -- Zone: 123, ID: 12
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <megalith_quest_priestess_speech_progress>:74: syntax error near 'objects'
---   Complex nesting: 22 if statements
---   Large script: 7019 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #12312
 
@@ -23,9 +20,8 @@ if not (string.find(string.lower(speech), "status") or string.find(string.lower(
 end
 local _return_value = true  -- Default: allow action
 wait(2)
--- make sure you're on the quest
+-- Make sure you're on the quest.
 if actor:get_quest_stage("megalith_quest") < 1 then
-    _return_value = true
     return _return_value
 end
 if actor:get_has_completed("megalith_quest") then
@@ -40,48 +36,40 @@ if actor:get_has_failed("megalith_quest") then
     self:say("Would you like to try again?")
     return _return_value
 end
--- clear variables
-local item1 = 0
-local item2 = 0
-local item3 = 0
-local item4 = 0
-local receive1 = 0
-local receive2 = 0
-local receive3 = 0
-local receive4 = 0
-local receive5 = 0
+-- Hoisted locals (branch-scoped in the converter output, used after the
+-- if/elseif chain).
+local step
+local item1, item2, item3, item4
+local receive1, receive2, receive3, receive4, receive5
 local stage = actor:get_quest_stage("megalith_quest")
--- switch on stage
 if stage == 1 then
-    local step = "replacing the sacred prophetic implements"
+    step = "replacing the sacred prophetic implements"
     -- salt 23756
-    local item1 = "salt"
+    item1 = "salt"
     -- Goblet or chalice 41110 or 41111 or 18512
-    local item2 = "a goblet or chalice"
+    item2 = "a goblet or chalice"
     -- censer 8507 or 17300
-    local item3 = "a censer"
+    item3 = "a censer"
     -- candles 8612 or 58809
-    local item4 = "candles"
+    item4 = "candles"
     -- give to the priestess
-    local receive5 = 12301
+    receive5 = 12301
     actor:send(tostring(self.name) .. " says, 'I need your help " .. tostring(step) .. ".'")
 elseif stage == 2 then
-    -- 
-    -- Must be done East South West North
-    -- 
-    local step = "call the elements"
+    -- Must be done East South West North.
+    step = "call the elements"
     -- thin sheet of cloud to Keeper of the East
-    local receive1 = mobiles.template(123, 5).name
-    local item1 = objects.template(83, 1).name
+    receive1 = mobiles.template(123, 5).name
+    item1 = objects.template(83, 1).name
     -- the fiery eye to Keeper of the South
-    local receive2 = mobiles.template(123, 4).name
-    local item2 = objects.template(481, 9).name
+    receive2 = mobiles.template(123, 4).name
+    item2 = objects.template(481, 9).name
     -- granite ring to Keeper of the North
-    local receive3 = mobiles.template(123, 3).name
-    local item3 = objects.template(550, 20).name
+    receive3 = mobiles.template(123, 3).name
+    item3 = objects.template(550, 20).name
     -- water from room 12463 to Keeper of the West
-    local receive4 = mobiles.template(123, 6).name
-    local item4 = "water from " .. tostring(objects.template(123, 52).name)
+    receive4 = mobiles.template(123, 6).name
+    item4 = "water from " .. tostring(objects.template(123, 52).name)
     wait(2)
     actor:send(tostring(self.name) .. " says, 'We're trying to " .. tostring(step) .. ".'")
     if (actor:get_quest_var("megalith_quest:item1")) and (actor:get_quest_var("megalith_quest:item2")) and (actor:get_quest_var("megalith_quest:item3")) and (actor:get_quest_var("megalith_quest:item4")) then
@@ -92,11 +80,11 @@ elseif stage == 2 then
         return _return_value
     end
 elseif stage == 3 then
-    local step = "locate three reliquaries"
-    local receive5 = 12301
-    local item1 = "a holy prayer bowl"
-    local item2 = "a piece of a goddess's regalia"
-    local item3 = "a faerie relic from the land of the Reverie made manifest"
+    step = "locate three reliquaries"
+    receive5 = 12301
+    item1 = "a holy prayer bowl"
+    item2 = "a piece of a goddess's regalia"
+    item3 = "a faerie relic from the land of the Reverie made manifest"
     actor:send(tostring(self.name) .. " says, 'We need to <b:yellow>" .. tostring(step) .. "</>.'")
 elseif stage == 4 then
     self.room:send(tostring(self.name) .. " says, 'I've been awaiting your return!  Let us")
@@ -104,28 +92,25 @@ elseif stage == 4 then
     self.room:send("<b:white>Great Lady of the Stars, hear our prayer!</>")
     return _return_value
 else
-    _return_value = true
     return _return_value
 end
 -- list items already given
 if actor:get_quest_var("megalith_quest:item1") ~= 1 or actor:get_quest_var("megalith_quest:item2") ~= 1 or actor:get_quest_var("megalith_quest:item3") ~= 1 or actor:get_quest_var("megalith_quest:item4") ~= 1 then
-    -- (empty send to actor)
     actor:send("You have already retrieved:")
 end
-if actor:get_quest_var("megalith_quest:item1") ~= 1 then
+if item1 and actor:get_quest_var("megalith_quest:item1") ~= 1 then
     actor:send("- <b:white>" .. tostring(item1) .. "</>")
 end
-if actor:get_quest_var("megalith_quest:item2") ~= 1 then
+if item2 and actor:get_quest_var("megalith_quest:item2") ~= 1 then
     actor:send("- <b:white>" .. tostring(item2) .. "</>")
 end
-if actor:get_quest_var("megalith_quest:item3") ~= 1 then
+if item3 and actor:get_quest_var("megalith_quest:item3") ~= 1 then
     actor:send("- <b:white>" .. tostring(item3) .. "</>")
 end
-if actor:get_quest_var("megalith_quest:item4") ~= 0 then
+if item4 and actor:get_quest_var("megalith_quest:item4") ~= 0 then
     actor:send("- <b:white>" .. tostring(item4) .. "</>")
 end
 -- list items to be returned
--- (empty send to actor)
 if stage ~= 4 then
     actor:send("We still need:")
 end
@@ -136,8 +121,7 @@ if stage == 2 and actor:get_quest_var("megalith_quest:item1") ~= 0 then
     else
         actor:send("Please check with her to see what she needs.")
     end
-    -- (empty send to actor)
-elseif actor:get_quest_var("megalith_quest:item1") ~= 0 then
+elseif item1 and actor:get_quest_var("megalith_quest:item1") ~= 0 then
     actor:send("<b:white>" .. tostring(item1) .. "</>")
 end
 if stage == 2 and actor:get_quest_var("megalith_quest:item2") ~= 0 then
@@ -147,8 +131,7 @@ if stage == 2 and actor:get_quest_var("megalith_quest:item2") ~= 0 then
     else
         actor:send("Please check with her to see what she needs.")
     end
-    -- (empty send to actor)
-elseif actor:get_quest_var("megalith_quest:item2") ~= 0 then
+elseif item2 and actor:get_quest_var("megalith_quest:item2") ~= 0 then
     actor:send("<b:white>" .. tostring(item2) .. "</>")
 end
 if stage == 2 and actor:get_quest_var("megalith_quest:item3") ~= 0 then
@@ -158,8 +141,7 @@ if stage == 2 and actor:get_quest_var("megalith_quest:item3") ~= 0 then
     else
         actor:send("Please check with her to see what she needs.")
     end
-    -- (empty send to actor)
-elseif actor:get_quest_var("megalith_quest:item3") ~= 0 then
+elseif item3 and actor:get_quest_var("megalith_quest:item3") ~= 0 then
     actor:send("<b:white>" .. tostring(item3) .. "</>")
 end
 if stage == 2 and actor:get_quest_var("megalith_quest:item4") ~= 0 then
@@ -169,10 +151,9 @@ if stage == 2 and actor:get_quest_var("megalith_quest:item4") ~= 0 then
     else
         actor:send("Please check with her to see what she needs.")
     end
-elseif stage == 1 and actor:get_quest_var("megalith_quest:item4") == 0 then
+elseif stage == 1 and item4 and actor:get_quest_var("megalith_quest:item4") == 0 then
     actor:send("<b:white>" .. tostring(item4) .. "</>")
 end
--- (empty send to actor)
 if receive5 then
     actor:send(tostring(self.name) .. " says, 'Please bring these to me.'")
 end

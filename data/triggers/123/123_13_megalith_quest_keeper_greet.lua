@@ -2,14 +2,25 @@
 -- Zone: 123, ID: 13
 -- Type: MOB, Flags: GREET
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <megalith_quest_keeper_greet>:7: function arguments expected near ']'
---   Complex nesting: 8 if statements
---   Large script: 7510 chars
 --
 -- Original DG Script: #12313
 
 -- Converted from DG Script #12313: megalith_quest_keeper_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
+--
+-- TODO(parity): the converter mangled the original switch on self.id /
+-- per-state body into nested if/elseif chains. Each Keeper (North 12303,
+-- South 12304, East 12305, West 12306) has its own greet behavior keyed
+-- by quest stage and per-direction quest vars. The current shape collapses
+-- those into a single chain wrapped in `if get_has_completed(...)` which
+-- means most branches are unreachable. A full hand rewrite is required.
+--
+-- TODO(parity): also references an unrelated `type_wand` quest with an
+-- undefined `wandstep` local at the top — that block needs to be either
+-- restored from the original or removed if no longer relevant.
+--
+-- TODO(parity): self.id checks use legacy 5-digit vnums (12303..12306)
+-- instead of self.local_id (3..6 in zone 123).
 wait(2)
 if actor:get_quest_stage("type_wand") == "wandstep" and not actor:get_has_failed("megalith_quest") then
     local minlevel = (wandstep - 1) * 10
@@ -24,9 +35,9 @@ if actor:get_quest_stage("type_wand") == "wandstep" and not actor:get_has_failed
 end
 local stage = actor:get_quest_stage("megalith_quest")
 -- switch on self.id
--- 
+--
 -- North
--- 
+--
 if actor:get_has_completed("megalith_quest") then
     if self.id == 12303 then
         self:command("cheer")
@@ -48,9 +59,9 @@ if actor:get_has_completed("megalith_quest") then
     elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item4") ~= 0) and (actor:get_quest_var("megalith_quest:north") ~= 1) then
         self:say("Do you have the granite ring?")
     end
-    -- 
+    --
     -- South
-    -- 
+    --
     if actor:get_has_completed("megalith_quest") then
     elseif self.id == 12304 then
         self:say("This land is again full with the pulse, the pull, the bloodpump of creation...")
@@ -78,9 +89,9 @@ if actor:get_has_completed("megalith_quest") then
     elseif (stage == 2) and (actor:get_quest_var("megalith_quest:item2") ~= 0) and (actor:get_quest_var("megalith_quest:south") ~= 1) then
         self:say("I hope you brought the flaming jewel from Vulcera.")  -- typo: sat
     end
-    -- 
+    --
     -- East
-    -- 
+    --
     if actor:get_has_completed("megalith_quest") then
     elseif self.id == 12305 then
         self:command("dance " .. tostring(actor.name))
@@ -108,9 +119,9 @@ if actor:get_has_completed("megalith_quest") then
         wait(2)
         self:say("I hope you were able to recover that cloud bracelet!")
     end
-    -- 
+    --
     -- West
-    -- 
+    --
     if actor:get_has_completed("megalith_quest") then
     elseif self.id == 12306 then
         self:emote("stifles tears of joy.")

@@ -1,8 +1,10 @@
 -- Trigger: wizard_eye_apothecary_speech
 -- Zone: 550, ID: 38
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <wizard_eye_apothecary_speech>:10: 'then' expected near 'eye'
+--
+-- The Green Woman (Anduin apothecary) gives the player the recipe for
+-- the rose-and-cinnamon scrying incense, advancing the wizard_eye quest
+-- from stage 6 -> 7.
 --
 -- Original DG Script: #55038
 

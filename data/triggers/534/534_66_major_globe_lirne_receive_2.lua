@@ -7,7 +7,6 @@
 
 -- Converted from DG Script #53466: Major Globe Lirne receive 2
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 7 then
     actor:advance_quest("major_globe_spell")
@@ -25,7 +24,6 @@ if stage == 7 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Yes... go and <b:cyan>banish five unique elementals</> and bring back their energies!'")
 elseif stage < 7 then
-    _return_value = true
     self:command("eyebrow")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'How could you have found this?  Do the quest in order!'")
@@ -34,4 +32,4 @@ elseif stage > 7 then
     self:destroy_item("majorglobe-spellbook")
     actor:send(tostring(self.name) .. " says, 'You've already brought me this!")
 end
-return _return_value
+return true

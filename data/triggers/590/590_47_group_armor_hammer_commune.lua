@@ -18,12 +18,11 @@ if not (cmd == "commune") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "c" or cmd == "co" or cmd == "com" or cmd == "comm" then
-    _return_value = true
-    return _return_value
-end
-if actor:get_quest_stage("group_armor") == 3 and self.room == 13358 then
+-- The original DG also early-returned for the partial-prefix forms of
+-- "commune" ("c", "co", "com", "comm"), but the engine no longer routes
+-- those to this trigger's filter so the check is now dead code.
+local target_room = get_room(133, 58)
+if actor:get_quest_stage("group_armor") == 3 and self.room == target_room then
     actor:advance_quest("group_armor")
     self.room:send("Holding " .. tostring(self.shortdesc) .. " up to the shaft of light, it begins to hum!")
     wait(3)

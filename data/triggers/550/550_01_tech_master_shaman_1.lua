@@ -1,28 +1,29 @@
 -- Trigger: Tech_Master_Shaman_1
 -- Zone: 550, ID: 1
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Tech_Master_Shaman_1>:49: function arguments expected near ']'
---   Complex nesting: 11 if statements
---   Large script: 5197 chars
+--
+-- Master Shaman greet-all handler: spawns a quest item for trolls (Kourrya
+-- 6-06 Minithawkin troll-mask quest) and then dispatches per-stage barks
+-- for the Wizard Eye spell quest. The phase-wand "[upgrade]" branch is
+-- TODO(parity) — its data dependencies (`type_wand:wandtaskN`) are stubbed.
 --
 -- Original DG Script: #55001
 
 -- Converted from DG Script #55001: Tech_Master_Shaman_1
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 -- Add Kourrya 6-06, loading for the Minithawkin troll mask quest
-if string.find(actor.race, "troll") then
+if string.find(string.lower(actor.race), "troll") then
     self:destroy_item("mangrove-branch")
     self.room:spawn_object(370, 80)
 end
 wait(2)
--- 
+--
 -- for Wizard Eye
--- 
-if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist")) and actor.level > 80) or actor:get_quest_stage("type_wand") == 5 then
-    if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist")) and actor.level > 80 then
+--
+local actor_class_lower = string.lower(actor.class)
+if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80) or actor:get_quest_stage("type_wand") == 5 then
+    if (string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80 then
         local stage = actor:get_quest_stage("wizard_eye")
-        -- switch on stage
         if stage == 1 then
             actor:send(tostring(self.name) .. " tells you, 'You best seek out the gypsy witch.  Without her advice, I cannot help you further.'")
         elseif stage == 2 then
@@ -37,14 +38,13 @@ if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusioni
             actor:send(tostring(self.name) .. " tells you, 'Have you brought what the Green Woman suggested?'")
         elseif stage == 9 or stage == 10 then
             actor:send(tostring(self.name) .. " tells you, 'The orbs are far too dangerous to bring back here without consulting the Oracle of Justice!'")
-            if actor:has_item("3218") or actor:has_item("53424") or actor:has_item("43021") or actor:has_item("4003") or actor:has_equipped("3218") or actor:has_equipped("53424") or actor:has_equipped("43021") or actor:has_equipped("4003") then
+            if actor:has_item(30, 218) or actor:has_item(534, 24) or actor:has_item(430, 21) or actor:has_item(40, 3)
+               or actor:has_equipped(30, 218) or actor:has_equipped(534, 24) or actor:has_equipped(430, 21) or actor:has_equipped(40, 3) then
                 actor:send(tostring(self.name) .. " tells you, 'Leave my chamber before these orbs corrupt it!'")
                 actor:send(tostring(self.name) .. " shoves you back out into the hallway!")
                 self.room:send_except(actor, tostring(self.name) .. " shoves " .. tostring(actor.name) .. " back out into the hallway!")
-                actor.name:teleport(get_room(550, 73))
-                get_room(550, 73):at(function()
-                    -- actor.name looks around
-                end)
+                actor:teleport(get_room(550, 73))
+                actor:command("look")
             end
         elseif stage == 11 then
             actor:send(tostring(self.name) .. " tells you, 'I see you have returned enlightened!  Let me see the crystal ball and I shall make the preparations.'")
@@ -69,10 +69,10 @@ if ((string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusioni
     -- for phase wands
     -- 
     if actor:get_quest_stage("type_wand") == 5 then
-        local job1 = actor:get_quest_stage("type_wand:wandtask1")
-        local job2 = actor:get_quest_stage("type_wand:wandtask2")
-        local job3 = actor:get_quest_stage("type_wand:wandtask3")
-        local job4 = actor:get_quest_stage("type_wand:wandtask4")
+        local job1 = actor:get_quest_var("type_wand:wandtask1")
+        local job2 = actor:get_quest_var("type_wand:wandtask2")
+        local job3 = actor:get_quest_var("type_wand:wandtask3")
+        local job4 = actor:get_quest_var("type_wand:wandtask4")
         if actor.level >= 40 then
             if actor:get_quest_var("type_wand:greet") == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you come for the Great Snow Leopard's help, let's discuss an <b:cyan>[upgrade]</>.'")

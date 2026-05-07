@@ -2,8 +2,17 @@
 -- Zone: 590, ID: 18
 -- Type: WORLD, Flags: GLOBAL, COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 18 if statements
---   Large script: 11496 chars
+-- TODO(parity): Major structural issues. The original DG flat-switched on
+-- `arg` (left/center/right) crossed with the per-lever order globals
+-- (first/secnd/last == 1|2|3 + first_pin/secnd_pin/last_pin == 3 sentinels).
+-- The converter glued three independent arg branches into nested
+-- if/elseif/else chains so two of the three lever messages are unreachable.
+-- It also re-declares the state vars as `local first_pin = 3` etc., which
+-- never updates the world-global state. To fix correctly we need a single
+-- `if arg == "left" then ... elseif arg == "center" then ... else ... end`
+-- block, with each branch reading/writing `globals.*_pin` and clearing
+-- `globals.first_kill / *_pin` only on full-success. Held back from
+-- auto-rewriting until the lever logic can be exercised in-game.
 --
 -- Original DG Script: #59018
 
@@ -16,18 +25,19 @@ if not (cmd == "pull") then
 end
 local _return_value = true  -- Default: allow action
 -- check to see if levers are pulled in right order
-if first_kill ~= 2 and (arg == "left" or arg == "center" or arg == "right") then
+if globals.first_kill ~= 2 and (arg == "left" or arg == "center" or arg == "right") then
     get_room(590, 91):at(function()
         self.room:find_actor("sacred-haven-ai"):command("mat 59056 m_run_room_trig 59022")
     end)
 end
 if world.count_objects(590, 35) == 1 then
-    if actor.level <=40 then
-        local dmg = (2 * actor.level) +  random(1, 70)
-    elseif actor.level >=41 and actor.level <=70 then
-        local dmg = (3 * actor.level) +  random(1, 100)
-    elseif actor.level >=71 and actor.level <=100 then
-        local dmg = (4 * actor.level) +  random(1, 130)
+    local dmg = 0
+    if actor.level <= 40 then
+        dmg = (2 * actor.level) + random(1, 70)
+    elseif actor.level >= 41 and actor.level <= 70 then
+        dmg = (3 * actor.level) + random(1, 100)
+    elseif actor.level >= 71 and actor.level <= 100 then
+        dmg = (4 * actor.level) + random(1, 130)
     end
     -- switch on arg
     if last == 1 and first_pin == 3 and secnd_pin == 3 then

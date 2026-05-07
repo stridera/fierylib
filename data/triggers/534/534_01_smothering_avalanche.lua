@@ -7,11 +7,12 @@
 
 -- Converted from DG Script #53401: smothering_avalanche
 -- Original: WORLD trigger, flags: RANDOM, probability: 100%
-local person = self.people
-while person do
-    local next = people.next_in_room
+-- TODO(parity): original DG iterated room people via .people / .next_in_room
+-- and dealt level*2 physical damage to each (suffocation under snow). Runtime
+-- API exposes room.actors as a list; rewrite once iteration semantics are
+-- confirmed (does damage during iteration mutate the list?).
+for _, person in ipairs(self.room.actors) do
     local tithe = person.level * 2
     person:send("You are finding it harder to breathe now...and you can feel your life ebbing away.")
-    local damage_dealt = person:damage(tithe)  -- type: physical
-    local person = next
+    person:damage(tithe)  -- type: physical
 end

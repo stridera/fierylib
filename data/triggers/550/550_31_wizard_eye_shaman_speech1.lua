@@ -15,7 +15,8 @@ if not (string.find(string.lower(speech), "eye") or string.find(string.lower(spe
 end
 wait(2)
 local stage = actor:get_quest_stage("wizard_eye")
-if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") then
+local actor_class_lower = string.lower(actor.class)
+if string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist") then
     if actor.level > 80 then
         if stage == 0 then
             actor:send(tostring(self.name) .. " says, 'Ah, so you wish to gain the Sight of the Great Snow Leopard.'")

@@ -7,12 +7,14 @@
 
 -- Converted from DG Script #53506: Frost elf quest death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = person.group_size
+-- Mark all group members in the room who shook the snow globe as having
+-- killed a frost elf, so the quest can advance.
+local i = actor.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     local person = actor.group_member[a]

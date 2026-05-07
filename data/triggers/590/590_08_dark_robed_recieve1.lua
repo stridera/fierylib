@@ -2,11 +2,14 @@
 -- Zone: 590, ID: 8
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   -- UNCONVERTED: &3&b* vial of blood&0
---   -- UNCONVERTED: &3&b*trinket of tattered leather&0
---   -- UNCONVERTED: &3&b*earring&0
---   Complex nesting: 19 if statements
---   Large script: 8372 chars
+-- TODO(parity): the original DG uses comment-delimited switch arms
+-- (`* vial of blood`, `* trinket`, `* earring`) which the converter
+-- mistakenly chained into a single if/elseif tree. The current branches sit
+-- inside the `obj == 59026` block so vial/trinket/earring give-flows are
+-- unreachable. Needs a manual rewrite into one switch on object.id with a
+-- shared "all three given" reward path (currently `local reward` is also
+-- branch-scoped so it is lost). Held back from auto-fixing to avoid
+-- destroying intent.
 --
 -- Original DG Script: #59008
 
@@ -14,6 +17,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- check to see what is being given!
 local obj = object.id
+local reward = "no"
 -- switch on obj
 -- adornment of light
 if obj == 59026 then
@@ -69,9 +73,9 @@ if obj == 59026 then
         actor:set_quest_var("sacred_haven", "given_blood", 1)
         -- check to see if all 3 items have been returned
         if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
-            local reward = "yes"
+            reward = "yes"
         else
-            local reward = "no"
+            reward = "no"
         end
     end
     -- UNCONVERTED: &3&b*trinket of tattered leather&0
@@ -96,9 +100,9 @@ if obj == 59026 then
         actor:set_quest_var("sacred_haven", "given_trinket", 1)
         -- check to see if all 3 items have been returned
         if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
-            local reward = "yes"
+            reward = "yes"
         else
-            local reward = "no"
+            reward = "no"
         end
     end
     -- UNCONVERTED: &3&b*earring&0
@@ -123,9 +127,9 @@ if obj == 59026 then
         actor:set_quest_var("sacred_haven", "given_earring", 1)
         -- check to see if all 3 items have been returned
         if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
-            local reward = "yes"
+            reward = "yes"
         else
-            local reward = "no"
+            reward = "no"
         end
     end
 else

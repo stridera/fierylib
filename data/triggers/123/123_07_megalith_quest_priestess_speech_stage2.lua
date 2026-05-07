@@ -28,19 +28,14 @@ local item1 = actor:get_quest_var("megalith_quest:item1")
 local item2 = actor:get_quest_var("megalith_quest:item2")
 local item3 = actor:get_quest_var("megalith_quest:item3")
 local item4 = actor:get_quest_var("megalith_quest:item4")
-if string.find(speech, "speech1") or string.find(speech, "speech2") or string.find(speech, "speech3") or string.find(speech, "speech4") then
+if speech == speech1 or speech == speech2 or speech == speech3 or speech == speech4 then
     if actor:get_quest_stage("megalith_quest") == 2 then
         if item1 and item2 and item3 and item4 then
             actor:advance_quest("megalith_quest")
-            local item = 1
-            -- 
             -- Reset quest 'item' variables
-            -- 
-            while item <= 5 do
-                actor:set_quest_var("megalith_quest", "item%item%", 0)
-                item = item + 1
+            for slot = 1, 5 do
+                actor:set_quest_var("megalith_quest", "item" .. tostring(slot), 0)
             end
-            item = nil
             wait(1)
             self.room:send("<b:white>The menhir begin to hum with deep chthonic harmonics.</>")
             wait(3)

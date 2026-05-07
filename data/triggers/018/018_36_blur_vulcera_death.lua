@@ -7,29 +7,23 @@
 
 -- Converted from DG Script #1836: blur_vulcera_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-else
-    local a = 0
+-- TODO(parity): legacy room vnum 12597 was the East Wind's lair (volcano caldera).
+-- Translate to composite (zone_id, local_id) once verified; current best guess (125, 97).
+-- TODO(parity): legacy iterated actor.group_member[]/next_in_room. Rewritten to
+-- iterate the death room's actors (covers solo + grouped East-wind quest holders).
+local east_wind_name = mobiles.template(18, 21).name
+local lair = get_room(125, 97)
+local lair_name = lair and lair.name or "the East Wind's lair"
+if world.count_mobiles(18, 21) <= 0 then
+    return true
 end
-person = nil
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if (person:get_quest_stage("blur") == 4) and (not person:get_quest_var("blur:east")) and world.count_mobiles(18, 21) > 0 then
-            local lair = get_room("12597")
-            person:send(tostring(mobiles.template(18, 21).name) .. " thanks you heartily!")
-            self.room:send_except(person, "%get.mob_shortdesc[1821]% thanks %person.name% heartily!")
-            person:send("%get.mob_shortdesc[1821]% tells you, 'See if you can get to<b:yellow> %lair.name% </>first!'")
-            person:send("'I already started the clock...'")
-            self.room:send(tostring(mobiles.template(18, 21).name) .. " takes off like a rocket and vanishes!")
-            person:set_quest_var("blur", "east", 1)
-            person = person.next_in_room
-        elseif person and person.is_player then
-            i = i + 1
-        end
-        a = a + 1
+for _, person in ipairs(self.room.actors) do
+    if person.is_player and (person:get_quest_stage("blur") == 4) and (not person:get_quest_var("blur:east")) then
+        person:send(tostring(east_wind_name) .. " thanks you heartily!")
+        self.room:send_except(person, tostring(east_wind_name) .. " thanks " .. tostring(person.name) .. " heartily!")
+        person:send(tostring(east_wind_name) .. " tells you, 'See if you can get to<b:yellow> " .. tostring(lair_name) .. " </>first!'")
+        person:send("'I already started the clock...'")
+        self.room:send(tostring(east_wind_name) .. " takes off like a rocket and vanishes!")
+        person:set_quest_var("blur", "east", 1)
     end
 end

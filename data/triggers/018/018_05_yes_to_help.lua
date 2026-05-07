@@ -10,7 +10,7 @@
 
 -- Speech keywords: yes Yes Yes? yes?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes?") or string.find(string.lower(speech), "yes?")) then
+if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("blur") == 0 or actor:get_has_completed("blur") then

@@ -7,7 +7,14 @@
 
 -- Converted from DG Script #1827: blur_ranger_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- TODO(parity): every "refuse" branch sets _return_value = true, which lets the
+-- give through anyway. Legacy DG used `return 0` to block — these should
+-- almost certainly be `false` so the player keeps the item the ranger refused.
+-- Verify and flip once intent is confirmed.
 local _return_value = true  -- Default: allow action
+-- TODO(parity): legacy 5-digit vnum 58420 needs translation to (zone_id, local_id)
+-- composite. Likely (zone=584, id=20) — Syric Warder's blade. Verify against
+-- objects.template lookup and replace with `object.zone_id == 584 and object.local_id == 20`.
 if object.id == 58420 then
     if actor:get_quest_stage("blur") == 3 then
         actor:advance_quest("blur")
@@ -42,7 +49,7 @@ if object.id == 58420 then
         self.room:send("</>you find where the winds blow, there may be additional challenges to connecting")
         self.room:send("</>with them.'")
         wait(5)
-        self:command("give forgotten-kings " .. tostring(actor))
+        self:command("give forgotten-kings " .. tostring(actor.name))
         self:say("You may need this.")
         wait(4)
         self.room:send(tostring(self.name) .. " says, 'Are you ready to try?'")

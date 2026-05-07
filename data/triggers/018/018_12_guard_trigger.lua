@@ -13,7 +13,7 @@ if not (cmd == "west") then
     return true  -- Not our command
 end
 if actor.is_player then
-    self.room:send_except(actor.name, "The thorn monster blocks " .. tostring(actor.name) .. "'s path!")
-    actor.name:send("The thorn monster pushes you back!")
+    self.room:send_except(actor, "The thorn monster blocks " .. tostring(actor.name) .. "'s path!")
+    actor:send("The thorn monster pushes you back!")
     self:whisper(actor.name, "Try that again, and I will have to slay you for my mistress.")
 end

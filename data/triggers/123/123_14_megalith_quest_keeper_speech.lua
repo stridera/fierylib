@@ -2,9 +2,16 @@
 -- Zone: 123, ID: 14
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <megalith_quest_keeper_speech>:16: 'then' expected near 'will'
---   Complex nesting: 9 if statements
---   Large script: 6587 chars
+--
+-- TODO(parity): the converter mangled a `switch on self.id` block of four
+-- per-Keeper bodies (North 12303, South 12304, East 12305, West 12306)
+-- into a chain of `if get_quest_var(direction) == 0 then ... elseif self.id == X`
+-- blocks. The empty-then-elseif shape means most branches are unreachable.
+-- A hand rewrite is needed: under stage 2 + affirmative speech, dispatch
+-- on self.id and gate on the corresponding direction quest var.
+-- Also _return_value is used without being declared.
+-- self.id checks use legacy 5-digit vnums (12303..12306) instead of
+-- self.local_id (3..6 in zone 123).
 --
 -- Original DG Script: #12314
 

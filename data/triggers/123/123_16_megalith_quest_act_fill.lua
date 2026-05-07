@@ -26,10 +26,11 @@ if cmd == "f" or cmd == "fi" then
     _return_value = true
     return _return_value
 end
-if (actor:get_quest_stage("megalith_quest") == 2) and (actor.room == 12401) and (actor:get_quest_var("megalith_quest:goblet") == self.id) then
-    actor.name:command("fill %arg%")
+if (actor:get_quest_stage("megalith_quest") == 2) and (actor.room.zone_id == 124 and actor.room.local_id == 1) and (actor:get_quest_var("megalith_quest:goblet") == self.id) then
+    -- TODO(parity): legacy room 12401 likely splits to (124, 1) but the
+    -- trigger zone is 123 and 12401 was stored as a 5-digit vnum. Verify
+    -- the canonical zone for the hidden spring before relying on this.
+    actor:command("fill " .. tostring(arg))
     actor:set_quest_var("megalith_quest", "item5", 1)
-else
-    _return_value = true
 end
 return _return_value

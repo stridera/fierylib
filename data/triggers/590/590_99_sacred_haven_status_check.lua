@@ -1,22 +1,22 @@
 -- Trigger: sacred_haven_status_check
 -- Zone: 590, ID: 99
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #59099
 
 -- Converted from DG Script #59099: sacred_haven_status_check
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- Original: MOB trigger, flags: SPEECH, probability: 0% (DG marker for speech-only)
+-- The 0% probability gate was DG's way of saying "speech-only"; we drop it
+-- here so the SPEECH match can fire normally. Keyword set is the original
+-- "what am I doing?" prompt - require all four word fragments to appear.
 
 -- Speech keywords: what am I doing?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "what") or string.find(string.lower(speech), "am") or string.find(string.lower(speech), "i") or string.find(string.lower(speech), "doing?")) then
+if not (string.find(speech_lower, "what")
+        and string.find(speech_lower, "am")
+        and string.find(speech_lower, "i")
+        and string.find(speech_lower, "doing")) then
     return true  -- No matching keywords
 end
 local stage = actor:get_quest_stage("sacred_haven")

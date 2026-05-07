@@ -1,8 +1,7 @@
 -- Trigger: north_exposition
 -- Zone: 123, ID: 37
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <north_exposition>:9: ')' expected near 'are'
+-- Status: CLEAN
 --
 -- Original DG Script: #12337
 

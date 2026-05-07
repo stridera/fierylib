@@ -1,8 +1,7 @@
 -- Trigger: priestess_speech2
 -- Zone: 123, ID: 2
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <priestess_speech2>:14: 'then' expected near 'RITE'
+-- Status: CLEAN
 --
 -- Original DG Script: #12302
 

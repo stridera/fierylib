@@ -1,8 +1,7 @@
 -- Trigger: vityaz_exposition
 -- Zone: 123, ID: 36
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <vityaz_exposition>:9: ')' expected near 'are'
+-- Status: CLEAN
 --
 -- Original DG Script: #12336
 

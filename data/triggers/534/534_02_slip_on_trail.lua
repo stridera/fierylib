@@ -21,14 +21,18 @@ if rnd.room == actor.room then
         local dam = 0
         rnd:send("You slip on the icy path and fall!")
         self.room:send_except(rnd, tostring(rnd.name) .. " slips and falls!")
-        -- switch on actor.room
-        if actor.room == 53530 then
+        -- TODO(parity): original DG compared room vnum to 53527-53530 (zone 535,
+        -- ids 27-30). actor.room is now a Room object, not an integer. Rewrite
+        -- using actor.room.zone_id / actor.room.local_id once those rooms map.
+        local rzone = actor.room.zone_id
+        local rid = actor.room.local_id
+        if rzone == 535 and rid == 30 then
             dam = dam + 100
-        elseif actor.room == 53529 then
+        elseif rzone == 535 and rid == 29 then
             dam = dam + 75
-        elseif actor.room == 53528 then
+        elseif rzone == 535 and rid == 28 then
             dam = dam + 50
-        elseif actor.room == 53527 then
+        elseif rzone == 535 and rid == 27 then
             dam = dam + 25
         end
         rnd:teleport(get_room(534, 17))

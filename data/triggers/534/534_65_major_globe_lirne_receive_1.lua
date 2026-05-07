@@ -7,32 +7,33 @@
 
 -- Converted from DG Script #53465: Major Globe Lirne receive 1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 5 then
     actor:advance_quest("major_globe_spell")
-    local room = random(1, 5)
-    -- switch on room
-    -- Haunted House
-    if room == 1 then
-        local room = 16903
-        -- Tower in the Wastes
-    elseif room == 2 then
-        local room = 12553
-        -- Mystwatch
-    elseif room == 3 then
-        local room = 16063
-        -- Abbey
-    elseif room == 4 then
-        local room = 18582
-        -- Sunken
-    elseif room == 5 then
-        local room = 53079
-        -- Sunken
+    -- TODO(parity): legacy DG stored a single room vnum in the
+    -- `major_globe_spell:room` quest var, then trigger 53455 used
+    -- `actor.room == quest_var` to check if the questor was in the right
+    -- search room. With composite ids that single integer no longer
+    -- identifies a room; consider storing a (zone, id) pair or a packed
+    -- value once a quest-var schema is settled. Vnums below: 16903 haunted
+    -- house, 12553 tower in the wastes, 16063 mystwatch, 18582 abbey,
+    -- 53079 / 53078 sunken (zone 530).
+    local roll = random(1, 5)
+    local target_vnum
+    if roll == 1 then
+        target_vnum = 16903
+    elseif roll == 2 then
+        target_vnum = 12553
+    elseif roll == 3 then
+        target_vnum = 16063
+    elseif roll == 4 then
+        target_vnum = 18582
+    elseif roll == 5 then
+        target_vnum = 53079
     else
-        local room = 53078
+        target_vnum = 53078
     end
-    actor:set_quest_var("major_globe_spell", "room", room)
+    actor:set_quest_var("major_globe_spell", "room", target_vnum)
     wait(1)
     self:destroy_item("majorglobe-salve")
     self:command("smile")
@@ -60,7 +61,6 @@ if stage == 5 then
     wait(5)
     actor:send(tostring(self.name) .. " says, 'Well?  Quickly, now!'")
 elseif stage < 5 then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Perhaps you should do the steps of this quest in order.  Go talk to Earle.'")
@@ -69,4 +69,4 @@ elseif stage > 5 then
     self:destroy_item("majorglobe-salve")
     actor:send(tostring(self.name) .. " says, 'But... you've already given me this.  I'm healed already.'")
 end
-return _return_value
+return true

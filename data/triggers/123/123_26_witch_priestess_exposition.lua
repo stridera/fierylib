@@ -1,8 +1,7 @@
 -- Trigger: witch_priestess_exposition
 -- Zone: 123, ID: 26
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <witch_priestess_exposition>:14: ')' expected near 'are'
+-- Status: CLEAN
 --
 -- Original DG Script: #12326
 

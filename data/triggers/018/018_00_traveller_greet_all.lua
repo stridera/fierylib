@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #1800: traveller_greet_all
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-if self.room == 1802 and actor.level < 100 then
+if self.room.zone_id == 18 and self.room.local_id == 2 and actor.level < 100 then
     wait(1)
     actor:send("Thelmor hugs you warmly.")
     actor:send("Thelmor tells you, 'Thank you for freeing me.'")
@@ -25,13 +25,16 @@ if self.room == 1802 and actor.level < 100 then
             actor:send("</>Meet me at the nearby spring.'")
         end
         world.destroy(self.room:find_actor("self"))
-        return _return_value
+        return true
     else
         actor:send("Thelmor shouts, 'Izaro!  It is time to end this.'")
         wait(2)
         actor:send("Izaro streaks in from the forest.")
         wait(1)
-        self.room:find_actor("fallen-nymph"):teleport(self.room)
-        combat.engage(self, self.room:find_actor("fallen-nymph"))
+        local izaro = self.room:find_actor("fallen-nymph")
+        if izaro then
+            izaro:teleport(self.room)
+            combat.engage(izaro)
+        end
     end
 end

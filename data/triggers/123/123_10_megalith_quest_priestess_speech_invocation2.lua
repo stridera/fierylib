@@ -22,8 +22,8 @@ local speech1 = "we summon and stir thee"
 local speech2 = "we summon and stir thee!"
 local stage = actor:get_quest_stage("megalith_quest")
 local summon = actor:get_quest_var("megalith_quest:summon")
-if (string.find(speech, "speech1")) or (string.find(speech, "speech2")) then
-    if (stage == 4) and (self.room == 12389) and (actor:get_quest_var("megalith_quest:prayer") == 2) then
+if speech == speech1 or speech == speech2 then
+    if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and (actor:get_quest_var("megalith_quest:prayer") == 2) then
         -- switch on summon
         if summon == 1 then
             run_room_trigger(123, 18)

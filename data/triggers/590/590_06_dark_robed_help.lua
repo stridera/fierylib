@@ -14,15 +14,15 @@ if not (string.find(string.lower(speech), "help?")) then
     return true  -- No matching keywords
 end
 local target = actor
-if target.alignment <=-350 and target.level <100 then
+if target.alignment <= -350 and target.level < 100 then
     wait(3)
     if target.room == self.room then
         target:send(tostring(self.name) .. " squints their eyes and peers at you.")
-        self.room:send_except(target.name, tostring(self.name) .. " squints their eyes and peers at " .. tostring(target.name) .. ".")
+        self.room:send_except(target, tostring(self.name) .. " squints their eyes and peers at " .. tostring(target.name) .. ".")
         wait(6)
-        target.name:send(tostring(self.name) .. " whispers to you, 'Are you strong enough to assist me?")
-        target.name:send("</>I have a couple of allies that have breached the Sacred Haven and secured me")
-        target.name:send("</>a key of great importance.'")
+        target:send(tostring(self.name) .. " whispers to you, 'Are you strong enough to assist me?")
+        target:send("</>I have a couple of allies that have breached the Sacred Haven and secured me")
+        target:send("</>a key of great importance.'")
         wait(2)
         self:emote("flashes a dingy key, held tight in their skinny, grey hands.")
         wait(5)

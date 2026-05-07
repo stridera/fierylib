@@ -1,41 +1,46 @@
 -- Trigger: wizard_eye_apothecary_receive
 -- Zone: 550, ID: 39
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <wizard_eye_apothecary_receive>:15: function arguments expected near ']'
+--
+-- Anduin apothecary receives the four scrying-incense ingredients
+-- (cinnamon, red rose, black rose, sapphire rose); on the fourth
+-- ingredient she grinds them into the incense (550, 32) and gives it
+-- to the player.
 --
 -- Original DG Script: #55039
 
 -- Converted from DG Script #55039: wizard_eye_apothecary_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("wizard_eye") == 7 then
-    -- switch on object.id
-    if object.id == 23754 then
-        local item = 1
-    elseif object.id == 3298 then
-        local item = 2
-    elseif object.id == 23847 then
-        local item = 3
-    elseif object.id == 18001 then
-        local item = 4
+    local item = nil
+    if object.zone_id == 237 and object.local_id == 54 then
+        item = 1
+    elseif object.zone_id == 30 and object.local_id == 298 then
+        item = 2
+    elseif object.zone_id == 238 and object.local_id == 47 then
+        item = 3
+    elseif object.zone_id == 180 and object.local_id == 1 then
+        item = 4
     end
-    if actor:get_quest_var("wizard_eye:itemitem") then
-        _return_value = true
+    if not item then
+        return true
+    end
+    local var_key = "item" .. tostring(item)
+    if actor:get_quest_var("wizard_eye:" .. var_key) then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'You already brought me " .. tostring(object.shortdesc) .. ".'")
     else
-        actor:set_quest_var("wizard_eye", "item%item%", 1)
-        world.destroy(object.name)
+        actor:set_quest_var("wizard_eye", var_key, 1)
+        world.destroy(object)
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".'")
         wait(4)
         if actor:get_quest_var("wizard_eye:item1") and actor:get_quest_var("wizard_eye:item2") and actor:get_quest_var("wizard_eye:item3") and actor:get_quest_var("wizard_eye:item4") then
             actor:advance_quest("wizard_eye")
-            local item = 1
-            while item <= 4 do
-                actor:set_quest_var("wizard_eye", "item%item%", 0)
-                item = item + 1
+            local i = 1
+            while i <= 4 do
+                actor:set_quest_var("wizard_eye", "item" .. tostring(i), 0)
+                i = i + 1
             end
             actor:send(tostring(self.name) .. " says, 'That looks like everything.  Let me grind this all up!'")
             wait(2)
@@ -54,4 +59,4 @@ if actor:get_quest_stage("wizard_eye") == 7 then
         end
     end
 end
-return _return_value
+return true

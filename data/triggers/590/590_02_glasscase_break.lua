@@ -17,19 +17,19 @@ local _return_value = true  -- Default: allow action
 if arg == "glass" or arg == "case" then
     _return_value = false
     -- check to see what PC can break case with
-    local item = 0
+    local item = nil
     if actor:get_worn("shield") then
-        local item = actor:get_worn("shield")
+        item = actor:get_worn("shield")
     elseif actor:get_worn("wield2h") then
-        local item = actor:get_worn("2hwield")
-    elseif actor:get_worn("wield") ~= -1 then
-        local item = actor:get_worn("wield")
-    elseif actor:get_worn("2wield") ~= -1 then
-        local item = actor:get_worn("wield2")
-    elseif actor:get_worn("held") ~= -1 then
-        local item = actor:get_worn("held")
-    elseif actor:get_worn("held2") ~= -1 then
-        local item = actor:get_worn("held2")
+        item = actor:get_worn("wield2h")
+    elseif actor:get_worn("wield") then
+        item = actor:get_worn("wield")
+    elseif actor:get_worn("wield2") then
+        item = actor:get_worn("wield2")
+    elseif actor:get_worn("held") then
+        item = actor:get_worn("held")
+    elseif actor:get_worn("held2") then
+        item = actor:get_worn("held2")
     end
     -- break case with item or hands
     if item then
@@ -47,8 +47,10 @@ if arg == "glass" or arg == "case" then
     end
     wait(1)
     self.room:send("A pristine iridescent sword falls out of the broken case, landing on the ground.")
-    obj = nil
     -- destroy case and load it in rm 59091 to prevent it from loading here again, as it is a reset item
+    -- TODO(parity): both spawn calls reference (590, 24); original DG comment says one should
+    -- spawn the iridescent sword in this room while the other respawns the glass case into 590/91.
+    -- Verify the correct object IDs and target rooms before using in production.
     self.room:spawn_object(590, 24)
     world.destroy(self.room:find_object("dusty-glass-case"))
     self.room:spawn_object(590, 24)

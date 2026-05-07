@@ -1,8 +1,7 @@
 -- Trigger: dark_robed_yes
 -- Zone: 590, ID: 7
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #59007
 
@@ -11,31 +10,22 @@
 
 -- Speech keywords: yes
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes")) then
+if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
 wait(3)
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    person = person.group_member[a]
-    if person.room == self.room then
-        if person.alignment <= -350 then
-            local continue = "yes"
-            if not person:get_quest_stage("sacred_haven") then
-                person:start_quest("sacred_haven")
-                person:send("<b:white>You have begun the Sacred Haven quest!</>")
-            end
+-- Walk the speaker's group; start the Sacred Haven quest for any evil-aligned
+-- members co-located with the dark adept. Continue with the dialogue if at
+-- least one member qualifies (matches the speaker's own group).
+local continue = false
+for _, person in ipairs(actor.group or { actor }) do
+    if person.room == self.room and person.alignment <= -350 then
+        continue = true
+        if not person:get_quest_stage("sacred_haven") then
+            person:start_quest("sacred_haven")
+            person:send("<b:white>You have begun the Sacred Haven quest!</>")
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
 if continue then
     actor:send(tostring(self.name) .. " steps in closer towards you and rests his hand on your shoulder.")

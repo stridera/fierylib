@@ -12,7 +12,6 @@
 if not (cmd == "show") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("wizard_eye") == 1 and (string.find(arg, "palm") or string.find(arg, "hand")) then
     actor:send("You show your palm to " .. tostring(self.name) .. ".")
     wait(2)
@@ -20,7 +19,8 @@ if actor:get_quest_stage("wizard_eye") == 1 and (string.find(arg, "palm") or str
     wait(3)
     actor:send(tostring(self.name) .. " says, 'Hmmmmm...'")
     wait(2)
-    actor:damage(5)  -- type: physical
+    local damage_dealt = 5
+    actor:damage(damage_dealt)  -- type: physical
     actor:send(tostring(self.name) .. " suddenly stabs your hand with a knife! <red>(" .. tostring(damage_dealt) .. ")</>")
     self.room:send_except(actor, tostring(self.name) .. " suddenly stabs " .. tostring(actor.name) .. "'s hand with a knife!  <red>(" .. tostring(damage_dealt) .. ")</>")
     actor:send(tostring(self.name) .. " watches the blood drip from your hand.")
@@ -33,7 +33,5 @@ if actor:get_quest_stage("wizard_eye") == 1 and (string.find(arg, "palm") or str
     actor:send(tostring(self.name) .. " says, 'Good luck!  Come back and see me sometime!'")
     self:command("wave")
     actor:advance_quest("wizard_eye")
-else
-    _return_value = true
 end
-return _return_value
+return true

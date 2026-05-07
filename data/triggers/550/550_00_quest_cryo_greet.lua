@@ -1,9 +1,12 @@
 -- Trigger: quest_cryo_greet
 -- Zone: 550, ID: 0
 -- Type: MOB, Flags: SPEECH, GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <quest_cryo_greet>:13: function arguments expected near ']'
---   Complex nesting: 10 if statements
+--
+-- Suralla's greet/speech "hi/hello" handler. Branches on the cryomancer
+-- subclass quest stage and (for sorcerers) gives a level-gated welcome.
+-- TODO(parity): legacy script also referenced a `wandstep`/`weapon`
+-- crafting path here that depends on data we no longer have; that block
+-- has been removed pending a rewrite of the wand-quest triggers.
 --
 -- Original DG Script: #55000
 
@@ -12,24 +15,10 @@
 
 -- Speech keywords: hi hello
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hi") or string.find(string.lower(speech), "hello")) then
+if not (string.find(speech_lower, "hi") or string.find(speech_lower, "hello")) then
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_quest_stage("type_wand") == "wandstep" then
-    local minlevel = (wandstep - 1) * 10
-    if actor.level >= minlevel then
-        if actor:get_quest_var("type_wand:greet") == 0 then
-            actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-        else
-            if actor:get_quest_var("type_wand:wandtask1") and actor:get_quest_var("type_wand:wandtask2") and actor:get_quest_var("type_wand:wandtask3") then
-                actor:send(tostring(self.name) .. " says, 'I sense you're ready!  Let me see the staff.'")
-            else
-                actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(weapon) .. "?'")
-            end
-        end
-    end
-end
 -- switch on actor:get_quest_stage("subclass")
 if actor:get_quest_stage("subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'Welcome back.'")
@@ -44,21 +33,19 @@ elseif actor:get_quest_stage("subclass") == 3 then
 elseif actor:get_quest_stage("subclass") == 4 then
     actor:send(tostring(self.name) .. " says, 'Does the shrub still suffer?'")
 else
-    if string.find(actor.class, "sorcerer") then
-        -- switch on actor.race
+    if string.find(string.lower(actor.class), "sorcerer") then
         if actor.race == "dragonborn_fire" or actor.race == "arborean" then
-            return _return_value
-        else
-            if actor.level >= 10 and actor.level <= 45 then
-                self:command("grin " .. tostring(actor.name))
-                actor:send(tostring(self.name) .. " says, 'Greetings " .. tostring(actor.name) .. ", have you come to me for a specific <b:cyan>reason</>?'")
-                self:command("eye " .. tostring(actor.name))
-            elseif actor.level < 10 then
-                self:command("grin " .. tostring(actor.name))
-                actor:send(tostring(self.name) .. " says, 'Greetings " .. tostring(actor.name) .. ".  I fear we are meeting before you are ready.  Gain some more experience, then seek me out again.'")
-                wait(2)
-                actor:send(tostring(self.name) .. " says, 'I look forward to our next encounter.'")
-            end
+            return true
+        end
+        if actor.level >= 10 and actor.level <= 45 then
+            self:command("grin " .. tostring(actor.name))
+            actor:send(tostring(self.name) .. " says, 'Greetings " .. tostring(actor.name) .. ", have you come to me for a specific <b:cyan>reason</>?'")
+            self:command("eye " .. tostring(actor.name))
+        elseif actor.level < 10 then
+            self:command("grin " .. tostring(actor.name))
+            actor:send(tostring(self.name) .. " says, 'Greetings " .. tostring(actor.name) .. ".  I fear we are meeting before you are ready.  Gain some more experience, then seek me out again.'")
+            wait(2)
+            actor:send(tostring(self.name) .. " says, 'I look forward to our next encounter.'")
         end
     end
-end  -- auto-close block
+end

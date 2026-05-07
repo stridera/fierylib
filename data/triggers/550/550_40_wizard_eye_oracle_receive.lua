@@ -1,39 +1,44 @@
 -- Trigger: wizard_eye_oracle_receive
 -- Zone: 550, ID: 40
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <wizard_eye_oracle_receive>:15: function arguments expected near ']'
+--
+-- Oracle of Justice receives the four candidate orbs (quartz ball,
+-- orb of pure Chaos, Orb of Catastrophe, glass time-globe); on the
+-- fourth he equalises them and hands the player a clear crystal ball
+-- (550, 33).
 --
 -- Original DG Script: #55040
 
 -- Converted from DG Script #55040: wizard_eye_oracle_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("wizard_eye") == 10 then
-    -- switch on object.id
-    if object.id == 3218 then
-        local item = 1
-    elseif object.id == 53424 then
-        local item = 2
-    elseif object.id == 43021 then
-        local item = 3
-    elseif object.id == 4003 then
-        local item = 4
+    local item = nil
+    if object.zone_id == 30 and object.local_id == 218 then
+        item = 1
+    elseif object.zone_id == 534 and object.local_id == 24 then
+        item = 2
+    elseif object.zone_id == 430 and object.local_id == 21 then
+        item = 3
+    elseif object.zone_id == 40 and object.local_id == 3 then
+        item = 4
     end
-    if actor:get_quest_var("wizard_eye:itemitem") then
-        _return_value = true
+    if not item then
+        return true
+    end
+    local var_key = "item" .. tostring(item)
+    if actor:get_quest_var("wizard_eye:" .. var_key) then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'You already brought me " .. tostring(object.shortdesc) .. ".'")
     else
-        actor:set_quest_var("wizard_eye", "item%item%", 1)
+        actor:set_quest_var("wizard_eye", var_key, 1)
         wait(2)
-        world.destroy(object.name)
+        world.destroy(object)
         if actor:get_quest_var("wizard_eye:item1") and actor:get_quest_var("wizard_eye:item2") and actor:get_quest_var("wizard_eye:item3") and actor:get_quest_var("wizard_eye:item4") then
             actor:advance_quest("wizard_eye")
-            local item = 1
-            while item <= 4 do
-                actor:set_quest_var("wizard_eye", "item%item%", 0)
-                item = item + 1
+            local i = 1
+            while i <= 4 do
+                actor:set_quest_var("wizard_eye", "item" .. tostring(i), 0)
+                i = i + 1
             end
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'This seems to be all of them.'")
@@ -61,4 +66,4 @@ if actor:get_quest_stage("wizard_eye") == 10 then
         end
     end
 end
-return _return_value
+return true
