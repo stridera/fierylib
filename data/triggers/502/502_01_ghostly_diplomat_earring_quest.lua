@@ -9,6 +9,16 @@
 
 -- Converted from DG Script #50201: Ghostly Diplomat Earring Quest
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- TODO: object.id is now the string "zone:local" (e.g. "502:3"), so the
+-- numeric vnum equality checks below never match. Rewrite as
+-- `object.zone_id == 502 and object.local_id == N` once intended objects
+-- are confirmed (legacy vnums 50203, 50201/2, 50204/9, 50215 -> 502:3,
+-- 502:1/2, 502:4/9, 502:15 in current composite ID scheme).
+-- TODO: actor.group_size / actor.group_member[] are DG-Script idioms with
+-- no Rust runtime bindings; the loops below are dead code (locals scoped
+-- to if/elseif blocks make `a` nil in the while condition). Replace with
+-- a real party iteration once group bindings are exposed.
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 if object.id == 50203 then

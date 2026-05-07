@@ -7,6 +7,13 @@
 
 -- Converted from DG Script #50207: Spectre death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
+--
+-- TODO: actor.group_size / actor.group_member[] are DG-Script idioms with
+-- no Rust runtime bindings; the loop below is dead code (locals scoped to
+-- if/else blocks make `a` nil in the while condition). Replace with a
+-- real party iteration once group bindings are exposed. Intent: complete
+-- the "bayou_quest" for every grouped player in the room when the spectre
+-- dies.
 local person = actor
 local i = person.group_size
 if i then

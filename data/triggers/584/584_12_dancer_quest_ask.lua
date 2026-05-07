@@ -1,58 +1,49 @@
 -- Trigger: Dancer_quest_ASK
 -- Zone: 584, ID: 12
 -- Type: MOB, Flags: SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Dancer_quest_ASK>:17: unexpected symbol near '='
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #58412
-
--- Converted from DG Script #58412: Dancer_quest_ASK
--- Original: MOB trigger, flags: SPEECH_TO, probability: 1%
+--
+-- Initial hook for the major_spell_quest (relocate quest). Only eligible to
+-- level 65+ Sorcerer/Cryomancer/Pyromancer players who haven't started or
+-- completed the quest yet; everyone else gets a grumble.
 
 -- 1% chance to trigger
 if not percent_chance(1) then
     return true
 end
--- This is the initial quest start to the
--- relocate quest, other quests can be added
--- here with some work but this is going to
--- be geared to the classes that get relocate
-self.room:send("DEBUG: Trigger running for " .. tostring(actor.name) .. " of class (" .. tostring(actor.class) .. ")")
--- for the time being
-if actor.is_player then
-    if actor.level >= 65 then
-        if actor:get_quest_stage("major_spell_quest") < 1 then
-            if actor:get_has_completed("major_spell_quest") ~= false then
-                local gogogo = 0
-                if string.find(actor.class, "Sorcerer") then
-                    local gogogo = 1
-                end
-                if string.find(actor.class, "Cryomancer") then
-                    local gogogo = 1
-                end
-                if string.find(actor.class, "Pyromancer") then
-                    local gogogo = 1
-                end
-                if gogogo == 1 then
-                    wait(1)
-                    self:command("think")
-                    wait(1)
-                    actor:send(tostring(self.name) .. " says to you, 'I've been trapped here for so long.'")
-                    self:command("sigh")
-                    wait(1)
-                    actor:send(tostring(self.name) .. " says to you, 'The Prince has me enslaved against my will, will you help set me free?'")
-                    self:say("Yer a " .. tostring(actor.class))
-                    actor:start_quest("major_spell_quest")
-                else
-                    self:command("grumble")
-                    self:say("Ok, I can talk, I swear " .. tostring(actor.name) .. " is a doofus.")
-                end
-            else
-            end
-        else
-        end
-    else
-    end
+
+if not actor.is_player then
+    return true
+end
+if actor.level < 65 then
+    return true
+end
+-- Already past stage 0 means they've already started or finished it.
+if (actor:get_quest_stage("major_spell_quest") or 0) >= 1 then
+    return true
+end
+if actor:get_has_completed("major_spell_quest") then
+    return true
+end
+
+local class = tostring(actor.class)
+local eligible = string.find(class, "Sorcerer")
+        or string.find(class, "Cryomancer")
+        or string.find(class, "Pyromancer")
+
+if eligible then
+    wait(1)
+    self:command("think")
+    wait(1)
+    actor:send(tostring(self.name) .. " says to you, 'I've been trapped here for so long.'")
+    self:command("sigh")
+    wait(1)
+    actor:send(tostring(self.name) .. " says to you, 'The Prince has me enslaved against my will, will you help set me free?'")
+    self:say("Yer a " .. class)
+    actor:start_quest("major_spell_quest")
 else
+    self:command("grumble")
+    self:say("Ok, I can talk, I swear " .. tostring(actor.name) .. " is a doofus.")
 end

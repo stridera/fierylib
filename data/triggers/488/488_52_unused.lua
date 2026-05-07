@@ -1,17 +1,18 @@
--- Trigger: **UNUSED**
+-- Trigger: **UNUSED** (invoked from 488/06 stormchild_fight via run_room_trigger)
 -- Zone: 488, ID: 52
 -- Type: WORLD, Flags: GLOBAL
--- Status: CLEAN
+-- Status: REVIEWED
 --
 -- Original DG Script: #48852
-
--- Converted from DG Script #48852: **UNUSED**
--- Original: WORLD trigger, flags: GLOBAL, probability: 100%
+--
+-- Behavior: Stormchild thunder wave AoE. Damages everyone in the room except
+-- mobs from the zone's own NPC pool (the legacy 48800-48899 range; in the
+-- composite-id world that maps to zone 488). Sanctuary halves; stoneskin
+-- doubles damage and shatters with bespoke flavor.
 self.room:send("The Stormchild opens her mouth in a scream, and a wave of thunder rolls out!")
-local person = self.people
-while person do
-    local next = person.next_in_room
-    if (person.id < 48800) or (person.id > 48899) then
+for _, person in ipairs(self.room.actors) do
+    -- Skip the zone's own NPC mobs (allies / the boss herself).
+    if person.is_player or person.zone_id ~= 488 then
         local damage = 150 + random(1, 50)
         -- Halve damage for sanc
         if person:has_effect(Effect.Sanctuary) then
@@ -33,5 +34,4 @@ while person do
             person:send("<yellow>You cry out in pain as the thunderclap pounds your eardrums!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
         end
     end
-    local person = next
 end

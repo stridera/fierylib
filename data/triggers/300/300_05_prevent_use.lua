@@ -8,16 +8,12 @@
 -- Converted from DG Script #30005: prevent use
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
 
--- Command filter: use
-if not (cmd == "use") then
+-- Command filter: "use" (allow bare "u" which can match other commands)
+if cmd == "u" then
+    return true
+end
+if cmd ~= "use" and cmd ~= "us" then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "u" then
-    _return_value = true
-    return _return_value
-end
-_return_value = false
 actor:send("You cannot use wands or staves in a shop or guild!")
-return _return_value
+return false

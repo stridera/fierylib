@@ -12,14 +12,14 @@
 if not percent_chance(1) then
     return true
 end
-if actor:get_quest_stage("major_spell_quest") == 3 then
-    wait(2)
-    self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
-    actor:send(tostring(self.name) .. " says to you, 'Excellent!  That rogue of a guard, a monstrous bronze statue'")
-    actor:send(tostring(self.name) .. " says to you, 'that now guards the entrance of that accursed village was to'")
-    actor:send(tostring(self.name) .. " says to you, 'search the Underdark for an item for me.  Go to him and demand'")
-    actor:send(tostring(self.name) .. " says to you, 'it in the name of the Gypsy Prince of Calia and I shall reward you.'")
-    actor:advance_quest("major_spell_quest")
-    -- This sets the player to level 4 in the quest
-else
+if actor:get_quest_stage("major_spell_quest") ~= 3 then
+    return true
 end
+
+wait(2)
+self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
+actor:send(tostring(self.name) .. " says to you, 'Excellent!  That rogue of a guard, a monstrous bronze statue'")
+actor:send(tostring(self.name) .. " says to you, 'that now guards the entrance of that accursed village was to'")
+actor:send(tostring(self.name) .. " says to you, 'search the Underdark for an item for me.  Go to him and demand'")
+actor:send(tostring(self.name) .. " says to you, 'it in the name of the Gypsy Prince of Calia and I shall reward you.'")
+actor:advance_quest("major_spell_quest")  -- advances to stage 4

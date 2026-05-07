@@ -1,16 +1,24 @@
 -- Trigger: Helping_blacksmith_quest
 -- Zone: 87, ID: 1
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --
 -- Original DG Script: #8701
+--
+-- TODO(parity): converter wrapped legacy 'mload @ Y' calls in
+-- `get_room(559, 32):at(function() self.room:spawn_mobile(...) end)`. The
+-- closure passed to `at()` actually runs in the current trigger context (the
+-- room argument is ignored) so the spawn happens in the blacksmith's room,
+-- not at room (559, 32). Verify the intended target room and either use the
+-- callback's room argument (`function(target) target:spawn_mobile(...) end`)
+-- or call `get_room(zone, id):spawn_mobile(...)` directly.
 
 -- Converted from DG Script #8701: Helping_blacksmith_quest
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- Speech keywords: yes yes.
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes.")) then
+if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
 wait(2)

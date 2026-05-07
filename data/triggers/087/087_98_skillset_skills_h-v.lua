@@ -2,9 +2,13 @@
 -- Zone: 87, ID: 98
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
 --
 -- Original DG Script: #8798
+--
+-- TODO(parity): same broken state machine as #8797 -- block-scoped `local`,
+-- `globals.X = globals.X or true` storing booleans, and literal "%skill%"
+-- being passed to skills.set_level. Full rewrite needed; body left as
+-- converted output for traceability.
 
 -- Converted from DG Script #8798: skillset_skills_H-V
 -- Original: MOB trigger, flags: SPEECH, probability: 1%
@@ -16,7 +20,7 @@ end
 
 -- Speech keywords: skillset ready go cancel hide hitall instant kick meditate  mount  pick parry piercing quick rescue  retreat riding safefall  scribe riposte shadow shape slashing sneak spell sphere springleap steal stealth summon switch tame throatcut track vamp
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "skillset") or string.find(string.lower(speech), "ready") or string.find(string.lower(speech), "go") or string.find(string.lower(speech), "cancel") or string.find(string.lower(speech), "hide") or string.find(string.lower(speech), "hitall") or string.find(string.lower(speech), "instant") or string.find(string.lower(speech), "kick") or string.find(string.lower(speech), "meditate") or string.find(string.lower(speech), "mount") or string.find(string.lower(speech), "pick") or string.find(string.lower(speech), "parry") or string.find(string.lower(speech), "piercing") or string.find(string.lower(speech), "quick") or string.find(string.lower(speech), "rescue") or string.find(string.lower(speech), "retreat") or string.find(string.lower(speech), "riding") or string.find(string.lower(speech), "safefall") or string.find(string.lower(speech), "scribe") or string.find(string.lower(speech), "riposte") or string.find(string.lower(speech), "shadow") or string.find(string.lower(speech), "shape") or string.find(string.lower(speech), "slashing") or string.find(string.lower(speech), "sneak") or string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "sphere") or string.find(string.lower(speech), "springleap") or string.find(string.lower(speech), "steal") or string.find(string.lower(speech), "stealth") or string.find(string.lower(speech), "summon") or string.find(string.lower(speech), "switch") or string.find(string.lower(speech), "tame") or string.find(string.lower(speech), "throatcut") or string.find(string.lower(speech), "track") or string.find(string.lower(speech), "vamp")) then
+if not (string.find(speech_lower,"skillset") or string.find(speech_lower,"ready") or string.find(speech_lower,"go") or string.find(speech_lower,"cancel") or string.find(speech_lower,"hide") or string.find(speech_lower,"hitall") or string.find(speech_lower,"instant") or string.find(speech_lower,"kick") or string.find(speech_lower,"meditate") or string.find(speech_lower,"mount") or string.find(speech_lower,"pick") or string.find(speech_lower,"parry") or string.find(speech_lower,"piercing") or string.find(speech_lower,"quick") or string.find(speech_lower,"rescue") or string.find(speech_lower,"retreat") or string.find(speech_lower,"riding") or string.find(speech_lower,"safefall") or string.find(speech_lower,"scribe") or string.find(speech_lower,"riposte") or string.find(speech_lower,"shadow") or string.find(speech_lower,"shape") or string.find(speech_lower,"slashing") or string.find(speech_lower,"sneak") or string.find(speech_lower,"spell") or string.find(speech_lower,"sphere") or string.find(speech_lower,"springleap") or string.find(speech_lower,"steal") or string.find(speech_lower,"stealth") or string.find(speech_lower,"summon") or string.find(speech_lower,"switch") or string.find(speech_lower,"tame") or string.find(speech_lower,"throatcut") or string.find(speech_lower,"track") or string.find(speech_lower,"vamp")) then
     return true  -- No matching keywords
 end
 wait(1)

@@ -2,9 +2,13 @@
 -- Zone: 87, ID: 99
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
 --
 -- Original DG Script: #8799
+--
+-- TODO(parity): same broken state machine as #8797/#8798 -- block-scoped `local`,
+-- `globals.X = globals.X or true` storing booleans, and literal "%skill%"
+-- being passed to skills.set_level. Full rewrite needed; body left as
+-- converted output for traceability.
 
 -- Converted from DG Script #8799: skillset_questspells
 -- Original: MOB trigger, flags: SPEECH, probability: 1%
@@ -16,7 +20,7 @@ end
 
 -- Speech keywords: skillset ready go cancel banish blur charm creeping plane heavens dragons flood hell hellfire ice major relocate meteorswarm resurrect shift degeneration supernova wall vaporform word wizard aria seed apocalyptic group
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "skillset") or string.find(string.lower(speech), "ready") or string.find(string.lower(speech), "go") or string.find(string.lower(speech), "cancel") or string.find(string.lower(speech), "banish") or string.find(string.lower(speech), "blur") or string.find(string.lower(speech), "charm") or string.find(string.lower(speech), "creeping") or string.find(string.lower(speech), "plane") or string.find(string.lower(speech), "heavens") or string.find(string.lower(speech), "dragons") or string.find(string.lower(speech), "flood") or string.find(string.lower(speech), "hell") or string.find(string.lower(speech), "hellfire") or string.find(string.lower(speech), "ice") or string.find(string.lower(speech), "major") or string.find(string.lower(speech), "relocate") or string.find(string.lower(speech), "meteorswarm") or string.find(string.lower(speech), "resurrect") or string.find(string.lower(speech), "shift") or string.find(string.lower(speech), "degeneration") or string.find(string.lower(speech), "supernova") or string.find(string.lower(speech), "wall") or string.find(string.lower(speech), "vaporform") or string.find(string.lower(speech), "word") or string.find(string.lower(speech), "wizard") or string.find(string.lower(speech), "aria") or string.find(string.lower(speech), "seed") or string.find(string.lower(speech), "apocalyptic") or string.find(string.lower(speech), "group")) then
+if not (string.find(speech_lower,"skillset") or string.find(speech_lower,"ready") or string.find(speech_lower,"go") or string.find(speech_lower,"cancel") or string.find(speech_lower,"banish") or string.find(speech_lower,"blur") or string.find(speech_lower,"charm") or string.find(speech_lower,"creeping") or string.find(speech_lower,"plane") or string.find(speech_lower,"heavens") or string.find(speech_lower,"dragons") or string.find(speech_lower,"flood") or string.find(speech_lower,"hell") or string.find(speech_lower,"hellfire") or string.find(speech_lower,"ice") or string.find(speech_lower,"major") or string.find(speech_lower,"relocate") or string.find(speech_lower,"meteorswarm") or string.find(speech_lower,"resurrect") or string.find(speech_lower,"shift") or string.find(speech_lower,"degeneration") or string.find(speech_lower,"supernova") or string.find(speech_lower,"wall") or string.find(speech_lower,"vaporform") or string.find(speech_lower,"word") or string.find(speech_lower,"wizard") or string.find(speech_lower,"aria") or string.find(speech_lower,"seed") or string.find(speech_lower,"apocalyptic") or string.find(speech_lower,"group")) then
     return true  -- No matching keywords
 end
 wait(1)

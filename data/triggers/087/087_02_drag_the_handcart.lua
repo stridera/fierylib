@@ -17,20 +17,20 @@ end
 if not (cmd == "drag") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
 wait(1)
 if string.find(arg, "cart") or string.find(arg, "wagon") then
     actor:send("The handcart creaks along behind you.")
     self.room:send_except(actor, "The handcart creaks along behind " .. tostring(actor.name) .. ".")
-    if actor.room == 8711 then
+    -- TODO(parity): legacy compared actor.room == 8711 (DG vnum). Confirm intended room
+    -- is (zone 87, id 11) and adjust this check if mapping differs.
+    if actor.room.zone_id == 87 and actor.room.local_id == 11 then
         wait(1)
         self.room:find_actor("blacksmith"):command("blink " .. tostring(actor.name))
         self.room:find_actor("blacksmith"):emote("rubs his eyes in disbelief.")
-        actor.name:send("The blacksmith says, 'Oh it's you, you found the handcart, thank the gods!'")
+        actor:send("The blacksmith says, 'Oh it's you, you found the handcart, thank the gods!'")
         wait(1)
         self.room:find_actor("blacksmith"):spawn_object(87, 0)
-        actor.name:send("The blacksmith says, 'I must reward such heroism, and I know just the thing.'")
+        actor:send("The blacksmith says, 'I must reward such heroism, and I know just the thing.'")
         self.room:find_actor("blacksmith"):command("give axe " .. tostring(actor.name))
         self.room:find_actor("blacksmith"):emote("moves the handcart into a bay near his tools.")
         world.destroy(self)
@@ -38,9 +38,9 @@ if string.find(arg, "cart") or string.find(arg, "wagon") then
         actor:send("<green>You hear a rustling in the grass nearby.</>")
         wait(1)
         self.room:spawn_mobile(87, 13)
-        self.room:find_actor("bandit"):command("kill %actor%")
+        self.room:find_actor("bandit"):command("kill " .. tostring(actor.name))
         self.room:spawn_mobile(87, 13)
-        self.room:find_actor("bandit"):command("kill %actor%")
+        self.room:find_actor("bandit"):command("kill " .. tostring(actor.name))
     end
 end
-return _return_value
+return true

@@ -10,7 +10,7 @@
 if actor.is_player then
     wait(1)
     self:shout("Help!  Help!")
-    self.room:find_actor("bandit"):command("kill %actor%")
+    self.room:find_actor("bandit"):command("kill " .. tostring(actor.name))
     wait(1)
     self.room:send("<green>A bandit flees from " .. tostring(actor.name) .. " into the undergrowth.</>")
     world.destroy(self.room:find_actor("2.bandit"))

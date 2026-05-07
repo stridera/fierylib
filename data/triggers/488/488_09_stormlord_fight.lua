@@ -1,15 +1,17 @@
 -- Trigger: stormlord fight
 -- Zone: 488, ID: 9
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: %victim.o%.&0 (&4%damdone%&0)
---   Syntax error: luac: <stormlord fight>:39: syntax error near 'end'
---   Complex nesting: 8 if statements
+-- Status: REVIEWED (hand-fixed)
 --
 -- Original DG Script: #48809
-
--- Converted from DG Script #48809: stormlord fight
--- Original: MOB trigger, flags: FIGHT, probability: 100%
+--
+-- Behavior: Each fight tick (100% prob), one of three branches:
+--   - 40%: lightning self-heal (1000 HP restored to "stormlord" in room).
+--   - 30%: thundering howl — up to 5 random unique players in the room take
+--     crush/physical damage. Stoneskin victims lose stoneskin and take +80 dmg.
+--     Sanctuary halves. The `victim_list` table tracks names already hit so a
+--     given player isn't struck twice in one howl.
+--   - 30%: targeted lightning blast on `actor` for shock damage.
 local mode = random(1, 10)
 if mode < 5 then
     wait(1)
@@ -21,31 +23,32 @@ elseif mode < 8 then
     wait(2)
     self:emote("lets out a thundering howl, causing the air around to vibrate.")
     local max_hits = 5
+    local hit_names = {}
     while max_hits > 0 do
         local victim = room.actors[random(1, #room.actors)]
-        if (victim.is_player) and not (string.find(victim_list, "victim.name")) then
+        if victim and victim.is_player and not hit_names[victim.name] then
             local damage = 150 + random(1, 50)
             if victim:has_effect(Effect.Sanctuary) then
                 damage = damage / 2
             end
+            local damage_dealt
             if victim:has_effect(Effect.Stone) then
                 -- More damage for stoneskin
                 damage = damage + 80
-                local damage_dealt = victim:damage(damage)  -- type: physical
-                self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. "'s stone-like skin grows massive cracks as the thunder rolls into")
-                -- UNCONVERTED: %victim.o%.&0 (&4%damdone%&0)
+                damage_dealt = victim:damage(damage)  -- type: physical
+                self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. "'s stone-like skin grows massive cracks as the thunder rolls into " .. tostring(victim.object) .. ".</> (<blue>" .. tostring(damage_dealt) .. "</>)")
                 victim:send("<yellow>The thundering howl shatters your stone-like skin, causing immense pain!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
             else
-                local damage_dealt = victim:damage(damage)  -- type: crush
+                damage_dealt = victim:damage(damage)  -- type: crush
                 if damage_dealt == 0 then
                     self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. " holds " .. tostring(victim.possessive) .. " ground.</>")
                     victim:send("<yellow>You hold your ground.</>")
                 else
-                    self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. " holds " .. tostring(victim.possessive) .. " head and cries out in pain!</> (<blue>" .. tostring(damage) .. "</>)")
-                    victim:send("<yellow>Pain breaks out in your head as the thunder pounds your ears!</> (<b:red>" .. tostring(damage) .. "</>)")
+                    self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. " holds " .. tostring(victim.possessive) .. " head and cries out in pain!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
+                    victim:send("<yellow>Pain breaks out in your head as the thunder pounds your ears!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
                 end
             end
-            victim_list = (victim_list or "") .. " " .. tostring(victim.name)
+            hit_names[victim.name] = true
         end
         max_hits = max_hits - 1
     end

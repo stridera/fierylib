@@ -11,7 +11,7 @@ if actor.is_player then
     wait(2)
     actor:send(tostring(self.name) .. " turns around and looks at you.")
     wait(1)
-    actor.name:send(self.name .. " tells you, '" .. "Welcome to my store." .. "'")
+    actor:send(tostring(self.name) .. " tells you, 'Welcome to my store.'")
     wait(1)
-    actor.name:send(self.name .. " tells you, '" .. "You can call me Mule." .. "'")
+    actor:send(tostring(self.name) .. " tells you, 'You can call me Mule.'")
 end

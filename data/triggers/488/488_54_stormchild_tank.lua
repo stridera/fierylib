@@ -1,24 +1,14 @@
--- Trigger: stormchild tank
+-- Trigger: stormchild tank — DEAD_CODE companion to 488/53
 -- Zone: 488, ID: 54
 -- Type: WORLD, Flags: SPEECH
--- Status: CLEAN
+-- Status: DEAD_CODE
 --
 -- Original DG Script: #48854
-
--- Converted from DG Script #48854: stormchild tank
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: Stop it,
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "stop") or string.find(string.lower(speech), "it,")) then
-    return true  -- No matching keywords
-end
-if actor.id == 48806 then
-    local tank = speech
-    globals.tank = globals.tank or true
-end
+--
+-- This trigger captured the Stormchild's "Stop it, NAME" speech to set a
+-- `tank` global consumed by 488/53. Both 488/53 and this trigger are
+-- superseded by the inline tank-detection logic in 488/06 stormchild_fight.
+-- Original DG-script probability was 0% (so it was already disabled in the
+-- legacy world). Left in place for archaeology only.
+-- TODO: delete this file (and 488/53) once no tooling references them.
+do return true end

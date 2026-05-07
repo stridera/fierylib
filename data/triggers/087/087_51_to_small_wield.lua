@@ -1,9 +1,14 @@
 -- Trigger: to_small_wield
 -- Zone: 87, ID: 51
 -- Type: OBJECT, Flags: WEAR
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
 --
 -- Original DG Script: #8751
+--
+-- TODO(parity): legacy DG returns 0 (allow) for tiny/small/medium while sending
+-- "It's too big for you!" -- almost certainly an inverted-return bug.
+-- Verified intent should be: small sizes are blocked, others allowed. Currently
+-- preserves legacy (buggy) behavior.
 
 -- Converted from DG Script #8751: to_small_wield
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%

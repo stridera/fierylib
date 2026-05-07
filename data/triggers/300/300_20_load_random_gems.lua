@@ -1,65 +1,59 @@
 -- Trigger: load random gems
 -- Zone: 300, ID: 20
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #30020
+--
+-- Replenishes Jhanna's (the gem-merchant's) shop stock by loading and selling
+-- a few randomly tiered gems whenever a player walks in, gated on whether the
+-- mob is already wearing the "wear-lock" item 187:1 (which prevents re-runs
+-- within a single session).
+--
+-- Gem ranges (legacy vnum -> composite):
+--   p1: 55566-55593  -> (555, 66)..(555, 93)   28 entries
+--   p2: 55594-55670  -> (555, 94)..(556, 70)   77 entries
+--   p3: 55671-55747  -> (556, 71)..(557, 47)   77 entries
+-- Tier roll on 1d10:
+--   1     -> no gem
+--   2-6   -> p1
+--   7-9   -> p2
+--   10    -> p3
 
--- Converted from DG Script #30020: load random gems
--- Original: MOB trigger, flags: GREET, probability: 100%
--- number of gems to load -- statring at 3, but that might be too many
-local loop = 3
--- gem IDs go from  to 55566-55751
--- p1 IDs from 55566-55593
--- p2 IDs from 55594-55670
--- P3 cnums from 55671-55747 (there are gems up to 55751, but not used.
--- random # -- 1-10 to create probabilites of good gem
--- 0 = NO GEM
--- 1 = NO GEM
--- 2-6 = P1 Gem
--- 7-9 = P2 Gem
--- 10  = P3 Gem
--- -- lets see if we should run process to get gems
--- -- we do that by looking for object 18701 -- if we are wearing it
--- -- then we don't need to load gems again
--- all the important stuff incased in this loop
-if not self:has_equipped("18701") then
-    self.room:spawn_object(187, 1)
-    get_room(11, 0):at(function()
-        self:command("wear lock")
-    end)
-    local itt = 1
-    while itt <= loop do
-        local p = random(1, 10)
-        if p == 10 then
-            -- say p3! %p%
-            local base = 55671
-            local extra = random(1, 76)
-        end
-        -- p2 gem
-        if (p <=9) and (p>=7) then
-            -- say p2 %p%555
-            local base = 55594
-            local extra = random(1, 76)
-        end
-        -- p1 gem
-        if (p <=6) and (p>=2) then
-            -- say p1 %p%
-            local base = 55566
-            local extra = random(1, 27)
-        end
-        -- no gem
-        if p < 2 then
-            -- say no gem - %p%
-            local base = 0
-            local extra = 0
-        end
-        if base > 55560 then
-            local gem = base + extra
-            self.room:spawn_object(math.floor(gem / 100), gem % 100)
-            self:command("sell gem Jhanna")
-        end
-        itt = itt + 1
+-- Number of gems to attempt to spawn-and-sell on each greet.
+local LOOP_COUNT = 3
+
+-- 187:1 is the "wear-lock" sentinel object; presence on equipment means we
+-- already topped up gems for this session.
+if self:has_equipped(187, 1) then
+    return true
+end
+
+-- Spawn the wear-lock and put it on. The legacy script used a remote-room
+-- helper to issue the wear command; in the modern API we simply command
+-- ourselves directly.
+self.room:spawn_object(187, 1)
+self:command("wear lock")
+
+for _ = 1, LOOP_COUNT do
+    local p = random(1, 10)
+    local base, extra = 0, 0
+    if p == 10 then
+        base = 55671
+        extra = random(0, 76)
+    elseif p >= 7 then
+        base = 55594
+        extra = random(0, 76)
+    elseif p >= 2 then
+        base = 55566
+        extra = random(0, 27)
+    end
+    -- TODO: review tier ranges -- legacy comments hint at off-by-one in p1
+    -- (28 entries vs random(1,27) original). Using random(0, N-1) here.
+    if base > 0 then
+        local gem = base + extra
+        self.room:spawn_object(math.floor(gem / 100), gem % 100)
+        self:command("sell gem Jhanna")
     end
 end
+return true

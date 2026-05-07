@@ -1,13 +1,16 @@
 -- Trigger: stormchild fight
 -- Zone: 488, ID: 6
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: REVIEWED
 --
 -- Original DG Script: #48806
-
--- Converted from DG Script #48806: stormchild fight
--- Original: MOB trigger, flags: FIGHT, probability: 50%
+--
+-- Behavior: 50% chance per fight tick. Branches:
+--   - 40%: invoke 488/51 (stormchild_heal) — area lightning + self-heal flavor.
+--   - 30%: invoke 488/52 (thunder wave) — AoE crush against non-zone actors.
+--   - 30%: targeted shock blast on `actor`. Mobs tanking eat massive damage to
+--     dissuade pet/charm cheese. Sanctuary halves. Actor must still be in the
+--     stormchild's room (488/51) when the blast lands.
 
 -- 50% chance to trigger
 if not percent_chance(50) then
@@ -24,11 +27,12 @@ elseif mode < 8 then
     run_room_trigger(488, 52)
 else
     self:emote("cries, 'Stop it, " .. tostring(actor.name) .. "!'")
+    local damage
     if actor.is_player then
-        local damage = 390 + random(1, 40)
+        damage = 390 + random(1, 40)
     else
         -- If a mob is tanking, hit it for massive damage!
-        local damage = 1000 + random(1, 200)
+        damage = 1000 + random(1, 200)
     end
     -- Halve damage for sanc
     if actor:has_effect(Effect.Sanctuary) then
@@ -37,7 +41,7 @@ else
     self.room:send_except(actor, "Lightning crackles around the Stormchild as she points a finger at " .. tostring(actor.name) .. ".")
     actor:send("Lightning crackles around the Stormchild as she points a finger at you!")
     wait(2)
-    if actor and (actor.room == 48851) then
+    if actor and (actor.room == get_room(488, 51)) then
         actor:send("The lightning overloads, flowing into a shocking blast flowing straight for you!")
         self.room:send_except(actor, "The lightning overloads, flowing into a shocking blast flowing straight for " .. tostring(actor.name) .. "!")
         local damage_dealt = actor:damage(damage)  -- type: shock

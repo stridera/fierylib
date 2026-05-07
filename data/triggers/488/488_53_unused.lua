@@ -1,13 +1,20 @@
--- Trigger: **UNUSED**
+-- Trigger: **UNUSED** — superseded by 488/06 stormchild_fight
 -- Zone: 488, ID: 53
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: DEAD_CODE
 --
 -- Original DG Script: #48853
-
--- Converted from DG Script #48853: **UNUSED**
--- Original: WORLD trigger, flags: GLOBAL, probability: 100%
+--
+-- DO NOT INVOKE. Logic was moved into the boss MOB FIGHT trigger (488/06)
+-- where the targeted "Stop it, NAME!" lightning blast now lives. Body left in
+-- place purely for archaeology — it still references DG-script remnants
+-- (`tank` global, `string.find(tank, "person.name")` literal, vnum 48851 room
+-- compare, block-scoped `local damage`) that are not worth fixing because
+-- nothing calls this. If you ever need to revive it, port it cleanly rather
+-- than patching.
+-- TODO: delete this file after verifying no `run_room_trigger(488, 53)` /
+-- equivalent invocation exists in any zone's triggers.
+do return true end
 -- This trigger is now handled in 48806
 if not tank then
     return _return_value

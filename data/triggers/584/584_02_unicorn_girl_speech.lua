@@ -13,11 +13,11 @@ if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: wrong
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "wrong")) then
-    return true  -- No matching keywords
+-- Speech keyword: "wrong"
+if not string.find(string.lower(speech), "wrong") then
+    return true
 end
+
 wait(1)
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
 actor:send(tostring(self.name) .. " says to you, 'The King will not free me, even though my obligation of service to him is done.  He shall never have my hand in marriage, thus I shall remain his slave forever.'")
