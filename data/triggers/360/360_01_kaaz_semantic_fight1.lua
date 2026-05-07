@@ -13,4 +13,4 @@ if not percent_chance(14) then
     return true
 end
 self:say("You've got nothing for me!")
-self:command("mosh " .. tostring(actor.name))
+self:command("mosh " .. actor.name)

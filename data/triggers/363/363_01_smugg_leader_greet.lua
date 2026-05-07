@@ -17,5 +17,5 @@ else
     self.room:send_except(actor, tostring(self.name) .. " stares at " .. tostring(actor.name) .. " in disbelief.")
     self:say("What the HELL do you think you are DOING!?")
     self:say("You just made the last mistake of your miserable existence!")
-    combat.engage(self, actor.name)
+    combat.engage(actor)
 end

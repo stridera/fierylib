@@ -4,19 +4,36 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #4908
-
--- Converted from DG Script #4908: TD PY Countdown
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
--- Team Domination Pylon Countdown (Random) Trigger
-if timeout then
-    timeout = timeout - 1
-    globals.timeout = globals.timeout or true
-    if timeout < 1 then
-        self.room:send("The " .. tostring(pylonname) .. " glows brightly, erupting in light!")
-        self.room:find_actor("teamdominationmc"):say("TDCommand Capture T" .. tostring(candidate) .. "T P" .. tostring(pylon) .. "P")
-        local owner = candidate
-        globals.owner = globals.owner or true
-        candidate = nil
-        timeout = nil
-    end
+--
+-- Ticks down a pending pylon capture. When the timer hits zero the pylon
+-- changes ownership and notifies the war-room mob, which fires 049_02.
+
+self.state = self.state or {}
+if not self.state.timeout then
+    return true
 end
+
+self.state.timeout = self.state.timeout - 1
+
+if self.state.timeout < 1 then
+    local pylonname = self.state.pylonname or "Caelian Pylon"
+    local pylon = self.state.pylon or 0
+    local candidate = self.state.candidate
+
+    self.room:send("The " .. pylonname .. " glows brightly, erupting in light!")
+
+    if candidate then
+        local mc = self.room:find_actor("teamdominationmc")
+        if mc then
+            mc:command("say TDCommand Capture T" .. tostring(candidate)
+                       .. "T P" .. pylon .. "P")
+        end
+        self.state.owner = candidate
+    end
+
+    self.state.candidate = nil
+    self.state.timeout = nil
+end
+
+return true

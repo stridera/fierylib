@@ -12,68 +12,21 @@
 if not percent_chance(25) then
     return true
 end
-if not done25 then
-    self.room:send("The ground all around begins to rustle with life...")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
-    self.room:spawn_mobile(430, 1)
-    self.room:find_actor("maudlin-panther"):command("kill %actor.name%")
+
+-- One-shot per beast lifetime.
+if globals.done25 then
+    return true
 end
-local done25 = "yes"
-globals.done25 = globals.done25 or true
+globals.done25 = true
+
+self.room:send("The ground all around begins to rustle with life...")
+
+-- Spawn 30 maudlin panthers (mob 430:1) and have each attack the actor.
+-- TODO: original DG #1795 likely used a wait/loop; verify count is intentional.
+for _ = 1, 30 do
+    self.room:spawn_mobile(430, 1)
+    local panther = self.room:find_actor("maudlin-panther")
+    if panther then
+        panther:command("kill " .. tostring(actor.name))
+    end
+end

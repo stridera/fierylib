@@ -1,17 +1,17 @@
 -- Trigger: waterform_wave_speech2
 -- Zone: 28, ID: 3
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: REVIEWED (speech match deduplicated and nil-safe)
 --
 -- Original DG Script: #2803
+-- The Great Wave responds to follow-up questions ("what / elements /
+-- things / like") at stage 2 with hints about needing a white dragon bone.
 
--- Converted from DG Script #2803: waterform_wave_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: elements elements? what what? things things? like like?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "elements") or string.find(string.lower(speech), "elements?") or string.find(string.lower(speech), "what") or string.find(string.lower(speech), "what?") or string.find(string.lower(speech), "things") or string.find(string.lower(speech), "things?") or string.find(string.lower(speech), "like") or string.find(string.lower(speech), "like?")) then
-    return true  -- No matching keywords
+-- Speech keywords: elements / what / things / like
+local speech_lower = string.lower(speech or "")
+if not (string.find(speech_lower, "elements") or string.find(speech_lower, "what")
+        or string.find(speech_lower, "things") or string.find(speech_lower, "like")) then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("waterform") == 2 then

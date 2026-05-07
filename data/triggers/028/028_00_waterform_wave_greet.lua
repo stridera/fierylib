@@ -1,16 +1,19 @@
 -- Trigger: waterform_wave_greet
 -- Zone: 28, ID: 0
 -- Type: MOB, Flags: GREET_ALL
--- Status: CLEAN
+-- Status: REVIEWED (player-only class check guarded)
 --
 -- Original DG Script: #2800
+-- The Great Wave reacts to anyone entering its room based on their waterform
+-- quest stage. Stage 0 with a high-level Cryomancer triggers the quest pitch.
 
--- Converted from DG Script #2800: waterform_wave_greet
--- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
+if not actor.is_player then
+    return true
+end
 local stage = actor:get_quest_stage("waterform")
 if stage == 0 then
-    if string.find(actor.class, "Cryomancer") then
+    if actor.class and string.find(actor.class, "Cryomancer") then
         self:say("How nice to see someone other than those dreadful pirates.")
         if actor.level > 72 then
             wait(2)

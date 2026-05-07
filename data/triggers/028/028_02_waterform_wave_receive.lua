@@ -1,21 +1,21 @@
 -- Trigger: waterform_wave_receive
 -- Zone: 28, ID: 2
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: quest
---   Syntax error: luac: <waterform_wave_receive>:5: unexpected symbol near '='
---   Complex nesting: 9 if statements
---   Large script: 9950 chars
+-- Status: REVIEWED (object.id checks fixed; quest var literals fixed)
 --
 -- Original DG Script: #2802
-
--- Converted from DG Script #2802: waterform_wave_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
+-- The Great Wave receives objects from a player. Behavior depends on:
+--   * waterform:new == "yes": player lost the cup; accept a new white dragon
+--     bone (28:7) to forge a replacement cup (28:8), then clear the flag.
+--   * Otherwise: handle normal quest stage progression for stages 1, 3, 4, 5, 6, 7.
+--
+-- Object IDs use composite (zone_id, local_id):
+--   28:7  = white dragon thigh bone (carved into the cup)
+--   28:8  = dragon bone cup
+--   510:9 = amorphous shield (water-armor input at stage 1)
 local stage = actor:get_quest_stage("waterform")
-if actor:get_quest_var("waterform:new") ~= yes then
-    if object.id == 2807 then
-        -- UNCONVERTED: quest
+if actor:get_quest_var("waterform:new") == "yes" then
+    if object.zone_id == 28 and object.local_id == 7 then
         wait(2)
         self:say("Yes, I can make a new dragon bone cup from this.")
         world.destroy(object)
@@ -29,13 +29,12 @@ if actor:get_quest_var("waterform:new") ~= yes then
         self:command("give dragon-bone-cup " .. tostring(actor.name))
         self:say("Don't lose this again!")
     else
-        _return_value = true
         wait(2)
         self:say("I can't make a new cup from this.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 1 then
-    if object.id == 51009 then
+    if object.zone_id == 510 and object.local_id == 9 then
         actor:advance_quest("waterform")
         wait(2)
         self:destroy_item("shield")
@@ -67,12 +66,11 @@ elseif stage == 1 then
         self.room:send(tostring(self.name) .. " says, 'I apologize, but if you wish to continue, you will have")
         self.room:send("</>to find a few other things.'")
     else
-        _return_value = true
         self:say("This isn't armor made of water.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 3 then
-    if object.id == 2807 then
+    if object.zone_id == 28 and object.local_id == 7 then
         actor:advance_quest("waterform")
         wait(2)
         self.room:send(tostring(self.name) .. " examines " .. tostring(object.shortdesc) .. ".")
@@ -96,28 +94,24 @@ elseif stage == 3 then
         self.room:send(tostring(self.name) .. " says, 'Once you've gathered the four samples, return and give me")
         self.room:send("</>the cup.'")
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This won't make a usable vessel.")
     end
 elseif stage == 4 then
-    if object.id == 2808 then
-        _return_value = true
+    if object.zone_id == 28 and object.local_id == 8 then
         self:say("It seems you haven't collected all four samples yet.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
     else
-        _return_value = true
         self:say("Why are you bringing me this?")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         self:say("You should be out collecting living water samples.")
     end
 elseif stage == 5 then
-    if object.id == 2808 then
+    if object.zone_id == 28 and object.local_id == 8 then
         actor:advance_quest("waterform")
-        _return_value = true
         self:say("Yes, these samples are perfect.")
         wait(2)
         self:emote("rises up, coaxing wavering orbs of water out of the dragon bone cup.")
@@ -145,26 +139,23 @@ elseif stage == 5 then
         self.room:send(tostring(self.name) .. " says, 'Once you have examined all six sites, return and I shall")
         self.room:send("</>try the transformation again.'")
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " says, 'You haven't been trying to collect samples in this have")
         self.room:send("</>you?'")
     end
 elseif stage == 6 then
-    if object.id == 2808 then
-        _return_value = true
+    if object.zone_id == 28 and object.local_id == 8 then
         self:say("You haven't completed all of your examinations yet!")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
-        self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your<b:white>[progress]</>?'")
+        self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
     else
-        _return_value = true
         self:say("What is this for?")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
     end
 elseif stage == 7 then
-    if object.id == 2808 then
+    if object.zone_id == 28 and object.local_id == 8 then
         wait(2)
         self:destroy_item("dragon-bone-cup")
         self.room:send(tostring(self.name) .. " says, 'Everything is ready!  I shall attempt the transformation")
@@ -184,13 +175,11 @@ elseif stage == 7 then
         actor:send("<b:blue>The Great Wave imparts the method to transform your body into pure raging water!</>")
         actor:complete_quest("waterform")
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not the dragon bone cup.")
     end
 else
-    _return_value = true
     self:say("I don't remember asking you to retrieve this.")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 end
-return _return_value
+return true

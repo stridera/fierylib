@@ -1,15 +1,15 @@
 -- Trigger: **UNUSED**
 -- Zone: 28, ID: 8
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <**UNUSED**>:24: function arguments expected near ']'
---   Complex nesting: 15 if statements
---   Large script: 7018 chars
+-- Status: REVIEWED (UNUSED; bitwise '&' typos fixed; legacy DG remnants flagged)
 --
 -- Original DG Script: #2808
-
--- Converted from DG Script #2808: **UNUSED**
--- Original: MOB trigger, flags: DEATH, probability: 100%
+-- This trigger appears to be a stale concatenation of (a) the waterform
+-- water-death tally (see 028_05 for the canonical version) and (b) a phase-3
+-- mini-boss random-drop table for an unrelated zone (557/553). Not currently
+-- attached to any mob in the dataset. Kept for reference only.
+-- TODO: confirm UNUSED status and either delete this file or split into the
+--       two distinct triggers it was originally combining.
 local _return_value = true  -- Default: allow action
 local i = actor.group_size
 if i then
@@ -105,7 +105,7 @@ if will_drop <= 70 then
     if bonus <= 50 then
         -- drop a gem from the previous wear pos set
         self.room:spawn_object(557, 14 + what_gem_drop)
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem from the current wear pos set
         self.room:spawn_object(557, 25 + what_gem_drop)
@@ -114,12 +114,12 @@ if will_drop <= 70 then
         -- drop a gem from the next wear pos set
         self.room:spawn_object(557, 36 + what_gem_drop)
     end
-elseif will_drop >= 71 &will_drop <= 90 then
+elseif will_drop >= 71 and will_drop <= 90 then
     -- Normal non-bonus drops
     if bonus <= 50 then
         -- 
         self.room:spawn_object(553, 71 + what_armor_drop)
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop armor from the current wear pos set
         self.room:spawn_object(553, 75 + what_armor_drop)
@@ -134,7 +134,7 @@ else
         -- drop armor and gem from previous wear pos
         self.room:spawn_object(557, 14 + what_gem_drop)
         self.room:spawn_object(553, 71 + what_armor_drop)
-    elseif bonus >= 51 &bonus <= 90 then
+    elseif bonus >= 51 and bonus <= 90 then
         -- We're in the Normal drops from current wear pos set
         -- drop a gem and armor from the current wear pos set
         self.room:spawn_object(553, 75 + what_armor_drop)

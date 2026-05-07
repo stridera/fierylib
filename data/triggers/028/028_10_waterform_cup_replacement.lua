@@ -1,25 +1,24 @@
 -- Trigger: waterform_cup_replacement
 -- Zone: 28, ID: 10
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: REVIEWED (nil-safe stage check; phrase match tightened; cup-flag check fixed)
 --
 -- Original DG Script: #2810
+-- The Great Wave: if a player past stage 3 lost their dragon bone cup, they
+-- can say "I need a new cup" to flag the quest var and have the wave accept
+-- a fresh white dragon thigh bone (handled in 028_02).
+-- Note: the original DG script was probability 0% (effectively disabled),
+-- but 028_07 advertises this exact phrase to the player, so we treat it as
+-- 100%.
 
--- Converted from DG Script #2810: waterform_cup_replacement
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+-- Match the full advertised phrase rather than any single keyword.
+local speech_lower = string.lower(speech or "")
+if not string.find(speech_lower, "new cup") then
     return true
 end
-
--- Speech keywords: I need a new cup
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "need") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "new") or string.find(string.lower(speech), "cup")) then
-    return true  -- No matching keywords
-end
 wait(2)
-if actor:get_quest_stage("waterform") > 3 and actor:get_quest_var("waterform:new") == 0 then
+local stage = actor:get_quest_stage("waterform")
+if stage and stage > 3 and actor:get_quest_var("waterform:new") ~= "yes" then
     actor:set_quest_var("waterform", "new", "yes")
     self:say("Oh no, you lost the cup??")
     wait(1)
@@ -28,3 +27,4 @@ if actor:get_quest_stage("waterform") > 3 and actor:get_quest_var("waterform:new
     wait(2)
     self:say("Go find another acceptable dragon bone.")
 end
+return true

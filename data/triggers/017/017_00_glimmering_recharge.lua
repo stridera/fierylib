@@ -7,13 +7,15 @@
 
 -- Converted from DG Script #1700: glimmering_recharge
 -- Original: WORLD trigger, flags: DROP, probability: 100%
-if object.id == 1700 then
+-- Fires when an object is dropped in this room. Filter to the
+-- glimmering ring (zone 17, local id 0) and recharge it.
+if object.zone_id == 17 and object.local_id == 0 then
     wait(1)
-    self.room:send("Just as the ring hits the ground, the chest opens as if by magic.")
+    self:send("Just as the ring hits the ground, the chest opens as if by magic.")
     wait(1)
-    self.room:send("A bright light eminates from chest, focusing on the ring.")
+    self:send("A bright light eminates from chest, focusing on the ring.")
     wait(1)
-    self.room:send("The light subsides and the chest closes without help.")
-    world.destroy(self.room:find_actor("glimmering"))
-    self.room:spawn_object(17, 0)
+    self:send("The light subsides and the chest closes without help.")
+    world.destroy(object)
+    self:spawn_object(17, 0)
 end

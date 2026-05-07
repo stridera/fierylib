@@ -1,52 +1,58 @@
 -- Trigger: TD WR Init
 -- Zone: 49, ID: 0
 -- Type: WORLD, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <TD WR Init>:27: syntax error near '%'
+-- Status: CLEAN
 --
 -- Original DG Script: #4900
-
--- Converted from DG Script #4900: TD WR Init
 -- Original: WORLD trigger, flags: SPEECH, probability: 0%
+--
+-- Initializes shared Team Domination state held in globals: team names and
+-- abbreviations, per-pylon owner array (-1 = unowned), and the pylon name.
+-- Spawns the war-room control mob (49:0) if not present. Triggered by an
+-- admin saying "TDCommand Start" in the war room.
+--
+-- TODO(converter): probability=0% in source means this never auto-fires; the
+-- intent is purely manual admin invocation. Left intact for fidelity.
 
--- 0% chance to trigger
 if not percent_chance(0) then
     return true
 end
 
--- Speech keywords: TDCommand Start
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "tdcommand") or string.find(string.lower(speech), "start")) then
-    return true  -- No matching keywords
+-- Speech keywords: "TDCommand Start"
+if not (string.find(string.lower(speech), "tdcommand")
+        and string.find(string.lower(speech), "start")) then
+    return true
 end
--- Team Domination War Room Init (Speech) Trigger
-local teams = 4
-local team0 = "Mielikki's Champions"
-local abbr0 = "MC"
-local team1 = "Rangers of the North"
-local abbr1 = "RN"
-local team2 = "The Invasion Army"
-local abbr2 = "IA"
-local team3 = "The Miner's Guild"
-local abbr3 = "MG"
-globals.teams = globals.teams or true
-local i = 0
-while i < teams do
-    globals["team" .. i] = globals["team" .. i] or true
-    globals["abbr" .. i] = globals["abbr" .. i] or true
-    i = i + 1
+
+local NUM_TEAMS = 4
+local NUM_PYLONS = 10
+
+globals.teams = NUM_TEAMS
+globals.pylons = NUM_PYLONS
+globals.pylonname = "Caelian Pylon"
+
+globals.team = {
+    [0] = "Mielikki's Champions",
+    [1] = "Rangers of the North",
+    [2] = "The Invasion Army",
+    [3] = "The Miner's Guild",
+}
+globals.abbr = {
+    [0] = "MC",
+    [1] = "RN",
+    [2] = "IA",
+    [3] = "MG",
+}
+
+globals.pylon = {}
+for i = 0, NUM_PYLONS - 1 do
+    globals.pylon[i] = -1
 end
-local pylons = 10
-globals.pylons = globals.pylons or true
-local i = 0
-while i < pylons do
-    pylon[i] = -1
-    globals["pylon" .. i] = globals["pylon" .. i] or true
-    i = i + 1
-end
-local pylonname = "Caelian Pylon"
-globals.pylonname = globals.pylonname or true
-if actor:get_mexists("4900") < 1 then
+
+-- Spawn the war-room control mob if not already present.
+if world.count_mobiles(49, 0) < 1 then
     self.room:spawn_mobile(49, 0)
 end
+
 self.room:send("Team Domination War Room variables initialized to defaults.")
+return true

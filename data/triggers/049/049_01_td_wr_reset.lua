@@ -4,40 +4,35 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #4901
-
--- Converted from DG Script #4901: TD WR Reset
 -- Original: WORLD trigger, flags: SPEECH, probability: 0%
+--
+-- Tears down all shared Team Domination state and despawns the war-room
+-- control mob. Triggered by an admin saying "TDCommand Purge" in the war
+-- room. Companion to 049_00.
 
--- 0% chance to trigger
 if not percent_chance(0) then
     return true
 end
 
--- Speech keywords: TDCommand Purge
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "tdcommand") or string.find(string.lower(speech), "purge")) then
-    return true  -- No matching keywords
+-- Speech keywords: "TDCommand Purge"
+if not (string.find(string.lower(speech), "tdcommand")
+        and string.find(string.lower(speech), "purge")) then
+    return true
 end
--- Team Domination War Room Reset (Speech) Trigger
-if teams then
-    local i = 0
-    while i < teams do
-        team[i] = nil
-        abbr[i] = nil
-        i = i + 1
+
+globals.teams = nil
+globals.pylons = nil
+globals.pylonname = nil
+globals.team = nil
+globals.abbr = nil
+globals.pylon = nil
+
+if world.count_mobiles(49, 0) > 0 then
+    local mob = self.room:find_actor("teamdominationmc")
+    if mob then
+        world.destroy(mob)
     end
-    teams = nil
 end
-if pylons then
-    local i = 0
-    while i < pylons do
-        pylon[i] = nil
-        i = i + 1
-    end
-    pylons = nil
-end
-pylonname = nil
-if actor:get_mexists("4900") > 0 then
-    world.destroy(self.room:find_actor("teamdominationmc"))
-end
+
 self.room:send("Team Domination War Room variables reset.")
+return true

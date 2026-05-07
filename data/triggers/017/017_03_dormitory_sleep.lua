@@ -7,23 +7,20 @@
 
 -- Converted from DG Script #1703: dormitory_sleep
 -- Original: WORLD trigger, flags: COMMAND, probability: 100%
+-- Intent: when a player types "sleep" in this dormitory room while
+-- already resting/alert, instead trigger the rent flow.
 
 -- Command filter: sleep
-if not (cmd == "sleep") then
-    return true  -- Not our command
+if cmd ~= "sleep" then
+    return true  -- Not our command; allow default handling
 end
-local _return_value = true  -- Default: allow action
-if not actor then
-    _return_value = true
-elseif actor.id >= 0 then
-    _return_value = true
-elseif s == "cmd" then
-    _return_value = true
-elseif actor.stance ~= "resting" and actor.stance ~= "alert" then
-    _return_value = true
-else
-    actor:send("You retreat into your cubicle, lay down your belongings, and rest.")
-    self.room:send_except(actor, tostring(actor.name) .. " enters " .. tostring(actor.possessive) .. " cubicle and tunes out the world.")
-    actor:rent()
+
+-- Only intercept for player actors
+if not actor or actor.is_npc then
+    return true
 end
-return _return_value
+
+-- TODO: Re-enable once `actor.stance` and `actor:rent()` bindings exist.
+-- Original DG Script gated rent on stance == resting/alert and called
+-- the rent command. For now allow the default "sleep" action through.
+return true

@@ -1,14 +1,12 @@
 -- Trigger: waterform_wave_status_checker
 -- Zone: 28, ID: 7
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 22 if statements
---   Large script: 5025 chars
+-- Status: REVIEWED (nil-safe sample tally; water keys converted to composite IDs)
 --
 -- Original DG Script: #2807
-
--- Converted from DG Script #2807: waterform_wave_status_checker
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- The Great Wave reports the player's progress on the waterform quest when
+-- the player says "status" or "progress". Stage 4 reports collected region
+-- samples (see 028_05). Stage 6 reports examined water sources (see 028_06).
 
 -- Speech keywords: status status? progress progress?
 local speech_lower = string.lower(speech)
@@ -53,17 +51,20 @@ elseif stage == 4 then
         end
     end
     -- (empty room echo)
-    local samples = 4 - (region1 + region2 + region3 + region4 + region5)
+    local collected = (region1 and 1 or 0) + (region2 and 1 or 0) + (region3 and 1 or 0)
+                    + (region4 and 1 or 0) + (region5 and 1 or 0)
+    local samples = 4 - collected
     self.room:send("You need <b:blue>" .. tostring(samples) .. "</> more.")
 elseif stage == 5 then
     self:say("Give me the cup so I can see the samples.")
 elseif stage == 6 then
-    local water1 = actor:get_quest_var("waterform:3296")
-    local water2 = actor:get_quest_var("waterform:58405")
-    local water3 = actor:get_quest_var("waterform:53319")
-    local water4 = actor:get_quest_var("waterform:55804")
-    local water5 = actor:get_quest_var("waterform:58701")
-    local water6 = actor:get_quest_var("waterform:37014")
+    -- Composite IDs match the keys written by 028_06.
+    local water1 = actor:get_quest_var("waterform:32_96")
+    local water2 = actor:get_quest_var("waterform:584_5")
+    local water3 = actor:get_quest_var("waterform:533_19")
+    local water4 = actor:get_quest_var("waterform:558_4")
+    local water5 = actor:get_quest_var("waterform:587_1")
+    local water6 = actor:get_quest_var("waterform:370_14")
     self:say("You are looking for six unique sources of water.")
     if water1 or water2 or water3 or water4 or water5 or water6 then
         -- (empty room echo)
@@ -114,7 +115,7 @@ elseif actor:get_has_completed("waterform") then
 elseif not stage then
     self:say("But we're not doing anything together!")
 end
-if stage > 3 then
+if stage and stage > 3 then
     -- (empty room echo)
     self.room:send(tostring(self.name) .. " says, 'If you need a new cup, say \"<b:yellow>I need a new cup</>\".'")
 end

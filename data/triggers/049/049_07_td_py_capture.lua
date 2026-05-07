@@ -1,60 +1,85 @@
 -- Trigger: TD PY Capture
 -- Zone: 49, ID: 7
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <TD PY Capture>:21: 'then' expected near 'iT'
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4907
-
--- Converted from DG Script #4907: TD PY Capture
 -- Original: OBJECT trigger, flags: COMMAND, probability: 4%
+--
+-- Receives "xcapture T<team>T" relayed from the armband (049_04). Three
+-- cases:
+--   * candidate == team    : already counting down for this team
+--   * owner     == team    : already owned by this team -- reject
+--   * neither              : start a new countdown, notify the war room
+-- A foreign team touching during another team's countdown cancels it.
 
--- 4% chance to trigger
 if not percent_chance(4) then
     return true
 end
 
--- Command filter: xcapture
-if not (cmd == "xcapture") then
-    return true  -- Not our command
+if cmd ~= "xcapture" then
+    return true
 end
-local _return_value = true  -- Default: allow action
--- Team Domination Pylon Capture (Command) Trigger
-if not arg then
-    _return_value = true
-    return _return_value
+
+if not arg or arg == "" then
+    return true
 end
-local i = 0
-while i < teams do
-    if string.find(arg, "T iT") then
-        if candidate == "i" then
-            local seconds = timeout * 12
-            actor:send("Your team will capture this " .. tostring(pylonname) .. " in " .. tostring(seconds) .. " seconds!")
-        elseif owner == "i" then
-            if candidate then
-                actor:send("You touch the " .. tostring(pylonname) .. ", canceling team " .. tostring(candidate) .. "'s attempt to capture your " .. tostring(pylonname) .. "!")
-                self.room:send_except(actor, tostring(actor.name) .. " touches the " .. tostring(pylonname) .. ", disrupting its pulsing.")
-                self.room:find_actor("teamdominationmc"):say("TDCommand Cancel T" .. tostring(i) .. "T P" .. tostring(pylon) .. "P")
-                candidate = nil
-            else
-                actor:send("But your team already controls this " .. tostring(pylonname) .. "!")
-            end
-        else
-            local timeout = 4
-            globals.timeout = globals.timeout or true
-            local candidate = i
-            globals.candidate = globals.candidate or true
-            local seconds = timeout * 12
-            actor:send("You touch the " .. tostring(pylonname) .. ", and it starts pulsating.")
-            actor:send("Your team will capture this " .. tostring(pylonname) .. " in " .. tostring(seconds) .. " seconds!")
-            self.room:send_except(actor, tostring(actor.name) .. " touches the " .. tostring(pylonname) .. ", and it starts pulsating.")
-            self.room:find_actor("teamdominationmc"):say("TDCommand Countdown T" .. tostring(candidate) .. "T P" .. tostring(pylon) .. "P")
+
+self.state = self.state or {}
+local pylonname = self.state.pylonname or "Caelian Pylon"
+local pylon = self.state.pylon or 0
+local teams = self.state.teams or (globals.teams or 4)
+
+-- Parse "T<team>T" out of arg.
+local team_idx = tonumber(string.match(arg, "T(%d+)T"))
+if not team_idx or team_idx < 0 or team_idx >= teams then
+    return true
+end
+
+local candidate = self.state.candidate
+local owner = self.state.owner
+
+if candidate == team_idx then
+    -- Same team is already counting down; remind them.
+    local timeout = self.state.timeout or 0
+    local seconds = timeout * 12
+    actor:send("Your team will capture this " .. pylonname
+               .. " in " .. seconds .. " seconds!")
+elseif owner == team_idx then
+    if candidate then
+        -- Owner returns mid-attempt and disrupts the rival capture.
+        actor:send("You touch the " .. pylonname
+                   .. ", canceling team " .. tostring(candidate)
+                   .. "'s attempt to capture your " .. pylonname .. "!")
+        self.room:send_except(actor, tostring(actor.name)
+                              .. " touches the " .. pylonname
+                              .. ", disrupting its pulsing.")
+        local mc = self.room:find_actor("teamdominationmc")
+        if mc then
+            mc:command("say TDCommand Cancel T" .. team_idx
+                       .. "T P" .. pylon .. "P")
         end
-        _return_value = false
-        return _return_value
+        self.state.candidate = nil
+    else
+        actor:send("But your team already controls this " .. pylonname .. "!")
     end
-    i = i + 1
+else
+    -- New countdown.
+    local timeout = 4
+    self.state.timeout = timeout
+    self.state.candidate = team_idx
+    local seconds = timeout * 12
+    actor:send("You touch the " .. pylonname .. ", and it starts pulsating.")
+    actor:send("Your team will capture this " .. pylonname
+               .. " in " .. seconds .. " seconds!")
+    self.room:send_except(actor, tostring(actor.name)
+                          .. " touches the " .. pylonname
+                          .. ", and it starts pulsating.")
+    local mc = self.room:find_actor("teamdominationmc")
+    if mc then
+        mc:command("say TDCommand Countdown T" .. team_idx
+                   .. "T P" .. pylon .. "P")
+    end
 end
-_return_value = true
-return _return_value
+
+return false  -- consume the relayed command

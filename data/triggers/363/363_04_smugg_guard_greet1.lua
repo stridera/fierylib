@@ -13,7 +13,8 @@ if not percent_chance(40) then
     return true
 end
 -- This is a cute lil greet for the chief guard.
-if actor.id == 36306 then
+-- 36306 -> (zone_id 363, local_id 6) chief guard
+if actor.zone_id == 363 and actor.local_id == 6 then
     self:emote("snaps to attention.")
 else
     -- switch on actor:get_quest_stage("illusionist_subclass")
@@ -45,6 +46,6 @@ else
         wait(1)
         self:say("Aha!  If it isn't the little thief herself!")
         wait(4)
-        combat.engage(self, actor.name)
+        combat.engage(actor)
     end
 end

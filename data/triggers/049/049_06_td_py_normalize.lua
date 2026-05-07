@@ -4,19 +4,18 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #4906
-
--- Converted from DG Script #4906: TD PY Normalize
 -- Original: OBJECT trigger, flags: COMMAND, probability: 4%
+--
+-- Catches the partial command "xcaptur" on a pylon. Returning true allows
+-- DG's abbreviation match to expand it to "xcapture", which 049_07 then
+-- handles. Pass-through; no logic by design.
 
--- 4% chance to trigger
 if not percent_chance(4) then
     return true
 end
 
--- Command filter: xcaptur
-if not (cmd == "xcaptur") then
-    return true  -- Not our command
+if cmd ~= "xcaptur" then
+    return true
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
-return _return_value
+
+return true

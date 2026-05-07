@@ -1,80 +1,81 @@
 -- Trigger: waterform_water_death
 -- Zone: 28, ID: 5
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <waterform_water_death>:23: function arguments expected near ']'
---   Complex nesting: 9 if statements
+-- Status: REVIEWED (region switch fixed; nil-safe sample tally; group iteration normalized)
 --
 -- Original DG Script: #2805
+-- When a "water creature" dies, any group member in the same room who is on
+-- waterform stage 4 and is carrying or wearing the dragon bone cup (28:8)
+-- gets credit for that creature's region. Each region can only be tallied
+-- once per player. After 4 regions are tallied, advance the quest.
+--
+-- Region map (composite mob IDs):
+--   region1: Blue-Fog (self 28:5, 28:8 [unused twin], 28:9, 118:5)
+--   region2: Nordus      (self 510:1, 510:19, 510:21)
+--   region3: Layveran    (self 40:2)
+--   region4: default     (everything else, e.g. Plane of Water)
+--   region5: sunken castle (self 530:4)
+-- Note: mob 486:31 was excluded in the original DG (no region credit).
+-- TODO: confirm intended exclusion behavior for 486:31.
 
--- Converted from DG Script #2805: waterform_water_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local i = actor.group_size
-if i then
-    local a = 1
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("waterform") == 4 and (person:has_item("2808") or person:has_equipped("2808")) then
-                -- switch on self.id
-                if self.id == 2805 or self.id == 2808 or self.id == 2809 or self.id == 11805 then
-                    local number = 1
-                elseif self.id == 51001 or self.id == 51019 or self.id == 51021 then
-                    local number = 2
-                elseif self.id == 4002 then
-                    local number = 3
-                elseif self.id == 53004 then
-                    local number = 5
-                elseif self.id == 48631 then
-                else
-                    local number = 4
-                end
-                if person:get_quest_var("waterform:regionnumber") == 0 then
-                    person:set_quest_var("waterform", "region%number%", 1)
-                    person:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
-                    self.room:send_except(person, "<b:blue>" .. tostring(person.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
-                end
-                local region1 = person:get_quest_var("waterform:region1")
-                local region2 = person:get_quest_var("waterform:region2")
-                local region3 = person:get_quest_var("waterform:region3")
-                local region4 = person:get_quest_var("waterform:region4")
-                local region5 = person:get_quest_var("waterform:region5")
-                if region1 + region2 + region3 + region4 + region5 > 3 then
-                    person:send("<b:blue>You have gathered all the samples of living water you need!</>")
-                    person:advance_quest("waterform")
-                end
-            end
-        elseif person then
-            i = i + 1
-        end
-        a = a + 1
-    end
-elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or actor:has_equipped("2808")) then
-    -- switch on self.id
-    if self.id == 2805 or self.id == 2808 or self.id == 2809 or self.id == 11805 then
-        local number = 1
-    elseif self.id == 51001 or self.id == 51019 or self.id == 51021 then
-        local number = 2
-    elseif self.id == 4002 then
-        local number = 3
-    elseif self.id == 53004 then
-        local number = 5
-    elseif self.id == 48631 then
+local function region_for(zone, local_id)
+    if zone == 28 and (local_id == 5 or local_id == 8 or local_id == 9) then
+        return 1
+    elseif zone == 118 and local_id == 5 then
+        return 1
+    elseif zone == 510 and (local_id == 1 or local_id == 19 or local_id == 21) then
+        return 2
+    elseif zone == 40 and local_id == 2 then
+        return 3
+    elseif zone == 530 and local_id == 4 then
+        return 5
+    elseif zone == 486 and local_id == 31 then
+        return nil  -- excluded
     else
-        local number = 4
+        return 4
     end
-    if actor:get_quest_var("waterform:regionnumber") == 0 then
-        actor:set_quest_var("waterform", "region%number%", 1)
-        actor:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
-        self.room:send_except(actor, "<b:blue>" .. tostring(actor.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
+end
+
+local function maybe_credit(person)
+    if person.room ~= self.room then
+        return
     end
-    local region1 = actor:get_quest_var("waterform:region1")
-    local region2 = actor:get_quest_var("waterform:region2")
-    local region3 = actor:get_quest_var("waterform:region3")
-    local region4 = actor:get_quest_var("waterform:region4")
-    local region5 = actor:get_quest_var("waterform:region5")
-    if region1 + region2 + region3 + region4 + region5 > 3 then
-        actor:send("<b:blue>You have gathered all the samples of living water you need!</>")
-        actor:advance_quest("waterform")
+    if person:get_quest_stage("waterform") ~= 4 then
+        return
     end
+    -- Must have the dragon bone cup (28:8) in inventory or equipped.
+    if not (person:has_item("dragon-bone-cup") or person:has_equipped(28, 8)) then
+        return
+    end
+    local number = region_for(self.zone_id, self.local_id)
+    if not number then
+        return
+    end
+    local region_key = "region" .. tostring(number)
+    if not person:get_quest_var("waterform:" .. region_key) then
+        person:set_quest_var("waterform", region_key, 1)
+        person:send("<b:blue>You gather part of " .. tostring(self.name) ..
+            " in " .. tostring(objects.template(28, 8).name) .. ".</>")
+        self.room:send_except(person, "<b:blue>" .. tostring(person.name) ..
+            " gathers part of " .. tostring(self.name) ..
+            " in " .. tostring(objects.template(28, 8).name) .. ".</>")
+    end
+    local total = 0
+    for r = 1, 5 do
+        if person:get_quest_var("waterform:region" .. tostring(r)) then
+            total = total + 1
+        end
+    end
+    if total > 3 then
+        person:send("<b:blue>You have gathered all the samples of living water you need!</>")
+        person:advance_quest("waterform")
+    end
+end
+
+if actor.group then
+    for _, member in ipairs(actor.group) do
+        maybe_credit(member)
+    end
+else
+    maybe_credit(actor)
 end

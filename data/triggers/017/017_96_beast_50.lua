@@ -12,59 +12,22 @@
 if not percent_chance(50) then
     return true
 end
-if not done50 then
-    self.room:send(tostring(self.name) .. " writhes in pain, slamming its enormous claws on the ground!")
-    self.room:send("-     -    -   -  - -----BANG----- -  -   -    -     -")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
-    self.room:spawn_mobile(28, 1)
-    self.room:find_actor("ripples"):command("kill %actor.name%")
+
+-- One-shot per beast lifetime.
+if globals.done50 then
+    return true
 end
-local done50 = "yes"
-globals.done50 = globals.done50 or true
+globals.done50 = true
+
+self.room:send(tostring(self.name) .. " writhes in pain, slamming its enormous claws on the ground!")
+self.room:send("-     -    -   -  - -----BANG----- -  -   -    -     -")
+
+-- Spawn 25 ripples (mob 28:1) and have each attack the actor.
+-- TODO: original DG #1796 likely used a wait/loop; verify count is intentional.
+for _ = 1, 25 do
+    self.room:spawn_mobile(28, 1)
+    local ripples = self.room:find_actor("ripples")
+    if ripples then
+        ripples:command("kill " .. tostring(actor.name))
+    end
+end

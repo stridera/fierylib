@@ -13,4 +13,4 @@ if not percent_chance(16) then
     return true
 end
 self:say("So you think you are mighty enough to take me?!")
-self:command("laugh " .. tostring(actor.name))
+self:command("laugh " .. actor.name)
