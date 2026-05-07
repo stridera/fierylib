@@ -1,26 +1,24 @@
 -- Trigger: Flameball quest status checker
 -- Zone: 52, ID: 13
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #5213
-
--- Converted from DG Script #5213: Flameball quest status checker
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+--
+-- "quest"/"progress" status check for the emmath_flameball quest. Stage 2
+-- shows a have/need list of the three flames keyed by quest var. Probability
+-- 0 in the legacy DG meant keyword-only (no random firing) — preserved as a
+-- straight keyword guard with no random gate.
+--
+-- TODO: keys "emmath_flameball:17308", "emmath_flameball:5211",
+--       "emmath_flameball:5212" use legacy vnums; should match the
+--       composite "{zone}_{local}" form set in 052_08 once aligned.
+local speech_lower = string.lower(speech)
+if not (string.find(speech_lower, "quest") or string.find(speech_lower, "progress")) then
     return true
 end
 
--- Speech keywords: quest progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
-end
 wait(2)
--- switch on actor:get_quest_stage("emmath_flameball")
 if actor:get_quest_stage("emmath_flameball") == 1 then
     actor:send(tostring(self.name) .. " says, 'Do you still seek this ball of flame?'")
     self:command("ponder")
@@ -36,8 +34,7 @@ elseif actor:get_quest_stage("emmath_flameball") == 2 then
     local white = actor:get_quest_var("emmath_flameball:5211")
     local gray = actor:get_quest_var("emmath_flameball:5212")
     if black or white or gray then
-        -- (empty room echo)
-        self.room:send("You have brought me:")
+            self.room:send("You have brought me:")
         if white then
             self.room:send("- <b:white>" .. tostring(objects.template(52, 11).name) .. "</>")
         end
@@ -48,7 +45,6 @@ elseif actor:get_quest_stage("emmath_flameball") == 2 then
             self.room:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
         end
     end
-    -- (empty room echo)
     self.room:send("I still need:")
     if not white then
         self.room:send("- <b:white>" .. tostring(objects.template(52, 11).name) .. "</>")

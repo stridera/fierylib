@@ -1,31 +1,28 @@
 -- Trigger: pyromancer_subclass_quest_emmath_speech2
 -- Zone: 52, ID: 4
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #5204
+--
+-- Yes/no follow-up to the recruitment offer in trigger #5203. "Yes" starts
+-- the pyromancer_subclass quest; "no" boots the actor back to room 51:91.
 
--- Converted from DG Script #5204: pyromancer_subclass_quest_emmath_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 1%
-
--- 1% chance to trigger
 if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: yes no
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
+    return true
 end
+
 if not actor:get_quest_stage("pyromancer_subclass") and string.find(actor.class, "Sorcerer") then
-    if string.find(speech, "yes") then
+    if string.find(speech_lower, "yes") then
         if actor.level >= 10 and actor.level <= 45 then
-            -- switch on actor.race
             if actor.race == "dragonborn_frost" or actor.race == "arborean" then
                 actor:send("<red>Your race may not subclass to Pyromancer.</>")
-                return _return_value
+                return true
             else
                 wait(2)
                 actor:start_quest("pyromancer_subclass", "Pyr")
@@ -54,8 +51,6 @@ if not actor:get_quest_stage("pyromancer_subclass") and string.find(actor.class,
         actor:send("The air around you wavers.")
         self.room:send_except(actor, tostring(actor.name) .. " suddenly disappears at Emmath's command.")
         actor:teleport(get_room(51, 91))
-        get_room(51, 91):at(function()
-            -- actor looks around
-        end)
+        actor:command("look")
     end
 end

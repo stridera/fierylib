@@ -1,15 +1,19 @@
 -- Trigger: patriarch receives truthstone
 -- Zone: 23, ID: 1
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <patriarch receives truthstone>:103: function arguments expected near '.'
---   Complex nesting: 13 if statements
---   Large script: 8069 chars
+-- Status: REVIEWED (parse-clean; quest-var keying inconsistency noted below)
 --
 -- Original DG Script: #2301
-
--- Converted from DG Script #2301: patriarch receives truthstone
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- The Patriarch accepts a smoldering trident token from a Diabolist (the
+-- "smoldering trident" quest), spawns a hellfire trident, and conditionally
+-- begins the Hellfire-and-Brimstone follow-up. Stage-3 of that quest
+-- accepts six fiery tributes (each tracked by a per-item quest var).
+--
+-- TODO(parity): Quest-var keys mix legacy id form ("hellfire_brimstone:4318")
+-- and composite form ("hellfire_brimstone:43_18"). 023_01 sets composite via
+-- (object.zone_id .. "_" .. object.local_id) but checks legacy-form keys
+-- (item1..item6). 023_12 also reads legacy-form keys. Standardize on one
+-- scheme (preferably composite) across 023_01 and 023_12.
 local _return_value = true  -- Default: allow action
 -- 
 -- original Smoldering Trident trigger
@@ -17,7 +21,7 @@ local _return_value = true  -- Default: allow action
 if object.id == 2300 then
     wait(1)
     local object_shortdesc = object.shortdesc
-    world.destroy(object.name)
+    world.destroy(object)
     wait(3)
     self.room:send_except(actor, tostring(self.name) .. " stops tossing meat into the fire and peers at " .. tostring(actor.name) .. ".")
     actor:send(tostring(self.name) .. " stops tossing meat into the fire and looks at you.")
@@ -114,13 +118,13 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
-            self:say("I have no need for a second " .. ("%get.obj_noadesc[" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id) .. "]%!"))
+            self:say("I have no need for a second " .. tostring(objects.template(object.zone_id, object.local_id).name) .. "!")
         else
             wait(2)
             actor:set_quest_var("hellfire_brimstone", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             self.room:send(tostring(self.name) .. " holds " .. tostring(object.shortdesc) .. " in his gnarled fist.")
             self:say("You have done well " .. tostring(actor.name) .. ".")
-            world.destroy(object.name)
+            world.destroy(object)
         end
         wait(2)
         local item1 = actor:get_quest_var("hellfire_brimstone:4318")

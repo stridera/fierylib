@@ -1,14 +1,28 @@
 -- Trigger: Hell Trident speech trident upgrades
 -- Zone: 23, ID: 14
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 23 if statements
---   Large script: 7185 chars
+-- Status: BROKEN_PARITY (parses, but converter output is logically garbled)
 --
 -- Original DG Script: #2314
-
--- Converted from DG Script #2314: Hell Trident speech trident upgrades
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- Demon-lord NPCs explain the Hell Trident upgrade quest when the player
+-- says "trident upgrades", and stamp progress flags from related quests.
+--
+-- TODO(parity): Multiple converter defects in this file -
+--   1. `local level = 65` (and 90) declared inside if/elseif branches; the
+--      outer `level` reference at lines ~99/117/124/130 will be nil.
+--   2. References to `hellstage` (lines 28-59) appear to be a typo of
+--      `hellstep`; as written, hellstage is always nil and those branches
+--      are dead.
+--   3. `actor:get_quest_stage("hell_trident") == "step"` compares an int
+--      to the literal string "step" -> always false; the gated greet block
+--      never fires.
+--   4. `local response = ...` declared inside many branches and then read
+--      in the trailing if/elseif chain at the same scope -> the chain reads
+--      a perpetually-nil `response`.
+--   5. self.id == 6032 / 12526 are legacy 5-digit vnums; should be
+--      composite (zone, id) checks (likely (60, 32) and (125, 26)).
+-- The whole script needs a rewrite from the original DG source #2314
+-- before it can be relied on. Left mostly as-is to preserve diff context.
 
 -- Speech keywords: trident upgrades
 local speech_lower = string.lower(speech)

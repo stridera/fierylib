@@ -14,9 +14,9 @@ if actor:get_quest_stage("hellfire_brimstone") == 1 then
         world.destroy(object)
         wait(1)
         self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Ah, such a pleasing sacrifice.'")
-        local meat = actor:get_quest_var("hellfire_brimstone:meat") + 1
+        local meat = (actor:get_quest_var("hellfire_brimstone:meat") or 0) + 1
         actor:set_quest_var("hellfire_brimstone", "meat", meat)
-        if actor:get_quest_var("hellfire_brimstone:meat") >= 6 then
+        if meat >= 6 then
             wait(1)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'This should be enough.  The Dark One is paying_attention now.'")
             actor:advance_quest("hellfire_brimstone")
@@ -36,9 +36,9 @@ elseif actor:get_quest_stage("hellfire_brimstone") == 2 then
         world.destroy(object)
         self.room:send(tostring(mobiles.template(23, 11).name) .. " flashes a wicked grin.")
         self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'It will burn like the very bowels of Hell.'")
-        local brimstone = actor:get_quest_var("hellfire_brimstone:brimstone") + 1
+        local brimstone = (actor:get_quest_var("hellfire_brimstone:brimstone") or 0) + 1
         actor:set_quest_var("hellfire_brimstone", "brimstone", brimstone)
-        if actor:get_quest_var("hellfire_brimstone:brimstone") >= 6 then
+        if brimstone >= 6 then
             wait(2)
             self:command("nod")
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'The Dark One is pleased with your efforts.'")

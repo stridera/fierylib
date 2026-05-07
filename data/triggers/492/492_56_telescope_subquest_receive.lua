@@ -32,10 +32,11 @@ if object.id == 53424 then
         self:command("junk snow-globe")
     end
 else
-    _return_value = true
+    -- Legacy DG returned 0 here (refuse the item, return it to actor).
+    _return_value = false
     wait(2)
     actor:send("The observer tells you, 'This isn't my globe!'")
     actor:send("The observer returns your item to you.")
-    self.room:send_except(actor, "The observer refuses " .. tostring(obj.shortdesc) .. " from " .. tostring(actor.name) .. ".")
+    self.room:send_except(actor, "The observer refuses " .. tostring(object.shortdesc) .. " from " .. tostring(actor.name) .. ".")
 end
 return _return_value

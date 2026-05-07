@@ -1,27 +1,23 @@
 -- Trigger: hellfire_brimstone_status_checker
 -- Zone: 23, ID: 12
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
+-- Status: REVIEWED (synthetic 0% gate removed; nil-arith guarded)
 --
 -- Original DG Script: #2312
+-- Patriarch reports the player's progress through the Hellfire-and-Brimstone
+-- quest when they ask about "spell progress".
+--
+-- TODO(parity): Item progress is keyed by legacy 5-digit-style ids
+-- ("hellfire_brimstone:4318" etc.) but 023_01 sets composite keys
+-- ("hellfire_brimstone:43_18"). Reconcile with 023_01.
 
--- Converted from DG Script #2312: hellfire_brimstone_status_checker
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: spell progress
-local speech_lower = string.lower(speech)
+-- Speech keywords: "spell" or "progress"
 if not (string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "progress")) then
     return true  -- No matching keywords
 end
 local stage = actor:get_quest_stage("hellfire_brimstone")
-local meat = actor:get_quest_var("hellfire_brimstone:meat")
-local brimstone = actor:get_quest_var("hellfire_brimstone:brimstone")
+local meat = actor:get_quest_var("hellfire_brimstone:meat") or 0
+local brimstone = actor:get_quest_var("hellfire_brimstone:brimstone") or 0
 local item1 = actor:get_quest_var("hellfire_brimstone:4318")
 local item2 = actor:get_quest_var("hellfire_brimstone:5211")
 local item3 = actor:get_quest_var("hellfire_brimstone:5212")

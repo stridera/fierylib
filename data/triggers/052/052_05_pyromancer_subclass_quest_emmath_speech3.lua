@@ -4,29 +4,30 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #5205
+--
+-- "quest" speech keyword. On first ask after stage 1, picks the actor's
+-- assigned flame from alignment (white/gray/black), advances the stage,
+-- and delivers the backstory monologue. Re-asks just get a grumble.
 
--- Converted from DG Script #5205: pyromancer_subclass_quest_emmath_speech3
--- Original: MOB trigger, flags: SPEECH, probability: 1%
-
--- 1% chance to trigger
 if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: quest quest?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "quest?")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "quest") then
+    return true
 end
+
 wait(2)
 if actor:get_quest_stage("pyromancer_subclass") == 1 then
     actor:advance_quest("pyromancer_subclass")
+    local part
     if actor.alignment >= 350 then
-        local part = "white"
+        part = "white"
     elseif actor.alignment <= -350 then
-        local part = "black"
+        part = "black"
     else
-        local part = "gray"
+        part = "gray"
     end
     actor:set_quest_var("pyromancer_subclass", "part", part)
     actor:send(tostring(self.name) .. " says, 'I seem to have a problem now, because some time ago...'")
@@ -34,7 +35,7 @@ if actor:get_quest_stage("pyromancer_subclass") == 1 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'It is just...'")
     wait(1)
-    self.room:send("</>msend " .. tostring(actor) .. " " .. tostring(self.name) .. " says, 'Well, part of the essence of fire is no longer under my power.'")
+    actor:send(tostring(self.name) .. " says, 'Well, part of the essence of fire is no longer under my power.'")
     self:emote("shakes his head sadly.")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.'")

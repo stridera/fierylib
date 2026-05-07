@@ -4,15 +4,16 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #5201
+--
+-- When a player asks Emmath about an "exit", he opens the flamewall,
+-- pushes the actor west, then re-seals it. Other players in the room
+-- have to ask separately if they want out.
 
--- Converted from DG Script #5201: quest_pyro_exit
--- Original: WORLD trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: exit exit?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "exit") or string.find(string.lower(speech), "exit?")) then
-    return true  -- No matching keywords
+if not string.find(speech_lower, "exit") then
+    return true
 end
+
 self.room:send("Emmath Firehand sighs loudly.")
 self.room:send("Emmath Firehand says, 'Oh very well, I suppose it is time you left anyway.'")
 self.room:send("Emmath Firehand grumbles incoherently about something or other.")

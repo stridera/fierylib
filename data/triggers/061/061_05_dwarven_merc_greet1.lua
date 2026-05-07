@@ -12,7 +12,9 @@
 if not percent_chance(30) then
     return true
 end
-if actor.name == -1 then
+-- Original DG: `if %actor.name% == -1` was a typo of `%actor.vnum% == -1`
+-- (the DG idiom for "actor is a player"). Restore the player check.
+if actor.is_player then
     self:command("nudge " .. tostring(actor.name))
     self:say("Hey " .. tostring(actor.name) .. ", did I tell you about the part I played in the Great Duergar Wars?")
     self:command("strut")

@@ -1,16 +1,13 @@
 -- Trigger: quest_relocate_receive
 -- Zone: 492, ID: 54
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: sta
---   Complex nesting: 9 if statements
---   Large script: 7784 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #49254
 
 -- Converted from DG Script #49254: quest_relocate_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
+local _return_value = true  -- Default: allow action (item kept by mob)
 -- 
 -- edit 3-7-2021 by Daedela: Acerites code was throwing errors because of the logic flow.
 -- It worked when the questor did exactly as told, but deviating risked system failure.
@@ -140,7 +137,7 @@ elseif stage == 9 then
         self.room:send("A lost mage puts on her spectacles and begins to scribe.")
         wait(20)
         self.room:send("A lost mage puts away her spectacles and stops scribing.")
-        -- UNCONVERTED: sta
+        self:command("stand")
         self:command("fly")
         wait(1)
         actor:send("A lost mage tells you, 'Very well, I'm done!  Thank you so much,")
@@ -148,7 +145,7 @@ elseif stage == 9 then
         wait(20)
         actor:send("A lost mage tells you, 'And, as I promised, here is the spell!'")
         actor:send("A lost mage shows you the spell scribed in her spellbook.")
-        skills.set_level(actor.name, "relocate", 100)
+        skills.set_level(actor, "relocate", 100)
         actor:complete_quest("relocate_spell_quest")
         self.room:send_except(actor, "A lost mage shows " .. tostring(actor.name) .. " her spellbook, teaching " .. tostring(actor.possessive) .. " her secrets.")
         wait(20)
@@ -156,10 +153,11 @@ elseif stage == 9 then
         wait(15)
         self.room:send("<b:white>A lost mage's molecules loosen and eventually dissipate into thin air.</>")
         self:teleport(get_room(492, 99))
-        world.destroy(self.room:find_actor("self"))
+        world.destroy(self)
     end
 else
-    _return_value = true
+    -- Legacy DG returned 0 here (refuse the item, return it to actor).
+    _return_value = false
     wait(2)
     actor:send("A lost mage tells you, 'This item doesn't help me.'")
     actor:send("A lost mage returns your item.")

@@ -1,23 +1,19 @@
 -- Trigger: pyro_subclass_flameball_emmath_status
 -- Zone: 52, ID: 11
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #5211
+--
+-- "subclass"/"progress" status check for the pyromancer_subclass quest.
+-- The legacy DG used probability 0 to suppress random firing; this is a
+-- deliberate keyword-only handler invoked when other speech triggers
+-- forward to it. Repeats Emmath's monologue for each stage so players
+-- can re-read where they're at.
 
--- Converted from DG Script #5211: pyro_subclass_flameball_emmath_status
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: subclass progress
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "subclass") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "subclass") or string.find(speech_lower, "progress")) then
+    return true
 end
 wait(2)
 -- switch on actor:get_quest_stage("pyromancer_subclass")
@@ -52,33 +48,27 @@ elseif actor:get_quest_stage("pyromancer_subclass") == 3 or actor:get_quest_stag
     actor:send(tostring(self.name) .. " says, 'To truly help, I suggest you stop loitering and go recover it.'")
     self:command("ponder")
     wait(2)
-    -- switch on actor:get_quest_var("pyromancer_subclass:part")
-    if actor:get_quest_var("pyromancer_subclass:part") == "white" then
-        local place = "&bin some kind of mine&0"
-    elseif actor:get_quest_var("pyromancer_subclass:part") == "black" then
-        local place = "&bin some kind of temple&0"
-    elseif actor:get_quest_var("pyromancer_subclass:part") == "gray" then
+    local part = actor:get_quest_var("pyromancer_subclass:part")
+    local place
+    if part == "white" then
+        place = "&bin some kind of mine&0"
+    elseif part == "black" then
+        place = "&bin some kind of temple&0"
+    elseif part == "gray" then
+        place = "&bnear some kind of hill&0"
     else
-        local place = "&bnear some kind of hill&0"
+        place = "&bsomewhere out there&0"
     end
     actor:send(tostring(self.name) .. " says, 'Last I heard, it was <b:cyan>" .. tostring(place) .. "</>, or something of the like.'")
     if actor:get_has_completed("pyromancer_subclass") then
         actor:send(tostring(self.name) .. " says, 'You're already a pyromancer you ninny.'")
+    elseif actor.race == "dragonborn_frost" or actor.race == "arborean" then
+        actor:send("<red>Your race may not subclass to pyromancer.</>")
+    elseif actor.level >= 10 and actor.level <= 45 then
+        actor:send(tostring(self.name) .. " says, 'You aren't working to be a pyromancer.'")
+    elseif actor.level < 10 then
+        actor:send(tostring(self.name) .. " says, 'Not yet, for you are still an initiate.  Come back when you have gained more experience.'")
     else
-        -- switch on actor.race
-        if actor.level >= 10 and actor.level <= 45 then
-            if actor.race == "dragonborn_frost" or actor.race == "arborean" then
-                actor:send("<red>Your race may not subclass to pyromancer.</>")
-                return _return_value
-            end
-        else
-            if actor.level >= 10 and actor.level <= 45 then
-                actor:send(tostring(self.name) .. " says, 'You aren't working to be a pyromancer.'")
-            elseif actor.level < 10 then
-                actor:send(tostring(self.name) .. " says, 'Not yet, for you are still an initiate.  Come back when you have gained more experience.'")
-            else
-                actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
-            end
-        end
+        actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
     end
-end  -- auto-close block
+end

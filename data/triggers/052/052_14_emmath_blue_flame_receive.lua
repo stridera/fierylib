@@ -2,13 +2,18 @@
 -- Zone: 52, ID: 14
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <Emmath blue flame receive>:60: function arguments expected near ']'
+--   TODO: the second half ("phase wand") references undefined globals
+--         (`step`, `type`, `weapon`) and DG-style `%type%_wand` quest keys.
+--         The crafting quest needs a real schema (step number, weapon
+--         kind, element type) before this branch can be implemented.
+--         Branch is left in place as a comment block for porting.
 --
 -- Original DG Script: #5214
+--
+-- Receive handler dedicated to the renegade blue flame (238:22). Stage 2
+-- rejects it (still gathering basics); stage 3 destroys it, completes the
+-- emmath_flameball quest, and gives the actor object 52:10.
 
--- Converted from DG Script #5214: Emmath blue flame receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 get_room(238, 90):at(function()
     run_room_trigger(238, 14)
 end)
@@ -42,49 +47,8 @@ elseif actor:get_quest_stage("emmath_flameball") == 3 then
     self.room:spawn_object(52, 10)
     self:command("give ball " .. tostring(actor.name))
 end
--- phase wand
-if actor:get_quest_stage("type_wand") then
-    local minlevel = (step - 1) * 10
-    if actor.level < ((step - 1) * 10) then
-        _return_value = true
-        self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
-        actor:send(tostring(self.name) .. " says, 'You'll need to be at least level " .. tostring(minlevel) .. " before I can improve your bond with your weapon.'")
-        return _return_value
-    elseif actor.has_completed[type_wand] then
-        _return_value = true
-        self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
-        actor:send(tostring(self.name) .. " says, 'You already have the most powerful " .. tostring(type) .. " " .. tostring(weapon) .. " in existence!'")
-        return _return_value
-    elseif actor:get_quest_stage("type_wand") < step then
-        _return_value = true
-        self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
-        actor:send(tostring(self.name) .. " says, 'Your " .. tostring(weapon) .. " isn't ready for improvement yet.'")
-        return _return_value
-    elseif actor:get_quest_stage("type_wand") == "step" then
-        local stage = actor:get_quest_stage("type_wand")
-        if actor:get_quest_var("type_wand:task2") then
-            _return_value = true
-            self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
-            actor:send(tostring(self.name) .. " says, 'You already gave me this.'")
-        else
-            actor:set_quest_var("%type%_wand", "task2", 1)
-            wait(2)
-            world.destroy(object)
-            actor:send(tostring(self.name) .. " says, 'This is just what I need.'")
-            wait(1)
-            local job1 = actor:get_quest_var("type_wand:task1")
-            local job2 = actor:get_quest_var("type_wand:task2")
-            local job3 = actor:get_quest_var("type_wand:task3")
-            if job1 and job2 and job3 then
-                actor:send(tostring(self.name) .. " says, 'Let me prime the " .. tostring(weapon) .. ".'")
-            else
-                actor:send(tostring(self.name) .. " says, 'Now finish practicing with your " .. tostring(weapon) .. ".'")
-            end
-        end
-    end
-end
-return _return_value
+-- TODO: phase-wand branch elided pending crafting-quest schema rewrite.
+-- The legacy DG required globals `step`, `type`, `weapon` and used
+-- `%type%_wand` percent-substituted quest names; none of those exist in
+-- the Lua runtime. Re-introduce after the type_wand quest is redesigned.
+return true

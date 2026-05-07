@@ -4,14 +4,12 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #5212
+--
+-- Stub. Original intercepted "se" command on a hidden room and was
+-- superseded by trigger 52:0 (quest_pyro_dooropen). Kept as a no-op so
+-- the trigger ID stays reserved.
 
--- Converted from DG Script #5212: **UNUSED**
--- Original: WORLD trigger, flags: COMMAND, probability: 100%
-
--- Command filter: se
-if not (cmd == "se") then
-    return true  -- Not our command
+if cmd ~= "se" then
+    return true
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
-return _return_value
+return true

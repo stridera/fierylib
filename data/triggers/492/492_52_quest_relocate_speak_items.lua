@@ -14,7 +14,9 @@ if not (string.find(string.lower(speech), "items")) then
     return true  -- No matching keywords
 end
 wait(2)
-if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer") and (actor.class > 64) then
+-- Legacy DG had `%actor.class% > 64` here, almost certainly a typo for `%actor.level%`.
+-- Compare against actor.level since actor.class is a string in the Lua runtime.
+if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer") and (actor.level > 64) then
     actor:send("A lost mage asks you, 'Yes, please get me the items I need to get out of here!")
     actor:send("</>Do this for me and I'll share this great spell with you.'")
     self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")

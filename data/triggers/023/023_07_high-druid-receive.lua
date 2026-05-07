@@ -1,22 +1,19 @@
 -- Trigger: high-druid-receive
 -- Zone: 23, ID: 7
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <high-druid-receive>:80: 'end' expected (to close 'if' at line 53) near 'else'
---   Complex nesting: 6 if statements
---   Large script: 5042 chars
+-- Status: REVIEWED (parse-clean; legacy chain reworked to use globals)
 --
 -- Original DG Script: #2307
-
--- Converted from DG Script #2307: high-druid-receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- Anlun Vale High Druid receives the four blessings (south 2331, west 2333,
+-- north 2332, east 2330) in order from a druid PC, then rewards the gaia
+-- cloak when the chain completes. State is tracked on globals.blessings
+-- because the receive trigger fires anew per delivery.
 local _return_value = true  -- Default: allow action
 if actor.is_player then
     if string.find(actor.class, "Druid") then
         if object.id == 2331 then
             self:command("smile " .. tostring(actor.name))
-            local blessings = 1
-            globals.blessings = globals.blessings or true
+            globals.blessings = 1
             wait(2)
             self:destroy_item("blessing")
             self:say("I am grateful the monoliths are still serving their purpose.")
@@ -26,9 +23,8 @@ if actor.is_player then
             self:command("sigh")
             self:say("I would go myself, but I cannot leave the Vale.")
         elseif object.id == 2333 then
-            if blessings == 1 then
-                local blessings = 2
-                globals.blessings = globals.blessings or true
+            if globals.blessings == 1 then
+                globals.blessings = 2
                 self.room:send(tostring(self.name) .. " closes his eyes and smiles.")
                 wait(2)
                 self:destroy_item("blessing")
@@ -43,10 +39,9 @@ if actor.is_player then
                 self:destroy_item("blessing")
             end
         elseif object.id == 2332 then
-            if blessings == 2 then
+            if globals.blessings == 2 then
                 self.room:send("The ancient druid's eyes light up as he receives the blessing.")
-                local blessings = 3
-                globals.blessings = globals.blessings or true
+                globals.blessings = 3
                 wait(2)
                 self:destroy_item("blessing")
                 self:say("At last, the restoration is almost complete!")
@@ -60,10 +55,9 @@ if actor.is_player then
                 self:destroy_item("blessing")
             end
         elseif object.id == 2330 then
-            if blessings == 3 then
+            if globals.blessings == 3 then
                 self.room:send(tostring(self.name) .. " heaves a great sigh of relief as he places the blessings on the stone slab.")
-                local blessings = 0
-                globals.blessings = globals.blessings or true
+                globals.blessings = 0
                 wait(1)
                 self.room:send("The &9<blue>stone slab</> begins to <b:white>glow brightly!</>")
                 wait(2)

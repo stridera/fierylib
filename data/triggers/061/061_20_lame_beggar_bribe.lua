@@ -8,7 +8,11 @@
 -- Converted from DG Script #6120: lame_beggar_bribe
 -- Original: MOB trigger, flags: BRIBE, probability: 1%
 
--- 1% chance to trigger
+-- TODO(corpus-wide): converter mistranslated DG bribe-narg as a percent chance.
+-- Original `0 m 1` means "fire when bribed with >= 1 copper". The check below
+-- now reads it as a 1% probability, which silently breaks the trigger 99% of
+-- the time. Fix should be `if (amount or 0) < 1 then return true end` once a
+-- corpus-wide convention is settled (see also 030_166, 030_171, 030_183, etc.).
 if not percent_chance(1) then
     return true
 end

@@ -7,13 +7,14 @@
 
 -- Converted from DG Script #49257: relocate_get_sphere
 -- Original: OBJECT trigger, flags: GET, GIVE, probability: 100%
+local echo = false
 if actor:get_quest_stage("relocate_spell_quest") == 3 then
     actor:advance_quest("relocate_spell_quest")
-    local echo = 1
+    echo = true
 end
-if victim:get_quest_stage("relocate_spell_quest") == 3 then
+if victim and victim:get_quest_stage("relocate_spell_quest") == 3 then
     victim:advance_quest("relocate_spell_quest")
-    local echo = 1
+    echo = true
 end
 if echo then
     wait(2)

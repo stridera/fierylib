@@ -1,14 +1,18 @@
 -- Trigger: west-blessing
 -- Zone: 23, ID: 2
 -- Type: WORLD, Flags: SPEECH
--- Status: CLEAN
+-- Status: GATED_OFF
 --
 -- Original DG Script: #2302
+-- The legacy DG trigger had a 0% probability and an `or`-joined keyword
+-- filter ("i", "pray", "for", "a", ...) that would match almost any
+-- utterance. The 0% gate kept it dormant in the legacy world.
+--
+-- TODO(parity): Rewrite the keyword filter as a phrase match (or use
+-- string.find on the full incantation) and remove the 0% gate to actually
+-- ship the west monolith blessing. As-is the trigger never fires.
 
--- Converted from DG Script #2302: west-blessing
--- Original: WORLD trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
+-- Disabled by legacy 0% probability (preserves shipped behaviour).
 if not percent_chance(0) then
     return true
 end

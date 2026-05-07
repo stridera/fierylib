@@ -1,34 +1,25 @@
 -- Trigger: hellfire_brimstone_meat_death
 -- Zone: 23, ID: 9
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: REVIEWED (group iteration normalized)
 --
 -- Original DG Script: #2309
+-- On the meat-source mob's death, drop a chunk of paladin flesh (23, 38)
+-- with ~30% chance for any group member in the same room who is on
+-- hellfire_brimstone stage 1.
 
--- Converted from DG Script #2309: hellfire_brimstone_meat_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-    person = nil
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("hellfire_brimstone") == 1 then
-                local chance = random(1, 10)
-                if chance > 7 then
-                    self.room:spawn_object(23, 38)
-                end
-            end
-        elseif person then
-            i = i + 1
-        end
-        a = a + 1
-    end
-elseif person:get_quest_stage("hellfire_brimstone") == 1 then
-    local chance = random(1, 10)
-    if chance > 7 then
+local function maybe_drop_meat(person)
+    if person.room == self.room
+       and person:get_quest_stage("hellfire_brimstone") == 1
+       and random(1, 10) > 7 then
         self.room:spawn_object(23, 38)
     end
+end
+
+if actor.group then
+    for _, member in ipairs(actor.group) do
+        maybe_drop_meat(member)
+    end
+else
+    maybe_drop_meat(actor)
 end

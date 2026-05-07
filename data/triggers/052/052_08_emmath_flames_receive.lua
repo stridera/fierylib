@@ -2,50 +2,55 @@
 -- Zone: 52, ID: 8
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <Emmath flames receive>:8: function arguments expected near ']'
---   Complex nesting: 18 if statements
---   Large script: 9279 chars
+--   TODO: object.id legacy-vnum checks (23822 -> 238:22, 17308 -> 173:8,
+--         5211 -> 52:11, 5212 -> 52:12) need a host-side helper or to be
+--         rewritten as (object.zone_id, object.local_id) pairs once the
+--         catalog is stable here.
 --
 -- Original DG Script: #5208
+--
+-- Receive handler for the three pyromancer-subclass flame parts plus the
+-- emmath_flameball collection turn-ins. Branches are mutually exclusive:
+-- subclass quest flames advance pyromancer_subclass, flameball turn-ins
+-- track emmath_flameball:count up to 3 and advance to the renegade-flame
+-- chase, and the blue flame (238:22) is only accepted on stage 3.
+local subclass_item, right_item, flameball_item, count
 
--- Converted from DG Script #5208: Emmath flames receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 if object.id == 23822 then
     get_room(238, 90):at(function()
         run_room_trigger(238, 14)
     end)
     if actor:get_quest_stage("type_wand") == "wandstep" and not actor:get_quest_var("type_wand:wandtask2") then
-        return _return_value
+        return true
     elseif actor:get_quest_stage("emmath_flameball") > 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
-        local flameball_item = "yes"
+        flameball_item = "yes"
     end
 elseif object.id == 17308 then
     if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
-        local subclass_item = "yes"
+        subclass_item = "yes"
         if actor:get_quest_var("pyromancer_subclass:part") == "black" then
-            local right_item = "yes"
+            right_item = "yes"
         end
     elseif actor:get_quest_stage("emmath_flameball") >= 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
-        local flameball_item = "yes"
+        flameball_item = "yes"
     end
 elseif object.id == 5211 then
     if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
-        local subclass_item = "yes"
+        subclass_item = "yes"
         if actor:get_quest_var("pyromancer_subclass:part") == "white" then
-            local right_item = "yes"
+            right_item = "yes"
         end
     elseif actor:get_quest_stage("emmath_flameball") >= 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
-        local flameball_item = "yes"
+        flameball_item = "yes"
     end
 elseif object.id == 5212 then
     if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
-        local subclass_item = "yes"
+        subclass_item = "yes"
         if actor:get_quest_var("pyromancer_subclass:part") == "gray" then
-            local right_item = "yes"
+            right_item = "yes"
         end
     elseif actor:get_quest_stage("emmath_flameball") >= 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
-        local flameball_item = "yes"
+        flameball_item = "yes"
     end
 end
 if subclass_item then
@@ -99,11 +104,10 @@ elseif flameball_item then
     elseif actor:get_quest_stage("emmath_flameball") == 2 then
         if (object.id == 5211) or (object.id == 5212) or (object.id == 17308) then
             if actor:get_quest_var("emmath_flameball:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) ~= 1 then
-                local count = 1 + actor:get_quest_var("emmath_flameball:count")
+                count = 1 + (actor:get_quest_var("emmath_flameball:count") or 0)
                 actor:set_quest_var("emmath_flameball", "count", count)
                 actor:set_quest_var("emmath_flameball", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             else
-                _return_value = true
                 wait(2)
                 actor:send(tostring(self.name) .. " says, 'You have already brought me " .. tostring(object.shortdesc) .. "!'")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

@@ -4,19 +4,17 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #5206
+--
+-- "control"/"taken" follow-up after #5205. On stage 2, advances to 3 and
+-- gives the location hint matching the actor's assigned flame.
 
--- Converted from DG Script #5206: pyromancer_subclass_quest_emmath_speech4
--- Original: MOB trigger, flags: SPEECH, probability: 1%
-
--- 1% chance to trigger
 if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: control controlled control? controlled? taken taken?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "control") or string.find(string.lower(speech), "controlled") or string.find(string.lower(speech), "control?") or string.find(string.lower(speech), "controlled?") or string.find(string.lower(speech), "taken") or string.find(string.lower(speech), "taken?")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "control") or string.find(speech_lower, "taken")) then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("pyromancer_subclass") == 2 then
@@ -38,14 +36,16 @@ if actor:get_quest_stage("pyromancer_subclass") >= 2 then
     actor:send(tostring(self.name) .. " says, 'To truly help, I suggest you stop loitering and go recover it.'")
     self:command("ponder")
     wait(2)
-    -- switch on actor:get_quest_var("pyromancer_subclass:part")
-    if actor:get_quest_var("pyromancer_subclass:part") == "white" then
-        local place = "&bin some kind of mine&0"
-    elseif actor:get_quest_var("pyromancer_subclass:part") == "black" then
-        local place = "&bin some kind of temple&0"
-    elseif actor:get_quest_var("pyromancer_subclass:part") == "gray" then
+    local part = actor:get_quest_var("pyromancer_subclass:part")
+    local place
+    if part == "white" then
+        place = "&bin some kind of mine&0"
+    elseif part == "black" then
+        place = "&bin some kind of temple&0"
+    elseif part == "gray" then
+        place = "&bnear some kind of hill&0"
     else
-        local place = "&bnear some kind of hill&0"
+        place = "&bsomewhere out there&0"
     end
     actor:send(tostring(self.name) .. " says, 'Last I heard, it was <b:cyan>" .. tostring(place) .. "</>, or something of the like.'")
     self:emote("mutters something about the villainy of it all.")

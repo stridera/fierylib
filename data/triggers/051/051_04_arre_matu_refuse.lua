@@ -7,16 +7,14 @@
 
 -- Converted from DG Script #5104: Arre Matu refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-local _return_value = true  -- Default: allow action
--- switch on object.id
-_return_value = true
-self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+--
+-- Arre Matu refuses any object the player tries to give her that doesn't
+-- match a more specific receive trigger (the sash receive lives in 51/12).
+-- Note: legacy DG header listed probability 0%, but receive triggers in
+-- DG fired on every receive event regardless of header probability -- the
+-- converter's percent_chance(0) gate has been removed.
+self.room:send(self.name .. " refuses " .. object.shortdesc .. ".")
 wait(1)
-self:command("eye " .. tostring(actor.name))
-actor:send(tostring(self.name) .. " says, 'What is this? I have no need for " .. tostring(object.shortdesc) .. ".'")
-return _return_value
+self:command("eye " .. actor.name)
+actor:send(self.name .. " says, 'What is this? I have no need for " .. object.shortdesc .. ".'")
+return true
