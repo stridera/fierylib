@@ -1,55 +1,38 @@
 -- Trigger: charred_warrior_death
 -- Zone: 160, ID: 19
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
 --
--- Original DG Script: #16019
+-- Mystwatch spawn-cycle link 4: warrior → sentry. Advances every present
+-- group member from "warrior" → "sentry", spawns a charred sentry
+-- (160,17) in staging room (160,95), maybe equips object 160,32 (75%
+-- chance), teleports to a random fortress room (160,0..77), and purges.
 
--- Converted from DG Script #16019: charred_warrior_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local i = actor.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
+for i = 1, actor.group_size do
+    local person = actor.group_member[i]
+    if person and person.room == self.room then
         if person:get_quest_stage("mystwatch_quest") then
             person:set_quest_var("mystwatch_quest", "step", "sentry")
             person:send("<b:white>You have advanced the quest!</>")
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
--- load charred sentry then maybe equip
+
 if world.count_mobiles(160, 17) < 1 then
-    local rnd_range = random(1, 78)
-    local rnd_room = rnd_range - 1
+    local rnd_room = random(1, 78) - 1
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 17)
     end)
-    local rnd = random(1, 100)
-    if rnd <= 75 then
+    if random(1, 100) <= 75 then
         get_room(160, 95):at(function()
             self.room:find_actor("sentry"):spawn_object(160, 32)
         end)
         get_room(160, 95):at(function()
             self.room:find_actor("sentry"):command("wear all")
         end)
-        get_room(160, 95):at(function()
-            self.room:find_actor("sentry"):teleport(get_room(160, rnd_room))
-        end)
-    else
-        get_room(160, 95):at(function()
-            self.room:find_actor("sentry"):teleport(get_room(160, rnd_room))
-        end)
     end
-    -- Sometimes creatures don't get teleported out of the loading
-    -- room so we're gonna go back and purge it just incase.
+    get_room(160, 95):at(function()
+        self.room:find_actor("sentry"):teleport(get_room(160, rnd_room))
+    end)
     get_room(160, 95):at(function()
         self.room:purge()
     end)

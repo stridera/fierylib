@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #11840: mist_death_reset
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local mist_loaded = 0
-globals.mist_loaded = globals.mist_loaded or true
+-- Reset the gate guarded by 117_138_mist_attack so the carvings can re-trigger.
+globals.mist_loaded = 0

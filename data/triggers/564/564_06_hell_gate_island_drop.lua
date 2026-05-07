@@ -1,37 +1,51 @@
 -- Trigger: hell_gate_island_drop
 -- Zone: 564, ID: 6
 -- Type: WORLD, Flags: DROP
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <hell_gate_island_drop>:5: function arguments expected near '.'
+-- Status: CLEAN
 --
 -- Original DG Script: #56406
+--
+-- Hell-gate stage 3: when a player drops one of the seven blood vials
+-- ((564, 0..6)) on the island, mark it gathered. Once all seven are
+-- in, advance the quest. Each blood vial can only be dropped once.
 
--- Converted from DG Script #56406: hell_gate_island_drop
--- Original: WORLD trigger, flags: DROP, probability: 100%
-local _return_value = true  -- Default: allow action
-if actor:get_quest_stage("hell_gate") == 3 then
-    if actor:get_quest_var("hell_gate:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
-        _return_value = true
-        self.room:send(tostring(mobiles.template(564, 0).name) .. " says, 'We have already gathered this blood.'")
-    elseif object.id == 56400 or object.id == 56401 or object.id == 56402 or object.id == 56403 or object.id == 56404 or object.id == 56405 or object.id == 56406 then
-        actor:set_quest_var("hell_gate", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
-        wait(1)
-        self.room:send(tostring(object.shortdesc) .. " spills on the ground, gathering in a pool.")
-        world.destroy(self.room:find_actor("blood"))
-        local blood1 = actor:get_quest_var("hell_gate:56400")
-        local blood2 = actor:get_quest_var("hell_gate:56401")
-        local blood3 = actor:get_quest_var("hell_gate:56402")
-        local blood4 = actor:get_quest_var("hell_gate:56403")
-        local blood5 = actor:get_quest_var("hell_gate:56404")
-        local blood6 = actor:get_quest_var("hell_gate:56405")
-        local blood7 = actor:get_quest_var("hell_gate:56406")
-        if blood1 and blood2 and blood3 and blood4 and blood5 and blood6 and blood7 then
-            actor:advance_quest("hell_gate")
-            wait(2)
-            self.room:send(tostring(mobiles.template(564, 0).name) .. " says, 'I shall need the dagger to finish this step_of the unsealing.  Please give it to me.'")
-        else
-            self.room:send("The demonic voice says, <red>'This pleases me.  Bring the rest.'</>")
-        end
-    end
+if actor:get_quest_stage("hell_gate") ~= 3 then
+    return true
 end
-return _return_value
+
+-- Only handle blood vials.
+if object.zone_id ~= 564 or object.local_id < 0 or object.local_id > 6 then
+    return true
+end
+
+local priest = mobiles.template(564, 0).name
+local key = tostring(object.zone_id) .. "_" .. tostring(object.local_id)
+
+if actor:get_quest_var("hell_gate:" .. key) then
+    self.room:send(tostring(priest) .. " says, 'We have already gathered this blood.'")
+    return false
+end
+
+actor:set_quest_var("hell_gate", key, 1)
+wait(1)
+self.room:send(tostring(object.shortdesc) .. " spills on the ground, gathering in a pool.")
+local pool = self.room:find_actor("blood")
+if pool then
+    world.destroy(pool)
+end
+
+local blood1 = actor:get_quest_var("hell_gate:564_0")
+local blood2 = actor:get_quest_var("hell_gate:564_1")
+local blood3 = actor:get_quest_var("hell_gate:564_2")
+local blood4 = actor:get_quest_var("hell_gate:564_3")
+local blood5 = actor:get_quest_var("hell_gate:564_4")
+local blood6 = actor:get_quest_var("hell_gate:564_5")
+local blood7 = actor:get_quest_var("hell_gate:564_6")
+if blood1 and blood2 and blood3 and blood4 and blood5 and blood6 and blood7 then
+    actor:advance_quest("hell_gate")
+    wait(2)
+    self.room:send(tostring(priest) .. " says, 'I shall need the dagger to finish this step of the unsealing.  Please give it to me.'")
+else
+    self.room:send("The demonic voice says, <red>'This pleases me.  Bring the rest.'</>")
+end
+return true

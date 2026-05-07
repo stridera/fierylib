@@ -1,53 +1,37 @@
 -- Trigger: charred_warlord_death
 -- Zone: 160, ID: 21
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
 --
--- Original DG Script: #16021
+-- Mystwatch spawn-cycle link 6: warlord → blacksmith. Advances every
+-- present group member from "warlord" → "blacksmith", spawns a charred
+-- blacksmith (160,19) in staging room (160,95), 75% chance to equip
+-- object 160,34, teleports to the smithy (160,53), and purges.
 
--- Converted from DG Script #16021: charred_warlord_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local i = actor.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
+for i = 1, actor.group_size do
+    local person = actor.group_member[i]
+    if person and person.room == self.room then
         if person:get_quest_stage("mystwatch_quest") then
             person:set_quest_var("mystwatch_quest", "step", "blacksmith")
             person:send("<b:white>You have advanced the quest!</>")
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
--- load charred Blacksmith and maybe equip
+
 if world.count_mobiles(160, 19) < 1 then
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 19)
     end)
-    local rnd = random(1, 100)
-    if rnd <= 75 then
+    if random(1, 100) <= 75 then
         get_room(160, 95):at(function()
             self.room:find_actor("blacksmith"):spawn_object(160, 34)
         end)
         get_room(160, 95):at(function()
             self.room:find_actor("blacksmith"):command("wear all")
         end)
-        get_room(160, 95):at(function()
-            self.room:find_actor("blacksmith"):teleport(get_room(160, 53))
-        end)
-    else
-        get_room(160, 95):at(function()
-            self.room:find_actor("blacksmith"):teleport(get_room(160, 53))
-        end)
     end
-    -- Sometimes creatures don't get teleported out of the loading
-    -- room so we're gonna go back and purge it just incase.
+    get_room(160, 95):at(function()
+        self.room:find_actor("blacksmith"):teleport(get_room(160, 53))
+    end)
     get_room(160, 95):at(function()
         self.room:purge()
     end)

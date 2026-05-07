@@ -1,14 +1,11 @@
 -- Trigger: Mystwatch_cycle_semantics_1
 -- Zone: 160, ID: 15
 -- Type: MOB, Flags: RANDOM, GREET
--- Status: CLEAN
 --
--- Original DG Script: #16015
+-- 14% chance per random/greet tick: ambient flavor — the (charred skeleton
+-- spawn-cycle template) mob steps into the shadows. Sets the brooding tone
+-- of the fortress between quest stages.
 
--- Converted from DG Script #16015: Mystwatch_cycle_semantics_1
--- Original: MOB trigger, flags: RANDOM, GREET, probability: 14%
-
--- 14% chance to trigger
 if not percent_chance(14) then
     return true
 end

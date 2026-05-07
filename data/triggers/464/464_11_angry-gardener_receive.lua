@@ -10,6 +10,10 @@
 -- 
 -- comment
 -- 
+-- TODO: convert legacy vnum 18000 to composite (zone_id, local_id). The
+-- original DG `object.id == 18000` referenced a specific bracelet item; the
+-- composite mapping needs to be verified against the catalog before this
+-- branch will fire.
 if object.id == 18000 then
     wait(1)
     self:command("scream")
@@ -20,5 +24,5 @@ if object.id == 18000 then
         self:command("drop bracelet")
     end)
     wait(1)
-    combat.engage(self, actor.name)
-end  -- auto-close block
+    combat.engage(actor)
+end

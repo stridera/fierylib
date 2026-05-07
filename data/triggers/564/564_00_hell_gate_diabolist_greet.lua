@@ -4,9 +4,10 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #56400
-
--- Converted from DG Script #56400: hell_gate_diabolist_greet
--- Original: MOB trigger, flags: GREET_ALL, probability: 100%
+--
+-- Diabolist's greeting on the receive island. Welcomes Diabolist class
+-- on stage 0; aggros Paladins / Priests; otherwise gives a per-stage
+-- nudge of what's currently expected.
 wait(2)
 local stage = actor:get_quest_stage("hell_gate")
 if string.find(actor.class, "Diabolist") and stage == 0 then
@@ -15,7 +16,7 @@ if string.find(actor.class, "Diabolist") and stage == 0 then
     self.room:send("Has the hellish realm Garl'lixxil called you here as well?'")
 elseif string.find(actor.class, "Paladin") or string.find(actor.class, "Priest") then
     self:say("You are not welcome here!")
-    combat.engage(self, actor.name)
+    combat.engage(actor)
 end
 if stage == 1 then
     self:say("Have you found the spider-shaped dagger?")

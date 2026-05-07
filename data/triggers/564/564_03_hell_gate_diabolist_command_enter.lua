@@ -4,21 +4,20 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #56403
-
--- Converted from DG Script #56403: hell_gate_diabolist_command_enter
--- Original: WORLD trigger, flags: COMMAND, probability: 100%
+--
+-- Diabolist quest entry point: when a player types `enter circle` in the
+-- ritual room and is a Diabolist on stage 0 of the hell_gate quest, this
+-- starts the quest and binds them to the demon lord Garl'lixxil.
 
 -- Command filter: enter
-if not (cmd == "enter") then
-    return true  -- Not our command
+if cmd ~= "enter" then
+    return true  -- Not our command, let it through unmodified
 end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "e" then
-    _return_value = true
-    return _return_value
-end
--- switch on arg
+
+-- TODO(parity): Original DG had `case e: return 0` to let bare "enter"
+-- abbreviations pass through unmodified; the Rust runtime's command
+-- filter only fires on exact "enter" so that branch is unreachable.
+
 if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") == 0 then
     if arg == "c" or arg == "ci" or arg == "cir" or arg == "circ" or arg == "circl" or arg == "circle" then
         local priest = mobiles.template(564, 0).name
@@ -43,7 +42,5 @@ if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") 
     else
         actor:send("There is no " .. tostring(arg) .. " here.")
     end
-else
-    _return_value = true
-    return _return_value
 end
+return true

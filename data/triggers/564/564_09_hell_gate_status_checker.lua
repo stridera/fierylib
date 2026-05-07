@@ -1,14 +1,15 @@
 -- Trigger: hell_gate_status_checker
 -- Zone: 564, ID: 9
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 27 if statements
---   Large script: 6313 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #56409
-
--- Converted from DG Script #56409: hell_gate_status_checker
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+--
+-- Diabolist's progress recap. Says "status" or "progress" to him to get
+-- a per-stage reminder of what's still needed. Stage 2 lists the seven
+-- keys (zone-local refs in `hell_gate:<zone>_<local>` quest vars set by
+-- 564_04). Stage 3 lists the seven blood vials in the same format set
+-- by 564_06.
 
 -- Speech keywords: status status? progress progress?
 local speech_lower = string.lower(speech)
@@ -22,13 +23,13 @@ if stage == 1 then
     self.room:send(tostring(self.name) .. " says, 'We are preparing to open a door to")
     self.room:send("</>Garl'lixxil and release one of our demon lords.  Find " .. tostring(objects.template(30, 213).name) .. ".'")
 elseif stage == 2 then
-    local key1 = actor:get_quest_var("hell_gate:8303")
-    local key2 = actor:get_quest_var("hell_gate:23709")
-    local key3 = actor:get_quest_var("hell_gate:49008")
-    local key4 = actor:get_quest_var("hell_gate:52012")
-    local key5 = actor:get_quest_var("hell_gate:52013")
-    local key6 = actor:get_quest_var("hell_gate:53402")
-    local key7 = actor:get_quest_var("hell_gate:58109")
+    local key1 = actor:get_quest_var("hell_gate:83_3")
+    local key2 = actor:get_quest_var("hell_gate:237_9")
+    local key3 = actor:get_quest_var("hell_gate:490_8")
+    local key4 = actor:get_quest_var("hell_gate:520_12")
+    local key5 = actor:get_quest_var("hell_gate:520_13")
+    local key6 = actor:get_quest_var("hell_gate:534_2")
+    local key7 = actor:get_quest_var("hell_gate:580_109")
     self:say("You must find seven keys to seven gates.")
     -- (empty room echo)
     if key1 or key2 or key3 or key4 or key5 or key6 or key7 then
@@ -92,13 +93,14 @@ elseif stage == 2 then
         self.room:send("<b:red>guarded by a fiery beast with many heads.</>")
     end
 elseif stage == 3 then
-    local blood1 = actor:get_quest_var("hell_gate:56400")
-    local blood2 = actor:get_quest_var("hell_gate:56401")
-    local blood3 = actor:get_quest_var("hell_gate:56402")
-    local blood4 = actor:get_quest_var("hell_gate:56403")
-    local blood5 = actor:get_quest_var("hell_gate:56404")
-    local blood6 = actor:get_quest_var("hell_gate:56405")
-    local blood7 = actor:get_quest_var("hell_gate:56406")
+    local blood1 = actor:get_quest_var("hell_gate:564_0")
+    local blood2 = actor:get_quest_var("hell_gate:564_1")
+    local blood3 = actor:get_quest_var("hell_gate:564_2")
+    local blood4 = actor:get_quest_var("hell_gate:564_3")
+    local blood5 = actor:get_quest_var("hell_gate:564_4")
+    local blood6 = actor:get_quest_var("hell_gate:564_5")
+    local blood7 = actor:get_quest_var("hell_gate:564_6")
+    local function num(v) return tonumber(v) or 0 end
     self.room:send(tostring(self.name) .. " says, 'Sacrifice seven different <b:red>children</>.")
     self.room:send("</><b:white>[Drop]</> their <b:red>blood</> here to defile the keys.'")
     -- (empty room echo)
@@ -127,7 +129,7 @@ elseif stage == 3 then
         end
     end
     -- (empty room echo)
-    local total = (7 - (blood1 + blood2 + blood3 + blood4 + blood5 + blood6 + blood7))
+    local total = 7 - (num(blood1) + num(blood2) + num(blood3) + num(blood4) + num(blood5) + num(blood6) + num(blood7))
     if total == 1 then
         self.room:send("Sacrifice the last child!")
     else

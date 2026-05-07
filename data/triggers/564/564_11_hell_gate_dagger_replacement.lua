@@ -4,20 +4,19 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #56411
+--
+-- If the player has lost the ritual dagger during stage 3, they say
+-- "I need a new dagger" to the diabolist who marks the quest var so
+-- 564_04's stage-3 path will accept any (30, 213) replacement they
+-- bring back. The original DG's 0% probability was a quirk; speech
+-- match is the actual gate, so we ignore the probability column.
 
--- Converted from DG Script #56411: hell_gate_dagger_replacement
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+-- Speech keyword: "I need a new dagger" (full phrase match — partial
+-- matches over single words like "I" or "a" would over-fire).
+if not string.find(string.lower(speech), "i need a new dagger") then
     return true
 end
 
--- Speech keywords: I need a new dagger
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "need") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "new") or string.find(string.lower(speech), "dagger")) then
-    return true  -- No matching keywords
-end
 wait(2)
 if actor:get_quest_stage("hell_gate") == 3 then
     actor:set_quest_var("hell_gate", "new", "yes")

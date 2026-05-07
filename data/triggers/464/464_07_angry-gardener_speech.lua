@@ -15,7 +15,7 @@ end
 
 -- Speech keywords: gardener
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "gardener")) then
+if not string.find(speech_lower, "gardener") then
     return true  -- No matching keywords
 end
 wait(1)

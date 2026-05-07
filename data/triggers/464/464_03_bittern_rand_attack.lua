@@ -19,6 +19,6 @@ if rnd.is_player then
         wait(1)
         self.room:send_except(rnd, tostring(self.name) .. " flies into a rage!")
         rnd:send(tostring(self.name) .. " flies into a rage and attacks you!")
-        combat.engage(self, rnd.name)
+        combat.engage(rnd)
     end
 end

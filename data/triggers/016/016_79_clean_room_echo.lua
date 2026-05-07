@@ -12,6 +12,6 @@
 if not percent_chance(50) then
     return true
 end
-if self.actor_count then
+if self.actor_count > 0 then
     self.room:send("A large arm swings over your head, spraying you with a chemical mix.")
 end

@@ -14,10 +14,11 @@ if not (cmd == "up") then
 end
 if actor.size == "tiny" or actor.size == "small" or actor.size == "medium" then
     self.room:send_except(actor, tostring(actor.name) .. " leaves up.")
-    actor:teleport(get_room(16, 39))
-    -- actor looks around
-    self.room:send_except(actor, tostring(actor.name) .. " enters from below.")
+    local dest = get_room(16, 39)
+    actor:teleport(dest)
+    dest:send_except(actor, tostring(actor.name) .. " enters from below.")
+    return true
 else
     actor:send("You're too large to go there.")
-    return _return_value
+    return false  -- block the movement command
 end

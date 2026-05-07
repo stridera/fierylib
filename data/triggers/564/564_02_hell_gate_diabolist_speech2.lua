@@ -4,14 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #56402
+--
+-- "no" reply to the diabolist's greet question. Mirror of 564_01 for
+-- the negative branch.
 
--- Converted from DG Script #56402: hell_gate_diabolist_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: no
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "no")) then
-    return true  -- No matching keywords
+-- Speech keyword: "no"
+if not string.find(string.lower(speech), "no") then
+    return true
 end
 wait(2)
 if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") == 0 then

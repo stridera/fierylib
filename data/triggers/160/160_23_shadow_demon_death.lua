@@ -1,21 +1,29 @@
 -- Trigger: shadow_demon_death
 -- Zone: 160, ID: 23
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
 --
--- Original DG Script: #16023
+-- Mystwatch spawn-cycle link 8: shadow demon → storm demon. Spawns a
+-- storm demon (160,8) in staging room (160,95), then either:
+--   * 33% — equips both the storm orb (160,6) and demon key (160,22);
+--   * 67% — equips only the key, but the orb is still given (without
+--     wear) to any present group member on Druid Moonwell quest or
+--     Sorcerer Wizard Eye quest, since both quests need to recover it
+--     from the demon's corpse.
+-- Then teleports the storm demon to its lair (160,76) and purges. Every
+-- present group member on mystwatch_quest advances "shadow" → "storm".
+--
+-- Fixes a pre-existing bug: the legacy script only advanced the quest in
+-- the 67% branch.
 
--- Converted from DG Script #16023: shadow_demon_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
 if world.count_mobiles(160, 8) < 1 then
-    -- load storm demon and maybe equip orb
-    -- but definitely load key
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 8)
     end)
-    local rnd = random(1, 100)
-    if rnd <= 33 then
+
+    local equip_orb = random(1, 100) <= 33
+
+    if equip_orb then
+        -- 33%: storm demon worn-equips both orb and key.
         get_room(160, 95):at(function()
             self.room:find_actor("storm"):spawn_object(160, 6)
         end)
@@ -25,47 +33,51 @@ if world.count_mobiles(160, 8) < 1 then
         get_room(160, 95):at(function()
             self.room:find_actor("storm"):command("wear all")
         end)
-        get_room(160, 95):at(function()
-            self.room:find_actor("storm"):teleport(get_room(160, 76))
-        end)
     else
-        -- The orb is required for Druids on the Moonwell quest and for Sorcerers on the Wizard Eye quest
-        local i = actor.group_size
-        if i then
-            local a = 1
-        else
-            local a = 0
-        end
-        while i >= a do
-            local person = actor.group_member[a]
-            if person.room == self.room then
-                if person:get_quest_stage("moonwell_spell_quest") > 0 or person:get_quest_stage("wizard_eye") > 0 then
-                    get_room(160, 95):at(function()
-                        self.room:find_actor("storm"):spawn_object(160, 6)
-                    end)
-                    get_room(160, 95):at(function()
-                        self.room:find_actor("storm"):command("wear all")
-                    end)
+        -- 67%: orb is only given when a present group member needs it
+        -- for Moonwell (Druid) or Wizard Eye (Sorcerer) quests.
+        local needs_orb = false
+        for i = 1, actor.group_size do
+            local person = actor.group_member[i]
+            if person and person.room == self.room then
+                local moonwell = person:get_quest_stage("moonwell_spell_quest") or 0
+                local eye = person:get_quest_stage("wizard_eye") or 0
+                if moonwell > 0 or eye > 0 then
+                    needs_orb = true
+                    break
                 end
-                if person:get_quest_stage("mystwatch_quest") then
-                    person:set_quest_var("mystwatch_quest", "step", "storm")
-                    person:send("<b:white>You have advanced the quest!</>")
-                end
-            elseif person then
-                i = i + 1
             end
-            a = a + 1
+        end
+        if needs_orb then
+            get_room(160, 95):at(function()
+                self.room:find_actor("storm"):spawn_object(160, 6)
+            end)
+            get_room(160, 95):at(function()
+                self.room:find_actor("storm"):command("wear all")
+            end)
         end
         get_room(160, 95):at(function()
             self.room:find_actor("storm"):spawn_object(160, 22)
         end)
-        get_room(160, 95):at(function()
-            self.room:find_actor("storm"):teleport(get_room(160, 76))
-        end)
+    end
+
+    get_room(160, 95):at(function()
+        self.room:find_actor("storm"):teleport(get_room(160, 76))
+    end)
+end
+
+-- Advance every present group member's mystwatch_quest step.
+for i = 1, actor.group_size do
+    local person = actor.group_member[i]
+    if person and person.room == self.room then
+        if person:get_quest_stage("mystwatch_quest") then
+            person:set_quest_var("mystwatch_quest", "step", "storm")
+            person:send("<b:white>You have advanced the quest!</>")
+        end
     end
 end
--- Sometimes creatures don't get teleported out of the loading
--- room so we're gonna go back and purge it just in case.
+
+-- Cleanup: purge any leftovers in the staging room.
 get_room(160, 95):at(function()
     self.room:purge()
 end)

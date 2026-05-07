@@ -4,14 +4,14 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #56401
+--
+-- "yes" reply to the diabolist's greet question. For Diabolist class
+-- on stage 0, gates the quest start path on level >= 80. For anyone
+-- already in the quest (stage > 0), prompts the per-stage check.
 
--- Converted from DG Script #56401: hell_gate_diabolist_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: yes
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes")) then
-    return true  -- No matching keywords
+-- Speech keyword: "yes"
+if not string.find(string.lower(speech), "yes") then
+    return true
 end
 wait(2)
 if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") == 0 then

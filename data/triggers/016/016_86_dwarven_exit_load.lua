@@ -10,10 +10,10 @@
 
 -- Speech keywords: yes no
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
     return true  -- No matching keywords
 end
-if string.find(speech, "yes") then
+if string.find(speech_lower, "yes") then
     self:say("Excellent, come with me then!  I know another way out!")
     wait(2)
     self:emote("cautiously moves toward the back of the cell.")
@@ -21,7 +21,7 @@ if string.find(speech, "yes") then
     self.room:send("A haggard dwarf scratches at some rocks in the wall.")
     run_room_trigger(16, 85)
 end
-if string.find(speech, "no") then
+if string.find(speech_lower, "no") then
     self:say("Then you are not friend to us!")
-    combat.engage(self, actor.name)
+    combat.engage(actor)
 end

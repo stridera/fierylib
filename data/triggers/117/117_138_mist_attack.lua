@@ -12,15 +12,12 @@
 if not (cmd == "look") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
 if (arg == "carving") or (arg == "carvings") then
-    _return_value = false
-    local now = time.stamp
-    if (mist_loaded ~= 1) and (last_load < now - 2) then
-        local mist_loaded = 1
-        globals.mist_loaded = globals.mist_loaded or true
-        local last_load = now
-        globals.last_load = globals.last_load or true
+    local now = timestamp()
+    local last_load = globals.last_load or 0
+    if (globals.mist_loaded ~= 1) and (last_load < now - 2) then
+        globals.mist_loaded = 1
+        globals.last_load = now
         self.room:send_except(actor, "As " .. tostring(actor.name) .. " looks at the carvings, an eerie stillness seems to set in...")
         actor:send("As you look at the carvings, an eerie stillness seems to set in...")
         wait(2)
@@ -29,11 +26,13 @@ if (arg == "carving") or (arg == "carvings") then
         self.room:send_except(actor, "The mist roars and charges at " .. tostring(actor.name) .. ".")
         actor:send("The mist roars and charges at YOU!")
         wait(2)
-        self.room:find_actor("mist-demon"):command("kill %actor.name%")
+        local demon = self.room:find_actor("mist-demon")
+        if demon then
+            demon:command("kill " .. tostring(actor.name))
+        end
     else
         actor:send("The mists around the carvings seem ominous and hostile.")
     end
-else
-    _return_value = true
+    return false  -- block the look command
 end
-return _return_value
+return true

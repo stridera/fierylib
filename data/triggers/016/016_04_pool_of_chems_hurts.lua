@@ -7,9 +7,7 @@
 
 -- Converted from DG Script #1604: pool_of_chems_hurts
 -- Original: OBJECT trigger, flags: GET, probability: 100%
-local _return_value = true  -- Default: allow action
-local var1 = random(1, 12)
-local damage = 10 + var1
+local damage = 10 + random(1, 12)
 local damage_dealt = actor:damage(damage)  -- type: acid
 if damage_dealt == 0 then
     actor:send("The chemicals dribble through your fingers back into the pool.")
@@ -18,5 +16,4 @@ else
     actor:send("OUCH! The chemicals burn as they drip through your fingers. (<green>" .. tostring(damage_dealt) .. "</>)")
     self.room:send_except(actor, tostring(actor.name) .. " yelps as " .. tostring(actor.possessive) .. " fingers are burned by some chemicals. (<green>" .. tostring(damage_dealt) .. "</>)")
 end
-_return_value = true
-return _return_value
+return true  -- allow the GET (player picks up nothing meaningful, just damage)

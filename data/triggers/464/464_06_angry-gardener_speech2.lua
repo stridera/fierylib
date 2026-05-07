@@ -15,7 +15,7 @@ end
 
 -- Speech keywords: scissors
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "scissors")) then
+if not string.find(speech_lower, "scissors") then
     return true  -- No matching keywords
 end
 self:say("I know it was them that did it... they took his scissors and left him for dead.")

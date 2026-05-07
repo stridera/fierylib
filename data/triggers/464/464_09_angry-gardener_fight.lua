@@ -13,4 +13,4 @@ if not percent_chance(20) then
     return true
 end
 self:command("snarl " .. tostring(actor.name))
-actor.name:send(self.name .. " tells you, '" .. "I will kill you." .. "'")
+actor:send(tostring(self.name) .. " tells you, 'I will kill you.'")

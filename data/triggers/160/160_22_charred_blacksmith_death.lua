@@ -1,35 +1,28 @@
 -- Trigger: charred_blacksmith_death
 -- Zone: 160, ID: 22
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
 --
--- Original DG Script: #16022
+-- Mystwatch spawn-cycle link 7: blacksmith → shadow demon. Advances every
+-- present group member from "blacksmith" → "shadow", spawns the shadow
+-- demon (160,10) in staging room (160,95), unconditionally equips both
+-- demon keys (objects 160,20 and 160,21), teleports to the demon's lair
+-- (160,52), and purges. Always announces the transition.
+--
+-- TODO: legacy comment requested an "are the keys already in the world?"
+-- check before loading them; once a `world.count_objects(zone,id)` helper
+-- exists, gate the spawn_object calls on it to avoid duplicate keys.
 
--- Converted from DG Script #16022: charred_blacksmith_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local i = actor.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
+for i = 1, actor.group_size do
+    local person = actor.group_member[i]
+    if person and person.room == self.room then
         if person:get_quest_stage("mystwatch_quest") then
             person:set_quest_var("mystwatch_quest", "step", "shadow")
             person:send("<b:white>You have advanced the quest!</>")
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
 end
+
 if world.count_mobiles(160, 10) < 1 then
-    -- load shadow demon and equip keys
-    -- It would be nice to check to see if the keys
-    -- are already in the game and not load them.
-    -- There is a pending coding request for this.
     get_room(160, 95):at(function()
         self.room:spawn_mobile(160, 10)
     end)
@@ -44,8 +37,6 @@ if world.count_mobiles(160, 10) < 1 then
     end)
 end
 self.room:send(tostring(self.name) .. " rasps, 'You think you have won, but the demons have taken notice of you now..'")
--- Sometimes creatures don't get teleported out of the loading
--- room so we're gonna go back and purge it just incase.
 get_room(160, 95):at(function()
     self.room:purge()
 end)

@@ -7,9 +7,14 @@
 
 -- Converted from DG Script #11802: room_reload_mob
 -- Original: WORLD trigger, flags: DROP, probability: 100%
+-- TODO: object.id is the legacy DG vnum (11800). Confirm whether this should
+-- compare against composite (zone_id, local_id) instead — likely (117, 100).
 if object.id == 11800 then
     wait(2)
-    world.destroy(self.room:find_actor("ball-mist"))
+    local ball = self.room:find_actor("ball-mist")
+    if ball then
+        world.destroy(ball)
+    end
     self.room:send("The mist begins to reform.")
     self.room:spawn_mobile(117, 100)
 end
