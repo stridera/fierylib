@@ -10,7 +10,7 @@
 
 -- Speech keywords: hello
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hello")) then
+if not string.find(speech_lower, "hello") then
     return true  -- No matching keywords
 end
 self:say(tostring(actor.name) .. " is a " .. tostring(actor.class) .. ".")

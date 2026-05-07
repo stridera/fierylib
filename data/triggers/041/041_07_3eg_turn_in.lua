@@ -1,15 +1,27 @@
 -- Trigger: 3eg_turn_in
 -- Zone: 41, ID: 7
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <3eg_turn_in>:193: function arguments expected near ']'
---   Complex nesting: 16 if statements
---   Large script: 15096 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): Stripped-down 041 mirror of 055_07 (Eldorian Guard
+-- 3eg turn-in, fewer item tiers). Same systemic converter problems
+-- as 041_03 / 055_07 -- briefly:
+--   1. `object.id == "%id_xxx%"` placeholder strings never match;
+--      the entire switch falls into the else "I am not interested" branch.
+--   2. Branch-scoped `local` writes never escape to the trophy/reward
+--      logic that follows.
+--   3. The 3eg gem 5-digit vnums (55566..55584) need to be addressed as
+--      (zone, local_id) tuples once spawn semantics are sorted.
+--   4. Quest-var keys still contain literal `%id_trophy%`/`%id_reward%`
+--      sentinels instead of substituted ids.
+--   5. `%get.obj_shortdesc[%id_trophy%]%` is unresolved interpolation.
+-- Light mechanical fixes are applied below (see inline comments) so the
+-- file at least parses cleanly, but the quest gameplay still requires a
+-- full rebuild before it is functional. See 055_07 for the upstream
+-- shape and the same set of TODOs.
 --
 -- Original DG Script: #4107
 
--- Converted from DG Script #4107: 3eg_turn_in
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the Edorian
@@ -191,7 +203,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Hrm, yes... you have been out fighting the")
             actor:send("</>influence of the Black Legion.  I see from my records you have now turned in")
             actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%id_trophy%]%</>.'")
-            world.destroy(object.name)
+            world.destroy(object)  -- TODO(parity): legacy converter wrote `object.name`
             actor:save()
             if trophies < 10 then
                 local faction_advance = 1
@@ -259,7 +271,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             -- 
             -- all other items should be mpjunked or whatever by now
         end
-        actor.name:save()
+        actor:save()  -- TODO(parity): legacy converter wrote `actor.name:save()`
         -- end of !if_gem section or trophy endif
     end
     if is_gem then
@@ -326,10 +338,10 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 -- 
                 -- all other items should be mpjunked or whatever by now
             end
-            world.destroy(object.name)
+            world.destroy(object)  -- TODO(parity): legacy converter wrote `object.name`
             self:destroy_item("all.eldoria-trophy")
             self:command("give all " .. tostring(actor.name))
-            actor.name:save()
+            actor:save()  -- TODO(parity): legacy converter wrote `actor.name:save()`
         else
             _return_value = true
             wait(2)

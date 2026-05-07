@@ -2,18 +2,26 @@
 -- Zone: 390, ID: 6
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Large script: 9311 chars
 --
 -- Original DG Script: #39006
+--
+-- The Envoy explains the Lady's plea to a water spirit; each spirit
+-- responds in its own voice and either pledges support outright, asks
+-- for a token (item2/3/4/7), or, in the Frozen Lake's case, attacks.
+-- Once all eight `flood:waterN` flags are set the quest advances.
+--
+-- TODO: legacy vnum dispatch (39013-39020) — replace with self.local_id
+-- once the spirits' (zone, id) tuples are confirmed.
 
--- Converted from DG Script #39006: flood_spirits_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: stolen revenge destroy flood return
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "stolen") or string.find(string.lower(speech), "revenge") or string.find(string.lower(speech), "destroy") or string.find(string.lower(speech), "flood") or string.find(string.lower(speech), "return")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "stolen")
+        or string.find(speech_lower, "revenge")
+        or string.find(speech_lower, "destroy")
+        or string.find(speech_lower, "flood")
+        or string.find(speech_lower, "return")) then
+    return true
 end
+
 if actor:get_quest_stage("flood") == 1 then
     wait(1)
     -- 
@@ -108,9 +116,9 @@ if actor:get_quest_stage("flood") == 1 then
         self.room:send(tostring(self.name) .. " descends shrieking," .. tostring(color) .. " 'I shall destroy you for your</>")
         self.room:send("</>" .. tostring(color) .. "insolence, Envoy!'</>")
         wait(3)
-        combat.engage(self, actor.name)
-        return _return_value
-        -- 
+        combat.engage(actor)
+        return true
+        --
         -- Black Lake wants an infinite light
         -- 
     elseif self.id == 39019 then

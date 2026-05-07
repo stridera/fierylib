@@ -4,37 +4,39 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #39016
+--
+-- Recovery for an Envoy who lost the heart-ocean. The Lady screams,
+-- punishes them with 400 hp of drowning damage, then conjures a new
+-- heart-ocean (390:0) from the sea and hands it back.
+--
+-- Match must be the full phrase "I lost the heart" (the legacy keyword
+-- list "I lost the heart" was tokenized into individual words by the
+-- DG-script parser, which is why the converter produced a too-loose
+-- check). The 0% probability in the legacy header was the DG way of
+-- saying "exact-phrase only", so we don't gate on percent_chance here.
 
--- Converted from DG Script #39016: flood_lady_heart_replacement
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
+if string.lower(speech) ~= "i lost the heart" then
+    return true
+end
+if not actor:get_quest_stage("flood") then
     return true
 end
 
--- Speech keywords: I lost the heart
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "lost") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "heart")) then
-    return true  -- No matching keywords
-end
 wait(2)
-if actor:get_quest_stage("flood") then
-    self:command("scream")
-    wait(2)
-    self.room:send(tostring(self.name) .. " shrieks, 'HOW DARE YOU!!!'")
-    wait(1)
-    actor:damage(400)  -- type: physical
-    actor:send(tostring(self.name) .. " fills your lungs with water! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-    self.room:send_except(actor, tostring(self.name) .. " fills " .. tostring(actor.name) .. "'s lungs with water! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-    wait(2)
-    self:emote("holds her hands in front of her.")
-    wait(1)
-    self.room:send("Water flows up " .. tostring(self.name) .. "'s body and swirls around her arms.")
-    wait(1)
-    self.room:send("The water coalesces into a shimmering jewel in the Lady's outstreched hands.")
-    wait(1)
-    self.room:spawn_object(390, 0)
-    self:command("give heart " .. tostring(actor))
-    self:say("Do not make this mistake again, Envoy.")
-end
+self:command("scream")
+wait(2)
+self.room:send(self.name .. " shrieks, 'HOW DARE YOU!!!'")
+wait(1)
+local dealt = actor:damage(400)  -- physical drowning
+actor:send(self.name .. " fills your lungs with water! (<b:blue>" .. tostring(dealt) .. "</>)")
+self.room:send_except(actor, self.name .. " fills " .. actor.name .. "'s lungs with water! (<b:blue>" .. tostring(dealt) .. "</>)")
+wait(2)
+self:emote("holds her hands in front of her.")
+wait(1)
+self.room:send("Water flows up " .. self.name .. "'s body and swirls around her arms.")
+wait(1)
+self.room:send("The water coalesces into a shimmering jewel in the Lady's outstretched hands.")
+wait(1)
+self.room:spawn_object(390, 0)
+self:command("give heart " .. actor.name)
+self:say("Do not make this mistake again, Envoy.")

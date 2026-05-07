@@ -4,7 +4,8 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #39011
+--
+-- When the Lady of the Sea loads, fire the world trigger that closes
+-- and re-describes the south settlement gate (390:12).
 
--- Converted from DG Script #39011: flood_spirit_load
--- Original: MOB trigger, flags: LOAD, probability: 100%
 run_room_trigger(390, 12)

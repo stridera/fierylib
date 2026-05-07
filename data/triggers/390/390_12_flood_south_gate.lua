@@ -4,9 +4,10 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #39012
+--
+-- Pre-flood state of the south settlement gate (390:187 south exit):
+-- a sturdy closed door holding back the sea.
 
--- Converted from DG Script #39012: flood_south_gate
--- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 local south = get_room(390, 187):exit("south")
 if south then
     south:set_state({has_door = true, closed = true, description = "A sturdy gate holds back the sea."})

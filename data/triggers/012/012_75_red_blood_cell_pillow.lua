@@ -7,10 +7,9 @@
 
 -- Converted from DG Script #1275: red_blood_cell_pillow
 -- Original: OBJECT trigger, flags: GLOBAL, GIVE, probability: 100%
-local _return_value = true  -- Default: allow action
 if (actor.name == "Laoris") and (victim.level <= 99) then
-    _return_value = false
     wait(1)
     victim:command("wear red-blood-cell-pillow")
+    return false  -- Suppress default `give` so the wear takes effect cleanly
 end
-return _return_value
+return true

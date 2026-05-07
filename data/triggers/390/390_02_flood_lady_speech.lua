@@ -4,21 +4,25 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #39002
+--
+-- High-level Cryomancers who say "flood/help/why/how" near the Lady are
+-- recruited as her Envoy: she starts the quest, gives them the heart-ocean
+-- (390:0), and tells them the eight Great Waters to rally.
 
--- Converted from DG Script #39002: flood_lady_speech
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: flood help? flood? How? Why?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "flood") or string.find(string.lower(speech), "help?") or string.find(string.lower(speech), "flood?") or string.find(string.lower(speech), "how?") or string.find(string.lower(speech), "why?")) then
-    return true  -- No matching keywords
+if not (string.find(speech_lower, "flood")
+        or string.find(speech_lower, "help")
+        or string.find(speech_lower, "how")
+        or string.find(speech_lower, "why")) then
+    return true
 end
+
 wait(2)
 local stage = actor:get_quest_stage("flood")
 if stage == 0 then
     if string.find(actor.class, "Cryomancer") and actor.level > 80 then
         actor:start_quest("flood")
-        self.room:send(tostring(self.name) .. " says, 'The masters of this settlement stole my most")
+        self.room:send(self.name .. " says, 'The masters of this settlement stole my most")
         self.room:send("</>precious treasures.  I will punish them with a cataclysm of rising tide and")
         self.room:send("</>raging torrents by calling to the great waters of Ethilien to my aid.  You will")
         self.room:send("</>be my envoy to their domains.'")
@@ -34,24 +38,24 @@ if stage == 0 then
         self.room:send("<b:white>The Dreaming River in the Realm of the King of Dreams</>")
         wait(4)
         self.room:spawn_object(390, 0)
-        self:command("give heart-ocean " .. tostring(actor.name))
-        self.room:send(tostring(self.name) .. " says, 'Standing in the waters with this, say:")
+        self:command("give heart-ocean " .. actor.name)
+        self.room:send(self.name .. " says, 'Standing in the waters with this, say:")
         self.room:send("<b:blue>the Arabel Ocean calls for aid</>.'")
         wait(4)
         self:say("They will respond.")
         wait(2)
-        self.room:send(tostring(self.name) .. " says, 'Tell them I long for <b:blue>revenge</>.'")
+        self.room:send(self.name .. " says, 'Tell them I long for <b:blue>revenge</>.'")
         wait(4)
-        self.room:send(tostring(self.name) .. " says, 'You will acquiesce to this request.  In exchange, I")
+        self.room:send(self.name .. " says, 'You will acquiesce to this request.  In exchange, I")
         self.room:send("</>will teach you to control the raging tides to demolish your enemies.'")
         wait(2)
-        self.room:send(tostring(self.name) .. " says, 'If you need, I can update you on your <b:white>[progress]</>.'")
+        self.room:send(self.name .. " says, 'If you need, I can update you on your <b:white>[progress]</>.'")
     end
 elseif stage == 1 then
-    self.room:send(tostring(self.name) .. " says, 'Why have you not yet convinced the other great")
+    self.room:send(self.name .. " says, 'Why have you not yet convinced the other great")
     self.room:send("</>waters to assist me??'")
     self:emote("fumes.")
 elseif stage == 2 then
-    self.room:send(tostring(self.name) .. " says, 'The waters are ready!  Give me back the heart and")
+    self.room:send(self.name .. " says, 'The waters are ready!  Give me back the heart and")
     self.room:send("</>the ocean will rage!'")
 end

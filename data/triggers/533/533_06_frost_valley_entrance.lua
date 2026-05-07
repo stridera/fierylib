@@ -4,9 +4,10 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #53306
-
--- Converted from DG Script #53306: frost_valley_entrance
--- Original: WORLD trigger, flags: COMMAND, probability: 75%
+--
+-- 'push' command in this room temporarily opens the western ice wall
+-- exit into Frost Valley. After one tick the ice reforms and the
+-- passage is sealed again.
 
 -- 75% chance to trigger
 if not percent_chance(75) then
@@ -14,7 +15,7 @@ if not percent_chance(75) then
 end
 
 -- Command filter: push
-if not (cmd == "push") then
+if cmd ~= "push" then
     return true  -- Not our command
 end
 get_room(533, 2):exit("west"):set_state({hidden = false})

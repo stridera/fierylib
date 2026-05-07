@@ -17,6 +17,5 @@ end
 if not (cmd == "sulk") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
-return _return_value
+-- TODO: original DG body unknown; converter produced no-op. Allow action.
+return true

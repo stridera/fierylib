@@ -2,30 +2,33 @@
 -- Zone: 390, ID: 4
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <flood_heart_speech>:19: 'then' expected near 'Arabel'
---   Complex nesting: 19 if statements
---   Large script: 8896 chars
 --
 -- Original DG Script: #39004
+--
+-- Object: heart-ocean. When the Envoy stands in one of the eight Great
+-- Waters and says the activation phrase, summon the local water spirit.
+--
+-- TODO: the legacy vnum ranges below (2800-2910, 10314-10335, 17802-17867,
+-- 36200-36231, 41100-41243, 53438-53482, 56402-56431, 58511-58519, 37072)
+-- can't be mapped to (zone, id) without per-water-body zone IDs. Replace
+-- with explicit zone+id checks once the destination zones are confirmed.
+-- The current code uses `room.id` (local id only), which will mis-trigger
+-- in any zone whose local IDs overlap these ranges.
+-- TODO: the mecho calls at the bottom still use DG variable expansion
+-- (`%spirit%`, `color%`) and won't work as written. They need to be
+-- rewritten to fetch the spawned spirit and have it speak.
 
--- Converted from DG Script #39004: flood_heart_speech
--- Original: OBJECT trigger, flags: COMMAND, probability: 3%
-
--- 3% chance to trigger
+if cmd ~= "say" then
+    return true
+end
 if not percent_chance(3) then
     return true
 end
 
--- Command filter: say
-if not (cmd == "say") then
-    return true  -- Not our command
-end
-local _return_value = true  -- Default: allow action
-_return_value = true
 wait(2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room
-    local zone = room.id
+    local zone = room.id  -- TODO: should be a (zone_id, local_id) tuple
     if string.find(arg, "the Arabel ocean calls for aid") or string.find(arg, "spirit I have returned") or string.find(arg, "spirit, I have returned") then
         -- 
         -- for Blue-Fog River and Lake
@@ -173,4 +176,4 @@ if actor:get_quest_stage("flood") == 1 then
         end
     end
 end
-return _return_value
+return true

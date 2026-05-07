@@ -15,7 +15,7 @@ end
 
 -- Speech keywords: chinok
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "chinok")) then
+if not string.find(speech_lower, "chinok") then
     return true  -- No matching keywords
 end
 self:say("Long live his fame and long live his glory.")

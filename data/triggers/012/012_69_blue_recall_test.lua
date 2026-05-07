@@ -19,5 +19,5 @@ if not (cmd == "recite") then
 end
 actor:send("In a flash of blinding light, you find yourself wisked away.")
 self.room:send_except(actor, "In a flash of blinding light, " .. tostring(actor.name) .. " disappears!")
-actor.name:teleport(get_room(100, 1))
+actor:teleport(get_room(100, 1))
 actor:command("look")

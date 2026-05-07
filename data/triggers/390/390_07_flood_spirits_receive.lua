@@ -2,14 +2,21 @@
 -- Zone: 390, ID: 7
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Syntax error: luac: <flood_spirits_receive>:81: function arguments expected near '.'
---   Complex nesting: 15 if statements
---   Large script: 10161 chars
 --
 -- Original DG Script: #39007
-
--- Converted from DG Script #39007: flood_spirits_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- A spirit (or the Lady herself) receives an item from the Envoy:
+--   - Lady (39012) receiving heart-ocean (390:0) at stage 2 fires the
+--     flood cataclysm and completes the quest.
+--   - Phoenix (39014) wants the phoenix feather (584:1, legacy 58401).
+--   - Greengreen (39016) eats foods until val0 totals >= 200; refuses
+--     repeats keyed by (zone_id, local_id).
+--   - Black Lake (39019) wants an eternal light (val1 == -1).
+-- Anything else is refused. On stage advance, all eight water flags are
+-- rechecked and `advance_quest` fires if complete.
+--
+-- TODO: legacy vnum dispatch (self.id == 39012..39019, object.id == 39000,
+-- object.id == 58401). Replace with (zone, local_id) once confirmed.
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("flood")
 -- switch on self.id

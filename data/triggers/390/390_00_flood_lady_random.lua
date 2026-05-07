@@ -4,21 +4,21 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #39000
+--
+-- The Lady of the Sea rages at the settlement gate, screaming threats
+-- and pounding the waves against it. Picks one of four ambient lines.
 
--- Converted from DG Script #39000: flood_lady_random
--- Original: MOB trigger, flags: RANDOM, probability: 10%
-
--- 10% chance to trigger
 if not percent_chance(10) then
     return true
 end
--- switch on random(1, 4)
-if random(1, 4) == 1 then
+
+local roll = random(1, 4)
+if roll == 1 then
     self:emote("screams in fury!")
-elseif random(1, 4) == 2 then
+elseif roll == 2 then
     self:emote("screams, 'I WILL TAKE BACK WHAT YOU HAVE STOLEN!'")
     self:emote("bangs furiously on the gate.")
-elseif random(1, 4) == 3 then
+elseif roll == 3 then
     self.room:send("The waves slam against the gate!")
     self:emote("screams, 'YOU WILL NOT ESCAPE THE SEA'S WRATH.'")
 else

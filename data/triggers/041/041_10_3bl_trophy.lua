@@ -3,40 +3,33 @@
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: CLEAN
 --
+-- 3bl recruiter: when a Black Legion recruit asks about "trophy"/"trophies"
+-- the mob lists which 3eg-faction items it is interested in receiving.
+-- Trophy IDs (zone 55) are the Eldorian Guard drops created by the
+-- p*_3eg_death triggers in this zone.
+--
 -- Original DG Script: #4110
-
--- Converted from DG Script #4110: 3bl_trophy
--- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
 -- Speech keywords: trophy trophies
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "trophy") or string.find(string.lower(speech), "trophies")) then
+if not (string.find(speech_lower, "trophy") or string.find(speech_lower, "trophies")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_var("Black_Legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!  Be")
     actor:send("</>gone, filth!'")
-    return _return_value
+    return true
 end
-local id_trophy1 = 5504
-local id_trophy2 = 5506
-local id_trophy3 = 5508
-local id_trophy4 = 5510
-local id_trophy5 = 5512
-local id_trophy6 = 5514
-local id_trophy7 = 5516
+-- Trophy item IDs (zone 55). Names resolved from objects.template at runtime.
+local trophy_ids = { 5504, 5506, 5508, 5510, 5512, 5514, 5516 }
 if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") == 1 then
-    -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'As you fight the allies of Eldorian Guard")
     actor:send("</>you will periodically find goods on their bodies that we will want in order to")
     actor:send("</>prove that you are working with us.'")
-    -- (empty send to actor)
     actor:send("</>Items we're interested in are:")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy1%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy2%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy3%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy4%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy5%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy6%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy7%]%")
+    for _, id in ipairs(trophy_ids) do
+        local proto = objects.template(55, id)
+        local label = proto and proto.name or ("trophy " .. tostring(id))
+        actor:send("- " .. tostring(label))
+    end
 end

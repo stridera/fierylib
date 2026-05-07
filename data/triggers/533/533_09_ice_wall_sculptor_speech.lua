@@ -4,18 +4,20 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #53309
+--
+-- When a cryomancer (level > 56) acknowledges the sculptor's request
+-- ("yes", "okay", or asks "how?", "wall?", "ice?", "supplies?"), the
+-- sculptor starts the wall_ice quest and gives the player a notes
+-- object (533, 26) describing the crystalize spell.
 
--- Converted from DG Script #53309: ice_wall_sculptor_speech
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: Yes okay wall? How? Ice? supplies? ice supplies how
+-- Speech keywords: yes, okay, wall, how, ice, supplies
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "wall?") or string.find(string.lower(speech), "how?") or string.find(string.lower(speech), "ice?") or string.find(string.lower(speech), "supplies?") or string.find(string.lower(speech), "ice") or string.find(string.lower(speech), "supplies") or string.find(string.lower(speech), "how")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "wall") or string.find(speech_lower, "how") or string.find(speech_lower, "ice") or string.find(speech_lower, "supplies")) then
     return true  -- No matching keywords
 end
 wait(2)
 if actor:get_quest_stage("wall_ice") == 0 then
-    if string.find(actor.class, "Cryomancer") and actor.level > 56 then
+    if actor.class and string.find(actor.class, "Cryomancer") and actor.level > 56 then
         actor:start_quest("wall_ice")
         if actor.gender == "female" then
             self:say("Thank you so much ma'am!")
