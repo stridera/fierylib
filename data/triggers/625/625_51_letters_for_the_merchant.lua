@@ -1,8 +1,7 @@
 -- Trigger: letters for the merchant
 -- Zone: 625, ID: 51
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <letters for the merchant>:3: unexpected symbol near '%'
+-- Status: CLEAN
 --
 -- Original DG Script: #62551
 
@@ -14,7 +13,8 @@ if actor:get_quest_stage("ursa_quest") == 1 then
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'So, the merchant has gotten himself in quite a bit")
     actor:send("</>of trouble.'")
-    if self.id == 58008 then
+    local z, lid = self.zone_id, self.local_id
+    if z == 580 and lid == 8 then
         wait(1)
         actor:send(tostring(self.name) .. " writes a beautifully crafted white epistle.")
         wait(2)
@@ -22,7 +22,7 @@ if actor:get_quest_stage("ursa_quest") == 1 then
         actor:send("</>he must do for the gods to heal him.'")
         self.room:spawn_object(625, 11)
         self:command("give letter " .. tostring(actor))
-    elseif self.id == 6007 then
+    elseif z == 60 and lid == 7 then
         wait(1)
         actor:send(tostring(self.name) .. " tells you, 'I know what he must do, but he won't like it.'")
         self:command("chuckle")
@@ -33,7 +33,7 @@ if actor:get_quest_stage("ursa_quest") == 1 then
         actor:send("</>still finds him...  amusing.'")
         self.room:spawn_object(625, 10)
         self:command("give letter " .. tostring(actor))
-    elseif self.id == 7310 then
+    elseif z == 73 and lid == 10 then
         wait(1)
         actor:send(tostring(self.name) .. " tells you, 'Fortunately, there isn't anything I haven't found")
         actor:send("</>the cure for.  He sent you to exactly the right person!'")

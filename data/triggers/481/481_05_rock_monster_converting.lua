@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "p") or string.find(string.lower(speec
     return true  -- No matching keywords
 end
 -- this trigger only works if the rock-monster said the phrase
-if actor.id == 48127 then
+if actor.zone_id == 481 and actor.local_id == 27 then
     wait(2)
     self.room:send("There is a swirling in the air and you see a face appear.")
     self.room:send("The face grins unpleasantly then cackles.")

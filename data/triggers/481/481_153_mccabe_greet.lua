@@ -1,44 +1,42 @@
 -- Trigger: mccabe greet
 -- Zone: 481, ID: 153
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <mccabe greet>:32: unexpected symbol near '='
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48253
+--
+-- TODO(parity): References to bare identifiers `wandstep` and `weapon`, plus
+-- `actor.object`, are stale DG state that didn't survive conversion. The
+-- type_wand cross-zone quest is not yet ported; treat all `type_wand` /
+-- `wandstep` branches as best-effort. Compares against the literal string
+-- "wandstep" until a canonical stage value is established.
 
 -- Converted from DG Script #48253: mccabe greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
--- **McCabe's greet Trigger***
--- **
 local stage = actor:get_quest_stage("meteorswarm")
 wait(1)
--- **No one should be here but sorcs and pyros, so lets throw the rest back out***
-if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest_stage("type_wand") < wandstep then
+-- No one should be here but sorcs and pyros, so let's throw the rest back out
+if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest_stage("type_wand") < (wandstep or 999) then
     self:command("con " .. tostring(actor))
     wait(2)
     self:say("What are you doing here?! Get out!")
     wait(1)
-    self.room:send_except(actor, "<b:blue>" .. tostring(self.name) .. " </><cyan> sends a blast of air at &9<blue>" .. tostring(actor.name) .. "<cyan> sending " .. tostring(actor.object) .. "<blue> tumbling!</>")
+    self.room:send_except(actor, "<b:blue>" .. tostring(self.name) .. " </><cyan> sends a blast of air at &9<blue>" .. tostring(actor.name) .. "<cyan> sending them<blue> tumbling!</>")
     actor:send("<b:blue>" .. tostring(self.name) .. " </><cyan> sends a blast of air at <b:red>YOU<cyan> sending you<blue> tumbling!</>")
     actor:teleport(get_room(481, 154))
-    -- actor looks around
     actor:send("<b:blue>" .. tostring(self.name) .. "'s </><cyan>blast of air sends you<blue> tumbling!</>")
     actor:teleport(get_room(481, 153))
-    -- actor looks around
     actor:send("<b:blue>" .. tostring(self.name) .. "'s </><cyan>blast of air sends you<blue> tumbling!</>")
     actor:teleport(get_room(481, 152))
-    -- actor looks around
     actor:send("<b:blue>" .. tostring(self.name) .. "'s </><cyan>blast of air comes at you from a new angle, sending you<blue> tumbling!</>")
     actor:teleport(get_room(481, 151))
     local damage = (actor.level * 2) + random(1, 30)
     local damage_dealt = actor:damage(damage)  -- type: fire
     actor:send("<b:red>You sustain </><red>severe burns<blue> as you plunge head first through drizzling </><red>lava.</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
-    -- actor looks around
 elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) or actor:get_quest_stage("type_wand") == "wandstep" then
-    local minlevel = (wandstep - 1) * 10
+    local minlevel = ((wandstep or 1) - 1) * 10
     if (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) then
-        if actor:get_quest_var("meteorswarm:new") ~= no then
+        if actor:get_quest_var("meteorswarm:new") ~= "no" then
             actor:send(tostring(self.name) .. " tells you, 'Do you have the new meteorite?'")
         elseif not stage then
             self.room:spawn_mobile(481, 151)

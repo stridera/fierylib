@@ -7,16 +7,17 @@
 
 -- Converted from DG Script #62505: Treant refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
+--
+-- TODO(parity): The legacy script's RECEIVE filter referenced three
+-- variable IDs (%wandgem%, %wand_id%, %wandtask3%) that came from a
+-- separate phase-wand quest's load script and are not in scope here.
+-- The original ran at 0% probability so the body was effectively
+-- dead. Left as a no-op until the treant's accept-list is decided.
 
 -- 0% chance to trigger
 if not percent_chance(0) then
     return true
 end
--- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%wandtask3%" then
-    return _return_value
-else
-    wait(1)
-    self:command("grumble")
-    self:command("drop " .. tostring(object))
-end
+wait(1)
+self:command("grumble")
+self:command("drop " .. tostring(object))

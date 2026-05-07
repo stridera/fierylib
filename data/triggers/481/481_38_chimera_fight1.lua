@@ -12,5 +12,5 @@
 if not percent_chance(30) then
     return true
 end
-actor.name:send("YOWZER, the dragon head's fiery breath singed the top of your head!")
-self.room:send_except(actor.name, "The dragon head misses " .. tostring(actor.name) .. " with its fiery breath, but their hair smokes slightly!")
+actor:send("YOWZER, the dragon head's fiery breath singed the top of your head!")
+self.room:send_except(actor, "The dragon head misses " .. tostring(actor.name) .. " with its fiery breath, but their hair smokes slightly!")

@@ -7,21 +7,20 @@
 
 -- Converted from DG Script #61571: Niaxxa death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_stage("enchanted_hollow_quest") and not person:get_has_completed("enchanted_hollow_quest") then
-            person:complete_quest("enchanted_hollow_quest")
+-- Award the Enchanted Hollow quest to every group-mate of the killer
+-- who is in this room.
+local size = actor.group_size or 0
+if size > 0 then
+    for a = 1, size do
+        local person = actor.group_member and actor.group_member[a]
+        if person and person.room == self.room then
+            if person:get_quest_stage("enchanted_hollow_quest") and not person:get_has_completed("enchanted_hollow_quest") then
+                person:complete_quest("enchanted_hollow_quest")
+            end
         end
-    elseif person then
-        i = i + 1
     end
-    a = a + 1
+elseif actor.room == self.room then
+    if actor:get_quest_stage("enchanted_hollow_quest") and not actor:get_has_completed("enchanted_hollow_quest") then
+        actor:complete_quest("enchanted_hollow_quest")
+    end
 end

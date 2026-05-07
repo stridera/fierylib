@@ -12,14 +12,13 @@
 if not percent_chance(12) then
     return true
 end
--- switch on random(1, 4)
-if random(1, 4) == 1 then
+local val = random(1, 4)
+if val == 1 then
     self:emote("grumbles about mortals shattering the natural order.")
-elseif random(1, 4) == 2 then
+elseif val == 2 then
     self:say("I swear I will find a vessel for nature's vengeance!")
-elseif random(1, 4) == 3 then
+elseif val == 3 then
     self:say("Someday we'll take revenge on the mortal races...")
-elseif random(1, 4) == 4 then
 else
     self:emote("makes a mystic gesture and surrounds herself with a swirling swarm of insects!")
 end

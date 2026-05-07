@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-if greeted_someone == 1 and string.find(actor.name, "person_to_help") and heart_inplace ~= 1 then
+if globals.greeted_someone == 1 and actor.name == globals.person_to_help and globals.heart_inplace ~= 1 then
     wait(1)
     self:say("Well, sometimes the dark fliers put something very bright on this menhir,")
     self:say("which burns away the fog.")

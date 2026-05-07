@@ -2,8 +2,12 @@
 -- Zone: 53, ID: 19
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
---   Large script: 7914 chars
+-- TODO(parity): trophy/gem/place/hint locals are branch-scoped (84-128)
+-- but referenced at 137/140/143/157/160/163. Output strings retain DG
+-- `%get.obj_shortdesc[%trophy%]%` literals — replace with
+-- `objects.template(zone, id).name`. `_return_value` is referenced but
+-- never defined (used in early returns). 1% probability is also low for
+-- a status query — verify against DG #5319.
 --
 -- Original DG Script: #5319
 

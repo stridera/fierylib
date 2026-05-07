@@ -1,10 +1,15 @@
 -- Trigger: mccabe_receive
 -- Zone: 481, ID: 158
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <mccabe_receive>:12: unexpected symbol near '='
+-- Status: CLEAN
 --
 -- Original DG Script: #48258
+--
+-- TODO(parity): the legacy DG `if earth == 0 then ... elseif stage == 3
+-- then ...` chains in the stage-2 and stage-4 branches mix two different
+-- discriminants and were converted near-verbatim. The nested `elseif`
+-- arms below are unreachable in the current shape and need a structural
+-- rewrite once the quest semantics are confirmed against the C++ server.
 
 -- Converted from DG Script #48258: mccabe_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
@@ -12,12 +17,12 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("meteorswarm")
 local earth = actor:get_quest_var("meteorswarm:earth")
 local air = actor:get_quest_var("meteorswarm:air")
-if object.id == 48251 then
+if object.zone_id == 481 and object.local_id == 151 then
     _return_value = true
     self:command("shake")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Go <b:cyan>use</> this new treasure; don't give it back to me!'")
-elseif actor:get_quest_var("meteorswarm:new") ~= no then
+elseif actor:get_quest_var("meteorswarm:new") ~= "no" then
     _return_value = true
     self.room:send(tostring(self.name) .. " accepts the meteorite.")
     wait(2)

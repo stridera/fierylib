@@ -2,8 +2,14 @@
 -- Zone: 53, ID: 57
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 38 if statements
---   Large script: 9259 chars
+-- TODO(parity): converter mangled the stage dispatch — `local step`,
+-- `local gem`, `local pl_word`, `local word`, `local spell1/2`,
+-- `local quest1/2`, `local task6/task6do` are declared at top level
+-- TWICE (once with phase-1 values, once with phase-2 values, lines 43-67),
+-- so phase-2 always wins regardless of hellstage. Inner `hellstage ==
+-- "step"` is a string compare. `local response` is branch-scoped via
+-- elseif. `%get.obj_shortdesc[%gem%]%` DG remnants. 0% probability gate.
+-- Full rewrite from DG #5357.
 --
 -- Original DG Script: #5357
 

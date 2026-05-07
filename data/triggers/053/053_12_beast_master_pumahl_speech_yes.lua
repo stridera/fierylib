@@ -2,8 +2,10 @@
 -- Zone: 53, ID: 12
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
---   Large script: 5785 chars
+-- TODO(parity): broken: `local notice = N` is branch-scoped, used at
+-- spawn_object on line 62. Group-iteration pattern (line 19-26) shadows
+-- `a` inside if/else so the inner locals never escape - loop bound is
+-- nil. Needs full rewrite from DG #5312.
 --
 -- Original DG Script: #5312
 

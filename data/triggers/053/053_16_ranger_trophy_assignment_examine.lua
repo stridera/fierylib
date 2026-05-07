@@ -1,7 +1,10 @@
 -- Trigger: Ranger Trophy assignment examine
 -- Zone: 53, ID: 16
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): same problems as 053_15: `victim1`/`stage` are
+-- branch-scoped; `== "stage"` is a string compare; legacy 5-digit ids
+-- need split. Full rewrite from DG #5316.
 --
 -- Original DG Script: #5316
 

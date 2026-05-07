@@ -43,7 +43,7 @@ elseif object.id == 49042 then
         self:command("drop clear-glass-bottle")
     elseif object.val2 ~= 5 then
         self:say("What's this?  I'm not drinking that!")
-        self:command("glare " .. "%actor.name")
+        self:command("glare " .. tostring(actor.name))
         wait(2)
         self:command("drop clear-glass-bottle")
     else

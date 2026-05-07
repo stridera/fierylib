@@ -2,8 +2,14 @@
 -- Zone: 53, ID: 47
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 17 if statements
---   Large script: 6338 chars
+-- TODO(parity): branch-scoped `visionstage`/`chantstage`/`level`/
+-- `place`/`mark`/`text1`/`text2`/`chant`. Outer condition
+-- `actor:get_quest_stage("monk_chants") == "chantstage"` compares int
+-- to literal string. Inner `actor.room == "place"` compares room object
+-- to literal "place". `skills.set_level(actor, "%chant%", 100)` passes
+-- the literal `%chant%` instead of the variable. `actor:has_equipped(
+-- "393")` etc. pass 5-digit string vnums — API needs `(zone, id)`.
+-- Full rewrite from DG #5347.
 --
 -- Original DG Script: #5347
 

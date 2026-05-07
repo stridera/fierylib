@@ -1,14 +1,13 @@
 -- Trigger: shaman_receive1
 -- Zone: 481, ID: 33
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48133
 
 -- Converted from DG Script #48133: shaman_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 48122 then
+if object.zone_id == 481 and object.local_id == 22 then
     wait(2)
     self:destroy_item("head")
     self:command("bow " .. tostring(actor.name))
@@ -23,27 +22,28 @@ if object.id == 48122 then
     local levelcheck = 0
     local queststart = 0
     local lowlevel = 0
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
-        local person = actor.group_member[a]
+        person = actor.group_member[a]
         if person.room == self.room then
             if person.level >= 50 then
-                local levelcheck = 1
+                levelcheck = 1
                 if person:get_quest_stage("fieryisle_quest") <= 1 then
                     if person:get_quest_stage("fieryisle_quest") == 0 then
                         person:start_quest("fieryisle_quest")
                         person:send("<b:white>You have now begun the Fiery Island quest!</>")
                     end
-                    local queststart = 1
+                    queststart = 1
                     person:set_quest_var("fieryisle_quest", "chimera", "dead")
                 end
             else
                 person:send("<red>You are too low level to continue this quest.</>")
-                local lowlevel = 1
+                lowlevel = 1
             end
         elseif person and person.is_player then
             i = i + 1
@@ -51,9 +51,9 @@ if object.id == 48122 then
         a = a + 1
     end
 end
-if levelcheck then
-    if queststart then
-        if lowlevel then
+if levelcheck == 1 then
+    if queststart == 1 then
+        if lowlevel == 1 then
             self.room:send(tostring(self.name) .. " says, 'Some of you are still too inexperienced but...'")
             wait(2)
         end
@@ -67,7 +67,7 @@ if levelcheck then
         wait(5)
         self.room:send(tostring(self.name) .. " says, 'If you forget what to do, you can come back to me and check on your <b:cyan>[progress]</>.'")
     else
-        if lowlevel then
+        if lowlevel == 1 then
             self.room:send(tostring(self.name) .. " says, 'Some of you are still too inexperienced but...'")
             wait(2)
         end

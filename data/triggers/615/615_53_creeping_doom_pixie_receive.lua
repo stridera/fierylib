@@ -1,10 +1,11 @@
 -- Trigger: creeping_doom_pixie_receive
 -- Zone: 615, ID: 53
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <creeping_doom_pixie_receive>:7: function arguments expected near '.'
---   Complex nesting: 9 if statements
---   Large script: 8237 chars
+-- Status: CLEAN
+--
+-- TODO(parity): Legacy fruit/relic vnums (11812, 16213, 48029, 48416,
+-- 52034, 62503) split as (zone, local) below. These come from other
+-- zones we have not yet audited; verify when those zones are reviewed.
 --
 -- Original DG Script: #61553
 
@@ -12,18 +13,21 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("creeping_doom")
+local function obj_is(z, l)
+    return object.zone_id == z and object.local_id == l
+end
 if stage == 1 then
-    if object.id == 11812 or object.id == 16213 or object.id == 48029 then
+    if obj_is(118, 12) or obj_is(162, 13) or obj_is(480, 29) then
         if actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
             _return_value = true
-            self:say("You already brought me " .. ("%get.obj_shortdesc[" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id) .. "]%"))
+            self:say("You already brought me " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
             actor:set_quest_var("creeping_doom", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(2)
             world.destroy(object)
             self:say("Just what we need.")
-            if actor:get_quest_var("creeping_doom:11812") and actor:get_quest_var("creeping_doom:16213") and actor:get_quest_var("creeping_doom:48029") then
+            if actor:get_quest_var("creeping_doom:118_12") and actor:get_quest_var("creeping_doom:162_13") and actor:get_quest_var("creeping_doom:480_29") then
                 actor:advance_quest("creeping_doom")
                 wait(1)
                 self:say("Yesssss... Raaaaaaage...")
@@ -54,14 +58,14 @@ if stage == 1 then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 2 then
-    if object.id == 61517 then
+    if obj_is(615, 17) then
         wait(2)
         self:say("Yesssss...  More essences!")
-        local spiders = actor:get_quest_var("Creeping_doom:spiders") + 1
+        local spiders = (actor:get_quest_var("creeping_doom:spiders") or 0) + 1
         actor:set_quest_var("creeping_doom", "spiders", spiders)
         self:destroy_item("essence-of-swarms")
         wait(2)
-        if actor:get_quest_var("Creeping_doom:spiders") == 11 then
+        if spiders == 11 then
             actor:advance_quest("creeping_doom")
             self.room:send(tostring(self.name) .. " says, 'The Rage and Doom are hyped, but we need to keep 'em")
             self.room:send("</>from going too aggro.  Trophies from ending Nature's suffering'll temper them")
@@ -83,8 +87,8 @@ elseif stage == 2 then
             self.room:send("</>the Silveroak.  Return with the Seed as a relic of the promise of new life")
             self.room:send("</>even in the face of extreme burnination.'")
         else
-            local remaining = 11 - actor:get_quest_var("Creeping_doom:spiders")
-            self.room:send(tostring(self.name) .. " says, 'You have brought me " .. tostring(actor:get_quest_var("Creeping_doom:spiders")) .. " <b:green>essence of swarms</>.")
+            local remaining = 11 - spiders
+            self.room:send(tostring(self.name) .. " says, 'You have brought me " .. tostring(spiders) .. " <b:green>essence of swarms</>.")
             self.room:send(tostring(remaining) .. " more to go.'")
         end
     else
@@ -93,7 +97,7 @@ elseif stage == 2 then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 3 then
-    if object.id == 48416 or object.id == 52034 or object.id == 62503 then
+    if obj_is(484, 16) or obj_is(520, 34) or obj_is(625, 3) then
         if actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
             _return_value = true
             self:say("You already found this.")
@@ -103,7 +107,7 @@ elseif stage == 3 then
             wait(1)
             self:say("This is it!")
             world.destroy(object)
-            if actor:get_quest_var("creeping_doom:48416") and actor:get_quest_var("creeping_doom:52034") and actor:get_quest_var("creeping_doom:62503") then
+            if actor:get_quest_var("creeping_doom:484_16") and actor:get_quest_var("creeping_doom:520_34") and actor:get_quest_var("creeping_doom:625_3") then
                 self:say("These are all the parts we need!")
                 actor:advance_quest("creeping_doom")
                 wait(1)

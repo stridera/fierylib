@@ -23,12 +23,13 @@ if actor.is_player then
     self.room:send_except(actor, tostring(actor.name) .. " bows before " .. tostring(self.name) .. ".")
     actor:send("you bow before " .. tostring(self.name) .. ".")
     wait(1)
+    local noun
     if actor.gender == "female" then
-        local noun = "lassie"
+        noun = "lassie"
     elseif actor.gender == "male" then
-        local noun = "laddie"
+        noun = "laddie"
     else
-        local noun = "my dear"
+        noun = "my dear"
     end
     self:say("Well now, " .. tostring(noun) .. ", I don't suppose you have any fruit on ye?")
     wait(2)

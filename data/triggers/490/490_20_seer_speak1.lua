@@ -1,8 +1,7 @@
 -- Trigger: seer_speak1
 -- Zone: 490, ID: 20
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #49020
 
@@ -20,7 +19,7 @@ if not (string.find(string.lower(speech), "earle") or string.find(string.lower(s
     return true  -- No matching keywords
 end
 wait(2)
-if self.room ~= 49078 then
+if self.room ~= get_room(490, 78) then
     self:say("I am powerless to help you outside my cave.")
 else
     -- switch on actor:get_quest_stage("griffin_quest")
@@ -44,15 +43,16 @@ else
     local person = actor
     local stage = 2
     local i = person.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
         person = person.group_member[a]
         if person.room == self.room then
-            if person:get_quest_stage("griffin_quest") == "stage" then
+            if person:get_quest_stage("griffin_quest") == stage then
                 person:advance_quest("griffin_quest")
                 person:send("<b:white>You have advanced the quest!</>")
             end

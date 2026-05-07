@@ -2,8 +2,10 @@
 -- Zone: 53, ID: 36
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
---   Large script: 12742 chars
+-- TODO(parity): same elseif-ladder bug as 053_11/053_21 — every stage
+-- check is gated on `bounty == "running"` then elseif against stage,
+-- so the "still on the mission" message is unreachable. `_return_value`
+-- referenced (line 37) but never defined. Full rewrite from DG #5336.
 --
 -- Original DG Script: #5336
 

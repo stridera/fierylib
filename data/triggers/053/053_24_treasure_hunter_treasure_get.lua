@@ -2,7 +2,10 @@
 -- Zone: 53, ID: 24
 -- Type: OBJECT, Flags: GET
 -- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- TODO(parity): branch-scoped `local stage`, `local variable` (used at
+-- line 98). Group iteration `local a` is branch-scoped; `i >= a` reads
+-- nil. `actor:get_quest_stage(...) == "stage"` compares int to string.
+-- Legacy 5-digit self.id values. Full rewrite from DG #5324.
 --
 -- Original DG Script: #5324
 

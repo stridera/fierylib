@@ -1,7 +1,12 @@
 -- Trigger: Monk Vision Hakujo speech vision
 -- Zone: 53, ID: 41
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): branch-scoped `book`, `gem`, `room`, `place`, `hint`
+-- (used at 110-115). `get_room("4328")` is called with a 5-digit string
+-- vnum — the API requires `(zone, id)`. Output retains DG
+-- `%get.obj_shortdesc[%gem%]%` literals. `_return_value` referenced
+-- but never defined. Full rewrite from DG #5341.
 --
 -- Original DG Script: #5341
 

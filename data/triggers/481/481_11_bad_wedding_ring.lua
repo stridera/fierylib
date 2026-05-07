@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48111: bad_wedding_ring
 -- Original: OBJECT trigger, flags: GET, probability: 100%
-if actor.id ~= 48105 then
+if not (actor.zone_id == 481 and actor.local_id == 5) then
     wait(2)
     self.room:send("The ivory ring flares brightly!")
     actor:damage(100)  -- type: fire
@@ -19,7 +19,9 @@ if actor.id ~= 48105 then
         else
             actor:send("You are burnt by the ring! (<b:red>" .. tostring(damage_dealt) .. "</>)")
         end
-        if actor.room == 48223 then
+        -- TODO(parity): legacy DG referenced room vnum 48223 (likely a typo
+        -- for 48123 == (481,123), Vulcera's punishment chamber).
+        if actor.room and actor.room.zone_id == 481 and actor.room.local_id == 123 then
             self.room:find_actor("vulcera"):command("get ivory-ring")
         end
     end

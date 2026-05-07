@@ -12,18 +12,17 @@
 if not percent_chance(35) then
     return true
 end
-if actor.is_player and actor.level < 100 and gave_flower ~= 1 then
+if actor.is_player and actor.level < 100 and globals.gave_flower ~= 1 then
     wait(1)
     self:command("smile " .. tostring(actor.name))
     wait(2)
     self:command("remove buttercup")
     self:command("give buttercup " .. tostring(actor.name))
-    local gave_flower = 1
-    globals.gave_flower = globals.gave_flower or true
+    globals.gave_flower = 1
     wait(2)
     if actor.room ~= self.room then
-        return _return_value
+        return true
     end
-    actor.name:send(tostring(self.name) .. " curtseys daintily before you.")
-    self.room:send_except(actor.name, tostring(self.name) .. " curtseys daintily before " .. tostring(actor.name) .. ".")
+    actor:send(tostring(self.name) .. " curtseys daintily before you.")
+    self.room:send_except(actor, tostring(self.name) .. " curtseys daintily before " .. tostring(actor.name) .. ".")
 end

@@ -2,8 +2,9 @@
 -- Zone: 53, ID: 37
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
---   Large script: 6326 chars
+-- TODO(parity): branch-scoped `local mission = N` (used at line 64
+-- spawn_object). Group iteration `local a` branch-scoped; loop bound
+-- undefined. Full rewrite from DG #5337.
 --
 -- Original DG Script: #5337
 

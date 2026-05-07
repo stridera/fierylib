@@ -1,29 +1,30 @@
 -- Trigger: wise_woman_give_parchment
 -- Zone: 481, ID: 9
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48109
 
 -- Converted from DG Script #48109: wise_woman_give_parchment
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 48124 then
+if object.zone_id == 481 and object.local_id == 24 then
     wait(2)
     world.destroy(object)
     local stage = 4
     local person = actor
     local i = person.group_size
+    local a
+    local accept
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
-        local person = actor.group_member[a]
+        person = actor.group_member[a]
         if person.room == self.room then
-            if person:get_quest_stage("fieryisle_quest") == "stage" then
-                local accept = "yes"
+            if person:get_quest_stage("fieryisle_quest") == stage then
+                accept = "yes"
                 person:advance_quest("fieryisle_quest")
                 person:send("<b:white>You have advanced your quest!</>")
             end

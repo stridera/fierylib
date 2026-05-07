@@ -1,8 +1,7 @@
 -- Trigger: vulcera_dead
 -- Zone: 481, ID: 43
 -- Type: MOB, Flags: SPEECH, DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48143
 
@@ -15,12 +14,15 @@ if not (string.find(string.lower(speech), "run") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 self.room:send("The ivory ring seems to shimmer for a second.")
-if self.room ~= 48223 then
+-- TODO(parity): original DG referenced room vnum 48223 (zone 482) but the
+-- teleport target is (481,123); the legacy script likely had a typo. Treat
+-- "current room is the destination" as the bail-out condition.
+if not (self.room.zone_id == 481 and self.room.local_id == 123) then
     self.room:teleport_all(get_room(481, 123))
     self.room:send("</>")
     self.room:send("<b:red>A burning hole erupts, sucking everything through it!</>")
     self.room:send("</>")
-    local room = get_room("48223")
+    local room = get_room(481, 123)
     local person = room.people
     while person do
         if person.is_player then
@@ -31,14 +33,15 @@ if self.room ~= 48223 then
 end
 local person = actor
 local i = actor.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 person = nil
 while i >= a do
-    local person = actor.group_member[a]
+    person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("fieryisle_quest") == 9 then
             person:set_quest_var("fieryisle_quest", "reward", "yes")
@@ -48,7 +51,7 @@ while i >= a do
     end
     a = a + 1
 end
--- 
+--
 -- Complete Fiery Island
--- 
+--
 run_room_trigger(481, 45)

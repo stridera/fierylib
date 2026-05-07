@@ -1,7 +1,10 @@
 -- Trigger: Hell Trident death
 -- Zone: 53, ID: 56
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): branch-scoped `phase`, `word`. `get_quest_stage(...) ==
+-- "phase"` compares int to literal "phase". Group iteration `local a`
+-- branch-scoped. Legacy 5-digit self.id. Full rewrite from DG #5356.
 --
 -- Original DG Script: #5356
 

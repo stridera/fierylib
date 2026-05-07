@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- Path 3: after the druidstaff, the merchant asks for milk
 if actor:get_quest_stage("ursa_quest") == 3 then
     if actor:get_quest_var("ursa_quest:choice") == 3 then
-        if object.id == 16305 then
+        if object.zone_id == 163 and object.local_id == 5 then
             wait(2)
             actor:advance_quest("ursa_quest")
             world.destroy(object)

@@ -14,9 +14,6 @@ if not (cmd == "dagonisweaknow") then
 end
 local _return_value = true  -- Default: allow action
 if actor.id == self.id then
-    local dagonisweak = 1
-    globals.dagonisweak = globals.dagonisweak or true
-else
-    _return_value = true
+    globals.dagonisweak = true
 end
 return _return_value

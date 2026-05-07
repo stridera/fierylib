@@ -2,8 +2,9 @@
 -- Zone: 53, ID: 43
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 22 if statements
---   Large script: 11858 chars
+-- TODO(parity): branch-scoped vision/chant locals; `get_room("4328")`
+-- bad arg shape; `%get.obj_shortdesc[%gem%]%` and `%place%` literal DG
+-- remnants in output strings. Full rewrite from DG #5343.
 --
 -- Original DG Script: #5343
 

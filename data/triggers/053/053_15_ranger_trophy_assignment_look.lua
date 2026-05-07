@@ -1,7 +1,11 @@
 -- Trigger: Ranger Trophy assignment look
 -- Zone: 53, ID: 15
 -- Type: OBJECT, Flags: LOOK
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `local victim1`, `local stage` are branch-scoped (used
+-- at lines 44-45). `actor:get_quest_stage(...) == "stage"` compares int
+-- to literal "stage". Legacy 5-digit self.id (5300-5309) needs split to
+-- (zone, id). Full rewrite from DG #5315.
 --
 -- Original DG Script: #5315
 

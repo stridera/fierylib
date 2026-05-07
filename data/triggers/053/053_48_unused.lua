@@ -2,7 +2,9 @@
 -- Zone: 53, ID: 48
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- TODO(parity): inner `actor.room ~= "place"` compares room to literal
+-- "place" string — bug in DG converter. Marked **UNUSED** in original;
+-- if re-activated needs full rewrite from DG #5348.
 --
 -- Original DG Script: #5348
 

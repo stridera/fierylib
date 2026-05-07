@@ -22,7 +22,7 @@ local stage = actor:get_quest_stage("griffin_quest")
 wait(2)
 if actor:get_has_completed("griffin_quest") then
     self.room:send(tostring(self.name) .. " says, 'You have destroyed Adramalech and his cult!  Thank you, " .. tostring(actor.name) .. "!'")
-    return _return_value
+    return true
 end
 -- switch on stage
 if stage == 0 then

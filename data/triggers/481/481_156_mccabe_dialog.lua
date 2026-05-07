@@ -1,9 +1,7 @@
 -- Trigger: mccabe dialog
 -- Zone: 481, ID: 156
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <mccabe dialog>:20: ')' expected near '?'
---   Large script: 8236 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #48256
 
@@ -40,7 +38,7 @@ if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer
         self:command("sigh")
         actor:send(tostring(self.name) .. " tells you, 'I suppose you wish to do more than observe, am I right?  " .. tostring(actor.name) .. ", would you like to try to learn this rather difficult spell?'")
     elseif string.find(speech, "yes") then
-        if actor:get_quest_var("meteorswarm:new") ~= no then
+        if actor:get_quest_var("meteorswarm:new") ~= "no" then
             self:say("Show me the meteorite.")
         elseif not stage then
             actor:start_quest("meteorswarm")
@@ -66,43 +64,47 @@ if (string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer
             actor:send(tostring(self.name) .. " tells you, 'He may very well know the location of this rocky behemoth.'")
             wait(5)
             actor:send(tostring(self.name) .. " tells you, 'Your first challenge will be <b:cyan>locating Jemnon</>.  He's almost certainly drinking himself stupid in a <b:cyan>bar</> or <b:cyan>tavern</> somewhere.  If you do find him, you'll have to <b:cyan>ask him about the rock monster</>.'")
-            -- switch on random(1, 13)
-            if random(1, 13) == 1 then
+            -- TODO(parity): bar_num is a legacy 5-digit room vnum. The
+            -- meteorswarm quest still tracks it as a single integer var.
+            -- Preserved as-is until the quest var schema can be revisited.
+            local roll = random(1, 13)
+            local bar_num
+            if roll == 1 then
                 -- Tavern of the Fallen Star in Southern Borderhold
-                local bar_num = 2334
-            elseif random(1, 13) == 2 then
+                bar_num = 2334
+            elseif roll == 2 then
                 -- Sloshed Squirrel in Mielikki
-                local bar_num = 3033
-            elseif random(1, 13) == 3 then
+                bar_num = 3033
+            elseif roll == 3 then
                 -- Forest Tavern in Mielikki
-                local bar_num = 3053
-            elseif random(1, 13) == 4 then
+                bar_num = 3053
+            elseif roll == 4 then
                 -- Ole Witch Tavern in Anduin
-                local bar_num = 6037
-            elseif random(1, 13) == 5 then
+                bar_num = 6037
+            elseif roll == 5 then
                 -- Phillips Backdoor Bar in Anduin
-                local bar_num = 6044
-            elseif random(1, 13) == 6 then
+                bar_num = 6044
+            elseif roll == 6 then
                 -- Red Feathered Nest Anduin
-                local bar_num = 6054
-            elseif random(1, 13) == 7 then
+                bar_num = 6054
+            elseif roll == 7 then
                 -- Shawns Tavern in Anduin
-                local bar_num = 6112
-            elseif random(1, 13) == 8 then
+                bar_num = 6112
+            elseif roll == 8 then
                 -- Drunken Ogre Inn in Anduin
-                local bar_num = 6131
-            elseif random(1, 13) == 9 then
+                bar_num = 6131
+            elseif roll == 9 then
                 -- Golden Goblet Inn and Tavern in Anduin
-                local bar_num = 6226
-            elseif random(1, 13) == 10 then
+                bar_num = 6226
+            elseif roll == 10 then
                 -- Karrs Pub in Ickle
-                local bar_num = 10029
-            elseif random(1, 13) == 11 then
+                bar_num = 10029
+            elseif roll == 11 then
                 -- Mermaid's Tail in Ogakh
-                local bar_num = 30008
-            elseif random(1, 13) == 12 then
+                bar_num = 30008
+            elseif roll == 12 then
                 -- Biergarten in Ogakh
-                local bar_num = 30089
+                bar_num = 30089
             else
                 -- Flirting Puppy
             end

@@ -5,14 +5,18 @@
 --
 -- Original DG Script: #61504
 
--- Converted from DG Script #61504: Spark pixy offers help
--- Original: MOB trigger, flags: GREET, probability: 100%
-if string.find(direction, "north and heart_inplace ~= 1") and actor.is_player and actor.level < 100 then
+-- TODO(parity): Original DG condition combined direction == "north"
+-- with a heart_inplace global; the converter mangled it into a single
+-- string.find call. Approximation below: greet on entry from south
+-- (direction == "north" means the actor walked north into this room)
+-- when the menhir light is not yet active.
+local _return_value = true
+if direction == "north" and globals.heart_inplace ~= 1 and actor.is_player and actor.level < 100 then
     wait(1)
     if actor.room ~= self.room then
         return _return_value
     end
-    self.room:send_except(actor.name, tostring(self.name) .. " bows before " .. tostring(actor.name) .. " (as much as a flying pixie can).")
+    self.room:send_except(actor, tostring(self.name) .. " bows before " .. tostring(actor.name) .. " (as much as a flying pixie can).")
     actor:send(tostring(self.name) .. " bows before you, rather well for someone flying in midair.")
     wait(1)
     if actor.room ~= self.room then
@@ -20,9 +24,8 @@ if string.find(direction, "north and heart_inplace ~= 1") and actor.is_player an
     end
     self:say("If you're having trouble with the fog, I might be able to help.")
     self:say("Would you like me to help?")
-    local person_to_help = actor.name
-    globals.person_to_help = globals.person_to_help or true
-    local greeted_someone = 1
-    globals.greeted_someone = globals.greeted_someone or true
+    globals.person_to_help = actor.name
+    globals.greeted_someone = 1
     wait(1)
 end
+return _return_value

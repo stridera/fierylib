@@ -2,7 +2,8 @@
 -- Zone: 53, ID: 49
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- TODO(parity): same `actor.room ~= "place"` bug as 053_48. **UNUSED**.
+-- Full rewrite from DG #5349 if re-enabled.
 --
 -- Original DG Script: #5349
 

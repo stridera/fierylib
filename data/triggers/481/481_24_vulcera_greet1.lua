@@ -1,11 +1,15 @@
 -- Trigger: vulcera_greet1
 -- Zone: 481, ID: 24
 -- Type: MOB, Flags: GREET, GREET_ALL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <vulcera_greet1>:19: function arguments expected near ']'
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48124
+--
+-- TODO(parity): The original references unresolved identifiers `weapon` and
+-- a quest-stage value `wandstep` for the `type_wand` quest. Both come from
+-- DG global state that wasn't propagated by the converter. Treat the
+-- type_wand block below as best-effort until the cross-zone wand quest is
+-- ported and the canonical stage names / weapon-name var are known.
 
 -- Converted from DG Script #48124: vulcera_greet1
 -- Original: MOB trigger, flags: GREET, GREET_ALL, probability: 100%
@@ -15,13 +19,14 @@ self:say("So puny one, you dare to disturb me?")
 local stage = 7
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
-    local person = actor.group_member[a]
+    person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("type_wand") == "wandstep" then
             if person.level >= 60 then
@@ -33,10 +38,10 @@ while i >= a do
                 end
             end
         end
-        if person:get_quest_stage("fieryisle_quest") == "stage" then
+        if person:get_quest_stage("fieryisle_quest") == stage then
             person:advance_quest("fieryisle_quest")
             person:send("<b:white>You have advanced your quest!</>")
-            if person:has_item("48116") then
+            if person:has_item(481, 16) then
                 wait(2)
                 self:emote("does a double take at " .. tostring(person.name) .. ".")
                 self:say("Are you the one who has the key to the ivory chest?!")

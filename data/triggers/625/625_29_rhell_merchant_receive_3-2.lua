@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- Path 2: after bringing the sunstone diadem, merchant asks for the radiant dagger, an mload in sacred haven
 if actor:get_quest_stage("ursa_quest") == 3 then
     if actor:get_quest_var("ursa_quest:choice") == 2 then
-        if object.id == 55014 then
+        if object.zone_id == 550 and object.local_id == 14 then
             wait(2)
             actor:advance_quest("ursa_quest")
             world.destroy(object)

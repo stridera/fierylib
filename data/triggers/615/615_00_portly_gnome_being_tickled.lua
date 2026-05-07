@@ -17,13 +17,14 @@ local _return_value = true  -- Default: allow action
 -- Tickling makes him float up into the air with glee.
 -- If there's a cherry up in a tree, he'll grab it and end up dropping it,
 -- thus making it accessible to players.
+local rightobj = 0
 if string.find(arg, "gnome") then
-    local rightobj = 1
+    rightobj = 1
 end
 if string.find(arg, "portly") then
-    local rightobj = 1
+    rightobj = 1
 end
-if rightobj ==1 then
+if rightobj == 1 then
     self.room:send_except(actor, tostring(actor.name) .. " tickles " .. tostring(self.name) .. ".")
     actor:send("You tickle " .. tostring(self.name) .. ".")
     wait(1)

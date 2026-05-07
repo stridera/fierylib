@@ -2,7 +2,9 @@
 -- Zone: 53, ID: 39
 -- Type: OBJECT, Flags: LOOK
 -- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- TODO(parity): branch-scoped `stage`, `victim1`, `victim2`, `victim3`
+-- (used at lines 47-63). Legacy 5-digit self.id. Full rewrite from DG
+-- #5339.
 --
 -- Original DG Script: #5339
 

@@ -2,7 +2,11 @@
 -- Zone: 53, ID: 29
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 14 if statements
+-- TODO(parity): same elseif/and structure bug as 053_18 — outer `if
+-- (room) and (cloakstage == 1)` then nested `elseif self.id == ...`
+-- means only stage 1 ever fires. `local continue = "yes"` is
+-- branch-scoped (read at 66). Legacy 5-digit room ids. Full rewrite
+-- from DG #5329.
 --
 -- Original DG Script: #5329
 

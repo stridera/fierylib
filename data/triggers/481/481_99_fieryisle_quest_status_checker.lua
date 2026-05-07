@@ -17,7 +17,7 @@ local stage = actor:get_quest_stage("fieryisle_quest")
 wait(2)
 if actor.level < 55 then
     self:say("You aren't ready to take on the volcano goddess yet.")
-    return _return_value
+    return true
 end
 if actor:get_has_completed("fieryisle_quest") then
     self.room:send(tostring(self.name) .. " says, 'You have freed us from Vulcera's tyranny!  The true")

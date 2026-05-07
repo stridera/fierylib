@@ -12,10 +12,16 @@
 if not percent_chance(30) then
     return true
 end
+-- Wounded demon roars defiance; healthy one toggles its facade mask (625, 80).
 if self.hit > 450 then
-    self:command("growl " .. tostring(next_in_room))
+    local victim = self.room.actors[1]
+    if victim and victim ~= self then
+        self:command("growl " .. tostring(victim.name))
+    else
+        self:command("growl")
+    end
 else
-    if wearing[62580] then
+    if self:has_equipped(625, 80) then
         self:command("remove mask")
     else
         self:command("roar")

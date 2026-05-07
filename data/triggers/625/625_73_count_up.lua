@@ -4,20 +4,14 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #62573
+--
+-- TODO(parity): Companion to trigger 72 (countdown) and 74 (seagulls).
+-- Periodically tops up the shared charge counter on a worn item. The
+-- legacy script read DG globals (`delay`, `charges`, `maxcharge`) plus
+-- `obj.worn_by`, none of which are in scope here. Needs to be ported as
+-- a unit with 72/74 so the bookkeeping actually persists across calls.
+-- Left as a no-op.
 
 -- Converted from DG Script #62573: count up
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
-if delay > 0 and obj.worn_by ~= 0 then
-    wait(delay)
-    if charges >= 0 and charges <= maxcharge then
-        if charges < maxcharge then
-            charges = charges + 1
-            globals.charges = globals.charges or true
-            self.room:send("<b:yellow>" .. tostring(self.shortdesc) .. " hums lightly.</>")
-        elseif charges == "maxcharges" then
-        end
-    else
-        local charges = 0
-        globals.charges = globals.charges or true
-    end
-end
+return true

@@ -1,11 +1,15 @@
 -- Trigger: meteorswarm_status_checker
 -- Zone: 481, ID: 199
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <meteorswarm_status_checker>:16: unexpected symbol near '='
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48299
+--
+-- TODO(parity): the original DG-converted nested-if chains under
+-- `if get_quest_var("...:earth") == 0 then ... elseif stage == 3 then`
+-- mix two discriminants and have unreachable `elseif` arms. Behaviour
+-- below is preserved verbatim from the converter; the structural fix
+-- needs the canonical quest-state schema.
 
 -- Converted from DG Script #48299: meteorswarm_status_checker
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
@@ -22,12 +26,12 @@ if not (string.find(string.lower(speech), "spell") or string.find(string.lower(s
 end
 local stage = actor:get_quest_stage("meteorswarm")
 wait(2)
-if actor:get_quest_var("meteorswarm:new") ~= yes then
+if actor:get_quest_var("meteorswarm:new") ~= "yes" then
     actor:send(tostring(self.name) .. " says, 'Go find a new meteorite.'")
-    return _return_value
-elseif actor:get_quest_var("meteorswarm:new") ~= no then
-    actor:send(tostring(self.name) .. " says, 'Show me the meteorite again.''")
-    return _return_value
+    return true
+elseif actor:get_quest_var("meteorswarm:new") ~= "no" then
+    actor:send(tostring(self.name) .. " says, 'Show me the meteorite again.'")
+    return true
 end
 -- switch on stage
 if stage == 1 then

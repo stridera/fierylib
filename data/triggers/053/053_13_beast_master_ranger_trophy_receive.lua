@@ -2,8 +2,14 @@
 -- Zone: 53, ID: 13
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 20 if statements
---   Large script: 15841 chars
+-- TODO(parity): `local stage`, `local victim1`, `local trophystage`,
+-- `local item`, `local go`, `local accept`, `local expmod`, `local expcap`
+-- are all branch-scoped via `local` inside elseif arms — referenced later
+-- in the function so they read nil. Also: `actor:get_quest_stage("...") ==
+-- "stage"` compares stage int to literal string "stage". Legacy 5-digit
+-- vnums for object.id (5300, 1607, 55579, etc.) need split to (zone, id).
+-- `person.class` referenced where actor is meant. `%anti%` should be
+-- `anti` variable. Full rewrite needed from DG #5313.
 --
 -- Original DG Script: #5313
 

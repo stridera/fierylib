@@ -1,8 +1,7 @@
 -- Trigger: Earle receive sword
 -- Zone: 490, ID: 27
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #49027
 
@@ -10,7 +9,6 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- Rune sword given
-_return_value = true
 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 local person = actor
@@ -18,17 +16,18 @@ local oak = 0
 local accept = 0
 local stage = 1
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_var("griffin_quest:oak") then
             oak = oak + 1
-            if person:get_quest_stage("griffin_quest") == "stage" then
+            if person:get_quest_stage("griffin_quest") == stage then
                 person:advance_quest("griffin_quest")
                 person:send("<b:white>You have advanced the quest!</>")
                 accept = accept + 1
@@ -40,7 +39,7 @@ while i >= a do
     a = a + 1
 end
 wait(2)
-if not oak then
+if oak == 0 then
     self:say("A fine weapon, but it will be of no use without the holy tree.")
     self:emote("returns the sword.")
 else
@@ -52,7 +51,7 @@ else
     self:say("Please return to me when you have defeated Dagon.  And be sure to bring proof of the deed!")
     self:emote("hands back the sword.")
     wait(2)
-    if accept then
+    if accept > 0 then
         self.room:send(tostring(self.name) .. " says, 'If you need, you can come to me and check your <b:cyan>[quest progress]</>.'")
     else
         self:emote("glances back with a thoughtful look.")

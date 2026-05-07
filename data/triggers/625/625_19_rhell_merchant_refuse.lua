@@ -7,29 +7,27 @@
 
 -- Converted from DG Script #62519: Rhell merchant refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
+local response
 if actor:get_has_completed("ursa_quest") then
-    local response = "I don't really need this."
-elseif not actor:get_quest_stage("ursa_quest") then
-    local response = "I don't think this will help me."
+    response = "I don't really need this."
+elseif not actor:get_quest_stage("ursa_quest") or actor:get_quest_stage("ursa_quest") == 0 then
+    response = "I don't think this will help me."
 elseif actor:get_quest_stage("ursa_quest") == 1 then
-    -- switch on object.id
-    if object.id == 62511 or object.id == 62510 or object.id == 62512 then
-        return _return_value
+    -- Three letter-objects (625, 10/11/12) advance the quest; pass them through.
+    if object.zone_id == 625 and (object.local_id == 10 or object.local_id == 11 or object.local_id == 12) then
+        return true
     else
-        local response = "This isn't helpful."
+        response = "This isn't helpful."
     end
 end
 if not response then
-    return _return_value
-else
-    _return_value = true
-    self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(1)
-    self:say(tostring(response))
-    if actor:get_quest_stage("ursa_quest") == 1 then
-        wait(2)
-        self:say("Maybe you could ask someone who might know.")
-    end
+    return true
 end
-return _return_value
+self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+wait(1)
+self:say(tostring(response))
+if actor:get_quest_stage("ursa_quest") == 1 then
+    wait(2)
+    self:say("Maybe you could ask someone who might know.")
+end
+return true

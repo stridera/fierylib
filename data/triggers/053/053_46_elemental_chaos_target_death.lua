@@ -2,7 +2,10 @@
 -- Zone: 53, ID: 46
 -- Type: MOB, Flags: DEATH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- TODO(parity): `stage`, `target1`/`target2`/`target3` branch-scoped.
+-- `get_quest_stage(...) == "stage"` is string compare. Legacy 5-digit
+-- self.id values. Group iteration `local a` branch-scoped. Full
+-- rewrite from DG #5346.
 --
 -- Original DG Script: #5346
 

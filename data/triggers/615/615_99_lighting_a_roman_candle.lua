@@ -1,8 +1,7 @@
 -- Trigger: Lighting a roman candle
 -- Zone: 615, ID: 99
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #61599
 
@@ -24,38 +23,34 @@ if cmd == "l" then
     _return_value = true
     return _return_value
 end
-if string.find(arg.id, "self.id") then
-    if burning == 1 then
+-- Argument should match this candle. Accept any string.find match against
+-- the object's keywords.
+if arg and #arg > 0 and string.find(string.lower(self.shortdesc or ""), string.lower(arg)) then
+    if globals.burning == 1 then
         _return_value = false
         actor:send("It's already lit!")
-    elseif on_ground == 0 then
+    elseif globals.on_ground == 0 then
         _return_value = false
         actor:send("To avoid being horribly disfigured by fire, dropping it first might be a good idea.")
     else
         _return_value = false
-        local burning = 1
-        globals.burning = globals.burning or true
+        globals.burning = 1
         self.room:send_except(actor, tostring(actor.name) .. " lights " .. tostring(self.shortdesc) .. ".")
         actor:send("You light " .. tostring(self.shortdesc) .. ".")
         wait(2)
         self.room:send("A few small sparks begin flying up out of " .. tostring(self.shortdesc) .. ".")
         wait(1)
+        local sparks = {
+            tostring(self.shortdesc) .. " sends up a shower of <yellow>brilliant <blue>golden<white> sparks</>!",
+            "A blazing stream of <b:red>crimson</> and <b:green>vermillion<white> sparks</> shoots out of " .. tostring(self.shortdesc) .. "!",
+            "A brilliant river of <blue>shining <b:blue>blue</> and <b:yellow>yellow</> <blue>motes</> streams out of " .. tostring(self.shortdesc) .. "!",
+            "Multitudes of brightly <red>bu<yellow>rn<red>in<yellow>g &9<blue>s</><blue>p</>&9<blue>a</><blue>r</>&9<blue>k</><blue>s</> shoot up into the sky from " .. tostring(self.shortdesc) .. "!",
+            tostring(self.shortdesc) .. " lets loose with an impressive surge of <b:white>white</> and <b:blue>blue</> <blue>stars</>!",
+            "A stream of <b:red>m<yellow>u<blue>l<magenta>t<green>i<cyan>c<yellow>o<red>l<blue>o<green>r<magenta>e<yellow>d</> <blue>sparks</> is surging up out of " .. tostring(self.shortdesc) .. "!",
+        }
         local counter = 10
-        while counter do
-            -- switch on random(1, 9)
-            if random(1, 9) == 1 then
-                self.room:send(tostring(self.shortdesc) .. " sends up a shower of <yellow>brilliant <blue>golden<white> sparks</>!")
-            elseif random(1, 9) == 2 then
-                self.room:send("A blazing stream of <b:red>crimson</> and <b:green>vermillion<white> sparks</> shoots out of " .. tostring(self.shortdesc) .. "!")
-            elseif random(1, 9) == 3 then
-                self.room:send("A brilliant river of <blue>shining <b:blue>blue</> and <b:yellow>yellow</> <blue>motes</> streams out of " .. tostring(self.shortdesc) .. "!")
-            elseif random(1, 9) == 4 then
-                self.room:send("Multitudes of brightly <red>bu<yellow>rn<red>in<yellow>g &9<blue>s</><blue>p</>&9<blue>a</><blue>r</>&9<blue>k</><blue>s</> shoot up into the sky from " .. tostring(self.shortdesc) .. "!")
-            elseif random(1, 9) == 5 then
-                self.room:send(tostring(self.shortdesc) .. " lets loose with an impressive surge of <b:white>white</> and <b:blue>blue</> <blue>stars</>!")
-            else
-                self.room:send("A stream of <b:red>m<yellow>u<blue>l<magenta>t<green>i<cyan>c<yellow>o<red><blue><green>l<magenta>o<yellow>r<blue>e<red>d</> <blue>sparks</> is surging up out of " .. tostring(self.shortdesc) .. "!")
-            end
+        while counter > 0 do
+            self.room:send(sparks[random(1, #sparks)])
             wait(1)
             counter = counter - 1
         end

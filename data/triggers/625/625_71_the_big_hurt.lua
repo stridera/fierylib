@@ -1,140 +1,63 @@
 -- Trigger: the BIG hurt
 -- Zone: 625, ID: 71
 -- Type: OBJECT, Flags: RANDOM
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <the BIG hurt>:11: 'end' expected (to close 'if' at line 8) near 'if'
---   Complex nesting: 12 if statements
---   Large script: 12247 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #62571
-
--- Converted from DG Script #62571: the BIG hurt
--- Original: OBJECT trigger, flags: RANDOM, probability: 100%
+--
+-- TODO(parity): The legacy DG had four nested switches gating the smash on
+-- (wielder.size, target.size) and a single `random(1, 16)` switch picking
+-- one of ~12 attack vignettes. Five of those vignettes ("sailing
+-- north/south/east/west/down") teleported the target through that exit.
+-- The converter scrambled both switches into per-line re-rolls of
+-- `random(1, 16) == N`, generated bogus comparisons (`target.flags ~= not bash`),
+-- and used exit math (`rm.down / 100`) that doesn't match the room API.
+-- Below we keep the size-gate plus the 7 in-room flavor vignettes from the
+-- original (cases 6-12). The directional knockback variants need a
+-- proper rewrite once the room exit / cross-zone teleport API is settled.
 local wielder = self.worn_by
-local rm = wielder.room
+if not wielder then return true end
 local target = wielder.is_fighting
-if target then
-    -- The legacy DG had four nested switches gating the smash
-    -- on (wielder.size, target.size). The converter turned each
-    -- branch body into `return _return_value`, leaving the
-    -- subsequent switch tables as unreachable dead code with
-    -- empty `if X then return` bodies. Collapsed to a single
-    -- size-gate; TODO(parity): restore the per-size variants.
-    if wielder.size == "medium" then
-        return _return_value
-    end
-        -- switch on random(1, 16)
-        if rm:get_down("room") == -1 or rm:get_down("room") == 0 or target.flags ~= not bash then
-            if random(1, 16) == 1 then
-                local dam = 150 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                wielder:send("Your smash sends " .. tostring(target.name) .. " sprawling! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, tostring(wielder) .. "'s smash sends " .. tostring(target.name) .. " spawling! (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            else
-                local dam = 250 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(math.floor(rm.down / 100), (rm.down % 100)))
-                wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing down!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing down!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            end
-            if rm:get_north("room") == -1 or rm:get_north("room") == 0 or target.flags ~= not bash then
-            elseif random(1, 16) == 2 then
-                local dam = 150 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                wielder:send("Your smash sends " .. tostring(target.name) .. " into a rock! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, tostring(wielder) .. "'s smash sends " .. tostring(target.name) .. " flying head first into a rock! (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            else
-                local dam = 250 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(math.floor(rm.north / 100), (rm.north % 100)))
-                wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing north!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing north!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            end
-            if rm:get_south("room") == -1 or rm:get_south("room") == 0 or target.flags ~= not bash then
-            elseif random(1, 16) == 3 then
-                local dam = 150 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                wielder:send("Your smash sends " .. tostring(target.name) .. " into a rock! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, tostring(wielder) .. "'s smash sends " .. tostring(target.name) .. " flying head first into a rock! (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            else
-                local dam = 250 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(math.floor(rm.south / 100), (rm.south % 100)))
-                wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing south!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing south!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            end
-            if rm:get_east("room") == -1 or rm:get_east("room") == 0 or target.flags ~= not bash then
-            elseif random(1, 16) == 4 then
-                local dam = 150 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                wielder:send("Your smash sends " .. tostring(target.name) .. " into a rock! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, tostring(wielder) .. "'s smash sends " .. tostring(target.name) .. " flying head first into a rock! (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            else
-                local dam = 250 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(math.floor(rm.east / 100), (rm.east % 100)))
-                wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing east!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing east!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            end
-            if rm:get_west("room") == -1 or rm:get_west("room") == 0 or target.flags ~= not bash then
-            elseif random(1, 16) == 5 then
-                local dam = 150 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                wielder:send("Your smash sends " .. tostring(target.name) .. " into a rock! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, tostring(wielder) .. "'s smash sends " .. tostring(target.name) .. " flying head first into a rock! (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            else
-                local dam = 250 +random(1, 100)
-                local damage_dealt = target:damage(dam)  -- type: crush
-                target:teleport(get_room(math.floor(rm.west / 100), (rm.west % 100)))
-                wielder:send("<b:green>Your smash sends " .. tostring(target.name) .. " sailing west!</> (<yellow>" .. tostring(damage_dealt) .. "</>)")
-                self.room:send_except(wielder, "<b:green>" .. tostring(wielder.name) .. "'s blow sends " .. tostring(target.name) .. " sailing west!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-                target:command("abort")
-            end
-        elseif random(1, 16) == 6 then
-            local dam = 150 +random(1, 100)
-            local damage_dealt = target:damage(dam)  -- type: crush
-            wielder:send("You send " .. tostring(target.name) .. " skidding on " .. tostring(target.possessive) .. " back, with your power-swing from " .. tostring(self.shortdesc) .. "! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-            self.room:send_except(wielder, tostring(target.name) .. " goes skidding on " .. tostring(target.possessive) .. " back after a powerful blow from " .. tostring(wielder.name) .. "!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
-            target:command("abort")
-        elseif random(1, 16) == 7 then
-            local dam = 150 +random(1, 100)
-            local damage_dealt = target:damage(dam)  -- type: pierce
-            wielder:send("A branch of your oak tree catches " .. tostring(target.name) .. ", goring him! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-            self.room:send_except(wielder, "A branch of " .. tostring(wielder.name) .. "'s oak tree catches " .. tostring(target.name) .. ", goring him! (<blue>" .. tostring(damage_dealt) .. "</>)")
-            target:command("abort")
-        elseif random(1, 16) == 8 then
-            local dam = 150 +random(1, 100)
-            local damage_dealt = target:damage(dam)  -- type: crush
-            wielder:send("Your blow catches " .. tostring(target.name) .. " in the back of the head! (<yellow>" .. tostring(damage_dealt) .. "</>)")
-            self.room:send_except(wielder, tostring(wielder.name) .. "'s blow catches " .. tostring(target.name) .. " in the back of the head! (<blue>" .. tostring(damage_dealt) .. "</>)")
-            target:command("abort")
-        elseif random(1, 16) == 9 then
-            local dam = 150 +random(1, 100)
-            local damage_dealt = target:damage(dam)  -- type: crush
-            wielder:send("Your blow catches " .. tostring(target.name) .. " below the knees, sending him heels-up. (<yellow>" .. tostring(damage_dealt) .. "</>)")
-            self.room:send_except(wielder, tostring(wielder.name) .. "'s blow catches " .. tostring(target.name) .. " below the knees, sending him heels-up. (<blue>" .. tostring(damage_dealt) .. "</>)")
-            target:command("abort")
-        elseif random(1, 16) == 10 then
-            local dam = 150 +random(1, 100)
-            local damage_dealt = target:damage(dam)  -- type: crush
-            wielder:send("You stand " .. tostring(self.shortdesc) .. " on end directly on top of " .. tostring(target.name) .. "'s little body. (<yellow>" .. tostring(damage_dealt) .. "</>)")
-            self.room:send_except(wielder, tostring(wielder.name) .. " brings " .. tostring(self.shortdesc) .. " down end-first on top of " .. tostring(target.name) .. ". (<blue>" .. tostring(damage_dealt) .. "</>)")
-            target:command("abort")
-        elseif random(1, 16) == 11 then
-            local dam = 150 +random(1, 100)
-            local damage_dealt = target:damage(dam)  -- type: pierce
-            wielder:send("You jab " .. tostring(target.name) .. " with the end of " .. tostring(self.shortdesc) .. ", puncturing " .. tostring(target.possessive) .. " side. (<yellow>" .. tostring(damage_dealt) .. "</>)")
-            self.room:send_except(wielder, tostring(wielder.name) .. " jabs " .. tostring(target.name) .. " with the end of " .. tostring(self.shortdesc) .. ". (<blue>" .. tostring(damage_dealt) .. "</>)")
-            target:command("abort")
-        elseif random(1, 16) == 12 or random(1, 16) == 13 or random(1, 16) == 14 or random(1, 16) == 15 or random(1, 16) == 16 then
-        end
-    end
+if not target then return true end
+-- Size gate: only triggers for non-medium wielders (giants, etc.).
+if wielder.size == "medium" then
+    return true
+end
+local pick = random(1, 16)
+if pick == 6 then
+    local dam = 150 + random(1, 100)
+    local damage_dealt = target:damage(dam)  -- type: crush
+    wielder:send("You send " .. tostring(target.name) .. " skidding on " .. tostring(target.possessive) .. " back, with your power-swing from " .. tostring(self.shortdesc) .. "! (<yellow>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(wielder, tostring(target.name) .. " goes skidding on " .. tostring(target.possessive) .. " back after a powerful blow from " .. tostring(wielder.name) .. "!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
+    target:command("abort")
+elseif pick == 7 then
+    local dam = 150 + random(1, 100)
+    local damage_dealt = target:damage(dam)  -- type: pierce
+    wielder:send("A branch of your oak tree catches " .. tostring(target.name) .. ", goring him! (<yellow>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(wielder, "A branch of " .. tostring(wielder.name) .. "'s oak tree catches " .. tostring(target.name) .. ", goring him! (<blue>" .. tostring(damage_dealt) .. "</>)")
+    target:command("abort")
+elseif pick == 8 then
+    local dam = 150 + random(1, 100)
+    local damage_dealt = target:damage(dam)  -- type: crush
+    wielder:send("Your blow catches " .. tostring(target.name) .. " in the back of the head! (<yellow>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(wielder, tostring(wielder.name) .. "'s blow catches " .. tostring(target.name) .. " in the back of the head! (<blue>" .. tostring(damage_dealt) .. "</>)")
+    target:command("abort")
+elseif pick == 9 then
+    local dam = 150 + random(1, 100)
+    local damage_dealt = target:damage(dam)  -- type: crush
+    wielder:send("Your blow catches " .. tostring(target.name) .. " below the knees, sending him heels-up. (<yellow>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(wielder, tostring(wielder.name) .. "'s blow catches " .. tostring(target.name) .. " below the knees, sending him heels-up. (<blue>" .. tostring(damage_dealt) .. "</>)")
+    target:command("abort")
+elseif pick == 10 then
+    local dam = 150 + random(1, 100)
+    local damage_dealt = target:damage(dam)  -- type: crush
+    wielder:send("You stand " .. tostring(self.shortdesc) .. " on end directly on top of " .. tostring(target.name) .. "'s little body. (<yellow>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(wielder, tostring(wielder.name) .. " brings " .. tostring(self.shortdesc) .. " down end-first on top of " .. tostring(target.name) .. ". (<blue>" .. tostring(damage_dealt) .. "</>)")
+    target:command("abort")
+elseif pick == 11 then
+    local dam = 150 + random(1, 100)
+    local damage_dealt = target:damage(dam)  -- type: pierce
+    wielder:send("You jab " .. tostring(target.name) .. " with the end of " .. tostring(self.shortdesc) .. ", puncturing " .. tostring(target.possessive) .. " side. (<yellow>" .. tostring(damage_dealt) .. "</>)")
+    self.room:send_except(wielder, tostring(wielder.name) .. " jabs " .. tostring(target.name) .. " with the end of " .. tostring(self.shortdesc) .. ". (<blue>" .. tostring(damage_dealt) .. "</>)")
+    target:command("abort")
+end

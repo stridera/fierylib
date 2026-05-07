@@ -10,9 +10,8 @@
 skills.set_level(self, "hitall", 100)
 skills.set_level(self, "roar", 100)
 self:command("roar")
-local hit = room.actors[random(1, #room.actors)]
-if hit.id ~= 62506 then
+local hit = self.room.actors[random(1, #self.room.actors)]
+-- Skip if rolled the mild merchant himself (625, 6).
+if hit.zone_id ~= 625 or hit.local_id ~= 6 then
     combat.engage(self, hit)
-else
-    return _return_value
 end

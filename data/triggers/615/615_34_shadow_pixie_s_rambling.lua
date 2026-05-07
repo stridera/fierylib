@@ -12,15 +12,15 @@
 if not percent_chance(20) then
     return true
 end
--- switch on random(1, 7)
-if random(1, 7) == 1 then
+local val = random(1, 7)
+if val == 1 then
     self:say("You dare to intrude?")
-elseif random(1, 7) == 2 then
+elseif val == 2 then
     self:say("Niaxxa will hear about this...")
-elseif random(1, 7) == 3 then
+elseif val == 3 then
     self:say("These shadows still hold dark shades, flatlander!")
-elseif random(1, 7) == 4 then
+elseif val == 4 then
     self:say("You are clever to come so far, but the queen still awaits.")
-elseif random(1, 7) == 5 then
+elseif val == 5 then
     self:say("This one is not like the others.")
 end

@@ -9,6 +9,5 @@
 -- Original: OBJECT trigger, flags: DROP, probability: 100%
 local _return_value = true  -- Default: allow action
 _return_value = false
-local on_ground = 1
-globals.on_ground = globals.on_ground or true
+globals.on_ground = 1
 return _return_value

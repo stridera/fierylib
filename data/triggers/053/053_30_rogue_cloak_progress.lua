@@ -2,8 +2,10 @@
 -- Zone: 53, ID: 30
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 18 if statements
---   Large script: 8172 chars
+-- TODO(parity): same as 053_19 progress trigger: branch-scoped `cloak`/
+-- `gem`/`place`/`hint`. Output retains DG `%get.obj_shortdesc[%cloak%]%`
+-- templates. `_return_value` referenced but never defined. Full rewrite
+-- from DG #5330.
 --
 -- Original DG Script: #5330
 

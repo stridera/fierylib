@@ -1,7 +1,10 @@
 -- Trigger: Treasure Hunter order look
 -- Zone: 53, ID: 27
 -- Type: OBJECT, Flags: LOOK
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `stage`, `treasure1` are branch-scoped (used at lines
+-- 44-45). `actor:get_quest_stage(...) == "stage"` is a string compare.
+-- Legacy 5-digit self.id ids. Full rewrite from DG #5327.
 --
 -- Original DG Script: #5327
 

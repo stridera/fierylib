@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- for path 1, after pepper, the merchant needs a plant, found in the form of 'a bit of bones and plants' from blue fog trail.
 if actor:get_quest_stage("ursa_quest") == 2 then
     if actor:get_quest_var("ursa_quest:choice") == 1 then
-        if object.id == 23755 then
+        if object.zone_id == 237 and object.local_id == 55 then
             wait(2)
             actor:advance_quest("ursa_quest")
             world.destroy(object)

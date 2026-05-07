@@ -7,27 +7,26 @@
 
 -- Converted from DG Script #61535: Niaxxa ejects her opponent
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-if not self:has_equipped("61514") then
+if not self:has_equipped(615, 14) then
     self:command("get singing")
     self:command("wield singing")
-elseif actor.level < 20 and self:has_equipped("61514") and self.room == 61567 then
+elseif actor.level < 20 and self:has_equipped(615, 14) and self.room.zone_id == 615 and self.room.local_id == 67 then
     local outcome = 0
-    -- switch on actor.level
-    if actor.level == 1 or actor.level == 2 or actor.level == 3 or actor.level == 4 then
-        local outcome = random(1, 8)
-    elseif actor.level == 5 or actor.level == 6 or actor.level == 7 or actor.level == 8 then
-        local outcome = random(1, 10)
-    elseif actor.level == 9 or actor.level == 10 or actor.level == 11 or actor.level == 12 or actor.level == 13 or actor.level == 14 or actor.level == 15 then
-        local outcome = random(1, 15)
+    if actor.level <= 4 then
+        outcome = random(1, 8)
+    elseif actor.level <= 8 then
+        outcome = random(1, 10)
+    elseif actor.level <= 15 then
+        outcome = random(1, 15)
     else
-        local outcome = random(1, 20)
+        outcome = random(1, 20)
     end
     if outcome == 1 then
         wait(3)
-        -- switch on random(1, 3)
-        if random(1, 3) == 1 then
+        local val = random(1, 3)
+        if val == 1 then
             self:say("I tire of your foolishness.")
-        elseif random(1, 3) == 2 then
+        elseif val == 2 then
             self:say("You waste my time.")
         else
             self:say("You bore me, " .. tostring(actor.class) .. ".")

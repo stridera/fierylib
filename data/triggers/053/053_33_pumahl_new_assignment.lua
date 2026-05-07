@@ -1,7 +1,11 @@
 -- Trigger: Pumahl new assignment
 -- Zone: 53, ID: 33
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `local notice = N` branch-scoped (used at line 47
+-- spawn_object). 0% probability gate at top will never fire — DG #5333
+-- likely uses speech-keyword filtering only, not random %. Full rewrite
+-- from DG #5333.
 --
 -- Original DG Script: #5333
 

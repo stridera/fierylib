@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 -- reach. The preferred way to access the cherries is to tickle a
 -- gnome, who will float up and grab one, then drop it.
 _return_value = true
-if actor.id == 61550 or actor.id == 61500 then
+if (actor.zone_id == 615 and (actor.local_id == 50 or actor.local_id == 0)) then
     self.room:send(tostring(actor.name) .. " tries to grab a purple cherry, but accidentally knocks it down!")
     wait(1)
     self.room:send("A purple cherry falls to the ground.")
@@ -21,6 +21,6 @@ if actor.id == 61550 or actor.id == 61500 then
     world.destroy(self)
 else
     self.room:send_except(actor, tostring(actor.name) .. " tries to take a purple cherry, but it's out of reach.")
-    actor.name:send("You can't reach that high!")
+    actor:send("You can't reach that high!")
 end
 return _return_value

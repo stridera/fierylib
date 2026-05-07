@@ -1,7 +1,13 @@
 -- Trigger: Beast Master creature death
 -- Zone: 53, ID: 14
 -- Type: MOB, Flags: DEATH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `local target1`, `local stage` are branch-scoped via
+-- `local` in elseif arms; both used after the dispatch (lines 62-63).
+-- Group iteration `local a = 1/0` inside `if i then ... else ...` is
+-- branch-scoped, loop variable undefined. `get_quest_stage(...) ==
+-- "stage"` compares int to literal "stage". Legacy 5-digit self.id values
+-- need split to (zone, id). Full rewrite from DG #5314.
 --
 -- Original DG Script: #5314
 

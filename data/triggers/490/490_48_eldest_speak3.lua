@@ -21,10 +21,11 @@ end
 wait(2)
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]

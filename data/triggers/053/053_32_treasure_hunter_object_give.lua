@@ -2,7 +2,10 @@
 -- Zone: 53, ID: 32
 -- Type: OBJECT, Flags: GIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- TODO(parity): same problems as 053_24 (the GET-equivalent of this
+-- GIVE trigger): branch-scoped `stage`/`variable`, group-iter `a`
+-- branch-scoped, `== "stage"` string compare, legacy 5-digit ids. Full
+-- rewrite from DG #5332.
 --
 -- Original DG Script: #5332
 

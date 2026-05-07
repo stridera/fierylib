@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor.is_player then
-    if actor.room == 61549 or actor.room == 61566 then
+    if actor.room.zone_id == 615 and (actor.room.local_id == 49 or actor.room.local_id == 66) then
         _return_value = true
         -- If you wield the emblazoned flint knife in a room that
         -- could have webs, it gets excited and flies out of your hand.

@@ -1,8 +1,7 @@
 -- Trigger: Progress trigger
 -- Zone: 625, ID: 99
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #62599
 
@@ -17,19 +16,18 @@ end
 local stage = actor:get_quest_stage("ursa_quest")
 local path = actor:get_quest_var("ursa_quest:choice")
 wait(2)
--- for debug, say stage %stage% path %path%
 if actor:get_has_completed("ursa_quest") then
     self.room:send(tostring(self.name) .. " says, 'You have brought me the remedy, and I thank you")
     self.room:send("</>for that.'")
     wait(1)
-    if path==1 then
+    if path == 1 then
         self:say("I hope the Redeeming Staff was a good reward.")
-    elseif path==2 then
+    elseif path == 2 then
         self:say("I hope the glass bear was a good reward.")
-    elseif path==3 then
+    elseif path == 3 then
         self:say("I hope the misty blue sword was a good reward.")
     end
-    return _return_value
+    return true
 end
 if stage == 0 then
     self:say("Will you help me?!  Please!")

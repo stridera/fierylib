@@ -35,7 +35,7 @@ if string.find(actor.class, "Druid") and actor:get_quest_stage("creeping_doom") 
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'If you need, you can check your <b:white>[progress]</> with me.'")
 elseif actor:get_quest_stage("creeping_doom") == 4 then
-    if actor:has_item("61518") then
+    if actor:has_item(615, 18) then
         actor:send("<b:green>You already have " .. tostring(objects.template(615, 18).name) .. "!</>")
     else
         self.room:spawn_object(615, 18)

@@ -7,10 +7,9 @@
 
 -- Converted from DG Script #61516: Spider builds webs
 -- Original: MOB trigger, flags: GLOBAL, RANDOM, probability: 100%
-if in_battle ~= 1 then
-    if self.room == 61549 then
+if globals.in_battle ~= 1 then
+    if self.room.zone_id == 615 and self.room.local_id == 49 then
         run_room_trigger(615, 17)
     end
 end
-local in_battle = 0
-globals.in_battle = globals.in_battle or true
+globals.in_battle = 0

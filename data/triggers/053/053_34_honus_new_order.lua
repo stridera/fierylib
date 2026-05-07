@@ -1,7 +1,9 @@
 -- Trigger: Honus new order
 -- Zone: 53, ID: 34
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `local order = N` branch-scoped. 0% probability never
+-- fires. Same shape as 053_33. Full rewrite from DG #5334.
 --
 -- Original DG Script: #5334
 

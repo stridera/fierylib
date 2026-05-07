@@ -24,7 +24,7 @@ if actor:get_quest_stage("fieryisle_quest") == 8 then
     self:emote("examines the ivory ring.")
     wait(2)
     self:say("Pah, humans!")
-    if self:has_item("48114") then
+    if self:has_item(481, 14) then
         self:destroy_item("ivory-ring")
     end
     self.room:spawn_object(481, 27)

@@ -11,10 +11,9 @@ local person = actor
 local i = actor.group_size
 if i then
     local a = 1
-    person = nil
     while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
+        person = actor.group_member[a]
+        if person and person.room == self.room then
             if person:get_quest_stage("meteorswarm") == 3 then
                 person:set_quest_var("meteorswarm", "fire", 1)
             end

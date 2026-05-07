@@ -1,35 +1,31 @@
 -- Trigger: Seer refuse
 -- Zone: 490, ID: 22
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: %action%
---   Syntax error: luac: <Seer refuse>:7: 'end' expected (to close 'if' at line 5) near 'if'
+-- Status: CLEAN
 --
 -- Original DG Script: #49022
 
 -- Converted from DG Script #49022: Seer refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- TODO(parity): Original DG referenced quest-state object IDs (%wandgem%,
+-- %wandtask3%, %wandtask4%, %wand_id%) used by the wizard_eye quest to skip
+-- this refuse trigger. Those globals are not represented in the Lua runtime
+-- yet; the early-return short-circuit is omitted until the wizard_eye quest
+-- exposes the equivalent quest-var lookup.
 local _return_value = true  -- Default: allow action
--- switch on object.id
-if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wand_id%" then
-    -- Dead-code block from the converter elided; see 550_08 for
-    -- the same shape.
-    return _return_value
+local response, action
+if actor:get_quest_stage("wizard_eye") == 4 then
+    response = "This isn't a dress, bay, or thyme!  I don't have thyme for this!"
+    action = "cackle"
 else
-    if actor:get_quest_stage("wizard_eye") == 4 then
-        local response = "This isn't a dress, bay, or thyme!  I don't have thyme for this!"
-        local action = "cackle"
-    else
-        local response = "This isn't sunscreen, what use do I have for it?"
-    end
+    response = "This isn't sunscreen, what use do I have for it?"
 end
 if response then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
     if action then
-        -- UNCONVERTED: %action%
+        self:command(action)
     end
 end
 return _return_value

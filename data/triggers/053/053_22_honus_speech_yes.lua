@@ -2,8 +2,9 @@
 -- Zone: 53, ID: 22
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
---   Large script: 6098 chars
+-- TODO(parity): same problems as 053_12: `local order = N` is
+-- branch-scoped (used at line 62 spawn_object); group-iteration `local
+-- a` is branch-scoped; loop bound undefined. Full rewrite from DG #5322.
 --
 -- Original DG Script: #5322
 

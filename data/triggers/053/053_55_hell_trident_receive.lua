@@ -2,8 +2,13 @@
 -- Zone: 53, ID: 55
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 22 if statements
---   Large script: 9690 chars
+-- TODO(parity): branch-scoped `reward`, `phase`, `level`, `spell1`,
+-- `spell2`, `go`, `gem_id`, `refuse`, `reason`, `expmod`, `expcap`.
+-- `hellstage == "phase"` compares int to literal "phase". `world.destroy
+-- (object.name)` should pass the object, not its name string (line 79).
+-- `get_obj_noadesc("2334")` is a DG global — replace with object lookup.
+-- Spawn id `(23, reward)` looks legacy. `%get.obj_pldesc[%gem_id%]%`
+-- DG remnants. Full rewrite from DG #5355.
 --
 -- Original DG Script: #5355
 

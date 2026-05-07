@@ -1,7 +1,13 @@
 -- Trigger: Honus speech promotion
 -- Zone: 53, ID: 28
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `cloak`, `gem`, `place`, `hint` are branch-scoped
+-- through the cloakstage if/elseif (48-93) but referenced at 98-103.
+-- Output uses literal `%get.obj_shortdesc[%cloak%]%` DG remnants —
+-- replace with `objects.template(zone, id).name`. Legacy 5-digit ids.
+-- `_return_value` referenced but never defined. Full rewrite from DG
+-- #5328.
 --
 -- Original DG Script: #5328
 

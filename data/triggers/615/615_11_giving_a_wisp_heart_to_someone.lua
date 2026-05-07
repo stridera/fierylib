@@ -8,7 +8,7 @@
 -- Converted from DG Script #61511: Giving a wisp heart to someone
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if heart_inplace == 1 then
+if globals.heart_inplace == 1 then
     -- Note: the mud appears to prevent this trigger from being activated
     -- again when it's in progress, so this really does nothing, but I've
     -- left it here just in case.
@@ -16,15 +16,14 @@ if heart_inplace == 1 then
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'Hang on a minute!'</>")
 else
     _return_value = false
-    local heart_inplace = 1
-    globals.heart_inplace = globals.heart_inplace or true
+    globals.heart_inplace = 1
     wait(2)
     self:emote("looks over " .. tostring(object.shortdesc) .. " carefully.")
     wait(3)
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'Ok, let's see if this does any good.'</>")
     wait(3)
     self:emote("flutters up to the top of the menhir and puts " .. tostring(object.shortdesc) .. " in the depression.")
-    if object.id == 61504 then
+    if object.zone_id == 615 and object.local_id == 4 then
         self:destroy_item("fiery-wisp-heart")
         run_room_trigger(615, 12)
     else
@@ -36,7 +35,6 @@ else
         self:say("I guess that wasn't it!")
         self:command("drop " .. tostring(object.name))
     end
-    local heart_inplace = 0
-    globals.heart_inplace = globals.heart_inplace or true
+    globals.heart_inplace = 0
 end
 return _return_value

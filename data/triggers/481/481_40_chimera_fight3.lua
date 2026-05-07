@@ -12,5 +12,5 @@
 if not percent_chance(30) then
     return true
 end
-actor.name:send("The chimera's goat head snaps at you, just missing your arm!")
-self.room:send_except(actor.name, tostring(actor.name) .. " sweats profusely as the chimera's goat head almost takes off their arm!")
+actor:send("The chimera's goat head snaps at you, just missing your arm!")
+self.room:send_except(actor, tostring(actor.name) .. " sweats profusely as the chimera's goat head almost takes off their arm!")

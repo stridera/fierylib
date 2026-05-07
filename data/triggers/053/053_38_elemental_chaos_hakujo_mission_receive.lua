@@ -2,8 +2,11 @@
 -- Zone: 53, ID: 38
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
---   Large script: 5591 chars
+-- TODO(parity): branch-scoped `stage`, `target1`, `expmod`, `expcap`,
+-- `bonus`, `anti`. `actor:get_quest_stage(...) == "stage"` string
+-- compare. `person.class` referenced where actor was meant. `%anti%`
+-- should be `anti` variable. Legacy 5-digit ids. Full rewrite from DG
+-- #5338.
 --
 -- Original DG Script: #5338
 

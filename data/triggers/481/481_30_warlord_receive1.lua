@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48130: warlord_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 48104 then
+if object.zone_id == 481 and object.local_id == 4 then
     wait(2)
     self:destroy_item("severed-head")
     self:command("smi")
@@ -21,13 +21,14 @@ if object.id == 48104 then
     self.room:send(tostring(self.name) .. " says, 'If you find him, please give him this, do all you can to help him.'")
     local person = actor
     local i = person.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
-        local person = actor.group_member[a]
+        person = actor.group_member[a]
         if person.room == self.room then
             if not person:get_quest_stage("fieryisle_quest") then
                 person:start_quest("fieryisle_quest")

@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- for path 1, the merchant thinks he's done, but realizes he needs a pitcher to pour water over the other items.
 if actor:get_quest_stage("ursa_quest") == 4 then
     if actor:get_quest_var("ursa_quest:choice") == 1 then
-        if object.id == 8516 then
+        if object.zone_id == 85 and object.local_id == 16 then
             wait(2)
             actor:advance_quest("ursa_quest")
             world.destroy(object)

@@ -7,9 +7,8 @@
 
 -- Converted from DG Script #61517: Room lets spider create east-blocking webs
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-if web_present ~= 1 and web_pause ~= 1 then
-    local web_present = 1
-    globals.web_present = globals.web_present or true
+if globals.web_present ~= 1 and globals.web_pause ~= 1 then
+    globals.web_present = 1
     self.room:find_actor("potbellied-orb-spider"):emote("carefully tosses a leader thread across the path.")
     wait(4)
     self.room:find_actor("potbellied-orb-spider"):emote("crosses the path several more times, then spins the rest of its web.")

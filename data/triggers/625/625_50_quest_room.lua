@@ -1,22 +1,26 @@
 -- Trigger: quest room
 -- Zone: 625, ID: 50
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <quest room>:63: unexpected symbol near '%'
---   Complex nesting: 7 if statements
---   Large script: 10169 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #62550
 
 -- Converted from DG Script #62550: quest room
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local quester = self.people
-if quester == 0 then
-    self.room:find_actor("mild"):say("Where did you go?")
-    return _return_value
+--
+-- Called from 625_34/35/36/37 once the player has handed in the
+-- final quest item. `self` is the room. Locate the player who
+-- is at stage 6 of ursa_quest and run the matching cinematic.
+local quester
+for _, person in ipairs(self.actors) do
+    if person.is_player and person:get_quest_stage("ursa_quest") == 6 then
+        quester = person
+        break
+    end
 end
-while quester:get_quest_stage("ursa_quest") ~= 6 do
-    quester = quester.next_in_room
+if not quester then
+    self.room:find_actor("mild"):say("Where did you go?")
+    return true
 end
 if quester:get_quest_stage("ursa_quest") == 6 then
     -- now find the right script to run, based on that players questvar: choice
@@ -60,11 +64,8 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:send("The mild mannered merchant says, 'I feel a lot of power in this staff.  I hope it can serve you well.'")
         wait(2)
         self.room:find_actor("mild"):say("And have these as a show of my gratitude.")
-        local gem = 0
-        while gem < 3 do
-            local drop = random(1, 11) + 55736
+        for _ = 1, 3 do
             self.room:find_actor("mild"):spawn_object(557, 36 + random(1, 11))
-            gem = gem + 1
         end
         self.room:find_actor("mild"):command("give all.gem " .. tostring(quester))
         self.room:find_actor("mild"):command("tip " .. tostring(quester))
@@ -103,11 +104,8 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:send("The diadem, having formed into hollow but hard glass, washes to the shore.")
         self.room:send("Upon second inspection you can see the form of the enraged Ursa, as if it were trying to escape its new glass home.")
         self.room:send("Several glittering gems wash up along with it.")
-        local gem = 0
-        while gem < 3 do
-            local drop = random(1, 11) + 55736
+        for _ = 1, 3 do
             self.room:spawn_object(557, 36 + random(1, 11))
-            gem = gem + 1
         end
         self.room:spawn_object(625, 8)
     elseif quester:get_quest_var("ursa_quest:choice") == 3 then
@@ -136,74 +134,55 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:spawn_object(625, 7)
         self.room:find_actor("ursa"):command("get sword")
         self.room:find_actor("ursa"):command("wi sword")
-        local gem = 0
-        while gem < 3 do
-            local drop = random(1, 11) + 55736
+        for _ = 1, 3 do
             self.room:find_actor("ursa"):spawn_object(557, 36 + random(1, 11))
-            gem = gem + 1
         end
     end
-    -- 
-    -- Set X to the level of the award - code does not run without it
-    -- 
+    --
+    -- Compute experience reward, capped at level 50, scaled by class.
+    --
+    local expcap
     if quester.level < 50 then
-        local expcap = quester.level
+        expcap = quester.level
     else
-        local expcap = 50
+        expcap = 50
     end
-    local expmod = 0
+    local expmod
     if expcap < 9 then
-        local expmod = (((expcap * expcap) + expcap) / 2) * 55
+        expmod = (((expcap * expcap) + expcap) / 2) * 55
     elseif expcap < 17 then
-        local expmod = 440 + ((expcap - 8) * 125)
+        expmod = 440 + ((expcap - 8) * 125)
     elseif expcap < 25 then
-        local expmod = 1440 + ((expcap - 16) * 175)
+        expmod = 1440 + ((expcap - 16) * 175)
     elseif expcap < 34 then
-        local expmod = 2840 + ((expcap - 24) * 225)
+        expmod = 2840 + ((expcap - 24) * 225)
     elseif expcap < 49 then
-        local expmod = 4640 + ((expcap - 32) * 250)
+        expmod = 4640 + ((expcap - 32) * 250)
     elseif expcap < 90 then
-        local expmod = 8640 + ((expcap - 48) * 300)
+        expmod = 8640 + ((expcap - 48) * 300)
     else
-        local expmod = 20940 + ((expcap - 89) * 600)
+        expmod = 20940 + ((expcap - 89) * 600)
     end
-    -- 
-    -- Adjust exp award by class so all classes receive the same proportionate amount
-    -- 
-    -- switch on quester.class
+    --
+    -- Adjust exp award by class so all classes receive the same proportionate amount.
+    --
     if quester.class == "Warrior" or quester.class == "Berserker" then
-        -- 
         -- 110% of standard
-        -- 
-        local expmod = (expmod + (expmod / 10))
+        expmod = expmod + (expmod / 10)
     elseif quester.class == "Paladin" or quester.class == "Anti-Paladin" or quester.class == "Ranger" then
-        -- 
         -- 115% of standard
-        -- 
-        local expmod = (expmod + ((expmod * 2) / 15))
+        expmod = expmod + ((expmod * 2) / 15)
     elseif quester.class == "Sorcerer" or quester.class == "Pyromancer" or quester.class == "Cryomancer" or quester.class == "Illusionist" or quester.class == "Bard" then
-        -- 
         -- 120% of standard
-        -- 
-        local expmod = (expmod + (expmod / 5))
+        expmod = expmod + (expmod / 5)
     elseif quester.class == "Necromancer" or quester.class == "Monk" then
-        -- 
         -- 130% of standard
-        -- 
-        local expmod = (expmod + (expmod * 2) / 5)
-    else
-        expmod = expmod
+        expmod = expmod + ((expmod * 2) / 5)
     end
     quester:send("<b:yellow>You gain experience!</>")
-    local setexp = (expmod * 10)
-    local loop = 0
-    while loop < 10 do
-        -- 
-        -- Xexp must be replaced by mexp, oexp, or wexp for this code to work
-        -- Pick depending on what is running the trigger
-        -- 
+    local setexp = expmod * 10
+    for _ = 1, 10 do
         quester:award_exp(setexp)
-        loop = loop + 1
     end
     quester:complete_quest("ursa_quest")
 end

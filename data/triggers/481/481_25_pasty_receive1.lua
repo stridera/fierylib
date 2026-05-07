@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48125: pasty_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 48101 then
+if object.zone_id == 481 and object.local_id == 1 then
     self:emote("examines the shell.")
     wait(2)
     self:command("cry")

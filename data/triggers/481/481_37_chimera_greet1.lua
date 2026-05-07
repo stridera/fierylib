@@ -19,7 +19,7 @@ end
 self:emote("turns its dragon head to examine you.")
 self:command("consider " .. tostring(actor.name))
 if actor.level < 30 then
-    spells.cast(self, "dispel magic", actor.name)
+    spells.cast(self, "dispel magic", actor)
 else
-    spells.cast(self, "ray of enf", actor.name)
+    spells.cast(self, "ray of enf", actor)
 end

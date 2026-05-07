@@ -1,7 +1,10 @@
 -- Trigger: Elemental Chaos Hakujo new mission
 -- Zone: 53, ID: 45
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `local mission = N` branch-scoped. 0% probability gate
+-- — DG #5345 likely had keyword-only filtering. Full rewrite from DG
+-- #5345.
 --
 -- Original DG Script: #5345
 

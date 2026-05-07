@@ -2,8 +2,11 @@
 -- Zone: 53, ID: 26
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
---   Large script: 7418 chars
+-- TODO(parity): branch-scoped `cloakstage`, `item`, `expmod`, `expcap`,
+-- `accept` decls — used at outer scope. `%number%` is a literal DG
+-- template inside set_quest_var (line 158) — should be `tostring(number)`
+-- concat. Legacy 5-digit object ids; reward `(zone=123, id=117)` is a
+-- legacy split. Full rewrite from DG #5326.
 --
 -- Original DG Script: #5326
 

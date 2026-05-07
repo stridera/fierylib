@@ -17,13 +17,16 @@ if actor.is_player and actor.level < 31 then
     self.room:send_except(actor, tostring(actor.name) .. " triggered a hidden tripwire!")
     actor:send("You triggered a hidden tripwire!")
     wait(8)
-    local holding = get_room("61599")
-    if holding:get_people("61511") then
-        get_room(615, 99):at(function()
-            self.room:find_actor("stonefang"):move("d")
+    local holding = get_room(615, 99)
+    if holding and holding:find_actor("stonefang") then
+        holding:at(function()
+            self.room:find_actor("stonefang"):command("down")
         end)
     end
-    if actor.room == self.id then
-        self.room:find_actor("stonefang"):command("kill %actor%")
+    if actor.room == self.room then
+        local stonefang = self.room:find_actor("stonefang")
+        if stonefang then
+            stonefang:command("kill " .. tostring(actor.name))
+        end
     end
 end

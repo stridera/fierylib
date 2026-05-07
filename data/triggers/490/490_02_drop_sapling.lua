@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 -- The sapling is dropped. If Dagon is present, it will grow and destroy
 -- the altar, weakening him.
-if object.id == 49045 and self:get_people("49021") then
+if object.id == 49045 and self.room:find_actor("dagon") then
     wait(1)
     self.room:send("The sapling vibrates faster and faster and its roots start to grow!")
     self.room:send("Even as you watch, the sapling moves towards the altar and starts to grow into it.")

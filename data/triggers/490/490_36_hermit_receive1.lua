@@ -16,10 +16,11 @@ if object.type == "LIQCONTAINER" then
         self.room:spawn_object(490, 41)
         local person = actor
         local i = person.group_size
+        local a
         if i then
-            local a = 1
+            a = 1
         else
-            local a = 0
+            a = 0
         end
         while i >= a do
             person = person.group_member[a]
@@ -40,8 +41,8 @@ if object.type == "LIQCONTAINER" then
         self:command("smile")
     else
         self:say("I'm not drinking this!")
-        self:command("pour " .. tostring(object) .. " out")
-        self:command("drop " .. tostring(object))
+        self:command("pour " .. tostring(object.shortdesc) .. " out")
+        self:command("drop " .. tostring(object.shortdesc))
     end
 else
     _return_value = true

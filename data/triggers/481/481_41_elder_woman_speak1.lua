@@ -1,8 +1,7 @@
 -- Trigger: elder_woman_speak1
 -- Zone: 481, ID: 41
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48141
 
@@ -23,20 +22,22 @@ wait(2)
 local stage = 2
 local person = actor
 local i = person.group_size
+local a
+local ash
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
-    local person = actor.group_member[a]
+    person = actor.group_member[a]
     if person.room == self.room then
-        if person:get_quest_stage("fieryisle_quest") == "stage" then
+        if person:get_quest_stage("fieryisle_quest") == stage then
             person:advance_quest("fieryisle_quest")
             person:send("<b:white>You have advanced your quest!</>")
-            local ash = 1
+            ash = 1
         elseif person:get_quest_stage("fieryisle_quest") == 3 or person:get_quest_stage("fieryisle_quest") == 4 then
-            local ash = 2
+            ash = 2
         end
     elseif person and person.is_player then
         i = i + 1

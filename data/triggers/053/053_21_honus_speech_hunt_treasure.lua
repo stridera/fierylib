@@ -2,8 +2,10 @@
 -- Zone: 53, ID: 21
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 21 if statements
---   Large script: 12521 chars
+-- TODO(parity): same elseif-ladder bug as 053_11 — every stage check
+-- is gated on `hunt == "running"` then elseif against stage, so the
+-- "still hunting" message is unreachable. `_return_value` referenced
+-- at line 33 but never defined. Full rewrite from DG #5321.
 --
 -- Original DG Script: #5321
 

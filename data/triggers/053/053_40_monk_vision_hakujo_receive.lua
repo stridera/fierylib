@@ -2,8 +2,9 @@
 -- Zone: 53, ID: 40
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
---   Large script: 8964 chars
+-- TODO(parity): branch-scoped `visionstage`, `item`, `expmod`, `expcap`,
+-- `accept`. `%number%` literal in set_quest_var (line 158). Legacy
+-- 5-digit object ids. Full rewrite from DG #5340.
 --
 -- Original DG Script: #5340
 

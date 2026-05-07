@@ -2,8 +2,9 @@
 -- Zone: 53, ID: 54
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 18 if statements
---   Large script: 9210 chars
+-- TODO(parity): branch-scoped `local decline = "level"`/`"vision"`
+-- inside else arms — referenced at 133-136 outside scope. `_return_value`
+-- referenced at line 127 but never defined. Full rewrite from DG #5354.
 --
 -- Original DG Script: #5354
 

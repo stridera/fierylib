@@ -1,10 +1,7 @@
 -- Trigger: merchant dialogue
 -- Zone: 625, ID: 18
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <merchant dialogue>:18: 'then' expected near '?'
---   Complex nesting: 8 if statements
---   Large script: 5456 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #62518
 
@@ -22,7 +19,6 @@ if not (string.find(string.lower(speech), "help") or string.find(string.lower(sp
     return true  -- No matching keywords
 end
 wait(1)
-speech = speech
 if actor.is_player then
     if actor:get_quest_stage("ursa_quest") < 1 then
         if string.find(speech, "help") or string.find(speech, "help?") or string.find(speech, "ok") or string.find(speech, "yes") then
@@ -30,11 +26,11 @@ if actor.is_player then
             self:emote("looks at you.")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'You'll help me?!'")
-            return _return_value
+            return true
         elseif string.find(speech, "hi") or string.find(speech, "hello") then
             wait(1)
             actor:send(tostring(self.name) .. " says, 'Please, I'm very ill.  Can you <b:cyan>help</> me?'")
-            return _return_value
+            return true
         elseif string.find(speech, "hurt") or string.find(speech, "hurt?") then
             wait(1)
             actor:send(tostring(self.name) .. " says, 'I'm very sick.  The disease makes me lose control.'")
@@ -50,7 +46,7 @@ if actor.is_player then
             actor:send(tostring(self.name) .. " says, 'I am suffering from werebear lycanthropy in its early stages.'")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'The <b:cyan>power of this sacred spring</> is halting the disease's progression.'")
-            return _return_value
+            return true
         elseif string.find(speech, "sacred") or string.find(speech, "spring") or string.find(speech, "power") then
             actor:send(tostring(self.name) .. " says, 'As long as I am near this spring, and no one gives fuel to the disease's rage...'")
             wait(1)
@@ -59,7 +55,7 @@ if actor.is_player then
             actor:send(tostring(self.name) .. " says, '...for now.'")
             wait(2)
             actor:send(tostring(self.name) .. " says, 'But, I must find a more <b:cyan>permanent solution</>.'")
-            return _return_value
+            return true
         elseif string.find(speech, "permanent") or string.find(speech, "solution") then
             self:command("sigh")
             wait(1)
@@ -74,7 +70,7 @@ if actor.is_player then
             self:emote("hesitates for a moment, grasping for words.")
             wait(1)
             actor:send(tostring(self.name) .. " says, '...more favorable remedy.'")
-            return _return_value
+            return true
         elseif string.find(speech, "powerful") or string.find(speech, "people") then
             actor:send(tostring(self.name) .. " says, 'On a nearby island are a very refined people.  They've found cures for many things, and are in good favor with powerful gods.  Perhaps the Lord of their island will know how to help me.'")
             wait(6)
@@ -87,11 +83,11 @@ if actor.is_player then
             actor:send(tostring(self.name) .. " says, 'Then there's the old nut in the swamp.  If all else fails, maybe he's got some sort of remedy.'")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'Whichever one you manage to contact, they will know who I am.  Just bring me back news of what can be done to help me.  I'm sure one of them will know what to do.'")
-            return _return_value
+            return true
         end
     end
     if actor:get_quest_stage("ursa_quest") > 1 then
         actor:send(tostring(self.name) .. " says, 'Please, what do you have for me?'")
-        return _return_value
+        return true
     end
 end

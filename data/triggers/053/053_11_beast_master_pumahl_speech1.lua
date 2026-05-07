@@ -2,8 +2,12 @@
 -- Zone: 53, ID: 11
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
---   Large script: 12058 chars
+-- TODO(parity): converter produced branch-scoped `local notice = N` chains
+-- that don't escape the if/elseif blocks (used at line 62 in spawn_object).
+-- Multiple `if actor:get_quest_var("...:hunt") == "running" then ... elseif
+-- actor:get_quest_stage(...) == N` ladders are wrong: the elseif branch is
+-- only entered when hunt is NOT running, so the "still on the hunt" message
+-- is unreachable. Needs full rewrite from DG source #5311.
 --
 -- Original DG Script: #5311
 

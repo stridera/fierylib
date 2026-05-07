@@ -2,7 +2,12 @@
 -- Zone: 53, ID: 25
 -- Type: MOB, Flags: RECEIVE
 -- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+-- TODO(parity): `accept`/`refuse` are declared `local` inside elseif
+-- arms but used at lines 90/95 outside the loop — they read nil. The
+-- inner refuse-decision tree references `accept` before it's set
+-- (line 60). Group iteration `local a` is branch-scoped. `==
+-- "stage"` is a string compare. Legacy 5-digit ids. Full rewrite from
+-- DG #5325.
 --
 -- Original DG Script: #5325
 

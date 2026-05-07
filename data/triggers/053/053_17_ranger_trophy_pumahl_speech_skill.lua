@@ -1,7 +1,14 @@
 -- Trigger: Ranger Trophy Pumahl speech skill
 -- Zone: 53, ID: 17
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+-- Status: NEEDS_REVIEW
+-- TODO(parity): `local trophy`, `local gem`, `local place`, `local hint`
+-- are branch-scoped through the trophystage if/elseif (lines 49-93) but
+-- referenced at lines 98-103. Output uses literal `%get.obj_shortdesc[
+-- %trophy%]%` template strings (DG remnants) — must be replaced with
+-- `objects.template(zone, id).name` lookups. Legacy 5-digit object ids.
+-- `_return_value` is referenced at lines 27/29/32/35 but never defined.
+-- Full rewrite from DG #5317.
 --
 -- Original DG Script: #5317
 

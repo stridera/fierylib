@@ -2,7 +2,13 @@
 -- Zone: 53, ID: 18
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 14 if statements
+-- TODO(parity): the converter mangled the room/stage dispatch — every
+-- branch is structured as `if (room cond) and (trophystage == N) then ...
+-- elseif self.id == X then`, which only enters the inner self.id arm
+-- when the outer room cond fails. Effectively only stage 1 ever fires.
+-- `local continue = "yes"` is branch-scoped; reference at line 66 reads
+-- a nil global. Legacy 5-digit room ids need split. Full rewrite from
+-- DG #5318.
 --
 -- Original DG Script: #5318
 

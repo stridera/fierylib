@@ -12,7 +12,7 @@
 if not percent_chance(10) then
     return true
 end
-if self.room == 61538 then
+if self.room.zone_id == 615 and self.room.local_id == 38 then
     get_room(615, 37):at(function()
         self.room:send("You notice a bright, moving light just to the north - too bright to be a firefly.")
     end)

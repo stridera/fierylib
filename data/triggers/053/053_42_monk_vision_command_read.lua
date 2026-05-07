@@ -2,7 +2,13 @@
 -- Zone: 53, ID: 42
 -- Type: OBJECT, Flags: COMMAND
 -- Status: NEEDS_REVIEW
---   Complex nesting: 30 if statements
+-- TODO(parity): branch-scoped `place`, `stage`, `hasgem`, `hasvision`,
+-- `continue`. Outer condition `place == actor.room and visionstage ==
+-- "stage"` compares int to literal "stage". Inner check `actor.room ~=
+-- "place"` compares room (object) to literal string. `actor:has_item("...")`
+-- and `actor:has_equipped("...")` are called with 5-digit string vnums —
+-- the API takes `(zone_id, local_id)` numerics. Full rewrite from DG
+-- #5342.
 --
 -- Original DG Script: #5342
 

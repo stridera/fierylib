@@ -4,6 +4,15 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #62572
+--
+-- TODO(parity): The legacy script keeps `charges`, `maxcharge`, `delay`,
+-- and `ready` in object-scoped DG globals shared with trigger 73 (count
+-- up) and 74 (seagulls). The converter wrote `globals.X = globals.X or
+-- true` no-ops and then read bare `charges` (an undeclared global) as if
+-- DG had hoisted it. The runtime now exposes per-object globals via
+-- `globals` but the bookkeeping needs to be ported as a unit (72/73/74)
+-- so the charge counter is actually shared. Left as a no-op until that
+-- port is done.
 
 -- Converted from DG Script #62572: countdown 62569
 -- Original: OBJECT trigger, flags: WEAR, probability: 1%
@@ -12,20 +21,4 @@
 if not percent_chance(1) then
     return true
 end
-local maxcharge = 1
-local delay = 200
-globals.maxcharge = globals.maxcharge or true
-globals.delay = globals.delay or true
-if charges > 0 then
-    charges = charges - 1
-    globals.charges = globals.charges or true
-    self.room:send(tostring(self.shortdesc) .. " flashes brightly.")
-    self.room:spawn_mobile(625, 69)
-    self.room:find_actor("purity"):spawn_object(489, 28)
-    self.room:find_actor("purity"):command("recite scroll " .. tostring(actor))
-    world.destroy(self.room:find_object("purity"))
-    local ready = 0
-    globals.ready = globals.ready or true
-else
-    actor:send(tostring(self.shortdesc) .. "'s power is momentarily exhausted.")
-end
+return true
