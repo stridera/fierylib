@@ -206,7 +206,7 @@ if go == "hunt" then
         if person.class == "Warrior" or person.class == "Berserker" then
             local expmod = (expmod + (expmod / 10))
         elseif person.class == "Paladin" or person.class == "Anti-Paladin" or person.class == "Ranger" then
-            local expmod = (expmod + ((expmod * 2) / 15)
+            local expmod = (expmod + ((expmod * 2) / 15))
         elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
             local expmod = (expmod + (expmod / 5))
         elseif person.class == "Necromancer" or person.class == "Monk" then

@@ -31,19 +31,19 @@ if string.find(arg, "doom entrance") or string.find(arg, "the planes of doom") o
                 local task = "Track down the White Hart in the Eldorian Foothills and hold the bloody rag in its presence"
             elseif stage == 2 then
                 local master = mobiles.template(484, 11).name
-                local task = Slay the White Hart and bring its antlers to master
+                local task = "Slay the White Hart and bring its antlers to " .. tostring(master)
             elseif stage == 3 then
                 local master = mobiles.template(484, 10).name
                 local task = "Slay Rhalean's Evil Sister, trapped deep underground"
             elseif stage == 4 then
                 local master = mobiles.template(484, 10).name
-                local task = Return to master
+                local task = "Return to " .. tostring(master)
             elseif stage == 5 then
                 local master = mobiles.template(484, 12).name
                 local task = "Drop the vial of sunlight before a mockery of the sun in a place steeped in darkness"
             elseif stage == 6 then
                 local master = mobiles.template(484, 12).name
-                local task = Return to master
+                local task = "Return to " .. tostring(master)
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

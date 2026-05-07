@@ -28,21 +28,21 @@ if object.id == "wandgem" or object.id == "wand_id" or object.id == "wandtask2" 
         if self.id == 48105 then
             local response = "You're far too pathetic to help yet."
         else
-            local response = You'll need to be at least level minlevel before I can improve your bond with your weapon.
+            local response = "You'll need to be at least level minlevel before I can improve your bond with your weapon."
         end
     elseif actor.has_completed[type_wand] then
         -- Have they already completed the quest?
         if self.id == 48105 then
-            local response = Idiot.  You already have the most powerful type staff a mere mortal can handle.
+            local response = "Idiot.  You already have the most powerful type staff a mere mortal can handle."
         else
-            local response = You already have the most powerful type staff in existence!
+            local response = "You already have the most powerful type staff in existence!"
         end
     elseif stage < wandstep then
         -- Are they below this step still?
         if self.id == 48105 then
-            local response = Your weapon is far too weak to craft.
+            local response = "Your weapon is far too weak to craft."
         else
-            local response = Your weapon isn't ready for improvement yet.
+            local response = "Your weapon isn't ready for improvement yet."
         end
     elseif stage > wandstep then
         -- Are they past this step but not yet completed?

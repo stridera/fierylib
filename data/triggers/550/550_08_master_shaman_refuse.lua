@@ -37,11 +37,11 @@ if object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%wandta
     end
 end
 if stage == 2 then
-    local response = Is object.shortdesc really what she sent you to find?
+    local response = "Is object.shortdesc really what she sent you to find?"
 elseif stage == 5 or stage == 8 then
-    local response = Is object.shortdesc really what she suggested you use?
+    local response = "Is object.shortdesc really what she suggested you use?"
 elseif stage == 11 then
-    local response = What?  object.shortdesc?  This can't be right.
+    local response = "What?  object.shortdesc?  This can't be right."
 else
     local response = "What is this?"
 end

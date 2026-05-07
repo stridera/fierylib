@@ -29,7 +29,7 @@ else
         self:say("I hear he has a bishop locked up in the dungeon.")
         return _return_value
     elseif stage == 4 then
-        local hunt = mobiles.template(40, 4).name, mobiles.template(40, 3).name, and mobiles.template(40, 16).name
+        local hunt = tostring(mobiles.template(40, 4).name) .. ", " .. tostring(mobiles.template(40, 3).name) .. ", and " .. tostring(mobiles.template(40, 16).name)
         local mob1 = 4004
         local mob2 = 4003
         local mob3 = 4016
@@ -37,14 +37,14 @@ else
     elseif stage == 5 then
         local item = objects.template(40, 8).name
     elseif stage == 6 then
-        local hunt = 2 Xeg-Yi and mobiles.template(533, 8).name
+        local hunt = "2 Xeg-Yi and " .. tostring(mobiles.template(533, 8).name)
         local mob2 = 53411
         local mob1 = 53308
         local item = objects.template(533, 7).name
     elseif stage == 7 then
         local item = objects.template(533, 7).name
     elseif stage == 8 then
-        local hunt = mobiles.template(510, 5).name, mobiles.template(530, 1).name, and mobiles.template(510, 14).name
+        local hunt = tostring(mobiles.template(510, 5).name) .. ", " .. tostring(mobiles.template(530, 1).name) .. ", and " .. tostring(mobiles.template(510, 14).name)
         local mob1 = 51005
         local mob2 = 53001
         local mob3 = 51014
@@ -60,7 +60,7 @@ else
             local item = objects.template(510, 28).name
         end
     elseif stage == 10 then
-        local hunt = mobiles.template(520, 3).name and mobiles.template(520, 15).name
+        local hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
         local mob1 = 52003
         local mob2 = 52015
         local item = objects.template(520, 1).name

@@ -73,7 +73,7 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
             local id_food = 5555
             local id_drink = 5557
             local legion = "Black Legion"
-            local master = mobiles.template(41, 27).name and mobiles.template(55, 12).name
+            local master = mobiles.template(41, 27).name .. " and mobiles.template(55, 12).name"
             local status = actor:get_quest_var("black_legion:bl_faction")
         elseif actor:get_quest_var("Black_Legion:eg_ally") then
             local id_trophy1 = 5503
@@ -128,7 +128,7 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
             local id_food = 5556
             local id_drink = 5558
             local legion = "Eldorian Guard"
-            local master = mobiles.template(186, 99).name and mobiles.template(55, 24).name
+            local master = mobiles.template(186, 99).name .. " and mobiles.template(55, 24).name"
             local status = actor:get_quest_var("black_legion:eg_faction")
         end
         actor:send("You are pledged to the " .. tostring(legion) .. ".")

@@ -20,7 +20,7 @@ if self.id >= 300 and self.id <= 339 then
     elseif self.id >= 330 and self.id <= 339 then
         local type = "acid"
     end
-    if actor:get_quest_stage("type_wand") < (self.level% / 10) + 2 then
+    if actor:get_quest_stage("type_wand") < (self.level / 10) + 2 then
         _return_value = true
         actor:send("This weapon is bound to someone else!")
     else

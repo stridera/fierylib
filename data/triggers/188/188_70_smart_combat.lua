@@ -10,7 +10,7 @@
 
 -- Converted from DG Script #18870: smart combat
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
-local now = ((((time.year * 16) + time.month) * 35) + time.day) * 24) + time.hour
+local now = ((((time.year * 16) + time.month) * 35 + time.day) * 24) + time.hour
 local level = self.level
 local class = self.class
 local flags = self.flags
@@ -55,7 +55,7 @@ local mode = random(1, 10)
 if is_fig or is_bac then
     if (mode < 4) and ((is_ran and (level > 34)) or (is_war and (level > 14)) or ((is_ant or is_pal) and (level > 9))) then
         local max_tries = 5
-        while %max_tries > 0 do
+        while max_tries > 0 do
             local victim = room.actors[random(1, #room.actors)]
             if (victim.is_npc) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
                 combat.rescue(self, victim.name)

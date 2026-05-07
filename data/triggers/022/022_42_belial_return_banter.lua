@@ -9,7 +9,7 @@
 -- Converted from DG Script #2242: belial_return_banter
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 -- Belial's Return Banter
-local banter = %random.6
+local banter = random(1, 6)
 local victim = room.actors[random(1, #room.actors)]
 -- switch on banter
 if banter == 1 then

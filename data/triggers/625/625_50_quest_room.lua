@@ -180,7 +180,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         -- 
         -- 115% of standard
         -- 
-        local expmod = (expmod + ((expmod * 2) / 15)
+        local expmod = (expmod + ((expmod * 2) / 15))
     elseif quester.class == "Sorcerer" or quester.class == "Pyromancer" or quester.class == "Cryomancer" or quester.class == "Illusionist" or quester.class == "Bard" then
         -- 
         -- 120% of standard

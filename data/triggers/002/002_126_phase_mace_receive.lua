@@ -33,7 +33,7 @@ if object.id == "maceitem2" or object.id == "maceitem3" or object.id == "maceite
                             local number = 6
                         end
                         if actor:get_quest_var("phase_mace:tasknumber") == 1 then
-                            local response = You already gave me object.shortdesc.
+                            local response = "You already gave me object.shortdesc."
                         elseif macestep == 2 and number > 2 and actor:get_quest_var("phase_mace:dirtnumber") == 0 then
                             wait(2)
                             self:command("shake")
@@ -207,7 +207,7 @@ elseif reward == "yes" then
         loop = loop + 1
     end
 elseif reward == "count" then
-    local response = Keep practicing with get.obj_shortdesc[mace_id].
+    local response = "Keep practicing with get.obj_shortdesc[mace_id]."
 elseif reward == "stop" then
     local response = "Bring me the other materials first."
 end

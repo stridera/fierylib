@@ -355,7 +355,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local unrewarded = (got_hands + hands_count  ~=  4) + (got_feet + feet_count  ~=  4) + (got_wrist + wrist_count  ~=  4)
         unrewarded = unrewarded + (got_head + head_count  ~=  4) + (got_arms + arms_count  ~=  4)
         unrewarded = unrewarded + (got_legs + legs_count  ~=  4) + (got_body + body_count  ~=  4)
-        if done_hands done_feet done_wrist done_head done_arms done_legs done_body then
+        if done_hands and done_feet and done_wrist and done_head and done_arms and done_legs and done_body then
             actor:send("<cyan>Status: Completed</>")
             return _return_value
         end
@@ -417,7 +417,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         if body_count and not done_body then
             actor:send("</>  " .. tostring(body_count) .. " of " .. "%get.obj_shortdesc[%body_gem%]%")
         end
-        if done_hands done_feet done_wrist done_head done_arms done_legs done_body then
+        if done_hands and done_feet and done_wrist and done_head and done_arms and done_legs and done_body then
             actor:send("</>")
             actor:send("You have completed quests for:")
         end

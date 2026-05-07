@@ -13,11 +13,11 @@
 if not percent_chance(60) then
     return true
 end
-if level ($n) >= 80 then
+if actor.level >= 80 then
     self.room:send("$n $I tells you, 'Hi $n, Welcome to city of Templace!'")  -- from MPROG
     self.room:send_except(actor, "self.name welcomes actor.name")  -- from MPROG
 end
-if level ($n) <= 79 then
+if actor.level <= 79 then
     actor:send("self.name tells you, 'Hey, this is too dangerous a place for you!'")  -- from MPROG
     self.room:send_except(actor, "self.name looks at actor.name doubtfully and makes a strange gesture.")  -- from MPROG
     actor:teleport(get_room(30, 1))  -- from MPROG

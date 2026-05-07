@@ -117,7 +117,7 @@ if string.find(actor.class, "Anti") then
         if chest_gems and not done_chest then
             actor:send(tostring(self.name) .. " tells you, '  " .. tostring(chest_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_chest%]%'")
         end
-        if done_gloves done_boots done_bracer done_helm done_arm done_legs done_chest then
+        if done_gloves and done_boots and done_bracer and done_helm and done_arm and done_legs and done_chest then
             actor:send(tostring(self.name) .. " tells you, 'You have completed quests for:'")
         end
         if done_gloves then

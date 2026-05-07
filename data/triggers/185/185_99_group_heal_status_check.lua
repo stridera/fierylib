@@ -127,12 +127,12 @@ elseif stage == 5 then
             self.room:send("You need to deliver " .. tostring(total) .. " more packet.")
         else
             self.room:send("You need to deliver " .. tostring(total) .. " more packets.")
-        else
-            if actor:get_has_completed("group_heal") then
-                self:say("You finished the quest to learn Group Heal already.")
-            else
-                self:say("You aren't working on a quest with me.")
-            end
         end
-    end  -- auto-close block
+    else
+        if actor:get_has_completed("group_heal") then
+            self:say("You finished the quest to learn Group Heal already.")
+        else
+            self:say("You aren't working on a quest with me.")
+        end
+    end
 end  -- auto-close block

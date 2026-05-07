@@ -30,31 +30,9 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("I'm quite busy right now, that's who I am.")
     end
     return _return_value
-    -- switch on random(1, 4)
-    if random(1, 4) == 1 then
-        self:say("No one special, merely a Sister in sacred trust.")
-    elseif random(1, 4) == 2 then
-        self:say("Just a peasant from Mielikki.")
-    elseif random(1, 4) == 3 then
-        self.room:send(tostring(self.name) .. " says, 'That is an excellent question...")
-        self.room:send("</>Who are any of us?'")
-        self:command("ponder")
-    elseif random(1, 4) == 4 then
-    else
-        self:say("I'm quite busy right now, that's who I am.")
-    end
-    return _return_value
-    -- switch on random(1, 4)
-    if random(1, 4) == 1 then
-        self:say("No one special, merely a Sister in sacred trust.")
-    elseif random(1, 4) == 2 then
-        self:say("Just a peasant from Anduin.")
-    elseif random(1, 4) == 3 then
-        self.room:send(tostring(self.name) .. " says, 'That is an excellent question...")
-        self.room:send("</>Who are any of us?'")
-        self:command("ponder")
-    elseif random(1, 4) == 4 then
-    else
-        self:say("I'm quite busy right now, that's who I am.")
-    end
+    -- The converter flattened a `switch on self.id` block into
+    -- three identical-shape branches — Ickle, Mielikki, and
+    -- Anduin variants — but they were left as dead code after
+    -- the return above. TODO(parity): split by self.id when
+    -- restoring the per-town flavor lines.
 end

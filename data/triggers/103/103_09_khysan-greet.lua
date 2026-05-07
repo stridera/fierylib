@@ -9,18 +9,22 @@
 
 -- Converted from DG Script #10309: khysan-greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
+-- Hoisted _return so the post-block test sees the value the
+-- branch wrote — the converter scoped each `local _return =
+-- "yes"` to its own if-block, breaking the conditional below.
+local _return = nil
 if actor:get_quest_stage("ice_shards") then
-    local _return = "yes"
+    _return = "yes"
 end
 if actor:get_quest_stage("type_wand") > wandstep then
-    local _return = "yes"
+    _return = "yes"
 end
 if actor:get_quest_stage("type_wand") == "wandstep" and actor:get_quest_var("type_wand:greet") == 1 then
-    local _return = "yes"
+    _return = "yes"
 end
 wait(1)
 actor:send(tostring(self.name) .. " looks up at your approach.")
-if return == "yes" then
+if _return == "yes" then
     self:say("Welcome back my friend.")
     wait(2)
     if actor:get_quest_stage("ice_shards") and not actor:get_has_completed("ice_shards") then
