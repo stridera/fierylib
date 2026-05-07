@@ -43,7 +43,7 @@ if enemy_flag == "yes" then
     if actor:get_worn("wield2") then
         hands = hands + 1
     end
-    if actor.worn[2hwield] then
+    if actor:get_worn("2hwield") then
         hands = hands + 1
     end
     if actor:get_worn("shield") then

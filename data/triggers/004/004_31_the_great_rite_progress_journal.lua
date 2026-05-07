@@ -60,7 +60,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                 local item2 = objects.template(481, 9).name
                 -- water from room 12463 to Keeper of the West
                 local receive3 = mobiles.template(123, 6).name
-                local item3 = water from objects.template(123, 52).name
+                local item3 = "water from " .. tostring(objects.template(123, 52).name)
                 -- granite ring to Keeper of the North
                 local receive4 = mobiles.template(123, 3).name
                 local item4 = objects.template(550, 20).name

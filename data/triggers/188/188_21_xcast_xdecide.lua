@@ -43,7 +43,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
     -- name, such as just 'arc' for 'arctic blast'.  However, this also
     -- allows 'blast', so making another spell 'blast of fire' is a bad
     -- idea.  Use unique spell names.
-    if deadly string.find(screech, "arg") then
+    if deadly and string.find(screech, "arg") then
         local xid = 1
         local xname = "deadly screech"
         local xstars = 0

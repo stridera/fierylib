@@ -136,13 +136,16 @@ if player1 and player2 and player3 and player4 then
             globals.first_turn = globals.first_turn or true
             local status = 3
             globals.status = globals.status or true
-        else
-            if (player1 and (player1.name == actor.name)) or (player2 and (player2.name == actor.name)) or (player3 and (player3.name == actor.name)) then
-                actor:send("You can't deal until four people have joined!")
-            else
-                _return_value = true
-            end
         end
-    end  -- auto-close block
-end  -- auto-close block
+    end
+else
+    -- TODO(parity): the converter put this branch inside the
+    -- inner while loop; structurally it belongs to the outer
+    -- "all four players present?" if at line 29. Hoisted here.
+    if (player1 and (player1.name == actor.name)) or (player2 and (player2.name == actor.name)) or (player3 and (player3.name == actor.name)) then
+        actor:send("You can't deal until four people have joined!")
+    else
+        _return_value = true
+    end
+end
 return _return_value

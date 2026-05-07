@@ -81,7 +81,7 @@ elseif stage == 2 then
     local item3 = objects.template(550, 20).name
     -- water from room 12463 to Keeper of the West
     local receive4 = mobiles.template(123, 6).name
-    local item4 = water from objects.template(123, 52).name
+    local item4 = "water from " .. tostring(objects.template(123, 52).name)
     wait(2)
     actor:send(tostring(self.name) .. " says, 'We're trying to " .. tostring(step) .. ".'")
     if (actor:get_quest_var("megalith_quest:item1")) and (actor:get_quest_var("megalith_quest:item2")) and (actor:get_quest_var("megalith_quest:item3")) and (actor:get_quest_var("megalith_quest:item4")) then

@@ -14,7 +14,7 @@
 -- group to enter, so if a player comes in later
 -- the global var gets scragged :-(
 -- hehe if only room had an ID field this could be generic!
-local peeps = people.52059
+local peeps = get_room(520, 59).actor_count
 wait(5)
-local peeps = people.52059 - peeps
+local peeps = get_room(520, 59).actor_count - peeps
 globals.peeps = globals.peeps or true

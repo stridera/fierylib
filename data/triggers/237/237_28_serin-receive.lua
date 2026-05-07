@@ -54,20 +54,17 @@ else
             wait(1)
             self:say("Well, do you have the real one to give to me?")
             return _return_value
-            -- covers the cursed ring...
-            if cloak == 1 then
-            elseif object.id == 52009 then
-                _return_value = true
-                self:say("You have already given me the cloak.")
-            else
-                wait(2)
-                actor:set_quest_var("sunfire_rescue", "cloak", 1)
-                world.destroy(object)
-                self:emote("carefully looks at the cloak.")
-                self:say("This is it!  Thank you!")
-                wait(1)
-                self:say("Then I can finally escape....")
-            end
+        elseif object.id == 52009 and cloak ~= 1 then
+            wait(2)
+            actor:set_quest_var("sunfire_rescue", "cloak", 1)
+            world.destroy(object)
+            self:emote("carefully looks at the cloak.")
+            self:say("This is it!  Thank you!")
+            wait(1)
+            self:say("Then I can finally escape....")
+        elseif object.id == 52009 and cloak == 1 then
+            _return_value = true
+            self:say("You have already given me the cloak.")
         elseif object.id == 52026 then
             -- Cursed cloak
             _return_value = true
@@ -80,18 +77,15 @@ else
             self:say("Well?  Do you have the real cloak to give to me?")
             self:emote("taps his foot impatiently.")
             return _return_value
-            if ring == 1 then
-            elseif object.id == 52001 then
-                _return_value = true
-                self:say("You have already given me this ring.")
-            else
-                wait(2)
-                self.room:send("Looking at the ring, the prisoner looks overwhelmed with emotion.")
-                actor:set_quest_var("sunfire_rescue", "ring", 1)
-                self:say("Escape is so close I can feel it!")
-                world.destroy(object)
-                -- that ought to cover everything...
-            end
+        elseif object.id == 52001 and ring ~= 1 then
+            wait(2)
+            self.room:send("Looking at the ring, the prisoner looks overwhelmed with emotion.")
+            actor:set_quest_var("sunfire_rescue", "ring", 1)
+            self:say("Escape is so close I can feel it!")
+            world.destroy(object)
+        elseif object.id == 52001 and ring == 1 then
+            _return_value = true
+            self:say("You have already given me this ring.")
         else
             _return_value = true
             self:say("This isnt going to help me!")

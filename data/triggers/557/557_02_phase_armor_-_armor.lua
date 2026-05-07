@@ -35,7 +35,7 @@ elseif actor:get_quest_stage("phase_armor") < phase then
     actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my quests yet.'")
     return _return_value
 end
-if hands_name? ~= speech then
+if hands_name ~= speech then
     local name = pair of hands_name
     local gem_id = hands_gem
     local armor_id = hands_armor

@@ -30,9 +30,5 @@ if actor.is_player then
         self:move("e")
         self:move("n")
         self:move("d")
-    else
-        self:move("e")
-        self:move("n")
-        self:move("d")
-    end  -- auto-close block
-end  -- auto-close block
+    end
+end

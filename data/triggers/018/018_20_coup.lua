@@ -8,7 +8,7 @@
 
 -- Converted from DG Script #1820: Coup
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-local numpeople = people.1802
+local numpeople = get_room(18, 2).actor_count
 while numpeople >= 0 do
     if numpeople > 0 then
         local prsn = self.people[numpeople]

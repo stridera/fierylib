@@ -14,61 +14,15 @@ local wielder = self.worn_by
 local rm = wielder.room
 local target = wielder.is_fighting
 if target then
-    -- switch on wielder.size
+    -- The legacy DG had four nested switches gating the smash
+    -- on (wielder.size, target.size). The converter turned each
+    -- branch body into `return _return_value`, leaving the
+    -- subsequent switch tables as unreachable dead code with
+    -- empty `if X then return` bodies. Collapsed to a single
+    -- size-gate; TODO(parity): restore the per-size variants.
     if wielder.size == "medium" then
         return _return_value
-        -- switch on target.size
-        if target.size == "large" then
-            return _return_value
-        elseif target.size == "huge" then
-            return _return_value
-        elseif target.size == "giant" then
-            return _return_value
-        elseif target.size == "gargantuan" then
-            return _return_value
-        elseif target.size == "colossal" then
-            return _return_value
-        elseif target.size == "titanic" then
-            return _return_value
-        elseif target.size == "mountainous" then
-            return _return_value
-        end
-        -- switch on target.size
-        if target.size == "huge" then
-            return _return_value
-        elseif target.size == "giant" then
-            return _return_value
-        elseif target.size == "gargantuan" then
-            return _return_value
-        elseif target.size == "colossal" then
-            return _return_value
-        elseif target.size == "titanic" then
-            return _return_value
-        elseif target.size == "mountainous" then
-            return _return_value
-        end
-        -- switch on target.size
-        if target.size == "giant" then
-            return _return_value
-        elseif target.size == "gargantuan" then
-            return _return_value
-        elseif target.size == "colossal" then
-            return _return_value
-        elseif target.size == "titanic" then
-            return _return_value
-        elseif target.size == "mountainous" then
-            return _return_value
-        end
-        -- switch on target.size
-        if target.size == "gargantuan" then
-            return _return_value
-        elseif target.size == "colossal" then
-            return _return_value
-        elseif target.size == "titanic" then
-            return _return_value
-        elseif target.size == "mountainous" then
-            return _return_value
-        end
+    end
         -- switch on random(1, 16)
         if rm:get_down("room") == -1 or rm:get_down("room") == 0 or target.flags ~= not bash then
             if random(1, 16) == 1 then
@@ -184,4 +138,3 @@ if target then
         elseif random(1, 16) == 12 or random(1, 16) == 13 or random(1, 16) == 14 or random(1, 16) == 15 or random(1, 16) == 16 then
         end
     end
-end  -- auto-close block

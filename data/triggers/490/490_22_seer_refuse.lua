@@ -12,13 +12,9 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 if object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wand_id%" then
+    -- Dead-code block from the converter elided; see 550_08 for
+    -- the same shape.
     return _return_value
-    if actor:get_quest_stage("wizard_eye") == 4 then
-    elseif object.id == 2329 or object.id == 23753 or object.id == 48005 then
-        return _return_value
-    else
-        local response = "This isn't sunscreen, what use do I have for it?"
-    end
 else
     if actor:get_quest_stage("wizard_eye") == 4 then
         local response = "This isn't a dress, bay, or thyme!  I don't have thyme for this!"

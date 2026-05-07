@@ -19,5 +19,5 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "reboot") or string.find(string.lower(speech), "now")) then
     return true  -- No matching keywords
 end
-self.room:send(tostring(people.3054))
-self.room:send(tostring(people.51036))
+self.room:send(tostring(get_room(30, 54).actor_count))
+self.room:send(tostring(get_room(510, 36).actor_count))

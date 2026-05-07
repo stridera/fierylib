@@ -20,8 +20,8 @@ if actor.is_player and actor.level < 100 then
         wait(6)
         actor:send(tostring(self.name) .. " whispers to you, 'Have you located the adornment of light")
         actor:send("</>for me?'")
-    elseif actor:get_quest_stage("sacred_haven") > 1 &(actor:get_quest_var("sacred_haven:given_blood") then
-    elseif actor:get_quest_stage("sacred_haven") > 1 &(actor:get_quest_var("sacred_haven:given_blood") then
+    elseif actor:get_quest_stage("sacred_haven") > 1 and (actor:get_quest_var("sacred_haven:given_blood") then
+    elseif actor:get_quest_stage("sacred_haven") > 1 and (actor:get_quest_var("sacred_haven:given_blood") then
         -- UNCONVERTED: %actor:get_quest_var("sacred_haven:given_earring")% != 1)
         wait(4)
         self:whisper(actor.name, "Have you brought me my artifacts?")

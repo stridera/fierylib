@@ -34,8 +34,8 @@ if actor.level == 99 then
             count = count - 1
         end
         actor:command("forget all")
-    else
-        actor:send("You do not have enough experience to remort!")
     end
     world.destroy(self)
-end  -- auto-close block
+else
+    actor:send("You do not have enough experience to remort!")
+end

@@ -85,9 +85,9 @@ if not defensive then
 end
 -- Attempt to cast support spells
 if mode <= defensive then
-    if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not (flags% ~= HASTE)) then
+    if ((is_nec and cir_7) or (is_arc and (not is_nec) and cir_6)) and (not (flags ~= "HASTE")) then
         spells.cast(self, "haste")
-    elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not (flags% ~= STONE)) then
+    elseif ((is_nec and cir_12) or (is_arc and (not is_nec) and cir_6)) and (not (flags ~= "STONE")) then
         spells.cast(self, "stone skin")
     elseif ((is_ran and cir_3) or is_dru) and (barkskin + 6 + (level / 10) < now) then
         spells.cast(self, "barkskin")
@@ -105,7 +105,7 @@ if mode <= defensive then
         spells.cast(self, "demonic aspect")
         local demonic = now
         globals.demonic = globals.demonic or true
-    elseif is_pyr and cir_4 and (mirage + 10 < now%) then
+    elseif is_pyr and cir_4 and (mirage + 10 < now) then
         spells.cast(self, "mirage")
         local mirage = now
         globals.mirage = globals.mirage or true
@@ -154,7 +154,7 @@ if mode > 5 then
         spells.cast(self, "energy drain")
     elseif (is_sor or is_cry) and cir_5 then
         spells.cast(self, "cone of cold")
-    elseif (is_cle or is_dru) and cir_5% then
+    elseif (is_cle or is_dru) and cir_5 then
         spells.cast(self, "harm")
     elseif is_pyr and cir_5 then
         spells.cast(self, "heatwave")

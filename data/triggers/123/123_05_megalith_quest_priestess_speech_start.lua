@@ -71,7 +71,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
     -- 
     -- If ready to continue stage 4
     -- 
-elseif (actor:get_quest_stage("megalith_quest")self.room == 12389) and (actor:get_quest_var("megalith_quest:reliquary")% == 1) then
+elseif actor:get_quest_stage("megalith_quest") and self.room == 12389 and actor:get_quest_var("megalith_quest:reliquary") == 1 then
     wait(2)
     self:say("The Great Rite of Invocation has a great deal of call and response.  I will chant a line and you must repeat it to continue the ritual.  The coven will chant their response after you do.")
     wait(4)

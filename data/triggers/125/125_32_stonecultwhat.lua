@@ -13,7 +13,7 @@
 if not percent_chance(25) then
     return true
 end
-local delay = rand.5
+local delay = random(1, 5)
 wait(delay)
 self:emote("bows before the statue.")
 wait(2)

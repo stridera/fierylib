@@ -18,23 +18,13 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("wizard_eye")
 -- switch on object.id
 if object.id == "%wandgem%" or object.id == "%wand_id%" or object.id == "%wandtask3%" then
+    -- The converter generated a dead-code `if stage == N then
+    -- elseif object.id == ... then return` block per stage after
+    -- this early-return — unreachable, and the converter left
+    -- the `if X then` branches with empty bodies. TODO(parity):
+    -- restore the per-stage refusal text from the legacy DG
+    -- script.
     return _return_value
-    if stage == 2 then
-    elseif object.id == 58609 then
-        return _return_value
-    end
-    if stage == 5 then
-    elseif object.id == 55030 then
-        return _return_value
-    end
-    if stage == 8 then
-    elseif object.id == 55032 then
-        return _return_value
-    end
-    if stage == 11 then
-    elseif object.id == 55033 then
-        return _return_value
-    end
 end
 if stage == 2 then
     local response = "Is object.shortdesc really what she sent you to find?"

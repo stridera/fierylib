@@ -18,7 +18,7 @@ end
 -- Lightning strikes half the number of people in the room
 -- but not necessarily different people (mwahaha)
 -- 
-local howmany = people.23890 / 2
+local howmany = get_room(238, 90).actor_count / 2
 local count = 1
 local truecount = 1
 while count < howmany do

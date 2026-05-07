@@ -30,7 +30,7 @@ if self.id == 62508 then
     wait(3)
     if world.count_mobiles(625, 9) > 5 then
         return _return_value
-    elseif if random(1, 10) > 6 then
+    elseif random(1, 10) > 6 then
         if self:has_effect(Effect.Silence) then
             self.room:send("<b:yellow>" .. tostring(self.name) .. " opens its mouth to howl but no sound comes out!</>")
             return _return_value

@@ -87,7 +87,6 @@ if actor.is_player then
                 self:say("Very interesting - but I cannot use that just now.")
                 wait(2)
                 self:destroy_item("blessing")
-            else
                 self:command("eye " .. tostring(actor.name))
                 self:say("And why should I need this?")
                 _return_value = true
