@@ -1,54 +1,50 @@
 -- Trigger: dragons_health_myorrhed_bribe
 -- Zone: 586, ID: 3
 -- Type: MOB, Flags: BRIBE
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #58603
+-- Myorrhed accepts coin offerings during the final hoard-building stage of
+-- dragons_health (stage 5). At any other stage she returns the coins to the
+-- player. The 1% probability matches the original DG trigger.
 
--- Converted from DG Script #58603: dragons_health_myorrhed_bribe
--- Original: MOB trigger, flags: BRIBE, probability: 1%
-
--- 1% chance to trigger
 if not percent_chance(1) then
     return true
 end
 if actor:get_quest_stage("dragons_health") == 5 then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Ah, coin itself!  I count:'")
-    if platinum then
+    if platinum and platinum > 0 then
         self.room:send(tostring(platinum) .. " platinum")
     end
-    if gold then
+    if gold and gold > 0 then
         self.room:send(tostring(gold) .. " gold")
     end
-    if silver then
+    if silver and silver > 0 then
         self.room:send(tostring(silver) .. " silver")
     end
-    if copper then
+    if copper and copper > 0 then
         self.room:send(tostring(copper) .. " copper")
     end
     wait(2)
     self:say("This shall be included in the offerings.")
     self:emote("places the money next to the egg.")
-    local hoard = actor:get_quest_var("dragons_health:hoard")
-    local wealth = hoard + ((platinum * 1000) + (gold * 100) + (silver * 10) + copper)
+    local hoard = actor:get_quest_var("dragons_health:hoard") or 0
+    local wealth = hoard + ((platinum or 0) * 1000) + ((gold or 0) * 100) + ((silver or 0) * 10) + (copper or 0)
     actor:set_quest_var("dragons_health", "hoard", wealth)
-    local value = actor:get_quest_var("dragons_health:hoard")
-    if value >= 10000000 then
+    if wealth >= 10000000 then
         actor:advance_quest("dragons_health")
         run_room_trigger(586, 4)
     else
-        local total = (10000000 - value)
-        local plat = (total / 1000)
-        local gold = ((total / 100) - (plat * 10))
-        local silv = ((total / 10) - (plat * 100) - (gold * 10))
-        local copp = (total  - (plat * 1000) - (gold * 100) - (silv * 10))
-        -- now the price can be reported
-        self.room:send(tostring(self.name) .. " says, 'We need " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper")
+        local total = 10000000 - wealth
+        local plat = total // 1000
+        local rem_gold = (total // 100) - (plat * 10)
+        local silv = (total // 10) - (plat * 100) - (rem_gold * 10)
+        local copp = total - (plat * 1000) - (rem_gold * 100) - (silv * 10)
+        self.room:send(tostring(self.name) .. " says, 'We need " .. tostring(plat) .. " platinum, " .. tostring(rem_gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper")
         self.room:send("</>more in treasure and coins.'")
     end
 else
     self:say("I appreciate the gesture, but I am in no need of money.")
-    self:command("give " .. tostring(platinum) .. " platinum " .. tostring(gold) .. " gold " .. tostring(silver) .. " silver " .. tostring(copper) .. " copper " .. tostring(actor.name))
+    self:command("give " .. tostring(platinum or 0) .. " platinum " .. tostring(gold or 0) .. " gold " .. tostring(silver or 0) .. " silver " .. tostring(copper or 0) .. " copper " .. tostring(actor.name))
 end

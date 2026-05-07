@@ -4,25 +4,14 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #58607
+-- Attached to Sagece of Raymif. When she dies during dragons_health stage 4,
+-- mark the kill on the player's quest so the receive trigger will accept her
+-- skin / shield / decoy items.
+--
+-- TODO: legacy script credited every group member in the room; the Lua actor
+-- API does not yet expose group iteration, so only the killer is credited
+-- here. Restore group crediting when bindings exist.
 
--- Converted from DG Script #58607: sagece_dragons_health_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-    person = nil
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("dragons_health") == 4 then
-                person:set_quest_var("dragons_health", "sagece", 1)
-            end
-        elseif person then
-            i = i + 1
-        end
-        a = a + 1
-    end
-elseif person:get_quest_stage("dragons_health") == 4 then
-    person:set_quest_var("dragons_health", "sagece", 1)
+if actor and actor:get_quest_stage("dragons_health") == 4 then
+    actor:set_quest_var("dragons_health", "sagece", 1)
 end

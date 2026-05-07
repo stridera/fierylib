@@ -4,27 +4,34 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #49502
+-- Bounces dark-aligned shadow classes (Necromancer, Anti-Paladin, Thief,
+-- Assassin, Mercenary) westward into the temple's inner sanctum, otherwise
+-- ejects the wanderer to a safer locale.
 
--- Converted from DG Script #49502: Transfer trig, 49531
--- Original: WORLD trigger, flags: COMMAND, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Command filter: west w
+-- Command filter: west / w
 if not (cmd == "west" or cmd == "w") then
     return true  -- Not our command
 end
-if actor.is_player then
-    if string.find(actor.class, "Necromancer") or Anti-Paladin or Thief or Assassin or Mercenary then
-        if actor.alignment < -349 then
-            actor:send("Reality blurs and melts as you find yourself in a more dark and confined place.")
-            actor:teleport(get_room(495, 33))
-        else
-            actor:send("A cloak of shadow surrounds your being, choking your very breathe. Now you awake elsewhere.")
-            actor:teleport(get_room(30, 2))
-        end
-    end
+
+if not actor.is_player then
+    return true
+end
+
+local class = actor.class or ""
+local is_shadow_class = string.find(class, "Necromancer")
+    or string.find(class, "Anti-Paladin")
+    or string.find(class, "Thief")
+    or string.find(class, "Assassin")
+    or string.find(class, "Mercenary")
+
+if not is_shadow_class then
+    return true
+end
+
+if actor.alignment < -349 then
+    actor:send("Reality blurs and melts as you find yourself in a more dark and confined place.")
+    actor:teleport(get_room(495, 33))
+else
+    actor:send("A cloak of shadow surrounds your being, choking your very breathe. Now you awake elsewhere.")
+    actor:teleport(get_room(30, 2))
 end

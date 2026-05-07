@@ -4,25 +4,17 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #58606
+-- Attached to both Thelriki and Jerajai. When the dragon dies, mark the kill
+-- on the player's dragons_health quest using the dragon's lower-cased name as
+-- the variable key (e.g. "thelriki", "jerajai") so the receive trigger and
+-- status checker can detect each kill independently.
+--
+-- TODO: legacy script credited every group member in the room; the Lua actor
+-- API does not yet expose group iteration, so for now only the actor that
+-- triggered the death (the killer) is credited. Restore group crediting when
+-- group_size / group_members bindings exist.
 
--- Converted from DG Script #58606: dragons_health_thelriki_jerajai_death
--- Original: MOB trigger, flags: DEATH, probability: 100%
-local person = actor
-local i = actor.group_size
-if i then
-    local a = 1
-    person = nil
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("dragons_health") == 3 then
-                person:set_quest_var("dragons_health", "%self.name%", 1)
-            end
-        elseif person then
-            i = i + 1
-        end
-        a = a + 1
-    end
-elseif person:get_quest_stage("dragons_health") == 3 then
-    person:set_quest_var("dragons_health", "%self.name%", 1)
+if actor and actor:get_quest_stage("dragons_health") == 3 then
+    local key = string.lower(tostring(self.name))
+    actor:set_quest_var("dragons_health", key, 1)
 end

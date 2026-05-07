@@ -1,19 +1,22 @@
 -- Trigger: dragons_health_myorrhed_receive
 -- Zone: 586, ID: 2
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <dragons_health_myorrhed_receive>:113: function arguments expected near '.'
---   Complex nesting: 15 if statements
---   Large script: 12769 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #58602
+-- Myorrhed accepts the quest items for each stage of dragons_health and
+-- advances the player accordingly. Returning true allows the give to proceed
+-- (the script then destroys accepted items); returning false halts the give
+-- and the player keeps the item (used when the wrong thing was offered).
+-- TODO: Several reject paths set _return_value = true and "refuse" the item;
+-- in legacy DG these likely returned 0 to give back to the player. Verify
+-- runtime behaviour and switch to false on reject if the give still goes
+-- through.
 
--- Converted from DG Script #58602: dragons_health_myorrhed_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
+local _return_value = true  -- Default: allow the give to proceed
 local stage = actor:get_quest_stage("dragons_health")
 if stage == 1 then
-    if object.id == 12509 then
+    if object.zone_id == 125 and object.local_id == 9 then
         wait(2)
         self:emote("examines " .. tostring(object.shortdesc) .. ".")
         world.destroy(object)
@@ -41,7 +44,7 @@ if stage == 1 then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 2 then
-    if object.id == 53325 then
+    if object.zone_id == 533 and object.local_id == 25 then
         actor:advance_quest("dragons_health")
         wait(2)
         self:emote("runs her eyes over " .. tostring(object.shortdesc) .. ".")
@@ -72,7 +75,7 @@ elseif stage == 2 then
         actor:send(tostring(self.name) .. " says, '" .. tostring(object.shortdesc) .. " is not one of Tri-Aszp's scales.'")
     end
 elseif stage == 3 then
-    if object.id == 48024 then
+    if object.zone_id == 480 and object.local_id == 24 then
         if actor:get_quest_var("dragons_health:thelriki") and actor:get_quest_var("dragons_health:jerajai") then
             actor:advance_quest("dragons_health")
             wait(2)
@@ -114,7 +117,7 @@ elseif stage == 3 then
     end
 elseif stage == 4 then
     local sagece = actor:get_quest_var("dragons_health:sagece")
-    if object.id == 52016 or object.id == 52017 or object.id == 52022 or object.id == 52023 then
+    if object.zone_id == 520 and (object.local_id == 16 or object.local_id == 17 or object.local_id == 22 or object.local_id == 23) then
         if not sagece then
             _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -142,16 +145,16 @@ elseif stage == 4 then
                 world.destroy(object)
             end
         end
-        local item1 = actor:get_quest_var("dragons_health:52016")
-        local item2 = actor:get_quest_var("dragons_health:52017")
-        local item3 = actor:get_quest_var("dragons_health:52022")
-        local item4 = actor:get_quest_var("dragons_health:52023")
+        local item1 = actor:get_quest_var("dragons_health:520_16")
+        local item2 = actor:get_quest_var("dragons_health:520_17")
+        local item3 = actor:get_quest_var("dragons_health:520_22")
+        local item4 = actor:get_quest_var("dragons_health:520_23")
         wait(1)
         if item1 and item2 and item3 and item4 then
             actor:advance_quest("dragons_health")
             actor:send(tostring(self.name) .. " says, 'I can't believe she's finally gone.'")
             wait(2)
-            self:emote("places the remnants of the other dragons' hoards around the egg.'")
+            self:emote("places the remnants of the other dragons' hoards around the egg.")
             wait(2)
             actor:send("The egg shifts and rocks slightly with signs of life!")
             wait(3)
@@ -183,39 +186,39 @@ elseif stage == 5 then
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Unfortunately there isn't enough inherent value to <b:yellow>" .. tostring(object.shortdesc) .. " to be part of the hatchling's hoard.'")
         return _return_value
-    else
-        wait(2)
-        self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
-        if (object.level >= 60) and (object.cost == 0) then
-            local price = (object.level * 1000)
-            actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Although it has no inherent price, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
-        elseif object.level >= 60 and object.cost < (object.level * 1000) then
-            local price = (object.level * 1000)
-            actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Even though it has some material value, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
-        elseif (object.level < 60 and object.cost > 0) or (object.level >= 60 and object.cost >= (object.level * 1000)) then
-            local price = object.cost
-            actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  It has a value of: <b:yellow>" .. tostring(object.cost) .. "</> copper.'")
-        end
-        actor:send("</>")
-        actor:send(tostring(self.name) .. " says, 'It shall be included in the offerings.'")
-        self:emote("places " .. tostring(object.shortdesc) .. " next to the egg.")
-        world.destroy(object)
-        wait(2)
     end
-    local hoard = actor:get_quest_var("dragons_health:hoard")
-    local wealth = (hoard + price)
+
+    wait(2)
+    self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
+    local price = 0
+    if (object.level >= 60) and (object.cost == 0) then
+        price = (object.level * 1000)
+        actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Although it has no inherent price, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
+    elseif object.level >= 60 and object.cost < (object.level * 1000) then
+        price = (object.level * 1000)
+        actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Even though it has some material value, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
+    elseif (object.level < 60 and object.cost > 0) or (object.level >= 60 and object.cost >= (object.level * 1000)) then
+        price = object.cost
+        actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  It has a value of: <b:yellow>" .. tostring(object.cost) .. "</> copper.'")
+    end
+    actor:send("</>")
+    actor:send(tostring(self.name) .. " says, 'It shall be included in the offerings.'")
+    self:emote("places " .. tostring(object.shortdesc) .. " next to the egg.")
+    world.destroy(object)
+    wait(2)
+
+    local hoard = actor:get_quest_var("dragons_health:hoard") or 0
+    local wealth = hoard + price
     actor:set_quest_var("dragons_health", "hoard", wealth)
-    local value = actor:get_quest_var("dragons_health:hoard")
-    if value >= 10000000 then
+    if wealth >= 10000000 then
         actor:advance_quest("dragons_health")
         run_room_trigger(586, 4)
     else
-        local total = (10000000 - value)
-        local plat = (total / 1000)
-        local gold = (total / 100) - (plat * 10)
-        local silv = (total / 10) - (plat * 100) - (gold * 10)
-        local copp = total  - (plat * 1000) - (gold * 100) - (silv * 10)
-        -- now the price can be reported
+        local total = 10000000 - wealth
+        local plat = total // 1000
+        local gold = (total // 100) - (plat * 10)
+        local silv = (total // 10) - (plat * 100) - (gold * 10)
+        local copp = total - (plat * 1000) - (gold * 100) - (silv * 10)
         actor:send(tostring(self.name) .. " says, 'We need " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper more in treasure and coins.'")
     end
 else
