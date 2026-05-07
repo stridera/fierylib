@@ -1,9 +1,12 @@
 -- Trigger: academy_cleric_greet
 -- Zone: 519, ID: 36
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
---   Large script: 9989 chars
+--
+-- TODO(parity): The `school:fight == 7` arm has a converter-mangled block
+-- where an inner `if world.count_mobiles(519, 0) == 0 then` is followed by
+-- `elseif actor:get_quest_var("school:fight") == "last" then`, which makes
+-- the "last" branch unreachable (it can only fire when fight == 7 in the
+-- outer arm). The original DG had nested ifs that need manual reconstruction.
 --
 -- Original DG Script: #51936
 

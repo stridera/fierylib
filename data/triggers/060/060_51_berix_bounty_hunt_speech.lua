@@ -1,9 +1,6 @@
 -- Trigger: Berix bounty hunt speech
 -- Zone: 60, ID: 51
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 15 if statements
---   Large script: 10499 chars
 --
 -- Original DG Script: #6051
 

@@ -14,8 +14,9 @@ if actor:get_quest_stage("merc_ass_thi_subclass") == 1 or actor:get_quest_stage(
 elseif actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
     actor:send(tostring(self.name) .. " says, 'How ever did you get what I ask for without getting it yourself?'")
     self:command("spank " .. tostring(actor.name))
+    -- TODO(parity): converter dropped the package-id check here; preserved
+    -- subclass-name guard so the reward path executes for thieves on stage 3.
     if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" then
-    elseif actor:get_quest_stage("merc_ass_thi_subclass") == 4 then
         actor:send(tostring(self.name) .. " says, 'Wonderful, now I can return this to its rightful owner.'")
         wait(2)
         self:emote("mutters something about how a true thief would try to take it back.")

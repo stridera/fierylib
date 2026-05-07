@@ -1,29 +1,30 @@
 -- Trigger: The_Finale
 -- Zone: 43, ID: 99
 -- Type: WORLD, Flags: RANDOM
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
---   Large script: 6176 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #4399
 
 -- Converted from DG Script #4399: The_Finale
 -- Original: WORLD trigger, flags: RANDOM, probability: 100%
-if get_people("4336") == 0 then
-    return _return_value
+-- TODO(parity): original DG referenced rooms 4336 (fire box), 4333 (stage) and
+-- mob 4399 (leading player) by vnum. Confirm composite (43, 36) / (43, 33) and
+-- the leading-player lookup once the runtime API stabilises.
+local fire_box_room = get_room(43, 36)
+if not fire_box_room or not fire_box_room.people then
+    return true
 else
-    if get_people("4333") then
-        local room = get_room("4333")
-        if room:get_people("4399") then
-            get_room(43, 33):at(function()
-                find_player("leading-player"):teleport(get_room(11, 0))
-            end)
-        end
+    local stage_room = get_room(43, 33)
+    if stage_room and stage_room:find_actor("leading-player") then
+        stage_room:at(function()
+            find_player("leading-player"):teleport(get_room(11, 0))
+        end)
     end
-    if self:get_people("4312") then
-        local char = self:get_people("4312")
+    local char
+    if fire_box_room:find_actor("pippin") then
+        char = fire_box_room:find_actor("pippin")
     else
-        local char = self.people
+        char = self.people
     end
     self.room:send("The Fire Goddess shouts, 'Ladies and Gentlemen!  We present to you a spectacle never before seen on a public stage!  The only completely perfect act in our repertoire!'")
     get_room(43, 33):at(function()
@@ -133,12 +134,11 @@ else
     get_room(43, 36):exit("down"):set_state({hidden = false})
     wait(2)
     get_room(43, 36):exit("down"):set_state({hidden = true})
-    if get_people("1100") then
-        local room = get_room("1100")
-        if room:get_people("4399") then
-            get_room(11, 0):at(function()
-                find_player("leading-player"):teleport(get_room(43, 33))
-            end)
-        end
+    -- TODO(parity): confirm holding-room composite for the leading player.
+    local holding = get_room(11, 0)
+    if holding and holding:find_actor("leading-player") then
+        holding:at(function()
+            find_player("leading-player"):teleport(get_room(43, 33))
+        end)
     end
 end

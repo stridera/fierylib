@@ -20,7 +20,7 @@ if cmd == "f" or cmd == "fi" then
 end
 if actor:get_quest_var("school:rest") == 5 then
     actor:set_quest_var("school", "rest", 6)
-    actor:command("fill %arg%")
+    actor:command("fill " .. tostring(arg))
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Just like that, perfect!'")
     wait(2)

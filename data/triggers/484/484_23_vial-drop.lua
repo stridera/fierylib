@@ -16,10 +16,11 @@ if actor:get_quest_stage("doom_entrance") == 5 then
         self.room:send("<b:yellow>Sunlight fills the darkened cavern and voices cry out in pain!</>")
         local person = actor
         local i = person.group_size
+        local a
         if i then
-            local a = 1
+            a = 1
         else
-            local a = 0
+            a = 0
         end
         while i >= a do
             local person = actor.group_member[a]

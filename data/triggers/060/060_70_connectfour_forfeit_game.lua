@@ -1,8 +1,9 @@
 -- Trigger: connectfour forfeit game
 -- Zone: 60, ID: 70
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+--
+-- TODO(parity): part of broken ConnectFour mini-game; see 060_61. Branch-scoped
+-- `local p1forfeit/p2forfeit/status` writes never reach other triggers.
 --
 -- Original DG Script: #6070
 

@@ -21,29 +21,31 @@ end
 wait(2)
 if actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then
     if actor:get_quest_var("bounty_hunt:bounty") then
+        -- Hoisted: branch-scoped `local` would not be visible below.
+        local contract
         -- switch on actor:get_quest_stage("bounty_hunt")
         if actor:get_quest_stage("bounty_hunt") == 1 then
-            local contract = 50
+            contract = 50
         elseif actor:get_quest_stage("bounty_hunt") == 2 then
-            local contract = 51
+            contract = 51
         elseif actor:get_quest_stage("bounty_hunt") == 3 then
-            local contract = 52
+            contract = 52
         elseif actor:get_quest_stage("bounty_hunt") == 4 then
-            local contract = 53
+            contract = 53
         elseif actor:get_quest_stage("bounty_hunt") == 5 then
-            local contract = 54
+            contract = 54
         elseif actor:get_quest_stage("bounty_hunt") == 6 then
-            local contract = 55
+            contract = 55
         elseif actor:get_quest_stage("bounty_hunt") == 7 then
-            local contract = 56
+            contract = 56
         elseif actor:get_quest_stage("bounty_hunt") == 8 then
-            local contract = 57
+            contract = 57
         elseif actor:get_quest_stage("bounty_hunt") == 9 then
-            local contract = 58
+            contract = 58
         elseif actor:get_quest_stage("bounty_hunt") == 10 then
-            local contract = 59
+            contract = 59
         else
-            local contract = 50
+            contract = 50
         end
         self:command("whap " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Don't be such an idiot again!'")

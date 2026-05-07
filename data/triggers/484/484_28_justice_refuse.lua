@@ -1,8 +1,7 @@
 -- Trigger: Justice refuse
 -- Zone: 484, ID: 28
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Justice refuse>:10: syntax error near 'can'
+-- Status: CLEAN
 --
 -- Original DG Script: #48428
 

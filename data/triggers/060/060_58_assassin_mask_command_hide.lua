@@ -1,8 +1,12 @@
 -- Trigger: Assassin mask command hide
 -- Zone: 60, ID: 58
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 14 if statements
+--
+-- TODO(parity): the converter mangled the room/maskstage gating into nested
+-- elseif chains that never match. The outer `if (actor.room >= 5436 ...) and
+-- maskstage == 1` only matches stage 1; the stage 2-9 `elseif` arms are
+-- nested INSIDE that block and so are unreachable. Needs a full rewrite as
+-- a flat switch on maskstage with the proper room-range check per stage.
 --
 -- Original DG Script: #6058
 

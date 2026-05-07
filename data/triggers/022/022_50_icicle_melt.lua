@@ -20,6 +20,8 @@ end
 actor:send("The long <b:blue>icicle</> starts to soften up and begins to melt.")
 self.room:send_except(actor, tostring(actor.name) .. " squeezes the <b:blue>icicle</> and it begins to melt.")
 wait(5)
+-- TODO(parity): line below is leftover dev/admin chatter from original DG script,
+-- not intended to fire in production. Remove or replace with quest flavour text.
 self.room:send("<yellow></>Gratz on finding the 1st piece!  This <b:red>IS<white></> the format for whole the quest.</>")
 wait(3)
 self.room:send("The water <cyan></>droplets</> flow from the <blue></>icicle</> to the ground, forming a <b:white>puddle</>.")

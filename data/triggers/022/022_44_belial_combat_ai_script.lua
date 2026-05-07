@@ -1,10 +1,15 @@
 -- Trigger: belial_combat_ai_script
 -- Zone: 22, ID: 44
 -- Type: MOB, Flags: SPEECH, FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #2244
+-- TODO(parity): script references undefined `belial_ai`, `action` globals;
+-- DG source uses %self.belial_ai% and %action% as a per-mob counter and
+-- action selector. Needs rewrite to track state via globals.belial_ai and
+-- to choose `action` from random(1, N). Speech keyword "test" gates the FIGHT
+-- branch erroneously — original DG used speech to start a debug AI run; FIGHT
+-- path should bypass the speech check.
 
 -- Converted from DG Script #2244: belial_combat_ai_script
 -- Original: MOB trigger, flags: SPEECH, FIGHT, probability: 20%

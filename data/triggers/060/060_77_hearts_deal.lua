@@ -1,10 +1,13 @@
 -- Trigger: hearts deal
 -- Zone: 60, ID: 77
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   -- UNCONVERTED: ( player4.name% != %actor.name%)
---   Syntax error: luac: <hearts deal>:20: unexpected symbol near 'then'
---   Complex nesting: 13 if statements
+--
+-- TODO(parity): part of broken Hearts mini-game; see 060_75. Many converter
+-- pathologies: `card[card] = 0` (using `card` both as table and index),
+-- `name[card] = rank% of %suit` (DG percent-substitution leaked through),
+-- `local desc = XcardX` (X is undefined), `local cards = cardsdesc` chained
+-- bare identifiers. Plus `string.find(cards, "desc")` checks against the
+-- literal string "desc" rather than a value. Needs a full rewrite.
 --
 -- Original DG Script: #6077
 

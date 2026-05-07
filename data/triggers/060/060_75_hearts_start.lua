@@ -1,8 +1,12 @@
 -- Trigger: hearts start
 -- Zone: 60, ID: 75
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
+--
+-- TODO(parity): start of the Hearts card-game mini-game (#6075-#6083) — the
+-- conversion uses branch-scoped `local player1/2/3/4/status` writes that
+-- never reach other triggers, plus globals.* writes are deferred to a
+-- per-trigger globals table that doesn't survive between trigger fires.
+-- Needs a full rewrite to server-side game state.
 --
 -- Original DG Script: #6075
 

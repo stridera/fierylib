@@ -1,8 +1,10 @@
 -- Trigger: connectfour reset game
 -- Zone: 60, ID: 68
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+--
+-- TODO(parity): part of broken ConnectFour mini-game; see 060_61. The reset
+-- writes are all branch-scoped `local` — invisible to other triggers. Needs a
+-- full rewrite to clear server-side game state.
 --
 -- Original DG Script: #6068
 

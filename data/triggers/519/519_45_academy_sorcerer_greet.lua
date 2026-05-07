@@ -1,9 +1,11 @@
 -- Trigger: academy_sorcerer_greet
 -- Zone: 519, ID: 45
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Complex nesting: 12 if statements
---   Large script: 14462 chars
+--
+-- TODO(parity): Same converter pattern as 519_36: the `school:fight == 7`
+-- arm collapses an inner `if world.count_mobiles(519, 0) == 0` with an
+-- `elseif school:fight == 8` -- the elseif branch is unreachable from
+-- inside fight == 7, so the original nested DG flow is lost.
 --
 -- Original DG Script: #51945
 
@@ -24,7 +26,7 @@ if stage == 3 or stage == 4 then
             actor:send(tostring(self.name) .. " tells you, 'As a sorcerer, you need to <b:cyan>SCRIBE</> spells in your spellbook.")
             actor:send("<b:cyan>(SPE)LL</> will show you all the spells you can <b:cyan>SCRIBE</>.")
             actor:send("You must <b:cyan>HOLD</> a <b:yellow>SPELLBOOK</> with blank pages and a <b:yellow>PEN</> of some kind to scribe.")
-            if not actor:has_equipped("1029") and not actor:has_item("1029") and not actor:has_equipped("1154") and not actor:has_item("1154") then
+            if not actor:has_equipped(10, 29) and not actor:has_item(10, 29) and not actor:has_equipped(11, 54) and not actor:has_item(11, 54) then
                 actor:send("Looks like you need a book and pen!")
                 self.room:spawn_object(11, 54)
                 self.room:spawn_object(10, 29)
@@ -59,7 +61,7 @@ if stage == 3 or stage == 4 then
             actor:send(tostring(self.name) .. " tells you, 'Type <b:green>hold spellbook</> to grab your book.'")
         elseif actor:get_quest_var("school:fight") == 4 then
             actor:send(tostring(self.name) .. " tells you, 'Next, <b:cyan>(H)OLD</> your quill.")
-            if not actor:has_equipped("1154") and not actor:has_item("1154") then
+            if not actor:has_equipped(11, 54) and not actor:has_item(11, 54) then
                 actor:send("Looks like you need a new one.'")
                 self.room:spawn_object(11, 54)
                 self:command("give pen " .. tostring(actor))

@@ -13,7 +13,7 @@ if not (cmd == "order") then
     return true  -- Not our command
 end
 local _return_value = true  -- Default: allow action
-if (actor:has_equipped("4318") or actor:has_item("4318")) and (self.room == 4333) and (arg == "pippin enter box") then
+if (actor:has_equipped(43, 18) or actor:has_item(43, 18)) and (self.room == get_room(43, 33)) and (arg == "pippin enter box") then
     self:command("enter box")
 else
     _return_value = true

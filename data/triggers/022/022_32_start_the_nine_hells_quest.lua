@@ -13,9 +13,11 @@ if not percent_chance(0) then
     return true
 end
 
--- Speech keywords: Start the Nine Hells quest.
+-- TODO(parity): original DG keyword was the exact phrase "Start the Nine Hells quest.";
+-- converter split it into OR of common words ("the", "quest.") which match nearly any speech.
+-- Should require all keywords to match (admin-only quest start speech).
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "start") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "nine") or string.find(string.lower(speech), "hells") or string.find(string.lower(speech), "quest.")) then
+if not (string.find(speech_lower, "start") and string.find(speech_lower, "nine") and string.find(speech_lower, "hells") and string.find(speech_lower, "quest")) then
     return true  -- No matching keywords
 end
 get_room(22, 1):exit("down"):set_state({hidden = false})

@@ -1,8 +1,7 @@
 -- Trigger: Nezer_head_rip_1
 -- Zone: 22, ID: 22
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #2222
 
@@ -24,17 +23,20 @@ end
 -- one or to have a set order, so lets pick a random caster.
 if casters > 0 then
     local gotyou = 0
+    local target = nil
     while gotyou == 0 do
-        local victim = room.actors[random(1, #room.actors)]
-        if string.find(victim.class, "Cleric") or string.find(victim.class, "Priest") or string.find(victim.class, "Druid") or string.find(victim.class, "Diabolist") or string.find(victim.class, "Sorcerer") or string.find(victim.class, "Cryomancer") or string.find(victim.class, "Pyromancer") or string.find(victim.class, "Necromancer") then
+        target = room.actors[random(1, #room.actors)]
+        if string.find(target.class, "Cleric") or string.find(target.class, "Priest") or string.find(target.class, "Druid") or string.find(target.class, "Diabolist") or string.find(target.class, "Sorcerer") or string.find(target.class, "Cryomancer") or string.find(target.class, "Pyromancer") or string.find(target.class, "Necromancer") then
             gotyou = gotyou + 1
         end
     end
+    victim = target
     -- Hello target, now you must die!
     local message = 1
     local keepgoing = 1
     while keepgoing == 1 do
-        if victim.room == 2216 then
+        -- TODO(parity): legacy check `victim.room == 2216` (vnum) — verify victim is in arena room (22, 16)
+        if victim.room and victim.room.zone_id == 22 and victim.room.local_id == 16 then
             -- switch on message
             if message == 1 then
                 self.room:send_except(victim, tostring(victim.name) .. "'s magic catches the attention of one of Nezer's heads.")

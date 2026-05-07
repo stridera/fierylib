@@ -1,170 +1,168 @@
 -- Trigger: Berix bounty hunt receive
 -- Zone: 60, ID: 53
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Berix bounty hunt receive>:200: ')' expected (to close '(' at line 199) near 'elseif'
---   Complex nesting: 23 if statements
---   Large script: 15394 chars
 --
 -- Original DG Script: #6053
 
 -- Converted from DG Script #6053: Berix bounty hunt receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
+-- Hoisted: branch-scoped `local` would not be visible to the rest of the script.
+local stage, victim1, victim2, victim3, go, maskstage, item
 -- switch on object.id
 -- bounty contracts here
 if object.id == 6050 then
-    local stage = 1
-    local victim1 = "The King of the Meer Cats"
-    local go = "hunt"
+    stage = 1
+    victim1 = "The King of the Meer Cats"
+    go = "hunt"
 elseif object.id == 6051 then
-    local stage = 2
-    local victim1 = "the Noble"
-    local victim2 = "the Abbot"
-    local go = "hunt"
+    stage = 2
+    victim1 = "the Noble"
+    victim2 = "the Abbot"
+    go = "hunt"
 elseif object.id == 6052 then
-    local stage = 3
-    local victim1 = "the O'Connor Chieftain"
-    local victim2 = "the McLeod Chieftain"
-    local victim3 = "the Cameron Chieftain"
-    local go = "hunt"
+    stage = 3
+    victim1 = "the O'Connor Chieftain"
+    victim2 = "the McLeod Chieftain"
+    victim3 = "the Cameron Chieftain"
+    go = "hunt"
 elseif object.id == 6053 then
-    local stage = 4
-    local victim1 = "The Frakati Leader"
-    local go = "hunt"
+    stage = 4
+    victim1 = "The Frakati Leader"
+    go = "hunt"
 elseif object.id == 6054 then
-    local stage = 5
-    local victim1 = "Cyrus"
-    local go = "hunt"
+    stage = 5
+    victim1 = "Cyrus"
+    go = "hunt"
 elseif object.id == 6055 then
-    local stage = 6
-    local victim1 = "Lord Venth"
-    local go = "hunt"
+    stage = 6
+    victim1 = "Lord Venth"
+    go = "hunt"
 elseif object.id == 6056 then
-    local stage = 7
-    local victim1 = "The high druid of Anlun Vale"
-    local go = "hunt"
+    stage = 7
+    victim1 = "The high druid of Anlun Vale"
+    go = "hunt"
 elseif object.id == 6057 then
-    local stage = 8
-    local victim1 = "The Lizard King"
-    local go = "hunt"
+    stage = 8
+    victim1 = "The Lizard King"
+    go = "hunt"
 elseif object.id == 6058 then
-    local stage = 9
-    local victim1 = "Sorcha"
-    local go = "hunt"
+    stage = 9
+    victim1 = "Sorcha"
+    go = "hunt"
 elseif object.id == 6059 then
-    local stage = 10
-    local victim1 = "The Goblin King"
-    local go = "hunt"
+    stage = 10
+    victim1 = "The Goblin King"
+    go = "hunt"
     -- assassin mask items start here
 elseif object.id == 350 then
-    local maskstage = 1
-    local item = "quest"
-    local go = "mask"
+    maskstage = 1
+    item = "quest"
+    go = "mask"
 elseif object.id == 4500 then
-    local maskstage = 1
-    local item = "mask"
-    local go = "mask"
+    maskstage = 1
+    item = "mask"
+    go = "mask"
 elseif object.id == 55592 then
-    local maskstage = 1
-    local item = "gem"
-    local go = "mask"
+    maskstage = 1
+    item = "gem"
+    go = "mask"
 elseif object.id == 351 then
-    local maskstage = 2
-    local item = "quest"
-    local go = "mask"
+    maskstage = 2
+    item = "quest"
+    go = "mask"
 elseif object.id == 17809 then
-    local maskstage = 2
-    local item = "mask"
-    local go = "mask"
+    maskstage = 2
+    item = "mask"
+    go = "mask"
 elseif object.id == 55594 then
-    local maskstage = 2
-    local item = "gem"
-    local go = "mask"
+    maskstage = 2
+    item = "gem"
+    go = "mask"
 elseif object.id == 352 then
-    local maskstage = 3
-    local item = "quest"
-    local go = "mask"
+    maskstage = 3
+    item = "quest"
+    go = "mask"
 elseif object.id == 59023 then
-    local maskstage = 3
-    local item = "mask"
-    local go = "mask"
+    maskstage = 3
+    item = "mask"
+    go = "mask"
 elseif object.id == 55620 then
-    local maskstage = 3
-    local item = "gem"
-    local go = "mask"
+    maskstage = 3
+    item = "gem"
+    go = "mask"
 elseif object.id == 353 then
-    local maskstage = 4
-    local item = "quest"
-    local go = "mask"
+    maskstage = 4
+    item = "quest"
+    go = "mask"
 elseif object.id == 10304 then
-    local maskstage = 4
-    local item = "mask"
-    local go = "mask"
+    maskstage = 4
+    item = "mask"
+    go = "mask"
 elseif object.id == 55638 then
-    local maskstage = 4
-    local item = "gem"
-    local go = "mask"
+    maskstage = 4
+    item = "gem"
+    go = "mask"
 elseif object.id == 354 then
-    local maskstage = 5
-    local item = "quest"
-    local go = "mask"
+    maskstage = 5
+    item = "quest"
+    go = "mask"
 elseif object.id == 16200 then
-    local maskstage = 5
-    local item = "mask"
-    local go = "mask"
+    maskstage = 5
+    item = "mask"
+    go = "mask"
 elseif object.id == 55666 then
-    local maskstage = 5
-    local item = "gem"
-    local go = "mask"
+    maskstage = 5
+    item = "gem"
+    go = "mask"
 elseif object.id == 355 then
-    local maskstage = 6
-    local item = "quest"
-    local go = "mask"
+    maskstage = 6
+    item = "quest"
+    go = "mask"
 elseif object.id == 43017 then
-    local maskstage = 6
-    local item = "mask"
-    local go = "mask"
+    maskstage = 6
+    item = "mask"
+    go = "mask"
 elseif object.id == 55675 then
-    local maskstage = 6
-    local item = "gem"
-    local go = "mask"
+    maskstage = 6
+    item = "gem"
+    go = "mask"
 elseif object.id == 356 then
-    local maskstage = 7
-    local item = "quest"
-    local go = "mask"
+    maskstage = 7
+    item = "quest"
+    go = "mask"
 elseif object.id == 51075 then
-    local maskstage = 7
-    local item = "mask"
-    local go = "mask"
+    maskstage = 7
+    item = "mask"
+    go = "mask"
 elseif object.id == 55693 then
-    local maskstage = 7
-    local item = "gem"
-    local go = "mask"
+    maskstage = 7
+    item = "gem"
+    go = "mask"
 elseif object.id == 357 then
-    local maskstage = 8
-    local item = "quest"
-    local go = "mask"
+    maskstage = 8
+    item = "quest"
+    go = "mask"
 elseif object.id == 49062 then
-    local maskstage = 8
-    local item = "mask"
-    local go = "mask"
+    maskstage = 8
+    item = "mask"
+    go = "mask"
 elseif object.id == 55719 then
-    local maskstage = 8
-    local item = "gem"
-    local go = "mask"
+    maskstage = 8
+    item = "gem"
+    go = "mask"
 elseif object.id == 358 then
-    local maskstage = 9
-    local item = "quest"
-    local go = "mask"
+    maskstage = 9
+    item = "quest"
+    go = "mask"
 elseif object.id == 48427 then
-    local maskstage = 9
-    local item = "mask"
-    local go = "mask"
+    maskstage = 9
+    item = "mask"
+    go = "mask"
 elseif object.id == 55743 then
-    local maskstage = 9
-    local item = "gem"
-    local go = "mask"
+    maskstage = 9
+    item = "gem"
+    go = "mask"
 else
     _return_value = true
     self:command("shake")
@@ -174,45 +172,47 @@ else
     return _return_value
 end
 if go == "hunt" then
-    if actor:get_quest_stage("bounty_hunt") == "stage" and actor:get_quest_var("bounty_hunt:bounty") == "dead" then
+    -- Bug fix: the converter compared quest_stage to the string "stage" instead of
+    -- the local variable `stage` set above; restore the variable comparison.
+    if actor:get_quest_stage("bounty_hunt") == stage and actor:get_quest_var("bounty_hunt:bounty") == "dead" then
         wait(2)
         world.destroy(object)
         self:command("nod")
         actor:send(tostring(self.name) .. " says, 'Well done.  Here's your payment.'")
         local money = stage * 10
         self:command("give " .. tostring(money) .. " platinum " .. tostring(actor))
+        -- Hoisted: branch-scoped `local` would not be visible later.
+        local expcap, expmod
         if stage == 1 then
-            local expcap = 5
+            expcap = 5
         else
-            local bonus = (stage - 1) * 10
-            local expcap = bonus
+            expcap = (stage - 1) * 10
         end
         if expcap < 9 then
-            local expmod = (((expcap * expcap) + expcap) / 2) * 55
+            expmod = (((expcap * expcap) + expcap) / 2) * 55
         elseif expcap < 17 then
-            local expmod = 440 + ((expcap - 8) * 125)
+            expmod = 440 + ((expcap - 8) * 125)
         elseif expcap < 25 then
-            local expmod = 1440 + ((expcap - 16) * 175)
+            expmod = 1440 + ((expcap - 16) * 175)
         elseif expcap < 34 then
-            local expmod = 2840 + ((expcap - 24) * 225)
+            expmod = 2840 + ((expcap - 24) * 225)
         elseif expcap < 49 then
-            local expmod = 4640 + ((expcap - 32) * 250)
+            expmod = 4640 + ((expcap - 32) * 250)
         elseif expcap < 90 then
-            local expmod = 8640 + ((expcap - 48) * 300)
+            expmod = 8640 + ((expcap - 48) * 300)
         else
-            local expmod = 20940 + ((expcap - 89) * 600)
+            expmod = 20940 + ((expcap - 89) * 600)
         end
-        -- switch on person.class
-        if person.class == "Warrior" or person.class == "Berserker" then
-            local expmod = (expmod + (expmod / 10))
-        elseif person.class == "Paladin" or person.class == "Anti-Paladin" or person.class == "Ranger" then
-            local expmod = (expmod + ((expmod * 2) / 15))
-        elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
-            local expmod = (expmod + (expmod / 5))
-        elseif person.class == "Necromancer" or person.class == "Monk" then
-            local expmod = (expmod + (expmod * 2) / 5)
-        else
-            expmod = expmod
+        -- Bug fix: original referred to `person.class` but `person` is undefined
+        -- here; use `actor.class`.
+        if actor.class == "Warrior" or actor.class == "Berserker" then
+            expmod = (expmod + (expmod / 10))
+        elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
+            expmod = (expmod + ((expmod * 2) / 15))
+        elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
+            expmod = (expmod + (expmod / 5))
+        elseif actor.class == "Necromancer" or actor.class == "Monk" then
+            expmod = (expmod + (expmod * 2) / 5)
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
@@ -275,7 +275,7 @@ if go == "hunt" then
             if not actor:get_quest_var("bounty_hunt:target1") then
                 actor:send(tostring(victim1) .. " is still out there.")
             end
-            if not actor:get_quest_var("bount_hunt:target2") then
+            if not actor:get_quest_var("bounty_hunt:target2") then
                 actor:send(tostring(victim2) .. " is still out there.")
             end
             if stage == 3 and not actor:get_quest_var("bounty_hunt:target3") then
@@ -323,18 +323,20 @@ elseif go == "mask" then
                 self.room:spawn_object(math.floor(reward / 100), reward % 100)
                 self:command("give mask " .. tostring(actor))
                 local expcap = maskstage * 10
+                -- Hoisted: branch-scoped `local expmod` would not be visible.
+                local expmod
                 if expcap < 17 then
-                    local expmod = 440 + ((expcap - 8) * 125)
+                    expmod = 440 + ((expcap - 8) * 125)
                 elseif expcap < 25 then
-                    local expmod = 1440 + ((expcap - 16) * 175)
+                    expmod = 1440 + ((expcap - 16) * 175)
                 elseif expcap < 34 then
-                    local expmod = 2840 + ((expcap - 24) * 225)
+                    expmod = 2840 + ((expcap - 24) * 225)
                 elseif expcap < 49 then
-                    local expmod = 4640 + ((expcap - 32) * 250)
+                    expmod = 4640 + ((expcap - 32) * 250)
                 elseif expcap < 90 then
-                    local expmod = 8640 + ((expcap - 48) * 300)
+                    expmod = 8640 + ((expcap - 48) * 300)
                 else
-                    local expmod = 20940 + ((expcap - 89) * 600)
+                    expmod = 20940 + ((expcap - 89) * 600)
                 end
                 actor:send("<b:yellow>You gain experience!</>")
                 local setexp = (expmod * 10)
@@ -345,7 +347,8 @@ elseif go == "mask" then
                 end
                 local number = 1
                 while number < 5 do
-                    actor:set_quest_var("assassin_mask", "masktask%number%", 0)
+                    -- Bug fix: DG `%number%` interpolation; use Lua concat.
+                    actor:set_quest_var("assassin_mask", "masktask" .. tostring(number), 0)
                     number = number + 1
                 end
                 if actor:get_quest_stage("assassin_mask") < 9 then
@@ -360,18 +363,23 @@ elseif go == "mask" then
                 wait(2)
                 actor:send(tostring(self.name) .. " says, 'You need to do everything else before you give me your guild mask!'")
             end
-        elseif item == "mask" then
+        end
+        -- Hoisted: branch-scoped `local accept` would not be visible to the
+        -- accept-check below. Default nil (skips the `accept` ladder when
+        -- the item == "quest" branch above was taken).
+        local accept
+        if item == "mask" then
             if actor:get_quest_var("assassin_mask:masktask2") == object.id then
-                local accept = "no"
+                accept = "no"
             else
-                local accept = "yes"
+                accept = "yes"
                 actor:set_quest_var("assassin_mask", "masktask2", object.id)
             end
         elseif item == "gem" then
             if actor:get_quest_var("assassin_mask:masktask3") == object.id then
-                local accept = "no"
+                accept = "no"
             else
-                local accept = "yes"
+                accept = "yes"
                 actor:set_quest_var("assassin_mask", "masktask3", object.id)
             end
         end

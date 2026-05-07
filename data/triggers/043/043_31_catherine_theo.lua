@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "want") or string.find(string.lower(speech), "my") or string.find(string.lower(speech), "duck!")) then
     return true  -- No matching keywords
 end
-if actor.id == 4310 then
+if actor.zone_id == 43 and actor.local_id == 10 then
     self:say("Theo, I don't have time for this!")
     wait(2)
     self:say("We'll get your duck as soon as I can find my key!")

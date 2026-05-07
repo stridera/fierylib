@@ -1,8 +1,6 @@
 -- Trigger: Green Woman refuse
 -- Zone: 60, ID: 33
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Green Woman refuse>:10: 'end' expected (to close 'if' at line 7) near 'local'
 --
 -- Original DG Script: #6033
 

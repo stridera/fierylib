@@ -8,7 +8,7 @@
 -- Converted from DG Script #48632: ice elemental lord - greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 if self:has_effect(Effect.Blind) then
-    return _return_value
+    return true
 end
 if self:has_effect(Effect.Coldshield) then
     self.room:spawn_object(11, 60)

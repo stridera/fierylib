@@ -12,7 +12,8 @@
 if not percent_chance(20) then
     return true
 end
-if self:get_worn("18") == 4311 then
+local held = self:get_worn(17)  -- Hold slot
+if held and held.zone_id == 43 and held.local_id == 11 then
     self:emote("pets a duck lovingly.")
     wait(4)
     self:command("pur")

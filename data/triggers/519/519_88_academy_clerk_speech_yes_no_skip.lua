@@ -1,8 +1,6 @@
 -- Trigger: academy_clerk_speech_yes_no_skip
 -- Zone: 519, ID: 88
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
 --
 -- Original DG Script: #51988
 
@@ -16,14 +14,15 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
 end
 wait(2)
 if actor:get_quest_stage("school") == 2 then
+    local advance
     if speech == "yes" then
         if actor:get_quest_var("school:score") == "complete" and actor:get_quest_var("school:hp") == "complete" then
-            local advance = "yes"
+            advance = "yes"
         else
-            local advance = "no"
+            advance = "no"
         end
     elseif speech == "skip" then
-        local advance = "yes"
+        advance = "yes"
     elseif speech == "no" then
         actor:send(tostring(self.name) .. " tells you, 'What would you like to review?  You can say:")
         actor:send("<b:yellow>Hit Points</>")

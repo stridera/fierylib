@@ -1,8 +1,7 @@
 -- Trigger: LP2_bard_subclass_command_dance
 -- Zone: 43, ID: 58
 -- Type: MOB, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4358
 
@@ -20,16 +19,15 @@ if cmd == "d" then
     return _return_value
 end
 if actor:get_quest_stage("bard_subclass") == 2 then
-    if not actor:has_equipped("4315") then
-        if actor:get_worn("feet") then
-            local shoes = actor:get_worn("feet")
-        end
+    if not actor:has_equipped(43, 15) then
+        local shoes = actor:get_worn("feet")
+        local pronoun = (actor.sex == "male" and "him") or (actor.sex == "female" and "her") or "them"
         actor:send("You start to dance when " .. tostring(self.name) .. " abruptly stops you.")
-        self.room:send_except(actor, tostring(actor.name) .. " starts to dance when " .. tostring(self.name) .. " abruptly stops " .. tostring(himher) .. ".")
+        self.room:send_except(actor, tostring(actor.name) .. " starts to dance when " .. tostring(self.name) .. " abruptly stops " .. pronoun .. ".")
         actor:send(tostring(self.name) .. " says, 'Woah woah woah " .. tostring(actor.name) .. "!")
         wait(2)
         if shoes then
-            actor:send(tostring(self.name) .. " says, 'How in the world do you expect to dance in " .. ("%get.obj_shortdesc[" .. tostring(shoes.zone_id) .. "_" .. tostring(shoes.local_id) .. "]%??'"))
+            actor:send(tostring(self.name) .. " says, 'How in the world do you expect to dance in " .. tostring(objects.template(shoes.zone_id, shoes.local_id).name) .. "??'")
         else
             actor:send(tostring(self.name) .. " says, 'How in the world do you expect to dance barefoot??'")
         end

@@ -1,8 +1,6 @@
 -- Trigger: academy_instructor_speech_yes_no_continue
 -- Zone: 519, ID: 4
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 13 if statements
 --
 -- Original DG Script: #51904
 
@@ -53,10 +51,11 @@ if actor:get_quest_stage("school") == 1 then
         elseif actor:get_quest_var("school:explore") == 6 then
             actor:set_quest_var("school", "explore", "complete")
         end
+        local advance
         if actor:get_quest_var("school:speech") == "complete" and actor:get_quest_var("school:gear") == "complete" and actor:get_quest_var("school:explore") == "complete" then
-            local advance = "yes"
+            advance = "yes"
         else
-            local advance = "no"
+            advance = "no"
         end
         if advance == "yes" then
             actor:advance_quest("school")

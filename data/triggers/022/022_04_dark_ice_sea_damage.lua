@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: RANDOM, probability: 100%
 local count = self.actor_count
 if count > 3 then
-    local count = 3
+    count = 3
 end
 while count > 0 do
     local victim = room.actors[random(1, #room.actors)]

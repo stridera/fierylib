@@ -1,9 +1,6 @@
 -- Trigger: Green Woman Apothecary shop load
 -- Zone: 60, ID: 3
 -- Type: MOB, Flags: LOAD
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
---   Large script: 6446 chars
 --
 -- Original DG Script: #6003
 

@@ -1,9 +1,10 @@
 -- Trigger: hearts hand view
 -- Zone: 60, ID: 79
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 57 if statements
---   Large script: 7654 chars
+--
+-- TODO(parity): part of broken Hearts mini-game; see 060_75. Each `if cardN
+-- == "plyr"` compares against the literal string "plyr" rather than the
+-- player number computed above; needs full rewrite.
 --
 -- Original DG Script: #6079
 

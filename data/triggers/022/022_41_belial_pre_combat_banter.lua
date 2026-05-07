@@ -8,7 +8,8 @@
 -- Converted from DG Script #2241: belial_pre_combat_banter
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 -- Belial's Pre Combat Banter
-local belial_queue = 2
+-- Stage marker: belial_queue == 2 (set in source, used by trigger 42 to choose return banter)
+globals.belial_queue = 2
 local victim = self.people
 while victim do
     if victim.id ~= 2219 then
@@ -36,8 +37,8 @@ while victim do
                 self.room:send_except(victim, "Belial balefully sneers at " .. tostring(victim.name) .. ", casting her head aside.")
                 self.room:send("Belial says in common, 'Instead you shall all die by my hand!'")
                 wait(1)
-                self.room:find_actor("belial"):command("kill %victim.name%")
-                return _return_value
+                self.room:find_actor("belial"):command("kill " .. tostring(victim.name))
+                return true
             elseif victim.gender == "Male" then
                 wait(1)
                 victim:send("Belial slowly paces about you, sizing up your mettle.")
@@ -58,8 +59,8 @@ while victim do
                 wait(5)
                 self.room:send("Belial says in common, 'And now I shall add your screams to the concerto!'")
                 wait(1)
-                self.room:find_actor("belial"):command("kill %victim.name%")
-                return _return_value
+                self.room:find_actor("belial"):command("kill " .. tostring(victim.name))
+                return true
             end
         else
             wait(2)
@@ -80,7 +81,7 @@ while victim do
             self.room:send("Belial says in common, 'No matter, for your life ends here!'")
             self.room:send("Belial growls, 'Have at thee!'")
             wait(1)
-            self.room:find_actor("belial"):command("kill %victim.name%")
+            self.room:find_actor("belial"):command("kill " .. tostring(victim.name))
             return _return_value
         end
     end

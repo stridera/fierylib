@@ -9,10 +9,9 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 -- Set the quest in motion, prevent retriggering stages
 -- until completion or reboot/crash/etc.
-if belial_queue then
+if globals.belial_queue then
     run_room_trigger(22, 42)
 else
-    local belial_queue = 1
-    globals.belial_queue = globals.belial_queue or true
+    globals.belial_queue = true
     run_room_trigger(22, 41)
 end

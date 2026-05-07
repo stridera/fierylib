@@ -1,8 +1,6 @@
 -- Trigger: academy_instructor_speech_inv_commands
 -- Zone: 519, ID: 16
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Large script: 6651 chars
 --
 -- Original DG Script: #51916
 

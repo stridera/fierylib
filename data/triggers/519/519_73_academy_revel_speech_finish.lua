@@ -17,18 +17,20 @@ wait(2)
 if actor:get_quest_stage("school") == 6 then
     actor:complete_quest("school")
     if actor.level == 1 then
-        -- switch on actor.class
+        -- switch on actor.class -- target XP for level 2 by class
+        local goal
         if actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" then
-            local goal = 6323
+            goal = 6323
         elseif actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" or actor.class == "illusionist" or actor.class == "bard" then
-            local goal = 6599
+            goal = 6599
         elseif actor.class == "monk" or actor.class == "necromancer" then
-            local goal = 7149
+            goal = 7149
         elseif actor.class == "warrior" or actor.class == "berserker" then
-            local goal = 6049
+            goal = 6049
         elseif actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid" or actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary" then
+            goal = 5499
         else
-            local goal = 5499
+            goal = 5499
         end
         local cap = (goal / 5)
         local reward = (goal - actor.exp)
@@ -40,26 +42,27 @@ if actor:get_quest_stage("school") == 6 then
             lap = lap + 1
         end
         actor:award_exp(diff)
-        -- switch on actor.class
-        if actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" or actor.class == "warrior" or actor.class == "monk" or actor.class == "berserker" or actor.class == "paladin" then
-            local direction = "the Warrior's Guild"
-            local direction2 = "south&_ south&_ south&_ east&_ east&_ north&_ east&_ north&_"
-            local master = "Warrior Coach"
+        -- switch on actor.class -- guild routing
+        local direction, direction2, master
+        if actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" or actor.class == "warrior" or actor.class == "monk" or actor.class == "berserker" then
+            direction = "the Warrior's Guild"
+            direction2 = "south&_ south&_ south&_ east&_ east&_ north&_ east&_ north&_"
+            master = "Warrior Coach"
         elseif actor.class == "rogue" or actor.class == "thief" or actor.class == "mercenary" or actor.class == "assassin" or actor.class == "bard" then
-            local direction = "the Rogue's Guild"
-            local direction2 = "south&_ south&_ south&_ west&_ south&_ east&_ down&_"
-            local master = "the Master Rogue"
+            direction = "the Rogue's Guild"
+            direction2 = "south&_ south&_ south&_ west&_ south&_ east&_ down&_"
+            master = "the Master Rogue"
         elseif actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" or actor.class == "necromancer" or actor.class == "illusionist" then
-            local direction = "the Mage's Guild"
-            local direction2 = "south&_ south&_ south&_ west&_ west&_ south&_ south&_ east&_"
-            local master = "the Archmage"
+            direction = "the Mage's Guild"
+            direction2 = "south&_ south&_ south&_ west&_ west&_ south&_ south&_ east&_"
+            master = "the Archmage"
         elseif actor.class == "cleric" or actor.class == "priest" or actor.class == "druid" or actor.class == "diabolist" then
-            local direction = "the Cleric's Guild"
-            local direction2 = "west&_ north&_"
-            local master = "the High Priestess"
+            direction = "the Cleric's Guild"
+            direction2 = "west&_ north&_"
+            master = "the High Priestess"
         else
             self:say("Oops, you broke, find a god.")
-            return _return_value
+            return true
         end
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Now that you're ready to level, it's time to find your Guild Master!")

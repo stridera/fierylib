@@ -7,13 +7,13 @@
 
 -- Converted from DG Script #48427: Oracle Sun refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- TODO(parity): the original script gates acceptance on a list of DG
+--   global tokens (%maceitem2%, %wand_id%, etc.) that named specific quest
+--   items. The mapping from those tokens to new (zone, id) keys is not
+--   yet available, so every gift is currently refused. Restore the
+--   accept list once the item IDs are known.
 local _return_value = true  -- Default: allow action
--- switch on object.id
-if object.id == "%maceitem2%" or object.id == "%maceitem3%" or object.id == "%maceitem4%" or object.id == "%maceitem5%" or object.id == "%mace_id%" or object.id == "%wandgem%" or object.id == "%wandtask3%" or object.id == "%wandtask4%" or object.id == "%wand_id%" then
-    return _return_value
-else
-    local response = "I have no need of this."
-end
+local response = "I have no need of this."
 if response then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

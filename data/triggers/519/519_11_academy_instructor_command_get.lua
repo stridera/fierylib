@@ -1,8 +1,6 @@
 -- Trigger: academy_instructor_command_get
 -- Zone: 519, ID: 11
 -- Type: MOB, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <academy_instructor_command_get>:46: 'then' expected near 'bag'
 --
 -- Original DG Script: #51911
 

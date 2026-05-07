@@ -1,8 +1,7 @@
 -- Trigger: **UNUSED**
 -- Zone: 43, ID: 69
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN (unused; admin-only restart helper)
 --
 -- Original DG Script: #4369
 
@@ -28,16 +27,16 @@ if actor.is_player then
     if i then
         local a = 1
         while i >= a do
-            local person = actor.group_member[a]
-            if person == "actor" then
+            local member = actor.group_member[a]
+            if member == actor then
                 a = a + 1
             else
-                if person.room == self.room then
-                    if person:get_quest_stage("theatre") == 0 then
-                        person:start_quest("theatre")
-                        person:send("<b:white>You have begun the theatre quest!</>")
+                if member and member.room == self.room then
+                    if member:get_quest_stage("theatre") == 0 then
+                        member:start_quest("theatre")
+                        member:send("<b:white>You have begun the theatre quest!</>")
                     end
-                elseif person then
+                elseif member then
                     i = i + 1
                 end
             end

@@ -8,7 +8,8 @@
 -- Converted from DG Script #2243: belial_spawn_demon_belial
 -- Original: MOB trigger, flags: HIT_PERCENT, probability: 100%
 -- Spawn Demon Belial on 5% HP
-local belial_queue = 3
+-- Stage marker: belial_queue == 3 (post-transformation)
+globals.belial_queue = 3
 local victim = room.actors[random(1, #room.actors)]
 self.room:spawn_mobile(22, 21)
 self.room:send("Belial falls to one knee, his chest heaving in exhaustion from battle.")

@@ -1,9 +1,6 @@
 -- Trigger: academy_revel_speech_resting
 -- Zone: 519, ID: 91
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
---   Large script: 6391 chars
 --
 -- Original DG Script: #51991
 
@@ -42,7 +39,7 @@ if actor:get_quest_stage("school") == 5 then
         actor:send("And remember, magic potions are <red>not</> drinks.")
         actor:send("If you want to consume a potion, the commmand is <b:cyan>(Q)UAFF</>, not <b:cyan>(DRI)NK</>.'")
         wait(3)
-        if not actor:has_item("20") and not actor:has_equipped("20") then
+        if not actor:has_item(0, 20) and not actor:has_equipped(0, 20) then
             actor:send(tostring(self.name) .. " tells you, 'Here's a new waterskin for you.")
             self.room:spawn_object(0, 20)
             self:command("give waterskin " .. tostring(actor))

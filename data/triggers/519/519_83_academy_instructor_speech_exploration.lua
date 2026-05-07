@@ -1,9 +1,6 @@
 -- Trigger: academy_instructor_speech_exploration
 -- Zone: 519, ID: 83
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
---   Large script: 7230 chars
 --
 -- Original DG Script: #51983
 
@@ -20,7 +17,7 @@ if actor:get_quest_stage("school") == 1 then
     if actor:get_quest_var("school:explore") ~= "complete" then
         if (actor:get_quest_var("school:speech") and actor:get_quest_var("school:speech") ~= "complete") or (actor:get_quest_var("school:gear") and actor:get_quest_var("school:gear") ~= "complete") then
             actor:send(tostring(self.name) .. " tells you, 'You have to finish your other lesson first.'")
-            return _return_value
+            return true
         end
         if actor:get_quest_var("school:explore") then
             actor:send(tostring(self.name) .. " tells you, 'Let's resume your <b:yellow>EXPLORATION</> lessons.'")

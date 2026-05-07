@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "you") or string.find(string.lower(speech), "best") or string.find(string.lower(speech), "step") or string.find(string.lower(speech), "off!")) then
     return true  -- No matching keywords
 end
-if actor.id == 4305 then
+if actor.zone_id == 43 and actor.local_id == 5 then
     self:emote("puts his hand up in a player's face.")
     wait(3)
     self:say("Oh yes I di' Rosa!")

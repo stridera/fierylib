@@ -1,9 +1,9 @@
 -- Trigger: hearts look table
 -- Zone: 60, ID: 80
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 111 if statements
---   Large script: 9320 chars
+--
+-- TODO(parity): part of broken Hearts mini-game; see 060_75. Branch-scoped
+-- `local leader` writes never escape; needs full rewrite.
 --
 -- Original DG Script: #6080
 

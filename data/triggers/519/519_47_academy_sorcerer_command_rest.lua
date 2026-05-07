@@ -20,7 +20,7 @@ if actor:get_quest_var("school:fight") == 1 then
     actor:send(tostring(self.name) .. " tells you, 'As a sorcerer, you need to <b:cyan>SCRIBE</> spells in your spellbook.")
     actor:send("<b:cyan>(SPE)LL</> will show you all the spells you can <b:cyan>SCRIBE</>.")
     actor:send("You must <b:cyan>HOLD</> a <b:yellow>SPELLBOOK</> with blank pages and a <b:yellow>PEN</> of some kind to scribe.")
-    if not actor:has_equipped("1029") and not actor:has_item("1029") and not actor:has_equipped("1154") and not actor:has_item("1154") then
+    if not actor:has_equipped(10, 29) and not actor:has_item(10, 29) and not actor:has_equipped(11, 54) and not actor:has_item(11, 54) then
         actor:send("Looks like you need a book and pen!")
         self.room:spawn_object(11, 54)
         self.room:spawn_object(10, 29)

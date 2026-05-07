@@ -7,6 +7,8 @@
 
 -- Converted from DG Script #4363: Load lashes
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
+-- TODO(parity): replace existence check with world.count_objects(43, 51) / (43, 11)
+-- once that helper exists; original DG used %eobjs.4351% style globals.
 if not self:get_objects("4351") then
     self.room:spawn_object(43, 51)
 end

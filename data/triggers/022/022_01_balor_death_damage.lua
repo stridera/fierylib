@@ -15,7 +15,7 @@ while person do
         local damage_dealt = person:damage(damage)  -- type: fire
         person:send("The Balor explodes in a <b:yellow>blinding</> flash, scorching the area! (<b:red>" .. tostring(damage_dealt) .. "</>)")
     end
-    local person = next
+    person = next
 end
 wait(2)
 self.room:send("<b:white>As the smoke <white>subsides, a stairway down appears.</>")

@@ -1,8 +1,7 @@
 -- Trigger: LP2_bard_subclass_status_checker
 -- Zone: 43, ID: 66
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4366
 
@@ -32,6 +31,7 @@ elseif actor:get_quest_stage("bard_subclass") == 5 then
     actor:send(tostring(self.name) .. " says, 'That means \"memorized\" in the business.'")
     self:command("wink " .. tostring(actor))
 else
+    local classquest
     if string.find(actor.class, "Rogue") then
         -- switch on actor.race
         -- case ADD RESTRICTED RACES HERE
@@ -48,7 +48,7 @@ else
             actor:send(tostring(self.name) .. " says, 'It's too late to start your career now buddy, sorry.'")
         end
     else
-        local classquest = "no"
+        classquest = "no"
     end
     if classquest == "no" then
         actor:send(tostring(self.name) .. " says, 'You aren't cut out for a life on stage.'")

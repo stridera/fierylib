@@ -7,4 +7,7 @@
 
 -- Converted from DG Script #2245: belial_insanity_script
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
+-- TODO(parity): empty body — original DG #2245 "find a caster, cause some brain pain"
+-- (insanity spell) was not converted. Needs reimplementation: pick a random caster
+-- in room, deal psychic damage and apply insanity/confusion effect.
 -- find a caster, cause some brain pain!

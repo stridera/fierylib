@@ -1,8 +1,7 @@
 -- Trigger: belial_return_banter
 -- Zone: 22, ID: 42
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <belial_return_banter>:4: unexpected symbol near '%'
+-- Status: CLEAN
 --
 -- Original DG Script: #2242
 
@@ -38,4 +37,4 @@ else
     wait(2)
     self.room:send("Belial says in common, 'Your life ends here!'")
 end
-self.room:find_actor("belial"):command("kill %victim.name%")
+self.room:find_actor("belial"):command("kill " .. tostring(victim.name))

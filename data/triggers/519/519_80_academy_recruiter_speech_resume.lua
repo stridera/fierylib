@@ -1,8 +1,12 @@
 -- Trigger: academy_recruiter_speech_resume
 -- Zone: 519, ID: 80
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+--
+-- TODO(parity): Converter mangled this script -- branch-scoped `local` chains,
+-- nested switch arms collapsed into a single arm, `_return_value` referenced
+-- without being declared, and `%direction%` interpolation. The control flow
+-- is almost certainly wrong and needs a manual rewrite from the original DG.
+-- Currently parses but is unlikely to behave correctly past quest stage 1.
 --
 -- Original DG Script: #51980
 
@@ -64,7 +68,7 @@ else
         actor:send(tostring(self.name) .. " tells you, 'You can say <magenta>EXIT</> at any time to leave.'")
         actor:teleport(get_room(519, holding))
         get_room(519, holding):at(function()
-            actor:command("%direction%")
+            actor:command(direction)
         end)
         if actor:get_quest_stage("school") == 1 then
             self:command("close gates")

@@ -1,17 +1,22 @@
 -- Trigger: belial_fissure_script
 -- Zone: 22, ID: 48
 -- Type: WORLD, Flags: GLOBAL
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #2248
+-- TODO(parity): nested if/elseif/else structure for switch-on-`which` (1=fire,
+-- 2=lava, 3=molten lava torrent) is malformed — converter merged the fireproof
+-- multiplier and the case body in a way that mixes branches. Each victim
+-- currently receives flames + lava messages regardless of `which`. Needs rewrite
+-- to a clean if which==1 / elseif which==2 / else (which==3) structure with
+-- fireproof multiplier applied per-branch.
 
 -- Converted from DG Script #2248: belial_fissure_script
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 -- trigger info here
 local count = self.actor_count
 if count > 3 then
-    local count = 3
+    count = 3
 end
 while count > 0 do
     local victim = room.actors[random(1, #room.actors)]

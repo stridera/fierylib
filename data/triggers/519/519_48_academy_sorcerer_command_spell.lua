@@ -1,8 +1,6 @@
 -- Trigger: academy_sorcerer_command_spell
 -- Zone: 519, ID: 48
 -- Type: MOB, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
 --
 -- Original DG Script: #51948
 
@@ -46,7 +44,7 @@ if actor:get_quest_var("school:fight") == 2 then
         actor:send(tostring(self.name) .. " tells you, 'You need to <b:green>remove</> the item in your hands.'")
     end
     actor:send("</>")
-    if not actor:has_equipped("1029") and not actor:has_item("1029") then
+    if not actor:has_equipped(10, 29) and not actor:has_item(10, 29) then
         actor:send(tostring(self.name) .. " tells you, 'Looks like you need a new book too.'")
         self.room:spawn_object(10, 29)
         self:command("give book " .. tostring(actor))

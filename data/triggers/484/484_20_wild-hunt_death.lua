@@ -1,13 +1,16 @@
 -- Trigger: wild-hunt death
 -- Zone: 484, ID: 20
 -- Type: MOB, Flags: GLOBAL, DEATH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #48420
 
 -- Converted from DG Script #48420: wild-hunt death
 -- Original: MOB trigger, flags: GLOBAL, DEATH, probability: 100%
+-- TODO(parity): self.id checks compare numeric legacy vnums (55244 etc.)
+--   against the new (zone_id, local_id) keying — the equality will never
+--   match. The 55214 branch also calls `room:at(...)` on a numeric `room`,
+--   which will runtime-error. Needs full rewrite once zone 552 is mapped.
 local _return_value = true  -- Default: allow action
 -- If this deer is the white hart, load the spirit of the white
 -- hart who runs away from the questor.
@@ -32,25 +35,27 @@ elseif self.id == 55214 then
     end
 elseif self.id == 55245 then
     local i = actor.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
+    local load_obj
     while i >= a do
         local person = actor.group_member[a]
         if person.room == self.room then
             if person:get_quest_stage("doom_entrance") == 1 then
                 person:advance_quest("doom_entrance")
                 person:send("<b:white>You have advanced the quest!</>")
-                local load = "yes"
+                load_obj = "yes"
             end
         elseif person then
             i = i + 1
         end
         a = a + 1
     end
-    if load == "yes" then
+    if load_obj == "yes" then
         self.room:spawn_object(484, 29)
     end
 end

@@ -1,8 +1,6 @@
 -- Trigger: Berix bounty hunt greet
 -- Zone: 60, ID: 50
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <Berix bounty hunt greet>:6: 'then' expected near '='
 --
 -- Original DG Script: #6050
 

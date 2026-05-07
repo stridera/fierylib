@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #4370: charlemagne_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if self.room == 4352 and actor:get_quest_stage("theatre") == 4 then
+if self.room == get_room(43, 52) and actor:get_quest_stage("theatre") == 4 then
     wait(2)
     self:emote("breathes a sigh of relief.")
     wait(1)

@@ -17,18 +17,19 @@ local person = actor
 self.room:send("person is " .. tostring(person.name))
 local i = person.group_size
 self.room:send("group size is " .. tostring(person.group_size))
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     self.room:send("we are in the while loop")
-    local person = actor.group_member[a]
-    self.room:send("actor.group_member[a] is " .. tostring(person.name))
-    if person.room == self.room then
+    local member = actor.group_member[a]
+    self.room:send("actor.group_member[a] is " .. tostring(member and member.name))
+    if member and member.room == self.room then
         self.room:send("Person is in the room")
-    elseif person then
+    elseif member then
         i = i + 1
         self.room:send("Person is not in the room")
     end

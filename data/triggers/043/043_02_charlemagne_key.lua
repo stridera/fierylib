@@ -1,44 +1,46 @@
 -- Trigger: charlemagne_key
 -- Zone: 43, ID: 2
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 20 if statements
---   Large script: 5235 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #4302
 
 -- Converted from DG Script #4302: charlemagne_key
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
+local accept
+local refuse
+local outcome
 self:set_flag("sentinel", true)
 local i = actor.group_size
 local stage = 4
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     local person = actor.group_member[a]
-    if person.room == self.room then
+    if person and person.room == self.room then
         if object.id == 4301 then
             if person:get_quest_stage("theatre") >= stage then
                 if not person:get_quest_var("theatre:charles") then
                     person:set_quest_var("theatre", "charles", 1)
-                    local accept = 1
-                    if person:get_quest_stage("theatre") == "stage" then
+                    accept = 1
+                    if person:get_quest_stage("theatre") == stage then
                         person:send("<b:white>You have helped return Charlemagne's key.</>")
                     end
                 else
-                    local refuse = "key"
+                    refuse = "key"
                 end
             else
-                local refuse = "person"
+                refuse = "person"
             end
         elseif object.id == 4320 then
             if person:get_quest_stage("theatre") <= stage then
-                local accept = 3
-                if person:get_quest_stage("theatre") == "stage" then
+                accept = 3
+                if person:get_quest_stage("theatre") == stage then
                     if not person:get_quest_var("theatre:sash") then
                         person:set_quest_var("theatre", "sash", 1)
                         person:send("<b:white>You have helped return Charlemagne's sash.</>")
@@ -46,11 +48,11 @@ while i >= a do
                 end
             else
                 if accept ~= 3 then
-                    local accept = 2
+                    accept = 2
                 end
             end
         else
-            local refuse = "item"
+            refuse = "item"
         end
         if person:get_quest_stage("theatre") == 4 and person:get_quest_var("theatre:sash") and person:get_quest_var("theatre:charles") then
             person:advance_quest("theatre")
@@ -65,14 +67,14 @@ while i >= a do
 end
 if actor:get_quest_stage("theatre") == 4 then
     if not actor:get_quest_var("theatre:sash") then
-        local outcome = 2
+        outcome = 2
     elseif not actor:get_quest_var("theatre:charles") then
-        local outcome = 3
+        outcome = 3
     else
-        local outcome = 1
+        outcome = 1
     end
 else
-    local outcome = 1
+    outcome = 1
 end
 if accept then
     wait(2)

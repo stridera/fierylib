@@ -24,7 +24,7 @@ if cmd == "l" then
     return _return_value
 end
 if actor:get_quest_var("school:gear") == 5 and arg.id == 23 then
-    actor:command("light %arg%")
+    actor:command("light " .. tostring(arg))
     actor:set_quest_var("school", "gear", 6)
     wait(2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Now you can see in dark spaces or outside at night!")

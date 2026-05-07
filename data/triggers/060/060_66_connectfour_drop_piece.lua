@@ -1,9 +1,13 @@
 -- Trigger: connectfour drop piece
 -- Zone: 60, ID: 66
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 21 if statements
---   Large script: 8646 chars
+--
+-- TODO(parity): part of broken ConnectFour mini-game; see 060_61. Many
+-- converter pathologies: `local piece = p1colO&0` is a bare-identifier
+-- concatenation, `local row1 = a1a2a3a4a5a6a7` chains undefined identifiers,
+-- and `local streak = piecepiecepiecepiece` is similarly broken. The
+-- string.find(rowN, "streak") win-checks compare against the literal string
+-- "streak" instead of the (would-be) value. Needs a full rewrite.
 --
 -- Original DG Script: #6066
 

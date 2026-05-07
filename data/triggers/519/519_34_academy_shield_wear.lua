@@ -26,7 +26,7 @@ if actor:get_quest_var("school:fight") == 3 then
     actor:send("So spamming it can trap you in a very deadly situation.'")
     wait(2)
     if world.count_mobiles(519, 0) == 0 then
-        self.room:find_actor("warmaster"):command("mload mob 51900")
+        self.room:spawn_mobile(519, 0)
         self.room:send(tostring(mobiles.template(519, 4).name) .. " summons a horrible little monster!")
         wait(1)
     end

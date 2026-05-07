@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #2262: Mobs_Death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-actor.name:command("petition %actor.name%'s group has killed %self.name%!!")
+actor:command("petition " .. tostring(actor.name) .. "'s group has killed " .. tostring(self.name) .. "!!")

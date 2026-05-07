@@ -20,7 +20,7 @@ if cmd == "b" or cmd == "ba" then
 end
 if actor:get_quest_var("school:fight") == 4 then
     actor:set_quest_var("school", "fight", "last")
-    actor:command("bash %arg%")
+    actor:command("bash " .. tostring(arg))
     wait(2)
     world.destroy(self.room:find_actor("monster"))
     wait(2)

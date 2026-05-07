@@ -7,6 +7,9 @@
 
 -- Converted from DG Script #48421: wild-hunt-hold-rag
 -- Original: MOB trigger, flags: GLOBAL, COMMAND, probability: 100%
+-- TODO(parity): self.id comparisons use legacy CircleMUD vnums (55214,
+--   55244 — zone 552). Need remap to (zone, local_id) once zone 552 is
+--   imported.
 
 -- Command filter: hold
 if not (cmd == "hold") then

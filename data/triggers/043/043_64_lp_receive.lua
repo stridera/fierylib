@@ -8,11 +8,12 @@
 -- Converted from DG Script #4364: LP_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
+local response
 -- switch on object.id
 if actor:get_quest_stage("bard_subclass") then
-    local response = "Nah nah nah.  We need to go down to the studio before you do anything else.  You ready to keep going?"
+    response = "Nah nah nah.  We need to go down to the studio before you do anything else.  You ready to keep going?"
 else
-    local response = "Ummmmm, what exactly is this for?"
+    response = "Ummmmm, what exactly is this for?"
 end
 if response then
     _return_value = true

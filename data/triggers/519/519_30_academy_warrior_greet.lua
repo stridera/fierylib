@@ -1,9 +1,14 @@
 -- Trigger: academy_warrior_greet
 -- Zone: 519, ID: 30
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
---   Large script: 10381 chars
+--
+-- TODO(parity): Two converter-mangled blocks: (1) the `school:fight == 2`
+-- arm collapses an inner DG nested-if into the outer chain via a stray
+-- `elseif` after an empty `if`, so the shield-handout/wear-shield branches
+-- only fire when the surrounding state forbids them. (2) The `school:fight
+-- == 4` arm has the same pattern with a `last` branch glued to a
+-- count_mobiles check. Also `get_obj_noadesc("1150")` is a DG remnant -- no
+-- such Lua API; replaced with the object template name.
 --
 -- Original DG Script: #51930
 
@@ -35,16 +40,16 @@ if stage == 3 or stage == 4 then
             end
             actor:send(tostring(self.name) .. " tells you, 'Give it a try!")
             actor:send("Type <b:green>kick monster</>.'")
-            if not actor:has_item("1150") and not actor:has_equipped("1150") then
+            if not actor:has_item(11, 50) and not actor:has_equipped(11, 50) then
             elseif actor:get_quest_var("school:fight") == 3 then
                 actor:send(tostring(self.name) .. " takes a wooden shield off a rack.")
                 self.room:spawn_object(11, 50)
                 self:command("give shield " .. tostring(actor))
                 actor:send("</>")
                 actor:send(tostring(self.name) .. " tells you, 'Equip that with <b:green>wear shield</>.'")
-            elseif actor:has_item("1150") then
-                actor:send(tostring(self.name) .. " tells you, 'Equip that " .. get_obj_noadesc("1150") .. " I gave you with <b:green>wear shield</>.'")
-            elseif actor:has_equipped("1150") then
+            elseif actor:has_item(11, 50) then
+                actor:send(tostring(self.name) .. " tells you, 'Equip that wooden shield I gave you with <b:green>wear shield</>.'")
+            elseif actor:has_equipped(11, 50) then
                 actor:set_quest_var("school", "fight", 4)
             end
         elseif actor:get_quest_var("school:fight") == 4 then

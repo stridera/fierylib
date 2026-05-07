@@ -1,8 +1,6 @@
 -- Trigger: random gem for broker
 -- Zone: 60, ID: 34
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6034
 
@@ -24,7 +22,7 @@ local loop = 3
 -- -- we do that by looking for object 18701 -- if we are wearing it
 -- -- then we don't need to load gems again
 -- all the important stuff incased in this loop
-if not self:has_equipped("18701") then
+if not self:has_equipped(187, 1) then
     self.room:spawn_object(187, 1)
     get_room(11, 0):at(function()
         self:command("wear lock")
@@ -32,30 +30,30 @@ if not self:has_equipped("18701") then
     local itt = 1
     while itt <= loop do
         local p = random(1, 10)
+        -- Hoisted: branch-scoped `local base/extra` would not be visible to
+        -- the `if base > 55560` test below.
+        local base, extra
         if p == 10 then
-            -- say p3! %p%
-            local base = 55671
-            local extra = random(1, 76)
+            -- p3
+            base = 55671
+            extra = random(1, 76)
         end
         -- p2 gem
         if (p <=9) and (p>=7) then
-            -- say p2 %p%555
-            local base = 55594
-            local extra = random(1, 76)
+            base = 55594
+            extra = random(1, 76)
         end
         -- p1 gem
         if (p <=6) and (p>=2) then
-            -- say p1 %p%
-            local base = 55566
-            local extra = random(1, 27)
+            base = 55566
+            extra = random(1, 27)
         end
         -- no gem
         if p < 2 then
-            -- say no gem - %p%
-            local base = 0
-            local extra = 0
+            base = 0
+            extra = 0
         end
-        if base > 55560 then
+        if base and base > 55560 then
             local gem = base + extra
             self.room:spawn_object(math.floor(gem / 100), gem % 100)
             self:command("sell gem broker")

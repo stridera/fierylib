@@ -26,7 +26,7 @@ if actor:get_quest_var("school:gear") == 3 then
     actor:send(tostring(self.name) .. " tells you, 'You look well equipped to me!'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Another way to equip things is with the <b:cyan>(HO)LD</> command.")
-    if actor:has_item("23") or actor:has_equipped("23") then
+    if actor:has_item(0, 23) or actor:has_equipped(0, 23) then
         actor:send("You started play with a torch.'")
     else
         actor:send("Here, take this torch for example.'")

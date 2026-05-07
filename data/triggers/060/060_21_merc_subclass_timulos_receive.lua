@@ -14,8 +14,11 @@ if actor:get_quest_stage("merc_ass_thi_subclass") == 1 or actor:get_quest_stage(
 elseif actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
     actor:send(tostring(self.name) .. " says, 'How ever did you get what I ask for without getting it yourself?'")
     self:command("spank " .. tostring(actor.name))
+    -- TODO(parity): converter mangled this branch. Original DG likely had a
+    -- cloak-id check here that, when satisfied, advanced the quest and ran the
+    -- reward emotes. We restore the reward block guarded only by subclass_name
+    -- since the wrapping `quest_stage == 3` already gates this.
     if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "mercenary" then
-    elseif actor:get_quest_stage("merc_ass_thi_subclass") == 4 then
         self:emote("grins from ear to ear.")
         actor:send(tostring(self.name) .. " says, 'You have done me a great service.  The lord will reward me kindly to get this back.'")
         self:command("flex")

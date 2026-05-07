@@ -18,7 +18,7 @@ if cmd == "d" or cmd == "dr" then
     _return_value = true
     return _return_value
 end
-if actor:get_quest_var("school:rest") == 3 and (string.find(waterskin, "arg") or string.find(leather, "arg") or string.find(skin, "arg")) then
+if actor:get_quest_var("school:rest") == 3 and (arg == "waterskin" or arg == "leather" or arg == "skin") then
     actor:set_quest_var("school", "rest", 4)
     actor:command("drink " .. tostring(arg))
     wait(2)

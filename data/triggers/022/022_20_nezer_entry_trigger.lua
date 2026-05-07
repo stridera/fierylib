@@ -8,9 +8,8 @@
 -- Converted from DG Script #2220: Nezer_Entry_Trigger
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 -- Nezer entry messages
-if alreadydone ~= 1 then
-    local alreadydone = 1
-    globals.alreadydone = globals.alreadydone or true
+if not globals.alreadydone then
+    globals.alreadydone = true
     wait(10)
     self.room:send("A large flapping noice can be heard coming from above.")
     wait(8)
@@ -37,7 +36,7 @@ if alreadydone ~= 1 then
                 self.room:send_except(victim, tostring(victim.name) .. " is slammed into the ground after being thrown into the air by Nezer's shockwave! (<blue>" .. tostring(damage_dealt) .. "</>)")
             end
         end
-        local victim = next
+        victim = next
     end
     self.room:spawn_mobile(12, 0)
 end

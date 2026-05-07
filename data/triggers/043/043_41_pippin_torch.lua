@@ -1,53 +1,56 @@
 -- Trigger: pippin_torch
 -- Zone: 43, ID: 41
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4341
 
 -- Converted from DG Script #4341: pippin_torch
 -- Original: MOB trigger, flags: GREET, probability: 100%
+local _return_value = true
+local check
+local leader
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if (person:has_equipped("4318") or person:has_item("4318")) and person:get_quest_stage("theatre") >= 6 then
-            local check = 1
+    local member = actor.group_member[a]
+    if member and member.room == self.room then
+        if (member:has_equipped(43, 18) or member:has_item(43, 18)) and member:get_quest_stage("theatre") >= 6 then
+            check = 1
         end
-    elseif person and person.is_player then
+    elseif member and member.is_player then
         i = i + 1
     end
     a = a + 1
 end
 if check then
-    local person = actor
-    local i = person.group_size
-    if i then
-        local a = 1
+    local i2 = person.group_size
+    local a2
+    if i2 then
+        a2 = 1
     else
-        local a = 0
+        a2 = 0
     end
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("theatre") == 6 then
-                person:advance_quest("theatre")
-                person:send("<b:white>You have advanced the quest!</>")
+    while i2 >= a2 do
+        local member = actor.group_member[a2]
+        if member and member.room == self.room then
+            if member:get_quest_stage("theatre") == 6 then
+                member:advance_quest("theatre")
+                member:send("<b:white>You have advanced the quest!</>")
             end
             if not leader then
-                local leader = person
+                leader = member
             end
-        elseif person and person.is_player then
-            i = i + 1
+        elseif member and member.is_player then
+            i2 = i2 + 1
         end
-        a = a + 1
+        a2 = a2 + 1
     end
 end
 if self.consented then

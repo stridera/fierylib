@@ -1,9 +1,6 @@
 -- Trigger: Assassin mask progress checker
 -- Zone: 60, ID: 59
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 19 if statements
---   Large script: 8214 chars
 --
 -- Original DG Script: #6059
 
@@ -90,51 +87,54 @@ if actor.class == "Assassin" then
         return _return_value
     end
     -- switch on maskstage
+    -- Hoisted: branch-scoped `local` here would not be visible to the
+    -- code below that uses mask/gem/place/hint.
+    local mask, gem, place, hint
     if maskstage == 1 then
-        local mask = 4500
-        local gem = 55592
-        local place = "The Shadowy Lair"
-        local hint = "in the Misty Caverns."
+        mask = 4500
+        gem = 55592
+        place = "The Shadowy Lair"
+        hint = "in the Misty Caverns."
     elseif maskstage == 2 then
-        local mask = 17809
-        local gem = 55594
-        local place = "The Dark Chamber"
-        local hint = "behind a desert door."
+        mask = 17809
+        gem = 55594
+        place = "The Dark Chamber"
+        hint = "behind a desert door."
     elseif maskstage == 3 then
-        local mask = 59023
-        local gem = 55620
-        local place = "A Dark Tunnel"
-        local hint = "on the way to a dark, hidden city."
+        mask = 59023
+        gem = 55620
+        place = "A Dark Tunnel"
+        hint = "on the way to a dark, hidden city."
     elseif maskstage == 4 then
-        local mask = 10304
-        local gem = 55638
-        local place = "Dark Chamber"
-        local hint = "hidden below a ghostly fortress."
+        mask = 10304
+        gem = 55638
+        place = "Dark Chamber"
+        hint = "hidden below a ghostly fortress."
     elseif maskstage == 5 then
-        local mask = 16200
-        local gem = 55666
-        local place = "Darkness......"
-        local hint = "inside an enchanted closet."
+        mask = 16200
+        gem = 55666
+        place = "Darkness......"
+        hint = "inside an enchanted closet."
     elseif maskstage == 6 then
-        local mask = 43017
-        local gem = 55675
-        local place = "Surrounded by Darkness"
-        local hint = "in a volcanic shaft."
+        mask = 43017
+        gem = 55675
+        place = "Surrounded by Darkness"
+        hint = "in a volcanic shaft."
     elseif maskstage == 7 then
-        local mask = 51075
-        local gem = 55693
-        local place = "Dark Indecision"
-        local hint = "before an altar in a fallen maze."
+        mask = 51075
+        gem = 55693
+        place = "Dark Indecision"
+        hint = "before an altar in a fallen maze."
     elseif maskstage == 8 then
-        local mask = 49062
-        local gem = 55719
-        local place = "Heart of Darkness"
-        local hint = "buried deep in an ancient tomb."
+        mask = 49062
+        gem = 55719
+        place = "Heart of Darkness"
+        hint = "buried deep in an ancient tomb."
     elseif maskstage == 9 then
-        local mask = 48427
-        local gem = 55743
-        local place = "A Dark Room"
-        local hint = "under the ruins of a shop in an ancient city."
+        mask = 48427
+        gem = 55743
+        place = "A Dark Room"
+        hint = "under the ruins of a shop in an ancient city."
     end
     local attack = maskstage * 100
     if job1 or job2 or job3 or job4 then
@@ -143,10 +143,12 @@ if actor.class == "Assassin" then
             actor:send("- attacked " .. tostring(attack) .. " times")
         end
         if job2 then
-            actor:send("- found " .. "%get.obj_shortdesc[%mask%]%")
+            -- TODO(parity): DG %get.obj_shortdesc[%mask%]% — needs (zone, local) split.
+            actor:send("- found object id " .. tostring(mask))
         end
         if job3 then
-            actor:send("- found " .. "%get.obj_shortdesc[%gem%]%")
+            -- TODO(parity): DG %get.obj_shortdesc[%gem%]% — needs (zone, local) split.
+            actor:send("- found object id " .. tostring(gem))
         end
         if job4 then
             actor:send("- hidden in " .. tostring(place))
@@ -163,10 +165,12 @@ if actor.class == "Assassin" then
         actor:send("- attack &9<blue>" .. tostring(remaining) .. "</> more times while wearing your mask.")
     end
     if not job2 then
-        actor:send("- find &9<blue>" .. "%get.obj_shortdesc[%mask%]%</>")
+        -- TODO(parity): DG %get.obj_shortdesc[%mask%]% — needs (zone, local) split.
+        actor:send("- find &9<blue>object id " .. tostring(mask) .. "</>")
     end
     if not job3 then
-        actor:send("- find &9<blue>" .. "%get.obj_shortdesc[%gem%]%</>")
+        -- TODO(parity): DG %get.obj_shortdesc[%gem%]% — needs (zone, local) split.
+        actor:send("- find &9<blue>object id " .. tostring(gem) .. "</>")
     end
     if not job4 then
         actor:send("- &9<blue>hide in a place called \"&9<blue>" .. tostring(place) .. "</>\".")

@@ -1,14 +1,21 @@
 -- Trigger: mighty_druid entanglement
 -- Zone: 484, ID: 105
 -- Type: MOB, Flags: FIGHT
--- Status: NEEDS_REVIEW
---   Complex nesting: 31 if statements
---   Large script: 7562 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #48505
 
 -- Converted from DG Script #48505: mighty_druid entanglement
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
+-- TODO(parity): the converter emitted branch-scoped `local chance`,
+--   `local victim`, `local secondary_victim`, `local paralysis_victim_N`,
+--   and `local paralysis_expire_N` declarations inside if/elseif blocks,
+--   so the outer `if chance > 3 then` and `if victim.is_player then`
+--   tests reference undefined names and the per-victim slot bookkeeping
+--   never escapes its branch. The body also still contains a
+--   `bash %victim.name%` DG token. The whole entanglement state machine
+--   needs a rewrite once we have a stable globals API for per-mob
+--   paralysis tracking.
 local now = time.stamp
 if paralysis_victim_1 and ((paralysis_victim_1.room ~= self.room) or (paralysis_expire_1 <= now)) then
     -- Clear paralysis on expired victim

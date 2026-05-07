@@ -1,9 +1,6 @@
 -- Trigger: academy_rogue_greet
 -- Zone: 519, ID: 26
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Complex nesting: 10 if statements
---   Large script: 8578 chars
 --
 -- Original DG Script: #51926
 

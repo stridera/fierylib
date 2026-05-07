@@ -1,9 +1,10 @@
 -- Trigger: connectfour select color
 -- Zone: 60, ID: 63
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
---   Large script: 5212 chars
+--
+-- TODO(parity): part of broken ConnectFour mini-game; see 060_61. Branch-scoped
+-- `local p1col`/`p2col`/`p1desc`/`p2desc` writes are invisible to the rest of
+-- the trigger family. Needs a full rewrite to server-side game state.
 --
 -- Original DG Script: #6063
 

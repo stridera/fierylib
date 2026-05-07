@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "oh") or string.find(string.lower(speech), "don't") or string.find(string.lower(speech), "worry") or string.find(string.lower(speech), "i") or string.find(string.lower(speech), "can") or string.find(string.lower(speech), "make") or string.find(string.lower(speech), "it") or string.find(string.lower(speech), "worth") or string.find(string.lower(speech), "your") or string.find(string.lower(speech), "time.")) then
     return true  -- No matching keywords
 end
-if actor.id == 4302 then
+if actor.zone_id == 43 and actor.local_id == 2 then
     wait(5)
     self:emote("scoots away from his fellow player.")
     wait(3)

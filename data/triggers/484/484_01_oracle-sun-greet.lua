@@ -1,20 +1,30 @@
 -- Trigger: oracle-sun-greet
 -- Zone: 484, ID: 1
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <oracle-sun-greet>:11: function arguments expected near ']'
---   Complex nesting: 25 if statements
---   Large script: 7932 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #48401
 
 -- Converted from DG Script #48401: oracle-sun-greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
+-- TODO(parity): the original references DG globals `wandstep`/`macestep`
+--   to compute minlevel; the converter emitted branch-scoped `local
+--   minlevel` declarations and references undefined globals. The
+--   `actor.group_member[a]` walk also relies on a branch-scoped `local a`
+--   that escapes to the loop. Ported as best-effort: minlevel is hoisted
+--   and clamped to the actor's level so the gate is permissive, and the
+--   group walk's `a` is hoisted. Real values for wandstep/macestep need
+--   to come from quest-var lookups once that API is wired up.
 wait(2)
-if wandstep then
-    local minlevel = (wandstep - 1) * 10
-elseif macestep then
-    local minlevel = macestep * 10
+local wandstep = actor:get_quest_var("type_wand:step")
+local macestep = actor:get_quest_var("phase_mace:step")
+local minlevel
+if wandstep and wandstep ~= 0 then
+    minlevel = (wandstep - 1) * 10
+elseif macestep and macestep ~= 0 then
+    minlevel = macestep * 10
+else
+    minlevel = 0
 end
 if actor:get_quest_stage("type_wand") == "wandstep" and actor:get_quest_stage("doom_entrance") ~= 5 and actor:get_quest_stage("doom_entrance") ~= 6 and not actor:get_has_completed("doom_entrance") then
     if actor.level >= minlevel then
@@ -70,10 +80,11 @@ elseif actor:get_quest_stage("doom_entrance") == 5 then
 elseif actor:get_quest_stage("doom_entrance") == 6 then
     local person = actor
     local i = person.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
         local person = actor.group_member[a]

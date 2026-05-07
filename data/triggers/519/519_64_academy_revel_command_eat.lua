@@ -18,8 +18,7 @@ if cmd == "e" or cmd == "ea" then
     _return_value = true
     return _return_value
 end
-local meat = "large-chunk-meat"
-if actor:get_quest_var("school:rest") == 6 and (string.find(meat, "arg") or string.find(food, "arg")) and actor:has_item("20305") then
+if actor:get_quest_var("school:rest") == 6 and (arg == "meat" or arg == "food") and actor:has_item(203, 5) then
     actor:set_quest_var("school", "rest", 7)
     actor:command("eat " .. tostring(arg))
     wait(2)

@@ -22,17 +22,18 @@ if string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 2
     wait(2)
     if speech == "yes" then
         actor:send(tostring(self.name) .. " says, 'Right this way then!'")
+        local next_line
         -- switch on actor:get_quest_stage("bard_subclass")
         if actor:get_quest_stage("bard_subclass") == 1 then
-            local next = "Let's hear you &5&bsing&0!"
+            next_line = "Let's hear you &5&bsing&0!"
         elseif actor:get_quest_stage("bard_subclass") == 2 then
-            local next = "Let's see you &5&bdance&0!"
+            next_line = "Let's see you &5&bdance&0!"
         elseif actor:get_quest_stage("bard_subclass") == 3 or actor:get_quest_stage("bard_subclass") == 4 then
-            local next = "Do you have the &3&bscript&0?"
+            next_line = "Do you have the &3&bscript&0?"
         elseif actor:get_quest_stage("bard_subclass") == 5 then
-            local next = "Let's hear some &6&bdialogue&0!"
+            next_line = "Let's hear some &6&bdialogue&0!"
         else
-            local next = "So, let's discuss your &6&baudition&0."
+            next_line = "So, let's discuss your &6&baudition&0."
             wait(2)
             actor:send(tostring(self.name) .. " says, 'Seems like you got real star potential kid.'")
             wait(2)
@@ -48,7 +49,7 @@ if string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 2
         actor:send(tostring(self.name) .. " settles in.")
         wait(1)
         get_room(43, 69):at(function()
-            actor:send(tostring(self.name) .. " says, '" .. tostring(next) .. "'")
+            actor:send(tostring(self.name) .. " says, '" .. tostring(next_line) .. "'")
         end)
     else
         actor:send(tostring(self.name) .. " says, 'Too bad.  You have real start potential kid.  You could be big.'")

@@ -1,9 +1,7 @@
 -- Trigger: LP2_bard_subclass_speech3
 -- Zone: 43, ID: 62
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <LP2_bard_subclass_speech3>:14: 'then' expected near 'believe'
---   Complex nesting: 6 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4362
 

@@ -1,9 +1,6 @@
 -- Trigger: academy_instructor_speech_inventory
 -- Zone: 519, ID: 82
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
---   Large script: 10452 chars
 --
 -- Original DG Script: #51982
 
@@ -20,7 +17,7 @@ if actor:get_quest_stage("school") == 1 then
     if actor:get_quest_var("school:gear") ~= "complete" then
         if (actor:get_quest_var("school:speech") and actor:get_quest_var("school:speech") ~= "complete") or (actor:get_quest_var("school:explore") and actor:get_quest_var("school:explore") ~= "complete") then
             actor:send(tostring(self.name) .. " tells you, 'You have to finish your other lesson first.'")
-            return _return_value
+            return true
         end
         if actor:get_quest_var("school:gear") then
             actor:send(tostring(self.name) .. " tells you, 'Let's resume your <b:yellow>GEAR</> lessons.'")
@@ -52,7 +49,7 @@ if actor:get_quest_stage("school") == 1 then
         elseif actor:get_quest_var("school:gear") == 4 then
             actor:send(tostring(self.name) .. " tells you, 'Another way to equip things is with the <b:cyan>(HO)LD</> command.")
             actor:send("Here, take this torch for example.'")
-            self:command("load obj 1005")
+            self.room:spawn_object(0, 23)
             self:command("give torch " .. tostring(actor))
             wait(3)
             actor:send(tostring(self.name) .. " tells you, 'Type <b:green>hold torch</> to equip it.'")

@@ -1,9 +1,11 @@
 -- Trigger: hearts endgame
 -- Zone: 60, ID: 83
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 22 if statements
---   Large script: 5677 chars
+--
+-- TODO(parity): part of broken Hearts mini-game; see 060_75. Score
+-- accumulation uses branch-scoped `local score`/`local scoreN` writes that
+-- the subsequent code never sees; the totals/announcements at the bottom
+-- read undefined globals. Needs full rewrite.
 --
 -- Original DG Script: #6083
 

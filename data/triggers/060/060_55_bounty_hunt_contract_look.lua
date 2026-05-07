@@ -1,8 +1,6 @@
 -- Trigger: Bounty hunt contract look
 -- Zone: 60, ID: 55
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6055
 
@@ -10,49 +8,51 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on self.id
+-- Hoisted: branch-scoped `local` would not be visible to the code below.
+local stage, victim1, victim2, victim3, go
 if self.id == 6050 then
-    local stage = 1
-    local victim1 = "the King of the Meer Cats"
-    local go = "hunt"
+    stage = 1
+    victim1 = "the King of the Meer Cats"
+    go = "hunt"
 elseif self.id == 6051 then
-    local stage = 2
-    local victim1 = "the Noble"
-    local victim2 = "the Abbot"
-    local go = "hunt"
+    stage = 2
+    victim1 = "the Noble"
+    victim2 = "the Abbot"
+    go = "hunt"
 elseif self.id == 6052 then
-    local stage = 3
-    local victim1 = "the O'Connor Chieftain"
-    local victim2 = "the McLeod Chieftain"
-    local victim3 = "the Cameron Chieftain"
-    local go = "hunt"
+    stage = 3
+    victim1 = "the O'Connor Chieftain"
+    victim2 = "the McLeod Chieftain"
+    victim3 = "the Cameron Chieftain"
+    go = "hunt"
 elseif self.id == 6053 then
-    local stage = 4
-    local victim1 = "the Frakati Leader"
-    local go = "hunt"
+    stage = 4
+    victim1 = "the Frakati Leader"
+    go = "hunt"
 elseif self.id == 6054 then
-    local stage = 5
-    local victim1 = "Cyrus"
-    local go = "hunt"
+    stage = 5
+    victim1 = "Cyrus"
+    go = "hunt"
 elseif self.id == 6055 then
-    local stage = 6
-    local victim1 = "Lord Venth"
-    local go = "hunt"
+    stage = 6
+    victim1 = "Lord Venth"
+    go = "hunt"
 elseif self.id == 6056 then
-    local stage = 7
-    local victim1 = "the high druid of Anlun Vale"
-    local go = "hunt"
+    stage = 7
+    victim1 = "the high druid of Anlun Vale"
+    go = "hunt"
 elseif self.id == 6057 then
-    local stage = 8
-    local victim1 = "the Lizard King"
-    local go = "hunt"
+    stage = 8
+    victim1 = "the Lizard King"
+    go = "hunt"
 elseif self.id == 6058 then
-    local stage = 9
-    local victim1 = "Sorcha"
-    local go = "hunt"
+    stage = 9
+    victim1 = "Sorcha"
+    go = "hunt"
 elseif self.id == 6059 then
-    local stage = 10
-    local victim1 = "the Goblin King"
-    local go = "hunt"
+    stage = 10
+    victim1 = "the Goblin King"
+    go = "hunt"
 end
 _return_value = true
 if stage ~= 2 and stage ~= 3 then

@@ -1,9 +1,16 @@
 -- Trigger: connectfour start
 -- Zone: 60, ID: 61
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <connectfour start>:25: unexpected symbol near '&'
---   Complex nesting: 6 if statements
+--
+-- TODO(parity): the entire ConnectFour mini-game (#6061-#6072) was converted
+-- with severely broken DG semantics. Issues include: branch-scoped `local`
+-- writes that the runtime never sees, board cells stored as separate `globals`
+-- requiring single-instance ownership, color codes used as bare identifiers,
+-- and string-find checks against undefined "row"/"col"/"streak" identifiers
+-- (e.g. `local row1 = a1a2a3a4a5a6a7`, `local streak = piecepiecepiecepiece`,
+-- `local piece = p1colO&0`). These are not safely fixable in place — the
+-- mini-game needs a full rewrite to a server-side board state. Triggers
+-- still parse so the converter doesn't fail; runtime behavior is broken.
 --
 -- Original DG Script: #6061
 

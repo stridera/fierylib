@@ -16,6 +16,7 @@ if actor.is_player then
         self.room:send_except(actor, "Blackened horns protrude from atop the head of " .. tostring(actor.name) .. ".")
     else
         local dmg = random(1, 100)
+        -- TODO(parity): original DG message likely "Your mind is assaulted by horrific images..."; converter replaced verb with actor.class
         actor:send("Your mind is " .. tostring(actor.class) .. " by horrific images and a sense of extreme pain.")
         dmg = dmg + 150
         local damage_dealt = actor:damage(dmg)  -- type: physical

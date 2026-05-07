@@ -1,31 +1,32 @@
 -- Trigger: lewis_key
 -- Zone: 43, ID: 3
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 7 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4303
 
 -- Converted from DG Script #4303: lewis_key
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
+local refuse
 self:set_flag("sentinel", true)
 if object.id == 4300 then
     local person = actor
     local i = person.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("theatre") == 2 then
-                person:advance_quest("theatre")
-                person:send("<b:white>You have advanced the quest!</>")
+        local member = actor.group_member[a]
+        if member and member.room == self.room then
+            if member:get_quest_stage("theatre") == 2 then
+                member:advance_quest("theatre")
+                member:send("<b:white>You have advanced the quest!</>")
             end
-        elseif person then
+        elseif member then
             i = i + 1
         end
         a = a + 1
@@ -47,10 +48,10 @@ if object.id == 4300 then
         wait(3)
         self:emote("makes air kisses.")
     else
-        local refuse = "quest"
+        refuse = "quest"
     end
 else
-    local refuse = "item"
+    refuse = "item"
 end
 if refuse then
     _return_value = true

@@ -32,6 +32,6 @@ if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and act
     self:command("open fence")
     actor:send(tostring(self.name) .. " says, 'Well, go on.'")
     self:emote("pushes " .. tostring(actor.name) .. " harshly away.")
-    actor.name:move("north")
+    actor:move("north")
     self:command("close fence")
 end

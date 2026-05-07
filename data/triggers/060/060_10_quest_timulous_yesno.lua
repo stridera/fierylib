@@ -1,8 +1,6 @@
 -- Trigger: quest_timulous_yesno
 -- Zone: 60, ID: 10
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 8 if statements
 --
 -- Original DG Script: #6010
 
@@ -72,7 +70,7 @@ if string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 2
         actor:send(tostring(self.name) .. " says, 'I said go.'")
         self:emote("pushes " .. tostring(actor.name) .. " away.")
         self:command("open fence")
-        actor.name:move("north")
+        actor:move("north")
         self:command("close fence")
     end
 end

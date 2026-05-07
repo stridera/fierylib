@@ -1,41 +1,44 @@
 -- Trigger: catherine_key
 -- Zone: 43, ID: 1
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 16 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #4301
 
 -- Converted from DG Script #4301: catherine_key
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
+local refuse
+local accept_lashes
+local accept_key
 self:set_flag("sentinel", true)
 if actor:get_quest_stage("theatre") >= 1 then
     if object.id == 4351 then
         local person = actor
         local i = person.group_size
+        local a
         if i then
-            local a = 1
+            a = 1
         else
-            local a = 0
+            a = 0
         end
         while i >= a do
-            local person = actor.group_member[a]
-            if person.room == self.room then
-                if person:get_quest_stage("theatre") >= 1 and not person:get_quest_var("theatre:lashes") then
-                    person:set_quest_var("theatre", "lashes", 1)
-                    if person:get_quest_stage("theatre") == 1 then
-                        person:send("<b:white>You have helped return Catherine's eyelashes.</>")
+            local member = actor.group_member[a]
+            if member and member.room == self.room then
+                if member:get_quest_stage("theatre") >= 1 and not member:get_quest_var("theatre:lashes") then
+                    member:set_quest_var("theatre", "lashes", 1)
+                    if member:get_quest_stage("theatre") == 1 then
+                        member:send("<b:white>You have helped return Catherine's eyelashes.</>")
                     end
-                    local accept_lashes = 1
+                    accept_lashes = 1
                 end
-            elseif person then
+            elseif member then
                 i = i + 1
             end
             a = a + 1
         end
         if not accept_lashes then
-            local refuse = "lashes"
+            refuse = "lashes"
         else
             wait(2)
             self:say("Thank you so much!")
@@ -51,23 +54,24 @@ if actor:get_quest_stage("theatre") >= 1 then
     elseif object.id == 4303 then
         local person = actor
         local i = person.group_size
+        local a
         if i then
-            local a = 1
+            a = 1
         else
-            local a = 0
+            a = 0
         end
         while i >= a do
-            local person = actor.group_member[a]
-            if person.room == self.room then
-                if person:get_quest_stage("theatre") >= 1 and person:get_quest_var("theatre:lashes") == 1 then
-                    if person:get_quest_stage("theatre") == 1 then
-                        person:advance_quest("theatre")
-                        person:send("<b:white>You have advanced the quest!</>")
+            local member = actor.group_member[a]
+            if member and member.room == self.room then
+                if member:get_quest_stage("theatre") >= 1 and member:get_quest_var("theatre:lashes") == 1 then
+                    if member:get_quest_stage("theatre") == 1 then
+                        member:advance_quest("theatre")
+                        member:send("<b:white>You have advanced the quest!</>")
                     end
-                    person:set_quest_var("theatre", "lashes", 0)
-                    local accept_key = 1
+                    member:set_quest_var("theatre", "lashes", 0)
+                    accept_key = 1
                 end
-            elseif person then
+            elseif member then
                 i = i + 1
             end
             a = a + 1
@@ -99,10 +103,10 @@ if actor:get_quest_stage("theatre") >= 1 then
             self:emote("trails off and wanders away.")
         end
     else
-        local refuse = "item"
+        refuse = "item"
     end
 else
-    local refuse = "person"
+    refuse = "person"
 end
 if refuse then
     _return_value = true

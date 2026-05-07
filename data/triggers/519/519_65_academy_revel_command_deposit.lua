@@ -1,8 +1,6 @@
 -- Trigger: academy_revel_command_deposit
 -- Zone: 519, ID: 65
 -- Type: MOB, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <academy_revel_command_deposit>:14: 'then' expected near 'gold'
 --
 -- Original DG Script: #51965
 

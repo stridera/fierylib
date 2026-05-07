@@ -36,9 +36,12 @@ wait(8)
 self.room:send("One by one the other players follow, slipping off into the theater.")
 wait(6)
 self.room:send("You blink and the theater has returned to normal.")
-local holding = get_room("1100")
-if holding:get_people("4399") then
-    get_room(11, 0):at(function()
-        find_player("leading"):teleport(get_room(43, 33))
+-- TODO(parity): original DG used vnum 1100 for the leading-player holding room
+-- and 4399 for the leading-player mob. Verify (11, 0) is the right composite for
+-- the holding room and that find_player can locate the leading-player mob there.
+local holding = get_room(11, 0)
+if holding and holding:find_actor("leading-player") then
+    holding:at(function()
+        find_player("leading-player"):teleport(get_room(43, 33))
     end)
 end

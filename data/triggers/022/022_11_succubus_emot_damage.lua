@@ -15,12 +15,12 @@ while target == 0 do
     local victim = room.actors[random(1, #room.actors)]
     if (victim.is_npc) or (victim.gender ~= "Male") then
         if loop > 10 then
-            local target = 1
+            target = 1
         else
             loop = loop + 1
         end
     else
-        local target = 1
+        target = 1
         local message = random(1, 4)
         -- switch on message
         if message == 1 then
@@ -37,6 +37,6 @@ while target == 0 do
             victim:send("A Succubus strokes your inner thigh. She's getting frisky! (<b:red>" .. tostring(damage) .. "</>)")
         end
         local damage_dealt = victim:damage(damage)  -- type: physical
-        local target = 1
+        target = 1
     end
 end

@@ -12,10 +12,11 @@ self:destroy_item("antlers")
 local accept = 0
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     local person = actor.group_member[a]
@@ -25,14 +26,14 @@ while i >= a do
             self:command("bow " .. tostring(person.name))
             person:send(tostring(self.name) .. " says, 'You are indeed worthy, " .. tostring(person.name) .. ".  Please continue on to the Oracle of Justice.'")
             person:send("<b:white>You have advanced the quest!</>")
-            local accept = 1
+            accept = 1
         end
     elseif person then
         i = i + 1
     end
     a = a + 1
 end
-if not accept then
+if accept == 0 then
     actor:send(tostring(self.name) .. " says, 'What is this?'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You mock the Goddess of the Hunt!'")

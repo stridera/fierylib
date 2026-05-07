@@ -9,8 +9,11 @@
 -- Original: MOB trigger, flags: GLOBAL, GREET_ALL, probability: 100%
 -- Checks to see if the actor is indeed holding the rag like they should be
 -- for the doom entry quest.
+-- TODO(parity): self.id comparisons use legacy CircleMUD vnums (55214,
+--   55244 — zone 552). Need remap to (zone, local_id) once zone 552 is
+--   imported.
 if actor:get_quest_stage("doom_entrance") == 1 then
-    if actor:has_equipped("48430") then
+    if actor:has_equipped(484, 30) then
         if self.id == 55214 then
             self.room:send("The deer flees wildly at the sight of the blood-soaked rag!")
             self:command("flee")

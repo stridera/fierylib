@@ -7,6 +7,9 @@
 
 -- Converted from DG Script #48631: ice elemental lord - damage
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
+-- TODO(parity): `self.actor_count` should be `self.room.actor_count`,
+--   and the `victim.id ~= 48632` check uses a legacy vnum (the Ice
+--   Elemental Lord). Remap to the (zone, local_id) once known.
 -- Hit half as many people are in the room
 local negatecold = "!COLD"
 local pop = self.actor_count / 2
@@ -64,6 +67,6 @@ while count <= pop do
     end
     max = max - 1
     if max < 1 then
-        local count = pop + 1
+        count = pop + 1
     end
 end

@@ -8,18 +8,20 @@
 -- Converted from DG Script #48424: rhalean-sister-death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 local i = actor.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
+local found
 while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("doom_entrance") == 3 then
             person:advance_quest("doom_entrance")
             person:send("<b:white>You have advanced the quest!</>")
-            local found = 1
+            found = 1
         end
     elseif person then
         i = i + 1

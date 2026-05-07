@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #4368: fastrada_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if self.room == 4353 and actor:get_quest_stage("theatre") == 3 then
+if self.room == get_room(43, 53) and actor:get_quest_stage("theatre") == 3 then
     wait(2)
     actor:send("Fastrada tosses a sultry smile your way.")
     self.room:send_except(actor, "Fastrada puts on a sultry smile.")

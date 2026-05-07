@@ -1,9 +1,10 @@
 -- Trigger: connectfour look board
 -- Zone: 60, ID: 64
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Complex nesting: 20 if statements
---   Large script: 6541 chars
+--
+-- TODO(parity): part of broken ConnectFour mini-game; see 060_61. References
+-- bare cell identifiers (a1, b1, ...) that come from sibling triggers' broken
+-- branch-scoped locals. Needs a full rewrite to server-side game state.
 --
 -- Original DG Script: #6064
 

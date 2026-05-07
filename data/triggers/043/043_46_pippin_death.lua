@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #4346: pippin_death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-if self.room == 4336 then
+if self.room == get_room(43, 36) then
     get_room(43, 33):at(function()
         run_room_trigger(43, 98)
     end)

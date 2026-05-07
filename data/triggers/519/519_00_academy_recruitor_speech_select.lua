@@ -1,10 +1,6 @@
 -- Trigger: academy_recruitor_speech_select
 -- Zone: 519, ID: 0
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <academy_recruitor_speech_select>:84: 'end' expected (to close 'if' at line 71) near 'else'
---   Complex nesting: 9 if statements
---   Large script: 5212 chars
 --
 -- Original DG Script: #51900
 
@@ -78,24 +74,27 @@ elseif speech == "combat" then
     actor:send("Remember, <b:green>spelling matters!!!</>'")
     wait(3)
     -- switch on actor.class
+    local direction = nil
     if actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary" or actor.class == "bard" then
         actor:send(tostring(self.name) .. " tells you, 'I see you're a stealthy type.  You'll do best in lessons with Doctor Mischief.'")
-        local direction = "down"
+        direction = "down"
     elseif actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" or actor.class == "necromancer" or actor.class == "illusionist" then
         actor:send(tostring(self.name) .. " tells you, 'I see you're an arcane spell caster.  You would definitely benefit from the Chair of Arcane Studies' seminar on spellcasting.'")
-        local direction = "south"
+        direction = "south"
     elseif actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid" then
         actor:send(tostring(self.name) .. " tells you, 'I see you're a divine spell caster.  You would definitely benefit from private classes with the Professor of Divinity.'")
-        local direction = "east"
+        direction = "east"
     elseif actor.class == "warrior" or actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" or actor.class == "monk" or actor.class == "berserker" then
         actor:send(tostring(self.name) .. " tells you, 'I see you're a fighter type.  You'll do best learning from the Academy's Warmaster.'</>")
-        local direction = "north"
+        direction = "north"
     else
         actor:send(tostring(self.name) .. " tells you, 'I have no idea what to do with your class.  Please contact a god!'")
     end
     wait(2)
     actor:teleport(get_room(519, 8))
-    get_room(519, 8):at(function()
-        actor:command("%direction%")
-    end)
+    if direction then
+        get_room(519, 8):at(function()
+            actor:command(direction)
+        end)
+    end
 end

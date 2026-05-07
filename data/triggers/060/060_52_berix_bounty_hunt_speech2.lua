@@ -1,9 +1,6 @@
 -- Trigger: Berix bounty hunt speech2
 -- Zone: 60, ID: 52
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 9 if statements
---   Large script: 6004 chars
 --
 -- Original DG Script: #6052
 
@@ -18,10 +15,12 @@ end
 wait(2)
 local person = actor
 local i = person.group_size
+-- Hoisted: branch-scoped `local a` would not be visible to the while below.
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]
@@ -37,29 +36,31 @@ while i >= a do
             if person.level >= (person:get_quest_stage("bounty_hunt") - 1) * 10 then
                 if person:get_quest_var("bounty_hunt:bounty") ~= "running" then
                     person:send(tostring(self.name) .. " says, 'Splendid.'")
+                    -- Hoisted: branch-scoped `local` would not be visible below.
+                    local contract
                     -- switch on person:get_quest_stage("bounty_hunt")
                     if person:get_quest_stage("bounty_hunt") == 1 then
-                        local contract = 50
+                        contract = 50
                     elseif person:get_quest_stage("bounty_hunt") == 2 then
-                        local contract = 51
+                        contract = 51
                     elseif person:get_quest_stage("bounty_hunt") == 3 then
-                        local contract = 52
+                        contract = 52
                     elseif person:get_quest_stage("bounty_hunt") == 4 then
-                        local contract = 53
+                        contract = 53
                     elseif person:get_quest_stage("bounty_hunt") == 5 then
-                        local contract = 54
+                        contract = 54
                     elseif person:get_quest_stage("bounty_hunt") == 6 then
-                        local contract = 55
+                        contract = 55
                     elseif person:get_quest_stage("bounty_hunt") == 7 then
-                        local contract = 56
+                        contract = 56
                     elseif person:get_quest_stage("bounty_hunt") == 8 then
-                        local contract = 57
+                        contract = 57
                     elseif person:get_quest_stage("bounty_hunt") == 9 then
-                        local contract = 58
+                        contract = 58
                     elseif person:get_quest_stage("bounty_hunt") == 10 then
-                        local contract = 59
+                        contract = 59
                     else
-                        local contract = 50
+                        contract = 50
                     end
                     self.room:spawn_object(60, contract)
                     self:command("give contract " .. tostring(person))
