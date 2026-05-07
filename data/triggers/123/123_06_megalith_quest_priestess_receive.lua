@@ -70,7 +70,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
         return _return_value
     end
 elseif actor:get_quest_stage("megalith_quest") == 3 then
-    local step = summon mobiles.template(123, 0).name
+    local step = "summon " .. tostring(mobiles.template(123, 0).name)
     -- 
     -- Set the potential items that could be returned in Stage 3
     -- 

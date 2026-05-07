@@ -121,29 +121,26 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 end
                 -- end clue 5 switch
                 actor:send("Talk to Phayla.")
-                return _return_value
-                -- ends the stage switch
-                if stage > 3 then
-                    if actor:has_item("48917") or actor:has_equipped("48917") then
-                        if stage == 4 then
-                            actor:send("Learning is a life-long process.")
-                            actor:send(tostring(clue2))
-                        elseif stage == 5 then
-                            actor:send("History is so fascinating!")
-                            actor:send(tostring(clue3))
-                        elseif stage == 6 then
-                            actor:send("I know you're following me.  Answer this:")
-                            actor:send("\"" .. tostring(clue5) .. "\"")
-                            actor:send("With the answer you can find the gate to my home here:")
-                            actor:send(tostring(clue4))
-                            actor:send("</>")
-                            actor:send("You will need additional solar energy to power the gate.")
-                            actor:send("Hidden in the dimensional folds around Nordus is an appropriate source.")
-                        end
-                    else
-                        actor:send("Your notes are a jumble of unintelligible squiggles.")
-                        actor:send("You must have " .. tostring(objects.template(489, 17).name) .. " to read them!")
+            elseif stage > 3 then
+                if actor:has_item("48917") or actor:has_equipped("48917") then
+                    if stage == 4 then
+                        actor:send("Learning is a life-long process.")
+                        actor:send(tostring(clue2))
+                    elseif stage == 5 then
+                        actor:send("History is so fascinating!")
+                        actor:send(tostring(clue3))
+                    elseif stage == 6 then
+                        actor:send("I know you're following me.  Answer this:")
+                        actor:send("\"" .. tostring(clue5) .. "\"")
+                        actor:send("With the answer you can find the gate to my home here:")
+                        actor:send(tostring(clue4))
+                        actor:send("</>")
+                        actor:send("You will need additional solar energy to power the gate.")
+                        actor:send("Hidden in the dimensional folds around Nordus is an appropriate source.")
                     end
+                else
+                    actor:send("Your notes are a jumble of unintelligible squiggles.")
+                    actor:send("You must have " .. tostring(objects.template(489, 17).name) .. " to read them!")
                 end
             end
         end

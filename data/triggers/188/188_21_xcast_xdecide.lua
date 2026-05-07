@@ -67,7 +67,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "heal"
         local xmode = "self"
         local xamount = 1000
-    elseif hand of string.find(transport, "arg") then
+    elseif string.find("hand of transport", "arg") then
         local xid = 4
         local xname = "hand of transport"
         local xstars = 2
@@ -83,7 +83,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "area"
         local xmode = "self"
         local xamount = 400
-    elseif iron string.find(maiden, "arg") then
+    elseif string.find("iron maiden", "arg") then
         local xid = 6
         local xname = "iron maiden"
         local xstars = 1
@@ -91,7 +91,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "transport"
         local xmode = "victim"
         local xamount = 18820
-    elseif bodily string.find(charge, "arg") then
+    elseif string.find("bodily charge", "arg") then
         local xid = 7
         local xname = "bodily charge"
         local xstars = 3
@@ -99,7 +99,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "area"
         local xmode = "self"
         local xamount = 500
-    elseif archons string.find(curse, "arg") then
+    elseif string.find("archons curse", "arg") then
         local xid = 8
         local xname = "archons curse"
         local xstars = 2
@@ -107,7 +107,7 @@ if (actor.id >= 18820) and (actor.id <= 18842) then
         local xeffect = "damage"
         local xmode = "victim"
         local xamount = 500
-    elseif caustic string.find(conflaguration, "arg") then
+    elseif string.find("caustic conflaguration", "arg") then
         local xid = 9
         local xname = "caustic conflaguration"
         local xstars = 2

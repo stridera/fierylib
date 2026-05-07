@@ -21,7 +21,7 @@ if actor.level <= 79 then
     actor:send("self.name tells you, 'Hey, this is too dangerous a place for you!'")  -- from MPROG
     self.room:send_except(actor, "self.name looks at actor.name doubtfully and makes a strange gesture.")  -- from MPROG
     actor:teleport(get_room(30, 1))  -- from MPROG
-    if isimmort ($n) then
+    if actor.is_immortal then
         self.room:send("$n $I falls to the ground and starts worshiping you!")  -- from MPROG
         self.room:send_except(actor, "self.name falls to the ground in total awe of actor.name's power.")  -- from MPROG
     end

@@ -38,7 +38,7 @@ elseif self.id >= 340 and self.id <= 349 then
             actor:start_quest("phase_mace")
         end
     end
-    if actor:get_quest_stage("phase_mace")self.level% / 10) + 1 then
+    if actor:get_quest_stage("phase_mace") < (self.level / 10) + 1 then
         _return_value = true
         actor:send("This weapon is bound to someone else!")
     end

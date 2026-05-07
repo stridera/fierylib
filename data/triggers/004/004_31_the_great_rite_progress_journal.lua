@@ -65,7 +65,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                 local receive4 = mobiles.template(123, 3).name
                 local item4 = objects.template(550, 20).name
                 if job1 and job2 and job3 and job4 then
-                    local task = Finish calling the elements!  Return to mobiles.template(123, 1).name and say "&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0"
+                    local task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0\""
                 else
                     local task = "Visit the Keepers and call the elements"
                     master = nil
@@ -81,11 +81,11 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                 local summon = actor:get_quest_var("megalith_quest:summon")
                 local invoke = actor:get_quest_var("megalith_quest:invoke")
                 if prayer == 1 then
-                    local task = Return to master and say, "&7&bGreat Lady of the Stars, hear our prayer!&0"
+                    local task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
                 elseif summon == 1 or summon == 2 or summon == 3 then
-                    local task = Return to master and say, "&7&bWe summon and stir thee!&0"
+                    local task = "Return to " .. tostring(master) .. " and say, \"&7&bWe summon and stir thee!&0\""
                 elseif invoke == 1 or invoke == 2 or invoke == 3 then
-                    local task = Return to master and say, "&7&bWe invoke thee!&0"
+                    local task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
                 end
             elseif stage == 5 then
                 local task = "Kneel before the High Mother to receive Her blessing."
@@ -100,7 +100,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
             end
             if stage < 4 then
                 -- list items already given
-                if job1 or job2 or job3 or job4% then
+                if job1 or job2 or job3 or job4 then
                     actor:send("</>")
                     actor:send("You have already retrieved:")
                     if job1 then

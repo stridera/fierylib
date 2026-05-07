@@ -45,7 +45,7 @@ elseif mode < 8 then
                     victim:send("<yellow>Pain breaks out in your head as the thunder pounds your ears!</> (<b:red>" .. tostring(damage) .. "</>)")
                 end
             end
-            victim_list = victim_list victim.name
+            victim_list = (victim_list or "") .. " " .. tostring(victim.name)
         end
         max_hits = max_hits - 1
     end

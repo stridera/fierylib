@@ -42,7 +42,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                 wait(4)
                 actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
                 self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
-            elseif actor.quest_variable[twisted_sorrow:satisfied_tree:self.room] == 1 then
+            elseif actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) == 1 then
                 _return_value = true
                 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
@@ -152,7 +152,7 @@ elseif actor:get_quest_stage("twisted_sorrow") == 1 then
                             -- 
                             -- 115% of standard
                             -- 
-                            local expmod = (expmod + ((expmod * 2) / 15)
+                            local expmod = (expmod + ((expmod * 2) / 15))
                         elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
                             -- 
                             -- 120% of standard

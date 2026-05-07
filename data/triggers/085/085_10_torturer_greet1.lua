@@ -8,7 +8,7 @@
 
 -- Converted from DG Script #8510: torturer_greet1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if (actor:get_quest_stage("resurrection_quest") == 2 or actor:get_quest_var("resurrection_quest:new") == "yes") and bishop can_be_seen then
+if (actor:get_quest_stage("resurrection_quest") == 2 or actor:get_quest_var("resurrection_quest:new") == "yes") and self.room:find_actor("bishop") then
     local quester = actor.name
     self:say("You've made a fatal mistake, bishop!")
     wait(1)

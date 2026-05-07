@@ -26,7 +26,7 @@ wait(2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room
     local zone = room.id
-    if string.find(arg, "the Arabel ocean calls for aid") or string.find(arg, "spirit I have returned") or string.find(arg, "spirit"), I have returned then
+    if string.find(arg, "the Arabel ocean calls for aid") or string.find(arg, "spirit I have returned") or string.find(arg, "spirit, I have returned") then
         -- 
         -- for Blue-Fog River and Lake
         -- 
@@ -63,7 +63,7 @@ if actor:get_quest_stage("flood") == 1 then
                 self.room:spawn_mobile(390, 15)
                 self.room:send(tostring(color) .. "A three-faced humanoid figure rises from the water.</>")
             end
-        elseif zone == 17834 or (zone >= 17839 and zone <= 17841 or zone == 17847 or zone == 17850 or (zone >= 17853 and zone <= 17856) then
+        elseif zone == 17834 or (zone >= 17839 and zone <= 17841) or zone == 17847 or zone == 17850 or (zone >= 17853 and zone <= 17856) then
             local color = "&4&b"
             local spirit = mobiles.template(390, 15).name
             if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then

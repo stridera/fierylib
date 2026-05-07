@@ -21,16 +21,8 @@ elseif self.id >= 330 and self.id <= 339 then
 end
 -- switch on victim.id
 if victim.id == "-1" then
+    -- Dead-code chunk from converter elided.
     return _return_value
-    if self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330 then
-        if not actor:get_quest_stage("energy_wand") then
-        elseif victim.id == 3013 then
-            actor:start_quest("%energy%_wand")
-        end
-        return _return_value
-    else
-        local refuse = 1
-    end
 elseif victim.id == 18500 then
     local type = "air"
     local wandstep = 3

@@ -79,18 +79,9 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
     end
     _return_value = true
     victim:emote("returns the death talisman to you.")
+    -- Dead-code chunks from converter elided here; the legacy
+    -- DG had additional per-mob increment + wear logic that
+    -- needs reconstruction. TODO(parity).
     return _return_value
-    actor:set_quest_var("resurrection_quest", (tostring(victim.zone_id) .. "_" .. tostring(victim.local_id)), 1)
-    if actor:get_quest_var("resurrection_quest:53411") then
-        local count = actor:get_quest_var("resurrection_quest:53411") + 1
-        actor:set_quest_var("resurrection_quest", (tostring(victim.zone_id) .. "_" .. tostring(victim.local_id)), count)
-    else
-        actor:set_quest_var("resurrection_quest", (tostring(victim.zone_id) .. "_" .. tostring(victim.local_id)), 1)
-    end
-    return _return_value
-    wait(1)
-    self.room:send(tostring(victim.name) .. " feels compelled by " .. tostring(self.shortdesc) .. ".")
-    victim:command("hold " .. tostring(self))
-    victim:command("wear " .. tostring(self) .. " neck")
-end  -- auto-close block
+end
 return _return_value
