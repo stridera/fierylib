@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #13324: overseer-receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 13304 then
+if object.zone_id == 133 and object.local_id == 4 then
     wait(1)
     self:command("blink")
     self:say("This is mine.  It was stolen.")

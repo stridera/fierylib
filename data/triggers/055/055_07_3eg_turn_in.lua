@@ -1,10 +1,19 @@
 -- Trigger: 3eg_turn_in
 -- Zone: 55, ID: 7
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <3eg_turn_in>:266: function arguments expected near ']'
---   Complex nesting: 16 if statements
---   Large script: 17526 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): Mirror of 3bl_turn_in (055_03) for the Eldorian Guard
+-- side. Same systemic converter problems apply -- see 055_03 header for
+-- the full list. Briefly:
+--   1. `object.id == "%id_xxx%"` placeholder strings never match.
+--   2. Branch-scoped `local` writes never escape to the trophy/reward
+--      logic.
+--   3. Gem 5-digit vnums (55566..55589) need (zone, local_id) tuples.
+--   4. Quest var keys still contain `%id_trophy%`/`%id_reward%`.
+--   5. `%get.obj_shortdesc[...]%` interpolation is unresolved.
+-- Light mechanical fixes applied (save call, world.destroy arg) but the
+-- quest gameplay still requires a full rebuild before it is functional.
 --
 -- Original DG Script: #5507
 
@@ -288,7 +297,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Hrm, yes... you have")
             actor:send("</>been out fighting the Black Legion.  I see from my records you have now given")
             actor:send("</>me <b:yellow>" .. tostring(trophies) .. " <white>" .. "%get.obj_shortdesc[%id_trophy%]%</>.'")
-            world.destroy(object.name)
+            world.destroy(object)
             actor:save()
             if trophies < 10 then
                 local faction_advance = 1
@@ -352,7 +361,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             -- 
             -- all other items should be mpjunked or whatever by now
         end
-        actor.name:save()
+        actor:save()
         -- end of !if_gem section or trophy endif
     end
     if is_gem then
@@ -417,10 +426,10 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 -- 
                 -- all other items should be mpjunked or whatever by now
             end
-            world.destroy(object.name)
+            world.destroy(object)
             self:destroy_item("all.eldoria-trophy")
             self:command("give all " .. tostring(actor.name))
-            actor.name:save()
+            actor:save()
         else
             _return_value = true
             wait(2)

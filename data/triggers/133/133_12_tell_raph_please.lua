@@ -1,161 +1,81 @@
--- Trigger: tell_raph_Please
+-- Trigger: tell_raph_please
 -- Zone: 133, ID: 12
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 11 if statements
---   Large script: 8481 chars
+-- Status: CLEAN
 --
 -- Original DG Script: #13312
-
--- Converted from DG Script #13312: tell_raph_Please
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
+--
+-- The reward step of the get_raph_food quest. After the actor finishes the
+-- food chain, they 'tell raph please' (the surrounding plumbing is set up by
+-- 133_07). At quest stage 9 we complete the quest and grant the actor a
+-- class-appropriate skill / spell at full level. Casters get a fresh spell;
+-- martial / hybrid classes get an enhanced skill (switch or pick lock)
+-- whose proficiency scales with level.
 wait(2)
-if actor.is_player then
-    if actor.quest_stageget_raph_food == 9 then
-        actor:complete_quest("get_raph_food")
-        if string.find(actor.class, "Cleric") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'group heal' 1000", 100)
-            if actor.level < 57 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Priest") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'group heal' 1000", 100)
-            if actor.level < 57 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Diabolist") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'group heal' 1000", 100)
-            if actor.level < 57 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Druid") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'invigorate' 1000", 100)
-            if actor.level < 65 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Sorcerer") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'major globe' 1000", 100)
-            if actor.level < 57 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Pyromancer") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'major globe' 1000", 100)
-            if actor.level < 57 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Cryomancer") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'major globe' 1000", 100)
-            if actor.level < 57 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Necromancer") then
-            self:command("smile " .. tostring(actor.name))
-            skills.set_level(actor.name, "'summon dracolich' 1000", 100)
-            if actor.level < 73 then
-                actor.name:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
-            end
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
-        elseif string.find(actor.class, "Warrior") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Thief") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("pick lock", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Paladin") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Antipaladin") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Ranger") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Assassin") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("pick lock", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Mercenary") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Monk") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Berserker") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("switch", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Rogue") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("pick lock", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
-        elseif string.find(actor.class, "Bard") then
-            self:command("smile " .. tostring(actor.name))
-            -- 
-            local total = actor.level * 10 + 50
-            actor.name:set_skill("pick lock", total)
-            actor:save()
-            actor.name:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
+
+if not actor.is_player then
+    return true
+end
+
+if actor:get_quest_stage("get_raph_food") ~= 9 then
+    actor:send(self.name .. " tells you, '" .. "What do you want, go about your business." .. "'")
+    return true
+end
+
+actor:complete_quest("get_raph_food")
+
+-- Spell rewards (full caster classes). The threshold messages warn the
+-- player that their level is not yet high enough to actually cast the spell.
+local spell_rewards = {
+    Cleric      = { spell = "group heal",       min_level = 57 },
+    Priest      = { spell = "group heal",       min_level = 57 },
+    Diabolist   = { spell = "group heal",       min_level = 57 },
+    Druid       = { spell = "invigorate",       min_level = 65 },
+    Sorcerer    = { spell = "major globe",      min_level = 57 },
+    Pyromancer  = { spell = "major globe",      min_level = 57 },
+    Cryomancer  = { spell = "major globe",      min_level = 57 },
+    Necromancer = { spell = "summon dracolich", min_level = 73 },
+}
+
+-- Skill rewards (martial / hybrid classes). proficiency = level * 10 + 50.
+local skill_rewards = {
+    Warrior    = "switch",
+    Thief      = "pick lock",
+    Paladin    = "switch",
+    Antipaladin = "switch",
+    Ranger     = "switch",
+    Assassin   = "pick lock",
+    Mercenary  = "switch",
+    Monk       = "switch",
+    Berserker  = "switch",
+    Rogue      = "pick lock",
+    Bard       = "pick lock",
+}
+
+local class = actor.class
+
+for class_name, reward in pairs(spell_rewards) do
+    if string.find(class, class_name) then
+        self:command("smile " .. tostring(actor.name))
+        skills.set_level(actor, reward.spell, 100)
+        if actor.level < reward.min_level then
+            actor:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
         end
-    else
-        actor.name:send(self.name .. " tells you, '" .. "What do you want, go about your business." .. "'")
+        actor:save()
+        actor:send(self.name .. " tells you, '" .. "There you go, enjoy your new powers." .. "'")
+        return true
     end
 end
+
+for class_name, skill in pairs(skill_rewards) do
+    if string.find(class, class_name) then
+        self:command("smile " .. tostring(actor.name))
+        local total = actor.level * 10 + 50
+        skills.set_level(actor, skill, total)
+        actor:save()
+        actor:send(self.name .. " tells you, '" .. "There you go, enjoy your enhanced skills." .. "'")
+        return true
+    end
+end
+
+return true

@@ -1,12 +1,11 @@
 -- Trigger: supernova_phayla_greet
 -- Zone: 62, ID: 9
 -- Type: MOB, Flags: GREET
--- Status: CLEAN
+--
+-- Phayla's greet. If the actor is at supernova stage 7 (gateway found) she
+-- welcomes them; otherwise she gives a confused, slightly hostile reception.
 --
 -- Original DG Script: #6209
-
--- Converted from DG Script #6209: supernova_phayla_greet
--- Original: MOB trigger, flags: GREET, probability: 100%
 wait(1)
 if actor:get_quest_stage("supernova") == 7 then
     self.room:send(tostring(self.name) .. " says, 'Ah, so you found me " .. tostring(actor.name) .. ".  I was wondering if you would")

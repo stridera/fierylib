@@ -8,14 +8,14 @@
 -- Converted from DG Script #12000: Hooded druid responds to 'hello'
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: hello hi Hello Hi
+-- Speech keywords: hello hi
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hello") or string.find(string.lower(speech), "hi") or string.find(string.lower(speech), "hello") or string.find(string.lower(speech), "hi")) then
+if not (string.find(speech_lower, "hello") or string.find(speech_lower, "hi")) then
     return true  -- No matching keywords
 end
 wait(1)
 if actor:get_has_completed("twisted_sorrow") then
-    self:command("bow " .. tostring(actor.name))
+    self:command("bow " .. actor.name)
     wait(1)
     self:say("Hello my friend.  The trees are still thankful for your service.")
 else

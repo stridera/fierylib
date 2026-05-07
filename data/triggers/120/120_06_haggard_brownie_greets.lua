@@ -11,12 +11,13 @@ if actor.is_player and self.room == 12103 then
     wait(3)
     self:emote("looks at you with desperation.")
     wait(8)
-    local room = get.room[self.room]
-    if room:get_people("12020") then
+    -- Mob 120-20 = dark pixie tormentor. Present in this room?
+    local tormentor = self.room:find_actor("dark-pixie-tormentor")
+    if tormentor then
         self:say("Please, help me escape from these fiends!")
         wait(3)
-        self.room:find_actor("dark-pixie-tormentor"):command("slap haggard-brownie")
-        self.room:find_actor("dark-pixie-tormentor"):emote("hisses, 'It will be ssssilent!'")
+        tormentor:command("slap haggard-brownie")
+        tormentor:emote("hisses, 'It will be ssssilent!'")
         wait(2)
         self:emote("cringes away, uttering a little yelp.")
     else

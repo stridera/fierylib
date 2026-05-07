@@ -10,10 +10,11 @@
 
 -- Speech keywords: exit exit?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "exit") or string.find(string.lower(speech), "exit?")) then
+if not (string.find(speech_lower, "exit") or string.find(speech_lower, "exit?")) then
     return true  -- No matching keywords
 end
--- to make this generic use %self.name% instead of raph, room is toughter..
+-- Note: hardcoded teleport room (133, 1) — making this generic for other
+-- mobs would need a per-mob exit room mapping.
 self:command("growl")
 self:say("You are too cruel!")
 actor:send("Raph taps his wrists together and you are covered in smoke!")

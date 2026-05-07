@@ -10,12 +10,12 @@
 
 -- Speech keywords: escort
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "escort")) then
+if not string.find(speech_lower, "escort") then
     return true  -- No matching keywords
 end
-local rescuer = actor.name
-globals.rescuer = globals.rescuer or true
+-- Remember who is escorting us so trigger 120-21 can hand out the reward.
+globals.rescuer = actor
 if self.room ~= 12103 and self.room ~= 12095 and self.room ~= 12030 then
     wait(4)
-    self:follow(actor.name)
+    self:follow(actor)
 end

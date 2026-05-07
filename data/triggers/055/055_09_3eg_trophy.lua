@@ -1,7 +1,14 @@
 -- Trigger: 3eg_trophy
 -- Zone: 55, ID: 9
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: CLEAN
+-- Status: TODO(parity)
+--
+-- TODO(parity): The list of "items we're interested in" prints raw
+-- `%get.obj_shortdesc[%id_trophyN%]%` placeholders. Replace each line
+-- with `objects.template(55, id_trophyN).name`. (The trophy IDs here
+-- are already small integers -- 5503..5515 -- but those are legacy
+-- 5-digit vnums; re-derive once the trophy items are catalogued under
+-- (zone, local_id).)
 --
 -- Original DG Script: #5509
 

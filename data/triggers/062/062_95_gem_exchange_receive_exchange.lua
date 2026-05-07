@@ -1,127 +1,92 @@
 -- Trigger: Gem Exchange receive exchange
 -- Zone: 62, ID: 95
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Complex nesting: 25 if statements
+--
+-- Soltan Gem Exchange order fulfillment. Player has previously chosen a gem
+-- via 062_93 / confirmed it via 062_94 (gem_exchange:gem_id quest_var holds
+-- the legacy 5-digit vnum of the desired gem). When the player hands over a
+-- gemstone, we accept it iff its vnum is >= the cutoff for the requested item
+-- (i.e. equal or greater rarity), then spawn and give the requested gem.
+--
+-- All gems live in zone 555 with vnums 55566..55747. The cutoff thresholds
+-- below mirror the original DG Script's tiering.
 --
 -- Original DG Script: #6295
 
--- Converted from DG Script #6295: Gem Exchange receive exchange
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
+-- TODO(parity): the legacy script gates `object.id` on the 5-digit vnum.
+-- Here `object.id` is the local id within the gem's zone -- we reconstruct
+-- the 5-digit form (zone*100 + local_id) before comparing. Verify that all
+-- gems being handed in really live in zone 555.
+
 local item = actor:get_quest_var("gem_exchange:gem_id")
-if item ~= 0 then
-    if item <= 55569 then
-        if object.id >= 55566 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55573 then
-        if object.id >= 55570 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55577 then
-        if object.id >= 55574 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55581 then
-        if object.id >= 55578 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55585 then
-        if object.id >= 55582 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55589 then
-        if object.id >= 55586 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55593 then
-        if object.id >= 55590 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55604 then
-        if object.id >= 55594 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55615 then
-        if object.id >= 55605 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55626 then
-        if object.id >= 55616 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55637 then
-        if object.id >= 55627 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55648 then
-        if object.id >= 55638 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55659 then
-        if object.id >= 55649 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55670 then
-        if object.id >= 55660 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55681 then
-        if object.id >= 55671 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55692 then
-        if object.id >= 55682 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55703 then
-        if object.id >= 55693 and object.id <=55751 then
-            local found = 1
-        end
-    elseif item <= 55714 then
-        if object.id >= 55704 and object.id <=55747 then
-            local found = 1
-        end
-    elseif item <= 55725 then
-        if object.id >= 55715 and object.id <=55747 then
-            local found = 1
-        end
-    elseif item <= 55736 then
-        if object.id >= 55726 and object.id <=55747 then
-            local found = 1
-        end
-    elseif item <= 55747 then
-        if object.id >= 55737 and object.id <=55747 then
-            local found = 1
-        end
-    end
-    if found == 1 then
-        wait(2)
-        actor:send(tostring(self.name) .. " says, 'Here you are, as requested!'")
-        world.destroy(object)
-        self.room:spawn_object(math.floor(item / 100), item % 100)
-        self:command("give all " .. tostring(actor))
-        wait(2)
-        actor:send(tostring(self.name) .. " says, 'A pleasure doing business with you!'")
-        actor:set_quest_var("gem_exchange", "gem_id", 0)
-    else
-        _return_value = true
-        actor:send(tostring(self.name) .. " refuses to perform the exchange.")
-        wait(1)
-        if object.id >= 55566 and object.id <=55751 then
-            actor:send(tostring(self.name) .. " says, 'I'm afraid " .. tostring(object.shortdesc) .. " isn't of high enough rarity")
-            actor:send("</>to exchange for " .. "%get.obj_shortdesc[%item%]%.'")
-        else
-            actor:send(tostring(self.name) .. " says, 'Sorry, " .. tostring(object.shortdesc) .. " isn't the kind of thing")
-            actor:send("</>we trade around here...'")
-        end
-    end
-else
-    _return_value = true
+if item == 0 or item == nil then
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'I don't have any exchange orders listed for you at the")
     actor:send("</>moment...'")
+    return true
 end
-return _return_value
+
+local obj_vnum = object.zone_id * 100 + object.local_id
+
+-- Decode the minimum-acceptable vnum cutoff for the requested item.
+local function cutoff_for(it)
+    if it <= 55569 then return 55566
+    elseif it <= 55573 then return 55570
+    elseif it <= 55577 then return 55574
+    elseif it <= 55581 then return 55578
+    elseif it <= 55585 then return 55582
+    elseif it <= 55589 then return 55586
+    elseif it <= 55593 then return 55590
+    elseif it <= 55604 then return 55594
+    elseif it <= 55615 then return 55605
+    elseif it <= 55626 then return 55616
+    elseif it <= 55637 then return 55627
+    elseif it <= 55648 then return 55638
+    elseif it <= 55659 then return 55649
+    elseif it <= 55670 then return 55660
+    elseif it <= 55681 then return 55671
+    elseif it <= 55692 then return 55682
+    elseif it <= 55703 then return 55693
+    elseif it <= 55714 then return 55704
+    elseif it <= 55725 then return 55715
+    elseif it <= 55736 then return 55726
+    elseif it <= 55747 then return 55737
+    end
+    return nil
+end
+
+-- Upper bound: highest-tier consumables stop at 55747 (top tier 3 set);
+-- lower-class tiers are valid up through 55751 in the original.
+local function upper_for(it)
+    if it <= 55703 then return 55751 end
+    return 55747
+end
+
+local lo = cutoff_for(item)
+local hi = upper_for(item)
+local in_gem_range = obj_vnum >= 55566 and obj_vnum <= 55751
+local found = lo and hi and obj_vnum >= lo and obj_vnum <= hi
+
+if found then
+    wait(2)
+    actor:send(tostring(self.name) .. " says, 'Here you are, as requested!'")
+    world.destroy(object)
+    self.room:spawn_object(math.floor(item / 100), item % 100)
+    self:command("give all " .. tostring(actor))
+    wait(2)
+    actor:send(tostring(self.name) .. " says, 'A pleasure doing business with you!'")
+    actor:set_quest_var("gem_exchange", "gem_id", 0)
+else
+    actor:send(tostring(self.name) .. " refuses to perform the exchange.")
+    wait(1)
+    if in_gem_range then
+        local item_name = tostring(objects.template(math.floor(item / 100), item % 100).name)
+        actor:send(tostring(self.name) .. " says, 'I'm afraid " .. tostring(object.shortdesc) .. " isn't of high enough rarity")
+        actor:send("</>to exchange for " .. item_name .. ".'")
+    else
+        actor:send(tostring(self.name) .. " says, 'Sorry, " .. tostring(object.shortdesc) .. " isn't the kind of thing")
+        actor:send("</>we trade around here...'")
+    end
+end
+return true

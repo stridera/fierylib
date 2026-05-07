@@ -1,18 +1,14 @@
 -- Trigger: supernova_phayla_speech2
 -- Zone: 62, ID: 11
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <supernova_phayla_speech2>:9: 'then' expected near 'are'
+--
+-- Easter-egg: if anyone actually asks Phayla "how are you?" or "How's your day
+-- going?" she gives them a cookie (238, 87) instead of brushing them off.
 --
 -- Original DG Script: #6211
 
--- Converted from DG Script #6211: supernova_phayla_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: how
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "how")) then
-    return true  -- No matching keywords
+if not string.find(string.lower(speech), "how") then
+    return true
 end
 if string.find(speech, "how are you?") or string.find(speech, "How's your day going?") then
     wait(2)

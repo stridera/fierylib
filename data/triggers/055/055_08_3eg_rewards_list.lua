@@ -1,9 +1,12 @@
 -- Trigger: 3eg_rewards_list
 -- Zone: 55, ID: 8
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Complex nesting: 16 if statements
---   Large script: 7059 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): Mirror of 3bl_rewards_list (055_04) for the Eldorian
+-- Guard side. Same `%get.obj_shortdesc[%id_xxx%]%` placeholder lines
+-- never resolve, and gem 5-digit vnums (55566..55589) need (zone,
+-- local_id) re-mapping.
 --
 -- Original DG Script: #5508
 

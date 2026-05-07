@@ -1,17 +1,17 @@
 -- Trigger: shift_corpse_guildmaster_speech2
 -- Zone: 62, ID: 2
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+--
+-- Necromancer guildmaster, second pass: when a stage-1 shift_corpse questor
+-- asks about "taken"/"god"/"who", explains that they must defeat Lokari and
+-- hands them the glowing black crystal (62, 28).
 --
 -- Original DG Script: #6202
 
--- Converted from DG Script #6202: shift_corpse_guildmaster_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: taken? god? who?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "taken?") or string.find(string.lower(speech), "god?") or string.find(string.lower(speech), "who?")) then
-    return true  -- No matching keywords
+if not (string.find(string.lower(speech), "taken")
+        or string.find(string.lower(speech), "god")
+        or string.find(string.lower(speech), "who")) then
+    return true
 end
 if actor:get_quest_stage("shift_corpse") == 1 then
     wait(2)

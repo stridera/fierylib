@@ -9,14 +9,14 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
     wait(3)
-    if object.vnun == 49024 then
+    if object.zone_id == 490 and object.local_id == 24 then
         if actor:get_quest_stage("get_raph_food") == 8 then
             self:emote("smiles a bit as his tummy growls very much.")
             wait(3)
             self:command("shake " .. tostring(actor.name))
             self:say("I thank you for all of your effort, but I am afraid you are too late.  Death is coming for me.")
             actor:advance_quest("get_raph_food")
-            actor.name:send(self.name .. " tells you, '" .. "If you would like your prize, 'tell raph Please'." .. "'")
+            actor:send(self.name .. " tells you, '" .. "If you would like your prize, 'tell raph Please'." .. "'")
             wait(2)
         else
             -- switch on actor:get_quest_stage("get_raph_food")

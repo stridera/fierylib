@@ -15,5 +15,5 @@ if actor.is_player then
     self:say("You know a Bum named doal i hear their is a price on his head")
     self.room:spawn_object(133, 1)
     self:command("give pick " .. tostring(actor.name))
-    actor.name:command("wield pick")
+    actor:command("wield pick")
 end

@@ -11,5 +11,4 @@
 if actor.is_player then
     actor:send(tostring(self.name) .. " says, 'This is no place for puny mortals, like yourself!'")
     actor:send(tostring(self.name) .. " says, 'Go home at once!'")
-else
 end

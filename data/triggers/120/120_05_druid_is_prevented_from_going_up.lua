@@ -4,11 +4,13 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #12005
-
--- Converted from DG Script #12005: Druid is prevented from going up
--- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-local _return_value = true  -- Default: allow action
-if actor.id == 12018 then
-    _return_value = true
+--
+-- TODO(parity): Original DG script returns 1 ("allow") when actor vnum is
+-- 12018 (the hooded druid mob). The trigger name says "prevented from going
+-- up", which suggests the legacy semantic was that PREENTRY returning 1 in
+-- that branch *blocks* movement. Verify Rust runtime PREENTRY return-value
+-- convention before flipping this. Behaviour preserved verbatim for now.
+if actor.zone_id == 120 and actor.local_id == 18 then
+    return true
 end
-return _return_value
+return true

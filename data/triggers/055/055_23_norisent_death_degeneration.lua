@@ -7,24 +7,23 @@
 
 -- Converted from DG Script #5523: Norisent_death_degeneration
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-local i = actor.group_size
-if i then
-    local a = 1
-    while i >= a do
-        local person = actor.group_member[a]
-        if person.room == self.room then
-            if person:get_quest_stage("degeneration") == 7 then
-                person:advance_quest("degeneration")
-                self.room:spawn_object(85, 51)
-                self.room:send("<b:green>A small book slips from " .. tostring(self.name) .. "'s robes.</>")
-            end
-        elseif person then
-            i = i + 1
+-- When Norisent dies, drop his book (zone 85, id 51) for any party member
+-- in the room who is on Degeneration quest stage 7. Falls back to the
+-- killing actor if they are not in a group.
+local advanced = false
+if actor.group then
+    for _, person in ipairs(actor.group) do
+        if person.room == self.room and person:get_quest_stage("degeneration") == 7 then
+            person:advance_quest("degeneration")
+            advanced = true
         end
-        a = a + 1
     end
-elseif actor:get_quest_stage("degeneration") == 7 then
+end
+if not advanced and actor:get_quest_stage("degeneration") == 7 then
     actor:advance_quest("degeneration")
+    advanced = true
+end
+if advanced then
     self.room:spawn_object(85, 51)
     self.room:send("<b:green>A small book slips from " .. tostring(self.name) .. "'s robes.</>")
 end

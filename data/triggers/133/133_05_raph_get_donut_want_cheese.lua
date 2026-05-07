@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
     wait(3)
-    if object.vnun == 36303 then
+    if object.zone_id == 363 and object.local_id == 3 then
         if actor:get_quest_stage("get_raph_food") == 4 then
             self:emote("whines as his tummy growls again.")
             wait(3)

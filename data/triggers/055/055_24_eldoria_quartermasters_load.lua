@@ -1,8 +1,18 @@
 -- Trigger: Eldoria Quartermasters load
 -- Zone: 55, ID: 24
 -- Type: MOB, Flags: LOAD
--- Status: NEEDS_REVIEW
---   Large script: 8061 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): The converter truncated the original DG load script
+-- (note the "Fragment (possible truncation)" comments) and the
+-- `globals.X = globals.X or true` chains preserve only the variable
+-- *names* -- the actual gem/reward IDs were dropped. As a result this
+-- trigger does nothing useful: it sets a long list of globals to the
+-- boolean `true` and exits. Whatever the original load script did
+-- (likely populating shared lookup tables consumed by 055_03/055_04
+-- and 055_07/055_08) needs to be reconstructed from the legacy DG
+-- source before it can be ported, and the gem 5-digit vnums need
+-- (zone, local_id) re-mapping at the same time.
 --
 -- Original DG Script: #5524
 

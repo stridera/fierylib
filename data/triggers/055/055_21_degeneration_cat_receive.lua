@@ -1,8 +1,22 @@
 -- Trigger: degeneration_cat_receive
 -- Zone: 55, ID: 21
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Large script: 11930 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): The Degeneration quest's per-stage handoff items are
+-- compared by legacy 5-digit vnums (58008, 37015, 51075, 43020, 47003,
+-- 48009, 8551, 12526). In the (zone, local_id) world `object.id` is
+-- the local id only, so these comparisons need to match `object.id`
+-- *and* `object.zone_id` against the actual catalog tuples for each
+-- stage's quest item.
+--
+-- Also TODO: stage 3 calls `get_obj_noadesc("51075")`, which is not in
+-- the runtime API. Replace with `objects.template(<zone>, <id>).name`
+-- (or `.shortdesc`) once the mask item is re-derived.
+--
+-- The `skills.set_level(actor.name, ...)` call at the end of stage 9
+-- has been corrected to pass the actor object, matching the
+-- `skills.set_level(actor, skill_name, level)` binding.
 --
 -- Original DG Script: #5521
 
@@ -224,11 +238,11 @@ elseif stage == 9 and object.id == 12526 then
     wait(4)
     actor:send("Looking at the notes, you understand what " .. tostring(self.name) .. " has done.")
     actor:send("<b:white>You have learned &9Degeneration<white>!</>")
-    skills.set_level(actor.name, "degeneration", 100)
+    skills.set_level(actor, "degeneration", 100)
     actor:complete_quest("degeneration")
 else
     _return_value = true
-    self:command("hiss " .. tostring(actor))
+    self:command("hiss " .. tostring(actor.name))
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'This isn't what I asked for. What are you, stupid?")

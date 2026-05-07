@@ -27,8 +27,6 @@ if string.find(actor.race, "troll") then
             actor:send(tostring(self.name) .. " says to you, 'One is a large hunk of malachite, a stone we have always valued for its deep green color.  Our enemies the swamp lizards also liked its color, however, and guard it jealously.'")
             wait(2)
             actor:send(tostring(self.name) .. " says to you, 'I am sure you can restore our lost honor.  Return them to me and the power of the Trolls shall be known once again!'")
-            local troll_quest = 1
-            globals.troll_quest = globals.troll_quest or true
         else
             self:command("wink " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " says to you, 'Come back to me when you have grown a bit and I shall see what we can do for each other, young one.'")

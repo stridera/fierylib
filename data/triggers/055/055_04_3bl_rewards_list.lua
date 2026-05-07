@@ -1,9 +1,15 @@
 -- Trigger: 3bl_rewards_list
 -- Zone: 55, ID: 4
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
---   Complex nesting: 16 if statements
---   Large script: 7054 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): Reward listing is non-functional. Every line that lists
+-- a reward uses `%get.obj_shortdesc[%id_xxx%]%` -- legacy DG
+-- interpolation that never resolves at runtime, so players will see the
+-- raw placeholder text. Replace the literal lines with
+-- `objects.template(zone, local_id).name` lookups once the gem zone is
+-- rebuilt; the gem 5-digit vnums in this file (55566..55589) also need
+-- to be re-mapped to (zone, local_id).
 --
 -- Original DG Script: #5504
 

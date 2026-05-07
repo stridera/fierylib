@@ -1,88 +1,107 @@
 -- Trigger: heavens_gate_key_seal
 -- Zone: 133, ID: 29
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <heavens_gate_key_seal>:17: function arguments expected near '.'
---   Complex nesting: 8 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #13329
+--
+-- "seal <rift|portal|pool|arch>" command for the Key of Heaven (133, 51).
+-- Lives on the key. The actor must be on stage 3 of the heavens_gate quest
+-- and standing in one of the seven anomaly rooms. Sealing destroys the
+-- room's anomaly object, marks the room sealed in quest vars, and reveals
+-- one more word of the closing phrase. Sealing the seventh rift advances
+-- the quest to stage 4 and beckons the actor back to the cavern.
+--
+-- Anomaly rooms (legacy IDs preserved as quest_var keys; same scheme as
+-- 133_31_status_checker):
+--   51077 (510, 77)  Nordus arch
+--   16407 (164,  7)  Mystwatch demon arch
+--   16094 (160, 94)  Mystwatch fortress portal
+--   55735 (557, 35)  Black rock trail portal
+--   49024 (490, 24)  Griffin pool
+--   55126 (551, 26)  Huitzipia (war) pool
+--   55112 (551, 12)  Xapizo (death) pool
 
--- Converted from DG Script #13329: heavens_gate_key_seal
--- Original: OBJECT trigger, flags: COMMAND, probability: 3%
-
--- 3% chance to trigger
-if not percent_chance(3) then
+-- Command filter: seal
+if cmd ~= "seal" then
     return true
 end
 
--- Command filter: seal
-if not (cmd == "seal") then
-    return true  -- Not our command
+if not (string.find(arg, "rift") or string.find(arg, "portal")
+     or string.find(arg, "pool") or string.find(arg, "arch")) then
+    return true
 end
-local _return_value = true  -- Default: allow action
-if string.find(arg, "rift") or string.find(arg, "portal") or string.find(arg, "pool") or string.find(arg, "arch") then
-    local seal = actor:get_quest_var("heavens_gate:sealed")
-    if self.room == 51077 or self.room == 16407 or self.room == 16094 or self.room == 55735 or self.room == 49024 or self.room == 55126 or self.room == 55112 then
-        if actor:get_quest_var("heavens_gate:" .. tostring(self.room)) then
-            actor:send("You have already sealed this anomaly.")
-        else
-            if actor:get_quest_stage("heavens_gate") == 3 then
-                actor:set_quest_var("heavens_gate", "%self.room%", 1)
-                actor:send("You begin to chant...")
-                self.room:send_except(actor, tostring(actor.name) .. " begins to chant...")
-                actor:send("The power of the heavens courses through " .. tostring(self.shortdesc) .. ".")
-                wait(2)
-                self.room:send(tostring(self.shortdesc) .. " begins to burn with a fierce energy!")
-                wait(2)
-                self.room:send("Brilliant rays of light shoot out of " .. tostring(self.shortdesc) .. ", sealing the dimensional portal!")
-                if self.room == 51077 then
-                    world.destroy(self.room:find_object("arch"))
-                    self.room:teleport_all(get_room(510, 3))
-                elseif self.room == 16407 then
-                    world.destroy(self.room:find_object("arch"))
-                elseif self.room == 49024 or self.room == 55126 or self.room == 55112 then
-                    world.destroy(self.room:find_object("energy"))
-                elseif self.room == 16094 or self.room == 55735 then
-                    world.destroy(self.room:find_object("portal"))
-                end
-                local sealed = seal + 1
-                actor:set_quest_var("heavens_gate", "sealed", sealed)
-                wait(1)
-                -- switch on sealed
-                if sealed == 1 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv</>")
-                elseif sealed == 2 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv soeeiy</>")
-                elseif sealed == 3 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv soeeiy vrtvln</>")
-                elseif sealed == 4 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv soeeiy vrtvln eau okia khz</>")
-                elseif sealed == 5 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv soeeiy vrtvln eau okia khz lrrvzryp</>")
-                elseif sealed == 6 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj</>")
-                elseif sealed == 7 then
-                    actor:send("As the rift collapses, words float up in your mind:")
-                    actor:send("<b:white>yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj bzjbie hi</>")
-                    wait(2)
-                    local room = get_room("13358")
-                    actor:send("<b:white>A vision of starlight beckons you back to " .. tostring(room.name) .. ".</>")
-                    actor:advance_quest("heavens_gate")
-                else
-                    _return_value = true
-                end
-            end
-        end
-    else
-        actor:send("There are no active rifts here to seal.")
-    end
-else
-    _return_value = true
+
+if actor:get_quest_stage("heavens_gate") ~= 3 then
+    return true
 end
-return _return_value
+
+local room_legacy_id = self.room.zone_id * 100 + self.room.local_id
+
+local anomaly_rooms = {
+    [51077] = "arch",
+    [16407] = "arch",
+    [16094] = "portal",
+    [55735] = "portal",
+    [49024] = "energy",
+    [55126] = "energy",
+    [55112] = "energy",
+}
+
+local anomaly_keyword = anomaly_rooms[room_legacy_id]
+if not anomaly_keyword then
+    actor:send("There are no active rifts here to seal.")
+    return true
+end
+
+local room_var = "heavens_gate:" .. tostring(room_legacy_id)
+if actor:get_quest_var(room_var) then
+    actor:send("You have already sealed this anomaly.")
+    return true
+end
+
+actor:set_quest_var("heavens_gate", tostring(room_legacy_id), 1)
+actor:send("You begin to chant...")
+self.room:send_except(actor, tostring(actor.name) .. " begins to chant...")
+actor:send("The power of the heavens courses through " .. tostring(self.shortdesc) .. ".")
+wait(2)
+self.room:send(tostring(self.shortdesc) .. " begins to burn with a fierce energy!")
+wait(2)
+self.room:send("Brilliant rays of light shoot out of " .. tostring(self.shortdesc) .. ", sealing the dimensional portal!")
+
+world.destroy(self.room:find_object(anomaly_keyword))
+
+-- Special case: Nordus seals also sweep the room contents to (510, 3).
+if room_legacy_id == 51077 then
+    self.room:teleport_all(get_room(510, 3))
+end
+
+local sealed = (actor:get_quest_var("heavens_gate:sealed") or 0) + 1
+actor:set_quest_var("heavens_gate", "sealed", sealed)
+wait(1)
+
+-- Each step appends one more chunk of the cipher to be revealed.
+local phrase_steps = {
+    "yamo lv",
+    "yamo lv soeeiy",
+    "yamo lv soeeiy vrtvln",
+    "yamo lv soeeiy vrtvln eau okia khz",
+    "yamo lv soeeiy vrtvln eau okia khz lrrvzryp",
+    "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj",
+    "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj bzjbie hi",
+}
+
+local phrase = phrase_steps[sealed]
+if phrase then
+    actor:send("As the rift collapses, words float up in your mind:")
+    actor:send("<b:white>" .. phrase .. "</>")
+end
+
+if sealed == 7 then
+    wait(2)
+    local room = get_room(133, 58)
+    actor:send("<b:white>A vision of starlight beckons you back to " .. tostring(room.name) .. ".</>")
+    actor:advance_quest("heavens_gate")
+end
+
+return true

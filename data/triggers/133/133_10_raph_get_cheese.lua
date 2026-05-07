@@ -4,21 +4,15 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #13310
-
--- Converted from DG Script #13310: raph_get_cheese
--- Original: OBJECT trigger, flags: GET, probability: 100%
-local _return_value = true  -- Default: allow action
+--
+-- Fires when the player picks up the cheese. If the actor is on stage 5 of
+-- the get_raph_food quest ("fetch cheese"), advance them to stage 6.
+--
+-- TODO(parity): see 133_08 — same dead-code pattern in the converter for
+-- the "cheese turns to mushy goo" anti-dupe branch. Intent unverifiable.
 if actor.is_player then
     if actor:get_quest_stage("get_raph_food") == 5 then
-        if already_retrieved_cheese == 1 then
-            self.room:send_except(actor, "The cheese turns to a mushy goo in " .. tostring(actor.name) .. "'s hands.")
-            actor:send("You squished the cheese into goo!")
-            _return_value = true
-        else
-            actor:advance_quest("get_raph_food")
-        end
+        actor:advance_quest("get_raph_food")
     end
 end
-local already_retrieved_cheese = 1
-globals.already_retrieved_cheese = globals.already_retrieved_cheese or true
-return _return_value
+return true

@@ -8,19 +8,19 @@
 -- Converted from DG Script #12001: Druid responds to 'yes'
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes Yes
+-- Speech keywords: yes
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes")) then
+if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
 wait(1)
 if actor:get_has_completed("twisted_sorrow") then
-    self:command("smile " .. tostring(actor.name))
+    self:command("smile " .. actor.name)
     wait(1)
     self:say("The trees are satisfied, my friend.")
 else
-    actor:send(tostring(self.name) .. " looks over you carefully.")
-    self.room:send_except(actor, tostring(self.name) .. " looks over " .. tostring(actor.name) .. " carefully.")
+    actor:send(self.name .. " looks over you carefully.")
+    self.room:send_except(actor, self.name .. " looks over " .. actor.name .. " carefully.")
     wait(2)
     self.room:send("The hooded druid says, 'You seem the bright sort, and I sense some compassion")
     self.room:send("</>in you.  If you can muster the kindness to minister to the sorrow that these")

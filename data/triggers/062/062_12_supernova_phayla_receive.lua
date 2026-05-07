@@ -1,25 +1,36 @@
 -- Trigger: supernova_phayla_receive
 -- Zone: 62, ID: 12
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <supernova_phayla_receive>:5: function arguments expected near '.'
+--
+-- Phayla accepts the miniature sun (510, 73) and Phayla's lamp (489, 17) as
+-- payment for teaching Supernova. Tracks each item via quest_var keys so the
+-- player can hand them in across sessions; once both are received she runs
+-- the teaching cinematic, sets the supernova skill to 100, and completes the
+-- quest.
 --
 -- Original DG Script: #6212
 
--- Converted from DG Script #6212: supernova_phayla_receive
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
-if object.id == 51073 or object.id == 48917 then
-    if actor:get_quest_var("supernova:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
-        _return_value = true
+-- TODO(parity): legacy used `skills.set_level(actor.name, "supernova", 100)`.
+-- Confirm the runtime API (likely `actor:set_skill_level("supernova", 100)`)
+-- and migrate; left as-is to preserve original behavior.
+
+local function payment_key(obj)
+    return tostring(obj.zone_id) .. "_" .. tostring(obj.local_id)
+end
+
+local is_sun = (object.zone_id == 510 and object.local_id == 73)
+local is_lamp = (object.zone_id == 489 and object.local_id == 17)
+
+if is_sun or is_lamp then
+    if actor:get_quest_var("supernova:" .. payment_key(object)) == 1 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("You've already given me this.")
     else
-        actor:set_quest_var("supernova", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
+        actor:set_quest_var("supernova", payment_key(object), 1)
         wait(2)
         self:command("nod")
         world.destroy(object)
-        if actor:get_quest_var("supernova:51073") and actor:get_quest_var("supernova:48917") then
+        if actor:get_quest_var("supernova:510_73") == 1 and actor:get_quest_var("supernova:489_17") == 1 then
             self:say("Alright, get comfortable.  This may take a while.")
             wait(3)
             self.room:send(tostring(self.name) .. " demonstrates some of the basics.")
@@ -49,8 +60,7 @@ if object.id == 51073 or object.id == 48917 then
         end
     end
 else
-    _return_value = true
     self:say("This isn't acceptable payment.")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 end
-return _return_value
+return true

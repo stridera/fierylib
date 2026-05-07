@@ -26,7 +26,7 @@ local will_drop = random(1, 100)
 -- 
 if will_drop <= 10 then
     -- drop nothing and bail
-    return _return_value
+    return true
 end
 if will_drop <= 50 then
     self.room:spawn_object(55, id_trophy1)

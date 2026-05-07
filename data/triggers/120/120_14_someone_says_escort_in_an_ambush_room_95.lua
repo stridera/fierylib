@@ -10,18 +10,19 @@
 
 -- Speech keywords: escort
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "escort")) then
+if not string.find(speech_lower, "escort") then
     return true  -- No matching keywords
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
 wait(4)
-if (self:get_people("12019")) and not (self:get_people("12021")) and not (self:get_people("12022")) then
-    self.room:find_actor("haggard-brownie"):command("nod " .. tostring(actor.name))
-    self.room:find_actor("haggard-brownie"):say("Please take me back to the light forest!")
+local brownie = self.room:find_actor("haggard-brownie")
+local male = self.room:find_actor("dark-pixie-ambusher-male")
+local female = self.room:find_actor("dark-pixie-ambusher-female")
+if brownie and not male and not female then
+    brownie:command("nod " .. actor.name)
+    brownie:say("Please take me back to the light forest!")
     wait(8)
-    self.room:find_actor("haggard-brownie"):follow(actor.name)
-elseif (self:get_people("12019")) and ((self:get_people("12021")) or (self:get_people("12022"))) then
-    self.room:find_actor("haggard-brownie"):emote("glances fearfully at a dark pixie.")
+    brownie:follow(actor)
+elseif brownie and (male or female) then
+    brownie:emote("glances fearfully at a dark pixie.")
 end
-return _return_value
+return true

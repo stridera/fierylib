@@ -4,21 +4,15 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #13311
-
--- Converted from DG Script #13311: raph_get_mussel
--- Original: OBJECT trigger, flags: GET, probability: 100%
-local _return_value = true  -- Default: allow action
+--
+-- Fires when the player picks up the mussel. If the actor is on stage 7 of
+-- the get_raph_food quest ("fetch mussel"), advance them to stage 8.
+--
+-- TODO(parity): see 133_08 — same dead-code pattern in the converter for
+-- the "mussel slips from fingers" anti-dupe branch. Intent unverifiable.
 if actor.is_player then
     if actor:get_quest_stage("get_raph_food") == 7 then
-        if already_retrieved_mussel == 1 then
-            self.room:send_except(actor, "The mussel slips from " .. tostring(actor.name) .. "'s fingers, splatting on the ground.")
-            actor:send("The mussel slips from your hands, darn slimy things.")
-            _return_value = true
-        else
-            actor:advance_quest("get_raph_food")
-        end
+        actor:advance_quest("get_raph_food")
     end
 end
-local already_retrieved_mussel = 1
-globals.already_retrieved_mussel = globals.already_retrieved_mussel or true
-return _return_value
+return true

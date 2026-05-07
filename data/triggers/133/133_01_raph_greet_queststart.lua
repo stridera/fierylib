@@ -1,10 +1,15 @@
 -- Trigger: raph_greet_queststart
 -- Zone: 133, ID: 1
 -- Type: MOB, Flags: GREET
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <raph_greet_queststart>:8: <eof> expected near 'else'
+-- Status: CLEAN
 --
 -- Original DG Script: #13301
+--
+-- Raph's greeting on entry. Sets the stage for the get_raph_food quest:
+-- he expresses his hunger and prompts the actor to offer help. The
+-- actor then says "yes" or "no" (handled by 133_02) to start or refuse
+-- the quest. Comments below preserve the original quest design notes
+-- about reward branches per class.
 
 -- Converted from DG Script #13301: raph_greet_queststart
 -- Original: MOB trigger, flags: GREET, probability: 100%

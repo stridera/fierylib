@@ -1,7 +1,12 @@
 -- Trigger: 3bl_trophy
 -- Zone: 55, ID: 10
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: CLEAN
+-- Status: TODO(parity)
+--
+-- TODO(parity): Mirror of 3eg_trophy (055_09). The "items we're
+-- interested in" list prints raw `%get.obj_shortdesc[%id_trophyN%]%`
+-- placeholders -- swap to `objects.template(55, id_trophyN).name` once
+-- the trophy items are re-mapped to (zone, local_id).
 --
 -- Original DG Script: #5510
 

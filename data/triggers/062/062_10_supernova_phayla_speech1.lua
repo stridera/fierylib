@@ -1,17 +1,18 @@
 -- Trigger: supernova_phayla_speech1
 -- Zone: 62, ID: 10
 -- Type: MOB, Flags: SPEECH
--- Status: CLEAN
+--
+-- Phayla's reply when a stage-7 supernova questor asks her about supernova /
+-- teaching: she demands the miniature sun (510, 73) and Phayla's lamp
+-- (489, 17) up front before instructing them.
 --
 -- Original DG Script: #6210
 
--- Converted from DG Script #6210: supernova_phayla_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: supernova supernova? super super? nova nova? teach teach?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "supernova") or string.find(string.lower(speech), "supernova?") or string.find(string.lower(speech), "super") or string.find(string.lower(speech), "super?") or string.find(string.lower(speech), "nova") or string.find(string.lower(speech), "nova?") or string.find(string.lower(speech), "teach") or string.find(string.lower(speech), "teach?")) then
-    return true  -- No matching keywords
+if not (string.find(string.lower(speech), "supernova")
+        or string.find(string.lower(speech), "super")
+        or string.find(string.lower(speech), "nova")
+        or string.find(string.lower(speech), "teach")) then
+    return true
 end
 wait(2)
 if actor:get_quest_stage("supernova") == 7 then

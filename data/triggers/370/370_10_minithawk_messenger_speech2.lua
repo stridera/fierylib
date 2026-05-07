@@ -13,9 +13,9 @@ if not percent_chance(1) then
     return true
 end
 
--- Speech keywords: north east south west
+-- Speech keywords: north, east, south, west
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "north") or string.find(string.lower(speech), "east") or string.find(string.lower(speech), "south") or string.find(string.lower(speech), "west")) then
+if not (string.find(speech_lower, "north") or string.find(speech_lower, "east") or string.find(speech_lower, "south") or string.find(speech_lower, "west")) then
     return true  -- No matching keywords
 end
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")

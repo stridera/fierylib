@@ -10,5 +10,4 @@
 if actor.is_player then
     actor:send(tostring(self.name) .. " says, 'What took you so long?'")
     actor:send(tostring(self.name) .. " says, 'Mesmeriz expected you at least a week ago...'")
-else
 end

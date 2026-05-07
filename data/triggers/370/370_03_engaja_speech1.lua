@@ -8,9 +8,9 @@
 -- Converted from DG Script #37003: Engaja_speech1
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: expected expected?
+-- Speech keywords: expected
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "expected") or string.find(string.lower(speech), "expected?")) then
+if not string.find(speech_lower, "expected") then
     return true  -- No matching keywords
 end
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")

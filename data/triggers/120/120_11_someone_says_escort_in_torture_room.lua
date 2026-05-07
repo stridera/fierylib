@@ -10,19 +10,19 @@
 
 -- Speech keywords: escort
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "escort")) then
+if not string.find(speech_lower, "escort") then
     return true  -- No matching keywords
 end
-local _return_value = true  -- Default: allow action
-_return_value = true
-if (self:get_people("12019")) and not (self:get_people("12020")) then
-    self.room:find_actor("haggard-brownie"):command("nod " .. tostring(actor.name))
-    self.room:find_actor("haggard-brownie"):say("Please take me back to the light forest!")
+local brownie = self.room:find_actor("haggard-brownie")
+local tormentor = self.room:find_actor("dark-pixie-tormentor")
+if brownie and not tormentor then
+    brownie:command("nod " .. actor.name)
+    brownie:say("Please take me back to the light forest!")
     wait(8)
-    self.room:find_actor("haggard-brownie"):follow(actor.name)
-elseif (self:get_people("12019")) and (self:get_people("12020")) then
-    self.room:find_actor("dark-pixie-tormentor"):command("snicker")
+    brownie:follow(actor)
+elseif brownie and tormentor then
+    tormentor:command("snicker")
     wait(2)
-    self.room:find_actor("dark-pixie-tormentor"):say("Stay out of this, grain-eater.")
+    tormentor:say("Stay out of this, grain-eater.")
 end
-return _return_value
+return true

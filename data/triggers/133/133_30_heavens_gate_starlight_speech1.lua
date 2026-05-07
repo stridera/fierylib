@@ -1,36 +1,47 @@
 -- Trigger: heavens_gate_starlight_speech1
 -- Zone: 133, ID: 30
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <heavens_gate_starlight_speech1>:14: unexpected symbol near '%'
+-- Status: CLEAN
 --
 -- Original DG Script: #13330
+--
+-- Final ritual of the Heavens Gate quest. The actor must be at stage 4 and
+-- speak the prayer "Hark ye starry angels and open the heavenly gates
+-- before me" (case-insensitive, all keywords required). Grants the
+-- "heavens gate" spell at full level, completes the quest, and the mob
+-- destroys itself.
+--
+-- TODO(parity): the legacy DG script had probability 0%, which the
+-- converter translated into a `percent_chance(0)` gate that would block
+-- every fire. We've removed the synthetic gate; the trigger now fires on
+-- any speech in the room and falls through unless every keyword in the
+-- ritual phrase is present. Confirm the legacy intent (likely "scripted
+-- only", not "never fire").
 
--- Converted from DG Script #13330: heavens_gate_starlight_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 0%
+local required = { "hark", "ye", "starry", "angels", "and", "open",
+                   "the", "heavenly", "gates", "before", "me" }
+local speech_lower = string.lower(speech)
+for _, word in ipairs(required) do
+    if not string.find(speech_lower, word) then
+        return true
+    end
+end
 
--- 0% chance to trigger
-if not percent_chance(0) then
+if actor:get_quest_stage("heavens_gate") ~= 4 then
     return true
 end
 
--- Speech keywords: Hark ye starry angels and open the heavenly gates before me
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hark") or string.find(string.lower(speech), "ye") or string.find(string.lower(speech), "starry") or string.find(string.lower(speech), "angels") or string.find(string.lower(speech), "and") or string.find(string.lower(speech), "open") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "heavenly") or string.find(string.lower(speech), "gates") or string.find(string.lower(speech), "before") or string.find(string.lower(speech), "me")) then
-    return true  -- No matching keywords
-end
-if actor:get_quest_stage("heavens_gate") == 4 then
-    wait(1)
-    self.room:send("<b:white>Starlight spreads wide across the cavern.</>")
-    self.room:send("<cyan>A <blue>tunnel of <white>light <cyan>opens up!</>")
-    wait(3)
-    actor:send("<b:white>From the reaches of the heavens some unknowable entity touches your soul.</>")
-    actor:send("<b:white>It imparts a prayer to you.</>")
-    -- (empty send to actor)
-    skills.set_level(actor.name, "heavens gate", 100)
-    actor:complete_quest("heavens_gate")
-    actor:send("<b:cyan>You have learned <white>Heavens Gate<cyan>!</>")
-    wait(2)
-    self.room:send("<b:white>The starlight pours into the <b:cyan>tunnel <b:white>and is gone!</>")
-    world.destroy(self)
-end
+wait(1)
+self.room:send("<b:white>Starlight spreads wide across the cavern.</>")
+self.room:send("<cyan>A <blue>tunnel of <white>light <cyan>opens up!</>")
+wait(3)
+actor:send("<b:white>From the reaches of the heavens some unknowable entity touches your soul.</>")
+actor:send("<b:white>It imparts a prayer to you.</>")
+skills.set_level(actor, "heavens gate", 100)
+actor:complete_quest("heavens_gate")
+actor:send("<b:cyan>You have learned <white>Heavens Gate<cyan>!</>")
+wait(2)
+self.room:send("<b:white>The starlight pours into the <b:cyan>tunnel <b:white>and is gone!</>")
+world.destroy(self)
+
+return true

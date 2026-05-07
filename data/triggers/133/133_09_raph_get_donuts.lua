@@ -4,21 +4,15 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #13309
-
--- Converted from DG Script #13309: raph_get_donuts
--- Original: OBJECT trigger, flags: GET, probability: 100%
-local _return_value = true  -- Default: allow action
+--
+-- Fires when the player picks up the donuts. If the actor is on stage 3 of
+-- the get_raph_food quest ("fetch donuts"), advance them to stage 4.
+--
+-- TODO(parity): see 133_08 — same dead-code pattern in the converter for
+-- the "donuts crumble to dust" anti-dupe branch. Intent unverifiable.
 if actor.is_player then
     if actor:get_quest_stage("get_raph_food") == 3 then
-        if already_retrieved_donuts == 1 then
-            self.room:send_except(actor, "The donuts crumble in " .. tostring(actor.name) .. "'s hands, turning to dust.")
-            actor:send("The donuts crumble to dust in your hands, turning to dust.")
-            _return_value = true
-        else
-            actor:advance_quest("get_raph_food")
-        end
+        actor:advance_quest("get_raph_food")
     end
 end
-local already_retrieved_donuts = 1
-globals.already_retrieved_donuts = globals.already_retrieved_donuts or true
-return _return_value
+return true

@@ -1,72 +1,66 @@
 -- Trigger: twisted_sorrow_status_tracker
 -- Zone: 120, ID: 99
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 13 if statements
+-- Status: CLEAN
 --
 -- Original DG Script: #12099
+--
+-- Player asks "progress?" — druid summarizes which Rhell trees have been
+-- satisfied and which still need offerings.
 
--- Converted from DG Script #12099: twisted_sorrow_status_tracker
--- Original: MOB trigger, flags: SPEECH, probability: 100%
-
--- Speech keywords: progress progress?
+-- Speech keywords: progress
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?")) then
+if not string.find(speech_lower, "progress") then
     return true  -- No matching keywords
 end
-local luck = actor:get_quest_var("twisted_sorrow:satisfied_tree:12016")
-local reverence = actor:get_quest_var("twisted_sorrow:satisfied_tree:12017")
-local reliance = actor:get_quest_var("twisted_sorrow:satisfied_tree:12018")
-local nimbleness = actor:get_quest_var("twisted_sorrow:satisfied_tree:12014")
-local kindness = actor:get_quest_var("twisted_sorrow:satisfied_tree:12046")
-local tree1 = get_room("12016")
-local tree2 = get_room("12017")
-local tree3 = get_room("12018")
-local tree4 = get_room("12014")
-local tree5 = get_room("12046")
+
+-- Each entry: { tree_room_local_id, quest_var_suffix }
+-- Quest var key matches the legacy 5-digit room vnum used by trigger 120-3.
+local trees = {
+    { 16, "12016" },  -- Tree of Luck
+    { 17, "12017" },  -- Tree of Reverence
+    { 18, "12018" },  -- Tree of Self-Reliance
+    { 14, "12014" },  -- Tree of Nimbleness
+    { 46, "12046" },  -- Tree of Kindness
+}
+
 wait(4)
-if actor:get_quest_stage("twisted_sorrow") > 1 then
-    self:command("smile " .. tostring(actor.name))
+local stage = actor:get_quest_stage("twisted_sorrow")
+if stage > 1 then
+    self:command("smile " .. actor.name)
     wait(1)
     self:say("The trees are satisfied, my friend.")
-elseif actor:get_quest_stage("twisted_sorrow") == 1 then
-    self:say("Bring drink to awaken the trees from the corruption.")
-    if luck == 1 or reverence == 1 or reliance == 1 or nimbleness == 1 or kindness == 1 then
-        -- (empty room echo)
-        self.room:send("You have already awakened the following trees:")
-        if luck == 1 then
-            self.room:send("- &9<blue>" .. tostring(tree1.name) .. "</>")
-        end
-        if reverence == 1 then
-            self.room:send("- &9<blue>" .. tostring(tree2.name) .. "</>")
-        end
-        if reliance == 1 then
-            self.room:send("- &9<blue>" .. tostring(tree3.name) .. "</>")
-        end
-        if nimbleness == 1 then
-            self.room:send("- &9<blue>" .. tostring(tree4.name) .. "</>")
-        end
-        if kindness == 1 then
-            self.room:send("- &9<blue>" .. tostring(tree5.name) .. "</>")
-        end
-    end
-    -- (empty room echo)
-    self.room:send("Offerings are still needed for:")
-    if luck == 0 then
-        self.room:send("- <green>" .. tostring(tree1.name) .. "</>")
-    end
-    if reverence == 0 then
-        self.room:send("- <green>" .. tostring(tree2.name) .. "</>")
-    end
-    if reliance == 0 then
-        self.room:send("- <green>" .. tostring(tree3.name) .. "</>")
-    end
-    if nimbleness == 0 then
-        self.room:send("- <green>" .. tostring(tree4.name) .. "</>")
-    end
-    if kindness == 0 then
-        self.room:send("- <green>" .. tostring(tree5.name) .. "</>")
-    end
-    self.room:send("</>")
-    self:say("Say <b:cyan>\"follow me\"</> when you have an offering to present.")
+    return true
 end
+
+if stage ~= 1 then
+    return true
+end
+
+self:say("Bring drink to awaken the trees from the corruption.")
+
+local any_satisfied = false
+for _, t in ipairs(trees) do
+    if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) == 1 then
+        any_satisfied = true
+        break
+    end
+end
+
+if any_satisfied then
+    self.room:send("You have already awakened the following trees:")
+    for _, t in ipairs(trees) do
+        if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) == 1 then
+            self.room:send("- &9<blue>" .. get_room(120, t[1]).name .. "</>")
+        end
+    end
+end
+
+self.room:send("Offerings are still needed for:")
+for _, t in ipairs(trees) do
+    if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) ~= 1 then
+        self.room:send("- <green>" .. get_room(120, t[1]).name .. "</>")
+    end
+end
+self.room:send("</>")
+self:say("Say <b:cyan>\"follow me\"</> when you have an offering to present.")

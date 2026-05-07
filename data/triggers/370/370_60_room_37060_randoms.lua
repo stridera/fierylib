@@ -23,4 +23,7 @@ self.room:send("Suddenly, a black phantasmic shape flies up out of the portal.")
 self.room:send("The portal subsides to nothingness behind the phantom.")
 wait(3)
 self.room:send("The phantasmic shape melts through the ceiling above you.")
-world.destroy(self.room:find_actor("phantasmic-phantom"))
+local phantom = self.room:find_actor("phantasmic-phantom")
+if phantom then
+    world.destroy(phantom)
+end

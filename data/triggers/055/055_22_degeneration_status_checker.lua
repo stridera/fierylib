@@ -6,12 +6,11 @@
 -- Original DG Script: #5522
 
 -- Converted from DG Script #5522: degeneration_status_checker
--- Original: MOB trigger, flags: SPEECH, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- Reminds the actor of their Degeneration quest stage when they say
+-- "spell" or "progress". The cat tells the player to use these keywords,
+-- so the script must always run on match. Legacy DG header listed
+-- probability 0% but the original always ran on keyword match -- the
+-- converter's percent_chance(0) gate has been removed.
 
 -- Speech keywords: spell progress
 local speech_lower = string.lower(speech)

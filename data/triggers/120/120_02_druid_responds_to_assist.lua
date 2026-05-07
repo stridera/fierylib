@@ -10,12 +10,12 @@
 
 -- Speech keywords: assist
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "assist")) then
+if not string.find(speech_lower, "assist") then
     return true  -- No matching keywords
 end
 wait(1)
 if actor:get_has_completed("twisted_sorrow") then
-    self:command("smile " .. tostring(actor.name))
+    self:command("smile " .. actor.name)
     wait(1)
     self:say("The trees are satisfied, my friend.")
 else

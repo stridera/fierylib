@@ -1,41 +1,34 @@
 -- Trigger: supernova_gateway_enter_command
 -- Zone: 62, ID: 13
 -- Type: OBJECT, Flags: COMMAND
--- Status: CLEAN
+--
+-- Activates the supernova gateway when a player carrying/wearing the
+-- miniature sun (510, 73) types `enter ring` / `enter gateway`. Drains the
+-- gateway (destroys self) so it can only be used once.
 --
 -- Original DG Script: #6213
 
--- Converted from DG Script #6213: supernova_gateway_enter_command
--- Original: OBJECT trigger, flags: COMMAND, probability: 4%
-
--- 4% chance to trigger
-if not percent_chance(4) then
-    return true
-end
+-- TODO(parity): The original DG had probability=4 on the trigger, which is
+-- almost certainly an authoring mistake (a 4% gate on a quest's only entry
+-- point is broken). The synthetic `percent_chance(4)` gate has been removed.
+-- Verify that the source intended 100%.
 
 -- Command filter: enter
-if not (cmd == "enter") then
+if cmd ~= "enter" then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
--- switch on cmd
-if cmd == "e" then
-    _return_value = true
-    return _return_value
+if not (actor:has_item(510, 73) or actor:has_equipped(510, 73)) then
+    actor:send("The gateway is inactive.")
+    return false
 end
--- switch on arg
-if actor:has_item("51073") or actor:has_equipped("51073") then
-    if arg == "r" or arg == "ri" or arg == "rin" or arg == "ring" or arg == "g" or arg == "ga" or arg == "gat" or arg == "gate" or arg == "gatew" or arg == "gatewa" or arg == "gateway" then
-        actor:send("The gateway draws power from " .. tostring(objects.template(510, 73).name) .. " and activates!")
-        _return_value = true
-        wait(2)
-        self.room:send("The gateway folds in on itself and collapses!")
-        world.destroy(self)
-    else
-        _return_value = false
-        actor:send("The gateway is inactive.")
-    end
-else
-    _return_value = true
+if arg == "r" or arg == "ri" or arg == "rin" or arg == "ring"
+   or arg == "g" or arg == "ga" or arg == "gat" or arg == "gate"
+   or arg == "gatew" or arg == "gatewa" or arg == "gateway" then
+    actor:send("The gateway draws power from " .. tostring(objects.template(510, 73).name) .. " and activates!")
+    wait(2)
+    self.room:send("The gateway folds in on itself and collapses!")
+    world.destroy(self)
+    return true
 end
-return _return_value
+actor:send("The gateway is inactive.")
+return false

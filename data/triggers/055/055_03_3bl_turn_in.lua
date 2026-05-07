@@ -1,10 +1,28 @@
 -- Trigger: 3bl_turn_in
 -- Zone: 55, ID: 3
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   Syntax error: luac: <3bl_turn_in>:267: function arguments expected near ']'
---   Complex nesting: 16 if statements
---   Large script: 17576 chars
+-- Status: TODO(parity)
+--
+-- TODO(parity): Quest is non-functional in current form. The converter
+-- left several systemic bugs that require a full rewrite against the
+-- current (zone, id) catalog before this turn-in works:
+--   1. Every `object.id == "%id_xxx%"` comparison is a string-vs-int
+--      compare against the literal placeholder text, so no branch ever
+--      fires and players always hit the "I am not interested" else.
+--   2. The per-branch `local is_gem`/`exp_multiplier`/`id_reward`/etc.
+--      shadow within their branch only; the outer reward and trophy
+--      logic always sees nil. Needs hoisted (non-local) writes.
+--   3. The gem item IDs are legacy 5-digit vnums (55570..55589, 55566,
+--      55567) that need to be re-derived as proper (zone, local_id)
+--      tuples once the gem zone is rebuilt.
+--   4. Quest var keys still contain literal `%id_trophy%`/`%id_reward%`
+--      placeholders -- they need string concatenation against the
+--      resolved local_id.
+--   5. `%get.obj_shortdesc[%id_trophy%]%` is never resolved -- swap to
+--      `objects.template(zone, id).name` lookups.
+-- Some lighter mechanical fixes (actor.name:save -> actor:save,
+-- world.destroy arg, return value) are applied below to keep the file
+-- parseable, but the gameplay logic still needs rebuilding end-to-end.
 --
 -- Original DG Script: #5503
 
@@ -289,7 +307,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Hrm, yes.. you have been out")
             actor:send("</>fighting the Eldorian Guard.  I see from my records you have now given me")
             actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%id_trophy%]%</>.'")
-            world.destroy(object.name)
+            world.destroy(object)
             actor:save()
             if trophies < 10 then
                 local faction_advance = 1
@@ -354,7 +372,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             -- all other items should be mpjunked or whatever by now
         end
         -- end of !if_gem section or trophy endif
-        actor.name:save()
+        actor:save()
     end
     if is_gem then
         -- hrmm Jelos' magical variable declaration
@@ -418,10 +436,10 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
                 -- 
                 -- all other items should be mpjunked or whatever by now
             end
-            world.destroy(object.name)
+            world.destroy(object)
             self:destroy_item("all.eldoria-trophy")
             self:command("give all " .. tostring(actor.name))
-            actor.name:save()
+            actor:save()
         else
             _return_value = true
             wait(2)

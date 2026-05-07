@@ -10,5 +10,4 @@
 -- All greet trig for players
 if actor.is_player then
     actor:send(tostring(self.name) .. " says, 'Ah, finally Mesmeriz has summoned someone else here to be his slaves.'")
-else
 end

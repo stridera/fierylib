@@ -4,14 +4,12 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #5517
-
--- Converted from DG Script #5517: bl_status
--- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 0%
-
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- Reports the actor's Black Legion / Eldorian Guard faction standing when
+-- they say "faction" or "status". The QM greet/initiate triggers tell
+-- players to use this keyword, so the script must always run on match.
+-- Note: legacy DG header listed probability 0%, but the original always
+-- ran on keyword match -- the converter's percent_chance(0) gate has
+-- been removed.
 
 -- Speech keywords: faction status
 local speech_lower = string.lower(speech)

@@ -1,23 +1,33 @@
 -- Trigger: necromancer_quest_spell_hints_and_shift_corpse_start
 -- Zone: 62, ID: 1
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
---   Complex nesting: 6 if statements
+--
+-- Necromancer guildmaster: hints toward Shift Corpse (level 97+ Necromancers)
+-- and Degeneration spells. Starts the shift_corpse quest if the asker is a
+-- qualifying Necromancer who hasn't begun it yet.
 --
 -- Original DG Script: #6201
 
--- Converted from DG Script #6201: necromancer_quest_spell_hints_and_shift_corpse_start
--- Original: MOB trigger, flags: SPEECH, probability: 100%
+-- TODO(parity): The original DG script's structure for the "degeneration"
+-- branch is ambiguous after conversion (empty inner if + dangling elseif).
+-- Current behavior: Necromancer guildmaster handles shift/corpse for
+-- Necromancer askers; "degeneration" / fallback hint live below in a
+-- separate top-level branch. Verify against DG #6201 source if available.
 
--- Speech keywords: shift shift? corpse corpse? degeneration degeneration?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "shift") or string.find(string.lower(speech), "shift?") or string.find(string.lower(speech), "corpse") or string.find(string.lower(speech), "corpse?") or string.find(string.lower(speech), "degeneration") or string.find(string.lower(speech), "degeneration?")) then
-    return true  -- No matching keywords
+-- Speech keywords: shift corpse degeneration
+if not (string.find(string.lower(speech), "shift")
+        or string.find(string.lower(speech), "corpse")
+        or string.find(string.lower(speech), "degeneration")) then
+    return true
 end
 wait(2)
--- switch on speech
 if string.find(self.class, "Necromancer") then
-    if string.find(actor.class, "Necromancer") and actor:get_quest_stage("shift_corpse") == 0 then
+    if speech == "degeneration" or speech == "degeneration?" then
+        self.room:send(tostring(self.name) .. " says, 'Controlling negative energy to bolster the dead or")
+        self.room:send("</>degenerate the living is theoretically possible.  Someone is working to")
+        self.room:send("</>develop a &9<blue>Degeneration</> spell for use in the ongoing battle against")
+        self.room:send("</>the Eldorian Guard.'")
+    elseif string.find(actor.class, "Necromancer") and actor:get_quest_stage("shift_corpse") == 0 then
         if speech == "shift" or speech == "shift?" or speech == "corpse" or speech == "corpse?" or speech == "shift corpse" or speech == "shift corpse?" then
             self:say("So you want to learn our most powerful secrets, eh?")
             self:command("peer " .. tostring(actor))
@@ -42,14 +52,7 @@ if string.find(self.class, "Necromancer") then
     else
         self:say("That spell is far outside the realm of our Guild.")
     end
-    if string.find(self.class, "Necromancer") then
-    elseif speech == "degeneration" or speech == "degeneration?" then
-        self.room:send(tostring(self.name) .. " says, 'Controlling negative energy to bolster the dead or")
-        self.room:send("</>degenerate the living is theoretically possible.  Someone is working to")
-        self.room:send("</>develop a &9<blue>Degeneration</> spell for use in the ongoing battle against")
-        self.room:send("</>the Eldorian Guard.'")
-    else
-        self.room:send(tostring(self.name) .. " says, 'Only a powerful member of the Necromancer Guild")
-        self.room:send("</>might know how to cast such a spell.'")
-    end
+else
+    self.room:send(tostring(self.name) .. " says, 'Only a powerful member of the Necromancer Guild")
+    self.room:send("</>might know how to cast such a spell.'")
 end

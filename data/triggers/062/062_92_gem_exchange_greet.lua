@@ -1,12 +1,13 @@
 -- Trigger: Gem Exchange greet
 -- Zone: 62, ID: 92
 -- Type: MOB, Flags: GREET_ALL
--- Status: CLEAN
+--
+-- Soltan Gem Exchange greeter. New customers get the welcome speech; returning
+-- customers (gem_exchange quest stage 1) get a callback to their pending order
+-- if they have one.
 --
 -- Original DG Script: #6292
 
--- Converted from DG Script #6292: Gem Exchange greet
--- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
 if actor.is_player then
     local item = actor:get_quest_var("gem_exchange:gem_id")
@@ -14,11 +15,13 @@ if actor.is_player then
         self:say("Welcome back!")
         self:command("bow " .. tostring(actor))
         wait(2)
-        if item == 0 then
+        if item == 0 or item == nil then
             actor:send(tostring(self.name) .. " says, 'Tell me, what gemstone are you interested in trading for")
             actor:send("</>today?'")
         else
-            actor:send(tostring(self.name) .. " says, 'Are you still looking for " .. "%get.obj_shortdesc[%item%]%?'")
+            -- item is the legacy 5-digit vnum (zone*100 + id) of the requested gem
+            local item_name = tostring(objects.template(math.floor(item / 100), item % 100).name)
+            actor:send(tostring(self.name) .. " says, 'Are you still looking for " .. item_name .. "?'")
         end
     else
         self:say("Greetings!  Welcome to the Soltan Gem Exchange!")
