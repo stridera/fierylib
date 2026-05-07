@@ -10,7 +10,7 @@
 
 -- Speech keywords: friend friend?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "friend") or string.find(string.lower(speech), "friend?")) then
+if not string.find(speech_lower, "friend") then
     return true  -- No matching keywords
 end
 self:say("Very good!")

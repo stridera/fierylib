@@ -3,12 +3,10 @@
 -- Type: MOB, Flags: FIGHT
 -- Status: CLEAN
 --
+-- 25% chance per fight tick: this mob roars for help, and a backup guard
+-- (mob 83/0) is spawned into the same room to assist.
+--
 -- Original DG Script: #8301
-
--- Converted from DG Script #8301: Random_mob_generate
--- Original: MOB trigger, flags: FIGHT, probability: 25%
-
--- 25% chance to trigger
 if not percent_chance(25) then
     return true
 end

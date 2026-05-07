@@ -3,10 +3,7 @@
 -- Type: MOB, Flags: DEATH
 -- Status: CLEAN
 --
+-- On this mob's death, respawn replacement mob (83, 9) in room (83, 123).
+--
 -- Original DG Script: #8303
-
--- Converted from DG Script #8303: Death_reload
--- Original: MOB trigger, flags: DEATH, probability: 100%
-get_room(83, 123):at(function()
-    self.room:spawn_mobile(83, 9)
-end)
+get_room(83, 123):spawn_mobile(83, 9)

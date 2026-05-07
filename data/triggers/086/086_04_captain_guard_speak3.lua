@@ -10,7 +10,7 @@
 
 -- Speech keywords: yes no
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
+if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
     return true  -- No matching keywords
 end
 wait(1)

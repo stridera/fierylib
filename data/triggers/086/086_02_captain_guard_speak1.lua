@@ -10,9 +10,10 @@
 
 -- Speech keywords: foe foe?
 local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "foe") or string.find(string.lower(speech), "foe?")) then
+if not string.find(speech_lower, "foe") then
     return true  -- No matching keywords
 end
 self:say("That is unacceptable!")
 wait(1)
-combat.engage(self, actor.name)
+-- TODO: combat.engage expects an entity (target), not a name string; verify actor is the correct target
+combat.engage(actor)
