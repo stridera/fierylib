@@ -246,10 +246,11 @@ class ConfigSeeder:
         """
         configs = [
             # Mudlet auto-install: Client.GUI
-            ("gmcp", "client_gui_url", "https://packages.fierymud.org/FierymudRs.mpackage", ConfigValueType.STRING, "URL Mudlet downloads to install our package", None, None, False, False),
-            ("gmcp", "client_gui_version", "0.1-rs", ConfigValueType.STRING, "Package version Mudlet uses to detect updates; bump on every release", None, None, False, False),
-            # Mudlet auto-map: Client.Map
-            ("gmcp", "client_map_url", "https://packages.fierymud.org/default_map.dat", ConfigValueType.STRING, "URL of the default map data file Mudlet preloads (empty string disables)", None, None, False, False),
+            ("gmcp", "client_gui_url", "https://muditor.utaboshi.com/mudlet/FierymudRs.mpackage", ConfigValueType.STRING, "URL Mudlet downloads to install our package; served from muditor-web/public/mudlet/", None, None, False, False),
+            ("gmcp", "client_gui_version", "0.1-rs", ConfigValueType.STRING, "Package version Mudlet uses to detect updates; bump on every release (matches the .mpackage's mfile version)", None, None, False, False),
+            # Mudlet auto-map: Client.Map. Empty default disables the
+            # frame entirely until a hosted map.dat lands.
+            ("gmcp", "client_map_url", "", ConfigValueType.STRING, "URL of the default map data file Mudlet preloads (empty string disables Client.Map emission)", None, None, False, False),
             # Discord rich-presence: External.Discord.Info + Status
             ("gmcp", "discord_application_id", "998826809686765569", ConfigValueType.STRING, "Discord application ID; pairs the rich-presence overlay with our app icon and assets", None, None, False, False),
             ("gmcp", "discord_invite_url", "https://discord.gg/aqhapUCgFz", ConfigValueType.STRING, "Discord server invite link surfaced in the in-client overlay", None, None, False, False),
