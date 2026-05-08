@@ -233,6 +233,42 @@ class ConfigSeeder:
 
         return count
 
+    async def seed_gmcp_config(self, verbose: bool = False) -> int:
+        """Seed GMCP-related identity / URL / Discord configuration.
+
+        These rows drive the connect-time GMCP intro burst
+        (`Client.GUI`, `Client.Map`, `External.Discord.Info`) and
+        the per-prompt `External.Discord.Status` frame. Operators
+        running their own deployment override per-row in Muditor
+        without rebuilding the server. Defaults below match the
+        legacy FieryMUD's hosted assets so a fresh install Just
+        Works against the existing Discord integration.
+        """
+        configs = [
+            # Mudlet auto-install: Client.GUI
+            ("gmcp", "client_gui_url", "https://packages.fierymud.org/FierymudRs.mpackage", ConfigValueType.STRING, "URL Mudlet downloads to install our package", None, None, False, False),
+            ("gmcp", "client_gui_version", "0.1-rs", ConfigValueType.STRING, "Package version Mudlet uses to detect updates; bump on every release", None, None, False, False),
+            # Mudlet auto-map: Client.Map
+            ("gmcp", "client_map_url", "https://packages.fierymud.org/default_map.dat", ConfigValueType.STRING, "URL of the default map data file Mudlet preloads (empty string disables)", None, None, False, False),
+            # Discord rich-presence: External.Discord.Info + Status
+            ("gmcp", "discord_application_id", "998826809686765569", ConfigValueType.STRING, "Discord application ID; pairs the rich-presence overlay with our app icon and assets", None, None, False, False),
+            ("gmcp", "discord_invite_url", "https://discord.gg/aqhapUCgFz", ConfigValueType.STRING, "Discord server invite link surfaced in the in-client overlay", None, None, False, False),
+            ("gmcp", "discord_game_name", "fierymud-rs", ConfigValueType.STRING, "Game name shown in the Discord rich-presence header", None, None, False, False),
+            ("gmcp", "discord_state", "Playing fierymud-rs (minastirith.utaboshi.com:4003)", ConfigValueType.STRING, "Top line of the Discord rich-presence overlay (typically host:port)", None, None, False, False),
+            ("gmcp", "discord_small_image", "servericon", ConfigValueType.STRING, "Discord asset key used for the small image (configure in the Discord developer portal)", None, None, False, False),
+            ("gmcp", "discord_small_image_text", "fierymud-rs", ConfigValueType.STRING, "Tooltip text on hover over the Discord small image", None, None, False, False),
+        ]
+
+        count = 0
+        for cfg in configs:
+            category, key, value, vtype, desc, min_val, max_val, secret, restart = cfg
+            await self.upsert_config(category, key, value, vtype, desc, min_val, max_val, secret, restart)
+            count += 1
+            if verbose:
+                click.echo(f"    {category}.{key} = {value}")
+
+        return count
+
     async def seed_all(self, verbose: bool = False) -> dict:
         """Seed all configuration categories."""
         stats = {
@@ -242,6 +278,7 @@ class ConfigSeeder:
             "combat": 0,
             "progression": 0,
             "character": 0,
+            "gmcp": 0,
             "total": 0,
         }
 
@@ -262,6 +299,9 @@ class ConfigSeeder:
 
         click.echo("  Character defaults...")
         stats["character"] = await self.seed_character_config(verbose)
+
+        click.echo("  GMCP / client identity...")
+        stats["gmcp"] = await self.seed_gmcp_config(verbose)
 
         stats["total"] = sum(v for k, v in stats.items() if k != "total")
         return stats
