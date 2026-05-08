@@ -251,78 +251,94 @@ Heroes are needed. Will you answer the call?
         """Seed default login flow messages."""
         count = 0
 
+        # XML-Lite color tags (`<red>`, `<b:yellow>`, `<dim>`, ...) are
+        # rendered to ANSI by the runtime — the schema stores the
+        # markup verbatim so builders can edit it via Muditor without
+        # touching escape sequences. Trailing whitespace and newlines
+        # are intentional: each row is concatenated to the next at
+        # send time (banner → prompt), so the row owns its own line
+        # boundaries. The previous implementation called `.strip()`
+        # at insert time, which collapsed `register.\n\n` + prompt
+        # into `register.Enter account email:` on the wire. The strip
+        # was removed; messages here should be authored with the
+        # exact whitespace they want on the wire.
         messages = [
-            (LoginStage.WELCOME_BANNER, """
-================================================================================
-                    ___ _               __  __ _   _ ___
-                   | __(_)___ _ _ _  _ |  \\/  | | | |   \\
-                   | _|| / -_) '_| || || |\\/| | |_| | |) |
-                   |_| |_\\___|_|  \\_, ||_|  |_|\\___/|___/
-                                  |__/
-
-                    A classic fantasy MUD, forged in fire.
-================================================================================
-
-  Enter your email to login.
-  New players: Visit https://fierymud.org to register.
-
-"""),
-            (LoginStage.EMAIL_PROMPT, "Enter account email: "),
+            # Block-letter "FIERYMUD" with the C++ logo's exact
+            # 5-stop xterm-256 fire gradient: 196 (red) → 202 →
+            # 208 → 214 → 220 (yellow), peaking at the Y in the
+            # middle and fading back through 214 → 208 → 202 for
+            # M U D — a flame brightest at its core. Glyphs are
+            # the same `╗ ╝ ║ ═` Unicode box-drawing block characters
+            # the C++ banner uses; modern MUD clients (Mudlet,
+            # BlightMud, MUSHclient, the major web clients) all
+            # render them with their default fonts. Truecolor- and
+            # 256-color- capable clients see the full gradient;
+            # 16-color clients quietly down-sample to the nearest
+            # match. Trailing `\r\n\r\n` separates the banner from
+            # the EMAIL_PROMPT row so they don't run together on
+            # the wire.
+            (LoginStage.WELCOME_BANNER,
+             "\r\n"
+             "   <c196> ███████╗</> <c196>██╗</><c202>███████╗</><c202>██████╗ </><c208>██╗   ██╗</><c214>███╗   ███╗</><c214>██╗   ██╗</><c220>██████╗ </>\r\n"
+             "   <c196> ██╔════╝</> <c196>██║</><c202>██╔════╝</><c202>██╔══██╗</><c208>╚██╗ ██╔╝</><c214>████╗ ████║</><c214>██║   ██║</><c220>██╔══██╗</>\r\n"
+             "   <c196> █████╗  </> <c196>██║</><c202>█████╗  </><c202>██████╔╝</><c208> ╚████╔╝ </><c214>██╔████╔██║</><c214>██║   ██║</><c220>██║  ██║</>\r\n"
+             "   <c196> ██╔══╝  </> <c196>██║</><c202>██╔══╝  </><c202>██╔══██╗</><c208>  ╚██╔╝  </><c214>██║╚██╔╝██║</><c214>██║   ██║</><c220>██║  ██║</>\r\n"
+             "   <c196> ██║     </> <c196>██║</><c202>███████╗</><c202>██║  ██║</><c208>   ██║   </><c214>██║ ╚═╝ ██║</><c214>╚██████╔╝</><c220>██████╔╝</>\r\n"
+             "   <c196> ╚═╝     </> <c196>╚═╝</><c202>╚══════╝</><c202>╚═╝  ╚═╝</><c208>   ╚═╝   </><c214>╚═╝     ╚═╝</><c214> ╚═════╝ </><c220>╚═════╝ </>\r\n"
+             "\r\n"
+             "   <c238>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</>\r\n"
+             "   <c220>             A classic fantasy MUD, forged in fire.</>\r\n"
+             "   <c244>                         www.fierymud.org</>\r\n"
+             "   <c238>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</>\r\n"
+             "\r\n"
+             "   <c244>Login with your account email or character name.</>\r\n"
+             "   <c244>New players: visit https://fierymud.org to register.</>\r\n"
+             "\r\n"),
+            # Prompts: trailing space after the colon is intentional —
+            # players type immediately after a single space, the
+            # standard MUD convention.
+            (LoginStage.EMAIL_PROMPT, "Email or character name: "),
             (LoginStage.PASSWORD_PROMPT, "Password: "),
-            (LoginStage.INVALID_LOGIN, "\nInvalid email or password. Please try again.\n"),
-            (LoginStage.TOO_MANY_ATTEMPTS, "\nToo many failed login attempts. Please try again later.\n"),
-            (LoginStage.CHARACTER_SELECT, """
-================================================================================
-                         Select Your Character
-================================================================================
-
-{character_list}
-
-Enter character number to play, or 'new' to create a new character.
-"""),
-            (LoginStage.CREATE_NAME_PROMPT, "\nEnter a name for your new character: "),
-            (LoginStage.CREATE_PASSWORD, "\nChoose a password (6-20 characters): "),
+            (LoginStage.INVALID_LOGIN, "\r\n<red>Invalid email or password. Please try again.</>\r\n\r\n"),
+            (LoginStage.TOO_MANY_ATTEMPTS, "\r\n<red>Too many failed login attempts. Please try again later.</>\r\n\r\n"),
+            (LoginStage.CHARACTER_SELECT,
+             "\r\n<b:cyan>=== Select Your Character ===</>\r\n\r\n"
+             "{character_list}\r\n\r\n"
+             "Enter character number to play, or 'new' to create a new character: "),
+            (LoginStage.CREATE_NAME_PROMPT, "\r\nEnter a name for your new character: "),
+            (LoginStage.CREATE_PASSWORD, "\r\nChoose a password (6-20 characters): "),
             (LoginStage.CONFIRM_PASSWORD, "Confirm password: "),
-            (LoginStage.SELECT_CLASS, """
-================================================================================
-                         Choose Your Class
-================================================================================
-
-  1) Warrior   - Masters of combat and martial prowess
-  2) Cleric    - Divine magic and healing arts
-  3) Sorcerer  - Arcane magic and spell mastery
-  4) Rogue     - Stealth, speed, and cunning
-
-Enter class number: """),
-            (LoginStage.SELECT_RACE, """
-================================================================================
-                          Choose Your Race
-================================================================================
-
-  1) Human    - Versatile and adaptable
-  2) Elf      - Graceful and magical
-  3) Dwarf    - Sturdy and resilient
-  4) Halfling - Small but brave
-
-Enter race number: """),
-            (LoginStage.CREATION_COMPLETE, """
-================================================================================
-                    Character Created Successfully!
-================================================================================
-
-Welcome to FieryMUD, {character_name}!
-
-Your adventure begins now. Type 'help newbie' for beginner tips.
-"""),
-            (LoginStage.RECONNECT_MESSAGE, "\nReconnecting to existing session...\n"),
-            (LoginStage.LOGIN_APPROVAL_PENDING, "\nA login approval request has been sent to your Muditor dashboard.\nPlease approve it there to continue. This request expires in 5 minutes.\n"),
-            (LoginStage.LOGIN_APPROVAL_APPROVED, "\nLogin approved! Loading your characters...\n"),
-            (LoginStage.LOGIN_APPROVAL_DENIED, "\nLogin request was denied. Disconnecting.\n"),
-            (LoginStage.LOGIN_APPROVAL_EXPIRED, "\nLogin request expired. Please try again.\n"),
+            (LoginStage.SELECT_CLASS,
+             "\r\n<b:cyan>=== Choose Your Class ===</>\r\n\r\n"
+             "  <yellow>1) Warrior</>   - Masters of combat and martial prowess\r\n"
+             "  <yellow>2) Cleric</>    - Divine magic and healing arts\r\n"
+             "  <yellow>3) Sorcerer</>  - Arcane magic and spell mastery\r\n"
+             "  <yellow>4) Rogue</>     - Stealth, speed, and cunning\r\n\r\n"
+             "Enter class number: "),
+            (LoginStage.SELECT_RACE,
+             "\r\n<b:cyan>=== Choose Your Race ===</>\r\n\r\n"
+             "  <yellow>1) Human</>    - Versatile and adaptable\r\n"
+             "  <yellow>2) Elf</>      - Graceful and magical\r\n"
+             "  <yellow>3) Dwarf</>    - Sturdy and resilient\r\n"
+             "  <yellow>4) Halfling</> - Small but brave\r\n\r\n"
+             "Enter race number: "),
+            (LoginStage.CREATION_COMPLETE,
+             "\r\n<b:yellow>=== Character Created! ===</>\r\n\r\n"
+             "Welcome to FieryMUD, <yellow>{character_name}</>!\r\n\r\n"
+             "<dim>Your adventure begins now. Type `help newbie` for beginner tips.</>\r\n\r\n"),
+            (LoginStage.RECONNECT_MESSAGE, "\r\n<dim>Reconnecting to existing session...</>\r\n\r\n"),
+            (LoginStage.LOGIN_APPROVAL_PENDING,
+             "\r\n<yellow>A login approval request has been sent to your Muditor dashboard.</>\r\n"
+             "<dim>Please approve it there to continue. This request expires in 5 minutes.</>\r\n\r\n"),
+            (LoginStage.LOGIN_APPROVAL_APPROVED, "\r\n<green>Login approved! Loading your characters...</>\r\n\r\n"),
+            (LoginStage.LOGIN_APPROVAL_DENIED, "\r\n<red>Login request was denied. Disconnecting.</>\r\n\r\n"),
+            (LoginStage.LOGIN_APPROVAL_EXPIRED, "\r\n<red>Login request expired. Please try again.</>\r\n\r\n"),
         ]
 
         for stage, message in messages:
-            await self.seed_login_message(stage, message.strip())
+            # No `.strip()` — each row owns its own leading/trailing
+            # whitespace and newlines. See the comment on `messages`.
+            await self.seed_login_message(stage, message)
             count += 1
             if verbose:
                 click.echo(f"    {stage.name}")
