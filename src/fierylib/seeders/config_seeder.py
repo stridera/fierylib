@@ -62,8 +62,11 @@ class ConfigSeeder:
     async def seed_server_config(self, verbose: bool = False) -> int:
         """Seed server configuration values."""
         configs = [
-            # Network settings
-            ("server", "port", 4000, ConfigValueType.INT, "Main game port", "1024", "65535", False, True),
+            # Network settings. fierymud-rs uses 4003/4443 by spec —
+            # legacy CircleMUD on 4000 stays on its own port so both
+            # can coexist on the same host without colliding. Bump
+            # `port` only on intentional rollover.
+            ("server", "port", 4003, ConfigValueType.INT, "Main game port", "1024", "65535", False, True),
             ("server", "tls_port", 4443, ConfigValueType.INT, "TLS/SSL port", "1024", "65535", False, True),
             ("server", "max_connections", 200, ConfigValueType.INT, "Maximum concurrent connections", "10", "1000", False, True),
             ("server", "connection_timeout_seconds", 300, ConfigValueType.INT, "Connection timeout in seconds", "60", "3600", False, False),
