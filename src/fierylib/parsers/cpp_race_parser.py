@@ -5,7 +5,7 @@ Parses the RaceDef structure array from races.cpp and extracts:
 - Basic race information (name, display names, flags)
 - Physical attributes (size, height/weight ranges)
 - Stat maximums (str, dex, int, wis, con, cha)
-- Combat bonuses (hitroll, damroll, focus)
+- Focus bonus
 - Race skill/spell assignments
 - Permanent racial effects
 """
@@ -234,8 +234,6 @@ class CppRaceParser:
                 'raceAlign': self._map_race_align(values[8]) if len(values) > 8 else 'GOOD',
                 'defaultSize': self._map_size(values[9]) if len(values) > 9 else 'MEDIUM',
                 'defaultAlignment': values[10] if len(values) > 10 else 0,
-                'bonusDamroll': values[11] if len(values) > 11 else 0,
-                'bonusHitroll': values[12] if len(values) > 12 else 0,
                 'focusBonus': values[13] if len(values) > 13 else 100,
                 'defaultLifeforce': self._map_lifeforce(values[14]) if len(values) > 14 else 'LIFE',
                 'defaultComposition': self._map_composition(values[15]) if len(values) > 15 else 'FLESH',
@@ -260,7 +258,6 @@ class CppRaceParser:
                 'hitDamageFactor': values[27] if len(values) > 27 else 100,
                 'damageDiceFactor': values[28] if len(values) > 28 else 100,
                 'copperFactor': values[29] if len(values) > 29 else 75,
-                'acFactor': values[30] if len(values) > 30 else 100,
                 'enterVerb': values[31] if len(values) > 31 else None,
                 'leaveVerb': values[32] if len(values) > 32 else None,
             }

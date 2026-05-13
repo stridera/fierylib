@@ -72,7 +72,7 @@ def convert_script(commands: str) -> str:
         if flags:
             props = ", ".join(f"{k} = {v}" for k, v in flags.items())
             return f"{new_expr}:set_state({{{props}}})"
-        return f"-- FIXME: empty flags in doors.set_flags"
+        return f"{new_expr}:set_state({{has_door = false, closed = false, locked = false, pickproof = false, hidden = false}})"
 
     commands = re.sub(pattern_set_flags, replace_set_flags, commands)
 

@@ -5,8 +5,11 @@ Handles:
 - Shops with composite primary keys (zoneId, vnum)
 - Shop items (selling inventory)
 - Shop accepts (item types they buy)
-- Shop rooms (locations where shop operates)
-- Shop hours (opening/closing times)
+
+NOTE (Wave 1 schema migration): The ShopRooms, ShopHours, and ShopAbilities
+tables have been dropped from the schema. Imports of those tables are now
+no-ops. The room/hour parsing still runs against the legacy data but is not
+written to the database.
 """
 
 from typing import Optional
@@ -200,25 +203,11 @@ class ShopImporter:
                     if accept_result["success"]:
                         accepts_imported += 1
 
-            # Import shop rooms
+            # Shop rooms and hours: ShopRooms / ShopHours tables dropped
+            # in the Wave 1 schema migration. No-op so the counts stay
+            # consistent in the result dict.
             rooms_imported = 0
-            if shop.rooms:
-                for room_vnum in shop.rooms:
-                    room_result = await self.import_shop_room(
-                        zone_id, vnum, room_vnum
-                    )
-                    if room_result["success"]:
-                        rooms_imported += 1
-
-            # Import shop hours
             hours_imported = 0
-            if shop.hours:
-                for hour_data in shop.hours:
-                    hour_result = await self.import_shop_hour(
-                        zone_id, vnum, hour_data
-                    )
-                    if hour_result["success"]:
-                        hours_imported += 1
 
             result = {
                 "success": True,
@@ -352,69 +341,8 @@ class ShopImporter:
                 "error": str(e),
             }
 
-    async def import_shop_room(
-        self, shop_zone_id: int, shop_vnum: int, room_vnum: int
-    ) -> dict:
-        """
-        Import shop room (location where shop operates)
-
-        Args:
-            shop_zone_id: Shop's zone ID
-            shop_vnum: Shop's vnum
-            room_vnum: Room vnum where shop operates (legacy ID, not composite)
-
-        Returns:
-            Dict with import results
-        """
-        try:
-            await self.prisma.shoprooms.create(
-                data={
-                    "shopZoneId": shop_zone_id,
-                    "shopId": shop_vnum,
-                    "roomId": int(room_vnum),
-                }
-            )
-
-            return {"success": True, "room_vnum": room_vnum}
-
-        except Exception as e:
-            return {
-                "success": False,
-                "room_vnum": room_vnum,
-                "error": str(e),
-            }
-
-    async def import_shop_hour(
-        self, shop_zone_id: int, shop_vnum: int, hour_data: dict
-    ) -> dict:
-        """
-        Import shop hour (opening/closing times)
-
-        Args:
-            shop_zone_id: Shop's zone ID
-            shop_vnum: Shop's vnum
-            hour_data: Dict with open and close times
-
-        Returns:
-            Dict with import results
-        """
-        try:
-            await self.prisma.shophours.create(
-                data={
-                    "shopZoneId": shop_zone_id,
-                    "shopId": shop_vnum,
-                    "open": hour_data.get("open", 0),
-                    "close": hour_data.get("close", 0),
-                }
-            )
-
-            return {"success": True}
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-            }
+    # Removed: import_shop_room / import_shop_hour. The ShopRooms and
+    # ShopHours tables were dropped in the Wave 1 schema migration.
 
     async def import_shop_mob(
         self, shop_zone_id: int, shop_id: int, mob_zone_id: int, mob_id: int,
@@ -495,122 +423,20 @@ class ShopImporter:
         self, zone_id: int, dry_run: bool = False
     ) -> dict:
         """
-        DEPRECATED: This function uses aggressive backroom detection that
-        incorrectly links guards and other NPCs to shops.
-
-        Use import_pet_shop_from_legacy_spec() instead, which takes explicit
-        room VNUMs from the legacy spec_assign.cpp data.
-
-        Legacy behavior attempted:
-        1. For each shop, get its operating rooms
-        2. Check if mobs spawn in room_vnum + 1 (the backroom pattern)
-        3. Link those mobs to the shop via ShopMobs
-
-        Problem: Many shops have guards/NPCs in adjacent rooms that are NOT
-        pets for sale. Only rooms with the pet_shop spec_proc should be treated
-        as pet shops.
-
-        Args:
-            zone_id: Zone ID to process
-            dry_run: If True, validate but don't write to database
-
-        Returns:
-            Dict with results (may contain false positives!)
+        DISABLED (Wave 1 schema migration): The ShopRooms table — which this
+        function used to walk shop -> room -> backroom — has been dropped.
+        Use import_pet_shop_from_legacy_spec() with an explicit room VNUM
+        from legacy spec_assign.cpp instead.
         """
-        results = {
+        _ = (zone_id, dry_run)
+        return {
             "success": True,
             "pet_shops_found": 0,
             "mobs_linked": 0,
             "backrooms_detected": [],
             "details": [],
+            "note": "ShopRooms table dropped; use import_pet_shop_from_legacy_spec()",
         }
-
-        try:
-            # Get all shops in this zone with their rooms
-            shops = await self.prisma.shops.find_many(
-                where={"zoneId": zone_id},
-                include={"shopRooms": True}
-            )
-
-            # Get all mob resets in this zone
-            mob_resets = await self.prisma.mobresets.find_many(
-                where={"zoneId": zone_id}
-            )
-
-            # Build a map of room_vnum -> list of (mob_zone_id, mob_id)
-            # The room_vnum is calculated from the composite key
-            room_to_mobs = {}
-            for reset in mob_resets:
-                # Calculate legacy room vnum from composite key
-                room_vnum = (reset.roomZoneId * 100) + reset.roomId
-                if reset.roomZoneId == 1000:
-                    room_vnum = reset.roomId  # Zone 0 special case
-
-                if room_vnum not in room_to_mobs:
-                    room_to_mobs[room_vnum] = []
-                room_to_mobs[room_vnum].append((reset.mobZoneId, reset.mobId))
-
-            # Check each shop for backroom pattern
-            for shop in shops:
-                for shop_room in shop.shopRooms:
-                    shop_room_vnum = shop_room.roomId  # This is the legacy vnum
-                    backroom_vnum = shop_room_vnum + 1
-
-                    # Check if mobs spawn in the backroom
-                    if backroom_vnum in room_to_mobs:
-                        mobs_in_backroom = room_to_mobs[backroom_vnum]
-
-                        if mobs_in_backroom:
-                            results["pet_shops_found"] += 1
-                            results["backrooms_detected"].append({
-                                "shop": f"{shop.zoneId}:{shop.id}",
-                                "shop_room": shop_room_vnum,
-                                "backroom": backroom_vnum,
-                                "mobs_found": len(mobs_in_backroom),
-                            })
-
-                            # Link each mob to the shop
-                            for mob_zone_id, mob_id in mobs_in_backroom:
-                                if dry_run:
-                                    results["mobs_linked"] += 1
-                                    results["details"].append({
-                                        "action": "would_link",
-                                        "shop": f"{shop.zoneId}:{shop.id}",
-                                        "mob": f"{mob_zone_id}:{mob_id}",
-                                    })
-                                else:
-                                    link_result = await self.import_shop_mob(
-                                        shop.zoneId, shop.id,
-                                        mob_zone_id, mob_id
-                                    )
-                                    if link_result["success"]:
-                                        results["mobs_linked"] += 1
-                                        results["details"].append({
-                                            "action": "linked",
-                                            "shop": f"{shop.zoneId}:{shop.id}",
-                                            "mob": f"{mob_zone_id}:{mob_id}",
-                                        })
-                                    else:
-                                        results["details"].append({
-                                            "action": "failed",
-                                            "shop": f"{shop.zoneId}:{shop.id}",
-                                            "mob": f"{mob_zone_id}:{mob_id}",
-                                            "error": link_result.get("error"),
-                                        })
-
-                            # Set SELLS_MOBS flag on the shop
-                            if not dry_run and results["mobs_linked"] > 0:
-                                await self._set_sells_mobs_flag(shop.zoneId, shop.id)
-
-            return results
-
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "pet_shops_found": 0,
-                "mobs_linked": 0,
-            }
 
     async def import_shops_from_file(
         self, shp_file_path: Path, zone_id: int, dry_run: bool = False
@@ -731,81 +557,15 @@ class ShopImporter:
             "details": [],
         }
 
-        try:
-            # Find shop that operates in this room
-            shop_room = await self.prisma.shoprooms.find_first(
-                where={"roomId": room_vnum},
-                include={"shops": True}
-            )
-
-            if not shop_room or not shop_room.shops:
-                results["success"] = False
-                results["error"] = f"No shop operates in room {room_vnum}"
-                return results
-
-            shop = shop_room.shops
-            results["shop_found"] = True
-            results["shop"] = f"{shop.zoneId}:{shop.id}"
-
-            # Find mobs that spawn in the backroom (room_vnum + 1)
-            backroom_vnum = room_vnum + 1
-
-            # Use EntityResolver to find the backroom
-            backroom = await self.resolver.resolve_room(
-                backroom_vnum, context_zone=shop.zoneId
-            )
-
-            if not backroom:
-                results["details"].append(f"Backroom {backroom_vnum} not found")
-                return results
-
-            # Find mob resets in the backroom
-            mob_resets = await self.prisma.mobresets.find_many(
-                where={
-                    "roomZoneId": backroom.zone_id,
-                    "roomId": backroom.id,
-                }
-            )
-
-            if not mob_resets:
-                results["details"].append(f"No mobs found in backroom {backroom_vnum}")
-                return results
-
-            # Link each mob to the shop
-            for reset in mob_resets:
-                if dry_run:
-                    results["mobs_linked"] += 1
-                    results["details"].append({
-                        "action": "would_link",
-                        "mob": f"{reset.mobZoneId}:{reset.mobId}",
-                    })
-                else:
-                    link_result = await self.import_shop_mob(
-                        shop.zoneId, shop.id,
-                        reset.mobZoneId, reset.mobId
-                    )
-                    if link_result["success"]:
-                        results["mobs_linked"] += 1
-                        results["details"].append({
-                            "action": "linked",
-                            "mob": f"{reset.mobZoneId}:{reset.mobId}",
-                        })
-                    else:
-                        results["details"].append({
-                            "action": "failed",
-                            "mob": f"{reset.mobZoneId}:{reset.mobId}",
-                            "error": link_result.get("error"),
-                        })
-
-            # Set SELLS_MOBS flag on the shop
-            if not dry_run and results["mobs_linked"] > 0:
-                await self._set_sells_mobs_flag(shop.zoneId, shop.id)
-
-            return results
-
-        except Exception as e:
-            return {
-                "success": False,
-                "room_vnum": room_vnum,
-                "error": str(e),
-            }
+        # DISABLED (Wave 1 schema migration): This used to find the shop
+        # that operates in `room_vnum` via prisma.shoprooms.find_first, but
+        # ShopRooms has been dropped. Until pet-shop linkage is reimplemented
+        # against the new schema, the function returns an inert "not found"
+        # result so callers don't crash.
+        _ = (dry_run,)
+        results["success"] = False
+        results["error"] = (
+            f"ShopRooms table dropped (Wave 1 migration); cannot resolve "
+            f"shop for room {room_vnum}."
+        )
+        return results

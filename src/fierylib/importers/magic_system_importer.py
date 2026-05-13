@@ -8,6 +8,7 @@ from typing import Dict, List, Any, Optional
 from prisma import Prisma
 
 from ..parsers.help_parser import HelpFileParser, parse_all_help_files
+from ..converters.color_converter import convert_legacy_colors
 
 
 class MagicSystemImporter:
@@ -61,7 +62,6 @@ class MagicSystemImporter:
                     "description": effect.get("description"),
                     "tags": effect.get("tags", []),
                     "defaultParams": json.dumps(effect.get("defaultParams", {})),
-                    "paramSchema": json.dumps(effect.get("paramSchema")) if effect.get("paramSchema") else None,
                 }
 
                 existing = await self.prisma.effect.find_unique(where={"name": name})
@@ -315,23 +315,27 @@ class MagicSystemImporter:
         except:
             pass
 
+        def _color(key: str) -> Optional[str]:
+            value = messages.get(key)
+            return convert_legacy_colors(value) if value else value
+
         await self.prisma.abilitymessages.create(
             data={
                 "abilityId": ability_id,
-                "startToCaster": messages.get("startToCaster"),
-                "startToVictim": messages.get("startToVictim"),
-                "startToRoom": messages.get("startToRoom"),
-                "successToCaster": messages.get("successToCaster"),
-                "successToVictim": messages.get("successToVictim"),
-                "successToRoom": messages.get("successToRoom"),
-                "successToSelf": messages.get("successToSelf"),
-                "successSelfRoom": messages.get("successSelfRoom"),
-                "failToCaster": messages.get("failToCaster"),
-                "failToVictim": messages.get("failToVictim"),
-                "failToRoom": messages.get("failToRoom"),
-                "wearoffToTarget": messages.get("wearoffToTarget"),
-                "wearoffToRoom": messages.get("wearoffToRoom"),
-                "lookMessage": messages.get("lookMessage"),
+                "startToCaster": _color("startToCaster"),
+                "startToVictim": _color("startToVictim"),
+                "startToRoom": _color("startToRoom"),
+                "successToCaster": _color("successToCaster"),
+                "successToVictim": _color("successToVictim"),
+                "successToRoom": _color("successToRoom"),
+                "successToSelf": _color("successToSelf"),
+                "successSelfRoom": _color("successSelfRoom"),
+                "failToCaster": _color("failToCaster"),
+                "failToVictim": _color("failToVictim"),
+                "failToRoom": _color("failToRoom"),
+                "wearoffToTarget": _color("wearoffToTarget"),
+                "wearoffToRoom": _color("wearoffToRoom"),
+                "lookMessage": _color("lookMessage"),
             }
         )
 

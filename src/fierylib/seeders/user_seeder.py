@@ -3,7 +3,6 @@
 import uuid
 import bcrypt
 import click
-from datetime import datetime
 from prisma import Prisma
 from prisma.enums import UserRole, Race
 
@@ -17,25 +16,19 @@ class UserSeeder:
     @staticmethod
     def calculate_role_from_level(max_level: int) -> UserRole:
         """
-        Calculate UserRole based on maximum character level
+        Calculate UserRole based on maximum character level.
 
-        Legacy FieryMUD level progression:
-        - 1-99:  PLAYER (normal gameplay)
-        - 100:   IMMORTAL (LVL_IMMORT - Avatar)
-        - 101-102: BUILDER (LVL_GOD/LVL_GRGOD - Demi-God/Lesser God)
-        - 103-104: CODER (LVL_HEAD_B/LVL_HEAD_C - Greater God/Implementer)
-        - 105:   GOD (LVL_IMPL/LVL_OVERLORD - Overlord - maximum level)
-
-        Args:
-            max_level: Highest character level
-
-        Returns:
-            UserRole enum value
+        Legacy level → modern UserRole:
+        - 1-99   PLAYER
+        - 100    IMMORTAL (LVL_IMMORT)
+        - 101-102 BUILDER (LVL_GOD/LVL_GRGOD)
+        - 103-104 HEAD_BUILDER (LVL_HEAD_B/LVL_HEAD_C)
+        - 105+   IMPLEMENTOR (LVL_IMPL/LVL_OVERLORD)
         """
         if max_level >= 105:
-            return UserRole.GOD
+            return UserRole.IMPLEMENTOR
         elif max_level >= 103:
-            return UserRole.CODER
+            return UserRole.HEAD_BUILDER
         elif max_level >= 101:
             return UserRole.BUILDER
         elif max_level >= 100:
@@ -126,7 +119,6 @@ class UserSeeder:
                 "gender": "male",
                 "passwordHash": password_hash.decode("utf-8"),
                 "userId": user_id,
-                "birthTime": datetime.now(),
                 # Set stats based on level (higher level = better stats)
                 "strength": min(18, 10 + (level // 10)),
                 "intelligence": min(18, 10 + (level // 10)),

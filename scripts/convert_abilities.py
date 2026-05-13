@@ -25,9 +25,9 @@ def convert_effect(effect_data: dict) -> dict:
                 "INT": "int",
                 "WIS": "wis",
                 "CHA": "cha",
-                "HITROLL": "hitroll",
-                "DAMROLL": "damroll",
-                "AC": "ac",
+                "HITROLL": "acc",
+                "DAMROLL": "ap",
+                "AC": "ward",
             }
             new_params["target"] = stat_map.get(stat.upper(), stat.lower())
 

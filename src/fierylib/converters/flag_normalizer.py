@@ -233,6 +233,9 @@ OBJECT_ANTI_TO_CLASS_ID = {
     'ANTI_DIABOLIST': 22,
 }
 
+# Size ordering for proper comparison (smallest to largest)
+SIZE_ORDER = ['TINY', 'SMALL', 'MEDIUM', 'LARGE', 'HUGE', 'GIANT', 'GARGANTUAN', 'COLOSSAL', 'TITANIC', 'MOUNTAINOUS']
+
 # Object ANTI_* flags that map to Size restrictions
 # These set either minSize (for ANTI_TINY/SMALL) or maxSize (for large sizes)
 OBJECT_ANTI_TO_SIZE = {
@@ -699,10 +702,12 @@ def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObject
                 size_type, size_value = size_info
                 if size_type == 'min':
                     # Take the largest min_size
-                    min_size = size_value  # TODO: compare sizes properly
+                    if min_size is None or SIZE_ORDER.index(size_value) > SIZE_ORDER.index(min_size):
+                        min_size = size_value
                 elif size_type == 'max':
                     # Take the smallest max_size
-                    max_size = size_value  # TODO: compare sizes properly
+                    if max_size is None or SIZE_ORDER.index(size_value) < SIZE_ORDER.index(max_size):
+                        max_size = size_value
             continue
 
         # Check race restrictions (CANNOT use)

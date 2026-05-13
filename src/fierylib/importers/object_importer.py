@@ -404,27 +404,31 @@ class ObjectImporter:
                 "error": str(e),
             }
 
+    # Legacy ApplyType -> modern ApplyType. AC sign flips (legacy: lower=better).
+    _LEGACY_AFFECT_MAP = {
+        "AC": ("ARMOR_RATING", True),
+        "HITROLL": ("ACCURACY", False),
+        "DAMROLL": ("ATTACK_POWER", False),
+    }
+
     async def import_affect(
         self, obj_zone_id: int, obj_vnum: int, affect: dict
     ) -> dict:
-        """
-        Import an object affect (stat modifier)
-
-        Args:
-            obj_zone_id: Object's zone ID
-            obj_vnum: Object's vnum
-            affect: Affect dict with location and modifier
-
-        Returns:
-            Dict with import results
-        """
+        """Import an object affect, translating legacy ApplyType names to modern."""
         try:
+            location = affect.get("location", "")
+            modifier = affect.get("modifier", 0)
+            mapped = self._LEGACY_AFFECT_MAP.get(location)
+            if mapped:
+                location, flip = mapped
+                if flip:
+                    modifier = -modifier
             await self.prisma.objectaffects.create(
                 data={
                     "objectZoneId": obj_zone_id,
                     "objectId": obj_vnum,
-                    "location": affect.get("location", ""),
-                    "modifier": affect.get("modifier", 0),
+                    "location": location,
+                    "modifier": modifier,
                 }
             )
 

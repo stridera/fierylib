@@ -261,6 +261,16 @@ class SkillSeeder:
                 if damage_type:
                     ability_data["damageType"] = damage_type
 
+                # targetScope drives AOE dispatch in the rust runtime
+                # (docs/design/abilities.md). The CSV column is currently
+                # populated with legacy locality codes (SAME_ROOM/ANYWHERE/TOUCH),
+                # so accept only values present in the modern enum and let the
+                # column default (SINGLE) handle the rest.
+                _VALID_TARGET_SCOPES = {"SINGLE", "ROOM", "GROUP", "AREA", "CHAIN", "CONE", "LINE", "SELF"}
+                target_scope = extraction_info.get("targetScope", "").strip().upper()
+                if target_scope in _VALID_TARGET_SCOPES:
+                    ability_data["targetScope"] = target_scope
+
             await self.prisma.ability.create(data=ability_data)
             spells_created += 1
 
@@ -332,12 +342,19 @@ class SkillSeeder:
             # Get extraction data for this skill
             extraction_info = self.get_extraction_info(plain_name)
 
+            # SKILL kind defaults to non-magical (mundane physical
+            # action). Magical-flavor skills (sphere-of-X) carry
+            # the "magic" tag and override to magical so combat's
+            # ward-engagement routing fires correctly. See
+            # docs/design/combat.md.
+            is_magical = "magic" in tags
             ability_data = {
                 "name": display_name,  # Display name
                 "plainName": plain_name,  # Unique key
                 "description": description,
                 "abilityType": "SKILL",
                 "tags": tags,
+                "isMagical": is_magical,
             }
 
             # Apply extraction data if available

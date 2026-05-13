@@ -184,7 +184,6 @@ class EffectsSeeder:
                     "description": effect_data.get("description"),
                     "tags": effect_data.get("tags", []),
                     "defaultParams": json.dumps(effect_data.get("defaultParams", {})),
-                    "paramSchema": json.dumps(effect_data.get("paramSchema")) if effect_data.get("paramSchema") else None,
                     "categoryId": category_id,
                 }
 

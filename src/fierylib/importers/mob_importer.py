@@ -24,7 +24,6 @@ from fierylib.combat_formulas import (
     calculate_mob_role,
     calculate_realistic_hp_dice,
     get_set_hit,
-    get_set_hr,
     get_set_hd,
     get_set_dice,
     get_race_dice_factor,
@@ -386,19 +385,24 @@ class MobImporter:
             new_damage_dice_num = max(0, base_dice_num + modifier_dice_num)
             new_damage_dice_size = max(1, base_dice_size + modifier_dice_size)
 
-            # Damage bonus (damroll) from level formula + file bonus
+            # Damage bonus from level formula + file bonus
             base_damroll = get_set_hd(mob.level, race_dice_factor, class_dice_factor)
             new_damage_dice_bonus = base_damroll + mob.damage_dice.bonus
 
-            # Calculate hitroll using legacy formula if file has 0
-            calculated_hitroll = mob.hit_roll
-            if mob.hit_roll == 0 and mob.level > 0:
-                calculated_hitroll = get_set_hr(mob.level, race_dice_factor, class_dice_factor)
+            # Query race data for combat stat scaling factors
+            race_record = await self.prisma.races.find_unique(where={"race": race})
+            race_data = {}
+            if race_record:
+                race_data = {
+                    "hitDamageFactor": race_record.hitDamageFactor,
+                    "damageDiceFactor": race_record.damageDiceFactor,
+                    "hpFactor": race_record.hpFactor,
+                }
 
-            # Convert legacy stats to modern
+            # Derive modern combat stats from legacy mob file values (file values are not stored)
             modern_stats = convert_legacy_to_modern_stats(
                 mob_data={"level": mob.level, "hitRoll": mob.hit_roll, "armorClass": mob.ac},
-                race_data={}  # TODO: Get from race table once implemented
+                race_data=race_data,
             )
 
             # Calculate placeholder stats (attackPower, spellPower, resistances, etc.)
@@ -438,7 +442,6 @@ class MobImporter:
             new_damage_dice_num = mob.damage_dice.num
             new_damage_dice_size = mob.damage_dice.size
             new_damage_dice_bonus = mob.damage_dice.bonus
-            calculated_hitroll = mob.hit_roll
             modern_stats = {}
 
         if dry_run:
@@ -508,15 +511,12 @@ class MobImporter:
                         "hpDiceNum": new_hp_num,
                         "hpDiceSize": new_hp_size,
                         "hpDiceBonus": new_hp_bonus,
-                        "estimatedHp": estimated_hp,
-                        "armorClass": mob.ac,
-                        "hitRoll": calculated_hitroll,
                         "damageDiceNum": new_damage_dice_num,
                         "damageDiceSize": new_damage_dice_size,
                         "damageDiceBonus": new_damage_dice_bonus,
                         **modern_stats,
                         "wealth": wealth,
-                        "position": position,
+                        "defaultPosition": position,
                         "movementMode": movement_mode,
                         "defaultMovementMode": default_movement_mode,
                         "gender": gender,
@@ -530,10 +530,7 @@ class MobImporter:
                         "charisma": mob.stats.charisma,
                         "perception": mob.perception,
                         "concealment": mob.concealment,
-                        "raceAlign": mob.race_align,
                         "lifeForce": life_force,
-                        "composition": composition,
-                        "stance": stance,
                         "damageType": damage_type,
                     },
                     "update": {
@@ -558,15 +555,12 @@ class MobImporter:
                         "hpDiceNum": new_hp_num,
                         "hpDiceSize": new_hp_size,
                         "hpDiceBonus": new_hp_bonus,
-                        "estimatedHp": estimated_hp,
-                        "armorClass": mob.ac,
-                        "hitRoll": calculated_hitroll,
                         "damageDiceNum": new_damage_dice_num,
                         "damageDiceSize": new_damage_dice_size,
                         "damageDiceBonus": new_damage_dice_bonus,
                         **modern_stats,
                         "wealth": wealth,
-                        "position": position,
+                        "defaultPosition": position,
                         "movementMode": movement_mode,
                         "defaultMovementMode": default_movement_mode,
                         "gender": gender,
@@ -580,10 +574,7 @@ class MobImporter:
                         "charisma": mob.stats.charisma,
                         "perception": mob.perception,
                         "concealment": mob.concealment,
-                        "raceAlign": mob.race_align,
                         "lifeForce": life_force,
-                        "composition": composition,
-                        "stance": stance,
                         "damageType": damage_type,
                     },
                 },

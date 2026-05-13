@@ -28,7 +28,7 @@ LEGACY_AFFECT_TO_STAT = {
         "notes": "Light armor → eva, Heavy armor → ward, Mixed → both",
     },
     "HITROLL": {"new_stats": ["acc"], "conversion": "direct"},
-    "DAMROLL": {"new_stats": ["damroll"], "conversion": "direct"},
+    "DAMROLL": {"new_stats": ["ap"], "conversion": "direct"},
     "STR": {"new_stats": ["str"], "conversion": "direct"},
     "DEX": {"new_stats": ["dex"], "conversion": "direct"},
     "CON": {"new_stats": ["con"], "conversion": "direct"},

@@ -18,7 +18,7 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
-from prisma import Prisma, Json
+from prisma import Prisma
 
 # Legacy imports - only used by convert-legacy command
 from fierylib.parsers.trigger_parser import parse_trigger_file, parse_all_triggers, DGTrigger
@@ -224,7 +224,6 @@ class TriggerImporter:
             "commands": trigger.commands,
             "numArgs": len(trigger.arg_list),
             "argList": trigger.arg_list,
-            "variables": Json({}),
             # Validation tracking
             "needsReview": syntax_error is not None,
             "syntaxError": syntax_error,
@@ -566,7 +565,6 @@ class TriggerImporter:
             "commands": trigger.commands,
             "numArgs": 0,  # Args not tracked in file format
             "argList": [],
-            "variables": Json({}),
             "needsReview": trigger.needs_review or syntax_error is not None,
             "syntaxError": syntax_error,
         }

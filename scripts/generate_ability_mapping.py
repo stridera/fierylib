@@ -37,12 +37,13 @@ def format_modern_effect(effect_name: str, params: dict) -> str:
     - AP (Attack Power) - replaces damroll
     - Soak - flat damage reduction
     """
-    # Stat name mappings (legacy → modern combat system)
+    # Stat name mappings (internal key → display label)
     STAT_NAMES = {
-        # Combat stats (new system)
-        "ac": "EVA",      # AC defense → Evasion
-        "hitroll": "ACC",  # hitroll → Accuracy
-        "damroll": "AP",   # damroll → Attack Power
+        # Combat stats
+        "acc": "ACC",      # Accuracy
+        "ap": "AP",        # Attack Power
+        "eva": "EVA",      # Evasion
+        "ward": "Ward",    # Magical damage reduction
         # Resources
         "hp": "HP",
         "mana": "Mana",

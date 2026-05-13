@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from typing import Dict, List, Optional
 from prisma import Prisma
-from prisma.enums import Race, SkillCategory, RaceAlign, Size, LifeForce, Composition
+from prisma.enums import Race, SkillCategory, RaceAlign, Size, LifeForce
 
 
 # Map skill/spell names to skill IDs (must match database Skills table)
@@ -222,11 +222,8 @@ class RaceImporter:
                         'raceAlign': RaceAlign[race_data['raceAlign']],
                         'defaultSize': Size[race_data['defaultSize']],
                         'defaultAlignment': race_data['defaultAlignment'],
-                        'bonusDamroll': race_data['bonusDamroll'],
-                        'bonusHitroll': race_data['bonusHitroll'],
                         'focusBonus': race_data['focusBonus'],
                         'defaultLifeforce': LifeForce[race_data['defaultLifeforce']],
-                        'defaultComposition': Composition[race_data['defaultComposition']],
                         'maleWeightLow': race_data['maleWeightLow'],
                         'maleWeightHigh': race_data['maleWeightHigh'],
                         'maleHeightLow': race_data['maleHeightLow'],
@@ -246,7 +243,6 @@ class RaceImporter:
                         'hitDamageFactor': race_data['hitDamageFactor'],
                         'damageDiceFactor': race_data['damageDiceFactor'],
                         'copperFactor': race_data['copperFactor'],
-                        'acFactor': race_data['acFactor'],
                         'enterVerb': race_data.get('enterVerb'),
                         'leaveVerb': race_data.get('leaveVerb'),
                         # Race-specific starting location

@@ -408,6 +408,7 @@ class RoomImporter:
         zone_id: int,
         base_zone_override: Optional[int] = None,
         vnum_map: Optional[Dict[int, tuple[int, int]]] = None,
+        object_vnum_map: Optional[Dict[int, tuple[int, int]]] = None,
     ) -> Dict[str, Any]:
         """
         Import exits for a room (separate from room import for two-pass approach)
@@ -417,6 +418,7 @@ class RoomImporter:
             zone_id: Zone ID
             base_zone_override: Override base zone for id calculation
             vnum_map: Optional map of legacy_room_id -> (zone_id, id) for cross-zone exits
+            object_vnum_map: Optional map of legacy_object_id -> (zone_id, id) for door key resolution
 
         Returns:
             Dict with import results
@@ -431,7 +433,12 @@ class RoomImporter:
         if room.get("exits"):
             for direction_str, exit_data in room["exits"].items():
                 exit_result = await self.import_exit(
-                    zone_id, room_composite_id, direction_str, exit_data, vnum_map=vnum_map
+                    zone_id,
+                    room_composite_id,
+                    direction_str,
+                    exit_data,
+                    vnum_map=vnum_map,
+                    object_vnum_map=object_vnum_map,
                 )
                 if exit_result["success"]:
                     exits_imported += 1
@@ -453,6 +460,7 @@ class RoomImporter:
         direction_str: str,
         exit_data: Dict[str, Any],
         vnum_map: Optional[Dict[int, tuple[int, int]]] = None,
+        object_vnum_map: Optional[Dict[int, tuple[int, int]]] = None,
     ) -> Dict[str, Any]:
         """
         Import a room exit
@@ -463,6 +471,7 @@ class RoomImporter:
             direction_str: Direction name (e.g., "NORTH")
             exit_data: Exit data dict
             vnum_map: Optional map of legacy_room_id -> (zone_id, id) for cross-zone exits
+            object_vnum_map: Optional map of legacy_object_id -> (zone_id, id) for door key resolution
 
         Returns:
             Dict with import results
@@ -541,6 +550,20 @@ class RoomImporter:
                 to_zone_id = None
                 to_room_vnum = None
 
+        # Resolve door key from legacy object id to composite (keyZoneId, keyId).
+        # Sentinel values: -1 ("no key" in CircleMUD), 0 (often "no door" / no key), and
+        # missing/empty all collapse to NULL.
+        key_zone_id: Optional[int] = None
+        key_id: Optional[int] = None
+        raw_key = exit_data.get("key")
+        if raw_key not in (None, "", "-1", -1, "0", 0):
+            try:
+                legacy_key = int(raw_key)
+                if object_vnum_map and legacy_key in object_vnum_map:
+                    key_zone_id, key_id = object_vnum_map[legacy_key]
+            except (TypeError, ValueError):
+                pass
+
         try:
             await self.prisma.roomexit.upsert(  # type: ignore[attr-defined]
                 where={
@@ -557,7 +580,8 @@ class RoomImporter:
                         "direction": direction,
                         "description": exit_data.get("description", ""),
                         "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
-                        "key": exit_data.get("key"),
+                        "keyZoneId": key_zone_id,
+                        "keyId": key_id,
                         "toZoneId": to_zone_id,
                         "toRoomId": to_room_vnum,
                         "flags": exit_flags,
@@ -566,7 +590,8 @@ class RoomImporter:
                     "update": {
                         "description": exit_data.get("description", ""),
                         "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
-                        "key": exit_data.get("key"),
+                        "keyZoneId": key_zone_id,
+                        "keyId": key_id,
                         "toZoneId": to_zone_id,
                         "toRoomId": to_room_vnum,
                         "flags": {"set": exit_flags},
@@ -580,6 +605,8 @@ class RoomImporter:
                 "direction": direction,
                 "toZoneId": to_zone_id,
                 "toRoomId": to_room_vnum,
+                "keyZoneId": key_zone_id,
+                "keyId": key_id,
                 "defaultState": default_state,
                 "flags": exit_flags,
             }
@@ -636,6 +663,7 @@ class RoomImporter:
         dry_run: bool = False,
         door_reset_lookup: Optional[dict[int, dict[str, list[str]]]] = None,
         vnum_map: Optional[dict[int, tuple[int, int]]] = None,
+        object_vnum_map: Optional[dict[int, tuple[int, int]]] = None,
     ) -> dict:
         """
         Import rooms from a legacy .wld file
@@ -648,6 +676,7 @@ class RoomImporter:
             dry_run: If True, validate but don't write to database
             door_reset_lookup: Optional mapping {room_vnum: {direction: [flags]}} from zone resets
             vnum_map: Optional dict to populate with vnum -> (zone_id, id) for downstream linking
+            object_vnum_map: Optional map of legacy_object_id -> (zone_id, id) for door key resolution
 
         Returns:
             Dict with import results including zones_created list
@@ -743,6 +772,8 @@ class RoomImporter:
                         room,
                         zone_id,
                         base_zone_override=zone_id,
+                        vnum_map=vnum_map,
+                        object_vnum_map=object_vnum_map,
                     )
                     results["exits_imported"] += exit_result.get("exits_imported", 0)
                     results["exits_failed"] += exit_result.get("exits_failed", 0)

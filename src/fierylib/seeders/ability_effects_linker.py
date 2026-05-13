@@ -144,9 +144,9 @@ WARD_MOD_SPELLS = {
 # All modifiers now use 'modify' with a 'target' parameter
 APPLY_MAPPINGS: Dict[str, Tuple[str, str]] = {
     # Combat modifiers (all use modify)
-    "APPLY_HITROLL": ("modify", "hitroll"),
+    "APPLY_HITROLL": ("modify", "acc"),
     "APPLY_AC": ("modify", "eva"),  # Default is evasion; ward override in map_legacy_effect
-    "APPLY_DAMROLL": ("modify", "damroll"),
+    "APPLY_DAMROLL": ("modify", "ap"),
 
     # Stats
     "APPLY_STR": ("modify", "str"),

@@ -568,6 +568,7 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                             zone_id,
                             base_zone_override=zone_id,
                             vnum_map=vnum_maps['rooms'],
+                            object_vnum_map=vnum_maps['objects'],
                         )
                         zone_exits_imported += exit_result.get("exits_imported", 0)
                         zone_exits_failed += exit_result.get("exits_failed", 0)
@@ -1692,26 +1693,118 @@ def import_boards(boards_dir: str | None, verbose: bool, clear: bool):
     help="Validate specific zone only",
 )
 def validate(lib_path: str, zone: int | None):
-    """Validate legacy data files without importing"""
-    click.echo(f"Validating legacy data in: {lib_path}")
+    """Validate legacy data files without importing (dry-run parse)"""
+    from pathlib import Path
+    from mud.mudfile import MudData
+    from mud.types.zone import Zone
+    from mud.types.room import Room
+    from mud.types.mob import Mob
+    from mud.types.obj import Obj
+
+    lib = Path(lib_path)
+    zon_dir = lib / "world" / "zon"
+    wld_dir = lib / "world" / "wld"
+    mob_dir = lib / "world" / "mob"
+    obj_dir = lib / "world" / "obj"
 
     if zone:
-        click.echo(f"Zone: {zone}")
+        zone_files = [zon_dir / f"{zone}.zon"]
     else:
-        click.echo("All zones")
+        zone_files = sorted(zon_dir.glob("*.zon"))
 
-    # TODO: Implement validation logic
-    click.echo("Validation functionality not yet implemented")
+    errors: list[str] = []
+    warnings: list[str] = []
+    stats = {"zones": 0, "rooms": 0, "mobs": 0, "objects": 0}
 
+    for zone_file in zone_files:
+        try:
+            zone_num = int(zone_file.stem)
+        except ValueError:
+            continue
 
-@main.command()
-def init_db():
-    """Initialize database schema using Prisma"""
-    click.echo("Initializing database schema...")
+        # Parse zone
+        try:
+            with open(zone_file, "r") as f:
+                mud_data = MudData(f.read().split("\n"))
+            parsed_zone = Zone.parse(mud_data)
+            stats["zones"] += 1
+        except Exception as e:
+            errors.append(f"Zone {zone_num}: parse error - {e}")
+            continue
 
-    # TODO: Run prisma migrate or prisma db push
-    click.echo("Database initialization not yet implemented")
-    click.echo("Hint: Run 'prisma db push' manually for now")
+        # Parse rooms
+        wld_file = wld_dir / f"{zone_num}.wld"
+        if wld_file.exists():
+            try:
+                with open(wld_file, "r") as f:
+                    mud_data = MudData(f.read().split("\n"))
+                count = 0
+                while mud_data.has_more():
+                    try:
+                        Room.parse(mud_data)
+                        count += 1
+                    except StopIteration:
+                        break
+                    except Exception as e:
+                        errors.append(f"Zone {zone_num} room: {e}")
+                        break
+                stats["rooms"] += count
+            except Exception as e:
+                errors.append(f"Zone {zone_num} rooms file: {e}")
+
+        # Parse mobs
+        mob_file = mob_dir / f"{zone_num}.mob"
+        if mob_file.exists():
+            try:
+                with open(mob_file, "r") as f:
+                    mud_data = MudData(f.read().split("\n"))
+                count = 0
+                while mud_data.has_more():
+                    try:
+                        Mob.parse(mud_data)
+                        count += 1
+                    except StopIteration:
+                        break
+                    except Exception as e:
+                        errors.append(f"Zone {zone_num} mob: {e}")
+                        break
+                stats["mobs"] += count
+            except Exception as e:
+                errors.append(f"Zone {zone_num} mobs file: {e}")
+
+        # Parse objects
+        obj_file = obj_dir / f"{zone_num}.obj"
+        if obj_file.exists():
+            try:
+                with open(obj_file, "r") as f:
+                    mud_data = MudData(f.read().split("\n"))
+                count = 0
+                while mud_data.has_more():
+                    try:
+                        Obj.parse(mud_data)
+                        count += 1
+                    except StopIteration:
+                        break
+                    except Exception as e:
+                        errors.append(f"Zone {zone_num} object: {e}")
+                        break
+                stats["objects"] += count
+            except Exception as e:
+                errors.append(f"Zone {zone_num} objects file: {e}")
+
+    click.echo(f"\nValidation Results:")
+    click.echo(f"  Zones:   {stats['zones']}")
+    click.echo(f"  Rooms:   {stats['rooms']}")
+    click.echo(f"  Mobs:    {stats['mobs']}")
+    click.echo(f"  Objects: {stats['objects']}")
+
+    if errors:
+        click.echo(f"\n{len(errors)} error(s):")
+        for err in errors:
+            click.echo(f"  ❌ {err}")
+    else:
+        click.echo(f"\n✅ All files parsed successfully")
+
 
 
 @main.command()

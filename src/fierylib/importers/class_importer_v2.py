@@ -48,27 +48,17 @@ class ClassImporterV2:
                 create_data = {
                     "name": class_data["name"],  # With XML-Lite colors
                     "plainName": class_data["plainName"],  # Plain text (Python doesn't have middleware)
+                    "isSubclass": class_data.get("isSubclass", False),
                 }
 
-                # Add optional combat modifier fields if present
                 if "description" in class_data:
                     create_data["description"] = class_data["description"]
                 if "hitDice" in class_data:
                     create_data["hitDice"] = class_data["hitDice"]
                 if "primaryStat" in class_data:
                     create_data["primaryStat"] = class_data["primaryStat"]
-                if "bonusHitroll" in class_data:
-                    create_data["bonusHitroll"] = class_data["bonusHitroll"]
-                if "bonusDamroll" in class_data:
-                    create_data["bonusDamroll"] = class_data["bonusDamroll"]
-                if "baseAc" in class_data:
-                    create_data["baseAc"] = class_data["baseAc"]
                 if "hpPerLevel" in class_data:
                     create_data["hpPerLevel"] = class_data["hpPerLevel"]
-                if "thac0Base" in class_data:
-                    create_data["thac0Base"] = class_data["thac0Base"]
-                if "thac0PerLevel" in class_data:
-                    create_data["thac0PerLevel"] = class_data["thac0PerLevel"]
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
                 if "spellProgression" in class_data:
@@ -84,6 +74,59 @@ class ClassImporterV2:
                 stats["errors"] += 1
 
         click.echo(f"  ✅ Classes imported: {stats['classes_created']}, skipped: {stats['classes_skipped']}")
+        return stats
+
+    async def link_parent_classes(self, classes_data: List[Dict]) -> Dict:
+        """Pass 2: Link subclasses to their parent classes by resolving parentClassName"""
+        stats = {"linked": 0, "skipped": 0, "errors": 0}
+
+        click.echo("  Linking subclasses to parent classes...")
+
+        for class_data in classes_data:
+            parent_name = class_data.get("parentClassName")
+            if not parent_name:
+                continue
+
+            plain_name = class_data.get("plainName")
+            if not plain_name:
+                continue
+
+            try:
+                # Look up the parent class
+                parent = await self.prisma.characterclass.find_first(
+                    where={"plainName": parent_name}
+                )
+                if not parent:
+                    click.echo(f"    ⚠️  Parent class '{parent_name}' not found for {plain_name}")
+                    stats["errors"] += 1
+                    continue
+
+                # Look up the child class
+                child = await self.prisma.characterclass.find_first(
+                    where={"plainName": plain_name}
+                )
+                if not child:
+                    stats["skipped"] += 1
+                    continue
+
+                # Skip if already linked
+                if child.parentClassId == parent.id:
+                    stats["skipped"] += 1
+                    continue
+
+                # Update the child with the parent class ID
+                await self.prisma.characterclass.update(
+                    where={"id": child.id},
+                    data={"parentClassId": parent.id}
+                )
+                stats["linked"] += 1
+                click.echo(f"    ✓ {plain_name} → {parent_name}")
+
+            except Exception as e:
+                click.echo(f"    ✗ Error linking {plain_name}: {e}")
+                stats["errors"] += 1
+
+        click.echo(f"  ✅ Parent classes linked: {stats['linked']}, skipped: {stats['skipped']}")
         return stats
 
     async def import_class_skills(
@@ -368,13 +411,18 @@ class ClassImporterV2:
         click.echo(f"    → {len(spells)} spells, {len(skills)} physical skills")
 
         # Import in order
+        # Pass 1: Create all classes
         class_stats = await self.import_classes(classes, skip_existing=skip_existing)
+        # Pass 2: Link parent classes (requires all classes to exist first)
+        parent_stats = await self.link_parent_classes(classes)
+        # Pass 3+: Skills, spells, circles
         skill_stats = await self.import_class_skills(class_skills, skip_existing=skip_existing, dry_run=dry_run)
         spell_stats = await self.import_spell_circles(class_skills, skip_existing=skip_existing, dry_run=dry_run)
         circle_stats = await self.import_class_circles(class_skills, skip_existing=skip_existing, dry_run=dry_run)
 
         return {
             **class_stats,
+            "parent_classes_linked": parent_stats["linked"],
             "skills_created": skill_stats["assignments_created"],
             "skills_skipped": skill_stats["assignments_skipped"],
             "spells_created": spell_stats["assignments_created"],
@@ -382,5 +430,5 @@ class ClassImporterV2:
             **circle_stats,
             "skill_not_found": skill_stats["skill_not_found"] + spell_stats["spell_not_found"],
             "class_not_found": skill_stats["class_not_found"] + spell_stats["class_not_found"],
-            "errors": class_stats["errors"] + skill_stats["errors"] + spell_stats["errors"] + circle_stats["errors"],
+            "errors": class_stats["errors"] + parent_stats["errors"] + skill_stats["errors"] + spell_stats["errors"] + circle_stats["errors"],
         }

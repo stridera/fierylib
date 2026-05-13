@@ -55,7 +55,6 @@ async def test_import_player_sets_race_type_elf():
     assert stats["character"] == 1
     assert "character_data" in stats
     assert stats["character_data"]["race"] == "ELF"
-    assert stats["character_data"]["raceType"] == "elf"
 
 
 @pytest.mark.asyncio
@@ -83,7 +82,7 @@ async def test_import_player_sets_race_type_halfelf():
     )  # type: ignore[arg-type]
 
     stats = await importer.import_player(player, dry_run=True)
-    assert stats["character_data"]["raceType"] == "halfelf"
+    assert stats["character_data"]["race"] == "HALF_ELF"
 
 
 @pytest.mark.asyncio

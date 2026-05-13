@@ -9,14 +9,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3046,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 1,
@@ -27,14 +22,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3003,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.6,
       "primaryStat": "WIS",
-      "hitDice": "1d8",
-      "baseAc": 100
+      "hitDice": "1d8"
     },
     {
       "id": 2,
@@ -44,15 +34,11 @@
       "magical": false,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Rogue",
       "homeroom": 3038,
-      "bonusHitroll": 1,
-      "bonusDamroll": 1,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.75,
       "primaryStat": "DEX",
-      "hitDice": "1d6",
-      "baseAc": 100
+      "hitDice": "1d6"
     },
     {
       "id": 3,
@@ -63,14 +49,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3022,
-      "bonusHitroll": 2,
-      "bonusDamroll": 2,
       "hpPerLevel": 14,
-      "thac0Base": 20,
-      "thac0PerLevel": 1.0,
       "primaryStat": "STR",
-      "hitDice": "1d12",
-      "baseAc": 100
+      "hitDice": "1d12"
     },
     {
       "id": 4,
@@ -80,15 +61,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Warrior",
       "homeroom": 3022,
-      "bonusHitroll": 2,
-      "bonusDamroll": 1,
       "hpPerLevel": 12,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.9,
       "primaryStat": "STR",
-      "hitDice": "1d10",
-      "baseAc": 100
+      "hitDice": "1d10"
     },
     {
       "id": 5,
@@ -98,15 +75,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Warrior",
       "homeroom": 3022,
-      "bonusHitroll": 2,
-      "bonusDamroll": 2,
       "hpPerLevel": 12,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.9,
       "primaryStat": "STR",
-      "hitDice": "1d10",
-      "baseAc": 100
+      "hitDice": "1d10"
     },
     {
       "id": 6,
@@ -116,15 +89,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Warrior",
       "homeroom": 3022,
-      "bonusHitroll": 1,
-      "bonusDamroll": 1,
       "hpPerLevel": 10,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.85,
       "primaryStat": "DEX",
-      "hitDice": "1d10",
-      "baseAc": 100
+      "hitDice": "1d10"
     },
     {
       "id": 7,
@@ -134,15 +103,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Cleric",
       "homeroom": 3003,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.65,
       "primaryStat": "WIS",
-      "hitDice": "1d8",
-      "baseAc": 100
+      "hitDice": "1d8"
     },
     {
       "id": 8,
@@ -151,16 +116,12 @@
       "className": "shaman",
       "magical": true,
       "active": false,
-      "isSubclass": false,
+      "isSubclass": true,
+      "parentClassName": "Cleric",
       "homeroom": 3001,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.6,
       "primaryStat": "WIS",
-      "hitDice": "1d8",
-      "baseAc": 100
+      "hitDice": "1d8"
     },
     {
       "id": 9,
@@ -170,15 +131,11 @@
       "magical": false,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Rogue",
       "homeroom": 3038,
-      "bonusHitroll": 2,
-      "bonusDamroll": 2,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.8,
       "primaryStat": "DEX",
-      "hitDice": "1d6",
-      "baseAc": 100
+      "hitDice": "1d6"
     },
     {
       "id": 10,
@@ -188,15 +145,11 @@
       "magical": false,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Rogue",
       "homeroom": 3038,
-      "bonusHitroll": 2,
-      "bonusDamroll": 2,
       "hpPerLevel": 12,
-      "thac0Base": 20,
-      "thac0PerLevel": 1.0,
       "primaryStat": "STR",
-      "hitDice": "1d10",
-      "baseAc": 100
+      "hitDice": "1d10"
     },
     {
       "id": 11,
@@ -206,15 +159,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 12,
@@ -224,15 +173,11 @@
       "magical": true,
       "active": false,
       "isSubclass": true,
+      "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 13,
@@ -242,15 +187,11 @@
       "magical": false,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Warrior",
       "homeroom": 3022,
-      "bonusHitroll": 2,
-      "bonusDamroll": 1,
       "hpPerLevel": 10,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.9,
       "primaryStat": "DEX",
-      "hitDice": "1d8",
-      "baseAc": 100
+      "hitDice": "1d8"
     },
     {
       "id": 14,
@@ -260,15 +201,11 @@
       "magical": false,
       "active": false,
       "isSubclass": true,
+      "parentClassName": "Warrior",
       "homeroom": 3022,
-      "bonusHitroll": 3,
-      "bonusDamroll": 2,
       "hpPerLevel": 14,
-      "thac0Base": 20,
-      "thac0PerLevel": 1.0,
       "primaryStat": "STR",
-      "hitDice": "1d12",
-      "baseAc": 100
+      "hitDice": "1d12"
     },
     {
       "id": 15,
@@ -278,15 +215,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Cleric",
       "homeroom": 3003,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.6,
       "primaryStat": "WIS",
-      "hitDice": "1d8",
-      "baseAc": 100
+      "hitDice": "1d8"
     },
     {
       "id": 16,
@@ -296,15 +229,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Cleric",
       "homeroom": 3003,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 17,
@@ -314,15 +243,11 @@
       "magical": true,
       "active": false,
       "isSubclass": true,
+      "parentClassName": "Cleric",
       "homeroom": 3003,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.55,
       "primaryStat": "WIS",
-      "hitDice": "1d6",
-      "baseAc": 100
+      "hitDice": "1d6"
     },
     {
       "id": 18,
@@ -333,14 +258,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3038,
-      "bonusHitroll": 1,
-      "bonusDamroll": 1,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.75,
       "primaryStat": "DEX",
-      "hitDice": "1d6",
-      "baseAc": 100
+      "hitDice": "1d6"
     },
     {
       "id": 19,
@@ -350,15 +270,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Rogue",
       "homeroom": 3038,
-      "bonusHitroll": 1,
-      "bonusDamroll": 0,
       "hpPerLevel": 8,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.7,
       "primaryStat": "CHA",
-      "hitDice": "1d8",
-      "baseAc": 100
+      "hitDice": "1d8"
     },
     {
       "id": 20,
@@ -368,15 +284,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 21,
@@ -386,15 +298,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 22,
@@ -404,15 +312,11 @@
       "magical": true,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "bonusHitroll": 0,
-      "bonusDamroll": 0,
       "hpPerLevel": 6,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.5,
       "primaryStat": "INT",
-      "hitDice": "1d4",
-      "baseAc": 100
+      "hitDice": "1d4"
     },
     {
       "id": 23,
@@ -422,15 +326,11 @@
       "magical": false,
       "active": true,
       "isSubclass": true,
+      "parentClassName": "Rogue",
       "homeroom": 3038,
-      "bonusHitroll": 1,
-      "bonusDamroll": 2,
       "hpPerLevel": 10,
-      "thac0Base": 20,
-      "thac0PerLevel": 0.85,
       "primaryStat": "DEX",
-      "hitDice": "1d10",
-      "baseAc": 100
+      "hitDice": "1d10"
     },
     {
       "id": 24,

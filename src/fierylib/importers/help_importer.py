@@ -1,6 +1,5 @@
 """Import help entries from CircleMUD help files into the database."""
 
-import json
 import click
 import asyncio
 from pathlib import Path
@@ -137,8 +136,6 @@ class HelpImporter:
             data["duration"] = entry.duration
         if entry.sphere:
             data["sphere"] = entry.sphere
-        if entry.classes:
-            data["classes"] = json.dumps(entry.classes)
 
         # Check if entry exists (by primary keyword)
         primary_kw = keywords[0] if keywords else keyword.lower()

@@ -52,7 +52,10 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["type", "percent"],
+            "required": [
+              "type",
+              "percent"
+            ],
             "properties": {
               "type": {
                 "type": "string",
@@ -978,7 +981,10 @@
       "type": "object",
       "properties": {
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Duration in combat rounds the target stays down"
         },
         "breakOnDamage": {
@@ -1004,7 +1010,10 @@
       "type": "object",
       "properties": {
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Duration in combat rounds the target is stunned"
         },
         "breakOnDamage": {
@@ -1028,7 +1037,10 @@
       "type": "object",
       "properties": {
         "damage": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Optional fall damage when dismounted"
         }
       }
@@ -1075,7 +1087,10 @@
       "type": "object",
       "properties": {
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Number of moves the target is dragged"
         },
         "resistable": {
@@ -1101,14 +1116,19 @@
     },
     "paramSchema": {
       "type": "object",
-      "required": ["target"],
+      "required": [
+        "target"
+      ],
       "properties": {
         "target": {
           "type": "string",
           "description": "Who to protect (ally reference)"
         },
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Duration of protection"
         },
         "chance": {
@@ -1138,19 +1158,30 @@
     },
     "paramSchema": {
       "type": "object",
-      "required": ["destination"],
+      "required": [
+        "destination"
+      ],
       "properties": {
         "destination": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Room ID or location reference for portal destination"
         },
         "type": {
-          "enum": ["one-way", "two-way"],
+          "enum": [
+            "one-way",
+            "two-way"
+          ],
           "type": "string",
           "description": "Whether portal can be used from both ends"
         },
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Duration before portal closes"
         },
         "maxUses": {
@@ -1176,7 +1207,10 @@
       "type": "object",
       "properties": {
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Duration of concealment"
         },
         "contestedBy": {
@@ -1211,12 +1245,17 @@
           "description": "Percentage of damage redirected (0-100)"
         },
         "duration": {
-          "type": ["integer", "string"],
+          "type": [
+            "integer",
+            "string"
+          ],
           "description": "Duration of effect"
         },
         "types": {
           "type": "array",
-          "items": {"type": "string"},
+          "items": {
+            "type": "string"
+          },
           "description": "Damage types affected (all if omitted)"
         }
       }

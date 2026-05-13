@@ -230,12 +230,6 @@ class PlayerImporter:
             raise ValueError(f"Character '{player_data.name}' missing required race data")
         race_enum = player_data.race.name if hasattr(player_data.race, 'name') else str(player_data.race)
 
-        # Derive raceType (string version used by frontend/game rules) - REQUIRED
-        # The Prisma schema has a default of "human" which was masking missing/incorrect mappings.
-        # We now always populate it explicitly to avoid silent fallbacks.
-        # Mapping rule: lowercase enum name with underscores removed (e.g. HALF_ELF -> halfelf)
-        race_type = race_enum.replace('_', '').lower()
-
         # Map class - REQUIRED (all characters must have a class)
         if not hasattr(player_data, 'player_class') or not player_data.player_class:
             raise ValueError(f"Character '{player_data.name}' missing required class data")
@@ -385,36 +379,28 @@ class PlayerImporter:
             "bankWealth": bank_wealth,
             "passwordHash": password_hash,
             "race": race_enum,
-            "raceType": race_type,
             "gender": gender_str,
-            "playerClass": player_class,
             "classId": class_id,
             "height": player_data.height,
             "weight": player_data.weight,
-            "baseHeight": player_data.base_height,
-            "baseWeight": player_data.base_weight,
-            "baseSize": player_data.base_size or 0,
-            "currentSize": player_data.natural_size or 0,
-            "hitRoll": player_data.hit_roll or 0,
-            "damageRoll": player_data.damage_roll or 0,
             "currentRoomZoneId": current_room_zone_id,
             "currentRoomId": current_room_id,
             "recallRoomZoneId": recall_room_zone_id,
             "recallRoomId": recall_room_id,
             "lastLogin": player_data.last_login_time if player_data.last_login_time else datetime.now(),
             "timePlayed": player_data.time_played or 0,
-            "isOnline": False,
             "hunger": player_data.hunger or 0,
             "thirst": player_data.thirst or 0,
+            "drunkenness": player_data.drunkenness or 0,
             "description": convert_legacy_colors(player_data.description) if player_data.description else None,
-            "title": player_data.title,
+            "title": convert_legacy_colors(
+                player_data.current_title or player_data.title or ""
+            ) or None,
             "prompt": convert_legacy_colors(player_data.prompt) if player_data.prompt else "<%h/%Hhp %v/%Vmv>",
             "playerFlags": player_flags,
             "invisLevel": player_data.invis_level or 0,
             "wimpyThreshold": player_data.wimpy or 0,
             "freezeLevel": player_data.freeze_level,
-            "autoInvisLevel": player_data.auto_invis or 0,
-            "birthTime": player_data.birth_time if player_data.birth_time else datetime.now(),
             "userId": None,  # No user - character exists standalone until claimed
             "experience": player_data.experience if player_data.experience is not None else 0,
         }

@@ -88,9 +88,9 @@ RESOURCE_MOD_EFFECTS = {
 STAT_MOD_EFFECTS = {
     "Earth Blessing": {"stat": "con", "amount": 2, "duration": "level * 2"},
     "Clarity": {"stat": "focus", "amount": "skill / 5", "duration": "level * 2"},
-    "Prayer": {"stat": "hitroll", "amount": 2, "duration": "level * 2"},
-    "Chant": {"stat": "hitroll", "amount": 1, "duration": "level"},
-    "Quick Chant": {"stat": "hitroll", "amount": 1, "duration": "level / 2"},
+    "Prayer": {"stat": "acc", "amount": 2, "duration": "level * 2"},
+    "Chant": {"stat": "acc", "amount": 1, "duration": "level"},
+    "Quick Chant": {"stat": "acc", "amount": 1, "duration": "level / 2"},
 }
 
 # Cure effects
@@ -217,26 +217,26 @@ PASSIVE_SKILLS = [
 
 # Bard songs - group buffs, typically stat_mod or status
 BARD_SONGS = {
-    "Apocalyptic Anthem": {"stat": "damroll", "amount": 2, "duration": "skill / 4"},
-    "Aria Of Dissonance": {"stat": "hitroll", "amount": -2, "duration": "skill / 4"},  # Debuff
-    "Ballad Of Tears": {"stat": "damroll", "amount": -2, "duration": "skill / 4"},  # Debuff
-    "Battle Howl": {"stat": "hitroll", "amount": 2, "duration": "skill / 4"},
-    "Battle Hymn": {"stat": "hitroll", "amount": 2, "duration": "skill / 4"},
-    "Blizzards Of Saint Augustine": {"stat": "damroll", "amount": 3, "duration": "skill / 4"},
-    "Fires Of Saint Augustine": {"stat": "damroll", "amount": 3, "duration": "skill / 4"},
+    "Apocalyptic Anthem": {"stat": "ap", "amount": 2, "duration": "skill / 4"},
+    "Aria Of Dissonance": {"stat": "acc", "amount": -2, "duration": "skill / 4"},  # Debuff
+    "Ballad Of Tears": {"stat": "ap", "amount": -2, "duration": "skill / 4"},  # Debuff
+    "Battle Howl": {"stat": "acc", "amount": 2, "duration": "skill / 4"},
+    "Battle Hymn": {"stat": "acc", "amount": 2, "duration": "skill / 4"},
+    "Blizzards Of Saint Augustine": {"stat": "ap", "amount": 3, "duration": "skill / 4"},
+    "Fires Of Saint Augustine": {"stat": "ap", "amount": 3, "duration": "skill / 4"},
     "Freedom Song": {"stat": "eva", "amount": 5, "duration": "skill / 4"},
     "Hearthsong": {"stat": "focus", "amount": 5, "duration": "skill / 4"},
-    "Heroic Journey": {"stat": "hitroll", "amount": 3, "duration": "skill / 4"},
-    "Hymn Of Saint Augustine": {"stat": "damroll", "amount": 2, "duration": "skill / 4"},
-    "Inspiration": {"stat": "hitroll", "amount": 2, "duration": "skill / 4"},
-    "Interminable Wrath": {"stat": "damroll", "amount": 3, "duration": "skill / 4"},
+    "Heroic Journey": {"stat": "acc", "amount": 3, "duration": "skill / 4"},
+    "Hymn Of Saint Augustine": {"stat": "ap", "amount": 2, "duration": "skill / 4"},
+    "Inspiration": {"stat": "acc", "amount": 2, "duration": "skill / 4"},
+    "Interminable Wrath": {"stat": "ap", "amount": 3, "duration": "skill / 4"},
     "Ivory Symphony": {"stat": "focus", "amount": 10, "duration": "skill / 4"},
     "Joyful Noise": {"stat": "cha", "amount": 2, "duration": "skill / 4"},
-    "Shadows Sorrow Song": {"stat": "hitroll", "amount": -3, "duration": "skill / 4"},  # Debuff
+    "Shadows Sorrow Song": {"stat": "acc", "amount": -3, "duration": "skill / 4"},  # Debuff
     "Song Of Rest": {"stat": "focus", "amount": 5, "duration": "skill / 4"},
     "Sonata Of Malaise": {"stat": "con", "amount": -2, "duration": "skill / 4"},  # Debuff
-    "Tempest Of Saint Augustine": {"stat": "damroll", "amount": 4, "duration": "skill / 4"},
-    "Tremors Of Saint Augustine": {"stat": "damroll", "amount": 3, "duration": "skill / 4"},
+    "Tempest Of Saint Augustine": {"stat": "ap", "amount": 4, "duration": "skill / 4"},
+    "Tremors Of Saint Augustine": {"stat": "ap", "amount": 3, "duration": "skill / 4"},
     "Spinechiller": {"stat": "eva", "amount": -5, "duration": "skill / 4"},  # Debuff
 }
 
@@ -261,7 +261,7 @@ SPECIAL_EFFECTS = {
     "Spirit of the Bear": [{"effect": "stat_mod", "params": {"stat": "con", "amount": 4, "duration": "level * 2"}}],
     "Spirit of the Wolf": [{"effect": "stat_mod", "params": {"stat": "dex", "amount": 4, "duration": "level * 2"}}],
     "Word Of Command": [{"effect": "crowd_control", "params": {"type": "charm", "duration": "level / 4", "breakOnDamage": False}}],
-    "Natures Guidance": [{"effect": "stat_mod", "params": {"stat": "hitroll", "amount": 3, "duration": "level * 2"}}],
+    "Natures Guidance": [{"effect": "stat_mod", "params": {"stat": "acc", "amount": 3, "duration": "level * 2"}}],
     "Wings Of Heaven": [{"effect": "status", "params": {"flag": "fly", "duration": "level * 2"}}],
     "Wings Of Hell": [{"effect": "status", "params": {"flag": "fly", "duration": "level * 2"}}],
     "Instant Kill": [{"effect": "damage", "params": {"type": "physical", "amount": "9999"}}],

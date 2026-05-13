@@ -5,6 +5,13 @@ Handles:
 - Parsing binary plrmail format (CircleMUD/FieryMUD)
 - Resolving legacy player IDs to character UUIDs via in-memory mapping from player import
 - Storing attached object references with composite keys
+
+NOTE (Wave 1 schema migration): The PlayerMail table has been dropped from the
+schema. The replacement model (AccountMail) is user-scoped and does not carry
+the legacy fields (legacySenderId, attachedCopper, attachedObjectZoneId, etc.).
+The actual DB writes have been disabled; parsing still works so the legacy data
+can be inspected without errors. A new importer keyed on AccountMail / Users
+will need to be written separately.
 """
 
 from pathlib import Path
@@ -66,36 +73,16 @@ class MailImporter:
         sender_char_id = legacy_to_char.get(mail_message.sender_id)
         recipient_char_id = legacy_to_char.get(mail_message.recipient_id)
 
-        mail_data = {
-            # Legacy IDs (numeric player IDs from CircleMUD)
-            "legacySenderId": mail_message.sender_id,
-            "legacyRecipientId": mail_message.recipient_id,
-            # Resolved character IDs (null if character was deleted/not imported)
-            "senderCharacterId": sender_char_id,
-            "recipientCharacterId": recipient_char_id,
-            # Mail content
-            "body": mail_message.body,
-            "sentAt": mail_message.mail_time,
-            # Wealth attachments - legacy format doesn't have wealth
-            "attachedCopper": 0,
-            "attachedSilver": 0,
-            "attachedGold": 0,
-            "attachedPlatinum": 0,
-            # Object attachment
-            "attachedObjectZoneId": attached_zone_id,
-            "attachedObjectId": attached_object_id,
-            # Retrieval tracking - not retrieved yet
-            "wealthRetrievedAt": None,
-            "wealthRetrievedByCharacterId": None,
-            "objectRetrievedAt": None,
-            "objectRetrievedByCharacterId": None,
-            "objectMovedToAccountStorage": False,
-            # Status
-            "isDeleted": False,
-        }
+        # PlayerMail table dropped in Wave 1 schema migration.
+        # AccountMail is the replacement but its schema (user-scoped, no
+        # attachments, no legacy IDs) is incompatible with the legacy
+        # plrmail data. Skip the DB write until a dedicated AccountMail
+        # importer is added.
+        _ = (sender_char_id, recipient_char_id, attached_zone_id, attached_object_id)
 
         if not dry_run:
-            await self.prisma.playermail.create(data=mail_data)
+            # No-op: PlayerMail dropped; AccountMail importer is TODO.
+            pass
 
         stats["imported"] = 1
         return stats
@@ -148,10 +135,9 @@ class MailImporter:
             print(f"  Legacy ID lookup has {len(legacy_to_char)} characters")
 
         # Clear existing mail if not dry run
-        if not dry_run:
-            deleted = await self.prisma.playermail.delete_many()
-            if verbose:
-                print(f"Cleared {deleted} existing mail records")
+        # PlayerMail dropped in Wave 1 schema migration; no clear step needed.
+        if not dry_run and verbose:
+            print("Skipping clear: PlayerMail table dropped (Wave 1 migration)")
 
         # Import each message
         for mail_message in parse_plrmail(file_path):

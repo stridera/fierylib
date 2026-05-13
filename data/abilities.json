@@ -243,7 +243,7 @@
         "params": {
           "amount": -2,
           "duration": "skill / 4",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -484,7 +484,7 @@
         "params": {
           "amount": -2,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -738,7 +738,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -774,7 +774,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1044,7 +1044,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1180,7 +1180,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "Your skin returns to normal.",
+      "wearoffToTarget": "&3Your skin returns to normal.&0",
       "successToVictim": "Your skin hardens into a bone carapace.",
       "successToCaster": "You harden {target.pos} skin into bone.",
       "successToRoom": "{target.pos} skin hardens into a bone carapace.",
@@ -1694,7 +1694,7 @@
         "params": {
           "amount": 1,
           "duration": "skill / 10",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1881,7 +1881,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "The flames surrounding the area die out.",
+      "wearoffToTarget": "&1&bThe &1&bfl&3am&1es&0 &1surrounding &1the area &9&bdie out&0.",
       "successToVictim": "You sustain major burns upon passing through the circle of fire.",
       "successToRoom": "{target.name} steps through the circle of fire, sustaining major burns.",
       "failToVictim": "The circle of fire missed you.",
@@ -3768,7 +3768,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "Your image solidifies.",
+      "wearoffToTarget": "&9&bYour image solidifies.&0",
       "successToVictim": "Your image blurs into the shadows!",
       "successToCaster": "You displace {target.name} into the shadows!",
       "successToRoom": "{target.pos} image blurs into the shadows!",
@@ -4746,7 +4746,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "You return to your normal size.",
+      "wearoffToTarget": "You return to your normal size.&0",
       "successToVictim": "Your skin starts to itch as you enlarge to twice your normal size!",
       "successToCaster": "You enlarge {target.name}!",
       "successToRoom": "{target.pos} skin ripples as they enlarge to twice their size!",
@@ -5233,7 +5233,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -5885,7 +5885,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "Your image solidifies.",
+      "wearoffToTarget": "&9&bYour image solidifies.&0",
       "successToVictim": "Your image blurs deep into the shadows!",
       "successToCaster": "You deeply displace {target.name}!",
       "successToRoom": "{target.pos} image blurs into the shadows!",
@@ -6438,7 +6438,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -6620,7 +6620,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -6942,7 +6942,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "The magical light fades away.",
+      "wearoffToTarget": "The magical light fades away.&0",
       "successToVictim": "A magical light illuminates the area.",
       "successToCaster": "You create magical light.",
       "successToRoom": "A magical light illuminates the area."
@@ -7453,7 +7453,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -7519,7 +7519,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -9457,7 +9457,7 @@
         "params": {
           "amount": 2,
           "duration": "5 + (skill / 14)",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -9847,7 +9847,7 @@
         "params": {
           "amount": 1,
           "duration": "skill / 20",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -10062,7 +10062,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "You return to your normal size.",
+      "wearoffToTarget": "You return to your normal size.&0",
       "successToVictim": "Your skin starts to itch as you shrink to half your normal size.",
       "successToCaster": "You shrink {target.name}!",
       "successToRoom": "{target.pos} skin ripples as they shrink to half their size!",
@@ -10783,7 +10783,7 @@
         "params": {
           "amount": -3,
           "duration": "skill / 4",
-          "target": "hitroll",
+          "target": "acc",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -12102,7 +12102,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "&dYour skin softens and returns to normal.",
+      "wearoffToTarget": "&3&dYour skin softens and returns to normal.&0",
       "successToVictim": "Your skin hardens and turns to stone!",
       "successToCaster": "You harden {target.pos} skin to stone!",
       "successToRoom": "{target.pos} skin hardens and turns to stone!",
@@ -12664,7 +12664,7 @@
         "params": {
           "amount": 4,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -12789,7 +12789,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "damroll",
+          "target": "ap",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -13021,7 +13021,7 @@
       }
     ],
     "messages": {
-      "wearoffToTarget": "The woods in the surrounding area break apart and crumble."
+      "wearoffToTarget": "&2The woods in the surrounding area break apart and crumble.&0"
     },
     "sphere": "ENCHANTMENT",
     "pages": 5
