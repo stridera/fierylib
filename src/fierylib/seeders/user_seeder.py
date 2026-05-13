@@ -6,6 +6,8 @@ import click
 from prisma import Prisma
 from prisma.enums import UserRole, Race
 
+from fierylib.combat_formulas import derive_hit_roll_baseline
+
 
 class UserSeeder:
     """Seeds test users for development and testing"""
@@ -79,14 +81,15 @@ class UserSeeder:
         password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(rounds=12))
 
         # Per-level stat scaffold shared by create + update paths.
-        # Combat stats use the same baseline formulas as the mob
-        # importer (see combat_formulas.convert_legacy_to_modern_stats)
-        # so player and mob curves stay symmetric: a same-level fight
-        # against a default-dex mob sits at the 50% hit center.
+        # Combat stats use the canonical baseline (combat_formulas.
+        # derive_hit_roll_baseline) so player and mob curves stay
+        # symmetric at the 50% hit center for default-stat actors.
+        # Fresh test characters have hit_roll=0; class/gear can bump
+        # accuracy via apply_modify_delta(target="hitroll").
         dex_score = min(18, 10 + (level // 10))
-        dex_bonus = (dex_score - 10) // 2
-        accuracy = 50 + level * 2
-        evasion = 50 + dex_bonus * 5 + level * 2
+        baseline = derive_hit_roll_baseline(level, dex_score=dex_score, hit_roll=0)
+        accuracy = baseline["accuracy"]
+        evasion = baseline["evasion"]
         stat_block = {
             "level": level,
             "race": race,

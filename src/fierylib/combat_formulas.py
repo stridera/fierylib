@@ -434,6 +434,25 @@ def calculate_mob_role(
         return "TRASH"  # Significantly weaker than zone average
 
 
+def derive_hit_roll_baseline(level: int, dex_score: int = 13, hit_roll: int = 0) -> dict:
+    """Canonical accuracy/evasion at the modern combat-rebalance.md
+    baseline. Used by both the mob importer (with legacy_hitroll from
+    the .mob file) and the player seeder (hit_roll=0 since fresh
+    characters have no authored bonus). Lifting this into one place
+    keeps player + mob curves provably symmetric for default-stat
+    actors at the same level — `derive_hit_roll_baseline(N) ==
+    derive_hit_roll_baseline(N)` always holds.
+
+    Reference: fierymud-rs `docs/design/combat-rebalance.md` lines
+    184-188 and `docs/design/gear-curves.md` §6a.
+    """
+    dex_bonus = (dex_score - 10) // 2
+    return {
+        "accuracy": 50 + hit_roll * 2 + level * 2,
+        "evasion": 50 + dex_bonus * 5 + level * 2,
+    }
+
+
 def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
     """
     Convert legacy combat stats to modern accuracy/evasion/armorRating/damageReductionPercent system.
@@ -450,27 +469,15 @@ def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
     legacy_ac = mob_data.get("armorClass", 0)
     dexterity = mob_data.get("dexterity", 13)
 
-    # Per fierymud-rs docs/design/combat-rebalance.md migration plan
-    # (lines 184-188), the canonical conversion is:
-    #   accuracy = 50 + hit_roll * 2
-    #   evasion  = 50 + dex_bonus * 5     dex_bonus = (dex - 10) // 2
     # Legacy AC is *not* part of evasion — it contributes only to
     # armor mitigation below (armor_rating / damageReductionPercent).
-    #
-    # Level scaling: an additive +2 per level on both sides keeps an
-    # equal-level fight at the design center (50% hit) regardless of
-    # tier, while progress against under-level content stays generous
-    # and over-level content stays punishing. Same +2/level term is
-    # used on the player side at character creation so the numbers
-    # stay symmetric.
-    #
     # The pre-fix formula `(100 - level*2 - legacy_ac) // 2` inverted
-    # difficulty: low-level mobs ended up with high evasion
-    # (49 for L1) and high-level bosses with negative evasion
-    # (-40 for L90). Re-import is required after this change.
-    dex_bonus = (dexterity - 10) // 2
-    accuracy = 50 + legacy_hitroll * 2 + level * 2
-    evasion = 50 + dex_bonus * 5 + level * 2
+    # difficulty: low-level mobs ended up with high evasion (49 for
+    # L1) and high-level bosses with negative evasion (-40 for L90).
+    # Re-import is required after this change.
+    baseline = derive_hit_roll_baseline(level, dex_score=dexterity, hit_roll=legacy_hitroll)
+    accuracy = baseline["accuracy"]
+    evasion = baseline["evasion"]
 
     # armorRating from AC using reverse K formula
     # damageReductionPercent = armorRating / (armorRating + K), solve for armorRating given target damageReductionPercent
