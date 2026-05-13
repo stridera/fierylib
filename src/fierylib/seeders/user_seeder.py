@@ -131,6 +131,40 @@ class UserSeeder:
             character = await self.prisma.characters.create(data=create_data)
             click.echo(f"    Created character: {name} (Level {level})")
 
+        # Grant all class-appropriate abilities so the character can
+        # actually use their toolkit immediately — TestCleric should
+        # be able to cast Heal without first running `study heal`.
+        # Without this, group testing requires Implementor characters
+        # since the cmd_cast class-gate also checks KnownAbilities.
+        if class_id is not None:
+            class_abilities = await self.prisma.classabilities.find_many(
+                where={"classId": class_id}
+            )
+            granted = 0
+            for ca in class_abilities:
+                # Upsert per (character_id, ability_id) so re-runs of
+                # the seeder are idempotent.
+                await self.prisma.characterabilities.upsert(
+                    where={
+                        "characterId_abilityId": {
+                            "characterId": character.id,
+                            "abilityId": ca.abilityId,
+                        }
+                    },
+                    data={
+                        "create": {
+                            "characterId": character.id,
+                            "abilityId": ca.abilityId,
+                            "known": True,
+                            "proficiency": 100,
+                        },
+                        "update": {"known": True, "proficiency": 100},
+                    },
+                )
+                granted += 1
+            if granted > 0:
+                click.echo(f"      → granted {granted} class abilities")
+
         return character
 
     async def seed_users(self, skip_existing: bool = True, with_characters: bool = True) -> dict:
