@@ -448,14 +448,29 @@ def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
     level = mob_data.get("level", 1)
     legacy_hitroll = mob_data.get("hitRoll", 0)
     legacy_ac = mob_data.get("armorClass", 0)
+    dexterity = mob_data.get("dexterity", 13)
 
-    # accuracy = legacy hitRoll (1:1 conversion)
-    accuracy = legacy_hitroll
-
-    # evasion = derived from AC (need baseline for level)
-    # Typical AC progression: L1=100, L50=0, L100=-100
-    baseline_ac = 100 - (level * 2)
-    evasion = (baseline_ac - legacy_ac) // 2  # Rough conversion
+    # Per fierymud-rs docs/design/combat-rebalance.md migration plan
+    # (lines 184-188), the canonical conversion is:
+    #   accuracy = 50 + hit_roll * 2
+    #   evasion  = 50 + dex_bonus * 5     dex_bonus = (dex - 10) // 2
+    # Legacy AC is *not* part of evasion — it contributes only to
+    # armor mitigation below (armor_rating / damageReductionPercent).
+    #
+    # Level scaling: an additive +2 per level on both sides keeps an
+    # equal-level fight at the design center (50% hit) regardless of
+    # tier, while progress against under-level content stays generous
+    # and over-level content stays punishing. Same +2/level term is
+    # used on the player side at character creation so the numbers
+    # stay symmetric.
+    #
+    # The pre-fix formula `(100 - level*2 - legacy_ac) // 2` inverted
+    # difficulty: low-level mobs ended up with high evasion
+    # (49 for L1) and high-level bosses with negative evasion
+    # (-40 for L90). Re-import is required after this change.
+    dex_bonus = (dexterity - 10) // 2
+    accuracy = 50 + legacy_hitroll * 2 + level * 2
+    evasion = 50 + dex_bonus * 5 + level * 2
 
     # armorRating from AC using reverse K formula
     # damageReductionPercent = armorRating / (armorRating + K), solve for armorRating given target damageReductionPercent

@@ -78,29 +78,44 @@ class UserSeeder:
         # Hash password for character
         password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(rounds=12))
 
+        # Per-level stat scaffold shared by create + update paths.
+        # Combat stats use the same baseline formulas as the mob
+        # importer (see combat_formulas.convert_legacy_to_modern_stats)
+        # so player and mob curves stay symmetric: a same-level fight
+        # against a default-dex mob sits at the 50% hit center.
+        dex_score = min(18, 10 + (level // 10))
+        dex_bonus = (dex_score - 10) // 2
+        accuracy = 50 + level * 2
+        evasion = 50 + dex_bonus * 5 + level * 2
+        stat_block = {
+            "level": level,
+            "race": race,
+            "passwordHash": password_hash.decode("utf-8"),
+            "userId": user_id,
+            # Set stats based on level (higher level = better stats)
+            "strength": min(18, 10 + (level // 10)),
+            "intelligence": min(18, 10 + (level // 10)),
+            "wisdom": min(18, 10 + (level // 10)),
+            "dexterity": dex_score,
+            "constitution": min(18, 10 + (level // 10)),
+            "charisma": min(18, 10 + (level // 10)),
+            # HP/Stamina based on level
+            "hitPoints": level * 10,
+            "hitPointsMax": level * 10,
+            "stamina": 100 + (level * 2),
+            "staminaMax": 100 + (level * 2),
+            # Combat baseline so seeded characters don't spawn at 0/0
+            # (which would mean any same-level mob with the corrected
+            # evasion formula outclasses them).
+            "accuracy": accuracy,
+            "evasion": evasion,
+        }
+
         # Check if character already exists
         existing = await self.prisma.characters.find_unique(where={"name": name})
 
         if existing:
-            # Update existing character
-            update_data = {
-                "level": level,
-                "race": race,
-                "passwordHash": password_hash.decode("utf-8"),
-                "userId": user_id,
-                # Set stats based on level (higher level = better stats)
-                "strength": min(18, 10 + (level // 10)),
-                "intelligence": min(18, 10 + (level // 10)),
-                "wisdom": min(18, 10 + (level // 10)),
-                "dexterity": min(18, 10 + (level // 10)),
-                "constitution": min(18, 10 + (level // 10)),
-                "charisma": min(18, 10 + (level // 10)),
-                # HP/Stamina based on level
-                "hitPoints": level * 10,
-                "hitPointsMax": level * 10,
-                "stamina": 100 + (level * 2),
-                "staminaMax": 100 + (level * 2),
-            }
+            update_data = dict(stat_block)
             if class_id is not None:
                 update_data["classId"] = class_id
             character = await self.prisma.characters.update(
@@ -109,29 +124,8 @@ class UserSeeder:
             )
             click.echo(f"    Updated character: {name} (Level {level})")
         else:
-            # Create new character
             character_id = str(uuid.uuid4())
-            create_data = {
-                "id": character_id,
-                "name": name,
-                "level": level,
-                "race": race,
-                "gender": "male",
-                "passwordHash": password_hash.decode("utf-8"),
-                "userId": user_id,
-                # Set stats based on level (higher level = better stats)
-                "strength": min(18, 10 + (level // 10)),
-                "intelligence": min(18, 10 + (level // 10)),
-                "wisdom": min(18, 10 + (level // 10)),
-                "dexterity": min(18, 10 + (level // 10)),
-                "constitution": min(18, 10 + (level // 10)),
-                "charisma": min(18, 10 + (level // 10)),
-                # HP/Stamina based on level
-                "hitPoints": level * 10,
-                "hitPointsMax": level * 10,
-                "stamina": 100 + (level * 2),
-                "staminaMax": 100 + (level * 2),
-            }
+            create_data = {"id": character_id, "name": name, "gender": "male", **stat_block}
             if class_id is not None:
                 create_data["classId"] = class_id
             character = await self.prisma.characters.create(data=create_data)
@@ -251,9 +245,10 @@ class UserSeeder:
             # Create multiple PLAYER-level characters
             if with_characters:
                 await self.create_character(player.id, "TestWarrior", 25, Race.HUMAN, "player123", class_plain_name="Warrior")
+                await self.create_character(player.id, "TestCleric", 20, Race.HUMAN, "player123", class_plain_name="Cleric")
                 await self.create_character(player.id, "TestMage", 15, Race.ELF, "player123", class_plain_name="Mage")
                 await self.create_character(player.id, "TestRogue", 10, Race.HALFLING, "player123", class_plain_name="Rogue")
-                characters_created += 3
+                characters_created += 4
 
                 # Update user role based on max character level (25 = still PLAYER)
                 await self.prisma.users.update(
