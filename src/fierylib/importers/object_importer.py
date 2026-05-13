@@ -404,31 +404,95 @@ class ObjectImporter:
                 "error": str(e),
             }
 
-    # Legacy ApplyType -> modern ApplyType. AC sign flips (legacy: lower=better).
+    # Legacy AFFECTS flag name -> (modern apply_modify_delta target, flip_sign).
+    # Targets here must match the match arms in
+    # fierymud-rs/crates/mud-server/src/commands.rs::apply_modify_delta.
+    # Legacy aliases ("ac", "hitroll", "damroll") get auto-scaled on the
+    # Rust side, so we pass the raw modifier through unscaled.
+    # AC: legacy convention is lower=better; modern armor is positive — flip.
+    # Targets we intentionally drop (no combat impact, or reserved):
+    #   NONE, CLASS, LEVEL, AGE, CHAR_WEIGHT, CHAR_HEIGHT,
+    #   GOLD, EXP, SIZE, COMPOSITION.
     _LEGACY_AFFECT_MAP = {
-        "AC": ("ARMOR_RATING", True),
-        "HITROLL": ("ACCURACY", False),
-        "DAMROLL": ("ATTACK_POWER", False),
+        "STR":            ("str_bonus", False),
+        "DEX":            ("dex_bonus", False),
+        "INT":            ("int_bonus", False),
+        "WIS":            ("wis_bonus", False),
+        "CON":            ("con_bonus", False),
+        "CHA":            ("cha_bonus", False),
+        "MANA":           ("max_mana", False),
+        "HIT":            ("max_hp", False),
+        "MOVE":           ("max_stamina", False),
+        "AC":             ("ac", True),
+        "HITROLL":        ("hitroll", False),
+        "DAMROLL":        ("damroll", False),
+        "SAVING_PARA":    ("saving_para", False),
+        "SAVING_ROD":     ("saving_rod", False),
+        "SAVING_PETRI":   ("saving_petri", False),
+        "SAVING_BREATH":  ("saving_breath", False),
+        "SAVING_SPELL":   ("saving_spell", False),
+        "HIT_REGEN":      ("hit_regen", False),
+        "FOCUS":          ("focus", False),
+        "PERCEPTION":     ("perception", False),
+        "HIDDENNESS":     ("hiddenness", False),
     }
+
+    # Cached id of the `modify` row in the `Effect` table (id=3 in the
+    # seeded data, but we look it up to stay schema-agnostic). Resolved
+    # lazily on the first affect import to avoid an init-time query.
+    _modify_effect_id: Optional[int] = None
+
+    async def _get_modify_effect_id(self) -> Optional[int]:
+        if self._modify_effect_id is None:
+            row = await self.prisma.effect.find_first(where={"name": "modify"})
+            if row is not None:
+                self._modify_effect_id = row.id
+        return self._modify_effect_id
 
     async def import_affect(
         self, obj_zone_id: int, obj_vnum: int, affect: dict
     ) -> dict:
-        """Import an object affect, translating legacy ApplyType names to modern."""
+        """Translate a legacy A-block into an ObjectEffects(modify) row.
+
+        Legacy CircleMUD `A` blocks carry pairs of `(applyType, modifier)`
+        — STR +1, AC -5, HITROLL +2, etc. The modern schema represents
+        these as `ObjectEffects` rows referencing the `modify` Effect
+        with a `modifier_data = {"target": <stat>, "amount": <int>}`
+        jsonb payload. equip_apply.rs reads those rows when an item is
+        worn and folds the delta into the wearer's CombatStats / Health
+        / etc. via apply_modify_delta.
+        """
         try:
             location = affect.get("location", "")
             modifier = affect.get("modifier", 0)
             mapped = self._LEGACY_AFFECT_MAP.get(location)
-            if mapped:
-                location, flip = mapped
-                if flip:
-                    modifier = -modifier
-            await self.prisma.objectaffects.create(
+            if mapped is None:
+                # Intentionally-unmapped legacy affect (NONE / CLASS /
+                # AGE / etc.). Drop silently — these have no combat
+                # impact in the modern system.
+                return {"success": True, "skipped": True, "reason": location or "blank"}
+            target, flip = mapped
+            if flip:
+                modifier = -modifier
+            if modifier == 0:
+                # Zero-delta apply is meaningless; equip_apply.rs would
+                # log a "zero delta — no-op" anyway. Skip the row.
+                return {"success": True, "skipped": True, "reason": "zero modifier"}
+
+            effect_id = await self._get_modify_effect_id()
+            if effect_id is None:
+                return {"success": False, "error": "modify Effect row not found"}
+
+            await self.prisma.objecteffects.create(
                 data={
                     "objectZoneId": obj_zone_id,
                     "objectId": obj_vnum,
-                    "location": location,
-                    "modifier": modifier,
+                    "effectId": effect_id,
+                    "strength": 1,
+                    # Prisma 7 JSON fields take a string; the runtime
+                    # parses it on read. Other importers in this file
+                    # use the same `json.dumps` pattern (see line ~302).
+                    "modifierData": json.dumps({"target": target, "amount": modifier}),
                 }
             )
 
