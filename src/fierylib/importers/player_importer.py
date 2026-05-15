@@ -537,9 +537,13 @@ class PlayerImporter:
                         # Only warn if they had significant proficiency
                         if proficiency > 0:
                             print(f"  ⚠️  Spell '{normalized_name}' not available for {player_class} ({player_data.name}) - proficiency: {proficiency}")
-                        if "skipped" not in stats:
-                            stats["skipped"] = 0
-                        stats["skipped"] += 1
+                        # Distinct from the level-0 character skip — this is a per-spell
+                        # "off-class spell saved on the character" warning. Don't share
+                        # the ``skipped`` key with the character-level skip or the caller's
+                        # equipment-import gate misfires (caused the T7 unarmed gap, May 2026).
+                        if "spells_skipped" not in stats:
+                            stats["spells_skipped"] = 0
+                        stats["spells_skipped"] += 1
                         continue
 
                     try:
@@ -588,9 +592,12 @@ class PlayerImporter:
                         circle_val = int(circle) if isinstance(circle, str) else circle
                         if circle_val > 0:
                             print(f"  ⚠️  Spell '{normalized_name}' not available for {player_class} ({player_data.name}) - circle: {circle_val}")
-                        if "skipped" not in stats:
-                            stats["skipped"] = 0
-                        stats["skipped"] += 1
+                        # See note in the per-proficiency block above: keep this counter
+                        # separate from the level-0 character-skip so the caller's
+                        # equipment-import gate doesn't misfire.
+                        if "spells_skipped" not in stats:
+                            stats["spells_skipped"] = 0
+                        stats["spells_skipped"] += 1
                         continue
 
                     # Create CharacterAbilities entry if not already exists
@@ -896,8 +903,13 @@ class PlayerImporter:
                         if player_data:
                             stats = await self.import_player(player_data, dry_run=dry_run)
 
-                            # Skip level 0 players (incomplete characters)
-                            if stats.get("skipped"):
+                            # Skip level 0 / never-finished-creation players. The
+                            # per-spell warnings count into stats["spells_skipped"]
+                            # (separate key) so they do NOT gate equipment import here
+                            # — that previously caused 50-100 high-level characters
+                            # with off-class saved spells to be imported without their
+                            # equipment.
+                            if stats.get("reason") == "level_0":
                                 print(f"⏭ Skipped player: {player_data.name} (level 0)")
                                 total_stats["skipped"] += 1
                                 continue
