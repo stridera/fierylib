@@ -549,7 +549,12 @@ def derive_hit_roll_baseline(
         rate = 2.0
     return {
         "accuracy": int(50 + hit_roll * 2 + round(rate * level)),
-        "evasion": 50 + dex_bonus * 5 + level * 2,
+        # dex_bonus contribution lowered from ×5 to ×2 (May 2026 — see
+        # gear-curves §7 post-real-loadout audit). Real legacy characters
+        # have dex 88-98; ×5 gave them +200+ evasion, making same-level
+        # mobs miss nearly every attack. ×2 keeps high-dex meaningful
+        # (~+80 evasion at dex 90) without breaking same-level encounters.
+        "evasion": 50 + dex_bonus * 2 + level * 2,
     }
 
 
@@ -567,6 +572,69 @@ def derive_attack_power_baseline(level: int, class_name: str | None = None) -> i
         normalized = class_name.upper().replace("-", "_")
         rate = CLASS_ATTACK_POWER_PER_LEVEL.get(normalized, 2.0)
     return int(round(rate * level))
+
+
+# Per-class stat priority order, mirroring the ``statorder`` field in
+# ``fierymud_legacy/src/class.cpp`` (used at character-creation to
+# auto-assign rolled stats). The first entry is the class's *primary*
+# stat (gets rolled highest), the second its *secondary*, etc.
+#
+# Used by ``user_seeder.create_character`` to give test characters
+# class-realistic stat distributions (primary=95, secondary=75, rest=50)
+# matching the trained mid-game profile real legacy characters reach.
+# Without this, test characters were getting min(18, ...) stats — a
+# D&D-style 1-18 cap that doesn't match FieryMUD's 1-100 stat scale.
+CLASS_STAT_ORDER: dict[str, list[str]] = {
+    "SORCERER":     ["INT", "CON", "WIS", "DEX", "STR", "CHA"],
+    "CLERIC":       ["WIS", "CON", "INT", "DEX", "STR", "CHA"],
+    "THIEF":        ["DEX", "STR", "CON", "WIS", "INT", "CHA"],
+    "WARRIOR":      ["STR", "CON", "DEX", "WIS", "INT", "CHA"],
+    "PALADIN":      ["STR", "DEX", "CON", "WIS", "INT", "CHA"],
+    "ANTI_PALADIN": ["STR", "DEX", "CON", "WIS", "INT", "CHA"],
+    "RANGER":       ["STR", "DEX", "CON", "INT", "WIS", "CHA"],
+    "DRUID":        ["WIS", "INT", "STR", "DEX", "CON", "CHA"],
+    "SHAMAN":       ["WIS", "INT", "STR", "DEX", "CON", "CHA"],
+    "ASSASSIN":     ["DEX", "STR", "CON", "WIS", "INT", "CHA"],
+    "MERCENARY":    ["STR", "DEX", "CON", "WIS", "INT", "CHA"],
+    "NECROMANCER":  ["INT", "WIS", "STR", "DEX", "CON", "CHA"],
+    "CONJURER":     ["INT", "WIS", "STR", "DEX", "CON", "CHA"],
+    "MONK":         ["STR", "DEX", "CON", "WIS", "INT", "CHA"],
+    "BERSERKER":    ["STR", "CON", "DEX", "WIS", "INT", "CHA"],
+    "PRIEST":       ["WIS", "INT", "STR", "DEX", "CON", "CHA"],
+    "DIABOLIST":    ["WIS", "INT", "STR", "DEX", "CON", "CHA"],
+    "MYSTIC":       ["WIS", "INT", "STR", "DEX", "CON", "CHA"],
+    "ROGUE":        ["DEX", "CON", "STR", "INT", "WIS", "CHA"],
+    "BARD":         ["DEX", "STR", "CON", "WIS", "INT", "CHA"],
+    "PYROMANCER":   ["INT", "WIS", "STR", "DEX", "CON", "CHA"],
+    "CRYOMANCER":   ["INT", "WIS", "STR", "DEX", "CON", "CHA"],
+    "ILLUSIONIST":  ["INT", "WIS", "STR", "DEX", "CON", "CHA"],
+    "HUNTER":       ["DEX", "STR", "CON", "WIS", "INT", "CHA"],
+}
+
+
+def class_stat_profile(class_name: str | None) -> dict[str, int]:
+    """Return a class-realistic stat profile for test users / dev
+    fixtures. Primary stat = 95, secondary = 75, others = 50. Matches
+    the legacy 1-100 scale + the mid-game trained profile real players
+    typically reach. Falls back to a neutral all-65 spread when class
+    is unknown.
+
+    Reference: ``CLASS_STAT_ORDER`` (ported from legacy class.cpp
+    ``statorder``).
+    """
+    keys = ["str", "dex", "con", "int", "wis", "cha"]
+    if class_name is None:
+        return {k: 65 for k in keys}
+    normalized = class_name.upper().replace("-", "_")
+    order = CLASS_STAT_ORDER.get(normalized)
+    if order is None:
+        return {k: 65 for k in keys}
+    profile = {k: 50 for k in keys}
+    label_to_key = {"STR": "str", "DEX": "dex", "CON": "con",
+                    "INT": "int", "WIS": "wis", "CHA": "cha"}
+    profile[label_to_key[order[0]]] = 95
+    profile[label_to_key[order[1]]] = 75
+    return profile
 
 
 def normalize_mob_hit_roll(legacy_hit_roll: int, level: int) -> int:

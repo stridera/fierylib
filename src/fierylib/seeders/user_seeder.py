@@ -7,7 +7,11 @@ import click
 from prisma import Prisma
 from prisma.enums import UserRole, Race
 
-from fierylib.combat_formulas import derive_attack_power_baseline, derive_hit_roll_baseline
+from fierylib.combat_formulas import (
+    class_stat_profile,
+    derive_attack_power_baseline,
+    derive_hit_roll_baseline,
+)
 
 
 # Map Race enum (uppercase) to the human-readable Race.name column.
@@ -193,11 +197,15 @@ class UserSeeder:
         # symmetric at the 50% hit center for default-stat actors.
         # Fresh test characters have hit_roll=0; class/gear can bump
         # accuracy via apply_modify_delta(target="hitroll").
-        dex_score = min(18, 10 + (level // 10))
-        # Pass class_plain_name so accuracy uses the per-class rate
-        # (warrior 2.7/lvl, mage 1.8/lvl, ...) — see Step 3 §8 in
-        # combat-rebalance.md. Classless characters fall back to the
-        # mob-symmetric 2.0/lvl default.
+        # Stats use the class-aware profile (primary=95, secondary=75,
+        # rest=50) on FieryMUD's 1-100 scale — matches the trained
+        # mid-game profile real legacy characters reach. Replaces the
+        # previous min(18, 10 + level/10) D&D-style cap, which produced
+        # test characters with dex ~12 while real characters at the
+        # same level have dex ~90 (200+ evasion gap). See gear-curves
+        # §7 post-real-loadout audit.
+        stats = class_stat_profile(class_plain_name)
+        dex_score = stats["dex"]
         baseline = derive_hit_roll_baseline(
             level,
             dex_score=dex_score,
@@ -222,13 +230,13 @@ class UserSeeder:
             "race": race,
             "passwordHash": password_hash.decode("utf-8"),
             "userId": user_id,
-            # Set stats based on level (higher level = better stats)
-            "strength": min(18, 10 + (level // 10)),
-            "intelligence": min(18, 10 + (level // 10)),
-            "wisdom": min(18, 10 + (level // 10)),
+            # Class-aware stat profile (primary=95, secondary=75, rest=50)
+            "strength": stats["str"],
+            "intelligence": stats["int"],
+            "wisdom": stats["wis"],
             "dexterity": dex_score,
-            "constitution": min(18, 10 + (level // 10)),
-            "charisma": min(18, 10 + (level // 10)),
+            "constitution": stats["con"],
+            "charisma": stats["cha"],
             "hitPoints": max_hp,
             "hitPointsMax": max_hp,
             "stamina": max_stamina,
