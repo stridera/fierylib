@@ -569,6 +569,31 @@ def derive_attack_power_baseline(level: int, class_name: str | None = None) -> i
     return int(round(rate * level))
 
 
+def normalize_mob_hit_roll(legacy_hit_roll: int, level: int) -> int:
+    """Surgical normalization of the bimodal legacy mob hit_roll
+    distribution. ~48% of legacy mobs were authored with the
+    "max default" of 20 — see gear-curves.md §7.6 audit. That value
+    is too high under the modern accuracy/evasion model: it pushes
+    same-level mob hit rate to 67% vs warrior, even higher vs caster.
+
+    Surgical fix: ONLY replace hit_roll==20 with a tier-appropriate
+    value. Leave all other authored values (0, 1-7, 10, 15-19)
+    intact — those represent intentional content authoring.
+
+    Tier replacement (from gear-curves §7.6 normalization decision):
+        L1-30:  20 → 3   (trash baseline)
+        L31-70: 20 → 6   (escalating)
+        L71+:   20 → 10  (elite tier)
+    """
+    if legacy_hit_roll != 20:
+        return legacy_hit_roll
+    if level <= 30:
+        return 3
+    if level <= 70:
+        return 6
+    return 10
+
+
 def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
     """
     Convert legacy combat stats to modern accuracy/evasion/armorRating/damageReductionPercent system.
@@ -581,7 +606,8 @@ def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
         Dict with new combat stat fields
     """
     level = mob_data.get("level", 1)
-    legacy_hitroll = mob_data.get("hitRoll", 0)
+    raw_hitroll = mob_data.get("hitRoll", 0)
+    legacy_hitroll = normalize_mob_hit_roll(raw_hitroll, level)
     legacy_ac = mob_data.get("armorClass", 0)
     dexterity = mob_data.get("dexterity", 13)
 
