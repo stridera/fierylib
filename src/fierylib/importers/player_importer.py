@@ -782,7 +782,28 @@ class PlayerImporter:
 
     def _location_to_slot(self, location: int) -> str | None:
         """
-        Convert CircleMUD wear location number to slot name
+        Convert FieryMUD wear location number to modern slot name.
+
+        FieryMUD added 4 custom slots (WIELD2, HOLD2, 2HWIELD, EYES) at
+        positions 17-21 and split EAR into LEAR/REAR (23/24), so its
+        ordering diverges from upstream tbaMud at position 17 onward.
+        Source: ``fierymud_legacy/src/defines.hpp:187-215`` (the WEAR_*
+        constants).
+
+        The modern runtime ``Slot`` enum collapses dual-wield positions
+        into the existing single slots:
+          - WIELD / WIELD2 / 2HWIELD → "WIELD" (off-hand wield, dual,
+            and 2-handed all surface as the wielded weapon — the
+            runtime doesn't distinguish dual-wield orientation today)
+          - HOLD / HOLD2 → "HOLD"
+          - LEAR / REAR → "EARS" (no left/right ear distinction)
+          - OBELT (offset belt — items hung from belt) → "WAIST"
+            (no dedicated belt slot in runtime Slot enum)
+
+        Note on collisions: a character wielding a sword (16) AND a
+        dual-wield off-hand (17) would map both to "WIELD" — only the
+        first survives the equip path. Acceptable for v1; revisit if
+        dual-wield combat lands.
 
         Args:
             location: Wear location number from .objs file
@@ -790,31 +811,36 @@ class PlayerImporter:
         Returns:
             Slot name or None for inventory
         """
-        # CircleMUD wear locations
-        # See: https://github.com/tbamud/tbamud/blob/master/src/constants.c
         location_map = {
-            0: "LIGHT",          # Light source
-            1: "FINGER_RIGHT",   # Right finger
-            2: "FINGER_LEFT",    # Left finger
-            3: "NECK_1",         # Around neck 1
-            4: "NECK_2",         # Around neck 2
-            5: "BODY",           # On body
-            6: "HEAD",           # On head
-            7: "LEGS",           # On legs
-            8: "FEET",           # On feet
-            9: "HANDS",          # On hands
-            10: "ARMS",          # On arms
-            11: "SHIELD",        # As shield
-            12: "ABOUT",         # About body (cloak)
-            13: "WAIST",         # Around waist
-            14: "WRIST_RIGHT",   # Right wrist
-            15: "WRIST_LEFT",    # Left wrist
-            16: "WIELD",         # Wielded weapon
-            17: "HOLD",          # Held item
-            18: "EARS",          # Ears
-            19: "BADGE",         # Badge
-            20: "FACE",          # Face
-            127: None,           # Inventory (not equipped)
+            0:  "LIGHT",
+            1:  "FINGER_RIGHT",
+            2:  "FINGER_LEFT",
+            3:  "NECK_1",
+            4:  "NECK_2",
+            5:  "BODY",
+            6:  "HEAD",
+            7:  "LEGS",
+            8:  "FEET",
+            9:  "HANDS",
+            10: "ARMS",
+            11: "SHIELD",
+            12: "ABOUT",
+            13: "WAIST",
+            14: "WRIST_RIGHT",
+            15: "WRIST_LEFT",
+            16: "WIELD",
+            17: "WIELD",     # WIELD2 (FieryMUD dual wield) → collapse to WIELD
+            18: "HOLD",
+            19: "HOLD",      # HOLD2 → collapse to HOLD
+            20: "WIELD",     # 2HWIELD → collapse to WIELD
+            21: "EYES",
+            22: "FACE",
+            23: "EARS",      # LEAR (left ear) → EARS (single slot)
+            24: "EARS",      # REAR (right ear) → EARS (single slot)
+            25: "BADGE",
+            26: "WAIST",     # OBELT (on belt) → WAIST (no dedicated belt slot)
+            27: "HOVER",
+            127: None,       # Inventory (not equipped)
         }
 
         return location_map.get(location)
