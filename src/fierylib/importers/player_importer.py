@@ -275,24 +275,12 @@ class PlayerImporter:
                 f"stamina {legacy_stamina_max} → {stamina_max}"
             )
 
-        # Derive accuracy/evasion using the per-class accuracy_per_level
-        # rate from legacy thac0 (Step 3 §8 lock 2026-05-14). Imported
-        # characters previously got schema-default 0/0, which made them
-        # comically weak vs same-level mobs that get the full baseline.
-        # ``derive_hit_roll_baseline`` is the same helper user_seeder
-        # uses, so seeded + imported characters share one curve.
-        baseline = derive_hit_roll_baseline(
-            level=player_data.level,
-            dex_score=dexterity if dexterity is not None else 13,
-            hit_roll=0,
-            class_name=player_class,
-        )
-        derived_accuracy = baseline["accuracy"]
-        derived_evasion = baseline["evasion"]
-        derived_attack_power = derive_attack_power_baseline(
-            level=player_data.level,
-            class_name=player_class,
-        )
+        # accuracy / evasion / attack_power deferred — derived AFTER the
+        # stats block below (which parses ``dexterity``). Initialized here
+        # to keep the create dict self-contained.
+        derived_accuracy = 0
+        derived_evasion = 0
+        derived_attack_power = 0
 
         # Get valid SPELLS for this class (for spell validation during ability import)
         # Note: We only validate spells, not physical skills, because ClassSkills data is incomplete
@@ -365,6 +353,24 @@ class PlayerImporter:
             constitution = int(getattr(player_data.stats, "constitution"))
             charisma = int(getattr(player_data.stats, "charisma"))
             luck = 13  # No luck attribute present in dataclass
+
+        # Derive accuracy / evasion / attack_power AFTER stats are parsed
+        # (Step 3 §8 lock 2026-05-14, Step 4 Path C). Imported characters
+        # previously got schema-default 0/0/0, which made them comically
+        # weak vs same-level mobs that get the full baseline. Same helpers
+        # the user_seeder uses, so seeded + imported share one curve.
+        baseline = derive_hit_roll_baseline(
+            level=player_data.level,
+            dex_score=dexterity,
+            hit_roll=0,
+            class_name=player_class,
+        )
+        derived_accuracy = baseline["accuracy"]
+        derived_evasion = baseline["evasion"]
+        derived_attack_power = derive_attack_power_baseline(
+            level=player_data.level,
+            class_name=player_class,
+        )
 
         # Build playerFlags from legacy preference_flags (not player_flags).
         # Legacy player_flags (KILLER, THIEF, LOADROOM, etc.) are runtime state,
