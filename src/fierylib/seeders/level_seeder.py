@@ -128,14 +128,25 @@ class LevelSeeder:
             name = self.get_level_name(level)
             permissions = self.get_immortal_permissions(level) if is_immortal else []
 
-            # HP/Stamina gains per level (simplified formula)
-            # Higher levels = more gains, immortals get significant bonuses
+            # HP/Stamina gains per level.
+            #
+            # ``hp_gain`` is the class-agnostic baseline added to the
+            # per-class roll at level-up:
+            #   gain = (LevelDef.hp_gain * race.hp_factor / 100).max(1)
+            #          + Class.hp_per_level
+            #          + roll(Class.hit_dice)
+            # Initially flattened to 5 (Step 2, May 2026), then bumped
+            # to 8 in Step 4 / Path C after the empirical sweep in
+            # gear-curves §7 showed solo warrior losing at L15+ with
+            # the 5 baseline. 8 keeps the per-class spread the
+            # ``Class.hp_per_level`` + ``Class.hit_dice`` provide while
+            # restoring enough HP to survive contemporary trash mob
+            # damage curves.
             if is_immortal:
                 hp_gain = 50  # Immortals get fixed large gains
                 stamina_gain = 50
             else:
-                # Mortal gains scale with level
-                hp_gain = 10 + (level // 10)  # 10-19 per level
+                hp_gain = 8
                 stamina_gain = 5 + (level // 20)  # 5-9 per level
 
             # Check if level already exists

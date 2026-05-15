@@ -17,6 +17,7 @@ from pathlib import Path
 from datetime import datetime
 
 from prisma import Json
+from prisma.enums import Race
 from mud.mudfile import MudFiles, MudData
 from mud.parser import Parser
 from mud.types.player import Player
@@ -25,6 +26,8 @@ from mud.types.pet import Pet
 from mud.types import CurrentMax, Money, MudTypes
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
 from fierylib.converters import normalize_flags, normalize_skill_name, EntityResolver, convert_legacy_colors
+from fierylib.combat_formulas import derive_attack_power_baseline, derive_hit_roll_baseline
+from fierylib.seeders.user_seeder import compute_max_hp, compute_max_stamina
 
 
 class PlayerImporter:
@@ -240,6 +243,57 @@ class PlayerImporter:
         if class_id is None:
             print(f"  ⚠️  Warning: Class '{player_class}' not found in database for {player_data.name}")
 
+        # Rebalance HP / stamina against the live tuning rows so imported
+        # players land on the same curve as freshly-seeded test users and
+        # in-game level-ups. Legacy values (parsed above) are dropped on
+        # the floor — they were calibrated for the legacy combat model
+        # and would create a one-off cohort under the new mob/damage
+        # curves. We log the delta for visibility.
+        class_row = None
+        if class_id is not None:
+            class_row = await self.prisma.characterclass.find_unique(
+                where={"id": class_id}
+            )
+        try:
+            race_for_curve = Race[race_enum]
+        except KeyError:
+            race_for_curve = Race.HUMAN
+        legacy_hp_max = hit_points_max
+        legacy_stamina_max = stamina_max
+        hit_points_max = await compute_max_hp(
+            self.prisma, player_data.level, race_for_curve, class_row
+        )
+        hit_points = hit_points_max
+        stamina_max = await compute_max_stamina(
+            self.prisma, player_data.level, race_for_curve
+        )
+        stamina = stamina_max
+        if abs(hit_points_max - legacy_hp_max) > max(20, legacy_hp_max // 5):
+            print(
+                f"  ⓘ {player_data.name} L{player_data.level} {player_class}/{race_enum}: "
+                f"hp {legacy_hp_max} → {hit_points_max}, "
+                f"stamina {legacy_stamina_max} → {stamina_max}"
+            )
+
+        # Derive accuracy/evasion using the per-class accuracy_per_level
+        # rate from legacy thac0 (Step 3 §8 lock 2026-05-14). Imported
+        # characters previously got schema-default 0/0, which made them
+        # comically weak vs same-level mobs that get the full baseline.
+        # ``derive_hit_roll_baseline`` is the same helper user_seeder
+        # uses, so seeded + imported characters share one curve.
+        baseline = derive_hit_roll_baseline(
+            level=player_data.level,
+            dex_score=dexterity if dexterity is not None else 13,
+            hit_roll=0,
+            class_name=player_class,
+        )
+        derived_accuracy = baseline["accuracy"]
+        derived_evasion = baseline["evasion"]
+        derived_attack_power = derive_attack_power_baseline(
+            level=player_data.level,
+            class_name=player_class,
+        )
+
         # Get valid SPELLS for this class (for spell validation during ability import)
         # Note: We only validate spells, not physical skills, because ClassSkills data is incomplete
         # (missing loop-assigned skills like MOUNT, MEDITATE, etc.)
@@ -375,6 +429,9 @@ class PlayerImporter:
             "hitPointsMax": hit_points_max,
             "stamina": stamina,
             "staminaMax": stamina_max,
+            "accuracy": derived_accuracy,
+            "evasion": derived_evasion,
+            "attackPower": derived_attack_power,
             "wealth": wealth,
             "bankWealth": bank_wealth,
             "passwordHash": password_hash,

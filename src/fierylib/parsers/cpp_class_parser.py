@@ -256,10 +256,40 @@ class CppClassParser:
         }
 
     def export_to_json(self, output_path: Path) -> None:
-        """Export parsed data to JSON file"""
+        """Export parsed data to JSON file.
+
+        ``hitDice`` / ``hpPerLevel`` are NOT extracted from class.cpp by
+        this parser — they were retuned to match the legacy
+        ``random_number(min, max)`` ranges in ``advance_level()`` and the
+        ``hp_lev`` struct field, encoded as ``NdM+B``. To avoid silently
+        wiping that retune, we preserve those two fields from any
+        existing ``classes.json`` keyed by ``plainName``.
+        """
         data = self.parse_all()
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        if output_path.exists():
+            try:
+                prior = json.loads(output_path.read_text())
+                prior_hp = {
+                    c["plainName"]: (c.get("hitDice"), c.get("hpPerLevel"))
+                    for c in prior.get("classes", [])
+                    if c.get("plainName")
+                }
+                preserved = 0
+                for c in data["classes"]:
+                    pn = c.get("plainName")
+                    if pn and pn in prior_hp:
+                        hd, hpl = prior_hp[pn]
+                        if hd is not None:
+                            c["hitDice"] = hd
+                        if hpl is not None:
+                            c["hpPerLevel"] = hpl
+                        preserved += 1
+                click.echo(f"  ↻ Preserved hitDice/hpPerLevel for {preserved} classes from existing JSON")
+            except (json.JSONDecodeError, OSError) as e:
+                click.echo(f"  ⚠️  Could not read prior {output_path} for HP preservation: {e}")
 
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2)

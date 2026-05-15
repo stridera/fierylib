@@ -9,9 +9,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3046,
-      "hpPerLevel": 6,
+      "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6"
     },
     {
       "id": 1,
@@ -22,9 +22,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3003,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d8"
+      "hitDice": "1d6+2"
     },
     {
       "id": 2,
@@ -36,9 +36,9 @@
       "isSubclass": true,
       "parentClassName": "Rogue",
       "homeroom": 3038,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "DEX",
-      "hitDice": "1d6"
+      "hitDice": "1d7+4"
     },
     {
       "id": 3,
@@ -49,9 +49,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3022,
-      "hpPerLevel": 14,
+      "hpPerLevel": 10,
       "primaryStat": "STR",
-      "hitDice": "1d12"
+      "hitDice": "1d6+7"
     },
     {
       "id": 4,
@@ -63,9 +63,9 @@
       "isSubclass": true,
       "parentClassName": "Warrior",
       "homeroom": 3022,
-      "hpPerLevel": 12,
+      "hpPerLevel": 8,
       "primaryStat": "STR",
-      "hitDice": "1d10"
+      "hitDice": "1d6+6"
     },
     {
       "id": 5,
@@ -77,9 +77,9 @@
       "isSubclass": true,
       "parentClassName": "Warrior",
       "homeroom": 3022,
-      "hpPerLevel": 12,
+      "hpPerLevel": 8,
       "primaryStat": "STR",
-      "hitDice": "1d10"
+      "hitDice": "1d6+6"
     },
     {
       "id": 6,
@@ -91,9 +91,9 @@
       "isSubclass": true,
       "parentClassName": "Warrior",
       "homeroom": 3022,
-      "hpPerLevel": 10,
+      "hpPerLevel": 8,
       "primaryStat": "DEX",
-      "hitDice": "1d10"
+      "hitDice": "1d5+6"
     },
     {
       "id": 7,
@@ -105,9 +105,9 @@
       "isSubclass": true,
       "parentClassName": "Cleric",
       "homeroom": 3003,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d8"
+      "hitDice": "1d7+2"
     },
     {
       "id": 8,
@@ -119,9 +119,9 @@
       "isSubclass": true,
       "parentClassName": "Cleric",
       "homeroom": 3001,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d8"
+      "hitDice": "1d6+2"
     },
     {
       "id": 9,
@@ -133,9 +133,9 @@
       "isSubclass": true,
       "parentClassName": "Rogue",
       "homeroom": 3038,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "DEX",
-      "hitDice": "1d6"
+      "hitDice": "1d6+4"
     },
     {
       "id": 10,
@@ -147,9 +147,9 @@
       "isSubclass": true,
       "parentClassName": "Rogue",
       "homeroom": 3038,
-      "hpPerLevel": 12,
+      "hpPerLevel": 9,
       "primaryStat": "STR",
-      "hitDice": "1d10"
+      "hitDice": "1d8+4"
     },
     {
       "id": 11,
@@ -161,9 +161,9 @@
       "isSubclass": true,
       "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "hpPerLevel": 6,
+      "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6"
     },
     {
       "id": 12,
@@ -175,9 +175,9 @@
       "isSubclass": true,
       "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "hpPerLevel": 6,
+      "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6"
     },
     {
       "id": 13,
@@ -189,9 +189,9 @@
       "isSubclass": true,
       "parentClassName": "Warrior",
       "homeroom": 3022,
-      "hpPerLevel": 10,
+      "hpPerLevel": 8,
       "primaryStat": "DEX",
-      "hitDice": "1d8"
+      "hitDice": "1d6+7"
     },
     {
       "id": 14,
@@ -203,9 +203,9 @@
       "isSubclass": true,
       "parentClassName": "Warrior",
       "homeroom": 3022,
-      "hpPerLevel": 14,
+      "hpPerLevel": 10,
       "primaryStat": "STR",
-      "hitDice": "1d12"
+      "hitDice": "1d6+7"
     },
     {
       "id": 15,
@@ -217,9 +217,9 @@
       "isSubclass": true,
       "parentClassName": "Cleric",
       "homeroom": 3003,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d8"
+      "hitDice": "1d6+2"
     },
     {
       "id": 16,
@@ -233,7 +233,7 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6+2"
     },
     {
       "id": 17,
@@ -247,7 +247,7 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d6"
+      "hitDice": "1d6+2"
     },
     {
       "id": 18,
@@ -258,9 +258,9 @@
       "active": true,
       "isSubclass": false,
       "homeroom": 3038,
-      "hpPerLevel": 8,
+      "hpPerLevel": 6,
       "primaryStat": "DEX",
-      "hitDice": "1d6"
+      "hitDice": "1d7+4"
     },
     {
       "id": 19,
@@ -272,9 +272,9 @@
       "isSubclass": true,
       "parentClassName": "Rogue",
       "homeroom": 3038,
-      "hpPerLevel": 8,
+      "hpPerLevel": 3,
       "primaryStat": "CHA",
-      "hitDice": "1d8"
+      "hitDice": "1d6"
     },
     {
       "id": 20,
@@ -286,9 +286,9 @@
       "isSubclass": true,
       "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "hpPerLevel": 6,
+      "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6"
     },
     {
       "id": 21,
@@ -300,9 +300,9 @@
       "isSubclass": true,
       "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "hpPerLevel": 6,
+      "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6"
     },
     {
       "id": 22,
@@ -314,9 +314,9 @@
       "isSubclass": true,
       "parentClassName": "Sorcerer",
       "homeroom": 3046,
-      "hpPerLevel": 6,
+      "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d4"
+      "hitDice": "1d6"
     },
     {
       "id": 23,
@@ -328,9 +328,9 @@
       "isSubclass": true,
       "parentClassName": "Rogue",
       "homeroom": 3038,
-      "hpPerLevel": 10,
+      "hpPerLevel": 8,
       "primaryStat": "DEX",
-      "hitDice": "1d10"
+      "hitDice": "1d6+7"
     },
     {
       "id": 24,

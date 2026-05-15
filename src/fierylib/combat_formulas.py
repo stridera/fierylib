@@ -434,23 +434,139 @@ def calculate_mob_role(
         return "TRASH"  # Significantly weaker than zone average
 
 
-def derive_hit_roll_baseline(level: int, dex_score: int = 13, hit_roll: int = 0) -> dict:
+# Per-class accuracy-per-level rate, derived from legacy class.cpp THAC0
+# (legacy hit chance falls from THAC0 25 at L1 to ``classes[c].thac0`` at
+# L100 via ``calc_thac0(level, 25, class_thac0) = 25 + level*(class_thac0 - 25)/100``).
+# Each THAC0 point ≈ 5% hit chance ≈ 10 modern accuracy points (since
+# modern accuracy 2 ≈ 1% hit chance), so per-level accuracy rate is
+# ``(25 - class_thac0) / 10``. Stored here keyed by the same uppercase
+# class name the importer normalizes to.
+#
+# Mobs continue to use the class-agnostic ``rate=2.0`` default; that
+# matches their authored ``hit_roll`` baseline. Players using these
+# class-specific rates close the structural mob hit-rate edge that
+# gear-curves §6a documented.
+# Per-class attack_power-per-level rate, added in Step 4 / Path C
+# (gear-curves §7 rec #5) after the re-survey showed player damage was
+# the load-bearing bottleneck for L20+ solo combat. Mirrors the legacy
+# ``classes[c].hd_factor`` archetype split (warrior 120, mid 100, mage 80
+# in legacy mob-side scale).
+#
+# Derivation: warrior +5/lvl gives +100 attack_power at L20 → +100%
+# damage on the weapon dice. That doubles per-swing damage from typical
+# T2 weapons (~5 dmg) to ~10, which the math model in gear-curves §7.5
+# shows is enough to flip L20+ from LOSS to WIN. Mid classes get +3/lvl
+# (60% damage at L20), casters get +1/lvl (20% — they make up the gap
+# with spell_power, not weapon swings).
+CLASS_ATTACK_POWER_PER_LEVEL: dict[str, float] = {
+    # Warrior tier — full weapon swings
+    "WARRIOR": 5.0,
+    "PALADIN": 5.0,
+    "ANTI_PALADIN": 5.0,
+    "RANGER": 5.0,
+    "MONK": 5.0,
+    "BERSERKER": 5.0,
+    "HUNTER": 5.0,
+    # Hybrid / mid — moderate swings + utility
+    "THIEF": 3.0,
+    "ASSASSIN": 3.0,
+    "MERCENARY": 3.0,
+    "ROGUE": 3.0,
+    "BARD": 3.0,
+    "CLERIC": 3.0,
+    "DRUID": 3.0,
+    "SHAMAN": 3.0,
+    "PRIEST": 3.0,
+    "DIABOLIST": 3.0,
+    # Caster tier — spells carry the damage; weapons are flavor
+    "SORCERER": 1.0,
+    "NECROMANCER": 1.0,
+    "CONJURER": 1.0,
+    "MYSTIC": 1.0,
+    "PYROMANCER": 1.0,
+    "CRYOMANCER": 1.0,
+    "ILLUSIONIST": 1.0,
+}
+
+
+CLASS_ACCURACY_PER_LEVEL: dict[str, float] = {
+    "SORCERER": 1.9,
+    "CLERIC": 2.1,
+    "THIEF": 2.4,
+    "WARRIOR": 2.7,
+    "PALADIN": 2.7,
+    "ANTI_PALADIN": 2.7,
+    "RANGER": 2.7,
+    "DRUID": 2.0,
+    "SHAMAN": 1.9,
+    "ASSASSIN": 2.3,
+    "MERCENARY": 2.3,
+    "NECROMANCER": 1.8,
+    "CONJURER": 1.8,
+    "MONK": 2.7,
+    "BERSERKER": 2.7,
+    "PRIEST": 2.0,
+    "DIABOLIST": 2.0,
+    "MYSTIC": 1.8,
+    "ROGUE": 2.3,
+    "BARD": 2.3,
+    "PYROMANCER": 1.8,
+    "CRYOMANCER": 1.8,
+    "ILLUSIONIST": 1.8,
+    "HUNTER": 2.7,
+}
+
+
+def derive_hit_roll_baseline(
+    level: int,
+    dex_score: int = 13,
+    hit_roll: int = 0,
+    class_name: str | None = None,
+) -> dict:
     """Canonical accuracy/evasion at the modern combat-rebalance.md
     baseline. Used by both the mob importer (with legacy_hitroll from
     the .mob file) and the player seeder (hit_roll=0 since fresh
     characters have no authored bonus). Lifting this into one place
     keeps player + mob curves provably symmetric for default-stat
     actors at the same level — `derive_hit_roll_baseline(N) ==
-    derive_hit_roll_baseline(N)` always holds.
+    derive_hit_roll_baseline(N)` always holds when ``class_name`` is
+    None on both sides.
 
-    Reference: fierymud-rs `docs/design/combat-rebalance.md` lines
-    184-188 and `docs/design/gear-curves.md` §6a.
+    When ``class_name`` is provided, the per-level accuracy bump is
+    scaled by ``CLASS_ACCURACY_PER_LEVEL[class_name]`` (default 2.0).
+    This restores the legacy class progression where warriors hit
+    structurally better than mages — closes the §6a gap where mob
+    authored hit_roll structurally outpaced players.
+
+    Reference: fierymud-rs `docs/design/combat-rebalance.md` Step 3
+    §8 lock 2026-05-14 and `docs/design/gear-curves.md` §6a.
     """
     dex_bonus = (dex_score - 10) // 2
+    if class_name is not None:
+        normalized = class_name.upper().replace("-", "_")
+        rate = CLASS_ACCURACY_PER_LEVEL.get(normalized, 2.0)
+    else:
+        rate = 2.0
     return {
-        "accuracy": 50 + hit_roll * 2 + level * 2,
+        "accuracy": int(50 + hit_roll * 2 + round(rate * level)),
         "evasion": 50 + dex_bonus * 5 + level * 2,
     }
+
+
+def derive_attack_power_baseline(level: int, class_name: str | None = None) -> int:
+    """Per-class+level attack_power baseline (Step 4 / Path C). Returns
+    a flat int that combines additively with gear ``ObjectEffects``
+    bonuses. ``None`` class falls back to the mob-symmetric ``2.0/lvl``
+    rate so player and mob curves stay symmetric for default actors.
+
+    Reference: fierymud-rs ``docs/design/gear-curves.md`` §7.5 Path C.
+    """
+    if class_name is None:
+        rate = 2.0
+    else:
+        normalized = class_name.upper().replace("-", "_")
+        rate = CLASS_ATTACK_POWER_PER_LEVEL.get(normalized, 2.0)
+    return int(round(rate * level))
 
 
 def convert_legacy_to_modern_stats(mob_data: dict, race_data: dict) -> dict:
