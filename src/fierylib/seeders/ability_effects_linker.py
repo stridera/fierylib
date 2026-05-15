@@ -99,14 +99,14 @@ EFF_FLAG_MAPPINGS: Dict[str, Tuple[str, Dict[str, Any]]] = {
     "EFF_HARNESS": ("status", {"flag": "empowered", "consumeOnCast": True}),  # Empower next spell
     "EFF_TETHERED": ("status", {"flag": "taunted"}),
     "EFF_FAMILIARITY": ("status", {"flag": "detect_hidden"}),
-    "EFF_RAY_OF_ENFEEB": ("modify", {"target": "str", "amount": -4}),
+    "EFF_RAY_OF_ENFEEB": ("modify", {"target": "str_bonus", "amount": -4}),
     "EFF_SPIRIT_WOLF": ("transform", {"form": "wolf"}),
     "EFF_SPIRIT_BEAR": ("transform", {"form": "bear"}),
     "EFF_SONG_OF_REST": ("heal", {"resource": "hp", "amount": "level"}),
     "EFF_DISPLACEMENT": ("status", {"flag": "invisible"}),  # Map to invisible
     "EFF_GREATER_DISPLACEMENT": ("status", {"flag": "invisible"}),
     "EFF_MISDIRECTION": ("status", {"flag": "camouflaged"}),
-    "EFF_WRATH": ("modify", {"target": "damroll", "amount": 2}),
+    "EFF_WRATH": ("modify", {"target": "attack_power", "amount": 10}),
     "EFF_GLORY": ("status", {"flag": "sanctuary"}),
     "EFF_BLUR": ("status", {"flag": "invisible"}),
     "EFF_NOPAIN": ("status", {"flag": "berserk"}),

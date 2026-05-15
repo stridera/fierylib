@@ -164,7 +164,10 @@ class ObjectImporter:
         # Filter out TAKE from wear flags (it's not a real wear location)
         obj_wear_flags = [f for f in raw_wear_flags if f != "TAKE"]
 
-        # Convert values dict to JSON-serializable format (handle Dice objects)
+        # Convert values dict to JSON-serializable format (handle Dice objects).
+        # Combat-critical fields (AC, weapon dice, damage type) are extracted
+        # into typed columns below; the JSONB blob keeps only type-specific
+        # niche values (portal dest, light fuel, food, spell, liquid info).
         values_dict = {}
         if obj.values:
             for key, value in obj.values.items():
@@ -177,6 +180,46 @@ class ObjectImporter:
                     }
                 else:
                     values_dict[key] = value
+
+        # Extract combat-critical fields into typed columns and pop them
+        # out of the JSONB. Done at import time so the runtime never sees
+        # legacy values. See combat-rebalance.md Step 3 §8 +
+        # gear-curves.md §7 for the ×2 scale rationale.
+        #
+        # Two AC paths exist in the legacy format — they have opposite
+        # sign conventions, which historically caused confusion:
+        #   - ``Objects.values.AC`` (set on every ARMOR item): positive
+        #     amount of mitigation the armor provides. Legacy semantics
+        #     are "subtract this from wearer AC" where wearer AC was
+        #     lower=better; the net effect is more positive = better.
+        #     Modern armor_pct is also positive=better, so no sign flip.
+        #   - ``A`` affects blocks with location=AC: legacy modifier on
+        #     wearer AC. Legacy convention there is lower wearer AC =
+        #     better, so a negative modifier = good. We DO flip those
+        #     (handled separately in _LEGACY_AFFECT_MAP).
+        legacy_ac = values_dict.pop("AC", 0) or 0
+        armor_pct = legacy_ac * 2
+
+        # Legacy Dice fields come through as strings from the parser
+        # (mud.types.Dice doesn't validate dataclass types at runtime
+        # and the parser hands raw split tokens to the constructor).
+        # Cast at this boundary so the typed columns get clean ints.
+        legacy_dice = values_dict.pop("Hit Dice", None) or {}
+        weapon_dice_num = int(legacy_dice.get("num", 0) or 0)
+        weapon_dice_size = int(legacy_dice.get("size", 0) or 0)
+        weapon_dice_bonus = int(legacy_dice.get("bonus", 0) or 0)
+
+        legacy_damtype = values_dict.pop("Damage Type", None)
+        weapon_damage_type = legacy_damtype if legacy_damtype else None
+
+        # Drop fields the runtime never reads (vestigial JSONB noise):
+        #   - "Average": redundant with the typed dice columns above.
+        #   - "HitRoll": authored weapon hit_roll bonus that the
+        #     runtime currently has no consumer for. If we ever wire
+        #     it through, promote to a typed column instead of
+        #     resurrecting the JSONB key.
+        values_dict.pop("Average", None)
+        values_dict.pop("HitRoll", None)
 
         if dry_run:
             return {
@@ -300,6 +343,11 @@ class ObjectImporter:
                         "wearFlags": obj_wear_flags,
                         "concealment": obj.concealment or 0,
                         "values": json.dumps(values_dict) if values_dict else "{}",
+                        "armorPct": armor_pct,
+                        "weaponDiceNum": weapon_dice_num,
+                        "weaponDiceSize": weapon_dice_size,
+                        "weaponDiceBonus": weapon_dice_bonus,
+                        "weaponDamageType": weapon_damage_type,
                         "restrictedAlignments": processed_flags.restricted_alignments,
                         "restrictedClassIds": processed_flags.restricted_class_ids,
                         "restrictedRaces": processed_flags.restricted_races,
@@ -331,6 +379,11 @@ class ObjectImporter:
                         "wearFlags": {"set": obj_wear_flags},
                         "concealment": obj.concealment or 0,
                         "values": json.dumps(values_dict) if values_dict else "{}",
+                        "armorPct": armor_pct,
+                        "weaponDiceNum": weapon_dice_num,
+                        "weaponDiceSize": weapon_dice_size,
+                        "weaponDiceBonus": weapon_dice_bonus,
+                        "weaponDamageType": weapon_damage_type,
                         "restrictedAlignments": {"set": processed_flags.restricted_alignments},
                         "restrictedClassIds": {"set": processed_flags.restricted_class_ids},
                         "restrictedRaces": {"set": processed_flags.restricted_races},
@@ -404,37 +457,43 @@ class ObjectImporter:
                 "error": str(e),
             }
 
-    # Legacy AFFECTS flag name -> (modern apply_modify_delta target, flip_sign).
+    # Legacy AFFECTS flag name -> (modern apply_modify_delta target, scale,
+    # flip_sign). The scale + flip happen at import time so the database
+    # stores ONLY modern values — no legacy compat path on the Rust side.
     # Targets here must match the match arms in
     # fierymud-rs/crates/mud-server/src/commands.rs::apply_modify_delta.
-    # Legacy aliases ("ac", "hitroll", "damroll") get auto-scaled on the
-    # Rust side, so we pass the raw modifier through unscaled.
-    # AC: legacy convention is lower=better; modern armor is positive — flip.
+    #
+    # Scale factors:
+    #   - AC      → armor_pct ×2 (legacy lower=better, so flip then scale)
+    #   - HITROLL → accuracy   ×2 (legacy hit_roll point ≈ 2 modern accuracy)
+    #   - DAMROLL → attack_power ×5 (legacy damroll point ≈ +5% damage)
+    # Other affects map 1:1 to their modern target (no scale).
+    #
     # Targets we intentionally drop (no combat impact, or reserved):
     #   NONE, CLASS, LEVEL, AGE, CHAR_WEIGHT, CHAR_HEIGHT,
     #   GOLD, EXP, SIZE, COMPOSITION.
     _LEGACY_AFFECT_MAP = {
-        "STR":            ("str_bonus", False),
-        "DEX":            ("dex_bonus", False),
-        "INT":            ("int_bonus", False),
-        "WIS":            ("wis_bonus", False),
-        "CON":            ("con_bonus", False),
-        "CHA":            ("cha_bonus", False),
-        "MANA":           ("max_mana", False),
-        "HIT":            ("max_hp", False),
-        "MOVE":           ("max_stamina", False),
-        "AC":             ("ac", True),
-        "HITROLL":        ("hitroll", False),
-        "DAMROLL":        ("damroll", False),
-        "SAVING_PARA":    ("saving_para", False),
-        "SAVING_ROD":     ("saving_rod", False),
-        "SAVING_PETRI":   ("saving_petri", False),
-        "SAVING_BREATH":  ("saving_breath", False),
-        "SAVING_SPELL":   ("saving_spell", False),
-        "HIT_REGEN":      ("hit_regen", False),
-        "FOCUS":          ("focus", False),
-        "PERCEPTION":     ("perception", False),
-        "HIDDENNESS":     ("hiddenness", False),
+        "STR":            ("str_bonus",    1, False),
+        "DEX":            ("dex_bonus",    1, False),
+        "INT":            ("int_bonus",    1, False),
+        "WIS":            ("wis_bonus",    1, False),
+        "CON":            ("con_bonus",    1, False),
+        "CHA":            ("cha_bonus",    1, False),
+        "MANA":           ("max_mana",     1, False),
+        "HIT":            ("max_hp",       1, False),
+        "MOVE":           ("max_stamina",  1, False),
+        "AC":             ("armor_pct",    2, True),
+        "HITROLL":        ("accuracy",     2, False),
+        "DAMROLL":        ("attack_power", 5, False),
+        "SAVING_PARA":    ("saving_para",   1, False),
+        "SAVING_ROD":     ("saving_rod",    1, False),
+        "SAVING_PETRI":   ("saving_petri",  1, False),
+        "SAVING_BREATH":  ("saving_breath", 1, False),
+        "SAVING_SPELL":   ("saving_spell",  1, False),
+        "HIT_REGEN":      ("hit_regen",     1, False),
+        "FOCUS":          ("focus",         1, False),
+        "PERCEPTION":     ("perception",    1, False),
+        "HIDDENNESS":     ("hiddenness",    1, False),
     }
 
     # Cached id of the `modify` row in the `Effect` table (id=3 in the
@@ -471,9 +530,10 @@ class ObjectImporter:
                 # AGE / etc.). Drop silently — these have no combat
                 # impact in the modern system.
                 return {"success": True, "skipped": True, "reason": location or "blank"}
-            target, flip = mapped
+            target, scale, flip = mapped
             if flip:
                 modifier = -modifier
+            modifier = modifier * scale
             if modifier == 0:
                 # Zero-delta apply is meaningless; equip_apply.rs would
                 # log a "zero delta — no-op" anyway. Skip the row.
