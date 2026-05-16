@@ -13641,10 +13641,10 @@
         "effect": "status",
         "order": 0,
         "params": {
-          "duration": "2 + (skill / 10)",
+          "duration": "30 + (skill / 4)",
           "breakOnDamage": false,
           "flag": "webbed",
-          "durationUnit": "hours"
+          "durationUnit": "seconds"
         },
         "trigger": "on_cast"
       }
