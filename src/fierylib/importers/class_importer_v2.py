@@ -59,6 +59,18 @@ class ClassImporterV2:
                     create_data["primaryStat"] = class_data["primaryStat"]
                 if "hpPerLevel" in class_data:
                     create_data["hpPerLevel"] = class_data["hpPerLevel"]
+                # Combat rate columns (Step "data-only" refactor May 2026):
+                # source of truth lives in the DB now. fierylib reads
+                # them when computing baked accuracy/evasion at character
+                # creation / import time.
+                if "accuracyPerLevel" in class_data:
+                    create_data["accuracyPerLevel"] = class_data["accuracyPerLevel"]
+                if "evasionPerLevel" in class_data:
+                    create_data["evasionPerLevel"] = class_data["evasionPerLevel"]
+                if "dexEvasionMult" in class_data:
+                    create_data["dexEvasionMult"] = class_data["dexEvasionMult"]
+                if "attackPowerPerLevel" in class_data:
+                    create_data["attackPowerPerLevel"] = class_data["attackPowerPerLevel"]
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
                 if "spellProgression" in class_data:

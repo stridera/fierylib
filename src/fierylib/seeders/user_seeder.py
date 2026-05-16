@@ -206,19 +206,25 @@ class UserSeeder:
         # §7 post-real-loadout audit.
         stats = class_stat_profile(class_plain_name)
         dex_score = stats["dex"]
+        # Combat rates come from the Class row (data-only — see schema's
+        # Class.{accuracy,evasion,dex_evasion,attack_power}_per_level
+        # columns). Classless characters fall through to mob-symmetric
+        # 2.0 defaults.
+        acc_rate = class_row.accuracyPerLevel if class_row else 2.0
+        eva_rate = class_row.evasionPerLevel if class_row else 2.0
+        dex_mult = class_row.dexEvasionMult if class_row else 1.0
+        ap_rate = class_row.attackPowerPerLevel if class_row else 2.0
         baseline = derive_hit_roll_baseline(
             level,
             dex_score=dex_score,
             hit_roll=0,
-            class_name=class_plain_name,
+            accuracy_per_level=acc_rate,
+            evasion_per_level=eva_rate,
+            dex_evasion_mult=dex_mult,
         )
         accuracy = baseline["accuracy"]
         evasion = baseline["evasion"]
-        # Class+level attack_power baseline (Step 4 / Path C in
-        # gear-curves §7.5). Warriors +5/lvl, mid +3/lvl, mages +1/lvl.
-        # Closes the player-damage gap that left solo combat unwinnable
-        # at L20+ even with realistic gear.
-        attack_power = derive_attack_power_baseline(level, class_name=class_plain_name)
+        attack_power = derive_attack_power_baseline(level, attack_power_per_level=ap_rate)
         # HP from the live tuning rows (LevelDefinition, Class, Races)
         # so seeded test characters track the same curve as in-game
         # level-ups. Replaces the prior class-agnostic ``level * 10``

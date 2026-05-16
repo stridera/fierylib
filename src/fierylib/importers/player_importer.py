@@ -354,22 +354,28 @@ class PlayerImporter:
             charisma = int(getattr(player_data.stats, "charisma"))
             luck = 13  # No luck attribute present in dataclass
 
-        # Derive accuracy / evasion / attack_power AFTER stats are parsed
-        # (Step 3 §8 lock 2026-05-14, Step 4 Path C). Imported characters
-        # previously got schema-default 0/0/0, which made them comically
-        # weak vs same-level mobs that get the full baseline. Same helpers
-        # the user_seeder uses, so seeded + imported share one curve.
+        # Derive accuracy / evasion / attack_power AFTER stats are parsed.
+        # Combat rates come from the Class row (data-only refactor — see
+        # schema's Class.{accuracy,evasion,dex_evasion,attack_power}_per_level
+        # columns, seeded from data/classes.json). Classless characters
+        # fall through to mob-symmetric 2.0 defaults.
+        acc_rate = class_row.accuracyPerLevel if class_row else 2.0
+        eva_rate = class_row.evasionPerLevel if class_row else 2.0
+        dex_mult = class_row.dexEvasionMult if class_row else 1.0
+        ap_rate = class_row.attackPowerPerLevel if class_row else 2.0
         baseline = derive_hit_roll_baseline(
             level=player_data.level,
             dex_score=dexterity,
             hit_roll=0,
-            class_name=player_class,
+            accuracy_per_level=acc_rate,
+            evasion_per_level=eva_rate,
+            dex_evasion_mult=dex_mult,
         )
         derived_accuracy = baseline["accuracy"]
         derived_evasion = baseline["evasion"]
         derived_attack_power = derive_attack_power_baseline(
             level=player_data.level,
-            class_name=player_class,
+            attack_power_per_level=ap_rate,
         )
 
         # Build playerFlags from legacy preference_flags (not player_flags).

@@ -11,7 +11,11 @@
       "homeroom": 3046,
       "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 1,
@@ -24,7 +28,11 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d6+2"
+      "hitDice": "1d6+2",
+      "accuracyPerLevel": 2.0,
+      "evasionPerLevel": 1.0,
+      "dexEvasionMult": 1.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 2,
@@ -38,7 +46,11 @@
       "homeroom": 3038,
       "hpPerLevel": 6,
       "primaryStat": "DEX",
-      "hitDice": "1d7+4"
+      "hitDice": "1d7+4",
+      "accuracyPerLevel": 3.0,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 3,
@@ -51,7 +63,11 @@
       "homeroom": 3022,
       "hpPerLevel": 10,
       "primaryStat": "STR",
-      "hitDice": "1d6+7"
+      "hitDice": "1d6+7",
+      "accuracyPerLevel": 2.7,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 1.5,
+      "attackPowerPerLevel": 5.0
     },
     {
       "id": 4,
@@ -65,7 +81,11 @@
       "homeroom": 3022,
       "hpPerLevel": 8,
       "primaryStat": "STR",
-      "hitDice": "1d6+6"
+      "hitDice": "1d6+6",
+      "accuracyPerLevel": 2.7,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 1.5,
+      "attackPowerPerLevel": 5.0
     },
     {
       "id": 5,
@@ -79,7 +99,11 @@
       "homeroom": 3022,
       "hpPerLevel": 8,
       "primaryStat": "STR",
-      "hitDice": "1d6+6"
+      "hitDice": "1d6+6",
+      "accuracyPerLevel": 2.7,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 1.5,
+      "attackPowerPerLevel": 5.0
     },
     {
       "id": 6,
@@ -93,7 +117,11 @@
       "homeroom": 3022,
       "hpPerLevel": 8,
       "primaryStat": "DEX",
-      "hitDice": "1d5+6"
+      "hitDice": "1d5+6",
+      "accuracyPerLevel": 2.7,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 1.5,
+      "attackPowerPerLevel": 5.0
     },
     {
       "id": 7,
@@ -107,7 +135,11 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d7+2"
+      "hitDice": "1d7+2",
+      "accuracyPerLevel": 2.0,
+      "evasionPerLevel": 1.0,
+      "dexEvasionMult": 1.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 8,
@@ -121,7 +153,11 @@
       "homeroom": 3001,
       "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d6+2"
+      "hitDice": "1d6+2",
+      "accuracyPerLevel": 2.0,
+      "evasionPerLevel": 1.0,
+      "dexEvasionMult": 1.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 9,
@@ -135,7 +171,11 @@
       "homeroom": 3038,
       "hpPerLevel": 6,
       "primaryStat": "DEX",
-      "hitDice": "1d6+4"
+      "hitDice": "1d6+4",
+      "accuracyPerLevel": 3.0,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 10,
@@ -149,7 +189,11 @@
       "homeroom": 3038,
       "hpPerLevel": 9,
       "primaryStat": "STR",
-      "hitDice": "1d8+4"
+      "hitDice": "1d8+4",
+      "accuracyPerLevel": 3.0,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 11,
@@ -163,7 +207,11 @@
       "homeroom": 3046,
       "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 12,
@@ -177,7 +225,11 @@
       "homeroom": 3046,
       "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 13,
@@ -191,7 +243,11 @@
       "homeroom": 3022,
       "hpPerLevel": 8,
       "primaryStat": "DEX",
-      "hitDice": "1d6+7"
+      "hitDice": "1d6+7",
+      "accuracyPerLevel": 3.5,
+      "evasionPerLevel": 2.5,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 5.0
     },
     {
       "id": 14,
@@ -205,7 +261,11 @@
       "homeroom": 3022,
       "hpPerLevel": 10,
       "primaryStat": "STR",
-      "hitDice": "1d6+7"
+      "hitDice": "1d6+7",
+      "accuracyPerLevel": 3.5,
+      "evasionPerLevel": 2.5,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 5.0
     },
     {
       "id": 15,
@@ -219,7 +279,11 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d6+2"
+      "hitDice": "1d6+2",
+      "accuracyPerLevel": 2.0,
+      "evasionPerLevel": 1.0,
+      "dexEvasionMult": 1.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 16,
@@ -233,7 +297,11 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "INT",
-      "hitDice": "1d6+2"
+      "hitDice": "1d6+2",
+      "accuracyPerLevel": 2.0,
+      "evasionPerLevel": 1.0,
+      "dexEvasionMult": 1.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 17,
@@ -247,7 +315,11 @@
       "homeroom": 3003,
       "hpPerLevel": 6,
       "primaryStat": "WIS",
-      "hitDice": "1d6+2"
+      "hitDice": "1d6+2",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 18,
@@ -260,7 +332,11 @@
       "homeroom": 3038,
       "hpPerLevel": 6,
       "primaryStat": "DEX",
-      "hitDice": "1d7+4"
+      "hitDice": "1d7+4",
+      "accuracyPerLevel": 3.0,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 19,
@@ -274,7 +350,11 @@
       "homeroom": 3038,
       "hpPerLevel": 3,
       "primaryStat": "CHA",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 3.0,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 20,
@@ -288,7 +368,11 @@
       "homeroom": 3046,
       "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 21,
@@ -302,7 +386,11 @@
       "homeroom": 3046,
       "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 22,
@@ -316,7 +404,11 @@
       "homeroom": 3046,
       "hpPerLevel": 3,
       "primaryStat": "INT",
-      "hitDice": "1d6"
+      "hitDice": "1d6",
+      "accuracyPerLevel": 1.5,
+      "evasionPerLevel": 0.5,
+      "dexEvasionMult": 0.5,
+      "attackPowerPerLevel": 1.0
     },
     {
       "id": 23,
@@ -330,7 +422,11 @@
       "homeroom": 3038,
       "hpPerLevel": 8,
       "primaryStat": "DEX",
-      "hitDice": "1d6+7"
+      "hitDice": "1d6+7",
+      "accuracyPerLevel": 3.0,
+      "evasionPerLevel": 2.0,
+      "dexEvasionMult": 2.0,
+      "attackPowerPerLevel": 3.0
     },
     {
       "id": 24,
