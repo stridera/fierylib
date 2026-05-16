@@ -3,7 +3,7 @@
     "name": "Acid Breath",
     "plainName": "ACID_BREATH",
     "abilityType": "SPELL",
-    "description": "Exhales a cone of corrosive acid that dissolves flesh and metal alike.",
+    "description": "Exhales a stream of corrosive acid at the target, dissolving flesh and metal alike.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
@@ -421,7 +421,7 @@
         "params": {
           "type": "pierce",
           "amount": "weapon_damage * (2 + skill / 25)",
-          "bonusIfHidden": "hidden * 0.5"
+          "bonusIfHidden": "(weapon_damage * (2 + skill / 25)) / 2 * hidden"
         },
         "trigger": "on_hit"
       }
@@ -1445,7 +1445,7 @@
     "name": "Burning Hands",
     "plainName": "BURNING_HANDS",
     "abilityType": "SPELL",
-    "description": "<b:red>Flames</> shoot from your fingertips, scorching everything in a cone before you.",
+    "description": "<b:red>Flames</> wreathe your hands as you grasp the target, searing flesh with magical fire. A foundational touch-range spell taught to sorcerers, bards, and pyromancers.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2,
@@ -1480,7 +1480,7 @@
     "name": "Call Lightning",
     "plainName": "CALL_LIGHTNING",
     "abilityType": "SPELL",
-    "description": "This spell will use the \"force of nature\" to make a <b:yellow>lightning</> strike the victim.  It is therefore only possible to call <b:yellow>lightning</> outside, and it has to be raining (or worse).",
+    "description": "Channels the force of nature to call a <b:yellow>lightning</> strike down upon the target. Requires open sky and stormy weather (or worse).",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -1816,7 +1816,7 @@
     "name": "Circle Of Death",
     "plainName": "CIRCLE_OF_DEATH",
     "abilityType": "SPELL",
-    "description": "Unleashes a wave of negative energy that snuffs out the life force of nearby creatures.",
+    "description": "Unleashes a focused pulse of negative energy that snuffs out the target's life force.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -2140,13 +2140,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 5. Lower-than-tier damage by design (stun/dazzle is the primary effect). Legacy: `(pow(skill,2)*1)/200` capped at ~190 at the 0-1000 skill scale; restated for 0-100 scale.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "magic",
-          "amount": "(pow(skill,2)*1)/200, max ~190"
+          "amount": "4d19 + pow(skill, 1.30)"
         },
         "trigger": "on_cast"
       }
@@ -2260,7 +2261,7 @@
     "name": "Cone Of Cold",
     "plainName": "CONE_OF_COLD",
     "abilityType": "SPELL",
-    "description": "A blast of freezing air erupts from your hands, flash-freezing everything before you.",
+    "description": "A blast of freezing air erupts from your hands and flash-freezes the target solid.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -3783,21 +3784,21 @@
     "name": "Divine Bolt",
     "plainName": "DIVINE_BOLT",
     "abilityType": "SPELL",
-    "description": "Hurls a bolt of pure divine energy at the target.",
+    "description": "Hurls a bolt of pure divine energy at the target. Strikes evil hardest, glances off the righteous.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 3 cleric. Legacy applied per-victim alignment multiplier: dam *= (victim_align * -0.0007 + 0.8) — evil 1.5x, neutral 0.8x, good 0.1x. Removed pending victim_align FormulaCtx symbol; flat tier formula until engine adds it.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "base_damage + (pow(skill, 2) * 53) / 10000, then *= (victim_align * -0.0007 + 0.8)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "amount": "5d19 + pow(skill, 1.25)"
         },
         "trigger": "on_cast"
       }
@@ -3851,21 +3852,21 @@
     "name": "Divine Ray",
     "plainName": "DIVINE_RAY",
     "abilityType": "SPELL",
-    "description": "Projects a searing ray of holy light that burns the unholy.",
+    "description": "Projects a searing ray of holy light that burns the unholy. Caster's purity sharpens the strike.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 6 cleric (good counterpart to Stygian Eruption). Legacy applied caster-alignment multiplier dam *= (caster_align * 0.0022 - 0.7). Removed pending caster_align symbol.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "base_damage + (pow(skill, 2) * 1) / 125, then *= (caster_align * 0.0022 - 0.7)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "amount": "6d19 + pow(skill, 1.32)"
         },
         "trigger": "on_cast"
       }
@@ -4446,20 +4447,21 @@
     "name": "Energy Drain",
     "plainName": "ENERGY_DRAIN",
     "abilityType": "SPELL",
-    "description": "This spell does not give much damage, but victims failing their saving throws will loose up to 40,000 XP points.  You will gain a quarter of this XP.",
+    "description": "Pulls life-essence from the target. Damage is modest; victims who fail their save also lose up to 40,000 XP, a quarter of which is granted to the caster.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 5 necro. Primary effect is XP drain on save fail (engine ask: xp_drain / level_drain effect type). Damage is intentionally low to keep it from out-shining same-circle damage spells.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "magic",
-          "amount": "level_drain"
+          "type": "necrotic",
+          "amount": "4d12 + pow(skill, 1.20)"
         },
         "trigger": "on_cast"
       }
@@ -4474,7 +4476,7 @@
     },
     "sphere": "DEATH",
     "pages": 19,
-    "damageType": "HEAL"
+    "damageType": "NECROTIC"
   },
   {
     "name": "Enhance Ability",
@@ -4865,20 +4867,21 @@
     "name": "Exorcism",
     "plainName": "EXORCISM",
     "abilityType": "SPELL",
-    "description": "Drives out evil spirits and damages <magenta>undead</> or demonic creatures.",
+    "description": "Drives out evil spirits and savages <magenta>demonic</> creatures. Costs the caster some of their own life and stamina as libation. Useless against the non-demonic.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 4.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 9 cleric ultimate. Demon-only via target restriction. Legacy applied caster-alignment multiplier dam *= (caster_align * 0.001 + 0.2) — 990 align → 1.19x, 600 align → 0.8x, 400 align → 0.6x (and refused below 400). Removed pending caster_align symbol; target-restriction handled via abilityrestrictions.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "(pow(skill, 2) * 13) / 20, then *= (caster_align * 0.001 + 0.2)"
+          "amount": "10d35 + pow(skill, 1.50)"
         },
         "trigger": "on_cast"
       }
@@ -5101,7 +5104,7 @@
     "name": "Fire Breath",
     "plainName": "FIRE_BREATH",
     "abilityType": "SPELL",
-    "description": "Breathes a gout of magical <b:red>flames</> upon enemies.",
+    "description": "Breathes a gout of magical <b:red>flames</> over the target.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
@@ -5390,14 +5393,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 4 cleric. Legacy multiplied base_damage by raw INT: dam *= (caster_INT * 0.007 + 0.8). Restated as a flat tier formula until raw-stat symbols (caster_int_raw) ship in FormulaCtx.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "base_damage * (caster_INT * 0.007 + 0.8)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "amount": "5d19 + pow(skill, 1.32)"
         },
         "trigger": "on_cast"
       }
@@ -5675,7 +5678,7 @@
     "name": "Frost Breath",
     "plainName": "FROST_BREATH",
     "abilityType": "SPELL",
-    "description": "Breathes a cone of supernatural frost upon enemies.",
+    "description": "Breathes a torrent of supernatural frost over the target.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
@@ -5786,7 +5789,7 @@
     "name": "Gas Breath",
     "plainName": "GAS_BREATH",
     "abilityType": "SPELL",
-    "description": "Exhales a cloud of poisonous gas that chokes enemies.",
+    "description": "Exhales a torrent of poisonous gas, choking the target.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
@@ -6319,21 +6322,21 @@
     "name": "Hell Bolt",
     "plainName": "HELL_BOLT",
     "abilityType": "SPELL",
-    "description": "Hurls a bolt of infernal energy drawn from the lower planes.",
+    "description": "Hurls a bolt of infernal energy drawn from the lower planes. Strikes the righteous hardest, washes over the wicked.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 3 anti-paladin/diabolist counterpart of Divine Bolt. Legacy applied per-victim alignment multiplier: dam *= (victim_align * 0.0007 + 0.8) — good 1.5x, neutral 0.8x, evil 0.1x. Removed pending victim_align FormulaCtx symbol.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "base_damage + (pow(skill, 2) * 53) / 10000, then *= (victim_align * 0.0007 + 0.8)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "type": "unholy",
+          "amount": "5d19 + pow(skill, 1.25)"
         },
         "trigger": "on_cast"
       }
@@ -6346,9 +6349,9 @@
       "failToVictim": "{actor.pos} spell missed you!",
       "failToRoom": "{actor.pos} spell missed {target.name}!"
     },
-    "sphere": "FIRE",
+    "sphere": "DEATH",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "UNHOLY"
   },
   {
     "name": "Hell's Gate",
@@ -6384,21 +6387,22 @@
     "name": "Hellfire and Brimstone",
     "plainName": "HELLFIRE_BRIMSTONE",
     "abilityType": "SPELL",
-    "description": "Rains hellfire and brimstone upon enemies in a devastating area attack.",
+    "description": "Rains hellfire and brimstone upon enemies in a devastating area attack. Only the most deeply unholy can channel its full force.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 4.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
+    "notes": "Circle 8 anti-good cleric area attack (Stygian Eruption's area sibling). Legacy required caster_align <= -400 and applied dam *= (caster_align * -0.0022 - 0.7) so deeply-evil casters got ~1.5x. Removed pending caster_align symbol; caster alignment gate stays in restrictions.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
+          "area": true,
           "type": "fire",
-          "amount": "base_damage + (pow(skill, 2) * 1) / 180, then *= (caster_align * -0.0022 - 0.7)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "amount": "6d19 + pow(skill, 1.41)"
         },
         "trigger": "on_cast"
       }
@@ -7896,21 +7900,21 @@
     "name": "Lesser Exorcism",
     "plainName": "LESSER_EXORCISM",
     "abilityType": "SPELL",
-    "description": "Channels holy energy to harm <magenta>undead</> and demons.",
+    "description": "Channels holy energy to harm <magenta>demonic</> creatures. Costs the caster a sliver of life and stamina; useless on the non-demonic.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 6 cleric. Lesser version of Exorcism. Demon-only via target restriction. Legacy applied caster-alignment multiplier dam *= (caster_align * 0.001 + 0.2). Removed pending caster_align symbol.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "base_damage + (pow(skill, 2) * 1) / 25, then *= (caster_align * 0.001 + 0.2)",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "amount": "6d19 + pow(skill, 1.38)"
         },
         "trigger": "on_cast"
       }
@@ -7975,7 +7979,7 @@
     "name": "Lightning Breath",
     "plainName": "LIGHTNING_BREATH",
     "abilityType": "SPELL",
-    "description": "Breathes a <b:yellow>bolt</> of <b:yellow>lightning</> upon enemies.",
+    "description": "Breathes a forking <b:yellow>bolt</> of <b:yellow>lightning</> at the target.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
@@ -8664,20 +8668,21 @@
     "name": "Moonbeam",
     "plainName": "MOONBEAM",
     "abilityType": "SPELL",
-    "description": "Calls down a beam of silvery moonlight that burns the unholy.",
+    "description": "Calls down a frigid beam of silvery moonlight that freezes the marrow of the unholy.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Circle 3 druid. Cold damage with holy flavor — described as moonlight but mechanically a chill attack (frost-crystals / freezing messages). Legacy: skill*2 + random_number(20, 80) — function renamed to `random()`.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "type": "holy",
-          "amount": "skill * 2 + random_number(20, 80)"
+          "type": "cold",
+          "amount": "skill * 2 + random(20, 80)"
         },
         "trigger": "on_cast"
       }
@@ -8691,7 +8696,8 @@
       "failToRoom": "{actor.pos} moonbeams shine here and there, but not upon {target.him}."
     },
     "sphere": "WATER",
-    "pages": 10
+    "pages": 10,
+    "damageType": "COLD"
   },
   {
     "name": "Moonwell",
@@ -10641,14 +10647,14 @@
         "order": 0,
         "params": {
           "type": "unholy",
-          "amount": "max_hp * 0.05",
+          "amount": "level * 3 + roll_dice(3, 20)",
           "duration": 10,
           "interval": 1
         },
         "trigger": "on_cast"
       }
     ],
-    "notes": "DoT ability dealing 5% of target's max HP per tick for 10 ticks. High-level monk offensive chant.",
+    "notes": "High-tier monk DoT chant. Original intent was 5% of target max-HP per tick for 10 ticks; restated as level-scaled dice until target_max_hp ships in FormulaCtx. At L30 ≈ 123 dmg/tick × 10 ≈ 1230 total.",
     "messages": {
       "successToCaster": "You begin chanting Seed Of Destruction, your voice resonating with power!",
       "successToVictim": "{actor.name} begins chanting Seed Of Destruction, and you feel its power wash over you!",
@@ -12124,13 +12130,13 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Unholy damage spell requiring evil alignment (<-400). Formula: dam + (pow(skill, 2) * 1) / 125, scaled by alignment.",
+    "notes": "Circle 6 anti-good cleric. Required caster_align <= -400 (legacy refused otherwise) and applied dam *= (caster_align * -0.0022 - 0.7) — deeply-evil casters got ~1.5x. Removed alignment multiplier pending caster_align FormulaCtx symbol; caster-alignment gate stays as a restriction.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "amount": "base_damage + (pow(skill, 2) * 1) / 125, then *= (caster_align * -0.0022 - 0.7)",
+          "amount": "6d19 + pow(skill, 1.32)",
           "components": [
             {
               "type": "unholy",
@@ -12140,8 +12146,7 @@
               "type": "shadow",
               "percent": 40
             }
-          ],
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          ]
         },
         "trigger": "on_cast"
       }
@@ -13037,13 +13042,13 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Life-draining attack that deals necrotic damage and heals caster for damage dealt. Formula: dam + roll_dice(2, skill + 10), +random(0,70) if skill>=95.",
+    "notes": "Life-draining attack that deals necrotic damage and heals caster for damage dealt. Legacy: dam += roll_dice(2, skill + 10); if skill >= 95 also added random(0, 70). Restated as plain dice + skill scaling; conditional bonus dropped pending engine support for conditional damage terms.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "amount": "base_damage + roll_dice(2, skill + 10), +random(0,70) if skill>=95",
+          "amount": "base_damage + roll_dice(2, skill + 10)",
           "components": [
             {
               "type": "necrotic",
@@ -13055,8 +13060,7 @@
             }
           ],
           "type": "necrotic",
-          "lifesteal": true,
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "lifesteal": true
         },
         "trigger": "on_cast"
       },
