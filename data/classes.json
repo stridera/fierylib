@@ -15,7 +15,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 1,
@@ -32,7 +33,8 @@
       "accuracyPerLevel": 2.0,
       "evasionPerLevel": 1.0,
       "dexEvasionMult": 1.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 4
     },
     {
       "id": 2,
@@ -50,7 +52,8 @@
       "accuracyPerLevel": 3.0,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 12
     },
     {
       "id": 3,
@@ -67,7 +70,8 @@
       "accuracyPerLevel": 2.7,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 1.5,
-      "attackPowerPerLevel": 5.0
+      "attackPowerPerLevel": 5.0,
+      "baseCritChance": 5
     },
     {
       "id": 4,
@@ -85,7 +89,8 @@
       "accuracyPerLevel": 2.7,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 1.5,
-      "attackPowerPerLevel": 5.0
+      "attackPowerPerLevel": 5.0,
+      "baseCritChance": 5
     },
     {
       "id": 5,
@@ -103,7 +108,8 @@
       "accuracyPerLevel": 2.7,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 1.5,
-      "attackPowerPerLevel": 5.0
+      "attackPowerPerLevel": 5.0,
+      "baseCritChance": 5
     },
     {
       "id": 6,
@@ -121,7 +127,8 @@
       "accuracyPerLevel": 2.7,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 1.5,
-      "attackPowerPerLevel": 5.0
+      "attackPowerPerLevel": 5.0,
+      "baseCritChance": 5
     },
     {
       "id": 7,
@@ -139,7 +146,8 @@
       "accuracyPerLevel": 2.0,
       "evasionPerLevel": 1.0,
       "dexEvasionMult": 1.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 4
     },
     {
       "id": 8,
@@ -157,7 +165,8 @@
       "accuracyPerLevel": 2.0,
       "evasionPerLevel": 1.0,
       "dexEvasionMult": 1.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 4
     },
     {
       "id": 9,
@@ -175,7 +184,8 @@
       "accuracyPerLevel": 3.0,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 12
     },
     {
       "id": 10,
@@ -193,7 +203,8 @@
       "accuracyPerLevel": 3.0,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 12
     },
     {
       "id": 11,
@@ -211,7 +222,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 12,
@@ -229,7 +241,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 13,
@@ -247,7 +260,8 @@
       "accuracyPerLevel": 3.5,
       "evasionPerLevel": 2.5,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 5.0
+      "attackPowerPerLevel": 5.0,
+      "baseCritChance": 8
     },
     {
       "id": 14,
@@ -265,7 +279,8 @@
       "accuracyPerLevel": 3.5,
       "evasionPerLevel": 2.5,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 5.0
+      "attackPowerPerLevel": 5.0,
+      "baseCritChance": 8
     },
     {
       "id": 15,
@@ -283,7 +298,8 @@
       "accuracyPerLevel": 2.0,
       "evasionPerLevel": 1.0,
       "dexEvasionMult": 1.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 4
     },
     {
       "id": 16,
@@ -301,7 +317,8 @@
       "accuracyPerLevel": 2.0,
       "evasionPerLevel": 1.0,
       "dexEvasionMult": 1.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 4
     },
     {
       "id": 17,
@@ -319,7 +336,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 18,
@@ -336,7 +354,8 @@
       "accuracyPerLevel": 3.0,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 12
     },
     {
       "id": 19,
@@ -354,7 +373,8 @@
       "accuracyPerLevel": 3.0,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 12
     },
     {
       "id": 20,
@@ -372,7 +392,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 21,
@@ -390,7 +411,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 22,
@@ -408,7 +430,8 @@
       "accuracyPerLevel": 1.5,
       "evasionPerLevel": 0.5,
       "dexEvasionMult": 0.5,
-      "attackPowerPerLevel": 1.0
+      "attackPowerPerLevel": 1.0,
+      "baseCritChance": 3
     },
     {
       "id": 23,
@@ -426,7 +449,8 @@
       "accuracyPerLevel": 3.0,
       "evasionPerLevel": 2.0,
       "dexEvasionMult": 2.0,
-      "attackPowerPerLevel": 3.0
+      "attackPowerPerLevel": 3.0,
+      "baseCritChance": 12
     },
     {
       "id": 24,

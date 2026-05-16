@@ -71,6 +71,8 @@ class ClassImporterV2:
                     create_data["dexEvasionMult"] = class_data["dexEvasionMult"]
                 if "attackPowerPerLevel" in class_data:
                     create_data["attackPowerPerLevel"] = class_data["attackPowerPerLevel"]
+                if "baseCritChance" in class_data:
+                    create_data["baseCritChance"] = class_data["baseCritChance"]
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
                 if "spellProgression" in class_data:

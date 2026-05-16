@@ -444,6 +444,7 @@ class PlayerImporter:
             "accuracy": derived_accuracy,
             "evasion": derived_evasion,
             "attackPower": derived_attack_power,
+            "critChance": (class_row.baseCritChance if class_row else 5),
             "wealth": wealth,
             "bankWealth": bank_wealth,
             "passwordHash": password_hash,

@@ -214,6 +214,7 @@ class UserSeeder:
         eva_rate = class_row.evasionPerLevel if class_row else 2.0
         dex_mult = class_row.dexEvasionMult if class_row else 1.0
         ap_rate = class_row.attackPowerPerLevel if class_row else 2.0
+        crit_chance = class_row.baseCritChance if class_row else 5
         baseline = derive_hit_roll_baseline(
             level,
             dex_score=dex_score,
@@ -253,6 +254,7 @@ class UserSeeder:
             "accuracy": accuracy,
             "evasion": evasion,
             "attackPower": attack_power,
+            "critChance": crit_chance,
         }
 
         # Check if character already exists

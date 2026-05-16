@@ -276,6 +276,7 @@ class CppClassParser:
                     "hitDice", "hpPerLevel",
                     "accuracyPerLevel", "evasionPerLevel",
                     "dexEvasionMult", "attackPowerPerLevel",
+                    "baseCritChance",
                 )
                 prior_combat = {
                     c["plainName"]: {k: c.get(k) for k in preserve_keys if k in c}
