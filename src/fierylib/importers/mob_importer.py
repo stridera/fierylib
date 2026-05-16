@@ -399,9 +399,18 @@ class MobImporter:
                     "hpFactor": race_record.hpFactor,
                 }
 
-            # Derive modern combat stats from legacy mob file values (file values are not stored)
+            # Derive modern combat stats from legacy mob file values.
+            # Pass dexterity so mob evasion uses the mob's authored dex
+            # instead of the prior default of 13 (which gave every mob
+            # the same dex_bonus = 1 regardless of being a sluggish
+            # golem or a quick panther — see gear-curves §7 audit).
             modern_stats = convert_legacy_to_modern_stats(
-                mob_data={"level": mob.level, "hitRoll": mob.hit_roll, "armorClass": mob.ac},
+                mob_data={
+                    "level": mob.level,
+                    "hitRoll": mob.hit_roll,
+                    "armorClass": mob.ac,
+                    "dexterity": mob.stats.dexterity,
+                },
                 race_data=race_data,
             )
 
