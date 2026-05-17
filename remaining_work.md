@@ -513,7 +513,13 @@ follow-up.
 
 The following engine-doc items have *data-side* corollaries here:
 
-- **B2** (bashable doors) — needs §2 `RoomExit.hit_points` populated.
+- **B2** (bashable doors) — runtime ✅ shipped 2026-05-17 (engine
+  doc). Content side ✅ shipped 2026-05-17: legacy CircleMUD's
+  `EX_*` bitfield never had EX_BASHABLE — every IS_DOOR exit was
+  bashable by default. `room_importer.import_exit` now synthesizes
+  BASHABLE for every IS_DOOR (skipping MAGICPROOF — story doors
+  stay sealed). Live DB backfilled with the same rule: 1214 doors
+  flipped BASHABLE in one UPDATE.
 - **B3** (aggression_formula) — engine doc claims 0 mobs populated;
   reality is 597. Edit engine doc.
 - **B4** (RaceSpellSlotBonus) — runtime not reading; defer.
@@ -546,6 +552,97 @@ The following engine-doc items have *data-side* corollaries here:
   "stub" / "missing effect" / "missing dispatcher arm" in
   `fierylib/data/abilities.json` notes field so a future content pass
   has the breakdown handy.
+- **L** (summon family) — engine doc §L covers the SUMMON spell
+  player-target gates (PRF_SUMMONABLE → `PlayerFlag::NO_SUMMON`,
+  PLR_KILLER → `PlayerFlag::PK_ENABLED`, room/mob NoSummon, level
+  cap, same-zone, arena asymmetry). All gates already have schema
+  primitives — no new columns needed. Content-side TODOs:
+  1. **User-file importer:** `user_importer.py` (or wherever the
+     legacy player_files → Characters mapping lives) must translate
+     legacy `PRF_SUMMONABLE` bit → CLEAR `NO_SUMMON` and *missing*
+     bit → SET `NO_SUMMON`. Legacy default was "protected" (bit
+     unset); our `NO_SUMMON = true` matches. Verify no inversion bug
+     in the migration sweep.
+  2. **Seed defaults:** confirm `user_seeder.py` test characters
+     ship with `NO_SUMMON` in `playerFlags` by default; flip
+     TestWarrior / TestMage / TestRogue to summon-protected; leave
+     AdminChar / BuilderChar alone (gods bypass via
+     `Permission::SUMMON` anyway).
+  3. **Mob importer:** verify `mob_importer.py` carries legacy
+     MOB_NOSUMMON / MOB_NOCHARM bits onto `MobBehaviors::NO_SUMMON`
+     / `NO_CHARM` so the per-mob refusal works at runtime. Pull the
+     row count after import to confirm a non-trivial population.
+  4. **Optional SummonRecipe table** (deferred, mirrors §8
+     CreationRecipe): builder-editable per-class table for the seven
+     SUMMON_xxx conjuration spells. Defer schema until the runtime
+     L1 (player-target summon) lands and L3 demand is concrete.
+
+---
+
+## 9.5. Status-effect flag dispatch (2026-05-17)
+
+The catchall arm in `invoke_ability_with` now reads the
+`override_params.flag` (falling back to `default_params.flag`) and
+installs known markers on the target:
+
+- `flag: "hidden"` / `"sneak"` / `"concealment"` → `Stealth` (was
+  already wired for hidden/sneak; concealment added here).
+- `flag: "fly"` → `Flying` — the drowning + movement-cost gates see
+  the target as airborne.
+
+`effects_tick` mirrors the Stealth teardown for Flying: when the
+last backing instance with name `"fly"` expires, `Flying` is removed.
+Race-set Flying remains (not subject to teardown).
+
+Remaining flag dispatchers to wire when the matching marker /
+consumer lands:
+
+- ~~`bless` → +N accuracy.~~ ✅ 2026-05-17. `Bless` marker
+  installed by the catchall arm when `flag == "bless"`;
+  `apply_swing` adds a flat +5 to the attacker's accuracy when
+  Bless is present. `effects_tick` removes the marker on the
+  last backing instance.
+- ~~`sanctuary` → halve damage.~~ ✅ 2026-05-17. `Sanctuary`
+  marker installed by the catchall arm when `flag == "sanctuary"`;
+  `apply_damage` halves positive incoming damage when the target
+  carries it. Auto-removed by `effects_tick`.
+- ~~`haste` → extra attack / +speed.~~ ✅ 2026-05-17. `Haste`
+  marker installed by the catchall arm when `flag == "haste"`.
+  `combat_tick` runs a Haste pass after the main swing pass and
+  re-fires `apply_swing` for every Haste'd attacker whose target
+  is still alive. `effects_tick` removes the marker on the last
+  backing instance.
+- ~~`detect_invisible` → see-invis.~~ ✅ 2026-05-17. `DetectInvis`
+  marker installed by the catchall arm when
+  `flag == "detect_invisible"`; auto-removed by `effects_tick`.
+- ~~Magical Invisible / MASS_INVIS.~~ ✅ 2026-05-17. New
+  `Invisible` marker + `InvisibleSource` tag on the EffectInstance
+  entity. `can_see_player` returns false when the target carries
+  `Invisible` and the viewer lacks `DetectInvis` or `HOLY_LIGHT`.
+  Teardown checks for surviving `InvisibleSource` tags so a
+  recast / overlapping cast holds the invisibility past the
+  first expiry.
+- ~~`resistance` (with `type` + `amount`) → write into the player's
+  `Resistances` map.~~ ✅ 2026-05-17. Catchall arm parses
+  `type` (mapped to `ElementType`) + `amount`, applies the delta
+  to the target's `Resistances` map, and tags the EffectInstance
+  with `SpellResistanceDelta` so `effects_tick` reverses the delta
+  on expiry. Unlocks PROT_FROM_FIRE/COLD/AIR/EARTH/SHOCK/ACID,
+  STONE_SKIN, NEGATE_* — every element-keyed protection spell.
+  Alignment-keyed (`type: "evil"` / `"good"`) still deferred —
+  needs the J2 alignment-protection axis.
+- ~~`empowered` → next damage spell at +N%.~~ ✅ 2026-05-17.
+  `Empowered` marker installed by the catchall arm when
+  `flag == "empowered"`. The damage arm in
+  `invoke_ability_with` consumes it (×1.5 damage, then removes
+  the marker AND despawns the backing EffectInstance so the
+  `effects` list stays accurate). `effects_tick` is the fallback
+  removal for the duration-based expiry edge case.
+
+Each consumer is small (~20 lines of Rust) but together they unlock
+the 65 dormant buff spells. Author content-side per-spell tuning
+notes against `fierylib/data/abilities.json` so the runtime tier is
+recoverable from data.
 
 ---
 
@@ -585,17 +682,41 @@ DB query against `fierydev` revealed:
     `hidden`, `bleed` markers are read by gameplay code. The other
     60 markers exist in the player's `effects` list but mechanically
     do nothing. **Highest impact** — half the spellbook is decorative.
-  - `room` — 10 spells (CIRCLE_OF_FIRE, DARKNESS, WALL_OF_FOG, etc.).
-    Need a `RoomEffectInstance` consumer; today the marker lands on
-    the caster instead of the room.
+  - `room` — light + burning ✅ 2026-05-17. New "room" arm in
+    `invoke_ability_with`: parses `params.type`, installs a marker
+    on the caster's room entity with a backing `EffectInstance`
+    via `AppliedTo(room)` for duration tracking. Today's coverage:
+    `light` → `RoomMagicalLight` (ILLUMINATION, MAGIC_TORCH);
+    `darkness` → `RoomMagicalDarkness` (DARKNESS); `burning` →
+    `RoomBurningEffect { damage_per_move }` (CIRCLE_OF_FIRE). The
+    burning marker is consumed in `cmd_move`: leaving the room
+    deals `damage_per_move` HP to the mover, with a flavor line.
+    Live-DB fix: CIRCLE_OF_FIRE marked `violent=false` so it
+    self-targets and the room arm runs. `room_is_dark` /
+    `room_has_light` consult the markers first, so a player can
+    cast ILLUMINATION at night and immediately see the room.
+    Remaining types still decorative (no consumer): `fog`,
+    `ice`, `stone`, `illusion` barriers — need exit-blocking
+    machinery.
   - `summon` — 7 spells (ANIMATE_DEAD, CLONE, SUMMON_DEMON, etc.).
     Need a spawn-companion arm. CHARM equivalent exists for taming
     existing mobs; summon needs a fresh proto spawn.
   - `globe` — 2 spells (MINOR_GLOBE, MAJOR_GLOBE). Engine §J1 — needs
     a spell-circle absorb gate.
-  - `inspect` — 1 spell (IDENTIFY). Should print the same output
-    `cmd_identify` does on a non-spell-cast path.
-  - `resurrect` — 1 spell. Needs corpse → live-entity revival.
+  - ~~`inspect` — 1 spell (IDENTIFY).~~ ✅ 2026-05-17. New
+    "inspect" arm in `invoke_ability_with` routes the cast's
+    target_word through `cmd_identify` so the player gets the
+    full property panel, then flips the per-item Identified
+    marker (legacy semantic: give/sell carries the knowledge
+    with the item).
+  - ~~`resurrect` — 1 spell.~~ ✅ 2026-05-17. New "resurrect" arm
+    in `invoke_ability_with`: target must be a Player with the
+    Ghost component. Restores HP to 50% max, removes Ghost,
+    moves the player to the caster's room. Equipment transfer
+    from the corpse is a follow-up — players still walk back for
+    their gear. Live verified the refusal path ("AdminChar isn't
+    a wandering spirit"). Full revival flow needs a death-and-
+    rez playtest with two real characters.
 
 Sequencing recommendation: implement the **status consumer table**
 first (highest ROI) — a `Stats:: total_acc_bonus_from_effects(...)`
@@ -603,3 +724,48 @@ walker the combat pipeline calls, plus parallel walkers for armor,
 ward, vision, movement. Once that lands, 60 spells become functional
 overnight. Other effect-type arms are smaller scope; do them as
 needed.
+
+---
+
+## Rest / Repose system (2026-05-17)
+
+Companion to
+[`/fierymud-rs/docs/design/rest-and-repose.md`](../fierymud-rs/docs/design/rest-and-repose.md)
+and
+[`/fierymud-rs/docs/adr/0001-rest-system-tradeoffs.md`](../fierymud-rs/docs/adr/0001-rest-system-tradeoffs.md).
+Vocabulary in
+[`/muditor/CONTEXT.md`](../muditor/CONTEXT.md) under "Resting and
+Repose".
+
+This block owns the **schema migration** for the rest system.
+
+### Status 2026-05-17
+
+- ~~**RR1. Update Prisma schema.**~~ ✅ Closed. Schema additions
+  landed in `/muditor/packages/db/prisma/schema.prisma`:
+  `RestSource` enum, three `Characters` columns (`repose`,
+  `restSource`, `restTier`), three `Rooms` columns (`isInn`,
+  `innName`, `innTiers`), `Objects.campKitTier`, and the two
+  junction tables `RoomWakeEffects` and `ObjectWakeEffects`.
+- ~~**RR2. Regenerate clients + apply migration.**~~ ✅ Closed.
+  Live DB now carries the new columns and tables (verified via
+  `\d` against fierydev).
+- ~~**RR3. Seed `Refreshed` Effect row.**~~ ✅ Closed.
+  `data/effects.json` carries the Refreshed entry; row landed in
+  DB as id 29 (effectType=`status`). Lua hooks for on_apply /
+  on_tick / on_remove already captured in the JSON. Refresh
+  hook math (`base_regen * 0.25 * strength`) lives in the on_tick
+  body for runtime to consume.
+- ~~**RR4. Importer defaults for new columns.**~~ ✅ Closed —
+  no importer change needed. Prisma `@default` directives in the
+  schema flow through on insert when fields are unspecified. Live
+  verified: existing Characters rows after re-seed show
+  `repose=0`, `restSource=NONE`, `restTier=0`; Room rows show
+  `isInn=false` / `innName=null` / `innTiers=null`; Objects show
+  `campKitTier=null`.
+- **RR5. (Optional) Seed example wizard academy inn.** Deferred —
+  blocked on FOCUS Effect not being seeded yet, and not needed
+  for runtime unblock. Re-visit when fierymud-rs runtime fires
+  the wake pipeline end-to-end and a smoke-test room is helpful.
+
+**Blocker:** none. Runtime work (engine R1-R7) can proceed.
