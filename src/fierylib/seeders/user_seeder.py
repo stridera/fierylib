@@ -286,28 +286,40 @@ class UserSeeder:
             class_abilities = await self.prisma.classabilities.find_many(
                 where={"classId": class_id}
             )
-            granted = 0
+            # Schema stores proficiency 0..=1000 (raw practice
+            # points). The runtime divides by 10 at formula time so
+            # a "max" seeded test character lands at skill=100 in
+            # pow(skill, K) formulas. 100 here would yield skill=10
+            # downstream, which leaves Burning Hands at ~58 dmg
+            # instead of the intended ~356.
+            ability_ids: set[int] = set()
             for ca in class_abilities:
+                ability_ids.add(ca.abilityId)
+            # ClassSkills covers the non-spell-circle side (KICK,
+            # BASH, RESCUE, BACKSTAB, etc.). Sorcerer has 0 here;
+            # Warrior / Rogue have ~19 each. Without this branch a
+            # seeded TestWarrior knows zero skills and `kick` /
+            # `bash` etc. refuse with "you don't know that skill."
+            class_skills = await self.prisma.classskills.find_many(
+                where={"classId": class_id}
+            )
+            for cs in class_skills:
+                ability_ids.add(cs.abilityId)
+            granted = 0
+            for ability_id in ability_ids:
                 # Upsert per (character_id, ability_id) so re-runs of
                 # the seeder are idempotent.
                 await self.prisma.characterabilities.upsert(
                     where={
                         "characterId_abilityId": {
                             "characterId": character.id,
-                            "abilityId": ca.abilityId,
+                            "abilityId": ability_id,
                         }
                     },
                     data={
-                        # Schema stores proficiency 0..=1000 (raw
-                        # practice points). The runtime divides by 10
-                        # at formula time so a "max" seeded test
-                        # character lands at skill=100 in pow(skill,
-                        # K) formulas. 100 here would yield skill=10
-                        # downstream, which leaves Burning Hands at
-                        # ~58 dmg instead of the intended ~356.
                         "create": {
                             "characterId": character.id,
-                            "abilityId": ca.abilityId,
+                            "abilityId": ability_id,
                             "known": True,
                             "proficiency": 1000,
                         },
@@ -316,7 +328,7 @@ class UserSeeder:
                 )
                 granted += 1
             if granted > 0:
-                click.echo(f"      → granted {granted} class abilities")
+                click.echo(f"      → granted {granted} class abilities + skills")
 
         return character
 
