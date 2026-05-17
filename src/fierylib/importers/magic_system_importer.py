@@ -110,6 +110,22 @@ class MagicSystemImporter:
         name = ability["name"]
         plain_name = ability["plainName"]
 
+        # Derive target_scope from isArea + violent when the source
+        # JSON doesn't supply one explicitly. Schema default is SINGLE,
+        # but AOE damage spells should write ROOM_ENEMIES and AOE
+        # buffs ROOM_ALLIES so the rust runtime's AOE dispatcher
+        # picks them up without falling through to the is_area+violent
+        # heuristic. Authored targetScope on the JSON side wins.
+        is_area = ability.get("isArea", False)
+        violent = ability.get("violent", False)
+        target_scope = ability.get("targetScope")
+        if not target_scope:
+            if is_area and violent:
+                target_scope = "ROOM_ENEMIES"
+            elif is_area:
+                target_scope = "ROOM_ALLIES"
+            else:
+                target_scope = "SINGLE"
         # Build ability data
         data = {
             "name": name,
@@ -117,12 +133,13 @@ class MagicSystemImporter:
             "abilityType": ability["abilityType"],
             "description": ability.get("description"),
             "minPosition": ability.get("minPosition", "STANDING"),
-            "violent": ability.get("violent", False),
+            "violent": violent,
             "castTimeRounds": ability.get("castTimeRounds", 1),
             "cooldownMs": ability.get("cooldownMs", 0),
             "inCombatOnly": ability.get("inCombatOnly", False),
             "combatOk": ability.get("combatOk", True),
-            "isArea": ability.get("isArea", False),
+            "isArea": is_area,
+            "targetScope": target_scope,
             "memorizationTime": ability.get("memorizationTime", 0),
             "questOnly": ability.get("questOnly", False),
             "humanoidOnly": ability.get("humanoidOnly", False),
