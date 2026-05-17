@@ -3791,14 +3791,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 3 cleric. Legacy applied per-victim alignment multiplier: dam *= (victim_align * -0.0007 + 0.8) — evil 1.5x, neutral 0.8x, good 0.1x. Removed pending victim_align FormulaCtx symbol; flat tier formula until engine adds it.",
+    "notes": "Circle 3 cleric. Holy damage scaled by victim alignment via (victim_align * -7 + 8000) / 10000 \u2014 peak vs evil targets (~1.5x), trivial vs good targets (~0.1x).",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "5d19 + pow(skill, 1.25)"
+          "amount": "(base_damage + (pow(skill, 2) * 53) / 10000) * (victim_align * -7 + 8000) / 10000"
         },
         "trigger": "on_cast"
       }
@@ -3859,14 +3859,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 6 cleric (good counterpart to Stygian Eruption). Legacy applied caster-alignment multiplier dam *= (caster_align * 0.0022 - 0.7). Removed pending caster_align symbol.",
+    "notes": "Good-aligned casters only. Multiplier (caster_align * 22 - 7000) / 10000 \u2014 good caster gets a boost; evil caster's multiplier goes negative and the apply path floors at zero (no damage).",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "6d19 + pow(skill, 1.32)"
+          "amount": "(base_damage + (pow(skill, 2) * 1) / 125) * (caster_align * 22 - 7000) / 10000"
         },
         "trigger": "on_cast"
       }
@@ -4874,14 +4874,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 9 cleric ultimate. Demon-only via target restriction. Legacy applied caster-alignment multiplier dam *= (caster_align * 0.001 + 0.2) — 990 align → 1.19x, 600 align → 0.8x, 400 align → 0.6x (and refused below 400). Removed pending caster_align symbol; target-restriction handled via abilityrestrictions.",
+    "notes": "Caster-alignment scaled \u2014 (caster_align + 200) / 1000. Neutral baseline ~0.2x; good caster ~1.2x. Evil casters self-zero.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "10d35 + pow(skill, 1.50)"
+          "amount": "((pow(skill, 2) * 13) / 20) * (caster_align + 200) / 1000"
         },
         "trigger": "on_cast"
       }
@@ -6329,14 +6329,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 3 anti-paladin/diabolist counterpart of Divine Bolt. Legacy applied per-victim alignment multiplier: dam *= (victim_align * 0.0007 + 0.8) — good 1.5x, neutral 0.8x, evil 0.1x. Removed pending victim_align FormulaCtx symbol.",
+    "notes": "Circle 3 diabolist. Mirror of DIVINE_BOLT \u2014 multiplier (victim_align * 7 + 8000) / 10000 peaks vs good targets, weak vs evil.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "unholy",
-          "amount": "5d19 + pow(skill, 1.25)"
+          "amount": "(base_damage + (pow(skill, 2) * 53) / 10000) * (victim_align * 7 + 8000) / 10000"
         },
         "trigger": "on_cast"
       }
@@ -6394,7 +6394,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
-    "notes": "Circle 8 anti-good cleric area attack (Stygian Eruption's area sibling). Legacy required caster_align <= -400 and applied dam *= (caster_align * -0.0022 - 0.7) so deeply-evil casters got ~1.5x. Removed pending caster_align symbol; caster alignment gate stays in restrictions.",
+    "notes": "Evil-aligned casters only. Multiplier (caster_align * -22 - 7000) / 10000 \u2014 evil caster gets a boost; good caster zeroes out.",
     "effects": [
       {
         "effect": "damage",
@@ -6402,7 +6402,7 @@
         "params": {
           "area": true,
           "type": "fire",
-          "amount": "6d19 + pow(skill, 1.41)"
+          "amount": "(base_damage + (pow(skill, 2) * 1) / 180) * (caster_align * -22 - 7000) / 10000"
         },
         "trigger": "on_cast"
       }
@@ -7907,14 +7907,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 6 cleric. Lesser version of Exorcism. Demon-only via target restriction. Legacy applied caster-alignment multiplier dam *= (caster_align * 0.001 + 0.2). Removed pending caster_align symbol.",
+    "notes": "Same alignment shape as EXORCISM \u2014 caster-good scales up, evil zeroes.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "6d19 + pow(skill, 1.38)"
+          "amount": "(base_damage + (pow(skill, 2) * 1) / 25) * (caster_align + 200) / 1000"
         },
         "trigger": "on_cast"
       }
@@ -8675,7 +8675,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 3 druid. Cold damage with holy flavor — described as moonlight but mechanically a chill attack (frost-crystals / freezing messages). Legacy: skill*2 + random_number(20, 80) — function renamed to `random()`.",
+    "notes": "Circle 3 druid. Cold damage with holy flavor \u2014 described as moonlight but mechanically a chill attack (frost-crystals / freezing messages). Legacy: skill*2 + random_number(20, 80) \u2014 function renamed to `random()`.",
     "effects": [
       {
         "effect": "damage",
@@ -10654,7 +10654,7 @@
         "trigger": "on_cast"
       }
     ],
-    "notes": "High-tier monk DoT chant. Original intent was 5% of target max-HP per tick for 10 ticks; restated as level-scaled dice until target_max_hp ships in FormulaCtx. At L30 ≈ 123 dmg/tick × 10 ≈ 1230 total.",
+    "notes": "High-tier monk DoT chant. Original intent was 5% of target max-HP per tick for 10 ticks; restated as level-scaled dice until target_max_hp ships in FormulaCtx. At L30 \u2248 123 dmg/tick \u00d7 10 \u2248 1230 total.",
     "messages": {
       "successToCaster": "You begin chanting Seed Of Destruction, your voice resonating with power!",
       "successToVictim": "{actor.name} begins chanting Seed Of Destruction, and you feel its power wash over you!",
@@ -12130,13 +12130,13 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 6 anti-good cleric. Required caster_align <= -400 (legacy refused otherwise) and applied dam *= (caster_align * -0.0022 - 0.7) — deeply-evil casters got ~1.5x. Removed alignment multiplier pending caster_align FormulaCtx symbol; caster-alignment gate stays as a restriction.",
+    "notes": "Mirror of DIVINE_RAY \u2014 evil casters only.",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
-          "amount": "6d19 + pow(skill, 1.32)",
+          "amount": "(base_damage + (pow(skill, 2) * 1) / 125) * (caster_align * -22 - 7000) / 10000",
           "components": [
             {
               "type": "unholy",
