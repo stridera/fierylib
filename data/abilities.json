@@ -13085,7 +13085,7 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "NECROTIC"
   },
   {
     "name": "Vampiric Touch",

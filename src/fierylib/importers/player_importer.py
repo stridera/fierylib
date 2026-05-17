@@ -877,7 +877,7 @@ class PlayerImporter:
                         "id": str(uuid.uuid4()),
                         "characterId": character_id,
                         "mobPrototypeZoneId": zone_id,
-                        "mobPrototypeVnum": vnum,
+                        "mobPrototypeId": vnum,
                         "name": pet_data.name,
                         "customDescription": pet_data.desc if pet_data.desc else None,
                     }
