@@ -298,13 +298,20 @@ class UserSeeder:
                         }
                     },
                     data={
+                        # Schema stores proficiency 0..=1000 (raw
+                        # practice points). The runtime divides by 10
+                        # at formula time so a "max" seeded test
+                        # character lands at skill=100 in pow(skill,
+                        # K) formulas. 100 here would yield skill=10
+                        # downstream, which leaves Burning Hands at
+                        # ~58 dmg instead of the intended ~356.
                         "create": {
                             "characterId": character.id,
                             "abilityId": ca.abilityId,
                             "known": True,
-                            "proficiency": 100,
+                            "proficiency": 1000,
                         },
-                        "update": {"known": True, "proficiency": 100},
+                        "update": {"known": True, "proficiency": 1000},
                     },
                 )
                 granted += 1
