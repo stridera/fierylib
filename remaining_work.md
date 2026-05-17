@@ -192,12 +192,13 @@ authoring, not engine work.
 - **`Room.entry_restriction` (32/10296)** — Authored where it matters
   (gated/quest-only rooms). Probably correct.
 
-- **`RoomExit.hit_points` (0/25929)** — Engine **B2** parity wire
-  (bashable doors). Data-side: every closed door / gate should have an
-  HP value. Importer needs to populate this from legacy door bits or
-  default to a tier-derived HP based on the zone level. Currently every
-  exit has NULL → bash will never work even after engine wires it. **P1
-  blocker — engine wire is half done; B2 is the data half.**
+- ~~**`RoomExit.hit_points` (0/25929)**~~ ✅ Closed 2026-05-17.
+  Importer now derives HP per door from state + key presence + HIDDEN
+  flag (50 base, +50 with key, +100 if LOCKED, +30 if HIDDEN; band
+  50-230). 1214 / 1214 IS_DOOR exits populated; non-doors stay NULL
+  (correctly not bashable). Live DB backfilled via SQL; future
+  `import-legacy` runs round-trip the same values from
+  `room_importer.py`. Engine B2 data half is done.
 
 - **`Objects.fixture_room_zone_id` (0/3496)** — Engine **E1**.
 - **`Objects.passenger_capacity` (0/3496)** — Engine **E2**.

@@ -564,6 +564,31 @@ class RoomImporter:
             except (TypeError, ValueError):
                 pass
 
+        # Derive hit_points for bashable doors. Legacy CircleMUD has no
+        # per-door HP — door-bash is binary success/fail. fierymud-rs
+        # treats doors as HP-pooled targets so the bash skill takes
+        # multiple swings on tougher doors. Without source data, derive
+        # from state + key presence + hidden flag:
+        #
+        #   - Non-door exits          → NULL (not bashable)
+        #   - IS_DOOR open or closed  → 50 HP baseline (light door)
+        #   - + has key               → +50 HP (lockable / sturdier)
+        #   - default_state = LOCKED  → +100 HP (lock engaged, reinforced)
+        #   - + HIDDEN flag           → +30 HP (secret door)
+        #
+        # Final band: 50-230 HP. A L20 warrior bashing for ~25-40 dmg
+        # bashes a light door in 1-3 rounds, a locked secret door in
+        # 5-8. Tweakable here without touching the runtime.
+        hit_points: Optional[int] = None
+        if "IS_DOOR" in exit_flags:
+            hit_points = 50
+            if key_id is not None:
+                hit_points += 50
+            if default_state == "LOCKED":
+                hit_points += 100
+            if "HIDDEN" in exit_flags:
+                hit_points += 30
+
         try:
             await self.prisma.roomexit.upsert(  # type: ignore[attr-defined]
                 where={
@@ -586,6 +611,7 @@ class RoomImporter:
                         "toRoomId": to_room_vnum,
                         "flags": exit_flags,
                         "defaultState": default_state,
+                        "hitPoints": hit_points,
                     },
                     "update": {
                         "description": exit_data.get("description", ""),
@@ -596,6 +622,7 @@ class RoomImporter:
                         "toRoomId": to_room_vnum,
                         "flags": {"set": exit_flags},
                         "defaultState": default_state,
+                        "hitPoints": hit_points,
                     },
                 },
             )
