@@ -31,7 +31,14 @@
     },
     "sphere": "EARTH",
     "pages": 5,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Acid Burst",
@@ -66,7 +73,14 @@
     },
     "sphere": "GENERIC",
     "pages": 23,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Acid Fog",
@@ -100,7 +114,14 @@
     },
     "sphere": "EARTH",
     "pages": 27,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Ancestral Vengeance",
@@ -144,7 +165,14 @@
     },
     "sphere": "GENERIC",
     "pages": 21,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Animate Dead",
@@ -218,7 +246,14 @@
       "successToRoom": "{actor.name} begins chanting Apocalyptic Anthem, the words resonating with power!",
       "wearoffToTarget": "The apocalyptic anthem fades.",
       "wearoffToRoom": "The power of {actor.pos} Apocalyptic Anthem fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Aria Of Dissonance",
@@ -256,7 +291,14 @@
       "successToRoom": "{actor.name} begins chanting Aria Of Dissonance, the words resonating with power!",
       "wearoffToTarget": "The dissonant aria fades from your ears.",
       "wearoffToRoom": "The power of {actor.pos} Aria Of Dissonance fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Armor",
@@ -459,7 +501,14 @@
       "failToRoom": "{actor.name} fails to polymorph {target.pos} body in any way."
     },
     "sphere": "SUMMONING",
-    "pages": 25
+    "pages": 25,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Ballad Of Tears",
@@ -497,7 +546,14 @@
       "successToRoom": "{actor.name} begins performing Ballad Of Tears, the melody weaving through the air!",
       "wearoffToTarget": "The music of Ballad Of Tears fades into silence.",
       "wearoffToRoom": "{actor.pos} performance of Ballad Of Tears comes to an end."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Bandage",
@@ -556,7 +612,14 @@
       "successToRoom": "{actor.name} casts banish."
     },
     "sphere": "SUMMONING",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Barehand",
@@ -854,7 +917,14 @@
     },
     "sphere": "GENERIC",
     "pages": 25,
-    "damageType": "CRUSH"
+    "damageType": "CRUSH",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Bind",
@@ -975,7 +1045,14 @@
       "successToRoom": "{target.name} is blinded!"
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Blindness",
@@ -1019,7 +1096,14 @@
       "successToRoom": "{target.name} is blinded!"
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Blizzards Of Saint Augustine",
@@ -1223,7 +1307,14 @@
     },
     "sphere": "SUMMONING",
     "pages": 16,
-    "damageType": "SLASH"
+    "damageType": "SLASH",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Breathe Acid",
@@ -1474,7 +1565,14 @@
     },
     "sphere": "FIRE",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Call Lightning",
@@ -1508,7 +1606,14 @@
     },
     "sphere": "AIR",
     "pages": 5,
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Cartwheel",
@@ -1572,7 +1677,14 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Cause Light",
@@ -1606,7 +1718,14 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Cause Serious",
@@ -1640,7 +1759,14 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Chain Lightning",
@@ -1674,7 +1800,14 @@
     },
     "sphere": "AIR",
     "pages": 27,
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Chant",
@@ -1740,7 +1873,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 35,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Chill Touch",
@@ -1777,7 +1917,14 @@
     },
     "sphere": "WATER",
     "pages": 7,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Circle",
@@ -1844,7 +1991,14 @@
     },
     "sphere": "DEATH",
     "pages": 27,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Circle Of Fire",
@@ -1889,7 +2043,14 @@
     },
     "sphere": "FIRE",
     "pages": 25,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Circle Of Light",
@@ -2091,7 +2252,14 @@
     },
     "sphere": "GENERIC",
     "pages": 27,
-    "damageType": "SLASH"
+    "damageType": "SLASH",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Coldshield",
@@ -2161,7 +2329,14 @@
       "failToRoom": "{actor.name} splashes color everywhere except {target.name}."
     },
     "sphere": "GENERIC",
-    "pages": 21
+    "pages": 21,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Comprehend Languages",
@@ -2299,7 +2474,14 @@
     },
     "sphere": "WATER",
     "pages": 19,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Confusion",
@@ -2334,7 +2516,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 19,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Control Weather",
@@ -2514,7 +2703,14 @@
     },
     "sphere": "EARTH",
     "pages": 35,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Cremate",
@@ -2548,7 +2744,14 @@
     },
     "sphere": "FIRE",
     "pages": 35,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Crown Of Madness",
@@ -2586,7 +2789,14 @@
       "successToRoom": "{actor.name} begins performing Crown Of Madness, the melody weaving through the air!",
       "wearoffToTarget": "The music of Crown Of Madness fades into silence.",
       "wearoffToRoom": "{actor.pos} performance of Crown Of Madness comes to an end."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "HALF_DURATION"
+      }
+    ]
   },
   {
     "name": "Cure Blind",
@@ -2738,7 +2948,14 @@
       "successToCaster": "You curse {target.name}!",
       "successToRoom": "{target.name} briefly glows red!"
     },
-    "sphere": "ENCHANTMENT"
+    "sphere": "ENCHANTMENT",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "HALF_DURATION"
+      }
+    ]
   },
   {
     "name": "Dark Feast",
@@ -2884,7 +3101,14 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "NECROTIC"
+    "damageType": "NECROTIC",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Degeneration",
@@ -2918,7 +3142,14 @@
     },
     "sphere": "DEATH",
     "pages": 12,
-    "damageType": "UNHOLY"
+    "damageType": "UNHOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Demonic Aspect",
@@ -3112,7 +3343,14 @@
     ],
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Detect Alignment",
@@ -3292,7 +3530,14 @@
     },
     "sphere": "EARTH",
     "pages": 10,
-    "damageType": "CRUSH"
+    "damageType": "CRUSH",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Dimension Door",
@@ -3454,7 +3699,14 @@
       "failToRoom": "{target.name} shows no sign that {actor.pos} spell affected {target.him} at all."
     },
     "sphere": "GENERIC",
-    "pages": 14
+    "pages": 14,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Disease",
@@ -3501,7 +3753,14 @@
       "lookMessage": "{pronoun.subjective} looks terribly ill and diseased."
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "HALF_DURATION"
+      }
+    ]
   },
   {
     "name": "Disengage",
@@ -3582,7 +3841,14 @@
     },
     "sphere": "GENERIC",
     "pages": 27,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Dismount",
@@ -3665,7 +3931,14 @@
     ],
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Dispel Good",
@@ -3707,7 +3980,14 @@
     ],
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Dispel Magic",
@@ -3813,7 +4093,14 @@
     },
     "sphere": "GENERIC",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Divine Essence",
@@ -3881,7 +4168,14 @@
     },
     "sphere": "GENERIC",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Dodge",
@@ -3948,7 +4242,14 @@
     },
     "sphere": "EARTH",
     "pages": 35,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "HALF_DURATION"
+      }
+    ]
   },
   {
     "name": "Doorbash",
@@ -4277,7 +4578,14 @@
     },
     "sphere": "EARTH",
     "pages": 5,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Electrify",
@@ -4476,7 +4784,14 @@
     },
     "sphere": "DEATH",
     "pages": 19,
-    "damageType": "NECROTIC"
+    "damageType": "NECROTIC",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Enhance Ability",
@@ -4861,7 +5176,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 5,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Exorcism",
@@ -4896,7 +5218,14 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Extinguish",
@@ -5063,7 +5392,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 5,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Feather Fall",
@@ -5132,7 +5468,14 @@
     },
     "sphere": "FIRE",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Fire Darts",
@@ -5167,7 +5510,14 @@
     },
     "sphere": "FIRE",
     "pages": 9,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Fireball",
@@ -5211,7 +5561,14 @@
     },
     "sphere": "FIRE",
     "pages": 21,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Fires Of Saint Augustine",
@@ -5320,7 +5677,14 @@
     },
     "sphere": "FIRE",
     "pages": 25,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "First Aid",
@@ -5415,7 +5779,14 @@
     },
     "sphere": "FIRE",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Flood",
@@ -5449,7 +5820,14 @@
       "failToRoom": "{actor.pos} torrent of water missed {target.name}!"
     },
     "sphere": "WATER",
-    "pages": 35
+    "pages": 35,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Fly",
@@ -5530,7 +5908,14 @@
     },
     "sphere": "GENERIC",
     "pages": 17,
-    "damageType": "SLASH"
+    "damageType": "SLASH",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Fracture Shrapnel",
@@ -5564,7 +5949,14 @@
       "failToVictim": "{actor.pos} fracture shrapnel fails to affect you.",
       "failToRoom": "{actor.pos} fracture shrapnel fails to affect {target.him}."
     },
-    "sphere": "EARTH"
+    "sphere": "EARTH",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Freedom Song",
@@ -5637,7 +6029,14 @@
     },
     "sphere": "WATER",
     "pages": 25,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Freezing Wind",
@@ -5672,7 +6071,14 @@
     },
     "sphere": "AIR",
     "pages": 21,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Frost Breath",
@@ -5706,7 +6112,14 @@
     },
     "sphere": "WATER",
     "pages": 5,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Full Harm",
@@ -5740,7 +6153,14 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Full Heal",
@@ -5850,7 +6270,14 @@
     },
     "sphere": "AIR",
     "pages": 5,
-    "damageType": "POISON"
+    "damageType": "POISON",
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Glory",
@@ -6206,7 +6633,14 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Haste",
@@ -6375,7 +6809,14 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "UNHOLY"
+    "damageType": "UNHOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Hell's Gate",
@@ -6441,7 +6882,14 @@
     },
     "sphere": "FIRE",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Heroic Journey",
@@ -6607,7 +7055,14 @@
     ],
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Hunt",
@@ -6695,7 +7150,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 16,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Ice Armor",
@@ -6764,7 +7226,14 @@
       "failToRoom": "{actor.pos} ice dagger fails to affect {target.him}."
     },
     "sphere": "SUMMONING",
-    "pages": 17
+    "pages": 17,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Ice Darts",
@@ -6799,7 +7268,14 @@
     },
     "sphere": "WATER",
     "pages": 7,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Ice Shards",
@@ -6834,7 +7310,14 @@
     },
     "sphere": "WATER",
     "pages": 31,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Ice Storm",
@@ -6869,7 +7352,14 @@
     },
     "sphere": "WATER",
     "pages": 23,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Iceball",
@@ -6913,7 +7403,14 @@
     },
     "sphere": "WATER",
     "pages": 29,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Identify",
@@ -7042,7 +7539,14 @@
     },
     "sphere": "FIRE",
     "pages": 25,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Incendiary Nebula",
@@ -7076,7 +7580,14 @@
     },
     "sphere": "FIRE",
     "pages": 35,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Infravision",
@@ -7378,7 +7889,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 5,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "HALF_DURATION"
+      }
+    ]
   },
   {
     "name": "Inspiration",
@@ -7584,7 +8102,14 @@
     },
     "sphere": "DEATH",
     "pages": 14,
-    "damageType": "PIERCE"
+    "damageType": "PIERCE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Isolation",
@@ -7651,7 +8176,14 @@
       "successToRoom": "{actor.name} begins chanting Ivory Symphony, the words resonating with power!",
       "wearoffToTarget": "The symphony fades into silence.",
       "wearoffToRoom": "The power of {actor.pos} Ivory Symphony fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Joyful Noise",
@@ -7875,7 +8407,14 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Lightning Bolt",
@@ -7919,7 +8458,14 @@
     },
     "sphere": "AIR",
     "pages": 17,
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Lightning Breath",
@@ -7953,7 +8499,14 @@
     },
     "sphere": "AIR",
     "pages": 5,
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Locate Object",
@@ -8047,7 +8600,14 @@
     },
     "sphere": "GENERIC",
     "pages": 5,
-    "damageType": "CRUSH"
+    "damageType": "CRUSH",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Magic Torch",
@@ -8144,7 +8704,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 35,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Mass Invisibility",
@@ -8286,7 +8853,14 @@
     },
     "sphere": "FIRE",
     "pages": 29,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Mesmerize",
@@ -8320,7 +8894,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 8,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Meteorswarm",
@@ -8355,7 +8936,14 @@
     },
     "sphere": "EARTH",
     "pages": 37,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Minor Creation",
@@ -8450,7 +9038,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 21,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Mirage",
@@ -8586,7 +9181,14 @@
       "failToRoom": "{actor.name}'s acidic strike misses {target.name}."
     },
     "sphere": "EARTH",
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Monk Fire Strike",
@@ -8620,7 +9222,14 @@
       "failToRoom": "{actor.name}'s blazing strike misses {target.name}."
     },
     "sphere": "FIRE",
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Monk Cold Strike",
@@ -8654,7 +9263,14 @@
       "failToRoom": "{actor.name}'s frozen strike misses {target.name}."
     },
     "sphere": "WATER",
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Monk Shock Strike",
@@ -8688,7 +9304,14 @@
       "failToRoom": "{actor.name}'s crackling strike misses {target.name}."
     },
     "sphere": "AIR",
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Moonbeam",
@@ -8723,7 +9346,14 @@
     },
     "sphere": "WATER",
     "pages": 10,
-    "damageType": "COLD"
+    "damageType": "COLD",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Moonwell",
@@ -8991,7 +9621,14 @@
     },
     "sphere": "DEATH",
     "pages": 12,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Nimble",
@@ -9335,7 +9972,14 @@
     },
     "sphere": "FIRE",
     "pages": 18,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Pick Lock",
@@ -9437,7 +10081,14 @@
       "lookMessage": "{pronoun.subjective} looks extremely sick and has a greenish pallor."
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Positive Field",
@@ -9472,7 +10123,14 @@
     },
     "sphere": "EARTH",
     "pages": 18,
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Prayer",
@@ -9829,7 +10487,14 @@
     },
     "sphere": "FIRE",
     "pages": 15,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Pyre Recoil",
@@ -9862,7 +10527,14 @@
       "failToVictim": "{actor.pos} pyre recoil fails to affect you.",
       "failToRoom": "{actor.pos} pyre recoil fails to affect {target.him}."
     },
-    "sphere": "FIRE"
+    "sphere": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Quick Chant",
@@ -9960,7 +10632,14 @@
       "successToRoom": "{target.name} looks weakened!"
     },
     "notes": "Debuff spell that reduces STR by -15 - (skill/10) for 8 + (skill/20) rounds.",
-    "pages": 21
+    "pages": 21,
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Rebuke Undead",
@@ -10013,7 +10692,14 @@
       }
     ],
     "sphere": "ENCHANTMENT",
-    "pages": 8
+    "pages": 8,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Recall",
@@ -10093,7 +10779,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 29,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Regeneration",
@@ -10677,7 +11370,14 @@
       "successToRoom": "{actor.name} begins chanting Seed Of Destruction, the words resonating with power!",
       "wearoffToTarget": "The seed of destruction within you withers away.",
       "wearoffToRoom": "The power of {actor.pos} Seed Of Destruction fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Sense Life",
@@ -10746,7 +11446,14 @@
       "failToRoom": "{target.name} stands firm."
     },
     "sphere": "GENERIC",
-    "pages": 37
+    "pages": 37,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Shadow",
@@ -10818,7 +11525,14 @@
       "successToRoom": "{actor.name} begins chanting Shadows Sorrow Song, the words resonating with power!",
       "wearoffToTarget": "The sorrowful shadows fade.",
       "wearoffToRoom": "The power of {actor.pos} Shadows Sorrow Song fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Shapechange",
@@ -10915,7 +11629,14 @@
     },
     "sphere": "AIR",
     "pages": 9,
-    "damageType": "SHOCK"
+    "damageType": "SHOCK",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Silence",
@@ -10950,7 +11671,14 @@
       "lookMessage": "A sphere of silence surrounds {pronoun.subjective}."
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Simulacrum",
@@ -11034,7 +11762,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 19,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "FORTITUDE",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Smoke",
@@ -11079,7 +11814,14 @@
       "successToRoom": "{target.name} chokes on smoke!"
     },
     "sphere": "FIRE",
-    "pages": 11
+    "pages": 11,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Sneak",
@@ -11194,7 +11936,14 @@
       "successToRoom": "{actor.name} begins chanting Sonata Of Malaise, the words resonating with power!",
       "wearoffToTarget": "The malaise lifts from your mind.",
       "wearoffToRoom": "The power of {actor.pos} Sonata Of Malaise fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Song Of Rest",
@@ -11277,7 +12026,14 @@
     },
     "sphere": "DEATH",
     "pages": 30,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Soul Tap",
@@ -11774,7 +12530,14 @@
       "successToRoom": "{target.name} shivers with a spine-tingling sensation."
     },
     "sphere": "DEATH",
-    "pages": 10
+    "pages": 10,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Spirit Arrows",
@@ -11810,7 +12573,14 @@
     },
     "sphere": "GENERIC",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Spirit of the Bear",
@@ -11932,7 +12702,14 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Springleap",
@@ -12177,7 +12954,14 @@
     },
     "sphere": "FIRE",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Summon",
@@ -12459,7 +13243,14 @@
     },
     "sphere": "FIRE",
     "pages": 5,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Supernova",
@@ -12504,7 +13295,14 @@
     },
     "sphere": "FIRE",
     "pages": 31,
-    "damageType": "FIRE"
+    "damageType": "FIRE",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Sweep",
@@ -12736,7 +13534,14 @@
       "wearoffToTarget": "The music of Terror fades into silence.",
       "wearoffToRoom": "{actor.pos} performance of Terror comes to an end.",
       "lookMessage": "{pronoun.subjective} is cowering in abject terror."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Throatcut",
@@ -13015,7 +13820,14 @@
     ],
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Urban Renewal",
@@ -13045,7 +13857,14 @@
       "wearoffToTarget": "&2The woods in the surrounding area break apart and crumble.&0"
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Vampiric Breath",
@@ -13101,7 +13920,14 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "NECROTIC"
+    "damageType": "NECROTIC",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Vampiric Touch",
@@ -13237,7 +14063,14 @@
     },
     "sphere": "GENERIC",
     "pages": 21,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Vigorize Critic",
@@ -13529,7 +14362,14 @@
       "successToRoom": "{actor.name} begins chanting War Cry, the words resonating with power!",
       "wearoffToTarget": "Your battle fury subsides.",
       "wearoffToRoom": "The power of {actor.pos} War Cry fades."
-    }
+    },
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Water Blast",
@@ -13572,7 +14412,14 @@
       "failToRoom": "{actor.name} throws a blast of water at {target.him} but misses by a mile."
     },
     "sphere": "WATER",
-    "pages": 21
+    "pages": 21,
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Waterform",
@@ -13678,7 +14525,14 @@
     },
     "sphere": "ENCHANTMENT",
     "pages": 21,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Wings Of Heaven",
@@ -13831,7 +14685,14 @@
     },
     "sphere": "GENERIC",
     "pages": 5,
-    "damageType": "MENTAL"
+    "damageType": "MENTAL",
+    "savingThrows": [
+      {
+        "saveType": "WILL",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   },
   {
     "name": "Word Of Recall",
@@ -13938,6 +14799,13 @@
     },
     "sphere": "EARTH",
     "pages": 5,
-    "damageType": "ACID"
+    "damageType": "ACID",
+    "savingThrows": [
+      {
+        "saveType": "REFLEX",
+        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
+        "onSaveAction": "NEGATE"
+      }
+    ]
   }
 ]

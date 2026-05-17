@@ -241,10 +241,22 @@ authoring, not engine work.
   `LIGHTNING_BREATH`, `VAMPIRIC_BREATH`, `CONE_OF_COLD`,
   `BURNING_HANDS` if reverted to cone).
 
-- **`AbilitySavingThrow` (2/408)** — Almost no spells have a save
-  configured. With only 2 rows, only those 2 ever roll a save. Likely
-  legacy data dropped this in import — needs a sweep against legacy
-  source spells.json / spec_procs.
+- ~~**`AbilitySavingThrow` (2/408)**~~ Closed 2026-05-17 to 126 rows.
+  Authoring script `scripts/author_saving_throws.py` walks the
+  catalog and writes one save per violent SPELL/CHANT/SONG, picking
+  SaveType from the spell's flavor:
+    - REFLEX (53) for elemental damage (FIRE/COLD/SHOCK/ACID/etc.)
+      and dodge-class debuffs (ENTANGLE/WEB/BIND)
+    - WILL (65) for divine/death/mental damage + generic enchantment
+      debuffs (CHARM/CONFUSION/BLINDNESS)
+    - FORTITUDE (8) for biological debuffs (POISON/DISEASE/PARALYSIS/
+      PETRIFICATION/SLEEP)
+  Uniform DC: `10 + skill / 5 + max(int_bonus, wis_bonus)`.
+  onSaveAction = NEGATE for most; HALF_DURATION for long curses
+  (CURSE/DOOM/INSANITY/MADNESS). Legacy fierymud halved damage on
+  save; the runtime only ships NEGATE / HALF_DURATION arms today, so
+  damage spells use NEGATE (engine ask §K2 for HALF_DAMAGE). 232
+  non-violent buffs intentionally don't get saves.
 
 ### P2
 
