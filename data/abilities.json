@@ -5776,14 +5776,38 @@
     "name": "Gaia's Cloak",
     "plainName": "GAIAS_CLOAK",
     "abilityType": "SPELL",
-    "description": "Wraps the target in a protective shroud of living earth.",
+    "description": "Wraps the target in a protective shroud of living earth, hardening their hide.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "sphere": "PROTECTION"
+    "notes": "Legacy: APPLY_AC bonus +15 + (skill/16), duration 5 + (skill/14) hours. Mutually exclusive with other armor spells (Bone Armor / Ice Armor / Stone Skin / Coldshield) \u2014 that gate is runtime-enforced, not authored here.",
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "target": "armor",
+          "amount": "15 + (skill / 16)",
+          "duration": "5 + (skill / 14)",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "A protective cloak of living earth wraps around {target.name}.",
+      "successToVictim": "You feel the earth itself shield your body.",
+      "successToSelf": "You wrap yourself in a cloak of living earth.",
+      "successToRoom": "{target.name} is wrapped in a protective cloak of living earth.",
+      "successSelfRoom": "{actor.name} is wrapped in a protective cloak of living earth.",
+      "wearoffToTarget": "The protective cloak of earth fades from your body.",
+      "failToCaster": "Your spell fails to take hold on {target.name}."
+    },
+    "sphere": "EARTH",
+    "pages": 15
   },
   {
     "name": "Gas Breath",
@@ -7126,7 +7150,7 @@
   },
   {
     "name": "Innate Ascension",
-    "plainName": "INNATE_ASCEN",
+    "plainName": "INN_ASCEN",
     "abilityType": "SPELL",
     "description": "Innate ascendant power that enhances the user's natural abilities.",
     "minPosition": "STANDING",
@@ -7135,6 +7159,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "sphere": "ENCHANTMENT",
     "effects": [
       {
         "effect": "modify",
@@ -7154,25 +7179,11 @@
       "successToRoom": "{target.name} feels more splendid.",
       "successToSelf": "You feel more splendid.",
       "successSelfRoom": "{actor.name} seems more radiant."
-    },
-    "sphere": "ENCHANTMENT"
-  },
-  {
-    "name": "Innate Ascension",
-    "plainName": "INN_ASCEN",
-    "abilityType": "SPELL",
-    "description": "Innate power that enhances ascendant abilities.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "sphere": "ENCHANTMENT"
+    }
   },
   {
     "name": "Innate Brilliance",
-    "plainName": "INNATE_BRILL",
+    "plainName": "INN_BRILL",
     "abilityType": "SPELL",
     "description": "Innate brilliance that sharpens the mind and enhances magical aptitude.",
     "minPosition": "STANDING",
@@ -7181,6 +7192,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "sphere": "ENCHANTMENT",
     "effects": [
       {
         "effect": "modify",
@@ -7200,58 +7212,11 @@
       "successToRoom": "{target.name} feels more intelligent.",
       "successToSelf": "You feel more intelligent.",
       "successSelfRoom": "{actor.name} seems sharper."
-    },
-    "sphere": "ENCHANTMENT"
-  },
-  {
-    "name": "Innate Brilliance",
-    "plainName": "INN_BRILL",
-    "abilityType": "SPELL",
-    "description": "Innate brilliance that sharpens the mind.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "sphere": "ENCHANTMENT"
-  },
-  {
-    "name": "Innate Charisma",
-    "plainName": "INNATE_CHAZ",
-    "abilityType": "SPELL",
-    "description": "Innate physical might that augments raw muscular power.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "effects": [
-      {
-        "effect": "modify",
-        "order": 0,
-        "params": {
-          "amount": "1 + (skill / 18)",
-          "duration": "(skill >> 1) + 4",
-          "target": "str",
-          "durationUnit": "hours"
-        },
-        "trigger": "on_cast"
-      }
-    ],
-    "messages": {
-      "wearoffToTarget": "You feel weaker.",
-      "successToVictim": "You feel stronger.",
-      "successToRoom": "{target.name} feels stronger.",
-      "successToSelf": "You feel stronger.",
-      "successSelfRoom": "{actor.name} looks stronger."
-    },
-    "sphere": "ENCHANTMENT"
+    }
   },
   {
     "name": "Innate Fortitude",
-    "plainName": "INNATE_TREN",
+    "plainName": "INN_TREN",
     "abilityType": "SPELL",
     "description": "Innate trentian fortitude that bolsters constitution and endurance.",
     "minPosition": "STANDING",
@@ -7260,6 +7225,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "sphere": "PROTECTION",
     "effects": [
       {
         "effect": "modify",
@@ -7279,25 +7245,11 @@
       "successToRoom": "{target.name} feels healthier.",
       "successToSelf": "You feel healthier.",
       "successSelfRoom": "{actor.name} looks healthier."
-    },
-    "sphere": "PROTECTION"
-  },
-  {
-    "name": "Innate Fortitude",
-    "plainName": "INN_TREN",
-    "abilityType": "SPELL",
-    "description": "Innate fortitude that bolsters endurance.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "sphere": "PROTECTION"
+    }
   },
   {
     "name": "Innate Perception",
-    "plainName": "INNATE_TASS",
+    "plainName": "INN_TASS",
     "abilityType": "SPELL",
     "description": "Innate tassilan power that enhances perceptive abilities.",
     "minPosition": "STANDING",
@@ -7306,6 +7258,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "sphere": "DIVINATION",
     "effects": [
       {
         "effect": "modify",
@@ -7325,38 +7278,44 @@
       "successToRoom": "{target.name} feels wiser.",
       "successToSelf": "You feel wiser.",
       "successSelfRoom": "{actor.name} seems more thoughtful."
-    },
-    "sphere": "DIVINATION"
+    }
   },
   {
-    "name": "Innate Perception",
-    "plainName": "INN_TASS",
-    "abilityType": "SPELL",
-    "description": "Innate enhancement of perceptive abilities.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "sphere": "DIVINATION"
-  },
-  {
-    "name": "Innate Strength",
+    "name": "Innate Charisma",
     "plainName": "INN_STRENGTH",
     "abilityType": "SPELL",
-    "description": "Innate power that augments physical strength.",
+    "description": "Innate physical might that augments raw muscular power.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "sphere": "ENCHANTMENT"
+    "sphere": "ENCHANTMENT",
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "amount": "1 + (skill / 18)",
+          "duration": "(skill >> 1) + 4",
+          "target": "str",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "wearoffToTarget": "You feel weaker.",
+      "successToVictim": "You feel stronger.",
+      "successToRoom": "{target.name} feels stronger.",
+      "successToSelf": "You feel stronger.",
+      "successSelfRoom": "{actor.name} looks stronger."
+    }
   },
   {
     "name": "Innate Sylvan",
-    "plainName": "INNATE_SYLL",
+    "plainName": "INN_SYLL",
     "abilityType": "SPELL",
     "description": "Innate sylvan connection that attunes the user to natural forces.",
     "minPosition": "STANDING",
@@ -7365,6 +7324,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "sphere": "ENCHANTMENT",
     "effects": [
       {
         "effect": "modify",
@@ -7384,21 +7344,7 @@
       "successToRoom": "{target.name} feels more agile.",
       "successToSelf": "You feel more agile.",
       "successSelfRoom": "{actor.name} moves more fluidly."
-    },
-    "sphere": "ENCHANTMENT"
-  },
-  {
-    "name": "Innate Sylvan",
-    "plainName": "INN_SYLL",
-    "abilityType": "SPELL",
-    "description": "Innate connection to sylvan forces.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "sphere": "ENCHANTMENT"
+    }
   },
   {
     "name": "Insanity",
@@ -8612,13 +8558,33 @@
     "name": "Monk Acid Strike",
     "plainName": "MONK_ACID",
     "abilityType": "SPELL",
-    "description": "A monk's acid-infused ki strike.",
+    "description": "A monk's acidic ki-strike. Channels elemental acid damage through a touch attack.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Modern monk acid ki-strike. No legacy precedent; tier-balanced as a low-mid damage spell ~circle 3-4.",
+    "effects": [
+      {
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "type": "acid",
+          "amount": "4d19 + pow(skill, 1.25)"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "You strike {target.name} with a acidic ki-fist!",
+      "successToVictim": "{actor.name}'s ki-fist crackles with acid energy as it lands!",
+      "successToRoom": "{actor.name}'s ki-fist hits {target.name} in a flash of acid!",
+      "failToCaster": "Caustic ki coats your strike, sizzling the air. The blow misses.",
+      "failToVictim": "{actor.name}'s acidic strike misses you.",
+      "failToRoom": "{actor.name}'s acidic strike misses {target.name}."
+    },
     "sphere": "EARTH",
     "damageType": "ACID"
   },
@@ -8626,27 +8592,67 @@
     "name": "Monk Fire Strike",
     "plainName": "MONK_FIRE",
     "abilityType": "SPELL",
-    "description": "A monk's fire-infused ki strike.",
+    "description": "A monk's blazing ki-strike. Channels elemental fire damage through a touch attack.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Modern monk fire ki-strike. No legacy precedent; tier-balanced as a low-mid damage spell ~circle 3-4.",
+    "effects": [
+      {
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "type": "fire",
+          "amount": "4d19 + pow(skill, 1.25)"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "You strike {target.name} with a blazing ki-fist!",
+      "successToVictim": "{actor.name}'s ki-fist crackles with fire energy as it lands!",
+      "successToRoom": "{actor.name}'s ki-fist hits {target.name} in a flash of fire!",
+      "failToCaster": "Searing flame coats your strike. The blow misses.",
+      "failToVictim": "{actor.name}'s blazing strike misses you.",
+      "failToRoom": "{actor.name}'s blazing strike misses {target.name}."
+    },
     "sphere": "FIRE",
     "damageType": "FIRE"
   },
   {
-    "name": "Monk Frost Strike",
+    "name": "Monk Cold Strike",
     "plainName": "MONK_COLD",
     "abilityType": "SPELL",
-    "description": "A monk's cold-infused ki strike.",
+    "description": "A monk's frozen ki-strike. Channels elemental cold damage through a touch attack.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Modern monk cold ki-strike. No legacy precedent; tier-balanced as a low-mid damage spell ~circle 3-4.",
+    "effects": [
+      {
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "type": "cold",
+          "amount": "4d19 + pow(skill, 1.25)"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "You strike {target.name} with a frozen ki-fist!",
+      "successToVictim": "{actor.name}'s ki-fist crackles with cold energy as it lands!",
+      "successToRoom": "{actor.name}'s ki-fist hits {target.name} in a flash of cold!",
+      "failToCaster": "Cold ki coats your strike, frosting the air. The blow misses.",
+      "failToVictim": "{actor.name}'s frozen strike misses you.",
+      "failToRoom": "{actor.name}'s frozen strike misses {target.name}."
+    },
     "sphere": "WATER",
     "damageType": "COLD"
   },
@@ -8654,13 +8660,33 @@
     "name": "Monk Shock Strike",
     "plainName": "MONK_SHOCK",
     "abilityType": "SPELL",
-    "description": "A monk's lightning-infused ki strike.",
+    "description": "A monk's crackling ki-strike. Channels elemental shock damage through a touch attack.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Modern monk shock ki-strike. No legacy precedent; tier-balanced as a low-mid damage spell ~circle 3-4.",
+    "effects": [
+      {
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "type": "shock",
+          "amount": "4d19 + pow(skill, 1.25)"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "messages": {
+      "successToCaster": "You strike {target.name} with a crackling ki-fist!",
+      "successToVictim": "{actor.name}'s ki-fist crackles with shock energy as it lands!",
+      "successToRoom": "{actor.name}'s ki-fist hits {target.name} in a flash of shock!",
+      "failToCaster": "Crackling ki coats your strike. The blow misses.",
+      "failToVictim": "{actor.name}'s crackling strike misses you.",
+      "failToRoom": "{actor.name}'s crackling strike misses {target.name}."
+    },
     "sphere": "AIR",
     "damageType": "SHOCK"
   },
@@ -9169,26 +9195,29 @@
     "name": "Peace",
     "plainName": "PEACE",
     "abilityType": "CHANT",
-    "description": "A serene chant that washes peace into the room, immediately stopping all combat. All fighting ceases and NPC memories are cleared, providing a moment of tranquility and safety.",
+    "description": "A serene chant that washes peace into the room, immediately stopping all combat.",
     "minPosition": "STANDING",
     "violent": false,
-    "castTimeRounds": 1,
+    "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": true,
-    "tags": [
-      "monk",
-      "ki",
-      "utility",
-      "pacify"
+    "notes": "Legacy CHANT_PEACE \u2014 MAG_MANUAL, room-wide. Stops all in-progress fighting on success.",
+    "effects": [
+      {
+        "effect": "stop_combat",
+        "order": 0,
+        "params": {
+          "scope": "room"
+        },
+        "trigger": "on_cast"
+      }
     ],
-    "effects": [],
-    "notes": "Stops all combat in the room and clears NPC aggro. Special implementation: calls stop_fighting on all combatants and clear_memory on NPCs. No standard effect applies.",
     "messages": {
-      "successToCaster": "You begin chanting Peace.",
-      "successToRoom": "{actor.name} begins chanting Peace.",
-      "wearoffToTarget": "The peaceful aura fades, allowing hostilities to resume.",
-      "wearoffToRoom": "The power of {actor.pos} Peace fades."
+      "successToCaster": "Your chant of peace settles over the room. Combat dies down.",
+      "successToRoom": "{actor.name}'s chant of peace settles over the room, and combat dies down.",
+      "failToCaster": "Your chant falters and the violence continues.",
+      "failToRoom": "{actor.name}'s chant of peace falters."
     }
   },
   {
@@ -9901,7 +9930,7 @@
   },
   {
     "name": "Ray of Enfeeblement",
-    "plainName": "RAY_OF_ENFEEBLEMENT",
+    "plainName": "RAY_OF_ENFEEB",
     "abilityType": "SPELL",
     "description": "A ray of negative energy saps the target's strength, significantly weakening them.",
     "minPosition": "STANDING",
@@ -9910,7 +9939,7 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Debuff spell that reduces STR by -15 - (skill/10) for 8 + (skill/20) rounds.",
+    "sphere": "ENCHANTMENT",
     "effects": [
       {
         "effect": "modify",
@@ -9930,21 +9959,8 @@
       "successToCaster": "You weaken {target.name}!",
       "successToRoom": "{target.name} looks weakened!"
     },
-    "sphere": "ENCHANTMENT",
+    "notes": "Debuff spell that reduces STR by -15 - (skill/10) for 8 + (skill/20) rounds.",
     "pages": 21
-  },
-  {
-    "name": "Ray of Enfeeblement",
-    "plainName": "RAY_OF_ENFEEB",
-    "abilityType": "SPELL",
-    "description": "A ray of negative energy that saps the target's strength.",
-    "minPosition": "STANDING",
-    "violent": false,
-    "castTimeRounds": 1,
-    "cooldownMs": 0,
-    "inCombatOnly": false,
-    "isArea": false,
-    "sphere": "ENCHANTMENT"
   },
   {
     "name": "Rebuke Undead",

@@ -540,3 +540,75 @@ The following engine-doc items have *data-side* corollaries here:
 - **F2** (liquid table seeded?) — close it: 42 rows match source.
 - **I8** (HELLFIRE_BRIMSTONE area scope) — §2 `AbilityTargeting` needs
   the scope row.
+- **K1** (cast time consumer in runtime) — needs the per-circle default
+  table seeded into `GameConfig` (`spells.cast_time_default_circle_N`)
+  and per-ability overrides on the existing `cast_time_rounds` column.
+  Today most spells = 1, big AoEs vary; sweep the catalog for a sane
+  ladder once the runtime consumer (engine §K1) lands.
+- **K4** (dead-spell audit — content side) — once the runtime emits
+  the dead-spell warn list, walk each unmapped effect_type and either
+  (a) add the missing AbilityEffect rows pointing at an existing
+  effect, or (b) add the new effect to `fierylib/data/effects.json` +
+  re-seed. Common gaps from the 2026-05-17 sample: utility spells like
+  `IDENTIFY`, `KNOW_SPELL`, `DIVINATION_*`, plus any SKILL row that
+  was authored without AbilityEffect coverage. Tag each spell as
+  "stub" / "missing effect" / "missing dispatcher arm" in
+  `fierylib/data/abilities.json` notes field so a future content pass
+  has the breakdown handy.
+
+---
+
+## 9. Dead-spell audit (2026-05-17)
+
+DB query against `fierydev` revealed:
+
+- ~~**Zero-effect spells (12):** `GAIAS_CLOAK`, `INN_ASCEN`,
+  `INN_BRILL`, `INN_STRENGTH`, `INN_SYLL`, `INN_TASS`, `INN_TREN`,
+  `MONK_ACID`, `MONK_COLD`, `MONK_FIRE`, `MONK_SHOCK`, `RAY_OF_ENFEEB`.~~
+  ✅ Closed 2026-05-17. Root cause: legacy plain-names (INN_*,
+  RAY_OF_ENFEEB) were created by `skill_seeder` from CPP without
+  effects, while abilities.json carried separate "modern"-named
+  entries (INNATE_*, RAY_OF_ENFEEBLEMENT) with the actual effects.
+  Class + character imports point at the legacy names, so they
+  loaded the stub rows and silently no-op'd. Fix in
+  `scripts/merge_duplicate_abilities.py`: collapsed the 7 duplicate
+  pairs into the legacy plain-name, authored 4 MONK_*, PEACE, and
+  GAIAS_CLOAK bodies (no legacy duplicate to merge), dropped the 7
+  orphan modern rows. Total abilities went 408 → 401. Live verified:
+  all 13 now carry an AbilityEffect row.
+
+  Net behaviour: stat-boost spells (INN_*) apply modify-stat for
+  ~50 hours at skill 100; RAY_OF_ENFEEB applies a -25 STR debuff;
+  MONK_* deal `4d19 + pow(skill, 1.25)` of their element; PEACE
+  fires the `stop_combat` effect (room scope); GAIAS_CLOAK applies
+  +15-21 armor for 5-12 hours. Note that the runtime's `status` /
+  `modify` consumer table isn't fully wired yet (engine §K4) — the
+  effect rows land in `effects` lists but some are still decorative
+  until those walkers ship. The catalog is correct now; runtime
+  will catch up.
+
+- **Effect types with no real consumer (catchall arm spawns a marker
+  but nothing reads it):**
+  - `status` — 65 spells (BLESS, INVISIBLE, STONE_SKIN, FLY, HASTE,
+    DETECT_MAGIC, etc.). Today only `blind`, `drag`, `sneak`,
+    `hidden`, `bleed` markers are read by gameplay code. The other
+    60 markers exist in the player's `effects` list but mechanically
+    do nothing. **Highest impact** — half the spellbook is decorative.
+  - `room` — 10 spells (CIRCLE_OF_FIRE, DARKNESS, WALL_OF_FOG, etc.).
+    Need a `RoomEffectInstance` consumer; today the marker lands on
+    the caster instead of the room.
+  - `summon` — 7 spells (ANIMATE_DEAD, CLONE, SUMMON_DEMON, etc.).
+    Need a spawn-companion arm. CHARM equivalent exists for taming
+    existing mobs; summon needs a fresh proto spawn.
+  - `globe` — 2 spells (MINOR_GLOBE, MAJOR_GLOBE). Engine §J1 — needs
+    a spell-circle absorb gate.
+  - `inspect` — 1 spell (IDENTIFY). Should print the same output
+    `cmd_identify` does on a non-spell-cast path.
+  - `resurrect` — 1 spell. Needs corpse → live-entity revival.
+
+Sequencing recommendation: implement the **status consumer table**
+first (highest ROI) — a `Stats:: total_acc_bonus_from_effects(...)`
+walker the combat pipeline calls, plus parallel walkers for armor,
+ward, vision, movement. Once that lands, 60 spells become functional
+overnight. Other effect-type arms are smaller scope; do them as
+needed.
