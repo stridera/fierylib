@@ -80,21 +80,38 @@ class RaceImporter:
         self.skill_name_cache: Dict[str, int] = {}
 
     async def load_skill_mappings(self):
-        """Load ability name to ID mappings from database."""
+        """Load ability name to ID mappings from database.
+
+        Indexes by both `ability.name` (display, e.g. "Slashing Weapons")
+        and `ability.plain_name` (canonical, e.g. "SLASHING") so
+        races.json — which references the legacy SKILL_*/SPELL_* shape
+        that round-trips to `plain_name` — resolves cleanly. Without
+        the plain_name index, content like
+        `{"skillName": "SKILL_SLASHING"}` would fail to resolve because
+        the display name is "Slashing Weapons" (and the cache built
+        keys like SKILL_SLASHING_WEAPONS).
+        """
         print("Loading ability mappings from database...")
 
         abilities = await self.db.ability.find_many()
 
         for ability in abilities:
-            # Try to match ability names
+            # Index by display name (legacy path)
             ability_upper = ability.name.upper().replace(' ', '_').replace('-', '_')
-
-            # Create mapping variations
             self.skill_name_cache[f'SKILL_{ability_upper}'] = ability.id
             self.skill_name_cache[f'SPELL_{ability_upper}'] = ability.id
             self.skill_name_cache[f'SONG_{ability_upper}'] = ability.id
             self.skill_name_cache[f'CHANT_{ability_upper}'] = ability.id
             self.skill_name_cache[ability.name.upper()] = ability.id
+
+            # Index by plain_name (canonical key — matches races.json /
+            # legacy CPP define identifiers).
+            plain_upper = ability.plainName.upper()
+            self.skill_name_cache[f'SKILL_{plain_upper}'] = ability.id
+            self.skill_name_cache[f'SPELL_{plain_upper}'] = ability.id
+            self.skill_name_cache[f'SONG_{plain_upper}'] = ability.id
+            self.skill_name_cache[f'CHANT_{plain_upper}'] = ability.id
+            self.skill_name_cache[plain_upper] = ability.id
 
         print(f"✓ Loaded {len(self.skill_name_cache)} ability mappings")
 

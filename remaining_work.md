@@ -321,22 +321,24 @@ importer skipped a section.
 
 - **Per-race authoring (`RaceAbilities` / `RaceEffects` /
   `RaceSpellSlotBonus`):**
-  - 22 playable races. Only `Elf` (1) and the 5 dragonborn races (1
-    each) have any `RaceAbilities` row — most playable races have 0
-    racial abilities authored.
+  - 22 playable races. **Status corrected 2026-05-17:** 8 races now
+    carry `RaceAbilities` rows (was 6 — DROW and ELF SLASHING entries
+    were silently failing to resolve in the importer's skill-name
+    cache because it only indexed by display name, not `plain_name`).
+    `race_importer.py::load_skill_mappings` now indexes by both, so
+    races.json content like `"SKILL_SLASHING"` resolves to the
+    ability whose `plain_name` is `SLASHING`. The remaining races
+    (Human, Gnome, Dwarf, Duergar, Half-Elf, Halfling, Sverfneblin,
+    Goliath, Faerie-Seelie/Unseelie, Nymph, Troll, Ogre, Orc) have
+    no racial abilities in legacy `races.cpp::assign_race_skills` —
+    those slots are intentionally empty by legacy design. Content
+    decision needed if we want to author non-legacy racial perks.
   - `RaceEffects` covers 17 playable + 6 unplayable races (passive
     racial effects like dwarven con bonus or drow infravision).
     `Human`, `Half-Elf`, `Goliath`, `Nymph`, `Orc` (all playable) have
     0 `RaceEffects` — likely intentional ("plain" races) but worth
     verifying.
   - `RaceSpellSlotBonus` has 0 rows for any race. Pair with engine **B4**.
-  **P1 gap:** racial abilities / passives for the 16 playable races
-  without `RaceAbilities` (Human, Gnome, Dwarf, Drow, Duergar,
-  Half-Elf, Halfling, Sverfneblin, Goliath, Faerie-Seelie,
-  Faerie-Unseelie, Nymph, Troll, Ogre, Orc, and the dragonborn variants
-  beyond their single ability). Legacy races.json source already exists
-  (`fierylib/data/races.json`, 36 entries) — needs an importer pass to
-  author the per-race ability list.
 
 - **Triggers (`Triggers` 2730, attached 2016, orphan 714).** 714
   trigger rows aren't attached to any mob/object/room — these are
