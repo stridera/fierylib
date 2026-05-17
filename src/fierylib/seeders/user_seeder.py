@@ -390,7 +390,7 @@ class UserSeeder:
 
             # Create BUILDER-level character (level 102)
             if with_characters:
-                await self.create_character(builder.id, "BuilderChar", 102, Race.ELF, "builder123", class_plain_name="Mage")
+                await self.create_character(builder.id, "BuilderChar", 102, Race.ELF, "builder123", class_plain_name="Sorcerer")
                 characters_created += 1
 
                 # Update user role based on max character level
@@ -426,7 +426,7 @@ class UserSeeder:
             if with_characters:
                 await self.create_character(player.id, "TestWarrior", 25, Race.HUMAN, "player123", class_plain_name="Warrior")
                 await self.create_character(player.id, "TestCleric", 20, Race.HUMAN, "player123", class_plain_name="Cleric")
-                await self.create_character(player.id, "TestMage", 15, Race.ELF, "player123", class_plain_name="Mage")
+                await self.create_character(player.id, "TestMage", 15, Race.ELF, "player123", class_plain_name="Sorcerer")
                 await self.create_character(player.id, "TestRogue", 10, Race.HALFLING, "player123", class_plain_name="Rogue")
                 characters_created += 4
 
