@@ -98,12 +98,20 @@ Any of these silently degrade behavior on a real player session.
   legacy mob `aff_flags` → modern Effect IDs. Adjacent to B3 in the
   engine doc.
 
-- **`ObjectResistance` (0 rows)** — Runtime: `mud-db/src/object_resistance.rs`
-  loads it; per-element resistance modifier granted while equipped is
-  consumed by the resistance pipeline (A7 in the engine doc, closed).
-  With 0 rows, no equipped object grants element resistance. Importer
-  shape: walk legacy object proto `affected_by` for element resists +
-  the obj `apply` array.
+- ~~**`ObjectResistance` (0 rows)**~~ Partially closed 2026-05-17.
+  Object importer now emits ObjectResistance rows for legacy
+  `EFF_PROT_*` / `*SHIELD` / `NEGATE_*` effect flags
+  (`PROTECT_FIRE/COLD/AIR/EARTH` → FIRE/COLD/SHOCK/ACID @ 25%,
+  `FIRESHIELD/COLDSHIELD` → COLD/FIRE @ 25%, `NEGATE_*` → 100%
+  immunity). Backfill script `scripts/backfill_object_resistance.py`
+  populated 11 rows from imported zones (out of 43 legacy items
+  carrying protection flags — 32 live in zones that aren't yet
+  imported). Future `import-legacy` runs round-trip the rows via
+  `object_importer.py::EFFECT_TO_RESISTANCE`. Still defer-pending:
+  `EFF_MINOR_GLOBE` / `EFF_MAJOR_GLOBE` are spell-circle-filter
+  absorbs that don't map to a single ElementType; `PROTECT_EVIL` /
+  `PROTECT_GOOD` are alignment-vs-alignment, not element. See engine
+  doc for the schema asks.
 
 - **`Quest` / `QuestObjective` / `QuestPhase` / `QuestPrerequisite`
   / `QuestReward` / `QuestDialogue` / `DialogueTree` / `DialogueNode`

@@ -6,6 +6,8 @@ Handles:
 - Object types, flags, wear locations
 - Type-specific values (weapon stats, container capacity, etc.)
 - Object affects and extra descriptions
+- Per-element resistance rows (ObjectResistance) derived from legacy
+  EFF_PROT_* / shield / negate effect flags.
 """
 
 from typing import Optional
@@ -20,6 +22,30 @@ from fierylib.converters import legacy_id_to_composite, normalize_flags, convert
 from fierylib.converters.flag_normalizer import process_object_flags, ProcessedObjectFlags
 
 logger = logging.getLogger(__name__)
+
+
+# Maps legacy protection-flavored effect names (as emitted by
+# flag_normalizer.EFFECT_FLAG_TO_EFFECT_NAME) to (ElementType, value%)
+# tuples for ObjectResistance rows. Legacy reference: chars.cpp::susceptibility
+# applies a flat 25% reduction for each PROT_* effect and 100% for NEGATE_*.
+#
+# Note the legacy axis remapping:
+#   PROT_AIR  → SHOCK damage (legacy "air" = lightning/electricity)
+#   PROT_EARTH → ACID damage (legacy "earth" = corrosion)
+#   FIRESHIELD repels COLD (cold loses 25% vs a fire shield)
+#   COLDSHIELD repels FIRE (mirror image)
+EFFECT_TO_RESISTANCE: dict[str, tuple[str, int]] = {
+    "PROTECT_FIRE": ("FIRE", 25),
+    "PROTECT_COLD": ("COLD", 25),
+    "PROTECT_AIR": ("SHOCK", 25),
+    "PROTECT_EARTH": ("ACID", 25),
+    "FIRESHIELD": ("COLD", 25),
+    "COLDSHIELD": ("FIRE", 25),
+    "NEGATE_HEAT": ("FIRE", 100),
+    "NEGATE_COLD": ("COLD", 100),
+    "NEGATE_AIR": ("SHOCK", 100),
+    "NEGATE_EARTH": ("ACID", 100),
+}
 
 
 class ObjectImporter:
@@ -418,6 +444,44 @@ class ObjectImporter:
                             "strength": 1,
                         }
                     )
+
+            # Create ObjectResistance rows for protection-flavored effects.
+            # The Effect catalog is a small type-registry (28 generic types
+            # like 'damage' / 'heal' / 'modify'); per-element resistance is
+            # not a row there. Instead, walk the effect name list and emit
+            # ObjectResistance rows directly for any that map.
+            #
+            # Clean-reimport: delete prior rows first so re-importing the
+            # same object doesn't accumulate duplicates (the unique key on
+            # (objectZoneId, objectId, element) would also block it but
+            # delete-then-insert is simpler to reason about).
+            await self.prisma.objectresistance.delete_many(
+                where={
+                    "objectZoneId": obj_zone_id,
+                    "objectId": vnum,
+                }
+            )
+            # An object that wears multiple PROTECT_FIRE-flavored effects
+            # would collide on the (zone, id, element) unique key — dedupe
+            # to the strongest value (NEGATE_* wins over PROTECT_* / SHIELD).
+            best_per_element: dict[str, int] = {}
+            for effect_name in processed_flags.effect_names:
+                mapping = EFFECT_TO_RESISTANCE.get(effect_name)
+                if mapping is None:
+                    continue
+                element, value = mapping
+                if value > best_per_element.get(element, 0):
+                    best_per_element[element] = value
+            for element, value in best_per_element.items():
+                await self.prisma.objectresistance.create(
+                    data={
+                        "objectZoneId": obj_zone_id,
+                        "objectId": vnum,
+                        "element": element,
+                        "value": value,
+                        "allowAbsorption": False,
+                    }
+                )
 
             # Import affects
             affects_imported = 0
