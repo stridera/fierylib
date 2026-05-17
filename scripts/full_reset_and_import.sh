@@ -443,6 +443,31 @@ else
   echo ""
 fi
 
+# Step 8b: Seed ConsumableEffects.
+# Depends on Objects + Ability + AbilityEffect being loaded (steps 3 + 4).
+# Walks POTION/SCROLL/WAND/STAFF protos whose values JSON has a Spells list and
+# emits one ConsumableEffects row per (object, AbilityEffect) pair so that
+# quaff/use/zap actually fires the bound spells at runtime.
+if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Step 8b: Seeding ConsumableEffects (potion / scroll / wand / staff bindings)"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+
+  poetry run python scripts/seed_consumable_effects.py
+
+  echo ""
+  echo "✅ ConsumableEffects seeded"
+  echo ""
+else
+  if [[ -n "$DRY_RUN" ]]; then
+    echo "⏭️  Skipping ConsumableEffects seeding (dry-run mode)"
+  else
+    echo "⏭️  Skipping ConsumableEffects seeding (world import skipped)"
+  fi
+  echo ""
+fi
+
 # Step 9: Generate room layout
 if [[ "$SKIP_LAYOUT" -eq 0 ]] && [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
