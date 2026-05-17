@@ -21,24 +21,18 @@ Counts captured 2026-05-16 against `fierydev` on minastirith.
 
 ## 0. Quick-win runbook
 
-Before doing per-table work, run these existing seeders — they would
-zero-out a chunk of section 1:
+Status note (2026-05-17): `full_reset_and_import.sh` now invokes the
+achievement seeder explicitly (step 8, commit `3391cf9`) so a fresh
+run zeroes out the prior `achievements` + `layout` gap on its own.
+Last DB state has achievement=146, layout=10296/10296.
+
+If you ever want to run those seeders standalone:
 
 ```bash
-# achievement catalog (currently 0 rows; seeder + grant-call sites already exist)
-poetry run fierylib seed achievements
-
-# regenerate room layout coordinates (layout_x/y/z all NULL right now)
-poetry run fierylib layout generate
-
-# re-seed game-settings to fill in any new SystemText / LevelDefinition rows
-poetry run fierylib seed game-settings
+poetry run fierylib seed achievements           # 146 rows
+poetry run fierylib layout generate             # 10296 rooms
+poetry run fierylib seed game-settings          # config + levels + text
 ```
-
-`achievements` + `layout` were skipped by whoever last ran the import.
-`full_reset_and_import.sh` already wires achievements / layout but they
-were apparently bypassed. The remaining sections assume those have been
-run.
 
 ---
 
@@ -49,80 +43,54 @@ Any of these silently degrade behavior on a real player session.
 
 ### P0 — blocks visible behavior
 
-- **`achievement` (0 rows)** — Runtime: `mud-db/src/achievements.rs::list_all`,
-  hydrated into `mud_world::AchievementCatalog`; `combat.rs::1683` calls
-  `grant_achievement(world, killer, "first_kill")`, `combat.rs::2242`
-  emits `level_<n>` on each level-up. With the catalog empty, every call
-  logs `grant_achievement: unknown code` and the player sees nothing on
-  the `achievements` listing. Source of truth:
-  `fierylib/src/fierylib/seeders/achievement_seeder.py` (static combat
-  achievements + one `zone_<id>_cleared` per inhabited zone). Just run
-  `poetry run fierylib seed achievements`.
+- ~~**`achievement` (0 rows)**~~ ✅ Closed 2026-05-17. 146 rows
+  (6 COMBAT + 6 MISC + 134 EXPLORATION zone-clears). Seeder wired
+  into `full_reset_and_import.sh` step 8 (commit `3391cf9`).
 
-- **`Room.layout_x/y/z` (0/10296 rooms populated)** — Runtime: `mud-net`
-  GMCP map frame + the `map`/`scan` commands rely on this for the ASCII
-  minimap. With every row NULL, the map shows blank or breaks. Generator:
-  `fierylib layout generate`. Step 8 of `full_reset_and_import.sh`.
+- ~~**`Room.layout_x/y/z` (0/10296 rooms populated)**~~ ✅ Closed
+  2026-05-17. All 10296 rooms have layout coordinates. Already
+  wired into the full-reset script.
 
 ### P1 — empty, runtime reads OK with empty set
 
-- **`HelpEntry` (0 rows)** — Runtime: `mud-db/src/help.rs`, surfaced by
-  the `help` command. Without rows, every `help <topic>` answers "no
-  help". Source: legacy `lib/text/help/*` + `fierylib seed help-entries
-  --clear` (step 6 of full_reset). Re-run.
+- ~~**`HelpEntry` (0 rows)**~~ ✅ Closed earlier — 775 rows.
+  Audit was stale at write-time.
 
-- **`ConsumableEffects` (0 rows)** — Runtime: `mud-db/src/consumable_effects.rs`,
-  hydrated into `ConsumableEffectCatalog` and consumed by
-  `commands.rs::spawn_consumable_effect` (drink-container `quaff`, eat,
-  liquid-effects). Schema is there for both `Liquids.id`-bound and
-  `Object.id`-bound effects. Source: needs a `fierylib seed
-  consumable-effects` step authoring at minimum potion / scroll → ability
-  bindings (e.g. "potion of healing" object proto → `cure_light` ability
-  on quaff). Currently `info.rs::753` literally prints "Effects (hunger,
-  ConsumableEffects) are deferred." Authoring template: walk every
-  `ObjectType=POTION|SCROLL|WAND|STAFF` and map the legacy
-  `values.spell_1/2/3` to an `AbilityEffect` binding. Same shape for
-  drink-containers via `Liquids`. **High value for player experience —
-  potions are dead inventory today.**
+- ~~**`ConsumableEffects` (0 rows)**~~ ✅ Closed earlier — 167
+  rows. Audit was stale at write-time; the seeder shipped in a
+  prior pass.
 
-- **`MobAbilities` (0 rows)** — Runtime: not currently loaded by any
-  `mud-db` file (verified via grep). When mob casting is wired, this
-  table is the natural source for "what spells does this mob know?".
-  Today mobs only autocast hardcoded behavior. Schema exists, importer
-  doesn't. **No P0 because runtime doesn't read it** — but if mob casting
-  ships, this is the source-of-truth table.
+- **`MobAbilities` (0 rows)** — Defer. Runtime doesn't load this
+  table yet. When mob-casting AI ships, populate from a new
+  importer pass. Engine §J3 follow-up tracks the consumer.
 
-- **`MobDefaultEffects` (0 rows)** — Runtime: not loaded. This is the
-  intended source for "permanent auras / passives on this proto" (e.g.
-  the lich's permanent fear aura). Source: needs an importer that walks
-  legacy mob `aff_flags` → modern Effect IDs. Adjacent to B3 in the
-  engine doc.
+- **`MobDefaultEffects` (0 rows)** — Defer. Runtime not loading
+  (audit doc §1; engine doc J3). When the consumer ships, fierylib
+  populates from legacy mob `aff_flags`.
 
 - ~~**`ObjectResistance` (0 rows)**~~ Partially closed 2026-05-17.
-  Object importer now emits ObjectResistance rows for legacy
+  Importer emits per-element resistance rows from legacy
   `EFF_PROT_*` / `*SHIELD` / `NEGATE_*` effect flags
   (`PROTECT_FIRE/COLD/AIR/EARTH` → FIRE/COLD/SHOCK/ACID @ 25%,
-  `FIRESHIELD/COLDSHIELD` → COLD/FIRE @ 25%, `NEGATE_*` → 100%
-  immunity). Backfill script `scripts/backfill_object_resistance.py`
-  populated 11 rows from imported zones (out of 43 legacy items
-  carrying protection flags — 32 live in zones that aren't yet
-  imported). Future `import-legacy` runs round-trip the rows via
-  `object_importer.py::EFFECT_TO_RESISTANCE`. Still defer-pending:
-  `EFF_MINOR_GLOBE` / `EFF_MAJOR_GLOBE` are spell-circle-filter
-  absorbs that don't map to a single ElementType; `PROTECT_EVIL` /
-  `PROTECT_GOOD` are alignment-vs-alignment, not element. See engine
-  doc for the schema asks.
+  `FIRESHIELD/COLDSHIELD` → COLD/FIRE @ 25%, `NEGATE_*` → 100%).
+  Backfill landed 11/43 rows (the 32 remaining live in unimported
+  zones and round-trip on full reset). Engine schema asks J1
+  (MINOR/MAJOR_GLOBE circle absorb) and J2 (PROTECT_EVIL/GOOD
+  alignment resist) cover the legacy shapes that don't fit
+  `ObjectResistance.element`.
 
-- **`Quest` / `QuestObjective` / `QuestPhase` / `QuestPrerequisite`
-  / `QuestReward` / `QuestDialogue` / `DialogueTree` / `DialogueNode`
-  / `DialogueResponse` (all 0 rows)** — Runtime: `mud-db/src/quests.rs`
-  loads them; `mud-db/src/dialogue.rs` reads dialogue trees. Today
-  `quest` command returns "no quests known". Quest importer exists
-  (`fierylib/src/fierylib/importers/quest_importer.py`) but the
-  full_reset script only invokes it under `--with-players` (step 9b).
-  Run with `--with-players` or invoke `poetry run fierylib import-quests`
-  separately. **Player-facing gap if quest content was authored
-  legacy-side.**
+- **`Quest` (87 rows) / `QuestObjective` / `QuestPhase` /
+  `QuestPrerequisite` / `QuestReward` / `QuestDialogue` /
+  `DialogueTree` / `DialogueNode` / `DialogueResponse` (all 0
+  rows)** — Quest headers imported by `quest_importer.py` (re-run
+  in full reset). The objective / phase / dialogue tables are
+  empty because **legacy CircleMUD never authored structured
+  quest content** — quest progression lived in DG-script triggers
+  per zone. `lib/misc/quests` is just `name → id → max_stage`
+  (85 entries). Filling these tables would require reverse-
+  engineering each trigger to extract objective/phase boundaries
+  — content-author task per zone, not an importable sweep. **Defer**
+  unless a builder picks it up.
 
 ### P2 — schema-present, runtime not consuming yet (don't author until consumer ships)
 
@@ -211,12 +179,17 @@ authoring, not engine work.
 - **`Objects.fixture_room_zone_id` (0/3496)** — Engine **E1**.
 - **`Objects.passenger_capacity` (0/3496)** — Engine **E2**.
 - **`Objects.presence_override` (0/3496)** — Engine **E3**.
-- **`Objects.allowed_races` / `restricted_races` (0/3496)** — Schema for
-  race-gated wear. `restricted_class_ids` is populated for 945 items, so
-  the importer does write restrictions — just not the race axis. May be
-  fine if legacy data didn't carry it.
-- **`Objects.min_size` / `max_size` (0/3496)** — Engine **B6** consumer
-  is shipped but every object accepts every size today.
+- ~~**`Objects.allowed_races` / `restricted_races` (0/3496)**~~ —
+  **Verified 2026-05-17: zero legacy items carry race-gating flags
+  in `lib/world/obj/*.json`.** The `flag_normalizer` mappings exist
+  (`ELVEN`/`DWARVEN` → allowed_races, `ANTI_ARBOREAN` → restricted_
+  races) so any future builder content lights them up automatically.
+  Not a gap — matches legacy intent.
+- ~~**`Objects.min_size` / `max_size` (0/3496)**~~ — **Verified
+  2026-05-17: zero legacy items carry the `ANTI_TINY` / `ANTI_SMALL`
+  / `ANTI_LARGE` family flags.** Engine B6 consumer is wired, but
+  there's no source data to import. Not a gap — matches legacy
+  intent.
 
 - **`Effect.parameters` / `Effect.default_params`** — schema column is
   `default_params jsonb DEFAULT '{}'`. With only 28 Effect rows and a
