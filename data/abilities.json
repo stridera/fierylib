@@ -1572,7 +1572,7 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "HOLY"
   },
   {
     "name": "Cause Light",
@@ -1606,7 +1606,7 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "HOLY"
   },
   {
     "name": "Cause Serious",
@@ -1640,7 +1640,7 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "HOLY"
   },
   {
     "name": "Chain Lightning",
@@ -2884,7 +2884,7 @@
     },
     "sphere": "DEATH",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "NECROTIC"
   },
   {
     "name": "Degeneration",
@@ -2918,7 +2918,7 @@
     },
     "sphere": "DEATH",
     "pages": 12,
-    "damageType": "HEAL"
+    "damageType": "UNHOLY"
   },
   {
     "name": "Demonic Aspect",
@@ -5740,7 +5740,7 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "HOLY"
   },
   {
     "name": "Full Heal",
@@ -6182,7 +6182,7 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "damageType": "HEAL"
+    "damageType": "HOLY"
   },
   {
     "name": "Haste",
@@ -11299,7 +11299,7 @@
     },
     "sphere": "DEATH",
     "pages": 22,
-    "damageType": "HEAL"
+    "damageType": "NECROTIC"
   },
   {
     "name": "Soulshield",
