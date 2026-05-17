@@ -527,11 +527,15 @@ The following engine-doc items have *data-side* corollaries here:
 - **F2** (liquid table seeded?) — close it: 42 rows match source.
 - **I8** (HELLFIRE_BRIMSTONE area scope) — §2 `AbilityTargeting` needs
   the scope row.
-- **K1** (cast time consumer in runtime) — needs the per-circle default
-  table seeded into `GameConfig` (`spells.cast_time_default_circle_N`)
-  and per-ability overrides on the existing `cast_time_rounds` column.
-  Today most spells = 1, big AoEs vary; sweep the catalog for a sane
-  ladder once the runtime consumer (engine §K1) lands.
+- ~~**K1** (cast time consumer in runtime)~~ ✅ Closed 2026-05-17.
+  Engine K1 (cast queue + cast_time_rounds consumer) shipped. Content
+  sweep (`scripts/rebalance_cast_times.py`) raised cast_time_rounds
+  on 30 high-circle spells where the authored value sat below the
+  per-circle floor (C6-C7≥2, C8-C9≥3, C10+≥4) plus a +1-round nudge
+  for AoE damage spells. Cast-time average curve went from a
+  near-flat 1.6→3.4 to a much clearer 1.6 (C1) → 3.7 (C11). Cantrips
+  and intentionally-fast spells stay at their authored low values
+  (BURNING_HANDS at 2, MAGIC_MISSILE at 1).
 - **K4** (dead-spell audit — content side) — once the runtime emits
   the dead-spell warn list, walk each unmapped effect_type and either
   (a) add the missing AbilityEffect rows pointing at an existing
