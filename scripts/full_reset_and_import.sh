@@ -12,9 +12,10 @@ set -euo pipefail
 # 6. Seed game settings (config, levels, text/MOTD)
 # 7. Seed help entries from legacy help files
 # 8. Seed MUD command definitions
-# 9. Generate room layout coordinates
-# 10. Import legacy player/character files
-# 11. Optionally seed test users
+# 9. Seed achievement catalog (combat / progression + per-zone clears)
+# 10. Generate room layout coordinates
+# 11. Import legacy player/character files
+# 12. Optionally seed test users
 #
 # Usage:
 #   bash scripts/full_reset_and_import.sh [options]
@@ -419,10 +420,33 @@ else
   echo ""
 fi
 
-# Step 8: Generate room layout
+# Step 8: Seed achievement catalog
+# Depends on Zone+Room rows existing — emits one zone_<id>_cleared row per
+# inhabited zone in addition to the static combat / progression entries.
+if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "Step 8: Seeding achievement catalog"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo ""
+
+  poetry run fierylib seed achievements
+
+  echo ""
+  echo "✅ Achievement catalog seeded"
+  echo ""
+else
+  if [[ -n "$DRY_RUN" ]]; then
+    echo "⏭️  Skipping achievement seeding (dry-run mode)"
+  else
+    echo "⏭️  Skipping achievement seeding (world import skipped)"
+  fi
+  echo ""
+fi
+
+# Step 9: Generate room layout
 if [[ "$SKIP_LAYOUT" -eq 0 ]] && [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Step 8: Generating room layout coordinates"
+  echo "Step 9: Generating room layout coordinates"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
@@ -451,10 +475,10 @@ else
   echo ""
 fi
 
-# Step 9: Import legacy players/characters
+# Step 10: Import legacy players/characters
 if [[ "$SKIP_PLAYERS" -eq 0 ]] && [[ -z "$DRY_RUN" ]] && { [[ -n "$WITH_PLAYERS" ]] || [[ -n "$PLAYERS_LIST" ]]; }; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Step 9: Importing legacy player/character files"
+  echo "Step 10: Importing legacy player/character files"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
@@ -495,7 +519,7 @@ if [[ "$SKIP_PLAYERS" -eq 0 ]] && [[ -z "$DRY_RUN" ]] && { [[ -n "$WITH_PLAYERS"
 
   # Import quest definitions and player quest progress
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Step 9b: Importing quest definitions and player quest progress"
+  echo "Step 10b: Importing quest definitions and player quest progress"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
@@ -515,10 +539,10 @@ else
   echo ""
 fi
 
-# Step 10: Seed test users
+# Step 11: Seed test users
 if [[ -n "$WITH_USERS" ]] && [[ -z "$DRY_RUN" ]]; then
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "Step 10: Seeding test users"
+  echo "Step 11: Seeding test users"
   echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
   echo ""
 
