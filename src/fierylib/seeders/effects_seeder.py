@@ -178,7 +178,7 @@ class EffectsSeeder:
                 # Look up category ID from the mapping built by seed_toolbox_categories()
                 category_id = self._category_map.get(name)
 
-                data = {
+                data: Dict[str, Any] = {
                     "name": name,
                     "effectType": effect_data["effectType"],
                     "description": effect_data.get("description"),
@@ -186,6 +186,17 @@ class EffectsSeeder:
                     "defaultParams": json.dumps(effect_data.get("defaultParams", {})),
                     "categoryId": category_id,
                 }
+
+                # Optional Lua hooks for behavior-bearing Effect rows
+                # (e.g. the Refreshed status row for the Rest / Repose system).
+                # When absent in the JSON, leave the columns NULL.
+                for hook_field in ("onApply", "onTick", "onRemove"):
+                    if hook_field in effect_data:
+                        data[hook_field] = effect_data[hook_field]
+                # Tick cadence for periodic effects (Refreshed ticks once per
+                # second = every 10 server ticks per design doc).
+                if "tickIntervalSec" in effect_data:
+                    data["tickIntervalSec"] = effect_data["tickIntervalSec"]
 
                 if existing:
                     await self.prisma.effect.update(

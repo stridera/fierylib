@@ -36,7 +36,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -78,7 +78,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -119,7 +119,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -170,7 +170,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -178,7 +178,7 @@
     "name": "Animate Dead",
     "plainName": "ANIMATE_DEAD",
     "abilityType": "SPELL",
-    "description": "Raises a fallen <magenta>corpse</> to serve as an <magenta>undead</> minion under your control.",
+    "description": "Raises a fallen <magenta>corpse</> to serve as your <magenta>undead</> minion. <cyan>cast 'animate dead' <keyword></> consumes a matching corpse in the room \u2014 higher-level corpses yield beefier skeletons (HP scales 1x at lv5-, up to 5x at lv25+). Refuses on a fellow adventurer's remains.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
@@ -506,7 +506,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -922,7 +922,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1570,7 +1570,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1611,7 +1611,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1682,7 +1682,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1723,7 +1723,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1764,7 +1764,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1805,7 +1805,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -1996,7 +1996,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -2194,7 +2194,7 @@
     "name": "Clone",
     "plainName": "CLONE",
     "abilityType": "SPELL",
-    "description": "Creates a duplicate of a creature to fight alongside the original.",
+    "description": "Conjures a flickering duplicate of yourself to fight at your side. The clone mirrors your name and HP pool but uses the base summon proto's combat stats. Useful as a meat shield or distraction. Follows you for the cast duration.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.5,
@@ -2257,7 +2257,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -2334,7 +2334,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -2479,7 +2479,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -2529,7 +2529,7 @@
     "name": "Control Weather",
     "plainName": "CONTROL_WEATHER",
     "abilityType": "SPELL",
-    "description": "This spell will change the \"course\" of the current weather. Example: > cast '<b:magenta>control</> wea' worse",
+    "description": "Override the local zone's weather. Argument selects the new condition \u2014 <cyan>cast 'control weather' storm</> (clear / cloudy / drizzle / rain / storm / snow / blizzard). The override holds for the spell's full duration; natural drift resumes when the lock expires.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.5,
@@ -2708,7 +2708,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -2749,7 +2749,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3106,7 +3106,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3147,7 +3147,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3321,7 +3321,14 @@
         "params": {
           "type": "holy",
           "amount": "base_damage + (pow(skill, 2) * 27) / 1000",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "base_damage_note": "base_damage is calculated from spell circle and caster level",
+          "multipliers": [
+            {
+              "expr": "1000 + victim_is_undead * 1000",
+              "min": 1.0,
+              "max": 2.0
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -3348,7 +3355,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3535,7 +3542,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3704,7 +3711,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3846,7 +3853,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3936,7 +3943,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -3985,7 +3992,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -4078,7 +4085,14 @@
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "(base_damage + (pow(skill, 2) * 53) / 10000) * (victim_align * -7 + 8000) / 10000"
+          "amount": "base_damage + (pow(skill, 2) * 53) / 10000",
+          "multipliers": [
+            {
+              "expr": "(8000 - victim_align * 7) / 10",
+              "min": 0.1,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -4098,7 +4112,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -4153,7 +4167,14 @@
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "(base_damage + (pow(skill, 2) * 1) / 125) * (caster_align * 22 - 7000) / 10000"
+          "amount": "base_damage + pow(skill, 2) / 125",
+          "multipliers": [
+            {
+              "expr": "(caster_align * 22 - 7000) / 10",
+              "min": 0.1,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -4173,7 +4194,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -4583,7 +4604,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -4755,7 +4776,7 @@
     "name": "Energy Drain",
     "plainName": "ENERGY_DRAIN",
     "abilityType": "SPELL",
-    "description": "Pulls life-essence from the target. Damage is modest; victims who fail their save also lose up to 40,000 XP, a quarter of which is granted to the caster.",
+    "description": "Tears life-essence from the target, returning it to you as HP. The caster's wound HP recovers by the amount actually dealt; at full HP, surplus drained energy overflows past your cap (legacy polynomial \u2014 diminishing as you stack overheal). Refuses on UNDEAD targets (no life to drain) and on self-target.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 2.5,
@@ -4789,7 +4810,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5203,7 +5224,14 @@
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "((pow(skill, 2) * 13) / 20) * (caster_align + 200) / 1000"
+          "amount": "(pow(skill, 2) * 13) / 20",
+          "multipliers": [
+            {
+              "expr": "caster_align + 200",
+              "min": 0.1,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -5223,7 +5251,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5473,7 +5501,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5515,7 +5543,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5566,7 +5594,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5682,7 +5710,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5784,7 +5812,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5825,7 +5853,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5913,7 +5941,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -5954,7 +5982,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6034,7 +6062,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6076,7 +6104,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6117,7 +6145,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6158,7 +6186,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6638,7 +6666,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6794,7 +6822,14 @@
         "order": 0,
         "params": {
           "type": "unholy",
-          "amount": "(base_damage + (pow(skill, 2) * 53) / 10000) * (victim_align * 7 + 8000) / 10000"
+          "amount": "base_damage + (pow(skill, 2) * 53) / 10000",
+          "multipliers": [
+            {
+              "expr": "(victim_align * 7 + 8000) / 10",
+              "min": 0.1,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -6814,7 +6849,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -6867,7 +6902,14 @@
         "params": {
           "area": true,
           "type": "fire",
-          "amount": "(base_damage + (pow(skill, 2) * 1) / 180) * (caster_align * -22 - 7000) / 10000"
+          "amount": "base_damage + pow(skill, 2) / 180",
+          "multipliers": [
+            {
+              "expr": "(caster_align * -22 - 7000) / 10",
+              "min": 0.1,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -6887,7 +6929,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7026,7 +7068,14 @@
         "params": {
           "type": "holy",
           "amount": "base_damage + (pow(skill, 2) * 33) / 2000",
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "base_damage_note": "base_damage is calculated from spell circle and caster level",
+          "multipliers": [
+            {
+              "expr": "1000 + (victim_is_demonic + victim_is_undead) * 500 - victim_is_celestial * 500",
+              "min": 0.5,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -7060,7 +7109,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7231,7 +7280,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7273,7 +7322,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7315,7 +7364,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7357,7 +7406,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7408,7 +7457,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7479,7 +7528,7 @@
     "name": "Illusory Wall",
     "plainName": "ILLUSORY_WALL",
     "abilityType": "SPELL",
-    "description": "Creates the illusion of a solid wall that conceals what lies behind.",
+    "description": "Conjures the illusion of a solid wall across one exit, hiding what lies beyond. Anyone stepping through dispels it instantly. <cyan>cast 'illusory wall' &lt;direction&gt;</> targets the chosen exit; the illusion lasts until traversed or until the duration expires.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 4.5,
@@ -7544,7 +7593,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -7585,7 +7634,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8107,7 +8156,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8392,7 +8441,14 @@
         "order": 0,
         "params": {
           "type": "holy",
-          "amount": "(base_damage + (pow(skill, 2) * 1) / 25) * (caster_align + 200) / 1000"
+          "amount": "base_damage + pow(skill, 2) / 25",
+          "multipliers": [
+            {
+              "expr": "caster_align + 200",
+              "min": 0.1,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -8412,7 +8468,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8463,7 +8519,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8504,7 +8560,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8605,7 +8661,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8643,7 +8699,7 @@
     "name": "Major Globe",
     "plainName": "MAJOR_GLOBE",
     "abilityType": "SPELL",
-    "description": "Creates a powerful globe of invulnerability against spells.",
+    "description": "Wraps the target in a shimmering globe that absorbs hostile spells of <yellow>circle 6 or lower</> outright \u2014 the cast fizzles instead of landing. Stacks with MINOR_GLOBE (the higher threshold wins).",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.5,
@@ -8858,7 +8914,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8941,7 +8997,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -8977,7 +9033,7 @@
     "name": "Minor Globe",
     "plainName": "MINOR_GLOBE",
     "abilityType": "SPELL",
-    "description": "Creates a globe that protects against minor spells.",
+    "description": "Wraps the target in a shimmering globe that absorbs hostile spells of <yellow>circle 3 or lower</> outright \u2014 the cast fizzles instead of landing. Stacks with MAJOR_GLOBE (the higher threshold wins).",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.5,
@@ -9186,7 +9242,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -9227,7 +9283,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -9268,7 +9324,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -9309,7 +9365,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -9351,7 +9407,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -9626,7 +9682,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -9977,7 +10033,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -10128,7 +10184,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -10319,7 +10375,7 @@
     "name": "Protection from Evil",
     "plainName": "PROT_FROM_EVIL",
     "abilityType": "SPELL",
-    "description": "Creates a <b:blue>barrier</> that protects against evil creatures.",
+    "description": "Wraps the target in a <b:blue>protective ward</> against evil. While active, melee or spell damage from strongly evil attackers (alignment \u2264 -500) lands at <yellow>80%</> instead of full \u2014 provided the protected target is itself strongly good (alignment \u2265 +500). Neutral wearers gain no benefit.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
@@ -10392,7 +10448,7 @@
     "name": "Protection from Good",
     "plainName": "PROT_FROM_GOOD",
     "abilityType": "SPELL",
-    "description": "Creates a <b:blue>barrier</> that protects against good creatures.",
+    "description": "Wraps the target in a <b:blue>protective ward</> against good. While active, melee or spell damage from strongly good attackers (alignment \u2265 +500) lands at <yellow>80%</> instead of full \u2014 provided the protected target is itself strongly evil (alignment \u2264 -500). Neutral wearers gain no benefit.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
@@ -10492,7 +10548,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -10532,7 +10588,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -10571,7 +10627,7 @@
     "name": "Rain",
     "plainName": "RAIN",
     "abilityType": "SPELL",
-    "description": "Summons a torrential rainstorm in the current area, reducing visibility and creating wet conditions.",
+    "description": "Force a rainstorm over the current zone \u2014 drier weather instantly becomes light rain, holding for the spell's full duration. No effect in zones without weather (Void, planes).",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.0,
@@ -11375,7 +11431,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -11451,7 +11507,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -11634,7 +11690,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -11684,7 +11740,7 @@
     "name": "Simulacrum",
     "plainName": "SIMULACRUM",
     "abilityType": "SPELL",
-    "description": "Creates a semi-real duplicate of a creature made from ice and snow.",
+    "description": "Conjures a wavering simulacrum of a remote target \u2014 name them with <cyan>cast simulacrum <name></>. Works across the world for any online player. Falls back to mirroring you on miss or ambiguity. The simulacrum follows you for the cast duration.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.5,
@@ -12031,7 +12087,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -12578,7 +12634,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -12707,7 +12763,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -12929,7 +12985,7 @@
         "effect": "damage",
         "order": 0,
         "params": {
-          "amount": "(base_damage + (pow(skill, 2) * 1) / 125) * (caster_align * -22 - 7000) / 10000",
+          "amount": "base_damage + pow(skill, 2) / 125",
           "components": [
             {
               "type": "unholy",
@@ -12938,6 +12994,13 @@
             {
               "type": "shadow",
               "percent": 40
+            }
+          ],
+          "multipliers": [
+            {
+              "expr": "(caster_align * -22 - 7000) / 10",
+              "min": 0.1,
+              "max": 1.5
             }
           ]
         },
@@ -12959,7 +13022,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -12967,7 +13030,7 @@
     "name": "Summon",
     "plainName": "SUMMON",
     "abilityType": "SPELL",
-    "description": "Will <magenta>summon</> a person of the name spoken.  It is not possible to <magenta>summon</> someone of three or more levels above yourself. If you attempt to <magenta>summon</> a monster, it will get a saving throw.",
+    "description": "Will <magenta>summon</> a person of the name spoken.  Targets in the same zone, within three levels of you. PC targets get a 30-second <green>ACCEPT</> / <red>DECLINE</> prompt; those who have set <yellow>nosummon</> silently auto-decline. PK-flagged targets bypass the prompt. Hostile mobs flagged NO_SUMMON resist; some rooms (sanctuaries, dungeons) block summons entirely.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.5,
@@ -13300,7 +13363,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -13791,7 +13854,14 @@
               "percent": 40
             }
           ],
-          "base_damage_note": "base_damage is calculated from spell circle and caster level"
+          "base_damage_note": "base_damage is calculated from spell circle and caster level",
+          "multipliers": [
+            {
+              "expr": "1000 + victim_is_celestial * 500 - (victim_is_demonic + victim_is_undead) * 500",
+              "min": 0.5,
+              "max": 1.5
+            }
+          ]
         },
         "trigger": "on_cast"
       }
@@ -13825,7 +13895,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -13862,7 +13932,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -13870,7 +13940,7 @@
     "name": "Vampiric Breath",
     "plainName": "VAMPIRIC_BREATH",
     "abilityType": "SPELL",
-    "description": "Exhales vampiric energy that <magenta>drains</> life force from the target, healing the caster.",
+    "description": "Exhales a wave of vampiric energy that <magenta>drains</> the target and heals you for the damage dealt. At full HP, surplus drained energy overflows past your cap (legacy polynomial \u2014 diminishing as you stack overheal). Refuses on UNDEAD targets.",
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
@@ -14068,7 +14138,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -14202,7 +14272,7 @@
     "name": "Wall Of Fog",
     "plainName": "WALL_OF_FOG",
     "abilityType": "SPELL",
-    "description": "Creates a dense bank of obscuring fog.",
+    "description": "Rolls a choking bank of fog across one exit. Travelers can still push through, but each crossing costs an extra <yellow>5 stamina</> beyond the room's normal movement cost. <cyan>cast 'wall of fog' &lt;direction&gt;</> targets the chosen exit.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 4.5,
@@ -14233,7 +14303,7 @@
     "name": "Wall Of Ice",
     "plainName": "WALL_OF_ICE",
     "abilityType": "SPELL",
-    "description": "Creates a solid wall of ice that blocks passage.",
+    "description": "Conjures a solid wall of ice across one exit, blocking all traversal until shattered. The wall absorbs <yellow>100 HP</> of bash damage before crumbling (try <cyan>doorbash &lt;direction&gt;</>). The caster may dismiss it with <cyan>cancel wall</>. <cyan>cast 'wall of ice' &lt;direction&gt;</> targets the chosen exit.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 4.5,
@@ -14269,7 +14339,7 @@
     "name": "Wall Of Stone",
     "plainName": "WALL_OF_STONE",
     "abilityType": "SPELL",
-    "description": "Creates a solid wall of stone.",
+    "description": "Conjures a heavy wall of stone across one exit, blocking all traversal. Tougher than ice \u2014 the wall absorbs <yellow>200 HP</> of bash damage before crumbling (try <cyan>doorbash &lt;direction&gt;</>). The caster may dismiss it with <cyan>cancel wall</>. <cyan>cast 'wall of stone' &lt;direction&gt;</> targets the chosen exit.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 4.5,
@@ -14367,7 +14437,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -14417,7 +14487,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   },
@@ -14804,7 +14874,7 @@
       {
         "saveType": "REFLEX",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "HALF_DAMAGE"
       }
     ]
   }

@@ -332,6 +332,18 @@ class RoomImporter:
             if room_state['capacity'] is not None:
                 common_fields['capacity'] = room_state['capacity']
 
+            # Rest / Repose system — inn fields. Legacy CircleMUD has no
+            # source data for inns (the legacy `inn` mob is a spec_proc,
+            # not a room flag), so every imported room starts non-inn.
+            # Only `isInn` is written on CREATE so that builder-authored
+            # inn rooms in Muditor survive an importer re-run; nullable
+            # `innName` / `innTiers` are omitted (Prisma Python's strict
+            # JSON-field parser rejects bare `None`, and the schema
+            # default is NULL anyway).
+            create_only_rest_fields = {
+                "isInn": False,
+            }
+
             # Upsert room with composite key
             room_record = await self.prisma.room.upsert(
                 where={
@@ -350,6 +362,7 @@ class RoomImporter:
                         "sector": sector,
                         "baseLightLevel": base_light_level,
                         **common_fields,
+                        **create_only_rest_fields,
                     },
                     "update": {
                         "name": room_name,
@@ -498,6 +511,17 @@ class RoomImporter:
 
         # Normalize flags (this will filter out CLOSED/LOCKED via flag_normalizer mappings)
         exit_flags = normalize_flags(raw_flags)
+
+        # Default BASHABLE on every IS_DOOR — legacy FieryMUD lacked a
+        # per-door bashable bit, so every closed/locked door was bashable
+        # unless flagged otherwise (rare magical seals). The modern
+        # schema makes BASHABLE explicit, so we synthesize it here:
+        # every IS_DOOR gets it; MAGICPROOF doors do NOT (legacy never
+        # had this either, but it's the obvious extension and gives
+        # builders the off-ramp for indestructible story doors).
+        if "IS_DOOR" in exit_flags and "MAGICPROOF" not in exit_flags:
+            if "BASHABLE" not in exit_flags:
+                exit_flags.append("BASHABLE")
 
         # Parse destination legacy id (e.g. 3002) then convert to composite (zoneId, vnum)
         # Initialize target fields (Prisma schema uses composite toZoneId/toRoomId)

@@ -473,6 +473,12 @@ class PlayerImporter:
             "freezeLevel": player_data.freeze_level,
             "userId": None,  # No user - character exists standalone until claimed
             "experience": player_data.experience if player_data.experience is not None else 0,
+            # Rest / Repose system — legacy lib has no source data. New
+            # characters start with no Repose and no prepaid RestSource.
+            # See /muditor/CONTEXT.md ("Resting and Repose").
+            "repose": 0,
+            "restSource": "NONE",
+            "restTier": 0,
         }
 
         if not dry_run:

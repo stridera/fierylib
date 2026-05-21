@@ -1261,5 +1261,23 @@
       }
     },
     "notes": "Damage reflection sends portion of incoming damage elsewhere. Different from resist which reduces damage."
+  },
+  {
+    "name": "Refreshed",
+    "effectType": "status",
+    "description": "Post-wake regen window granted by the Rest / Repose system. Strength 1-3 mirrors the consumed restTier; spawned by fierymud-rs at the first XP gain after waking from a non-NONE/QUIT RestSource. Independent of Repose (which multiplies XP); Refreshed grants flat regen.",
+    "tags": [
+      "rest",
+      "regen",
+      "status"
+    ],
+    "defaultParams": {
+      "duration": 1800
+    },
+    "tickIntervalSec": 1,
+    "onApply": "-- Refreshed (Rest / Repose system) on_apply — flavor only.\n-- The RegenBonus is applied in Rust (mud-server/src/rest.rs::spawn_refreshed_effect)\n-- when the EffectInstance is spawned; the matching RefreshedBonus companion\n-- component round-trips the delta so on_remove can subtract it. The Lua hook\n-- only fires the flavor line.\nactor:send('You feel refreshed by your rest.')",
+    "onTick": "",
+    "onRemove": "-- Refreshed on_remove — flavor only.\n-- The RegenBonus unwind happens in Rust (mud-server/src/effects.rs's on_remove\n-- arm calls rest::unwind_refreshed_bonus, which reads the RefreshedBonus\n-- companion and subtracts the saved delta).\nactor:send('The refreshed feeling from your rest fades.')",
+    "notes": "Refreshed is a singleton named Effect row. It is NOT a generic 'status' template; fierymud-rs looks it up by name='Refreshed' at wake time. Per ADR 0001: Refreshed is independent of Repose — they happen on the same wake event but Refreshed grants flat regen while Repose multiplies XP. The per-strength RegenBonus magnitudes are TUNABLE Rust-side constants (REFRESHED_HP_PER_STRENGTH / REFRESHED_STAMINA_PER_STRENGTH in mud-server/src/rest.rs); 30-min duration is TUNABLE via REFRESHED_DURATION_SECS in the same file. See /fierymud-rs/docs/design/rest-and-repose.md §'Refreshed Effect'."
   }
 ]

@@ -25,6 +25,25 @@ RACE_ENUM_TO_DISPLAY = {
 }
 
 
+# Starter loadouts per test character. Each entry is
+# ``(object_zone_id, object_id, equipped_location_or_None)``. None
+# means inventory; "WIELD" / "HEAD" / etc. equip into that slot.
+# Tier-matched to character level so combat math reads cleanly on
+# a playtest session. Validated against the live Objects table:
+#   - TestWarrior L25 → claymore (163, 0) — slashing 2H, L20 weapon
+#   - TestCleric  L20 → mace of the grave (2, 142) — bludgeoning L20
+#   - TestMage    L15 → yew staff (163, 2) wield + spellbook (10, 29)
+#   - TestRogue   L10 → small silver dagger (557, 63) — Halfling-OK
+# Re-runs of the seeder are idempotent: the grant skips characters
+# that already carry the same prototype in the same slot.
+STARTER_GEAR: dict[str, list[tuple[int, int, str | None]]] = {
+    "TestWarrior": [(163, 0, "WIELD")],
+    "TestCleric":  [(2, 142, "WIELD")],
+    "TestMage":    [(163, 2, "WIELD"), (10, 29, None)],
+    "TestRogue":   [(557, 63, "WIELD")],
+}
+
+
 _DICE_RE = re.compile(r"^\s*(?P<n>\d+)d(?P<m>\d+)\s*(?P<bonus>[+-]\d+)?\s*$")
 
 
@@ -329,6 +348,43 @@ class UserSeeder:
                 granted += 1
             if granted > 0:
                 click.echo(f"      → granted {granted} class abilities + skills")
+
+        # Starter gear (see STARTER_GEAR table at module top). The
+        # runtime's character spawn path reads CharacterItems on
+        # login and re-equips items whose equipped_location is set;
+        # null-location items land in inventory.
+        gear = STARTER_GEAR.get(name)
+        if gear:
+            from datetime import datetime
+            granted_items = 0
+            for zone_id, object_id, slot in gear:
+                # Idempotency: skip if the character already carries
+                # this prototype in the same slot. Lets the seeder
+                # rerun cleanly without piling up duplicate items.
+                existing = await self.prisma.characteritems.find_first(
+                    where={
+                        "characterId": character.id,
+                        "objectZoneId": zone_id,
+                        "objectId": object_id,
+                        "equippedLocation": slot,
+                    }
+                )
+                if existing:
+                    continue
+                await self.prisma.characteritems.create(
+                    data={
+                        "characterId": character.id,
+                        "objectZoneId": zone_id,
+                        "objectId": object_id,
+                        "equippedLocation": slot,
+                        "condition": 100,
+                        "charges": -1,
+                        "updatedAt": datetime.utcnow(),
+                    }
+                )
+                granted_items += 1
+            if granted_items > 0:
+                click.echo(f"      → granted {granted_items} starter item(s)")
 
         return character
 

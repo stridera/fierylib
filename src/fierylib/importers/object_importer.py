@@ -380,6 +380,12 @@ class ObjectImporter:
                         "allowedRaces": processed_flags.allowed_races,
                         "minSize": processed_flags.min_size,
                         "maxSize": processed_flags.max_size,
+                        # Rest / Repose system — camp kit tier. Legacy
+                        # CircleMUD has no concept of camp kits, so the
+                        # column is left at its schema default (NULL = not
+                        # a kit). Builder-authored kits live in Muditor.
+                        # Omitting the key (rather than passing None) keeps
+                        # Prisma Python's strict optional-int parser happy.
                     },
                     "update": {
                         "type": obj_type,
@@ -416,6 +422,11 @@ class ObjectImporter:
                         "allowedRaces": {"set": processed_flags.allowed_races},
                         "minSize": processed_flags.min_size,
                         "maxSize": processed_flags.max_size,
+                        # Rest / Repose system — preserve builder-edited
+                        # campKitTier on update. The importer never sets a
+                        # legacy item to a non-null tier (no legacy source),
+                        # so we leave the column alone in the update path —
+                        # don't clobber Muditor edits on re-import.
                     },
                 },
             )
