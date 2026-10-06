@@ -2068,6 +2068,80 @@ def seed_users(reset: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="help")
+@click.option(
+    "--dir",
+    "help_dir",
+    type=click.Path(exists=True, file_okay=False),
+    default=None,
+    help="Directory of authored help markdown files (default: data/help)",
+)
+@click.option(
+    "--category",
+    "categories",
+    multiple=True,
+    help="Only load files with this category (repeatable, e.g. --category guide)",
+)
+@click.option(
+    "--emit-sql",
+    "emit_sql",
+    type=click.Path(dir_okay=False),
+    default=None,
+    help="Write an idempotent SQL file instead of touching the database",
+)
+@click.option("--verbose", "-v", is_flag=True, help="Show each entry")
+def seed_help(help_dir, categories, emit_sql, verbose):
+    """Seed authored help articles (data/help/*.md) into HelpEntry.
+
+    Upserts by primary keyword (first keyword), so a legacy entry with the
+    same primary keyword is overwritten and re-runs are idempotent. With
+    --emit-sql, writes a psql-ready script instead (no database needed).
+    """
+    import asyncio
+    from pathlib import Path
+
+    from fierylib.seeders.help_seeder import (
+        DEFAULT_HELP_DIR,
+        HelpFileError,
+        HelpSeeder,
+        emit_sql_file,
+        load_help_dir,
+    )
+
+    directory = Path(help_dir) if help_dir else DEFAULT_HELP_DIR
+    try:
+        articles = load_help_dir(directory, categories or None)
+    except HelpFileError as exc:
+        raise click.ClickException(str(exc))
+    if not articles:
+        raise click.ClickException(f"No help files found in {directory}")
+    click.echo(f"Loaded {len(articles)} help article(s) from {directory}")
+
+    if emit_sql:
+        emit_sql_file(articles, Path(emit_sql))
+        click.echo(f"Wrote {emit_sql}")
+        return
+
+    from prisma import Prisma
+
+    async def run_seed():
+        prisma = Prisma()
+        await prisma.connect()
+        try:
+            seeder = HelpSeeder(prisma)
+            stats = await seeder.seed_all(articles, verbose=verbose)
+            click.echo(
+                f"Help entries: {stats['created']} created, "
+                f"{stats['updated']} updated, {stats['unchanged']} unchanged"
+            )
+            for note in await seeder.keyword_conflicts(articles):
+                click.echo(f"  note: {note}")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="classes")
 @click.option(
     "--dry-run",
