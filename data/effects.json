@@ -535,6 +535,18 @@
         "destroyEquipment": {
           "type": "boolean",
           "description": "Also destroy equipment when extracting a mob"
+        },
+        "success_threshold": {
+          "type": "integer",
+          "description": "Banish: lands when random(0,100) + skill + cha_bonus - victim_level is strictly above this (legacy 100)"
+        },
+        "gear_destroy_threshold": {
+          "type": "integer",
+          "description": "Banish: a banished mob's gear is destroyed (else dropped) when random(0,100) + wis_bonus * gear_wis_multiplier is strictly above this (legacy 66)"
+        },
+        "gear_wis_multiplier": {
+          "type": "integer",
+          "description": "Banish: multiplier on the caster's wisdom bonus in the gear roll (legacy 2)"
         }
       }
     },

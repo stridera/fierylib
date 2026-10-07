@@ -602,7 +602,10 @@
         "effect": "extract",
         "order": 0,
         "params": {
-          "target": "mob"
+          "target": "mob",
+          "success_threshold": 100,
+          "gear_destroy_threshold": 66,
+          "gear_wis_multiplier": 2
         },
         "trigger": "on_cast"
       }

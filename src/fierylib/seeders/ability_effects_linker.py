@@ -472,7 +472,16 @@ class AbilityEffectsLinker:
             effects.append(("damage", {"type": "magic", "amount": "1d6", "interval": 1, "duration": 10}, "on_cast"))
         elif spell_type == "teleport_offensive":
             # banish → extract (remove mob from game)
-            effects.append(("extract", {"target": "mob"}, "on_cast"))
+            effects.append((
+                "extract",
+                {
+                    "target": "mob",
+                    "success_threshold": 100,
+                    "gear_destroy_threshold": 66,
+                    "gear_wis_multiplier": 2,
+                },
+                "on_cast",
+            ))
         elif spell_type == "teleport_defensive":
             effects.append(("teleport", {"scope": "self", "destination": "escape"}, "on_cast"))
         elif spell_type == "damage_creation":
