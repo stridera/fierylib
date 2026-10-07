@@ -32,8 +32,14 @@ def test_teleport_range_params_are_seeded_and_patched():
         assert params["range"] == rng
         assert params["success_base_pct"] == 10
         assert params["success_per_skill_pct"] == 2
+    woods = abilities["WANDERING_WOODS"]["effects"][0]["params"]
+    assert woods["range"] == "world" and woods["success_base_pct"] == 100
     sql = SQL_PATH.read_text(encoding="utf-8")
-    assert "'TELEPORT'" in sql and "'WORLD_TELEPORT'" in sql
+    for name in ("'TELEPORT'", "'WORLD_TELEPORT'", "'WANDERING_WOODS'"):
+        assert name in sql
+    # Matched by ability name + effect type, and reports what it touched.
+    assert 'e."effectType" = \'teleport\'' in sql
+    assert "RAISE NOTICE" in sql and "GET DIAGNOSTICS" in sql
 
 
 class _FakePrisma:

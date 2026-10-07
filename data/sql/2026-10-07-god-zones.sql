@@ -60,20 +60,48 @@ WHERE z.is_god_zone
 -- Random teleport tuning, read by the game from the teleport effect params
 -- (data over code): "Teleport" stays inside the caster's zone, "World
 -- Teleport" ranges over the whole world; both keep the legacy success roll
--- (random(1,100) <= 10 + skill*2, spells.cpp perform_teleport_spell). Merges
--- keys into the params; rerunning is a no-op.
-UPDATE "AbilityEffect" ae
-SET override_params = COALESCE(ae.override_params, '{}'::jsonb)
-  || '{"range": "zone", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb
-FROM "Ability" a
-WHERE ae.ability_id = a.id AND a.plain_name = 'TELEPORT'
-  AND ae.override_params ->> 'destination' = 'random';
+-- (random(1,100) <= 10 + skill*2, spells.cpp perform_teleport_spell).
+-- "Wandering Woods" keeps its current behaviour (world-wide, never fails) now
+-- that the game's defaults for missing params are the legacy zone-limited
+-- roll. Rows are matched by ability name and effect type (not by the
+-- destination param, which a builder may have edited); params are merged, so
+-- rerunning is a no-op. The NOTICE lines report rows touched so the deployer
+-- can verify; a WARNING means an ability row was not found.
+DO $$
+DECLARE
+  n_tele  integer;
+  n_world integer;
+  n_woods integer;
+BEGIN
+  UPDATE "AbilityEffect" ae
+  SET override_params = COALESCE(ae.override_params, '{}'::jsonb)
+    || '{"range": "zone", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb
+  FROM "Ability" a, "Effect" e
+  WHERE ae.ability_id = a.id AND ae.effect_id = e.id
+    AND a.plain_name = 'TELEPORT' AND e."effectType" = 'teleport';
+  GET DIAGNOSTICS n_tele = ROW_COUNT;
 
-UPDATE "AbilityEffect" ae
-SET override_params = COALESCE(ae.override_params, '{}'::jsonb)
-  || '{"range": "world", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb
-FROM "Ability" a
-WHERE ae.ability_id = a.id AND a.plain_name = 'WORLD_TELEPORT'
-  AND ae.override_params ->> 'destination' = 'random';
+  UPDATE "AbilityEffect" ae
+  SET override_params = COALESCE(ae.override_params, '{}'::jsonb)
+    || '{"range": "world", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb
+  FROM "Ability" a, "Effect" e
+  WHERE ae.ability_id = a.id AND ae.effect_id = e.id
+    AND a.plain_name = 'WORLD_TELEPORT' AND e."effectType" = 'teleport';
+  GET DIAGNOSTICS n_world = ROW_COUNT;
+
+  UPDATE "AbilityEffect" ae
+  SET override_params = COALESCE(ae.override_params, '{}'::jsonb)
+    || '{"range": "world", "success_base_pct": 100, "success_per_skill_pct": 0}'::jsonb
+  FROM "Ability" a, "Effect" e
+  WHERE ae.ability_id = a.id AND ae.effect_id = e.id
+    AND a.plain_name = 'WANDERING_WOODS' AND e."effectType" = 'teleport';
+  GET DIAGNOSTICS n_woods = ROW_COUNT;
+
+  RAISE NOTICE 'god-zones patch: AbilityEffect rows updated: TELEPORT=%, WORLD_TELEPORT=%, WANDERING_WOODS=%',
+    n_tele, n_world, n_woods;
+  IF n_tele = 0 OR n_world = 0 THEN
+    RAISE WARNING 'god-zones patch: TELEPORT / WORLD_TELEPORT teleport effect rows not found; the game will use its legacy defaults (zone-limited, 10 + 2*skill)';
+  END IF;
+END $$;
 
 COMMIT;

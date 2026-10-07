@@ -14388,7 +14388,10 @@
         "order": 0,
         "params": {
           "destination": "random",
-          "restrictions": []
+          "range": "world",
+          "restrictions": [],
+          "success_base_pct": 100,
+          "success_per_skill_pct": 0
         },
         "trigger": "on_cast"
       }
