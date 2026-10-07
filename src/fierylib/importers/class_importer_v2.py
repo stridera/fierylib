@@ -73,6 +73,8 @@ class ClassImporterV2:
                     create_data["attackPowerPerLevel"] = class_data["attackPowerPerLevel"]
                 if "baseCritChance" in class_data:
                     create_data["baseCritChance"] = class_data["baseCritChance"]
+                if "expGainFactor" in class_data:
+                    create_data["expGainFactor"] = class_data["expGainFactor"]
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
                 if "spellProgression" in class_data:

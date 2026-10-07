@@ -259,8 +259,8 @@ class CppClassParser:
         """Export parsed data to JSON file.
 
         ``hitDice`` / ``hpPerLevel`` / ``accuracyPerLevel`` /
-        ``evasionPerLevel`` / ``dexEvasionMult`` / ``attackPowerPerLevel``
-        are NOT extracted from class.cpp by this parser — they were
+        ``evasionPerLevel`` / ``dexEvasionMult`` / ``attackPowerPerLevel`` /
+        ``expGainFactor`` are NOT extracted from class.cpp by this parser — they were
         retuned for the modern combat system. To avoid silently wiping
         that retune, we preserve those fields from any existing
         ``classes.json`` keyed by ``plainName``.
@@ -276,7 +276,7 @@ class CppClassParser:
                     "hitDice", "hpPerLevel",
                     "accuracyPerLevel", "evasionPerLevel",
                     "dexEvasionMult", "attackPowerPerLevel",
-                    "baseCritChance",
+                    "baseCritChance", "expGainFactor",
                 )
                 prior_combat = {
                     c["plainName"]: {k: c.get(k) for k in preserve_keys if k in c}

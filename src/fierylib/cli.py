@@ -2824,7 +2824,8 @@ def seed_levels(max_level: int, verbose: bool):
     """Seed level definitions.
 
     Creates LevelDefinition entries for all levels with:
-    - Experience requirements (using level^2.5 * 1000 formula)
+    - Experience requirements (legacy init_exp_table; per-class factor goes
+      to Class.expGainFactor)
     - HP/Mana/Movement gains per level
     - Immortal flags and permissions for levels 100+
 
@@ -2858,6 +2859,7 @@ def seed_levels(max_level: int, verbose: bool):
             click.echo(f"  Created:  {stats['created']}")
             click.echo(f"  Updated:  {stats['updated']}")
             click.echo(f"  Total:    {stats['total']}")
+            click.echo(f"  Class exp factors set: {stats['class_factors']}")
             click.echo(f"\n✅ Level seeding complete!")
 
         finally:

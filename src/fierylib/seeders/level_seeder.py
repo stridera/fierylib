@@ -2,11 +2,94 @@
 
 Seeds all 105 levels with experience requirements, stat gains, and immortal permissions.
 Based on the level constants from legacy/src/defines.hpp.
+
+Experience curve: ported exactly from legacy ``init_exp_table`` /
+``exp_next_level`` (fierymud_legacy/src/utils.cpp). ``LevelDefinition.expRequired``
+holds the class-neutral table (gain factor 1.0); the per-class "exp needed to
+level" factor lives in ``Class.expGainFactor`` (seeded from
+``data/classes.json``) and the game multiplies at load time, truncating, as
+legacy does.
 """
 
+import json
+from pathlib import Path
+
 import click
-import math
 from prisma import Prisma
+
+LVL_IMMORT = 100
+LVL_IMPL = 105
+
+# Legacy ``eval[]`` in init_exp_table: (level, static_add, level_mod, multiplier).
+_EVAL = (
+    (0, 44000, 8, 12500),
+    (17, 144000, 16, 17500),
+    (25, 284000, 24, 22500),
+    (33, 464000, 32, 25000),
+    (49, 864000, 48, 30000),
+    (90, 2094000, 89, 60000),
+    (92, 2214000, 91, 70000),
+    (95, 2424000, 94, 80000),
+    (96, 2504000, 95, 90000),
+    (98, 2684000, 97, 100000),
+)
+
+CLASSES_JSON = Path(__file__).resolve().parents[3] / "data" / "classes.json"
+
+
+def _eval_segment(level: int) -> tuple[int, int, int, int]:
+    """Last ``_EVAL`` entry whose starting level is <= ``level``."""
+    seg = _EVAL[0]
+    for entry in _EVAL:
+        if level >= entry[0]:
+            seg = entry
+    return seg
+
+
+def legacy_exp_table() -> list[int]:
+    """Legacy ``exp_table[0..LVL_IMPL]``: XP needed to finish level N (reach N+1).
+
+    Port of ``init_exp_table`` in fierymud_legacy/src/utils.cpp.
+    """
+    table: list[int] = []
+    last_exp = 0
+    for lvl in range(LVL_IMPL + 1):
+        if lvl < 9:
+            exp = ((lvl * lvl) + lvl) // 2 * 5500
+        elif lvl < 99:
+            _, static_add, level_mod, mult = _eval_segment(lvl)
+            exp = static_add + (lvl - level_mod) * mult + last_exp
+        elif lvl == 99:
+            _, static_add, level_mod, mult = _eval_segment(lvl)
+            exp = static_add + (lvl - level_mod) * mult
+            _, static_add, level_mod, mult = _eval_segment(lvl + 1)
+            exp += static_add + (lvl + 1 - level_mod) * mult
+            exp += last_exp
+        else:
+            exp = 300000001 + 2 * (lvl - LVL_IMMORT - 1)
+        table.append(exp)
+        last_exp = exp
+    return table
+
+
+def exp_required_for_level(level: int) -> int:
+    """Class-neutral cumulative XP needed to *reach* ``level`` (1..LVL_IMPL).
+
+    Legacy ``exp_next_level(level - 1)`` at gain factor 1. Level 1 is 0.
+    """
+    if level <= 1:
+        return 0
+    return legacy_exp_table()[level - 1]
+
+
+def class_exp_factors(path: Path = CLASSES_JSON) -> dict[str, float]:
+    """``plainName`` -> legacy ``exp_gain_factor`` from ``data/classes.json``."""
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        c["plainName"]: float(c["expGainFactor"])
+        for c in data.get("classes", [])
+        if c.get("plainName") and "expGainFactor" in c
+    }
 
 
 class LevelSeeder:
@@ -15,14 +98,20 @@ class LevelSeeder:
     def __init__(self, prisma: Prisma):
         self.prisma = prisma
 
-    def calculate_exp_for_level(self, level: int, exponent: float = 2.5, multiplier: int = 1000) -> int:
-        """Calculate experience required for a level using the standard formula.
+    def calculate_exp_for_level(self, level: int) -> int:
+        """Class-neutral XP needed to reach ``level`` (legacy exp table)."""
+        return exp_required_for_level(level)
 
-        Formula: level^exponent * multiplier
-        """
-        if level <= 1:
-            return 0
-        return int(math.pow(level, exponent) * multiplier)
+    async def seed_class_exp_factors(self) -> int:
+        """Set ``Class.expGainFactor`` from ``data/classes.json``. Returns rows updated."""
+        updated = 0
+        for plain_name, factor in class_exp_factors().items():
+            result = await self.prisma.characterclass.update_many(
+                where={"plainName": plain_name},
+                data={"expGainFactor": factor},
+            )
+            updated += result if isinstance(result, int) else 0
+        return updated
 
     def get_immortal_permissions(self, level: int) -> list[str]:
         """Get permissions for immortal levels based on legacy FieryMUD hierarchy.
@@ -105,16 +194,12 @@ class LevelSeeder:
     async def seed_levels(
         self,
         max_level: int = 105,
-        exp_exponent: float = 2.5,
-        exp_multiplier: int = 1000,
         verbose: bool = False,
     ) -> dict:
         """Seed all level definitions.
 
         Args:
             max_level: Maximum level to seed (default 105)
-            exp_exponent: Exponent for experience formula
-            exp_multiplier: Multiplier for experience formula
             verbose: Show detailed output
 
         Returns:
@@ -122,8 +207,10 @@ class LevelSeeder:
         """
         stats = {"created": 0, "updated": 0, "total": 0}
 
+        stats["class_factors"] = await self.seed_class_exp_factors()
+
         for level in range(1, max_level + 1):
-            exp_required = self.calculate_exp_for_level(level, exp_exponent, exp_multiplier)
+            exp_required = self.calculate_exp_for_level(level)
             is_immortal = level >= 100
             name = self.get_level_name(level)
             permissions = self.get_immortal_permissions(level) if is_immortal else []
