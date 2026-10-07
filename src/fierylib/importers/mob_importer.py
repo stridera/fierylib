@@ -595,6 +595,7 @@ class MobImporter:
                         "perception": mob.perception,
                         "concealment": mob.concealment,
                         "lifeForce": life_force,
+                        "composition": composition,
                         "damageType": damage_type,
                     },
                     "update": {
@@ -639,6 +640,7 @@ class MobImporter:
                         "perception": mob.perception,
                         "concealment": mob.concealment,
                         "lifeForce": life_force,
+                        "composition": composition,
                         "damageType": damage_type,
                     },
                 },
