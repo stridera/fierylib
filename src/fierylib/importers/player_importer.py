@@ -30,6 +30,19 @@ from fierylib.combat_formulas import derive_attack_power_baseline, derive_hit_ro
 from fierylib.seeders.user_seeder import compute_max_hp, compute_max_stamina
 
 
+# Legacy preference flags that map 1:1 onto the modern PlayerFlag enum.
+VALID_PLAYER_FLAGS = {
+    "BRIEF", "COMPACT", "NO_REPEAT",
+    "AUTO_LOOT", "AUTO_GOLD", "AUTO_SPLIT", "AUTO_EXIT", "AUTO_ASSIST",
+    "WIMPY", "SHOW_DICE_ROLLS",
+    "AFK", "DEAF", "NO_TELL", "NO_SUMMON", "QUEST",
+    "PK_ENABLED", "CONSENT",
+    "COLOR_BLIND", "MSP", "MXP_ENABLED",
+    "HOLY_LIGHT", "SHOW_IDS",
+    "EXPAND_MOBS", "EXPAND_OBJS",
+}
+
+
 class PlayerImporter:
     """Imports player/character data to PostgreSQL using Prisma"""
 
@@ -382,15 +395,6 @@ class PlayerImporter:
         # Legacy player_flags (KILLER, THIEF, LOADROOM, etc.) are runtime state,
         # while preference_flags (BRIEF, COMPACT, AUTO_LOOT, etc.) map to the
         # modern PlayerFlag enum.
-        VALID_PLAYER_FLAGS = {
-            "BRIEF", "COMPACT", "NO_REPEAT",
-            "AUTO_LOOT", "AUTO_GOLD", "AUTO_SPLIT", "AUTO_EXIT", "AUTO_ASSIST",
-            "WIMPY", "SHOW_DICE_ROLLS",
-            "AFK", "DEAF", "NO_TELL", "NO_SUMMON", "QUEST",
-            "PK_ENABLED", "CONSENT",
-            "COLOR_BLIND", "MSP", "MXP_ENABLED",
-            "HOLY_LIGHT", "SHOW_IDS",
-        }
         player_flags = []
         if player_data.preference_flags:
             player_flags = [f for f in normalize_flags(player_data.preference_flags)

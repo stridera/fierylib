@@ -918,7 +918,7 @@ PREFERENCE_FLAGS = [
     "ROOM_VISIBILITY",  # 30
     "NO_FOLLOW",  # 31  /* Cannot follow / well to this player*/
     "AUTO_TREASURE",  # 32 /* Automatically loots treasure from corpses */
-    "EXPAND_OBJECTS",  # 33
+    "EXPAND_OBJS",  # 33
     "EXPAND_MOBS",  # 34
     "SACRIFICIAL",  # 35 /* Sacrificial spells autotarget self */
     "PET_ASSIST",  # 36   /* Should your pet assist you as you fight */
