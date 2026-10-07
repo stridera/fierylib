@@ -1,0 +1,329 @@
+{
+  "description": "Scroll-of-recall destinations (Objects.values.\"Recall Rooms\"). Ported from fierymud_legacy/src/spec_procs.cpp {red,green,blue,gray}_recall_room: each coloured scroll sends the reader to the guild hall matching their class, or the town default. Class keys are lowercased Class.plain_name; classes not listed use \"default\". Rooms are (zone_id, id) converted from legacy vnums via data/vnum_map.json. Applied by `fierylib seed recall-scrolls` and data/sql/2026-10-07-recall-scroll-rooms.sql.",
+  "scrolls": [
+    {
+      "object": {
+        "zone": 30,
+        "id": 56
+      },
+      "colour": "red",
+      "legacy_vnum": 3056,
+      "recall_rooms": {
+        "default": {
+          "zone": 61,
+          "id": 49
+        },
+        "classes": {
+          "anti-paladin": {
+            "zone": 60,
+            "id": 80
+          },
+          "assassin": {
+            "zone": 60,
+            "id": 88
+          },
+          "bard": {
+            "zone": 60,
+            "id": 93
+          },
+          "berserker": {
+            "zone": 557,
+            "id": 97
+          },
+          "cleric": {
+            "zone": 62,
+            "id": 18
+          },
+          "cryomancer": {
+            "zone": 62,
+            "id": 21
+          },
+          "diabolist": {
+            "zone": 60,
+            "id": 75
+          },
+          "druid": {
+            "zone": 62,
+            "id": 22
+          },
+          "illusionist": {
+            "zone": 62,
+            "id": 34
+          },
+          "mercenary": {
+            "zone": 61,
+            "id": 70
+          },
+          "necromancer": {
+            "zone": 62,
+            "id": 23
+          },
+          "priest": {
+            "zone": 62,
+            "id": 18
+          },
+          "pyromancer": {
+            "zone": 62,
+            "id": 20
+          },
+          "rogue": {
+            "zone": 60,
+            "id": 68
+          },
+          "sorcerer": {
+            "zone": 62,
+            "id": 31
+          },
+          "thief": {
+            "zone": 60,
+            "id": 68
+          }
+        }
+      }
+    },
+    {
+      "object": {
+        "zone": 30,
+        "id": 57
+      },
+      "colour": "green",
+      "legacy_vnum": 3057,
+      "recall_rooms": {
+        "default": {
+          "zone": 30,
+          "id": 22
+        },
+        "classes": {
+          "anti-paladin": {
+            "zone": 30,
+            "id": 22
+          },
+          "assassin": {
+            "zone": 30,
+            "id": 38
+          },
+          "bard": {
+            "zone": 53,
+            "id": 11
+          },
+          "berserker": {
+            "zone": 30,
+            "id": 212
+          },
+          "cleric": {
+            "zone": 30,
+            "id": 3
+          },
+          "cryomancer": {
+            "zone": 30,
+            "id": 93
+          },
+          "diabolist": {
+            "zone": 30,
+            "id": 3
+          },
+          "druid": {
+            "zone": 30,
+            "id": 87
+          },
+          "illusionist": {
+            "zone": 30,
+            "id": 209
+          },
+          "mercenary": {
+            "zone": 30,
+            "id": 38
+          },
+          "monk": {
+            "zone": 53,
+            "id": 8
+          },
+          "necromancer": {
+            "zone": 169,
+            "id": 32
+          },
+          "paladin": {
+            "zone": 53,
+            "id": 6
+          },
+          "priest": {
+            "zone": 30,
+            "id": 95
+          },
+          "pyromancer": {
+            "zone": 30,
+            "id": 94
+          },
+          "ranger": {
+            "zone": 35,
+            "id": 50
+          },
+          "rogue": {
+            "zone": 30,
+            "id": 38
+          },
+          "sorcerer": {
+            "zone": 30,
+            "id": 46
+          },
+          "thief": {
+            "zone": 30,
+            "id": 38
+          }
+        }
+      }
+    },
+    {
+      "object": {
+        "zone": 30,
+        "id": 58
+      },
+      "colour": "blue",
+      "legacy_vnum": 3058,
+      "recall_rooms": {
+        "default": {
+          "zone": 100,
+          "id": 13
+        },
+        "classes": {
+          "assassin": {
+            "zone": 100,
+            "id": 48
+          },
+          "bard": {
+            "zone": 100,
+            "id": 48
+          },
+          "berserker": {
+            "zone": 102,
+            "id": 42
+          },
+          "cleric": {
+            "zone": 100,
+            "id": 3
+          },
+          "cryomancer": {
+            "zone": 100,
+            "id": 30
+          },
+          "diabolist": {
+            "zone": 100,
+            "id": 3
+          },
+          "druid": {
+            "zone": 100,
+            "id": 3
+          },
+          "illusionist": {
+            "zone": 100,
+            "id": 30
+          },
+          "mercenary": {
+            "zone": 100,
+            "id": 48
+          },
+          "necromancer": {
+            "zone": 100,
+            "id": 30
+          },
+          "priest": {
+            "zone": 100,
+            "id": 3
+          },
+          "pyromancer": {
+            "zone": 100,
+            "id": 30
+          },
+          "rogue": {
+            "zone": 100,
+            "id": 48
+          },
+          "sorcerer": {
+            "zone": 100,
+            "id": 30
+          },
+          "thief": {
+            "zone": 100,
+            "id": 48
+          }
+        }
+      }
+    },
+    {
+      "object": {
+        "zone": 300,
+        "id": 10
+      },
+      "colour": "gray",
+      "legacy_vnum": 30010,
+      "recall_rooms": {
+        "default": {
+          "zone": 300,
+          "id": 30
+        },
+        "classes": {
+          "assassin": {
+            "zone": 300,
+            "id": 66
+          },
+          "bard": {
+            "zone": 300,
+            "id": 66
+          },
+          "berserker": {
+            "zone": 300,
+            "id": 122
+          },
+          "cleric": {
+            "zone": 300,
+            "id": 70
+          },
+          "cryomancer": {
+            "zone": 300,
+            "id": 73
+          },
+          "diabolist": {
+            "zone": 300,
+            "id": 70
+          },
+          "druid": {
+            "zone": 300,
+            "id": 70
+          },
+          "illusionist": {
+            "zone": 300,
+            "id": 0
+          },
+          "mercenary": {
+            "zone": 300,
+            "id": 66
+          },
+          "necromancer": {
+            "zone": 300,
+            "id": 73
+          },
+          "priest": {
+            "zone": 300,
+            "id": 70
+          },
+          "pyromancer": {
+            "zone": 300,
+            "id": 73
+          },
+          "rogue": {
+            "zone": 300,
+            "id": 66
+          },
+          "sorcerer": {
+            "zone": 300,
+            "id": 73
+          },
+          "thief": {
+            "zone": 300,
+            "id": 66
+          }
+        }
+      }
+    }
+  ]
+}

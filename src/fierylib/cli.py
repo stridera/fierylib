@@ -2807,6 +2807,42 @@ def seed_config(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="recall-scrolls")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_recall_scrolls(verbose: bool):
+    """Seed scroll-of-recall destinations.
+
+    Writes Objects.values["Recall Rooms"] (per-class guild hall plus a town
+    default) on the red/green/blue/gray recall scrolls from
+    data/recall_scrolls.json. Run after the world import.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import RecallScrollSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Recall Scroll Destinations")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await RecallScrollSeeder(prisma).seed_recall_scrolls(verbose=verbose)
+            click.echo(f"  Updated:  {stats['updated']}")
+            click.echo(f"  Missing:  {stats['missing']}")
+            click.echo(f"\n✅ Recall scroll seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="levels")
 @click.option(
     "--max-level",

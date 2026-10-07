@@ -354,6 +354,14 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
 
   eval $SETTINGS_CMD
 
+  # Scroll-of-recall destinations live in Objects.values, which the world
+  # import above rewrites, so they are seeded after it.
+  RECALL_CMD="poetry run fierylib seed recall-scrolls"
+  if [[ -n "$VERBOSE" ]]; then
+    RECALL_CMD="$RECALL_CMD --verbose"
+  fi
+  eval $RECALL_CMD
+
   echo ""
   echo "✅ Game settings seeded"
   echo ""
