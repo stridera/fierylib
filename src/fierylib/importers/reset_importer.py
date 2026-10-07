@@ -319,6 +319,8 @@ class ResetImporter:
         a single entry with the appropriate quantity.
 
         Each legacy entry represents 1 item to spawn; "max" is a world-cap, not quantity.
+        The cap is kept (largest "max" among merged entries) so the runtime can
+        honour legacy `P` semantics (only load while live copies < max).
 
         Args:
             contents: List of content dicts with "id", "max", "name", "contains"
@@ -326,7 +328,7 @@ class ResetImporter:
         Returns:
             Consolidated list with unique object IDs and summed quantities
         """
-        consolidated = {}  # vnum -> {quantity, name, nested_contents}
+        consolidated = {}  # vnum -> {quantity, max, name, nested_contents}
         order = []  # Preserve insertion order
 
         for content in contents:
@@ -335,6 +337,9 @@ class ResetImporter:
             if obj_vnum in consolidated:
                 # Already seen - increment quantity
                 consolidated[obj_vnum]["quantity"] += 1
+                consolidated[obj_vnum]["max"] = max(
+                    consolidated[obj_vnum]["max"], content.get("max", 1)
+                )
                 # Merge nested contents
                 if content.get("contains"):
                     consolidated[obj_vnum]["nested_contents"].extend(content["contains"])
@@ -344,6 +349,7 @@ class ResetImporter:
                 consolidated[obj_vnum] = {
                     "id": obj_vnum,
                     "quantity": 1,  # Each entry = 1 item
+                    "max": content.get("max", 1),
                     "name": content.get("name"),
                     "nested_contents": list(content.get("contains", [])),
                 }
@@ -355,6 +361,7 @@ class ResetImporter:
             result.append({
                 "id": item["id"],
                 "quantity": item["quantity"],
+                "max": item["max"],
                 "name": item["name"],
                 "contains": item["nested_contents"],
             })
@@ -403,6 +410,8 @@ class ResetImporter:
                         "objectZoneId": db_obj_zone_id,
                         "objectId": obj_id,
                         "quantity": quantity,
+                        # Legacy P max = world-wide cap (<=0 means unlimited)
+                        "maxInstances": content["max"] if content.get("max", 1) > 0 else 999,
                         "comment": content.get("name"),
                     }
                 )
