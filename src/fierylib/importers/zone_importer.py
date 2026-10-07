@@ -18,6 +18,33 @@ from mud.mudfile import MudData
 from fierylib.converters import convert_zone_id, vnum_to_composite
 
 
+# Legacy has no zone-level "staff only" flag, so god zones are derived:
+# a zone is a god zone when at least half of its rooms carry an entry
+# restriction (legacy GODROOM -> `return actor:is_god()`), plus the legacy
+# immortal-only item/holding zones named in the SQL (zones 4 and 11: "imm
+# quest items zone", "The Repository (II)"). The SQL below is mirrored verbatim in
+# data/sql/2026-10-07-god-zones.sql (a unit test keeps the two in sync).
+MARK_GOD_ZONES_SQL = """UPDATE "Zones" z
+SET is_god_zone = true, updated_at = now()
+WHERE z.is_god_zone = false
+  AND (
+    z.id IN (4, 11)  -- "imm quest items zone", "The Repository (II)"
+    OR (
+      SELECT count(*) FROM "Room" r
+      WHERE r.zone_id = z.id AND r.deleted_at IS NULL
+        AND r.entry_restriction IS NOT NULL
+    ) * 2 >= (
+      SELECT GREATEST(count(*), 1) FROM "Room" r
+      WHERE r.zone_id = z.id AND r.deleted_at IS NULL
+    )
+    AND EXISTS (
+      SELECT 1 FROM "Room" r
+      WHERE r.zone_id = z.id AND r.deleted_at IS NULL
+        AND r.entry_restriction IS NOT NULL
+    )
+  )"""
+
+
 class ZoneImporter:
     """Imports zone data to PostgreSQL using Prisma"""
 
@@ -203,6 +230,13 @@ class ZoneImporter:
                 "action": "failed",
                 "error": str(e),
             }
+
+    async def mark_god_zones(self) -> int:
+        """Flag derived god zones (see MARK_GOD_ZONES_SQL). Must run after rooms
+        are imported. Only ever sets the flag to true, so a builder's later
+        edit in Muditor is not clobbered by the zone upsert (which never
+        touches is_god_zone). Returns the number of zones newly marked."""
+        return await self.prisma.execute_raw(MARK_GOD_ZONES_SQL)
 
     async def apply_door_resets(self, zone: Zone, dry_run: bool = False):
         """

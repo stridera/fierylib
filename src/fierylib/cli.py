@@ -582,6 +582,12 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                     else:
                         click.echo(f"  Zone {zone_id}: {zone_exits_imported} exits imported ✅")
 
+            # Derive god zones now that every room (and its GODROOM entry
+            # restriction) is in the database.
+            if not dry_run:
+                marked = await zone_importer.mark_god_zones()
+                click.echo(f"  God zones marked: {marked}")
+
             # PHASE 2D: Apply door resets (set defaultState on exits)
             click.echo(f"\n{'='*60}")
             click.echo(f"Phase 2D: Applying Door Resets")

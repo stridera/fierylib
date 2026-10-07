@@ -13511,7 +13511,10 @@
         "params": {
           "type": "self",
           "destination": "random",
-          "scope": "self"
+          "range": "zone",
+          "scope": "self",
+          "success_base_pct": 10,
+          "success_per_skill_pct": 2
         },
         "trigger": "on_cast"
       }
@@ -14814,7 +14817,10 @@
         "params": {
           "type": "self",
           "destination": "random",
-          "scope": "self"
+          "range": "world",
+          "scope": "self",
+          "success_base_pct": 10,
+          "success_per_skill_pct": 2
         },
         "trigger": "on_cast"
       }

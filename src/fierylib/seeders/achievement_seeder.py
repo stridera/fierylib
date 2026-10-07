@@ -159,10 +159,12 @@ class AchievementSeeder:
             else:
                 created += 1
 
-        # Zone-clear achievements: one per zone with rooms.
+        # Zone-clear achievements: one per zone with rooms. God zones are
+        # staff-only and grant no exploration credit, so they get none.
         zone_rows = await self.prisma.query_raw(
             'SELECT z.id, z.name, COUNT(r.id)::int AS room_count '
             'FROM "Zones" z JOIN "Room" r ON r.zone_id = z.id '
+            'WHERE NOT z.is_god_zone '
             'GROUP BY z.id, z.name HAVING COUNT(r.id) > 0 '
             'ORDER BY z.id'
         )
