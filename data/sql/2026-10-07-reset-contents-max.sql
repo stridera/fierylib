@@ -134,4 +134,11 @@ WHERE c.object_zone_id = v.oz
         WHERE p.id = c.parent_content_id AND p.object_zone_id = v.cz AND p.object_id = v.cid)
   );
 
+-- Safeguard: a cap below the row's own quantity could never be satisfied (the
+-- reset would be starved by its own cap). Whatever the legacy backfill left
+-- (or a hand-edited row), the cap is never lower than the quantity.
+UPDATE "ObjectResetContents"
+SET max_instances = GREATEST(max_instances, quantity)
+WHERE max_instances < quantity;
+
 COMMIT;
