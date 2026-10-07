@@ -365,14 +365,25 @@ class ShopImporter:
             # Convert legacy amount to modern convention
             normalized_amount = self._normalize_stock_amount(amount)
 
-            await self.prisma.shopmobs.create(
+            await self.prisma.shopmobs.upsert(
+                where={
+                    "shopZoneId_shopId_mobZoneId_mobId": {
+                        "shopZoneId": shop_zone_id,
+                        "shopId": shop_id,
+                        "mobZoneId": mob_zone_id,
+                        "mobId": mob_id,
+                    }
+                },
                 data={
-                    "shopZoneId": shop_zone_id,
-                    "shopId": shop_id,
-                    "mobZoneId": mob_zone_id,
-                    "mobId": mob_id,
-                    "amount": normalized_amount,
-                }
+                    "create": {
+                        "shopZoneId": shop_zone_id,
+                        "shopId": shop_id,
+                        "mobZoneId": mob_zone_id,
+                        "mobId": mob_id,
+                        "amount": normalized_amount,
+                    },
+                    "update": {"amount": normalized_amount},
+                },
             )
 
             return {"success": True, "mob": f"{mob_zone_id}:{mob_id}"}
@@ -383,41 +394,6 @@ class ShopImporter:
                 "mob": f"{mob_zone_id}:{mob_id}",
                 "error": str(e),
             }
-
-    async def _set_sells_mobs_flag(self, shop_zone_id: int, shop_id: int) -> bool:
-        """
-        Add SELLS_MOBS flag to a shop if not already set.
-
-        Args:
-            shop_zone_id: Shop's zone ID
-            shop_id: Shop's vnum
-
-        Returns:
-            True if flag was set or already present, False on error
-        """
-        try:
-            shop = await self.prisma.shops.find_unique(
-                where={
-                    "zoneId_id": {
-                        "zoneId": shop_zone_id,
-                        "id": shop_id,
-                    }
-                }
-            )
-            if shop and "SELLS_MOBS" not in shop.flags:
-                new_flags = list(shop.flags) + ["SELLS_MOBS"]
-                await self.prisma.shops.update(
-                    where={
-                        "zoneId_id": {
-                            "zoneId": shop_zone_id,
-                            "id": shop_id,
-                        }
-                    },
-                    data={"flags": new_flags}
-                )
-            return True
-        except Exception:
-            return False
 
     async def detect_and_import_pet_shop_mobs(
         self, zone_id: int, dry_run: bool = False
@@ -523,24 +499,29 @@ class ShopImporter:
         self, room_vnum: int, dry_run: bool = False
     ) -> dict:
         """
-        Import a pet shop based on legacy spec_assign.cpp room assignment.
+        Import a pet/mount shop based on legacy spec_assign.cpp room assignment.
 
         In legacy CircleMUD, pet shops are ROOMS with the pet_shop spec_proc.
-        The spec_proc would show mobs from room_vnum + 1 (the backroom).
+        The spec_proc sells the mobs standing in the backroom (room_vnum + 1)
+        and never consults the .shp file; the keeper is just the shopkeeper
+        mob that stands in the shop room. The modern schema models this as a
+        regular Shops row (the keeper) plus ShopMobs rows (the offerings).
 
-        This function:
-        1. Finds the shop that operates in this room
-        2. Finds mobs that spawn in room_vnum + 1 (backroom)
-        3. Links those mobs to the shop via ShopMobs
-        4. Sets the SELLS_MOBS flag on the shop
+        This function (must run after the mob resets are imported):
+        1. Resolves the shop room; its backroom is the next room id (room_vnum + 1)
+        2. Finds the Shops row whose keeper mob is reset into the shop room
+           (if a keeper has several Shops rows, the highest id wins, matching
+           the runtime's keeper -> shop lookup)
+        3. Links every distinct mob reset into the backroom to that shop via
+           ShopMobs (unlimited stock, price 0 = runtime default)
 
         Known legacy pet shop rooms:
         - 3030: Kayla's Pet Shop (Mielikki)
         - 3091: Jorhan's Mount Shop (Mielikki)
-        - 6228: (Zone 62)
-        - 10056: (Zone 100)
-        - 30012: (Zone 300)
-        - 30031: (Zone 300)
+        - 6228: Shula's stable (Zone 62)
+        - 10056: Faric's mount shop (Zone 100)
+        - 30012: Arandidor's pet shop (Zone 300)
+        - 30031: Myrzistan's stable (Zone 300)
 
         Args:
             room_vnum: Legacy room vnum with pet_shop spec_proc
@@ -557,15 +538,53 @@ class ShopImporter:
             "details": [],
         }
 
-        # DISABLED (Wave 1 schema migration): This used to find the shop
-        # that operates in `room_vnum` via prisma.shoprooms.find_first, but
-        # ShopRooms has been dropped. Until pet-shop linkage is reimplemented
-        # against the new schema, the function returns an inert "not found"
-        # result so callers don't crash.
-        _ = (dry_run,)
-        results["success"] = False
-        results["error"] = (
-            f"ShopRooms table dropped (Wave 1 migration); cannot resolve "
-            f"shop for room {room_vnum}."
+        room = await self.resolver.resolve_room(room_vnum)
+        if room is None:
+            results["success"] = False
+            results["error"] = f"Room {room_vnum} not found"
+            return results
+        # The backroom is the next room id in the same zone (room_vnum + 1).
+        backroom_zone_id, backroom_id = room.zone_id, room.id + 1
+
+        keeper_resets = await self.prisma.mobresets.find_many(
+            where={"roomZoneId": room.zone_id, "roomId": room.id}
         )
+        shops = []
+        for keeper_key in sorted(
+            {(r.mobZoneId, r.mobId) for r in keeper_resets}
+        ):
+            shops.extend(
+                await self.prisma.shops.find_many(
+                    where={
+                        "keeperZoneId": keeper_key[0],
+                        "keeperId": keeper_key[1],
+                    }
+                )
+            )
+        if not shops:
+            results["success"] = False
+            results["error"] = f"No shopkeeper stands in room {room_vnum}"
+            return results
+        shop = max(shops, key=lambda sh: (sh.zoneId, sh.id))
+
+        pet_resets = await self.prisma.mobresets.find_many(
+            where={"roomZoneId": backroom_zone_id, "roomId": backroom_id}
+        )
+        pet_keys = sorted({(r.mobZoneId, r.mobId) for r in pet_resets})
+
+        results["shop_found"] = True
+        results["shop"] = f"{shop.zoneId}:{shop.id}"
+        if dry_run:
+            results["mobs_linked"] = len(pet_keys)
+            return results
+
+        for mob_zone_id, mob_id in pet_keys:
+            link = await self.import_shop_mob(
+                shop.zoneId, shop.id, mob_zone_id, mob_id, amount=0
+            )
+            results["details"].append(link)
+            if link["success"]:
+                results["mobs_linked"] += 1
+            else:
+                results["success"] = False
         return results
