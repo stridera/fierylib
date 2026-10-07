@@ -475,6 +475,84 @@ def normalize_mob_flags(flags: list) -> tuple[list, str | None]:
     return other_flags, aggro_condition
 
 
+# Legacy mob EFF_* flag -> `status` effect flag (data/effects.json "status"
+# params.flag, as used by data/abilities.json). The Effect catalog is a small
+# registry of generic effect *types* ("status", "damage", ...), so a mob's
+# innate effects are stored as ONE MobDefaultEffects row pointing at the
+# `status` Effect whose modifier_data is {"flags": [<status flag>, ...]}
+# (MobDefaultEffects is unique on (mob, effect), so several status flags per
+# mob have to share the row). Each target flag below is granted by a status
+# ability in data/abilities.json (checked by tests/test_mob_default_effects.py).
+#
+# Deliberately NOT mapped (logged as skipped by mob_default_status_flags):
+#   CHARM, TAMED, FAMILIARITY       - need a master / are relationship state
+#   PROTECT_*, STONE_SKIN, NEGATE_*, SOULSHIELD, MAJOR/MINOR_GLOBE
+#                                   - resistances/globes, not status flags
+#   NO_TRACK, REMOTE_AGGRO, VITALITY, GLORY, INSANITY, CAMOUFLAGED, MESMERIZED,
+#   DISPLACEMENT, ... (anything else) - no status ability / flag in the catalog
+MOB_EFFECT_FLAG_TO_STATUS_FLAG = {
+    'BLIND': 'blinded',
+    'INVISIBLE': 'invisible',
+    'DETECT_ALIGN': 'detect_align',
+    'DETECT_INVIS': 'detect_invisible',
+    'DETECT_MAGIC': 'detect_magic',
+    'SENSE_LIFE': 'detect_life',
+    'WATERWALK': 'waterwalk',
+    'SANCTUARY': 'sanctuary',
+    'CONFUSION': 'confused',
+    'CURSE': 'cursed',
+    'INFRAVISION': 'infravision',
+    'POISON': 'poisoned',
+    'SLEEP': 'sleeping',
+    'BERSERK': 'berserk',
+    'SNEAK': 'sneak',
+    'STEALTH': 'hidden',
+    'FLY': 'fly',
+    'FARSEE': 'detect_hidden',
+    'HASTE': 'haste',
+    'BLUR': 'blur',
+    'MAJOR_PARALYSIS': 'paralyzed',
+    'MINOR_PARALYSIS': 'paralyzed',
+    'LIGHT': 'glowing',
+    'FEATHER_FALL': 'featherfall',
+    'WATERBREATH': 'waterbreath',
+    'SILENCE': 'silenced',
+    'FIRESHIELD': 'fireshield',
+    'COLDSHIELD': 'coldshield',
+    'HARNESS': 'empowered',
+    'FEAR': 'feared',
+    'DISEASE': 'diseased',
+    'ULTRAVISION': 'ultravision',
+    'AWARE': 'aware',
+    'BLESS': 'bless',
+    'DETECT_POISON': 'detect_poison',
+}
+
+
+def mob_default_status_flags(effect_flags: list) -> tuple[list[str], list[str]]:
+    """
+    Map a mob's legacy EFF_* flag names to `status` effect flags.
+
+    Returns (status_flags, skipped): status_flags is de-duplicated and sorted
+    (stable output for DB rows / generated SQL); skipped lists the legacy flag
+    names with no catalog mapping (UNUSED placeholders are ignored).
+    """
+    flags: list[str] = []
+    skipped: list[str] = []
+    for raw in effect_flags or []:
+        name = normalize_flag(raw) if raw else None
+        if not name or name == 'UNUSED':
+            continue
+        status = MOB_EFFECT_FLAG_TO_STATUS_FLAG.get(name)
+        if status is None:
+            if name not in skipped:
+                skipped.append(name)
+        elif status not in flags:
+            flags.append(status)
+    return sorted(flags), skipped
+
+
+
 @dataclass
 class ProcessedMobFlags:
     """Result of processing legacy mob flags into modern schema format"""
@@ -482,7 +560,9 @@ class ProcessedMobFlags:
     behaviors: list[str]        # MobBehavior enum values
     professions: list[str]      # MobProfession enum values
     resistances: dict[str, int] # Effect name -> resistance value (0 = immune)
-    effect_names: list[str]     # Effect names to create MobDefaultEffects for
+    effect_names: list[str]     # Legacy effect-flag names (kept for Mobs.effect_flags)
+    default_status_flags: list[str]  # `status` flags for the MobDefaultEffects row
+    skipped_effect_flags: list[str]  # Legacy EFF_* flags with no catalog mapping
     aggro_formula: str | None   # Lua expression for aggression
 
 
@@ -492,7 +572,7 @@ def process_mob_flags(mob_flags: list, effect_flags: list) -> ProcessedMobFlags:
 
     Converts:
     - mob_flags → traits, behaviors, professions, resistances
-    - effect_flags → effect_names (for MobDefaultEffects junction table)
+    - effect_flags → default_status_flags (MobDefaultEffects `status` row)
     - aggro flags → aggro_formula (Lua expression)
 
     Args:
@@ -591,12 +671,16 @@ def process_mob_flags(mob_flags: list, effect_flags: list) -> ProcessedMobFlags:
             if effect_name not in effect_names:
                 effect_names.append(effect_name)
 
+    default_status_flags, skipped_effect_flags = mob_default_status_flags(normalized_effects)
+
     return ProcessedMobFlags(
         traits=traits,
         behaviors=behaviors,
         professions=professions,
         resistances=resistances,
         effect_names=effect_names,
+        default_status_flags=default_status_flags,
+        skipped_effect_flags=skipped_effect_flags,
         aggro_formula=aggro_formula,
     )
 

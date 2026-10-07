@@ -13,6 +13,7 @@ from pathlib import Path
 import sys
 import re
 import random
+import logging
 
 from prisma import Json
 from mud.types.mob import Mob
@@ -32,6 +33,8 @@ from fierylib.combat_formulas import (
     convert_legacy_to_modern_stats,
     calculate_placeholder_stats,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def clamp_int32(value: int) -> int:
@@ -171,7 +174,59 @@ class MobImporter:
         """
         self.prisma = prisma_client
         self.vnum_map = {}  # vnum -> (zone_id, id) - built during import
+        self._status_effect_id: Optional[int] = None
         self.zone_stats_cache = {}  # zone_id -> {avg_level, stddev_level, avg_hp, stddev_hp}
+
+    async def _get_status_effect_id(self) -> Optional[int]:
+        """Id of the generic `status` row in the Effect catalog (cached)."""
+        if self._status_effect_id is None:
+            row = await self.prisma.effect.find_first(where={"name": "status"})
+            if row is not None:
+                self._status_effect_id = row.id
+        return self._status_effect_id
+
+    async def sync_default_effects(
+        self, mob_zone_id: int, mob_id: int, status_flags: list[str]
+    ) -> bool:
+        """
+        Upsert the mob's MobDefaultEffects row (idempotent).
+
+        MobDefaultEffects is unique on (mob, effect) and the Effect catalog only
+        holds generic effect types, so all of a mob's innate status flags live in
+        ONE row: effect = `status`, modifier_data = {"flags": [...]}. A mob with
+        no mappable flags has that row removed. Returns True if a row exists
+        afterwards.
+        """
+        effect_id = await self._get_status_effect_id()
+        if effect_id is None:
+            logger.warning("Effect 'status' not found; skipping MobDefaultEffects (seed effects first)")
+            return False
+        if not status_flags:
+            await self.prisma.mobdefaulteffects.delete_many(
+                where={"mobZoneId": mob_zone_id, "mobId": mob_id, "effectId": effect_id}
+            )
+            return False
+        payload = Json({"flags": sorted(set(status_flags))})
+        await self.prisma.mobdefaulteffects.upsert(
+            where={
+                "mobZoneId_mobId_effectId": {
+                    "mobZoneId": mob_zone_id,
+                    "mobId": mob_id,
+                    "effectId": effect_id,
+                }
+            },
+            data={
+                "create": {
+                    "mobZoneId": mob_zone_id,
+                    "mobId": mob_id,
+                    "effectId": effect_id,
+                    "strength": 1,
+                    "modifierData": payload,
+                },
+                "update": {"strength": 1, "modifierData": payload},
+            },
+        )
+        return True
 
     async def get_zone_statistics(self, zone_id: int) -> dict:
         """
@@ -589,30 +644,15 @@ class MobImporter:
                 },
             )
 
-            # Create MobDefaultEffects junction table entries for effects from legacy flags
-            # First delete any existing entries for this mob (clean re-import)
-            await self.prisma.mobdefaulteffects.delete_many(
-                where={
-                    "mobZoneId": mob_zone_id,
-                    "mobId": vnum,
-                }
+            # MobDefaultEffects: innate status effects from the legacy EFF_* flags
+            await self.sync_default_effects(
+                mob_zone_id, vnum, processed_flags.default_status_flags
             )
-
-            # Create new effect entries
-            for effect_name in processed_flags.effect_names:
-                # Look up effect by name
-                effect = await self.prisma.effect.find_first(
-                    where={"name": effect_name}
+            if processed_flags.skipped_effect_flags:
+                logger.debug(
+                    "Mob (%s, %s): no status mapping for legacy effect flags %s",
+                    mob_zone_id, vnum, processed_flags.skipped_effect_flags,
                 )
-                if effect:
-                    await self.prisma.mobdefaulteffects.create(
-                        data={
-                            "mobZoneId": mob_zone_id,
-                            "mobId": vnum,
-                            "effectId": effect.id,
-                            "strength": 1,
-                        }
-                    )
 
             return {
                 "success": True,
