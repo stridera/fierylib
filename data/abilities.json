@@ -7081,7 +7081,8 @@
     "castTimeRounds": 2,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
+    "notes": "Area spell affecting only evil creatures in the room (legacy MAG_AREA / TAR_IGNORE; mag_areas skips non-evil). Good-aligned caster only.",
     "effects": [
       {
         "effect": "damage",
