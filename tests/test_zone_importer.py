@@ -83,7 +83,7 @@ class TestZoneImporterDryRun:
 
     @pytest.mark.asyncio
     async def test_dry_run_zone_0_conversion(self):
-        """Dry run should apply zone 0 → 1000 conversion"""
+        """Dry run keeps zone 0 as zone 0 (convert_zone_id is identity)"""
         mock_prisma = None
         importer = ZoneImporter(mock_prisma)
 
@@ -101,8 +101,8 @@ class TestZoneImporterDryRun:
         result = await importer.import_zone(zone, dry_run=True)
 
         assert result["success"] is True
-        assert result["zone_id"] == 1000  # Zone 0 → 1000
-        assert result["data"]["id"] == 1000
+        assert result["zone_id"] == 0  # Zone 0 stays 0
+        assert result["data"]["id"] == 0
 
 
 # Integration tests (require database)

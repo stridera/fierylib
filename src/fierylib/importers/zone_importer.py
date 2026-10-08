@@ -4,7 +4,7 @@ Zone Importer - Imports zone data from legacy files to PostgreSQL
 Handles:
 - Zone metadata (name, lifespan, reset mode)
 - Climate and hemisphere data
-- Zone 0 → Zone 1000 conversion
+- Zone ID passthrough (zone 0 stays zone 0)
 - Upsert (create or update) operations
 """
 
@@ -149,7 +149,7 @@ class ZoneImporter:
             >>> print(result["action"])
             'created'
         """
-        # Convert zone ID (handles zone 0 → 1000)
+        # Convert zone ID (identity; zone 0 stays 0)
         zone_id = convert_zone_id(zone.id)
 
         # Map enums to Prisma format

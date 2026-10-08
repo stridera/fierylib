@@ -3,7 +3,8 @@ from datetime import datetime
 import pytest
 
 from fierylib.importers.player_importer import PlayerImporter
-from mud.types import Player, CurrentMax, Gender, Class, Race, Stats
+from mud.types.player import Player
+from mud.types import CurrentMax, Gender, Class, Race, Stats
 
 
 class DummyPrisma:
@@ -12,6 +13,25 @@ class DummyPrisma:
         @staticmethod
         async def create(data):  # pragma: no cover - not used in dry_run
             raise AssertionError("Should not be called in dry_run")
+
+    class characterclass:
+        @staticmethod
+        async def find_first(where):  # no class rows -> class_id None
+            return None
+
+        @staticmethod
+        async def find_unique(where):  # pragma: no cover - class_id is None
+            return None
+
+    class races:
+        @staticmethod
+        async def find_first(where):  # no tuning row -> default race factor
+            return None
+
+    class leveldefinition:
+        @staticmethod
+        async def find_many(where):  # no tuning rows -> baseline gains
+            return []
 
     class ability:
         @staticmethod

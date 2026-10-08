@@ -5,6 +5,8 @@ Run this to test the layout algorithm
 """
 
 import asyncio
+
+import pytest
 from prisma import Prisma
 from fierylib.layout import LayoutConfig, LayoutEngine
 from fierylib.layout.graph_builder import load_room_graph
@@ -16,7 +18,10 @@ async def test_layout():
 
     # Initialize Prisma
     prisma = Prisma()
-    await prisma.connect()
+    try:
+        await prisma.connect()
+    except Exception as e:  # no DATABASE_URL / engine / live DB
+        pytest.skip(f"requires a live database and prisma engine: {e}")
 
     try:
         # Load room graph
