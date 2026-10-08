@@ -392,7 +392,10 @@
       "successToRoom": "{actor.name} appears to be concentrating intently.",
       "successToVictim": "Your senses heighten.",
       "wearoffToTarget": "You feel less aware of your surroundings."
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Backstab",
@@ -647,7 +650,10 @@
         "trigger": "passive"
       }
     ],
-    "notes": "Passive skill. Increases unarmed combat damage based on skill level."
+    "notes": "Passive skill. Increases unarmed combat damage based on skill level.",
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Barkskin",
@@ -1158,7 +1164,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "weapon"
+      "weapon",
+      "passive"
     ],
     "effects": [
       {
@@ -4213,7 +4220,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "combat"
+      "combat",
+      "passive"
     ],
     "effects": [
       {
@@ -4336,7 +4344,10 @@
       "successToCaster": "You use double attack on {target.name}!",
       "successToVictim": "{actor.name} uses double attack on you!",
       "successToRoom": "{actor.name} uses double attack on {target.name}!"
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Double Backstab",
@@ -4511,7 +4522,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "combat"
+      "combat",
+      "passive"
     ],
     "notes": "Passive skill - provides bonuses without activation."
   },
@@ -8014,7 +8026,10 @@
       "successToCaster": "You use instant kill on {target.name}!",
       "successToVictim": "{actor.name} uses instant kill on you!",
       "successToRoom": "{actor.name} uses instant kill on {target.name}!"
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Interminable Wrath",
@@ -8360,7 +8375,10 @@
     "messages": {
       "successToCaster": "You analyze the magical energies around {target.name}.",
       "successToRoom": "{actor.name} studies {target.name} with arcane concentration."
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Lay Hands",
@@ -9867,7 +9885,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "combat"
+      "combat",
+      "passive"
     ],
     "effects": [
       {
@@ -10075,7 +10094,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "weapon"
+      "weapon",
+      "passive"
     ],
     "notes": "Passive skill - provides bonuses without activation."
   },
@@ -10624,7 +10644,10 @@
       "successToRoom": "{actor.name} rapidly intones a quick chant.",
       "successToVictim": "You begin a rapid chant.",
       "wearoffToTarget": "Your chanting speed returns to normal."
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Rain",
@@ -11181,7 +11204,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "survival"
+      "survival",
+      "passive"
     ],
     "messages": {
       "successToCaster": "You skillfully control your mount.",
@@ -11216,7 +11240,10 @@
       "successToCaster": "You use riposte on {target.name}!",
       "successToVictim": "{actor.name} uses riposte on you!",
       "successToRoom": "{actor.name} uses riposte on {target.name}!"
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Roar",
@@ -11306,7 +11333,10 @@
       "successToRoom": "{actor.name} tucks and rolls, landing safely!",
       "successToVictim": "You feel lighter on your feet.",
       "wearoffToTarget": "You no longer feel light on your feet."
-    }
+    },
+    "tags": [
+      "passive"
+    ]
   },
   {
     "name": "Sanctuary",
@@ -11783,7 +11813,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "weapon"
+      "weapon",
+      "passive"
     ],
     "notes": "Passive skill - provides bonuses without activation."
   },
@@ -11938,7 +11969,8 @@
     "contestedVisibility": true,
     "visibilityCheck": "sneak_attack vs perception",
     "tags": [
-      "stealth"
+      "stealth",
+      "passive"
     ],
     "effects": [
       {
@@ -12217,7 +12249,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12250,7 +12283,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12283,7 +12317,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12314,7 +12349,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12347,7 +12383,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12380,7 +12417,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12413,7 +12451,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12446,7 +12485,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12474,7 +12514,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12507,7 +12548,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12536,7 +12578,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "magic"
+      "magic",
+      "passive"
     ],
     "effects": [
       {
@@ -12911,7 +12954,8 @@
     "contestedVisibility": true,
     "visibilityCheck": "stealth vs perception",
     "tags": [
-      "stealth"
+      "stealth",
+      "passive"
     ],
     "effects": [
       {
@@ -13796,7 +13840,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "weapon"
+      "weapon",
+      "passive"
     ],
     "notes": "Passive skill - provides bonuses without activation."
   },
@@ -13812,7 +13857,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "weapon"
+      "weapon",
+      "passive"
     ],
     "notes": "Passive skill - provides bonuses without activation."
   },
@@ -13828,7 +13874,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "weapon"
+      "weapon",
+      "passive"
     ],
     "notes": "Passive skill - provides bonuses without activation."
   },
