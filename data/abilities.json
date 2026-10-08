@@ -5199,7 +5199,13 @@
           "duration": "2 + (skill / 24)",
           "breakOnDamage": true,
           "flag": "webbed",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "upgrade": {
+            "minSkill": 40,
+            "chance": "2 + skill / 14",
+            "flag": "paralyzed",
+            "duration": "2 + skill / 96"
+          }
         },
         "trigger": "on_cast"
       }
