@@ -176,7 +176,8 @@ class ObjectImporter:
 
         # Process flags into modern schema format (flags, restrictions, class/race restrictions, effects)
         raw_flags = normalize_flags(obj.flags or [])
-        raw_effect_flags = normalize_flags(obj.effect_flags or [])
+        # Object.parse stores the EFF_* bitvector in `effects` (`effect_flags` is never set)
+        raw_effect_flags = normalize_flags(obj.effects or obj.effect_flags or [])
         raw_wear_flags = normalize_flags(obj.wear_flags or [])
 
         processed_flags = process_object_flags(raw_flags, raw_effect_flags)
@@ -440,21 +441,15 @@ class ObjectImporter:
                 }
             )
 
-            # Create new effect entries
-            for effect_name in processed_flags.effect_names:
-                # Look up effect by name
-                effect = await self.prisma.effect.find_first(
-                    where={"name": effect_name}
+            # Worn status effects from the legacy EFF_* bitvector: ONE `status` row
+            # (ObjectEffects has no unique key, but the runtime reads one row's
+            # modifier_data.flags[]), same table as mob default effects.
+            await self.add_status_effect(obj_zone_id, vnum, processed_flags.status_flags)
+            if processed_flags.skipped_effect_flags:
+                logger.debug(
+                    "Object (%s, %s): no status mapping for legacy effect flags %s",
+                    obj_zone_id, vnum, processed_flags.skipped_effect_flags,
                 )
-                if effect:
-                    await self.prisma.objecteffects.create(
-                        data={
-                            "objectZoneId": obj_zone_id,
-                            "objectId": vnum,
-                            "effectId": effect.id,
-                            "strength": 1,
-                        }
-                    )
 
             # Create ObjectResistance rows for protection-flavored effects.
             # The Effect catalog is a small type-registry (28 generic types
@@ -575,6 +570,33 @@ class ObjectImporter:
     # seeded data, but we look it up to stay schema-agnostic). Resolved
     # lazily on the first affect import to avoid an init-time query.
     _modify_effect_id: Optional[int] = None
+
+    _status_effect_id: Optional[int] = None
+
+    async def add_status_effect(
+        self, obj_zone_id: int, obj_vnum: int, status_flags: list[str]
+    ) -> bool:
+        """Create the object's single `status` ObjectEffects row
+        (modifier_data = {"flags": [...]}). Caller has already cleared the
+        object's rows. Returns True if a row was written."""
+        if not status_flags:
+            return False
+        if self._status_effect_id is None:
+            row = await self.prisma.effect.find_first(where={"name": "status"})
+            if row is None:
+                logger.warning("Effect 'status' not found; skipping ObjectEffects flags (seed effects first)")
+                return False
+            self._status_effect_id = row.id
+        await self.prisma.objecteffects.create(
+            data={
+                "objectZoneId": obj_zone_id,
+                "objectId": obj_vnum,
+                "effectId": self._status_effect_id,
+                "strength": 1,
+                "modifierData": json.dumps({"flags": sorted(set(status_flags))}),
+            }
+        )
+        return True
 
     async def _get_modify_effect_id(self) -> Optional[int]:
         if self._modify_effect_id is None:

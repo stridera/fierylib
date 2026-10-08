@@ -696,7 +696,9 @@ class ProcessedObjectFlags:
     allowed_races: list[str]         # Race enum values that CAN use (ELVEN, DWARVEN items)
     min_size: str | None             # Minimum size to use item
     max_size: str | None             # Maximum size to use item
-    effect_names: list[str]          # Effect names to create ObjectEffects for
+    effect_names: list[str]          # Legacy effect-flag names (resistance mapping uses these)
+    status_flags: list[str]          # `status` flags for the ObjectEffects status row
+    skipped_effect_flags: list[str]  # Legacy EFF_* flags with no status mapping
 
 
 def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObjectFlags:
@@ -706,7 +708,8 @@ def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObject
     Converts:
     - obj_flags → flags, restrictions, restrictedAlignments, restrictedClassIds,
                   restrictedRaces, minSize, maxSize
-    - effect_flags → effect_names (for ObjectEffects junction table)
+    - effect_flags → status_flags (one ObjectEffects `status` row, same
+                     MOB_EFFECT_FLAG_TO_STATUS_FLAG table mobs use)
 
     Args:
         obj_flags: List of legacy object flag strings
@@ -816,6 +819,8 @@ def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObject
             if effect_name not in effect_names:
                 effect_names.append(effect_name)
 
+    status_flags, skipped_effect_flags = mob_default_status_flags(normalized_effects)
+
     return ProcessedObjectFlags(
         flags=flags,
         restrictions=restrictions,
@@ -826,4 +831,6 @@ def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObject
         min_size=min_size,
         max_size=max_size,
         effect_names=effect_names,
+        status_flags=status_flags,
+        skipped_effect_flags=skipped_effect_flags,
     )
