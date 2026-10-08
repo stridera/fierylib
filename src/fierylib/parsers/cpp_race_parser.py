@@ -128,10 +128,14 @@ class CppRaceParser:
                     race['skills'] = skills
                     break
 
+        def _key(name: str) -> str:
+            # 'Half_Elf' (RACE_HALF_ELF) must match the parsed race name 'halfelf'
+            return re.sub(r'[^a-z0-9]', '', name.lower())
+
         for race_name, effects in permanent_effects.items():
             # Find matching race by name
             for race in races:
-                if race['name'].lower() == race_name.lower():
+                if _key(race['name']) == _key(race_name):
                     race['permanentEffects'] = effects
                     break
 

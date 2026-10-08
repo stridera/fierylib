@@ -453,6 +453,9 @@
       "copperFactor": 75,
       "enterVerb": null,
       "leaveVerb": null,
+      "permanentEffects": [
+        "INFRAVISION"
+      ],
       "startRoomZoneId": 30,
       "startRoomId": 9
     },

@@ -9,8 +9,9 @@ Imports race data from data/races.json into PostgreSQL database:
 import json
 from pathlib import Path
 from typing import Dict, List, Optional
-from prisma import Prisma
+from prisma import Json, Prisma
 from prisma.enums import Race, SkillCategory, RaceAlign, Size, LifeForce, Composition
+from fierylib.converters.flag_normalizer import mob_default_status_flags
 
 
 # Map skill/spell names to skill IDs (must match database Skills table)
@@ -140,35 +141,35 @@ class RaceImporter:
         normalized = race_name.lower().replace(' ', '_').replace('-', '_')
         return normalized
 
-    async def _get_effects_from_ability(self, ability_plain_name: str):
+    async def sync_race_effects(self, race_enum, legacy_effect_names: List[str]) -> bool:
         """
-        Look up an ability by plainName and return all its effects.
+        Rewrite the race's RaceEffects row from its legacy PERM_EFF(...) flags.
 
-        Args:
-            ability_plain_name: The plainName of the ability (e.g., INFRAVISION, FLY)
-
-        Returns:
-            List of Effect records, or empty list if not found
+        RaceEffects is unique on (race, effect) and the Effect catalog only holds
+        generic effect types, so all of a race's innate status flags live in ONE row:
+        effect = `status`, modifier_data = {"flags": [...]} (mapping shared with
+        MobDefaultEffects). A race with no mappable flags has no row. Returns True
+        if a row exists afterwards.
         """
-        # Look up the ability by plainName
-        ability = await self.db.ability.find_first(
-            where={'plainName': ability_plain_name},
-            include={'effects': {'include': {'effect': True}}}
+        await self.db.raceeffects.delete_many(where={'race': race_enum})
+        status_flags, skipped = mob_default_status_flags(legacy_effect_names)
+        if skipped:
+            print(f"  ℹ {race_enum}: no status mapping for legacy flags {skipped}")
+        if not status_flags:
+            return False
+        effect = await self.db.effect.find_first(where={'name': 'status'})
+        if effect is None:
+            print("  ⚠ Effect 'status' not found; skipping RaceEffects (seed effects first)")
+            return False
+        await self.db.raceeffects.create(
+            data={
+                'race': race_enum,
+                'effectId': effect.id,
+                'strength': 1,
+                'modifierData': Json({'flags': status_flags}),
+            }
         )
-
-        if not ability:
-            print(f"  ⚠ Ability not found: {ability_plain_name}")
-            return []
-
-        # Get all effects from the ability
-        if ability.effects and len(ability.effects) > 0:
-            effects = [ae.effect for ae in ability.effects]
-            if len(effects) > 1:
-                print(f"  ℹ Ability {ability_plain_name} has {len(effects)} effects - linking all")
-            return effects
-
-        print(f"  ⚠ Ability {ability_plain_name} has no effects defined")
-        return []
+        return True
 
     async def import_races(self, races_json_path: Path, dry_run: bool = False) -> Dict[str, int]:
         """
@@ -287,29 +288,9 @@ class RaceImporter:
                         stats['races_created'] += 1
                         print(f"✓ Created: {race_data.get('displayName') or race_data['name']}")
 
-                    # Create RaceEffects junction table entries for permanent effects
-                    # First delete existing entries for clean re-import
-                    await self.db.raceeffects.delete_many(
-                        where={'race': race_enum}
-                    )
-
-                    # Collect unique effect IDs from all abilities (avoid duplicates)
-                    unique_effect_ids: set[int] = set()
-                    for ability_plain_name in permanent_effect_names:
-                        # Get all effects from the ability definition
-                        effects = await self._get_effects_from_ability(ability_plain_name)
-                        for effect in effects:
-                            unique_effect_ids.add(effect.id)
-
-                    # Create RaceEffects entries for unique effects only
-                    for effect_id in unique_effect_ids:
-                        await self.db.raceeffects.create(
-                            data={
-                                'race': race_enum,
-                                'effectId': effect_id,
-                                'strength': 1,
-                            }
-                        )
+                    # RaceEffects: ONE `status` row per race (unique on race+effect),
+                    # modifier_data = {"flags": [...]} - same shape as MobDefaultEffects.
+                    await self.sync_race_effects(race_enum, permanent_effect_names)
                 else:
                     print(f"[DRY RUN] Would create/update race: {race_data.get('displayName') or race_data['name']}")
                     stats['races_created'] += 1
