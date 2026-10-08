@@ -286,4 +286,16 @@ FROM (VALUES
 ) AS v(zone_id, mob_id, comp)
 WHERE m.zone_id = v.zone_id AND m.id = v.mob_id AND m."composition" = 'FLESH';
 
+-- Environment-neutral ownership: a type created by a superuser (postgres on prod)
+-- must belong to the table owner, or Prisma gets "permission denied".
+DO $$
+DECLARE
+  tbl_owner text;
+BEGIN
+  SELECT tableowner INTO tbl_owner FROM pg_tables WHERE tablename = 'Characters' LIMIT 1;
+  IF tbl_owner IS NOT NULL THEN
+    EXECUTE format('ALTER TYPE "Composition" OWNER TO %I', tbl_owner);
+  END IF;
+END $$;
+
 COMMIT;

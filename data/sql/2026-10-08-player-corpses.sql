@@ -45,6 +45,20 @@ BEGIN
   END IF;
 END $$;
 
+-- Environment-neutral ownership: objects created by a superuser (e.g. postgres on
+-- prod) must belong to the same role as the existing tables, or Prisma gets
+-- "permission denied". Dev owner is strider, prod is fierynext.
+DO $$
+DECLARE
+  tbl_owner text;
+BEGIN
+  SELECT tableowner INTO tbl_owner FROM pg_tables WHERE tablename = 'Characters' LIMIT 1;
+  IF tbl_owner IS NOT NULL THEN
+    EXECUTE format('ALTER TABLE "PlayerCorpses" OWNER TO %I', tbl_owner);
+    EXECUTE format('ALTER SEQUENCE "PlayerCorpses_id_seq" OWNER TO %I', tbl_owner);
+  END IF;
+END $$;
+
 COMMIT;
 
 -- Report: expect 0 corpses right after applying.
