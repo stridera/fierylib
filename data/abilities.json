@@ -6281,7 +6281,7 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "target": "armor",
+          "target": "ward",
           "amount": "15 + (skill / 16)",
           "duration": "5 + (skill / 14)",
           "durationUnit": "hours"

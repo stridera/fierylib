@@ -136,17 +136,20 @@ WARD_MOD_SPELLS = {
     "SPELL_BARKSKIN",
     "SPELL_BONE_ARMOR",
     "SPELL_CLOAK_OF_GAIA",
+    "SPELL_GAIAS_CLOAK",
     "SPELL_DEMONSKIN",
     "SPELL_ICE_ARMOR",
 }
 
 # Map APPLY_* types to the consolidated 'modify' effect
-# All modifiers now use 'modify' with a 'target' parameter
+# All modifiers now use 'modify' with a 'target' parameter. Targets are the modern stat names
+# fierymud-rs apply_modify_delta understands (accuracy, attack_power, evasion, saving_*, ...);
+# the database stores no legacy abbreviations (tests/test_modify_stat_keys.py).
 APPLY_MAPPINGS: Dict[str, Tuple[str, str]] = {
     # Combat modifiers (all use modify)
-    "APPLY_HITROLL": ("modify", "acc"),
-    "APPLY_AC": ("modify", "eva"),  # Default is evasion; ward override in map_legacy_effect
-    "APPLY_DAMROLL": ("modify", "ap"),
+    "APPLY_HITROLL": ("modify", "accuracy"),
+    "APPLY_AC": ("modify", "evasion"),  # Default is evasion; ward override in map_legacy_effect
+    "APPLY_DAMROLL": ("modify", "attack_power"),
 
     # Stats
     "APPLY_STR": ("modify", "str"),
@@ -165,11 +168,11 @@ APPLY_MAPPINGS: Dict[str, Tuple[str, str]] = {
     "APPLY_MAX_MOVE": ("modify", "max_move"),
 
     # Saving throws
-    "APPLY_SAVING_PARA": ("modify", "save_para"),
-    "APPLY_SAVING_ROD": ("modify", "save_rod"),
-    "APPLY_SAVING_PETRI": ("modify", "save_petri"),
-    "APPLY_SAVING_BREATH": ("modify", "save_breath"),
-    "APPLY_SAVING_SPELL": ("modify", "save_spell"),
+    "APPLY_SAVING_PARA": ("modify", "saving_para"),
+    "APPLY_SAVING_ROD": ("modify", "saving_rod"),
+    "APPLY_SAVING_PETRI": ("modify", "saving_petri"),
+    "APPLY_SAVING_BREATH": ("modify", "saving_breath"),
+    "APPLY_SAVING_SPELL": ("modify", "saving_spell"),
 
     # Size
     "APPLY_SIZE": ("modify", "size"),
@@ -298,7 +301,7 @@ class AbilityEffectsLinker:
             for apply_type, (effect_name, target_type) in APPLY_MAPPINGS.items():
                 if apply_type == location:
                     # Special case: APPLY_AC on magical armor spells uses "ward" target
-                    # instead of "eva" target (see COMBAT_CLARIFICATIONS.md Q9)
+                    # instead of "evasion" target (see COMBAT_CLARIFICATIONS.md Q9)
                     if apply_type == "APPLY_AC" and spell_key in WARD_MOD_SPELLS:
                         target_type = "ward"
                     params = {"target": target_type, "amount": modifier}

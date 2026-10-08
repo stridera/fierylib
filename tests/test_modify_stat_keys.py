@@ -15,11 +15,14 @@ SUPPORTED = {
     "pen_flat", "pen_pct", "ward", "ward_pct", "max_hp",
     "max_move", "max_stamina", "stamina_max", "armor_pct",
     "saving_para", "saving_rod", "saving_petri", "saving_breath", "saving_spell",
-    "focus", "perception", "hit_regen", "hiddenness",
+    "focus", "perception", "hit_regen", "hiddenness", "size",
 }  # fmt: skip
 
 # Known gaps: no equivalent in apply_modify_delta yet (needs runtime support, not a data rename).
-UNSUPPORTED_KNOWN = {"armor", "item_bonus", "self", "size", "unarmed_damage", "weapon_hitroll"}
+# item_bonus: Enchant Weapon edits an object. unarmed_damage / weapon_hitroll: skill-scaled passives
+# (Barehand, weapon skills) with no passive-effect hook and no bare-hand damage stat. self: Dodge /
+# Parry, which the combat evasion roll reads from the proficiency directly.
+UNSUPPORTED_KNOWN = {"item_bonus", "self", "unarmed_damage", "weapon_hitroll"}
 
 
 def _modify_keys():
@@ -44,3 +47,15 @@ def test_legacy_abbreviations_are_gone():
 
 def test_curse_debuffs_accuracy():
     assert ("Curse", "accuracy") in _modify_keys()
+
+
+def test_gaias_cloak_uses_ward_like_the_other_armor_spells():
+    keys = _modify_keys()
+    assert ("Gaia's Cloak", "ward") in keys
+    assert ("Gaia's Cloak", "armor") not in keys
+    assert ("Armor", "ward") in keys
+
+
+def test_size_spells_use_the_supported_size_key():
+    keys = _modify_keys()
+    assert {("Reduce", "size"), ("Shapechange", "size")} <= keys

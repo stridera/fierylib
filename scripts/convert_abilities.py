@@ -25,8 +25,8 @@ def convert_effect(effect_data: dict) -> dict:
                 "INT": "int",
                 "WIS": "wis",
                 "CHA": "cha",
-                "HITROLL": "acc",
-                "DAMROLL": "ap",
+                "HITROLL": "accuracy",
+                "DAMROLL": "attack_power",
                 "AC": "ward",
             }
             new_params["target"] = stat_map.get(stat.upper(), stat.lower())
@@ -49,14 +49,14 @@ def convert_effect(effect_data: dict) -> dict:
         if "type" in new_params:
             save_type = new_params.pop("type")
             save_map = {
-                "spell": "save_spell",
-                "para": "save_para",
-                "rod": "save_rod",
-                "petri": "save_petri",
-                "breath": "save_breath",
-                "all": "save_all",
+                "spell": "saving_spell",
+                "para": "saving_para",
+                "rod": "saving_rod",
+                "petri": "saving_petri",
+                "breath": "saving_breath",
+                "all": "saving_all",
             }
-            new_params["target"] = save_map.get(save_type.lower(), f"save_{save_type.lower()}")
+            new_params["target"] = save_map.get(save_type.lower(), f"saving_{save_type.lower()}")
 
     # size_mod -> modify (change to target: size)
     elif effect_type == "size_mod":
