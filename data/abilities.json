@@ -2510,7 +2510,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 40)",
-          "breakOnDamage": true,
+          "breakOnDamage": false,
           "flag": "confused",
           "durationUnit": "hours"
         },
@@ -2785,7 +2785,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 30)",
-          "breakOnDamage": true,
+          "breakOnDamage": false,
           "flag": "confused",
           "durationUnit": "hours"
         },
@@ -4258,7 +4258,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 30)",
-          "breakOnDamage": true,
+          "breakOnDamage": false,
           "flag": "feared",
           "durationUnit": "hours"
         },
@@ -5197,7 +5197,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 24)",
-          "breakOnDamage": false,
+          "breakOnDamage": true,
           "flag": "webbed",
           "durationUnit": "hours"
         },
@@ -5419,7 +5419,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 30)",
-          "breakOnDamage": true,
+          "breakOnDamage": false,
           "flag": "feared",
           "durationUnit": "hours"
         },
@@ -7199,7 +7199,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 30)",
-          "breakOnDamage": true,
+          "breakOnDamage": false,
           "flag": "feared",
           "durationUnit": "hours"
         },
@@ -8955,7 +8955,7 @@
         "effect": "status",
         "order": 0,
         "params": {
-          "flag": "paralyzed",
+          "flag": "mesmerized",
           "duration": "2 + (skill / 25)",
           "breakOnDamage": true,
           "durationUnit": "hours"
@@ -13632,7 +13632,7 @@
         "order": 0,
         "params": {
           "duration": "2 + (skill / 30)",
-          "breakOnDamage": true,
+          "breakOnDamage": false,
           "flag": "feared",
           "durationUnit": "hours"
         },
