@@ -56,7 +56,8 @@
       "dexEvasionMult": 2.0,
       "attackPowerPerLevel": 3.0,
       "baseCritChance": 12,
-      "expGainFactor": 1.0
+      "expGainFactor": 1.0,
+      "alignmentBias": -50
     },
     {
       "id": 3,
@@ -95,7 +96,8 @@
       "dexEvasionMult": 1.5,
       "attackPowerPerLevel": 5.0,
       "baseCritChance": 5,
-      "expGainFactor": 1.15
+      "expGainFactor": 1.15,
+      "alignmentBias": 100
     },
     {
       "id": 5,
@@ -115,7 +117,8 @@
       "dexEvasionMult": 1.5,
       "attackPowerPerLevel": 5.0,
       "baseCritChance": 5,
-      "expGainFactor": 1.15
+      "expGainFactor": 1.15,
+      "alignmentBias": -100
     },
     {
       "id": 6,
@@ -135,7 +138,8 @@
       "dexEvasionMult": 1.5,
       "attackPowerPerLevel": 5.0,
       "baseCritChance": 5,
-      "expGainFactor": 1.15
+      "expGainFactor": 1.15,
+      "alignmentBias": 50
     },
     {
       "id": 7,
@@ -155,7 +159,8 @@
       "dexEvasionMult": 1.0,
       "attackPowerPerLevel": 3.0,
       "baseCritChance": 4,
-      "expGainFactor": 1.0
+      "expGainFactor": 1.0,
+      "alignmentBias": 50
     },
     {
       "id": 8,
@@ -195,7 +200,8 @@
       "dexEvasionMult": 2.0,
       "attackPowerPerLevel": 3.0,
       "baseCritChance": 12,
-      "expGainFactor": 1.0
+      "expGainFactor": 1.0,
+      "alignmentBias": -50
     },
     {
       "id": 10,
@@ -235,7 +241,8 @@
       "dexEvasionMult": 0.5,
       "attackPowerPerLevel": 1.0,
       "baseCritChance": 3,
-      "expGainFactor": 1.3
+      "expGainFactor": 1.3,
+      "alignmentBias": -100
     },
     {
       "id": 12,
@@ -315,7 +322,8 @@
       "dexEvasionMult": 1.0,
       "attackPowerPerLevel": 3.0,
       "baseCritChance": 4,
-      "expGainFactor": 1.0
+      "expGainFactor": 1.0,
+      "alignmentBias": 100
     },
     {
       "id": 16,
@@ -335,7 +343,8 @@
       "dexEvasionMult": 1.0,
       "attackPowerPerLevel": 3.0,
       "baseCritChance": 4,
-      "expGainFactor": 1.0
+      "expGainFactor": 1.0,
+      "alignmentBias": -100
     },
     {
       "id": 17,

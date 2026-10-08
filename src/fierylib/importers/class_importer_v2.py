@@ -75,6 +75,8 @@ class ClassImporterV2:
                     create_data["baseCritChance"] = class_data["baseCritChance"]
                 if "expGainFactor" in class_data:
                     create_data["expGainFactor"] = class_data["expGainFactor"]
+                if "alignmentBias" in class_data:
+                    create_data["alignmentBias"] = class_data["alignmentBias"]
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
                 if "spellProgression" in class_data:
