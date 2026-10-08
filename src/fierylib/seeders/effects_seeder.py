@@ -45,7 +45,7 @@ TOOLBOX_CATEGORIES = [
         "name": "Creation & Summoning",
         "colour": "#5e35b1",
         "displayOrder": 6,
-        "effects": ["summon", "create", "enchant"],
+        "effects": ["summon", "create", "enchant", "alter_object"],
     },
     {
         "name": "Room Effects",

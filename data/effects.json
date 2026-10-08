@@ -1291,5 +1291,65 @@
     "onTick": "",
     "onRemove": "-- Refreshed on_remove — flavor only.\n-- The RegenBonus unwind happens in Rust (mud-server/src/effects.rs's on_remove\n-- arm calls rest::unwind_refreshed_bonus, which reads the RefreshedBonus\n-- companion and subtracts the saved delta).\nactor:send('The refreshed feeling from your rest fades.')",
     "notes": "Refreshed is a singleton named Effect row. It is NOT a generic 'status' template; fierymud-rs looks it up by name='Refreshed' at wake time. Per ADR 0001: Refreshed is independent of Repose — they happen on the same wake event but Refreshed grants flat regen while Repose multiplies XP. The per-strength RegenBonus magnitudes are TUNABLE Rust-side constants (REFRESHED_HP_PER_STRENGTH / REFRESHED_STAMINA_PER_STRENGTH in mud-server/src/rest.rs); 30-min duration is TUNABLE via REFRESHED_DURATION_SECS in the same file. See /fierymud-rs/docs/design/rest-and-repose.md §'Refreshed Effect'."
+  },
+  {
+    "name": "alter_object",
+    "effectType": "alter_object",
+    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object.",
+    "tags": [
+      "utility",
+      "magic",
+      "item"
+    ],
+    "defaultParams": {
+      "restriction": "NO_DROP",
+      "mode": "add",
+      "weaponDiceSizeDelta": 0
+    },
+    "paramSchema": {
+      "type": "object",
+      "required": [
+        "restriction"
+      ],
+      "properties": {
+        "restriction": {
+          "enum": [
+            "NO_DROP",
+            "NO_TAKE",
+            "NO_SELL",
+            "NO_BURN",
+            "NO_LOCATE",
+            "NO_INVISIBLE"
+          ],
+          "type": "string",
+          "description": "ObjectRestriction to add or remove"
+        },
+        "mode": {
+          "enum": [
+            "add",
+            "remove"
+          ],
+          "type": "string",
+          "description": "add (default) sets the restriction, remove clears it"
+        },
+        "weaponDiceSizeDelta": {
+          "type": "integer",
+          "description": "Added to a weapon's dice size when the restriction actually changes (legacy curse -1, remove curse +1)"
+        },
+        "messageToCaster": {
+          "type": "string",
+          "description": "Sent to the caster on change; {item} is the object's name"
+        },
+        "messageToRoom": {
+          "type": "string",
+          "description": "Sent to the rest of the room on change; {item} is the object's name"
+        },
+        "noopMessageToCaster": {
+          "type": "string",
+          "description": "Sent to the caster when there was nothing to change"
+        }
+      }
+    },
+    "notes": "Per-instance change; the prototype is untouched. Legacy mag_alter_obj SPELL_CURSE / SPELL_REMOVE_CURSE."
   }
 ]
