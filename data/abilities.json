@@ -278,7 +278,7 @@
         "params": {
           "amount": -2,
           "duration": "skill / 4",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -536,7 +536,7 @@
         "params": {
           "amount": -2,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -810,7 +810,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -846,7 +846,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1030,7 +1030,7 @@
         "params": {
           "amount": "-4",
           "duration": 2,
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1041,7 +1041,7 @@
         "params": {
           "amount": "-40",
           "duration": 2,
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1081,7 +1081,7 @@
         "params": {
           "amount": "-4",
           "duration": 2,
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1092,7 +1092,7 @@
         "params": {
           "amount": "-40",
           "duration": 2,
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1137,7 +1137,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -1837,7 +1837,7 @@
         "params": {
           "amount": 1,
           "duration": "skill / 10",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -2946,7 +2946,7 @@
         "params": {
           "amount": "-1 - (skill / 50)",
           "duration": "5 + (skill / 14)",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -4082,7 +4082,7 @@
         "params": {
           "amount": 10,
           "duration": "2 + (skill / 25)",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -5665,7 +5665,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -6053,7 +6053,7 @@
         "params": {
           "amount": 5,
           "duration": "skill / 4",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -6404,7 +6404,7 @@
         "params": {
           "amount": 20,
           "duration": "2 + (skill / 25)",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -7000,7 +7000,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -7197,7 +7197,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -8015,7 +8015,7 @@
         "params": {
           "amount": 2,
           "duration": "skill / 4",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -8084,7 +8084,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -8148,7 +8148,7 @@
         "params": {
           "amount": "40",
           "duration": "9 + (skill / 9)",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -8838,7 +8838,7 @@
         "params": {
           "amount": "40",
           "duration": "9 + (skill / 9)",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -9172,7 +9172,7 @@
         "params": {
           "amount": "5 + (skill / 16)",
           "duration": "5 + (skill / 25)",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -9572,7 +9572,7 @@
         "params": {
           "amount": "eff[0].duration = (skill / 20) + 1",
           "duration": "(skill / 20) + 1",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -10032,7 +10032,7 @@
         "params": {
           "amount": 5,
           "duration": "2 + (skill / 5)",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -10259,7 +10259,7 @@
         "params": {
           "amount": 2,
           "duration": "5 + (skill / 14)",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -10663,7 +10663,7 @@
         "params": {
           "amount": 1,
           "duration": "skill / 20",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -10782,7 +10782,7 @@
         "order": 2,
         "params": {
           "amount": "-skill / 5 * 2",
-          "target": "eva"
+          "target": "evasion"
         },
         "trigger": "on_cast"
       }
@@ -10923,7 +10923,7 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "target": "regen_hp",
+          "target": "hit_regen",
           "amount": 2,
           "duration": "5 + (skill / 10)",
           "durationUnit": "hours"
@@ -11656,7 +11656,7 @@
         "params": {
           "amount": -3,
           "duration": "skill / 4",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -11935,7 +11935,7 @@
         "params": {
           "amount": "-4",
           "duration": "2",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -11946,7 +11946,7 @@
         "params": {
           "amount": "-40",
           "duration": "2",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -12448,7 +12448,7 @@
         "params": {
           "amount": -2,
           "duration": "skill",
-          "target": "save_spell",
+          "target": "saving_spell",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -12674,7 +12674,7 @@
         "params": {
           "amount": -5,
           "duration": "skill / 4",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -13380,7 +13380,7 @@
         "params": {
           "amount": "-4",
           "duration": "2",
-          "target": "acc",
+          "target": "accuracy",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -13391,7 +13391,7 @@
         "params": {
           "amount": "-40",
           "duration": "2",
-          "target": "eva",
+          "target": "evasion",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -13651,7 +13651,7 @@
         "params": {
           "amount": 4,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -13783,7 +13783,7 @@
         "params": {
           "amount": 3,
           "duration": "skill / 4",
-          "target": "ap",
+          "target": "attack_power",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
