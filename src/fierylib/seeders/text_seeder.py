@@ -331,7 +331,8 @@ Heroes are needed. Will you answer the call?
              "\r\n<yellow>A login approval request has been sent to your Muditor dashboard.</>\r\n"
              "<dim>Please approve it there to continue. This request expires in 5 minutes.</>\r\n\r\n"),
             (LoginStage.PLAIN_TELNET_NOTICE,
-             "\r\n<yellow>This connection is not encrypted. For a secure connection use the TLS port {tls_port}.</>\r\n"
+             "\r\n<yellow>This connection is not encrypted.</>\r\n"
+             "<yellow>For a secure connection use the TLS port {tls_port}.</>\r\n"
              "<dim>To log in without sending a password, type `code` at the password prompt and approve it on the website.</>\r\n\r\n"),
             (LoginStage.LOGIN_APPROVAL_APPROVED, "\r\n<green>Login approved! Loading your characters...</>\r\n\r\n"),
             (LoginStage.LOGIN_APPROVAL_DENIED, "\r\n<red>Login request was denied. Disconnecting.</>\r\n\r\n"),
