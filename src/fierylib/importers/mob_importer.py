@@ -54,6 +54,17 @@ def clamp_int32(value: int) -> int:
     return max(INT32_MIN, min(INT32_MAX, value))
 
 
+def apply_damage_dice_modifiers(
+    level: int, race_factor: int, class_factor: int, modifier_num: int, modifier_size: int
+) -> Tuple[int, int]:
+    """Base dice from the legacy level formula plus the .mob file modifiers.
+
+    Clamped to valid ranges: num >= 0 (can't have negative dice), size >= 1 (at least d1).
+    """
+    base_num, base_size = get_set_dice(level, race_factor, class_factor)
+    return max(0, base_num + modifier_num), max(1, base_size + modifier_size)
+
+
 def detect_special_mob_flags(name: str, keywords: str, existing_flags: list[str]) -> list[str]:
     """
     Auto-detect special mob roles based on name/keywords and add appropriate flags.
@@ -427,18 +438,12 @@ class MobImporter:
             mob_class_name = mob.mob_class.name if hasattr(mob.mob_class, "name") else str(mob.mob_class).upper()
             class_dice_factor = get_class_dice_factor(mob_class_name)
 
-            # Calculate base damage dice from level (with race/class factors)
-            base_dice_num, base_dice_size = get_set_dice(mob.level, race_dice_factor, class_dice_factor)
-
             # File values are MODIFIERS (ex_damnodice, ex_damsizedice), not absolute values
             # Example: Lokari has -15d0+20, meaning -15 to dice count, +0 to dice size
-            modifier_dice_num = mob.damage_dice.num
-            modifier_dice_size = mob.damage_dice.size
-
-            # Apply modifiers to base dice
-            # Clamp to valid ranges: num >= 0 (can't have negative dice), size >= 1 (at least d1)
-            new_damage_dice_num = max(0, base_dice_num + modifier_dice_num)
-            new_damage_dice_size = max(1, base_dice_size + modifier_dice_size)
+            new_damage_dice_num, new_damage_dice_size = apply_damage_dice_modifiers(
+                mob.level, race_dice_factor, class_dice_factor,
+                mob.damage_dice.num, mob.damage_dice.size,
+            )
 
             # Damage bonus from level formula + file bonus
             base_damroll = get_set_hd(mob.level, race_dice_factor, class_dice_factor)

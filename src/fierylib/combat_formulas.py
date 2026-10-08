@@ -185,9 +185,18 @@ def get_set_hd(level: int, race_factor: int = 100, class_factor: int = 100) -> i
 
 def get_set_dice(level: int, race_factor: int, class_factor: int) -> Tuple[int, int]:
     """
-    Calculate mob damage dice (number and size).
+    Calculate mob base damage dice (number and size).
 
-    Port of legacy db.cpp:339-392 get_set_dice() function.
+    Exact port of legacy db.cpp get_set_dice() as of fierymud commit 64c30ccb
+    ("reduce mob damage over level 40"), state 0 (count) and state 1 (face).
+    All arithmetic is C integer arithmetic:
+
+      * count: level / 3 (floor, same for every level; the old >50 level/2.5 bump is
+        gone). Levels < 10 are clamped to at least 1 BEFORE the factor is applied,
+        as in legacy; there is no clamp afterwards, so a low factor can yield 0 dice.
+      * factor: sfactor = (race + class) / 2 (integer division), then
+        dice = sfactor * dice / 100 (truncated).
+      * face: level < 22 -> 3; level < 40 -> 4; else level / 10 + 1. No race/class factor.
 
     Args:
         level: Mob level (1-100)
@@ -197,34 +206,19 @@ def get_set_dice(level: int, race_factor: int, class_factor: int) -> Tuple[int, 
     Returns:
         Tuple of (num_dice, dice_size)
     """
-    # DICE NUMBER (with race/class factors)
+    dice = level // 3
     if level < 10:
-        dice = max(1, int((level / 3.0) + 0.5))
-    elif level < 30:
-        dice = int((level / 3.0) + 0.5)
-    elif level <= 50:
-        dice = int((level / 3.0) + 0.5)
-    else:  # level > 50
-        dice = int((level / 2.5) + 0.5)
+        dice = max(1, dice)
 
-    # Apply combined race/class factor
-    sfactor = (race_factor + class_factor) / 2.0
-    dice = int((sfactor * dice) / 100.0)
-    dice = max(1, dice)  # Minimum 1 die
+    sfactor = (race_factor + class_factor) // 2
+    dice = (sfactor * dice) // 100
 
-    # DICE SIZE (NO race/class factors)
-    if level < 10:
+    if level < 22:
         face = 3
-    elif level < 26:
+    elif level < 40:
         face = 4
-    elif level < 36:
-        face = 4
-    elif level <= 50:
-        face = 5
-    elif level <= 60:
-        face = 8
-    else:  # level > 60
-        face = 10
+    else:
+        face = level // 10 + 1
 
     return (dice, face)
 
