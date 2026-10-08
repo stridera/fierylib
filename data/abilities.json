@@ -13973,7 +13973,11 @@
               "min": 0.5,
               "max": 1.5
             }
-          ]
+          ],
+          "casterClassMultiplier": {
+            "diabolist": 1.25,
+            "anti-paladin": 1.25
+          }
         },
         "trigger": "on_cast"
       }
