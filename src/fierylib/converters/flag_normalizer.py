@@ -529,9 +529,44 @@ MOB_EFFECT_FLAG_TO_STATUS_FLAG = {
 }
 
 
-def mob_default_status_flags(effect_flags: list) -> tuple[list[str], list[str]]:
+# Object-only additions on top of MOB_EFFECT_FLAG_TO_STATUS_FLAG (the mob / race table is
+# deliberately unchanged). Only bits the runtime or the spell vocabulary already has a
+# counterpart for; the rest stay skipped (see ProcessedObjectFlags.skipped_effect_flags):
+#   PROTECT_EVIL / PROTECT_GOOD -> fierymud-rs ProtectFromEvil / ProtectFromGood markers
+#   TONGUES      -> language_fluency (same flag the SPEAK_IN_TONGUES ability applies)
+#   FAMILIARITY  -> familiarity (flag already used by ability status effects)
+# MINOR_GLOBE / MAJOR_GLOBE are not status flags: fierymud-rs models a worn globe as an
+# ObjectEffects row of the `globe` Effect with strength = max absorbed circle
+# (OBJECT_GLOBE_MAX_CIRCLE). STONE_SKIN is a PHYSICAL ObjectResistance
+# (importer EFFECT_TO_RESISTANCE), like the STONE_SKIN ability's `resistance` status.
+# Deliberately NOT mapped on worn gear: CHARM / TAMED (pet-master state with no master),
+# ON_FIRE (burning DoT, cleared by water), HURT_THROAT (permanent spell-failure debuff),
+# VITALITY / GLORY / NO_TRACK (no runtime marker or flag).
+OBJECT_EFFECT_FLAG_TO_STATUS_FLAG = {
+    'PROTECT_EVIL': 'protect_evil',
+    'PROTECT_GOOD': 'protect_good',
+    'TONGUES': 'language_fluency',
+    'FAMILIARITY': 'familiarity',
+}
+
+OBJECT_STATUS_FLAG_TABLE = {**MOB_EFFECT_FLAG_TO_STATUS_FLAG, **OBJECT_EFFECT_FLAG_TO_STATUS_FLAG}
+
+# Worn globe: legacy EFF_MINOR_GLOBE blocks circles 1-3, EFF_MAJOR_GLOBE 1-6.
+OBJECT_GLOBE_MAX_CIRCLE = {'MINOR_GLOBE': 3, 'MAJOR_GLOBE': 6}
+
+
+def object_globe_circle(effect_flags: list) -> int:
+    """Highest max-absorbed circle among an object's globe bits (0 = none)."""
+    names = {normalize_flag(f) for f in effect_flags or [] if f}
+    return max((c for k, c in OBJECT_GLOBE_MAX_CIRCLE.items() if k in names), default=0)
+
+
+def mob_default_status_flags(
+    effect_flags: list, table: dict[str, str] | None = None
+) -> tuple[list[str], list[str]]:
     """
     Map a mob's legacy EFF_* flag names to `status` effect flags.
+    (`table` overrides MOB_EFFECT_FLAG_TO_STATUS_FLAG; objects pass OBJECT_STATUS_FLAG_TABLE.)
 
     Returns (status_flags, skipped): status_flags is de-duplicated and sorted
     (stable output for DB rows / generated SQL); skipped lists the legacy flag
@@ -543,7 +578,7 @@ def mob_default_status_flags(effect_flags: list) -> tuple[list[str], list[str]]:
         name = normalize_flag(raw) if raw else None
         if not name or name == 'UNUSED':
             continue
-        status = MOB_EFFECT_FLAG_TO_STATUS_FLAG.get(name)
+        status = (table if table is not None else MOB_EFFECT_FLAG_TO_STATUS_FLAG).get(name)
         if status is None:
             if name not in skipped:
                 skipped.append(name)
@@ -699,6 +734,7 @@ class ProcessedObjectFlags:
     effect_names: list[str]          # Legacy effect-flag names (resistance mapping uses these)
     status_flags: list[str]          # `status` flags for the ObjectEffects status row
     skipped_effect_flags: list[str]  # Legacy EFF_* flags with no status mapping
+    globe_circle: int                # Max absorbed circle for a worn `globe` row (0 = none)
 
 
 def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObjectFlags:
@@ -819,7 +855,7 @@ def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObject
             if effect_name not in effect_names:
                 effect_names.append(effect_name)
 
-    status_flags, skipped_effect_flags = mob_default_status_flags(normalized_effects)
+    status_flags, skipped_effect_flags = mob_default_status_flags(normalized_effects, OBJECT_STATUS_FLAG_TABLE)
 
     return ProcessedObjectFlags(
         flags=flags,
@@ -833,4 +869,5 @@ def process_object_flags(obj_flags: list, effect_flags: list) -> ProcessedObject
         effect_names=effect_names,
         status_flags=status_flags,
         skipped_effect_flags=skipped_effect_flags,
+        globe_circle=object_globe_circle(normalized_effects),
     )

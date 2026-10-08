@@ -41,6 +41,8 @@ EFFECT_TO_RESISTANCE: dict[str, tuple[str, int]] = {
     "PROTECT_EARTH": ("ACID", 25),
     "FIRESHIELD": ("COLD", 25),
     "COLDSHIELD": ("FIRE", 25),
+    # STONE_SKIN ability: `resistance` status, type physical, amount 25.
+    "STONE_SKIN": ("PHYSICAL", 25),
     "NEGATE_HEAT": ("FIRE", 100),
     "NEGATE_COLD": ("COLD", 100),
     "NEGATE_AIR": ("SHOCK", 100),
@@ -445,6 +447,9 @@ class ObjectImporter:
             # (ObjectEffects has no unique key, but the runtime reads one row's
             # modifier_data.flags[]), same table as mob default effects.
             await self.add_status_effect(obj_zone_id, vnum, processed_flags.status_flags)
+            # Worn globe (MINOR/MAJOR_GLOBE): a `globe` Effect row, strength = max
+            # absorbed circle (fierymud-rs MaxAbsorbCircle).
+            await self.add_globe_effect(obj_zone_id, vnum, processed_flags.globe_circle)
             if processed_flags.skipped_effect_flags:
                 logger.debug(
                     "Object (%s, %s): no status mapping for legacy effect flags %s",
@@ -594,6 +599,31 @@ class ObjectImporter:
                 "effectId": self._status_effect_id,
                 "strength": 1,
                 "modifierData": json.dumps({"flags": sorted(set(status_flags))}),
+            }
+        )
+        return True
+
+    _globe_effect_id: Optional[int] = None
+
+    async def add_globe_effect(
+        self, obj_zone_id: int, obj_vnum: int, max_circle: int
+    ) -> bool:
+        """Create the object's `globe` ObjectEffects row (strength = max circle
+        absorbed: 3 minor, 6 major). Caller has already cleared the object's rows."""
+        if max_circle <= 0:
+            return False
+        if self._globe_effect_id is None:
+            row = await self.prisma.effect.find_first(where={"name": "globe"})
+            if row is None:
+                logger.warning("Effect 'globe' not found; skipping worn globe (seed effects first)")
+                return False
+            self._globe_effect_id = row.id
+        await self.prisma.objecteffects.create(
+            data={
+                "objectZoneId": obj_zone_id,
+                "objectId": obj_vnum,
+                "effectId": self._globe_effect_id,
+                "strength": max_circle,
             }
         )
         return True

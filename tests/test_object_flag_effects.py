@@ -24,7 +24,7 @@ def _load_generator():
 def test_object_effect_bits_map_through_shared_mob_table():
     result = process_object_flags(["MAGIC"], ["FLY", "DETECT_INVIS", "SANCTUARY", "INFRAVISION", "PROTECT_FIRE"])
     assert result.status_flags == ["detect_invisible", "fly", "infravision", "sanctuary"]
-    assert result.skipped_effect_flags == ["PROTECT_FIRE"]
+    assert result.skipped_effect_flags == ["PROTECT_FIRE"]  # resistance, not a status flag
     for flag in result.status_flags:
         assert flag in MOB_EFFECT_FLAG_TO_STATUS_FLAG.values()
 
