@@ -11186,19 +11186,24 @@
     "name": "Remove Paralysis",
     "plainName": "REMOVE_PARALYSIS",
     "abilityType": "SPELL",
-    "description": "Frees the target from magical paralysis effects.",
+    "description": "<healing>Frees</> the target from Minor Paralysis, Major Paralysis and Entangle. Other holds, such as Web, are left alone.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
+    "notes": "Legacy (magic.cpp:4837-4860 mag_unaffect SPELL_REMOVE_PARALYSIS; spells.cpp:1878 spell_remove_paralysis): removes SPELL_MINOR_PARALYSIS, SPELL_MAJOR_PARALYSIS and SPELL_ENTANGLE. Web is not lifted (cleric.cpp:54 mob AI lists it as curable, but neither handler touches it). The victim line / room line print only when one of them was removed.",
     "effects": [
       {
         "effect": "cleanse",
         "order": 0,
         "params": {
-          "condition": "paralysis",
+          "condition": [
+            "minor_paralysis",
+            "major_paralysis",
+            "entangle"
+          ],
           "scope": "all",
           "message": "<b:yellow>Your body begins to move again.</>",
           "roomMessage": "<b:yellow>{target.name} begins to move again.</>"
@@ -11206,11 +11211,6 @@
         "trigger": "on_cast"
       }
     ],
-    "messages": {
-      "successToCaster": "You dispel the magic affecting {target.him}.",
-      "successToVictim": "{actor.name} dispels the magic affecting you.",
-      "successToRoom": "{actor.name} dispels the magic affecting {target.him}."
-    },
     "sphere": "ENCHANTMENT",
     "pages": 5
   },

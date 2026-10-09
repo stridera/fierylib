@@ -27,10 +27,6 @@ EXPECTED = {
         "{target.name} looks better.",
     ),
     ("REMOVE_CURSE", "curse"): ("You don't feel so unlucky.", None),
-    ("REMOVE_PARALYSIS", "paralysis"): (
-        "<b:yellow>Your body begins to move again.</>",
-        "<b:yellow>{target.name} begins to move again.</>",
-    ),
 }
 
 
@@ -66,7 +62,7 @@ def test_cleanse_rows_carry_the_legacy_messages():
             if effect["effect"] == "cleanse":
                 params = effect["params"]
                 if isinstance(params.get("condition"), list):
-                    continue  # multi-condition rows: tests/test_sane_mind_cleanse.py
+                    continue  # multi-condition rows: test_sane_mind_cleanse.py, test_remove_paralysis.py
                 key = (ability["plainName"], params.get("condition"))
                 if "message" in params or "roomMessage" in params:
                     found[key] = (params.get("message"), params.get("roomMessage"))
