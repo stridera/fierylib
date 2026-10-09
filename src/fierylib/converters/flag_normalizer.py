@@ -182,7 +182,7 @@ EFFECT_FLAG_TO_EFFECT_NAME = {
 # Object flags that remain in the ObjectFlag enum
 OBJECT_FLAGS_KEEP = {
     'GLOW', 'HUM', 'INVISIBLE', 'MAGIC', 'PERMANENT', 'TEMPORARY',
-    'DECOMPOSING', 'FLOAT', 'BUOYANT', 'VEHICLE', 'SOULBOUND',
+    'DECOMPOSING', 'FLOAT', 'BUOYANT', 'VEHICLE', 'SOULBOUND', 'NO_FALL',
 }
 
 # Object flags that map to ObjectRestriction enum
@@ -265,7 +265,6 @@ OBJECT_RACE_ALLOWED = {
 
 # Object flags to ignore (deprecated or handled elsewhere)
 OBJECT_FLAGS_DEPRECATED = {
-    'NO_FALL',       # Merged into FLOAT
     'WAS_DISARMED',  # Runtime-only
     'NO_TAKE',       # Handled by wearFlags
 }
@@ -333,7 +332,7 @@ FLAG_MAPPINGS = {
     'LOCKED': None,  # Use defaultState: LOCKED instead
 
     # Object flags - deprecated ones
-    'NO_FALL': 'FLOAT',  # NO_FALL merged into FLOAT
+    'NOFALL': 'NO_FALL',
     'WAS_DISARMED': None,  # Runtime-only flag, not stored
 
     # WearFlag migrations - legacy hand slots
