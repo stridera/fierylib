@@ -14,6 +14,21 @@ from typing import Optional, Tuple, Dict
 from fierylib.converters import convert_zone_id, vnum_to_composite
 
 
+def belt_slot_for(location: Optional[str], wear_flags) -> Optional[str]:
+    """Waist and belt are separate slots (WEAR_WAIST / WEAR_OBELT). A zone-file E line can name
+    either for an object that only fits the other, so the slot follows the object's wear flags:
+    BELT-only goes to OBELT, WAIST-only to WAIST. Anything else (both flags, neither flag, any other
+    slot) keeps the location the zone file named. Mirrors data/sql/2026-10-09-mob-reset-belt.sql."""
+    if location not in ("WAIST", "OBELT", "BELT"):
+        return location
+    flags = set(wear_flags or [])
+    if "BELT" in flags and "WAIST" not in flags:
+        return "OBELT"
+    if "WAIST" in flags and "BELT" not in flags:
+        return "WAIST"
+    return location
+
+
 class ResetImporter:
     """Imports reset data to PostgreSQL using Prisma"""
 
@@ -32,6 +47,8 @@ class ResetImporter:
         # Set of shopkeeper mob vnums - G commands are skipped for these
         self.shopkeeper_vnums: set[int] = set()
         self.maps_built = False
+        # (zone_id, id) -> wear flags, filled lazily (see _object_wear_flags)
+        self._wear_flags_cache: Dict[Tuple[int, int], list] = {}
 
     def set_vnum_maps(self, room_map: Dict[int, Tuple[int, int]],
                       mob_map: Dict[int, Tuple[int, int]],
@@ -132,6 +149,21 @@ class ResetImporter:
             Tuple of (zone_id, id) if found, None otherwise
         """
         return self.object_map.get(obj_vnum)
+
+    async def _object_wear_flags(self, zone_id: int, obj_id: int) -> list:
+        """Wear flags of an imported object (cached); empty when it cannot be read."""
+        key = (zone_id, obj_id)
+        if key not in self._wear_flags_cache:
+            flags: list = []
+            try:
+                obj = await self.prisma.objects.find_unique(
+                    where={"zoneId_id": {"zoneId": zone_id, "id": obj_id}}
+                )
+                flags = [str(getattr(f, "value", f)) for f in (getattr(obj, "wearFlags", None) or [])]
+            except Exception:
+                flags = []
+            self._wear_flags_cache[key] = flags
+        return self._wear_flags_cache[key]
 
     async def import_mob_reset(
         self, mob_reset: dict, zone_id: int, dry_run: bool = False
@@ -234,6 +266,10 @@ class ResetImporter:
                         # Invalid location (e.g., position 22 which doesn't exist)
                         # Set to None - equipment will be added to inventory instead
                         wear_location = None
+
+                wear_location = belt_slot_for(
+                    wear_location, await self._object_wear_flags(db_obj_zone_id, obj_id)
+                )
 
                 try:
                     await self.prisma.mobresetequipment.create(

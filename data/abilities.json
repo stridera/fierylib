@@ -4223,7 +4223,15 @@
       "lookMessage": "{pronoun.subjective} radiates with pure divine essence."
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't cast this spell if you're not in a group!"
+        }
+      ]
+    }
   },
   {
     "name": "Divine Ray",
@@ -6174,6 +6182,14 @@
       "wearoffToTarget": "The music of Freedom Song fades into silence.",
       "wearoffToRoom": "{actor.pos} performance of Freedom Song comes to an end.",
       "successToVictim": "You feel freed from restraints!"
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't perform this if you're not in a group!"
+        }
+      ]
     }
   },
   {
@@ -6704,7 +6720,15 @@
       "wearoffToTarget": "You feel less protected."
     },
     "sphere": "PROTECTION",
-    "pages": 9
+    "pages": 9,
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't cast this spell if you're not in a group!"
+        }
+      ]
+    }
   },
   {
     "name": "Group Heal",
@@ -6767,7 +6791,15 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison. Heals exactly like Heal: perform_mag_group (magic.cpp:3414) runs mag_point(SPELL_HEAL) then mag_unaffect(SPELL_HEAL) on every group member."
+    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison. Heals exactly like Heal: perform_mag_group (magic.cpp:3414) runs mag_point(SPELL_HEAL) then mag_unaffect(SPELL_HEAL) on every group member.",
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't cast this spell if you're not in a group!"
+        }
+      ]
+    }
   },
   {
     "name": "Group Recall",
@@ -6796,7 +6828,15 @@
     },
     "sphere": "SUMMONING",
     "pages": 5,
-    "damageType": "HOLY"
+    "damageType": "HOLY",
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't cast this spell if you're not in a group!"
+        }
+      ]
+    }
   },
   {
     "name": "Group Retreat",
@@ -7027,6 +7067,14 @@
       "wearoffToTarget": "The music of Hearthsong fades into silence.",
       "wearoffToRoom": "{actor.pos} performance of Hearthsong comes to an end.",
       "successToVictim": "You feel the warmth of home."
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't perform this if you're not in a group!"
+        }
+      ]
     }
   },
   {
@@ -7225,6 +7273,14 @@
       "wearoffToTarget": "The music of Heroic Journey fades into silence.",
       "wearoffToRoom": "{actor.pos} performance of Heroic Journey comes to an end.",
       "successToVictim": "You feel ready for adventure!"
+    },
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't perform this if you're not in a group!"
+        }
+      ]
     }
   },
   {
@@ -8357,7 +8413,15 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "notes": "Legacy (magic.cpp:4612 mag_point SPELL_INVIGORATE; spello skills.cpp:969 MAG_GROUP, no mana/cost override, no cap): move = GET_MAX_MOVE(victim), then alter_move clamps to max, so the target is filled to full stamina. 'target_max_stamina' is the target's Stamina.max (the heal clamps at max). MAG_GROUP (mag_group, magic.cpp:3451) is targetScope ROOM_ALLIES: the cast fills the caster plus every grouped player in the room, caster last."
+    "notes": "Legacy (magic.cpp:4612 mag_point SPELL_INVIGORATE; spello skills.cpp:969 MAG_GROUP, no mana/cost override, no cap): move = GET_MAX_MOVE(victim), then alter_move clamps to max, so the target is filled to full stamina. 'target_max_stamina' is the target's Stamina.max (the heal clamps at max). MAG_GROUP (mag_group, magic.cpp:3451) is targetScope ROOM_ALLIES: the cast fills the caster plus every grouped player in the room, caster last.",
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't cast this spell if you're not in a group!"
+        }
+      ]
+    }
   },
   {
     "name": "Invisibility",
@@ -14824,46 +14888,59 @@
     "name": "War Cry",
     "plainName": "WAR_CRY",
     "abilityType": "CHANT",
-    "description": "A fearsome battle cry that damages enemies and bolsters the monk's combat prowess. This powerful chant adds extra damage to each of the monk's attacks.",
+    "description": "A monk's chant that incites the blood of everyone grouped with the monk in the room, the monk included. Each gains <b:red>accuracy</> and <b:red>attack power</> for a few hours, more with proficiency. It is not an attack, and it cannot be chanted outside a group.",
     "minPosition": "STANDING",
-    "violent": true,
+    "violent": false,
     "castTimeRounds": 1,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
     "tags": [
       "monk",
       "ki",
-      "damage",
-      "buff"
+      "buff",
+      "group"
     ],
     "effects": [
       {
-        "effect": "damage",
+        "effect": "modify",
         "order": 0,
         "params": {
-          "type": "physical",
-          "amount": "skill",
-          "scaling": "level"
+          "amount": "(skill / 25 + 1) * 2",
+          "duration": "skill / 25 + 1",
+          "target": "accuracy",
+          "durationUnit": "hours"
         },
-        "trigger": "on_hit"
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "modify",
+        "order": 1,
+        "params": {
+          "amount": "(skill / 25 + 1) * 5",
+          "duration": "skill / 25 + 1",
+          "target": "attack_power",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
       }
     ],
-    "notes": "Adds skill-based physical damage to each melee hit. Very high-level monk ability (level 90).",
+    "notes": "Legacy CHANT_WAR_CRY (skills.cpp:1525 chanto, TAR_IGNORE, not violent, MAG_GROUP; class.cpp:2180 monk level 90). mag_group (magic.cpp:3451) runs perform_mag_group (magic.cpp:3430) -> mag_affect (magic.cpp:3206) on every grouped player in the room, caster last: APPLY_HITROLL and APPLY_DAMROLL, each skill / 25 + 1, for skill / 25 + 1 ticks (hours). Hitroll converts to accuracy x2 and damroll to attack_power x5 (the importer's legacy factors), so the rows are (skill / 25 + 1) * 2 and (skill / 25 + 1) * 5. Group targeting is targetScope ROOM_ALLIES (isArea, not violent); the group requirement is the 'grouped' restriction rule (spell_parser.cpp:1068: \"You can't chant this song if you're not in a group!\"). This replaces the old placeholder, a violent on-hit damage effect with a WILL save.",
     "messages": {
-      "successToCaster": "You begin chanting War Cry, your voice resonating with power!",
-      "successToVictim": "{actor.name} begins chanting War Cry, and you feel its power wash over you!",
-      "successToRoom": "{actor.name} begins chanting War Cry, the words resonating with power!",
-      "wearoffToTarget": "Your battle fury subsides.",
-      "wearoffToRoom": "The power of {actor.pos} War Cry fades."
+      "successToVictim": "You feel more determined than ever!",
+      "successToRoom": "{target.name} looks more determined than ever!",
+      "successToSelf": "You feel more determined than ever!",
+      "successSelfRoom": "{actor.name} looks more determined than ever!",
+      "wearoffToTarget": "Your determination level returns to normal."
     },
-    "savingThrows": [
-      {
-        "saveType": "WILL",
-        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "HALF_DAMAGE"
-      }
-    ]
+    "restrictions": {
+      "requirements": [
+        {
+          "type": "grouped",
+          "message": "You can't chant this song if you're not in a group!"
+        }
+      ]
+    }
   },
   {
     "name": "Water Blast",
