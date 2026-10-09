@@ -7,6 +7,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4980,6 +4983,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5015,6 +5021,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5050,6 +5059,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5085,6 +5097,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5120,6 +5135,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5155,6 +5173,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -5631,6 +5652,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6284,6 +6308,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -6473,6 +6500,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -8875,6 +8905,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10641,6 +10674,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10677,6 +10713,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10713,6 +10752,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10786,6 +10828,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -11138,6 +11183,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -14429,6 +14477,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -15273,6 +15324,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 0.5,
+    "tags": [
+      "short_cast"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
