@@ -1,0 +1,11 @@
+-- Characters.command_grants: per-character command grants and revokes (legacy `grant`,
+-- `revoke`, `ungrant`). A grant lets a character use one command above their rank; a revoke
+-- takes away a command they would otherwise have. JSON shape:
+--   { "grants":  [ { "command": "goto", "grantor": "Strider", "level": 104 } ],
+--     "revokes": [ ... ] }
+-- `level` is the grantor's level; a lower-level staffer cannot undo an entry placed by a higher
+-- one. NULL means no grants or revokes (every existing character).
+--
+-- Idempotent. ADD COLUMN keeps the existing table owner, so no ownership change is needed.
+-- Type matches Prisma's Json? (jsonb).
+ALTER TABLE "Characters" ADD COLUMN IF NOT EXISTS command_grants JSONB;
