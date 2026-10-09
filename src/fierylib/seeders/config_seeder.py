@@ -101,6 +101,7 @@ class ConfigSeeder:
             ("security", "enable_new_player_creation", True, ConfigValueType.BOOL, "Allow new player registration", None, None, False, False),
             ("security", "enable_debug_commands", False, ConfigValueType.BOOL, "Enable debug commands (DEV ONLY)", None, None, False, True),
             ("security", "enable_tls", True, ConfigValueType.BOOL, "Enable TLS/SSL connections", None, None, False, True),
+            ("grants", "mortal_allowlist", "[]", ConfigValueType.JSON, "Command names a mortal may be granted (JSON array). Empty = mortals cannot hold grants", None, None, False, False),
         ]
 
         count = 0
