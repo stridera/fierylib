@@ -25,7 +25,13 @@ from mud.types.object import Object
 from mud.types.pet import Pet
 from mud.types import CurrentMax, Money, MudTypes
 from mud.flags import SPELLS, PLAYER_SKILLS, BARDIC_SONGS, MONK_CHANTS
-from fierylib.converters import normalize_flags, normalize_skill_name, EntityResolver, convert_legacy_colors
+from fierylib.converters import (
+    normalize_flags,
+    normalize_skill_name,
+    EntityResolver,
+    convert_legacy_colors,
+    strip_legacy_colors,
+)
 from fierylib.combat_formulas import derive_attack_power_baseline, derive_hit_roll_baseline
 from fierylib.seeders.user_seeder import compute_max_hp, compute_max_stamina
 
@@ -746,10 +752,18 @@ class PlayerImporter:
                     "updatedAt": datetime.utcnow(),
                 }
 
-                # Preserve custom name if it differs from prototype
+                # Preserve custom name if it differs from prototype. The legacy
+                # short description carries `&` colour codes: store the modern
+                # markup (the runtime has no legacy-code path), and skip it
+                # entirely when it is just the prototype's own name.
                 short_desc = parsed_data.get("short_description")
                 if short_desc:
-                    item_data["customName"] = short_desc
+                    proto = await self.prisma.objects.find_first(
+                        where={"zoneId": zone_id, "id": object_id}
+                    )
+                    plain = strip_legacy_colors(short_desc)
+                    if proto is None or plain.lower() != proto.plainName.lower():
+                        item_data["customName"] = convert_legacy_colors(short_desc)
 
                 # Preserve instance values (charges, food filling, etc.)
                 instance_values = parsed_data.get("values")
