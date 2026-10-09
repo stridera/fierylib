@@ -7182,7 +7182,19 @@
           "stat": "concealment",
           "amount": "skill + dex_bonus",
           "duration": "toggle",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "hide": {
+            "lowerCubic": -0.0008,
+            "lowerQuadratic": 0.1668,
+            "lowerLinear": -3.225,
+            "dexWeight": 3,
+            "intWeight": 1,
+            "divisor": 40,
+            "waitTicks": 40,
+            "thiefWaitTicks": 20,
+            "halflingGroupLevelDivisor": 30,
+            "stealthRollMax": 101
+          }
         },
         "trigger": "on_cast"
       }
@@ -12145,7 +12157,13 @@
           "stat": "concealment",
           "amount": "skill + dex_bonus",
           "duration": "toggle",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "sneak": {
+            "decayMin": 2,
+            "decayMax": 5,
+            "failBase": 15,
+            "levelDivisor": 2
+          }
         },
         "trigger": "on_cast"
       }
