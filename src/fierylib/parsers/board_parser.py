@@ -2,9 +2,58 @@
 
 import re
 from pathlib import Path
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
+
+# Board privilege slots, in file order (`privilege: <slot> <rule>`). The names match
+# the C++ server's BoardPrivilege enum, which reads `{"privilege": "Read", "level": N}`.
+PRIVILEGE_NAMES = [
+    "Read",
+    "WriteNew",
+    "RemoveOwn",
+    "EditOwn",
+    "RemoveAny",
+    "EditAny",
+    "WriteSticky",
+    "Lock",
+]
+
+# Highest level in the legacy rule system (LVL_IMPL).
+LEGACY_MAX_LEVEL = 105
+# Legacy files leave the rule blank on the mortal board (`privilege: 4 `), which the
+# old server turned into "level 0 to LVL_IMPL" for every slot. For the four
+# moderation slots (remove-any, edit-any, write-sticky, lock) that would let any
+# player pin or delete other people's posts, so they default to IMMORTAL (100)+.
+BLANK_RULE_MIN_LEVEL = {0: 0, 1: 0, 2: 0, 3: 0, 4: 100, 5: 100, 6: 100, 7: 100}
+
+
+def parse_privilege_rule(slot: int, rule: str) -> Optional[Dict[str, Any]]:
+    """Turn one `privilege: <slot> <rule>` line into a JSON-able rule.
+
+    - `level <min> <max>` -> {"privilege": "Read", "level": min, "maxLevel": max}
+    - blank               -> the slot's default (see BLANK_RULE_MIN_LEVEL)
+    - anything else (clan / class / name rules whose engine is gone) is kept verbatim
+      as {"privilege": ..., "rule": "<text>"}; Muditor only lets staff satisfy it.
+    """
+    if slot < 0 or slot >= len(PRIVILEGE_NAMES):
+        return None
+    name = PRIVILEGE_NAMES[slot]
+    rule = rule.strip()
+    if not rule:
+        return {
+            "privilege": name,
+            "level": BLANK_RULE_MIN_LEVEL[slot],
+            "maxLevel": LEGACY_MAX_LEVEL,
+        }
+    m = re.fullmatch(r"level\s+(\d+)\s+(\d+)", rule)
+    if m:
+        return {
+            "privilege": name,
+            "level": int(m.group(1)),
+            "maxLevel": int(m.group(2)),
+        }
+    return {"privilege": name, "rule": rule}
 
 
 @dataclass
@@ -32,7 +81,7 @@ class BoardData:
     number: int
     alias: str
     title: str
-    privileges: List[int] = field(default_factory=list)  # List of privilege level requirements
+    privileges: List[Dict[str, Any]] = field(default_factory=list)  # One rule per `privilege:` line
     messages: List[BoardMessageData] = field(default_factory=list)
 
 
@@ -44,7 +93,7 @@ class BoardParser:
     number: <id>
     alias: <alias>
     title: <title>
-    privilege: <level>  (repeated 0-8 times)
+    privilege: <slot> <rule>  (repeated 0-8 times; rule is `level <min> <max>`, blank, or a legacy clan/name rule)
     ~~
     level: <poster_level>
     poster: <name>
@@ -116,11 +165,15 @@ class BoardParser:
             elif line.startswith('title:'):
                 title = line.split(':', 1)[1].strip()
             elif line.startswith('privilege:'):
-                try:
-                    priv_val = int(line.split(':', 1)[1].strip())
-                    privileges.append(priv_val)
-                except ValueError:
-                    pass
+                parts = line.split(':', 1)[1].strip().split(None, 1)
+                if parts:
+                    try:
+                        slot = int(parts[0])
+                    except ValueError:
+                        continue
+                    rule = parse_privilege_rule(slot, parts[1] if len(parts) > 1 else "")
+                    if rule:
+                        privileges.append(rule)
 
         if number is None or alias is None:
             return None
