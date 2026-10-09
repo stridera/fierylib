@@ -14,6 +14,29 @@ SUNRAY_AMOUNT = (
 )
 
 
+# 2026-10-09-group-targeting.sql reworded these sentences once group targeting and the outdoors
+# restriction were modelled; undo that to compare with the text this patch wrote.
+_LATER_REWORDING = [
+    (
+        "MAG_GROUP (mag_group, magic.cpp:3451) is targetScope ROOM_ALLIES: the cast fills the "
+        "caster plus every grouped player in the room, caster last.",
+        "MAG_GROUP (caster plus grouped allies in the room) is not modelled: single target.",
+    ),
+    ("Outdoors only.", "Outdoors only (not enforced yet)."),
+    (
+        "is the \"outdoors\" restriction rule: the cast is refused with that line while the "
+        "caster's room is indoors (IndoorRoom flag, underdark or underwater sector).",
+        "has no restriction type in the runtime yet, so it is not enforced.",
+    ),
+]
+
+
+def _as_of_this_patch(text):
+    for later, earlier in _LATER_REWORDING:
+        text = text.replace(later, earlier)
+    return text
+
+
 def _effects(name, kind):
     return [e for e in BY_NAME[name]["effects"] if e["effect"] == kind]
 
@@ -72,11 +95,11 @@ def test_sql_literals_match_json():
     assert "'duration', 'skill / 3 + 1'" in SQL
     assert f"'{SUNRAY_AMOUNT}'" in SQL
     for name in ("INVIGORATE", "NATURES_EMBRACE", "SUNRAY"):
-        notes = BY_NAME[name]["notes"].replace("'", "''")
+        notes = _as_of_this_patch(BY_NAME[name]["notes"]).replace("'", "''")
         assert notes in SQL, name
         if name == "SUNRAY":  # description unchanged, only the dice and notes move
             continue
-        description = BY_NAME[name]["description"].replace("'", "''")
+        description = _as_of_this_patch(BY_NAME[name]["description"]).replace("'", "''")
         assert description in SQL, name
 
 
