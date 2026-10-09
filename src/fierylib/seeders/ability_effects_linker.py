@@ -31,7 +31,7 @@ EFF_FLAG_MAPPINGS: Dict[str, Tuple[str, Dict[str, Any]]] = {
     "EFF_LIGHT": ("status", {"flag": "glowing"}),
 
     # Crowd control -> status with CC flags
-    "EFF_BLIND": ("status", {"flag": "blinded"}),
+    "EFF_BLIND": ("status", {"flag": "blind"}),
     "EFF_SLEEP": ("status", {"flag": "sleeping"}),
     "EFF_PARALYSIS": ("status", {"flag": "paralyzed"}),
     "EFF_MINOR_PARALYSIS": ("status", {"flag": "paralyzed", "breakOnDamage": True}),
@@ -349,8 +349,8 @@ class AbilityEffectsLinker:
             dmg = mechanics.get("damage", "1d6")
             effects.append(("damage", {"type": "magic", "amount": dmg}, "on_cast"))
             if "blind" in mechanics.get("description", "").lower():
-                # crowd_control → status with blinded flag
-                effects.append(("status", {"flag": "blinded"}, "on_cast"))
+                # crowd_control → status with blind flag
+                effects.append(("status", {"flag": "blind"}, "on_cast"))
         elif spell_type == "damage_multihit":
             # Multiple hit damage (Magic Missile)
             dmg = mechanics.get("damage_per_missile", "4d21")

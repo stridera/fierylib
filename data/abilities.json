@@ -1025,6 +1025,16 @@
     "isArea": false,
     "effects": [
       {
+        "effect": "status",
+        "order": 0,
+        "params": {
+          "flag": "blind",
+          "duration": 2,
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
         "effect": "modify",
         "order": 1,
         "params": {
@@ -1075,6 +1085,16 @@
     "inCombatOnly": false,
     "isArea": false,
     "effects": [
+      {
+        "effect": "status",
+        "order": 0,
+        "params": {
+          "flag": "blind",
+          "duration": 2,
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
       {
         "effect": "modify",
         "order": 1,
@@ -2821,19 +2841,21 @@
     "isArea": false,
     "effects": [
       {
-        "effect": "heal",
+        "effect": "cleanse",
         "order": 0,
         "params": {
-          "amount": "1d8",
-          "resource": "hp"
+          "condition": "blind",
+          "scope": "all"
         },
         "trigger": "on_cast"
       }
     ],
     "messages": {
-      "successToCaster": "You channel healing energy into {target.him}.",
-      "successToVictim": "{actor.name} channels healing energy into you.",
-      "successToRoom": "{actor.name} channels healing energy into {target.him}."
+      "successToCaster": "You cure {target.name}'s blindness.",
+      "successToVictim": "Your vision returns!",
+      "successToRoom": "There's a momentary gleam in {target.name}'s eyes.",
+      "successToSelf": "Your vision returns!",
+      "successSelfRoom": "There's a momentary gleam in {actor.name}'s eyes."
     },
     "sphere": "HEALING",
     "pages": 5
@@ -5343,8 +5365,29 @@
     "isArea": false,
     "effects": [
       {
-        "effect": "damage",
+        "effect": "status",
         "order": 0,
+        "params": {
+          "flag": "blind",
+          "duration": 1,
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "modify",
+        "order": 1,
+        "params": {
+          "amount": "-2 - skill / 10",
+          "target": "accuracy",
+          "duration": 1,
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "damage",
+        "order": 2,
         "params": {
           "type": "physical",
           "amount": "skill",
@@ -5360,7 +5403,8 @@
       "successToRoom": "{actor.name} lunges at {target.him}, gouging into {target.pos} eyes with {actor.pos} thumbs!",
       "failToCaster": "Your lunge goes wide, missing {target.pos} head by a mile.",
       "failToVictim": "{actor.name} tries to grab for your eyes, but misses miserably.",
-      "failToRoom": "{actor.name} lunges wildly at {target.him}, nearly taking out an eye!"
+      "failToRoom": "{actor.name} lunges wildly at {target.him}, nearly taking out an eye!",
+      "wearoffToTarget": "Your vision returns."
     }
   },
   {
