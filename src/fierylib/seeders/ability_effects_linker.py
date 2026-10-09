@@ -128,6 +128,25 @@ DAMAGE_TYPE_MAPPINGS: Dict[str, str] = {
     "DAM_ROT": "poison",  # decay/rot mapped to poison
 }
 
+# Legacy spell_enchant_weapon as an alter_object "enchant" effect: hitroll 1 + (skill >= 18) and
+# damroll 1 + (skill >= 20), converted to modern units the way the object importer converts legacy
+# applies (hitroll x2 -> accuracy, damroll x5 -> attack_power); anti-alignment bar and glow message
+# follow the caster's alignment. Keep in sync with data/abilities.json (ENCHANT_WEAPON).
+ENCHANT_WEAPON_PARAMS = {
+    "mode": "enchant",
+    "requireType": "WEAPON",
+    "setFlags": ["MAGIC"],
+    "applies": [
+        {"target": "accuracy", "amount": "2 + 2 * clamp(skill - 17, 0, 1)"},
+        {"target": "attack_power", "amount": "5 + 5 * clamp(skill - 19, 0, 1)"},
+    ],
+    "goodCasterBars": "EVIL",
+    "evilCasterBars": "GOOD",
+    "messageToCasterGood": "{item} glows blue.",
+    "messageToCasterEvil": "{item} glows red.",
+    "messageToCasterNeutral": "{item} glows yellow.",
+}
+
 # Spells where APPLY_AC should use ward stat instead of eva
 # These are magical armor spells that provide Ward% (magical damage reduction)
 # rather than EVA (evasion/dodge) - see COMBAT_CLARIFICATIONS.md Q9
@@ -342,8 +361,8 @@ class AbilityEffectsLinker:
         elif spell_type == "level_drain":
             effects.append(("damage", {"type": "necrotic", "amount": "level_drain"}, "on_cast"))
         elif spell_type == "item_enhancement":
-            # stat_mod → enchant (applies effect to item)
-            effects.append(("enchant", {"effect": "modify", "target": "item_bonus", "amount": "skill/10"}, "on_cast"))
+            # Enchant Weapon: per-instance applies on a non-magical weapon (alter_object, enchant mode)
+            effects.append(("alter_object", ENCHANT_WEAPON_PARAMS, "on_cast"))
         elif spell_type == "damage_status":
             # Combo damage + status (like Color Spray)
             dmg = mechanics.get("damage", "1d6")

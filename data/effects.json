@@ -1295,7 +1295,7 @@
   {
     "name": "alter_object",
     "effectType": "alter_object",
-    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object.",
+    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object. The enchant mode (Enchant Weapon) gives a non-magical weapon per-instance stat applies, the MAGIC flag and an anti-alignment bar.",
     "tags": [
       "utility",
       "magic",
@@ -1308,9 +1308,6 @@
     },
     "paramSchema": {
       "type": "object",
-      "required": [
-        "restriction"
-      ],
       "properties": {
         "restriction": {
           "enum": [
@@ -1327,10 +1324,74 @@
         "mode": {
           "enum": [
             "add",
-            "remove"
+            "remove",
+            "enchant"
           ],
           "type": "string",
-          "description": "add (default) sets the restriction, remove clears it"
+          "description": "add (default) sets the restriction, remove clears it, enchant puts per-instance applies on a weapon (restriction is not used)"
+        },
+        "requireType": {
+          "type": "string",
+          "description": "enchant: the only object type that can be enchanted (WEAPON)"
+        },
+        "setFlags": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "GLOW",
+              "HUM",
+              "INVISIBLE",
+              "MAGIC"
+            ],
+            "type": "string"
+          },
+          "description": "enchant: object flags set on success; an object already carrying one (or any stat apply) is refused"
+        },
+        "applies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "string",
+                "description": "A modify stat key, e.g. accuracy, attack_power"
+              },
+              "amount": {
+                "description": "Number or formula in skill / level"
+              }
+            }
+          },
+          "description": "enchant: per-instance stat applies, granted while the object is worn"
+        },
+        "goodCasterBars": {
+          "enum": [
+            "GOOD",
+            "NEUTRAL",
+            "EVIL"
+          ],
+          "type": "string",
+          "description": "enchant: alignment the object refuses when the caster is good (legacy ITEM_ANTI_EVIL)"
+        },
+        "evilCasterBars": {
+          "enum": [
+            "GOOD",
+            "NEUTRAL",
+            "EVIL"
+          ],
+          "type": "string",
+          "description": "enchant: alignment the object refuses when the caster is evil (legacy ITEM_ANTI_GOOD)"
+        },
+        "messageToCasterGood": {
+          "type": "string",
+          "description": "enchant: sent to a good caster on success"
+        },
+        "messageToCasterEvil": {
+          "type": "string",
+          "description": "enchant: sent to an evil caster on success"
+        },
+        "messageToCasterNeutral": {
+          "type": "string",
+          "description": "enchant: sent to a neutral caster on success"
         },
         "weaponDiceSizeDelta": {
           "type": "integer",
@@ -1350,6 +1411,6 @@
         }
       }
     },
-    "notes": "Per-instance change; the prototype is untouched. Legacy mag_alter_obj SPELL_CURSE / SPELL_REMOVE_CURSE."
+    "notes": "Per-instance change; the prototype is untouched. Legacy mag_alter_obj SPELL_CURSE / SPELL_REMOVE_CURSE, and spell_enchant_weapon for the enchant mode (hitroll x2 -> accuracy, damroll x5 -> attack_power, as the object importer converts legacy applies)."
   }
 ]

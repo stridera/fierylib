@@ -4778,15 +4778,41 @@
     "isArea": false,
     "effects": [
       {
-        "effect": "modify",
+        "effect": "alter_object",
         "order": 0,
         "params": {
-          "amount": "skill/10",
-          "target": "item_bonus"
+          "mode": "enchant",
+          "requireType": "WEAPON",
+          "setFlags": [
+            "MAGIC"
+          ],
+          "applies": [
+            {
+              "target": "accuracy",
+              "amount": "2 + 2 * clamp(skill - 17, 0, 1)"
+            },
+            {
+              "target": "attack_power",
+              "amount": "5 + 5 * clamp(skill - 19, 0, 1)"
+            }
+          ],
+          "goodCasterBars": "EVIL",
+          "evilCasterBars": "GOOD",
+          "messageToCasterGood": "{item} glows blue.",
+          "messageToCasterEvil": "{item} glows red.",
+          "messageToCasterNeutral": "{item} glows yellow."
         },
         "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "OBJECT_INV"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You cast enchant weapon.",
       "successToVictim": "{actor.name} casts enchant weapon on you.",

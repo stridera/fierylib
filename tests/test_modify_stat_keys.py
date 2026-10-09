@@ -19,10 +19,11 @@ SUPPORTED = {
 }  # fmt: skip
 
 # Known gaps: no equivalent in apply_modify_delta yet (needs runtime support, not a data rename).
-# item_bonus: Enchant Weapon edits an object. unarmed_damage / weapon_hitroll: skill-scaled passives
-# (Barehand, weapon skills) with no passive-effect hook and no bare-hand damage stat. self: Dodge /
-# Parry, which the combat evasion roll reads from the proficiency directly.
-UNSUPPORTED_KNOWN = {"item_bonus", "self", "unarmed_damage", "weapon_hitroll"}
+# unarmed_damage / weapon_hitroll: skill-scaled passives (Barehand, weapon skills) with no
+# passive-effect hook and no bare-hand damage stat. self: Dodge / Parry, which the combat evasion
+# roll reads from the proficiency directly. (item_bonus, Enchant Weapon, is now an alter_object
+# enchant effect; see test_enchant_weapon.py.)
+UNSUPPORTED_KNOWN = {"self", "unarmed_damage", "weapon_hitroll"}
 
 
 def _modify_keys():
