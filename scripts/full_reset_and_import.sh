@@ -369,6 +369,15 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $RECIPES_CMD
 
+  # Content tables moved out of the game server's source (status flag AI
+  # values, spell syllables, prompt/insult/calendar/weather text, prompt
+  # cooldown letters on Ability).
+  CONTENT_CMD="poetry run fierylib seed content-tables"
+  if [[ -n "$VERBOSE" ]]; then
+    CONTENT_CMD="$CONTENT_CMD --verbose"
+  fi
+  eval $CONTENT_CMD
+
   echo ""
   echo "✅ Game settings seeded"
   echo ""

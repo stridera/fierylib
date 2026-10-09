@@ -2902,6 +2902,43 @@ def seed_creation_recipes(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="content-tables")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_content_tables(verbose: bool):
+    """Seed the content tables the game server used to hard-code.
+
+    Status flag AI values, spell chant syllables, the prompt / insult / calendar /
+    weather messages, the prompt templates, and the `%d` prompt cooldown letters,
+    from data/content_tables.json. Existing rows are left alone. Run after the
+    abilities are seeded.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import ContentTablesSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Content Tables")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await ContentTablesSeeder(prisma).seed_content_tables(verbose=verbose)
+            click.echo(f"  Statements: {stats['statements']}")
+            click.echo(f"  Rows added/updated: {stats['rows']}")
+            click.echo(f"\n✅ Content table seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="levels")
 @click.option(
     "--max-level",

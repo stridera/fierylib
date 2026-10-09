@@ -1,0 +1,780 @@
+{
+  "status_flag_values": [
+    [
+      "major_paralysis",
+      -50
+    ],
+    [
+      "blind",
+      -40
+    ],
+    [
+      "blindness",
+      -40
+    ],
+    [
+      "silence",
+      -30
+    ],
+    [
+      "insanity",
+      -30
+    ],
+    [
+      "hurt_throat",
+      -30
+    ],
+    [
+      "poison",
+      -20
+    ],
+    [
+      "poisoned",
+      -20
+    ],
+    [
+      "sleep",
+      -20
+    ],
+    [
+      "minor_paralysis",
+      -20
+    ],
+    [
+      "on_fire",
+      -20
+    ],
+    [
+      "disease",
+      -20
+    ],
+    [
+      "animated",
+      -20
+    ],
+    [
+      "exposed",
+      -20
+    ],
+    [
+      "charm",
+      -10
+    ],
+    [
+      "tamed",
+      -10
+    ],
+    [
+      "fear",
+      -10
+    ],
+    [
+      "vitality",
+      -5
+    ],
+    [
+      "curse",
+      3
+    ],
+    [
+      "enlarge",
+      10
+    ],
+    [
+      "reduce",
+      10
+    ],
+    [
+      "bless",
+      10
+    ],
+    [
+      "tongues",
+      15
+    ],
+    [
+      "feather_fall",
+      15
+    ],
+    [
+      "camouflaged",
+      15
+    ],
+    [
+      "ray_of_enfeeblement",
+      15
+    ],
+    [
+      "farsee",
+      20
+    ],
+    [
+      "detect_align",
+      20
+    ],
+    [
+      "detect_poison",
+      20
+    ],
+    [
+      "detect_magic",
+      20
+    ],
+    [
+      "waterbreath",
+      20
+    ],
+    [
+      "minor_globe",
+      20
+    ],
+    [
+      "shadowing",
+      20
+    ],
+    [
+      "waterwalk",
+      25
+    ],
+    [
+      "invisible",
+      25
+    ],
+    [
+      "notrack",
+      25
+    ],
+    [
+      "light",
+      25
+    ],
+    [
+      "sneak",
+      35
+    ],
+    [
+      "sense_life",
+      35
+    ],
+    [
+      "detect_life",
+      35
+    ],
+    [
+      "infravision",
+      35
+    ],
+    [
+      "detect_invis",
+      40
+    ],
+    [
+      "protect_evil",
+      50
+    ],
+    [
+      "protect_good",
+      50
+    ],
+    [
+      "fly",
+      50
+    ],
+    [
+      "soulshield",
+      50
+    ],
+    [
+      "prot_fire",
+      50
+    ],
+    [
+      "prot_cold",
+      50
+    ],
+    [
+      "prot_air",
+      50
+    ],
+    [
+      "prot_earth",
+      50
+    ],
+    [
+      "fireshield",
+      50
+    ],
+    [
+      "coldshield",
+      50
+    ],
+    [
+      "ultravision",
+      50
+    ],
+    [
+      "aware",
+      50
+    ],
+    [
+      "vamp_touch",
+      50
+    ],
+    [
+      "haste",
+      60
+    ],
+    [
+      "displacement",
+      60
+    ],
+    [
+      "nimble",
+      60
+    ],
+    [
+      "acid_weapon",
+      60
+    ],
+    [
+      "fire_weapon",
+      60
+    ],
+    [
+      "ice_weapon",
+      60
+    ],
+    [
+      "radiant_weapon",
+      60
+    ],
+    [
+      "poison_weapon",
+      60
+    ],
+    [
+      "shock_weapon",
+      60
+    ],
+    [
+      "major_globe",
+      70
+    ],
+    [
+      "harness",
+      70
+    ],
+    [
+      "negate_heat",
+      70
+    ],
+    [
+      "negate_cold",
+      70
+    ],
+    [
+      "negate_air",
+      70
+    ],
+    [
+      "negate_earth",
+      70
+    ],
+    [
+      "greater_displacement",
+      70
+    ],
+    [
+      "blur",
+      80
+    ],
+    [
+      "sanctuary",
+      90
+    ],
+    [
+      "stone_skin",
+      100
+    ],
+    [
+      "stoneskin",
+      100
+    ]
+  ],
+  "spell_syllables": [
+    [
+      " ",
+      " "
+    ],
+    [
+      "ar",
+      "abra"
+    ],
+    [
+      "ate",
+      "i"
+    ],
+    [
+      "cau",
+      "kada"
+    ],
+    [
+      "blind",
+      "nose"
+    ],
+    [
+      "bur",
+      "mosa"
+    ],
+    [
+      "cu",
+      "judi"
+    ],
+    [
+      "de",
+      "oculo"
+    ],
+    [
+      "dis",
+      "mar"
+    ],
+    [
+      "ect",
+      "kamina"
+    ],
+    [
+      "en",
+      "uns"
+    ],
+    [
+      "gro",
+      "cra"
+    ],
+    [
+      "light",
+      "dies"
+    ],
+    [
+      "lo",
+      "hi"
+    ],
+    [
+      "magi",
+      "kari"
+    ],
+    [
+      "mon",
+      "bar"
+    ],
+    [
+      "mor",
+      "zak"
+    ],
+    [
+      "move",
+      "sido"
+    ],
+    [
+      "ness",
+      "lacri"
+    ],
+    [
+      "ning",
+      "illa"
+    ],
+    [
+      "per",
+      "duda"
+    ],
+    [
+      "ra",
+      "gru"
+    ],
+    [
+      "re",
+      "candus"
+    ],
+    [
+      "son",
+      "sabru"
+    ],
+    [
+      "tect",
+      "infra"
+    ],
+    [
+      "tri",
+      "cula"
+    ],
+    [
+      "ven",
+      "nofo"
+    ],
+    [
+      "word of",
+      "inset"
+    ],
+    [
+      "a",
+      "i"
+    ],
+    [
+      "b",
+      "v"
+    ],
+    [
+      "c",
+      "q"
+    ],
+    [
+      "d",
+      "m"
+    ],
+    [
+      "e",
+      "o"
+    ],
+    [
+      "f",
+      "y"
+    ],
+    [
+      "g",
+      "t"
+    ],
+    [
+      "h",
+      "p"
+    ],
+    [
+      "i",
+      "u"
+    ],
+    [
+      "j",
+      "y"
+    ],
+    [
+      "k",
+      "t"
+    ],
+    [
+      "l",
+      "r"
+    ],
+    [
+      "m",
+      "w"
+    ],
+    [
+      "n",
+      "b"
+    ],
+    [
+      "o",
+      "a"
+    ],
+    [
+      "p",
+      "s"
+    ],
+    [
+      "q",
+      "d"
+    ],
+    [
+      "r",
+      "f"
+    ],
+    [
+      "s",
+      "g"
+    ],
+    [
+      "t",
+      "h"
+    ],
+    [
+      "u",
+      "e"
+    ],
+    [
+      "v",
+      "z"
+    ],
+    [
+      "w",
+      "x"
+    ],
+    [
+      "x",
+      "n"
+    ],
+    [
+      "y",
+      "l"
+    ],
+    [
+      "z",
+      "k"
+    ]
+  ],
+  "system_messages": [
+    {
+      "key": "exp_progress",
+      "category": "prompt",
+      "messages": [
+        "<blue>You still have a very long way to go to your next level.</>",
+        "<blue>You have gained some progress towards your next level.</>",
+        "<cyan>You are about one-quarter of the way to your next level.</>",
+        "<blue>You are about a third of the way to your next level.</>",
+        "<blue>You are almost half-way to your next level.</>",
+        "<cyan>You are just past the half-way point to your next level.</>",
+        "<blue>You are well on your way to your next level.</>",
+        "<blue>You are about three-quarters of the way to your next level.</>",
+        "<cyan>You are almost ready to attain your next level.</>",
+        "<blue>You should level anytime now!</>",
+        "<blue>You are SO close to the next level.</>"
+      ]
+    },
+    {
+      "key": "insult_lines",
+      "category": "social",
+      "messages": [
+        "You smell like a troll's armpit!",
+        "Your mother was a bugbear!",
+        "You fight like a dairy farmer!",
+        "I've seen better-looking rust monsters!",
+        "Even a gelatinous cube has more personality!",
+        "Your sword is dull and your wits are duller!",
+        "I've met kobolds with sharper tongues!",
+        "Your aim is as bad as your cooking!"
+      ]
+    },
+    {
+      "key": "month_names",
+      "category": "calendar",
+      "messages": [
+        "the Month of Deepwinter",
+        "the Month of the Claw",
+        "the Month of the Grand Struggle",
+        "the Month of the Running",
+        "the Month of the Planting",
+        "the Month of the Long Day",
+        "the Month of the Time of Famine",
+        "the Month of the High Sun",
+        "the Month of the Ripening",
+        "the Month of the Lowering",
+        "the Month of the Fade",
+        "the Month of the Dying",
+        "the Month of the Shadows",
+        "the Month of the Great Frost",
+        "the Month of the Drawing",
+        "the Month of the Long Night"
+      ]
+    },
+    {
+      "key": "weather_change_clear",
+      "category": "weather",
+      "messages": [
+        "<b:yellow>The clouds part</>; the sky brightens."
+      ]
+    },
+    {
+      "key": "weather_change_cloudy",
+      "category": "weather",
+      "messages": [
+        "<dim>Clouds gather overhead.</>"
+      ]
+    },
+    {
+      "key": "weather_change_drizzle",
+      "category": "weather",
+      "messages": [
+        "<cyan>A light drizzle</> begins to fall."
+      ]
+    },
+    {
+      "key": "weather_change_rain",
+      "category": "weather",
+      "messages": [
+        "The <cyan>rain</> picks up — a steady <cyan>downpour</>."
+      ]
+    },
+    {
+      "key": "weather_change_storm",
+      "category": "weather",
+      "messages": [
+        "<dim>The wind howls</>; <dim>thunder</> rumbles in the distance."
+      ]
+    },
+    {
+      "key": "weather_change_snow",
+      "category": "weather",
+      "messages": [
+        "<b:white>Snowflakes</> begin to fall."
+      ]
+    },
+    {
+      "key": "weather_change_blizzard",
+      "category": "weather",
+      "messages": [
+        "The snow thickens into a blinding <b:white>blizzard</>."
+      ]
+    }
+  ],
+  "game_config": [
+    {
+      "category": "display",
+      "key": "prompt_templates",
+      "valueType": "JSON",
+      "value": [
+        [
+          "classic",
+          "<%h/%H hp %v/%V mv> "
+        ],
+        [
+          "compact",
+          "[%h/%H %v/%V] "
+        ],
+        [
+          "bars",
+          "%B %M "
+        ],
+        [
+          "vitals",
+          "<red>%h</>/%H hp <green>%v</>/%V mv "
+        ],
+        [
+          "verbose",
+          "<%n %h/%H hp %v/%V mv %w @ %R> "
+        ],
+        [
+          "location",
+          "[%R] <%h/%H hp> "
+        ],
+        [
+          "worldclock",
+          "<%h/%H %v/%V — %s %y %Y> "
+        ],
+        [
+          "combat",
+          "<%h/%H hp %v/%V mv | %O %K> "
+        ],
+        [
+          "minimal",
+          "> "
+        ]
+      ],
+      "description": "Named prompt presets for the prompt command: [[name, template], ...] in menu order"
+    }
+  ],
+  "prompt_letters": [
+    [
+      "a",
+      [
+        "INN_ASCEN"
+      ]
+    ],
+    [
+      "b",
+      [
+        "BREATHE_ACID",
+        "BREATHE_FIRE",
+        "BREATHE_FROST",
+        "BREATHE_GAS",
+        "BREATHE_LIGHTNING"
+      ]
+    ],
+    [
+      "c",
+      [
+        "INN_BRILL"
+      ]
+    ],
+    [
+      "g",
+      [
+        "DARKNESS"
+      ]
+    ],
+    [
+      "h",
+      [
+        "DISARM"
+      ]
+    ],
+    [
+      "i",
+      [
+        "FIRST_AID"
+      ]
+    ],
+    [
+      "j",
+      [
+        "INSTANT_KILL"
+      ]
+    ],
+    [
+      "k",
+      [
+        "INVISIBLE"
+      ]
+    ],
+    [
+      "l",
+      [
+        "LAY_HANDS"
+      ]
+    ],
+    [
+      "m",
+      [
+        "FEATHER_FALL"
+      ]
+    ],
+    [
+      "n",
+      [
+        "SHAPECHANGE"
+      ]
+    ],
+    [
+      "o",
+      [
+        "SUMMON_MOUNT"
+      ]
+    ],
+    [
+      "r",
+      [
+        "THROATCUT"
+      ]
+    ],
+    [
+      "t",
+      [
+        "BLINDING_BEAUTY"
+      ]
+    ],
+    [
+      "u",
+      [
+        "ILLUMINATION"
+      ]
+    ],
+    [
+      "w",
+      [
+        "STATUE"
+      ]
+    ],
+    [
+      "x",
+      [
+        "BARKSKIN"
+      ]
+    ]
+  ]
+}
