@@ -828,8 +828,8 @@ class PlayerImporter:
             runtime doesn't distinguish dual-wield orientation today)
           - HOLD / HOLD2 → "HOLD"
           - LEAR / REAR → "EARS" (no left/right ear distinction)
-          - OBELT (offset belt — items hung from belt) → "WAIST"
-            (no dedicated belt slot in runtime Slot enum)
+          - OBELT (items attached to a worn belt) → "BELT", its own slot
+            next to "WAIST" (runtime ``Slot::Belt``)
 
         Note on collisions: a character wielding a sword (16) AND a
         dual-wield off-hand (17) would map both to "WIELD" — only the
@@ -869,7 +869,7 @@ class PlayerImporter:
             23: "EARS",      # LEAR (left ear) → EARS (single slot)
             24: "EARS",      # REAR (right ear) → EARS (single slot)
             25: "BADGE",
-            26: "WAIST",     # OBELT (on belt) → WAIST (no dedicated belt slot)
+            26: "BELT",      # OBELT (attached to belt) → BELT, distinct from WAIST
             27: "HOVER",
             127: None,       # Inventory (not equipped)
         }
