@@ -16,7 +16,12 @@ ALTER TABLE "Characters" ADD COLUMN IF NOT EXISTS command_grants JSONB;
 -- permission, a rank above immortal, or one of grant/revoke/ungrant is never honoured for a
 -- mortal. Checked on every use, not just when the grant is made. Staff grants are honoured only
 -- while the holder is still staff. Inserted only when missing (an edited list is kept).
-INSERT INTO "GameConfig" ("category", "key", "value", "value_type", "description", "updated_at")
+-- restart_req = true: RuntimeConfig loads only at boot, so an edit needs a server restart. The
+-- UPDATE sets the flag on a row inserted without it; it touches no other column.
+INSERT INTO "GameConfig" ("category", "key", "value", "value_type", "description", "restart_req", "updated_at")
 VALUES ('grants', 'mortal_allowlist', '[]', 'JSON'::"ConfigValueType",
-        'Command names a mortal may be granted (JSON array). Empty = mortals cannot hold grants', CURRENT_TIMESTAMP)
+        'Command names a mortal may be granted (JSON array). Empty = mortals cannot hold grants', true, CURRENT_TIMESTAMP)
 ON CONFLICT ("category", "key") DO NOTHING;
+
+UPDATE "GameConfig" SET "restart_req" = true, "updated_at" = CURRENT_TIMESTAMP
+WHERE "category" = 'grants' AND "key" = 'mortal_allowlist' AND "restart_req" = false;

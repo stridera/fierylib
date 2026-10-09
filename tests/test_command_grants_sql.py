@@ -1,5 +1,6 @@
 """The command-grants SQL patch seeds an empty mortal allowlist, and the seeder agrees."""
 
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -15,3 +16,10 @@ def test_patch_seeds_an_empty_allowlist_without_overwriting():
 
 def test_seeder_matches_the_patch():
     assert '("grants", "mortal_allowlist", "[]", ConfigValueType.JSON' in SEEDER
+
+
+def test_allowlist_requires_a_restart_and_the_patch_fixes_existing_rows():
+    assert "\"restart_req\", \"updated_at\")" in SQL
+    assert 'SET "restart_req" = true' in SQL
+    assert 'AND "restart_req" = false' in SQL
+    assert re.search(r'\("grants", "mortal_allowlist", .*ConfigValueType\.JSON.*None, None, False, True\)', SEEDER)
