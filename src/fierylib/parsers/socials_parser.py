@@ -162,8 +162,8 @@ def parse_socials_file(filepath: Path) -> list[Social]:
 
         name = parts[0]
 
-        # Skip entries that look like garbage (e.g., "z001#@#")
-        if not name.isalpha():
+        # Skip entries that look like garbage (e.g., "z001#@#"); digits are fine ("hi5")
+        if not name.isalnum():
             # Skip until next blank line or end
             while i < len(lines) and lines[i].strip():
                 i += 1
