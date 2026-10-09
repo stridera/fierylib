@@ -1022,7 +1022,7 @@
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
-    "isArea": false,
+    "isArea": true,
     "effects": [
       {
         "effect": "status",
@@ -1071,7 +1071,8 @@
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
         "onSaveAction": "NEGATE"
       }
-    ]
+    ],
+    "notes": "Area spell (legacy MAG_AREA / TAR_IGNORE, skills.cpp:548): mag_area hits every valid room attack target (area_attack_target), no alignment filter; each gets the Blindness affect (WILL save negates). Nymph innate."
   },
   {
     "name": "Blindness",
@@ -6298,6 +6299,33 @@
           "resource": "hp"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 1,
+        "params": {
+          "condition": "blind",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 2,
+        "params": {
+          "condition": "poison",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 3,
+        "params": {
+          "condition": "disease",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
       }
     ],
     "messages": {
@@ -6306,7 +6334,8 @@
       "successToRoom": "{actor.name} channels healing energy into {target.him}."
     },
     "sphere": "HEALING",
-    "pages": 5
+    "pages": 5,
+    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison."
   },
   {
     "name": "Gaia's Cloak",
@@ -6623,6 +6652,33 @@
           "resource": "hp"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 1,
+        "params": {
+          "condition": "blind",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 2,
+        "params": {
+          "condition": "poison",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 3,
+        "params": {
+          "condition": "disease",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
       }
     ],
     "messages": {
@@ -6631,7 +6687,8 @@
       "successToRoom": "{actor.name} channels healing energy into {target.him}."
     },
     "sphere": "HEALING",
-    "pages": 5
+    "pages": 5,
+    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison."
   },
   {
     "name": "Group Recall",
@@ -6813,6 +6870,33 @@
           "resource": "hp"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 1,
+        "params": {
+          "condition": "blind",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 2,
+        "params": {
+          "condition": "poison",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "cleanse",
+        "order": 3,
+        "params": {
+          "condition": "disease",
+          "scope": "all"
+        },
+        "trigger": "on_cast"
       }
     ],
     "messages": {
@@ -6821,7 +6905,8 @@
       "successToRoom": "{actor.name} channels healing energy into {target.him}."
     },
     "sphere": "HEALING",
-    "pages": 5
+    "pages": 5,
+    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison."
   },
   {
     "name": "Hearthsong",
@@ -13420,11 +13505,30 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Debuff spell reducing accuracy and evasion with radiant energy.",
+    "notes": "Circle 9 druid, single target. Legacy (magic.cpp mag_damage:2864, skills.cpp:1237 MAG_DAMAGE|MAG_AFFECT): fire damage 20d10 (30d10 only in PC-vs-PC, not expressible here) + skill^2*7/400, never saved against; then, unless the mob is NOBLIND, a WILL save negates the blinding (EFF_BLIND 2 ticks, -4 accuracy, -40 evasion). NEGATE_STATUS keeps the damage on a made save. No undead/light-sensitive bonus exists in legacy (only fire susceptibility).",
     "effects": [
       {
-        "effect": "modify",
+        "effect": "damage",
+        "order": 0,
+        "params": {
+          "type": "fire",
+          "amount": "20d10 + (pow(skill, 2) * 7) / 400"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "status",
         "order": 1,
+        "params": {
+          "flag": "blind",
+          "duration": 2,
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "modify",
+        "order": 2,
         "params": {
           "amount": "-4",
           "duration": "2",
@@ -13461,7 +13565,7 @@
       {
         "saveType": "WILL",
         "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "NEGATE"
+        "onSaveAction": "NEGATE_STATUS"
       }
     ]
   },
