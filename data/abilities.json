@@ -8258,7 +8258,7 @@
     "name": "Invigorate",
     "plainName": "INVIGORATE",
     "abilityType": "SPELL",
-    "description": "<healing>Restores</> energy and removes fatigue from the target.",
+    "description": "<healing>Restores</> all of the target's stamina.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.5,
@@ -8271,8 +8271,7 @@
         "order": 0,
         "params": {
           "resource": "move",
-          "amount": "skill / 2",
-          "scaling": "wis"
+          "amount": "target_max_stamina"
         },
         "trigger": "on_cast"
       }
@@ -8283,7 +8282,8 @@
       "successToRoom": "{actor.name} channels healing energy into {target.him}."
     },
     "sphere": "HEALING",
-    "pages": 5
+    "pages": 5,
+    "notes": "Legacy (magic.cpp:4612 mag_point SPELL_INVIGORATE; spello skills.cpp:969 MAG_GROUP, no mana/cost override, no cap): move = GET_MAX_MOVE(victim), then alter_move clamps to max, so the target is filled to full stamina. 'target_max_stamina' is the target's Stamina.max (the heal clamps at max). MAG_GROUP (caster plus grouped allies in the room) is not modelled: single target."
   },
   {
     "name": "Invisibility",
@@ -9685,7 +9685,7 @@
     "name": "Natures Embrace",
     "plainName": "NATURES_EMBRACE",
     "abilityType": "SPELL",
-    "description": "Draws upon natural energy to heal and protect.",
+    "description": "Phases the caster into the landscape, raising hiddenness. Outdoors only (not enforced yet).",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.5,
@@ -9694,20 +9694,25 @@
     "isArea": false,
     "effects": [
       {
-        "effect": "heal",
+        "effect": "modify",
         "order": 0,
         "params": {
-          "resource": "hp",
-          "amount": "skill"
+          "amount": "skill * 5",
+          "duration": "skill / 3 + 1",
+          "target": "hiddenness",
+          "durationUnit": "hours"
         },
         "trigger": "on_cast"
       }
     ],
     "messages": {
-      "wearoffToTarget": "Nature releases you from her embrace."
+      "wearoffToTarget": "Nature releases you from her embrace.",
+      "successToSelf": "You phase into the landscape.",
+      "successSelfRoom": "{actor.name} phases into the landscape."
     },
     "sphere": "ENCHANTMENT",
-    "pages": 5
+    "pages": 5,
+    "notes": "Legacy (magic.cpp:4616 mag_point SPELL_NATURES_EMBRACE: GET_HIDDENNESS += skill * 5, clamped to 1000, no heal; magic.cpp:2448 mag_affect: EFF_CAMOUFLAGED for skill / 3 + 1 ticks; skills.cpp:1050 TAR_SELF_ONLY | TAR_OUTDOORS). Expressed as a modify 'hiddenness' effect on self (adds to the Hiddenness component, 0..1000, taken back when it ends). The TAR_OUTDOORS precondition (spell_parser.cpp:1559, 'This area is too enclosed to cast that spell!') has no restriction type in the runtime yet, so it is not enforced."
   },
   {
     "name": "Natures Guidance",
@@ -13539,14 +13544,14 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Circle 9 druid, single target. Legacy (magic.cpp mag_damage:2864, skills.cpp:1237 MAG_DAMAGE|MAG_AFFECT): fire damage 20d10 (30d10 only in PC-vs-PC, not expressible here) + skill^2*7/400, never saved against; then, unless the mob is NOBLIND, a WILL save negates the blinding (EFF_BLIND 2 ticks, -4 accuracy, -40 evasion). NEGATE_STATUS keeps the damage on a made save. No undead/light-sensitive bonus exists in legacy (only fire susceptibility).",
+    "notes": "Circle 9 druid, single target. Legacy (magic.cpp mag_damage:2864, skills.cpp:1237 MAG_DAMAGE|MAG_AFFECT): fire damage 30d10 when caster and victim are both players, 20d10 otherwise (lib misc/spell_dams: pc 30d10, npc 20d10; magic.cpp:510; a charmed caster counts as a player there, not modelled) + skill^2*7/400, never saved against; then, unless the mob is NOBLIND, a WILL save negates the blinding (EFF_BLIND 2 ticks, -4 accuracy, -40 evasion). NEGATE_STATUS keeps the damage on a made save. No undead/light-sensitive bonus exists in legacy (only fire susceptibility).",
     "effects": [
       {
         "effect": "damage",
         "order": 0,
         "params": {
           "type": "fire",
-          "amount": "20d10 + (pow(skill, 2) * 7) / 400"
+          "amount": "roll_dice(20 + 10 * actor_is_player * target_is_player, 10) + (pow(skill, 2) * 7) / 400"
         },
         "trigger": "on_cast"
       },

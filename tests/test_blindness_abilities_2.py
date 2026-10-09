@@ -25,8 +25,12 @@ def test_sunray_damages_then_blinds_for_two_ticks_with_legacy_penalties():
     assert [e["order"] for e in ordered] == [0, 1, 2, 3]
 
     (damage,) = _effects("SUNRAY", "damage")
-    # lib.default/misc/spell_dams 155: 20d10; magic.cpp:961 adds skill^2 * 7 / 400.
-    assert damage["params"] == {"type": "fire", "amount": "20d10 + (pow(skill, 2) * 7) / 400"}
+    # lib.default/misc/spell_dams 155: 20d10, 30d10 between players (see
+    # test_invigorate_embrace_sunray.py); magic.cpp:961 adds skill^2 * 7 / 400.
+    assert damage["params"] == {
+        "type": "fire",
+        "amount": "roll_dice(20 + 10 * actor_is_player * target_is_player, 10) + (pow(skill, 2) * 7) / 400",
+    }
     assert sunray["damageType"] == "FIRE"
     assert sunray["isArea"] is False
 
@@ -66,11 +70,10 @@ def test_blinding_beauty_is_a_violent_area_spell_still_blinding():
 
 def test_sql_literals_match_json():
     literals = [json.loads(m) for m in re.findall(r"'(\{\"[^']*\})'::jsonb", SQL)]
-    for params in (
-        _effects("SUNRAY", "damage")[0]["params"],
-        _effects("SUNRAY", "status")[0]["params"],
-    ):
-        assert params in literals, params
+    # This patch seeded the 20d10 damage row; 2026-10-08-invigorate-embrace-sunray.sql moves it to the
+    # player-aware dice, so only the unchanged status row is compared to the JSON.
+    assert _effects("SUNRAY", "status")[0]["params"] in literals
+    assert {"type": "fire", "amount": "20d10 + (pow(skill, 2) * 7) / 400"} in literals
     assert "'\"NEGATE_STATUS\"'" in SQL
     for condition in ("'blind', 1", "'poison', 2", "'disease', 3"):
         assert condition in SQL
