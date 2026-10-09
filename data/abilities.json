@@ -5636,7 +5636,8 @@
         "params": {
           "type": "magic",
           "amount": "4d21",
-          "multihit": true
+          "multihit": true,
+          "boltCount": "1 + clamp(skill - 4, 0, 1) * clamp(random(1, 100) - 80, 0, 1) + clamp(skill - 11, 0, 1) * clamp(random(1, 100) - 75, 0, 1) + clamp(skill - 23, 0, 1) * clamp(random(1, 100) - 60, 0, 1) + clamp(skill - 33, 0, 1) * clamp(random(1, 100) - 55, 0, 1) + clamp(skill - 43, 0, 1) * clamp(random(1, 100) - 50, 0, 1) + clamp(skill - 73, 0, 1) * clamp(random(1, 100) - 25, 0, 1)"
         },
         "trigger": "on_cast"
       }
@@ -7528,7 +7529,8 @@
         "params": {
           "type": "magic",
           "amount": "4d21",
-          "multihit": true
+          "multihit": true,
+          "boltCount": "1 + clamp(skill - 4, 0, 1) * clamp(random(1, 100) - 80, 0, 1) + clamp(skill - 13, 0, 1) * clamp(random(1, 100) - 75, 0, 1) + clamp(skill - 23, 0, 1) * clamp(random(1, 100) - 60, 0, 1) + clamp(skill - 33, 0, 1) * clamp(random(1, 100) - 55, 0, 1) + clamp(skill - 43, 0, 1) * clamp(random(1, 100) - 50, 0, 1) + clamp(skill - 73, 0, 1) * clamp(random(1, 100) - 25, 0, 1)"
         },
         "trigger": "on_cast"
       }
@@ -8873,7 +8875,8 @@
         "params": {
           "type": "magic",
           "amount": "roll_dice(4,21)",
-          "multihit": true
+          "multihit": true,
+          "boltCount": "1 + clamp(skill - 4, 0, 1) * clamp(random(1, 100) - 80, 0, 1) + clamp(skill - 13, 0, 1) * clamp(random(1, 100) - 75, 0, 1) + clamp(skill - 23, 0, 1) * clamp(random(1, 100) - 60, 0, 1) + clamp(skill - 33, 0, 1) * clamp(random(1, 100) - 55, 0, 1) + clamp(skill - 43, 0, 1) * clamp(random(1, 100) - 50, 0, 1) + clamp(skill - 73, 0, 1) * clamp(random(1, 100) - 25, 0, 1)"
         },
         "trigger": "on_cast"
       }
@@ -11237,7 +11240,9 @@
           ],
           "scope": "all",
           "message": "<b:yellow>Your body begins to move again.</>",
-          "roomMessage": "<b:yellow>{target.name} begins to move again.</>"
+          "roomMessage": "<b:yellow>{target.name} begins to move again.</>",
+          "noopMessage": "{target.name} can already move just fine.",
+          "noopMessageSelf": "You can already move just fine."
         },
         "trigger": "on_cast"
       }
@@ -12913,7 +12918,8 @@
         "params": {
           "type": "force",
           "amount": "4d21",
-          "multihit": true
+          "multihit": true,
+          "boltCount": "1 + clamp(skill - 4, 0, 1) * clamp(random(1, 100) - 80, 0, 1) + clamp(skill - 13, 0, 1) * clamp(random(1, 100) - 75, 0, 1) + clamp(skill - 23, 0, 1) * clamp(random(1, 100) - 60, 0, 1) + clamp(skill - 33, 0, 1) * clamp(random(1, 100) - 55, 0, 1) + clamp(skill - 43, 0, 1) * clamp(random(1, 100) - 50, 0, 1) + clamp(skill - 73, 0, 1) * clamp(random(1, 100) - 25, 0, 1)"
         },
         "trigger": "on_cast"
       }
