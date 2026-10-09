@@ -11593,30 +11593,31 @@
     "name": "Sane Mind",
     "plainName": "SANE_MIND",
     "abilityType": "SPELL",
-    "description": "<healing>Restores</> mental clarity and removes confusion effects from the target.",
+    "description": "<healing>Restores</> mental clarity, removing insanity, confusion and crown of madness from the target. Other magic on the target is left alone.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Removes mental status effects and confusion.",
+    "notes": "Legacy MAG_UNAFFECT (magic.cpp:4808 mag_unaffect SPELL_SANE_MIND): removes only SPELL_INSANITY, SPELL_CONFUSION and SONG_CROWN_OF_MADNESS; the victim line / room line print only when one of them was removed.",
     "effects": [
       {
         "effect": "cleanse",
         "order": 0,
         "params": {
-          "condition": "all",
-          "scope": "all"
+          "condition": [
+            "insanity",
+            "confusion",
+            "crown_of_madness"
+          ],
+          "scope": "all",
+          "message": "Your mind comes back to reality.",
+          "roomMessage": "{target.name} regains {target.his} senses."
         },
         "trigger": "on_cast"
       }
     ],
-    "messages": {
-      "successToCaster": "You dispel the magic affecting {target.him}.",
-      "successToVictim": "{actor.name} dispels the magic affecting you.",
-      "successToRoom": "{actor.name} dispels the magic affecting {target.him}."
-    },
     "sphere": "HEALING",
     "pages": 5
   },

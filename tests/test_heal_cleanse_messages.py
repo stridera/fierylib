@@ -65,6 +65,8 @@ def test_cleanse_rows_carry_the_legacy_messages():
         for effect in ability.get("effects", []):
             if effect["effect"] == "cleanse":
                 params = effect["params"]
+                if isinstance(params.get("condition"), list):
+                    continue  # multi-condition rows: tests/test_sane_mind_cleanse.py
                 key = (ability["plainName"], params.get("condition"))
                 if "message" in params or "roomMessage" in params:
                     found[key] = (params.get("message"), params.get("roomMessage"))
