@@ -2095,8 +2095,20 @@ def seed_users(reset: bool):
     default=None,
     help="Write an idempotent SQL file instead of touching the database",
 )
+@click.option(
+    "--insert-only",
+    "insert_only",
+    is_flag=True,
+    help="With --emit-sql: only add articles whose primary keyword has no player-visible entry",
+)
+@click.option(
+    "--only",
+    "only",
+    multiple=True,
+    help="Only load these files (by name without .md, repeatable)",
+)
 @click.option("--verbose", "-v", is_flag=True, help="Show each entry")
-def seed_help(help_dir, categories, emit_sql, verbose):
+def seed_help(help_dir, categories, emit_sql, insert_only, only, verbose):
     """Seed authored help articles (data/help/*.md) into HelpEntry.
 
     Upserts by primary keyword (first keyword), so a legacy entry with the
@@ -2119,12 +2131,17 @@ def seed_help(help_dir, categories, emit_sql, verbose):
         articles = load_help_dir(directory, categories or None)
     except HelpFileError as exc:
         raise click.ClickException(str(exc))
+    if only:
+        wanted = {f"data/help/{name}.md" for name in only}
+        articles = [a for a in articles if a.source_file in wanted]
     if not articles:
         raise click.ClickException(f"No help files found in {directory}")
     click.echo(f"Loaded {len(articles)} help article(s) from {directory}")
 
+    if insert_only and not emit_sql:
+        raise click.ClickException("--insert-only needs --emit-sql")
     if emit_sql:
-        emit_sql_file(articles, Path(emit_sql))
+        emit_sql_file(articles, Path(emit_sql), insert_only=insert_only)
         click.echo(f"Wrote {emit_sql}")
         return
 

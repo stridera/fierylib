@@ -260,7 +260,7 @@ class CppClassParser:
 
         ``hitDice`` / ``hpPerLevel`` / ``accuracyPerLevel`` /
         ``evasionPerLevel`` / ``dexEvasionMult`` / ``attackPowerPerLevel`` /
-        ``expGainFactor`` / ``alignmentBias`` are NOT extracted from class.cpp by this parser — they were
+        ``expGainFactor`` / ``alignmentBias`` / ``campcraftBonus`` are NOT extracted from class.cpp by this parser — they were
         retuned for the modern combat system. To avoid silently wiping
         that retune, we preserve those fields from any existing
         ``classes.json`` keyed by ``plainName``.
@@ -277,6 +277,7 @@ class CppClassParser:
                     "accuracyPerLevel", "evasionPerLevel",
                     "dexEvasionMult", "attackPowerPerLevel",
                     "baseCritChance", "expGainFactor", "alignmentBias",
+                    "campcraftBonus",
                 )
                 prior_combat = {
                     c["plainName"]: {k: c.get(k) for k in preserve_keys if k in c}

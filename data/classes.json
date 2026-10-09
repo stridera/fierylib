@@ -139,7 +139,8 @@
       "attackPowerPerLevel": 5.0,
       "baseCritChance": 5,
       "expGainFactor": 1.15,
-      "alignmentBias": 50
+      "alignmentBias": 50,
+      "campcraftBonus": true
     },
     {
       "id": 7,
@@ -160,7 +161,8 @@
       "attackPowerPerLevel": 3.0,
       "baseCritChance": 4,
       "expGainFactor": 1.0,
-      "alignmentBias": 50
+      "alignmentBias": 50,
+      "campcraftBonus": true
     },
     {
       "id": 8,
