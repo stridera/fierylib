@@ -1,0 +1,410 @@
+{
+  "_comment": "Creation spell recipes (CreationRecipe table). Minor Creation: legacy minor_creation_items[] (constants.cpp) -> vnum 1000+i = zone 10 id i; keyword order is the abbreviation match order. Create Food: legacy spell_creations (magic.cpp) picks a zone by caster class (Priest 100, Paladin 110, Anti-Paladin 130, Druid 140, default 120); id null = any FOOD object in the zone, picked by skill. Class is Class.plain_name. Row order is insert order.",
+  "recipes": [
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "backpack",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 0
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "sack",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 1
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "robe",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 2
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "hood",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 3
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "lantern",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 4
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "torch",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 5
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "waterskin",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 6
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "barrel",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 7
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "rations",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 8
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "raft",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 9
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "club",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 10
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "mace",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 11
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "dagger",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 12
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "greatsword",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 13
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "longsword",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 14
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "staff",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 15
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "shield",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 16
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "shortsword",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 17
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "jacket",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 18
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "pants",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 19
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "leggings",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 20
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "gauntlets",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 21
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "sleeves",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 22
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "gloves",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 23
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "helmet",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 24
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "skullcap",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 25
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "boots",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 26
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "sandals",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 27
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "cloak",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 28
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "book",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 29
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "quill",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 30
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "belt",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 31
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "ring",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 32
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "bracelet",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 33
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "bottle",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 34
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "keg",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 35
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "mask",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 36
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "earring",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 37
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "scarf",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 38
+      }
+    },
+    {
+      "ability": "MINOR_CREATION",
+      "keyword": "bracer",
+      "class": null,
+      "object": {
+        "zone": 10,
+        "id": 39
+      }
+    },
+    {
+      "ability": "CREATE_FOOD",
+      "keyword": null,
+      "class": "Priest",
+      "object": {
+        "zone": 100,
+        "id": null
+      }
+    },
+    {
+      "ability": "CREATE_FOOD",
+      "keyword": null,
+      "class": "Paladin",
+      "object": {
+        "zone": 110,
+        "id": null
+      }
+    },
+    {
+      "ability": "CREATE_FOOD",
+      "keyword": null,
+      "class": "Anti-Paladin",
+      "object": {
+        "zone": 130,
+        "id": null
+      }
+    },
+    {
+      "ability": "CREATE_FOOD",
+      "keyword": null,
+      "class": "Druid",
+      "object": {
+        "zone": 140,
+        "id": null
+      }
+    },
+    {
+      "ability": "CREATE_FOOD",
+      "keyword": null,
+      "class": null,
+      "object": {
+        "zone": 120,
+        "id": null
+      }
+    }
+  ]
+}

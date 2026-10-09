@@ -10,6 +10,7 @@ from .race_seeder import seed_races
 from .config_seeder import ConfigSeeder
 from .level_seeder import LevelSeeder
 from .recall_scroll_seeder import RecallScrollSeeder
+from .creation_recipe_seeder import CreationRecipeSeeder
 from .text_seeder import TextSeeder
 from .command_seeder import CommandSeeder
 from .liquid_seeder import seed_liquids
@@ -27,6 +28,7 @@ __all__ = [
     "ConfigSeeder",
     "LevelSeeder",
     "RecallScrollSeeder",
+    "CreationRecipeSeeder",
     "TextSeeder",
     "CommandSeeder",
     "seed_liquids",

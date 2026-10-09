@@ -190,7 +190,9 @@
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobZone": 54,
+          "mobId": 20
         },
         "trigger": "on_cast"
       }
@@ -2237,7 +2239,9 @@
         "effect": "summon",
         "order": 0,
         "params": {
-          "type": "creature"
+          "type": "creature",
+          "mobZone": 163,
+          "mobId": 8
         },
         "trigger": "on_cast"
       }
@@ -2634,7 +2638,9 @@
         "effect": "create",
         "order": 0,
         "params": {
-          "objectType": "Magical food item"
+          "objectType": "Magical food item",
+          "objectZoneId": 185,
+          "objectId": 8
         },
         "trigger": "on_cast"
       }
@@ -9699,7 +9705,9 @@
           "mobType": "mount",
           "duration": "10 + (skill / 5)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 324,
+          "mobId": 21
         },
         "trigger": "on_cast"
       }
@@ -12042,7 +12050,9 @@
           "mobType": "simulacrum",
           "duration": "3 + (skill / 4)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 163,
+          "mobId": 8
         },
         "trigger": "on_cast"
       }
@@ -12817,7 +12827,9 @@
           "mobType": "elemental",
           "duration": "5 + (skill / 10)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 52,
+          "mobId": 12
         },
         "trigger": "on_cast"
       }
@@ -13414,7 +13426,9 @@
           "mobType": "demon",
           "duration": "5 + (skill / 10)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 510,
+          "mobId": 24
         },
         "trigger": "on_cast"
       }
@@ -13449,7 +13463,9 @@
           "mobType": "dracolich",
           "duration": "5 + (skill / 7)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 533,
+          "mobId": 11
         },
         "trigger": "on_cast"
       }
@@ -13483,7 +13499,9 @@
           "mobType": "elemental",
           "duration": "5 + (skill / 10)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 52,
+          "mobId": 12
         },
         "trigger": "on_cast"
       }
@@ -13518,7 +13536,9 @@
           "mobType": "greater_demon",
           "duration": "5 + (skill / 7)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 160,
+          "mobId": 11
         },
         "trigger": "on_cast"
       }
@@ -13554,7 +13574,9 @@
           "mobType": "mount",
           "duration": "10 + (skill / 5)",
           "maxCount": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "mobZone": 324,
+          "mobId": 21
         },
         "trigger": "on_cast"
       }

@@ -362,6 +362,13 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $RECALL_CMD
 
+  # Creation spell recipes (Minor Creation keywords, Create Food by class).
+  RECIPES_CMD="poetry run fierylib seed creation-recipes"
+  if [[ -n "$VERBOSE" ]]; then
+    RECIPES_CMD="$RECIPES_CMD --verbose"
+  fi
+  eval $RECIPES_CMD
+
   echo ""
   echo "✅ Game settings seeded"
   echo ""

@@ -2866,6 +2866,42 @@ def seed_recall_scrolls(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="creation-recipes")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_creation_recipes(verbose: bool):
+    """Seed the creation spell recipes.
+
+    Writes the CreationRecipe rows (Minor Creation keywords, Create Food's
+    zone per caster class) from data/creation_recipes.json. Existing rows are
+    left alone. Run after the abilities and classes are seeded.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import CreationRecipeSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Creation Recipes")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await CreationRecipeSeeder(prisma).seed_creation_recipes(verbose=verbose)
+            click.echo(f"  Inserted: {stats['inserted']}")
+            click.echo(f"  Existing: {stats['existing']}")
+            click.echo(f"\n✅ Creation recipe seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="levels")
 @click.option(
     "--max-level",
