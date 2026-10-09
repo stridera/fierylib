@@ -39,7 +39,9 @@ def test_cure_blind_cleanses_instead_of_healing():
     assert effect["effect"] == "cleanse"
     assert effect["params"]["condition"] == "blind"
     assert not _effects("CURE_BLIND", "heal")
-    assert ability["messages"]["successToVictim"] == "Your vision returns!"
+    # The victim / room lines live on the cleanse row (tests/test_heal_cleanse_messages.py), so
+    # they only print when sight actually returns.
+    assert effect["params"]["message"] == "Your vision returns!"
 
 
 def test_eye_gouge_blinds_for_one_tick_before_it_damages():
@@ -64,7 +66,8 @@ def test_sql_literals_match_json():
     literals = [json.loads(m) for m in re.findall(r"'(\{\"[^']*\})'::jsonb", SQL)]
     wanted = [
         _effects("BLINDNESS", "status")[0]["params"],
-        _effects("CURE_BLIND", "cleanse")[0]["params"],
+        # The cleanse messages arrive later, in 2026-10-08-heal-cleanse-messages.sql.
+        {"condition": "blind", "scope": "all"},
         _effects("EYE_GOUGE", "status")[0]["params"],
         _effects("EYE_GOUGE", "modify")[0]["params"],
     ]

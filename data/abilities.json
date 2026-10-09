@@ -2846,17 +2846,15 @@
         "order": 0,
         "params": {
           "condition": "blind",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your vision returns!",
+          "roomMessage": "There's a momentary gleam in {target.name}'s eyes."
         },
         "trigger": "on_cast"
       }
     ],
     "messages": {
-      "successToCaster": "You cure {target.name}'s blindness.",
-      "successToVictim": "Your vision returns!",
-      "successToRoom": "There's a momentary gleam in {target.name}'s eyes.",
-      "successToSelf": "Your vision returns!",
-      "successSelfRoom": "There's a momentary gleam in {actor.name}'s eyes."
+      "successToCaster": "You cure {target.name}'s blindness."
     },
     "sphere": "HEALING",
     "pages": 5
@@ -6305,7 +6303,9 @@
         "order": 1,
         "params": {
           "condition": "blind",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your vision returns!",
+          "roomMessage": "There's a momentary gleam in {target.name}'s eyes."
         },
         "trigger": "on_cast"
       },
@@ -6314,7 +6314,8 @@
         "order": 2,
         "params": {
           "condition": "poison",
-          "scope": "all"
+          "scope": "all",
+          "message": "The poison in your system has been cleansed."
         },
         "trigger": "on_cast"
       },
@@ -6323,7 +6324,8 @@
         "order": 3,
         "params": {
           "condition": "disease",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your disease has been cured."
         },
         "trigger": "on_cast"
       }
@@ -6648,7 +6650,7 @@
         "order": 0,
         "params": {
           "area": true,
-          "amount": "1d8",
+          "amount": "100 + roll_dice(2, 9) + skill / 5",
           "resource": "hp"
         },
         "trigger": "on_cast"
@@ -6658,7 +6660,9 @@
         "order": 1,
         "params": {
           "condition": "blind",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your vision returns!",
+          "roomMessage": "There's a momentary gleam in {target.name}'s eyes."
         },
         "trigger": "on_cast"
       },
@@ -6667,7 +6671,8 @@
         "order": 2,
         "params": {
           "condition": "poison",
-          "scope": "all"
+          "scope": "all",
+          "message": "The poison in your system has been cleansed."
         },
         "trigger": "on_cast"
       },
@@ -6676,7 +6681,8 @@
         "order": 3,
         "params": {
           "condition": "disease",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your disease has been cured."
         },
         "trigger": "on_cast"
       }
@@ -6688,7 +6694,7 @@
     },
     "sphere": "HEALING",
     "pages": 5,
-    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison."
+    "notes": "Legacy MAG_POINT|MAG_UNAFFECT (magic.cpp:4663 mag_unaffect): also cures blindness (and the sunray/eye gouge/blinding beauty affects), disease and poison. Heals exactly like Heal: perform_mag_group (magic.cpp:3414) runs mag_point(SPELL_HEAL) then mag_unaffect(SPELL_HEAL) on every group member."
   },
   {
     "name": "Group Recall",
@@ -6876,7 +6882,9 @@
         "order": 1,
         "params": {
           "condition": "blind",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your vision returns!",
+          "roomMessage": "There's a momentary gleam in {target.name}'s eyes."
         },
         "trigger": "on_cast"
       },
@@ -6885,7 +6893,8 @@
         "order": 2,
         "params": {
           "condition": "poison",
-          "scope": "all"
+          "scope": "all",
+          "message": "The poison in your system has been cleansed."
         },
         "trigger": "on_cast"
       },
@@ -6894,7 +6903,8 @@
         "order": 3,
         "params": {
           "condition": "disease",
-          "scope": "all"
+          "scope": "all",
+          "message": "Your disease has been cured."
         },
         "trigger": "on_cast"
       }
@@ -11121,7 +11131,8 @@
         "order": 0,
         "params": {
           "condition": "curse",
-          "scope": "all"
+          "scope": "all",
+          "message": "You don't feel so unlucky."
         },
         "trigger": "on_cast"
       },
@@ -11176,7 +11187,9 @@
         "order": 0,
         "params": {
           "condition": "paralysis",
-          "scope": "all"
+          "scope": "all",
+          "message": "<b:yellow>Your body begins to move again.</>",
+          "roomMessage": "<b:yellow>{target.name} begins to move again.</>"
         },
         "trigger": "on_cast"
       }
@@ -11206,7 +11219,9 @@
         "order": 0,
         "params": {
           "condition": "poison",
-          "scope": "all"
+          "scope": "all",
+          "message": "A warm feeling runs through your body!",
+          "roomMessage": "{target.name} looks better."
         },
         "trigger": "on_cast"
       }
