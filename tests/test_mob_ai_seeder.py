@@ -377,7 +377,7 @@ def test_dead_rules_are_dropped_and_retired():
     live = {(f, r["ability"]) for f, rs in SEED["families"].items() for r in rs}
     assert ("warrior", "BODYSLAM") not in live and ("sorcerer", "ANIMATE_DEAD") not in live
     retired = {(f, r["ability"]) for f, rs in SEED["retired_families"].items() for r in rs}
-    assert retired == {("warrior", "BODYSLAM"), ("sorcerer", "ANIMATE_DEAD")}
+    assert retired == {("warrior", "BODYSLAM"), ("sorcerer", "ANIMATE_DEAD"), ("rogue", "HIDE")}
     assert not retired & live
     # No room-targeted rule asks for a peaceful cast: with no opponent there is nothing to resolve.
     for f, rs in SEED["families"].items():
@@ -627,3 +627,44 @@ def test_db_claim_never_takes_a_row_whose_key_is_already_in_use(owned):
     owned.execute(claim)
     owned.execute('SELECT seed_key FROM "ClassAiRules" WHERE id = %s', (row[0],))
     assert owned.fetchone()[0] is None
+
+
+# ---- parked rules (enabled=false): rogue THROATCUT / STEAL ----------------------------------------
+
+
+def test_rogue_opener_skills_are_parked_and_hide_is_retired():
+    rogue = {r["ability"]: r for r in SEED["families"]["rogue"]}
+    assert "HIDE" not in rogue and "HIDE" in {r["ability"] for r in SEED["retired_families"]["rogue"]}
+    parked = {a for a, r in rogue.items() if r.get("enabled") is False}
+    assert parked == {"THROATCUT", "STEAL"}
+    # Every parked rule is explained in gaps.parked; everything else is live and can fire in a fight.
+    assert all(any(g.startswith(a) for g in SEED["gaps"]["parked"]) for a in parked)
+    for a, r in rogue.items():
+        if a not in parked:
+            assert r["conditions"].get("in_combat") is True, a
+
+
+def test_db_parked_rules_turn_prod_rows_off_once_and_a_builder_can_re_enable(owned):
+    owned.execute('DELETE FROM "ClassAiRules"')
+    owned.execute(_old_seed_sql())  # a9a5027's behaviour needs keys; start from the first seed and claim
+    owned.execute(_sql_body(build_sql(SEED)))
+    owned.execute(
+        'SELECT r.id, r.enabled, a.plain_name FROM "ClassAiRules" r JOIN "Ability" a ON a.id = r.ability_id '
+        "WHERE r.seed_key LIKE '%/rogue:%' AND a.plain_name IN ('THROATCUT', 'STEAL', 'HIDE', 'KICK')"
+    )
+    got = {name: (i, en) for i, en, name in owned.fetchall()}
+    if not {"KICK", "THROATCUT", "STEAL"} <= set(got):
+        pytest.skip("no rogue-family class with those skills in this database")
+    assert got["KICK"][1] is True
+    assert got["THROATCUT"][1] is False and got["STEAL"][1] is False
+    assert "HIDE" not in got or got["HIDE"][1] is False  # retired rows are switched off
+    # A builder re-enabling a parked rule keeps it on across re-seeds.
+    owned.execute('UPDATE "ClassAiRules" SET enabled = true WHERE id = %s', (got["THROATCUT"][0],))
+    _run_class_seed(owned)
+    owned.execute('SELECT enabled FROM "ClassAiRules" WHERE id = %s', (got["THROATCUT"][0],))
+    assert owned.fetchone()[0] is True
+    # A second run of a clean seed changes nothing.
+    owned.execute('UPDATE "ClassAiRules" SET enabled = false WHERE id = %s', (got["THROATCUT"][0],))
+    for stmt in build_statements(SEED):
+        owned.execute(stmt)
+        assert owned.rowcount == 0, stmt[-120:]

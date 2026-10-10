@@ -11,6 +11,7 @@
     "level_scaled_chance passes with level% once per mob per round (shared by every rule asking), as legacy rolled once per class AI call; chance_pct is then the rule's share of the scaled roll.",
     "Every rule has a stable key: 'key' when given (needed where a family repeats an ability), else '<family>:<ABILITY>' (race rules '<RACE>:<ABILITY>'). The database seed_key is '<Class.plain_name>/<key>' for class rules and the key itself for race rules, so renumbering a priority updates the row instead of duplicating it. Keys must stay unique and must never be reused for a different rule.",
     "retired_families: rules removed from the seed (same shape as families). Only their class mapping is used: a keyless database row that still matches one is claimed and then disabled by the next step, so a dropped rule does not stay enabled in databases seeded earlier. Never list a rule here that is also in families.",
+    "A class rule may set \"enabled\": false (parked: seeded off, with the reason in gaps.parked). The upsert inserts it disabled and switches an unedited seed-owned row off, never on; a builder who re-enables it in Muditor keeps it on.",
     "race rule min_level gates the rule on the mob's level (a level 3 demon must not breathe).",
     "race_rules are per Race enum and run ahead of the class rules; level_roll bands share one roll per mob per round (legacy dragonlike_attack)."
   ],
@@ -24,7 +25,11 @@
     "dropped": [
       "BODYSLAM (warrior): legacy opener on a standing victim; the engine runs no skills for a mob at peace, so the rule could never fire.",
       "ANIMATE_DEAD (sorcerer): legacy animates a corpse 10+ levels under the mob; a room-targeted rule with no opponent never resolves, and a self-targeted bare cast would spawn corpse-less skeletons every pulse.",
-      "Still inert for the same reason (skills with out_of_combat): rogue THROATCUT / STEAL / HIDE; mob hide runs on the mob pulse instead."
+      "HIDE (rogue): legacy mobact.cpp hides an idle mob that knows hide; the engine's mob_hide_tick (wander.rs, every 10 s) already does that for any mob whose class or race grants the hide skill, so the rule is retired instead of seeded."
+    ],
+    "parked": [
+      "THROATCUT (rogue): legacy opener (rogue_ai_action: roll>94, piercing weapon, !FIGHTING), so it can only fire against a player the mob is not fighting yet. The engine skips skills on the idle pulse and out_of_combat rules in a fight, so it can never run. Seeded enabled=false. NEEDS ENGINE: an out-of-combat skill opener (an idle or aggro pulse that may start a skill against a visible player in the room).",
+      "STEAL (rogue): legacy mob_steal on an idle pulse (rand(0,101) < steal skill, victim within level+5). Seeded enabled=false for two reasons: the same missing out-of-combat skill path, and a DESIGN QUESTION for the owner (should mobs rob players at all?). Do not enable until decided."
     ]
   },
   "race_rules_legacy": {
@@ -287,13 +292,12 @@
     ],
     "rogue": [
       {"ability": "BACKSTAB", "priority": 10, "chance_pct": 4, "conditions": {"in_combat": true, "requires_weapon_type": "piercing", "level_scaled_chance": true}, "target": "auto", "legacy": "legacy: act only when rand(0..101) < level (level_scaled_chance, one shared roll per round), then pick by the scaled roll band; chance_pct is the band's share: roll>95 = 4%; needs a piercing weapon, not tanking (engine)"},
-      {"ability": "THROATCUT", "priority": 11, "chance_pct": 5, "conditions": {"out_of_combat": true, "requires_weapon_type": "piercing", "level_scaled_chance": true}, "target": "auto", "legacy": "roll>94 (about 5%), opener only (mob not yet fighting), piercing weapon"},
+      {"ability": "THROATCUT", "priority": 11, "chance_pct": 5, "conditions": {"out_of_combat": true, "requires_weapon_type": "piercing", "level_scaled_chance": true}, "target": "auto", "enabled": false, "legacy": "roll>94 (about 5%), opener only (mob not yet fighting), piercing weapon; PARKED (enabled=false): the engine has no out-of-combat skill path, see gaps.parked"},
       {"ability": "CORNER", "priority": 12, "chance_pct": 25, "conditions": {"in_combat": true, "level_scaled_chance": true}, "target": "auto", "legacy": "roll>70, only vs the current opponent and not already cornering (about 25% of what is left)"},
       {"ability": "EYE_GOUGE", "priority": 13, "chance_pct": 30, "conditions": {"in_combat": true, "level_scaled_chance": true}, "target": "auto", "legacy": "roll>50 (about 30% of what is left)"},
       {"ability": "KICK", "priority": 14, "chance_pct": 100, "conditions": {"in_combat": true, "level_scaled_chance": true}, "target": "auto", "legacy": "any passed roll"},
       {"ability": "REND", "priority": 15, "chance_pct": 100, "conditions": {"in_combat": true, "level_scaled_chance": true}, "target": "auto", "legacy": "legacy: only reached if the mob has no kick"},
-      {"ability": "HIDE", "priority": 100, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "mobact.cpp: hide when not hidden"},
-      {"ability": "STEAL", "priority": 101, "chance_pct": 50, "conditions": {"out_of_combat": true}, "target": "auto", "legacy": "mob_steal; legacy chance = steal skill %, target must be within level+5"}
+      {"ability": "STEAL", "priority": 101, "chance_pct": 50, "conditions": {"out_of_combat": true}, "target": "auto", "enabled": false, "legacy": "mob_steal; legacy chance = steal skill %, target must be within level+5; PARKED (enabled=false): design question and no out-of-combat skill path, see gaps.parked"}
     ],
     "warrior": [
       {"key": "warrior:BASH:caster", "ability": "BASH", "priority": 500, "chance_pct": 100, "conditions": {"in_combat": true, "target_casting": true, "requires_shield": true}, "target": "caster", "legacy": "bash a casting player grouped with the tank; needs a shield (requires_shield), size within -1..+2 (engine); legacy passes when skill >= random(25,60), always for skilled mobs"},
@@ -310,6 +314,9 @@
     ],
     "sorcerer": [
       {"ability": "ANIMATE_DEAD", "priority": 150, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "room"}
+    ],
+    "rogue": [
+      {"ability": "HIDE", "priority": 100, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "mobact.cpp: hide when not hidden"}
     ]
   },
   "race_rules": [

@@ -12,7 +12,8 @@ A rule is created only when the class really has the ability: in ``ClassAbilitie
 ``ClassAiRules.min_level``). Everything is keyed by ``Class.plain_name`` and
 ``Ability.plain_name``, never by numeric id. The seed owns the rows it defines: a re-seed updates
 a row whose chance / cooldown / conditions / target / min_level differ from the seed (and changes
-nothing when they match); ``enabled`` is never touched.
+nothing when they match); ``enabled`` is only ever switched off (a seed rule with
+``"enabled": false`` is parked, see :func:`_hash_expr`), never on.
 
 Ownership. Every seed rule has a stable key (:func:`rule_key`: the rule's ``key`` or
 ``<family>:<ABILITY>``; race rules ``<RACE>:<ABILITY>``) stored in ``seed_key`` (class rows:
@@ -181,16 +182,23 @@ def _lit(text: str) -> str:
     return "'" + text.replace("'", "''") + "'"
 
 
-def _hash_expr(ref: str) -> str:
+def _hash_expr(ref: str, parkable: bool = False) -> str:
     """SQL hash of the seed-owned values of a rule row (or seed CTE row) named ``ref``.
 
     The same expression hashes the seed's values and a row's current values, so "has the row been
     edited since the seed wrote it" is a plain comparison done by the database (jsonb renders
     canonically, so the Python side never has to reproduce it).
+
+    ``parkable`` (class rules) appends ``'off'`` while the row is disabled, and nothing while it is
+    enabled (``concat_ws`` skips NULL), so every hash of an enabled row is the one written before
+    parked rules existed. A seed rule with ``"enabled": false`` therefore hashes differently from
+    the same rule enabled: the upsert switches an unedited seed-owned row off once, and a builder
+    who later re-enables it (the hash no longer matches) keeps it on.
     """
+    park = f", CASE WHEN {ref}.enabled IS FALSE THEN 'off' END" if parkable else ""
     return (
         f"md5(concat_ws('|', {ref}.ability_id, {ref}.priority, {ref}.chance_pct, {ref}.cooldown_s, "
-        f"coalesce({ref}.conditions::text, ''), {ref}.target, coalesce({ref}.min_level::text, '')))"
+        f"coalesce({ref}.conditions::text, ''), {ref}.target, coalesce({ref}.min_level::text, ''){park}))"
     )
 
 
@@ -223,18 +231,20 @@ def _class_seed_cte(seed: dict, retired: bool = False) -> str:
         for r in rules:
             rule_rows.append(
                 f"({_lit(family)}, {_lit(rule_key(family, r))}, {_lit(r['ability'])}, {r['priority']}, "
-                f"{r['chance_pct']}, {r.get('cooldown_s', 0)}, {_cond_sql(r)}, {_lit(r['target'])})"
+                f"{r['chance_pct']}, {r.get('cooldown_s', 0)}, {_cond_sql(r)}, {_lit(r['target'])}, "
+                f"{'true' if r.get('enabled', True) else 'false'})"
             )
     return (
         "WITH class_family(class_name, family) AS (VALUES\n    "
         + ",\n    ".join(class_rows)
-        + "\n), family_rule(family, rule_key, ability_name, priority, chance_pct, cooldown_s, conditions, target)"
+        + "\n), family_rule(family, rule_key, ability_name, priority, chance_pct, cooldown_s, conditions, target, enabled)"
         " AS (VALUES\n    "
         + ",\n    ".join(rule_rows)
         + "\n), raw AS (\n"
         "    SELECT cf.class_name || '/' || fr.rule_key AS seed_key, c.id AS class_id, a.id AS ability_id,\n"
         "           fr.priority::int AS priority, fr.chance_pct::int AS chance_pct, fr.cooldown_s::int AS cooldown_s,\n"
-        "           fr.conditions::jsonb AS conditions, fr.target AS target, cs.min_level AS min_level\n"
+        "           fr.conditions::jsonb AS conditions, fr.target AS target, cs.min_level AS min_level,\n"
+        "           fr.enabled AS enabled\n"
         "    FROM class_family cf\n"
         "    JOIN family_rule fr ON fr.family = cf.family\n"
         '    JOIN "Class" c ON c.plain_name = cf.class_name\n'
@@ -243,7 +253,7 @@ def _class_seed_cte(seed: dict, retired: bool = False) -> str:
         '    LEFT JOIN "ClassAbilities" ca ON ca.class_id = c.id AND ca.ability_id = a.id\n'
         "    WHERE cs.id IS NOT NULL OR ca.id IS NOT NULL\n"
         "), seed AS (\n"
-        f"    SELECT raw.*, {_hash_expr('raw')} AS seed_hash FROM raw\n"
+        f"    SELECT raw.*, {_hash_expr('raw', parkable=True)} AS seed_hash FROM raw\n"
         ")\n"
     )
 
@@ -262,12 +272,15 @@ def build_statements(seed: dict | None = None) -> list[str]:
     3. disable seed-owned, unedited rows whose key is no longer in the seed (the claim also takes
        the seed's ``retired_families`` rules, so a rule dropped from the seed is claimed, then
        disabled, in a database seeded before it was dropped).
+
+    A seed rule with ``"enabled": false`` is inserted disabled, and the upsert switches an existing
+    unedited row off (never on: a rule only ever turns off here); see :func:`_hash_expr`.
     """
     seed = load_seed() if seed is None else seed
     cte = _class_seed_cte(seed)
     t = '"ClassAiRules"'
     claim = (
-        _class_seed_cte(seed, retired=True) + f"UPDATE {t} r SET seed_key = s.seed_key, seed_hash = {_hash_expr('r')}\n"
+        _class_seed_cte(seed, retired=True) + f"UPDATE {t} r SET seed_key = s.seed_key, seed_hash = {_hash_expr('r', parkable=True)}\n"
         "FROM seed s\n"
         "WHERE r.seed_key IS NULL AND r.class_id = s.class_id AND r.ability_id = s.ability_id\n"
         "  AND r.priority = s.priority AND r.chance_pct = s.chance_pct\n"
@@ -282,20 +295,21 @@ def build_statements(seed: dict | None = None) -> list[str]:
         cte + f"INSERT INTO {t} (class_id, ability_id, priority, chance_pct, cooldown_s, conditions,\n"
         "    target, min_level, enabled, seed_key, seed_hash)\n"
         "SELECT s.class_id, s.ability_id, s.priority, s.chance_pct, s.cooldown_s, s.conditions,\n"
-        "       s.target, s.min_level, true, s.seed_key, s.seed_hash\n"
+        "       s.target, s.min_level, s.enabled, s.seed_key, s.seed_hash\n"
         "FROM seed s\n"
         f"WHERE NOT EXISTS (SELECT 1 FROM {t} x WHERE x.class_id = s.class_id AND x.ability_id = s.ability_id\n"
         "                  AND x.priority = s.priority AND x.seed_key IS DISTINCT FROM s.seed_key)\n"
         "ON CONFLICT (seed_key) DO UPDATE SET\n"
         "    ability_id = EXCLUDED.ability_id, priority = EXCLUDED.priority, chance_pct = EXCLUDED.chance_pct,\n"
         "    cooldown_s = EXCLUDED.cooldown_s, conditions = EXCLUDED.conditions, target = EXCLUDED.target,\n"
-        "    min_level = EXCLUDED.min_level, seed_hash = EXCLUDED.seed_hash\n"
-        f"WHERE {t}.seed_hash IS NOT DISTINCT FROM {_hash_expr(t)}\n"
+        "    min_level = EXCLUDED.min_level, seed_hash = EXCLUDED.seed_hash,\n"
+        f"    enabled = {t}.enabled AND EXCLUDED.enabled\n"
+        f"WHERE {t}.seed_hash IS NOT DISTINCT FROM {_hash_expr(t, parkable=True)}\n"
         f"  AND {t}.seed_hash IS DISTINCT FROM EXCLUDED.seed_hash"
     )
     disable = (
         cte + f"UPDATE {t} r SET enabled = false\n"
-        f"WHERE r.seed_key IS NOT NULL AND r.enabled AND r.seed_hash IS NOT DISTINCT FROM {_hash_expr('r')}\n"
+        f"WHERE r.seed_key IS NOT NULL AND r.enabled AND r.seed_hash IS NOT DISTINCT FROM {_hash_expr('r', parkable=True)}\n"
         "  AND NOT EXISTS (SELECT 1 FROM seed s WHERE s.seed_key = r.seed_key)"
     )
     return [claim, upsert, disable]
