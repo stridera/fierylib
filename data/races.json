@@ -89,6 +89,16 @@
           "skillName": "SPELL_MAGIC_MISSILE",
           "minLevel": 1,
           "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_INN_SYLL",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_HARNESS",
+          "minLevel": 1,
+          "category": "PRIMARY"
         }
       ],
       "permanentEffects": [
@@ -139,7 +149,24 @@
         "INFRAVISION"
       ],
       "startRoomZoneId": 615,
-      "startRoomId": 0
+      "startRoomId": 0,
+      "skills": [
+        {
+          "skillName": "SPELL_INN_BRILL",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_MINOR_CREATION",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_STATUE",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "dwarf",
@@ -185,7 +212,14 @@
         "ULTRAVISION"
       ],
       "startRoomZoneId": 61,
-      "startRoomId": 1
+      "startRoomId": 1,
+      "skills": [
+        {
+          "skillName": "SPELL_INN_TASS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "troll",
@@ -275,6 +309,16 @@
           "skillName": "SKILL_SLASHING",
           "minLevel": 1,
           "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_DARKNESS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_FEATHER_FALL",
+          "minLevel": 1,
+          "category": "PRIMARY"
         }
       ],
       "permanentEffects": [
@@ -327,7 +371,19 @@
         "ULTRAVISION"
       ],
       "startRoomZoneId": 133,
-      "startRoomId": 1
+      "startRoomId": 1,
+      "skills": [
+        {
+          "skillName": "SPELL_INN_TASS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_INVISIBLE",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "ogre",
@@ -413,7 +469,14 @@
       "enterVerb": null,
       "leaveVerb": null,
       "startRoomZoneId": 300,
-      "startRoomId": 17
+      "startRoomId": 17,
+      "skills": [
+        {
+          "skillName": "SPELL_INN_STRENGTH",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "halfelf",
@@ -1410,7 +1473,19 @@
         "ULTRAVISION"
       ],
       "startRoomZoneId": 54,
-      "startRoomId": 2
+      "startRoomId": 2,
+      "skills": [
+        {
+          "skillName": "SPELL_INN_BRILL",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_STATUE",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "faerie_seelie",
@@ -1454,7 +1529,24 @@
         "FLY"
       ],
       "startRoomZoneId": 615,
-      "startRoomId": 67
+      "startRoomId": 67,
+      "skills": [
+        {
+          "skillName": "SPELL_HARNESS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_ILLUMINATION",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_DIMENSION_DOOR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "faerie_unseelie",
@@ -1498,7 +1590,24 @@
         "FLY"
       ],
       "startRoomZoneId": 615,
-      "startRoomId": 59
+      "startRoomId": 59,
+      "skills": [
+        {
+          "skillName": "SPELL_HARNESS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_DARKNESS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_DIMENSION_DOOR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "nymph",
@@ -1539,7 +1648,19 @@
       "enterVerb": null,
       "leaveVerb": null,
       "startRoomZoneId": 615,
-      "startRoomId": 67
+      "startRoomId": 67,
+      "skills": [
+        {
+          "skillName": "SPELL_INN_ASCEN",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SPELL_BLINDING_BEAUTY",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "arborean",
@@ -1578,7 +1699,14 @@
       "damageDiceFactor": 100,
       "copperFactor": 75,
       "enterVerb": null,
-      "leaveVerb": null
+      "leaveVerb": null,
+      "skills": [
+        {
+          "skillName": "SPELL_BARKSKIN",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     }
   ],
   "metadata": {
