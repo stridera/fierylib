@@ -13,9 +13,9 @@ if not (cmd == "kneel") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if cmd == "k" then
-    return _return_value
-end
+-- Legacy `return 0` comes first: the typed kneel always goes ahead.
+_return_value = true
+allow_command()
 wait(2)
 local bad1 = (actor:get_quest_var("megalith_quest:bad1") == 1) and 1 or 0
 local bad2 = (actor:get_quest_var("megalith_quest:bad2") == 1) and 1 or 0

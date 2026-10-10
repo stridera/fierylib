@@ -69,8 +69,20 @@ def test_mixed_flags_keep_their_percent_gate():
 
 
 # Hand-written scripts (no converter "N% chance to trigger" header) whose authors read the numeric
-# argument as a deliberate percent; the patch leaves them alone and they are listed for review.
-HAND_PERCENT_GATES = {(49, 3), (49, 4), (49, 6), (49, 7), (237, 90), (390, 4)}
+# argument as a percent; their gates are replaced by the location guard / removed (see
+# 2026-10-10-command-trigger-fixes-2.sql), so no COMMAND-only script may keep one.
+HAND_PERCENT_GATES: set[tuple[int, int]] = set()
+
+# COMMAND scripts whose DG source runs `return 0` and then `wait`: legacy let the typed command
+# through and the script kept running. A Lua `return true` would end the script, so they call
+# `allow_command()` before their first `wait(`.
+ALLOW_BEFORE_WAIT = {
+    (15, 3), (51, 19), (62, 13), (87, 2), (123, 23), (185, 66), (200, 38), (390, 4), (484, 19),
+    (550, 41), (580, 107),
+}
+
+# OBJECT COMMAND scripts with no converter header whose numeric argument is a location mask.
+HAND_LOCATION_MASKS = {(49, 3): 1, (49, 4): 1, (49, 6): 4, (49, 7): 4, (62, 13): 4, (237, 90): 2, (390, 4): 3}
 
 
 def command_files():
@@ -112,3 +124,48 @@ def test_patch_is_idempotent_by_construction():
         # Each statement is keyed and only matches text still in the old shape.
         assert "WHERE (zone_id, id) IN (VALUES" in stmt
         assert re.search(r"AND position\(\$old\$.*?\$old\$ in commands\) > 0", stmt, re.S)
+
+
+def code_of(text):
+    return re.sub(r"^\s*--.*$", "", text, flags=re.M)
+
+
+def test_wait_after_a_legacy_return_zero_calls_allow_command_first():
+    by_key = {key: text for key, _t, _f, text in command_files()}
+    for key in ALLOW_BEFORE_WAIT:
+        code = code_of(by_key[key])
+        assert "allow_command()" in code, key
+        assert code.index("allow_command()") < code.index("wait("), key
+
+
+def test_object_command_scripts_keep_their_location_mask():
+    checked = 0
+    for key, typ, flags, text in command_files():
+        if typ != "OBJECT" or not flags <= {"COMMAND", "GLOBAL"}:
+            continue
+        m = re.search(r"^-- Original: OBJECT trigger, flags: [^\n]*probability: (\d+)%", text, re.M)
+        mask = HAND_LOCATION_MASKS.get(key, int(m.group(1)) if m else None)
+        if mask is None or mask & 7 in (0, 7) or not code_of(text).strip():
+            continue
+        checked += 1
+        names = [n for bit, n in ((1, "equip"), (2, "inventory"), (4, "room")) if mask & bit]
+        cond = " or ".join(f'location == "{n}"' for n in names)
+        assert f"if not ({cond}) then" in text, key
+    assert checked > 30
+
+
+FIXES2 = (ROOT / "data" / "sql" / "2026-10-10-command-trigger-fixes-2.sql").read_text(encoding="utf-8")
+
+
+def test_fixes_2_patch_covers_the_fixed_scripts_and_is_idempotent():
+    keys = {(int(z), int(i)) for z, i in re.findall(r"^  \((\d+), (\d+), \$trig\$", FIXES2, re.M)}
+    assert len(keys) == 46
+    assert ALLOW_BEFORE_WAIT <= keys and set(HAND_LOCATION_MASKS) <= keys
+    assert "t.commands IS DISTINCT FROM v.commands" in FIXES2
+    assert "ORDER: apply AFTER 2026-10-10-command-trigger-default.sql" in FIXES2
+    # Every body in the patch is the file text the importer would write.
+    by_key = {key: text for key, _t, _f, text in command_files()}
+    for key in keys:
+        if key in by_key:
+            code = code_of(by_key[key]).strip()
+            assert code.splitlines()[0] in FIXES2, key

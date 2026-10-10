@@ -18,6 +18,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 -- deer to flee any time, so don't tell any of them this
 -- keyword.
 _return_value = true
+allow_command()  -- legacy `return 0` ahead of the wait: the drop goes ahead
 if actor:get_quest_stage("doom_entrance") and actor:get_quest_var("doom_entrance:wild_hunt") == 1 and arg == "ragtoscarewhitetaileddeer" then
     wait(1)
     local room = self.room

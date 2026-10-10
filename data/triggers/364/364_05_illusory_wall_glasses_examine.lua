@@ -10,6 +10,11 @@
 --
 -- Original DG Script: #36405
 
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: examine (full word; ignore the standalone "e" abbrev)
 if cmd ~= "examine" then
     return true

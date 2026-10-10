@@ -8,6 +8,11 @@
 -- Converted from DG Script #12513: Red_wall
 -- Original: OBJECT trigger, flags: COMMAND, probability: 100%
 
+-- Command location mask 100: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: west
 if not (cmd == "west") then
     return true  -- Not our command

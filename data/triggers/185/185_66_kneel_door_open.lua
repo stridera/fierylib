@@ -11,6 +11,8 @@
 if not (cmd == "kneel") then
     return true
 end
+-- Legacy `return 0` ahead of the wait: the typed command goes ahead and the script carries on.
+allow_command()
 
 if actor.alignment > -349 then
     actor:send("A bright white beam of light descends upon you.")

@@ -12,8 +12,9 @@
 -- weight against other ca-prefixed commands; the body is intentionally a
 -- pass-through.
 
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 if cmd ~= "ca" then

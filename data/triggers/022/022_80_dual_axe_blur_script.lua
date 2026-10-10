@@ -11,6 +11,11 @@
 -- TODO(parity): original DG #2280 (dual axe blur) had only a placeholder body
 -- ("My trigger commandlist is not complete!") — needs full implementation
 -- (e.g. blur effect, extra attack on command "Niamh"). Placeholder kept verbatim.
+-- Command location mask 100: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: Niamh
 if not (cmd == "Niamh") then
     return true  -- Not our command

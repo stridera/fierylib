@@ -13,6 +13,7 @@ if not (cmd == "sleep") then
     return true  -- Not our command
 end
 if actor:get_quest_stage("wizard_eye") == 12 then
+    allow_command()  -- legacy `return 0` ahead of the wait: the sleep goes ahead
     wait(1)
     actor:send("A hazy dreamscape appears before you.")
     -- (empty room echo)

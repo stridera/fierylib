@@ -27,6 +27,11 @@
 -- engine binding for that lookup is in place, this trigger is a no-op so
 -- the wand quest cannot be soft-locked by a partial conversion.
 
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
+end
+
 if cmd ~= "imbue" then
     return true
 end

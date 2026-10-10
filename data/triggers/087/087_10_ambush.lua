@@ -12,6 +12,11 @@
 -- Converted from DG Script #8710: ambush
 -- Original: OBJECT trigger, flags: COMMAND, probability: 100%
 
+-- Command location mask 100: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: drag
 if not (cmd == "drag") then
     return true  -- Not our command

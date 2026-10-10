@@ -8,6 +8,11 @@
 -- Makes the red leather bag explode if you try to drag it.
 -- Applied to: o30209
 
+-- Command location mask 100: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: drag (must be the full word, not a prefix-match like 'd')
 if cmd ~= "drag" then
     return true  -- Not our command

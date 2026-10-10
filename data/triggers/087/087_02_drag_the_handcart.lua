@@ -17,6 +17,8 @@ end
 if not (cmd == "drag") then
     return true  -- Not our command
 end
+-- Legacy `return 0` ahead of the wait: the typed command goes ahead and the script carries on.
+allow_command()
 wait(1)
 if string.find(arg, "cart") or string.find(arg, "wagon") then
     actor:send("The handcart creaks along behind you.")

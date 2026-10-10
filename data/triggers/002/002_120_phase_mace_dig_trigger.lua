@@ -12,6 +12,11 @@
 -- be migrated to room.zone_id/room.local_id checks once the proper room
 -- mapping is restored.
 
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: dig (block "d" / "di" abbreviations)
 if cmd == "d" or cmd == "di" then
     return true

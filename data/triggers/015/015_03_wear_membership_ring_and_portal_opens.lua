@@ -14,6 +14,8 @@ if cmd ~= "wear" then
     return true
 end
 
+-- Legacy `return 0` ahead of the wait: the typed command goes ahead and the script carries on.
+allow_command()
 wait(2)
 if actor:has_equipped(15, 0) then
     if not globals.wof_exit then

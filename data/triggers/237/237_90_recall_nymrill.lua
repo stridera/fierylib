@@ -7,17 +7,16 @@
 
 -- Converted from DG Script #23790: recall_nymrill
 -- Original: OBJECT trigger, flags: COMMAND, probability: 2%
--- Black potion of recall. On 2% of quaffs, evil-aligned drinkers (alignment
--- <= -350) recall to a class-appropriate Nymrill room and the potion is
--- consumed. Other drinkers get a flavor message and the quaff proceeds.
--- TODO(parity): the "non-evil" branch re-issues `quaff black-potion-recall`
--- via actor:command() while also blocking the original command. This will
--- re-fire this trigger (with another 2% roll) -- preserved from the
--- original DG script but likely unintentional.
+-- Black potion of recall. Evil-aligned drinkers (alignment <= -350) recall to a
+-- class-appropriate Nymrill room and the potion is consumed. Other drinkers get a
+-- flavor message and the quaff proceeds.
+-- The DG numeric argument 2 is the OCMD_* location mask (carried), not a 2% chance. Legacy
+-- re-issued `quaff black-potion-recall` for the non-evil drinker while also blocking the typed
+-- one, which fired this trigger again without end; the typed quaff is now simply let through.
 
--- 2% chance to intercept this quaff at all.
-if not percent_chance(2) then
-    return true
+-- Command location mask 2: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: quaff
@@ -26,8 +25,7 @@ if cmd ~= "quaff" then
 end
 
 if not actor.is_player then
-    actor:command("quaff black-potion-recall")
-    return false
+    return true  -- the quaff goes ahead
 end
 
 if actor.alignment <= -350 then
@@ -49,5 +47,4 @@ if actor.alignment <= -350 then
 end
 
 actor:send("As you quaff a potion, you get a funny burning sensation in your stomach...")
-actor:command("quaff black-potion-recall")
-return false
+return true  -- the quaff goes ahead

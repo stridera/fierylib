@@ -17,8 +17,9 @@
 -- assignment is written by the spawn/wear hook. If not, this trigger is a
 -- no-op and team assignment must be wired in elsewhere.
 
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 if cmd ~= "capture" then

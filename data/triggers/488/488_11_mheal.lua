@@ -12,6 +12,11 @@
 -- string; `actor:heal` may need an integer (`tonumber(arg)`). Leave as-is if
 -- the binding already coerces.
 
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: mheal
 if not (cmd == "mheal") then
     return true  -- Not our command

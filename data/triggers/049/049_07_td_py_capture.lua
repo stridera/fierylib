@@ -13,8 +13,9 @@
 --   * neither              : start a new countdown, notify the war room
 -- A foreign team touching during another team's countdown cancels it.
 
-if not percent_chance(4) then
-    return true
+-- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
 end
 
 if cmd ~= "xcapture" then

@@ -21,10 +21,13 @@
 if cmd ~= "say" then
     return true
 end
-if not percent_chance(3) then
-    return true
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
+-- Legacy `return 0` ahead of the wait: the player's `say` goes ahead and the script carries on.
+allow_command()
 wait(2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room

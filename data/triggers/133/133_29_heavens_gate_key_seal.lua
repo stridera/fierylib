@@ -22,6 +22,11 @@
 --   55126 (551, 26)  Huitzipia (war) pool
 --   55112 (551, 12)  Xapizo (death) pool
 
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
+end
+
 -- Command filter: seal
 if cmd ~= "seal" then
     return true

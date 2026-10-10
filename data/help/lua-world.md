@@ -13,6 +13,9 @@ Globals every trigger can use (return type after ->):
   percent_chance(n) -> bool             true n percent of the time
   wait(seconds)                         pause the script, then continue (>= 1)
   wait_until(hour, minute)              pause until that game time (minute optional)
+  allow_command()                       COMMAND triggers: let the typed command go ahead
+                                        and keep running (DG `return 0`); a script that
+                                        reaches wait() without it consumes the command
   run_room_trigger(zone, id)            run every trigger on that room; deferred
                                         to after the current script finishes
   print(...)                            captured, NOT shown to players here;
