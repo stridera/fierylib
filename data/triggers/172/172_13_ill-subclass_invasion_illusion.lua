@@ -27,14 +27,12 @@ wait(2)
 
 local gannigan = nil
 local quester = nil
-local person = self.people
-while person do
+for _, person in ipairs(self:get_people()) do
     if person.zone_id == 363 and person.local_id == 1 then
         gannigan = person
     elseif person.is_player and person:get_quest_stage("illusionist_subclass") > 1 then
         quester = person
     end
-    person = person.next_in_room
 end
 
 if not (quester and gannigan) then

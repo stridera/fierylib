@@ -24,7 +24,7 @@ else
     if fire_box_room:find_actor("pippin") then
         char = fire_box_room:find_actor("pippin")
     else
-        char = self.people
+        char = self:get_people()[1]
     end
     self.room:send("The Fire Goddess shouts, 'Ladies and Gentlemen!  We present to you a spectacle never before seen on a public stage!  The only completely perfect act in our repertoire!'")
     get_room(43, 33):at(function()
@@ -114,14 +114,12 @@ else
     get_room(43, 33):at(function()
         self.room:send("The Leading Player cackles as the box <red>E<b:yellow>X<b:red>P</><red>L<red>O<b:yellow>D<red>E</><red>S</> into flames!!!")
     end)
-    local person = self.people
-    while person do
+    for _, person in ipairs(self:get_people()) do
         if person.is_npc then
             person:damage(1000)  -- type: physical
         else
             person:damage(200)  -- type: physical
         end
-        person = person.next_in_room
     end
     wait(2)
     self.room:teleport_all(get_room(43, 33))

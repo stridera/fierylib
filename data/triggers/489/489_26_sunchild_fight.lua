@@ -18,11 +18,9 @@ elseif chance <= 2 then
     wait(2)
     self.room:send("<yellow>A Sunchild <blue>flares brightly</><yellow>, casting rays of <white>light<yellow> everywhere!</>")
     local room = self.room
-    local person = room.people
-    while person do
+    for _, person in ipairs(room:get_people()) do
         if person.is_player then
             spells.cast(self, "sunray", person, 100)
         end
-        person = person.next_in_room
     end
 end

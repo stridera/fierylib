@@ -7,12 +7,10 @@
 
 -- Converted from DG Script #49007: dagon_death_pt2
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local person = self.people
-while person do
+for _, person in ipairs(self:get_people()) do
     if person:get_quest_stage("griffin_quest") == 6 then
         person:advance_quest("griffin_quest")
         person:send("<b:white>You have advanced the quest!</>")
         person:send("<b:white>Proof of the deed must be delivered individually.</>")
     end
-    person = person.next_in_room
 end

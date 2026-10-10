@@ -43,12 +43,10 @@ elseif action > 4 then
     wait(2)
     self.room:send(tostring(objects.template(484, 24).name) .. " flares brightly, throwing blinding light in all directions!")
     local room = self.room
-    local person = room.people
-    while person do
+    for _, person in ipairs(room:get_people()) do
         if person.is_player then
             spells.cast(self, "blindness", person, 100)
         end
-        person = person.next_in_room
     end
 end
 -- 40% chance to do nothing

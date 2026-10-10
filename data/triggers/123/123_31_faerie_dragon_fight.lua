@@ -15,10 +15,8 @@ end
 wait(2)
 self.room:send("A faerie dragon exhales a cloud of <red>e<b:yellow>u<red>p<green>h<blue>o<cyan>r<magenta>i</><red>c</> gas!")
 local room = self.room
-local person = room.people
-while person do
+for _, person in ipairs(room:get_people()) do
     if person.is_player then
         spells.cast(self, "confusion", person, self.level)
     end
-    person = person.next_in_room
 end

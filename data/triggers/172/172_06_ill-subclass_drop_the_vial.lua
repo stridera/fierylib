@@ -37,8 +37,7 @@ actor:advance_quest("illusionist_subclass")
 local smuggler_found = false
 local chief_found = false
 local leader_found = false
-local person = self.room.people
-while person do
+for _, person in ipairs(self.room:get_people()) do
     local incapacitated = person:has_effect(Effect.Blind)
         or string.find(person.stance or "", "mortally")
         or string.find(person.stance or "", "incapacitated")
@@ -55,7 +54,6 @@ while person do
             smuggler_found = true
         end
     end
-    person = person.next_in_room
 end
 
 if leader_found then

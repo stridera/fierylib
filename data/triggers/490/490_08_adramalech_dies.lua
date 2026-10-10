@@ -16,12 +16,10 @@ if self.room ~= get_room(490, 190) then
     self.room:send("<b:white>A rift opens in the fabric of reality and pulls you through!</>")
     self.room:send("</>")
     local room = get_room(490, 190)
-    local person = room.people
-    while person do
+    for _, person in ipairs(room:get_people()) do
         if person.is_player then
             -- person looks around
         end
-        person = person.next_in_room
     end
 end
 local person = actor

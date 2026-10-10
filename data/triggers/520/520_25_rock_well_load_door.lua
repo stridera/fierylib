@@ -19,8 +19,7 @@ upexit:set_state({
     name = "Basement Ceiling",
 })
 
-local person = self.people
-while person do
+for _, person in ipairs(self:get_people()) do
     if person:get_quest_stage("meteorswarm") == 2 or person:get_quest_var("meteorswarm:new") ~= "yes" then
         if person:get_quest_stage("meteorswarm") == 2 then
             person:advance_quest("meteorswarm")
@@ -30,5 +29,4 @@ while person do
         self.room:spawn_object(481, 152)
         self.room:send("A flaming meteor shoots off the towering rock demon, soars through the sky, and begins to fall toward the ground!")
     end
-    person = person.next_in_room
 end

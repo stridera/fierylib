@@ -174,9 +174,9 @@ if clue >= 20 then
     wait(2)
     self.room:spawn_mobile(364, 2)
     local lyara = self.room:find_actor("post-commander")
-    if lyara then
-        lyara:command("mskillset " .. tostring(actor.name) .. " illusory wall")
-    end
+    -- Legacy had Lyara run the staff `mskillset`; scripts cannot, so grant
+    -- the skill directly (1000 = the legacy "max proficiency").
+    actor:set_skill("illusory wall", 1000)
     actor:send("<b:cyan>You have learned everything you need to cast illusory walls!</>")
     actor:complete_quest("illusory_wall")
     wait(1)

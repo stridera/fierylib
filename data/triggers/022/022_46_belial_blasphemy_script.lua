@@ -10,14 +10,11 @@
 -- blasphemy = 325-400hp demonic unholy word!
 wait(1)
 self.room:send("Belial throws his hands in the air, uttering in demonic, 'Verai Thak!'")
-local victim = self.people
-while victim do
-    local next = victim.next_in_room
+for _, victim in ipairs(self:get_people()) do
     if (victim.is_player) and (victim.level < 100) then
         local damage = 325 + random(1, 75)
         victim:send("You cover your ears in horror upon hearing the demonic oath! (<b:red>" .. tostring(damage) .. "</>)")
         self.room:send_except(victim, tostring(victim.name) .. " covers " .. tostring(victim.possessive) .. " ears in horror upon hearing the demonic oath! (<blue>" .. tostring(damage) .. "</>)")
         local damage_dealt = victim:damage(damage)  -- type: physical
     end
-    victim = next
 end

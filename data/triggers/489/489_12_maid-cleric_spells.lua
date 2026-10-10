@@ -70,9 +70,7 @@ else
         self.room:send("A maid in waiting utters the words, 'ebparl xafm'.")
         self.room:send("<blue>&9A maid in waiting speaks a word of demonic sacrilege!</>")
     end
-    local person = self.people
-    while person do
-        local next_person = person.next_in_room
+    for _, person in ipairs(self:get_people()) do
         if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
             local hit = (spell == "good" and person.alignment < -349)
                      or (spell == "evil" and person.alignment > 349)
@@ -108,7 +106,6 @@ else
                 end
             end
         end
-        person = next_person
     end
 end
 wait(2)

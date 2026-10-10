@@ -11,9 +11,7 @@ self.room:send("<b:white>The white aura around Severan's body intensifies, incre
 wait(2)
 self.room:send("<b:white>A powerful shockwave leaps off Severan's body as the aura flares wildly!</>")
 local casters = "Sorcerer Necromancer Cryomancer Pyromancer Cleric Druid Diabolist Priest Shaman Conjurer"
-local person = self.people
-while person do
-    local next_person = person.next_in_room
+for _, person in ipairs(self:get_people()) do
     if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
         local damage
         if string.find(casters, tostring(person.class)) then
@@ -51,5 +49,4 @@ while person do
             person:send("<b:white>The blast strikes you violently, rending your flesh!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
         end
     end
-    person = next_person
 end

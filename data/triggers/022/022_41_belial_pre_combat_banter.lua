@@ -10,8 +10,7 @@
 -- Belial's Pre Combat Banter
 -- Stage marker: belial_queue == 2 (set in source, used by trigger 42 to choose return banter)
 globals.belial_queue = 2
-local victim = self.people
-while victim do
+for _, victim in ipairs(self:get_people()) do
     if victim.id ~= 2219 then
         if victim.class == "Paladin" then
             if victim.gender == "Female" then
@@ -85,5 +84,4 @@ while victim do
             return _return_value
         end
     end
-    victim = victim.next_in_room
 end

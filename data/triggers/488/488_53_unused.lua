@@ -19,9 +19,7 @@ do return true end
 if not tank then
     return _return_value
 end
-local person = self.people
-while person do
-    local next = person.next_in_room
+for _, person in ipairs(self:get_people()) do
     if string.find(tank, "person.name") then
         if person.is_player then
             local damage = 390 + random(1, 40)
@@ -53,5 +51,4 @@ while person do
         tank = nil
         return _return_value
     end
-    local person = next
 end

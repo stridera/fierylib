@@ -1,57 +1,81 @@
 -- Trigger: skillset_skills_A-G
 -- Zone: 87, ID: 97
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --
 -- Original DG Script: #8797
 --
--- TODO(parity): converter produced a broken state machine. Issues:
---   (1) `local skill = speech` / `local mortal = actor.name` / `local command = "mskillset"`
---       are block-scoped so the branches that "save" state never persist past the
---       end of this script invocation. They should write to `globals.*`.
---   (2) `globals.skill = globals.skill or true` saves boolean true instead of
---       the speech value. Should be `globals.skill = speech` etc.
---   (3) `skills.set_level(mortal, "%skill%", 100)` passes the literal string
---       "%skill%" instead of the saved skill name.
---   (4) Branch reads of `skill`, `mortal`, `command` are bare globals not
---       routed through the `globals` table.
--- Full rewrite needed. Body left as converted output for traceability.
+-- Staff skill-granting helper (A-G). Walks a small conversation, with its
+-- state kept on the mob (`command`, `skill`, `mortal`):
+--   imm says "skillset"          -> the mob asks which skill to set
+--   anyone says a skill name     -> the mob remembers it and asks the mortal to say "ready"
+--   anyone says "ready"          -> the mob remembers who is ready and asks the imm for "go"
+--   an imm (level 101+) says "go" -> the skill is granted; "cancel" starts over
+--
+-- The legacy script ran the staff `mskillset` command, which the script-origin
+-- gate refuses; the grant is now `mortal:set_skill(skill, 1000)` (1000 = the
+-- legacy "max proficiency" mskillset gave). The converter's version kept its
+-- state in block-scoped locals and passed a literal "%skill%", so it never
+-- worked, and it fired on 1% of speech (the DG argument 1 means "match whole
+-- words"). Both are fixed here: keywords match whole words, every time.
 
--- Converted from DG Script #8797: skillset_skills_A-G
--- Original: MOB trigger, flags: SPEECH, probability: 1%
+local KEYWORDS = {
+    ["skillset"] = true, ["ready"] = true, ["go"] = true, ["cancel"] = true, ["2h"] = true,
+    ["backstab"] = true, ["bandage"] = true, ["barehand"] = true, ["bash"] = true,
+    ["bludgeoning"] = true, ["bodyslam"] = true, ["chant"] = true, ["conceal"] = true,
+    ["corner"] = true, ["disarm"] = true, ["dodge"] = true, ["doorbash"] = true,
+    ["double"] = true, ["douse"] = true, ["dual"] = true, ["eye"] = true, ["first"] = true,
+    ["group"] = true, ["guard"] = true,
+}
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+local said = string.lower(speech)
+local heard = false
+for word in string.gmatch(said, "[%w']+") do
+    if KEYWORDS[word] then
+        heard = true
+        break
+    end
 end
-
--- Speech keywords: skillset ready go cancel 2H backstab bandage barehand bash bludgeoning bodyslam chant conceal corner  disarm dodge doorbash double douse dual eye first group guard
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "skillset") or string.find(speech_lower, "ready") or string.find(speech_lower, "go") or string.find(speech_lower, "cancel") or string.find(speech_lower, "2h") or string.find(speech_lower, "backstab") or string.find(speech_lower, "bandage") or string.find(speech_lower, "barehand") or string.find(speech_lower, "bash") or string.find(speech_lower, "bludgeoning") or string.find(speech_lower, "bodyslam") or string.find(speech_lower, "chant") or string.find(speech_lower, "conceal") or string.find(speech_lower, "corner") or string.find(speech_lower, "disarm") or string.find(speech_lower, "dodge") or string.find(speech_lower, "doorbash") or string.find(speech_lower, "double") or string.find(speech_lower, "douse") or string.find(speech_lower, "dual") or string.find(speech_lower, "eye") or string.find(speech_lower, "first") or string.find(speech_lower, "group") or string.find(speech_lower, "guard")) then
+if not heard then
     return true  -- No matching keywords
 end
 wait(1)
+
+local command = self:getvar("command")
+local skill = self:getvar("skill")
+local mortal = self:getvar("mortal")
+
+local function start_over()
+    self:clearvar("command")
+    self:clearvar("skill")
+    self:clearvar("mortal")
+end
+
 if skill and mortal and command then
-    if speech == "go" and actor.level >= 101 then
-        skills.set_level(mortal, "%skill%", 100)
-        self:say("Done. Did it work?")
-    elseif speech == "cancel" then
+    if said == "go" and actor.level >= 101 then
+        local target = find_player(mortal)
+        if target and target.is_player and target:set_skill(skill, 1000) then
+            self:say("Done. Did it work?")
+        else
+            self:say("I could not set " .. tostring(skill) .. " on " .. tostring(mortal) .. ".")
+        end
+        start_over()
+    elseif said == "cancel" then
         self:say("Ok, lets start over, starting with the command..")
+        start_over()
     end
-    command = nil
-    mortal = nil
-    skill = nil
 elseif skill and command then
-    local mortal = actor.name
-    globals.mortal = globals.mortal or true
-    self:say("Ok, imm, if you want to " .. tostring(command) .. " " .. tostring(skill) .. " to " .. tostring(mortal) .. ", just say go!")
+    self:setvar("mortal", actor.name)
+    self:say("Ok, imm, if you want to " .. tostring(command) .. " " .. tostring(skill) .. " to " .. tostring(actor.name) .. ", just say go!")
 elseif command then
+    if said == "ready" or said == "go" or said == "cancel" or said == "skillset" then
+        return true  -- Not a skill name
+    end
     self:say("Ok, I'll be " .. tostring(command) .. "ing " .. tostring(speech) .. ".")
     self:say("Mortal, if you are ready to get " .. tostring(speech) .. ", say \"ready\".")
-    local skill = speech
-    globals.skill = globals.skill or true
-elseif speech == "skillset" then
-    local command = "mskillset"
-    globals.command = globals.command or true
+    self:setvar("skill", speech)
+elseif said == "skillset" then
+    self:setvar("command", "mskillset")
     self:say("what skill will I be setting?")
 end
+return true

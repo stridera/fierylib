@@ -10,14 +10,10 @@
 if actor:get_quest_stage("resurrection_quest") > 10 then
     wait(1)
     actor:send("You thumb through the book and find Norisent has taught you all you need to know.")
-    -- Spawn the AI helper mob (mob 85,51) which is responsible for granting
-    -- the Resurrect spell, then have it teach the actor.
-    local ai_mob = self.room:spawn_mobile(85, 51)
-    if ai_mob then
-        ai_mob:command("mskillset " .. tostring(actor.name) .. " resurrect")
-        wait(2)
-        world.destroy(ai_mob)
-    end
+    -- Legacy had a hidden helper mob (85, 51) run the staff `mskillset`
+    -- command; the script-origin gate refuses that, so grant the skill
+    -- directly (1000 = the legacy "max proficiency" mskillset gave).
+    actor:set_skill("resurrect", 1000)
     actor:send("<b:cyan>You have learned Resurrect.</>")
     self.room:send(tostring(self.shortdesc) .. " crumbles to dust and blows away.")
     actor:complete_quest("resurrection_quest")

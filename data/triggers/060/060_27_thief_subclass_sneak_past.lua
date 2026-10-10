@@ -11,8 +11,7 @@ if self.is_fighting then
     return _return_value
 end
 local room = self.room
-local person = room.people
-while person do
+for _, person in ipairs(room:get_people()) do
     if person:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" then
         if person:get_quest_stage("merc_ass_thi_subclass") == 3 or person:get_quest_stage("merc_ass_thi_subclass") == 4 then
             if person.can_be_seen and person.hiddenness < 1 then
@@ -29,5 +28,4 @@ while person do
             end
         end
     end
-    person = person.next_in_room
 end

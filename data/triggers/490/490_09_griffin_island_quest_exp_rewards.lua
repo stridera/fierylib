@@ -8,9 +8,8 @@
 -- Converted from DG Script #49009: Griffin Island Quest exp rewards
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 wait(1)
-local person = self.people
 local stage = 9
-while person do
+for _, person in ipairs(self:get_people()) do
     if person:get_quest_stage("griffin_quest") == stage then
         --
         -- Set X to the level of the award - code does not run without it
@@ -69,5 +68,4 @@ while person do
         end
         person:complete_quest("griffin_quest")
     end
-    person = person.next_in_room
 end

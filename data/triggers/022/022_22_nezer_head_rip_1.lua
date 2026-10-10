@@ -10,14 +10,12 @@
 wait(5)
 -- Let's see how many casters we have in the room.
 local casters = 0
-local victim = self.people
-while victim do
+for _, victim in ipairs(self:get_people()) do
     if (victim.is_player) and (victim.level < 100) then
         if string.find(victim.class, "Cleric") or string.find(victim.class, "Priest") or string.find(victim.class, "Druid") or string.find(victim.class, "Diabolist") or string.find(victim.class, "Sorcerer") or string.find(victim.class, "Cryomancer") or string.find(victim.class, "Pyromancer") or string.find(victim.class, "Necromancer") then
             casters = casters + 1
         end
     end
-    victim = victim.next_in_room
 end
 -- So if we have casters, pick one, we don't want the same
 -- one or to have a set order, so lets pick a random caster.

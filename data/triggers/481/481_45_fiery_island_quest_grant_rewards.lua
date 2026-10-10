@@ -8,8 +8,7 @@
 -- Converted from DG Script #48145: Fiery_Island_Quest_Grant_rewards
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 wait(1)
-local person = self.people
-while person do
+for _, person in ipairs(self:get_people()) do
     if person:get_quest_var("fieryisle_quest:reward") == "yes" and not person:get_has_completed("fieryisle_quest") then
         person:send("You notice special glittering gems amongst the chamber's crystals!")
         -- 
@@ -72,5 +71,4 @@ while person do
         person:command("get all.gem")
         person:complete_quest("fieryisle_quest")
     end
-    person = person.next_in_room
 end

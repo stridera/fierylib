@@ -11,9 +11,7 @@ self.room:send("Lokari starts casting <b:yellow>'echoes of justice'</>...")
 wait(1)
 self.room:send("Lokari utters the words, 'sdorj lp kandiso'.")
 self.room:send("<green>Lokari's justice spreads through the room, striking down trespassers!</>")
-local person = self.people
-while person do
-    local next_person = person.next_in_room
+for _, person in ipairs(self:get_people()) do
     if person and ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
         local damage = 150 + random(1, 100)
         if person:has_effect(Effect.Sanctuary) then
@@ -40,5 +38,4 @@ while person do
         end
         person:damage(damage)  -- type: physical
     end
-    person = next_person
 end

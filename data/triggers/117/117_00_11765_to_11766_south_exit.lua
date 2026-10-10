@@ -20,8 +20,7 @@ actor:send("By moving your hands you clear a passage through the fog to the sout
 get_room(117, 66):at(function()
     self.room:send("The fog to the north clears a little.")
 end)
--- TODO: legacy script used `wait 1 tick` (~75s in classic CircleMUD). The
--- `wait_ticks` helper is not bound; using a fixed 60s sleep until ticks land.
-wait(60)
+-- Legacy `wait 1 tick`: one game hour (75s).
+wait_ticks(1)
 self.room:send("The fog slowly closes back around the exit to the south.")
 get_room(117, 65):exit("south"):set_state({hidden = true})

@@ -15,10 +15,8 @@ end
 wait(2)
 self.room:send("A gorgon exhales a cloud of <cyan>paralyzing gas!</>")
 local room = self.room
-local person = room.people
-while person do
+for _, person in ipairs(room:get_people()) do
     if person.is_player then
         spells.cast(self, "major paralysis", person, 2)
     end
-    person = person.next_in_room
 end

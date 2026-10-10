@@ -23,11 +23,9 @@ if not (self.room.zone_id == 481 and self.room.local_id == 123) then
     self.room:send("<b:red>A burning hole erupts, sucking everything through it!</>")
     self.room:send("</>")
     local room = get_room(481, 123)
-    local person = room.people
-    while person do
+    for _, person in ipairs(room:get_people()) do
         if person.is_player then
             -- person looks around
-            person = person.next_in_room
         end
     end
 end

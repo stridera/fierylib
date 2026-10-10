@@ -7,15 +7,12 @@
 
 -- Converted from DG Script #2201: Balor_death_damage
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-local person = self.people
-while person do
-    local next = person.next_in_room
+for _, person in ipairs(self:get_people()) do
     if person.id ~= 2216 then
         local damage = 100 + random(1, 50)
         local damage_dealt = person:damage(damage)  -- type: fire
         person:send("The Balor explodes in a <b:yellow>blinding</> flash, scorching the area! (<b:red>" .. tostring(damage_dealt) .. "</>)")
     end
-    person = next
 end
 wait(2)
 self.room:send("<b:white>As the smoke <white>subsides, a stairway down appears.</>")

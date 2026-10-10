@@ -30,14 +30,12 @@ end
 
 if self.level >= 70 then
     if actor.group_size and actor.group_size > 1 then
-        local person = self.room.people
-        while person do
+        for _, person in ipairs(self.room:get_people()) do
             if person.is_player and not person:get_has_spell("terror") and not person:get_has_spell("ballad of tears") then
                 self:perform("ballad of tears", person, self.level)
                 globals.minstrel_song_cooldown = timestamp()
                 return true
             end
-            person = person.next_in_room
         end
     end
 elseif self.level >= 10 then

@@ -19,9 +19,7 @@ if not globals.alreadydone then
     wait(10)
     self.room:send("With a giant thump Nezer of Raymif hits the ground sending a shockwave across the ground!")
     -- start of damage loop
-    local victim = self.people
-    while victim do
-        local next = victim.next_in_room
+    for _, victim in ipairs(self:get_people()) do
         if (victim.is_player) and (victim.level < 100) then
             local damage = 350 + random(1, 50)
             local damage_dealt = victim:damage(damage)  -- type: crush
@@ -36,7 +34,6 @@ if not globals.alreadydone then
                 self.room:send_except(victim, tostring(victim.name) .. " is slammed into the ground after being thrown into the air by Nezer's shockwave! (<blue>" .. tostring(damage_dealt) .. "</>)")
             end
         end
-        victim = next
     end
     self.room:spawn_mobile(12, 0)
 end

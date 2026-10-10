@@ -9,11 +9,8 @@
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 -- Walk every actor in the room and slay any remaining hydra-head mobile (520:9).
 -- Used by hydra_death_cry (520:3) so killing the body cleans up loose heads.
-local person = self.people
-while person do
-    local next_person = person.next_in_room
+for _, person in ipairs(self:get_people()) do
     if person.zone_id == 520 and person.local_id == 9 then
         person:damage(50000)  -- physical, lethal
     end
-    person = next_person
 end

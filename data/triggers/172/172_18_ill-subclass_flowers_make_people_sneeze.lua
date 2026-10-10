@@ -36,8 +36,7 @@ end
 
 -- See if any smuggler is nearby to witness the un-Cestia-like sneezing.
 local smuggler = nil
-local person = self.people
-while person do
+for _, person in ipairs(self:get_people()) do
     if person.zone_id == 363 then
         local lid = person.local_id
         if lid == 0 or lid == 1 or lid == 3 or lid == 4 or lid == 6 then
@@ -45,7 +44,6 @@ while person do
             break
         end
     end
-    person = person.next_in_room
 end
 
 if smuggler then

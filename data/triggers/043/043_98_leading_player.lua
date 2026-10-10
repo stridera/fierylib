@@ -20,15 +20,13 @@ wait(2)
 self.room:send("It hovers in his outstretched hand for a moment before he lowers his hand, leaving it suspended in the air.")
 wait(4)
 self.room:send("The Leading Player says, 'My gift to you,' as he turns to leave.")
-local person = self.people
-while person do
+for _, person in ipairs(self:get_people()) do
     if person:get_quest_stage("theatre") >= 7 then
         self.room:spawn_object(43, 19)
         person:set_quest_var("theatre", "fire_ring", 1)
         person:complete_quest("theatre")
         person:command("get fire-ring")
     end
-    person = person.next_in_room
 end
 wait(4)
 self.room:send("The Leading Player blows a kiss over his shoulder and slinks off into the shadows.")

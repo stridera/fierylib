@@ -55,9 +55,8 @@ for _, person in ipairs(self.room.people) do
         if not person:get_quest_var("hell_trident:helltask4") and person:get_quest_stage("hell_trident") == 2 then
             person:set_quest_var("hell_trident", "helltask4", 1)
         end
-        local diabolist = self.room:find_actor("diabolist")
-        if diabolist then
-            diabolist:command("mskillset " .. tostring(person.name) .. " hell gate")
-        end
+        -- Legacy had the diabolist run the staff `mskillset`; scripts cannot,
+        -- so grant the skill directly (1000 = the legacy "max proficiency").
+        person:set_skill("hell gate", 1000)
     end
 end
