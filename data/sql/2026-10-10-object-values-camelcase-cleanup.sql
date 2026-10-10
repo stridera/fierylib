@@ -4,8 +4,9 @@
 -- (capacity, keyId, lightHours, foodHours, poisoned, spellLevel, spellName,
 -- liquidCapacity, liquidType, containerFlags) while the game and fierylib use
 -- the loader's keys (Capacity, Key, Remaining, Filling, Poisoned, Level,
--- Spells, Liquid, Flags). It also stored TagInput keywords as one
--- comma-joined array element (["sword, iron"]).
+-- Spells, Liquid, Flags; spellName becomes the string "Spell" on WAND, STAFF and
+-- INSTRUMENT objects, as the importer reads them). It also stored TagInput
+-- keywords as one comma-joined array element (["sword, iron"]).
 --
 -- 1. values: each camelCase key is folded into its game key ONLY when the game
 --    key is absent (an existing game key always wins), then the camelCase key
@@ -35,10 +36,18 @@ FROM (
                'Filling', s.v -> 'foodHours',
                'Poisoned', s.v -> 'poisoned',
                'Level', s.v -> 'spellLevel',
+               -- POTION/SCROLL: "Spells" array; WAND/STAFF/INSTRUMENT: "Spell" string
                'Spells', CASE
-                   WHEN jsonb_typeof(s.v -> 'spellName') = 'string'
+                   WHEN s.t NOT IN ('WAND', 'STAFF', 'INSTRUMENT')
+                        AND jsonb_typeof(s.v -> 'spellName') = 'string'
                         AND btrim(s.v ->> 'spellName') <> ''
                    THEN jsonb_build_array(upper(btrim(s.v ->> 'spellName')))
+               END,
+               'Spell', CASE
+                   WHEN s.t IN ('WAND', 'STAFF', 'INSTRUMENT')
+                        AND jsonb_typeof(s.v -> 'spellName') = 'string'
+                        AND btrim(s.v ->> 'spellName') <> ''
+                   THEN to_jsonb(upper(btrim(s.v ->> 'spellName')))
                END,
                'Liquid', CASE
                    WHEN jsonb_typeof(s.v -> 'liquidType') = 'string'
@@ -60,7 +69,7 @@ FROM (
                END
            )) AS adds
     FROM (
-        SELECT zone_id, id, "values" AS v
+        SELECT zone_id, id, type::text AS t, "values" AS v
         FROM "Objects"
         WHERE jsonb_typeof("values") = 'object'
           AND jsonb_exists_any("values", ARRAY['capacity', 'liquidCapacity',
