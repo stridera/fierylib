@@ -28,7 +28,9 @@ local entry = get_room(580, 1)
 local west = entry:exit("west")
 local hidden_break = get_room(580, 17)
 
-actor:command("look lantern")
+-- The typed `look lantern` goes ahead (legacy forced the actor to look and blocked the typed
+-- line; re-issuing it from here fired this trigger again, without end).
+allow_command()
 self.room:send_except(actor, actor.name .. " looks at the stone lantern.")
 wait(2)
 self.room:send("An eerie <b:yellow>glow</> begins emitting from the lantern...")
