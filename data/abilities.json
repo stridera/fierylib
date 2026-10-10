@@ -4081,7 +4081,7 @@
     "abilityType": "SPELL",
     "description": "Attempts to end magical effects on a target creature or object.",
     "minPosition": "SITTING",
-    "violent": false,
+    "violent": true,
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,

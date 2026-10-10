@@ -33,3 +33,18 @@ def test_sql_flips_combat_ok_for_the_globes_by_plain_name_only():
     assert "plain_name IN ('MAJOR_GLOBE', 'MINOR_GLOBE')" in stmt
     assert "AND combat_ok" in stmt  # idempotent: only rows still in the old shape
     assert not re.search(r"\bid\s*=", stmt)
+
+
+# --- #106: hostile non-damaging spells start combat ------------------------------------------------------------
+
+
+def test_dispel_magic_and_ray_of_enfeeblement_are_violent():
+    for name in ("DISPEL_MAGIC", "RAY_OF_ENFEEB"):
+        assert BY_NAME[name]["violent"] is True, name
+
+
+def test_sql_makes_dispel_magic_violent_by_plain_name_only():
+    (stmt,) = [s for s in _statements("Ability") if "violent = true" in s]
+    assert "plain_name = 'DISPEL_MAGIC'" in stmt
+    assert "AND NOT violent" in stmt
+    assert not re.search(r"\bid\s*=", stmt)

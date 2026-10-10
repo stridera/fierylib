@@ -13,3 +13,13 @@ UPDATE "Ability"
 SET combat_ok = false
 WHERE plain_name IN ('MAJOR_GLOBE', 'MINOR_GLOBE')
   AND combat_ok;
+
+-- #106: Dispel Magic is a violent spell (legacy skills.cpp spello(SPELL_DISPEL_MAGIC ...): violent = true; legacy
+-- spell_parser.cpp special-cases it so it may still be cast on yourself). With violent = false the runtime never
+-- started a fight with the target. Ray of Enfeeblement is already violent; the runtime now engages the victim of
+-- any violent spell, damaging or not. Soul Tap is also violent in legacy but here is a self-targeted lifesteal buff,
+-- so it stays as is.
+UPDATE "Ability"
+SET violent = true
+WHERE plain_name = 'DISPEL_MAGIC'
+  AND NOT violent;
