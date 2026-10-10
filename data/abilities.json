@@ -9083,6 +9083,7 @@
     "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
+    "combatOk": false,
     "isArea": false,
     "effects": [
       {
@@ -9417,6 +9418,7 @@
     "castTimeRounds": 2.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
+    "combatOk": false,
     "isArea": false,
     "effects": [
       {
