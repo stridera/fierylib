@@ -255,7 +255,7 @@ SPECIAL_EFFECTS = {
     "Group Armor": [{"effect": "stat_mod", "params": {"stat": "ward", "amount": 10, "duration": "level * 2"}}],
     "Shapechange": [{"effect": "size_mod", "params": {"amount": 1, "duration": "level"}}],
     "Statue": [{"effect": "crowd_control", "params": {"type": "paralyze", "duration": "level", "breakOnDamage": False}}],
-    "Vaporform": [{"effect": "status", "params": {"flag": "invisible", "duration": "level"}}],
+    "Vaporform": [{"effect": "status", "params": {"flag": "vaporform", "duration": "level"}}],
     "Waterform": [{"effect": "status", "params": {"flag": "waterform", "duration": "level"}}],
     "Soul Tap": [{"effect": "lifesteal", "params": {"percent": 25, "duration": "level"}}],
     "Soulshield": [{"effect": "protection", "params": {"type": "magic", "amount": 25, "duration": "level * 2"}}],

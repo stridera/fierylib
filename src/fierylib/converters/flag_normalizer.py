@@ -507,7 +507,7 @@ MOB_EFFECT_FLAG_TO_STATUS_FLAG = {
     'SNEAK': 'sneak',
     'STEALTH': 'hidden',
     'FLY': 'fly',
-    'FARSEE': 'detect_hidden',
+    'FARSEE': 'farsee',
     'HASTE': 'haste',
     'BLUR': 'blur',
     'MAJOR_PARALYSIS': 'paralyzed',

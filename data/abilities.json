@@ -14574,20 +14574,20 @@
     "name": "Vaporform",
     "plainName": "VAPORFORM",
     "abilityType": "SPELL",
-    "description": "Transforms the caster into mist, granting invisibility and ethereal movement.",
+    "description": "Transforms the caster into a misty cloud of vapor.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.5,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Grants invisibility for level rounds through gaseous transformation.",
+    "notes": "Legacy magic.cpp SPELL_VAPORFORM: APPLY_COMPOSITION = COMP_MIST (flesh only) for 2 + skill/25 hours. No invisibility.",
     "effects": [
       {
         "effect": "status",
         "order": 0,
         "params": {
-          "flag": "invisible",
+          "flag": "vaporform",
           "duration": "2 + (skill / 25)",
           "durationUnit": "hours"
         },

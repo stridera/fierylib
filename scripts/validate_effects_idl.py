@@ -317,7 +317,7 @@ VALID_CC_TYPES = {
 
 VALID_STATUS_FLAGS = {
     "blind", "bless", "sanctuary", "invisible", "infravision",
-    "waterwalk", "waterbreath", "fly", "haste", "featherfall",
+    "waterwalk", "waterbreath", "fly", "haste", "featherfall", "waterform", "vaporform", "farsee",
     "aware", "berserk", "stoneskin", "barkskin",
     "fireshield", "coldshield", "firehands", "icehands",
     "acidhands", "lightninghands", "glowing",
