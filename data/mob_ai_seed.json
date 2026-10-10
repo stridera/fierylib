@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "source": "fierymud_legacy/src: cleric.cpp, sorcerer.cpp, sorcerer.hpp, rogue.cpp, rogue.hpp, warrior.cpp, mobact.cpp (mob_attack class switch, check_mob_status), ai_utils.cpp (mob_heal_up)",
+  "notes": [
+    "Rules are per FAMILY; 'classes' maps Class.plain_name to the families it runs, in order. Hybrids run cleric rules first, then warrior rules (mob_attack falls through), so the warrior family uses priority 500+.",
+    "Each rule names an Ability.plain_name. The seeder only creates a ClassAiRules row when the class has that ability in ClassAbilities (spells, songs, chants) or ClassSkills (skills; its min_level becomes ClassAiRules.min_level).",
+    "priority is legacy array order (lower first). chance_pct is 0-100. conditions use the mob_ai_rules.rs JSON keys only. target is one of auto, self, tank, weakest_attacker, caster, most_buffed, lowest_ally, room.",
+    "align applies to the TARGET's alignment band (as target_lifeforce does). Alignment of the caster itself is not expressible.",
+    "Engine contract: skip a buff the mob already has and a hindrance the target already has; apply the 'best 2-3 attempts' cap; legacy 'victim level < mob level + 20' for hindrances.",
+    "chance_pct for warrior/rogue/bard is a static approximation of legacy 'level% per round' at a level-50 mob; ClassAiRules has no level-scaled chance.",
+    "'legacy' on a rule is documentation only and is not written to the database."
+  ],
+  "gaps": {
+    "race_rules": "dragonlike_attack (breath / sweep / roar for dragon, dragonborn and demon races) is race-driven; ClassAiRules is keyed by class only. Needs a RaceAiRules table or per-proto MobAbilities. See race_rules_legacy.",
+    "conditions_missing": [
+      "target_hp_above (sorcerer buffs/harness/poison need victim HP > 15/75/80)",
+      "self alignment and negated target alignment (flamestrike, divine ray, stygian eruption, hell bolt, divine bolt, holy/unholy word caster side)",
+      "negated lifeforce (degeneration, soul tap, energy drain skip undead/magic)",
+      "target level < mob level + 20",
+      "equipment (shield, piercing weapon)",
+      "room (outdoors for earthquake)",
+      "which debuff the mob has (cure rules)"
+    ],
+    "chance": "no level-scaled chance; legacy warrior/rogue/bard 'level% per round' approximated statically"
+  },
+  "race_rules_legacy": {
+    "chance": "roll = rand(0, 150 - level); breath if roll < 5, sweep if roll < 10, roar if roll < 15 (about 10% each at level 100)",
+    "breath_by_composition": {
+      "EARTH,STONE": "acid",
+      "AIR,ETHER": "lightning",
+      "FIRE,LAVA": "fire",
+      "WATER,ICE,MIST": "frost",
+      "METAL,BONE,PLANT": "gas",
+      "other": "random by roll 0-4: fire,gas,frost,acid,lightning"
+    },
+    "races": [
+      "DRAGON_GENERAL",
+      "DRAGON_FIRE",
+      "DRAGON_FROST",
+      "DRAGON_ACID",
+      "DRAGON_GAS",
+      "DRAGON_LIGHTNING",
+      "DRAGONBORN_FIRE",
+      "DRAGONBORN_FROST",
+      "DRAGONBORN_ACID",
+      "DRAGONBORN_LIGHTNING",
+      "DRAGONBORN_GAS",
+      "DEMON"
+    ],
+    "abilities": [
+      "BREATHE_FIRE",
+      "BREATHE_FROST",
+      "BREATHE_ACID",
+      "BREATHE_GAS",
+      "BREATHE_LIGHTNING",
+      "SWEEP",
+      "ROAR"
+    ]
+  },
+  "classes": {
+    "Cleric": [
+      "cleric"
+    ],
+    "Druid": [
+      "cleric"
+    ],
+    "Diabolist": [
+      "cleric"
+    ],
+    "Priest": [
+      "cleric"
+    ],
+    "Shaman": [
+      "cleric"
+    ],
+    "Sorcerer": [
+      "sorcerer"
+    ],
+    "Pyromancer": [
+      "sorcerer"
+    ],
+    "Cryomancer": [
+      "sorcerer"
+    ],
+    "Necromancer": [
+      "sorcerer"
+    ],
+    "Illusionist": [
+      "sorcerer"
+    ],
+    "Conjurer": [
+      "sorcerer"
+    ],
+    "Bard": [
+      "bard"
+    ],
+    "Thief": [
+      "rogue"
+    ],
+    "Rogue": [
+      "rogue"
+    ],
+    "Assassin": [
+      "rogue"
+    ],
+    "Warrior": [
+      "warrior"
+    ],
+    "Monk": [
+      "warrior"
+    ],
+    "Mercenary": [
+      "warrior"
+    ],
+    "Berserker": [
+      "warrior"
+    ],
+    "Ranger": [
+      "cleric",
+      "warrior"
+    ],
+    "Paladin": [
+      "cleric",
+      "warrior"
+    ],
+    "Anti-Paladin": [
+      "cleric",
+      "warrior"
+    ]
+  },
+  "families": {
+    "cleric": [
+      {"ability": "FULL_HEAL", "priority": 10, "chance_pct": 100, "conditions": {"in_combat": true, "self_hp_below": 60}, "target": "self", "legacy": "mob_cleric_heals; legacy heals while 'action' < 6 (roughly under 60-90% HP); seeded at the 60% rule."},
+      {"ability": "HEAL", "priority": 11, "chance_pct": 100, "conditions": {"in_combat": true, "self_hp_below": 60}, "target": "self"},
+      {"ability": "CURE_CRITIC", "priority": 12, "chance_pct": 100, "conditions": {"in_combat": true, "self_hp_below": 60}, "target": "self"},
+      {"ability": "CURE_SERIOUS", "priority": 13, "chance_pct": 100, "conditions": {"in_combat": true, "self_hp_below": 60}, "target": "self"},
+      {"ability": "CURE_LIGHT", "priority": 14, "chance_pct": 100, "conditions": {"in_combat": true, "self_hp_below": 60}, "target": "self"},
+      {"ability": "HOLY_WORD", "priority": 20, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true, "align": "evil"}, "target": "room", "legacy": "area spell if victim's group has an evil member; legacy also needs a non-evil caster (self alignment not expressible)"},
+      {"ability": "UNHOLY_WORD", "priority": 21, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true, "align": "good"}, "target": "room", "legacy": "area spell if victim's group has a good member; legacy also needs a non-good caster (self alignment not expressible)"},
+      {"ability": "EARTHQUAKE", "priority": 22, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room", "legacy": "legacy: only outdoors on solid ground (QUAKABLE room check is engine-side)"},
+      {"ability": "BLINDNESS", "priority": 30, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "mob_cleric_hindrances, one attempt, only if victim lacks the effect and is under mob level+20 (engine checks both)"},
+      {"ability": "POISON", "priority": 31, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "DISEASE", "priority": 32, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CURSE", "priority": 33, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "INSANITY", "priority": 34, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "SILENCE", "priority": 35, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "ENTANGLE", "priority": 36, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "WEB", "priority": 37, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "INSANITY", "priority": 40, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "caster", "legacy": "debilitate enemy spellcasters fighting the mob"},
+      {"ability": "SILENCE", "priority": 41, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "caster", "legacy": "debilitate enemy spellcasters fighting the mob"},
+      {"ability": "FULL_HARM", "priority": 50, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "mob_cleric_offensives in order; legacy tries only the mob's best 2-3 (engine rule cap)"},
+      {"ability": "SUNRAY", "priority": 51, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "FLAMESTRIKE", "priority": 52, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "legacy: caster must be good (self alignment not expressible)"},
+      {"ability": "DIVINE_RAY", "priority": 53, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "legacy: caster alignment > 650 (not expressible)"},
+      {"ability": "HARM", "priority": 54, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "DESTROY_UNDEAD", "priority": 55, "chance_pct": 100, "conditions": {"in_combat": true, "target_lifeforce": "UNDEAD"}, "target": "weakest_attacker"},
+      {"ability": "STYGIAN_ERUPTION", "priority": 56, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "legacy: caster must be evil (not expressible)"},
+      {"ability": "DISPEL_EVIL", "priority": 57, "chance_pct": 100, "conditions": {"in_combat": true, "align": "evil"}, "target": "weakest_attacker", "legacy": "legacy: caster good and victim evil; victim half seeded"},
+      {"ability": "DISPEL_GOOD", "priority": 58, "chance_pct": 100, "conditions": {"in_combat": true, "align": "good"}, "target": "weakest_attacker", "legacy": "legacy: caster evil and victim good; victim half seeded"},
+      {"ability": "WRITHING_WEEDS", "priority": 59, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "HELL_BOLT", "priority": 60, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "legacy: skip if victim is evil (negated alignment not expressible)"},
+      {"ability": "DIVINE_BOLT", "priority": 61, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "legacy: skip if victim is good (negated alignment not expressible)"},
+      {"ability": "CAUSE_CRITIC", "priority": 62, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CAUSE_SERIOUS", "priority": 63, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CAUSE_LIGHT", "priority": 64, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CURE_BLIND", "priority": 100, "chance_pct": 100, "conditions": {"out_of_combat": true, "self_has_debuff": true}, "target": "self", "legacy": "remover for the matching hindrance; self_has_debuff cannot name WHICH debuff, engine must match cure to effect"},
+      {"ability": "REMOVE_POISON", "priority": 101, "chance_pct": 100, "conditions": {"out_of_combat": true, "self_has_debuff": true}, "target": "self"},
+      {"ability": "HEAL", "priority": 102, "chance_pct": 100, "conditions": {"out_of_combat": true, "self_has_debuff": true}, "target": "self"},
+      {"ability": "REMOVE_CURSE", "priority": 103, "chance_pct": 100, "conditions": {"out_of_combat": true, "self_has_debuff": true}, "target": "self"},
+      {"ability": "SANE_MIND", "priority": 104, "chance_pct": 100, "conditions": {"out_of_combat": true, "self_has_debuff": true}, "target": "self"},
+      {"ability": "REMOVE_PARALYSIS", "priority": 105, "chance_pct": 100, "conditions": {"out_of_combat": true, "self_has_debuff": true}, "target": "self"},
+      {"ability": "SOULSHIELD", "priority": 120, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "mob_cleric_buffs in order; engine skips buffs the mob already has. Not for neutral casters"},
+      {"ability": "PROT_FROM_EVIL", "priority": 121, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "not for evil casters"},
+      {"ability": "PROT_FROM_GOOD", "priority": 122, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "not for good casters"},
+      {"ability": "ARMOR", "priority": 123, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self"},
+      {"ability": "DEMONSKIN", "priority": 124, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "not for good casters; armor spells do not stack"},
+      {"ability": "GAIAS_CLOAK", "priority": 125, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "outdoors only; armor spells do not stack"},
+      {"ability": "BARKSKIN", "priority": 126, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self"},
+      {"ability": "DEMONIC_MUTATION", "priority": 127, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self"},
+      {"ability": "DEMONIC_ASPECT", "priority": 128, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self"},
+      {"ability": "SENSE_LIFE", "priority": 129, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self"},
+      {"ability": "PRAYER", "priority": 130, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self"},
+      {"ability": "DARK_PRESENCE", "priority": 131, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "not for good casters or while blessed"}
+    ],
+    "sorcerer": [
+      {"ability": "TELEPORT", "priority": 5, "chance_pct": 25, "conditions": {"in_combat": true, "self_hp_below": 10}, "target": "self", "legacy": "legacy: below 10% HP, 1 in 4, not for player allies"},
+      {"ability": "STONE_SKIN", "priority": 10, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "mob_sorcerer_buffs in order. Legacy casts buffs in combat only while victim HP > 15% (no target_hp_above condition yet) and cancels 20% of the time (hence chance 80)"},
+      {"ability": "HASTE", "priority": 11, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "COLDSHIELD", "priority": 12, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "does not mix with fireshield"},
+      {"ability": "FIRESHIELD", "priority": 13, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "does not mix with coldshield"},
+      {"ability": "WATERFORM", "priority": 14, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "flesh-composition casters only"},
+      {"ability": "VAPORFORM", "priority": 15, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "flesh-composition casters only"},
+      {"ability": "NEGATE_HEAT", "priority": 16, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "NEGATE_COLD", "priority": 17, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "MAJOR_GLOBE", "priority": 18, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "does not mix with minor globe"},
+      {"ability": "MINOR_GLOBE", "priority": 19, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "does not mix with major globe"},
+      {"ability": "DETECT_INVIS", "priority": 20, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "INVISIBLE", "priority": 21, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "FLY", "priority": 22, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "MIRAGE", "priority": 23, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "armor spells do not stack"},
+      {"ability": "MISDIRECTION", "priority": 24, "chance_pct": 80, "conditions": {}, "target": "self"},
+      {"ability": "ICE_ARMOR", "priority": 25, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "armor spells do not stack"},
+      {"ability": "BONE_ARMOR", "priority": 26, "chance_pct": 80, "conditions": {}, "target": "self", "legacy": "armor spells do not stack"},
+      {"ability": "SUPERNOVA", "priority": 30, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room", "legacy": "mob_sorcerer_area_spells; only when the victim is grouped, best two"},
+      {"ability": "SOUL_REAVER", "priority": 31, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "SEVERANCE", "priority": 32, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "ICE_SHARDS", "priority": 33, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "FLOOD", "priority": 34, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "METEORSWARM", "priority": 35, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "CREMATE", "priority": 36, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "CHAIN_LIGHTNING", "priority": 37, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "ICE_STORM", "priority": 38, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "FIRESTORM", "priority": 39, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "COLOR_SPRAY", "priority": 40, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "FREEZING_WIND", "priority": 41, "chance_pct": 100, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "HARNESS", "priority": 50, "chance_pct": 13, "conditions": {"in_combat": true}, "target": "self", "legacy": "legacy 1 in 7 while victim HP > 75% (target_hp_above not available)"},
+      {"ability": "POISON", "priority": 51, "chance_pct": 10, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "necromancer flavour; legacy 1 in 10 while victim HP > 75%"},
+      {"ability": "RAY_OF_ENFEEB", "priority": 52, "chance_pct": 25, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "legacy 1 in 3 if victim HP > 80% else 1 in 8; static 25"},
+      {"ability": "DEGENERATION", "priority": 60, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker", "legacy": "mob_sorcerer_offensives in order, best 3 tried; legacy skips undead / magic-lifeforce victims for degeneration, soul tap and energy drain (negation not expressible)"},
+      {"ability": "DISINTEGRATE", "priority": 61, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "ICEBALL", "priority": 62, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "MELT", "priority": 63, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "SOUL_TAP", "priority": 64, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "BIGBYS_CLENCHED_FIST", "priority": 65, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "ACID_BURST", "priority": 66, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "FREEZE", "priority": 67, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "HYSTERIA", "priority": 68, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "FIREBALL", "priority": 69, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "WATER_BLAST", "priority": 70, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "POSITIVE_FIELD", "priority": 71, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CONE_OF_COLD", "priority": 72, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "ENERGY_DRAIN", "priority": 73, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CONFUSION", "priority": 74, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "NIGHTMARE", "priority": 75, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "LIGHTNING_BOLT", "priority": 76, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "MESMERIZE", "priority": 77, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "FEAR", "priority": 78, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "PHOSPHORIC_EMBERS", "priority": 79, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "SMOKE", "priority": 80, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "SHOCKING_GRASP", "priority": 81, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "CHILL_TOUCH", "priority": 82, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "DETONATION", "priority": 83, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "FIRE_DARTS", "priority": 84, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "BURNING_HANDS", "priority": 85, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "MAGIC_MISSILE", "priority": 86, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "ICE_DARTS", "priority": 87, "chance_pct": 100, "conditions": {"in_combat": true}, "target": "weakest_attacker"},
+      {"ability": "ANIMATE_DEAD", "priority": 150, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "room", "legacy": "legacy: any mob with the spell animates a corpse whose proto is 10+ levels under the mob"}
+    ],
+    "bard": [
+      {"ability": "BACKSTAB", "priority": 5, "chance_pct": 2, "conditions": {"in_combat": true}, "target": "auto", "legacy": "legacy roll>95 of the level gate; needs piercing weapon and not tanking (engine)"},
+      {"ability": "HEAL", "priority": 10, "chance_pct": 50, "conditions": {"in_combat": true, "self_hp_below": 30}, "target": "self", "legacy": "legacy gates the whole bard AI on rand(0..101) < level, i.e. level% per round; seeded as a static 50 (a level-50 mob); heals under 30% HP while the victim is above 20%"},
+      {"ability": "CURE_CRITIC", "priority": 11, "chance_pct": 50, "conditions": {"in_combat": true, "self_hp_below": 30}, "target": "self"},
+      {"ability": "CURE_SERIOUS", "priority": 12, "chance_pct": 50, "conditions": {"in_combat": true, "self_hp_below": 30}, "target": "self"},
+      {"ability": "CURE_LIGHT", "priority": 13, "chance_pct": 50, "conditions": {"in_combat": true, "self_hp_below": 30}, "target": "self"},
+      {"ability": "CLOUD_OF_DAGGERS", "priority": 20, "chance_pct": 50, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room", "legacy": "legacy gates the whole bard AI on rand(0..101) < level, i.e. level% per round; seeded as a static 50 (a level-50 mob)"},
+      {"ability": "COLOR_SPRAY", "priority": 21, "chance_pct": 50, "conditions": {"in_combat": true, "grouped_targets": true}, "target": "room"},
+      {"ability": "BLINDNESS", "priority": 30, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto", "legacy": "mob_bard_hindrances in order, one attempt (engine skips effects the victim already has)"},
+      {"ability": "WEB", "priority": 31, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "INSANITY", "priority": 32, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "POISON", "priority": 33, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "DISEASE", "priority": 34, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "SILENCE", "priority": 35, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "CURSE", "priority": 36, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "ENTANGLE", "priority": 37, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "VICIOUS_MOCKERY", "priority": 40, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto", "legacy": "mob_bard_offensives in order, best 3"},
+      {"ability": "HARM", "priority": 41, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "SHOCKING_GRASP", "priority": 42, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "CAUSE_CRITIC", "priority": 43, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "CHILL_TOUCH", "priority": 44, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "CAUSE_SERIOUS", "priority": 45, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "BURNING_HANDS", "priority": 46, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "MAGIC_MISSILE", "priority": 47, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "CAUSE_LIGHT", "priority": 48, "chance_pct": 50, "conditions": {"in_combat": true}, "target": "auto"},
+      {"ability": "CURE_BLIND", "priority": 100, "chance_pct": 90, "conditions": {"self_has_debuff": true}, "target": "self", "legacy": "check_bard_status cures (10% cancel in combat); remover for the matching hindrance; self_has_debuff cannot name WHICH debuff, engine must match cure to effect"},
+      {"ability": "REMOVE_PARALYSIS", "priority": 101, "chance_pct": 90, "conditions": {"self_has_debuff": true}, "target": "self"},
+      {"ability": "SANE_MIND", "priority": 102, "chance_pct": 90, "conditions": {"self_has_debuff": true}, "target": "self"},
+      {"ability": "REMOVE_POISON", "priority": 103, "chance_pct": 90, "conditions": {"self_has_debuff": true}, "target": "self"},
+      {"ability": "HEAL", "priority": 104, "chance_pct": 90, "conditions": {"self_has_debuff": true}, "target": "self"},
+      {"ability": "REMOVE_CURSE", "priority": 105, "chance_pct": 90, "conditions": {"self_has_debuff": true}, "target": "self"},
+      {"ability": "DETECT_INVIS", "priority": 120, "chance_pct": 90, "conditions": {}, "target": "self", "legacy": "mob_bard_buffs, in or out of combat"},
+      {"ability": "HASTE", "priority": 121, "chance_pct": 90, "conditions": {}, "target": "self"}
+    ],
+    "rogue": [
+      {"ability": "BACKSTAB", "priority": 10, "chance_pct": 2, "conditions": {"in_combat": true}, "target": "auto", "legacy": "legacy: act only when rand(0..101) < level, then pick by scaled roll bands; the schema has no level-scaled chance, so chance_pct is the legacy marginal at a level-50 mob, divided by the odds of reaching the rule. roll>95; needs piercing weapon, not tanking (engine)"},
+      {"ability": "THROATCUT", "priority": 11, "chance_pct": 2, "conditions": {"out_of_combat": true}, "target": "auto", "legacy": "roll>94, opener only (mob not yet fighting), piercing weapon"},
+      {"ability": "CORNER", "priority": 12, "chance_pct": 13, "conditions": {"in_combat": true}, "target": "auto", "legacy": "roll>70, only vs the current opponent and not already cornering"},
+      {"ability": "EYE_GOUGE", "priority": 13, "chance_pct": 12, "conditions": {"in_combat": true}, "target": "auto", "legacy": "roll>50"},
+      {"ability": "KICK", "priority": 14, "chance_pct": 34, "conditions": {"in_combat": true}, "target": "auto", "legacy": "any passed roll"},
+      {"ability": "REND", "priority": 15, "chance_pct": 34, "conditions": {"in_combat": true}, "target": "auto", "legacy": "legacy: only reached if the mob has no kick"},
+      {"ability": "HIDE", "priority": 100, "chance_pct": 100, "conditions": {"out_of_combat": true}, "target": "self", "legacy": "mobact.cpp: hide when not hidden"},
+      {"ability": "STEAL", "priority": 101, "chance_pct": 50, "conditions": {"out_of_combat": true}, "target": "auto", "legacy": "mob_steal; legacy chance = steal skill %, target must be within level+5"}
+    ],
+    "warrior": [
+      {"ability": "BASH", "priority": 500, "chance_pct": 60, "conditions": {"in_combat": true, "target_casting": true}, "target": "caster", "legacy": "bash a casting player grouped with the tank; needs a shield, size within -1..+2 (engine); legacy chance is skill-based, ~always for skilled mobs"},
+      {"ability": "BODYSLAM", "priority": 510, "chance_pct": 50, "conditions": {"out_of_combat": true}, "target": "auto", "legacy": "legacy: act only when rand(0..101) < level; marginal chances below are for a level-50 mob (no level-scaled chance in the schema). Opener on a standing victim"},
+      {"ability": "HIT_ALL", "priority": 520, "chance_pct": 12, "conditions": {"in_combat": true}, "target": "auto", "legacy": "roll>75 while fighting; the legacy HITALL skill is HIT_ALL in the DB"},
+      {"ability": "ROUNDHOUSE", "priority": 521, "chance_pct": 8, "conditions": {"in_combat": true}, "target": "auto", "legacy": "roll>75 while fighting, after hit-all"},
+      {"ability": "BACKSTAB", "priority": 530, "chance_pct": 2, "conditions": {"in_combat": true}, "target": "auto", "legacy": "mercenaries; roll>95, piercing weapon, not tanking (engine)"},
+      {"ability": "BASH", "priority": 540, "chance_pct": 25, "conditions": {"in_combat": true}, "target": "auto", "legacy": "roll > 80 - bash/2 (-20 vs casters); needs shield, standing victim of fitting size, no NOBASH"},
+      {"ability": "KICK", "priority": 550, "chance_pct": 40, "conditions": {"in_combat": true}, "target": "auto", "legacy": "any remaining passed roll"}
+    ]
+  }
+}

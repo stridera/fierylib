@@ -2939,6 +2939,43 @@ def seed_content_tables(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="mob-ai")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_mob_ai(verbose: bool):
+    """Seed the per-class mob spellcasting / skill AI rules.
+
+    Writes ClassAiRules from data/mob_ai_seed.json (a port of the legacy
+    hard-coded mob AI lists), only for abilities the class actually has.
+    Existing rows are left alone. Run after the classes, abilities and class
+    skills/spell slots are imported.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import MobAiSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Mob AI Class Rules")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await MobAiSeeder(prisma).seed_mob_ai(verbose=verbose)
+            click.echo(f"  Inserted: {stats['inserted']}")
+            click.echo(f"  Classes with rules: {len(stats['per_class'])}")
+            click.echo(f"\n✅ Mob AI seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="levels")
 @click.option(
     "--max-level",

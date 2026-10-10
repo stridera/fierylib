@@ -378,6 +378,15 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $CONTENT_CMD
 
+  # Mob spellcasting / skill AI rules, ported from the legacy hard-coded
+  # lists. Joins ClassAbilities / ClassSkills, so it must run after the
+  # class, spell-slot and mob imports above.
+  MOBAI_CMD="poetry run fierylib seed mob-ai"
+  if [[ -n "$VERBOSE" ]]; then
+    MOBAI_CMD="$MOBAI_CMD --verbose"
+  fi
+  eval $MOBAI_CMD
+
   echo ""
   echo "✅ Game settings seeded"
   echo ""
