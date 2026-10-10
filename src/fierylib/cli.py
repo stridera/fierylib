@@ -2947,19 +2947,21 @@ def seed_content_tables(verbose: bool):
     help="Show detailed progress",
 )
 def seed_mob_ai(verbose: bool):
-    """Seed the per-class mob spellcasting / skill AI rules.
+    """Seed the per-class and per-race mob spellcasting / skill AI rules.
 
-    Writes ClassAiRules from data/mob_ai_seed.json (a port of the legacy
-    hard-coded mob AI lists), only for abilities the class actually has.
-    Existing rows are left alone. Run after the classes, abilities and class
-    skills/spell slots are imported.
+    Writes ClassAiRules and RaceAiRules (dragon / demon breath, sweep, roar)
+    from data/mob_ai_seed.json (a port of the legacy hard-coded mob AI lists),
+    only for abilities the class / race actually has, and the RaceAbilities
+    rows the race rules need. Rows the seed defines are brought in line with
+    it (and left alone when they already match). Run after the classes,
+    abilities, class skills/spell slots and races are imported.
     """
     import asyncio
     from prisma import Prisma
     from fierylib.seeders import MobAiSeeder
 
     async def run_seed():
-        click.echo("🌱 Seeding Mob AI Class Rules")
+        click.echo("🌱 Seeding Mob AI Class and Race Rules")
         click.echo("=" * 60)
 
         prisma = Prisma()
@@ -2967,8 +2969,10 @@ def seed_mob_ai(verbose: bool):
 
         try:
             stats = await MobAiSeeder(prisma).seed_mob_ai(verbose=verbose)
-            click.echo(f"  Inserted: {stats['inserted']}")
+            click.echo(f"  Class rules inserted/updated: {stats['inserted']}")
             click.echo(f"  Classes with rules: {len(stats['per_class'])}")
+            click.echo(f"  Race abilities inserted: {stats['race_abilities_inserted']}")
+            click.echo(f"  Race rules inserted/updated: {stats['race_rules_inserted']}")
             click.echo(f"\n✅ Mob AI seeding complete!")
         finally:
             await prisma.disconnect()

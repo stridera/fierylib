@@ -1,8 +1,9 @@
-"""Mob AI class-rule seed (WP-B): data/mob_ai_seed.json, the seeder and the SQL patch.
+"""Mob AI rule seed (WP-B, WP-D): data/mob_ai_seed.json, the seeder and the SQL patches.
 
-Offline tests check the seed file and the generated SQL. The last two tests query the
-dev database (skipped when it is unreachable or the AI schema is not applied) to prove the
-seeded ClassAiRules never reference an ability the class lacks.
+Offline tests check the seed file and the generated SQL (class rules, race rules and the
+RaceAbilities rows the race rules need). The database tests query the dev database (skipped when
+it is unreachable or the AI schema is not applied) to prove the seeded rules never reference an
+ability the class / race lacks.
 """
 
 import json
@@ -14,9 +15,12 @@ import pytest
 
 from fierylib.seeders.mob_ai_seeder import (
     CONDITION_KEYS,
+    RACE_SQL_PATH,
     SQL_PATH,
+    build_race_sql,
     build_sql,
     expand,
+    expand_race_rules,
     load_seed,
     validate_rule,
 )
@@ -24,6 +28,7 @@ from fierylib.seeders.mob_ai_seeder import (
 ROOT = Path(__file__).resolve().parents[1]
 SEED = load_seed()
 ROWS = expand(SEED)
+RACE_ROWS = expand_race_rules(SEED)
 
 MAGE_CLASSES = ["Sorcerer", "Pyromancer", "Cryomancer", "Necromancer", "Illusionist", "Conjurer"]
 CLERIC_CLASSES = ["Cleric", "Druid", "Diabolist", "Priest", "Shaman"]
@@ -38,12 +43,39 @@ def _class_rules(name: str) -> list[dict]:
 
 def test_every_rule_is_valid():
     problems = [(r["class"], r["ability"], p) for r in ROWS for p in validate_rule(r)]
+    problems += [(r["race"], r["ability"], p) for r in RACE_ROWS for p in validate_rule(r)]
     assert problems == []
 
 
 def test_only_rust_condition_keys_are_used():
-    used = {k for r in ROWS for k in r["conditions"]}
+    used = {k for r in ROWS + RACE_ROWS for k in r["conditions"]}
     assert used <= set(CONDITION_KEYS)
+
+
+def test_the_validator_rejects_bad_new_conditions():
+    base = {"target": "self", "chance_pct": 100, "priority": 1}
+    for bad in [
+        {"target_hp_above": 150},
+        {"self_align": []},
+        {"self_align": ["lawful"]},
+        {"not_align": "chaotic"},
+        {"not_lifeforce": ["GHOST"]},
+        {"target_level_max": "high"},
+        {"self_has_debuff": 3},
+        {"level_scaled_chance": 0},
+        {"level_roll": {"min": 9, "max": 2}},
+        {"composition": ["JELLY"]},
+        {"requires_weapon_type": ""},
+        {"outdoors": "yes"},
+    ]:
+        assert validate_rule({**base, "conditions": bad}), bad
+    for good in [
+        {"target_hp_above": 15, "self_align": ["good", "neutral"], "not_align": "evil"},
+        {"not_lifeforce": ["UNDEAD", "MAGIC"], "target_level_max": 19, "level_scaled_chance": True},
+        {"self_has_debuff": ["web", "entangle"], "requires_shield": True, "outdoors": True},
+        {"level_roll": {"min": 0, "max": 5}, "composition": ["FIRE", "LAVA"], "requires_weapon_type": "piercing"},
+    ]:
+        assert validate_rule({**base, "conditions": good}) == [], good
 
 
 def test_every_family_class_and_ability_exists():
@@ -110,14 +142,188 @@ def test_cleric_offensive_filters_are_carried_over():
     assert all(c["grouped_targets"] is True for c in area.values())
 
 
+def _rule(cls, ability, priority=None):
+    hits = [r for r in _class_rules(cls) if r["ability"] == ability and priority in (None, r["priority"])]
+    assert len(hits) == 1, (cls, ability, priority, hits)
+    return hits[0]
+
+
+def test_dropped_legacy_filters_are_restored():
+    # self alignment
+    assert _rule("Cleric", "FLAMESTRIKE")["conditions"]["self_align"] == ["good"]
+    assert _rule("Cleric", "STYGIAN_ERUPTION")["conditions"]["self_align"] == ["evil"]
+    assert _rule("Cleric", "HOLY_WORD")["conditions"]["self_align"] == ["good", "neutral"]
+    assert _rule("Cleric", "SOULSHIELD")["conditions"]["self_align"] == ["good", "evil"]
+    assert _rule("Cleric", "DISPEL_EVIL")["conditions"]["self_align"] == ["good"]
+    # negated target alignment
+    assert _rule("Cleric", "HELL_BOLT")["conditions"]["not_align"] == "evil"
+    assert _rule("Cleric", "DIVINE_BOLT")["conditions"]["not_align"] == "good"
+    # negated life force
+    for ab in ("DEGENERATION", "SOUL_TAP", "ENERGY_DRAIN"):
+        assert _rule("Sorcerer", ab)["conditions"]["not_lifeforce"] == ["UNDEAD", "MAGIC"]
+    # victim HP above
+    assert _rule("Sorcerer", "STONE_SKIN")["conditions"]["target_hp_above"] == 15
+    assert _rule("Sorcerer", "HARNESS")["conditions"]["target_hp_above"] == 75
+    assert _rule("Sorcerer", "RAY_OF_ENFEEB", 52)["conditions"]["target_hp_above"] == 80
+    assert _rule("Sorcerer", "RAY_OF_ENFEEB", 53)["conditions"]["target_hp_below"] == 81
+    # victim level < mob level + 20
+    for ab in ("BLINDNESS", "POISON", "WEB"):
+        assert _rule("Cleric", ab, next(r["priority"] for r in _class_rules("Cleric") if r["ability"] == ab))[
+            "conditions"
+        ]["target_level_max"] == 19
+    # equipment and room
+    assert _rule("Warrior", "BASH", 500)["conditions"]["requires_shield"] is True
+    assert _rule("Warrior", "BASH", 540)["conditions"]["requires_shield"] is True
+    assert _rule("Rogue", "BACKSTAB")["conditions"]["requires_weapon_type"] == "piercing"
+    assert _rule("Cleric", "EARTHQUAKE")["conditions"]["outdoors"] is True
+    assert _rule("Cleric", "GAIAS_CLOAK")["conditions"]["outdoors"] is True
+
+
+def test_cures_name_the_debuff_they_answer_to():
+    names = {
+        r["ability"]: r["conditions"]["self_has_debuff"]
+        for r in _class_rules("Cleric")
+        if 100 <= r["priority"] < 110 and r["ability"] != "HEAL"
+    }
+    assert names == {
+        "CURE_BLIND": "blind",
+        "REMOVE_POISON": "poison",
+        "REMOVE_CURSE": "curse",
+        "SANE_MIND": "insanity",
+        "REMOVE_PARALYSIS": ["web", "entangle"],
+    }
+    assert all(r["conditions"]["self_has_debuff"] is not True for r in _class_rules("Bard") if 100 <= r["priority"] < 110)
+
+
+def test_level_percent_classes_use_level_scaled_chance():
+    for cls in ("Rogue", "Warrior", "Bard"):
+        gated = [r for r in _class_rules(cls) if r["conditions"].get("level_scaled_chance")]
+        assert gated, cls
+    # Bard cures and buffs are not behind the level gate (legacy check_bard_status).
+    assert not any(
+        r["conditions"].get("level_scaled_chance") for r in _class_rules("Bard") if r["priority"] >= 100
+    )
+    # The old static level-50 approximation is gone: bard rules are 100% behind the gate.
+    assert {r["chance_pct"] for r in _class_rules("Bard") if r["priority"] < 100} == {4, 100}
+
+
 def test_sql_patch_matches_generator_and_is_name_keyed_and_idempotent():
     sql = SQL_PATH.read_text(encoding="utf-8")
     assert sql == build_sql(SEED)
-    assert "ON CONFLICT (class_id, ability_id, priority) DO NOTHING" in sql
+    assert "ON CONFLICT (class_id, ability_id, priority) DO UPDATE SET" in sql
+    assert "IS DISTINCT FROM" in sql, "a second run must change 0 rows"
     assert 'JOIN "Class" c ON c.plain_name = cf.class_name' in sql
     assert 'JOIN "Ability" a ON a.plain_name = fr.ability_name' in sql
     assert "WHERE cs.id IS NOT NULL OR ca.id IS NOT NULL" in sql
     assert not re.search(r"(class_id|ability_id)\s*=\s*\d", sql)
+
+
+# ---- race rules ------------------------------------------------------------------------
+
+DRAGONS = ["DRAGON_GENERAL", "DRAGON_FIRE", "DRAGON_FROST", "DRAGON_ACID", "DRAGON_GAS", "DRAGON_LIGHTNING"]
+DRAGONBORN = ["DRAGONBORN_FIRE", "DRAGONBORN_FROST", "DRAGONBORN_ACID", "DRAGONBORN_LIGHTNING", "DRAGONBORN_GAS"]
+ELEMENT_OF = {
+    "BREATHE_FIRE": {"FIRE", "LAVA"},
+    "BREATHE_GAS": {"METAL", "BONE", "PLANT"},
+    "BREATHE_FROST": {"WATER", "ICE", "MIST"},
+    "BREATHE_ACID": {"EARTH", "STONE"},
+    "BREATHE_LIGHTNING": {"AIR", "ETHER"},
+}
+
+
+def _race_rules(race: str) -> list[dict]:
+    return sorted((r for r in RACE_ROWS if r["race"] == race), key=lambda r: r["priority"])
+
+
+def test_race_rules_cover_every_legacy_dragonlike_race():
+    legacy = set(SEED["race_rules_legacy"]["races"])
+    assert {r["race"] for r in RACE_ROWS} == legacy
+    assert set(SEED["race_abilities"]) == {"DEMON", *DRAGONS}, "dragonborn already own their breath"
+
+
+def test_race_rules_keys_are_unique():
+    keys = Counter((r["race"], r["ability"], r["priority"]) for r in RACE_ROWS)
+    assert [k for k, n in keys.items() if n > 1] == []
+
+
+def test_legacy_roll_bands_breath_sweep_roar():
+    for race in DRAGONS + DRAGONBORN + ["DEMON"]:
+        bands = {}
+        for r in _race_rules(race):
+            b = r["conditions"]["level_roll"]
+            kind = "breath" if r["ability"].startswith("BREATHE_") else r["ability"].lower()
+            bands.setdefault(kind, []).append((b["min"], b["max"]))
+        # breath roll < 5, sweep 5..10, roar 10..15; the demon has no sweep
+        assert max(hi for _, hi in bands["breath"]) == 5, race
+        assert bands.get("sweep", [(5, 10)]) == [(5, 10)], race
+        assert bands["roar"] == [(10, 15)], race
+        assert ("sweep" in bands) == (race != "DEMON"), race
+
+
+def test_composition_picks_the_element_for_multi_breath_races():
+    for race in ("DRAGON_GENERAL", "DEMON"):
+        comp = {
+            r["ability"]: set(r["conditions"]["composition"])
+            for r in _race_rules(race)
+            if "composition" in r["conditions"]
+        }
+        assert comp == ELEMENT_OF
+        mapped = set().union(*ELEMENT_OF.values())
+        fallback = [r for r in _race_rules(race) if "not_composition" in r["conditions"]]
+        assert len(fallback) == 5
+        assert all(set(r["conditions"]["not_composition"]) == mapped for r in fallback)
+        # the "other" bodies roll the element: 0 fire, 1 gas, 2 frost, 3 acid, 4 lightning
+        order = [r["ability"] for r in sorted(fallback, key=lambda r: r["conditions"]["level_roll"]["min"])]
+        assert order == ["BREATHE_FIRE", "BREATHE_GAS", "BREATHE_FROST", "BREATHE_ACID", "BREATHE_LIGHTNING"]
+        assert [r["conditions"]["level_roll"]["max"] - r["conditions"]["level_roll"]["min"] for r in fallback] == [1] * 5
+
+
+def test_single_element_races_breathe_their_own_element():
+    own = {"DRAGON_FIRE": "FIRE", "DRAGON_FROST": "FROST", "DRAGON_ACID": "ACID", "DRAGON_GAS": "GAS",
+           "DRAGON_LIGHTNING": "LIGHTNING"}
+    for race, element in own.items():
+        breaths = [r["ability"] for r in _race_rules(race) if r["ability"].startswith("BREATHE_")]
+        assert breaths == [f"BREATHE_{element}"]
+        assert SEED["race_abilities"][race] == [f"BREATHE_{element}", "SWEEP", "ROAR"]
+    for race in DRAGONBORN:
+        assert len([r for r in _race_rules(race) if r["ability"].startswith("BREATHE_")]) == 1
+
+
+def test_races_json_grants_the_same_abilities_for_reimports():
+    races = json.loads((ROOT / "data" / "races.json").read_text(encoding="utf-8"))["races"]
+    got = {
+        r["name"].upper(): [s["skillName"].removeprefix("SKILL_") for s in r.get("skills", [])]
+        for r in races
+        if r["name"].upper() in SEED["race_abilities"]
+    }
+    assert got == SEED["race_abilities"]
+
+
+def test_race_sql_patch_matches_generator_and_is_name_keyed_and_idempotent():
+    sql = RACE_SQL_PATH.read_text(encoding="utf-8")
+    assert sql == build_race_sql(SEED)
+    assert 'CREATE TABLE IF NOT EXISTS "RaceAiRules"' in sql
+    assert "ON CONFLICT (race, ability_id) DO NOTHING" in sql
+    assert "ON CONFLICT (race, ability_id, priority) DO UPDATE SET" in sql and "IS DISTINCT FROM" in sql
+    assert 'JOIN "Ability" a ON a.plain_name = rr.ability_name' in sql
+    assert 'JOIN "RaceAbilities" ra ON ra.race = rr.race::"Race" AND ra.ability_id = a.id' in sql
+    assert not re.search(r"ability_id\s*=\s*\d", sql)
+    # The patch grants the missing breath / sweep / roar rows.
+    assert "('DEMON', 'BREATHE_FIRE')" in sql and "('DRAGON_GENERAL', 'SWEEP')" in sql
+
+
+def test_new_table_matches_the_prisma_model():
+    schema = (ROOT.parent / "muditor" / "packages" / "db" / "prisma" / "schema.prisma")
+    if not schema.exists():
+        pytest.skip("muditor checkout not found")
+    text = schema.read_text(encoding="utf-8")
+    if "model RaceAiRules" not in text:
+        pytest.skip("muditor schema not updated in this checkout")
+    block = text[text.index("model RaceAiRules"):]
+    block = block[: block.index("\n}\n")]
+    for column in ("race", "ability_id", "priority", "chance_pct", "cooldown_s", "conditions", "target", "enabled"):
+        assert f'"{column}"' in RACE_SQL_PATH.read_text(encoding="utf-8")
+        assert column in block or {"ability_id": "abilityId", "chance_pct": "chancePct", "cooldown_s": "cooldownS"}.get(column, column) in block
 
 
 # ---- database-backed checks -------------------------------------------------------------
@@ -156,3 +362,29 @@ def test_db_skill_rules_carry_the_class_skill_min_level(db):
         "WHERE r.min_level IS DISTINCT FROM cs.min_level"
     )
     assert db.fetchall() == []
+
+
+@pytest.fixture(scope="module")
+def race_db(db):
+    db.execute("SELECT to_regclass('\"RaceAiRules\"')")
+    if db.fetchone()[0] is None:
+        pytest.skip("RaceAiRules not applied")
+    return db
+
+
+def test_db_race_rules_only_reference_abilities_the_race_grants(race_db):
+    race_db.execute(
+        'SELECT r.race::text, a.plain_name FROM "RaceAiRules" r JOIN "Ability" a ON a.id = r.ability_id '
+        'WHERE NOT EXISTS (SELECT 1 FROM "RaceAbilities" x WHERE x.race = r.race AND x.ability_id = r.ability_id)'
+    )
+    assert race_db.fetchall() == []
+
+
+def test_db_every_dragonlike_race_can_breathe(race_db):
+    race_db.execute(
+        'SELECT r.race::text, count(*) FROM "RaceAiRules" r JOIN "Ability" a ON a.id = r.ability_id '
+        "WHERE a.plain_name LIKE 'BREATHE_%' GROUP BY 1"
+    )
+    got = {race: n for race, n in race_db.fetchall()}
+    assert set(got) == set(SEED["race_rules_legacy"]["races"])
+    assert got["DRAGON_GENERAL"] == got["DEMON"] == 10

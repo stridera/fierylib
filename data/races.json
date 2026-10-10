@@ -787,6 +787,43 @@
       "leaveVerb": "stomps",
       "permanentEffects": [
         "FLY"
+      ],
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_FIRE",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_GAS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_FROST",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_ACID",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_LIGHTNING",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_SWEEP",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
       ]
     },
     {
@@ -943,7 +980,39 @@
       "damageDiceFactor": 120,
       "copperFactor": 150,
       "enterVerb": "stalks in",
-      "leaveVerb": "stalks"
+      "leaveVerb": "stalks",
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_FIRE",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_GAS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_FROST",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_ACID",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_BREATHE_LIGHTNING",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
+      ]
     },
     {
       "name": "brownie",
@@ -1027,6 +1096,23 @@
       "leaveVerb": "stomps",
       "permanentEffects": [
         "FLY"
+      ],
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_FIRE",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_SWEEP",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
       ]
     },
     {
@@ -1069,6 +1155,23 @@
       "leaveVerb": "stomps",
       "permanentEffects": [
         "FLY"
+      ],
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_FROST",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_SWEEP",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
       ]
     },
     {
@@ -1111,6 +1214,23 @@
       "leaveVerb": "stomps",
       "permanentEffects": [
         "FLY"
+      ],
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_ACID",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_SWEEP",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
       ]
     },
     {
@@ -1153,6 +1273,23 @@
       "leaveVerb": "stomps",
       "permanentEffects": [
         "FLY"
+      ],
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_LIGHTNING",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_SWEEP",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
       ]
     },
     {
@@ -1195,6 +1332,23 @@
       "leaveVerb": "stomps",
       "permanentEffects": [
         "FLY"
+      ],
+      "skills": [
+        {
+          "skillName": "SKILL_BREATHE_GAS",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_SWEEP",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        },
+        {
+          "skillName": "SKILL_ROAR",
+          "minLevel": 1,
+          "category": "PRIMARY"
+        }
       ]
     },
     {
