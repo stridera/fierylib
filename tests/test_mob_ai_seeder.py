@@ -17,11 +17,14 @@ from fierylib.seeders.mob_ai_seeder import (
     CONDITION_KEYS,
     RACE_SQL_PATH,
     SQL_PATH,
+    build_race_rule_statements,
     build_race_sql,
     build_sql,
+    build_statements,
     expand,
     expand_race_rules,
     load_seed,
+    rule_key,
     validate_rule,
 )
 
@@ -210,8 +213,9 @@ def test_level_percent_classes_use_level_scaled_chance():
 def test_sql_patch_matches_generator_and_is_name_keyed_and_idempotent():
     sql = SQL_PATH.read_text(encoding="utf-8")
     assert sql == build_sql(SEED)
-    assert "ON CONFLICT (class_id, ability_id, priority) DO UPDATE SET" in sql
-    assert "IS DISTINCT FROM" in sql, "a second run must change 0 rows"
+    assert "ON CONFLICT (seed_key) DO UPDATE SET" in sql
+    assert "IS NOT DISTINCT FROM" in sql and "IS DISTINCT FROM EXCLUDED.seed_hash" in sql, "a second run must change 0 rows"
+    assert 'ADD COLUMN IF NOT EXISTS "seed_key" TEXT' in sql and 'ADD COLUMN IF NOT EXISTS "seed_hash" TEXT' in sql
     assert 'JOIN "Class" c ON c.plain_name = cf.class_name' in sql
     assert 'JOIN "Ability" a ON a.plain_name = fr.ability_name' in sql
     assert "WHERE cs.id IS NOT NULL OR ca.id IS NOT NULL" in sql
@@ -304,7 +308,10 @@ def test_race_sql_patch_matches_generator_and_is_name_keyed_and_idempotent():
     assert sql == build_race_sql(SEED)
     assert 'CREATE TABLE IF NOT EXISTS "RaceAiRules"' in sql
     assert "ON CONFLICT (race, ability_id) DO NOTHING" in sql
-    assert "ON CONFLICT (race, ability_id, priority) DO UPDATE SET" in sql and "IS DISTINCT FROM" in sql
+    assert "ON CONFLICT (seed_key) DO UPDATE SET" in sql and "IS DISTINCT FROM EXCLUDED.seed_hash" in sql
+    assert 'ADD COLUMN IF NOT EXISTS "min_level" INTEGER' in sql and "SET enabled = false" in sql
+    header = "\n".join(line for line in sql.splitlines() if line.startswith("--")).lower()
+    assert "insert only if missing" not in header and "reads it only with" not in header
     assert 'JOIN "Ability" a ON a.plain_name = rr.ability_name' in sql
     assert 'JOIN "RaceAbilities" ra ON ra.race = rr.race::"Race" AND ra.ability_id = a.id' in sql
     assert not re.search(r"ability_id\s*=\s*\d", sql)
@@ -321,9 +328,65 @@ def test_new_table_matches_the_prisma_model():
         pytest.skip("muditor schema not updated in this checkout")
     block = text[text.index("model RaceAiRules"):]
     block = block[: block.index("\n}\n")]
-    for column in ("race", "ability_id", "priority", "chance_pct", "cooldown_s", "conditions", "target", "enabled"):
+    for column in ("race", "ability_id", "priority", "chance_pct", "cooldown_s", "conditions", "target", "min_level", "enabled", "seed_key", "seed_hash"):
         assert f'"{column}"' in RACE_SQL_PATH.read_text(encoding="utf-8")
-        assert column in block or {"ability_id": "abilityId", "chance_pct": "chancePct", "cooldown_s": "cooldownS"}.get(column, column) in block
+        camel = {"ability_id": "abilityId", "chance_pct": "chancePct", "cooldown_s": "cooldownS", "min_level": "minLevel",
+                 "seed_key": "seedKey", "seed_hash": "seedHash"}
+        assert column in block or camel.get(column, column) in block
+
+
+# ---- the review fixes: cooldowns, race min_level, dead rules, ownership keys ------------------
+
+
+def test_self_heals_have_a_cooldown_so_they_cannot_loop():
+    for family in ("cleric", "bard"):
+        heals = [
+            r for r in SEED["families"][family]
+            if r["ability"] in HEALS and r["target"] == "self" and "in_combat" in r.get("conditions", {})
+        ]
+        assert heals and all(r.get("cooldown_s", 0) >= 10 for r in heals), family
+
+
+def test_race_rules_are_level_gated():
+    floor = {"BREATHE": 15, "SWEEP": 15, "ROAR": 15}
+    for r in RACE_ROWS:
+        need = floor[r["ability"].split("_")[0]]
+        assert r.get("min_level", 0) >= need, (r["race"], r["ability"], r.get("min_level"))
+    assert {r["min_level"] for r in RACE_ROWS if r["ability"].startswith("BREATHE")} == {15}
+
+
+def test_dead_rules_are_dropped_and_retired():
+    live = {(f, r["ability"]) for f, rs in SEED["families"].items() for r in rs}
+    assert ("warrior", "BODYSLAM") not in live and ("sorcerer", "ANIMATE_DEAD") not in live
+    retired = {(f, r["ability"]) for f, rs in SEED["retired_families"].items() for r in rs}
+    assert retired == {("warrior", "BODYSLAM"), ("sorcerer", "ANIMATE_DEAD")}
+    assert not retired & live
+    # No room-targeted rule asks for a peaceful cast: with no opponent there is nothing to resolve.
+    for f, rs in SEED["families"].items():
+        for r in rs:
+            assert not (r["target"] == "room" and r.get("conditions", {}).get("out_of_combat")), (f, r["ability"])
+
+
+def test_rule_keys_are_unique_and_stable_per_scope():
+    for family, rules in SEED["families"].items():
+        keys = [rule_key(family, r) for r in rules]
+        assert len(keys) == len(set(keys)), (family, [k for k, n in Counter(keys).items() if n > 1])
+    race_keys = [r["key"] for r in RACE_ROWS]
+    assert len(race_keys) == len(set(race_keys))
+    # A key never encodes the priority, so renumbering updates a row instead of duplicating it.
+    assert all(not re.search(r":\d+$", k) for k in race_keys)
+    assert rule_key("cleric", {"ability": "HARM"}) == "cleric:HARM"
+
+
+def test_the_three_statements_claim_upsert_and_retire():
+    claim, upsert, disable = build_statements(SEED)
+    assert 'UPDATE "ClassAiRules" r SET seed_key = s.seed_key' in claim and "r.seed_key IS NULL" in claim
+    assert "'warrior', 'warrior:BODYSLAM'" in claim and "BODYSLAM" not in upsert and "BODYSLAM" not in disable
+    assert "WHERE \"ClassAiRules\".seed_hash IS NOT DISTINCT FROM md5(" in upsert
+    assert "SET enabled = false" in disable and "NOT EXISTS (SELECT 1 FROM seed s WHERE s.seed_key = r.seed_key)" in disable
+    race_claim, race_upsert, race_disable = build_race_rule_statements(SEED)
+    assert "r.min_level IS NULL" in race_claim and "min_level = EXCLUDED.min_level" in race_upsert
+    assert "'DEMON:BREATHE_FIRE:other'" in race_upsert and "SET enabled = false" in race_disable
 
 
 # ---- database-backed checks -------------------------------------------------------------
@@ -388,3 +451,76 @@ def test_db_every_dragonlike_race_can_breathe(race_db):
     got = {race: n for race, n in race_db.fetchall()}
     assert set(got) == set(SEED["race_rules_legacy"]["races"])
     assert got["DRAGON_GENERAL"] == got["DEMON"] == 10
+
+
+# ---- ownership semantics against the dev database (every change is rolled back) ---------------
+
+
+@pytest.fixture()
+def owned(db):
+    """The cursor in a transaction that is always rolled back."""
+    db.execute('SELECT 1 FROM information_schema.columns WHERE table_name = \'ClassAiRules\' AND column_name = \'seed_key\'')
+    if db.fetchone() is None:
+        pytest.skip("seed_key columns not applied")
+    db.execute('SELECT count(*) FROM "ClassAiRules"')
+    if db.fetchone()[0] == 0:
+        pytest.skip("ClassAiRules is empty")
+    db.connection.rollback()
+    yield db
+    db.connection.rollback()
+
+
+def _run_class_seed(cur):
+    for stmt in build_statements(SEED):
+        cur.execute(stmt)
+
+
+def test_db_reseed_is_a_no_op_and_spares_builder_edits(owned):
+    _run_class_seed(owned)  # settle: claim anything un-keyed
+    owned.execute(
+        'SELECT id FROM "ClassAiRules" WHERE seed_key LIKE %s AND seed_hash IS NOT NULL ORDER BY id LIMIT 2',
+        ("Cleric/cleric:%",),
+    )
+    edited, cleared = (row[0] for row in owned.fetchall())
+    owned.execute('UPDATE "ClassAiRules" SET chance_pct = 7 WHERE id = %s', (edited,))  # raw SQL edit
+    owned.execute('UPDATE "ClassAiRules" SET cooldown_s = 99, seed_hash = NULL WHERE id = %s', (cleared,))  # Muditor edit
+    owned.execute("SAVEPOINT s")
+    _run_class_seed(owned)
+    owned.execute('SELECT id, chance_pct, cooldown_s FROM "ClassAiRules" WHERE id IN (%s, %s)', (edited, cleared))
+    got = {i: (c, cd) for i, c, cd in owned.fetchall()}
+    assert got[edited][0] == 7 and got[cleared][1] == 99, "builder edits were reverted"
+    owned.execute('SELECT count(*) FROM "ClassAiRules" WHERE enabled IS NOT TRUE AND seed_key LIKE %s', ("Cleric/cleric:%",))
+    assert owned.fetchone()[0] == 0
+
+
+def test_db_a_changed_seed_updates_unedited_rows_and_a_renumber_does_not_duplicate(owned):
+    _run_class_seed(owned)
+    owned.execute('SELECT count(*) FROM "ClassAiRules"')
+    before = owned.fetchone()[0]
+    owned.execute('SELECT id FROM "ClassAiRules" WHERE seed_key = %s', ("Cleric/cleric:HARM",))
+    row = owned.fetchone()
+    if row is None:
+        pytest.skip("no Cleric HARM rule in this database")
+    # Pretend the previous seed had HARM at another priority and a different chance.
+    owned.execute(
+        'UPDATE "ClassAiRules" SET priority = 9054, chance_pct = 50, '
+        "seed_hash = md5(concat_ws('|', ability_id, 9054, 50, cooldown_s, coalesce(conditions::text, ''), target, "
+        "coalesce(min_level::text, ''))) WHERE id = %s",
+        row,
+    )
+    _run_class_seed(owned)
+    owned.execute('SELECT priority, chance_pct FROM "ClassAiRules" WHERE id = %s', row)
+    assert owned.fetchone() == (54, 100)
+    owned.execute('SELECT count(*) FROM "ClassAiRules"')
+    assert owned.fetchone()[0] == before, "renumbering left a duplicate row"
+
+
+def test_db_rows_that_left_the_seed_are_disabled_unless_edited(owned):
+    _run_class_seed(owned)
+    owned.execute('SELECT id FROM "ClassAiRules" WHERE seed_key LIKE %s ORDER BY id LIMIT 2', ("Cleric/cleric:%",))
+    gone, kept = (r[0] for r in owned.fetchall())
+    owned.execute('UPDATE "ClassAiRules" SET seed_key = %s WHERE id = %s', ("Cleric/cleric:RETIRED", gone))
+    owned.execute('UPDATE "ClassAiRules" SET seed_key = %s, seed_hash = NULL WHERE id = %s', ("Cleric/cleric:RETIRED2", kept))
+    _run_class_seed(owned)
+    owned.execute('SELECT id, enabled FROM "ClassAiRules" WHERE id IN (%s, %s)', (gone, kept))
+    assert dict(owned.fetchall()) == {gone: False, kept: True}
