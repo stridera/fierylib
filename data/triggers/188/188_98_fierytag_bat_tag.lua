@@ -8,16 +8,16 @@
 -- Converted from DG Script #18898: fierytag_bat_tag
 -- Original: OBJECT trigger, flags: COMMAND, probability: 2%
 
--- 2% chance to trigger
-if not percent_chance(2) then
-    return true
+-- Command location mask 2: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: tag
 if not (cmd == "tag") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
 if cmd == "t" or cmd == "ta" then
     _return_value = true

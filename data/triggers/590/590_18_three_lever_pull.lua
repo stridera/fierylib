@@ -23,7 +23,7 @@
 if not (cmd == "pull") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- check to see if levers are pulled in right order
 if globals.first_kill ~= 2 and (arg == "left" or arg == "center" or arg == "right") then
     get_room(590, 91):at(function()

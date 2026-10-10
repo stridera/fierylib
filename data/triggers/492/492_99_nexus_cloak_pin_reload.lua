@@ -8,9 +8,9 @@
 -- Converted from DG Script #49299: nexus_cloak_pin_reload
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 
--- 3% chance to trigger
-if not percent_chance(3) then
-    return true
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: rock well demon

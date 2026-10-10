@@ -8,16 +8,16 @@
 -- Converted from DG Script #3109: leather_ball_bounce
 -- Original: OBJECT trigger, flags: COMMAND, probability: 1%
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: bounce
 if not (cmd == "bounce") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 _return_value = false
 if arg then
     if actor.room ~= arg.room then

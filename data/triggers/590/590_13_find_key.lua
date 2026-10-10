@@ -8,16 +8,11 @@
 -- Converted from DG Script #59013: find_key
 -- Original: WORLD trigger, flags: COMMAND, probability: 4%
 
--- 4% chance to trigger
-if not percent_chance(4) then
-    return true
-end
-
 -- Command filter: move
 if not (cmd == "move") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if arg == "stones" then
     _return_value = false
     actor:send("You move the stone from the wall, and a bent key falls to the ground.")

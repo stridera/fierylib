@@ -12,7 +12,7 @@
 if not (cmd == "pull") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if string.find(arg, "rope") then
     actor:send("As you pull the rope, you think you hear the faint ringing of a bell.")
     self.room:send_except(actor, "As " .. tostring(actor.name) .. " pulls the rope, you seem to hear a bell ringing.")

@@ -8,16 +8,16 @@
 -- Converted from DG Script #18801: Teleport_to_clanhall
 -- Original: OBJECT trigger, flags: COMMAND, probability: 1%
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: sneak
 if not (cmd == "sneak") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if arg == "out" then
     if actor.room ~= 18800 then
         _return_value = false

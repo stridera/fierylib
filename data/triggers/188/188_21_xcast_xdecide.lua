@@ -13,16 +13,16 @@
 -- branch with `string.find("arctic blast", arg, 1, true)` style tests against
 -- the canonical spell name and the user-supplied `arg` substring.
 
--- 3% chance to trigger
-if not percent_chance(3) then
-    return true
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: xdecide
 if not (cmd == "xdecide") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- 
 -- X-decide
 -- This trigger works with 18820, x-cast, to cast custom spells with various

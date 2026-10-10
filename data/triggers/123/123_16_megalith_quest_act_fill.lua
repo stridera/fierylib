@@ -8,16 +8,16 @@
 -- Converted from DG Script #12316: megalith_quest_act_fill
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 
--- 3% chance to trigger
-if not percent_chance(3) then
-    return true
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: fill
 if not (cmd == "fill") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- Questor should fill a vessel from room 12401
 -- Doing so will set item5 if the questor is on stage 2
 -- 

@@ -8,16 +8,11 @@
 -- Converted from DG Script #61599: Lighting a roman candle
 -- Original: OBJECT trigger, flags: COMMAND, probability: 7%
 
--- 7% chance to trigger
-if not percent_chance(7) then
-    return true
-end
-
 -- Command filter: light
 if not (cmd == "light") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
 if cmd == "l" then
     _return_value = true

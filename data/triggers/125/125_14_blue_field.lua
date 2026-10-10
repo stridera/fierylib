@@ -12,7 +12,7 @@
 if not (cmd == "east") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 actor:damage(115)  -- type: shock
 if damage_dealt == 0 then
     _return_value = true

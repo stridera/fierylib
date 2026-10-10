@@ -15,7 +15,7 @@
 if not (cmd == "hold") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- Like trigger 48418, only when they are not already holding the rag.
 if actor:get_quest_stage("doom_entrance") == 1 then
     actor:command("hold ragtoscarewhitetaileddeer")

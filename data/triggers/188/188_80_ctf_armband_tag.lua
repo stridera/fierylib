@@ -15,9 +15,9 @@
 -- to `actor:has_equipped((188 * 100 + 80))`-style or composite-key lookups
 -- once the runtime API for "is wearing object id X" is finalized.
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: tag

@@ -12,7 +12,7 @@
 if not (cmd == "kick") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:fight") == 2 then
     actor:set_quest_var("school", "fight", 3)
     actor:command("kick " .. tostring(arg))

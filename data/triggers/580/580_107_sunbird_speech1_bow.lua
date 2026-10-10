@@ -19,7 +19,7 @@
 if not (cmd == "bow") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- Dead branch (see TODO): cmd == "b" cannot occur after the bow filter.
 if cmd == "b" then
     return _return_value

@@ -14,16 +14,16 @@
 -- Converted from DG Script #6066: connectfour drop piece
 -- Original: OBJECT trigger, flags: COMMAND, probability: 4%
 
--- 4% chance to trigger
-if not percent_chance(4) then
-    return true
+-- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: drop
 if not (cmd == "drop") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
 if cmd == "d" or cmd == "dr" then
     _return_value = true

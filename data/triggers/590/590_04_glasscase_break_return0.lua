@@ -12,7 +12,7 @@
 if not (cmd == "brea") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 _return_value = true
 -- returns normal value so nothing but break glass sets trigger off
 return _return_value

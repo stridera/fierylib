@@ -12,7 +12,7 @@
 if not (cmd == "drop") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- If drop the player is using the secret keyword to drop
 -- the rag, flee!  Unfortunately, players can force the
 -- deer to flee any time, so don't tell any of them this

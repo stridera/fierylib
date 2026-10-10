@@ -12,7 +12,7 @@
 if not (cmd == "order") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if string.find(arg, "enter door") then
     if actor:get_quest_stage("word_command") == 3 then
         if self.room.zone_id == 430 and self.room.local_id == 176 then

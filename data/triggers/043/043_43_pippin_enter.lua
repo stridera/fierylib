@@ -12,7 +12,7 @@
 if not (cmd == "order") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if (actor:has_equipped(43, 18) or actor:has_item(43, 18)) and (self.room == get_room(43, 33)) and (arg == "pippin enter box") then
     self:command("enter box")
 else

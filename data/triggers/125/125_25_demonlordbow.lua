@@ -15,7 +15,7 @@ end
 if cmd == "b" or cmd == "bo" then
     return true
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 local krisenna = 0
 local hell = 0
 local go = nil

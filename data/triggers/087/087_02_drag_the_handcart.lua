@@ -8,9 +8,9 @@
 -- Converted from DG Script #8702: drag the handcart
 -- Original: OBJECT trigger, flags: COMMAND, probability: 4%
 
--- 4% chance to trigger
-if not percent_chance(4) then
-    return true
+-- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "room") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: drag

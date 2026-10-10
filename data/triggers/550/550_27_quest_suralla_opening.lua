@@ -8,11 +8,6 @@
 -- Converted from DG Script #55027: quest_suralla_opening
 -- Original: WORLD trigger, flags: COMMAND, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
 -- Command filter: look
 if not (cmd == "look") then
     return true  -- Not our command

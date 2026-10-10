@@ -12,7 +12,7 @@
 if not (cmd == "open") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on arg
 if arg == "door" or arg == "door e" or arg == "door ea" or arg == "door eas" or arg == "door east" or arg == "door s" or arg == "door so" or arg == "door sou" or arg == "door sout" or arg == "door south" then
     actor:send("You reach towards the door to open it.")

@@ -8,9 +8,9 @@
 -- Converted from DG Script #53504: Staff damage user
 -- Original: OBJECT trigger, flags: GLOBAL, COMMAND, probability: 1%
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: use

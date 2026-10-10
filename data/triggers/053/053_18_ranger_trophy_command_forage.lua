@@ -15,16 +15,16 @@
 -- Converted from DG Script #5318: Ranger Trophy command forage
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 
--- 3% chance to trigger
-if not percent_chance(3) then
-    return true
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: forage
 if not (cmd == "forage") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
 if cmd == "f" or cmd == "fo" or cmd == "for" then
     _return_value = true

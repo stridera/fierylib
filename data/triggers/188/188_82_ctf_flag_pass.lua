@@ -10,9 +10,9 @@
 -- TODO(parity): `self.id == "team_a_id"` is a string compare against a numeric
 -- id. Replace with the actual flag-object local_id check.
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: pass

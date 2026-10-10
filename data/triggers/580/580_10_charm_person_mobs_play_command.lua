@@ -25,7 +25,7 @@
 if not (cmd == "play") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_stage("charm_person") ~= 4 then
     _return_value = true
     return _return_value

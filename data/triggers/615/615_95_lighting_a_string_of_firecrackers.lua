@@ -12,7 +12,7 @@
 if not (cmd == "light") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if string.find(arg, "firework") or string.find(arg, "firecracker") or string.find(arg, "string") or string.find(arg, "firecrackers") then
     if globals.burning == 1 then
         _return_value = false

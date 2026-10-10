@@ -12,7 +12,7 @@
 if not (cmd == "buy") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 _return_value = false
 if arg == "steady" or arg == "warhorse" or arg == "horse" then
     actor:teleport(get_room(30, 91))

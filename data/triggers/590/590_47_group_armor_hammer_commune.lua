@@ -8,16 +8,16 @@
 -- Converted from DG Script #59047: group_armor_hammer_commune
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 
--- 3% chance to trigger
-if not percent_chance(3) then
-    return true
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "equip" or location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: commune
 if not (cmd == "commune") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- The original DG also early-returned for the partial-prefix forms of
 -- "commune" ("c", "co", "com", "comm"), but the engine no longer routes
 -- those to this trigger's filter so the check is now dead code.

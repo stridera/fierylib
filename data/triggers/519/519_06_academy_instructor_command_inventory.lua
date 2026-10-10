@@ -12,7 +12,7 @@
 if not (cmd == "inventory") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:gear") == 1 then
     actor:command("inventory")
     actor:set_quest_var("school", "gear", 2)

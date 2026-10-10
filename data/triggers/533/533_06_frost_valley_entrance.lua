@@ -9,11 +9,6 @@
 -- exit into Frost Valley. After one tick the ice reforms and the
 -- passage is sealed again.
 
--- 75% chance to trigger
-if not percent_chance(75) then
-    return true
-end
-
 -- Command filter: push
 if cmd ~= "push" then
     return true  -- Not our command

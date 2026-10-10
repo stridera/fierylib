@@ -8,16 +8,11 @@
 -- Converted from DG Script #51994: academy_bag_command_get
 -- Original: OBJECT trigger, flags: COMMAND, probability: 7%
 
--- 7% chance to trigger
-if not percent_chance(7) then
-    return true
-end
-
 -- Command filter: get
 if not (cmd == "get") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick") then
     -- switch on arg
     if arg == "b" or arg == "ba" or arg == "bag" then

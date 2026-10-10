@@ -12,7 +12,7 @@
 if not (cmd == "north") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if globals.web_present == 1 then
     _return_value = false
     self.room:send_except(actor, tostring(actor.name) .. " tries to walk through a glistening web, and nearly cuts " .. tostring(actor.hisher) .. "self!")

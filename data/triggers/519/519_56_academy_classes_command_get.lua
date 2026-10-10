@@ -12,7 +12,7 @@
 if not (cmd == "get") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on arg
 if actor:get_quest_var("school:loot") == 1 then
     if arg == "all c" or arg == "all co" or arg == "all cor" or arg == "all corp" or arg == "all corps" or arg == "all corpse" then

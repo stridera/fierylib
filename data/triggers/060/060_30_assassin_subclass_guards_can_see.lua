@@ -12,7 +12,7 @@
 if not (cmd == "up") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor.can_be_seen and actor.hiddenness < 1 then
     actor:send(tostring(self.name) .. " cuts you off from the stairs.")
     actor:send(tostring(self.name) .. " asks you, 'Do you have an appointment?'")

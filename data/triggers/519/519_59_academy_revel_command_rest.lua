@@ -12,7 +12,7 @@
 if not (cmd == "rest") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if not actor:get_quest_var("school:rest") then
     actor:set_quest_var("school", "rest", 1)
     actor:command("rest")

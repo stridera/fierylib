@@ -2170,8 +2170,44 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
     return f'{ind}-- UNCONVERTED: {cmd}'
 
 
-def convert_script_body(commands: str) -> str:
-    """Convert the entire script body from DG Script to Lua."""
+# `local _return_value` defaults. Legacy `script_driver` starts with ret_val = 1. For most
+# trigger types 1 means "carry on" (allow); for a COMMAND trigger it means "the trigger took
+# the command" (block), and only an explicit `return 0` lets the typed command through. The
+# dispatcher reads Lua `true` as `return 0` / allow and anything else as consumed.
+RETURN_VALUE_DEFAULT_ALLOW = 'local _return_value = true  -- Default: allow action'
+RETURN_VALUE_DEFAULT_COMMAND = (
+    'local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)'
+)
+
+
+def command_location_guard(mask: int) -> list[str]:
+    """Lua guard for an OBJECT COMMAND trigger's numeric argument.
+
+    For an object command trigger the DG numeric argument is the OCMD_* location mask
+    (1 worn, 2 carried, 4 on the floor), not a probability. The dispatcher binds `location`
+    ("equip" / "inventory" / "room"). A mask that allows every location needs no guard.
+    """
+    bits = mask & 7
+    if bits in (0, 7):
+        return []
+    names = [label for bit, label in ((1, 'equip'), (2, 'inventory'), (4, 'room')) if bits & bit]
+    cond = ' or '.join(f'location == "{n}"' for n in names)
+    return [
+        f'-- Command location mask {mask}: legacy OCMD_EQUIP=1 (worn), '
+        'OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)',
+        f'if not ({cond}) then',
+        '    return true  -- Not in a location this trigger watches',
+        'end',
+        '',
+    ]
+
+
+def convert_script_body(commands: str, command_trigger: bool = False) -> str:
+    """Convert the entire script body from DG Script to Lua.
+
+    `command_trigger` selects the legacy COMMAND default verdict (block) for the
+    `_return_value` variable; see RETURN_VALUE_DEFAULT_COMMAND.
+    """
     lines = commands.split('\n')
     lua_lines = []
     indent = 0
@@ -2188,7 +2224,8 @@ def convert_script_body(commands: str) -> str:
     commands_lower = commands.lower()
     if 'return 0' in commands_lower or 'return 1' in commands_lower:
         has_return_value = True
-        lua_lines.append('local _return_value = true  -- Default: allow action')
+        default = RETURN_VALUE_DEFAULT_COMMAND if command_trigger else RETURN_VALUE_DEFAULT_ALLOW
+        lua_lines.append(default)
 
     i = 0
     while i < len(lines):
@@ -2370,7 +2407,7 @@ def convert_trigger(dg: DGTrigger) -> LuaTrigger:
     Returns:
         LuaTrigger object ready for database import
     """
-    lua_commands = convert_script_body(dg.commands)
+    lua_commands = convert_script_body(dg.commands, command_trigger='COMMAND' in dg.flags)
 
     # Build header
     header_lines = [
@@ -2381,8 +2418,16 @@ def convert_trigger(dg: DGTrigger) -> LuaTrigger:
 
     # Note: Pronoun helpers are no longer needed - use actor.subject, actor.object, actor.possessive
 
+    # A pure COMMAND trigger's numeric argument is not a probability (an OBJECT's is the
+    # OCMD_* location mask; a mob's or room's is unused), so it must not become a
+    # percent_chance gate: a "3%" torch trigger would fire 3% of the time.
+    command_only = 'COMMAND' in dg.flags and set(dg.flags) <= {'COMMAND', 'GLOBAL'}
+
     # Probability check
-    if dg.probability < 100:
+    if command_only:
+        if dg.script_type.name == 'OBJECT':
+            header_lines.extend(command_location_guard(dg.probability))
+    elif dg.probability < 100:
         header_lines.extend([
             f'-- {dg.probability}% chance to trigger',
             f'if not percent_chance({dg.probability}) then',

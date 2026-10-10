@@ -12,7 +12,7 @@
 if not (cmd == "practice") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
 if cmd == "p" or cmd == "pr" or cmd == "pra" then
     _return_value = true

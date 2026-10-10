@@ -8,9 +8,9 @@
 -- Converted from DG Script #2255: Lamp_Rub
 -- Original: OBJECT trigger, flags: COMMAND, probability: 2%
 
--- 2% chance to trigger
-if not percent_chance(2) then
-    return true
+-- Command location mask 2: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+if not (location == "inventory") then
+    return true  -- Not in a location this trigger watches
 end
 
 -- Command filter: rub

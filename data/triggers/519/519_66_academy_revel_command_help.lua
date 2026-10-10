@@ -12,7 +12,7 @@
 if not (cmd == "help") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:rest") == 7 then
     -- switch on arg
     if arg == "zo" or arg == "zon" or arg == "zone" then

@@ -12,7 +12,7 @@
 if not (cmd == "bow") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if string.find(arg, "dargentan") or string.find(arg, "dar") or string.find(arg, "huge") or string.find(arg, "large") or string.find(arg, "dragon") or string.find(arg, "sleeping") or string.find(arg, "peaceful") then
     actor:send("You bow before him.")
     self.room:send_except(actor, tostring(actor.name) .. " bows before Dargentan.")

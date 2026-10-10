@@ -12,7 +12,7 @@
 if not (cmd == "consider") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 local thing = "horrible-little-monster"
 -- switch on cmd
 if cmd == "c" then

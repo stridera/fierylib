@@ -12,7 +12,7 @@
 if not (cmd == "tickle" or cmd == "gnome") then
     return true  -- Not our command
 end
-local _return_value = true  -- Default: allow action
+local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- This is a trigger for tickling the portly gnome in the Enchanted Hollow.
 -- Tickling makes him float up into the air with glee.
 -- If there's a cherry up in a tree, he'll grab it and end up dropping it,
