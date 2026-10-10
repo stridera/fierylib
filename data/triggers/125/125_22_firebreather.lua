@@ -7,12 +7,17 @@
 
 -- Converted from DG Script #12522: FireBreather
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
--- Note: self is an Object; use 'room' global for the containing room
-local actors = room.actors
-if #actors > 0 then
+-- Note: self is an Object; self.room is the room it sits in (or its carrier's room)
+local room = self.room
+if room ~= nil and #room.actors > 0 then
     room:send("The dragon starts to rumble.")
     wait(2)
     room:send("The dragon blasts a gout of <b:red>flame</>, incinerating the room.")
+    -- Re-read the occupants: they may have left during the wait
+    local actors = room.actors
+    if #actors == 0 then
+        return true
+    end
     local prsn = actors[random(1, #actors)]
     local dmg = random(1, 100) + 50
     local damage_dealt = prsn:damage(dmg)
