@@ -6053,9 +6053,9 @@
     "inCombatOnly": false,
     "isArea": false,
     "messages": {
-      "successToCaster": "You rise into the air and begin to fly.",
+      "successToCaster": "{target.name} rises into the air and begins to fly.",
       "successToVictim": "You rise into the air and begin to fly.",
-      "successToRoom": "{actor.name} rises into the air and begins to fly.",
+      "successToRoom": "{target.name} rises into the air and begins to fly.",
       "wearoffToTarget": "You slowly float down to the ground.",
       "wearoffToRoom": "{actor.name} slowly floats down to the ground.",
       "successToSelf": "You rise into the air and begin to fly.",

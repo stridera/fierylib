@@ -23,3 +23,18 @@ UPDATE "Ability"
 SET violent = true
 WHERE plain_name = 'DISPEL_MAGIC'
   AND NOT violent;
+
+-- #109: casting Fly on someone else told the caster "You rise into the air and begin to fly." and told the room
+-- "<caster> rises into the air" although the target was the one flying. The caster line and the room line now
+-- name the target; the victim line stays first person and the self-cast lines (success_to_self /
+-- success_self_room) are unchanged. Legacy magic.cpp SPELL_FLY: to_char "$N lifts into the air." for the caster.
+UPDATE "AbilityMessages" am
+SET success_to_caster = CASE WHEN am.success_to_caster = 'You rise into the air and begin to fly.'
+                             THEN '{target.name} rises into the air and begins to fly.' ELSE am.success_to_caster END,
+    success_to_room = CASE WHEN am.success_to_room = '{actor.name} rises into the air and begins to fly.'
+                           THEN '{target.name} rises into the air and begins to fly.' ELSE am.success_to_room END
+FROM "Ability" a
+WHERE am.ability_id = a.id
+  AND a.plain_name = 'FLY'
+  AND (am.success_to_caster = 'You rise into the air and begin to fly.'
+       OR am.success_to_room = '{actor.name} rises into the air and begins to fly.');
