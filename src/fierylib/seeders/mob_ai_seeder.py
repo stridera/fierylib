@@ -253,7 +253,9 @@ def build_statements(seed: dict | None = None) -> list[str]:
 
     1. claim: an existing un-keyed row that still matches the seed (a row written before the
        seed had keys; a cooldown of 0 counts as matching, it was the value before cooldowns were
-       seeded) gets its ``seed_key`` and the hash of its current values, so it is seed-owned;
+       seeded; conditions equal to the seed's minus ``cooldown_group`` match too, the value before
+       heals shared a group) gets its ``seed_key`` and the hash of its current values, so it is
+       seed-owned and the upsert then writes the seed's cooldown and group;
     2. upsert on ``seed_key``: new rules are inserted; an existing one is updated only while its
        stored hash equals the hash of its current values (NULL hash = builder-owned) and differs
        from the seed's. A seed slot (class, ability, priority) held by a different row is skipped;
@@ -269,9 +271,11 @@ def build_statements(seed: dict | None = None) -> list[str]:
         "FROM seed s\n"
         "WHERE r.seed_key IS NULL AND r.class_id = s.class_id AND r.ability_id = s.ability_id\n"
         "  AND r.priority = s.priority AND r.chance_pct = s.chance_pct\n"
-        "  AND r.conditions IS NOT DISTINCT FROM s.conditions AND r.target = s.target\n"
-        "  AND r.min_level IS NOT DISTINCT FROM s.min_level\n"
+        "  AND r.target = s.target AND r.min_level IS NOT DISTINCT FROM s.min_level\n"
         "  AND (r.cooldown_s = s.cooldown_s OR r.cooldown_s = 0)\n"
+        "  AND (r.conditions IS NOT DISTINCT FROM s.conditions\n"
+        "       OR (s.conditions ->> 'cooldown_group' IS NOT NULL\n"
+        "           AND r.conditions IS NOT DISTINCT FROM NULLIF(s.conditions - 'cooldown_group', '{}'::jsonb)))\n"
         f"  AND NOT EXISTS (SELECT 1 FROM {t} k WHERE k.seed_key = s.seed_key)"
     )
     upsert = (

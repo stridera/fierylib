@@ -232,9 +232,11 @@ UPDATE "ClassAiRules" r SET seed_key = s.seed_key, seed_hash = md5(concat_ws('|'
 FROM seed s
 WHERE r.seed_key IS NULL AND r.class_id = s.class_id AND r.ability_id = s.ability_id
   AND r.priority = s.priority AND r.chance_pct = s.chance_pct
-  AND r.conditions IS NOT DISTINCT FROM s.conditions AND r.target = s.target
-  AND r.min_level IS NOT DISTINCT FROM s.min_level
+  AND r.target = s.target AND r.min_level IS NOT DISTINCT FROM s.min_level
   AND (r.cooldown_s = s.cooldown_s OR r.cooldown_s = 0)
+  AND (r.conditions IS NOT DISTINCT FROM s.conditions
+       OR (s.conditions ->> 'cooldown_group' IS NOT NULL
+           AND r.conditions IS NOT DISTINCT FROM NULLIF(s.conditions - 'cooldown_group', '{}'::jsonb)))
   AND NOT EXISTS (SELECT 1 FROM "ClassAiRules" k WHERE k.seed_key = s.seed_key);
 
 WITH class_family(class_name, family) AS (VALUES

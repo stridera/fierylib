@@ -542,3 +542,88 @@ def test_db_rows_that_left_the_seed_are_disabled_unless_edited(owned):
     _run_class_seed(owned)
     owned.execute('SELECT id, enabled FROM "ClassAiRules" WHERE id IN (%s, %s)', (gone, kept))
     assert dict(owned.fetchall()) == {gone: False, kept: True}
+
+
+# ---- prod reproduction: rows left by the 0917bb0 seed (no keys, no cooldown group) ---------------
+
+
+def _sql_body(sql: str) -> str:
+    return sql.replace("\nBEGIN;\n", "\n").replace("\nCOMMIT;\n", "\n")
+
+
+def _old_seed_sql() -> str:
+    import subprocess
+
+    try:
+        out = subprocess.run(
+            ["git", "show", "0917bb0:data/sql/2026-10-10-mob-ai-seed.sql"],
+            cwd=ROOT, capture_output=True, text=True, check=True,
+        ).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pytest.skip("commit 0917bb0 not available")
+    return _sql_body(out)
+
+
+def _group_rows(cur):
+    cur.execute(
+        'SELECT count(*), count(*) FILTER (WHERE cooldown_s = 12) FROM "ClassAiRules" '
+        "WHERE conditions->>'cooldown_group' = 'self_heal'"
+    )
+    return cur.fetchone()
+
+
+def test_db_claim_takes_rows_from_the_first_seed_that_lack_the_cooldown_group(owned):
+    owned.execute('DELETE FROM "ClassAiRules"')
+    owned.execute(_old_seed_sql())
+    owned.execute('SELECT count(*) FROM "ClassAiRules"')
+    assert owned.fetchone()[0] > 0
+    owned.execute('SELECT count(*) FROM "ClassAiRules" WHERE seed_key IS NOT NULL')
+    assert owned.fetchone()[0] == 0
+    assert _group_rows(owned)[0] == 0
+    # A builder edit (a different chance) and a taken key are never claimed.
+    owned.execute(
+        'UPDATE "ClassAiRules" SET chance_pct = 7 WHERE id = '
+        "(SELECT r.id FROM \"ClassAiRules\" r JOIN \"Ability\" a ON a.id = r.ability_id "
+        "WHERE a.plain_name = 'CURE_LIGHT' ORDER BY r.id LIMIT 1)"
+    )
+    owned.execute("SELECT id FROM \"ClassAiRules\" WHERE chance_pct = 7")
+    edited = owned.fetchone()[0]
+
+    owned.execute(_sql_body(build_sql(SEED)))
+    owned.execute('SELECT count(*) FROM "ClassAiRules" WHERE seed_key IS NULL')
+    unkeyed = owned.fetchone()[0]
+    owned.execute(
+        'SELECT r.id, c.plain_name, a.plain_name FROM "ClassAiRules" r JOIN "Class" c ON c.id = r.class_id '
+        'JOIN "Ability" a ON a.id = r.ability_id WHERE r.seed_key IS NULL'
+    )
+    left = owned.fetchall()
+    assert [row[0] for row in left] == [edited], left  # only the builder-edited row stays unkeyed
+    assert unkeyed == 1
+    total, at_12 = _group_rows(owned)
+    assert total > 0 and total == at_12, (total, at_12)
+    print(f"self_heal rows with cooldown 12 after the claim: {total}")
+
+    # Every statement of a second run changes nothing.
+    for stmt in build_statements(SEED):
+        owned.execute(stmt)
+        assert owned.rowcount == 0, stmt[-120:]
+    assert _group_rows(owned) == (total, at_12)
+
+
+def test_db_claim_never_takes_a_row_whose_key_is_already_in_use(owned):
+    owned.execute('DELETE FROM "ClassAiRules"')
+    owned.execute(_old_seed_sql())
+    owned.execute(
+        'SELECT r.id, c.plain_name FROM "ClassAiRules" r JOIN "Class" c ON c.id = r.class_id '
+        'JOIN "Ability" a ON a.id = r.ability_id WHERE a.plain_name = \'HEAL\' AND c.plain_name = \'Cleric\''
+    )
+    row = owned.fetchone()
+    if row is None:
+        pytest.skip("no Cleric HEAL rule")
+    # The key is already held by another row: the claim must leave the old row alone.
+    owned.execute('UPDATE "ClassAiRules" SET seed_key = %s WHERE id = (SELECT id FROM "ClassAiRules" WHERE id <> %s LIMIT 1)',
+                  ("Cleric/cleric:HEAL", row[0]))
+    claim = build_statements(SEED)[0]
+    owned.execute(claim)
+    owned.execute('SELECT seed_key FROM "ClassAiRules" WHERE id = %s', (row[0],))
+    assert owned.fetchone()[0] is None
