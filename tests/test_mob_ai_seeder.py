@@ -347,6 +347,24 @@ def test_self_heals_have_a_cooldown_so_they_cannot_loop():
         assert heals and all(r.get("cooldown_s", 0) >= 10 for r in heals), family
 
 
+def test_self_heals_share_one_cooldown_group():
+    for family in ("cleric", "bard"):
+        heals = [
+            r for r in SEED["families"][family]
+            if r["ability"] in HEALS and r["target"] == "self" and "in_combat" in r.get("conditions", {})
+        ]
+        assert {r["conditions"].get("cooldown_group") for r in heals} == {"self_heal"}, family
+    for bad in ("", "  ", 3, None):
+        rule = {"target": "self", "chance_pct": 100, "priority": 1, "conditions": {"cooldown_group": bad}}
+        assert any("cooldown_group" in p for p in validate_rule(rule)), bad
+
+
+def test_both_claim_steps_skip_keys_already_taken():
+    guard = "NOT EXISTS (SELECT 1 FROM \"{t}\" k WHERE k.seed_key = s.seed_key)"
+    assert guard.format(t="ClassAiRules") in build_statements(SEED)[0]
+    assert guard.format(t="RaceAiRules") in build_race_rule_statements(SEED)[0]
+
+
 def test_race_rules_are_level_gated():
     floor = {"BREATHE": 15, "SWEEP": 15, "ROAR": 15}
     for r in RACE_ROWS:

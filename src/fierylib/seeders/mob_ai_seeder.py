@@ -32,6 +32,10 @@ seed's ``race_rules`` and fill ``RaceAiRules``; ``race_abilities`` lists the ``R
 rows the races need so the rules can fire (legacy ``races.cpp`` ``assign_race_skills``). Both go
 into ``data/sql/2026-10-10-mob-ai-race.sql``, which also creates the table.
 
+A rule may name a ``cooldown_group`` (in its conditions): the rules of one mob in the same group
+share one last-use time, so the five self-heals of a cleric (``self_heal``) heal once per cooldown
+instead of one after another.
+
 Known conditions (``crates/mud-world/src/mob_ai_rules.rs``) are validated here so a typo
 in the seed fails the unit tests instead of silently dropping the rule at server boot.
 """
@@ -71,6 +75,7 @@ CONDITION_KEYS: dict[str, str] = {
     "requires_weapon_type": "weapon_type",
     "outdoors": "bool",
     "telegraph": "bool",
+    "cooldown_group": "group",
 }
 LIFEFORCES = {"LIFE", "UNDEAD", "MAGIC", "CELESTIAL", "DEMONIC", "ELEMENTAL"}
 COMPOSITIONS = {
@@ -133,6 +138,8 @@ def validate_rule(rule: dict) -> list[str]:
             problems.append(f"{key}: expected {{min, max}} with 0 <= min <= max")
         elif kind == "composition_list" and not ((names := _names(value)) and set(names) <= COMPOSITIONS):
             problems.append(f"{key}: expected Composition name(s)")
+        elif kind == "group" and not (isinstance(value, str) and value.strip()):
+            problems.append(f"{key}: expected a non-empty cooldown group name")
         elif kind == "weapon_type" and not (isinstance(value, str) and value.strip()):
             problems.append(f"{key}: expected a weapon damage type")
     if rule.get("target") not in TARGETS:
