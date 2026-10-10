@@ -63,7 +63,7 @@ EFF_FLAG_MAPPINGS: Dict[str, Tuple[str, Dict[str, Any]]] = {
     "EFF_SENSE_LIFE": ("status", {"flag": "detect_life"}),
     "EFF_INFRAVISION": ("status", {"flag": "infravision"}),
     "EFF_ULTRAVISION": ("status", {"flag": "ultravision"}),
-    "EFF_FARSEE": ("status", {"flag": "detect_hidden"}),
+    "EFF_FARSEE": ("status", {"flag": "farsee"}),  # long-range scan (act.informative.cpp do_scan), not detect_hidden
 
     # Protection -> status with resistance flag
     "EFF_PROT_FIRE": ("status", {"flag": "resistance", "type": "fire", "amount": 50}),

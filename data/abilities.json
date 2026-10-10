@@ -3641,7 +3641,10 @@
         "effect": "teleport",
         "order": 0,
         "params": {
-          "type": "self"
+          "type": "self",
+          "destination": "target",
+          "scope": "self",
+          "range": "zone"
         },
         "trigger": "on_cast"
       }
@@ -5550,7 +5553,7 @@
         "order": 0,
         "params": {
           "duration": "5 + (skill / 10)",
-          "flag": "detect_hidden",
+          "flag": "farsee",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -15056,13 +15059,13 @@
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
-    "notes": "Grants waterbreathing for level rounds.",
+    "notes": "Legacy magic.cpp SPELL_WATERFORM: APPLY_COMPOSITION = COMP_WATER (flesh only) for 2 + skill/20 hours. No EFF flag, no water breathing.",
     "effects": [
       {
         "effect": "status",
         "order": 0,
         "params": {
-          "flag": "waterbreath",
+          "flag": "waterform",
           "duration": "2 + (skill / 20)",
           "durationUnit": "hours"
         },

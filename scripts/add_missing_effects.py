@@ -23,6 +23,7 @@ STATUS_EFFECTS = {
     "Waterwalk": {"flag": "waterwalk", "duration": "level * 3"},
     "Safefall": {"flag": "featherfall", "duration": "level * 2"},
     "Nimble": {"flag": "haste", "duration": "level"},  # Similar to haste
+    "Farsee": {"flag": "farsee", "duration": "5 + (skill / 10)"},  # EFF_FARSEE: long-range scan
 }
 
 # Protection effects (damage reduction)
@@ -51,7 +52,6 @@ DETECTION_EFFECTS = {
     "Detect Magic": {"type": "magic", "duration": "level * 2"},
     "Detect Poison": {"type": "poison", "duration": "level * 2"},
     "Sense Life": {"type": "life", "duration": "level * 3"},
-    "Farsee": {"type": "hidden", "duration": "level * 2"},
     "Reveal Hidden": {"type": "hidden", "duration": "level"},
 }
 
@@ -143,6 +143,9 @@ TELEPORT_EFFECTS = {
     "Group Retreat": {"destination": "recall", "restrictions": []},
     "Retreat": {"destination": "recall", "restrictions": ["not_in_combat"]},
     "Wandering Woods": {"destination": "random", "restrictions": []},
+    # Legacy spell_relocate / spell_dimension_door travel to a player target; Dimension Door only within the caster's zone.
+    "Relocate": {"type": "self", "destination": "target", "scope": "self"},
+    "Dimension Door": {"type": "self", "destination": "target", "scope": "self", "range": "zone"},
 }
 
 # Stealth effects
@@ -253,7 +256,7 @@ SPECIAL_EFFECTS = {
     "Shapechange": [{"effect": "size_mod", "params": {"amount": 1, "duration": "level"}}],
     "Statue": [{"effect": "crowd_control", "params": {"type": "paralyze", "duration": "level", "breakOnDamage": False}}],
     "Vaporform": [{"effect": "status", "params": {"flag": "invisible", "duration": "level"}}],
-    "Waterform": [{"effect": "status", "params": {"flag": "waterbreath", "duration": "level"}}],
+    "Waterform": [{"effect": "status", "params": {"flag": "waterform", "duration": "level"}}],
     "Soul Tap": [{"effect": "lifesteal", "params": {"percent": 25, "duration": "level"}}],
     "Soulshield": [{"effect": "protection", "params": {"type": "magic", "amount": 25, "duration": "level * 2"}}],
     "Seed Of Destruction": [{"effect": "dot", "params": {"type": "unholy", "amount": "5%", "duration": 10, "interval": 1}}],
