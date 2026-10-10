@@ -18,6 +18,11 @@
 -- parts of a script survive. Source of truth for reimports: data/triggers/*.lua
 -- (tests/test_command_trigger_default.py keeps them in sync). After applying, reload the catalog:
 -- `treload` in game or POST /api/admin/triggers/reload.
+--
+-- ORDER: apply AFTER 2026-10-10-trigger-api-fixes.sql. That patch overwrites whole script bodies
+-- (including 188_91, which this one also touches) with the file text it was generated from, so
+-- running it second would put the old default line back on 188_91. This patch only replaces the
+-- exact old text, so it is safe on a row either patch has already rewritten.
 
 -- 1. default verdict (245 COMMAND scripts)
 UPDATE "Triggers"
