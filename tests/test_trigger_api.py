@@ -119,7 +119,7 @@ def test_patch_carries_the_group_heal_fix():
 def test_group_heal_script_no_longer_runs_the_staff_command():
     script = (ROOT / "data" / "triggers" / "185" / "185_23_group_heal_injured_give.lua").read_text()
     assert "mskillset" not in script.split("\n\n", 1)[1]
-    assert 'actor:set_skill("group heal", 100)' in script
+    assert 'actor:set_skill("group heal", 1000)' in script
 
 
 def test_no_trigger_reads_legacy_vnum_fields():

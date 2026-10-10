@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("ursa_quest") == 5 then
     if actor:get_quest_var("ursa_quest:choice") == 2 then
         -- extra step for evil path: merchant drinks and asks for a big bag - either a saddle or the tattered bag will work
-        if object.type == "LIQCONTAINER" then
+        if object.type == "DRINKCONTAINER" then
             wait(1)
             self:command("drink " .. tostring(object))
             wait(1)

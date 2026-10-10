@@ -8,7 +8,7 @@
 -- Converted from DG Script #49011: whisky_trig
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 wait(2)
-if object.type == "LIQ CONTAINER" then
+if object.type == "DRINKCONTAINER" then
     if object.val1 == 0 then
         self:say("An empty container?  How generous.")
     elseif object.val2 ~= 5 then

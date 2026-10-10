@@ -94,7 +94,7 @@ elseif self.id == 39014 then
 elseif self.id == 39016 then
     local color = "&2"
     if stage == 1 then
-        if object.type == "food" then
+        if object.type == "FOOD" then
             if actor:get_quest_var("flood:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
                 wait(2)
                 self.room:send(tostring(self.name) .. " wails in anger as she thrashes about!")
@@ -140,7 +140,7 @@ elseif self.id == 39016 then
 elseif self.id == 39019 then
     local color = "&9&b"
     if stage == 1 then
-        if object.type == "light" then
+        if object.type == "LIGHT" then
             if object.val1 == -1 then
                 actor:set_quest_var("flood", "water7", 1)
                 wait(2)

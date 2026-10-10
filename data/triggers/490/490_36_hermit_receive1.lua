@@ -8,7 +8,7 @@
 -- Converted from DG Script #49036: hermit_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if object.type == "LIQCONTAINER" then
+if object.type == "DRINKCONTAINER" then
     wait(2)
     if object.val2 == 5 then
         self:command("cheer")

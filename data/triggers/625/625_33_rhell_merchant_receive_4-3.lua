@@ -12,7 +12,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
     if actor:get_quest_var("ursa_quest:choice") == 3 then
         -- for path 3, the merchant asks for an anvil
         -- note - the anvil is extremely heavy but must be picked up and given to the merchant to complete the quest; it cannot just be dragged to him.
-        if object.type == "LIQCONTAINER" then
+        if object.type == "DRINKCONTAINER" then
             if object.val2 == 10 then
                 wait(2)
                 world.destroy(object)

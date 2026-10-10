@@ -34,7 +34,7 @@ if stage ~= 1 then
 end
 
 -- Stage 1: must be a liquid container.
-if object.type ~= "LIQCONTAINER" then
+if object.type ~= "DRINKCONTAINER" then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
     wait(4)

@@ -79,7 +79,7 @@ if is_eligible then
     end
 
     if heal >= 5 then
-        actor:set_skill("group heal", 100)
+        actor:set_skill("group heal", 1000)
         world.destroy(victim)
         wait(1)
         actor:send("The miraculous power of St. George washes over you!")
