@@ -11,15 +11,14 @@
 -- skill-bash/backstab/kick, then fall through to support spells, then offensive
 -- spells. Reads/writes per-mob `globals.<spell>` cooldown timestamps.
 --
--- TODO(parity): legacy DG referenced an hour counter via `time.year`/month/day/
--- hour. Use `timestamp()` (already monotonic seconds) and divide by 3600 if
--- the original wanted "hours since some epoch".
+-- `timestamp()` is the game-hour counter the legacy script computed from
+-- `time.year`/month/day/hour.
 -- TODO(parity): `class == Sorcerer` etc. were bare identifiers in DG that the
 -- engine resolved as strings; quoted them below. Verify runtime returns class
 -- as a string (likely yes).
 -- TODO(parity): `is_ant` was `class ~= Anti` (note ~=), almost certainly a DG
 -- conversion bug. Original probably wanted `string.find(class, "Anti")`.
-local now = math.floor(timestamp() / 3600)
+local now = timestamp()
 local level = self.level
 local class = self.class
 local flags = self.flags

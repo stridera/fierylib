@@ -6,11 +6,8 @@
 -- Reports the current stage and (for stages 5 and 6) the per-target
 -- progress.
 --
--- TODO(parity): the legacy quest-var keys ("group_heal:18515",
--- "group_heal:46414", etc.) use 5-digit vnums. 185_20/22/23 now write
--- keys in "<zone>_<id>" form. Update the read side here once the
--- imported world is verified, so the listed (zone, id) splits below
--- match what the writers actually use:
+-- Quest-var keys are "group_heal:<zone>_<id>" (the legacy 5-digit vnum keys
+-- are no longer read). The (zone, id) pairs below are what the writers use:
 --   chefs: (83,7) (510,7) (185,12) (300,3) (502,3) (103,8)
 --   targets: (185,6) (464,14) (430,20) (125,13) (361,3) (588,3) (300,54)
 
@@ -42,20 +39,18 @@ elseif stage == 3 or stage == 4 then
 elseif stage == 5 then
     self.room:send(tostring(self.name) .. " says, 'You are visiting every <b:white>chef</> and <b:white>cook</> to get their notes on")
     self.room:send("</>the healing ritual.'")
-    -- TODO(parity): keys below should match writers (185_22 uses
-    -- "<zone>_<id>"). Reading both legacy vnum keys and new keys for
-    -- now during the migration window.
+    -- Keys match the writers (185_22 / 185_23): "group_heal:<zone>_<id>".
     local recipes = {
-        { vnum_key = "group_heal:18515", new_key = "group_heal:83_7",   tpl = {83, 7}    },
-        { vnum_key = "group_heal:18516", new_key = "group_heal:510_7",  tpl = {510, 7}   },
-        { vnum_key = "group_heal:18517", new_key = "group_heal:185_12", tpl = {185, 12}  },
-        { vnum_key = "group_heal:18518", new_key = "group_heal:300_3",  tpl = {300, 3}   },
-        { vnum_key = "group_heal:18519", new_key = "group_heal:502_3",  tpl = {502, 3}   },
-        { vnum_key = "group_heal:18520", new_key = "group_heal:103_8",  tpl = {103, 8}   },
+        { key = "group_heal:83_7",   tpl = {83, 7}    },
+        { key = "group_heal:510_7",  tpl = {510, 7}   },
+        { key = "group_heal:185_12", tpl = {185, 12}  },
+        { key = "group_heal:300_3",  tpl = {300, 3}   },
+        { key = "group_heal:502_3",  tpl = {502, 3}   },
+        { key = "group_heal:103_8",  tpl = {103, 8}   },
     }
     local any = false
     for _, r in ipairs(recipes) do
-        if actor:get_quest_var(r.vnum_key) or actor:get_quest_var(r.new_key) then
+        if actor:get_quest_var(r.key) then
             any = true
             break
         end
@@ -63,7 +58,7 @@ elseif stage == 5 then
     if any then
         self.room:send("</>You have already brought me notes from:")
         for _, r in ipairs(recipes) do
-            if actor:get_quest_var(r.vnum_key) or actor:get_quest_var(r.new_key) then
+            if actor:get_quest_var(r.key) then
                 self.room:send("- " .. tostring(mobiles.template(r.tpl[1], r.tpl[2]).name))
             end
         end
@@ -77,17 +72,17 @@ elseif stage == 6 then
     self.room:send("</><b:white>sick</>, or <b:white>hobbling</> creatures.'")
     local total = 5 - (actor:get_quest_var("group_heal:total") or 0)
     local people = {
-        { vnum_key = "group_heal:18506", new_key = "group_heal:185_6",  tpl = {185, 6}   },
-        { vnum_key = "group_heal:46414", new_key = "group_heal:464_14", tpl = {464, 14}  },
-        { vnum_key = "group_heal:43020", new_key = "group_heal:430_20", tpl = {430, 20}  },
-        { vnum_key = "group_heal:12513", new_key = "group_heal:125_13", tpl = {125, 13}  },
-        { vnum_key = "group_heal:36103", new_key = "group_heal:361_3",  tpl = {361, 3}   },
-        { vnum_key = "group_heal:58803", new_key = "group_heal:588_3",  tpl = {588, 3}   },
-        { vnum_key = "group_heal:30054", new_key = "group_heal:300_54", tpl = {300, 54}  },
+        { key = "group_heal:185_6",  tpl = {185, 6}   },
+        { key = "group_heal:464_14", tpl = {464, 14}  },
+        { key = "group_heal:430_20", tpl = {430, 20}  },
+        { key = "group_heal:125_13", tpl = {125, 13}  },
+        { key = "group_heal:361_3",  tpl = {361, 3}   },
+        { key = "group_heal:588_3",  tpl = {588, 3}   },
+        { key = "group_heal:300_54", tpl = {300, 54}  },
     }
     local any = false
     for _, p in ipairs(people) do
-        if actor:get_quest_var(p.vnum_key) or actor:get_quest_var(p.new_key) then
+        if actor:get_quest_var(p.key) then
             any = true
             break
         end
@@ -95,7 +90,7 @@ elseif stage == 6 then
     if any then
         self.room:send("You have aided:")
         for _, p in ipairs(people) do
-            if actor:get_quest_var(p.vnum_key) or actor:get_quest_var(p.new_key) then
+            if actor:get_quest_var(p.key) then
                 self.room:send("- " .. tostring(mobiles.template(p.tpl[1], p.tpl[2]).name))
             end
         end

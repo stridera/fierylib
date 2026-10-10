@@ -41,10 +41,10 @@ elseif self.id == 53312 or self.id == 53313 or self.id == 48630 or self.id == 48
 end
 if actor:get_quest_stage("major_globe_spell") == 8 or wand == 8 then
     local now = timestamp()
-    -- Roll only if first encounter or 2+ minutes since last non-load roll.
+    -- Roll only if first encounter or 2+ game hours since last non-load roll.
     local do_load = 0
     if globals.last_enter then
-        if now - globals.last_enter >= 120 then
+        if now - globals.last_enter >= 2 then
             do_load = random(1, 4)
         end
     else

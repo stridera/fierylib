@@ -234,6 +234,46 @@ def _convert_mload_for_actor(action: str, target: str, indent: str) -> Optional[
     return None
 
 
+def _find_var_end(text: str, start: int) -> int:
+    """
+    Index of the `%` that closes the variable opening at `text[start]`, or -1.
+
+    A `%` inside `[...]` belongs to a nested variable (`%a.b[%c%_x]%`), so only a
+    `%` at bracket depth 0 closes. Only well-formed references qualify (`name`,
+    `name.prop` or `name.prop[...]`); anything else returns -1 so the caller can
+    fall back to its looser matching.
+    """
+    depth = 0
+    for j in range(start + 1, len(text)):
+        ch = text[j]
+        if ch == '[':
+            depth += 1
+        elif ch == ']':
+            depth = max(depth - 1, 0)
+        elif ch == '%' and depth == 0:
+            body = text[start + 1:j]
+            if re.fullmatch(r'[A-Za-z_][\w.]*(\[.*\])?', body, re.S):
+                return j
+            return -1
+    return -1
+
+
+def _concat_with_vars(raw: str) -> str:
+    """
+    Lua expression for text that may embed `%var%` references, e.g.
+    `black_legion:%id_food%_reward` -> `"black_legion:" .. tostring(id_food) .. "_reward"`.
+    """
+    parts = []
+    for i, piece in enumerate(re.split(r'%([^%]+)%', raw)):
+        if i % 2 == 0:
+            if piece:
+                parts.append('"' + piece.replace('\\', '\\\\').replace('"', '\\"') + '"')
+        else:
+            expr = convert_variable_expr(piece)
+            parts.append(expr if expr.startswith('get_') else f'tostring({expr})')
+    return ' .. '.join(parts) if parts else '""'
+
+
 def convert_variable_expr(var: str) -> str:
     """
     Convert a DG Script %variable% to Lua expression.
@@ -290,6 +330,11 @@ def convert_variable_expr(var: str) -> str:
             else:
                 composite = _vnum_to_composite(arg)
                 return f'objects.template({composite}).name'
+        elif func == 'obj_noadesc':
+            # get_obj_noadesc(zone, id): short description without its article
+            if is_var:
+                return f'get_obj_noadesc(vnum_to_zone({arg}), vnum_to_local({arg}))'
+            return f'get_obj_noadesc({_vnum_to_composite(arg)})'
         elif func == 'mob_count':
             # get_mob_count(keyword) -> world.count_mobiles(keyword)
             # Note: DG Script's get.mob_count is a global count across the world
@@ -344,9 +389,12 @@ def convert_variable_expr(var: str) -> str:
             return f'{obj}:get_quest_stage("{quest_name}")'
 
         # Quest variable check: actor.quest_variable[quest:var]
-        quest_var_match = re.match(r'quest_variable\[([^\]]+)\]', prop)
+        quest_var_match = re.match(r'quest_variable\[(.+)\]$', prop, re.S)
         if quest_var_match:
             quest_var = quest_var_match.group(1)
+            if '%' in quest_var:
+                # Key built from other script variables.
+                return f'{obj}:get_quest_var({_concat_with_vars(quest_var)})'
             return f'{obj}:get_quest_var("{quest_var}")'
 
         # Variable exists check: actor.varexists[varname]
@@ -438,6 +486,9 @@ def convert_variable_expr(var: str) -> str:
         if generic_array_match:
             prop_name = generic_array_match.group(1)
             key = generic_array_match.group(2)
+            if prop_name in ('people', 'objects', 'mexists', 'oexists') and key.isdigit():
+                # Prototype lookups take the composite (zone, id), never a vnum.
+                return f'{obj}:get_{prop_name}({_vnum_to_composite(key)})'
             return f'{obj}:get_{prop_name}("{key}")'
 
         if prop in prop_map:
@@ -487,6 +538,16 @@ def convert_text_with_vars(text: str) -> str:
             parts.append(f'"{before}"')
 
         # Find the matching closing % (handling nested %)
+        end = _find_var_end(text, start)
+        if end != -1:
+            var = text[start + 1:end]
+            expr = convert_variable_expr(var)
+            if expr.startswith('get_'):
+                parts.append(expr)
+            else:
+                parts.append(f'tostring({expr})')
+            i = end + 1
+            continue
         depth = 1
         j = start + 1
         while j < length and depth > 0:

@@ -11,7 +11,7 @@
 -- final completion awards a gem, three random gems, and a class-
 -- adjusted experience bonus.
 --
--- TODO(parity): the original DG pivoted on `%object.vnum% == %itemN%`,
+-- TODO(parity): the original DG pivoted on an object-vnum == itemN test,
 -- comparing the legacy 5-digit vnum to per-stage ingredient vnums.
 -- The runtime equivalent needs (zone_id, local_id) tuples. Below we
 -- carry per-stage ingredient tables of (zone, id) pairs and match on

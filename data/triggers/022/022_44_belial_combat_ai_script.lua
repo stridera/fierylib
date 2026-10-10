@@ -54,7 +54,7 @@ if belial_ai > 0 then
         end
         -- line 40
         -- Show random caster Fun Lovin's!
-        if self:get_mexists("15") < 1 then
+        if self:get_mexists(1000, 15) < 1 then
             run_room_trigger(22, 49)
         end
         -- Kick / Switch Opponents

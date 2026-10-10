@@ -6,7 +6,6 @@
 -- `spell2`, `go`, `gem_id`, `refuse`, `reason`, `expmod`, `expcap`.
 -- `hellstage == "phase"` compares int to literal "phase". `world.destroy
 -- (object.name)` should pass the object, not its name string (line 79).
--- `get_obj_noadesc("2334")` is a DG global — replace with object lookup.
 -- Spawn id `(23, reward)` looks legacy. `%get.obj_pldesc[%gem_id%]%`
 -- DG remnants. Full rewrite from DG #5355.
 --
@@ -130,13 +129,13 @@ elseif go == "trident" then
             wait(1)
             self.room:send(tostring(self.name) .. " growls, 'Ir ya roza aem ya iz ednuyt...'")
             wait(2)
-            self.room:send("The inner <b:blue>ire</> of the " .. get_obj_noadesc("2339") .. " ignites and <red>b<blue>urn</><red>s</>!")
+            self.room:send("The inner <b:blue>ire</> of the " .. get_obj_noadesc(23, 39) .. " ignites and <red>b<blue>urn</><red>s</>!")
             wait(2)
             self.room:send(tostring(self.name) .. " roars, 'Liy ya gaoh yaezk'aqa, ir ya aehg mol'tiaer I kiwa yiz laodaer zes mina...'")
             wait(2)
             self.room:send(tostring(self.name) .. " erupts in glorious <red>f<blue>l<yellow>a<red>m</><red>e</>!")
             wait(2)
-            self.room:send("The <red>f<b:yellow>i<red>r</><red>es<blue>t<yellow>o<red>r</><red>m</> forms a vortex about the " .. get_obj_noadesc("2339") .. ", like an explosion in reverse.")
+            self.room:send("The <red>f<b:yellow>i<red>r</><red>es<blue>t<yellow>o<red>r</><red>m</> forms a vortex about the " .. get_obj_noadesc(23, 39) .. ", like an explosion in reverse.")
             wait(1)
             self.room:send("The trident <b:magenta>t</><magenta>w&9<blue>i</><magenta>s<blue>ts</> and contorts in the wild <red>f<b:yellow>i<red>r</><red>e</>!")
             wait(3)
@@ -150,13 +149,13 @@ elseif go == "trident" then
             wait(2)
             self.room:send(tostring(self.name) .. " begins to murmur... 'Hin tel'quiet nehel -nal rillis fis...'")
             wait(3)
-            self.room:send("Brilliant <blue>b&9<blue>lac</><blue>k fire seeps out of " .. get_obj_noadesc("2334") .. " and spreads across its surface.")
+            self.room:send("Brilliant <blue>b&9<blue>lac</><blue>k fire seeps out of " .. get_obj_noadesc(23, 34) .. " and spreads across its surface.")
             wait(2)
             self.room:send(tostring(self.name) .. " babbles in an alien voice, 'Aul adoe shunti mor ik mor...'")
             wait(2)
             self.room:send("<red>Scarlet</> <blue>fl<blue>ames</> ignite in " .. tostring(self.name) .. "'s hands, pulsing in rhythm with her speech.")
             wait(2)
-            self.room:send(tostring(self.name) .. " utters, 'Slidc ya qnoes oynaezz ya khozz qaed...' as she holds her hand over the " .. get_obj_noadesc("2334") .. ".")
+            self.room:send(tostring(self.name) .. " utters, 'Slidc ya qnoes oynaezz ya khozz qaed...' as she holds her hand over the " .. get_obj_noadesc(23, 34) .. ".")
             wait(2)
             self.room:send("The flames burn away the trident, leaving only a blazing tendril.")
             wait(2)

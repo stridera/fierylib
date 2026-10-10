@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #12399: menhir_purge
 -- Original: WORLD trigger, flags: RANDOM, probability: 100%
-if self:get_objects("12350") and self:get_objects("12351") then
+if self:get_objects(123, 50) and self:get_objects(123, 51) then
     world.destroy(self.room:find_actor("awakened-menhir"))
     self.room:send(tostring(objects.template(123, 50).name) .. " gradually stops glowing and falls silent.")
 end

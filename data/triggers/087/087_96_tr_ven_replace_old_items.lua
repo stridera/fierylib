@@ -5,7 +5,7 @@
 --
 -- Original DG Script: #8796
 --
--- TODO(parity): legacy DG conditional `if %object.vnum% >= 1` was a guard against
+-- TODO(parity): legacy DG conditional the legacy `object vnum >= 1` test was a guard against
 -- nil objects. Modern API receives `object` directly; the guard kept here is
 -- effectively `if object` which is always true within RECEIVE handlers.
 

@@ -7,13 +7,11 @@
 
 -- Converted from DG Script #53503: Frost elf remove blade
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
--- Sheathe the blade roughly a minute after trigger 53502 drew it.
+-- Sheathe the blade roughly a game hour after trigger 53502 drew it.
 if globals.wielded then
     local now = timestamp()
-    -- TODO(parity): legacy `now - 1 > wielded` used DG ticks; with timestamp()
-    -- returning seconds, 60 seconds is a reasonable equivalent. Verify against
-    -- the original DG game-tick length.
-    if now - 60 > globals.wielded then
+    -- timestamp() counts game hours, as legacy `time.stamp` did.
+    if now - 1 > globals.wielded then
         self:command("scan")
         wait(1)
         self:command("rem blade")

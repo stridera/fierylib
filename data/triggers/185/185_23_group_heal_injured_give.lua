@@ -19,10 +19,10 @@
 --   62506 -> (625,  6)
 --   53450 -> (534, 50)
 --
--- TODO(parity): legacy 5-digit vnums above need verification. Also the
--- legacy `mskillset %actor% group heal` command path is reproduced as a
--- raw command string; if the rs runtime exposes a typed
--- actor:learn_spell(name) API, prefer that instead.
+-- TODO(parity): legacy 5-digit vnums above need verification.
+-- The reward (legacy `mskillset %actor% group heal`) is the typed
+-- actor:set_skill(name, proficiency) binding; the script-origin gate refuses
+-- the staff `mskillset` command from a script.
 
 if actor:get_quest_stage("group_heal") ~= 6 then
     return true
@@ -79,7 +79,7 @@ if is_eligible then
     end
 
     if heal >= 5 then
-        victim:command("mskillset " .. tostring(actor.name) .. " group heal")
+        actor:set_skill("group heal", 100)
         world.destroy(victim)
         wait(1)
         actor:send("The miraculous power of St. George washes over you!")

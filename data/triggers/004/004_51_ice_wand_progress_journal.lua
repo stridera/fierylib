@@ -2,7 +2,7 @@
 -- Zone: 4, ID: 51
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% or %actor.quest_variable[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
+-- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #451
 

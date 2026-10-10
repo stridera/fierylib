@@ -10,9 +10,8 @@
 -- *and* `object.zone_id` against the actual catalog tuples for each
 -- stage's quest item.
 --
--- Also TODO: stage 3 calls `get_obj_noadesc("51075")`, which is not in
--- the runtime API. Replace with `objects.template(<zone>, <id>).name`
--- (or `.shortdesc`) once the mask item is re-derived.
+-- Stage 3 uses `get_obj_noadesc(510, 75)` (the mask's short description
+-- without its article).
 --
 -- The `skills.set_level(actor.name, ...)` call at the end of stage 9
 -- has been corrected to pass the actor object, matching the
@@ -85,7 +84,7 @@ elseif stage == 3 and object.id == 51075 then
     wait(1)
     self:destroy_item("mask")
     wait(1)
-    self:emote("greedily devours the " .. get_obj_noadesc("51075") .. "!")
+    self:emote("greedily devours the " .. get_obj_noadesc(510, 75) .. "!")
     wait(3)
     self:command("lick")
     self:say("Nothing makes you more familiar with magic than the taste!")

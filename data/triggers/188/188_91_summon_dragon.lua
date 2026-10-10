@@ -23,11 +23,11 @@ if cmd == "s" or cmd == "su" then
     return _return_value
 end
 local last_summon = actor:get_quest_var("quest_items:dragonhelm_time")
--- timestamp() is monotonic seconds; 168 hours == 604800 seconds.
+-- timestamp() counts game hours (legacy time.stamp); 168 game hours == one MUD week.
 local now = timestamp()
 local can_summon = false
 if last_summon then
-    if now - last_summon >= 604800 then
+    if now - last_summon >= 168 then
         can_summon = true
     else
         actor:send("You may only summon one mount per week!")

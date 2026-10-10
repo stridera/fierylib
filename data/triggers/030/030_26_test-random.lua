@@ -23,7 +23,7 @@ else
     self:say("We're not loading object.")
 end
 self:say(tostring(random_number))
-local mob = self:get_mexists("3055")
-local obj = self:get_oexists("1127")
+local mob = self:get_mexists(30, 55)
+local obj = self:get_oexists(11, 27)
 actor:send("There are " .. tostring(mob) .. " Druidic guards of 3055 in the game.")
 actor:send("There are " .. tostring(obj) .. " iron-banded girth's in the game.")

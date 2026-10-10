@@ -9,12 +9,10 @@
 -- and grant Charm Person at level 100.
 --
 -- TODO: the converter mangled the if/elseif structure. Every charmer
--- check is nested inside the outer `if room:get_people("3010")` guard,
+-- check is nested inside the outer `if room:get_people(30, 10)` guard,
 -- so only the mandolin/Mielikki branch is even reachable -- and the
 -- elseif chains that follow have empty if-bodies. Needs a full rewrite
 -- as a flat dispatch keyed on (mob present in room, instrument id).
--- TODO: room:get_people takes a string; values are legacy vnums.
--- Should be (zone, local_id) pairs.
 -- TODO: self.id and the constants here are legacy vnums; under composite
 -- keys these no longer match. Compare (self.zone_id, self.local_id).
 local _return_value = true  -- Default: allow action
@@ -22,35 +20,35 @@ if actor:get_quest_stage("charm_person") == 4 then
     _return_value = true
     local room = actor.room
     -- switch on self.id
-    if room:get_people("3010") then
+    if room:get_people(30, 10) then
         if self.id == 48925 then
             wait(2)
             self.room:send(tostring(mobiles.template(30, 10).name) .. " hums along dreamily.")
             actor:set_quest_var("charm_person", "charm1", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(30, 10).name) .. " is charmed by your playing!</>")
         end
-        if room:get_people("58017") then
+        if room:get_people(580, 17) then
         elseif self.id == 37012 then
             wait(2)
             self.room:send(tostring(mobiles.template(580, 17).name) .. " blushes furiously.")
             actor:set_quest_var("charm_person", "charm2", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(580, 17).name) .. " is charmed by your playing!</>")
         end
-        if room:get_people("58406") then
+        if room:get_people(584, 6) then
         elseif self.id == 41119 then
             wait(2)
             self.room:send(tostring(mobiles.template(584, 6).name) .. " sighs sweetly.")
             actor:set_quest_var("charm_person", "charm5", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(584, 6).name) .. " is charmed by your playing!</>")
         end
-        if room:get_people("4353") then
+        if room:get_people(43, 53) then
         elseif self.id == 16312 then
             wait(2)
             self.room:send(tostring(mobiles.template(43, 53).name) .. " closes her eyes and smiles.")
             actor:set_quest_var("charm_person", "charm3", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(43, 53).name) .. " is charmed by your playing!</>")
         end
-        if room:get_people("23721") then
+        if room:get_people(237, 21) then
         elseif self.id == 58017 then
             wait(2)
             self.room:send(tostring(mobiles.template(237, 21).name) .. " burbles with contentment.")

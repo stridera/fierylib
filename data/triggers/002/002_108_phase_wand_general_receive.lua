@@ -10,7 +10,7 @@
 -- TODO(parity): Several converter artifacts cannot be fixed mechanically:
 --   * `object.id == "wandgem"` etc. compare an integer object id against
 --     a literal string — these checks always fail. The original DG used
---     `if %object.vnum%==%wandgem%` which referenced the per-mob gem id
+--     the legacy object-vnum == wandgem test which referenced the per-mob gem id
 --     loaded by 002_111, so the runtime needs to compare object.id (or
 --     the (zone,id) composite) against globals.wandgem / globals.wand_id /
 --     globals.wandtask3 / globals.wandtask4 etc.
