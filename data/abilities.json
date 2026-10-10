@@ -10482,7 +10482,20 @@
       "weapon",
       "passive"
     ],
-    "notes": "Passive skill - provides bonuses without activation."
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "target": "weapon_hitroll",
+          "amount": "skill / 20",
+          "weapon_type": "piercing",
+          "type": "passive"
+        },
+        "trigger": "passive"
+      }
+    ],
+    "notes": "Passive skill. Increases accuracy with piercing weapons based on skill level."
   },
   {
     "name": "Plane Shift",
@@ -12251,7 +12264,20 @@
       "weapon",
       "passive"
     ],
-    "notes": "Passive skill - provides bonuses without activation."
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "target": "weapon_hitroll",
+          "amount": "skill / 20",
+          "weapon_type": "slashing",
+          "type": "passive"
+        },
+        "trigger": "passive"
+      }
+    ],
+    "notes": "Passive skill. Increases accuracy with slashing weapons based on skill level."
   },
   {
     "name": "Sleep",
@@ -14316,7 +14342,20 @@
       "weapon",
       "passive"
     ],
-    "notes": "Passive skill - provides bonuses without activation."
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "target": "weapon_hitroll",
+          "amount": "skill / 20",
+          "weapon_type": "two_hand_bludgeoning",
+          "type": "passive"
+        },
+        "trigger": "passive"
+      }
+    ],
+    "notes": "Passive skill. Increases accuracy with two-handed bludgeoning weapons based on skill level."
   },
   {
     "name": "Two-Hand Piercing",
@@ -14333,7 +14372,20 @@
       "weapon",
       "passive"
     ],
-    "notes": "Passive skill - provides bonuses without activation."
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "target": "weapon_hitroll",
+          "amount": "skill / 20",
+          "weapon_type": "two_hand_piercing",
+          "type": "passive"
+        },
+        "trigger": "passive"
+      }
+    ],
+    "notes": "Passive skill. Increases accuracy with two-handed piercing weapons based on skill level."
   },
   {
     "name": "Two-Hand Slashing",
@@ -14350,7 +14402,20 @@
       "weapon",
       "passive"
     ],
-    "notes": "Passive skill - provides bonuses without activation."
+    "effects": [
+      {
+        "effect": "modify",
+        "order": 0,
+        "params": {
+          "target": "weapon_hitroll",
+          "amount": "skill / 20",
+          "weapon_type": "two_hand_slashing",
+          "type": "passive"
+        },
+        "trigger": "passive"
+      }
+    ],
+    "notes": "Passive skill. Increases accuracy with two-handed slashing weapons based on skill level."
   },
   {
     "name": "Unholy Word",

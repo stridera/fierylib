@@ -16,14 +16,21 @@ SUPPORTED = {
     "max_move", "max_stamina", "stamina_max", "armor_pct",
     "saving_para", "saving_rod", "saving_petri", "saving_breath", "saving_spell",
     "focus", "perception", "hit_regen", "hiddenness", "size",
+    # Skill-scaled passives: combat.rs `passive_skill_bonus` reads Barehand (unarmed_damage) and
+    # the weapon skills (weapon_hitroll, one row per weapon family; see
+    # test_weapon_hitroll_families.py), and gear/buffs apply them through apply_modify_delta.
+    "unarmed_damage", "weapon_hitroll",
 }  # fmt: skip
 
+# Accepted by apply_modify_delta but deliberately a no-op: this game has no mana pool, so a
+# max_mana grant (two worn items) is acknowledged and changes nothing. Not an unsupported key.
+# No ability uses it today; listed so one that does is not flagged as a gap.
+INTENTIONAL_NOOP = {"max_mana"}
+
 # Known gaps: no equivalent in apply_modify_delta yet (needs runtime support, not a data rename).
-# unarmed_damage / weapon_hitroll: skill-scaled passives (Barehand, weapon skills) with no
-# passive-effect hook and no bare-hand damage stat. self: Dodge / Parry, which the combat evasion
-# roll reads from the proficiency directly. (item_bonus, Enchant Weapon, is now an alter_object
-# enchant effect; see test_enchant_weapon.py.)
-UNSUPPORTED_KNOWN = {"self", "unarmed_damage", "weapon_hitroll"}
+# self: Dodge / Parry, which the combat evasion roll reads from the proficiency directly.
+# (item_bonus, Enchant Weapon, is now an alter_object enchant effect; see test_enchant_weapon.py.)
+UNSUPPORTED_KNOWN = {"self"}
 
 
 def _modify_keys():
@@ -37,7 +44,8 @@ def _modify_keys():
 
 
 def test_modify_keys_are_supported_or_known_gaps():
-    bad = {(n, k) for n, k in _modify_keys() if k not in SUPPORTED and k not in UNSUPPORTED_KNOWN}
+    ok = SUPPORTED | INTENTIONAL_NOOP | UNSUPPORTED_KNOWN
+    bad = {(n, k) for n, k in _modify_keys() if k not in ok}
     assert not bad, f"unsupported modify stat keys: {sorted(bad)}"
 
 
