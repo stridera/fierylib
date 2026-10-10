@@ -93,12 +93,16 @@
         {
           "skillName": "SPELL_INN_SYLL",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "improve your grace"
         },
         {
           "skillName": "SPELL_HARNESS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 10,
+          "cooldownPhrase": "boost your magical abilities"
         }
       ],
       "permanentEffects": [
@@ -154,17 +158,23 @@
         {
           "skillName": "SPELL_INN_BRILL",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "boost your intelligence"
         },
         {
           "skillName": "SPELL_MINOR_CREATION",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 1,
+          "cooldownPhrase": "create"
         },
         {
           "skillName": "SPELL_STATUE",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 10,
+          "cooldownPhrase": "disguise yourself"
         }
       ]
     },
@@ -217,7 +227,9 @@
         {
           "skillName": "SPELL_INN_TASS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "seek wisdom"
         }
       ]
     },
@@ -313,12 +325,16 @@
         {
           "skillName": "SPELL_DARKNESS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "create darkness"
         },
         {
           "skillName": "SPELL_FEATHER_FALL",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 9,
+          "cooldownPhrase": "fall lightly"
         }
       ],
       "permanentEffects": [
@@ -376,12 +392,16 @@
         {
           "skillName": "SPELL_INN_TASS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "seek wisdom"
         },
         {
           "skillName": "SPELL_INVISIBLE",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 9,
+          "cooldownPhrase": "turn invisible"
         }
       ]
     },
@@ -474,7 +494,9 @@
         {
           "skillName": "SPELL_INN_STRENGTH",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "bolster your strength"
         }
       ]
     },
@@ -1478,12 +1500,16 @@
         {
           "skillName": "SPELL_INN_BRILL",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "boost your intelligence"
         },
         {
           "skillName": "SPELL_STATUE",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 10,
+          "cooldownPhrase": "disguise yourself"
         }
       ]
     },
@@ -1534,17 +1560,23 @@
         {
           "skillName": "SPELL_HARNESS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 10,
+          "cooldownPhrase": "boost your magical abilities"
         },
         {
           "skillName": "SPELL_ILLUMINATION",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "create light"
         },
         {
           "skillName": "SPELL_DIMENSION_DOOR",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "traverse the Reverie"
         }
       ]
     },
@@ -1595,17 +1627,23 @@
         {
           "skillName": "SPELL_HARNESS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 10,
+          "cooldownPhrase": "boost your magical abilities"
         },
         {
           "skillName": "SPELL_DARKNESS",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "create darkness"
         },
         {
           "skillName": "SPELL_DIMENSION_DOOR",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "traverse the Reverie"
         }
       ]
     },
@@ -1653,12 +1691,16 @@
         {
           "skillName": "SPELL_INN_ASCEN",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 7,
+          "cooldownPhrase": "enliven your charming nature"
         },
         {
           "skillName": "SPELL_BLINDING_BEAUTY",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 10,
+          "cooldownPhrase": "blind with your beauty"
         }
       ]
     },
@@ -1704,7 +1746,10 @@
         {
           "skillName": "SPELL_BARKSKIN",
           "minLevel": 1,
-          "category": "PRIMARY"
+          "category": "PRIMARY",
+          "cooldownHours": 20,
+          "cooldownStat": "CON",
+          "cooldownPhrase": "armor yourself"
         }
       ]
     }

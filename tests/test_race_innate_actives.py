@@ -86,3 +86,72 @@ def test_sql_is_keyed_by_names_and_idempotent():
     assert "ON CONFLICT (race, ability_id) DO NOTHING" in SQL
     assert "a.plain_name = v.ability" in SQL
     assert not re.search(r"ability_id\s*=\s*\d", SQL)
+
+
+# --- Cooldowns (RaceAbilities.cooldown_hours / cooldown_stat / cooldown_phrase) -------------------
+# Legacy do_innate SET_COOLDOWN(ch, CD_INNATE_*, n MUD_HR); do_create sets CD_INNATE_CREATE 1h.
+LEGACY_HOURS = {
+    "INN_SYLL": 7,
+    "INN_BRILL": 7,
+    "INN_STRENGTH": 7,  # chaz
+    "INN_TASS": 7,
+    "DARKNESS": 7,
+    "ILLUMINATION": 7,
+    "DIMENSION_DOOR": 7,  # faerie step
+    "INN_ASCEN": 7,
+    "INVISIBLE": 9,
+    "FEATHER_FALL": 9,
+    "HARNESS": 10,
+    "STATUE": 10,
+    "BLINDING_BEAUTY": 10,
+    "BARKSKIN": 20,  # minus the CON skill_small bonus
+    "MINOR_CREATION": 1,  # legacy `create` command
+}
+
+_COOLDOWN_ROW = re.compile(
+    r"^\s+\('([A-Z_]+)', '([A-Z_]+)', (\d+), (NULL|'[A-Z]+'), '([^']+)'\)", re.M
+)
+
+
+def _sql_cooldowns() -> dict[tuple[str, str], tuple[int, str | None, str]]:
+    return {
+        (race, ability): (int(hours), None if stat == "NULL" else stat.strip("'"), phrase)
+        for race, ability, hours, stat, phrase in _COOLDOWN_ROW.findall(SQL)
+    }
+
+
+def test_every_innate_row_gets_its_legacy_cooldown():
+    cooldowns = _sql_cooldowns()
+    assert set(cooldowns) == {(r, a) for r, abilities in EXPECTED.items() for a in abilities}
+    for (race, ability), (hours, stat, phrase) in cooldowns.items():
+        assert hours == LEGACY_HOURS[ability], (race, ability)
+        assert phrase
+        assert stat == ("CON" if ability == "BARKSKIN" else None), (race, ability)
+
+
+def test_races_json_cooldowns_match_the_sql_patch():
+    seen = {}
+    for race in json.loads(RACES_JSON.read_text(encoding="utf-8"))["races"]:
+        for s in race.get("skills", []):
+            if "cooldownHours" in s:
+                name = s["skillName"].removeprefix("SPELL_")
+                seen[(race["name"].upper(), name)] = (
+                    s["cooldownHours"],
+                    s.get("cooldownStat"),
+                    s["cooldownPhrase"],
+                )
+    assert seen == _sql_cooldowns()
+
+
+def test_cooldown_patch_adds_columns_and_only_fills_missing_values():
+    for col in ("cooldown_hours INTEGER", "cooldown_stat TEXT", "cooldown_phrase TEXT"):
+        assert f'ALTER TABLE "RaceAbilities" ADD COLUMN IF NOT EXISTS {col};' in SQL
+    assert "AND ra.cooldown_hours IS NULL" in SQL
+    assert 'ra.race = v.race::"Race"' in SQL and "a.plain_name = v.ability" in SQL
+
+
+def test_importer_passes_the_cooldown_fields_through():
+    importer = ROOT / "src" / "fierylib" / "importers" / "race_importer.py"
+    src = importer.read_text(encoding="utf-8")
+    assert "'cooldownHours', 'cooldownStat', 'cooldownPhrase'" in src
+    assert src.count("**cooldown_data") == 2  # update and create

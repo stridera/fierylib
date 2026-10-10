@@ -310,6 +310,13 @@ class RaceImporter:
                     skill_name = skill_data['skillName']
                     min_level = skill_data['minLevel']
                     category = skill_data.get('category', 'PRIMARY')
+                    # Racial active cooldowns (innate <ability>); only set when races.json has them
+                    # so rows without one keep whatever a builder entered.
+                    cooldown_data = {
+                        key: skill_data[key]
+                        for key in ('cooldownHours', 'cooldownStat', 'cooldownPhrase')
+                        if skill_data.get(key) is not None
+                    }
 
                     # Resolve skill ID
                     skill_id = self.resolve_skill_id(skill_name)
@@ -341,6 +348,7 @@ class RaceImporter:
                                 data={
                                     'category': SkillCategory[category],
                                     'bonus': 0,  # Default bonus for racial skills
+                                    **cooldown_data,
                                 }
                             )
                             stats['race_skills_updated'] += 1
@@ -353,6 +361,7 @@ class RaceImporter:
                                     'abilityId': skill_id,
                                     'category': SkillCategory[category],
                                     'bonus': 0,  # Default bonus
+                                    **cooldown_data,
                                 }
                             )
                             stats['race_skills_created'] += 1
