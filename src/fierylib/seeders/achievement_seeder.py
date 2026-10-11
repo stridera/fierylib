@@ -18,6 +18,11 @@ from prisma import Prisma
 
 logger = logging.getLogger(__name__)
 
+# Internal zones (0 = Void, 1, 2) are engine scaffolding, not explorable
+# content: they get no zone-clear achievement. Mirrors the game's
+# mud_world::INTERNAL_ZONE_IDS.
+INTERNAL_ZONE_IDS = (0, 1, 2)
+
 
 # Static achievements. Each tuple: (code, title, description, category,
 # hidden, sort_order). category must match the AchievementCategory enum.
@@ -160,13 +165,15 @@ class AchievementSeeder:
                 created += 1
 
         # Zone-clear achievements: one per zone with rooms. God zones are
-        # staff-only and grant no exploration credit, so they get none.
+        # staff-only and grant no exploration credit, so they get none; the
+        # same goes for the internal zones (INTERNAL_ZONE_IDS).
         zone_rows = await self.prisma.query_raw(
             'SELECT z.id, z.name, COUNT(r.id)::int AS room_count '
             'FROM "Zones" z JOIN "Room" r ON r.zone_id = z.id '
-            'WHERE NOT z.is_god_zone '
+            'WHERE NOT z.is_god_zone AND z.id <> ALL($1::int[]) '
             'GROUP BY z.id, z.name HAVING COUNT(r.id) > 0 '
-            'ORDER BY z.id'
+            'ORDER BY z.id',
+            list(INTERNAL_ZONE_IDS),
         )
         for row in zone_rows:
             zone_id = row["id"]
