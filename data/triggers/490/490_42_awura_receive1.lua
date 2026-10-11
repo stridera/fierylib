@@ -26,7 +26,7 @@ if object.id == 49001 then
         actor:advance_quest("griffin_quest")
         actor:send("<b:white>You have advanced the quest!</>")
     end
-    self.room:send("a look of disgust crosses Awura's features as she handles the skin.")
+    self.room:send("A look of disgust crosses Awura's features as she handles the skin.")
     self:emote("utters a short spell.")
     wait(8)
     self.room:send("The griffin skin turns to smoke and blows away in the breeze.")

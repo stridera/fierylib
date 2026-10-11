@@ -9,4 +9,4 @@
 -- intended behavior was to penalize/block the drop; needs design input
 -- before adding logic. Leaving the diagnostic echo so the slot is
 -- non-empty and visible during testing.
-self.room:send("the DROP trigger for " .. tostring(self.name) .. " is RUNNING")
+self.room:send("The DROP trigger for " .. tostring(self.name) .. " is RUNNING")

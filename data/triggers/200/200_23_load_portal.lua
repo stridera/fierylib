@@ -15,4 +15,4 @@ if not (string.find(string.lower(speech), "yix'xyua")) then
 end
 self.room:send("The giant obsidian statue makes a magical gesture and a large black portal erupts from the ground!")
 self.room:spawn_object(200, 49)
-self.room:send("a giant obsidian statue says, 'When you want to leave just say exit.'")
+self.room:send("A giant obsidian statue says, 'When you want to leave just say exit.'")

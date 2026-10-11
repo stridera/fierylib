@@ -50,6 +50,12 @@ POSITION_MAP = {
 }
 
 
+# Legacy not_found lines are ~150 one-off jokes ("Who's that?", "You agree.  They're not here.",
+# "Normally you slap SOMEBODY.") with stray double spaces. Every targeted social now answers
+# a missing target the same way. data/sql/2026-10-11-text-fixes.sql applies this to existing DBs.
+STANDARD_NOT_FOUND = "You don't see anyone like that here."
+
+
 @dataclass
 class Social:
     """Parsed social command data with modern template syntax."""
@@ -220,7 +226,7 @@ def parse_socials_file(filepath: Path) -> list[Social]:
             char_found=convert_legacy_template(char_found),
             others_found=convert_legacy_template(others_found),
             vict_found=convert_legacy_template(vict_found),
-            not_found=convert_legacy_template(not_found),
+            not_found=STANDARD_NOT_FOUND if not_found else None,
             char_auto=convert_legacy_template(char_auto),
             others_auto=convert_legacy_template(others_auto),
         )

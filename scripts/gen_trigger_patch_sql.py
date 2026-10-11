@@ -8,10 +8,12 @@ emitted, and the UPDATE skips rows already holding the new body, so rerunning
 it is a no-op.
 
 Usage:
-    python scripts/gen_trigger_patch_sql.py BASE_REF OUT.sql [--description TEXT] [--guard-md5]
+    python scripts/gen_trigger_patch_sql.py BASE_REF OUT.sql [--description TEXT] [--guard-md5] [--only SUBSTR ...]
 
 --guard-md5 also requires the row to still hold the BASE_REF body (matched by
 md5), so rows since edited in Muditor are not overwritten.
+
+--only keeps just the changed files whose path contains one of the given substrings.
 """
 
 from __future__ import annotations
@@ -54,9 +56,11 @@ def old_text(base: str, path: str) -> str | None:
     return r.stdout if r.returncode == 0 else None
 
 
-def build(base: str, description: str, guard_md5: bool = False) -> str:
+def build(base: str, description: str, guard_md5: bool = False, only: list[str] | None = None) -> str:
     rows = []
     for path in changed_files(base):
+        if only and not any(o in path for o in only):
+            continue
         new = parse((ROOT / path).read_text(encoding="utf-8"), path)
         old_src = old_text(base, path)
         if old_src is not None and parse(old_src, path).commands == new.commands:
@@ -112,8 +116,9 @@ def main() -> int:
     ap.add_argument("out", type=Path)
     ap.add_argument("--description", default="Trigger script fixes.")
     ap.add_argument("--guard-md5", action="store_true")
+    ap.add_argument("--only", nargs="+", default=None, metavar="SUBSTR")
     args = ap.parse_args()
-    args.out.write_text(build(args.base, args.description, args.guard_md5), encoding="utf-8")
+    args.out.write_text(build(args.base, args.description, args.guard_md5, args.only), encoding="utf-8")
     print(f"wrote {args.out}")
     return 0
 

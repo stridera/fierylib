@@ -20,3 +20,9 @@ def test_negative_weight_floors_to_zero():
     assert sane_weight(-5) == 0.0
     assert sane_weight(None) == 0.0
     assert sane_weight(1.1) == 1.1
+
+
+def test_absurd_weight_is_clamped():
+    assert sane_weight(2147483648.0) == 100000.0  # 30.obj #3137 fountain
+    assert sane_weight(100000) == 100000.0
+    assert sane_weight(99999.5) == 99999.5

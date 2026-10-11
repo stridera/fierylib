@@ -45,7 +45,7 @@ def test_sql_patch_text_matches_the_legacy_entry():
         hi5.char_found,
         hi5.others_found,
         hi5.vict_found,
-        hi5.not_found,
+        # not_found is normalised by the parser; 2026-10-11-text-fixes.sql rewrites the legacy line
         hi5.char_auto,
         hi5.others_auto,
     ):

@@ -12,6 +12,10 @@ from fierylib.combat_formulas import (
     derive_attack_power_baseline,
     derive_hit_roll_baseline,
 )
+from fierylib.seeders.level_seeder import exp_required_for_level
+
+# Levels above this are staff and ignore the class XP factor (mud_world::scale_exp).
+MIN_STAFF_LEVEL = 101
 
 
 # Map Race enum (uppercase) to the human-readable Race.name column.
@@ -73,6 +77,25 @@ def avg_dice(expr: str) -> float:
     if n <= 0 or m <= 0:
         return float(b)
     return n * (m + 1) / 2.0 + b
+
+
+def level_floor_xp(base: int, level: int, factor: float) -> int:
+    """XP at which a character of ``level`` sits at the bottom of that level.
+
+    Mirrors the runtime's ``scale_exp``: the class-neutral ``LevelDefinition.expRequired``
+    times ``Class.expGainFactor``, truncated, with staff levels class-independent.
+    """
+    if level > MIN_STAFF_LEVEL:
+        return base
+    return int(base * factor)
+
+
+async def compute_level_xp(prisma: Prisma, level: int, class_row) -> int:
+    """Seed XP for a character: the floor of its level (a fresh L25 has 0 progress, not 1050)."""
+    row = await prisma.leveldefinition.find_unique(where={"level": level})
+    base = row.expRequired if row is not None else exp_required_for_level(level)
+    factor = class_row.expGainFactor if class_row is not None else 1.0
+    return level_floor_xp(base, level, factor)
 
 
 async def compute_max_hp(prisma: Prisma, level: int, race: Race, class_row) -> int:
@@ -251,8 +274,10 @@ class UserSeeder:
         # which over-leveled casters and under-leveled warriors.
         max_hp = await compute_max_hp(self.prisma, level, race, class_row)
         max_stamina = await compute_max_stamina(self.prisma, level, race)
+        experience = await compute_level_xp(self.prisma, level, class_row)
         stat_block = {
             "level": level,
+            "experience": experience,
             "race": race,
             "passwordHash": password_hash.decode("utf-8"),
             "userId": user_id,

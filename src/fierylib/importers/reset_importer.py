@@ -165,6 +165,22 @@ class ResetImporter:
             self._wear_flags_cache[key] = flags
         return self._wear_flags_cache[key]
 
+    async def clear_zone_mob_resets(self, zone_id: int) -> int:
+        """Delete the zone's MobResets before re-creating them.
+
+        Equipment and equipment contents go with them (ON DELETE CASCADE). Without this,
+        every `--zone` re-import appended another full copy of the zone's resets.
+        """
+        return await self.prisma.mobresets.delete_many(
+            where={"zoneId": convert_zone_id(zone_id)}
+        )
+
+    async def clear_zone_object_resets(self, zone_id: int) -> int:
+        """Delete the zone's ObjectResets (and their nested contents, via cascade)."""
+        return await self.prisma.objectresets.delete_many(
+            where={"zoneId": convert_zone_id(zone_id)}
+        )
+
     async def import_mob_reset(
         self, mob_reset: dict, zone_id: int, dry_run: bool = False
     ) -> dict:
@@ -684,6 +700,10 @@ class ResetImporter:
             "errors": [],
         }
 
+        if not dry_run:
+            await self.clear_zone_mob_resets(zone.id)
+            await self.clear_zone_object_resets(zone.id)
+
         # Import mob resets
         for mob_reset in zone.resets.get("mob", []):
             result = await self.import_mob_reset(mob_reset, zone.id, dry_run=dry_run)
@@ -739,6 +759,9 @@ class ResetImporter:
         imported = 0
         failed = 0
         errors = []
+
+        if not dry_run:
+            await self.clear_zone_mob_resets(zone_id)
 
         for mob_reset in mob_resets:
             mob_vnum = mob_reset['id']
@@ -825,6 +848,9 @@ class ResetImporter:
         imported = 0
         failed = 0
         errors = []
+
+        if not dry_run:
+            await self.clear_zone_object_resets(zone_id)
 
         for obj_reset in object_resets:
             obj_vnum = obj_reset['id']

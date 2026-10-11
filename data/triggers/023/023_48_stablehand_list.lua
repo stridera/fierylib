@@ -15,5 +15,5 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 _return_value = false
 actor:send("Available pets are:")
-actor:send("a steady warhorse - <yellow>40</> c")
+actor:send("A steady warhorse - <yellow>40</> c")
 return _return_value

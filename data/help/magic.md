@@ -28,7 +28,7 @@ CAST
   chant {chant} [target]     chants, used by some classes (list: chants)
   perform {song} [target]    songs, used by bards (list: songs)
 
-  Casting takes a few seconds ("You begin casting... about 3s"). "abort"
+  Casting takes several seconds, depending on the spell. "abort"
   stops a cast in progress. A cast uses one slot of the spell's circle and
   starts that circle's recovery timer. You can't cast a spell you haven't
   learned or practiced, one above your level, or one your class lacks. It

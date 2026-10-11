@@ -795,6 +795,13 @@ class RoomImporter:
                 "exits_failed": 0,
             }
 
+            # Extra descriptions are plain creates: clear the zone's copies first so a
+            # re-import replaces them instead of appending another set.
+            if not dry_run:
+                await self.prisma.roomextradescriptions.delete_many(
+                    where={"roomZoneId": zone_id}
+                )
+
             # PASS 1: Import rooms without exits (avoid FK constraint issues)
             for room in rooms:
                 room_id = int(room["id"])

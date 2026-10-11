@@ -53,6 +53,9 @@ EFFECT_TO_RESISTANCE: dict[str, tuple[str, int]] = {
 DEFAULT_WEAPON_DICE = (1, 4)
 
 
+MAX_OBJECT_WEIGHT = 100000.0
+
+
 def sane_weapon_dice(obj_type: str, num: int, size: int) -> tuple[int, int]:
     """Weapons must roll at least one die with at least two faces' worth of range.
 
@@ -65,8 +68,11 @@ def sane_weapon_dice(obj_type: str, num: int, size: int) -> tuple[int, int]:
 
 
 def sane_weight(weight: Optional[float]) -> float:
-    """Object weight is never negative (legacy has a few -2 / -5 typos)."""
-    return max(0.0, float(weight or 0.0))
+    """Object weight is within 0..MAX_OBJECT_WEIGHT.
+
+    Legacy has a few -2 / -5 typos and the 30.obj fountain (#3137) stores 2147483648.00.
+    """
+    return min(MAX_OBJECT_WEIGHT, max(0.0, float(weight or 0.0)))
 
 
 class ObjectImporter:
@@ -522,7 +528,11 @@ class ObjectImporter:
                     if affect_result["success"]:
                         affects_imported += 1
 
-            # Import extra descriptions (excluding the one used for examineDescription)
+            # Import extra descriptions (excluding the one used for examineDescription).
+            # Plain creates, so drop this object's existing rows first (clean re-import).
+            await self.prisma.objectextradescriptions.delete_many(
+                where={"objectZoneId": obj_zone_id, "objectId": vnum}
+            )
             extras_imported = 0
             if extras_to_import:
                 for extra in extras_to_import:
