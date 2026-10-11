@@ -2261,7 +2261,7 @@
       "successToCaster": "You cast a creature to serve you.",
       "successToRoom": "{actor.name} casts a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
-      "wearoffToRoom": "{actor.pos} summoned creature fades away."
+      "wearoffToRoom": "{actor.name}'s summoned creature fades away."
     },
     "sphere": "SUMMONING",
     "pages": 35
@@ -13627,7 +13627,7 @@
       "successToCaster": "You summon a creature to serve you.",
       "successToRoom": "{actor.name} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
-      "wearoffToRoom": "{actor.pos} summoned creature fades away."
+      "wearoffToRoom": "{actor.name}'s summoned creature fades away."
     },
     "sphere": "SUMMONING",
     "pages": 31
@@ -13664,7 +13664,7 @@
       "successToCaster": "You summon a creature to serve you.",
       "successToRoom": "{actor.name} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
-      "wearoffToRoom": "{actor.pos} summoned creature fades away."
+      "wearoffToRoom": "{actor.name}'s summoned creature fades away."
     },
     "sphere": "SUMMONING"
   },
@@ -13700,7 +13700,7 @@
       "successToCaster": "You summon a creature to serve you.",
       "successToRoom": "{actor.name} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
-      "wearoffToRoom": "{actor.pos} summoned creature fades away."
+      "wearoffToRoom": "{actor.name}'s summoned creature fades away."
     },
     "sphere": "SUMMONING",
     "pages": 19
@@ -13737,7 +13737,7 @@
       "successToCaster": "You summon a creature to serve you.",
       "successToRoom": "{actor.name} summons a creature.",
       "wearoffToTarget": "Your summoned creature fades away.",
-      "wearoffToRoom": "{actor.pos} summoned creature fades away."
+      "wearoffToRoom": "{actor.name}'s summoned creature fades away."
     },
     "sphere": "SUMMONING",
     "pages": 35
