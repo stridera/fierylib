@@ -735,6 +735,18 @@
         "quantity": {
           "type": "integer",
           "description": "Number of objects to create"
+        },
+        "objectZoneId": {
+          "type": "integer",
+          "description": "Zone of the object prototype to conjure (with objectId)"
+        },
+        "objectId": {
+          "type": "integer",
+          "description": "Id of the object prototype to conjure (with objectZoneId)"
+        },
+        "wield": {
+          "type": "boolean",
+          "description": "Put the object straight into the caster's wield slot; the cast makes nothing when that hand is already full"
         }
       }
     }

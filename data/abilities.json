@@ -7610,41 +7610,32 @@
     "name": "Ice Dagger",
     "plainName": "ICE_DAGGER",
     "abilityType": "SPELL",
-    "description": "Conjures a razor-sharp dagger of ice to hurl at the target.",
+    "description": "Conjures a dagger of glimmering ice in your hand. Your wield hand must be free.",
     "minPosition": "STANDING",
-    "violent": true,
+    "violent": false,
     "castTimeRounds": 2.0,
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
     "effects": [
       {
-        "effect": "damage",
+        "effect": "create",
         "order": 0,
         "params": {
-          "type": "magic",
-          "creates": true
+          "objectType": "weapon",
+          "objectZoneId": 10,
+          "objectId": 47,
+          "wield": true
         },
         "trigger": "on_cast"
       }
     ],
     "messages": {
-      "successToCaster": "Your ice dagger strikes {target.him}!",
-      "successToVictim": "{actor.pos} ice dagger strikes you!",
-      "successToRoom": "{actor.pos} ice dagger strikes {target.him}!",
-      "failToCaster": "Your ice dagger fails to affect {target.him}.",
-      "failToVictim": "{actor.pos} ice dagger fails to affect you.",
-      "failToRoom": "{actor.pos} ice dagger fails to affect {target.him}."
+      "successToCaster": "You summon a blade of glimmering ice to aid you.",
+      "successToRoom": "{actor.name} summons a dagger of glimmering ice to aid {actor.him}."
     },
     "sphere": "SUMMONING",
-    "pages": 17,
-    "savingThrows": [
-      {
-        "saveType": "WILL",
-        "dcFormula": "10 + skill / 5 + max(int_bonus, wis_bonus)",
-        "onSaveAction": "HALF_DAMAGE"
-      }
-    ]
+    "pages": 17
   },
   {
     "name": "Ice Darts",
