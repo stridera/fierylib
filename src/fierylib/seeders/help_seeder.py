@@ -38,6 +38,12 @@ if TYPE_CHECKING:  # pragma: no cover - typing only
 # src/fierylib/seeders/help_seeder.py -> project root is parents[3]
 DEFAULT_HELP_DIR = Path(__file__).resolve().parents[3] / "data" / "help"
 
+# TODO(playtest 2026-10-11 #57): `help leveling` (legacy HelpEntry "level gain", from lib/text/help/help.hlp)
+# still describes the legacy guildmaster flow ("journey back to your guildmaster ... type LEVEL GAIN").
+# Rewrite it as an authored data/help/leveling.md after the level-up / practice / trainer progression
+# decision is made (design call pending); an authored entry with the primary keyword `leveling`
+# would overwrite the legacy one. Left unchanged on purpose until then.
+
 _KNOWN_KEYS = {"keywords", "title", "category", "min_level", "usage"}
 
 

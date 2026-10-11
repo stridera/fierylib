@@ -67,6 +67,26 @@ def sane_weapon_dice(obj_type: str, num: int, size: int) -> tuple[int, int]:
     return (num, size)
 
 
+def composite_container_key(raw_key, zone_ranges) -> dict | None:
+    """Legacy CONTAINER key vnum -> ``{"zone": z, "id": i}`` (None when there is no key).
+
+    The legacy ``Key`` is a vnum (``2302``); the DB stores only the composite id, resolved through the
+    zone ranges in ``lib/world/zon`` (zone 30 spans 3000-3499, so a plain ``vnum // 100`` is wrong for
+    e.g. 3123). Keys <= 0 mean "no key" and stay as they are. A vnum outside every zone range falls
+    back to ``vnum // 100`` / ``vnum % 100``.
+    """
+    try:
+        vnum = int(raw_key)
+    except (TypeError, ValueError):
+        return None
+    if vnum <= 0:
+        return None
+    for base, top, zone in zone_ranges or ():
+        if base <= vnum <= top:
+            return {"zone": zone, "id": vnum - base}
+    return {"zone": vnum // 100, "id": vnum % 100}
+
+
 def sane_weight(weight: Optional[float]) -> float:
     """Object weight is within 0..MAX_OBJECT_WEIGHT.
 
@@ -175,6 +195,9 @@ class ObjectImporter:
         """
         self.prisma = prisma_client
         self.vnum_map = {}  # vnum -> (zone_id, id) - built during import
+        # (base, top, zone) rows from lib/world/zon (converters.dg_to_lua.build_zone_ranges); used to
+        # turn legacy container-key vnums into composite ids.
+        self.zone_ranges: list[tuple[int, int, int]] = []
 
     async def import_object(
         self, obj: Object, zone_id: int, dry_run: bool = False
@@ -234,6 +257,12 @@ class ObjectImporter:
                     }
                 else:
                     values_dict[key] = value
+
+        # Container keys are stored as a composite {"zone", "id"}, never as the legacy vnum.
+        if obj_type == "CONTAINER":
+            composite_key = composite_container_key(values_dict.get("Key"), self.zone_ranges)
+            if composite_key is not None:
+                values_dict["Key"] = composite_key
 
         # Extract combat-critical fields into typed columns and pop them
         # out of the JSONB. Done at import time so the runtime never sees

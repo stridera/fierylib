@@ -1,77 +1,51 @@
 -- Trigger: Beast Master creature death
 -- Zone: 53, ID: 14
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
--- TODO(parity): `local target1`, `local stage` are branch-scoped via
--- `local` in elseif arms; both used after the dispatch (lines 62-63).
--- Group iteration `local a = 1/0` inside `if i then ... else ...` is
--- branch-scoped, loop variable undefined. `get_quest_stage(...) ==
--- "stage"` compares int to literal "stage". Legacy 5-digit self.id values
--- need split to (zone, id). Full rewrite from DG #5314.
+-- Status: CLEAN
 --
 -- Original DG Script: #5314
+--
+-- Beast Master hunt (quest "beast_master"): when one of the ten hunt targets dies, every
+-- player in the killer's group who is standing in the room, is on that target's stage and
+-- has an active hunt ("running") has the hunt marked "dead" and the kill recorded in the
+-- quest variable "target1". They then go back to Pumahl to hand the assignment in.
+--
+-- The DG original switched on legacy vnums; the targets are keyed by composite (zone, id)
+-- here and matched against self.zone_id / self.local_id. Stages 1-10 follow Pumahl's
+-- assignment list (see 053_12 speech_yes).
 
--- Converted from DG Script #5314: Beast Master creature death
--- Original: MOB trigger, flags: DEATH, probability: 100%
--- switch on self.id
-if self.id == 3133 then
-    -- abominable slime creature
-    local stage = 1
-    local target1 = "abominable_slime_creature"
-elseif self.id == 12003 then
-    -- a large buck
-    local target1 = "buck"
-    local stage = 2
-elseif self.id == 16105 then
-    -- giant scorpion
-    local target1 = "giant_scorpion"
-    local stage = 3
-elseif self.id == 2308 then
-    -- monstrous canopy spider
-    local target1 = "monstrous_canopy_spider"
-    local stage = 4
-elseif self.id == 48120 then
-    -- chimera
-    local target1 = "chimera"
-    local stage = 5
-elseif self.id == 23730 then
-    -- drider king
-    local target1 = "drider_king"
-    local stage = 6
-elseif self.id == 53305 then
-    -- beholder
-    local target1 = "beholder"
-    local stage = 7
-elseif self.id == 53003 then
-    -- banshee
-    local target1 = "banshee"
-    local stage = 8
-elseif self.id == 58401 then
-    -- Baba Yaga
-    local target1 = "baba_yaga"
-    local stage = 9
-elseif self.id == 52006 then
-    -- medusa
-    local target1 = "medusa"
-    local stage = 10
-end
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
-end
-while i >= a do
-    person = person.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_stage("beast_master") == "stage" and person:get_quest_var("beast_master:hunt") == "running" then
-            person:set_quest_var("beast_master", "target1", target1)
-            person:set_quest_var("beast_master", "hunt", "dead")
-            person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
-        end
-    elseif person and person.is_player then
-        i = i + 1
+local TARGETS = {
+    { zone = 30,  id = 133, stage = 1,  target = "abominable_slime_creature" },
+    { zone = 120, id = 3,   stage = 2,  target = "buck" },
+    { zone = 161, id = 5,   stage = 3,  target = "giant_scorpion" },
+    { zone = 23,  id = 8,   stage = 4,  target = "monstrous_canopy_spider" },
+    { zone = 481, id = 20,  stage = 5,  target = "chimera" },
+    { zone = 237, id = 30,  stage = 6,  target = "drider_king" },
+    { zone = 533, id = 5,   stage = 7,  target = "beholder" },
+    { zone = 530, id = 3,   stage = 8,  target = "banshee" },
+    { zone = 584, id = 1,   stage = 9,  target = "baba_yaga" },
+    { zone = 520, id = 6,   stage = 10, target = "medusa" },
+}
+
+local entry = nil
+for _, t in ipairs(TARGETS) do
+    if t.zone == self.zone_id and t.id == self.local_id then
+        entry = t
+        break
     end
-    a = a + 1
+end
+-- The killer's group (a lone killer is a group of one).
+if entry and actor then
+    local members = actor.group_member
+    for i = 1, actor.group_size do
+        local person = members[i]
+        if person and person.is_player and person.room == self.room then
+            if person:get_quest_stage("beast_master") == entry.stage
+                and person:get_quest_var("beast_master:hunt") == "running" then
+                person:set_quest_var("beast_master", "target1", entry.target)
+                person:set_quest_var("beast_master", "hunt", "dead")
+                person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
+            end
+        end
+    end
 end

@@ -613,8 +613,11 @@ class RoomImporter:
             if "HIDDEN" in exit_flags:
                 hit_points += 30
 
+        # An exit with no description is NULL, not '' (playtest round 2 #69: blank `look <dir>` output).
+        exit_description = exit_data.get("description") or None
+
         update_data: Dict[str, Any] = {
-            "description": exit_data.get("description", ""),
+            "description": exit_description,
             "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
             "flags": {"set": exit_flags},
             "defaultState": default_state,
@@ -644,7 +647,7 @@ class RoomImporter:
                         "roomZoneId": room_zone_id,
                         "roomId": room_id,
                         "direction": direction,
-                        "description": exit_data.get("description", ""),
+                        "description": exit_description,
                         "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
                         "keyZoneId": key_zone_id,
                         "keyId": key_id,

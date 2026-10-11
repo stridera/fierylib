@@ -111,6 +111,10 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
                 click.echo(f"❌ Zone directory not found: {zon_dir}")
                 return
 
+            # Container keys (legacy vnums) resolve to composite ids through the zone ranges
+            from fierylib.converters.dg_to_lua import build_zone_ranges
+            object_importer.zone_ranges = build_zone_ranges(zon_dir)
+
             # Determine which zones to import
             if zone:
                 zone_files = [zon_dir / f"{zone}.zon"]

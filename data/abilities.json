@@ -11523,9 +11523,10 @@
       }
     ],
     "messages": {
-      "successToCaster": "You use rescue on {target.name}!",
-      "successToVictim": "{actor.name} uses rescue on you!",
-      "successToRoom": "{actor.name} uses rescue on {target.name}!"
+      "failToCaster": "You fail the rescue!",
+      "successToCaster": "Banzai! To the rescue...",
+      "successToVictim": "You are rescued by {actor.name}, you are confused!",
+      "successToRoom": "{actor.name} heroically rescues {target.name}!"
     }
   },
   {
