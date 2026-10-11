@@ -66,19 +66,34 @@ WHERE z.is_god_zone
 -- roll. Rows are matched by ability name and effect type (not by the
 -- destination param, which a builder may have edited); params are merged, so
 -- rerunning is a no-op. The NOTICE lines report rows touched so the deployer
--- can verify; a WARNING means an ability row was not found.
+-- can verify (rows changed; 0 on a rerun); a WARNING means an ability row was
+-- not found.
 DO $$
 DECLARE
   n_tele  integer;
   n_world integer;
   n_woods integer;
+  f_tele  integer;
+  f_world integer;
 BEGIN
+  -- Only rows whose params would actually change are written, so a rerun
+  -- reports 0 for every ability. f_* counts the matching rows (changed or not)
+  -- for the "not found" warning.
+  SELECT count(*) INTO f_tele FROM "AbilityEffect" ae
+  JOIN "Ability" a ON a.id = ae.ability_id JOIN "Effect" e ON e.id = ae.effect_id
+  WHERE a.plain_name = 'TELEPORT' AND e."effectType" = 'teleport';
+  SELECT count(*) INTO f_world FROM "AbilityEffect" ae
+  JOIN "Ability" a ON a.id = ae.ability_id JOIN "Effect" e ON e.id = ae.effect_id
+  WHERE a.plain_name = 'WORLD_TELEPORT' AND e."effectType" = 'teleport';
+
   UPDATE "AbilityEffect" ae
   SET override_params = COALESCE(ae.override_params, '{}'::jsonb)
     || '{"range": "zone", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb
   FROM "Ability" a, "Effect" e
   WHERE ae.ability_id = a.id AND ae.effect_id = e.id
-    AND a.plain_name = 'TELEPORT' AND e."effectType" = 'teleport';
+    AND a.plain_name = 'TELEPORT' AND e."effectType" = 'teleport'
+    AND ae.override_params IS DISTINCT FROM COALESCE(ae.override_params, '{}'::jsonb)
+      || '{"range": "zone", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb;
   GET DIAGNOSTICS n_tele = ROW_COUNT;
 
   UPDATE "AbilityEffect" ae
@@ -86,7 +101,9 @@ BEGIN
     || '{"range": "world", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb
   FROM "Ability" a, "Effect" e
   WHERE ae.ability_id = a.id AND ae.effect_id = e.id
-    AND a.plain_name = 'WORLD_TELEPORT' AND e."effectType" = 'teleport';
+    AND a.plain_name = 'WORLD_TELEPORT' AND e."effectType" = 'teleport'
+    AND ae.override_params IS DISTINCT FROM COALESCE(ae.override_params, '{}'::jsonb)
+      || '{"range": "world", "success_base_pct": 10, "success_per_skill_pct": 2}'::jsonb;
   GET DIAGNOSTICS n_world = ROW_COUNT;
 
   UPDATE "AbilityEffect" ae
@@ -94,12 +111,14 @@ BEGIN
     || '{"range": "world", "success_base_pct": 100, "success_per_skill_pct": 0}'::jsonb
   FROM "Ability" a, "Effect" e
   WHERE ae.ability_id = a.id AND ae.effect_id = e.id
-    AND a.plain_name = 'WANDERING_WOODS' AND e."effectType" = 'teleport';
+    AND a.plain_name = 'WANDERING_WOODS' AND e."effectType" = 'teleport'
+    AND ae.override_params IS DISTINCT FROM COALESCE(ae.override_params, '{}'::jsonb)
+      || '{"range": "world", "success_base_pct": 100, "success_per_skill_pct": 0}'::jsonb;
   GET DIAGNOSTICS n_woods = ROW_COUNT;
 
-  RAISE NOTICE 'god-zones patch: AbilityEffect rows updated: TELEPORT=%, WORLD_TELEPORT=%, WANDERING_WOODS=%',
+  RAISE NOTICE 'god-zones patch: AbilityEffect rows changed: TELEPORT=%, WORLD_TELEPORT=%, WANDERING_WOODS=%',
     n_tele, n_world, n_woods;
-  IF n_tele = 0 OR n_world = 0 THEN
+  IF f_tele = 0 OR f_world = 0 THEN
     RAISE WARNING 'god-zones patch: TELEPORT / WORLD_TELEPORT teleport effect rows not found; the game will use its legacy defaults (zone-limited, 10 + 2*skill)';
   END IF;
 END $$;

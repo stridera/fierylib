@@ -40,6 +40,8 @@ def test_teleport_range_params_are_seeded_and_patched():
     # Matched by ability name + effect type, and reports what it touched.
     assert 'e."effectType" = \'teleport\'' in sql
     assert "RAISE NOTICE" in sql and "GET DIAGNOSTICS" in sql
+    # Rerun changes 0 rows: each param merge is skipped when it would be a no-op.
+    assert sql.count("override_params IS DISTINCT FROM") == 3
 
 
 class _FakePrisma:
