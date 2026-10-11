@@ -21,7 +21,7 @@ end
 -- TODO(parity): 55662 / 2334 are 5-digit legacy vnums. Verify intent
 -- (likely (556, 62) ghost crystal and (23, 34) hell trident) and
 -- switch to (zone_id, local_id) once confirmed.
-if object.id == 55662 or object.id == 2334 then
+if (object.zone_id == 556 and object.id == 62) or (object.zone_id == 23 and object.id == 34) then
     return _return_value
 end
 if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor or object.id == feet_gem or object.id == wrist_armor or object.id == wrist_gem or object.id == head_armor or object.id == head_gem or object.id == arms_armor or object.id == arms_gem or object.id == legs_armor or object.id == legs_gem or object.id == body_armor or object.id == body_gem then

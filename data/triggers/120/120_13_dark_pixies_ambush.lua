@@ -16,7 +16,7 @@ if actor.zone_id == 120 and actor.local_id == 19 then
     if not brownie then return true end
     brownie:follow(self)
     wait(3)
-    if self.id == 12030 then
+    if (self.zone_id == 120 and self.id == 30) then
         brownie:spawn_object(120, 1)
         brownie:command("mat 12050 drop passionfruit")
     else

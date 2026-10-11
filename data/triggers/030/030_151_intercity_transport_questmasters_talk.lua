@@ -13,22 +13,22 @@ end
 -- switch on self.id
 local myname = "elf"
 local dest = "Mielikki"
-if self.id == 3151 or self.id == 30075 then
+if (self.zone_id == 30 and self.id == 151) or (self.zone_id == 300 and self.id == 75) then
     myname = "barbarian"
     dest = "Ickle"
-elseif self.id == 3152 then
+elseif (self.zone_id == 30 and self.id == 152) then
     myname = "dwarf"
     dest = "Anduin"
-elseif self.id == 30074 then
+elseif (self.zone_id == 300 and self.id == 74) then
     myname = "drow"
     dest = "Anduin"
-elseif self.id == 30076 then
+elseif (self.zone_id == 300 and self.id == 76) then
     myname = "human"
     dest = "Mielikki"
-elseif self.id == 30077 then
+elseif (self.zone_id == 300 and self.id == 77) then
     myname = "orc"
     dest = "Ogakh"
-elseif self.id == 3150 then
+elseif (self.zone_id == 30 and self.id == 150) then
     -- legacy: questmaster 3150 had no myname/dest; bail before sending speech
     return true
 end

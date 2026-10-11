@@ -14,10 +14,10 @@
 --   imported.
 if actor:get_quest_stage("doom_entrance") == 1 then
     if actor:has_equipped(484, 30) then
-        if self.id == 55214 then
+        if (self.zone_id == 552 and self.id == 14) then
             self.room:send("The deer flees wildly at the sight of the blood-soaked rag!")
             self:command("flee")
-        elseif self.id == 55244 then
+        elseif (self.zone_id == 552 and self.id == 44) then
             self.room:send("The deer boldly stands its ground, nostrils flaring at the scent of blood.")
         end
     end

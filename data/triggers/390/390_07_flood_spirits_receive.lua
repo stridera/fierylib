@@ -21,8 +21,8 @@ local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("flood")
 -- switch on self.id
 if stage == 2 then
-    if object.id == 39000 then
-        if self.id == 39012 then
+    if (object.zone_id == 390 and object.id == 0) then
+        if (self.zone_id == 390 and self.id == 12) then
             self:destroy_item("heart-ocean")
             wait(1)
             self.room:send(tostring(self.name) .. " screams, 'LET THE SIEGE BEGIN!!'")
@@ -70,10 +70,10 @@ if stage == 2 then
             self.room:send(tostring(self.name) .. " bellows, 'GIVE IT BACK OR I WILL DESTROY YOU.'")
         end
     end
-elseif self.id == 39014 then
+elseif (self.zone_id == 390 and self.id == 14) then
     local color = "&6"
     if stage == 1 then
-        if object.id == 58401 then
+        if (object.zone_id == 584 and object.id == 1) then
             self:destroy_item("feather")
             wait(1)
             self.room:send(tostring(self.name) .. " submerges the feather in the steaming water.")
@@ -91,7 +91,7 @@ elseif self.id == 39014 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
     end
-elseif self.id == 39016 then
+elseif (self.zone_id == 390 and self.id == 16) then
     local color = "&2"
     if stage == 1 then
         if object.type == "FOOD" then
@@ -137,7 +137,7 @@ elseif self.id == 39016 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
     end
-elseif self.id == 39019 then
+elseif (self.zone_id == 390 and self.id == 19) then
     local color = "&9&b"
     if stage == 1 then
         if object.type == "LIGHT" then

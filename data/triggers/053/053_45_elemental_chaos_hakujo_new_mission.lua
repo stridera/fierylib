@@ -25,26 +25,27 @@ wait(2)
 if actor.level >= (actor:get_quest_stage("elemental_chaos") - 1) * 10 then
     if actor:get_quest_var("elemental_chaos:bounty") then
         -- switch on actor:get_quest_stage("elemental_chaos")
+        local mission
         if actor:get_quest_stage("elemental_chaos") == 1 then
-            local mission = 20
+            mission = 20
         elseif actor:get_quest_stage("elemental_chaos") == 2 then
-            local mission = 21
+            mission = 21
         elseif actor:get_quest_stage("elemental_chaos") == 3 then
-            local mission = 22
+            mission = 22
         elseif actor:get_quest_stage("elemental_chaos") == 4 then
-            local mission = 23
+            mission = 23
         elseif actor:get_quest_stage("elemental_chaos") == 5 then
-            local mission = 24
+            mission = 24
         elseif actor:get_quest_stage("elemental_chaos") == 6 then
-            local mission = 25
+            mission = 25
         elseif actor:get_quest_stage("elemental_chaos") == 7 then
-            local mission = 26
+            mission = 26
         elseif actor:get_quest_stage("elemental_chaos") == 8 then
-            local mission = 27
+            mission = 27
         elseif actor:get_quest_stage("elemental_chaos") == 9 then
-            local mission = 28
+            mission = 28
         elseif actor:get_quest_stage("elemental_chaos") == 10 then
-            local mission = 29
+            mission = 29
         end
         self:command("grumble")
         self.room:spawn_object(53, mission)

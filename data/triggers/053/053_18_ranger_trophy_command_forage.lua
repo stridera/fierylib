@@ -32,41 +32,42 @@ if cmd == "f" or cmd == "fo" or cmd == "for" then
 end
 local trophystage = actor:get_quest_stage("ranger_trophy")
 -- switch on self.id
+local continue
 if actor.room == 8614 and trophystage == 1 then
     if self.id == 370 then
-        local continue = "yes"
+        continue = "yes"
     end
     if (actor.room >= 20352 and actor.room <= 20354) and trophystage == 2 then
     elseif self.id == 371 then
-        local continue = "yes"
+        continue = "yes"
     end
     if (actor.room == 2392 or actor.room == 2410) and trophystage == 3 then
     elseif self.id == 372 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 46244 and trophystage == 4 then
     elseif self.id == 373 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 12429 and trophystage == 5 then
     elseif self.id == 374 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 53568 and trophystage == 6 then
     elseif self.id == 375 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 49094 and trophystage == 7 then
     elseif self.id == 376 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 48080 and trophystage == 8 then
     elseif self.id == 377 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 23892 and trophystage == 9 then
     elseif self.id == 378 then
-        local continue = "yes"
+        continue = "yes"
     end
 end
 if continue == "yes" then

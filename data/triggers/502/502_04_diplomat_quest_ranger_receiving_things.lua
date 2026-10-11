@@ -18,12 +18,12 @@
 -- assignments below are dead (block-scoped, never read).
 local actor_id = actor.id
 wait(1)
-if object.id == 50218 then
+if (object.zone_id == 502 and object.id == 18) then
     wait(1)
-    if actor_id == 50201 then
+    if (actor.zone_id == 502 and actor_id == 1) then
         local mdiplomat = 1
         globals.mdiplomat = globals.mdiplomat or true
-    elseif actor_id == 50209 then
+    elseif (actor.zone_id == 502 and actor_id == 9) then
         local mdiplomat = 0
         globals.mdiplomat = globals.mdiplomat or true
     end

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- Check for proper actor stage and item
-if object.id == 53424 then
+if (object.zone_id == 534 and object.id == 24) then
     if actor:get_quest_stage("relocate_spell_quest") == 4 then
         wait(10)
         actor:send("The observer tells you, 'Thank you so much, you have recovered the lost globe!'")

@@ -30,8 +30,9 @@ end
 if status == 4 then
     local plyr = 1
     while plyr <= 4 do
+        local score
         if card37 == plyr + 4 then
-            local score = 13
+            score = 13
         end
         if card40 == plyr + 4 then
             score = score + 1
@@ -82,43 +83,44 @@ if status == 4 then
             local score4 = score
         end
     end
+    local score1, score2, score3, score4
     if (score1 == 26) or (score2 == 26) or (score3 == 26) or (score4 == 26) then
         if score1 == 26 then
             player1:send("You took all the point cards!  Everyone else gets 26 points.")
             player2:send(tostring(player1.name) .. " took all the point cards, so you get 26 points.")
             player3:send(tostring(player1.name) .. " took all the point cards, so you get 26 points.")
             player4:send(tostring(player1.name) .. " took all the point cards, so you get 26 points.")
-            local score1 = 0
-            local score2 = 26
-            local score3 = 26
-            local score4 = 26
+            score1 = 0
+            score2 = 26
+            score3 = 26
+            score4 = 26
         elseif score2 == 26 then
             player1:send(tostring(player2.name) .. " took all the point cards, so you get 26 points.")
             player2:send("You took all the point cards!  Everyone else gets 26 points.")
             player3:send(tostring(player2.name) .. " took all the point cards, so you get 26 points.")
             player4:send(tostring(player2.name) .. " took all the point cards, so you get 26 points.")
-            local score1 = 26
-            local score2 = 0
-            local score3 = 26
-            local score4 = 26
+            score1 = 26
+            score2 = 0
+            score3 = 26
+            score4 = 26
         elseif score3 == 26 then
             player1:send(tostring(player3.name) .. " took all the point cards, so you get 26 points.")
             player2:send(tostring(player3.name) .. " took all the point cards, so you get 26 points.")
             player3:send("You took all the point cards!  Everyone else gets 26 points.")
             player4:send(tostring(player3.name) .. " took all the point cards, so you get 26 points.")
-            local score1 = 26
-            local score2 = 26
-            local score3 = 0
-            local score4 = 26
+            score1 = 26
+            score2 = 26
+            score3 = 0
+            score4 = 26
         elseif score4 == 26 then
             player1:send(tostring(player4.name) .. " took all the point cards, so you get 26 points.")
             player2:send(tostring(player4.name) .. " took all the point cards, so you get 26 points.")
             player3:send(tostring(player4.name) .. " took all the point cards, so you get 26 points.")
             player4:send("You took all the point cards!  Everyone else gets 26 points.")
-            local score1 = 26
-            local score2 = 26
-            local score3 = 26
-            local score4 = 0
+            score1 = 26
+            score2 = 26
+            score3 = 26
+            score4 = 0
         end
     end
     total1 = total1 + score1

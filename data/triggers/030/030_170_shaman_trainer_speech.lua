@@ -49,79 +49,80 @@ else
     local int = actor.real_int
     -- 
     -- Identify the skill to be trained
+    local word2, skill
     if speech == "spell knowledge" then
-        local word2 = "knowledge"
-        local skill = actor:has_skill("spell knowledge")
+        word2 = "knowledge"
+        skill = actor:has_skill("spell knowledge")
     elseif string.find(speech, "sphere") then
         if string.find(speech, "air") then
-            local word2 = "air"
-            local skill = actor:has_skill("sphere of air")
+            word2 = "air"
+            skill = actor:has_skill("sphere of air")
         elseif string.find(speech, "death") then
-            local word2 = "death"
-            local skill = actor:has_skill("sphere of death")
+            word2 = "death"
+            skill = actor:has_skill("sphere of death")
         elseif string.find(speech, "divination") then
-            local word2 = "divination"
-            local skill = actor:has_skill("sphere of divination")
+            word2 = "divination"
+            skill = actor:has_skill("sphere of divination")
         elseif string.find(speech, "earth") then
-            local word2 = "earth"
-            local skill = actor:has_skill("sphere of earth")
+            word2 = "earth"
+            skill = actor:has_skill("sphere of earth")
         elseif string.find(speech, "enchantment") then
-            local word2 = "enchantment"
-            local skill = actor:has_skill("sphere of enchantment")
+            word2 = "enchantment"
+            skill = actor:has_skill("sphere of enchantment")
         elseif string.find(speech, "fire") then
-            local word2 = "fire"
-            local skill = actor:has_skill("sphere of fire")
+            word2 = "fire"
+            skill = actor:has_skill("sphere of fire")
         elseif string.find(speech, "generic") then
-            local word2 = "generic"
-            local skill = actor:has_skill("sphere of generic")
+            word2 = "generic"
+            skill = actor:has_skill("sphere of generic")
         elseif string.find(speech, "healing") then
-            local word2 = "healing"
-            local skill = actor:has_skill("sphere of healing")
+            word2 = "healing"
+            skill = actor:has_skill("sphere of healing")
         elseif string.find(speech, "protection") then
-            local word2 = "protection"
-            local skill = actor:has_skill("sphere of protection")
+            word2 = "protection"
+            skill = actor:has_skill("sphere of protection")
         elseif string.find(speech, "summoning") then
-            local word2 = "summoning"
-            local skill = actor:has_skill("sphere of summoning")
+            word2 = "summoning"
+            skill = actor:has_skill("sphere of summoning")
         elseif string.find(speech, "water") then
-            local word2 = "water"
-            local skill = actor:has_skill("sphere of water")
+            word2 = "water"
+            skill = actor:has_skill("sphere of water")
         else
             self:say("I've never heard of that sphere of magic before.")
         end
     elseif string.find(speech, "breathe") then
         if string.find(speech, "fire") then
-            local word2 = "fire"
-            local skill = actor:has_skill("breathe fire")
+            word2 = "fire"
+            skill = actor:has_skill("breathe fire")
         elseif string.find(speech, "frost") then
-            local word2 = "frost"
-            local skill = actor:has_skill("breathe frost")
+            word2 = "frost"
+            skill = actor:has_skill("breathe frost")
         elseif string.find(speech, "lightning") then
-            local word2 = "lightning"
-            local skill = actor:has_skill("breathe lightning")
+            word2 = "lightning"
+            skill = actor:has_skill("breathe lightning")
         elseif string.find(speech, "acid") then
-            local word2 = "acid"
-            local skill = actor:has_skill("breathe acid")
+            word2 = "acid"
+            skill = actor:has_skill("breathe acid")
         elseif string.find(speech, "gas") then
-            local word2 = "gas"
-            local skill = actor:has_skill("breathe gas")
+            word2 = "gas"
+            skill = actor:has_skill("breathe gas")
         else
             self:say("Whatever that is, you can't breathe it!")
         end
     elseif speech == "quick chant" then
-        local word2 = "chant"
-        local skill = actor:has_skill("quick chant")
+        word2 = "chant"
+        skill = actor:has_skill("quick chant")
     elseif speech == "chant" then
-        local skill = actor:has_skill("chant")
+        skill = actor:has_skill("chant")
     elseif speech == "scribe" then
-        local skill = actor:has_skill("scribe")
+        skill = actor:has_skill("scribe")
     elseif speech == "meditate" then
-        local skill = actor:has_skill("meditate")
+        skill = actor:has_skill("meditate")
     elseif speech == "vampiric touch" then
-        local word2 = "touch"
-        local skill = actor:has_skill("vampiric touch")
+        word2 = "touch"
+        skill = actor:has_skill("vampiric touch")
     elseif speech == "perform" then
-        local skill = actor:has_skill("perform")
+        skill = actor:has_skill("perform")
     else
         self:say("I'm not familiar with " .. tostring(speech) .. ".")
         return _return_value
@@ -142,7 +143,7 @@ else
         return _return_value
     end
     if cap < maxskill then
-        local maxskill = cap
+        maxskill = cap
     end
     -- This portion is for smooth speech indicating the effects of a players cha or int
     self:command("score")

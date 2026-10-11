@@ -25,7 +25,7 @@ elseif action > 7 then
 elseif action > 5 then
     -- 10% chance to dispel magic
     if actor.is_player then
-        if self.id == 48911 then
+        if (self.zone_id == 489 and self.id == 11) then
             self.room:spawn_object(489, 28)
         else
             self.room:spawn_object(489, 27)

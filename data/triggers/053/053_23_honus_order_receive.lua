@@ -16,36 +16,37 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 -- hunt orders here
-if object.id == 5310 then
-    local stage = 1
-    local treasure1 = "a singing chain"
-elseif object.id == 5311 then
-    local stage = 2
-    local treasure1 = "a fire ring"
-elseif object.id == 5312 then
-    local stage = 3
-    local treasure1 = "a sandstone ring"
-elseif object.id == 5313 then
-    local stage = 4
-    local treasure1 = "a crimson-tinged electrum hoop"
-elseif object.id == 5314 then
-    local stage = 5
-    local treasure1 = "a Rainbow Shell"
-elseif object.id == 5315 then
-    local stage = 6
-    local treasure1 = "the Stormshield"
-elseif object.id == 5316 then
-    local stage = 7
-    local treasure1 = "the Snow Leopard Cloak"
-elseif object.id == 5317 then
-    local stage = 8
-    local treasure1 = "a coiled rope ladder"
-elseif object.id == 5318 then
-    local stage = 9
-    local treasure1 = "a glowing phoenix feather"
-elseif object.id == 5319 then
-    local stage = 10
-    local treasure1 = "a piece of sleet armor"
+local stage, treasure1
+if (object.zone_id == 53 and object.id == 10) then
+    stage = 1
+    treasure1 = "a singing chain"
+elseif (object.zone_id == 53 and object.id == 11) then
+    stage = 2
+    treasure1 = "a fire ring"
+elseif (object.zone_id == 53 and object.id == 12) then
+    stage = 3
+    treasure1 = "a sandstone ring"
+elseif (object.zone_id == 53 and object.id == 13) then
+    stage = 4
+    treasure1 = "a crimson-tinged electrum hoop"
+elseif (object.zone_id == 53 and object.id == 14) then
+    stage = 5
+    treasure1 = "a Rainbow Shell"
+elseif (object.zone_id == 53 and object.id == 15) then
+    stage = 6
+    treasure1 = "the Stormshield"
+elseif (object.zone_id == 53 and object.id == 16) then
+    stage = 7
+    treasure1 = "the Snow Leopard Cloak"
+elseif (object.zone_id == 53 and object.id == 17) then
+    stage = 8
+    treasure1 = "a coiled rope ladder"
+elseif (object.zone_id == 53 and object.id == 18) then
+    stage = 9
+    treasure1 = "a glowing phoenix feather"
+elseif (object.zone_id == 53 and object.id == 19) then
+    stage = 10
+    treasure1 = "a piece of sleet armor"
 end
 if actor:get_quest_stage("treasure_hunter") == "stage" and actor:get_quest_var("treasure_hunter:hunt") == "returned" then
     local anti = "Anti-Paladin"
@@ -55,36 +56,39 @@ if actor:get_quest_stage("treasure_hunter") == "stage" and actor:get_quest_var("
     actor:send(tostring(self.name) .. " says, 'Congratulations!  Here's your reward.'")
     local money = stage * 10
     self:command("give " .. tostring(money) .. " platinum " .. tostring(actor))
+    local expcap
     if stage == 1 then
-        local expcap = 5
+        expcap = 5
     else
         local bonus = (stage - 1) * 10
-        local expcap = bonus
+        expcap = bonus
     end
+    local expmod
     if expcap < 9 then
-        local expmod = (((expcap * expcap) + expcap) / 2) * 55
+        expmod = (((expcap * expcap) + expcap) / 2) * 55
     elseif expcap < 17 then
-        local expmod = 440 + ((expcap - 8) * 125)
+        expmod = 440 + ((expcap - 8) * 125)
     elseif expcap < 25 then
-        local expmod = 1440 + ((expcap - 16) * 175)
+        expmod = 1440 + ((expcap - 16) * 175)
     elseif expcap < 34 then
-        local expmod = 2840 + ((expcap - 24) * 225)
+        expmod = 2840 + ((expcap - 24) * 225)
     elseif expcap < 49 then
-        local expmod = 4640 + ((expcap - 32) * 250)
+        expmod = 4640 + ((expcap - 32) * 250)
     elseif expcap < 90 then
-        local expmod = 8640 + ((expcap - 48) * 300)
+        expmod = 8640 + ((expcap - 48) * 300)
     else
-        local expmod = 20940 + ((expcap - 89) * 600)
+        expmod = 20940 + ((expcap - 89) * 600)
     end
     -- switch on person.class
+    local expmod
     if person.class == "Warrior" or person.class == "Berserker" then
-        local expmod = (expmod + (expmod / 10))
+        expmod = (expmod + (expmod / 10))
     elseif person.class == "Paladin" or person.class == "%anti%" or person.class == "Ranger" then
-        local expmod = (expmod + ((expmod * 2) / 15))
+        expmod = (expmod + ((expmod * 2) / 15))
     elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
-        local expmod = (expmod + (expmod / 5))
+        expmod = (expmod + (expmod / 5))
     elseif person.class == "Necromancer" or person.class == "Monk" then
-        local expmod = (expmod + (expmod * 2) / 5)
+        expmod = (expmod + (expmod * 2) / 5)
     else
         expmod = expmod
     end

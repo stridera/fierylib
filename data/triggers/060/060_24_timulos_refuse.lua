@@ -14,12 +14,13 @@ if not percent_chance(0) then
 end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
+local response
 if actor:get_quest_stage("merc_ass_thi_subclass") == 4 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Well this is nifty, I think I will hold on to that, thank you.  Now go bring me what you were told.'")
     world.destroy(object)
 else
-    local response = "What is this? Are you trying to trick me?"
+    response = "What is this? Are you trying to trick me?"
 end
 if response then
     _return_value = true

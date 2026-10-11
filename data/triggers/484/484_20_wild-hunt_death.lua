@@ -16,13 +16,13 @@ local _return_value = true  -- Default: allow action
 -- hart who runs away from the questor.
 -- If this deer is normal, load two more deer.
 -- If this deer is the spirit of the white hart, load the antlers.
-if self.id == 55244 then
+if (self.zone_id == 552 and self.id == 44) then
     if actor:get_quest_stage("doom_entrance") == 1 then
         _return_value = true
         self.room:send("The spirit of the white hart breaks from the body and scampers off!")
         self.room:spawn_mobile(552, 45)
     end
-elseif self.id == 55214 then
+elseif (self.zone_id == 552 and self.id == 14) then
     if actor:get_quest_stage("doom_entrance") == 1 then
         local room = 55210 + random(1, 82)
         room:at(function()
@@ -33,7 +33,7 @@ elseif self.id == 55214 then
             self.room:spawn_mobile(552, 14)
         end)
     end
-elseif self.id == 55245 then
+elseif (self.zone_id == 552 and self.id == 45) then
     local i = actor.group_size
     local a
     if i then

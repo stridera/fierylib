@@ -23,7 +23,7 @@ end
 while i >= a do
     local person = actor.group_member[a]
     if person and person.room == self.room then
-        if object.id == 4301 then
+        if (object.zone_id == 43 and object.id == 1) then
             if person:get_quest_stage("theatre") >= stage then
                 if not person:get_quest_var("theatre:charles") then
                     person:set_quest_var("theatre", "charles", 1)
@@ -37,7 +37,7 @@ while i >= a do
             else
                 refuse = "person"
             end
-        elseif object.id == 4320 then
+        elseif (object.zone_id == 43 and object.id == 20) then
             if person:get_quest_stage("theatre") <= stage then
                 accept = 3
                 if person:get_quest_stage("theatre") == stage then

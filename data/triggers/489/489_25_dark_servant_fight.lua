@@ -25,7 +25,7 @@ elseif chance == 1 then
     -- 10% chance to hitall
     self:attack_all()
     return true
-elseif (chance == 2) and (self.id == 48909) then
+elseif (chance == 2) and (self.zone_id == 489 and self.id == 9) then
     -- 10% chance for the warrior dark-servant to re-target onto an
     -- Assassin or Thief in the room.
     local victim

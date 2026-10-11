@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 wait(1)
 if actor:get_quest_stage("hellfire_brimstone") == 1 then
-    if object.id == 2338 then
+    if (object.zone_id == 23 and object.id == 38) then
         self.room:send("The bonfire crackles and roars!")
         world.destroy(object)
         wait(1)
@@ -31,7 +31,7 @@ if actor:get_quest_stage("hellfire_brimstone") == 1 then
         end
     end
 elseif actor:get_quest_stage("hellfire_brimstone") == 2 then
-    if object.id == 2337 then
+    if (object.zone_id == 23 and object.id == 37) then
         self.room:send(tostring(mobiles.template(23, 11).name) .. " draws out lines with the brimstone.")
         world.destroy(object)
         self.room:send(tostring(mobiles.template(23, 11).name) .. " flashes a wicked grin.")

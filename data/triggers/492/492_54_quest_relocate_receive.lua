@@ -15,7 +15,7 @@ local _return_value = true  -- Default: allow action (item kept by mob)
 -- Comments about Acerites hatred of ampersands is preserved for posterity and the previous code is logged on the Wiki.
 local stage = actor:get_quest_stage("relocate_spell_quest")
 if stage == 1 then
-    if object.id == 49250 then
+    if (object.zone_id == 492 and object.id == 50) then
         wait(1)
         self:destroy_item("mystics")
         self.room:send("A lost mage examines the Druidstaff carefully.")
@@ -27,7 +27,7 @@ if stage == 1 then
         self:command("frown")
     end
 elseif stage == 2 then
-    if object.id == 49250 then
+    if (object.zone_id == 492 and object.id == 50) then
         wait(2)
         actor:advance_quest("relocate_spell_quest")
         actor:send("A lost mage tells you, 'Excellent, thank you! Thank you!'")
@@ -43,7 +43,7 @@ elseif stage == 2 then
         self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
     end
 elseif stage == 4 then
-    if object.id == 49252 then
+    if (object.zone_id == 492 and object.id == 52) then
         wait(1)
         self:destroy_item("telescope")
         self.room:send("A lost mage examines the telescope carefully.")
@@ -53,7 +53,7 @@ elseif stage == 4 then
         self.room:send("</>You must earn this properly. Go NOW!'")
     end
 elseif stage == 5 then
-    if object.id == 49252 then
+    if (object.zone_id == 492 and object.id == 52) then
         wait(2)
         actor:advance_quest("relocate_spell_quest")
         actor:send("A lost mage tells you, 'Yes, yes! Thank you!")
@@ -69,7 +69,7 @@ elseif stage == 5 then
         self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
     end
 elseif stage == 6 then
-    if object.id == 12520 then
+    if (object.zone_id == 125 and object.id == 20) then
         actor:advance_quest("relocate_spell_quest")
         actor:save()
         wait(2)
@@ -91,7 +91,7 @@ elseif stage == 6 then
         self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
     end
 elseif stage == 7 then
-    if object.id == 58608 then
+    if (object.zone_id == 586 and object.id == 8) then
         actor:advance_quest("relocate_spell_quest")
         wait(2)
         actor:send("A lost mage tells you, 'Almost there, one more!'")
@@ -114,7 +114,7 @@ elseif stage == 7 then
         run_room_trigger(492, 25)
     end
 elseif stage == 8 then
-    if object.id == 49251 then
+    if (object.zone_id == 492 and object.id == 51) then
         wait(1)
         self.room:send("A lost mage examines the golden quill.")
         wait(1)
@@ -124,7 +124,7 @@ elseif stage == 8 then
         self:command("frown")
     end
 elseif stage == 9 then
-    if object.id == 49251 then
+    if (object.zone_id == 492 and object.id == 51) then
         wait(20)
         actor:send("A lost mage tells you, 'Excellent, Thank you so much, please wait while I")
         actor:send("</>scribe my spell!'")

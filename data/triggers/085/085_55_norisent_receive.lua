@@ -19,7 +19,7 @@
 -- Converted from DG Script #8555: Norisent Receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if object.id == 4008 then
+if (object.zone_id == 40 and object.id == 8) then
     if actor:get_quest_stage("resurrection_quest") == 4 then
         _return_value = true
         self:emote("refuses to take it.")
@@ -42,7 +42,7 @@ if object.id == 4008 then
         return _return_value
     end
     return _return_value
-elseif object.id == 53307 then
+elseif (object.zone_id == 533 and object.id == 7) then
     if actor:get_quest_stage("resurrection_quest") == 6 then
         _return_value = true
         self:emote("refuses your item.")
@@ -71,8 +71,8 @@ elseif object.id == 53307 then
         return _return_value
     end
     return _return_value
-elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 or object.id == 51028 or object.id == 51022) then
-    if object.id == 51023 then
+elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 510 and object.id == 23) or (object.zone_id == 510 and object.id == 28) or (object.zone_id == 510 and object.id == 22)) then
+    if (object.zone_id == 510 and object.id == 23) then
         if actor.class == "cleric" or actor.class == "priest" then
             wait(2)
             world.destroy(object)
@@ -86,7 +86,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             self:say("What's your class?")
             return _return_value
         end
-    elseif object.id == 51028 then
+    elseif (object.zone_id == 510 and object.id == 28) then
         if actor.class == "diabolist" then
             wait(2)
             world.destroy(object)
@@ -100,7 +100,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
             self:say("What's your class?")
             return _return_value
         end
-    elseif object.id == 51022 then
+    elseif (object.zone_id == 510 and object.id == 22) then
         if actor.class == "cleric" or actor.class == "priest" then
             _return_value = true
             self:say("This book is incomplete!  Something has drained its magic!  Fix that then bring the book back.")
@@ -133,13 +133,13 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and (object.id == 51023 
     wait(5)
     self.room:send(tostring(self.name) .. " says, 'Bring swift and lasting death to <b:blue>the crazed mage</>, and return the source of his arcane longevity.'")
 elseif actor:get_quest_stage("resurrection_quest") == 10 then
-    if object.id == 52001 then
+    if (object.zone_id == 520 and object.id == 1) then
         self:say("Give me the talisman first.  I must know the crazed mage is truly dead at last.")
         _return_value = true
         self:emote("refuses your item.")
     end
 elseif actor:get_quest_stage("resurrection_quest") == 11 then
-    if object.id == 52001 then
+    if (object.zone_id == 520 and object.id == 1) then
         wait(2)
         world.destroy(object)
         self:say("The ring is secure again.  It holds more power than a mortal can imagine.")

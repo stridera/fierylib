@@ -15,43 +15,45 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-if object.id == 61514 then
+local stage
+if (object.zone_id == 615 and object.id == 14) then
     -- singing chain
-    local stage = 1
-elseif object.id == 4319 then
+    stage = 1
+elseif (object.zone_id == 43 and object.id == 19) then
     -- fire ring
-    local stage = 2
-elseif object.id == 16103 then
+    stage = 2
+elseif (object.zone_id == 161 and object.id == 3) then
     -- sandstone ring
-    local stage = 3
-elseif object.id == 50215 then
+    stage = 3
+elseif (object.zone_id == 502 and object.id == 15) then
     -- electrum hoop
-    local stage = 4
-elseif object.id == 48101 then
+    stage = 4
+elseif (object.zone_id == 481 and object.id == 1) then
     -- rainbow shell
-    local stage = 5
-elseif object.id == 16009 then
+    stage = 5
+elseif (object.zone_id == 160 and object.id == 9) then
     -- stormshield
-    local stage = 6
-elseif object.id == 55008 then
+    stage = 6
+elseif (object.zone_id == 550 and object.id == 8) then
     -- snow leopard cloak
-    local stage = 7
-elseif object.id == 49041 then
+    stage = 7
+elseif (object.zone_id == 490 and object.id == 41) then
     -- rope ladder
-    local stage = 8
-elseif object.id == 58401 then
+    stage = 8
+elseif (object.zone_id == 584 and object.id == 1) then
     -- phoenix feather
-    local stage = 9
-elseif object.id == 53500 or object.id == 53501 or object.id == 53505 or object.id == 53506 then
+    stage = 9
+elseif (object.zone_id == 534 and object.id == 100) or (object.zone_id == 534 and object.id == 101) or (object.zone_id == 534 and object.id == 105) or (object.zone_id == 534 and object.id == 106) then
     -- sleet armor
-    local stage = 10
+    stage = 10
 end
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]

@@ -21,7 +21,7 @@ elseif actor:get_quest_stage("bard_subclass") == 2 then
     actor:send(tostring(self.name) .. " says, 'You're at the <b:magenta>dancing</> portion of your audition.'")
 elseif actor:get_quest_stage("bard_subclass") == 3 or actor:get_quest_stage("bard_subclass") == 4 then
     actor:send(tostring(self.name) .. " says, 'You were looking for an old <b:yellow>script</> in Morgan Hill.'")
-    if self.id == 4398 then
+    if (self.zone_id == 43 and self.id == 98) then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Give it to me when you find it.'")
     end
@@ -40,7 +40,7 @@ else
             actor:send(tostring(self.name) .. " says, 'You're a bit too green now, but come back soon!'")
         elseif actor.level >= 10 and actor.level <= 25 then
             actor:send(tostring(self.name) .. " says, 'You haven't even started your audition yet!'")
-            if self.id == 4399 then
+            if (self.zone_id == 43 and self.id == 99) then
                 wait(2)
                 actor:send(tostring(self.name) .. " says, 'Say <b:cyan>'yes'</> if you're ready to continue.'")
             end

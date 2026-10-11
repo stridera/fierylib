@@ -7,6 +7,7 @@
 
 -- Converted from DG Script #48133: shaman_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+local levelcheck, queststart, lowlevel
 if object.zone_id == 481 and object.local_id == 22 then
     wait(2)
     self:destroy_item("head")
@@ -19,9 +20,9 @@ if object.zone_id == 481 and object.local_id == 22 then
     wait(1)
     local person = actor
     local i = person.group_size
-    local levelcheck = 0
-    local queststart = 0
-    local lowlevel = 0
+    levelcheck = 0
+    queststart = 0
+    lowlevel = 0
     local a
     if i then
         a = 1

@@ -12,13 +12,13 @@ if actor:get_quest_stage("major_globe_spell") == 9 then
     -- 58008, 16003, 23711). Confirm composite (zone_id, local_id) mapping when
     -- mob protos migrate.
     local load_channel
-    if self.id == 2322 then
+    if (self.zone_id == 23 and self.id == 22) then
         load_channel = 58
-    elseif self.id == 58008 then
+    elseif (self.zone_id == 580 and self.id == 8) then
         load_channel = 59
-    elseif self.id == 16003 then
+    elseif (self.zone_id == 160 and self.id == 3) then
         load_channel = 60
-    elseif self.id == 23711 then
+    elseif (self.zone_id == 237 and self.id == 11) then
         load_channel = 61
     end
     if load_channel then

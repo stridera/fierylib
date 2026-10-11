@@ -43,29 +43,27 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
                 return _return_value
             end
             -- switch on stage
+            local task
             if stage == 1 then
-                local task = "Find Jemnon and ask about the rock demon.  McCabe said, \"He's in some tavern, no doubt, waiting for some new blunder to embark on.\""
+                task = "Find Jemnon and ask about the rock demon.  McCabe said, \"He's in some tavern, no doubt, waiting for some new blunder to embark on.\""
             elseif stage == 2 then
-                local task = "Find a suitable meteor focus from the rock demon in Templace."
+                task = "Find a suitable meteor focus from the rock demon in Templace."
                 if actor:get_quest_var("meteorswarm:earth") == 0 then
                 elseif stage == 3 then
-                    local task = "Show him the meteorite."
+                    task = "Show him the meteorite."
                 else
-                    local task
                     if actor:get_quest_var("meteorswarm:fire") == 0 then
                         task = "Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers."
                     else
                         task = "Find the lava bubble in the high fire priest's secret chambers."
                     end
                 end
-                local task
                 if actor:get_quest_var("meteorswarm:fire") == 1 then
                 elseif stage == 4 then
                     task = "Return to McCabe."
                 elseif actor:get_quest_var("meteorswarm:fire") == 2 then
                     task = "Convince the ancient dragon Dargentan to teach you the ways of air magic."
                 end
-                local task
                 if actor:get_quest_var("meteorswarm:air") == 0 then
                 elseif stage == 5 then
                     task = "Show him the meteorite now that you have mastered earth, fire, and air."

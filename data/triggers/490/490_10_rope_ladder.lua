@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #49010: rope_ladder
 -- Original: WORLD trigger, flags: DROP, probability: 100%
-if object.id == 49041 then
+if (object.zone_id == 490 and object.id == 41) then
     wait(1)
     self.room:send("The ladder unrolls and forms a rigid structure down the cliff.")
     get_room(490, 149):exit("d"):set_state({hidden = false})

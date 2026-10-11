@@ -13,7 +13,7 @@ if not (cmd == "get") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:gear") == 7 then
-    if arg.id == 51902 then
+    if (arg.zone_id == 519 and arg.id == 2) then
         actor:set_quest_var("school", "gear", 8)
         actor:command("get " .. tostring(arg))
         wait(2)
@@ -24,7 +24,7 @@ if actor:get_quest_var("school:gear") == 7 then
         actor:send(tostring(self.name) .. " tells you, 'Try typing <b:green>get 2.stick</> and see what happens.'")
     end
 elseif actor:get_quest_var("school:gear") == 8 then
-    if arg.id == 51902 and string.find(arg, "2.") then
+    if (arg.zone_id == 519 and arg.id == 2) and string.find(arg, "2.") then
         actor:set_quest_var("school", "gear", 9)
         actor:command("get " .. tostring(arg))
         wait(2)

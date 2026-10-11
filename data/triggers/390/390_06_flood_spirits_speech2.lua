@@ -27,7 +27,7 @@ if actor:get_quest_stage("flood") == 1 then
     -- 
     -- Blue-fog wants nothing.
     -- 
-    if self.id == 39013 then
+    if (self.zone_id == 390 and self.id == 13) then
         local color = "&4"
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'The ocean is a sister to me.  Long have our waters mingled</>")
         self.room:send("</>" .. tostring(color) .. "and met.'</>")
@@ -42,7 +42,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- 
         -- Phoenix wants the feather
         -- 
-    elseif self.id == 39014 then
+    elseif (self.zone_id == 390 and self.id == 14) then
         local color = "&6"
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I will join this effort if heat can be provided for my</>")
         self.room:send("</>" .. tostring(color) .. "spring while I am away.'</>")
@@ -58,7 +58,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- 
         -- Three-Falls wants a water dance
         -- 
-    elseif self.id == 39015 then
+    elseif (self.zone_id == 390 and self.id == 15) then
         local color = "&4&b"
         self.room:send(tostring(self.name) .. " speaks in three voices at once:")
         self.room:send(tostring(color) .. "'We only receive petitions from those that perform the proper dances.  Observe</>")
@@ -74,7 +74,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- 
         -- Greengreen wants to devour things
         -- 
-    elseif self.id == 39016 then
+    elseif (self.zone_id == 390 and self.id == 16) then
         local color = "&2"
         self.room:send("With a voice like rattling bones " .. tostring(self.name) .. " speaks:")
         self.room:send(tostring(color) .. "'I move only as my hunger is sated.  Feed me the gluttonous pleasures my</>")
@@ -91,7 +91,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- 
         -- Lullaby is free once the Sea Witch is defeated and is called from the Witch's lair
         -- 
-    elseif self.id == 39017 then
+    elseif (self.zone_id == 390 and self.id == 17) then
         local color = "&4&b"
         self.room:send("In sonorous tones " .. tostring(self.name) .. " says, " .. tostring(color) .. "'As the mighty Sea Witch has been defeated</>")
         self.room:send("</>" .. tostring(color) .. "I shall join thee in thy cause.'</>")
@@ -101,7 +101,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- 
         -- Frozen wants a fight
         -- 
-    elseif self.id == 39018 then
+    elseif (self.zone_id == 390 and self.id == 18) then
         local color = "&7&b"
         actor:set_quest_var("flood", "item6", 1)
         self.room:send(tostring(self.name) .. " laughs in a voice as freezing as the blasting wind.")
@@ -121,7 +121,7 @@ if actor:get_quest_stage("flood") == 1 then
         --
         -- Black Lake wants an infinite light
         -- 
-    elseif self.id == 39019 then
+    elseif (self.zone_id == 390 and self.id == 19) then
         local color = "&9&b"
         self.room:send("The sound of " .. tostring(self.name) .. "'s laughter terrifies you to your very soul!")
         wait(1)
@@ -138,7 +138,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- 
         -- Dreaming Undine wants nothing but only comes out at night.
         -- 
-    elseif self.id == 39020 then
+    elseif (self.zone_id == 390 and self.id == 20) then
         local color = "&6&b"
         self.room:send(tostring(self.name) .. " giggles like peeling bells.")
         self.room:send(tostring(self.name) .. " traces the dream-like reflection of the moon on the surface of the stream.")

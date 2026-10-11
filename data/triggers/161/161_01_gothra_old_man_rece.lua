@@ -10,7 +10,7 @@
 -- group member present in the room.
 
 -- TODO: confirm bracelet identity; legacy used vnum 2023 (zone 20, local 23?).
-if object.id == 2023 then
+if (object.zone_id == 20 and object.id == 23) then
     wait(1)
     self:destroy_item("bracelet")
     self:shout("Woo Hoo!")

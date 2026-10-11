@@ -21,11 +21,12 @@ if not tank then
 end
 for _, person in ipairs(self:get_people()) do
     if string.find(tank, "person.name") then
+        local damage
         if person.is_player then
-            local damage = 390 + random(1, 40)
+            damage = 390 + random(1, 40)
         else
             -- If a mob is tanking, hit it for massive damage!
-            local damage = 1000 + random(1, 200)
+            damage = 1000 + random(1, 200)
         end
         -- Halve damage for sanc
         if person:has_effect(Effect.Sanctuary) then

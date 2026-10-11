@@ -47,40 +47,40 @@ if player1 and player2 and player3 and player4 then
         local rank = card - 13 * ((card - 1)/ 13)
         local suit = ((card - 1)/ 13) + 1
         if rank == 1 then
-            local rank = "Two"
+            rank = "Two"
         elseif rank == 2 then
-            local rank = "Three"
+            rank = "Three"
         elseif rank == 3 then
-            local rank = "Four"
+            rank = "Four"
         elseif rank == 4 then
-            local rank = "Five"
+            rank = "Five"
         elseif rank == 5 then
-            local rank = "Six"
+            rank = "Six"
         elseif rank == 6 then
-            local rank = "Seven"
+            rank = "Seven"
         elseif rank == 7 then
-            local rank = "Eight"
+            rank = "Eight"
         elseif rank == 8 then
-            local rank = "Nine"
+            rank = "Nine"
         elseif rank == 9 then
-            local rank = "Ten"
+            rank = "Ten"
         elseif rank == 10 then
-            local rank = "Jack"
+            rank = "Jack"
         elseif rank == 11 then
-            local rank = "Queen"
+            rank = "Queen"
         elseif rank == 12 then
-            local rank = "King"
+            rank = "King"
         elseif rank == 13 then
-            local rank = "Ace"
+            rank = "Ace"
         end
         if suit == 1 then
-            local suit = "Clubs"
+            suit = "Clubs"
         elseif suit == 2 then
-            local suit = "Diamonds"
+            suit = "Diamonds"
         elseif suit == 3 then
-            local suit = "Spades"
+            suit = "Spades"
         elseif suit == 4 then
-            local suit = "Hearts"
+            suit = "Hearts"
         end
         name[card] = rank% of %suit
         globals["name" .. card] = globals["name" .. card] or true

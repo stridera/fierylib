@@ -29,30 +29,31 @@ if string.find(arg, "banish") then
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")
             -- switch on stage
+            local known
             if stage == 1 then
                 local mob = 41119
                 local place = "her chamber under the ocean waves"
-                local known = "Nothing."
+                known = "Nothing."
             elseif stage == 2 then
                 local mob = 53313
                 local place = "the frozen tunnels of the north"
-                local known = "v"
+                known = "v"
             elseif stage == 3 then
                 local mob = 37000
                 local place = "a deep and ancient mine"
-                local known = "vi"
+                known = "vi"
             elseif stage == 4 then
                 local mob = 48005
                 local place = "a room filled with art in an ancient barrow"
-                local known = "vib"
+                known = "vib"
             elseif stage == 5 then
                 local mob = 53417
                 local place = "the cold valley of the far north"
-                local known = "vibu"
+                known = "vibu"
             elseif stage == 6 then
                 local mob = 23811
                 local place = "a nearby fortress of clouds and crystals"
-                local known = "vibug"
+                known = "vibug"
             elseif stage == 7 then
                 actor:send("Return to " .. tostring(mobiles.template(302, 16).name) .. " and speak the prayer aloud: <b:magenta>vibugp</>")
                 return _return_value

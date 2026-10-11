@@ -15,36 +15,37 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 -- mission targets here
-if object.id == 5320 then
-    local stage = 1
-    local target1 = "an imp"
-elseif object.id == 5321 then
-    local stage = 2
-    local target1 = "the Leading Player"
-elseif object.id == 5322 then
-    local stage = 3
-    local target1 = "the Chaos"
-elseif object.id == 5323 then
-    local stage = 4
-    local target1 = "whatever waits at the end of the shaman's vision quest"
-elseif object.id == 5324 then
-    local stage = 5
-    local target1 = "the Fangs of Yeenoghu"
-elseif object.id == 5325 then
-    local stage = 6
-    local target1 = "the fire elemental lord"
-elseif object.id == 5326 then
-    local stage = 7
-    local target1 = "an acolyte of Betrayal"
-elseif object.id == 5327 then
-    local stage = 8
-    local target1 = "for Cyprianum the Reaper"
-elseif object.id == 5328 then
-    local stage = 9
-    local target1 = "a Chaos Demon"
-elseif object.id == 5329 then
-    local stage = 10
-    local target1 = "the Norhamen"
+local stage, target1
+if (object.zone_id == 53 and object.id == 20) then
+    stage = 1
+    target1 = "an imp"
+elseif (object.zone_id == 53 and object.id == 21) then
+    stage = 2
+    target1 = "the Leading Player"
+elseif (object.zone_id == 53 and object.id == 22) then
+    stage = 3
+    target1 = "the Chaos"
+elseif (object.zone_id == 53 and object.id == 23) then
+    stage = 4
+    target1 = "whatever waits at the end of the shaman's vision quest"
+elseif (object.zone_id == 53 and object.id == 24) then
+    stage = 5
+    target1 = "the Fangs of Yeenoghu"
+elseif (object.zone_id == 53 and object.id == 25) then
+    stage = 6
+    target1 = "the fire elemental lord"
+elseif (object.zone_id == 53 and object.id == 26) then
+    stage = 7
+    target1 = "an acolyte of Betrayal"
+elseif (object.zone_id == 53 and object.id == 27) then
+    stage = 8
+    target1 = "for Cyprianum the Reaper"
+elseif (object.zone_id == 53 and object.id == 28) then
+    stage = 9
+    target1 = "a Chaos Demon"
+elseif (object.zone_id == 53 and object.id == 29) then
+    stage = 10
+    target1 = "the Norhamen"
 end
 if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("elemental_chaos:bounty") == "dead" then
     local anti = "Anti-Paladin"
@@ -54,36 +55,39 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
     actor:send(tostring(self.name) .. " says, 'Harmony follows your actions.'")
     local money = stage * 10
     self:command("give " .. tostring(money) .. " platinum " .. tostring(actor))
+    local expcap
     if stage == 1 then
-        local expcap = 5
+        expcap = 5
     else
         local bonus = (stage - 1) * 10
-        local expcap = bonus
+        expcap = bonus
     end
+    local expmod
     if expcap < 9 then
-        local expmod = (((expcap * expcap) + expcap) / 2) * 55
+        expmod = (((expcap * expcap) + expcap) / 2) * 55
     elseif expcap < 17 then
-        local expmod = 440 + ((expcap - 8) * 125)
+        expmod = 440 + ((expcap - 8) * 125)
     elseif expcap < 25 then
-        local expmod = 1440 + ((expcap - 16) * 175)
+        expmod = 1440 + ((expcap - 16) * 175)
     elseif expcap < 34 then
-        local expmod = 2840 + ((expcap - 24) * 225)
+        expmod = 2840 + ((expcap - 24) * 225)
     elseif expcap < 49 then
-        local expmod = 4640 + ((expcap - 32) * 250)
+        expmod = 4640 + ((expcap - 32) * 250)
     elseif expcap < 90 then
-        local expmod = 8640 + ((expcap - 48) * 300)
+        expmod = 8640 + ((expcap - 48) * 300)
     else
-        local expmod = 20940 + ((expcap - 89) * 600)
+        expmod = 20940 + ((expcap - 89) * 600)
     end
     -- switch on person.class
+    local expmod
     if person.class == "Warrior" or person.class == "Berserker" then
-        local expmod = (expmod + (expmod / 10))
+        expmod = (expmod + (expmod / 10))
     elseif person.class == "Paladin" or person.class == "%anti%" or person.class == "Ranger" then
-        local expmod = (expmod + ((expmod * 2) / 15))
+        expmod = (expmod + ((expmod * 2) / 15))
     elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
-        local expmod = (expmod + (expmod / 5))
+        expmod = (expmod + (expmod / 5))
     elseif person.class == "Necromancer" or person.class == "Monk" then
-        local expmod = (expmod + (expmod * 2) / 5)
+        expmod = (expmod + (expmod * 2) / 5)
     else
         expmod = expmod
     end

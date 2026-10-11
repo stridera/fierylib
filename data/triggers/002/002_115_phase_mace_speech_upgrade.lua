@@ -18,7 +18,7 @@ if not (has("upgrade") or has("upgrades") or has("upgrading")
         or has("improvement") or has("improvements") or has("improving")) then
     return true
 end
-if self.id == 18502 then
+if (self.zone_id == 185 and self.id == 2) then
     self:set_flag("sentinel", true)
 end
 wait(2)
@@ -73,7 +73,7 @@ if actor.class == "cleric" or actor.class == "priest" then
         end
     end
 end
-if self.id == 18502 then
+if (self.zone_id == 185 and self.id == 2) then
     self:set_flag("sentinel", false)
 end
 return true

@@ -50,60 +50,61 @@ elseif job1 and job2 and job3 and job4 then
     return _return_value
 end
 -- switch on visionstage
+local place, hint
 if visionstage == 1 then
     local book = 59006
     local gem = 55582
     local room = get_room("4328")
-    local place = room.name
-    local hint = "in a place to perform."
+    place = room.name
+    hint = "in a place to perform."
 elseif visionstage == 2 then
     local book = 18505
     local gem = 55591
     local room = get_room("58707")
-    local place = room.name
-    local hint = "near a sandy beach."
+    place = room.name
+    hint = "near a sandy beach."
 elseif visionstage == 3 then
     local book = 8501
     local gem = 55623
     local room = get_room("18597")
-    local place = room.name
-    local hint = "in a cloistered library."
+    place = room.name
+    hint = "in a cloistered library."
 elseif visionstage == 4 then
     local book = 12532
     local gem = 55655
     local room = get_room("58102")
-    local place = room.name
-    local hint = "on my home island."
+    place = room.name
+    hint = "on my home island."
 elseif visionstage == 5 then
     local book = 16209
     local gem = 55665
     local room = get_room("16057")
-    local place = room.name
-    local hint = "in the ghostly fortress."
+    place = room.name
+    hint = "in the ghostly fortress."
 elseif visionstage == 6 then
     local book = 43013
     local gem = 55678
     local room = get_room("59054")
-    local place = room.name
-    local hint = "in the fortress of the zealous."
+    place = room.name
+    hint = "in the fortress of the zealous."
 elseif visionstage == 7 then
     local book = 53009
     local gem = 55710
     local room = get_room("49079")
-    local place = room.name
-    local hint = "off-shore of the island of great beasts."
+    place = room.name
+    hint = "off-shore of the island of great beasts."
 elseif visionstage == 8 then
     local book = 58415
     local gem = 55722
     local room = get_room("11820")
-    local place = room.name
-    local hint = "beyond the Blue-Fog Trail."
+    place = room.name
+    hint = "beyond the Blue-Fog Trail."
 elseif visionstage == 9 then
     local book = 58412
     local gem = 55741
     local room = get_room("52075")
-    local place = room.name
-    local hint = "in the shattered citadel of Templace."
+    place = room.name
+    hint = "in the shattered citadel of Templace."
 end
 local attacks = visionstage * 100
 self:command("nod")

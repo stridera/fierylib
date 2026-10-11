@@ -16,7 +16,7 @@
 -- chase, and the blue flame (238:22) is only accepted on stage 3.
 local subclass_item, right_item, flameball_item, count
 
-if object.id == 23822 then
+if (object.zone_id == 238 and object.id == 22) then
     get_room(238, 90):at(function()
         run_room_trigger(238, 14)
     end)
@@ -25,7 +25,7 @@ if object.id == 23822 then
     elseif actor:get_quest_stage("emmath_flameball") > 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
         flameball_item = "yes"
     end
-elseif object.id == 17308 then
+elseif (object.zone_id == 173 and object.id == 8) then
     if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
         subclass_item = "yes"
         if actor:get_quest_var("pyromancer_subclass:part") == "black" then
@@ -34,7 +34,7 @@ elseif object.id == 17308 then
     elseif actor:get_quest_stage("emmath_flameball") >= 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
         flameball_item = "yes"
     end
-elseif object.id == 5211 then
+elseif (object.zone_id == 52 and object.id == 11) then
     if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
         subclass_item = "yes"
         if actor:get_quest_var("pyromancer_subclass:part") == "white" then
@@ -43,7 +43,7 @@ elseif object.id == 5211 then
     elseif actor:get_quest_stage("emmath_flameball") >= 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
         flameball_item = "yes"
     end
-elseif object.id == 5212 then
+elseif (object.zone_id == 52 and object.id == 12) then
     if actor:get_quest_stage("pyromancer_subclass") > 0 and actor:get_quest_stage("pyromancer_subclass") <= 4 then
         subclass_item = "yes"
         if actor:get_quest_var("pyromancer_subclass:part") == "gray" then
@@ -102,7 +102,7 @@ elseif flameball_item then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'How do you expect to gain power like this?'")
     elseif actor:get_quest_stage("emmath_flameball") == 2 then
-        if (object.id == 5211) or (object.id == 5212) or (object.id == 17308) then
+        if (object.zone_id == 52 and object.id == 11) or (object.zone_id == 52 and object.id == 12) or (object.zone_id == 173 and object.id == 8) then
             if actor:get_quest_var("emmath_flameball:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) ~= 1 then
                 count = 1 + (actor:get_quest_var("emmath_flameball:count") or 0)
                 actor:set_quest_var("emmath_flameball", "count", count)
@@ -149,14 +149,14 @@ elseif flameball_item then
                     actor:send(tostring(self.name) .. " says, 'Well, don't wait around all day.'")
                 end
             end
-        elseif object.id == 23822 then
+        elseif (object.zone_id == 238 and object.id == 22) then
             self:destroy_item("blue-flame")
             self:command("eye")
             actor:send(tostring(self.name) .. " says, 'I didn't ask you to bring me this yet.")
             self.room:send(tostring(self.name) .. " extinguishes " .. tostring(objects.template(238, 22).name) .. ".")
         end
     elseif actor:get_quest_stage("emmath_flameball") == 3 then
-        if object.id == 23822 then
+        if (object.zone_id == 238 and object.id == 22) then
             wait(2)
             self:destroy_item("blue-flame")
             actor:send(tostring(self.name) .. " says, 'Ah yes... the blue flame.'")

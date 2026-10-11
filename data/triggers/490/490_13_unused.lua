@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #49013: UNUSED
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if object.id == 49060 then
+if (object.zone_id == 490 and object.id == 60) then
     wait(2)
     self:say("Dagon is dead and the altar is broken.")
     self:command("cheer")

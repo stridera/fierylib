@@ -49,69 +49,70 @@ else
     local int = actor.real_int
     -- 
     -- Identify the skill to be trained
+    local skill, word2
     if speech == "bash" then
-        local skill = actor:has_skill("bash")
+        skill = actor:has_skill("bash")
     elseif string.find(speech, "2H") then
         if string.find(speech, "bludgeoning") then
-            local word2 = "bludgeoning"
-            local skill = actor:has_skill("2H bludgeoning weapons")
+            word2 = "bludgeoning"
+            skill = actor:has_skill("2H bludgeoning weapons")
         elseif string.find(speech, "piercing") then
-            local word2 = "piercing"
-            local skill = actor:has_skill("2H piercing weapons")
+            word2 = "piercing"
+            skill = actor:has_skill("2H piercing weapons")
         elseif string.find(speech, "slashing") then
-            local word2 = "slashing"
-            local skill = actor:has_skill("2H slashing weapons")
+            word2 = "slashing"
+            skill = actor:has_skill("2H slashing weapons")
         else
             self:say("Not sure that I've heard of that one.  What was it again?")
             return _return_value
         end
     elseif speech == "disarm" then
-        local skill = actor:has_skill("disarm")
+        skill = actor:has_skill("disarm")
     elseif speech == "dodge" then
-        local skill = actor:has_skill("dodge")
+        skill = actor:has_skill("dodge")
     elseif speech == "parry" then
-        local skill = actor:has_skill("parry")
+        skill = actor:has_skill("parry")
     elseif speech == "riposte" then
-        local skill = actor:has_skill("riposte")
+        skill = actor:has_skill("riposte")
     elseif speech == "hitall" then
-        local skill = actor:has_skill("hitall")
+        skill = actor:has_skill("hitall")
     elseif speech == "barehand" then
-        local skill = actor:has_skill("barehand")
+        skill = actor:has_skill("barehand")
     elseif speech == "springleap" then
-        local skill = actor:has_skill("springleap")
+        skill = actor:has_skill("springleap")
     elseif speech == "safefall" then
-        local skill = actor:has_skill("safefall")
+        skill = actor:has_skill("safefall")
     elseif speech == "bash" then
-        local skill = actor:has_skill("bash")
+        skill = actor:has_skill("bash")
     elseif speech == "guard" then
-        local skill = actor:has_skill("guard")
+        skill = actor:has_skill("guard")
     elseif speech == "rescue" then
-        local skill = actor:has_skill("rescue")
+        skill = actor:has_skill("rescue")
     elseif speech == "kick" then
-        local skill = actor:has_skill("kick")
+        skill = actor:has_skill("kick")
     elseif speech == "first aid" then
-        local word2 = "aid"
-        local skill = actor:has_skill("first aid")
+        word2 = "aid"
+        skill = actor:has_skill("first aid")
     elseif speech == "mount" then
-        local skill = actor:has_skill("mount")
+        skill = actor:has_skill("mount")
     elseif speech == "riding" then
-        local skill = actor:has_skill("riding")
+        skill = actor:has_skill("riding")
     elseif speech == "tame" then
-        local skill = actor:has_skill("tame")
+        skill = actor:has_skill("tame")
     elseif speech == "ground shaker" then
-        local word2 = "shaker"
-        local skill = actor:has_skill("ground shaker")
+        word2 = "shaker"
+        skill = actor:has_skill("ground shaker")
     elseif speech == "battle howl" then
-        local word2 = "howl"
-        local skill = actor:has_skill("battle howl")
+        word2 = "howl"
+        skill = actor:has_skill("battle howl")
     elseif speech == "maul" then
-        local skill = actor:has_skill("maul")
+        skill = actor:has_skill("maul")
     elseif speech == "tantrum" then
-        local skill = actor:has_skill("tantrum")
+        skill = actor:has_skill("tantrum")
     elseif speech == "berserk" then
-        local skill = actor:has_skill("berserk")
+        skill = actor:has_skill("berserk")
     elseif speech == "roundhouse" then
-        local skill = actor:has_skill("roundhouse")
+        skill = actor:has_skill("roundhouse")
     else
         self:say("I'm not familiar with " .. tostring(speech) .. ".")
         return _return_value
@@ -126,23 +127,23 @@ else
     if speech == "track" then
         -- switch on actor.class
         if actor.class == "Mercenary" then
-            local cap = 850
+            cap = 850
         elseif actor.class == "Rogue" then
-            local cap = 650
+            cap = 650
         elseif actor.class == "Thief" then
-            local cap = 600
+            cap = 600
         elseif actor.class == "Assassin" then
-            local cap = 750
+            cap = 750
         end
     elseif speech == "dodge" or speech == "parry" then
         -- switch on actor.race
         if actor.race == "ogre" or actor.race == "troll" then
-            local cap = 700
+            cap = 700
         end
     elseif speech == "riposte" then
         -- switch on actor.race
         if actor.race == "ogre" then
-            local cap = 700
+            cap = 700
         end
     end
     if skill < 50 then
@@ -154,7 +155,7 @@ else
         return _return_value
     end
     if cap < maxskill then
-        local maxskill = cap
+        maxskill = cap
     end
     -- This portion is for smooth speech indicating the effects of a players cha or int
     self:command("score")

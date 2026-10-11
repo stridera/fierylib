@@ -66,6 +66,7 @@ if mode == 1 then
 end
 -- 75% chance to attempt to entangle
 if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim_3) or (not paralysis_victim_4) then
+    local chance
     if paralysis_victim_1 then
         if paralysis_victim_2 then
             if paralysis_victim_3 then
@@ -74,19 +75,19 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
                     return _return_value
                 else
                     -- 20% chance if three people are entangled
-                    local chance = random(1, 10)
+                    chance = random(1, 10)
                 end
             else
                 -- 25% chance if two people are entangled
-                local chance = random(1, 8)
+                chance = random(1, 8)
             end
         else
             -- 33% chance if one person is already entangled
-            local chance = random(1, 6)
+            chance = random(1, 6)
         end
     else
         -- 50% chance if no one is already entangled
-        local chance = random(1, 4)
+        chance = random(1, 4)
     end
     if chance > 3 then
         return _return_value
@@ -100,7 +101,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
             if (paralysis_victim_1 and (paralysis_victim_1.name == victim.name)) or (paralysis_victim_2 and (paralysis_victim_2.name == victim.name)) or (paralysis_victim_3 and (paralysis_victim_3.name == victim.name)) then
                 local victim = self
             elseif victim.class == "Assassin" then
-                local max_tries = 0
+                max_tries = 0
             else
                 local secondary_victim = victim
             end
@@ -108,9 +109,10 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
         max_tries = max_tries - 1
     end
     -- quit if no players
+    local victim
     if victim.is_player then
     elseif secondary_victim then
-        local victim = secondary_victim
+        victim = secondary_victim
     else
         return _return_value
     end

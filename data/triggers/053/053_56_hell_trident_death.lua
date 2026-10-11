@@ -11,19 +11,21 @@
 -- Converted from DG Script #5356: Hell Trident death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 -- switch on self.id
-if self.id == 4001 or self.id == 4005 or self.id == 4010 or self.id == 4015 or self.id == 12307 then
+local word
+if (self.zone_id == 40 and self.id == 1) or (self.zone_id == 40 and self.id == 5) or (self.zone_id == 40 and self.id == 10) or (self.zone_id == 40 and self.id == 15) or (self.zone_id == 123 and self.id == 7) then
     local phase = 1
-    local word = "angels"
-elseif self.id == 23810 or self.id == 23811 or self.id == 23812 then
+    word = "angels"
+elseif (self.zone_id == 238 and self.id == 10) or (self.zone_id == 238 and self.id == 11) or (self.zone_id == 238 and self.id == 12) then
     local phase = 2
-    local word = "celestials"
+    word = "celestials"
 end
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]

@@ -19,6 +19,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local clericclasses = "Cleric Priest"
         local rogueclasses = "Rogue Mercenary Assassin Thief"
         local anti = "Anti-Paladin"
+        local master
         if string.find(sorcererclasses, actor.class) then
             local feet_gem = 55613
             local head_gem = 55635
@@ -41,7 +42,6 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55478
             local body_reward = 55477
             local wrist_reward = 55480
-            local master
             if string.find(actor.class, "Sorcerer") then
                 master = "the Archmage of Ickle"
             elseif string.find(actor.class, "Cryomancer") then
@@ -73,7 +73,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55457
             local body_reward = 55456
             local wrist_reward = 55459
-            local master = "Asiri'Qaxt and Schkerra"
+            master = "Asiri'Qaxt and Schkerra"
         elseif string.find(clericclasses, actor.class) then
             local feet_gem = 55612
             local head_gem = 55634
@@ -96,7 +96,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55436
             local body_reward = 55435
             local wrist_reward = 55438
-            local master = "the High Priestess of Anduin and Zeno the Priest"
+            master = "the High Priestess of Anduin and Zeno the Priest"
         elseif string.find(actor.class, "Diabolist") then
             local feet_gem = 55606
             local head_gem = 55628
@@ -119,7 +119,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55471
             local body_reward = 55470
             local wrist_reward = 55473
-            local master = "the Black Priestess"
+            master = "the Black Priestess"
         elseif string.find(actor.class, "Druid") then
             local feet_gem = 55607
             local head_gem = 55629
@@ -142,7 +142,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55450
             local body_reward = 55449
             local wrist_reward = 55452
-            local master = "the Black Priestess and the diabolist"
+            master = "the Black Priestess and the diabolist"
         elseif string.find(actor.class, "Warrior") then
             local feet_gem = 55615
             local head_gem = 55637
@@ -165,7 +165,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55415
             local body_reward = 55414
             local wrist_reward = 55417
-            local master = "the high druid and a serene druidess"
+            master = "the high druid and a serene druidess"
         elseif actor.class == "anti" then
             local feet_gem = 55605
             local head_gem = 55627
@@ -188,7 +188,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55429
             local body_reward = 55428
             local wrist_reward = 55431
-            local master = "the warrior coach of Anduin"
+            master = "the warrior coach of Anduin"
         elseif string.find(actor.class, "Ranger") then
             local feet_gem = 55611
             local head_gem = 55633
@@ -211,7 +211,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55443
             local body_reward = 55442
             local wrist_reward = 55445
-            local master = "Galithel Silverwing"
+            master = "Galithel Silverwing"
         elseif actor.class == "Paladin" then
             local feet_gem = 55610
             local head_gem = 55632
@@ -234,7 +234,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55422
             local body_reward = 55421
             local wrist_reward = 55424
-            local master = "the Grey Knight"
+            master = "the Grey Knight"
         elseif string.find(actor.class, "Monk") then
             local feet_gem = 55608
             local head_gem = 55630
@@ -257,7 +257,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55464
             local body_reward = 55463
             local wrist_reward = 55466
-            local master = "the Head Monk"
+            master = "the Head Monk"
         elseif string.find(actor.class, "Berserker") then
             local feet_gem = 55607
             local head_gem = 55631
@@ -280,7 +280,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55770
             local body_reward = 55769
             local wrist_reward = 55772
-            local master = "Tozug, Khargol, Jora Granitearm"
+            master = "Tozug, Khargol, Jora Granitearm"
         elseif string.find(rogueclasses, actor.class) then
             local feet_gem = 55614
             local head_gem = 55636
@@ -303,7 +303,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55485
             local body_reward = 55484
             local wrist_reward = 55487
-            local master = "Princess Signess, Haren, and Blackhaven"
+            master = "Princess Signess, Haren, and Blackhaven"
         elseif string.find(actor.class, "Bard") then
             local feet_gem = 55606
             local head_gem = 55630
@@ -326,7 +326,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55784
             local body_reward = 55783
             local wrist_reward = 55786
-            local master = "the Master Herald and the Bard Union Master"
+            master = "the Master Herald and the Bard Union Master"
         end
         local got_hands = actor:get_quest_var("phase_armor:hands_armor_armor_acquired")
         local got_feet = actor:get_quest_var("phase_armor:feet_armor_armor_acquired")

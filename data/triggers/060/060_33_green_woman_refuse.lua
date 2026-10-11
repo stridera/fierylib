@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 -- those values.
 local response = nil
 if actor:get_quest_stage("wizard_eye") == 7 then
-    if object.id == 23754 or object.id == 3298 or object.id == 23847 or object.id == 18001 then
+    if (object.zone_id == 237 and object.id == 54) or (object.zone_id == 30 and object.id == 298) or (object.zone_id == 238 and object.id == 47) or (object.zone_id == 180 and object.id == 1) then
         return _return_value
     else
         response = "This " .. tostring(object.shortdesc) .. " isn't roses or cinnamon."

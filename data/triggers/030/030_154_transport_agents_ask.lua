@@ -20,29 +20,29 @@ local maxlevel = 15
 local myname = "elf"
 local dest_room = 3016
 local dsname = "Mielikki"
-if self.id == 3151 or self.id == 30075 then
+if (self.zone_id == 30 and self.id == 151) or (self.zone_id == 300 and self.id == 75) then
     -- barbarian, sends to Ickle
     myname = "barbarian"
     dest_room = 10046
     dsname = "Ickle"
-elseif self.id == 3152 then
+elseif (self.zone_id == 30 and self.id == 152) then
     -- dwarf, sends to Anduin
     myname = "dwarf"
     dest_room = 6015
     dsname = "Anduin"
-elseif self.id == 30074 then
+elseif (self.zone_id == 300 and self.id == 74) then
     myname = "drow"
     dest_room = 6015
     dsname = "Anduin"
-elseif self.id == 30076 then
+elseif (self.zone_id == 300 and self.id == 76) then
     myname = "human"
     dest_room = 3016
     dsname = "Mielikki"
-elseif self.id == 30077 then
+elseif (self.zone_id == 300 and self.id == 77) then
     myname = "orc"
     dest_room = 30115
     dsname = "Ogakh"
-elseif self.id == 3150 then
+elseif (self.zone_id == 30 and self.id == 150) then
     -- legacy: questmaster 3150 had no agent record; bail
     return true
 end

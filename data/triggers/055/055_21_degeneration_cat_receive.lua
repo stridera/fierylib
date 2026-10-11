@@ -29,7 +29,7 @@ if stage == 0 then
     self:command("hiss actor")
     wait(2)
     self:say("Who are you?  Why are you giving me this?")
-elseif stage == 1 and object.id == 58008 then
+elseif stage == 1 and (object.zone_id == 580 and object.id == 8) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("book")
@@ -53,7 +53,7 @@ elseif stage == 1 and object.id == 58008 then
     wait(4)
     self.room:send(tostring(self.name) .. " says, 'Bring back the necklace he carries so I can see how much")
     self.room:send("</>progress he's made.'")
-elseif stage == 2 and object.id == 37015 then
+elseif stage == 2 and (object.zone_id == 370 and object.id == 15) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("necklace")
@@ -79,7 +79,7 @@ elseif stage == 2 and object.id == 37015 then
     self.room:send(tostring(self.name) .. " says, 'He has a mask made from the face of one of his many victims")
     self.room:send("</>which he uses as his focus.  It's a bit vulgar, but it should serve my")
     self.room:send("</>purposes.  Secure it and bring it back.'")
-elseif stage == 3 and object.id == 51075 then
+elseif stage == 3 and (object.zone_id == 510 and object.id == 75) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("mask")
@@ -107,7 +107,7 @@ elseif stage == 3 and object.id == 51075 then
     wait(7)
     self.room:send(tostring(self.name) .. " says, 'Bring me his magical focus, " .. tostring(objects.template(430, 20).name) .. ".")
     self.room:send("</>It should give me sufficient insight to Voliangloch's magic.'")
-elseif stage == 4 and object.id == 43020 then
+elseif stage == 4 and (object.zone_id == 430 and object.id == 20) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("rod")
@@ -132,7 +132,7 @@ elseif stage == 4 and object.id == 43020 then
     wait(6)
     self.room:send(tostring(self.name) .. " says, 'He wears a unique robe that I'd like to get my paws on.  Get")
     self.room:send("</>it and bring it back to me.'")
-elseif stage == 5 and object.id == 47003 then
+elseif stage == 5 and (object.zone_id == 470 and object.id == 3) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("robe")
@@ -159,7 +159,7 @@ elseif stage == 5 and object.id == 47003 then
     self.room:send("</>puzzle.'")
     wait(3)
     self:say("I'm quite excited for this one, so hurry up!")
-elseif stage == 6 and object.id == 48009 then
+elseif stage == 6 and (object.zone_id == 480 and object.id == 9) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("statuette")
@@ -190,7 +190,7 @@ elseif stage == 6 and object.id == 48009 then
     self.room:send(tostring(self.name) .. " says, 'Find Norisent and whatever book he's keeping notes in these")
     self.room:send("</>days.  While I think I could manage this without his notes, I want to be")
     self.room:send("</>completely sure.'")
-elseif stage == 8 and object.id == 8551 then
+elseif stage == 8 and (object.zone_id == 85 and object.id == 51) then
     actor:advance_quest("degeneration")
     wait(1)
     self:destroy_item("book")
@@ -219,7 +219,7 @@ elseif stage == 8 and object.id == 8551 then
     self.room:send("</>acceptable conduit for this spell.'")
     wait(6)
     self:say("Seek it out!")
-elseif stage == 9 and object.id == 12526 then
+elseif stage == 9 and (object.zone_id == 125 and object.id == 26) then
     wait(1)
     self:destroy_item("ruby")
     self.room:send(tostring(self.name) .. "'s eyes widen and gleam at the sight of the ruby!")

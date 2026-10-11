@@ -8,7 +8,7 @@
 -- Converted from DG Script #4335: theo_sash
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 self:set_flag("sentinel", true)
-if object.id == 4311 then
+if (object.zone_id == 43 and object.id == 11) then
     wait(2)
     self.room:send("Theo's face lights up with childish joy.")
     wait(3)

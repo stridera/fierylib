@@ -21,7 +21,7 @@
 -- a real party iteration once group bindings are exposed.
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-if object.id == 50203 then
+if (object.zone_id == 502 and object.id == 3) then
     -- The ghost of a diplomat has received the magical golden
     -- earring. He knows of this talisman from his studies and
     -- travels. He knows how to make it much more powerful. Now
@@ -33,10 +33,11 @@ if object.id == 50203 then
     world.destroy(object)
     local person = actor
     local i = person.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
         local person = actor.group_member[a]
@@ -62,7 +63,7 @@ if object.id == 50203 then
         self.room:find_actor("maddened-diplomat-spectre"):move("d")
     end
     world.destroy(self)
-elseif object.id == 50201 or object.id == 50202 then
+elseif (object.zone_id == 502 and object.id == 1) or (object.zone_id == 502 and object.id == 2) then
     -- China from Odz
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
@@ -74,7 +75,7 @@ elseif object.id == 50201 or object.id == 50202 then
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'But alas, it has no intrinsic magic that I can detect.'")
     self:emote("politely returns the item.")
-elseif object.id == 50204 or object.id == 50209 then
+elseif (object.zone_id == 502 and object.id == 4) or (object.zone_id == 502 and object.id == 9) then
     -- Magical eq from bayou
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
@@ -87,14 +88,15 @@ elseif object.id == 50204 or object.id == 50209 then
     self.room:send(tostring(self.name) .. " says, 'There is something here, but this is far too weak.  No, the captain was after something much more valuable.'")
     wait(1)
     self:emote("returns the item.")
-elseif object.id == 50215 then
+elseif (object.zone_id == 502 and object.id == 15) then
     -- The electrum hoop!
     local person = actor
     local i = person.group_size
+    local a
     if i then
-        local a = 1
+        a = 1
     else
-        local a = 0
+        a = 0
     end
     while i >= a do
         local person = actor.group_member[a]

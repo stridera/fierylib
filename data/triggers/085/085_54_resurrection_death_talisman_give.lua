@@ -19,7 +19,7 @@ local _return_value = true  -- Default: allow action
 -- If the item has been assigned to a quester, it does its tricks, otherwise it skips to the bottom.
 -- switch on victim.id
 if actor:get_quest_stage("resurrection_quest") > 10 then
-    if victim.id == 8550 then
+    if (victim.zone_id == 85 and victim.id == 50) then
         self.room:send(tostring(victim.name) .. " mutters an incantation and " .. tostring(self.shortdesc) .. " bursts into flame and is gone.")
         world.destroy(self)
         return _return_value

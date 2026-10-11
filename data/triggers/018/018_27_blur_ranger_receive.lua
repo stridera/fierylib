@@ -15,7 +15,7 @@ local _return_value = true  -- Default: allow action
 -- TODO(parity): legacy 5-digit vnum 58420 needs translation to (zone_id, local_id)
 -- composite. Likely (zone=584, id=20) — Syric Warder's blade. Verify against
 -- objects.template lookup and replace with `object.zone_id == 584 and object.local_id == 20`.
-if object.id == 58420 then
+if (object.zone_id == 584 and object.id == 20) then
     if actor:get_quest_stage("blur") == 3 then
         actor:advance_quest("blur")
         wait(2)

@@ -36,7 +36,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
         -- North - get ring from Tech
         -- 
         if actor:get_quest_var("megalith_quest:north") == 0 then
-            if self.id == 12303 then
+            if (self.zone_id == 123 and self.id == 3) then
                 self:say("Thank you very kindly.")
                 wait(5)
                 self.room:send(tostring(self.name) .. " says, 'Far to the north, there is a civilization dedicated to the Great Snow Leopard.  There, they make <green>rings of simple granite</> which grant their constructs powerful mystic protection.  Such energies should make an ideal offering to the Earth Spirits.  Please retrieve one for me.'")
@@ -52,7 +52,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             -- South - Fiery Eye from Vulcera
             -- 
             if actor:get_quest_var("megalith_quest:south") == 0 then
-            elseif self.id == 12304 then
+            elseif (self.zone_id == 123 and self.id == 4) then
                 self:say("Excellent.")
                 wait(4)
                 self.room:send(tostring(self.name) .. " says, 'There is an island in the sea where fires of the deep meet the outer world, ruled by a demigoddess.  My people know her magic to be the ultimate blending of divine spark and protean fire.  She carries <b:red>a jewel that burns with that same fire</>.  If you can retrieve it, I believe that would be the perfect offering to the Spirits of Fire.'")
@@ -70,7 +70,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             -- East - cumulus bracelet
             -- 
             if actor:get_quest_var("megalith_quest:east") == 0 then
-            elseif self.id == 12305 then
+            elseif (self.zone_id == 123 and self.id == 5) then
                 self:say("Hurray!")
                 self:command("clap")
                 wait(1)
@@ -98,7 +98,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             -- West - Spring Water
             -- 
             if actor:get_quest_var("megalith_quest:west") == 0 then
-            elseif self.id == 12306 then
+            elseif (self.zone_id == 123 and self.id == 6) then
                 self:say("Wonderful!")
                 wait(2)
                 self:say("As a creature of the Dreaming, my magic is especially fueled by energies that thin the veil between the worlds.")

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 self:set_flag("sentinel", true)
-if object.id == 4302 then
+if (object.zone_id == 43 and object.id == 2) then
     local person = actor
     local i = person.group_size
     local a

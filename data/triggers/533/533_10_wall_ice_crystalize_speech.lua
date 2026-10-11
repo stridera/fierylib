@@ -31,7 +31,7 @@ if not string.find(speech_lower, "crystalize") then
     return true  -- No matching keywords
 end
 
-if actor:get_quest_stage("wall_ice") == 1 and actor:has_item(533, 26) and self.id ~= 53316 then
+if actor:get_quest_stage("wall_ice") == 1 and actor:has_item(533, 26) and (self.zone_id ~= 533 or self.id ~= 16) then
     if self.flags and self.flags.ice_crystalize_attempted then
         actor:send("<cyan>You have already cast this spell on " .. tostring(self.name) .. "!</>")
     else
@@ -51,7 +51,7 @@ if actor:get_quest_stage("wall_ice") == 1 and actor:has_item(533, 26) and self.i
             end
         end
     end
-elseif self.id == 53316 and actor:get_quest_stage("wall_ice") == 2 and actor:has_item(533, 26) then
+elseif (self.zone_id == 533 and self.id == 16) and actor:get_quest_stage("wall_ice") == 2 and actor:has_item(533, 26) then
     self.room:send("<b:cyan>The blocks of living ice slowly fuse together!</>")
     wait(1)
     self:say("Well done!")

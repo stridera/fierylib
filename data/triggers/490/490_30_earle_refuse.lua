@@ -15,15 +15,15 @@ end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 if actor:get_quest_stage("major_globe_spell") == 2 then
-    if object.id == 53451 then
+    if (object.zone_id == 534 and object.id == 51) then
         return _return_value
     end
     if actor:get_quest_stage("major_globe_spell") == 3 then
-    elseif object.id == 58002 then
+    elseif (object.zone_id == 580 and object.id == 2) then
         return _return_value
     end
     if actor:get_quest_stage("major_globe_spell") == 4 then
-    elseif object.id == 58609 then
+    elseif (object.zone_id == 586 and object.id == 9) then
         return _return_value
     end
 end

@@ -13,35 +13,36 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on self.id
-if self.id == 5300 then
-    local victim1 = "an abominable slime creature"
+local victim1
+if (self.zone_id == 53 and self.id == 0) then
+    victim1 = "an abominable slime creature"
     local stage = 1
-elseif self.id == 5301 then
-    local victim1 = "a large buck"
+elseif (self.zone_id == 53 and self.id == 1) then
+    victim1 = "a large buck"
     local stage = 2
-elseif self.id == 5302 then
-    local victim1 = "the giant scorpion"
+elseif (self.zone_id == 53 and self.id == 2) then
+    victim1 = "the giant scorpion"
     local stage = 3
-elseif self.id == 5303 then
-    local victim1 = "a monstrous canopy spider"
+elseif (self.zone_id == 53 and self.id == 3) then
+    victim1 = "a monstrous canopy spider"
     local stage = 4
-elseif self.id == 5304 then
-    local victim1 = "the chimera"
+elseif (self.zone_id == 53 and self.id == 4) then
+    victim1 = "the chimera"
     local stage = 5
-elseif self.id == 5305 then
-    local victim1 = "the drider king"
+elseif (self.zone_id == 53 and self.id == 5) then
+    victim1 = "the drider king"
     local stage = 6
-elseif self.id == 5306 then
-    local victim1 = "a beholder"
+elseif (self.zone_id == 53 and self.id == 6) then
+    victim1 = "a beholder"
     local stage = 7
-elseif self.id == 5307 then
-    local victim1 = "the Banshee"
+elseif (self.zone_id == 53 and self.id == 7) then
+    victim1 = "the Banshee"
     local stage = 8
-elseif self.id == 5308 then
-    local victim1 = "Baba Yaga"
+elseif (self.zone_id == 53 and self.id == 8) then
+    victim1 = "Baba Yaga"
     local stage = 9
-elseif self.id == 5309 then
-    local victim1 = "the medusa"
+elseif (self.zone_id == 53 and self.id == 9) then
+    victim1 = "the medusa"
     local stage = 10
 end
 _return_value = true

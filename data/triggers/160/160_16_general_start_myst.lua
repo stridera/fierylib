@@ -14,7 +14,7 @@ if not actor.is_player then
     return true
 end
 
-if object.id == 3026 then
+if (object.zone_id == 30 and object.id == 26) then
     -- Advance any group member who is on the mystwatch_quest and present.
     for i = 1, actor.group_size do
         local person = actor.group_member[i]

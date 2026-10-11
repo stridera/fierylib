@@ -12,21 +12,21 @@
 -- with `objects.template(2, wand_id % 100).name` once the wand id table
 -- is wired through globals or a binding helper.
 local quest_type, color, wand_id, stage_target, task_key
-if self.id == 23803 then
+if (self.zone_id == 238 and self.id == 3) then
     quest_type, color, wand_id, stage_target, task_key = "air", "&7&b", 307, 9, "wandtask4"
-elseif self.id == 52001 then
+elseif (self.zone_id == 520 and self.id == 1) then
     quest_type, color, wand_id, stage_target, task_key = "air", "&7&b", 308, 10, "wandtask3"
-elseif self.id == 4013 then
+elseif (self.zone_id == 40 and self.id == 13) then
     quest_type, color, wand_id, stage_target, task_key = "fire", "&1", 317, 9, "wandtask4"
-elseif self.id == 52002 then
+elseif (self.zone_id == 520 and self.id == 2) then
     quest_type, color, wand_id, stage_target, task_key = "fire", "&1", 318, 10, "wandtask3"
-elseif self.id == 53300 then
+elseif (self.zone_id == 533 and self.id == 0) then
     quest_type, color, wand_id, stage_target, task_key = "ice", "&6&b", 327, 9, "wandtask4"
-elseif self.id == 52005 then
+elseif (self.zone_id == 520 and self.id == 5) then
     quest_type, color, wand_id, stage_target, task_key = "ice", "&6&b", 328, 10, "wandtask3"
-elseif self.id == 52018 then
+elseif (self.zone_id == 520 and self.id == 18) then
     quest_type, color, wand_id, stage_target, task_key = "acid", "&2&b", 337, 9, "wandtask4"
-elseif self.id == 52007 then
+elseif (self.zone_id == 520 and self.id == 7) then
     quest_type, color, wand_id, stage_target, task_key = "acid", "&2&b", 338, 10, "wandtask3"
 end
 if not quest_type then return end

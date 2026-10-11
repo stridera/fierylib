@@ -20,7 +20,7 @@ local obj = object.id
 local reward = "no"
 -- switch on obj
 -- adornment of light
-if obj == 59026 then
+if (object.zone_id == 590 and obj == 26) then
     -- check to see if quest is started and PC hasent given light already
     if (actor.is_player) and (actor:get_quest_stage("sacred_haven") == 1) and (actor:get_quest_var("sacred_haven:given_light") ~= 1) then
         wait(5)
@@ -54,7 +54,7 @@ if obj == 59026 then
     end
     -- UNCONVERTED: &3&b* vial of blood&0
     if actor:get_quest_var("sacred_haven:given_blood") == 1 then
-    elseif obj == 59028 then
+    elseif (object.zone_id == 590 and obj == 28) then
         wait(2)
         self:say("You have already given me this.")
         self:command("give vial-dragons-blood " .. tostring(actor.name))
@@ -80,7 +80,7 @@ if obj == 59026 then
     end
     -- UNCONVERTED: &3&b*trinket of tattered leather&0
     if actor:get_quest_var("sacred_haven:given_trinket") == 1 then
-    elseif obj == 59029 then
+    elseif (object.zone_id == 590 and obj == 29) then
         wait(2)
         self:say("You have already given me this.")
         self:command("give trinket-tattered-leather " .. tostring(actor.name))
@@ -107,7 +107,7 @@ if obj == 59026 then
     end
     -- UNCONVERTED: &3&b*earring&0
     if actor:get_quest_var("sacred_haven:given_earring") == 1 then
-    elseif obj == 59030 then
+    elseif (object.zone_id == 590 and obj == 30) then
         wait(2)
         self:say("You have already given me this.")
         self:command("give shadow-forged-earring " .. tostring(actor.name))

@@ -29,11 +29,11 @@
 -- flag on mob 18502 (because the C++ harness expects it) and otherwise
 -- no-ops so partial conversions don't soft-lock the mace quest.
 local _return_value = true
-if self.id == 18502 then
+if (self.zone_id == 185 and self.id == 2) then
     self:set_flag("sentinel", true)
 end
 -- (full mace receive handling deferred — see TODO above)
-if self.id == 18502 then
+if (self.zone_id == 185 and self.id == 2) then
     self:set_flag("sentinel", false)
 end
 return _return_value

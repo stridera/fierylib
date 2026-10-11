@@ -19,7 +19,7 @@
 if not actor.is_player then
     return true
 end
-if object.id == 5102 then
+if (object.zone_id == 51 and object.id == 2) then
     wait(2)
     self.room:send("<b:blue>The eyes of the immense stone statue glow <b:red>red</> <b:blue>as a deafening hum shakes the cavern!</>")
     wait(2)

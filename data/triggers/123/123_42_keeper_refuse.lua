@@ -24,19 +24,19 @@ local direction
 local part
 local need
 
-if self.id == 12303 then
+if (self.zone_id == 123 and self.id == 3) then
     direction = "north"
     part = 4
     need = 55020
-elseif self.id == 12304 then
+elseif (self.zone_id == 123 and self.id == 4) then
     direction = "south"
     part = 2
     need = 48109
-elseif self.id == 12305 then
+elseif (self.zone_id == 123 and self.id == 5) then
     direction = "east"
     part = 1
     need = 8301
-elseif self.id == 12306 then
+elseif (self.zone_id == 123 and self.id == 6) then
     direction = "west"
     part = 3
     need = actor:get_quest_var("megalith_quest:goblet")
@@ -59,34 +59,34 @@ if actor:get_quest_stage("megalith_quest") < 2 then
 elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and actor:get_quest_var("megalith_quest:item" .. tostring(part)) == 1) then
     self:command("shake")
     self:say("I don't need any additional assistance at the moment, thank you.")
-    if self.id == 12306 then
+    if (self.zone_id == 123 and self.id == 6) then
         self:command("curtsy " .. tostring(actor.name))
     else
         self:command("bow " .. tostring(actor.name))
     end
 elseif actor:get_quest_stage("megalith_quest") == 2 then
     if direction and (actor:get_quest_var("megalith_quest:" .. direction) == 0) and (not actor:get_quest_var("megalith_quest:item" .. tostring(part))) then
-        if self.id == 12303 then
+        if (self.zone_id == 123 and self.id == 3) then
             self:command("eye " .. tostring(actor.name))
             self:say("I haven't yet told you what I need.")
-        elseif self.id == 12304 then
+        elseif (self.zone_id == 123 and self.id == 4) then
             self:command("sigh")
             self:say("You have yet to receive instructions.  A little patience, please!")
-        elseif self.id == 12305 then
+        elseif (self.zone_id == 123 and self.id == 5) then
             self:emote("yelps in surprise.")
             self:say("Did Umberto tell you what I need already?!")
-        elseif self.id == 12306 then
+        elseif (self.zone_id == 123 and self.id == 6) then
             self:emote("looks confused.")
             self:say("I have yet to tell you what I need.")
         end
     else
-        if (self.id == 12303 and object.id == 55020) or (self.id == 12304 and object.id == 48109) or (self.id == 12305 and object.id == 8301) or (self.id == 12306 and ((object.id == 41110) or (object.id == 41111) or (object.id == 18512))) then
+        if ((self.zone_id == 123 and self.id == 3) and (object.zone_id == 550 and object.id == 20)) or ((self.zone_id == 123 and self.id == 4) and (object.zone_id == 481 and object.id == 9)) or ((self.zone_id == 123 and self.id == 5) and (object.zone_id == 83 and object.id == 1)) or ((self.zone_id == 123 and self.id == 6) and ((object.zone_id == 411 and object.id == 10) or (object.zone_id == 411 and object.id == 11) or (object.zone_id == 185 and object.id == 12))) then
             return _return_value
         else
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(2)
-            if self.id == 12306 then
+            if (self.zone_id == 123 and self.id == 6) then
                 self:say("Unfortunately, I need " .. need_name() .. " filled with water, not this.")
             else
                 self:say("Unfortunately, I need " .. need_name() .. ", not this.")

@@ -31,19 +31,19 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("charm_person") == 4 then
     wait(2)
     -- switch on self.id
-    if self.id == 3010 then
+    if (self.zone_id == 30 and self.id == 10) then
         self:say("A little music sounds delightful.  I enjoy the gentle strum of a mandolin.")
-    elseif self.id == 58017 then
+    elseif (self.zone_id == 580 and self.id == 17) then
         self:say("How unconventional!  Usually I'm the one doing the wooing.  I dearly love the willowy call of the flute.")
-    elseif self.id == 4353 then
+    elseif (self.zone_id == 43 and self.id == 53) then
         self:say("Oh of course.")
         self:command("lick")
         wait(1)
         self:say("What can I say, I'm a sucker for a hot, long pipe.")
         self:command("grin")
-    elseif self.id == 23721 then
+    elseif (self.zone_id == 237 and self.id == 21) then
         actor:send(tostring(self.name) .. " tells you telepathically, 'A very strange request.  The only surface-dwelling music I can tolerate is the lute.'")
-    elseif self.id == 58406 then
+    elseif (self.zone_id == 584 and self.id == 6) then
         self:say("I would love to hear a tune!  Instruments that sound like the wind meeting the water are my favorite.")
     else
         _return_value = true

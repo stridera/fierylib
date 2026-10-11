@@ -12,87 +12,88 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on object.id
+local visionstage, item
 if object.id == 390 then
-    local visionstage = 1
-    local item = "quest"
-elseif object.id == 59006 then
-    local visionstage = 1
-    local item = "book"
-elseif object.id == 55582 then
-    local visionstage = 1
-    local item = "gem"
+    visionstage = 1
+    item = "quest"
+elseif (object.zone_id == 590 and object.id == 6) then
+    visionstage = 1
+    item = "book"
+elseif (object.zone_id == 555 and object.id == 82) then
+    visionstage = 1
+    item = "gem"
 elseif object.id == 391 then
-    local visionstage = 2
-    local item = "quest"
-elseif object.id == 18505 then
-    local visionstage = 2
-    local item = "book"
-elseif object.id == 55591 then
-    local visionstage = 2
-    local item = "gem"
+    visionstage = 2
+    item = "quest"
+elseif (object.zone_id == 185 and object.id == 5) then
+    visionstage = 2
+    item = "book"
+elseif (object.zone_id == 555 and object.id == 91) then
+    visionstage = 2
+    item = "gem"
 elseif object.id == 392 then
-    local visionstage = 3
-    local item = "quest"
-elseif object.id == 8501 then
-    local visionstage = 3
-    local item = "book"
-elseif object.id == 55623 then
-    local visionstage = 3
-    local item = "gem"
+    visionstage = 3
+    item = "quest"
+elseif (object.zone_id == 85 and object.id == 1) then
+    visionstage = 3
+    item = "book"
+elseif (object.zone_id == 556 and object.id == 23) then
+    visionstage = 3
+    item = "gem"
 elseif object.id == 393 then
-    local visionstage = 4
-    local item = "quest"
-elseif object.id == 12532 then
-    local visionstage = 4
-    local item = "book"
-elseif object.id == 55655 then
-    local visionstage = 4
-    local item = "gem"
+    visionstage = 4
+    item = "quest"
+elseif (object.zone_id == 125 and object.id == 32) then
+    visionstage = 4
+    item = "book"
+elseif (object.zone_id == 556 and object.id == 55) then
+    visionstage = 4
+    item = "gem"
 elseif object.id == 394 then
-    local visionstage = 5
-    local item = "quest"
-elseif object.id == 16209 then
-    local visionstage = 5
-    local item = "book"
-elseif object.id == 55665 then
-    local visionstage = 5
-    local item = "gem"
+    visionstage = 5
+    item = "quest"
+elseif (object.zone_id == 162 and object.id == 9) then
+    visionstage = 5
+    item = "book"
+elseif (object.zone_id == 556 and object.id == 65) then
+    visionstage = 5
+    item = "gem"
 elseif object.id == 395 then
-    local visionstage = 6
-    local item = "quest"
-elseif object.id == 43013 then
-    local visionstage = 6
-    local item = "book"
-elseif object.id == 55678 then
-    local visionstage = 6
-    local item = "gem"
+    visionstage = 6
+    item = "quest"
+elseif (object.zone_id == 430 and object.id == 13) then
+    visionstage = 6
+    item = "book"
+elseif (object.zone_id == 556 and object.id == 78) then
+    visionstage = 6
+    item = "gem"
 elseif object.id == 396 then
-    local visionstage = 7
-    local item = "quest"
-elseif object.id == 53009 then
-    local visionstage = 7
-    local item = "book"
-elseif object.id == 55710 then
-    local visionstage = 7
-    local item = "gem"
+    visionstage = 7
+    item = "quest"
+elseif (object.zone_id == 530 and object.id == 9) then
+    visionstage = 7
+    item = "book"
+elseif (object.zone_id == 557 and object.id == 10) then
+    visionstage = 7
+    item = "gem"
 elseif object.id == 397 then
-    local visionstage = 8
-    local item = "quest"
-elseif object.id == 58415 then
-    local visionstage = 8
-    local item = "book"
-elseif object.id == 55722 then
-    local visionstage = 8
-    local item = "gem"
+    visionstage = 8
+    item = "quest"
+elseif (object.zone_id == 584 and object.id == 15) then
+    visionstage = 8
+    item = "book"
+elseif (object.zone_id == 557 and object.id == 22) then
+    visionstage = 8
+    item = "gem"
 elseif object.id == 398 then
-    local visionstage = 9
-    local item = "quest"
-elseif object.id == 58412 then
-    local visionstage = 9
-    local item = "book"
-elseif object.id == 55741 then
-    local visionstage = 9
-    local item = "gem"
+    visionstage = 9
+    item = "quest"
+elseif (object.zone_id == 584 and object.id == 12) then
+    visionstage = 9
+    item = "book"
+elseif (object.zone_id == 557 and object.id == 41) then
+    visionstage = 9
+    item = "gem"
 end
 if actor:get_quest_stage("elemental_chaos") < actor:get_quest_stage("monk_vision") then
     _return_value = true
@@ -119,6 +120,7 @@ elseif visionstage < actor:get_quest_stage("monk_vision") then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You've already seen that vision.'")
 else
+    local accept
     if item == "quest" then
         local job1 = actor:get_quest_var("monk_vision:visiontask1")
         local job2 = actor:get_quest_var("monk_vision:visiontask2")
@@ -133,18 +135,19 @@ else
             self.room:spawn_object(math.floor(reward / 100), reward % 100)
             self:command("give vision " .. tostring(actor))
             local expcap = visionstage * 10
+            local expmod
             if expcap < 17 then
-                local expmod = 440 + ((expcap - 8) * 125)
+                expmod = 440 + ((expcap - 8) * 125)
             elseif expcap < 25 then
-                local expmod = 1440 + ((expcap - 16) * 175)
+                expmod = 1440 + ((expcap - 16) * 175)
             elseif expcap < 34 then
-                local expmod = 2840 + ((expcap - 24) * 225)
+                expmod = 2840 + ((expcap - 24) * 225)
             elseif expcap < 49 then
-                local expmod = 4640 + ((expcap - 32) * 250)
+                expmod = 4640 + ((expcap - 32) * 250)
             elseif expcap < 90 then
-                local expmod = 8640 + ((expcap - 48) * 300)
+                expmod = 8640 + ((expcap - 48) * 300)
             else
-                local expmod = 20940 + ((expcap - 89) * 600)
+                expmod = 20940 + ((expcap - 89) * 600)
             end
             expmod = expmod + ((expmod * 2) / 15)
             actor:send("<b:yellow>You gain experience!</>")
@@ -192,16 +195,16 @@ else
         else
             if item == "book" then
                 if actor:get_quest_var("monk_vision:visiontask3") == object.id then
-                    local accept = "no"
+                    accept = "no"
                 else
-                    local accept = "yes"
+                    accept = "yes"
                     actor:set_quest_var("monk_vision", "visiontask3", object.id)
                 end
             elseif item == "gem" then
                 if actor:get_quest_var("monk_vision:visiontask2") == object.id then
-                    local accept = "no"
+                    accept = "no"
                 else
-                    local accept = "yes"
+                    accept = "yes"
                     actor:set_quest_var("monk_vision", "visiontask2", object.id)
                 end
             end

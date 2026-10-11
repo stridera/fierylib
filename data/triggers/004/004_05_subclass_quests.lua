@@ -36,54 +36,55 @@ if string.find(arg, "subclass") then
         actor:send("Once a subclass quest has begun, it is not possible to start a different one.")
         actor:send("<yellow>=====================================<==/>_")
         actor:send("<b:green>AVAILABLE QUESTS:</>")
+        local status
         if actor:get_quest_var("nec_dia_ant_subclass:subclass_name") == "Nec" then
             actor:send("- &9<blue>Necromancer</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("nec_dia_ant_subclass:subclass_name") == "Diabolist" then
             actor:send("- <magenta>Diabolist</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("nec_dia_ant_subclass:subclass_name") == "anti" then
             actor:send("- <b:red>Anti-Paladin</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "Mercernary" then
             actor:send("- &9<blue>Mercenary</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "Assassin" then
             actor:send("- <red>Assassin</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "Thief" then
             actor:send("- <b:red>Thief</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("pri_pal_subclass:subclass_name") == "Priest" then
             actor:send("- <b:cyan>Priest</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("pri_pal_subclass:subclass_name") == "Paladin" then
             actor:send("- <b:white>Paladin</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("ran_dru_subclass:subclass_name") == "Ranger" then
             actor:send("- <b:green>Ranger</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_var("ran_dru_subclass:subclass_name") == "Druid" then
             actor:send("- <green>Druid</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_stage("monk_subclass") then
             actor:send("- <yellow>Monk</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_stage("pyromancer_subclass") then
             actor:send("- <b:red>Pyromancer</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_stage("cryomancer_subclass") then
             actor:send("- <b:blue>Cryomancer</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_stage("illusionist_subclass") then
             actor:send("- <b:magenta>Illusionist</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_stage("bard_subclass") then
             actor:send("- <b:magenta>Bard</>")
-            local status = "running"
+            status = "running"
         elseif actor:get_quest_stage("berserker_subclass") then
             actor:send("- &9<blue>Berserker</>")
-            local status = "running"
+            status = "running"
         else
             if string.find(actor.class, "Sorcerer") then
                 if not (string.find(cryoraces, actor.race)) then

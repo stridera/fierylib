@@ -82,51 +82,52 @@ if actor.class == "Rogue" or actor.class == "Bard" or actor.class == "Thief" the
         return _return_value
     end
     -- switch on cloakstage
+    local place, hint
     if cloakstage == 1 then
         local cloak = 58801
         local gem = 55585
-        local place = "A Storage Room"
-        local hint = "in the house on the hill."
+        place = "A Storage Room"
+        hint = "in the house on the hill."
     elseif cloakstage == 2 then
         local cloak = 17307
         local gem = 55593
-        local place = "A Small Alcove"
-        local hint = "in the holy library."
+        place = "A Small Alcove"
+        hint = "in the holy library."
     elseif cloakstage == 3 then
         local cloak = 10308
         local gem = 55619
-        local place = "either Treasure Room"
-        local hint = "in the paladin fortress."
+        place = "either Treasure Room"
+        hint = "in the paladin fortress."
     elseif cloakstage == 4 then
         local cloak = 12325
         local gem = 55659
-        local place = "The Treasure Room"
-        local hint = "beyond the Tower in the Wastes."
+        place = "The Treasure Room"
+        hint = "beyond the Tower in the Wastes."
     elseif cloakstage == 5 then
         local cloak = 43022
         local gem = 55663
-        local place = "Treasury"
-        local hint = "in the ghostly fortress."
+        place = "Treasury"
+        hint = "in the ghostly fortress."
     elseif cloakstage == 6 then
         local cloak = 23810
         local gem = 55674
-        local place = "either Treasure Room with a chest"
-        local hint = "lost in the sands."
+        place = "either Treasure Room with a chest"
+        hint = "lost in the sands."
     elseif cloakstage == 7 then
         local cloak = 51013
         local gem = 55714
-        local place = "Mesmeriz's Secret Treasure Room"
-        local hint = "hidden deep underground."
+        place = "Mesmeriz's Secret Treasure Room"
+        hint = "hidden deep underground."
     elseif cloakstage == 8 then
         local cloak = 58410
         local gem = 55740
-        local place = "Treasure Room"
-        local hint = "sunken in the swamp."
+        place = "Treasure Room"
+        hint = "sunken in the swamp."
     elseif cloakstage == 9 then
         local cloak = 52009
         local gem = 55741
-        local place = "Treasure Room"
-        local hint = "buried with an ancient king."
+        place = "Treasure Room"
+        hint = "buried with an ancient king."
     end
     local attack = cloakstage * 100
     if job1 or job2 or job3 or job4 then

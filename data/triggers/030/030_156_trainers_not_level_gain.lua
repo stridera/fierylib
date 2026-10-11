@@ -24,7 +24,7 @@ local warriors = "warrior paladin ranger monk berserker anti-paladin"
 local clerics = "cleric druid priest diabolist"
 local rogues = "rogue bard mercenary assassin thief"
 local sorcerers = "sorcerer cryomancer pyromancer illusionist necromancer"
-if self.id == 3165 then
+if (self.zone_id == 30 and self.id == 165) then
     -- Calken
     if string.find(warriors, actor.class) then
         actor:send(tostring(self.name) .. " says, 'Your guild master is right around the corner!  Go west and north.'")
@@ -35,7 +35,7 @@ if self.id == 3165 then
     elseif string.find(sorcerers, actor.class) then
         actor:send(tostring(self.name) .. " says, 'The Sorcerer Guild Masters are located near Bigby's Magic Shope just west and south of Town Center.  But don't go to Fecil's study hall!'")
     end
-elseif self.id == 3170 then
+elseif (self.zone_id == 30 and self.id == 170) then
     -- Fecil
     if string.find(warriors, actor.class) then
         actor:send(tostring(self.name) .. " says, 'The Warrior Guild is located behind Santiago's Weapon Shop just east of Town Center.  But don't go to Calken in the training grounds!'")
@@ -46,7 +46,7 @@ elseif self.id == 3170 then
     elseif string.find(sorcerers, actor.class) then
         actor:send(tostring(self.name) .. " says, 'You guild master is just around the corner!  Go north and east.'")
     end
-elseif self.id == 3160 then
+elseif (self.zone_id == 30 and self.id == 160) then
     -- Julk
     if string.find(warriors, actor.class) then
         actor:send(tostring(self.name) .. " says, 'The Warrior Guild is located behind Santiago's Weapon Shop just east of Town Center.  But don't go to Calken in the training grounds!'")

@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if actor.is_player then
     if string.find(actor.class, "Druid") then
-        if object.id == 2331 then
+        if (object.zone_id == 23 and object.id == 31) then
             self:command("smile " .. tostring(actor.name))
             globals.blessings = 1
             wait(2)
@@ -22,7 +22,7 @@ if actor.is_player then
             self:say("Please bring that to me as well!")
             self:command("sigh")
             self:say("I would go myself, but I cannot leave the Vale.")
-        elseif object.id == 2333 then
+        elseif (object.zone_id == 23 and object.id == 33) then
             if globals.blessings == 1 then
                 globals.blessings = 2
                 self.room:send(tostring(self.name) .. " closes his eyes and smiles.")
@@ -38,7 +38,7 @@ if actor.is_player then
                 wait(2)
                 self:destroy_item("blessing")
             end
-        elseif object.id == 2332 then
+        elseif (object.zone_id == 23 and object.id == 32) then
             if globals.blessings == 2 then
                 self.room:send("The ancient druid's eyes light up as he receives the blessing.")
                 globals.blessings = 3
@@ -54,7 +54,7 @@ if actor.is_player then
                 wait(2)
                 self:destroy_item("blessing")
             end
-        elseif object.id == 2330 then
+        elseif (object.zone_id == 23 and object.id == 30) then
             if globals.blessings == 3 then
                 self.room:send(tostring(self.name) .. " heaves a great sigh of relief as he places the blessings on the stone slab.")
                 globals.blessings = 0

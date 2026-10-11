@@ -25,155 +25,156 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 -- hunt notices here
-if object.id == 3080 then
-    local stage = 1
-    local victim1 = "a dragon hedge"
-    local go = "hunt"
-elseif object.id == 3081 then
-    local stage = 2
-    local victim1 = "the green wyrmling"
-    local go = "hunt"
-elseif object.id == 3082 then
-    local stage = 3
-    local victim1 = "Wug the Fiery Drakling"
-    local go = "hunt"
-elseif object.id == 3083 then
-    local stage = 4
-    local victim1 = "the young blue dragon"
-    local go = "hunt"
-elseif object.id == 3084 then
-    local stage = 5
-    local victim1 = "a faerie dragon"
-    local go = "hunt"
-elseif object.id == 3085 then
-    local stage = 6
-    local victim1 = "the wyvern"
-    local go = "hunt"
-elseif object.id == 3086 then
-    local stage = 7
-    local victim1 = "an ice lizard"
-    local go = "hunt"
-elseif object.id == 3087 then
-    local stage = 8
-    local victim1 = "the Beast of Borgan"
-    local go = "hunt"
-elseif object.id == 3088 then
-    local stage = 9
-    local victim1 = "Tri-Aszp"
-    local go = "hunt"
-elseif object.id == 3089 then
-    local stage = 10
-    local victim1 = "the Hydra"
-    local go = "hunt"
+local stage, victim1, go, pendantstage, item
+if (object.zone_id == 30 and object.id == 80) then
+    stage = 1
+    victim1 = "a dragon hedge"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 81) then
+    stage = 2
+    victim1 = "the green wyrmling"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 82) then
+    stage = 3
+    victim1 = "Wug the Fiery Drakling"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 83) then
+    stage = 4
+    victim1 = "the young blue dragon"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 84) then
+    stage = 5
+    victim1 = "a faerie dragon"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 85) then
+    stage = 6
+    victim1 = "the wyvern"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 86) then
+    stage = 7
+    victim1 = "an ice lizard"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 87) then
+    stage = 8
+    victim1 = "the Beast of Borgan"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 88) then
+    stage = 9
+    victim1 = "Tri-Aszp"
+    go = "hunt"
+elseif (object.zone_id == 30 and object.id == 89) then
+    stage = 10
+    victim1 = "the Hydra"
+    go = "hunt"
     -- paladin pendant items start here
 elseif object.id == 360 then
-    local pendantstage = 1
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 12003 then
-    local pendantstage = 1
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55582 then
-    local pendantstage = 1
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 1
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 120 and object.id == 3) then
+    pendantstage = 1
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 555 and object.id == 82) then
+    pendantstage = 1
+    item = "gem"
+    go = "necklace"
 elseif object.id == 361 then
-    local pendantstage = 2
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 23708 then
-    local pendantstage = 2
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55590 then
-    local pendantstage = 2
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 2
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 237 and object.id == 8) then
+    pendantstage = 2
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 555 and object.id == 90) then
+    pendantstage = 2
+    item = "gem"
+    go = "necklace"
 elseif object.id == 362 then
-    local pendantstage = 3
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 58005 then
-    local pendantstage = 3
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55622 then
-    local pendantstage = 3
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 3
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 580 and object.id == 5) then
+    pendantstage = 3
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 556 and object.id == 22) then
+    pendantstage = 3
+    item = "gem"
+    go = "necklace"
 elseif object.id == 363 then
-    local pendantstage = 4
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 48123 then
-    local pendantstage = 4
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55654 then
-    local pendantstage = 4
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 4
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 481 and object.id == 23) then
+    pendantstage = 4
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 556 and object.id == 54) then
+    pendantstage = 4
+    item = "gem"
+    go = "necklace"
 elseif object.id == 364 then
-    local pendantstage = 5
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 12336 then
-    local pendantstage = 5
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55662 then
-    local pendantstage = 5
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 5
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 123 and object.id == 36) then
+    pendantstage = 5
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 556 and object.id == 62) then
+    pendantstage = 5
+    item = "gem"
+    go = "necklace"
 elseif object.id == 365 then
-    local pendantstage = 6
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 43019 then
-    local pendantstage = 6
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55677 then
-    local pendantstage = 6
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 6
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 430 and object.id == 19) then
+    pendantstage = 6
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 556 and object.id == 77) then
+    pendantstage = 6
+    item = "gem"
+    go = "necklace"
 elseif object.id == 366 then
-    local pendantstage = 7
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 37015 then
-    local pendantstage = 7
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55709 then
-    local pendantstage = 7
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 7
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 370 and object.id == 15) then
+    pendantstage = 7
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 557 and object.id == 9) then
+    pendantstage = 7
+    item = "gem"
+    go = "necklace"
 elseif object.id == 367 then
-    local pendantstage = 8
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 58429 then
-    local pendantstage = 8
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55738 then
-    local pendantstage = 8
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 8
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 584 and object.id == 29) then
+    pendantstage = 8
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 557 and object.id == 38) then
+    pendantstage = 8
+    item = "gem"
+    go = "necklace"
 elseif object.id == 368 then
-    local pendantstage = 9
-    local item = "quest"
-    local go = "necklace"
-elseif object.id == 52010 then
-    local pendantstage = 9
-    local item = "necklace"
-    local go = "necklace"
-elseif object.id == 55739 then
-    local pendantstage = 9
-    local item = "gem"
-    local go = "necklace"
+    pendantstage = 9
+    item = "quest"
+    go = "necklace"
+elseif (object.zone_id == 520 and object.id == 10) then
+    pendantstage = 9
+    item = "necklace"
+    go = "necklace"
+elseif (object.zone_id == 557 and object.id == 39) then
+    pendantstage = 9
+    item = "gem"
+    go = "necklace"
 else
     _return_value = true
     self:command("shake")
@@ -191,36 +192,39 @@ if go == "hunt" then
         actor:send(tostring(self.name) .. " says, 'Congratulations!  Here's your reward.'")
         local money = stage * 10
         self:command("give " .. tostring(money) .. " platinum " .. tostring(actor))
+        local expcap
         if stage == 1 then
-            local expcap = 5
+            expcap = 5
         else
             local bonus = (stage - 1) * 10
-            local expcap = bonus
+            expcap = bonus
         end
+        local expmod
         if expcap < 9 then
-            local expmod = (((expcap * expcap) + expcap) / 2) * 55
+            expmod = (((expcap * expcap) + expcap) / 2) * 55
         elseif expcap < 17 then
-            local expmod = 440 + ((expcap - 8) * 125)
+            expmod = 440 + ((expcap - 8) * 125)
         elseif expcap < 25 then
-            local expmod = 1440 + ((expcap - 16) * 175)
+            expmod = 1440 + ((expcap - 16) * 175)
         elseif expcap < 34 then
-            local expmod = 2840 + ((expcap - 24) * 225)
+            expmod = 2840 + ((expcap - 24) * 225)
         elseif expcap < 49 then
-            local expmod = 4640 + ((expcap - 32) * 250)
+            expmod = 4640 + ((expcap - 32) * 250)
         elseif expcap < 90 then
-            local expmod = 8640 + ((expcap - 48) * 300)
+            expmod = 8640 + ((expcap - 48) * 300)
         else
-            local expmod = 20940 + ((expcap - 89) * 600)
+            expmod = 20940 + ((expcap - 89) * 600)
         end
         -- switch on person.class
+        local expmod
         if person.class == "Warrior" or person.class == "Berserker" then
-            local expmod = (expmod + (expmod / 10))
+            expmod = (expmod + (expmod / 10))
         elseif person.class == "Paladin" or person.class == "%anti%" or person.class == "Ranger" then
-            local expmod = (expmod + ((expmod * 2) / 15))
+            expmod = (expmod + ((expmod * 2) / 15))
         elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
-            local expmod = (expmod + (expmod / 5))
+            expmod = (expmod + (expmod / 5))
         elseif person.class == "Necromancer" or person.class == "Monk" then
-            local expmod = (expmod + (expmod * 2) / 5)
+            expmod = (expmod + (expmod * 2) / 5)
         else
             expmod = expmod
         end
@@ -304,6 +308,7 @@ elseif go == "necklace" then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You've already performed that act of devotion.'")
     else
+        local accept
         if item == "quest" then
             local job1 = actor:get_quest_var("paladin_pendant:necklacetask1")
             local job2 = actor:get_quest_var("paladin_pendant:necklacetask2")
@@ -318,18 +323,19 @@ elseif go == "necklace" then
                 self.room:spawn_object(math.floor(reward / 100), reward % 100)
                 self:command("give necklace " .. tostring(actor))
                 local expcap = pendantstage * 10
+                local expmod
                 if expcap < 17 then
-                    local expmod = 440 + ((expcap - 8) * 125)
+                    expmod = 440 + ((expcap - 8) * 125)
                 elseif expcap < 25 then
-                    local expmod = 1440 + ((expcap - 16) * 175)
+                    expmod = 1440 + ((expcap - 16) * 175)
                 elseif expcap < 34 then
-                    local expmod = 2840 + ((expcap - 24) * 225)
+                    expmod = 2840 + ((expcap - 24) * 225)
                 elseif expcap < 49 then
-                    local expmod = 4640 + ((expcap - 32) * 250)
+                    expmod = 4640 + ((expcap - 32) * 250)
                 elseif expcap < 90 then
-                    local expmod = 8640 + ((expcap - 48) * 300)
+                    expmod = 8640 + ((expcap - 48) * 300)
                 else
-                    local expmod = 20940 + ((expcap - 89) * 600)
+                    expmod = 20940 + ((expcap - 89) * 600)
                 end
                 expmod = expmod + ((expmod * 2) / 15)
                 actor:send("<b:yellow>You gain experience!</>")
@@ -358,16 +364,16 @@ elseif go == "necklace" then
             end
         elseif item == "necklace" then
             if actor:get_quest_var("paladin_pendant:necklacetask2") == object.id then
-                local accept = "no"
+                accept = "no"
             else
-                local accept = "yes"
+                accept = "yes"
                 actor:set_quest_var("paladin_pendant", "necklacetask2", object.id)
             end
         elseif item == "gem" then
             if actor:get_quest_var("paladin_pendant:necklacetask3") == object.id then
-                local accept = "no"
+                accept = "no"
             else
-                local accept = "yes"
+                accept = "yes"
                 actor:set_quest_var("paladin_pendant", "necklacetask3", object.id)
             end
         end

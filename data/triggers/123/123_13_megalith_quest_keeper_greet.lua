@@ -39,7 +39,7 @@ local stage = actor:get_quest_stage("megalith_quest")
 -- North
 --
 if actor:get_has_completed("megalith_quest") then
-    if self.id == 12303 then
+    if (self.zone_id == 123 and self.id == 3) then
         self:command("cheer")
         wait(1)
         self:say("I can feel the Earth rejoicing from here to Templace!  Surely with Her blessing we can move to cleanse the ancient home of my people.")
@@ -63,7 +63,7 @@ if actor:get_has_completed("megalith_quest") then
     -- South
     --
     if actor:get_has_completed("megalith_quest") then
-    elseif self.id == 12304 then
+    elseif (self.zone_id == 123 and self.id == 4) then
         self:say("This land is again full with the pulse, the pull, the bloodpump of creation...")
         self:command("bow " .. tostring(actor.name))
         wait(1)
@@ -93,7 +93,7 @@ if actor:get_has_completed("megalith_quest") then
     -- East
     --
     if actor:get_has_completed("megalith_quest") then
-    elseif self.id == 12305 then
+    elseif (self.zone_id == 123 and self.id == 5) then
         self:command("dance " .. tostring(actor.name))
         wait(4)
         self:say("Finally we might be able to heal my poor family in Nordus!")
@@ -123,7 +123,7 @@ if actor:get_has_completed("megalith_quest") then
     -- West
     --
     if actor:get_has_completed("megalith_quest") then
-    elseif self.id == 12306 then
+    elseif (self.zone_id == 123 and self.id == 6) then
         self:emote("stifles tears of joy.")
         wait(1)
         self:say("I am overjoyed to see my Mother once again!  I can hear the rivers sing across Ethilien.  Our coven may be able to bring balance where the Dreaming flooded into the mortal realm at last.")

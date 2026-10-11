@@ -8,7 +8,7 @@
 -- Converted from DG Script #49042: awura_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if object.id == 49001 then
+if (object.zone_id == 490 and object.id == 1) then
     wait(2)
     self:destroy_item("griffin-skin")
     if world.count_mobiles(490, 10) == 0 then

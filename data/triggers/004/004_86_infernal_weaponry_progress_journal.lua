@@ -43,24 +43,25 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
             local job5 = actor:get_quest_var("hell_trident:helltask5")
             local job6 = actor:get_quest_var("hell_trident:helltask6")
             -- switch on hellstage
+            local master, pl_word, word, spell2, spell1, task6, task6do
             if hellstage == 1 then
-                local master = mobiles.template(60, 32).name
+                master = mobiles.template(60, 32).name
                 local gem = 55662
-                local pl_word = "angels"
-                local word = "angel"
-                local spell2 = "Banish"
-                local spell1 = "Hellfire and Brimstone"
-                local task6 = "assisted Vilekka Kar'Shezden"
-                local task6do = "&3&bAssist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.&0"
+                pl_word = "angels"
+                word = "angel"
+                spell2 = "Banish"
+                spell1 = "Hellfire and Brimstone"
+                task6 = "assisted Vilekka Kar'Shezden"
+                task6do = "&3&bAssist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.&0"
             elseif hellstage == 2 then
-                local master = mobiles.template(125, 26).name
+                master = mobiles.template(125, 26).name
                 local gem = 55739
-                local pl_word = "ghaeles, solars, or seraphs"
-                local word = "ghaele, solar, or seraph"
-                local spell1 = "Resurrect"
-                local spell2 = "Hell Gate"
-                local task6 = "Defeated the Undead Prince"
-                local task6do = "find one long-buried and branded an infidel.  &3&bFinish his undying duel for him&0 as a sacrifice of honor."
+                pl_word = "ghaeles, solars, or seraphs"
+                word = "ghaele, solar, or seraph"
+                spell1 = "Resurrect"
+                spell2 = "Hell Gate"
+                task6 = "Defeated the Undead Prince"
+                task6do = "find one long-buried and branded an infidel.  &3&bFinish his undying duel for him&0 as a sacrifice of honor."
             else
                 if not actor:get_has_completed("hell_trident") then
                     actor:send("Only someone mighty enough to claim the ancient truthstone and present it unto the leader of chaos may be given the dark powers of hell.  These diabolists will be rewarded for their unquenchable devotion by the dark gods themselves!")

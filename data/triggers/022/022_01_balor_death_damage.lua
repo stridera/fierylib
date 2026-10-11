@@ -8,7 +8,7 @@
 -- Converted from DG Script #2201: Balor_death_damage
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 for _, person in ipairs(self:get_people()) do
-    if person.id ~= 2216 then
+    if (person.zone_id ~= 22 or person.id ~= 16) then
         local damage = 100 + random(1, 50)
         local damage_dealt = person:damage(damage)  -- type: fire
         person:send("The Balor explodes in a <b:yellow>blinding</> flash, scorching the area! (<b:red>" .. tostring(damage_dealt) .. "</>)")

@@ -16,7 +16,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("charm_person")
 if stage == 1 then
-    if object.id == 48008 then
+    if (object.zone_id == 480 and object.id == 8) then
         actor:advance_quest("charm_person")
         wait(2)
         self:destroy_item("discipline")
@@ -42,7 +42,7 @@ if stage == 1 then
         self:say("This is not the Rod of Discipline.")
     end
 elseif stage == 2 then
-    if object.id == 4319 then
+    if (object.zone_id == 43 and object.id == 19) then
         actor:advance_quest("charm_person")
         wait(2)
         self:destroy_item("ring")
@@ -78,7 +78,7 @@ elseif stage == 2 then
         self:say("This is not one of the souvenirs the theatre company gives out after a performance.")
     end
 elseif stage == 3 then
-    if object.id == 58017 or object.id == 16312 or object.id == 48925 or object.id == 37012 or object.id == 41119 then
+    if (object.zone_id == 580 and object.id == 17) or (object.zone_id == 163 and object.id == 12) or (object.zone_id == 489 and object.id == 25) or (object.zone_id == 370 and object.id == 12) or (object.zone_id == 411 and object.id == 19) then
         if actor:get_quest_var("charm_person:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

@@ -11,17 +11,17 @@
 -- move newbies between cities.
 -- switch on self.id
 local myname = "elf"
-if self.id == 30075 or self.id == 3151 then
+if (self.zone_id == 300 and self.id == 75) or (self.zone_id == 30 and self.id == 151) then
     myname = "barbarian"
-elseif self.id == 3152 then
+elseif (self.zone_id == 30 and self.id == 152) then
     myname = "dwarf"
-elseif self.id == 30074 then
+elseif (self.zone_id == 300 and self.id == 74) then
     myname = "drow"
-elseif self.id == 30076 then
+elseif (self.zone_id == 300 and self.id == 76) then
     myname = "human"
-elseif self.id == 30077 then
+elseif (self.zone_id == 300 and self.id == 77) then
     myname = "orc"
-elseif self.id == 3150 then
+elseif (self.zone_id == 30 and self.id == 150) then
     -- legacy: questmaster 3150 had no myname; bail before sending speech
     return true
 end

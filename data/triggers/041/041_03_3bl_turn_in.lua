@@ -100,94 +100,95 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     -- by the script.
     -- 
     -- switch on object.id
+    local is_gem, exp_multiplier, id_reward, faction_required, faction_multiplier
     if object.id == "%id_gem_3bl_cap%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_cap
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_cap
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_food%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_food
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_food
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_drink%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_drink
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_drink
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_ssword%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_ssword
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_ssword
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_neck%" then
-        local is_gem = 1
-        local exp_multiplier = 12
-        local id_reward = id_3bl_neck
-        local faction_required = 40
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 12
+        id_reward = id_3bl_neck
+        faction_required = 40
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_staff%" then
-        local is_gem = 1
-        local exp_multiplier = 12
-        local id_reward = id_3bl_staff
-        local faction_required = 40
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 12
+        id_reward = id_3bl_staff
+        faction_required = 40
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_arm%" then
-        local is_gem = 1
-        local exp_multiplier = 14
-        local id_reward = id_3bl_arm
-        local faction_required = 55
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 14
+        id_reward = id_3bl_arm
+        faction_required = 55
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_whammer%" then
-        local is_gem = 1
-        local exp_multiplier = 14
-        local id_reward = id_3bl_whammer
-        local faction_required = 55
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 14
+        id_reward = id_3bl_whammer
+        faction_required = 55
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_wrist%" then
-        local is_gem = 1
-        local exp_multiplier = 16
-        local id_reward = id_3bl_wrist
-        local faction_required = 70
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 16
+        id_reward = id_3bl_wrist
+        faction_required = 70
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_flail%" then
-        local is_gem = 1
-        local exp_multiplier = 16
-        local id_reward = id_3bl_flail
-        local faction_required = 70
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 16
+        id_reward = id_3bl_flail
+        faction_required = 70
+        faction_multiplier = 1
     elseif object.id == "%id_3el_skull%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_skull
-        local faction_multiplier = 1
+        faction_multiplier = 1
     elseif object.id == "%id_3el_ring%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_ring
-        local faction_multiplier = 1
+        faction_multiplier = 1
     elseif object.id == "%id_3el_badge%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_badge
-        local faction_multiplier = 1
+        faction_multiplier = 1
     elseif object.id == "%id_3el_token%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_token
-        local faction_multiplier = 2
+        faction_multiplier = 2
     elseif object.id == "%id_3el_insignia%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_insignia
-        local faction_multiplier = 2
+        faction_multiplier = 2
     elseif object.id == "%id_3el_wand%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_wand
-        local faction_multiplier = 2
+        faction_multiplier = 2
     elseif object.id == "%id_3el_symbol%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_symbol
-        local faction_multiplier = 3
+        faction_multiplier = 3
     else
         _return_value = true
         wait(1)
@@ -221,14 +222,14 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             world.destroy(object)  -- TODO(parity): legacy converter wrote `object.name`
             actor:save()
             if trophies < 10 then
-                local faction_advance = 1
-                local exp_advance = 1
+                faction_advance = 1
+                exp_advance = 1
             else
-                local faction_advance = 1
+                faction_advance = 1
             end
         else
             if trophies < 10 then
-                local exp_advance = 1
+                exp_advance = 1
                 local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
                 actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             else

@@ -33,10 +33,11 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
             local master1 = mobiles.template(492, 50).name .. " in the Black Ice Desert"
             local master2 = mobiles.template(492, 51).name
             -- switch on stage
+            local next, place, master
             if stage == 1 or stage == 2 then
-                local next = "the Staff of the Mystics"
-                local place = "a druid hiding out beyond Anlun Vale"
-                local master = master1
+                next = "the Staff of the Mystics"
+                place = "a druid hiding out beyond Anlun Vale"
+                master = master1
                 if actor:get_quest_var("relocate_spell_quest:greet") == 0 then
                 elseif stage == 3 or stage == 4 then
                     next = "the Crystal Telescope"
@@ -48,20 +49,20 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
                     master = master2
                 end
             elseif stage == 5 then
-                local next = "the Crystal Telescope"
-                local master = master1
+                next = "the Crystal Telescope"
+                master = master1
             elseif stage == 6 then
-                local next = "a silver-trimmed spellbook"
-                local place = "a tower within a destroyed land"
-                local master = master1
+                next = "a silver-trimmed spellbook"
+                place = "a tower within a destroyed land"
+                master = master1
             elseif stage == 7 then
-                local next = "a map"
-                local place = "from a mapper in South Caelia"
-                local master = master1
+                next = "a map"
+                place = "from a mapper in South Caelia"
+                master = master1
             elseif stage == 8 or stage == 9 then
-                local next = "the Golden Quill"
-                local place = "the forest near Baba Yaga's hut"
-                local master = master1
+                next = "the Golden Quill"
+                place = "the forest near Baba Yaga's hut"
+                master = master1
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

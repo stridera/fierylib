@@ -18,7 +18,7 @@ local _return_value = true  -- Default: allow action
 -- 
 -- original Smoldering Trident trigger
 -- 
-if object.id == 2300 then
+if (object.zone_id == 23 and object.id == 0) then
     wait(1)
     local object_shortdesc = object.shortdesc
     world.destroy(object)
@@ -113,7 +113,7 @@ end
 -- Hellfire and Brimstone continued
 -- 
 if actor:get_quest_stage("hellfire_brimstone") == 3 then
-    if object.id == 4318 or object.id == 5211 or object.id == 5212 or object.id == 17308 or object.id == 48110 or object.id == 53000 then
+    if (object.zone_id == 43 and object.id == 18) or (object.zone_id == 52 and object.id == 11) or (object.zone_id == 52 and object.id == 12) or (object.zone_id == 173 and object.id == 8) or (object.zone_id == 481 and object.id == 10) or (object.zone_id == 530 and object.id == 0) then
         if actor:get_quest_var("hellfire_brimstone:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

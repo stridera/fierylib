@@ -25,22 +25,22 @@ if cmd == "s" or cmd == "sh" or cmd == "sha" then
 end
 -- switch on actor.id
 local mob_id, mob_name, shape_name, obj_id
-if actor.id == 18820 then
+if (actor.zone_id == 188 and actor.id == 20) then
     mob_id = 22
     mob_name = "pryrian-duclia"
     shape_name = "the shape of a gargantuan black dragon"
     obj_id = 26
-elseif actor.id == 18821 then
+elseif (actor.zone_id == 188 and actor.id == 21) then
     mob_id = 23
     mob_name = "eralshar-duclia"
     shape_name = "the shape of a sinewy golden dragon"
     obj_id = 27
-elseif actor.id == 18822 then
+elseif (actor.zone_id == 188 and actor.id == 22) then
     mob_id = 20
     mob_name = "human-pryrian"
     shape_name = "human form"
     obj_id = 20
-elseif actor.id == 18823 then
+elseif (actor.zone_id == 188 and actor.id == 23) then
     mob_id = 21
     mob_name = "human-eralshar"
     shape_name = "human form"

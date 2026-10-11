@@ -102,31 +102,31 @@ if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "
             local nothing = 1
             if actor:get_quest_var("resort_cooking:item1") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item1%]%")
-                local nothing = 0
+                nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item2") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item2%]%")
-                local nothing = 0
+                nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item3") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item3%]%")
-                local nothing = 0
+                nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item4") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item4%]%")
-                local nothing = 0
+                nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item5") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item5%]%")
-                local nothing = 0
+                nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item6") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item6%]%")
-                local nothing = 0
+                nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item7") then
                 actor:send("</>  " .. "%get.obj_shortdesc[%item7%]%")
-                local nothing = 0
+                nothing = 0
             end
             if nothing then
                 actor:send("</>  Nothing.")

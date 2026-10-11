@@ -36,41 +36,42 @@ end
 local anti = "Anti-Paladin"
 local pendantstage = actor:get_quest_stage("paladin_pendant")
 -- switch on self.id
+local continue
 if actor.room == 5479 and pendantstage == 1 then
     if self.id == 360 then
-        local continue = "yes"
+        continue = "yes"
     end
     if (actor.room == 17345 or actor.room == 17346 or actor.room == 17351 or actor.room == 17352) and pendantstage == 2 then
     elseif self.id == 361 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 49516 and pendantstage == 3 then
     elseif self.id == 362 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 2408 and pendantstage == 4 then
     elseif self.id == 363 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 55105 and pendantstage == 5 then
     elseif self.id == 364 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 53159 and pendantstage == 6 then
     elseif self.id == 365 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 58424 and pendantstage == 7 then
     elseif self.id == 366 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 48032 and pendantstage == 8 then
     elseif self.id == 367 then
-        local continue = "yes"
+        continue = "yes"
     end
     if actor.room == 48880 and pendantstage == 9 then
     elseif self.id == 368 then
-        local continue = "yes"
+        continue = "yes"
     end
 end
 if continue == "yes" then

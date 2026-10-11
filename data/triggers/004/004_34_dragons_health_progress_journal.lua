@@ -27,18 +27,19 @@ if string.find(arg, "dragons") or string.find(arg, "dragon's") or string.find(ar
             actor:send("Quest Master: " .. tostring(mobiles.template(586, 10).name))
             actor:send("</>")
             -- switch on stage
+            local dragon, treasure
             if stage == 1 then
-                local dragon = "the blue dragon in the Tower in the Wastes"
-                local treasure = "its crystal"
+                dragon = "the blue dragon in the Tower in the Wastes"
+                treasure = "its crystal"
             elseif stage == 2 then
-                local dragon = "Tri-Aszp"
-                local treasure = "one of her scales"
+                dragon = "Tri-Aszp"
+                treasure = "one of her scales"
             elseif stage == 3 then
-                local dragon = "Thelriki and Jerajai"
-                local treasure = "the jewel in their hoard"
+                dragon = "Thelriki and Jerajai"
+                treasure = "the jewel in their hoard"
             elseif stage == 4 then
-                local dragon = "Sagece"
-                local treasure = "her skins and shields"
+                dragon = "Sagece"
+                treasure = "her skins and shields"
             elseif stage == 5 then
                 local total = 10000000 - actor:get_quest_var("dragons_health:hoard")
                 local plat = total / 1000

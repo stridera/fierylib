@@ -20,7 +20,7 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("group_armor")
 -- switch on stage
-if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id == 16906 then
+if (object.zone_id == 61 and object.id == 18) or (object.zone_id == 117 and object.id == 4) or (object.zone_id == 117 and object.id == 7) or (object.zone_id == 169 and object.id == 6) then
     if actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
         if stage == 1 then
             _return_value = true
@@ -68,7 +68,7 @@ if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id ==
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:command("laugh")
     end
-    if object.id == 8701 then
+    if (object.zone_id == 87 and object.id == 1) then
     elseif stage == 2 then
         wait(2)
         self:emote("examines the hammer.")
@@ -90,17 +90,17 @@ if object.id == 6118 or object.id == 11704 or object.id == 11707 or object.id ==
     end
 elseif stage == 3 then
     _return_value = true
-    if object.id == 59039 then
+    if (object.zone_id == 590 and object.id == 39) then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("Where did you find this?")
         wait(1)
         self:say("This can't be the same hammer you brought me before.")
-    elseif object.id == 8701 then
+    elseif (object.zone_id == 87 and object.id == 1) then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, 'You need to bring me the consecrated hammer.")
         self.room:send("</>Another mundane forging hammer is useless.'")
     end
-    if object.id == 59039 then
+    if (object.zone_id == 590 and object.id == 39) then
     elseif stage == 4 then
         actor:advance_quest("group_armor")
         wait(2)
@@ -123,7 +123,7 @@ elseif stage == 3 then
         self:say("What in the heck is this?")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
-    if object.id == 12500 then
+    if (object.zone_id == 125 and object.id == 0) then
     elseif stage == 5 then
         wait(2)
         self.room:send(tostring(self.name) .. " scrutinizes " .. tostring(object.shortdesc) .. " with a discerning glance.")
@@ -150,7 +150,7 @@ elseif stage == 3 then
         self:say("This won't be a very effective focus.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
-    if object.id == 47004 or object.id == 47018 or object.id == 53003 then
+    if (object.zone_id == 470 and object.id == 4) or (object.zone_id == 470 and object.id == 18) or (object.zone_id == 530 and object.id == 3) then
         if actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
         elseif stage == 6 then
             _return_value = true

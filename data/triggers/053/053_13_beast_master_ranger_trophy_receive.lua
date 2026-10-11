@@ -18,155 +18,156 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 -- hunt notices here
-if object.id == 5300 then
-    local stage = 1
-    local victim1 = "an abominable slime creature"
-    local go = "hunt"
-elseif object.id == 5301 then
-    local stage = 2
-    local victim1 = "a large buck"
-    local go = "hunt"
-elseif object.id == 5302 then
-    local stage = 3
-    local victim1 = "the giant scorpion"
-    local go = "hunt"
-elseif object.id == 5303 then
-    local stage = 4
-    local victim1 = "a monstrous canopy spider"
-    local go = "hunt"
-elseif object.id == 5304 then
-    local stage = 5
-    local victim1 = "the chimera"
-    local go = "hunt"
-elseif object.id == 5305 then
-    local stage = 6
-    local victim1 = "the drider king"
-    local go = "hunt"
-elseif object.id == 5306 then
-    local stage = 7
-    local victim1 = "a beholder"
-    local go = "hunt"
-elseif object.id == 5307 then
-    local stage = 8
-    local victim1 = "the Banshee"
-    local go = "hunt"
-elseif object.id == 5308 then
-    local stage = 9
-    local victim1 = "Baba Yaga"
-    local go = "hunt"
-elseif object.id == 5309 then
-    local stage = 10
-    local victim1 = "the medusa"
-    local go = "hunt"
+local stage, victim1, go, trophystage, item
+if (object.zone_id == 53 and object.id == 0) then
+    stage = 1
+    victim1 = "an abominable slime creature"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 1) then
+    stage = 2
+    victim1 = "a large buck"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 2) then
+    stage = 3
+    victim1 = "the giant scorpion"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 3) then
+    stage = 4
+    victim1 = "a monstrous canopy spider"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 4) then
+    stage = 5
+    victim1 = "the chimera"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 5) then
+    stage = 6
+    victim1 = "the drider king"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 6) then
+    stage = 7
+    victim1 = "a beholder"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 7) then
+    stage = 8
+    victim1 = "the Banshee"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 8) then
+    stage = 9
+    victim1 = "Baba Yaga"
+    go = "hunt"
+elseif (object.zone_id == 53 and object.id == 9) then
+    stage = 10
+    victim1 = "the medusa"
+    go = "hunt"
     -- ranger trophy items start here
 elseif object.id == 370 then
-    local trophystage = 1
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 1607 then
-    local trophystage = 1
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55579 then
-    local trophystage = 1
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 1
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 16 and object.id == 7) then
+    trophystage = 1
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 555 and object.id == 79) then
+    trophystage = 1
+    item = "gem"
+    go = "trophy"
 elseif object.id == 371 then
-    local trophystage = 2
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 17806 then
-    local trophystage = 2
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55591 then
-    local trophystage = 2
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 2
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 178 and object.id == 6) then
+    trophystage = 2
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 555 and object.id == 91) then
+    trophystage = 2
+    item = "gem"
+    go = "trophy"
 elseif object.id == 372 then
-    local trophystage = 3
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 1805 then
-    local trophystage = 3
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55628 then
-    local trophystage = 3
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 3
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 18 and object.id == 5) then
+    trophystage = 3
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 556 and object.id == 28) then
+    trophystage = 3
+    item = "gem"
+    go = "trophy"
 elseif object.id == 373 then
-    local trophystage = 4
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 62513 then
-    local trophystage = 4
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55652 then
-    local trophystage = 4
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 4
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 625 and object.id == 13) then
+    trophystage = 4
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 556 and object.id == 52) then
+    trophystage = 4
+    item = "gem"
+    go = "trophy"
 elseif object.id == 374 then
-    local trophystage = 5
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 23803 then
-    local trophystage = 5
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55664 then
-    local trophystage = 5
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 5
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 238 and object.id == 3) then
+    trophystage = 5
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 556 and object.id == 64) then
+    trophystage = 5
+    item = "gem"
+    go = "trophy"
 elseif object.id == 375 then
-    local trophystage = 6
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 43009 then
-    local trophystage = 6
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55685 then
-    local trophystage = 6
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 6
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 430 and object.id == 9) then
+    trophystage = 6
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 556 and object.id == 85) then
+    trophystage = 6
+    item = "gem"
+    go = "trophy"
 elseif object.id == 376 then
-    local trophystage = 7
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 47008 then
-    local trophystage = 7
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55705 then
-    local trophystage = 7
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 7
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 470 and object.id == 8) then
+    trophystage = 7
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 557 and object.id == 5) then
+    trophystage = 7
+    item = "gem"
+    go = "trophy"
 elseif object.id == 377 then
-    local trophystage = 8
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 53323 or object.id == 53311 then
-    local trophystage = 8
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55729 then
-    local trophystage = 8
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 8
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 533 and object.id == 23) or (object.zone_id == 533 and object.id == 11) then
+    trophystage = 8
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 557 and object.id == 29) then
+    trophystage = 8
+    item = "gem"
+    go = "trophy"
 elseif object.id == 378 then
-    local trophystage = 9
-    local item = "quest"
-    local go = "trophy"
-elseif object.id == 52014 then
-    local trophystage = 9
-    local item = "trophy"
-    local go = "trophy"
-elseif object.id == 55741 then
-    local trophystage = 9
-    local item = "gem"
-    local go = "trophy"
+    trophystage = 9
+    item = "quest"
+    go = "trophy"
+elseif (object.zone_id == 520 and object.id == 14) then
+    trophystage = 9
+    item = "trophy"
+    go = "trophy"
+elseif (object.zone_id == 557 and object.id == 41) then
+    trophystage = 9
+    item = "gem"
+    go = "trophy"
 else
     _return_value = true
     self:command("shake")
@@ -183,37 +184,40 @@ if go == "hunt" then
         actor:send(tostring(self.name) .. " says, 'Congratulations!  Here's your reward.'")
         local money = stage * 10
         self:command("give " .. tostring(money) .. " platinum " .. tostring(actor))
+        local expcap
         if stage == 1 then
-            local expcap = 5
+            expcap = 5
         else
             local bonus = (stage - 1) * 10
-            local expcap = bonus
+            expcap = bonus
         end
+        local expmod
         if expcap < 9 then
-            local expmod = (((expcap * expcap) + expcap) / 2) * 55
+            expmod = (((expcap * expcap) + expcap) / 2) * 55
         elseif expcap < 17 then
-            local expmod = 440 + ((expcap - 8) * 125)
+            expmod = 440 + ((expcap - 8) * 125)
         elseif expcap < 25 then
-            local expmod = 1440 + ((expcap - 16) * 175)
+            expmod = 1440 + ((expcap - 16) * 175)
         elseif expcap < 34 then
-            local expmod = 2840 + ((expcap - 24) * 225)
+            expmod = 2840 + ((expcap - 24) * 225)
         elseif expcap < 49 then
-            local expmod = 4640 + ((expcap - 32) * 250)
+            expmod = 4640 + ((expcap - 32) * 250)
         elseif expcap < 90 then
-            local expmod = 8640 + ((expcap - 48) * 300)
+            expmod = 8640 + ((expcap - 48) * 300)
         else
-            local expmod = 20940 + ((expcap - 89) * 600)
+            expmod = 20940 + ((expcap - 89) * 600)
         end
         local anti = "Anti-Paladin"
         -- switch on person.class
+        local expmod
         if person.class == "Warrior" or person.class == "Berserker" then
-            local expmod = (expmod + (expmod / 10))
+            expmod = (expmod + (expmod / 10))
         elseif person.class == "Paladin" or person.class == "%anti%" or person.class == "Ranger" then
-            local expmod = (expmod + ((expmod * 2) / 15))
+            expmod = (expmod + ((expmod * 2) / 15))
         elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
-            local expmod = (expmod + (expmod / 5))
+            expmod = (expmod + (expmod / 5))
         elseif person.class == "Necromancer" or person.class == "Monk" then
-            local expmod = (expmod + (expmod * 2) / 5)
+            expmod = (expmod + (expmod * 2) / 5)
         else
             expmod = expmod
         end
@@ -303,6 +307,7 @@ elseif go == "trophy" then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You've already used that as proof.'")
     else
+        local accept
         if item == "quest" then
             local job1 = actor:get_quest_var("ranger_trophy:trophytask1")
             local job2 = actor:get_quest_var("ranger_trophy:trophytask2")
@@ -317,24 +322,26 @@ elseif go == "trophy" then
                 self.room:spawn_object(math.floor(reward / 100), reward % 100)
                 self:command("give trophy " .. tostring(actor))
                 local expcap = trophystage * 10
+                local expmod
                 if expcap < 17 then
-                    local expmod = 440 + ((expcap - 8) * 125)
+                    expmod = 440 + ((expcap - 8) * 125)
                 elseif expcap < 25 then
-                    local expmod = 1440 + ((expcap - 16) * 175)
+                    expmod = 1440 + ((expcap - 16) * 175)
                 elseif expcap < 34 then
-                    local expmod = 2840 + ((expcap - 24) * 225)
+                    expmod = 2840 + ((expcap - 24) * 225)
                 elseif expcap < 49 then
-                    local expmod = 4640 + ((expcap - 32) * 250)
+                    expmod = 4640 + ((expcap - 32) * 250)
                 elseif expcap < 90 then
-                    local expmod = 8640 + ((expcap - 48) * 300)
+                    expmod = 8640 + ((expcap - 48) * 300)
                 else
-                    local expmod = 20940 + ((expcap - 89) * 600)
+                    expmod = 20940 + ((expcap - 89) * 600)
                 end
                 -- switch on person.class
+                local expmod
                 if person.class == "Warrior" or person.class == "Berserker" then
-                    local expmod = (expmod + (expmod / 10))
+                    expmod = (expmod + (expmod / 10))
                 elseif person.class == "Ranger" then
-                    local expmod = (expmod + ((expmod * 2) / 15))
+                    expmod = (expmod + ((expmod * 2) / 15))
                 else
                     expmod = expmod
                 end
@@ -364,17 +371,17 @@ elseif go == "trophy" then
             end
         elseif item == "trophy" then
             local task2 = actor:get_quest_var("ranger_trophy:trophytask2")
-            if task2 == object.id or (object.id == 53311 and task2 == 53323) or (object.id == 53323 and task2 == 53311) then
-                local accept = "no"
+            if task2 == object.id or ((object.zone_id == 533 and object.id == 11) and task2 == 53323) or ((object.zone_id == 533 and object.id == 23) and task2 == 53311) then
+                accept = "no"
             else
-                local accept = "yes"
+                accept = "yes"
                 actor:set_quest_var("ranger_trophy", "trophytask2", object.id)
             end
         elseif item == "gem" then
             if actor:get_quest_var("ranger_trophy:trophytask3") == object.id then
-                local accept = "no"
+                accept = "no"
             else
-                local accept = "yes"
+                accept = "yes"
                 actor:set_quest_var("ranger_trophy", "trophytask3", object.id)
             end
         end

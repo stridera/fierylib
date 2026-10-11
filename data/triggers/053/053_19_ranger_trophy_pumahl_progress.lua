@@ -85,51 +85,52 @@ if actor.class == "Warrior" or actor.class == "Ranger" or actor.class == "Berser
         return _return_value
     end
     -- switch on trophystage
+    local place, hint
     if trophystage == 1 then
         local trophy = 1607
         local gem = 55579
-        local place = "A Coyote's Den"
-        local hint = "near the Kingdom of the Meer Cats."
+        place = "A Coyote's Den"
+        hint = "near the Kingdom of the Meer Cats."
     elseif trophystage == 2 then
         local trophy = 17806
         local gem = 55591
-        local place = "In the Lions' Den"
-        local hint = "in the western reaches of Gothra."
+        place = "In the Lions' Den"
+        hint = "in the western reaches of Gothra."
     elseif trophystage == 3 then
         local trophy = 1805
         local gem = 55628
-        local place = "either of the two Gigantic Roc Nests"
-        local hint = "in the Wailing Mountains."
+        place = "either of the two Gigantic Roc Nests"
+        hint = "in the Wailing Mountains."
     elseif trophystage == 4 then
         local trophy = 62513
         local gem = 55652
-        local place = "Chieftain's Lair"
-        local hint = "in Nukreth Spire in South Caelia."
+        place = "Chieftain's Lair"
+        hint = "in Nukreth Spire in South Caelia."
     elseif trophystage == 5 then
         local trophy = 23803
         local gem = 55664
-        local place = "The Heart of the Den"
-        local hint = "where the oldest unicorn in South Caelia makes its home."
+        place = "The Heart of the Den"
+        hint = "where the oldest unicorn in South Caelia makes its home."
     elseif trophystage == 6 then
         local trophy = 43009
         local gem = 55685
-        local place = "Giant Lynx's Lair"
-        local hint = "far to the north beyond Mt. Frostbite."
+        place = "Giant Lynx's Lair"
+        hint = "far to the north beyond Mt. Frostbite."
     elseif trophystage == 7 then
         local trophy = 47008
         local gem = 55705
-        local place = "Giant Griffin's Nest"
-        local hint = "tucked away in a secluded and well guarded corner of Griffin Island."
+        place = "Giant Griffin's Nest"
+        hint = "tucked away in a secluded and well guarded corner of Griffin Island."
     elseif trophystage == 8 then
         local trophy = 53323
         local gem = 55729
-        local place = "Witch's Den"
-        local hint = "entombed with an ancient evil king."
+        place = "Witch's Den"
+        hint = "entombed with an ancient evil king."
     elseif trophystage == 9 then
         local trophy = 52014
         local gem = 55741
-        local place = "Dargentan's Lair"
-        local hint = "at the pinnacle of his flying fortress."
+        place = "Dargentan's Lair"
+        hint = "at the pinnacle of his flying fortress."
     end
     local attack = trophystage * 100
     if job1 or job2 or job3 or job4 then

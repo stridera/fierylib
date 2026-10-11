@@ -19,10 +19,11 @@ end
 wait(2)
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]
@@ -39,26 +40,27 @@ while i >= a do
                 if person:get_quest_var("treasure_hunter:hunt") ~= "running" then
                     person:send(tostring(self.name) .. " says, 'Excellent!'")
                     -- switch on person:get_quest_stage("treasure_hunter")
+                    local order
                     if person:get_quest_stage("treasure_hunter") == 1 then
-                        local order = 10
+                        order = 10
                     elseif person:get_quest_stage("treasure_hunter") == 2 then
-                        local order = 11
+                        order = 11
                     elseif person:get_quest_stage("treasure_hunter") == 3 then
-                        local order = 12
+                        order = 12
                     elseif person:get_quest_stage("treasure_hunter") == 4 then
-                        local order = 13
+                        order = 13
                     elseif person:get_quest_stage("treasure_hunter") == 5 then
-                        local order = 14
+                        order = 14
                     elseif person:get_quest_stage("treasure_hunter") == 6 then
-                        local order = 15
+                        order = 15
                     elseif person:get_quest_stage("treasure_hunter") == 7 then
-                        local order = 16
+                        order = 16
                     elseif person:get_quest_stage("treasure_hunter") == 8 then
-                        local order = 17
+                        order = 17
                     elseif person:get_quest_stage("treasure_hunter") == 9 then
-                        local order = 18
+                        order = 18
                     elseif person:get_quest_stage("treasure_hunter") == 10 then
-                        local order = 19
+                        order = 19
                     end
                     self.room:spawn_object(53, order)
                     self:command("give order " .. tostring(person))

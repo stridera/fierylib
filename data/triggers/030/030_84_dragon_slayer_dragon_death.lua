@@ -10,43 +10,43 @@
 -- switch on self.id
 local stage
 local target1
-if self.id == 18004 then
+if (self.zone_id == 180 and self.id == 4) then
     -- Dragon Hedge
     stage = 1
     target1 = "dragon_hedge"
-elseif self.id == 13626 then
+elseif (self.zone_id == 136 and self.id == 26) then
     -- Green Wyrmling
     target1 = "green_wyrmling"
     stage = 2
-elseif self.id == 8034 then
+elseif (self.zone_id == 80 and self.id == 34) then
     -- Wug
     target1 = "wug"
     stage = 3
-elseif self.id == 12500 then
+elseif (self.zone_id == 125 and self.id == 0) then
     -- young blue dragon
     target1 = "young_blue_dragon"
     stage = 4
-elseif self.id == 12322 then
+elseif (self.zone_id == 123 and self.id == 22) then
     -- faerie dragon
     target1 = "faerie_dragon"
     stage = 5
-elseif self.id == 16309 then
+elseif (self.zone_id == 163 and self.id == 9) then
     -- wyvern
     target1 = "wyvern"
     stage = 6
-elseif self.id == 53410 then
+elseif (self.zone_id == 534 and self.id == 10) then
     -- ice lizard
     target1 = "ice_lizard"
     stage = 7
-elseif self.id == 4013 then
+elseif (self.zone_id == 40 and self.id == 13) then
     -- Beast of Borgan
     target1 = "borgan"
     stage = 8
-elseif self.id == 53300 then
+elseif (self.zone_id == 533 and self.id == 0) then
     -- Tri-Aszp
     target1 = "tri-aszp"
     stage = 9
-elseif self.id == 52010 then
+elseif (self.zone_id == 520 and self.id == 10) then
     -- Hydra
     target1 = "hydra"
     stage = 10

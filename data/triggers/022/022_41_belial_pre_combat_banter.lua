@@ -11,7 +11,7 @@
 -- Stage marker: belial_queue == 2 (set in source, used by trigger 42 to choose return banter)
 globals.belial_queue = 2
 for _, victim in ipairs(self:get_people()) do
-    if victim.id ~= 2219 then
+    if (victim.zone_id ~= 22 or victim.id ~= 19) then
         if victim.class == "Paladin" then
             if victim.gender == "Female" then
                 wait(1)

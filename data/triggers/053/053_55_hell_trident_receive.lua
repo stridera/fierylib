@@ -17,32 +17,33 @@ local _return_value = true  -- Default: allow action
 local hellstage = actor:get_quest_stage("hell_trident")
 -- switch on self.id
 -- Black Priestess p2
-if self.id == 6032 then
-    local reward = 39
-    local phase = 1
-    local level = 65
-    local spell1 = actor:get_has_completed("banish")
-    local spell2 = actor:get_has_completed("hellfire_brimstone")
+local reward, phase, level, spell1, spell2, go
+if (self.zone_id == 60 and self.id == 32) then
+    reward = 39
+    phase = 1
+    level = 65
+    spell1 = actor:get_has_completed("banish")
+    spell2 = actor:get_has_completed("hellfire_brimstone")
     if not actor:get_quest_var("hell_trident:helltask6") then
         if actor:get_quest_stage("vilekka_stew") > 3 then
             actor:set_quest_var("hell_trident", "helltask6", 1)
         end
     end
-    if object.id == 55662 then
-        local go = "gem"
-    elseif object.id == 2334 then
-        local go = "trident"
+    if (object.zone_id == 556 and object.id == 62) then
+        go = "gem"
+    elseif (object.zone_id == 23 and object.id == 34) then
+        go = "trident"
     end
-elseif self.id == 12526 then
-    local reward = 40
-    local phase = 2
-    local level = 90
-    local spell1 = actor:get_has_completed("resurrection_quest")
-    local spell2 = actor:get_has_completed("hell_gate")
-    if object.id == 55739 then
-        local go = "gem"
-    elseif object.id == 2339 then
-        local go = "trident"
+elseif (self.zone_id == 125 and self.id == 26) then
+    reward = 40
+    phase = 2
+    level = 90
+    spell1 = actor:get_has_completed("resurrection_quest")
+    spell2 = actor:get_has_completed("hell_gate")
+    if (object.zone_id == 557 and object.id == 39) then
+        go = "gem"
+    elseif (object.zone_id == 23 and object.id == 39) then
+        go = "trident"
     end
 end
 -- adding in case it's not caught somewhere else
@@ -58,23 +59,25 @@ if hellstage == "phase" then
         end
     end
 end
+local refuse, reason
 if actor:get_has_completed("hell_trident") then
     go = nil
-    local refuse = 1
-    local reason = "You already command the greatest power imaginable!"
+    refuse = 1
+    reason = "You already command the greatest power imaginable!"
 elseif actor.level < level then
     go = nil
-    local refuse = 1
-    local reason = "You are not yet strong enough to handle more power."
+    refuse = 1
+    reason = "You are not yet strong enough to handle more power."
 elseif hellstage < phase then
     go = nil
-    local refuse = 1
-    local reason = "Your trident is not ready to upgrade yet."
+    refuse = 1
+    reason = "Your trident is not ready to upgrade yet."
 elseif hellstage > phase then
     go = nil
-    local refuse = 1
-    local reason = "I've already done everything I can to help."
+    refuse = 1
+    reason = "I've already done everything I can to help."
 end
+local refuse, reason
 if go == "gem" then
     local gem_id = object.id
     local gem_count = actor:get_quest_var("hell_trident:gems")
@@ -121,7 +124,7 @@ elseif go == "trident" then
     if job1 and job2 and job3 and job4 and job5 and job6 then
         wait(2)
         world.destroy(object)
-        if self.id == 12526 then
+        if (self.zone_id == 125 and self.id == 26) then
             actor:send(tostring(self.name) .. " says, 'We are pleased.'")
             self:command("grin")
             wait(1)
@@ -172,18 +175,19 @@ elseif go == "trident" then
         self.room:spawn_object(23, reward)
         self:command("give trident " .. tostring(actor))
         local expcap = level
+        local expmod
         if expcap < 17 then
-            local expmod = 440 + ((expcap - 8) * 125)
+            expmod = 440 + ((expcap - 8) * 125)
         elseif expcap < 25 then
-            local expmod = 1440 + ((expcap - 16) * 175)
+            expmod = 1440 + ((expcap - 16) * 175)
         elseif expcap < 34 then
-            local expmod = 2840 + ((expcap - 24) * 225)
+            expmod = 2840 + ((expcap - 24) * 225)
         elseif expcap < 49 then
-            local expmod = 4640 + ((expcap - 32) * 250)
+            expmod = 4640 + ((expcap - 32) * 250)
         elseif expcap < 90 then
-            local expmod = 8640 + ((expcap - 48) * 300)
+            expmod = 8640 + ((expcap - 48) * 300)
         else
-            local expmod = 20940 + ((expcap - 89) * 600)
+            expmod = 20940 + ((expcap - 89) * 600)
         end
         actor:send("<b:yellow>You gain experience!</>")
         local setexp = (expmod * 10)
@@ -205,8 +209,8 @@ elseif go == "trident" then
             actor:complete_quest("hell_trident")
         end
     else
-        local refuse = 1
-        local reason = "You have to complete all your other offerings before you give me your trident."
+        refuse = 1
+        reason = "You have to complete all your other offerings before you give me your trident."
     end
 end
 if refuse then

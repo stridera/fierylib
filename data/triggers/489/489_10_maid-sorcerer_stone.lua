@@ -13,7 +13,7 @@
 if not (cmd == "stone") then
     return true  -- Not our command
 end
-if actor.id == 48901 then
+if (actor.zone_id == 489 and actor.id == 1) then
     globals.stone = 1
 end
 return true

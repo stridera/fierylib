@@ -70,55 +70,56 @@ if actor.class == "class" and actor.level >= 41 and actor:get_quest_stage("phase
     -- quest.
     -- 
     -- switch on object.id
+    local is_armor, exp_multiplier, id_reward
     if object.id == "%id_destroyed_helm%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_helm%" then
-        local exp_multiplier = 11
+        exp_multiplier = 11
         local team_a_idrmor = id_destroyed_helm
         local id_gem = id_gem_helm
-        local id_reward = id_reward_helm
+        id_reward = id_reward_helm
     elseif object.id == "%id_destroyed_arm%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_arm%" then
-        local exp_multiplier = 12
+        exp_multiplier = 12
         local team_a_idrmor = id_destroyed_arm
         local id_gem = id_gem_arm
-        local id_reward = id_reward_arms
+        id_reward = id_reward_arms
     elseif object.id == "%id_destroyed_chest%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_chest%" then
-        local exp_multiplier = 14
+        exp_multiplier = 14
         local team_a_idrmor = id_destroyed_chest
         local id_gem = id_gem_chest
-        local id_reward = id_reward_chest
+        id_reward = id_reward_chest
     elseif object.id == "%id_destroyed_legs%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_legs%" then
-        local exp_multiplier = 13
+        exp_multiplier = 13
         local team_a_idrmor = id_destroyed_legs
         local id_gem = id_gem_legs
-        local id_reward = id_reward_legs
+        id_reward = id_reward_legs
     elseif object.id == "%id_destroyed_boots%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_boots%" then
-        local exp_multiplier = 9
+        exp_multiplier = 9
         local team_a_idrmor = id_destroyed_boots
         local id_gem = id_gem_boots
-        local id_reward = id_reward_boots
+        id_reward = id_reward_boots
     elseif object.id == "%id_destroyed_bracer%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_bracer%" then
-        local exp_multiplier = 10
+        exp_multiplier = 10
         local team_a_idrmor = id_destroyed_bracer
         local id_gem = id_gem_bracer
-        local id_reward = id_reward_bracer
+        id_reward = id_reward_bracer
     elseif object.id == "%id_destroyed_gloves%" then
-        local is_armor = 1
+        is_armor = 1
     elseif object.id == "%id_gem_gloves%" then
-        local exp_multiplier = 8
+        exp_multiplier = 8
         local team_a_idrmor = id_destroyed_gloves
         local id_gem = id_gem_gloves
-        local id_reward = id_reward_gloves
+        id_reward = id_reward_gloves
     else
         _return_value = true
         wait(1)
@@ -139,7 +140,7 @@ if actor.class == "class" and actor.level >= 41 and actor:get_quest_stage("phase
         local gems = actor:get_quest_var("phase_armor:id_gem_gems_acquired")
         actor:set_quest_var("phase_armor", "%id_gem%_gems_acquired", gems)
         if gems < 3 then
-            local gems = actor:get_quest_var("phase_armor:id_gem_gems_acquired") + 1
+            gems = actor:get_quest_var("phase_armor:id_gem_gems_acquired") + 1
             actor:set_quest_var("phase_armor", "%id_gem%_gems_acquired", gems)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
@@ -200,7 +201,7 @@ if actor.class == "class" and actor.level >= 41 and actor:get_quest_stage("phase
         local armor = actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired")
         actor:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", armor)
         if armor < 1 then
-            local armor = actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired") + 1
+            armor = actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired") + 1
             actor:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", armor)
             wait(2)
             actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")

@@ -9,55 +9,55 @@
 -- Hoisted: branch-scoped `local` would not be visible to the loop below.
 local stage, target1, target2, target3
 -- switch on self.id
-if self.id == 8608 then
+if (self.zone_id == 86 and self.id == 8) then
     -- Meer Cat King
     stage = 1
     target1 = "meer_cat_king"
-elseif self.id == 18509 then
+elseif (self.zone_id == 185 and self.id == 9) then
     -- Noble
     target1 = "Noble"
     stage = 2
-elseif self.id == 18500 then
+elseif (self.zone_id == 185 and self.id == 0) then
     -- Abbot
     target2 = "Abbot"
     stage = 2
-elseif self.id == 16300 then
+elseif (self.zone_id == 163 and self.id == 0) then
     -- O'Connor
     target1 = "O'Connor"
     stage = 3
-elseif self.id == 16301 then
+elseif (self.zone_id == 163 and self.id == 1) then
     -- Cameron
     target3 = "Cameron"
     stage = 3
-elseif self.id == 16302 then
+elseif (self.zone_id == 163 and self.id == 2) then
     -- McLeod
     target2 = "McLeod"
     stage = 3
-elseif self.id == 8316 then
+elseif (self.zone_id == 83 and self.id == 16) then
     -- Frakati Leader
     target1 = "Frakati"
     stage = 4
-elseif self.id == 59015 then
+elseif (self.zone_id == 590 and self.id == 15) then
     -- Cyrus
     target1 = "Cyrus"
     stage = 5
-elseif self.id == 2322 then
+elseif (self.zone_id == 23 and self.id == 22) then
     -- Lord Venth
     target1 = "Venth"
     stage = 6
-elseif self.id == 2330 then
+elseif (self.zone_id == 23 and self.id == 30) then
     -- high druid
     target1 = "Anlun_High_Druid"
     stage = 7
-elseif self.id == 53009 then
+elseif (self.zone_id == 530 and self.id == 9) then
     -- lizard king
     target1 = "Lizard_King"
     stage = 8
-elseif self.id == 53309 then
+elseif (self.zone_id == 533 and self.id == 9) then
     -- Sorcha
     target1 = "Sorcha"
     stage = 9
-elseif self.id == 58411 then
+elseif (self.zone_id == 584 and self.id == 11) then
     -- Goblin King
     target1 = "Goblin_King"
     stage = 10

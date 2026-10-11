@@ -31,11 +31,11 @@ if actor:get_quest_stage("charm_person") ~= 4 then
     return _return_value
 end
 -- switch on arg
-if self.id ~= 3010 then
+if (self.zone_id ~= 30 or self.id ~= 10) then
     if arg == "mandolin" then
         _return_value = true
         return _return_value
-    elseif actor:get_quest_stage("charm_person") == 4 and self.id ==3010 and (actor:has_equipped("48925") or actor:has_item("48925")) then
+    elseif actor:get_quest_stage("charm_person") == 4 and (self.zone_id == 30 and self.id == 10) and (actor:has_equipped("48925") or actor:has_item("48925")) then
         actor:send("You strum a beautiful tune on the mandolin.")
         self.room:send_except(actor, tostring(actor.name) .. " strums a beautiful tune on the mandolin.")
         wait(2)
@@ -46,7 +46,7 @@ if self.id ~= 3010 then
         _return_value = true
         return _return_value
     end
-    if actor:get_quest_stage("charm_person") == 4 and self.id == 58017 and (actor:has_equipped("37012") or actor:has_item("37012")) then
+    if actor:get_quest_stage("charm_person") == 4 and (self.zone_id == 580 and self.id == 17) and (actor:has_equipped("37012") or actor:has_item("37012")) then
     elseif arg == "flute" then
         actor:send("You play a melodious tune on the flute.")
         self.room:send_except(actor, tostring(actor.name) .. " plays a melodious tune on the flute.")
@@ -54,7 +54,7 @@ if self.id ~= 3010 then
         self.room:send(tostring(self.name) .. " blushes furiously.")
         actor:set_quest_var("charm_person", "charm2", 1)
         actor:send("<b:magenta>" .. tostring(self.name) .. " is charmed by your playing!</>")
-    elseif actor:get_quest_stage("charm_person") == 4 and self.id == 58406 and (actor:has_equipped("41119") or actor:has_item("41119")) then
+    elseif actor:get_quest_stage("charm_person") == 4 and (self.zone_id == 584 and self.id == 6) and (actor:has_equipped("41119") or actor:has_item("41119")) then
         actor:send("You play a haunting, dulcet tune on the Sea's Flute.")
         self.room:send_except(actor, tostring(actor.name) .. " plays a haunting, dulcet tune on the Sea's Flute.")
         wait(2)
@@ -65,7 +65,7 @@ if self.id ~= 3010 then
         _return_value = true
         return _return_value
     end
-    if actor:get_quest_stage("charm_person") == 4 and self.id == 4353 and (actor:has_equipped("16312") or actor:has_item("16312")) then
+    if actor:get_quest_stage("charm_person") == 4 and (self.zone_id == 43 and self.id == 53) and (actor:has_equipped("16312") or actor:has_item("16312")) then
     elseif arg == "pipe" then
         actor:send("You blow a wistful melody on the pipe.")
         self.room:send_except(actor, tostring(actor.name) .. " blows a wistful melody on the pipe.")
@@ -77,7 +77,7 @@ if self.id ~= 3010 then
         _return_value = true
         return _return_value
     end
-    if actor:get_quest_stage("charm_person") == 4 and self.id == 23721 and (actor:has_equipped("58017") or actor:has_item("58017")) then
+    if actor:get_quest_stage("charm_person") == 4 and (self.zone_id == 237 and self.id == 21) and (actor:has_equipped("58017") or actor:has_item("58017")) then
     elseif arg == "biwa" then
         actor:send("You pluck out a strange, complex arrangement on the biwa.")
         self.room:send_except(actor, tostring(actor.name) .. " plucks out a strange, complex arrangement on the biwa.")
@@ -89,7 +89,7 @@ if self.id ~= 3010 then
         _return_value = true
         return _return_value
     end
-    if actor:get_quest_stage("charm_person") == 4 and self.id == 58406 and (actor:has_equipped("41119") or actor:has_item("41119")) then
+    if actor:get_quest_stage("charm_person") == 4 and (self.zone_id == 584 and self.id == 6) and (actor:has_equipped("41119") or actor:has_item("41119")) then
     elseif arg == "sea" or arg == "seas" then
         actor:send("You play a haunting, dulcet tune on the Sea's Flute.")
         self.room:send_except(actor, tostring(actor.name) .. " plays a haunting, dulcet tune on the Sea's Flute.")

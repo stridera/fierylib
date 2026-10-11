@@ -53,51 +53,52 @@ elseif job1 and job2 and job3 and job4 then
     return _return_value
 end
 -- switch on pendantstage
+local place, hint
 if pendantstage == 1 then
     local necklace = 12003
     local gem = 55582
-    local place = "The Mist Temple Altar"
-    local hint = "in the Misty Caverns."
+    place = "The Mist Temple Altar"
+    hint = "in the Misty Caverns."
 elseif pendantstage == 2 then
     local necklace = 23708
     local gem = 55590
-    local place = "Chamber of Chaos"
-    local hint = "in the Temple of Chaos."
+    place = "Chamber of Chaos"
+    hint = "in the Temple of Chaos."
 elseif pendantstage == 3 then
     local necklace = 58005
     local gem = 55622
-    local place = "Altar of Borgan"
-    local hint = "in the lost city of Nymrill."
+    place = "Altar of Borgan"
+    hint = "in the lost city of Nymrill."
 elseif pendantstage == 4 then
     local necklace = 48123
     local gem = 55654
-    local place = "A Hidden Altar Room"
-    local hint = "in a cave in South Caelia's Wailing Mountains."
+    place = "A Hidden Altar Room"
+    hint = "in a cave in South Caelia's Wailing Mountains."
 elseif pendantstage == 5 then
     local necklace = 12336
     local gem = 55662
-    local place = "The Altar of the Snow Leopard Order"
-    local hint = "buried deep in Mt. Frostbite"
+    place = "The Altar of the Snow Leopard Order"
+    hint = "buried deep in Mt. Frostbite"
 elseif pendantstage == 6 then
     local necklace = 43019
     local gem = 55677
-    local place = "Chapel Altar"
-    local hint = "deep underground in a lost castle."
+    place = "Chapel Altar"
+    hint = "deep underground in a lost castle."
 elseif pendantstage == 7 then
     local necklace = 37015
     local gem = 55709
-    local place = "A Cliffside Altar"
-    local hint = "tucked away in the land of Dreams."
+    place = "A Cliffside Altar"
+    hint = "tucked away in the land of Dreams."
 elseif pendantstage == 8 then
     local necklace = 58429
     local gem = 55738
-    local place = "Dark Altar"
-    local hint = "entombed with an ancient evil king."
+    place = "Dark Altar"
+    hint = "entombed with an ancient evil king."
 elseif pendantstage == 9 then
     local necklace = 52010
     local gem = 55739
-    local place = "An Altar"
-    local hint = "far away in the Plane of Air."
+    place = "An Altar"
+    hint = "far away in the Plane of Air."
 end
 local attacks = pendantstage * 100
 self:command("nod")

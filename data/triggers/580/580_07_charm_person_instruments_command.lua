@@ -21,35 +21,35 @@ if actor:get_quest_stage("charm_person") == 4 then
     local room = actor.room
     -- switch on self.id
     if room:get_people(30, 10) then
-        if self.id == 48925 then
+        if (self.zone_id == 489 and self.id == 25) then
             wait(2)
             self.room:send(tostring(mobiles.template(30, 10).name) .. " hums along dreamily.")
             actor:set_quest_var("charm_person", "charm1", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(30, 10).name) .. " is charmed by your playing!</>")
         end
         if room:get_people(580, 17) then
-        elseif self.id == 37012 then
+        elseif (self.zone_id == 370 and self.id == 12) then
             wait(2)
             self.room:send(tostring(mobiles.template(580, 17).name) .. " blushes furiously.")
             actor:set_quest_var("charm_person", "charm2", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(580, 17).name) .. " is charmed by your playing!</>")
         end
         if room:get_people(584, 6) then
-        elseif self.id == 41119 then
+        elseif (self.zone_id == 411 and self.id == 19) then
             wait(2)
             self.room:send(tostring(mobiles.template(584, 6).name) .. " sighs sweetly.")
             actor:set_quest_var("charm_person", "charm5", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(584, 6).name) .. " is charmed by your playing!</>")
         end
         if room:get_people(43, 53) then
-        elseif self.id == 16312 then
+        elseif (self.zone_id == 163 and self.id == 12) then
             wait(2)
             self.room:send(tostring(mobiles.template(43, 53).name) .. " closes her eyes and smiles.")
             actor:set_quest_var("charm_person", "charm3", 1)
             actor:send("<b:magenta>" .. tostring(mobiles.template(43, 53).name) .. " is charmed by your playing!</>")
         end
         if room:get_people(237, 21) then
-        elseif self.id == 58017 then
+        elseif (self.zone_id == 580 and self.id == 17) then
             wait(2)
             self.room:send(tostring(mobiles.template(237, 21).name) .. " burbles with contentment.")
             actor:set_quest_var("charm_person", "charm4", 1)

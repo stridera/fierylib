@@ -63,7 +63,7 @@ end
 -- 
 -- Adding hint to find Rogue Guild for Elspeth
 -- 
-if self.id == 3010 then
+if (self.zone_id == 30 and self.id == 10) then
     if actor.class == "Rogue" and actor.level < 10 then
         wait(4)
         actor:send(tostring(self.name) .. " notices you skulking about her shop.")

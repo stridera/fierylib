@@ -64,6 +64,7 @@ if string.find(actor.class, "Monk") then
     local job2 = actor:get_quest_var("monk_vision:visiontask2")
     local job3 = actor:get_quest_var("monk_vision:visiontask3")
     local job4 = actor:get_quest_var("monk_vision:visiontask4")
+    local place
     if actor.level < 10 then
         actor:send(tostring(self.name) .. " says, 'You aren't ready for a vision yet.  Come back when you've grown a bit.'")
     elseif actor:get_has_completed("monk_vision") then
@@ -76,60 +77,61 @@ if string.find(actor.class, "Monk") then
         actor:send(tostring(self.name) .. " says, 'You must walk further along the Way in service of Balance first.'")
     else
         -- switch on visionstage
+        local hint
         if visionstage == 1 then
             local book = 59006
             local gem = 55582
             local room = get_room("4328")
-            local place = room.name
-            local hint = "in a place to perform."
+            place = room.name
+            hint = "in a place to perform."
         elseif visionstage == 2 then
             local book = 18505
             local gem = 55591
             local room = get_room("58707")
-            local place = room.name
-            local hint = "near a sandy beach."
+            place = room.name
+            hint = "near a sandy beach."
         elseif visionstage == 3 then
             local book = 8501
             local gem = 55623
             local room = get_room("18597")
-            local place = room.name
-            local hint = "in a cloistered library."
+            place = room.name
+            hint = "in a cloistered library."
         elseif visionstage == 4 then
             local book = 12532
             local gem = 55655
             local room = get_room("58102")
-            local place = room.name
-            local hint = "on my home island."
+            place = room.name
+            hint = "on my home island."
         elseif visionstage == 5 then
             local book = 16209
             local gem = 55665
             local room = get_room("16057")
-            local place = room.name
-            local hint = "in the ghostly fortress."
+            place = room.name
+            hint = "in the ghostly fortress."
         elseif visionstage == 6 then
             local book = 43013
             local gem = 55678
             local room = get_room("59054")
-            local place = room.name
-            local hint = "in the fortress of the zealous."
+            place = room.name
+            hint = "in the fortress of the zealous."
         elseif visionstage == 7 then
             local book = 53009
             local gem = 55710
             local room = get_room("49079")
-            local place = room.name
-            local hint = "off-shore of the island of great beasts."
+            place = room.name
+            hint = "off-shore of the island of great beasts."
         elseif visionstage == 8 then
             local book = 58415
             local gem = 55722
             local room = get_room("11820")
-            local place = room.name
-            local hint = "beyond the Blue-Fog Trail."
+            place = room.name
+            hint = "beyond the Blue-Fog Trail."
         elseif visionstage == 9 then
             local book = 58412
             local gem = 55741
             local room = get_room("52075")
-            local place = room.name
-            local hint = "in the shattered citadel of Templace."
+            place = room.name
+            hint = "in the shattered citadel of Templace."
         end
         local attack = visionstage * 100
         if job1 or job2 or job3 or job4 then
@@ -172,41 +174,42 @@ if string.find(actor.class, "Monk") then
     if actor:get_quest_stage("monk_chants") then
         local chantstage = actor:get_quest_stage("monk_chants")
         -- switch on chantstage
+        local chant, level, item, place
         if chantstage == 1 then
-            local chant = "Tremors of Saint Augustine"
-            local level = 30
-            local item = "a book surrounded by trees and shadows"
-            local place = "in a place that is both natural and urban, serenely peaceful and profoundly sorrowful"
+            chant = "Tremors of Saint Augustine"
+            level = 30
+            item = "a book surrounded by trees and shadows"
+            place = "in a place that is both natural and urban, serenely peaceful and profoundly sorrowful"
         elseif chantstage == 2 then
-            local chant = "Tempest of Saint Augustine"
-            local level = 40
-            local item = "a scroll, dedicated to this particular chant, guarded by a creature of the same elemental affinity"
-            local place = "at the marker on a southern mountain range."
+            chant = "Tempest of Saint Augustine"
+            level = 40
+            item = "a scroll, dedicated to this particular chant, guarded by a creature of the same elemental affinity"
+            place = "at the marker on a southern mountain range."
         elseif chantstage == 3 then
-            local chant = "Blizzards of Saint Augustine"
-            local level = 50
-            local item = "a book held by a master who in turn is a servant of a beast of winter"
-            local place = "in a temple shrouded in mists"
+            chant = "Blizzards of Saint Augustine"
+            level = 50
+            item = "a book held by a master who in turn is a servant of a beast of winter"
+            place = "in a temple shrouded in mists"
         elseif chantstage == 4 then
-            local chant = "Aria of Dissonance"
-            local level = 60
-            local item = "a book on war, held by a banished war god"
-            local place = "in a dark cave before a blasphemous book, near an unholy fire"
+            chant = "Aria of Dissonance"
+            level = 60
+            item = "a book on war, held by a banished war god"
+            place = "in a dark cave before a blasphemous book, near an unholy fire"
         elseif chantstage == 5 then
-            local chant = "Apocalyptic Anthem"
-            local level = 75
-            local item = "a scroll where illusion is inscribed over and over held by a brother who thirsts for escape"
-            local place = "in a chapel of the walking dead"
+            chant = "Apocalyptic Anthem"
+            level = 75
+            item = "a scroll where illusion is inscribed over and over held by a brother who thirsts for escape"
+            place = "in a chapel of the walking dead"
         elseif chantstage == 6 then
-            local chant = "Fires of Saint Augustine"
-            local level = 80
-            local item = "a scroll of curses, carried by children of air in a floating fortress"
-            local place = "at an altar dedicated to fire's destructive forces"
+            chant = "Fires of Saint Augustine"
+            level = 80
+            item = "a scroll of curses, carried by children of air in a floating fortress"
+            place = "at an altar dedicated to fire's destructive forces"
         elseif chantstage == 7 then
-            local chant = "Seed of Destruction"
-            local level = 99
-            local item = "the eye of one caught in an eternal feud"
-            local place = "at an altar deep in the outer realms surrounded by those who's vengeance was never satisfied"
+            chant = "Seed of Destruction"
+            level = 99
+            item = "the eye of one caught in an eternal feud"
+            place = "at an altar deep in the outer realms surrounded by those who's vengeance was never satisfied"
         end
         actor:send("</>")
         actor:send("</>")

@@ -31,21 +31,23 @@ if not (string.find(string.lower(speech), "trident") or string.find(string.lower
 end
 wait(2)
 local hellstep = actor:get_quest_stage("hell_trident")
+local level
 if hellstep == 1 then
-    local level = 65
+    level = 65
 elseif hellstep == 2 then
-    local level = 90
+    level = 90
 end
 if hellstep then
     -- switch on self.id
     -- switch on hellstage
+    local response
     if hellstage == 1 then
-        local response = "stage2"
+        response = "stage2"
     elseif hellstage == 2 then
-        local response = "stage3"
+        response = "stage3"
     else
         if actor:get_has_completed("hell_trident") then
-            local response = "complete"
+            response = "complete"
         end
     end
     local step = 1
@@ -71,11 +73,12 @@ if hellstep then
             end
         end
     end
+    local response
     if actor:get_quest_stage("hell_trident") == "step" then
         if actor.level >= level then
             if not actor:get_quest_var("hell_trident:greet") then
                 actor:set_quest_var("hell_trident", "greet", 1)
-                if self.id == 6032 then
+                if (self.zone_id == 60 and self.id == 32) then
                     actor:send("In the hissed whisper of ecstatic fervor " .. tostring(self.name) .. " says, 'Six thrice is the number of the greater demons.  Undertaking thus six and six, and six again, their interest can be piqued.'")
                     actor:send("</>")
                     actor:send("- Attempting to land <b:yellow>six and six and six</> in thrusts of your trident shall provide the pattern of the number.")
@@ -89,7 +92,7 @@ if hellstep then
                     actor:send("- Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.")
                     wait(2)
                     actor:send(tostring(self.name) .. " says, 'In undertaking six in all will Hell be at your beck and call.'")
-                elseif self.id == 12526 then
+                elseif (self.zone_id == 125 and self.id == 26) then
                     actor:send(tostring(self.name) .. " says, 'Perhaps I will grant you a boon if you carry out sacrifices in my name.'")
                     actor:send("</>")
                     actor:send("- <b:yellow>Attack with " .. tostring(objects.template(23, 39).name) .. " 666 times</> as a sacrifice of power.")
@@ -110,15 +113,15 @@ if hellstep then
                 actor:send(tostring(self.name) .. " says, 'Remember your six sacrifices.  Ask about your <b:cyan>[weapon progress]</> if you must.'")
             end
         else
-            local response = "level"
+            response = "level"
         end
     else
         if actor:get_has_completed("hell_trident") then
-            local response = "complete"
+            response = "complete"
         elseif actor:get_quest_stage("hell_trident") < step then
-            local response = "stage1"
+            response = "stage1"
         else
-            local response = "stage3"
+            response = "stage3"
         end
     end
     if response == "stage1" then

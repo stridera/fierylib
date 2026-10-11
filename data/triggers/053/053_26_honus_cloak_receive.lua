@@ -14,87 +14,88 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 -- switch on object.id
+local cloakstage, item
 if object.id == 380 then
-    local cloakstage = 1
-    local item = "quest"
-elseif object.id == 58801 then
-    local cloakstage = 1
-    local item = "cloak"
-elseif object.id == 55585 then
-    local cloakstage = 1
-    local item = "gem"
+    cloakstage = 1
+    item = "quest"
+elseif (object.zone_id == 588 and object.id == 1) then
+    cloakstage = 1
+    item = "cloak"
+elseif (object.zone_id == 555 and object.id == 85) then
+    cloakstage = 1
+    item = "gem"
 elseif object.id == 381 then
-    local cloakstage = 2
-    local item = "quest"
-elseif object.id == 17307 then
-    local cloakstage = 2
-    local item = "cloak"
-elseif object.id == 55593 then
-    local cloakstage = 2
-    local item = "gem"
+    cloakstage = 2
+    item = "quest"
+elseif (object.zone_id == 173 and object.id == 7) then
+    cloakstage = 2
+    item = "cloak"
+elseif (object.zone_id == 555 and object.id == 93) then
+    cloakstage = 2
+    item = "gem"
 elseif object.id == 382 then
-    local cloakstage = 3
-    local item = "quest"
-elseif object.id == 10308 then
-    local cloakstage = 3
-    local item = "cloak"
-elseif object.id == 55619 then
-    local cloakstage = 3
-    local item = "gem"
+    cloakstage = 3
+    item = "quest"
+elseif (object.zone_id == 103 and object.id == 8) then
+    cloakstage = 3
+    item = "cloak"
+elseif (object.zone_id == 556 and object.id == 19) then
+    cloakstage = 3
+    item = "gem"
 elseif object.id == 383 then
-    local cloakstage = 4
-    local item = "quest"
-elseif object.id == 12325 then
-    local cloakstage = 4
-    local item = "cloak"
-elseif object.id == 55659 then
-    local cloakstage = 4
-    local item = "gem"
+    cloakstage = 4
+    item = "quest"
+elseif (object.zone_id == 123 and object.id == 25) then
+    cloakstage = 4
+    item = "cloak"
+elseif (object.zone_id == 556 and object.id == 59) then
+    cloakstage = 4
+    item = "gem"
 elseif object.id == 384 then
-    local cloakstage = 5
-    local item = "quest"
-elseif object.id == 43022 then
-    local cloakstage = 5
-    local item = "cloak"
-elseif object.id == 55663 then
-    local cloakstage = 5
-    local item = "gem"
+    cloakstage = 5
+    item = "quest"
+elseif (object.zone_id == 430 and object.id == 22) then
+    cloakstage = 5
+    item = "cloak"
+elseif (object.zone_id == 556 and object.id == 63) then
+    cloakstage = 5
+    item = "gem"
 elseif object.id == 385 then
-    local cloakstage = 6
-    local item = "quest"
-elseif object.id == 23810 then
-    local cloakstage = 6
-    local item = "cloak"
-elseif object.id == 55674 then
-    local cloakstage = 6
-    local item = "gem"
+    cloakstage = 6
+    item = "quest"
+elseif (object.zone_id == 238 and object.id == 10) then
+    cloakstage = 6
+    item = "cloak"
+elseif (object.zone_id == 556 and object.id == 74) then
+    cloakstage = 6
+    item = "gem"
 elseif object.id == 386 then
-    local cloakstage = 7
-    local item = "quest"
-elseif object.id == 51013 then
-    local cloakstage = 7
-    local item = "cloak"
-elseif object.id == 55714 then
-    local cloakstage = 7
-    local item = "gem"
+    cloakstage = 7
+    item = "quest"
+elseif (object.zone_id == 510 and object.id == 13) then
+    cloakstage = 7
+    item = "cloak"
+elseif (object.zone_id == 557 and object.id == 14) then
+    cloakstage = 7
+    item = "gem"
 elseif object.id == 387 then
-    local cloakstage = 8
-    local item = "quest"
-elseif object.id == 58410 then
-    local cloakstage = 8
-    local item = "cloak"
-elseif object.id == 55740 then
-    local cloakstage = 8
-    local item = "gem"
+    cloakstage = 8
+    item = "quest"
+elseif (object.zone_id == 584 and object.id == 10) then
+    cloakstage = 8
+    item = "cloak"
+elseif (object.zone_id == 557 and object.id == 40) then
+    cloakstage = 8
+    item = "gem"
 elseif object.id == 388 then
-    local cloakstage = 9
-    local item = "quest"
-elseif object.id == 52009 then
-    local cloakstage = 9
-    local item = "cloak"
-elseif object.id == 55741 then
-    local cloakstage = 9
-    local item = "gem"
+    cloakstage = 9
+    item = "quest"
+elseif (object.zone_id == 520 and object.id == 9) then
+    cloakstage = 9
+    item = "cloak"
+elseif (object.zone_id == 557 and object.id == 41) then
+    cloakstage = 9
+    item = "gem"
 end
 if actor:get_quest_stage("treasure_hunter") < actor:get_quest_stage("rogue_cloak") then
     _return_value = true
@@ -121,6 +122,7 @@ elseif cloakstage < actor:get_quest_stage("rogue_cloak") then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You've already earned that promotion.'")
 else
+    local accept
     if item == "quest" then
         local job1 = actor:get_quest_var("rogue_cloak:cloaktask1")
         local job2 = actor:get_quest_var("rogue_cloak:cloaktask2")
@@ -135,18 +137,19 @@ else
             self.room:spawn_object(math.floor(reward / 100), reward % 100)
             self:command("give cloak " .. tostring(actor))
             local expcap = cloakstage * 10
+            local expmod
             if expcap < 17 then
-                local expmod = 440 + ((expcap - 8) * 125)
+                expmod = 440 + ((expcap - 8) * 125)
             elseif expcap < 25 then
-                local expmod = 1440 + ((expcap - 16) * 175)
+                expmod = 1440 + ((expcap - 16) * 175)
             elseif expcap < 34 then
-                local expmod = 2840 + ((expcap - 24) * 225)
+                expmod = 2840 + ((expcap - 24) * 225)
             elseif expcap < 49 then
-                local expmod = 4640 + ((expcap - 32) * 250)
+                expmod = 4640 + ((expcap - 32) * 250)
             elseif expcap < 90 then
-                local expmod = 8640 + ((expcap - 48) * 300)
+                expmod = 8640 + ((expcap - 48) * 300)
             else
-                local expmod = 20940 + ((expcap - 89) * 600)
+                expmod = 20940 + ((expcap - 89) * 600)
             end
             expmod = expmod + ((expmod * 2) / 15)
             actor:send("<b:yellow>You gain experience!</>")
@@ -175,16 +178,16 @@ else
         end
     elseif item == "cloak" then
         if actor:get_quest_var("rogue_cloak:cloaktask2") == object.id then
-            local accept = "no"
+            accept = "no"
         else
-            local accept = "yes"
+            accept = "yes"
             actor:set_quest_var("rogue_cloak", "cloaktask2", object.id)
         end
     elseif item == "gem" then
         if actor:get_quest_var("rogue_cloak:cloaktask3") == object.id then
-            local accept = "no"
+            accept = "no"
         else
-            local accept = "yes"
+            accept = "yes"
             actor:set_quest_var("rogue_cloak", "cloaktask3", object.id)
         end
     end

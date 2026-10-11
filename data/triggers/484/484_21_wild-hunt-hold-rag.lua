@@ -20,10 +20,10 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor:get_quest_stage("doom_entrance") == 1 then
     actor:command("hold ragtoscarewhitetaileddeer")
     wait(1)
-    if self.id == 55214 then
+    if (self.zone_id == 552 and self.id == 14) then
         self.room:send("The deer flees wildly at the sight of the blood-soaked rag!")
         self:command("flee")
-    elseif self.id == 55244 then
+    elseif (self.zone_id == 552 and self.id == 44) then
         self.room:send("The deer boldly stands its ground, nostrils flaring at the scent of blood.")
     end
 else

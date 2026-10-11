@@ -8,7 +8,7 @@
 -- Converted from DG Script #49023: derceta_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if object.id == 49016 then
+if (object.zone_id == 490 and object.id == 16) then
     self:set_flag("sentinel", true)
     local person = actor
     local stage = 3

@@ -18,13 +18,13 @@ elseif object.id == 320 then
     quest_type, wandgem, wand, next_id = "ice", 55574, true, 121
 elseif object.id == 330 then
     quest_type, wandgem, wand, next_id = "acid", 55576, true, 131
-elseif object.id == 55577 then
+elseif (object.zone_id == 555 and object.id == 77) then
     quest_type, wandgem = "air", true
-elseif object.id == 55575 then
+elseif (object.zone_id == 555 and object.id == 75) then
     quest_type, wandgem = "fire", true
-elseif object.id == 55574 then
+elseif (object.zone_id == 555 and object.id == 74) then
     quest_type, wandgem = "ice", true
-elseif object.id == 55576 then
+elseif (object.zone_id == 555 and object.id == 76) then
     quest_type, wandgem = "acid", true
 end
 if not quest_type then

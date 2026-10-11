@@ -24,26 +24,27 @@ wait(2)
 if actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then
     if actor:get_quest_var("treasure_hunter:hunt") then
         -- switch on actor:get_quest_stage("treasure_hunter")
+        local order
         if actor:get_quest_stage("treasure_hunter") == 1 then
-            local order = 10
+            order = 10
         elseif actor:get_quest_stage("treasure_hunter") == 2 then
-            local order = 11
+            order = 11
         elseif actor:get_quest_stage("treasure_hunter") == 3 then
-            local order = 12
+            order = 12
         elseif actor:get_quest_stage("treasure_hunter") == 4 then
-            local order = 13
+            order = 13
         elseif actor:get_quest_stage("treasure_hunter") == 5 then
-            local order = 14
+            order = 14
         elseif actor:get_quest_stage("treasure_hunter") == 6 then
-            local order = 15
+            order = 15
         elseif actor:get_quest_stage("treasure_hunter") == 7 then
-            local order = 16
+            order = 16
         elseif actor:get_quest_stage("treasure_hunter") == 8 then
-            local order = 17
+            order = 17
         elseif actor:get_quest_stage("treasure_hunter") == 9 then
-            local order = 18
+            order = 18
         elseif actor:get_quest_stage("treasure_hunter") == 10 then
-            local order = 19
+            order = 19
         end
         self:command("grumble")
         self.room:spawn_object(53, order)

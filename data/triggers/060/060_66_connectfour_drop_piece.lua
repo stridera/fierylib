@@ -38,22 +38,24 @@ if (actor.name == player1.name) or (actor.name == player2.name) then
         return _return_value
     end
 end
+local piece
 if actor.name == player1.name then
     if turn ~= 1 then
         actor:send("It's not your turn!")
         return _return_value
     end
-    local piece = p1colO&0
+    piece = p1colO&0
 elseif actor.name == player2.name then
     if turn ~= 2 then
         actor:send("It's not your turn!")
         return _return_value
     end
-    local piece = p2colO&0
+    piece = p2colO&0
 else
     _return_value = true
     return _return_value
 end
+local full
 if arg == 1 then
     if g1 == "O" then
         local g1 = piece
@@ -77,7 +79,7 @@ if arg == 1 then
         local a1 = piece
         globals.a1 = globals.a1 or true
     else
-        local full = 1
+        full = 1
     end
 elseif arg == 2 then
     if g2 == "O" then
@@ -102,7 +104,7 @@ elseif arg == 2 then
         local a2 = piece
         globals.a2 = globals.a2 or true
     else
-        local full = 1
+        full = 1
     end
 elseif arg == 3 then
     if g3 == "O" then
@@ -127,7 +129,7 @@ elseif arg == 3 then
         local a3 = piece
         globals.a3 = globals.a3 or true
     else
-        local full = 1
+        full = 1
     end
 elseif arg == 4 then
     if g4 == "O" then
@@ -152,7 +154,7 @@ elseif arg == 4 then
         local a4 = piece
         globals.a4 = globals.a4 or true
     else
-        local full = 1
+        full = 1
     end
 elseif arg == 5 then
     if g5 == "O" then
@@ -177,7 +179,7 @@ elseif arg == 5 then
         local a5 = piece
         globals.a5 = globals.a5 or true
     else
-        local full = 1
+        full = 1
     end
 elseif arg == 6 then
     if g6 == "O" then
@@ -202,7 +204,7 @@ elseif arg == 6 then
         local a6 = piece
         globals.a6 = globals.a6 or true
     else
-        local full = 1
+        full = 1
     end
 elseif arg == 7 then
     if g7 == "O" then
@@ -227,7 +229,7 @@ elseif arg == 7 then
         local a7 = piece
         globals.a7 = globals.a7 or true
     else
-        local full = 1
+        full = 1
     end
 else
     actor:send("Drop a piece in where!?")
@@ -268,14 +270,15 @@ local dne5 = b7c6d5e4f3g2
 local dne6 = c7d6e5f4g3
 local dne7 = d7e6f5g4
 local streak = piecepiecepiecepiece
+local win
 if (string.find(row1, "streak")) or (string.find(row2, "streak")) or (string.find(row3, "streak")) or (string.find(row4, "streak")) or (string.find(row5, "streak")) or (string.find(row6, "streak")) or (string.find(row7, "streak")) then
-    local win = 1
+    win = 1
 elseif (string.find(col1, "streak")) or (string.find(col2, "streak")) or (string.find(col3, "streak")) or (string.find(col4, "streak")) or (string.find(col5, "streak")) or (string.find(col6, "streak")) or (string.find(col7, "streak")) then
-    local win = 1
+    win = 1
 elseif (string.find(dnw1, "streak")) or (string.find(dnw2, "streak")) or (string.find(dnw3, "streak")) or (string.find(dnw4, "streak")) or (string.find(dnw5, "streak")) or (string.find(dnw6, "streak")) or (string.find(dnw7, "streak")) then
-    local win = 1
+    win = 1
 elseif (string.find(dne1, "streak")) or (string.find(dne2, "streak")) or (string.find(dne3, "streak")) or (string.find(dne4, "streak")) or (string.find(dne5, "streak")) or (string.find(dne6, "streak")) or (string.find(dne7, "streak")) then
-    local win = 1
+    win = 1
 end
 if win then
     actor:send("You win!")

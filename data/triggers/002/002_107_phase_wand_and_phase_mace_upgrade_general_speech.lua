@@ -24,7 +24,7 @@ if not (has("upgrade") or has("upgrading") or has("craft") or has("crafting")
 end
 wait(2)
 
-if self.id == 18581 or self.id == 48412 then
+if (self.zone_id == 185 and self.id == 81) or (self.zone_id == 484 and self.id == 12) then
     if actor.class ~= "cleric" and actor.class ~= "priest" then
         return true
     end
@@ -96,13 +96,13 @@ if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "p
                 actor:send("- <b:yellow>%get.obj_shortdesc[%wandtask3%]%</>, for its resonance with " .. quest_type .. " energies.")
                 if wandstep == 4 then
                     actor:send("</>    Blessings can be called at the smaller groups of standing stones in South Caelia.")
-                    if self.id == 58601 then
+                    if (self.zone_id == 586 and self.id == 1) then
                         actor:send("</>    Search the far eastern edge of the continent.")
-                    elseif self.id == 10306 then
+                    elseif (self.zone_id == 103 and self.id == 6) then
                         actor:send("</>    Search the south point beyond Anlun Vale.")
-                    elseif self.id == 2337 then
+                    elseif (self.zone_id == 23 and self.id == 37) then
                         actor:send("</>    Search the surrounding forest.")
-                    elseif self.id == 62504 then
+                    elseif (self.zone_id == 625 and self.id == 4) then
                         actor:send("</>    Search in the heart of the heart of the thorns.")
                     end
                     actor:send("</>    The phrase to call the blessing is:")

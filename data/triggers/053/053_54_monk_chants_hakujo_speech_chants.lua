@@ -25,6 +25,7 @@ if actor:get_quest_stage("monk_vision") >= 3 then
         actor:start_quest("monk_chants")
         wait(2)
     end
+    local decline
     if actor:get_quest_stage("monk_chants") == 1 then
         if actor.level >= 30 then
             actor:send(tostring(self.name) .. " says, 'The first esoteric chant you can learn is the <b:yellow>Tremors of Saint Augustine</>.  This prayer will channel the forces of the earth through your hands, allowing you to disintegrate your foes with your touch.'")
@@ -35,7 +36,7 @@ if actor:get_quest_stage("monk_vision") >= 3 then
             wait(2)
             self:command("bow " .. tostring(actor))
         else
-            local decline = "level"
+            decline = "level"
         end
     elseif actor:get_quest_stage("monk_chants") == 2 then
         if actor:get_quest_stage("monk_vision") > 4 then
@@ -46,10 +47,10 @@ if actor:get_quest_stage("monk_vision") >= 3 then
                 wait(2)
                 self:command("bow " .. tostring(actor))
             else
-                local decline = "level"
+                decline = "level"
             end
         else
-            local decline = "vision"
+            decline = "vision"
         end
     elseif actor:get_quest_stage("monk_chants") == 3 then
         if actor:get_quest_stage("monk_vision") > 5 then
@@ -62,10 +63,10 @@ if actor:get_quest_stage("monk_vision") >= 3 then
                 wait(2)
                 self:command("bow " .. tostring(actor))
             else
-                local decline = "level"
+                decline = "level"
             end
         else
-            local decline = "vision"
+            decline = "vision"
         end
     elseif actor:get_quest_stage("monk_chants") == 4 then
         if actor:get_quest_stage("monk_vision") > 6 then
@@ -76,10 +77,10 @@ if actor:get_quest_stage("monk_vision") >= 3 then
                 wait(2)
                 self:command("bow " .. tostring(actor))
             else
-                local decline = "level"
+                decline = "level"
             end
         else
-            local decline = "vision"
+            decline = "vision"
         end
     elseif actor:get_quest_stage("monk_chants") == 5 then
         if actor:get_quest_stage("monk_vision") > 7 then
@@ -92,10 +93,10 @@ if actor:get_quest_stage("monk_vision") >= 3 then
                 wait(2)
                 self:command("bow " .. tostring(actor))
             else
-                local decline = "level"
+                decline = "level"
             end
         else
-            local decline = "vision"
+            decline = "vision"
         end
     elseif actor:get_quest_stage("monk_chants") == 6 then
         if actor:get_quest_stage("monk_vision") > 8 then
@@ -108,10 +109,10 @@ if actor:get_quest_stage("monk_vision") >= 3 then
                 wait(2)
                 self:command("bow " .. tostring(actor))
             else
-                local decline = "level"
+                decline = "level"
             end
         else
-            local decline = "vision"
+            decline = "vision"
         end
     elseif actor:get_quest_stage("monk_chants") == 7 then
         if actor:get_quest_stage("monk_vision") > 9 then
@@ -128,7 +129,7 @@ if actor:get_quest_stage("monk_vision") >= 3 then
                 return _return_value
             end
         else
-            local decline = "vision"
+            decline = "vision"
         end
     end
     if decline == "level" then

@@ -16,13 +16,13 @@ if stage ~= 1 and stage ~= 3 then
 elseif stage == 1 then
     -- TODO(parity): legacy 5-digit object vnums; split to (zone, id) once
     -- the canonical mapping is settled.
-    if object.id == 23756 or object.id == 41111 or object.id == 41110 or object.id == 18512 or object.id == 8507 or object.id == 17300 or object.id == 8612 or object.id == 58809 then
+    if (object.zone_id == 237 and object.id == 56) or (object.zone_id == 411 and object.id == 11) or (object.zone_id == 411 and object.id == 10) or (object.zone_id == 185 and object.id == 12) or (object.zone_id == 85 and object.id == 7) or (object.zone_id == 173 and object.id == 0) or (object.zone_id == 86 and object.id == 12) or (object.zone_id == 588 and object.id == 9) then
         return _return_value
     else
         response = "Unfortunately, that's not going to help empower the ritual."
     end
 elseif stage == 3 then
-    if object.id == 23817 or object.id == 4305 or object.id == 4318 or object.id == 58015 or object.id == 58018 or object.id == 58426 or object.id == 58418 then
+    if (object.zone_id == 238 and object.id == 17) or (object.zone_id == 43 and object.id == 5) or (object.zone_id == 43 and object.id == 18) or (object.zone_id == 580 and object.id == 15) or (object.zone_id == 580 and object.id == 18) or (object.zone_id == 584 and object.id == 26) or (object.zone_id == 584 and object.id == 18) then
         return _return_value
     else
         response = "Unfortunately, that's not going to help empower the ritual."

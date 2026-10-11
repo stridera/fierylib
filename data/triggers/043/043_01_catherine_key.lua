@@ -13,7 +13,7 @@ local accept_lashes
 local accept_key
 self:set_flag("sentinel", true)
 if actor:get_quest_stage("theatre") >= 1 then
-    if object.id == 4351 then
+    if (object.zone_id == 43 and object.id == 51) then
         local person = actor
         local i = person.group_size
         local a
@@ -51,7 +51,7 @@ if actor:get_quest_stage("theatre") >= 1 then
             wait(2)
             self:say("Finally!  Now if I could just have my dressing room key back too please...")
         end
-    elseif object.id == 4303 then
+    elseif (object.zone_id == 43 and object.id == 3) then
         local person = actor
         local i = person.group_size
         local a

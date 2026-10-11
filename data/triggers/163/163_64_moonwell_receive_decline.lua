@@ -14,23 +14,23 @@
 
 local stage = actor:get_quest_stage("moonwell_spell_quest")
 
-if (stage == 1 or stage == 2 or stage == 3) and object.id == 16350 then
+if (stage == 1 or stage == 2 or stage == 3) and (object.zone_id == 163 and object.id == 50) then
     return true
-elseif (stage == 3 or stage == 4) and object.id == 48024 then
+elseif (stage == 3 or stage == 4) and (object.zone_id == 480 and object.id == 24) then
     return true
-elseif (stage == 4 or stage == 5 or stage == 6) and object.id == 16356 then
+elseif (stage == 4 or stage == 5 or stage == 6) and (object.zone_id == 163 and object.id == 56) then
     return true
-elseif stage == 6 and object.id == 5201 then
+elseif stage == 6 and (object.zone_id == 52 and object.id == 1) then
     return true
-elseif stage == 7 and (object.id == 16006 or object.id == 16351) then
+elseif stage == 7 and ((object.zone_id == 160 and object.id == 6) or (object.zone_id == 163 and object.id == 51)) then
     return true
-elseif stage == 8 and object.id == 16352 then
+elseif stage == 8 and (object.zone_id == 163 and object.id == 52) then
     return true
-elseif stage == 9 and object.id == 49011 then
+elseif stage == 9 and (object.zone_id == 490 and object.id == 11) then
     return true
-elseif stage == 10 and (object.id == 4003 or object.id == 16353) then
+elseif stage == 10 and ((object.zone_id == 40 and object.id == 3) or (object.zone_id == 163 and object.id == 53)) then
     return true
-elseif stage == 11 and (object.id == 55020 or object.id == 16354 or object.id == 16355) then
+elseif stage == 11 and ((object.zone_id == 550 and object.id == 20) or (object.zone_id == 163 and object.id == 54) or (object.zone_id == 163 and object.id == 55)) then
     return true
 end
 

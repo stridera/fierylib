@@ -18,15 +18,15 @@ if i then
         if person.room == self.room then
             if person:get_quest_stage("waterform") == 4 and (person:has_item("2808") or person:has_equipped("2808")) then
                 -- switch on self.id
-                if self.id == 2805 or self.id == 2808 or self.id == 2809 or self.id == 11805 then
+                if (self.zone_id == 28 and self.id == 5) or (self.zone_id == 28 and self.id == 8) or (self.zone_id == 28 and self.id == 9) or (self.zone_id == 117 and self.id == 105) then
                     local number = 1
-                elseif self.id == 51001 or self.id == 51019 or self.id == 51021 then
+                elseif (self.zone_id == 510 and self.id == 1) or (self.zone_id == 510 and self.id == 19) or (self.zone_id == 510 and self.id == 21) then
                     local number = 2
-                elseif self.id == 4002 then
+                elseif (self.zone_id == 40 and self.id == 2) then
                     local number = 3
-                elseif self.id == 48631 then
+                elseif (self.zone_id == 484 and self.id == 231) then
                     local number = 4
-                elseif self.id == 53004 then
+                elseif (self.zone_id == 530 and self.id == 4) then
                     local number = 5
                 else
                     _return_value = true
@@ -51,15 +51,15 @@ if i then
     end
 elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or actor:has_equipped("2808")) then
     -- switch on self.id
-    if self.id == 2805 or self.id == 2808 or self.id == 2809 or self.id == 11805 then
+    if (self.zone_id == 28 and self.id == 5) or (self.zone_id == 28 and self.id == 8) or (self.zone_id == 28 and self.id == 9) or (self.zone_id == 117 and self.id == 105) then
         local number = 1
-    elseif self.id == 51001 or self.id == 51019 or self.id == 51021 then
+    elseif (self.zone_id == 510 and self.id == 1) or (self.zone_id == 510 and self.id == 19) or (self.zone_id == 510 and self.id == 21) then
         local number = 2
-    elseif self.id == 4002 then
+    elseif (self.zone_id == 40 and self.id == 2) then
         local number = 3
-    elseif self.id == 48631 then
+    elseif (self.zone_id == 484 and self.id == 231) then
         local number = 4
-    elseif self.id == 53004 then
+    elseif (self.zone_id == 530 and self.id == 4) then
         local number = 5
     else
         _return_value = true

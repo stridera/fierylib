@@ -41,6 +41,7 @@ if world.count_objects(590, 35) == 1 then
     end
     -- switch on arg
     if last == 1 and first_pin == 3 and secnd_pin == 3 then
+        local secnd_pin, first_pin
         if last_pin == 3 then
             if arg == "left" then
                 actor:send("The lever seems to have already been pulled.")
@@ -72,7 +73,7 @@ if world.count_objects(590, 35) == 1 then
                 self.room:send_except(actor, tostring(actor.name) .. " pulls the lever, which causes a series of loud clicks to reverberate from the door.")
                 wait(5)
                 self.room:send("You hear something in the doors locking mechanism drop.")
-                local secnd_pin = 3
+                secnd_pin = 3
                 globals.secnd_pin = globals.secnd_pin or true
             end
         elseif first == 1 then
@@ -84,7 +85,7 @@ if world.count_objects(590, 35) == 1 then
                 self.room:send_except(actor, tostring(actor.name) .. " pulls the lever and the faint sound of gears turning echo from the door.")
                 wait(5)
                 self.room:send("You hear something in the doors locking mechanism drop.")
-                local first_pin = 3
+                first_pin = 3
                 globals.first_pin = globals.first_pin or true
             end
         else
@@ -94,6 +95,7 @@ if world.count_objects(590, 35) == 1 then
             actor:send("You bend over in extreme anguish as a jolt of pain tears through your body.  (<b:red>" .. tostring(dmg) .. "</>)")
             local damage_dealt = actor:damage(dmg)  -- type: physical
         end
+        local secnd_pin, first_pin
         if last == 2 and first_pin == 3 and secnd_pin == 3 then
             if last_pin == 3 then
             elseif arg == "center" then
@@ -126,7 +128,7 @@ if world.count_objects(590, 35) == 1 then
                 self.room:send_except(actor, tostring(actor.name) .. " pulls the lever, which causes a series of loud clicks to reverberate from the door.")
                 wait(5)
                 self.room:send("You hear something in the doors locking mechanism drop.")
-                local secnd_pin = 3
+                secnd_pin = 3
                 globals.secnd_pin = globals.secnd_pin or true
             end
         elseif first == 2 then
@@ -138,7 +140,7 @@ if world.count_objects(590, 35) == 1 then
                 self.room:send_except(actor, tostring(actor.name) .. " pulls the lever and the faint sound of gears turning echo from the door.")
                 wait(5)
                 self.room:send("You hear something in the doors locking mechanism drop.")
-                local first_pin = 3
+                first_pin = 3
                 globals.first_pin = globals.first_pin or true
             end
         else

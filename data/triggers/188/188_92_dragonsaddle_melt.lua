@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: GET, WEAR, probability: 100%
 -- Allow the dragon mounts (mob 18890/18891) to handle the saddle silently;
 -- anyone else picking it up causes it to melt away.
-if (actor.id == 18890) or (actor.id == 18891) then
+if (actor.zone_id == 188 and actor.id == 90) or (actor.zone_id == 188 and actor.id == 91) then
     return true
 end
 if actor.canbeseen then

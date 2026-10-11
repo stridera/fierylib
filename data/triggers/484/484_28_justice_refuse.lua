@@ -15,7 +15,7 @@ local _return_value = true  -- Default: allow action
 -- the post-block `if response then` test).
 local response = nil
 if actor:get_quest_stage("wizard_eye") == 10 then
-    if object.id == 3218 or object.id == 53424 or object.id == 43021 or object.id == 4003 then
+    if (object.zone_id == 30 and object.id == 218) or (object.zone_id == 534 and object.id == 24) or (object.zone_id == 430 and object.id == 21) or (object.zone_id == 40 and object.id == 3) then
         return _return_value
     else
         response = "This " .. tostring(object.shortdesc) .. " can't possibly be what you needed to ask me about."

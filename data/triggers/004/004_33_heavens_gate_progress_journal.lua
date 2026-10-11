@@ -186,20 +186,21 @@ if string.find(arg, "heavens gate") or string.find(arg, "heavens") or string.fin
                     actor:send("</>")
                 end
                 -- switch on sealed
+                local phrase
                 if sealed == 1 then
-                    local phrase = "yamo lv"
+                    phrase = "yamo lv"
                 elseif sealed == 2 then
-                    local phrase = "yamo lv soeeiy"
+                    phrase = "yamo lv soeeiy"
                 elseif sealed == 3 then
-                    local phrase = "yamo lv soeeiy vrtvln"
+                    phrase = "yamo lv soeeiy vrtvln"
                 elseif sealed == 4 then
-                    local phrase = "yamo lv soeeiy vrtvln eau okia khz"
+                    phrase = "yamo lv soeeiy vrtvln eau okia khz"
                 elseif sealed == 5 then
-                    local phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp"
+                    phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp"
                 elseif sealed == 6 then
-                    local phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj"
+                    phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj"
                 elseif sealed == 7 then
-                    local phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj bzjbie"
+                    phrase = "yamo lv soeeiy vrtvln eau okia khz lrrvzryp gvxrj bzjbie"
                 else
                     return _return_value
                 end

@@ -37,38 +37,38 @@ if actor:get_quest_stage("megalith_quest") == 1 then
     -- objects could satisfy the requirement, but we only want to accept one.
     -- Also remember the goblet ID so we can return the cup in stage 3.
     -- salt
-    if object.id == 23756 then
+    if (object.zone_id == 237 and object.id == 56) then
         item = 1
         this = object.shortdesc
     -- hemlock goblet - BAD1
-    elseif object.id == 41111 then
+    elseif (object.zone_id == 411 and object.id == 11) then
         item = 2
         goblet = 41111
         this = "a drinking vessel"
     -- rowan goblet
-    elseif object.id == 41110 then
+    elseif (object.zone_id == 411 and object.id == 10) then
         this = "a drinking vessel"
         item = 2
         goblet = 41110
     -- chalice
-    elseif object.id == 18512 then
+    elseif (object.zone_id == 185 and object.id == 12) then
         item = 2
         goblet = 18512
         this = "a drinking vessel"
     -- censer
-    elseif object.id == 8507 then
+    elseif (object.zone_id == 85 and object.id == 7) then
         item = 3
         this = "an incense burner"
     -- thurible
-    elseif object.id == 17300 then
+    elseif (object.zone_id == 173 and object.id == 0) then
         item = 3
         this = "an incense burner"
     -- candle
-    elseif object.id == 8612 then
+    elseif (object.zone_id == 86 and object.id == 12) then
         item = 4
         this = "spare candles"
     -- candle
-    elseif object.id == 58809 then
+    elseif (object.zone_id == 588 and object.id == 9) then
         item = 4
         this = "spare candles"
     else
@@ -78,31 +78,31 @@ elseif actor:get_quest_stage("megalith_quest") == 3 then
     step = "summon " .. tostring(mobiles.template(123, 0).name)
     -- Set the potential items that could be returned in Stage 3
     -- bowl
-    if object.id == 23817 then
+    if (object.zone_id == 238 and object.id == 17) then
         item = 1
         this = object.shortdesc
     -- goddess skirt - BAD3
-    elseif object.id == 4305 then
+    elseif (object.zone_id == 43 and object.id == 5) then
         item = 2
         this = "something from a goddess's regalia"
     -- goddess torch - ALSO BAD3
-    elseif object.id == 4318 then
+    elseif (object.zone_id == 43 and object.id == 18) then
         item = 2
         this = "something from a goddess's regalia"
     -- goddess bracelet
-    elseif object.id == 58015 then
+    elseif (object.zone_id == 580 and object.id == 15) then
         item = 2
         this = "something from a goddess's regalia"
     -- goddess ring
-    elseif object.id == 58018 then
+    elseif (object.zone_id == 580 and object.id == 18) then
         item = 2
         this = "something from a goddess's regalia"
     -- faerie elixir - BAD4 - THE REALLY BAD ONE
-    elseif object.id == 58426 then
+    elseif (object.zone_id == 584 and object.id == 26) then
         this = "something to serve as Her icon"
         item = 3
     -- faerie wings
-    elseif object.id == 58418 then
+    elseif (object.zone_id == 584 and object.id == 18) then
         item = 3
         this = "something to serve as Her icon"
     else
@@ -124,14 +124,14 @@ end
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
 actor:set_quest_var("megalith_quest", item_key, 1)
-if object.id == 41110 or object.id == 18512 or object.id == 41111 then
+if (object.zone_id == 411 and object.id == 10) or (object.zone_id == 185 and object.id == 12) or (object.zone_id == 411 and object.id == 11) then
     actor:set_quest_var("megalith_quest", "goblet", goblet)
-    if object.id == 41111 then
+    if (object.zone_id == 411 and object.id == 11) then
         actor:set_quest_var("megalith_quest", "bad1", 1)
     end
-elseif object.id == 4318 or object.id == 4305 then
+elseif (object.zone_id == 43 and object.id == 18) or (object.zone_id == 43 and object.id == 5) then
     actor:set_quest_var("megalith_quest", "bad3", 1)
-elseif object.id == 58426 then
+elseif (object.zone_id == 584 and object.id == 26) then
     actor:set_quest_var("megalith_quest", "bad4", 1)
 end
 world.destroy(object)

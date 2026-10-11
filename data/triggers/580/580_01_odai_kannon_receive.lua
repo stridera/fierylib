@@ -12,7 +12,7 @@
 -- that zones 553, 556 still own the gem/armor object IDs in the 37-72
 -- range after import.
 if actor.is_player then
-    if object.id == 58200 then
+    if (object.zone_id == 580 and object.id == 200) then
         wait(1)
         self:destroy_item("key")
         self.room:send(tostring(self.name) .. " stares in astonishment.")

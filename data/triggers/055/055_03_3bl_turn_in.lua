@@ -117,166 +117,167 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     -- proto handed to the NPC by the player).
     -- 
     -- switch on object.id
+    local is_gem, exp_multiplier, id_reward, faction_required, faction_multiplier
     if object.id == "%id_gem_3bl_cap%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_cap
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_cap
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_food%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_food
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_food
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_drink%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_drink
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_drink
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_ssword%" then
-        local is_gem = 1
-        local exp_multiplier = 10
-        local id_reward = id_3bl_ssword
-        local faction_required = 20
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 10
+        id_reward = id_3bl_ssword
+        faction_required = 20
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_neck%" then
-        local is_gem = 1
-        local exp_multiplier = 12
-        local id_reward = id_3bl_neck
-        local faction_required = 40
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 12
+        id_reward = id_3bl_neck
+        faction_required = 40
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_staff%" then
-        local is_gem = 1
-        local exp_multiplier = 12
-        local id_reward = id_3bl_staff
-        local faction_required = 40
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 12
+        id_reward = id_3bl_staff
+        faction_required = 40
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_arm%" then
-        local is_gem = 1
-        local exp_multiplier = 14
-        local id_reward = id_3bl_arm
-        local faction_required = 55
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 14
+        id_reward = id_3bl_arm
+        faction_required = 55
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_whammer%" then
-        local is_gem = 1
-        local exp_multiplier = 14
-        local id_reward = id_3bl_whammer
-        local faction_required = 55
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 14
+        id_reward = id_3bl_whammer
+        faction_required = 55
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_wrist%" then
-        local is_gem = 1
-        local exp_multiplier = 16
-        local id_reward = id_3bl_wrist
-        local faction_required = 70
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 16
+        id_reward = id_3bl_wrist
+        faction_required = 70
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_flail%" then
-        local is_gem = 1
-        local exp_multiplier = 16
-        local id_reward = id_3bl_flail
-        local faction_required = 70
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 16
+        id_reward = id_3bl_flail
+        faction_required = 70
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_gloves%" then
-        local is_gem = 1
-        local exp_multiplier = 18
-        local id_reward = id_3bl_gloves
-        local faction_required = 85
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 18
+        id_reward = id_3bl_gloves
+        faction_required = 85
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_symbol%" then
-        local is_gem = 1
-        local exp_multiplier = 18
-        local id_reward = id_3bl_symbol
-        local faction_required = 85
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 18
+        id_reward = id_3bl_symbol
+        faction_required = 85
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_belt%" then
-        local is_gem = 1
-        local exp_multiplier = 20
-        local id_reward = id_3bl_belt
-        local faction_required = 100
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 20
+        id_reward = id_3bl_belt
+        faction_required = 100
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_shiv%" then
-        local is_gem = 1
-        local exp_multiplier = 20
-        local id_reward = id_3bl_shiv
-        local faction_required = 100
-        local faction_multiplier = 1
+        is_gem = 1
+        exp_multiplier = 20
+        id_reward = id_3bl_shiv
+        faction_required = 100
+        faction_multiplier = 1
     elseif object.id == "%id_gem_3bl_boots%" then
-        local is_gem = 1
-        local exp_multiplier = 22
-        local id_reward = id_3bl_boots
-        local faction_required = 115
-        local faction_multiplier = 2
+        is_gem = 1
+        exp_multiplier = 22
+        id_reward = id_3bl_boots
+        faction_required = 115
+        faction_multiplier = 2
     elseif object.id == "%id_gem_3bl_lsword%" then
-        local is_gem = 1
-        local exp_multiplier = 22
-        local id_reward = id_3bl_lsword
-        local faction_required = 115
-        local faction_multiplier = 2
+        is_gem = 1
+        exp_multiplier = 22
+        id_reward = id_3bl_lsword
+        faction_required = 115
+        faction_multiplier = 2
     elseif object.id == "%id_gem_3bl_legs%" then
-        local is_gem = 1
-        local exp_multiplier = 24
-        local id_reward = id_3bl_legs
-        local faction_required = 130
-        local faction_multiplier = 2
+        is_gem = 1
+        exp_multiplier = 24
+        id_reward = id_3bl_legs
+        faction_required = 130
+        faction_multiplier = 2
     elseif object.id == "%id_gem_3bl_robe%" then
-        local is_gem = 1
-        local exp_multiplier = 26
-        local id_reward = id_3bl_robe
-        local faction_required = 145
-        local faction_multiplier = 2
+        is_gem = 1
+        exp_multiplier = 26
+        id_reward = id_3bl_robe
+        faction_required = 145
+        faction_multiplier = 2
     elseif object.id == "%id_gem_3bl_jerkin%" then
-        local is_gem = 1
-        local exp_multiplier = 26
-        local id_reward = id_3bl_jerkin
-        local faction_required = 145
-        local faction_multiplier = 2
+        is_gem = 1
+        exp_multiplier = 26
+        id_reward = id_3bl_jerkin
+        faction_required = 145
+        faction_multiplier = 2
     elseif object.id == "%id_gem_3bl_light%" then
-        local is_gem = 1
-        local exp_multiplier = 26
-        local id_reward = id_3bl_light
-        local faction_required = 85
-        local faction_multiplier = 2
+        is_gem = 1
+        exp_multiplier = 26
+        id_reward = id_3bl_light
+        faction_required = 85
+        faction_multiplier = 2
     elseif object.id == "%id_gem_3bl_mask%" then
-        local is_gem = 1
-        local exp_multiplier = 28
-        local id_reward = id_3bl_mask
-        local faction_required = 160
-        local faction_multiplier = 3
+        is_gem = 1
+        exp_multiplier = 28
+        id_reward = id_3bl_mask
+        faction_required = 160
+        faction_multiplier = 3
     elseif object.id == "%id_gem_3bl_smace%" then
-        local is_gem = 1
-        local exp_multiplier = 28
-        local id_reward = id_3bl_smace
-        local faction_required = 160
-        local faction_multiplier = 3
+        is_gem = 1
+        exp_multiplier = 28
+        id_reward = id_3bl_smace
+        faction_required = 160
+        faction_multiplier = 3
     elseif object.id == "%id_3el_skull%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_skull
-        local faction_multiplier = 1
+        faction_multiplier = 1
     elseif object.id == "%id_3el_ring%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_ring
-        local faction_multiplier = 1
+        faction_multiplier = 1
     elseif object.id == "%id_3el_badge%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_badge
-        local faction_multiplier = 1
+        faction_multiplier = 1
     elseif object.id == "%id_3el_token%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_token
-        local faction_multiplier = 2
+        faction_multiplier = 2
     elseif object.id == "%id_3el_insignia%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_insignia
-        local faction_multiplier = 2
+        faction_multiplier = 2
     elseif object.id == "%id_3el_wand%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_wand
-        local faction_multiplier = 2
+        faction_multiplier = 2
     elseif object.id == "%id_3el_symbol%" then
-        local exp_multiplier = 2
+        exp_multiplier = 2
         local id_trophy = id_3el_symbol
-        local faction_multiplier = 3
+        faction_multiplier = 3
     else
         _return_value = true
         wait(1)
@@ -310,14 +311,14 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             world.destroy(object)
             actor:save()
             if trophies < 10 then
-                local faction_advance = 1
-                local exp_advance = 1
+                faction_advance = 1
+                exp_advance = 1
             else
-                local faction_advance = 1
+                faction_advance = 1
             end
         else
             if trophies < 10 then
-                local exp_advance = 1
+                exp_advance = 1
                 local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
                 actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             else

@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 local accept
 self:set_flag("sentinel", true)
-if object.id == 4305 then
+if (object.zone_id == 43 and object.id == 5) then
     local person = actor
     local i = person.group_size
     local a

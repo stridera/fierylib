@@ -15,89 +15,90 @@
 local _return_value = true  -- Default: allow action
 local item = actor:get_quest_var("armor_exchange:armor_id")
 if item ~= 0 then
+    local found
     if item <= 55303 then
         if object.id >= 55300 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55307 then
         if object.id >= 55304 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55311 then
         if object.id >= 55308 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55315 then
         if object.id >= 55312 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55319 then
         if object.id >= 55316 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55323 then
         if object.id >= 55320 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55327 then
         if object.id >= 55324 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55331 then
         if object.id >= 55328 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55335 then
         if object.id >= 55332 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55339 then
         if object.id >= 55336 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55343 then
         if object.id >= 55340 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55347 then
         if object.id >= 55344 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55351 then
         if object.id >= 55348 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55355 then
         if object.id >= 55352 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55359 then
         if object.id >= 55356 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55363 then
         if object.id >= 55360 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55367 then
         if object.id >= 55364 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55371 then
         if object.id >= 55368 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55375 then
         if object.id >= 55372 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55379 then
         if object.id >= 55376 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     elseif item <= 55783 then
         if object.id >= 55380 and object.id <=55383 then
-            local found = 1
+            found = 1
         end
     end
     if found == 1 then

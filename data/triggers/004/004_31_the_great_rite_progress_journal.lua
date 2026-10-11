@@ -40,50 +40,50 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
         if (stage > 0 and not actor:get_has_completed("megalith_quest")) or actor:get_has_failed("megalith_quest") then
             local master = mobiles.template(123, 1).name
             -- switch on stage
+            local task, item1, item2, item3, item4, receive1, receive2, receive3, receive4
             if stage == 1 then
-                local task = "Replace the sacred prophetic implements."
+                task = "Replace the sacred prophetic implements."
                 -- salt 23756
-                local item1 = "salt"
+                item1 = "salt"
                 -- Goblet or chalice 41110 or 41111 or 18512
-                local item2 = "a goblet or chalice"
+                item2 = "a goblet or chalice"
                 -- censer 8507 or 17300
-                local item3 = "a censer"
+                item3 = "a censer"
                 -- candles 8612 or 58809
-                local item4 = "candles"
+                item4 = "candles"
                 -- give to the priestess
             elseif stage == 2 then
                 -- 
                 -- Must be done East South West North
                 -- 
                 -- thin sheet of cloud to Keeper of the East
-                local receive1 = mobiles.template(123, 5).name
-                local item1 = objects.template(83, 1).name
+                receive1 = mobiles.template(123, 5).name
+                item1 = objects.template(83, 1).name
                 -- the fiery eye to Keeper of the South
-                local receive2 = mobiles.template(123, 4).name
-                local item2 = objects.template(481, 9).name
+                receive2 = mobiles.template(123, 4).name
+                item2 = objects.template(481, 9).name
                 -- water from room 12463 to Keeper of the West
-                local receive3 = mobiles.template(123, 6).name
-                local item3 = "water from " .. tostring(objects.template(123, 52).name)
+                receive3 = mobiles.template(123, 6).name
+                item3 = "water from " .. tostring(objects.template(123, 52).name)
                 -- granite ring to Keeper of the North
-                local receive4 = mobiles.template(123, 3).name
-                local item4 = objects.template(550, 20).name
+                receive4 = mobiles.template(123, 3).name
+                item4 = objects.template(550, 20).name
                 if job1 and job2 and job3 and job4 then
-                    local task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0\""
+                    task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0\""
                 else
-                    local task = "Visit the Keepers and call the elements"
+                    task = "Visit the Keepers and call the elements"
                     master = nil
-                    local master = "The Keepers of East, South, West, and North"
+                    master = "The Keepers of East, South, West, and North"
                 end
             elseif stage == 3 then
-                local task = "Locate three holy reliquaries."
-                local item1 = "a holy prayer bowl"
-                local item2 = "a piece of a goddess's regalia"
-                local item3 = "a faerie relic from the land of the Reverie made manifest"
+                task = "Locate three holy reliquaries."
+                item1 = "a holy prayer bowl"
+                item2 = "a piece of a goddess's regalia"
+                item3 = "a faerie relic from the land of the Reverie made manifest"
             elseif stage == 4 then
                 local prayer = actor:get_quest_var("megalith_quest:prayer")
                 local summon = actor:get_quest_var("megalith_quest:summon")
                 local invoke = actor:get_quest_var("megalith_quest:invoke")
-                local task
                 if prayer == 1 then
                     task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
                 elseif summon == 1 or summon == 2 or summon == 3 then
@@ -92,7 +92,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                     task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
                 end
             elseif stage == 5 then
-                local task = "Kneel before the High Mother to receive Her blessing."
+                task = "Kneel before the High Mother to receive Her blessing."
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

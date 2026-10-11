@@ -28,6 +28,7 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
             actor:send("Quest Master: " .. tostring(mobiles.template(615, 27).name))
             actor:send("</>")
             -- switch on stage
+            local step
             if stage == 1 then
                 local item1 = 11812
                 local place1 = "an assassin vine on Mist Mountain"
@@ -35,7 +36,7 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
                 local place2 = "the great pyramid"
                 local item3 = 48029
                 local place3 = "Rhalean's evil sister in the northern barrow"
-                local step = "gathering Nature's Rage"
+                step = "gathering Nature's Rage"
             elseif stage == 2 then
                 local essence = actor:get_quest_var("creeping_doom:spiders")
                 local total = 11 - actor:get_quest_var("creeping_doom:spiders")
@@ -47,7 +48,7 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
                 actor:send("Remember, the tougher the bug, the better your chances of finding essences.")
                 return _return_value
             elseif stage == 3 then
-                local step = "locate three sources of Nature's Vengeance."
+                step = "locate three sources of Nature's Vengeance."
                 local item1 = 48416
                 local place1 = "the elder tremaen in the elemental Plane of Fire"
                 local item2 = 52034

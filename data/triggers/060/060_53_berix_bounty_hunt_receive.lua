@@ -11,46 +11,46 @@ local _return_value = true  -- Default: allow action
 local stage, victim1, victim2, victim3, go, maskstage, item
 -- switch on object.id
 -- bounty contracts here
-if object.id == 6050 then
+if (object.zone_id == 60 and object.id == 50) then
     stage = 1
     victim1 = "The King of the Meer Cats"
     go = "hunt"
-elseif object.id == 6051 then
+elseif (object.zone_id == 60 and object.id == 51) then
     stage = 2
     victim1 = "the Noble"
     victim2 = "the Abbot"
     go = "hunt"
-elseif object.id == 6052 then
+elseif (object.zone_id == 60 and object.id == 52) then
     stage = 3
     victim1 = "the O'Connor Chieftain"
     victim2 = "the McLeod Chieftain"
     victim3 = "the Cameron Chieftain"
     go = "hunt"
-elseif object.id == 6053 then
+elseif (object.zone_id == 60 and object.id == 53) then
     stage = 4
     victim1 = "The Frakati Leader"
     go = "hunt"
-elseif object.id == 6054 then
+elseif (object.zone_id == 60 and object.id == 54) then
     stage = 5
     victim1 = "Cyrus"
     go = "hunt"
-elseif object.id == 6055 then
+elseif (object.zone_id == 60 and object.id == 55) then
     stage = 6
     victim1 = "Lord Venth"
     go = "hunt"
-elseif object.id == 6056 then
+elseif (object.zone_id == 60 and object.id == 56) then
     stage = 7
     victim1 = "The high druid of Anlun Vale"
     go = "hunt"
-elseif object.id == 6057 then
+elseif (object.zone_id == 60 and object.id == 57) then
     stage = 8
     victim1 = "The Lizard King"
     go = "hunt"
-elseif object.id == 6058 then
+elseif (object.zone_id == 60 and object.id == 58) then
     stage = 9
     victim1 = "Sorcha"
     go = "hunt"
-elseif object.id == 6059 then
+elseif (object.zone_id == 60 and object.id == 59) then
     stage = 10
     victim1 = "The Goblin King"
     go = "hunt"
@@ -59,11 +59,11 @@ elseif object.id == 350 then
     maskstage = 1
     item = "quest"
     go = "mask"
-elseif object.id == 4500 then
+elseif (object.zone_id == 45 and object.id == 0) then
     maskstage = 1
     item = "mask"
     go = "mask"
-elseif object.id == 55592 then
+elseif (object.zone_id == 555 and object.id == 92) then
     maskstage = 1
     item = "gem"
     go = "mask"
@@ -71,11 +71,11 @@ elseif object.id == 351 then
     maskstage = 2
     item = "quest"
     go = "mask"
-elseif object.id == 17809 then
+elseif (object.zone_id == 178 and object.id == 9) then
     maskstage = 2
     item = "mask"
     go = "mask"
-elseif object.id == 55594 then
+elseif (object.zone_id == 555 and object.id == 94) then
     maskstage = 2
     item = "gem"
     go = "mask"
@@ -83,11 +83,11 @@ elseif object.id == 352 then
     maskstage = 3
     item = "quest"
     go = "mask"
-elseif object.id == 59023 then
+elseif (object.zone_id == 590 and object.id == 23) then
     maskstage = 3
     item = "mask"
     go = "mask"
-elseif object.id == 55620 then
+elseif (object.zone_id == 556 and object.id == 20) then
     maskstage = 3
     item = "gem"
     go = "mask"
@@ -95,11 +95,11 @@ elseif object.id == 353 then
     maskstage = 4
     item = "quest"
     go = "mask"
-elseif object.id == 10304 then
+elseif (object.zone_id == 103 and object.id == 4) then
     maskstage = 4
     item = "mask"
     go = "mask"
-elseif object.id == 55638 then
+elseif (object.zone_id == 556 and object.id == 38) then
     maskstage = 4
     item = "gem"
     go = "mask"
@@ -107,11 +107,11 @@ elseif object.id == 354 then
     maskstage = 5
     item = "quest"
     go = "mask"
-elseif object.id == 16200 then
+elseif (object.zone_id == 162 and object.id == 0) then
     maskstage = 5
     item = "mask"
     go = "mask"
-elseif object.id == 55666 then
+elseif (object.zone_id == 556 and object.id == 66) then
     maskstage = 5
     item = "gem"
     go = "mask"
@@ -119,11 +119,11 @@ elseif object.id == 355 then
     maskstage = 6
     item = "quest"
     go = "mask"
-elseif object.id == 43017 then
+elseif (object.zone_id == 430 and object.id == 17) then
     maskstage = 6
     item = "mask"
     go = "mask"
-elseif object.id == 55675 then
+elseif (object.zone_id == 556 and object.id == 75) then
     maskstage = 6
     item = "gem"
     go = "mask"
@@ -131,11 +131,11 @@ elseif object.id == 356 then
     maskstage = 7
     item = "quest"
     go = "mask"
-elseif object.id == 51075 then
+elseif (object.zone_id == 510 and object.id == 75) then
     maskstage = 7
     item = "mask"
     go = "mask"
-elseif object.id == 55693 then
+elseif (object.zone_id == 556 and object.id == 93) then
     maskstage = 7
     item = "gem"
     go = "mask"
@@ -143,11 +143,11 @@ elseif object.id == 357 then
     maskstage = 8
     item = "quest"
     go = "mask"
-elseif object.id == 49062 then
+elseif (object.zone_id == 490 and object.id == 62) then
     maskstage = 8
     item = "mask"
     go = "mask"
-elseif object.id == 55719 then
+elseif (object.zone_id == 557 and object.id == 19) then
     maskstage = 8
     item = "gem"
     go = "mask"
@@ -155,11 +155,11 @@ elseif object.id == 358 then
     maskstage = 9
     item = "quest"
     go = "mask"
-elseif object.id == 48427 then
+elseif (object.zone_id == 484 and object.id == 27) then
     maskstage = 9
     item = "mask"
     go = "mask"
-elseif object.id == 55743 then
+elseif (object.zone_id == 557 and object.id == 43) then
     maskstage = 9
     item = "gem"
     go = "mask"

@@ -19,22 +19,22 @@
 -- self.id alone may be ambiguous across zones.
 local load_ward
 local wand
-if self.id == 2328 then
+if (self.zone_id == 23 and self.id == 28) then
     -- plant elemental
     load_ward = 53
     wand = actor:get_quest_stage("acid_wand")
-elseif self.id == 2806 or self.id == 2807 then
+elseif (self.zone_id == 28 and self.id == 6) or (self.zone_id == 28 and self.id == 7) then
     -- mist elemental
     load_ward = 54
     wand = actor:get_quest_stage("air_wand")
-elseif self.id == 2808 or self.id == 2809 or self.id == 48631 then
+elseif (self.zone_id == 28 and self.id == 8) or (self.zone_id == 28 and self.id == 9) or (self.zone_id == 484 and self.id == 231) then
     -- water elemental
     load_ward = 55
-elseif self.id == 5212 or self.id == 12523 or self.id == 48500 or self.id == 48511 or self.id == 48512 then
+elseif (self.zone_id == 52 and self.id == 12) or (self.zone_id == 125 and self.id == 23) or (self.zone_id == 484 and self.id == 100) or (self.zone_id == 484 and self.id == 111) or (self.zone_id == 484 and self.id == 112) then
     -- flame elemental
     load_ward = 56
     wand = actor:get_quest_stage("fire_wand")
-elseif self.id == 53312 or self.id == 53313 or self.id == 48630 or self.id == 48632 then
+elseif (self.zone_id == 533 and self.id == 12) or (self.zone_id == 533 and self.id == 13) or (self.zone_id == 484 and self.id == 230) or (self.zone_id == 484 and self.id == 232) then
     -- ice elemental
     load_ward = 57
     wand = actor:get_quest_stage("ice_wand")

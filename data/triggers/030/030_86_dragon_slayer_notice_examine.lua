@@ -23,43 +23,43 @@ local victim1
 local go
 if arg == "notice" then
     -- switch on self.id
-    if self.id == 3080 then
+    if (self.zone_id == 30 and self.id == 80) then
         stage = 1
         victim1 = "a dragon hedge"
         go = "hunt"
-    elseif self.id == 3081 then
+    elseif (self.zone_id == 30 and self.id == 81) then
         stage = 2
         victim1 = "the green wyrmling"
         go = "hunt"
-    elseif self.id == 3082 then
+    elseif (self.zone_id == 30 and self.id == 82) then
         stage = 3
         victim1 = "Wug the Fiery Drakling"
         go = "hunt"
-    elseif self.id == 3083 then
+    elseif (self.zone_id == 30 and self.id == 83) then
         stage = 4
         victim1 = "the young blue dragon"
         go = "hunt"
-    elseif self.id == 3084 then
+    elseif (self.zone_id == 30 and self.id == 84) then
         stage = 5
         victim1 = "a faerie dragon"
         go = "hunt"
-    elseif self.id == 3085 then
+    elseif (self.zone_id == 30 and self.id == 85) then
         stage = 6
         victim1 = "the wyvern"
         go = "hunt"
-    elseif self.id == 3086 then
+    elseif (self.zone_id == 30 and self.id == 86) then
         stage = 7
         victim1 = "an ice lizard"
         go = "hunt"
-    elseif self.id == 3087 then
+    elseif (self.zone_id == 30 and self.id == 87) then
         stage = 8
         victim1 = "the Beast of Borgan"
         go = "hunt"
-    elseif self.id == 3088 then
+    elseif (self.zone_id == 30 and self.id == 88) then
         stage = 9
         victim1 = "Tri-Aszp"
         go = "hunt"
-    elseif self.id == 3089 then
+    elseif (self.zone_id == 30 and self.id == 89) then
         stage = 10
         victim1 = "the Hydra"
         go = "hunt"

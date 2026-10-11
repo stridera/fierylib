@@ -13,36 +13,37 @@
 local _return_value = true  -- Default: allow action
 _return_value = true
 -- switch on self.id
-if self.id == 5310 then
+local treasure1
+if (self.zone_id == 53 and self.id == 10) then
     local stage = 1
-    local treasure1 = "a singing chain"
-elseif self.id == 5311 then
+    treasure1 = "a singing chain"
+elseif (self.zone_id == 53 and self.id == 11) then
     local stage = 2
-    local treasure1 = "a true fire ring"
-elseif self.id == 5312 then
+    treasure1 = "a true fire ring"
+elseif (self.zone_id == 53 and self.id == 12) then
     local stage = 3
-    local treasure1 = "a sandstone ring"
-elseif self.id == 5313 then
+    treasure1 = "a sandstone ring"
+elseif (self.zone_id == 53 and self.id == 13) then
     local stage = 4
-    local treasure1 = "a crimson-tinged electrum hoop"
-elseif self.id == 5314 then
+    treasure1 = "a crimson-tinged electrum hoop"
+elseif (self.zone_id == 53 and self.id == 14) then
     local stage = 5
-    local treasure1 = "a Rainbow Shell"
-elseif self.id == 5315 then
+    treasure1 = "a Rainbow Shell"
+elseif (self.zone_id == 53 and self.id == 15) then
     local stage = 6
-    local treasure1 = "the Stormshield"
-elseif self.id == 5316 then
+    treasure1 = "the Stormshield"
+elseif (self.zone_id == 53 and self.id == 16) then
     local stage = 7
-    local treasure1 = "the Snow Leopard Cloak"
-elseif self.id == 5317 then
+    treasure1 = "the Snow Leopard Cloak"
+elseif (self.zone_id == 53 and self.id == 17) then
     local stage = 8
-    local treasure1 = "a coiled rope ladder"
-elseif self.id == 5318 then
+    treasure1 = "a coiled rope ladder"
+elseif (self.zone_id == 53 and self.id == 18) then
     local stage = 9
-    local treasure1 = "a glowing phoenix feather"
-elseif self.id == 5319 then
+    treasure1 = "a glowing phoenix feather"
+elseif (self.zone_id == 53 and self.id == 19) then
     local stage = 10
-    local treasure1 = "a piece of sleet armor"
+    treasure1 = "a piece of sleet armor"
 end
 actor:send("This is an order to find " .. tostring(treasure1) .. ".")
 if actor:get_quest_var("treasure_hunter:hunt") == "found" and actor:get_quest_stage("treasure_hunter") == "stage" then

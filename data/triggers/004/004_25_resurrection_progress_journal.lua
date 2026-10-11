@@ -24,6 +24,7 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
+        local hunt, item
         if stage > 0 and not actor:get_has_completed("resurrection_quest") then
             actor:send("Quest Master: " .. tostring(mobiles.template(85, 50).name))
             actor:send("</>")
@@ -39,38 +40,37 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                 actor:send("Return to Norisent.")
                 return _return_value
             elseif stage == 4 then
-                local hunt = tostring(mobiles.template(40, 4).name) .. ", " .. tostring(mobiles.template(40, 3).name) .. ", and " .. tostring(mobiles.template(40, 16).name)
+                hunt = tostring(mobiles.template(40, 4).name) .. ", " .. tostring(mobiles.template(40, 3).name) .. ", and " .. tostring(mobiles.template(40, 16).name)
                 local mob1 = 4004
                 local mob2 = 4003
                 local mob3 = 4016
-                local item = objects.template(40, 8).name
+                item = objects.template(40, 8).name
             elseif stage == 5 then
-                local item = objects.template(40, 8).name
+                item = objects.template(40, 8).name
             elseif stage == 6 then
-                local hunt = "2 Xeg-Yi and " .. tostring(mobiles.template(533, 8).name)
+                hunt = "2 Xeg-Yi and " .. tostring(mobiles.template(533, 8).name)
                 local mob2 = 53411
                 local mob1 = 53308
-                local item = objects.template(533, 7).name
+                item = objects.template(533, 7).name
             elseif stage == 7 then
-                local item = objects.template(533, 7).name
+                item = objects.template(533, 7).name
             elseif stage == 8 or stage == 9 then
-                local hunt = tostring(mobiles.template(510, 5).name) .. ", " .. tostring(mobiles.template(530, 1).name) .. ", and " .. tostring(mobiles.template(510, 14).name)
+                hunt = tostring(mobiles.template(510, 5).name) .. ", " .. tostring(mobiles.template(530, 1).name) .. ", and " .. tostring(mobiles.template(510, 14).name)
                 local mob1 = 51005
                 local mob2 = 53001
                 local mob3 = 51014
-                local item
                 if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
                     item = "a large book on healing from Nordus"
                 elseif string.find(actor.class, "Diabolist") then
                     item = objects.template(510, 28).name
                 end
             elseif stage == 10 then
-                local hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
+                hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
                 local mob1 = 52003
                 local mob2 = 52015
-                local item = objects.template(520, 1).name
+                item = objects.template(520, 1).name
             elseif stage == 11 then
-                local item = objects.template(520, 1).name
+                item = objects.template(520, 1).name
             elseif stage == 12 then
                 actor:send("Destroy Norisent!")
                 return _return_value

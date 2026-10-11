@@ -19,10 +19,11 @@ end
 wait(2)
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]
@@ -39,28 +40,29 @@ while i >= a do
                 if person:get_quest_var("elemental_chaos:bounty") ~= "running" then
                     person:send(tostring(self.name) .. " says, 'Splendid.'")
                     -- switch on person:get_quest_stage("elemental_chaos")
+                    local mission
                     if person:get_quest_stage("elemental_chaos") == 1 then
-                        local mission = 20
+                        mission = 20
                     elseif person:get_quest_stage("elemental_chaos") == 2 then
-                        local mission = 21
+                        mission = 21
                     elseif person:get_quest_stage("elemental_chaos") == 3 then
-                        local mission = 22
+                        mission = 22
                     elseif person:get_quest_stage("elemental_chaos") == 4 then
-                        local mission = 23
+                        mission = 23
                     elseif person:get_quest_stage("elemental_chaos") == 5 then
-                        local mission = 24
+                        mission = 24
                     elseif person:get_quest_stage("elemental_chaos") == 6 then
-                        local mission = 25
+                        mission = 25
                     elseif person:get_quest_stage("elemental_chaos") == 7 then
-                        local mission = 26
+                        mission = 26
                     elseif person:get_quest_stage("elemental_chaos") == 8 then
-                        local mission = 27
+                        mission = 27
                     elseif person:get_quest_stage("elemental_chaos") == 9 then
-                        local mission = 28
+                        mission = 28
                     elseif person:get_quest_stage("elemental_chaos") == 10 then
-                        local mission = 29
+                        mission = 29
                     else
-                        local mission = 20
+                        mission = 20
                     end
                     self.room:spawn_object(53, mission)
                     self:command("give mission " .. tostring(person))

@@ -12,26 +12,26 @@
 -- mapping table is restored.
 local _return_value = true  -- Default: allow action
 local macestep
-if victim.id == 3025 then
+if (victim.zone_id == 30 and victim.id == 25) then
     macestep = 1
     if not actor:get_quest_stage("phase_mace") then
         actor:start_quest("phase_mace")
     end
-elseif victim.id == 18502 then
+elseif (victim.zone_id == 185 and victim.id == 2) then
     macestep = 2
-elseif victim.id == 10000 then
+elseif (victim.zone_id == 100 and victim.id == 0) then
     macestep = 3
-elseif victim.id == 6218 then
+elseif (victim.zone_id == 62 and victim.id == 18) then
     macestep = 4
-elseif victim.id == 8501 then
+elseif (victim.zone_id == 85 and victim.id == 1) then
     macestep = 5
-elseif victim.id == 18581 then
+elseif (victim.zone_id == 185 and victim.id == 81) then
     macestep = 6
-elseif victim.id == 6007 then
+elseif (victim.zone_id == 60 and victim.id == 7) then
     macestep = 7
-elseif victim.id == 48412 then
+elseif (victim.zone_id == 484 and victim.id == 12) then
     macestep = 8
-elseif victim.id == 3021 then
+elseif (victim.zone_id == 30 and victim.id == 21) then
     macestep = 9
 else
     if victim.is_npc then

@@ -24,25 +24,25 @@ local part
 local nxt
 local need
 
-if self.id == 12303 then
+if (self.zone_id == 123 and self.id == 3) then
     -- North, Earth - Granite Ring from Tech
     direction = "north"
     part = 4
     nxt = 12301
     need = 55020
-elseif self.id == 12304 then
+elseif (self.zone_id == 123 and self.id == 4) then
     -- South, Fire - Fiery Eye from Fiery Island
     direction = "south"
     part = 2
     nxt = 12306
     need = 48109
-elseif self.id == 12305 then
+elseif (self.zone_id == 123 and self.id == 5) then
     -- East, Air - cumulus bracelet from Dargentan
     direction = "east"
     part = 1
     nxt = 12304
     need = 8301
-elseif self.id == 12306 then
+elseif (self.zone_id == 123 and self.id == 6) then
     -- West, Water - water from the hidden spring, or not - BAD STUFF
     -- This Keeper's request is the one to watch out for.
     direction = "west"
@@ -52,7 +52,7 @@ elseif self.id == 12306 then
 end
 
 if actor:get_quest_stage("megalith_quest") == 2 then
-    if (item == need) or (me == 12306 and (item == 41110 or item == 41111 or item == 18512)) then
+    if (item == need) or ((self.zone_id == 123 and me == 6) and ((object.zone_id == 411 and item == 10) or (object.zone_id == 411 and item == 11) or (object.zone_id == 185 and item == 12))) then
         -- Already given, right item.
         local part_key = "item" .. tostring(part)
         if actor:get_quest_var("megalith_quest:" .. part_key) == 1 then
@@ -73,7 +73,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 end
             end
             -- Right set, wrong specific vessel at West.
-            if (me == 12306) and ((item ~= need) or (object.val2 ~= 0)) then
+            if (self.zone_id == 123 and me == 6) and ((item ~= need) or (object.val2 ~= 0)) then
                 self:command("shake")
                 self:say("I need water returned in the cup " .. tostring(mobiles.template(123, 1).name) .. " has consecrated.")
                 return _return_value

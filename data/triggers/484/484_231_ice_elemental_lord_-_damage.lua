@@ -19,7 +19,7 @@ self.room:send("<b:cyan>The Ice Elemental Lord crashes into the wall, bringing d
 while count <= pop do
     local victim = room.actors[random(1, #room.actors)]
     -- Don't hit the Ice Elemental Lord
-    if victim.id ~= 48632 then
+    if (victim.zone_id ~= 484 or victim.id ~= 232) then
         local flags = victim.aff_flags
         -- Base damage between 100 and 130
         local damage = 100 + random(1, 30)

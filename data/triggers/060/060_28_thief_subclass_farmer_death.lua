@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: DEATH, probability: 100%
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" then
     if actor:get_quest_stage("merc_ass_thi_subclass") == 3 or actor:get_quest_stage("merc_ass_thi_subclass") == 4 then
-        if self.id == 8804 then
+        if (self.zone_id == 88 and self.id == 4) then
             self.room:send("The farmer's wife comes running!")
             self.room:send("The farmer's wife cries out, 'Sweet Mielikki, what have you done?!'")
             self.room:send_except(actor, "The farmer's wife chases " .. tostring(actor.name) .. " off the farm!")

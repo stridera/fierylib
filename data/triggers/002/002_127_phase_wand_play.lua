@@ -17,13 +17,13 @@
 local _return_value = true
 
 local quest_type, wandnum, reward
-if self.id == 59040 then
+if (self.zone_id == 590 and self.id == 40) then
     quest_type, wandnum, reward = "air", 304, 105
-elseif self.id == 16107 then
+elseif (self.zone_id == 161 and self.id == 7) then
     quest_type, wandnum, reward = "acid", 334, 135
-elseif self.id == 32412 then
+elseif (self.zone_id == 324 and self.id == 12) then
     quest_type, wandnum, reward = "fire", 314, 115
-elseif self.id == 17309 then
+elseif (self.zone_id == 173 and self.id == 9) then
     quest_type, wandnum, reward = "ice", 324, 125
 end
 if not quest_type then

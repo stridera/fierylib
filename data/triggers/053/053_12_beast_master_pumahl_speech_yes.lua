@@ -20,10 +20,11 @@ end
 wait(2)
 local person = actor
 local i = person.group_size
+local a
 if i then
-    local a = 1
+    a = 1
 else
-    local a = 0
+    a = 0
 end
 while i >= a do
     person = person.group_member[a]
@@ -40,26 +41,27 @@ while i >= a do
                 if person:get_quest_var("beast_master:hunt") ~= "running" then
                     person:send(tostring(self.name) .. " says, 'Excellent!'")
                     -- switch on person:get_quest_stage("beast_master")
+                    local notice
                     if person:get_quest_stage("beast_master") == 1 then
-                        local notice = 0
+                        notice = 0
                     elseif person:get_quest_stage("beast_master") == 2 then
-                        local notice = 1
+                        notice = 1
                     elseif person:get_quest_stage("beast_master") == 3 then
-                        local notice = 2
+                        notice = 2
                     elseif person:get_quest_stage("beast_master") == 4 then
-                        local notice = 3
+                        notice = 3
                     elseif person:get_quest_stage("beast_master") == 5 then
-                        local notice = 4
+                        notice = 4
                     elseif person:get_quest_stage("beast_master") == 6 then
-                        local notice = 5
+                        notice = 5
                     elseif person:get_quest_stage("beast_master") == 7 then
-                        local notice = 6
+                        notice = 6
                     elseif person:get_quest_stage("beast_master") == 8 then
-                        local notice = 7
+                        notice = 7
                     elseif person:get_quest_stage("beast_master") == 9 then
-                        local notice = 8
+                        notice = 8
                     elseif person:get_quest_stage("beast_master") == 10 then
-                        local notice = 9
+                        notice = 9
                     end
                     self.room:spawn_object(53, notice)
                     self:command("give assignment " .. tostring(person))

@@ -8,7 +8,7 @@
 -- Converted from DG Script #49015: crowley_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if object.id == 49001 then
+if (object.zone_id == 490 and object.id == 1) then
     _return_value = false
     wait(4)
     self:emote("examines the griffin skin carefully.")
@@ -25,7 +25,7 @@ if object.id == 49001 then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'If you can't bear to use it, give it to Awura who will")
     self.room:send("</>destroy it.  Maybe she will give you something more to your taste.'")
-elseif object.id == 49042 then
+elseif (object.zone_id == 490 and object.id == 42) then
     _return_value = false
     wait(8)
     self:emote("looks rather surprised.")

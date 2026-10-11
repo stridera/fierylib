@@ -28,22 +28,23 @@ if not (string.find(string.lower(speech), "weapon") or string.find(string.lower(
 end
 wait(2)
 if string.find(actor.class, "Diabolist") then
+    local level, response
     if actor:get_quest_stage("hell_trident") then
         local hellstage = actor:get_quest_stage("hell_trident")
         if hellstage == 1 then
-            local level = 65
+            level = 65
         elseif hellstage == 2 then
-            local level = 90
+            level = 90
         end
         -- switch on self.id
         -- switch on hellstage
         if hellstage == 1 then
-            local response = "stage2"
+            response = "stage2"
         elseif hellstage == 2 then
-            local response = "stage3"
+            response = "stage3"
         else
             if actor:get_has_completed("hell_trident") then
-                local response = "complete"
+                response = "complete"
             end
         end
         local step = 1
@@ -154,15 +155,15 @@ if string.find(actor.class, "Diabolist") then
                     end
                 end
             else
-                local response = "level"
+                response = "level"
             end
         else
             if actor:get_has_completed("hell_trident") then
-                local response = "complete"
+                response = "complete"
             elseif actor:get_quest_stage("hell_trident") < step then
-                local response = "stage1"
+                response = "stage1"
             else
-                local response = "stage3"
+                response = "stage3"
             end
         end
     end

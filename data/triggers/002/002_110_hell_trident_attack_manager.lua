@@ -20,9 +20,9 @@ if victim.hit >= -10 then
         end
     end
     if random(1, 10) == 1 then
-        if self.id == 2339 then
+        if (self.zone_id == 23 and self.id == 39) then
             spells.cast(self, "hell bolt", victim, self.level)
-        elseif self.id == 2340 then
+        elseif (self.zone_id == 23 and self.id == 40) then
             spells.cast(self, "stygian eruption", victim, self.level)
         end
     end
