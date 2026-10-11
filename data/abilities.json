@@ -2368,7 +2368,8 @@
         "params": {
           "flag": "coldshield",
           "duration": "skill / 20",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -2595,7 +2596,8 @@
           "duration": "2 + (skill / 40)",
           "breakOnDamage": false,
           "flag": "confused",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -4213,7 +4215,8 @@
           "amount": 10,
           "duration": "2 + (skill / 25)",
           "target": "evasion",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -4889,7 +4892,8 @@
         "order": 0,
         "params": {
           "flag": "empowered",
-          "consumeOnCast": true
+          "consumeOnCast": true,
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -5443,7 +5447,8 @@
             "chance": "2 + skill / 14",
             "flag": "paralyzed",
             "duration": "2 + skill / 96"
-          }
+          },
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -5959,7 +5964,8 @@
         "params": {
           "flag": "fireshield",
           "duration": "skill / 20",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -6736,7 +6742,8 @@
           "amount": 20,
           "duration": "2 + (skill / 25)",
           "target": "evasion",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -9282,7 +9289,8 @@
         "order": 0,
         "params": {
           "maxCircle": 6,
-          "duration": "4 + (skill / 20)"
+          "duration": "4 + (skill / 20)",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -9624,7 +9632,8 @@
         "order": 0,
         "params": {
           "maxCircle": 3,
-          "duration": "skill / 20"
+          "duration": "skill / 20",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -9660,7 +9669,8 @@
           "duration": "2 + (skill / 24)",
           "breakOnDamage": true,
           "flag": "paralyzed",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -12554,7 +12564,8 @@
           "duration": "2 + (skill / 10)",
           "breakOnDamage": true,
           "flag": "sleeping",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -12913,7 +12924,8 @@
           "amount": 25,
           "duration": "2 + (skill / 10)",
           "flag": "resistance",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -13352,7 +13364,8 @@
           "amount": -5,
           "duration": "skill / 4",
           "target": "evasion",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -13737,7 +13750,8 @@
           "type": "physical",
           "amount": 25,
           "duration": "2",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -14946,7 +14960,8 @@
         "params": {
           "flag": "vaporform",
           "duration": "2 + (skill / 25)",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -15439,7 +15454,8 @@
         "params": {
           "flag": "waterform",
           "duration": "2 + (skill / 20)",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
@@ -15512,7 +15528,8 @@
           "duration": "30 + (skill / 4)",
           "breakOnDamage": false,
           "flag": "webbed",
-          "durationUnit": "seconds"
+          "durationUnit": "seconds",
+          "refresh": false
         },
         "trigger": "on_cast"
       }
