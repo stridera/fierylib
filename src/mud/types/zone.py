@@ -64,6 +64,26 @@ class Zone:
         return commands
 
     @staticmethod
+    def parse_gear_contents(steps: list[Command], gear: dict) -> None:
+        """Consume the `P` commands that follow a mob's G/E item and nest them under it.
+
+        Legacy `P` puts the object into the most recently loaded object whose vnum is `arg3`, so a `P` can
+        target the G/E item itself or any item an earlier `P` in this run already put inside it (bag in a
+        sack in a chest). Each node is {"id", "max", "container", "name", "contains"?}; a `P` whose container
+        was not loaded in this run is reported and attached to the G/E item.
+        """
+        loaded = {gear["id"]: gear}
+        while steps and steps[0].cmd == "P" and steps[0].cont:
+            step = steps.pop(0)
+            parent = loaded.get(step.arg3)
+            if parent is None:
+                print(f"Error, attempting to put object in object with different parent: {step}")
+                parent = gear
+            node = {"id": step.arg1, "max": step.arg2, "container": step.arg3, "name": step.sarg}
+            parent.setdefault("contains", []).append(node)
+            loaded[node["id"]] = node
+
+    @staticmethod
     def parse_door_state(state):
         return [
             ["OPEN"],  # Door open
@@ -114,15 +134,7 @@ class Zone:
                             object = {"id": step.arg1, "max": step.arg2, "name": step.sarg}
                             if step.arg3 != -1:
                                 print(f"Error, weird arg3 for giving an object. {step}")
-                            while steps and steps[0].cmd == "P" and steps[0].cont:
-                                step = steps.pop(0)
-                                if "contains" not in object:
-                                    object["contains"] = []
-                                if object["id"] != step.arg3:
-                                    print(f"Error, attempting to put object in object with different parent: {step}")
-                                object["contains"].append(
-                                    {"id": step.arg1, "max": step.arg2, "container": step.arg3, "name": step.sarg}
-                                )
+                            cls.parse_gear_contents(steps, object)
                             mob["carrying"].append(object)
                         elif step.cmd == "E":
                             if "equipped" not in mob:
@@ -134,15 +146,7 @@ class Zone:
                                 "location": location,
                                 "name": step.sarg,
                             }
-                            while steps and steps[0].cmd == "P" and steps[0].cont:
-                                step = steps.pop(0)
-                                if "contains" not in object:
-                                    object["contains"] = []
-                                if object["id"] != step.arg3:
-                                    print(f"Error, attempting to put object in object with different parent: {step}")
-                                object["contains"].append(
-                                    {"id": step.arg1, "max": step.arg2, "container": step.arg3, "name": step.sarg}
-                                )
+                            cls.parse_gear_contents(steps, object)
                             mob["equipped"].append(object)
                     commands["mob"].append(mob)
                 case "E" | "G":

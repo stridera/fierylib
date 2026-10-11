@@ -272,7 +272,7 @@ class ResetImporter:
                 )
 
                 try:
-                    await self.prisma.mobresetequipment.create(
+                    equipment_record = await self.prisma.mobresetequipment.create(
                         {
                             "resetId": reset_record.id,
                             "objectZoneId": db_obj_zone_id,
@@ -283,6 +283,8 @@ class ResetImporter:
                         }
                     )
                     equipment_count += 1
+                    if equipped.get("contains"):
+                        await self._import_gear_contents(equipped["contains"], equipment_record.id)
                 except Exception as e:
                     equipment_errors.append(f"vnum {obj_vnum} (db error: {str(e)[:50]})")
 
@@ -301,7 +303,7 @@ class ResetImporter:
                     db_obj_zone_id, obj_id = obj_lookup
 
                     try:
-                        await self.prisma.mobresetequipment.create(
+                        equipment_record = await self.prisma.mobresetequipment.create(
                             {
                                 "resetId": reset_record.id,
                                 "objectZoneId": db_obj_zone_id,
@@ -312,6 +314,8 @@ class ResetImporter:
                             }
                         )
                         equipment_count += 1
+                        if carried.get("contains"):
+                            await self._import_gear_contents(carried["contains"], equipment_record.id)
                     except Exception as e:
                         equipment_errors.append(f"vnum {obj_vnum} (db error: {str(e)[:50]})")
 
@@ -462,6 +466,57 @@ class ResetImporter:
 
             except Exception as e:
                 print(f"⚠️  Failed to import content object {db_obj_zone_id}:{obj_id}: {e}")
+
+        return imported_count
+
+    async def _import_gear_contents(
+        self,
+        contents: list,
+        equipment_id: int,
+        parent_content_id: Optional[int] = None,
+    ) -> int:
+        """
+        Recursively import the items nested inside a mob's carried/worn container
+        (legacy `G`/`E` followed by `P`) into MobResetEquipmentContents.
+
+        Same consolidation and P-max rules as _import_object_contents. Re-imports are idempotent
+        without any delete here: the rows hang off MobResetEquipment, which hangs off MobResets,
+        which is deleted with its Zone (ON DELETE CASCADE) before a zone is imported again.
+
+        Returns:
+            Number of content rows written
+        """
+        imported_count = 0
+
+        for content in self._consolidate_contents(contents):
+            obj_lookup = self.find_object_zone(content["id"])
+            if not obj_lookup:
+                print(f"⚠️  Gear content object #{content['id']} not found, skipping")
+                continue
+
+            db_obj_zone_id, obj_id = obj_lookup
+
+            try:
+                record = await self.prisma.mobresetequipmentcontents.create(
+                    {
+                        "equipmentId": equipment_id,
+                        "parentContentId": parent_content_id,
+                        "objectZoneId": db_obj_zone_id,
+                        "objectId": obj_id,
+                        "quantity": content.get("quantity", 1),
+                        # Legacy P max = world-wide cap (<=0 means unlimited)
+                        "maxInstances": content["max"] if content.get("max", 1) > 0 else 999,
+                        "comment": content.get("name"),
+                    }
+                )
+                imported_count += 1
+
+                if content.get("contains"):
+                    imported_count += await self._import_gear_contents(
+                        content["contains"], equipment_id, parent_content_id=record.id
+                    )
+            except Exception as e:
+                print(f"⚠️  Failed to import gear content object {db_obj_zone_id}:{obj_id}: {e}")
 
         return imported_count
 
