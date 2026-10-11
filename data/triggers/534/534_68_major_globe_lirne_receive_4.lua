@@ -14,7 +14,7 @@ if stage == 10 then
     if actor:get_quest_var("major_globe_spell:final_item") == object.local_id then
         wait(1)
         self:destroy_item("majorglobe-channel")
-        skills.set_level(actor.name, "major globe", 100)
+        skills.set_level(actor, "major globe", 1000)
         self:emote("grins excitedly.")
         actor:send(tostring(self.name) .. " says, 'Yes!  Now I can cast the spell... and defeat the demon!'")
         self:emote("holds the wards in one hand.")

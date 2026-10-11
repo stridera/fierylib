@@ -33,7 +33,7 @@ if actor:get_quest_stage("wizard_eye") == 12 then
     actor:send("In the echoes of the roar, you can see shape distant lands!")
     actor:send("The nature of the spell becomes clear!")
     actor:complete_quest("wizard_eye")
-    skills.set_level(actor, "wizard eye", 100)
+    skills.set_level(actor, "wizard eye", 1000)
     actor:send("<b:cyan>You have learned Wizard Eye!</>")
 end
 return true

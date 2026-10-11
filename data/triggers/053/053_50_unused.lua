@@ -65,7 +65,7 @@ if actor:get_quest_stage("monk_vision") > 6 and actor:get_quest_stage("monk_chan
             end
             actor:send("<blue>Reverberating from the walls are the discordant words of power!</>")
             actor:send("<blue>You have learned Aria of Dissonance.</>")
-            skills.set_level(actor, "aria of dissonance", 100)
+            skills.set_level(actor, "aria of dissonance", 1000)
             actor:advance_quest("monk_chants")
             wait(2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")

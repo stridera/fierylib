@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #101: set Breathe Frost
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "breathe frost", 100)
-skills.set_level(self, "frost breath", 100)
+skills.set_level(self, "breathe frost", 1000)
+skills.set_level(self, "frost breath", 1000)

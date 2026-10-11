@@ -110,6 +110,6 @@ if actor:get_quest_var("charm_person:charm1") and actor:get_quest_var("charm_per
     actor:send("Hinazuru's training has paid off!")
     actor:complete_quest("charm_person")
     actor:send("<b:magenta>You have learned Charm Person!</>")
-    skills.set_level(actor.name, "charm person", 100)
+    skills.set_level(actor, "charm person", 1000)
 end
 return _return_value

@@ -230,7 +230,7 @@ elseif stage == 3 then
                 actor:complete_quest("group_armor")
                 actor:send("You feel a stirring in your soul!")
                 actor:send("<b:white>Moradin blesses you with the knowledge of Group Armor!</>")
-                skills.set_level(actor.name, "group armor", 100)
+                skills.set_level(actor, "group armor", 1000)
             else
                 self:say("Did ya find anything else?")
             end

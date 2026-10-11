@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #3184: corpse retrieval load
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "shift corpse", 100)
+skills.set_level(self, "shift corpse", 1000)

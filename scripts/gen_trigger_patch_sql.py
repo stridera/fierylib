@@ -8,12 +8,16 @@ emitted, and the UPDATE skips rows already holding the new body, so rerunning
 it is a no-op.
 
 Usage:
-    python scripts/gen_trigger_patch_sql.py BASE_REF OUT.sql [--description TEXT]
+    python scripts/gen_trigger_patch_sql.py BASE_REF OUT.sql [--description TEXT] [--guard-md5]
+
+--guard-md5 also requires the row to still hold the BASE_REF body (matched by
+md5), so rows since edited in Muditor are not overwritten.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import subprocess
 import sys
 import tempfile
@@ -50,7 +54,7 @@ def old_text(base: str, path: str) -> str | None:
     return r.stdout if r.returncode == 0 else None
 
 
-def build(base: str, description: str) -> str:
+def build(base: str, description: str, guard_md5: bool = False) -> str:
     rows = []
     for path in changed_files(base):
         new = parse((ROOT / path).read_text(encoding="utf-8"), path)
@@ -59,26 +63,44 @@ def build(base: str, description: str) -> str:
             continue  # header-only change: nothing in the Triggers row moves
         if TAG in new.commands:
             raise SystemExit(f"{path}: body contains the {TAG} dollar-quote tag")
-        rows.append((new.zone_id, new.local_id, new.commands, path))
+        old_md5 = None
+        if guard_md5:
+            if old_src is None:
+                raise SystemExit(f"{path}: --guard-md5 needs an existing body at {base}")
+            old_md5 = hashlib.md5(parse(old_src, path).commands.encode("utf-8")).hexdigest()
+        rows.append((new.zone_id, new.local_id, new.commands, path, old_md5))
     if not rows:
         return "-- no trigger bodies changed\n"
     values = ",\n".join(
-        f"  -- {path}\n  ({z}, {i}, {TAG}{body}{TAG})" for z, i, body, path in rows
+        f"  -- {path}\n  ({z}, {i}, {TAG}{body}{TAG}"
+        + (f", '{md5}'" if guard_md5 else "")
+        + ")"
+        for z, i, body, path, md5 in rows
+    )
+    guard_cols = ", old_md5" if guard_md5 else ""
+    guard_where = "  AND md5(t.commands) = v.old_md5\n" if guard_md5 else ""
+    guard_note = (
+        "-- Guarded: a row is only touched while it still holds the previous committed\n"
+        "-- body (md5), so rows edited in Muditor since then are left alone.\n"
+        if guard_md5
+        else ""
     )
     return (
         f"-- {description}\n"
         "--\n"
         "-- Idempotent: a row already holding the new body is left alone, so rerunning\n"
-        "-- updates nothing. Keyed by the composite primary key (zone_id, id).\n\n"
+        "-- updates nothing. Keyed by the composite primary key (zone_id, id).\n"
+        f"{guard_note}\n"
         "BEGIN;\n\n"
         'UPDATE "Triggers" AS t\n'
         "SET commands = v.commands,\n"
         "    updated_at = now()\n"
         "FROM (VALUES\n"
         f"{values}\n"
-        ") AS v(zone_id, id, commands)\n"
+        f") AS v(zone_id, id, commands{guard_cols})\n"
         "WHERE t.zone_id = v.zone_id\n"
         "  AND t.id = v.id\n"
+        f"{guard_where}"
         "  AND t.commands IS DISTINCT FROM v.commands;\n\n"
         "COMMIT;\n"
     )
@@ -89,8 +111,9 @@ def main() -> int:
     ap.add_argument("base")
     ap.add_argument("out", type=Path)
     ap.add_argument("--description", default="Trigger script fixes.")
+    ap.add_argument("--guard-md5", action="store_true")
     args = ap.parse_args()
-    args.out.write_text(build(args.base, args.description), encoding="utf-8")
+    args.out.write_text(build(args.base, args.description, args.guard_md5), encoding="utf-8")
     print(f"wrote {args.out}")
     return 0
 

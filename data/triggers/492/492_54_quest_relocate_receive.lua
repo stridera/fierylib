@@ -145,7 +145,7 @@ elseif stage == 9 then
         wait(20)
         actor:send("A lost mage tells you, 'And, as I promised, here is the spell!'")
         actor:send("A lost mage shows you the spell scribed in her spellbook.")
-        skills.set_level(actor, "relocate", 100)
+        skills.set_level(actor, "relocate", 1000)
         actor:complete_quest("relocate_spell_quest")
         self.room:send_except(actor, "A lost mage shows " .. tostring(actor.name) .. " her spellbook, teaching " .. tostring(actor.possessive) .. " her secrets.")
         wait(20)

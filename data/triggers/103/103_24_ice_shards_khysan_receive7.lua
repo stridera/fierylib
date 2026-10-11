@@ -22,6 +22,6 @@ if actor:get_quest_stage("ice_shards") == 10 then
     wait(2)
     actor:send("Although the spell is written in ancient Elvish, the intent and meaning are clear enough to replicate it!")
     actor:complete_quest("ice_shards")
-    skills.set_level(actor, "ice shards", 100)
+    skills.set_level(actor, "ice shards", 1000)
     actor:send("<b:cyan>You have learned Ice Shards!</>")
 end

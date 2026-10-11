@@ -7,8 +7,8 @@
 
 -- Converted from DG Script #62517: ursa load
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "hitall", 100)
-skills.set_level(self, "roar", 100)
+skills.set_level(self, "hitall", 1000)
+skills.set_level(self, "roar", 1000)
 self:command("roar")
 local hit = self.room.actors[random(1, #self.room.actors)]
 -- Skip if rolled the mild merchant himself (625, 6).

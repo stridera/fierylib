@@ -65,7 +65,7 @@ if actor:get_quest_stage("monk_vision") >= 9 and actor:get_quest_stage("monk_cha
             end
             actor:send("&9<blue>The chant to engender catastrophe echoes from the altar!</>")
             actor:send("&9<blue>You have learned Seed of Destruction.</>")  -- typo: sent
-            skills.set_level(actor, "seed of destruction", 100)
+            skills.set_level(actor, "seed of destruction", 1000)
             actor:complete_quest("monk_chants")
             wait(2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")

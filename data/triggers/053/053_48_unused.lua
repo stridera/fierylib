@@ -66,7 +66,7 @@ if actor:get_quest_stage("monk_vision") > 4 and actor:get_quest_stage("monk_chan
             end
             actor:send("<b:yellow>The power of the storm begins to flow through your fists!</>")
             actor:send("<b:yellow>You have learned Tempest of Saint Augustine.</>")
-            skills.set_level(actor, "tempest of saint augustine", 100)
+            skills.set_level(actor, "tempest of saint augustine", 1000)
             actor:advance_quest("monk_chants")
             wait(2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")

@@ -70,7 +70,7 @@ elseif self.room.zone_id == 430 and self.room.local_id == 0 then
                     if person:get_quest_stage("word_command") == 3 then
                         person:send(self.name .. " tells you, 'As promised, here is the spell.'")
                         person:send(tostring(self.name) .. " gives you a disintegrating scroll with an ancient spell on it.")
-                        skills.set_level(person.name, "word of command", 100)
+                        skills.set_level(person, "word of command", 1000)
                         person:send("<b:magenta>You have learned Word of Command!</>")
                         person:complete_quest("word_command")
                     elseif person.is_player then

@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #104: set Breathe Lightning
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "breathe lightning", 100)
-skills.set_level(self, "lightning breath", 100)
+skills.set_level(self, "breathe lightning", 1000)
+skills.set_level(self, "lightning breath", 1000)

@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #105: set Roar
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "roar", 100)
+skills.set_level(self, "roar", 1000)

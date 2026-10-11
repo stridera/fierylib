@@ -19,7 +19,7 @@ if actor:get_quest_stage("banish") == 7 then
     self.room:send(tostring(self.name) .. " starts casting, <b:yellow>'Vibugp'</>...")
     wait(2)
     actor:send("There is a bright flash as you feel the power of the spell well up in the words, <b:red>'I banish thee!'</>")
-    skills.set_level(actor.name, "banish", 100)
+    skills.set_level(actor, "banish", 1000)
     wait(1)
     actor:send("<b:red>You have mastered the prayer for Banish!</>")
     actor:complete_quest("banish")

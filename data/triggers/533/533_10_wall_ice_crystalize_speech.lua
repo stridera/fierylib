@@ -62,5 +62,5 @@ elseif self.id == 53316 and actor:get_quest_stage("wall_ice") == 2 and actor:has
     self:say("Keep the notes.  It should be everything you need to cast Wall of Ice yourself.")
     actor:send("<b:cyan>You have learned Wall of Ice!</>")
     actor:complete_quest("wall_ice")
-    skills.set_level(actor, "wall of ice", 100)
+    skills.set_level(actor, "wall of ice", 1000)
 end

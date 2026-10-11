@@ -55,6 +55,6 @@ self.room:send("The beautiful druid says, 'Thank you my Goddess, Mielikki!  At l
 wait(2)
 self.room:send("The beautiful druid bows deeply, enters the moonwell and disappears!")
 actor:complete_quest("moonwell_spell_quest")
-skills.set_level(actor.name, "moonwell", 100)
+skills.set_level(actor, "moonwell", 1000)
 world.destroy(self)
 return true

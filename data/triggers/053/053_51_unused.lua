@@ -65,7 +65,7 @@ if actor:get_quest_stage("monk_vision") > 7 and actor:get_quest_stage("monk_chan
             end
             actor:send("<magenta>The roaring of the dead forms into a chant!</>")
             actor:send("<magenta>You have learned Apocalyptic Anthem.</>")  -- typo: sent
-            skills.set_level(actor, "Apocalyptic anthem", 100)
+            skills.set_level(actor, "Apocalyptic anthem", 1000)
             actor:advance_quest("monk_chants")
             wait(2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")

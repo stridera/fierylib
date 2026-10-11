@@ -27,7 +27,7 @@ local function award_shift_corpse(person)
     person:send("<blue>&9Your awareness of death now stretches beyond the boundaries of the planes themselves!</>")
     self.room:send_except(person, "<blue>&9It forces its way into " .. tostring(person.name) .. "'s body!</>")
     person:complete_quest("shift_corpse")
-    skills.set_level(person.name, "shift corpse", 100)
+    skills.set_level(person, "shift corpse", 1000)
 end
 
 if actor and actor.group and #actor.group > 0 then

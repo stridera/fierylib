@@ -7,4 +7,4 @@
 
 -- Converted from DG Script #11811: assassin_vine_load
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "backstab", 100)
+skills.set_level(self, "backstab", 1000)

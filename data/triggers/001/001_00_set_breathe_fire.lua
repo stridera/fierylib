@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #100: set Breathe Fire
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "breathe fire", 100)
-skills.set_level(self, "fire breath", 100)
+skills.set_level(self, "breathe fire", 1000)
+skills.set_level(self, "fire breath", 1000)

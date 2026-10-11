@@ -149,7 +149,7 @@ if actor:get_quest_stage("monk_vision") > visionstage and actor:get_quest_stage(
             end
             actor:send(tostring(text1))
             actor:send(tostring(text2))
-            skills.set_level(actor, "%chant%", 100)
+            skills.set_level(actor, "%chant%", 1000)
             if actor:get_quest_stage("monk_chants") < 7 then
                 actor:advance_quest("monk_chants")
             else

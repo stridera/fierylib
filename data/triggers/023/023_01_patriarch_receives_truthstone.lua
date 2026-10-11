@@ -150,7 +150,7 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
             if not actor:get_quest_var("hell_trident:helltask4") and actor:get_quest_stage("hell_trident") == 1 then
                 actor:set_quest_var("hell_trident", "helltask4", 1)
             end
-            skills.set_level(actor, "hellfire and brimstone", 100)
+            skills.set_level(actor, "hellfire and brimstone", 1000)
         else
             self:say("Bring me the rest of the fiery tributes!")
         end

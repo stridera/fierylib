@@ -57,7 +57,7 @@ local class = actor.class
 for class_name, reward in pairs(spell_rewards) do
     if string.find(class, class_name) then
         self:command("smile " .. tostring(actor.name))
-        skills.set_level(actor, reward.spell, 100)
+        skills.set_level(actor, reward.spell, 1000)
         if actor.level < reward.min_level then
             actor:send(self.name .. " tells you, '" .. "You will not be able to use your new ability for several levels." .. "'")
         end

@@ -65,7 +65,7 @@ if actor:get_quest_stage("monk_vision") > 5 and actor:get_quest_stage("monk_chan
             end
             actor:send("<b:cyan>The power of ice begins to flow through your fists!</>")
             actor:send("<b:cyan>You have learned Blizzards of Saint Augustine.</>")
-            skills.set_level(actor, "blizzards of saint augustine", 100)
+            skills.set_level(actor, "blizzards of saint augustine", 1000)
             actor:advance_quest("monk_chants")
             wait(2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")

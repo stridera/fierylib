@@ -65,7 +65,7 @@ if actor:get_quest_stage("monk_vision") > 8 and actor:get_quest_stage("monk_chan
             end
             actor:send("<b:red>The power of fire begins to flow through your fists!</>")
             actor:send("<b:red>You have learned Fires of Saint Augustine.</>")  -- typo: sent
-            skills.set_level(actor, "fires of saint augustine", 100)
+            skills.set_level(actor, "fires of saint augustine", 1000)
             actor:advance_quest("monk_chants")
             wait(2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")

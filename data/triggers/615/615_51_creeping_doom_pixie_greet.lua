@@ -30,7 +30,7 @@ if string.find(actor.class, "Druid") then
             self.room:send(tostring(self.name) .. " says, 'You earned the right to be called Nature's Avenger")
             self.room:send("</>and the power that brings.'")
             wait(2)
-            skills.set_level(actor, "creeping doom", 100)
+            skills.set_level(actor, "creeping doom", 1000)
             actor:send("<blue>&9The nightmare of the Deep Dreaming touches your soul!")
             actor:send("You have mastered</> <red>Creeping <green>Doom<blue>&9!</>")
             actor:complete_quest("creeping_doom")

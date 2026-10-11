@@ -57,7 +57,7 @@ if stage == 2 then
             wait(1)
             actor:send("It whispers the eldritch formula for summoning such a cataclysm again.")
             actor:complete_quest("flood")
-            skills.set_level(actor.name, "flood", 100)
+            skills.set_level(actor, "flood", 1000)
             actor:send("<b:blue>You have learned Flood.</>")
             wait(2)
             actor:send("'Thank you for the role you played.'")

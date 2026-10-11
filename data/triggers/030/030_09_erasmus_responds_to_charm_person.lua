@@ -30,7 +30,7 @@ if string.find(actor.class, "Illusionist") then
             self:say("I'm impressed with your attentiveness, " .. tostring(actor.name) .. ".")
             wait(3)
             self:say("I can see that you've learned charm person rather well.")
-            skills.set_level(actor, "charm person", 100)
+            skills.set_level(actor, "charm person", 1000)
         else
             self:say("Eh?  Where did " .. tostring(actor.name) .. " go?  Must not have a thirst for knowledge!")
         end

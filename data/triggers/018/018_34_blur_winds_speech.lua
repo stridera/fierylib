@@ -111,7 +111,7 @@ elseif arrived then
         actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Wow you're fast!  Incredible!</>'")
         actor:set_quest_var("blur", direction, 2)
         if actor:get_quest_var("blur:east") == 2 and actor:get_quest_var("blur:west") == 2 and actor:get_quest_var("blur:north") == 2 and actor:get_quest_var("blur:south") == 2 then
-            skills.set_level(actor.name, "blur", 100)
+            skills.set_level(actor, "blur", 1000)
             wait(2)
             actor:send("You have matched the greatest speeds of nature!")
             actor:send("You have learned <red>Blur</>!")

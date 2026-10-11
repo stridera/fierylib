@@ -53,7 +53,7 @@ if is_sun or is_lamp then
             self:say("That's it!!  You've got it!")
             self.room:send_except(actor, tostring(actor.name) .. " radiates with inner arcane fire!")
             actor:send("<b:red>You have mastered Supernova!</>")
-            skills.set_level(actor.name, "supernova", 100)
+            skills.set_level(actor, "supernova", 1000)
             actor:complete_quest("supernova")
         else
             self:say("And the other?")

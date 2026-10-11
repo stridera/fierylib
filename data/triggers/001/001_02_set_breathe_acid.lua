@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #102: set Breathe Acid
 -- Original: MOB trigger, flags: LOAD, probability: 100%
-skills.set_level(self, "breathe acid", 100)
-skills.set_level(self, "acid breath", 100)
+skills.set_level(self, "breathe acid", 1000)
+skills.set_level(self, "acid breath", 1000)

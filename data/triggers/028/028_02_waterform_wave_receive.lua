@@ -171,7 +171,7 @@ elseif stage == 7 then
         actor:send("You can feel the rushing waters of the world in every particle of your being as you join with the Great Wave and the Blue Lake.")
         self.room:send_except(actor, tostring(actor.name) .. " liquifies and joins with the waters of the Great Wave and the Blue Lake.")
         wait(5)
-        skills.set_level(actor, "waterform", 100)
+        skills.set_level(actor, "waterform", 1000)
         actor:send("<b:blue>The Great Wave imparts the method to transform your body into pure raging water!</>")
         actor:complete_quest("waterform")
     else
