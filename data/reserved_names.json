@@ -1,0 +1,92 @@
+{
+  "reserved_names": [
+    [
+      "admin",
+      "Staff or system voice"
+    ],
+    [
+      "administrator",
+      "Staff or system voice"
+    ],
+    [
+      "builder",
+      "Staff or system voice"
+    ],
+    [
+      "god",
+      "Staff or system voice"
+    ],
+    [
+      "gods",
+      "Staff or system voice"
+    ],
+    [
+      "immortal",
+      "Staff or system voice"
+    ],
+    [
+      "implementor",
+      "Staff or system voice"
+    ],
+    [
+      "moderator",
+      "Staff or system voice"
+    ],
+    [
+      "server",
+      "Staff or system voice"
+    ],
+    [
+      "staff",
+      "Staff or system voice"
+    ],
+    [
+      "system",
+      "Staff or system voice"
+    ],
+    [
+      "beggar",
+      "Generic mob word"
+    ],
+    [
+      "citizen",
+      "Generic mob word"
+    ],
+    [
+      "cityguard",
+      "Generic mob word"
+    ],
+    [
+      "corpse",
+      "Generic mob word"
+    ],
+    [
+      "guard",
+      "Generic mob word"
+    ],
+    [
+      "guardian",
+      "Generic mob word"
+    ],
+    [
+      "guardsman",
+      "Generic mob word"
+    ],
+    [
+      "merchant",
+      "Generic mob word"
+    ],
+    [
+      "mob",
+      "Generic mob word"
+    ],
+    [
+      "npc",
+      "Generic mob word"
+    ],
+    [
+      "shopkeeper",
+      "Generic mob word"
+    ]
+  ]
+}

@@ -2939,6 +2939,41 @@ def seed_content_tables(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="reserved-names")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_reserved_names(verbose: bool):
+    """Seed the reserved character names the game server used to hard-code.
+
+    Staff/system voices and generic mob words refused at character creation, from
+    data/reserved_names.json. Existing rows are left alone.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import ReservedNamesSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Reserved Names")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await ReservedNamesSeeder(prisma).seed_reserved_names(verbose=verbose)
+            click.echo(f"  Statements: {stats['statements']}")
+            click.echo(f"  Rows added: {stats['rows']}")
+            click.echo(f"\n✅ Reserved name seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="mob-ai")
 @click.option(
     "--verbose",
