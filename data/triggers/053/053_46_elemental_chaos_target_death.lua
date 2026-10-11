@@ -1,97 +1,68 @@
 -- Trigger: Elemental Chaos target death
 -- Zone: 53, ID: 46
 -- Type: MOB, Flags: DEATH
--- Status: NEEDS_REVIEW
--- TODO(parity): `stage`, `target1`/`target2`/`target3` branch-scoped.
--- `get_quest_stage(...) == "stage"` is string compare. Legacy 5-digit
--- self.id values. Group iteration `local a` branch-scoped. Full
--- rewrite from DG #5346.
+-- Status: CLEAN
 --
 -- Original DG Script: #5346
+--
+-- Elemental Chaos bounty (quest "elemental_chaos"): when one of the hunt targets dies, every
+-- player in the killer's group who is standing in the room, is on that target's stage and
+-- has an active bounty ("running") has the kill recorded in the quest variable
+-- "target<slot>". Stage 5 has three targets (the Fangs, slots 1-3) and is finished only
+-- once all three are down; every other stage has one target and is finished by its kill.
+-- Finishing sets the bounty to "dead" and the player goes back to Hakujo to hand it in.
+--
+-- The DG original switched on legacy vnums; the targets are keyed by composite (zone, id)
+-- here and matched against self.zone_id / self.local_id. Stages 1-10 follow Hakujo's
+-- mission list (see 053_37 speech_yes).
 
--- Converted from DG Script #5346: Elemental Chaos target death
--- Original: MOB trigger, flags: DEATH, probability: 100%
--- switch on self.id
-if self.id == 58808 then
-    -- imp
-    local stage = 1
-    local target1 = "imp"
-elseif self.id == 4399 then
-    -- Leading Player
-    local target1 = "Leading_player"
-    local stage = 2
-elseif self.id == 17306 then
-    -- the Chaos
-    local target1 = "Chaos"
-    local stage = 3
-elseif self.id == 17811 then
-    -- the Fetch
-    local target1 = "Fetch"
-    local stage = 4
-elseif self.id == 46206 then
-    -- shaman Fang
-    local target1 = "shaman_Fang"
-    local stage = 5
-elseif self.id == 46207 then
-    -- necro Fang
-    local target2 = "necro_Fang"
-    local stage = 5
-elseif self.id == 46208 then
-    -- dia Fang
-    local target3 = "dia_Fang"
-    local stage = 5
-elseif self.id == 12523 then
-    -- fire lord
-    local target1 = "fire_lord"
-    local stage = 6
-elseif self.id == 8509 then
-    -- acolyte
-    local target1 = "acolyte"
-    local stage = 7
-elseif self.id == 43017 then
-    -- Cyprianum the Reaper
-    local target1 = "Cyprianum"
-    local stage = 8
-elseif self.id == 53417 then
-    -- chaos demon
-    local target1 = "Chaos_Demon"
-    local stage = 9
-elseif self.id == 4009 then
-    -- Norhamen
-    local target1 = "Norhamen"
-    local stage = 10
+local TARGETS = {
+    { zone = 588, id = 8,  stage = 1,  slot = 1, target = "imp" },
+    { zone = 43,  id = 99, stage = 2,  slot = 1, target = "Leading_player" },
+    { zone = 173, id = 6,  stage = 3,  slot = 1, target = "Chaos" },
+    { zone = 178, id = 11, stage = 4,  slot = 1, target = "Fetch" },
+    { zone = 462, id = 6,  stage = 5,  slot = 1, target = "shaman_Fang" },
+    { zone = 462, id = 7,  stage = 5,  slot = 2, target = "necro_Fang" },
+    { zone = 462, id = 8,  stage = 5,  slot = 3, target = "dia_Fang" },
+    { zone = 125, id = 23, stage = 6,  slot = 1, target = "fire_lord" },
+    { zone = 85,  id = 9,  stage = 7,  slot = 1, target = "acolyte" },
+    { zone = 430, id = 17, stage = 8,  slot = 1, target = "Cyprianum" },
+    { zone = 534, id = 17, stage = 9,  slot = 1, target = "Chaos_Demon" },
+    { zone = 40,  id = 9,  stage = 10, slot = 1, target = "Norhamen" },
+}
+
+-- get_quest_var returns "" for an unset variable, and "" is truthy in Lua.
+local function is_set(v)
+    return v ~= nil and v ~= ""
 end
-local person = actor
-local i = person.group_size
-if i then
-    local a = 1
-else
-    local a = 0
+
+local entry = nil
+for _, t in ipairs(TARGETS) do
+    if t.zone == self.zone_id and t.id == self.local_id then
+        entry = t
+        break
+    end
 end
-while i >= a do
-    local person = actor.group_member[a]
-    if person.room == self.room then
-        if person:get_quest_stage("elemental_chaos") == "stage" and person:get_quest_var("elemental_chaos:bounty") == "running" then
-            if target1 then
-                person:set_quest_var("elemental_chaos", "target1", target1)
+-- The killer's group (a lone killer is a group of one).
+if entry and actor then
+    local members = actor.group_member
+    for i = 1, actor.group_size do
+        local person = members[i]
+        if person and person.is_player and person.room == self.room then
+            if person:get_quest_stage("elemental_chaos") == entry.stage
+                and person:get_quest_var("elemental_chaos:bounty") == "running" then
+                person:set_quest_var("elemental_chaos", "target" .. entry.slot, entry.target)
                 person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
-            elseif target2 then
-                person:set_quest_var("elemental_chaos", "target2", target2)
-                person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
-            elseif target3 then
-                person:set_quest_var("elemental_chaos", "target3", target3)
-                person:send("<b:red>You cross " .. tostring(self.name) .. " off your list.</>")
-            end
-            if stage == 5 then
-                if person:get_quest_var("elemental_chaos:target1") and person:get_quest_var("elemental_chaos:target2") and person:get_quest_var("elemental_chaos:target3") then
+                if entry.stage == 5 then
+                    if is_set(person:get_quest_var("elemental_chaos:target1"))
+                        and is_set(person:get_quest_var("elemental_chaos:target2"))
+                        and is_set(person:get_quest_var("elemental_chaos:target3")) then
+                        person:set_quest_var("elemental_chaos", "bounty", "dead")
+                    end
+                else
                     person:set_quest_var("elemental_chaos", "bounty", "dead")
                 end
-            else
-                person:set_quest_var("elemental_chaos", "bounty", "dead")
             end
         end
-    elseif person and person.is_player then
-        i = i + 1
     end
-    a = a + 1
 end
