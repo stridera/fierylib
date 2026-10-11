@@ -50,9 +50,8 @@ POSITION_MAP = {
 }
 
 
-# Legacy not_found lines are ~150 one-off jokes ("Who's that?", "You agree.  They're not here.",
-# "Normally you slap SOMEBODY.") with stray double spaces. Every targeted social now answers
-# a missing target the same way. data/sql/2026-10-11-text-fixes.sql applies this to existing DBs.
+# Shown when a targeted social has no not_found line of its own. The legacy lines are kept (they
+# are part of the game's feel, jokes included); only defects are cleaned up by normalize_not_found.
 STANDARD_NOT_FOUND = "You don't see anyone like that here."
 
 
@@ -114,7 +113,35 @@ def convert_legacy_template(text: Optional[str]) -> Optional[str]:
     return result
 
 
-def parse_socials_file(filepath: Path) -> list[Social]:
+def normalize_not_found(text: Optional[str]) -> Optional[str]:
+    """Fix defects in a legacy not_found line without touching its wording.
+
+    Collapses runs of whitespace (the "You agree.  They're not here." double space), strips the
+    ends, capitalises a leading letter and adds a full stop when there is no end punctuation.
+    Returns None for empty text.
+    """
+    if not text:
+        return None
+    text = " ".join(text.split())
+    if not text:
+        return None
+    if text[0].isalpha():
+        text = text[0].upper() + text[1:]
+    if text[-1] not in ".!?\"')":
+        text += "."
+    return text
+
+
+def _not_found(text: Optional[str], targeted: bool, normalize: bool) -> Optional[str]:
+    if not normalize:
+        return text
+    cleaned = normalize_not_found(text)
+    if cleaned is None and targeted:
+        return STANDARD_NOT_FOUND
+    return cleaned
+
+
+def parse_socials_file(filepath: Path, normalize: bool = True) -> list[Social]:
     """
     Parse a CircleMUD socials file and convert to modern format.
 
@@ -135,6 +162,7 @@ def parse_socials_file(filepath: Path) -> list[Social]:
 
     Args:
         filepath: Path to the socials file
+        normalize: Clean up defects in not_found lines (False returns the legacy text as converted)
 
     Returns:
         List of parsed Social objects with modern templates
@@ -226,7 +254,7 @@ def parse_socials_file(filepath: Path) -> list[Social]:
             char_found=convert_legacy_template(char_found),
             others_found=convert_legacy_template(others_found),
             vict_found=convert_legacy_template(vict_found),
-            not_found=STANDARD_NOT_FOUND if not_found else None,
+            not_found=_not_found(convert_legacy_template(not_found), char_found is not None, normalize),
             char_auto=convert_legacy_template(char_auto),
             others_auto=convert_legacy_template(others_auto),
         )
