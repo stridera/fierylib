@@ -110,6 +110,12 @@ class HelpFileParser:
         # Keywords can be: KEYWORD, "MULTI WORD", or multiple space-separated
         keyword_line = lines[0].strip()
 
+        # A first line carrying colour codes is a stray table fragment, not a
+        # keyword line (legacy help.hlp has one: the "Circle 1 / Circle 6" druid
+        # table, which would otherwise become a topic named "circle").
+        if '&' in keyword_line:
+            return
+
         # Handle quoted keywords like "ACID BURST" or simple ones like ARMOR
         keywords = self._parse_keywords(keyword_line)
         if not keywords:

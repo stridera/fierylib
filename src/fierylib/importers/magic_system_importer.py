@@ -8,6 +8,7 @@ from typing import Dict, List, Any, Optional
 from prisma import Prisma
 
 from ..parsers.help_parser import HelpFileParser, parse_all_help_files
+from ..converters.ability_names import normalize_ability_name
 from ..converters.color_converter import convert_legacy_colors
 
 
@@ -107,8 +108,8 @@ class MagicSystemImporter:
 
     async def _import_ability(self, ability: Dict[str, Any], verbose: bool):
         """Import a single ability with its related data."""
-        name = ability["name"]
         plain_name = ability["plainName"]
+        name = normalize_ability_name(ability["name"], plain_name)
 
         # Derive target_scope from isArea + violent when the source
         # JSON doesn't supply one explicitly. Schema default is SINGLE,

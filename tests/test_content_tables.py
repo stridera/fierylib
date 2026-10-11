@@ -80,7 +80,7 @@ def test_prompt_templates_are_json_name_template_pairs():
         "classic", "compact", "bars", "vitals", "verbose",
         "location", "worldclock", "combat", "minimal",
     ]  # fmt: skip
-    assert dict(pairs)["classic"] == "<%h/%H hp %v/%V mv> "
+    assert dict(pairs)["classic"] == "<%h/%H hp %v/%V st> "
 
 
 def test_prompt_letters_name_real_abilities():

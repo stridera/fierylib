@@ -261,7 +261,7 @@
     ]
   },
   {
-    "name": "Aria Of Dissonance",
+    "name": "Aria of Dissonance",
     "plainName": "ARIA_OF_DISSONANCE",
     "abilityType": "CHANT",
     "description": "A discordant monk chant that disrupts enemy coordination, reducing their accuracy in combat. This offensive chant penalizes the target's ability to land attacks.",
@@ -341,7 +341,7 @@
     "pages": 5
   },
   {
-    "name": "Armor Of Gaia",
+    "name": "Armor of Gaia",
     "plainName": "ARMOR_OF_GAIA",
     "abilityType": "SPELL",
     "description": "Summons earthen armor that encases the target in protective stone.",
@@ -519,7 +519,7 @@
     ]
   },
   {
-    "name": "Ballad Of Tears",
+    "name": "Ballad of Tears",
     "plainName": "BALLAD_OF_TEARS",
     "abilityType": "SONG",
     "description": "A mournful bardic song that weakens enemy strikes, reducing their damage output. This melancholy melody saps the fighting spirit of foes.",
@@ -899,7 +899,7 @@
     }
   },
   {
-    "name": "Bigbys Clenched Fist",
+    "name": "Bigby's Clenched Fist",
     "plainName": "BIGBYS_CLENCHED_FIST",
     "abilityType": "SPELL",
     "description": "Summons a giant magical fist that pummels your enemy with devastating force.",
@@ -1141,7 +1141,7 @@
     ]
   },
   {
-    "name": "Blizzards Of Saint Augustine",
+    "name": "Blizzards of Saint Augustine",
     "plainName": "BLIZZARDS_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
     "description": "A powerful monk chant invoking the icy fury of Saint Augustine, significantly increasing damage output. This buff channels frozen wrath to empower the monk's strikes.",
@@ -2004,7 +2004,7 @@
     }
   },
   {
-    "name": "Circle Of Death",
+    "name": "Circle of Death",
     "plainName": "CIRCLE_OF_DEATH",
     "abilityType": "SPELL",
     "description": "Unleashes a focused pulse of negative energy that snuffs out the target's life force.",
@@ -2045,7 +2045,7 @@
     ]
   },
   {
-    "name": "Circle Of Fire",
+    "name": "Circle of Fire",
     "plainName": "CIRCLE_OF_FIRE",
     "abilityType": "SPELL",
     "description": "Creates a ring of <b:red>flames</> that damages creatures passing through it.",
@@ -2097,7 +2097,7 @@
     ]
   },
   {
-    "name": "Circle Of Light",
+    "name": "Circle of Light",
     "plainName": "CIRCLE_OF_LIGHT",
     "abilityType": "SPELL",
     "description": "Surrounds the caster with a brilliant aura of holy light.",
@@ -2267,7 +2267,7 @@
     "pages": 35
   },
   {
-    "name": "Cloud Of Daggers",
+    "name": "Cloud of Daggers",
     "plainName": "CLOUD_OF_DAGGERS",
     "abilityType": "SPELL",
     "description": "Conjures a swirling cloud of razor-sharp blades that shred anything within.",
@@ -2479,7 +2479,7 @@
     "pages": 13
   },
   {
-    "name": "Cone Of Cold",
+    "name": "Cone of Cold",
     "plainName": "CONE_OF_COLD",
     "abilityType": "SPELL",
     "description": "A blast of freezing air erupts from your hands and flash-freezes the target solid.",
@@ -2802,7 +2802,7 @@
     ]
   },
   {
-    "name": "Crown Of Madness",
+    "name": "Crown of Madness",
     "plainName": "CROWN_OF_MADNESS",
     "abilityType": "SONG",
     "description": "A chaotic bardic performance that drives the target mad, causing confusion. The victim cannot distinguish friend from foe and may attack randomly. The effect breaks when the victim takes damage.",
@@ -2877,7 +2877,7 @@
     "pages": 5
   },
   {
-    "name": "Cure Critic",
+    "name": "Cure Critical",
     "plainName": "CURE_CRITIC",
     "abilityType": "SPELL",
     "description": "This spell <healing>cures</> 3d8+3 hitpoints of damage.",
@@ -4556,7 +4556,7 @@
     ]
   },
   {
-    "name": "Dragons Health",
+    "name": "Dragon's Health",
     "plainName": "DRAGONS_HEALTH",
     "abilityType": "SPELL",
     "description": "Grants the legendary vitality and regeneration of dragonkind.",
@@ -5786,7 +5786,7 @@
     ]
   },
   {
-    "name": "Fires Of Saint Augustine",
+    "name": "Fires of Saint Augustine",
     "plainName": "FIRES_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
     "description": "A powerful monk chant invoking the burning passion of Saint Augustine, significantly increasing damage output. This buff channels holy flames to empower the monk's strikes.",
@@ -7111,7 +7111,7 @@
     }
   },
   {
-    "name": "Heavens Gate",
+    "name": "Heaven's Gate",
     "plainName": "HEAVENS_GATE",
     "abilityType": "SPELL",
     "description": "Creates a bidirectional tunnel of divine light between caster and target player.",
@@ -7492,7 +7492,7 @@
     }
   },
   {
-    "name": "Hymn Of Saint Augustine",
+    "name": "Hymn of Saint Augustine",
     "plainName": "HYMN_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
     "description": "A harmonious monk chant invoking Saint Augustine's strength, increasing damage output. This basic buff from the Saint Augustine series empowers the monk's attacks.",
@@ -9860,7 +9860,7 @@
     }
   },
   {
-    "name": "Natures Embrace",
+    "name": "Nature's Embrace",
     "plainName": "NATURES_EMBRACE",
     "abilityType": "SPELL",
     "description": "Phases the caster into the landscape, raising hiddenness. Outdoors only.",
@@ -9901,7 +9901,7 @@
     "notes": "Legacy (magic.cpp:4616 mag_point SPELL_NATURES_EMBRACE: GET_HIDDENNESS += skill * 5, clamped to 1000, no heal; magic.cpp:2448 mag_affect: EFF_CAMOUFLAGED for skill / 3 + 1 ticks; skills.cpp:1050 TAR_SELF_ONLY | TAR_OUTDOORS). Expressed as a modify 'hiddenness' effect on self (adds to the Hiddenness component, 0..1000, taken back when it ends). The TAR_OUTDOORS precondition (spell_parser.cpp:1559, 'This area is too enclosed to cast that spell!') is the \"outdoors\" restriction rule: the cast is refused with that line while the caster's room is indoors (IndoorRoom flag, underdark or underwater sector)."
   },
   {
-    "name": "Natures Guidance",
+    "name": "Nature's Guidance",
     "plainName": "NATURES_GUIDANCE",
     "abilityType": "SPELL",
     "description": "Attunes to nature for improved awareness and perception.",
@@ -11860,7 +11860,7 @@
     }
   },
   {
-    "name": "Seed Of Destruction",
+    "name": "Seed of Destruction",
     "plainName": "SEED_OF_DESTRUCTION",
     "abilityType": "CHANT",
     "description": "A malevolent monk chant that plants a seed of destruction in the target, dealing unholy damage over time. This damage-over-time effect corrupts the victim from within.",
@@ -12017,7 +12017,7 @@
     }
   },
   {
-    "name": "Shadows Sorrow Song",
+    "name": "Shadow's Sorrow Song",
     "plainName": "SHADOWS_SORROW_SONG",
     "abilityType": "CHANT",
     "description": "A melancholic monk chant that saps enemy combat ability, significantly reducing their accuracy. This debuff shrouds enemies in sorrow, making their attacks less effective.",
@@ -12451,7 +12451,7 @@
     }
   },
   {
-    "name": "Sonata Of Malaise",
+    "name": "Sonata of Malaise",
     "plainName": "SONATA_OF_MALAISE",
     "abilityType": "CHANT",
     "description": "A draining monk chant that weakens the target's constitution, reducing their health and resilience. This debuff saps the victim's vitality and endurance.",
@@ -12496,7 +12496,7 @@
     ]
   },
   {
-    "name": "Song Of Rest",
+    "name": "Song of Rest",
     "plainName": "SONG_OF_REST",
     "abilityType": "SONG",
     "description": "A peaceful bardic song that enhances mental focus and clarity, promoting rest and recuperation. This calming melody improves concentration and spell casting ability.",
@@ -12662,7 +12662,7 @@
     "pages": 5
   },
   {
-    "name": "Speak In Tongues",
+    "name": "Speak in Tongues",
     "plainName": "SPEAK_IN_TONGUES",
     "abilityType": "SPELL",
     "description": "Grants the ability to understand and speak all languages.",
@@ -14065,7 +14065,7 @@
     "pages": 11
   },
   {
-    "name": "Tempest Of Saint Augustine",
+    "name": "Tempest of Saint Augustine",
     "plainName": "TEMPEST_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
     "description": "A mighty monk chant invoking the tempest fury of Saint Augustine, greatly increasing damage output. This powerful buff channels storm-like rage to maximize the monk's striking power.",
@@ -14197,7 +14197,7 @@
     }
   },
   {
-    "name": "Tremors Of Saint Augustine",
+    "name": "Tremors of Saint Augustine",
     "plainName": "TREMORS_OF_SAINT_AUGUSTINE",
     "abilityType": "CHANT",
     "description": "A powerful monk chant invoking the earthshaking tremors of Saint Augustine, significantly increasing damage output. This buff channels ground-quaking force to empower the monk's blows.",
@@ -14741,7 +14741,7 @@
     ]
   },
   {
-    "name": "Vigorize Critic",
+    "name": "Vigorize Critical",
     "plainName": "VIGORIZE_CRITIC",
     "abilityType": "SPELL",
     "description": "<healing>Restores</> movement energy to the target, refreshing their stamina.",
@@ -14867,7 +14867,7 @@
     "pages": 7
   },
   {
-    "name": "Wall Of Fog",
+    "name": "Wall of Fog",
     "plainName": "WALL_OF_FOG",
     "abilityType": "SPELL",
     "description": "Rolls a choking bank of fog across one exit. Travelers can still push through, but each crossing costs an extra <yellow>5 stamina</> beyond the room's normal movement cost. <cyan>cast 'wall of fog' &lt;direction&gt;</> targets the chosen exit.",
@@ -14898,7 +14898,7 @@
     "pages": 21
   },
   {
-    "name": "Wall Of Ice",
+    "name": "Wall of Ice",
     "plainName": "WALL_OF_ICE",
     "abilityType": "SPELL",
     "description": "Conjures a solid wall of ice across one exit, blocking all traversal until shattered. The wall absorbs <yellow>100 HP</> of bash damage before crumbling (try <cyan>doorbash &lt;direction&gt;</>). The caster may dismiss it with <cyan>cancel wall</>. <cyan>cast 'wall of ice' &lt;direction&gt;</> targets the chosen exit.",
@@ -14934,7 +14934,7 @@
     "damageType": "COLD"
   },
   {
-    "name": "Wall Of Stone",
+    "name": "Wall of Stone",
     "plainName": "WALL_OF_STONE",
     "abilityType": "SPELL",
     "description": "Conjures a heavy wall of stone across one exit, blocking all traversal. Tougher than ice \u2014 the wall absorbs <yellow>200 HP</> of bash damage before crumbling (try <cyan>doorbash &lt;direction&gt;</>). The caster may dismiss it with <cyan>cancel wall</>. <cyan>cast 'wall of stone' &lt;direction&gt;</> targets the chosen exit.",
@@ -15219,7 +15219,7 @@
     ]
   },
   {
-    "name": "Wings Of Heaven",
+    "name": "Wings of Heaven",
     "plainName": "WINGS_OF_HEAVEN",
     "abilityType": "SPELL",
     "description": "Manifests angelic wings that grant the power of flight.",
@@ -15263,7 +15263,7 @@
     "pages": 5
   },
   {
-    "name": "Wings Of Hell",
+    "name": "Wings of Hell",
     "plainName": "WINGS_OF_HELL",
     "abilityType": "SPELL",
     "description": "Manifests demonic wings that grant the power of flight.",
@@ -15337,7 +15337,7 @@
     "pages": 17
   },
   {
-    "name": "Word Of Command",
+    "name": "Word of Command",
     "plainName": "WORD_OF_COMMAND",
     "abilityType": "SPELL",
     "description": "Speaks a word of power that compels the target to obey the caster.",
@@ -15379,7 +15379,7 @@
     ]
   },
   {
-    "name": "Word Of Recall",
+    "name": "Word of Recall",
     "plainName": "WORD_OF_RECALL",
     "abilityType": "SPELL",
     "description": "The caster will be transferred back to his hometown sanctuary (usually the Temple of Midgaard).",

@@ -476,7 +476,7 @@ class PlayerImporter:
             "title": convert_legacy_colors(
                 player_data.current_title or player_data.title or ""
             ) or None,
-            "prompt": convert_legacy_colors(player_data.prompt) if player_data.prompt else "<%h/%Hhp %v/%Vmv>",
+            "prompt": convert_legacy_colors(player_data.prompt) if player_data.prompt else "<%h/%Hhp %v/%Vst>",
             "playerFlags": player_flags,
             "invisLevel": player_data.invis_level or 0,
             "wimpyThreshold": player_data.wimpy or 0,

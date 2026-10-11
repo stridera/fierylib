@@ -631,7 +631,7 @@
       "value": [
         [
           "classic",
-          "<%h/%H hp %v/%V mv> "
+          "<%h/%H hp %v/%V st> "
         ],
         [
           "compact",
@@ -643,11 +643,11 @@
         ],
         [
           "vitals",
-          "<red>%h</>/%H hp <green>%v</>/%V mv "
+          "<red>%h</>/%H hp <green>%v</>/%V st "
         ],
         [
           "verbose",
-          "<%n %h/%H hp %v/%V mv %w @ %R> "
+          "<%n %h/%H hp %v/%V st %w @ %R> "
         ],
         [
           "location",
@@ -659,7 +659,7 @@
         ],
         [
           "combat",
-          "<%h/%H hp %v/%V mv | %O %K> "
+          "<%h/%H hp %v/%V st | %O %K> "
         ],
         [
           "minimal",

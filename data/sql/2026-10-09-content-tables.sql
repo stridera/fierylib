@@ -193,7 +193,7 @@ INSERT INTO "SystemMessage" ("key", "category", "messages", "updated_at") VALUES
 ON CONFLICT ("key") DO NOTHING;
 
 INSERT INTO "GameConfig" ("category", "key", "value", "value_type", "description", "updated_at") VALUES
-  ('display', 'prompt_templates', '[["classic", "<%h/%H hp %v/%V mv> "], ["compact", "[%h/%H %v/%V] "], ["bars", "%B %M "], ["vitals", "<red>%h</>/%H hp <green>%v</>/%V mv "], ["verbose", "<%n %h/%H hp %v/%V mv %w @ %R> "], ["location", "[%R] <%h/%H hp> "], ["worldclock", "<%h/%H %v/%V — %s %y %Y> "], ["combat", "<%h/%H hp %v/%V mv | %O %K> "], ["minimal", "> "]]', 'JSON'::"ConfigValueType", 'Named prompt presets for the prompt command: [[name, template], ...] in menu order', CURRENT_TIMESTAMP)
+  ('display', 'prompt_templates', '[["classic", "<%h/%H hp %v/%V st> "], ["compact", "[%h/%H %v/%V] "], ["bars", "%B %M "], ["vitals", "<red>%h</>/%H hp <green>%v</>/%V st "], ["verbose", "<%n %h/%H hp %v/%V st %w @ %R> "], ["location", "[%R] <%h/%H hp> "], ["worldclock", "<%h/%H %v/%V — %s %y %Y> "], ["combat", "<%h/%H hp %v/%V st | %O %K> "], ["minimal", "> "]]', 'JSON'::"ConfigValueType", 'Named prompt presets for the prompt command: [[name, template], ...] in menu order', CURRENT_TIMESTAMP)
 ON CONFLICT ("category", "key") DO NOTHING;
 
 UPDATE "Ability" a
