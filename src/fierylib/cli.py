@@ -550,6 +550,14 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             click.echo(f"Phase 2C: Importing Room Exits")
             click.echo(f"{'='*60}")
 
+            # A --zone run only knows its own zone's vnums; seed the maps from
+            # the DB so cross-zone exit targets and door keys still resolve.
+            if not dry_run:
+                from fierylib.importers.vnum_seed import seed_vnum_maps_from_db
+                seeded = await seed_vnum_maps_from_db(prisma, vnum_maps)
+                if verbose or debug:
+                    click.echo(f"  [DEBUG] Seeded vnum maps from DB: {seeded}")
+
             if verbose or debug:
                 click.echo(f"  [DEBUG] vnum_map size: {len(vnum_maps['rooms'])} rooms")
                 click.echo(f"  [DEBUG] Sample vnum_map entries: {dict(list(vnum_maps['rooms'].items())[:5])}")

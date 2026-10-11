@@ -50,6 +50,25 @@ EFFECT_TO_RESISTANCE: dict[str, tuple[str, int]] = {
 }
 
 
+DEFAULT_WEAPON_DICE = (1, 4)
+
+
+def sane_weapon_dice(obj_type: str, num: int, size: int) -> tuple[int, int]:
+    """Weapons must roll at least one die with at least two faces' worth of range.
+
+    Legacy has weapons stored as 2d0 / 0d0 (never meant to hit for nothing); fall back
+    to 1d4. Non-weapons keep whatever the file says.
+    """
+    if obj_type == "WEAPON" and (num < 1 or size < 1):
+        return DEFAULT_WEAPON_DICE
+    return (num, size)
+
+
+def sane_weight(weight: Optional[float]) -> float:
+    """Object weight is never negative (legacy has a few -2 / -5 typos)."""
+    return max(0.0, float(weight or 0.0))
+
+
 class ObjectImporter:
     """Imports object data to PostgreSQL using Prisma"""
 
@@ -237,6 +256,7 @@ class ObjectImporter:
         weapon_dice_num = int(legacy_dice.get("num", 0) or 0)
         weapon_dice_size = int(legacy_dice.get("size", 0) or 0)
         weapon_dice_bonus = int(legacy_dice.get("bonus", 0) or 0)
+        weapon_dice_num, weapon_dice_size = sane_weapon_dice(obj_type, weapon_dice_num, weapon_dice_size)
 
         legacy_damtype = values_dict.pop("Damage Type", None)
         weapon_damage_type = legacy_damtype if legacy_damtype else None
@@ -364,7 +384,7 @@ class ObjectImporter:
                         "plainActionDescription": strip_markup(obj_action_desc) if obj_action_desc else None,
                         "flags": processed_flags.flags,
                         "restrictions": processed_flags.restrictions,
-                        "weight": obj.weight or 0.0,
+                        "weight": sane_weight(obj.weight),
                         "cost": obj.cost or 0,
                         "timer": obj.timer or 0,
                         "decomposeTimer": obj.timer or 0,
@@ -406,7 +426,7 @@ class ObjectImporter:
                         "plainActionDescription": strip_markup(obj_action_desc) if obj_action_desc else None,
                         "flags": {"set": processed_flags.flags},
                         "restrictions": {"set": processed_flags.restrictions},
-                        "weight": obj.weight or 0.0,
+                        "weight": sane_weight(obj.weight),
                         "cost": obj.cost or 0,
                         "timer": obj.timer or 0,
                         "decomposeTimer": obj.timer or 0,

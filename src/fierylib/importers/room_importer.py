@@ -613,6 +613,23 @@ class RoomImporter:
             if "HIDDEN" in exit_flags:
                 hit_points += 30
 
+        update_data: Dict[str, Any] = {
+            "description": exit_data.get("description", ""),
+            "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
+            "flags": {"set": exit_flags},
+            "defaultState": default_state,
+            "hitPoints": hit_points,
+        }
+        # Never clobber a stored target/key with NULL: a partial (--zone)
+        # re-import may not be able to resolve cross-zone references, and an
+        # unresolved lookup must leave the existing good value alone.
+        if to_zone_id is not None and to_room_vnum is not None:
+            update_data["toZoneId"] = to_zone_id
+            update_data["toRoomId"] = to_room_vnum
+        if key_zone_id is not None and key_id is not None:
+            update_data["keyZoneId"] = key_zone_id
+            update_data["keyId"] = key_id
+
         try:
             await self.prisma.roomexit.upsert(  # type: ignore[attr-defined]
                 where={
@@ -637,17 +654,7 @@ class RoomImporter:
                         "defaultState": default_state,
                         "hitPoints": hit_points,
                     },
-                    "update": {
-                        "description": exit_data.get("description", ""),
-                        "keywords": [exit_data.get("keyword", "")] if exit_data.get("keyword") else [],
-                        "keyZoneId": key_zone_id,
-                        "keyId": key_id,
-                        "toZoneId": to_zone_id,
-                        "toRoomId": to_room_vnum,
-                        "flags": {"set": exit_flags},
-                        "defaultState": default_state,
-                        "hitPoints": hit_points,
-                    },
+                    "update": update_data,
                 },
             )
 

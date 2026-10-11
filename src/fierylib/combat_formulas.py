@@ -192,8 +192,10 @@ def get_set_dice(level: int, race_factor: int, class_factor: int) -> Tuple[int, 
     All arithmetic is C integer arithmetic:
 
       * count: level / 3 (floor, same for every level; the old >50 level/2.5 bump is
-        gone). Levels < 10 are clamped to at least 1 BEFORE the factor is applied,
-        as in legacy; there is no clamp afterwards, so a low factor can yield 0 dice.
+        gone). Levels < 10 are clamped to at least 1 before the factor is applied, as
+        in legacy. Deliberate divergence: legacy let a low race/class factor push the
+        count to 0 (a mob that hits for nothing), so the result is clamped to at
+        least 1 die AFTER the factor too.
       * factor: sfactor = (race + class) / 2 (integer division), then
         dice = sfactor * dice / 100 (truncated).
       * face: level < 22 -> 3; level < 40 -> 4; else level / 10 + 1. No race/class factor.
@@ -211,7 +213,7 @@ def get_set_dice(level: int, race_factor: int, class_factor: int) -> Tuple[int, 
         dice = max(1, dice)
 
     sfactor = (race_factor + class_factor) // 2
-    dice = (sfactor * dice) // 100
+    dice = max(1, (sfactor * dice) // 100)
 
     if level < 22:
         face = 3
@@ -272,6 +274,11 @@ def calculate_damage_dice_modern(
     return (num_dice, dice_size, final_bonus)
 
 
+def minimum_hp_dice(level: int) -> Tuple[int, int, int]:
+    """Floor HP dice for mobs whose computed HP is non-positive: 1d4 + level*2 + 1."""
+    return (1, 4, max(0, level) * 2 + 1)
+
+
 def calculate_realistic_hp_dice(
     target_hp: int, level: int, is_boss: bool = False
 ) -> Tuple[int, int, int]:
@@ -290,7 +297,8 @@ def calculate_realistic_hp_dice(
         Tuple of (num_dice, dice_size, bonus)
     """
     if target_hp <= 0:
-        return (0, 0, 0)
+        # Level-0 / no-data mobs: never emit 0d0+0 (a mob that spawns with 0 HP).
+        return minimum_hp_dice(level)
 
     # Choose dice size based on level (matches legacy patterns)
     if level < 10:

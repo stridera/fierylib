@@ -128,3 +128,58 @@ async def test_import_exit_unknown_key_left_null():
     assert result['success'] is True
     assert result['keyZoneId'] is None
     assert result['keyId'] is None
+
+
+@pytest.mark.asyncio
+async def test_import_exit_unresolved_target_does_not_null_existing_on_update():
+    """--zone re-import: unresolved cross-zone target must not overwrite a good value."""
+    prisma = MockPrisma()
+    importer = RoomImporter(prisma)
+
+    # Empty-ish map (single-zone run): destination 3002 is unknown
+    result = await importer.import_exit(
+        16, 84, 'North',
+        {'destination': '3002', 'key': '1614'},
+        vnum_map={1684: (16, 84)},
+        object_vnum_map={},
+    )
+    assert result['success'] is True
+    upsert = prisma.roomexit.upserts[0]
+    assert 'toZoneId' not in upsert['update']
+    assert 'toRoomId' not in upsert['update']
+    assert 'keyZoneId' not in upsert['update']
+    assert 'keyId' not in upsert['update']
+    # create path still records NULL for a brand-new row
+    assert upsert['create']['toZoneId'] is None
+
+
+@pytest.mark.asyncio
+async def test_import_exit_resolved_target_updates():
+    prisma = MockPrisma()
+    importer = RoomImporter(prisma)
+    await importer.import_exit(
+        30, 1, 'North', {'destination': '3002'}, vnum_map={3002: (30, 2), 3001: (30, 1)}
+    )
+    update = prisma.roomexit.upserts[0]['update']
+    assert update['toZoneId'] == 30 and update['toRoomId'] == 2
+
+
+@pytest.mark.asyncio
+async def test_seed_vnum_maps_from_db_fills_missing_only():
+    from fierylib.importers.vnum_seed import seed_vnum_maps_from_db
+
+    class P:
+        async def query_raw(self, sql):
+            if '"Room"' in sql:
+                return [{'zone_id': 31, 'id': 5}, {'zone_id': 30, 'id': 150}]
+            if '"Mobs"' in sql:
+                return []
+            return [{'zone_id': 16, 'id': 14}]
+
+    maps = {'rooms': {3005: (30, 5)}, 'mobs': {}, 'objects': {}}
+    added = await seed_vnum_maps_from_db(P(), maps)
+    assert maps['rooms'][3105] == (31, 5)
+    assert maps['rooms'][3150] == (30, 150)
+    assert maps['rooms'][3005] == (30, 5)  # in-run entry untouched
+    assert maps['objects'][1614] == (16, 14)
+    assert added == {'rooms': 2, 'mobs': 0, 'objects': 1}

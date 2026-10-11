@@ -21,8 +21,8 @@ BASE_COUNT = [1, 1, 3, 7, 7, 10, 13, 13, 18, 20, 30, 33]  # level / 3, clamped >
 COUNTS = {
     ("HUMAN", "THIEF"): (100, BASE_COUNT),
     ("DRAGON", "WARRIOR"): (120, [1, 1, 3, 8, 8, 12, 15, 15, 21, 24, 36, 39]),
-    ("ELF", "SORCERER"): (80, [0, 0, 2, 5, 5, 8, 10, 10, 14, 16, 24, 26]),
-    ("FAERIE", "WARRIOR"): (95, [0, 0, 2, 6, 6, 9, 12, 12, 17, 19, 28, 31]),
+    ("ELF", "SORCERER"): (80, [1, 1, 2, 5, 5, 8, 10, 10, 14, 16, 24, 26]),
+    ("FAERIE", "WARRIOR"): (95, [1, 1, 2, 6, 6, 9, 12, 12, 17, 19, 28, 31]),
 }
 
 
@@ -48,9 +48,11 @@ def test_no_bump_over_level_50_and_no_floor_rounding():
     assert get_set_dice(29, 100, 100)[0] == 9  # old: int(9.67 + .5) = 10
 
 
-def test_clamp_only_before_factor_below_level_10():
+def test_clamp_applies_after_factor():
     assert get_set_dice(2, 100, 100)[0] == 1  # level/3 = 0 -> clamped to 1
-    assert get_set_dice(2, 60, 80)[0] == 0  # factor 70 applied after the clamp, no second clamp
+    assert get_set_dice(2, 60, 80)[0] == 1  # factor 70 * 1 / 100 = 0 -> clamped to 1 AFTER the factor
+    assert get_set_dice(5, 50, 50)[0] == 1
+    assert get_set_dice(1, 50, 50)[0] == 1
     assert get_set_dice(12, 60, 60)[0] == 2  # level >= 10: 4 * 60 / 100 = 2
 
 
@@ -64,7 +66,7 @@ def test_importer_adds_file_modifiers_and_clamps():
     # level 40, factor 100: base (13, 5)
     assert apply_damage_dice_modifiers(40, 100, 100, 0, 0) == (13, 5)
     assert apply_damage_dice_modifiers(40, 100, 100, 2, 3) == (15, 8)
-    assert apply_damage_dice_modifiers(40, 100, 100, -15, 0) == (0, 5)  # num clamped at 0
+    assert apply_damage_dice_modifiers(40, 100, 100, -15, 0) == (1, 5)  # num clamped at 1
     assert apply_damage_dice_modifiers(40, 100, 100, 0, -9) == (13, 1)  # size clamped at 1
 
 
@@ -97,5 +99,16 @@ async def test_import_mob_stores_base_plus_file_modifiers():
     cls = mob.mob_class.name
     base_num, base_size = get_set_dice(40, get_race_dice_factor(race), get_class_dice_factor(cls))
     create = prisma.mobs.upsert.call_args.kwargs["data"]["create"]
-    assert create["damageDiceNum"] == max(0, base_num + 2)
+    assert create["damageDiceNum"] == max(1, base_num + 2)
     assert create["damageDiceSize"] == base_size + 3
+
+
+def test_hp_dice_floor_for_non_positive_target():
+    from fierylib.combat_formulas import calculate_realistic_hp_dice, minimum_hp_dice
+
+    assert minimum_hp_dice(0) == (1, 4, 1)
+    assert minimum_hp_dice(3) == (1, 4, 7)
+    assert calculate_realistic_hp_dice(0, 0) == (1, 4, 1)
+    assert calculate_realistic_hp_dice(-5, 3) == (1, 4, 7)
+    # positive targets are untouched by the floor
+    assert calculate_realistic_hp_dice(100, 10)[0] >= 1

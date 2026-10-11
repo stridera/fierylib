@@ -59,10 +59,11 @@ def apply_damage_dice_modifiers(
 ) -> Tuple[int, int]:
     """Base dice from the legacy level formula plus the .mob file modifiers.
 
-    Clamped to valid ranges: num >= 0 (can't have negative dice), size >= 1 (at least d1).
+    Clamped after the modifiers are applied: num >= 1 (a mob always rolls at least one
+    die), size >= 1 (at least d1).
     """
     base_num, base_size = get_set_dice(level, race_factor, class_factor)
-    return max(0, base_num + modifier_num), max(1, base_size + modifier_size)
+    return max(1, base_num + modifier_num), max(1, base_size + modifier_size)
 
 
 def detect_special_mob_flags(name: str, keywords: str, existing_flags: list[str]) -> list[str]:
@@ -424,6 +425,15 @@ class MobImporter:
                 new_hp_num = file_hp_num
                 new_hp_size = file_hp_size
                 new_hp_bonus = file_hp_bonus + base_hp_from_level
+
+            # Never store a mob with no HP dice (e.g. 0d5 from the file): fall back
+            # to the realistic-dice conversion, which floors at 1d4+level*2+1.
+            if new_hp_num < 1 or new_hp_size < 1:
+                new_hp_num, new_hp_size, new_hp_bonus = calculate_realistic_hp_dice(
+                    target_hp=target_hp,
+                    level=mob.level,
+                    is_boss=is_boss
+                )
 
             # Update estimated HP with new dice for consistency
             estimated_hp = int(new_hp_num * (new_hp_size + 1) / 2.0 + new_hp_bonus)
