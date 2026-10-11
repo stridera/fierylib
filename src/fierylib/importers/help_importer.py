@@ -160,6 +160,18 @@ class HelpImporter:
                 click.echo(f"  Created: {title}")
 
 
+# The legacy help.hlp spell lists are stale (fierymud-rs #125), so the per-class `spell_<class>` entries are
+# rebuilt from ClassAbilities right after the legacy import. The same file is the production SQL patch.
+CLASS_SPELL_LISTS_SQL = (
+    Path(__file__).resolve().parents[3] / "data" / "sql" / "2026-10-12-class-spell-lists.sql"
+)
+
+
+async def regenerate_class_spell_lists(prisma: Prisma) -> None:
+    """Rewrite the `spell_<class>` help entries from the class / ability tables (idempotent)."""
+    await prisma.execute_raw(CLASS_SPELL_LISTS_SQL.read_text(encoding="utf-8"))
+
+
 async def import_help_entries(
     help_dir: Path,
     verbose: bool = False,
@@ -171,7 +183,9 @@ async def import_help_entries(
 
     try:
         importer = HelpImporter(prisma)
-        return await importer.import_help_files(help_dir, verbose, clear_existing)
+        stats = await importer.import_help_files(help_dir, verbose, clear_existing)
+        await regenerate_class_spell_lists(prisma)
+        return stats
     finally:
         await prisma.disconnect()
 

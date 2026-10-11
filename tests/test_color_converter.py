@@ -281,3 +281,19 @@ class TestRealWorldExamples:
         assert "<b>Syntax:</>" in result
         assert "<green>cure light</>" in result
         assert "\n" in result  # &_ should become newline
+
+
+class TestEscapedLiteralsKeepTheirColour:
+    """fierymud-rs #131: a pending colour change must be emitted before an escaped literal."""
+
+    def test_colour_opens_before_escaped_ampersand(self):
+        assert convert_legacy_colors("&1&&1 &0") == "<red>&1 </>"
+
+    def test_colour_opens_before_escaped_at_sign(self):
+        assert convert_legacy_colors("&2@@r&0") == "<green>@r</>"
+
+    def test_colour_chart_strip_reads_as_a_chart(self):
+        # Object 10:98 "color quick-reference strip" (legacy lib/world/obj/10.obj).
+        out = convert_legacy_colors("&1&&1 &b&&1&&b &0&2&&2 &b&&2&&b &0")
+        assert out == "<red>&1 </><b:red>&1&b </><green>&2 </><b:green>&2&b </>"
+        assert "&<" not in out

@@ -72,6 +72,10 @@ def test_fly_self_cast_lines_stay_first_person():
 def test_no_other_spell_shares_one_line_between_caster_and_victim():
     for name, ability in BY_NAME.items():
         m = ability.get("messages") or {}
+        # Portal spells (Moonwell, Heaven's Gate, Hell's Gate) describe the portal opening at each end; the
+        # legacy text is the same sentence for the caster and the target (fierymud-rs #127).
+        if any(e["effect"] == "portal" for e in ability.get("effects", [])):
+            continue
         if m.get("successToCaster") and m.get("successToCaster") == m.get("successToVictim"):
             raise AssertionError(f"{name}: caster and victim read the same line")
 

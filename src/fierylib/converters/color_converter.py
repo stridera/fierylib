@@ -172,8 +172,13 @@ class ColorConverter:
                 if i + 1 < len(text):
                     next_char = text[i + 1]
 
-                    # Escape sequences
+                    # Escape sequences. A literal is visible text, so any pending
+                    # colour change must be emitted before it (otherwise "&1&&1"
+                    # came out as "&<red>1" with the tag after the ampersand).
                     if next_char == char:
+                        markup = self._apply_state_change()
+                        if markup:
+                            result.append(markup)
                         result.append(char)
                         i += 2
                         continue
