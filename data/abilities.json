@@ -2276,6 +2276,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
+    "tags": [
+      "core:claw"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -4557,7 +4560,8 @@
     "isArea": false,
     "tags": [
       "combat",
-      "passive"
+      "passive",
+      "core:dodge"
     ],
     "effects": [
       {
@@ -4980,6 +4984,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
+    "tags": [
+      "core:electrify"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
@@ -10738,7 +10745,8 @@
     "isArea": false,
     "tags": [
       "combat",
-      "passive"
+      "passive",
+      "core:parry"
     ],
     "effects": [
       {
@@ -10928,7 +10936,8 @@
     "contestedVisibility": true,
     "visibilityCheck": "pick_lock vs perception",
     "tags": [
-      "stealth"
+      "stealth",
+      "core:pick_lock"
     ],
     "messages": {
       "successToCaster": "You deftly manipulate the lock mechanism.",
@@ -12348,7 +12357,8 @@
       "wearoffToTarget": "You no longer feel light on your feet."
     },
     "tags": [
-      "passive"
+      "passive",
+      "core:safefall"
     ]
   },
   {
@@ -13970,7 +13980,8 @@
     "tags": [
       "stealth",
       "rogue",
-      "contested"
+      "contested",
+      "core:steal"
     ],
     "contestedVisibility": true,
     "visibilityCheck": "steal_skill vs perception",
@@ -14383,7 +14394,8 @@
     "inCombatOnly": false,
     "isArea": false,
     "tags": [
-      "survival"
+      "survival",
+      "core:summon_mount"
     ],
     "effects": [
       {
@@ -14573,6 +14585,9 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
+    "tags": [
+      "core:switch"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "isArea": false,
