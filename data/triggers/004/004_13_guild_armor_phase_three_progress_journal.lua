@@ -166,7 +166,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55491
             local wrist_reward = 55494
             master = "the Warrior Coach in Ickle"
-        elseif actor.class == "anti" then
+        elseif actor.class == "anti-paladin" then
             local feet_gem = 55682
             local head_gem = 55704
             local hands_gem = 55671

@@ -28,7 +28,7 @@ local job2 = actor:get_quest_var("paladin_pendant:necklacetask2")
 local job3 = actor:get_quest_var("paladin_pendant:necklacetask3")
 local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
 wait(2)
-if actor.class ~= "Paladin" and actor.class ~= "anti" then
+if actor.class ~= "Paladin" and actor.class ~= "anti-paladin" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'Such acts are only for warriors of Justice or Destruction.'")
     return _return_value

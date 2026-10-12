@@ -79,7 +79,7 @@ if continue == "yes" then
     wait(2)
     if actor.class == "Paladin" then
         actor:send("<b:yellow>You have gained new insights on your righteous cause!</>")
-    elseif actor.class == "anti" then
+    elseif actor.class == "anti-paladin" then
         actor:send("<b:red>You have gained new insights on your ruinouse cause!</>")
     end
     actor:set_quest_var("paladin_pendant", "necklacetask4", 1)

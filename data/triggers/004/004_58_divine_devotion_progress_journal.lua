@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg, "divine_devotion") or string.find(arg, "paladin_pendant") or string.find(arg, "paladin pendant") then
     local anti = "Anti-Paladin"
-    if string.find(actor.class, "Paladin") or actor.class == "anti" then
+    if string.find(actor.class, "Paladin") or actor.class == "anti-paladin" then
         _return_value = true
         local huntstage = actor:get_quest_stage("dragon_slayer")
         local pendantstage = actor:get_quest_stage("paladin_pendant")

@@ -12,7 +12,7 @@
 -- 
 -- This is for warriors only
 local anti = "Anti-Paladin"
-local WARRIOR_SUB = (actor.class == "warrior"  or  actor.class == "paladin"  or  actor.class == "anti"  or  actor.class == "ranger"  or  actor.class == "monk")
+local WARRIOR_SUB = (actor.class == "warrior"  or  actor.class == "paladin"  or  actor.class == "anti-paladin"  or  actor.class == "ranger"  or  actor.class == "monk")
 if WARRIOR_SUB then
     if actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 1 then
         wait(2)

@@ -68,7 +68,7 @@ else
     actor:send(tostring(self.name) .. " says, 'More dragons exist, but they're too dangerous without more experience.  Come back when you've seen a little more.'")
 end
 local anti = "Anti-Paladin"
-if actor.class == "paladin" or actor.class == "anti" then
+if actor.class == "paladin" or actor.class == "anti-paladin" then
     actor:send("</>")
     actor:send("<b:green>Divine Devotion</>")
     local huntstage = actor:get_quest_stage("dragon_slayer")

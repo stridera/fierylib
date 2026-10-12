@@ -5836,7 +5836,7 @@
     "name": "Familiarity",
     "plainName": "FAMILIARITY",
     "abilityType": "SPELL",
-    "description": "Creates a magical bond that aids in tracking a specific creature.",
+    "description": "Makes the target look like a familiar friend, so aggressive creatures do not start fights with them.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 3.0,
@@ -5849,8 +5849,8 @@
         "effect": "status",
         "order": 0,
         "params": {
-          "duration": "5 + (skill / 10)",
-          "flag": "detect_life",
+          "duration": "4 + (skill / 5)",
+          "flag": "familiarity",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"

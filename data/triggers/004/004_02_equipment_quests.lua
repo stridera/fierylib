@@ -123,7 +123,7 @@ if string.find(arg, "equipment") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
-    if string.find(actor.class, "Paladin") or actor.class == "anti" then
+    if string.find(actor.class, "Paladin") or actor.class == "anti-paladin" then
         actor:send("<b:green>&uDivine Devotion</>")
         actor:send("Prove your devotion to your cause after slaying a dragon, be it justtice or destruction, and receive a divine reward.")
         local status
