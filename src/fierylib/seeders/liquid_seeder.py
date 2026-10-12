@@ -53,6 +53,42 @@ LIQUID_DATA = [
     ("absinthe", "absinthe", "greenish", 8, 0, 2),
 ]
 
+# Legacy object-value labels for the 42 liquids above, same order (position == legacy index).
+# Drink-container objects store these ("Liquid": "FIREBRT") and Lua `val2` exposes the
+# position, so Liquids.legacy_index/legacy_code carry them into the DB. Liquids added later in
+# Muditor leave both NULL. Mirrored by data/sql/2026-10-12-liquid-index.sql (a test keeps
+# the two in sync).
+LEGACY_LIQUID_CODES = [
+    "WATER", "BEER", "WINE", "ALE", "DARKALE", "WHISKY", "LEMONADE", "FIREBRT", "LOCALSPC",
+    "SLIME", "MILK", "TEA", "COFFEE", "BLOOD", "SALTWATER", "RUM", "NECTAR", "SAKE", "CIDER",
+    "TOMATOSOUP", "POTATOSOUP", "CHAI", "APPLEJUICE", "ORNGJUICE", "PNAPLJUICE",
+    "GRAPEJUICE", "POMJUICE", "MELONAE", "COCOA", "ESPRESSO", "CAPPUCCINO", "MANGOLASSI",
+    "ROSEWATER", "GREENTEA", "CHAMOMILE", "GIN", "BRANDY", "MEAD", "CHAMPAGNE", "VODKA",
+    "TEQUILA", "ABSINTHE",
+]  # fmt: skip
+
+assert len(LEGACY_LIQUID_CODES) == len(LIQUID_DATA)
+
+
+async def seed_legacy_liquid_ids(prisma) -> int:
+    """Fill NULL Liquids.legacy_index/legacy_code for the 42 legacy liquids (matched by alias).
+
+    Raw SQL so it works with a Python Prisma client generated before those columns existed
+    (the Python generator cannot parse the Prisma 7 schema). Mirrors
+    data/sql/2026-10-12-liquid-index.sql; liquids added in Muditor are left NULL.
+    """
+    changed = 0
+    for i, row in enumerate(LIQUID_DATA):
+        changed += await prisma.execute_raw(
+            'UPDATE "Liquids" SET legacy_index = COALESCE(legacy_index, $1::int), '
+            "legacy_code = COALESCE(legacy_code, $2), updated_at = now() "
+            "WHERE alias = $3 AND (legacy_index IS NULL OR legacy_code IS NULL)",
+            i,
+            LEGACY_LIQUID_CODES[i],
+            row[0],
+        )
+    return changed
+
 
 @click.command(name="liquids")
 @click.option(

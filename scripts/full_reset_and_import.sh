@@ -386,6 +386,13 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $CONTENT_CMD
 
+  # Per-sphere display colours (spells/skills listings, <fire>-style tag aliases).
+  SPHERE_CMD="poetry run fierylib seed sphere-styles"
+  if [[ -n "$VERBOSE" ]]; then
+    SPHERE_CMD="$SPHERE_CMD --verbose"
+  fi
+  eval $SPHERE_CMD
+
   # Reserved character names (staff voices, generic mob words).
   RESERVED_CMD="poetry run fierylib seed reserved-names"
   if [[ -n "$VERBOSE" ]]; then

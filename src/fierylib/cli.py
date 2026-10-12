@@ -1969,7 +1969,7 @@ def seed_all(verbose: bool, with_users: bool):
 
             # 4. Liquids
             click.echo("\n[4/8] Seeding liquids...")
-            from fierylib.seeders.liquid_seeder import LIQUID_DATA
+            from fierylib.seeders.liquid_seeder import LIQUID_DATA, seed_legacy_liquid_ids
             liquid_count = 0
             for alias, name, color_desc, drunk, hunger, thirst in LIQUID_DATA:
                 await prisma.liquid.upsert(
@@ -1993,6 +1993,7 @@ def seed_all(verbose: bool, with_users: bool):
                     },
                 )
                 liquid_count += 1
+            await seed_legacy_liquid_ids(prisma)
             click.echo(f"  ✅ Liquids seeded: {liquid_count} total")
 
             # 5. Effects
@@ -2314,7 +2315,7 @@ def seed_liquids(dry_run: bool):
     """
     import asyncio
     from prisma import Prisma
-    from fierylib.seeders.liquid_seeder import LIQUID_DATA
+    from fierylib.seeders.liquid_seeder import LIQUID_DATA, seed_legacy_liquid_ids
 
     async def run_seed():
         click.echo("🥤 Seeding Liquid Types")
@@ -2357,6 +2358,7 @@ def seed_liquids(dry_run: bool):
                 )
                 created += 1
 
+            await seed_legacy_liquid_ids(prisma)
             click.echo(f"\n✅ Seeded {created} liquid types")
 
         finally:
@@ -2944,6 +2946,40 @@ def seed_starting_kit(verbose: bool):
             click.echo(f"  Inserted: {stats['inserted']}")
             click.echo(f"  Existing: {stats['existing']}")
             click.echo(f"\n✅ Starting kit seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="sphere-styles")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_sphere_styles(verbose: bool):
+    """Seed the per-sphere display colours (SphereStyle table).
+
+    Creates missing rows and fills NULL colours; colours already set (e.g. edited in
+    Muditor) are left alone.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.sphere_style_seeder import SphereStyleSeeder
+
+    async def run_seed():
+        click.echo("🎨 Seeding Sphere Styles")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await SphereStyleSeeder(prisma).seed_sphere_styles(verbose=verbose)
+            click.echo(f"  Added/filled: {stats['changed']}")
+            click.echo("\n✅ Sphere style seeding complete!")
         finally:
             await prisma.disconnect()
 
