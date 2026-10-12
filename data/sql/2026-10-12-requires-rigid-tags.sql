@@ -6,5 +6,5 @@
 -- Idempotent: a row that already carries the tag is left alone; a NULL tags column counts as empty.
 UPDATE "Ability"
 SET tags = array_append(coalesce(tags, '{}'), 'requires_rigid')
-WHERE plain_name IN ('STONE_SKIN', 'BARKSKIN', 'BONE_ARMOR', 'DEMONSKIN', 'GAIAS_CLOAK', 'ICE_ARMOR', 'COLDSHIELD')
+WHERE plain_name IN ('STONE_SKIN', 'BARKSKIN', 'BONE_ARMOR', 'DEMONSKIN', 'GAIAS_CLOAK', 'COLDSHIELD')
   AND NOT ('requires_rigid' = ANY (coalesce(tags, '{}')));
