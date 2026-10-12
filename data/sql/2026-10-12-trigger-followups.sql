@@ -1,4 +1,4 @@
--- Trigger follow-ups: event-typed RANDOM+SPEECH wrappers (30:40, 30:140), 556 word tests and status bodies, 22:44, 125:30. Needs the engine that binds the `event` global (fierymud-rs 1f5188f).
+-- Trigger follow-ups: event-typed RANDOM+SPEECH wrappers (30:40, 30:140), 556 word tests and status bodies, 22:44. Needs the engine that binds the `event` global (fierymud-rs 1f5188f).
 --
 -- Idempotent: a row already holding the new body is left alone, so rerunning
 -- updates nothing. Keyed by the composite primary key (zone_id, id).
@@ -218,14 +218,6 @@ self.room:find_actor("pawnbroker"):command("get all")
 self.room:find_actor("anduin_pawnbroker"):teleport(get_room(60, 34))
 local randmielrm = random(1, 18)
 self:teleport(get_room(30, 51 + randmielrm))$trig$, 'f158d0fc1364d699831094016996f774'),
-  -- data/triggers/125/125_30_sworddeath.lua
-  (125, 30, $trig$-- Converted from DG Script #12530: SwordDeath
--- Original: MOB trigger, flags: DEATH, HIT_PERCENT, num_arg: 20 (HIT_PERCENT threshold; DEATH has no roll, not a probability)
-local _return_value = true  -- Default: allow action
-run_room_trigger(125, 31)
-_return_value = true
-self:teleport(get_room(125, 94))
-return _return_value$trig$, '51d6d7f551633422d540eac9dd2805d9'),
   -- data/triggers/556/556_03_phase_1_where.lua
   (556, 3, $trig$-- Converted from DG Script #55603: phase_1_where
 -- Original: MOB trigger, flags: SPEECH_TO, num_arg: 100 (DG word-list mode, not a probability)
@@ -4112,11 +4104,5 @@ WHERE t.zone_id = v.zone_id
   AND t.id = v.id
   AND md5(t.commands) = v.old_md5
   AND t.commands IS DISTINCT FROM v.commands;
-
--- 125/30 SwordDeath: legacy narg 20 is the HIT_PERCENT hp threshold (the 20% roll was a conversion
--- error and is gone from the body). The `-- Num arg: 20` header line is its importer source.
-UPDATE "Triggers"
-SET num_args = 20, updated_at = now()
-WHERE zone_id = 125 AND id = 30 AND num_args = 0;
 
 COMMIT;
