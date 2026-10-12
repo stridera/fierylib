@@ -5,12 +5,13 @@ category: guide
 min_level: 0
 usage: "follow {name} | invite {player} | group | gsay {message} | split {copper}"
 ---
-Adventuring together is safer and shares the rewards. A group is formed by
-following: whoever you follow, directly or through a chain, is your group
-leader.
+Adventuring together is safer and shares the rewards. Following someone only
+makes you trail them through exits; it does not put you in their group. A
+group is formed by invitation: the leader invites, the other player accepts.
 
 JOINING
   follow Aria        trail Aria; when she moves through an exit, you do too.
+                     You are not in her group until she invites you.
   invite Aria        ask Aria to join your group. She answers with
                      "accept" or "decline". Invites expire after 5 minutes.
   accept / decline   answer an invite you have received.
