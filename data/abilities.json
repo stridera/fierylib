@@ -8014,6 +8014,18 @@
         "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You cast identify.",
       "successToRoom": "{actor.name} casts identify."
