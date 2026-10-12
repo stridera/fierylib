@@ -1031,7 +1031,8 @@
       "control"
     ],
     "defaultParams": {
-      "duration": 2
+      "duration": 2,
+      "durationUnit": "rounds"
     },
     "paramSchema": {
       "type": "object",
@@ -1042,6 +1043,10 @@
             "string"
           ],
           "description": "Duration in combat rounds the target is stunned"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         },
         "breakOnDamage": {
           "type": "boolean",
