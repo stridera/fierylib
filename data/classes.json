@@ -5515,6 +5515,15 @@
     {
       "classId": 22,
       "className": "CLASS_ILLUSIONIST",
+      "skillName": "DISGUISE",
+      "originalName": "SPELL_DISGUISE",
+      "minLevel": 25,
+      "abilityType": "SPELL",
+      "circle": 4
+    },
+    {
+      "classId": 22,
+      "className": "CLASS_ILLUSIONIST",
       "skillName": "NIGHTMARE",
       "originalName": "SPELL_NIGHTMARE",
       "minLevel": 25,

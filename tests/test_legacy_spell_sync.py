@@ -252,7 +252,8 @@ def test_combat_sql_lists_exactly_the_not_castable_abilities():
     listed = set(re.findall(r"'([A-Z_]+)'", body.split("plain_name IN")[1])) - {"SPELL", "CHANT", "SONG"}
     expected = {a["plainName"] for a in ABILITIES
                 if a["abilityType"] in ("SPELL", "CHANT", "SONG") and a.get("combatOk") is False}  # fmt: skip
-    assert listed == expected
+    # Disguise (#143) has no legacy spello(); its disguise-spell.sql INSERT sets combat_ok = false itself.
+    assert listed == expected - {"DISGUISE"}
     assert not re.search(r"\bid\s*=\s*\d", body)
 
 

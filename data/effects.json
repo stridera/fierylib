@@ -309,6 +309,18 @@
           "type": "boolean",
           "description": "For CC effects: can be broken by taking damage"
         },
+        "breakOnCombat": {
+          "type": "boolean",
+          "description": "Ends the status the moment its bearer enters combat (attacks or is attacked). Disguise, Statue and Hearthsong's familiarity use it. Wear-off text is the ability's wearoff lines unless breakMessage / breakRoomMessage are set."
+        },
+        "breakMessage": {
+          "type": "string",
+          "description": "With breakOnCombat: line shown to the bearer when combat ends the status (replaces the ability's wearoff_to_target)."
+        },
+        "breakRoomMessage": {
+          "type": "string",
+          "description": "With breakOnCombat: line shown to the room when combat ends the status (replaces the ability's wearoff_to_room)."
+        },
         "contestedBy": {
           "type": "string",
           "description": "Skill that opposes this effect (e.g., 'perception' for hidden)"

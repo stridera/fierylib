@@ -4119,6 +4119,44 @@
     ]
   },
   {
+    "name": "Disguise",
+    "plainName": "DISGUISE",
+    "abilityType": "SPELL",
+    "description": "Wraps the target in a convincing disguise that makes hostile creatures take them for a friend, just as Familiarity does. The disguise is fragile: it melts away the moment the bearer attacks or is attacked.",
+    "minPosition": "STANDING",
+    "violent": false,
+    "castTimeRounds": 3,
+    "cooldownMs": 0,
+    "inCombatOnly": false,
+    "combatOk": false,
+    "isArea": false,
+    "effects": [
+      {
+        "effect": "status",
+        "order": 0,
+        "params": {
+          "duration": "5 + (skill / 10)",
+          "flag": "familiarity",
+          "breakOnCombat": true,
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      }
+    ],
+    "notes": "Issue #143 (daedela): a version of Familiarity that is removed when the bearer enters combat. Applies the status flag 'familiarity' (the Familiar marker: aggressive mobs never pick a fight with the bearer, helpers may stop short of assisting against them) with breakOnCombat true, so the engine strips it as soon as the bearer attacks or is drawn into a fight (effects::break_on_combat_tick). Illusionist circle 4 (Familiarity is circle 9). Duration is Familiarity's, 5 + skill / 10 hours. Statue and Hearthsong place the same effect: their familiarity row carries the same breakOnCombat marker.",
+    "messages": {
+      "wearoffToTarget": "Your disguise melts away.",
+      "wearoffToRoom": "{actor.name}'s disguise melts away.",
+      "successToVictim": "You take on a disguise that fools the unwary.",
+      "successToCaster": "You disguise {target.name}.",
+      "successToRoom": "{target.name} takes on a disguise.",
+      "successToSelf": "You take on a disguise that fools the unwary.",
+      "successSelfRoom": "{actor.name} takes on a disguise."
+    },
+    "sphere": "ENCHANTMENT",
+    "pages": 12
+  },
+  {
     "name": "Disintegrate",
     "plainName": "DISINTEGRATE",
     "abilityType": "SPELL",
@@ -7400,7 +7438,7 @@
     "name": "Hearthsong",
     "plainName": "HEARTHSONG",
     "abilityType": "SONG",
-    "description": "A warm and comforting bardic song that enhances mental focus, improving spell casting and mental clarity. This soothing melody recalls the safety and comfort of hearth and home.",
+    "description": "A warm and comforting bardic song that enhances mental focus, improving spell casting and mental clarity. This soothing melody recalls the safety and comfort of hearth and home. Everyone in the song's reach also takes on a familiar disguise, so hostile creatures take them for friends, until a fight breaks out.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1,
@@ -7425,9 +7463,22 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "status",
+        "order": 1,
+        "params": {
+          "duration": "5 + (skill / 10)",
+          "flag": "familiarity",
+          "breakOnCombat": true,
+          "breakMessage": "Your familiar disguise melts away as the fighting begins.",
+          "breakRoomMessage": "{actor.name}'s familiar disguise melts away as the fighting begins.",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
       }
     ],
-    "notes": "Focus buff improves spell casting and mental stats.",
+    "notes": "Focus buff improves spell casting and mental stats. Also places the Disguise effect (status familiarity, breakOnCombat) on the group, as legacy Hearthsong cast Familiarity on it (magic.cpp:3421).",
     "messages": {
       "successToCaster": "You begin performing Hearthsong.",
       "successToRoom": "{actor.name} begins performing Hearthsong, filling the area with music.",
@@ -13923,7 +13974,7 @@
     "name": "Statue",
     "plainName": "STATUE",
     "abilityType": "SPELL",
-    "description": "Transforms the caster into a <b:blue>statue</>, <b:blue>hiding</> them from view and making them appear as a friend to hostile creatures. While in statue form, the caster cannot move or act but is <b:blue>protected</> from most attacks.",
+    "description": "Transforms the caster into a <b:blue>statue</>, <b:blue>hiding</> them from view and making them appear as a friend to hostile creatures. While in statue form, the caster cannot move or act but is <b:blue>protected</> from most attacks. The disguise ends if the caster enters combat.",
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
@@ -13931,7 +13982,7 @@
     "inCombatOnly": false,
     "combatOk": false,
     "isArea": false,
-    "notes": "Grants STATUE and FAMILIARITY flags. Hides caster and makes mobs treat them as friendly. Cannot move or act while in effect.",
+    "notes": "Grants STATUE and FAMILIARITY flags. Hides caster and makes mobs treat them as friendly. Cannot move or act while in effect. Both rows carry breakOnCombat (the Disguise marker), so entering combat ends the statue and its familiarity together.",
     "effects": [
       {
         "effect": "status",
@@ -13939,7 +13990,8 @@
         "params": {
           "duration": "skill / 4",
           "flag": "statue",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "breakOnCombat": true
         },
         "trigger": "on_cast"
       },
@@ -13949,7 +14001,8 @@
         "params": {
           "duration": "skill / 4",
           "flag": "familiarity",
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "breakOnCombat": true
         },
         "trigger": "on_cast"
       }
