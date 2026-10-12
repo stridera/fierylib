@@ -8,14 +8,19 @@
 -- Yes/no follow-up to the recruitment offer in trigger #5203. "Yes" starts
 -- the pyromancer_subclass quest; "no" boots the actor back to room 51:91.
 
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "no"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
+if not speech_hit then
+    return true  -- None of the listed words
+end
 local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
-    return true
-end
 
 if not actor:get_quest_stage("pyromancer_subclass") and string.find(actor.class, "Sorcerer") then
     if string.find(speech_lower, "yes") then

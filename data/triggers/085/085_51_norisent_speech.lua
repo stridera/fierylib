@@ -15,18 +15,21 @@
 -- Original DG Script: #8551
 
 -- Converted from DG Script #8551: norisent speech
--- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, SPEECH_TO, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger (preserved from legacy; see TODO(parity) above)
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"resurrection", "teach", "resurrect", "yes", "payment", "how", "how?", "please", "useful", "command", "souls"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: resurrection teach resurrect yes payment how please useful souls
+if not speech_hit then
+    return true  -- None of the listed words
+end
 local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "resurrection") or string.find(speech_lower, "teach") or string.find(speech_lower, "resurrect") or string.find(speech_lower, "yes") or string.find(speech_lower, "payment") or string.find(speech_lower, "how") or string.find(speech_lower, "please") or string.find(speech_lower, "useful") or string.find(speech_lower, "command") or string.find(speech_lower, "souls")) then
-    return true  -- No matching keywords
-end
 if not actor.is_player then
     return true
 end

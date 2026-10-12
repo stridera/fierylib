@@ -8,9 +8,6 @@
 -- dragons_health (stage 5). At any other stage she returns the coins to the
 -- player. The 1% probability matches the original DG trigger.
 
-if not percent_chance(1) then
-    return true
-end
 if actor:get_quest_stage("dragons_health") == 5 then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Ah, coin itself!  I count:'")

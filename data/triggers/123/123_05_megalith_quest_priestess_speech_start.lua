@@ -6,17 +6,19 @@
 -- Original DG Script: #12305
 
 -- Converted from DG Script #12305: megalith_quest_priestess_speech_start
--- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, SPEECH_TO, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "yes?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: yes yes?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes?")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 -- This trigger serves as both the starting, restarting, and advancing from stage 3 to stage 4 trigger
 -- If starting for the first time

@@ -8,13 +8,17 @@
 -- "control"/"taken" follow-up after #5205. On stage 2, advances to 3 and
 -- gives the location hint matching the actor's assigned flame.
 
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"control", "controlled", "control?", "controlled?", "taken", "taken?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "control") or string.find(speech_lower, "taken")) then
-    return true
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 if actor:get_quest_stage("pyromancer_subclass") == 2 then

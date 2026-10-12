@@ -6,12 +6,8 @@
 -- Original DG Script: #1265
 
 -- Converted from DG Script #1265: lylaith
--- Original: OBJECT trigger, flags: RANDOM, COMMAND, WEAR, probability: 15%
+-- Original: OBJECT trigger, flags: RANDOM, COMMAND, WEAR, num_arg: 15 (no chance roll in legacy)
 
--- 15% chance to trigger
-if not percent_chance(15) then
-    return true
-end
 
 -- Command filter: lylaith
 if not (cmd == "lylaith") then

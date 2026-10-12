@@ -13,7 +13,8 @@ if not (cmd == "junk") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if actor:get_quest_var("school:gear") == 11 and (arg.zone_id == 519 and arg.id == 2) then
+-- `arg` is the typed argument, not an object: the lesson stick (519:2) is the object with keyword "stick".
+if actor:get_quest_var("school:gear") == 11 and string.find(string.lower(arg), "stick", 1, true) then
     actor:set_quest_var("school", "gear", 12)
     actor:command("junk " .. tostring(arg))
     wait(2)

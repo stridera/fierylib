@@ -15,10 +15,6 @@
 -- port is done.
 
 -- Converted from DG Script #62572: countdown 62569
--- Original: OBJECT trigger, flags: WEAR, probability: 1%
+-- Original: OBJECT trigger, flags: WEAR, num_arg: 1 (no chance roll in legacy)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
 return true

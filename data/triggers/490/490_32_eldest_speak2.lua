@@ -6,17 +6,19 @@
 -- Original DG Script: #49032
 
 -- Converted from DG Script #49032: eldest_speak2
--- Original: MOB trigger, flags: SPEECH, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"griffin?", "griffins?", "griffins", "griffin", "griffins", "?", "griffin", "?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: griffin? griffins? griffins griffin griffins ? griffin ?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "griffin?") or string.find(string.lower(speech), "griffins?") or string.find(string.lower(speech), "griffins") or string.find(string.lower(speech), "griffin") or string.find(string.lower(speech), "griffins") or string.find(string.lower(speech), "?") or string.find(string.lower(speech), "griffin") or string.find(string.lower(speech), "?")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 self:command("peer " .. tostring(actor.name))
 if actor.level < 45 then

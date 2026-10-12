@@ -23,7 +23,13 @@ if cmd == "l" then
     _return_value = true
     return _return_value
 end
-if actor:get_quest_var("school:gear") == 5 and arg.id == 23 then
+-- `arg` is the typed argument ("torch"), not an object: this trigger sits on the academy torch
+-- (0:23), so the lesson step applies when the argument names this object.
+local names_this_torch = arg ~= "" and string.find(string.lower(tostring(self.name)), string.lower(arg), 1, true)
+if actor:get_quest_var("school:gear") == 5 and names_this_torch then
+    -- The queued command below does the lighting, so the typed one is blocked (it would otherwise
+    -- run first and the queued `light` would toggle the torch straight back off).
+    _return_value = false
     actor:command("light " .. tostring(arg))
     actor:set_quest_var("school", "gear", 6)
     wait(2)
@@ -37,6 +43,7 @@ if actor:get_quest_var("school:gear") == 5 and arg.id == 23 then
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'You can stop using items by typing <b:cyan>REMOVE [object]</>.'")
     actor:send("</>")
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Stop wearing that torch by typing <b:green>remove torch</>.'")
+    return _return_value
 end
 _return_value = true
 return _return_value

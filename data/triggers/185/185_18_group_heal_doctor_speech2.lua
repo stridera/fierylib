@@ -10,15 +10,17 @@
 -- The legacy intent was likely a separate "yes" handler for later
 -- stages; needs review with the original DG to split correctly.
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "yes!", "yep", "yep!", "okay", "sure"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: yes yes! yep yep! okay sure
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes!") or string.find(string.lower(speech), "yep") or string.find(string.lower(speech), "yep!") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "sure")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 if ((string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 56) and actor:get_quest_stage("group_heal") == 0 then

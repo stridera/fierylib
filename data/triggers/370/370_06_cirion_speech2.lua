@@ -6,17 +6,19 @@
 -- Original DG Script: #37006
 
 -- Converted from DG Script #37006: Cirion_speech2
--- Original: MOB trigger, flags: SPEECH, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"summon", "summoned"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: summon (also matches summoned)
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "summon") then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
 actor:send(tostring(self.name) .. " says to you, 'Don't think you came here on your own free will.'")

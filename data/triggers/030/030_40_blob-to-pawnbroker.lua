@@ -6,17 +6,25 @@
 -- Original DG Script: #3040
 
 -- Converted from DG Script #3040: blob-to-pawnbroker
--- Original: MOB trigger, flags: RANDOM, SPEECH, probability: 1%
+-- Original: MOB trigger, flags: RANDOM, SPEECH, num_arg: 1 (word list and random chance)
 
--- 1% chance to trigger
-if not percent_chance(1) then
+-- RANDOM + SPEECH trigger (num_arg 1): a spoken word list when someone speaks (speech is the
+-- text), a 1% roll on the random pulse (speech is empty).
+if speech ~= "" then
+    -- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+    local speech_padded = " " .. string.lower(speech) .. " "
+    local speech_hit = false
+    for _, w in ipairs({"drop", "off", "the", "junk"}) do
+        if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+            speech_hit = true
+            break
+        end
+    end
+    if not speech_hit then
+        return true  -- None of the listed words
+    end
+elseif not percent_chance(1) then
     return true
-end
-
--- Speech keywords: drop off the junk
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "drop") or string.find(string.lower(speech), "off") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "junk")) then
-    return true  -- No matching keywords
 end
 self:teleport(get_room(61, 72))
 self:destroy_item("all.key")

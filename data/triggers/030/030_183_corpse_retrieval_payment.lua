@@ -6,12 +6,8 @@
 -- Original DG Script: #3183
 
 -- Converted from DG Script #3183: corpse retrieval payment
--- Original: MOB trigger, flags: BRIBE, probability: 1%
+-- Original: MOB trigger, flags: BRIBE, num_arg: 1 (minimum bribe in copper)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("corpse_retrieval:actor_level") == actor.level then
     if value >= actor:get_quest_var("corpse_retrieval:price") then

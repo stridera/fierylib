@@ -8,11 +8,19 @@
 -- Confirms the dancer's quest start and advances to stage 2; the prince
 -- chimes in afterwards if he's still in the room.
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
 
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
+end
 if not actor.is_player then
     return true
 end

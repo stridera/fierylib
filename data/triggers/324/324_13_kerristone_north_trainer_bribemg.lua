@@ -6,10 +6,10 @@
 -- Original DG Script: #32413
 
 -- Converted from DG Script #32413: Kerristone_north_trainer_bribeMG
--- Original: MOB trigger, flags: BRIBE, probability: 42%
+-- Original: MOB trigger, flags: BRIBE, num_arg: 42 (minimum bribe in copper)
 
--- 42% chance to trigger
-if not percent_chance(42) then
+-- DG BRIBE num_arg 42: fires only when the coins are worth at least 42 copper.
+if (value or 0) < 42 then
     return true
 end
 -- This is one of the bribe progs that will

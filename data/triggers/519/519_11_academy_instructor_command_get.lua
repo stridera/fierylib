@@ -12,8 +12,10 @@ if not (cmd == "get") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
+-- `arg` is the typed argument, not an object: the lesson stick (519:2) is the object with keyword "stick".
+local names_stick = string.find(string.lower(arg), "stick", 1, true) ~= nil
 if actor:get_quest_var("school:gear") == 7 then
-    if (arg.zone_id == 519 and arg.id == 2) then
+    if names_stick then
         actor:set_quest_var("school", "gear", 8)
         actor:command("get " .. tostring(arg))
         wait(2)
@@ -24,7 +26,7 @@ if actor:get_quest_var("school:gear") == 7 then
         actor:send(tostring(self.name) .. " tells you, 'Try typing <b:green>get 2.stick</> and see what happens.'")
     end
 elseif actor:get_quest_var("school:gear") == 8 then
-    if (arg.zone_id == 519 and arg.id == 2) and string.find(arg, "2.") then
+    if names_stick and string.find(arg, "2.", 1, true) then
         actor:set_quest_var("school", "gear", 9)
         actor:command("get " .. tostring(arg))
         wait(2)

@@ -9,14 +9,17 @@
 -- advances to stage 2 and explains the three-flames task; later stages
 -- get a stage-appropriate prod.
 
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"power", "power?", "worth", "worth?", "prove", "prove?", "how", "how?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "power") or string.find(speech_lower, "worth")
-        or string.find(speech_lower, "prove") or string.find(speech_lower, "how")) then
-    return true
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 wait(2)

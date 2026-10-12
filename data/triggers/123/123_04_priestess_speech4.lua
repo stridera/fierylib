@@ -6,17 +6,19 @@
 -- Original DG Script: #12304
 
 -- Converted from DG Script #12304: priestess_speech4
--- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, SPEECH_TO, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"slipping", "how", "what"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: slipping how what
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "slipping") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "what")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if string.find(speech, "slipping away") or string.find(speech, "slipping away?") or string.find(speech, "how terrible") or string.find(speech, "how sad") or string.find(speech, "what can be done?") then
     wait(2)

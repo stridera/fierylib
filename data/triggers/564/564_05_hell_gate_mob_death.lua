@@ -7,12 +7,8 @@
 --
 -- Hell-gate stage 3: when a player wearing the ritual dagger (564, 7)
 -- kills one of seven specific "child" mob types, drop the matching
--- blood vial (564, 0..6) once per kind. 35% trigger probability.
+-- blood vial (564, 0..6) once per kind. (DG num_arg 35 on a DEATH trigger is unused: no roll.)
 
--- 35% chance to trigger
-if not percent_chance(35) then
-    return true
-end
 if actor:get_quest_stage("hell_gate") ~= 3 then
     return true
 end

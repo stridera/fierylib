@@ -20,15 +20,17 @@
 -- death trigger 533/11 has to know whether crystalize succeeded. Verify
 -- self.flags or a per-mob persistent var works under the Rust runtime.
 
--- 1% chance to trigger (preserved from DG)
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"crystalize", "crystalize!"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: crystalize
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "crystalize") then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 if actor:get_quest_stage("wall_ice") == 1 and actor:has_item(533, 26) and (self.zone_id ~= 533 or self.id ~= 16) then

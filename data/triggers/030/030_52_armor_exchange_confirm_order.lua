@@ -1,13 +1,7 @@
 -- Trigger: Armor Exchange confirm order
 -- Zone: 30, ID: 52
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REWRITE
---
--- TODO(parity): converter declared `local class` and `local tier` inside every
--- if/elseif branch. They're nil by the time the say-line below references them.
--- Hoist them, drop the `local` keyword in branches, and replace
--- `%get.obj_shortdesc[%item%]%` / `%class%` / `%tier%` with proper Lua concat
--- (e.g. `objects.template(math.floor(item/100), item%100).name` and `tostring(class)`).
+-- Status: CLEAN
 --
 -- Original DG Script: #3052
 
@@ -27,71 +21,72 @@ if string.find(speech, "yes") then
         return _return_value
     end
     actor:send(tostring(self.name) .. " tells you, 'Oh my, yes dearie, of course.'")
+    local class, tier
     if item <= 55303 then
-        local class = 1
-        local tier = 1
+        class = 1
+        tier = 1
     elseif item <= 55307 then
-        local class = 1
-        local tier = 2
+        class = 1
+        tier = 2
     elseif item <= 55311 then
-        local class = 1
-        local tier = 3
+        class = 1
+        tier = 3
     elseif item <= 55315 then
-        local class = 1
-        local tier = 4
+        class = 1
+        tier = 4
     elseif item <= 55319 then
-        local class = 1
-        local tier = 5
+        class = 1
+        tier = 5
     elseif item <= 55323 then
-        local class = 1
-        local tier = 6
+        class = 1
+        tier = 6
     elseif item <= 55327 then
-        local class = 1
-        local tier = 7
+        class = 1
+        tier = 7
     elseif item <= 55331 then
-        local class = 2
-        local tier = 1
+        class = 2
+        tier = 1
     elseif item <= 55335 then
-        local class = 2
-        local tier = 2
+        class = 2
+        tier = 2
     elseif item <= 55339 then
-        local class = 2
-        local tier = 3
+        class = 2
+        tier = 3
     elseif item <= 55343 then
-        local class = 2
-        local tier = 4
+        class = 2
+        tier = 4
     elseif item <= 55347 then
-        local class = 2
-        local tier = 5
+        class = 2
+        tier = 5
     elseif item <= 55351 then
-        local class = 2
-        local tier = 6
+        class = 2
+        tier = 6
     elseif item <= 55355 then
-        local class = 2
-        local tier = 7
+        class = 2
+        tier = 7
     elseif item <= 55359 then
-        local class = 3
-        local tier = 1
+        class = 3
+        tier = 1
     elseif item <= 55363 then
-        local class = 3
-        local tier = 2
+        class = 3
+        tier = 2
     elseif item <= 55367 then
-        local class = 3
-        local tier = 3
+        class = 3
+        tier = 3
     elseif item <= 55371 then
-        local class = 3
-        local tier = 4
+        class = 3
+        tier = 4
     elseif item <= 55375 then
-        local class = 3
-        local tier = 5
+        class = 3
+        tier = 5
     elseif item <= 55379 then
-        local class = 3
-        local tier = 6
+        class = 3
+        tier = 6
     elseif item <= 55383 then
-        local class = 3
-        local tier = 7
+        class = 3
+        tier = 7
     end
-    actor:send(tostring(self.name) .. " says, 'So " .. "%get.obj_shortdesc[%item%]% is a <b:yellow>class %class% tier %tier%</> piece of gear.'")
+    actor:send(tostring(self.name) .. " says, 'So " .. objects.template(math.floor(item / 100), item % 100).name .. " is a <b:yellow>class " .. tostring(class) .. " tier " .. tostring(tier) .. "</> piece of gear.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'I'll give it to you for any other armor of equal or greater rarity.'")
     wait(2)

@@ -10,12 +10,21 @@
 -- Note: original DG probability was 1% (very flaky). We honor it as-is so
 -- behavior matches the legacy game; player can re-say to retry.
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
 
 -- Speech keywords: yes / protection / how / okay
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "protection?", "how?", "okay"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
+end
+local speech_lower = string.lower(speech)
 local speech_lower = string.lower(speech or "")
 if not (string.find(speech_lower, "yes") or string.find(speech_lower, "protection")
         or string.find(speech_lower, "how") or string.find(speech_lower, "okay")) then

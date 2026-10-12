@@ -6,17 +6,19 @@
 -- Original DG Script: #12301
 
 -- Converted from DG Script #12301: priestess_speech1
--- Original: MOB trigger, flags: SPEECH, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"assist", "assistance", "assist?", "assistance?", "how", "what"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: assist assistance assist? assistance? how what
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "assist") or string.find(string.lower(speech), "assistance") or string.find(string.lower(speech), "assist?") or string.find(string.lower(speech), "assistance?") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "what")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if string.find(speech, "assist") or string.find(speech, "assistance") or string.find(speech, "assist?") or string.find(speech, "assistance?") or string.find(speech, "how can I help?") or string.find(speech, "how can I assist?") or string.find(speech, "what can I do?") or string.find(speech, "what can I do to assist?") then
     wait(2)

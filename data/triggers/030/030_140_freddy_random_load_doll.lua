@@ -6,17 +6,25 @@
 -- Original DG Script: #3140
 
 -- Converted from DG Script #3140: Freddy random load doll
--- Original: MOB trigger, flags: RANDOM, SPEECH, probability: 1%
+-- Original: MOB trigger, flags: RANDOM, SPEECH, num_arg: 1 (word list and random chance)
 
--- 1% chance to trigger
-if not percent_chance(1) then
+-- RANDOM + SPEECH trigger (num_arg 1): a spoken word list when someone speaks (speech is the
+-- text), a 1% roll on the random pulse (speech is empty).
+if speech ~= "" then
+    -- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+    local speech_padded = " " .. string.lower(speech) .. " "
+    local speech_hit = false
+    for _, w in ipairs({"refresh"}) do
+        if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+            speech_hit = true
+            break
+        end
+    end
+    if not speech_hit then
+        return true  -- None of the listed words
+    end
+elseif not percent_chance(1) then
     return true
-end
-
--- Speech keywords: refresh
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "refresh")) then
-    return true  -- No matching keywords
 end
 -- Generate a random number
 local p = random(1, 15)

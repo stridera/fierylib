@@ -1,12 +1,7 @@
 -- Trigger: Armor Exchange receive exchange
 -- Zone: 30, ID: 53
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REWRITE
---
--- TODO(parity): converter declared `local found = 1` inside every nested branch,
--- so `found` is always nil at the outer `if found == 1 then` check. Hoist
--- `local found` and drop the `local` keyword in branches. Also replace
--- `%get.obj_shortdesc[%item%]%` with `objects.template(math.floor(item/100), item%100).name`.
+-- Status: CLEAN
 --
 -- Original DG Script: #3053
 
@@ -115,7 +110,7 @@ if item ~= 0 then
         actor:send(tostring(self.name) .. " refuses to perform the exchange.")
         wait(1)
         if (object.zone_id == 553 and object.id <= 83) then
-            actor:send(tostring(self.name) .. " says, 'That's not rare enough!  I won't take " .. tostring(object.shortdesc) .. " for " .. "%get.obj_shortdesc[%item%]%!'")
+            actor:send(tostring(self.name) .. " says, 'That's not rare enough!  I won't take " .. tostring(object.shortdesc) .. " for " .. objects.template(math.floor(item / 100), item % 100).name .. "!'")
         else
             actor:send(tostring(self.name) .. " says, 'Sorry, " .. tostring(object.shortdesc) .. " isn't the kind of thing I keep around here...'")
         end

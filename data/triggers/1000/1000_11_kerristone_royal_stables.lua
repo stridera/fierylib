@@ -6,10 +6,10 @@
 -- Original DG Script: #11
 
 -- Converted from DG Script #11: Kerristone (Royal Stables)
--- Original: MOB trigger, flags: BRIBE, probability: 25%
+-- Original: MOB trigger, flags: BRIBE, num_arg: 25 (minimum bribe in copper)
 
--- 25% chance to trigger
-if not percent_chance(25) then
+-- DG BRIBE num_arg 25: fires only when the coins are worth at least 25 copper.
+if (value or 0) < 25 then
     return true
 end
 self.room:send("</><b:yellow>Licub</> nods to " .. tostring(actor.name) .. " and goes to fetch a horse.")

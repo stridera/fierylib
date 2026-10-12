@@ -6,10 +6,6 @@
 -- Original DG Script: #32402
 
 -- Converted from DG Script #32402: North_Road_bribe1
--- Original: MOB trigger, flags: BRIBE, probability: 1%
+-- Original: MOB trigger, flags: BRIBE, num_arg: 1 (minimum bribe in copper)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
 self:say("My trigger commandlist is not complete!")

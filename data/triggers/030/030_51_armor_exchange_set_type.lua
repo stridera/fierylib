@@ -1,13 +1,7 @@
 -- Trigger: Armor Exchange set type
 -- Zone: 30, ID: 51
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REWRITE
---
--- TODO(parity): converter declared `local armor_id = ...` inside every if/elseif
--- branch, so `armor_id` is always nil at the outer-scope `if not armor_id then`
--- check below. Hoist `local armor_id` to top, drop the `local` keyword in
--- branches, and replace `%get.obj_shortdesc[%armor_id%]%` with
--- `objects.template(math.floor(armor_id/100), armor_id%100).name`.
+-- Status: CLEAN
 --
 -- Original DG Script: #3051
 
@@ -216,6 +210,6 @@ end
 if not armor_id then
     actor:send(tostring(self.name) .. " tells you, 'I'm sorry, I don't know what that is.'")
 else
-    actor:send(tostring(self.name) .. " asks you, 'You want " .. "%get.obj_shortdesc[%armor_id%]%?'")
+    actor:send(tostring(self.name) .. " asks you, 'You want " .. objects.template(math.floor(armor_id / 100), armor_id % 100).name .. "?'")
     actor:set_quest_var("armor_exchange", "armor_id", armor_id)
 end

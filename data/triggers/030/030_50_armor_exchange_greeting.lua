@@ -1,11 +1,7 @@
 -- Trigger: Armor Exchange greeting
 -- Zone: 30, ID: 50
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REWRITE
---
--- TODO(parity): replace `%get.obj_shortdesc[%item%]%` with
--- `objects.template(math.floor(item/100), item%100).name` once the runtime
--- exposes a clear lookup helper for legacy-vnum-style ids.
+-- Status: CLEAN
 --
 -- Original DG Script: #3050
 
@@ -21,7 +17,7 @@ if actor.is_player then
         if item == 0 then
             actor:send(tostring(self.name) .. " says, 'Tell me dearie, what can I help ya find today?'")
         else
-            actor:send(tostring(self.name) .. " says, 'Are you still looking for " .. "%get.obj_shortdesc[%item%]%?'")
+            actor:send(tostring(self.name) .. " says, 'Are you still looking for " .. objects.template(math.floor(item / 100), item % 100).name .. "?'")
         end
     else
         actor:send(tostring(self.name) .. " hollers, 'Well hello there dearie!  Welcome to a land of rare and valuable treasures!'")

@@ -6,12 +6,8 @@
 -- Original DG Script: #3161
 
 -- Converted from DG Script #3161: pay for training
--- Original: MOB trigger, flags: BRIBE, probability: 1%
+-- Original: MOB trigger, flags: BRIBE, num_arg: 1 (minimum bribe in copper)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
-end
 local _return_value = true  -- Default: allow action
 local full_skill
 if actor:get_quest_var("trainer_3160:word2") then

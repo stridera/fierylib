@@ -4,8 +4,7 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #3182
--- Note: `speech` is the user's input keyword (corpse/retrieval/services/yes/help);
--- the "for {speech}" line shows the keyword the user typed which mirrors legacy DG.
+-- The fee line no longer echoes the typed keyword (legacy printed "My fee is corpse for ...").
 
 -- Converted from DG Script #3182: corpse retrieval price set
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
@@ -105,14 +104,15 @@ if actor.is_player then
     end
     -- (empty room echo)
     -- Now a price is calculated
-    local price = (actor.level * actor.level * ((actor.level * 2) / 3) * (100 - (cha / 10))) / 100
+    -- DG `eval` math is integer math: every division truncates.
+    local price = math.floor(actor.level * actor.level * math.floor(actor.level * 2 / 3) * (100 - math.floor(cha / 10)) / 100)
     -- now the price in copper has to be divided into coinage.
-    local plat = price / 1000
-    local gold = price / 100 - plat * 10
-    local silv = price / 10 - plat * 100 - gold * 10
-    local copp = price  - plat * 1000 - gold * 100 - silv * 10
-    -- now the price can be reported
-    self:say("My fee is " .. tostring(speech) .. " for " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper.")
+    local plat = math.floor(price / 1000)
+    local gold = math.floor(price / 100) - plat * 10
+    local silv = math.floor(price / 10) - plat * 100 - gold * 10
+    local copp = price - plat * 1000 - gold * 100 - silv * 10
+    -- now the price can be reported (legacy also printed the typed keyword here: "My fee is corpse for ...")
+    self:say("My fee is " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper.")
     -- (empty room echo)
     self:say("Just get me the money and I'll cast the appropriate spells.")
     actor:set_quest_var("corpse_retrieval", "price", price)

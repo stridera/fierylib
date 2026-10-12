@@ -12,15 +12,17 @@
 -- trigger probably wants 100% (the 1% would make the offer effectively
 -- undiscoverable). Confirm intent before changing.
 
--- 1% chance to trigger (preserved from original DG script -- see TODO)
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"specialty", "services", "yes", "like", "what?", "services?", "speciality?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: specialty / services / yes / like / what / speciality
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "specialty") or string.find(speech_lower, "services") or string.find(speech_lower, "yes") or string.find(speech_lower, "like") or string.find(speech_lower, "what") or string.find(speech_lower, "speciality")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard") then
     if actor.level > 88 then

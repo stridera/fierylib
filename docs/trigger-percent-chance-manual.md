@@ -38,3 +38,20 @@ that the rewriter deliberately did not remove; the reason is the legacy DG trigg
 
 ## not a trigger type with a known num_arg meaning (1)
 - data/triggers/360/360_11_test2.lua
+
+# The other half: `percent_chance(N)` with N != 0 (playtest r8)
+
+The same converter bug hit every other numeric argument. `scripts/fix_percent_chance_gates.py` reads the
+trigger type from the script header and the DG rules from `dg_triggers.cpp`:
+
+| Trigger type | What num_arg means in legacy | Gate |
+| --- | --- | --- |
+| MOB RANDOM, GREET, GREET_ALL, ENTRY, FIGHT, LOAD, CAST, LEAVE, DOOR, LOOK; OBJECT RANDOM, GET, DROP, GIVE, REMOVE, USE, ATTACK, DEFEND ...; WORLD RANDOM, PREENTRY, POSTENTRY ... | percent chance | kept |
+| MOB HIT_PERCENT | HP% threshold (the runtime reads the gate back out) | kept |
+| MOB SPEECH / SPEECH_TO, num_arg != 0 | word list: any listed word or "quoted phrase" in the speech | replaced by a whole-word list test built from the legacy arg |
+| MOB BRIBE | minimum coin value in copper | `if (value or 0) < N`, none for N <= 1 |
+| MOB DEATH, OBJECT WEAR (and the object COMMAND where-bitmask) | unused / bitmask | removed |
+
+Left alone (see the script's report): `DEATH + HIT_PERCENT` (125:30), `SPEECH + FIGHT` (22:44, body marked
+broken), the ACT trigger 30:115, the world test script 360:11, and the 25 speech-to scripts of zone 556
+(num_arg 0, listed above).

@@ -6,17 +6,19 @@
 -- Original DG Script: #55032
 
 -- Converted from DG Script #55032: wizard_eye_gypsy_speech
--- Original: MOB trigger, flags: SPEECH, probability: 1%
+-- Original: MOB trigger, flags: SPEECH, num_arg: 1 (DG word-list mode, not a probability)
 
--- 1% chance to trigger
-if not percent_chance(1) then
-    return true
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"wizard", "eye", "wizard?", "eye?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
 end
-
--- Speech keywords: wizard eye wizard? eye?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "wizard") or string.find(string.lower(speech), "eye") or string.find(string.lower(speech), "wizard?") or string.find(string.lower(speech), "eye?")) then
-    return true  -- No matching keywords
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 if actor:get_quest_stage("wizard_eye") == 1 then
