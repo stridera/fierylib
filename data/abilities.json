@@ -2484,7 +2484,7 @@
     "messages": {
       "successToCaster": "Your own private rainbow hits {target.him} in the face -- WOWIE!!",
       "successToVictim": "A sudden burst of colors sends you reeling!",
-      "successToRoom": "{actor.name} throws colors at {target.him} who in vain tries to escape!",
+      "successToRoom": "{actor.name} throws colors at {target.name}, who in vain tries to escape!",
       "failToCaster": "Your spray of color misses {target.name} -- what a dull world...",
       "failToVictim": "{actor.name} unsuccessfully tries to add color to your life!",
       "failToRoom": "{actor.name} splashes color everywhere except {target.name}."
@@ -9473,9 +9473,9 @@
       }
     ],
     "messages": {
-      "successToCaster": "You watch with pride as your magic missile hits {target.him}!",
+      "successToCaster": "You watch with pride as your magic missile hits {target.name}!",
       "successToVictim": "You stagger as a magic missile from {actor.name} hits you!",
-      "successToRoom": "{actor.name} throws a magic missile at {target.him} who staggers under the blow!",
+      "successToRoom": "{actor.name} throws a magic missile at {target.name}, who staggers under the blow!",
       "failToCaster": "The magic missile penetrates the air miles above {target.name}.",
       "failToVictim": "You don't even have to duck as {actor.name} sends a magic missile way over your head.",
       "failToRoom": "{actor.name} tries in vain to correct the course of the magic missile meant to hit {target.him}."
@@ -13741,7 +13741,7 @@
     "messages": {
       "successToCaster": "You solemnly watch as your spirit arrow hits {target.him}!",
       "successToVictim": "Your spirit waivers as a spirit arrow from {actor.name} hits you!",
-      "successToRoom": "{actor.name} throws a spirit arrow at {target.him} who waivers under the blow!",
+      "successToRoom": "{actor.name} throws a spirit arrow at {target.name}, who waivers under the blow!",
       "failToCaster": "The spirit arrow penetrates the air miles above {target.name}.",
       "failToVictim": "You don't even have to duck as {actor.name} sends a spirit arrow way over your head.",
       "failToRoom": "{actor.name} tries in vain to correct the course of the spirit arrow meant to hit {target.him}."
