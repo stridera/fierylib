@@ -810,7 +810,8 @@
         "effect": "knockdown",
         "order": 1,
         "params": {
-          "duration": 1,
+          "duration": 2,
+          "durationUnit": "rounds",
           "power": "skill"
         },
         "trigger": "on_hit"
@@ -1651,7 +1652,8 @@
         "effect": "knockdown",
         "order": 1,
         "params": {
-          "duration": 1
+          "duration": 1,
+          "durationUnit": "rounds"
         },
         "trigger": "on_hit"
       }
@@ -14956,7 +14958,8 @@
         "effect": "knockdown",
         "order": 0,
         "params": {
-          "duration": 1,
+          "duration": 3,
+          "durationUnit": "rounds",
           "power": "skill"
         },
         "trigger": "on_hit"
