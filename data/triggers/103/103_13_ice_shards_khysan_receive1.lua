@@ -15,7 +15,7 @@ end
 
 local key = "ice_shards:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)
 local prior = actor:get_quest_var(key)
-if prior and prior ~= "" and prior ~= "0" then
+if prior and prior ~= 0 and prior ~= "" and prior ~= "0" then
     self.room:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     self:say("Thanks, but you already delivered " .. tostring(object.shortdesc) .. " to me.")
@@ -36,7 +36,7 @@ wait(2)
 --   58415 → (584, 15)  the Enchiridion
 local function got(z, i)
     local v = actor:get_quest_var("ice_shards:" .. tostring(z) .. "_" .. tostring(i))
-    return v and v ~= "" and v ~= "0"
+    return v and v ~= 0 and v ~= "" and v ~= "0"
 end
 
 if got(162, 9) and got(185, 5) and got(550, 3) and got(584, 15) then

@@ -63,7 +63,7 @@ elseif string.find(a, "icebox") then
     local nothing = true
     for i, row in ipairs(ingredients) do
         local v = actor:get_quest_var("resort_cooking:item" .. tostring(i))
-        if v and v ~= "" and v ~= "0" then
+        if v and v ~= 0 and v ~= "" and v ~= "0" then
             actor:send("</>  " .. shortdesc(row))
             nothing = false
         end

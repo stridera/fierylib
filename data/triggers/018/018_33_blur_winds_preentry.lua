@@ -31,7 +31,8 @@ elseif self.zone_id == 203 and self.local_id == 79 then  -- West wind shrine (le
     mob = 22
 end
 
-if mob and (actor:get_quest_var("blur:" .. direction) == 0 or actor:get_quest_var("blur:" .. direction) == "") and world.count_mobiles(18, mob) == 0 then
+local blur_v = direction and actor:get_quest_var("blur:" .. direction)
+if mob and (not blur_v or blur_v == 0) and world.count_mobiles(18, mob) == 0 then
     self.room:spawn_mobile(18, mob)
 end
 return true

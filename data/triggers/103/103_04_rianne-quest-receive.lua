@@ -33,7 +33,7 @@ if actor:get_quest_stage("group_heal") == 5 then
     local already = actor:get_quest_var(self_key)
     -- 18514 is a book — naive vnum mapping is (185, 14)
     if object.zone_id == 185 and object.local_id == 14 then
-        if already and already ~= "" and already ~= "0" then
+        if already and already ~= 0 and already ~= "" and already ~= "0" then
             self:say("I've told you everything I can.  Good luck!")
             return true
         end
@@ -121,7 +121,7 @@ end
 -- Already turned this one in?
 local slot_key = "item" .. tostring(matched_slot)
 local already = actor:get_quest_var("resort_cooking:" .. slot_key)
-if already and already ~= "" and already ~= "0" then
+if already and already ~= 0 and already ~= "" and already ~= "0" then
     self.room:send(self.name .. " says, 'You already brought in " .. tostring(object.shortdesc) .. ", so we don't need more.'")
     self:emote("hands your item back to you.")
     return false
@@ -137,7 +137,7 @@ actor:set_quest_var("resort_cooking", slot_key, 1)
 local complete = true
 for i = 1, slot_count do
     local v = actor:get_quest_var("resort_cooking:item" .. tostring(i))
-    if not v or v == "" or v == "0" then
+    if not v or v == 0 or v == "" or v == "0" then
         complete = false
         break
     end

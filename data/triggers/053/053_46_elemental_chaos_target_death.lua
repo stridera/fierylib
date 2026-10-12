@@ -31,7 +31,7 @@ local TARGETS = {
     { zone = 40,  id = 9,  stage = 10, slot = 1, target = "Norhamen" },
 }
 
--- get_quest_var returns "" for an unset variable, and "" is truthy in Lua.
+-- get_quest_var returns nil for an unset variable (and "" is tolerated for old rows).
 local function is_set(v)
     return v ~= nil and v ~= ""
 end

@@ -18,7 +18,7 @@ local stage = actor:get_quest_stage("ice_shards")
 
 local function got(z, i)
     local v = actor:get_quest_var("ice_shards:" .. tostring(z) .. "_" .. tostring(i))
-    return v and v ~= "" and v ~= "0"
+    return v and v ~= 0 and v ~= "" and v ~= "0"
 end
 
 if stage == 1 then
