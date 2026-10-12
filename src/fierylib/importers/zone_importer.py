@@ -44,6 +44,15 @@ WHERE z.is_god_zone = false
     )
   )"""
 
+# Plumbing zones with no explorable content: 0 is the Void (the fallback room), 1 is
+# "Reserved - create food items", 2 is "non-loading items zone". The game used to hard-code
+# these ids (INTERNAL_ZONE_IDS); they are now flagged in Zones.is_internal. Mirrored in
+# data/sql/2026-10-12-zone-internal-flag.sql (a unit test keeps the two in sync).
+INTERNAL_ZONE_IDS = (0, 1, 2)
+MARK_INTERNAL_ZONES_SQL = """UPDATE "Zones"
+SET is_internal = true, updated_at = now()
+WHERE id IN (0, 1, 2) AND is_internal = false"""
+
 
 class ZoneImporter:
     """Imports zone data to PostgreSQL using Prisma"""
@@ -237,6 +246,13 @@ class ZoneImporter:
         edit in Muditor is not clobbered by the zone upsert (which never
         touches is_god_zone). Returns the number of zones newly marked."""
         return await self.prisma.execute_raw(MARK_GOD_ZONES_SQL)
+
+    async def mark_internal_zones(self) -> int:
+        """Flag the plumbing zones (see MARK_INTERNAL_ZONES_SQL). Only ever sets the flag
+        to true, and the zone upsert never touches is_internal, so a later edit in
+        Muditor is not clobbered by a re-import of the zone. Returns the number of zones
+        newly flagged. Raw SQL: the Python Prisma client predates the column."""
+        return await self.prisma.execute_raw(MARK_INTERNAL_ZONES_SQL)
 
     async def apply_door_resets(self, zone: Zone, dry_run: bool = False):
         """

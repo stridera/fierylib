@@ -599,6 +599,8 @@ def import_legacy(lib_path: str, zone: int | None, dry_run: bool, verbose: bool,
             if not dry_run:
                 marked = await zone_importer.mark_god_zones()
                 click.echo(f"  God zones marked: {marked}")
+                internal = await zone_importer.mark_internal_zones()
+                click.echo(f"  Internal zones marked: {internal}")
 
             # PHASE 2D: Apply door resets (set defaultState on exits)
             click.echo(f"\n{'='*60}")

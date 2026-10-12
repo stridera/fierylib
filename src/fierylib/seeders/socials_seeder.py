@@ -26,6 +26,15 @@ POSITION_ENUM_MAP = {
     "SLEEPING": Position.SLEEPING,
 }
 
+# Socials only staff may reach by typing an abbreviation (legacy gave the do_action row a
+# staff level). The game used to hard-code this (STAFF_ONLY_SOCIALS); it is now
+# Social.staff_only. Mirrored in data/sql/2026-10-12-social-staff-only.sql (a unit test keeps
+# the two in sync).
+STAFF_ONLY_SOCIALS = ("snowball",)
+MARK_STAFF_ONLY_SQL = """UPDATE "Social"
+SET staff_only = true, updated_at = now()
+WHERE name IN ('snowball') AND staff_only = false"""
+
 
 class SocialsSeeder:
     """Seeds social commands from legacy CircleMUD files."""
@@ -100,7 +109,15 @@ class SocialsSeeder:
                 if verbose:
                     click.echo(f"    Error: {error_msg}")
 
+        stats["staff_only"] = await self.mark_staff_only()
         return stats
+
+    async def mark_staff_only(self) -> int:
+        """Flag the staff-only socials (see MARK_STAFF_ONLY_SQL). Only ever sets the flag
+        to true; the social upsert never touches staff_only, so a later edit in Muditor
+        survives a reseed that does not clear the table. Returns the rows newly flagged.
+        Raw SQL: the Python Prisma client predates the column."""
+        return await self.prisma.execute_raw(MARK_STAFF_ONLY_SQL)
 
     async def _upsert_social(self, social: Social) -> str:
         """
