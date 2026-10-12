@@ -18,7 +18,7 @@ import logging
 
 from mud.types.object import Object
 from mud.mudfile import MudData
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article, fix_indefinite_article
 from fierylib.converters.flag_normalizer import process_object_flags, ProcessedObjectFlags
 
 logger = logging.getLogger(__name__)
@@ -383,7 +383,7 @@ class ObjectImporter:
                 extras_to_import = []
 
             # Convert legacy color codes to XML-Lite markup
-            obj_name = convert_legacy_colors(obj.short or "")
+            obj_name = fix_indefinite_article(convert_legacy_colors(obj.short or ""))
             obj_room_desc = convert_legacy_colors(obj.ground or "")
             obj_examine_desc = convert_legacy_colors(examine_description) if examine_description else None
             obj_action_desc = convert_legacy_colors(obj.action_description or "")

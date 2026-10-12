@@ -1,5 +1,5 @@
 ---
-keywords: [death]
+keywords: [death, corpse, corpses]
 title: Death
 category: guide
 min_level: 0
@@ -12,6 +12,10 @@ Release precedence:
 1. Last touchstone you 'touch'ed
 2. Your race's home room (where character creation spawns)
 3. The Void (last resort)
+
+Finding your corpse: "where corpse" gives its room and the way to go
+from where you stand. Room names repeat, so the [zone:id] it prints is
+the exact place. Type "get all from corpse" there to take your things.
 
 Corpse decay: a player's corpse keeps for several days, so
 take your time — log off, sleep on it, come back. Mob corpses decay in

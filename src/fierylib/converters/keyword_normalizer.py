@@ -15,6 +15,50 @@ ARTICLE_PATTERN = re.compile(r'^(a|an|the|some)\s+', re.IGNORECASE)
 TAG_PATTERN = re.compile(r'<[^>]*>')
 
 
+# Leading "a"/"an" (possibly followed by colour tags) and the first letter of the
+# next word. Group 1: article, 2: whitespace and tags between, 3: the word.
+_INDEFINITE_ARTICLE_PATTERN = re.compile(
+    r'^(an?)(\s+(?:<[^>]*>)*)([A-Za-z][A-Za-z\'-]*)', re.IGNORECASE
+)
+
+# "a one-handed", "a once-proud": a vowel letter that sounds like a consonant.
+_VOWEL_LETTER_CONSONANT_SOUND = ("one", "once", "eu", "uni", "use", "usu", "uri", "ubi")
+# "an hour", "an honest": a silent h.
+_SILENT_H = ("hour", "honest", "honor", "honour", "heir")
+
+
+def fix_indefinite_article(name: str) -> str:
+    """
+    Correct a wrong leading "a"/"an" in a legacy short description.
+
+    "a aqua scroll" becomes "an aqua scroll" and "an neon blue potion" becomes
+    "a neon blue potion". Only the clear cases are touched: a name that opens
+    with a, e, i or o (but not "one"/"once"/"eu...") takes "an", one that opens
+    with another consonant takes "a". Words starting with "u" or "h" are left
+    exactly as authored, because the right article depends on how the word is
+    said ("a unicorn", "an umbrella", "an herb", "a hat").
+
+    Colour tags between the article and the word are skipped and kept.
+    """
+    match = _INDEFINITE_ARTICLE_PATTERN.match(name)
+    if not match:
+        return name
+    article, word = match.group(1), match.group(3)
+    lower = word.lower()
+    first = lower[0]
+    if first in "uh":
+        return name
+    wants_an = first in "aeio" and not lower.startswith(_VOWEL_LETTER_CONSONANT_SOUND)
+    if lower.startswith(_SILENT_H):
+        return name
+    wanted = "an" if wants_an else "a"
+    if article.lower() == wanted:
+        return name
+    # Keep the author's capitalisation of the article.
+    fixed = wanted.capitalize() if article[0].isupper() else wanted
+    return fixed + name[len(article):]
+
+
 def strip_articles(keywords: list[str]) -> list[str]:
     """
     Remove article words (a, an, the, some) from a keyword list.

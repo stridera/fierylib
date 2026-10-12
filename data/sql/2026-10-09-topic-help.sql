@@ -46,7 +46,7 @@ WHERE NOT EXISTS (
 INSERT INTO "HelpEntry"
   (keywords, title, content, min_level, category, usage, source_file, updated_at)
 SELECT
-  ARRAY['death']::text[],
+  ARRAY['death', 'corpse', 'corpses']::text[],
   'Death',
   $help$When you die, your spirit lingers where you fell while your corpse drops
 at the death scene. Type release to return to your recall point
@@ -56,6 +56,10 @@ Release precedence:
 1. Last touchstone you 'touch'ed
 2. Your race's home room (where character creation spawns)
 3. The Void (last resort)
+
+Finding your corpse: "where corpse" gives its room and the way to go
+from where you stand. Room names repeat, so the [zone:id] it prints is
+the exact place. Type "get all from corpse" there to take your things.
 
 Corpse decay: a player's corpse keeps for several days, so
 take your time — log off, sleep on it, come back. Mob corpses decay in
@@ -140,9 +144,9 @@ by walking to a recall stone and typing touch. Most major town
 halls and temples carry a stone.
 
 If you've never touched a stone, 'recall' will nudge you toward one.
-Newbies start with the Mielikki temple bound by default. Some rooms
-have NoRecallRoom set — recall refuses to teleport out of those
-(dungeons, quest cells).$help$,
+Until you touch one, your recall point is the room your race starts in.
+Some rooms have NoRecallRoom set — recall refuses to teleport out of
+those (dungeons, quest cells).$help$,
   0,
   'guide',
   NULL,

@@ -292,7 +292,7 @@ Heroes are needed. Will you answer the call?
              "   <c238>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</>\r\n"
              "\r\n"
              "   <c244>Login with your account email or character name.</>\r\n"
-             "   <c244>New players: visit https://fierymud.org to register.</>\r\n"
+             "   <c244>New players: type a new character name to start one here.</>\r\n"
              "\r\n"),
             # Prompts: trailing space after the colon is intentional —
             # players type immediately after a single space, the
@@ -306,7 +306,7 @@ Heroes are needed. Will you answer the call?
              "{character_list}\r\n\r\n"
              "Enter character number to play, or 'new' to create a new character: "),
             (LoginStage.CREATE_NAME_PROMPT, "\r\nEnter a name for your new character: "),
-            (LoginStage.CREATE_PASSWORD, "\r\nChoose a password (6-20 characters): "),
+            (LoginStage.CREATE_PASSWORD, "\r\nChoose a password (at least 6 characters): "),
             (LoginStage.CONFIRM_PASSWORD, "Confirm password: "),
             (LoginStage.SELECT_CLASS,
              "\r\n<b:cyan>=== Choose Your Class ===</>\r\n\r\n"

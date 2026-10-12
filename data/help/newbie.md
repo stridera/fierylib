@@ -15,15 +15,26 @@ LOOK AROUND
   score              your stats       inventory (i)    what you carry
   equipment (eq)     what you wear    wealth           your coin
 
+FIND YOUR WAY
+  "exits" lists the exits of the room. "autoexit" shows them every
+  time you look. "areas" lists the zones. The Training Academy teaches
+  the basics: see ACADEMY. Shops are marked in the room list; use "list"
+  inside one to see what it sells.
+
 GEAR UP
-  wear {item}, wield {weapon}, remove {item}, get, drop, give.
-  A badly dressed character takes far more damage. Shops sell gear:
-  see SHOPS.
+  New characters start with a few items: check "inventory". You start
+  with no coin; killing monsters drops some. wear {item}, wield {weapon},
+  remove {item}, get, drop, give. A badly dressed character takes far
+  more damage. Shops sell gear: see SHOPS.
+  The world gets dark at night. Carry a torch ("light torch"; see
+  LIGHT and TORCH) or you will see nothing until morning.
 
 LEARN YOUR CLASS
   skills, spells and practice show what you can do. Trainers (NPCs) teach
   you and spend the practice points you earn by levelling. See SKILL and
-  MAGIC. "where {name}" can help you find someone.
+  MAGIC. "where {name}" can help you find another player.
+  Casters learn spells with "study": "study" lists the spells you can
+  learn now, "study {spell}" learns one.
 
 FIGHT SMART
   consider {target}  tells you how dangerous something is. Try it first.

@@ -252,8 +252,8 @@ def render_sql(articles: Iterable[HelpArticle], insert_only: bool = False) -> st
         "-- Source: fierylib/data/help/*.md. Do not edit by hand; edit the markdown",
         "-- and regenerate.",
         '-- Idempotent: matches on the primary keyword ("HelpEntry" has no unique key),',
-        "-- overwriting a legacy entry with the same primary keyword; re-runs change nothing",
-        "-- except updated_at.",
+        "-- overwriting a legacy entry with the same primary keyword; a re-run changes 0 rows",
+        "-- (the UPDATE is skipped when the row already matches).",
         "",
     ]
     for art in articles:
@@ -267,6 +267,13 @@ def render_sql(articles: Iterable[HelpArticle], insert_only: bool = False) -> st
             f"      usage = {_sql_opt(art.usage)},\n"
             f"      source_file = {_sql_opt(art.source_file or None)},\n"
             f"      updated_at = now()"
+        )
+        # Row-wise guard: a re-run finds the row already equal and updates
+        # nothing (not even updated_at).
+        new_values = (
+            f"({kw_array}, {_sql_str(art.title)}, {_dollar_quote(art.content)}, "
+            f"{art.min_level}, {_sql_opt(art.category)}, {_sql_opt(art.usage)}, "
+            f"{_sql_opt(art.source_file or None)})"
         )
         primary = _sql_str(art.primary)
         out.append(f"-- {art.primary}: {art.title}")
@@ -294,7 +301,9 @@ def render_sql(articles: Iterable[HelpArticle], insert_only: bool = False) -> st
             "  ELSE\n"
             '    UPDATE "HelpEntry" SET\n'
             f"      {cols}\n"
-            "    WHERE id = v_id;\n"
+            "    WHERE id = v_id\n"
+            '      AND (keywords, title, content, min_level, category, usage, source_file)\n'
+            f"          IS DISTINCT FROM {new_values};\n"
             "  END IF;\n"
             "END\n"
             "$do$;\n"
