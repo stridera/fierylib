@@ -10,11 +10,11 @@
 -- nudge of what's currently expected.
 wait(2)
 local stage = actor:get_quest_stage("hell_gate")
-if string.find(actor.class, "Diabolist") and stage == 0 then
+if string.find(actor.class, "diabolist") and stage == 0 then
     self:command("bow " .. tostring(actor))
     self.room:send(tostring(self.name) .. " says, 'Welcome, dark disciple.")
     self.room:send("Has the hellish realm Garl'lixxil called you here as well?'")
-elseif string.find(actor.class, "Paladin") or string.find(actor.class, "Priest") then
+elseif string.find(actor.class, "paladin") or string.find(actor.class, "priest") then
     self:say("You are not welcome here!")
     combat.engage(actor)
 end

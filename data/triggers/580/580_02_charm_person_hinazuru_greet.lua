@@ -31,7 +31,7 @@ else
     self:command("bow")
     wait(1)
     self:say("I am delighted to host you.")
-    if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) and actor.level > 88 and stage == 0 then
+    if (string.find(actor.class, "sorcerer") or string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 88 and stage == 0 then
         wait(1)
         self:say("You seem like you might be interested in some of my specialty services.")
     end

@@ -9,11 +9,11 @@
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local burn = 1
 wait(1)
-if string.find(actor.class, "Cry") then
+if string.find(actor.class, "cry") then
     actor:send("Your cool touch makes the fiery key's heat bearable.")
     burn = 0
 end
-if string.find(actor.class, "Pyr") then
+if string.find(actor.class, "pyr") then
     burn = 0
     actor:send("Your hands are accustomed to the heat, making the key easy to handle.")
 end

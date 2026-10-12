@@ -17,12 +17,12 @@ if not actor.is_player then
 end
 
 local class = actor.class or ""
-local is_holy_class = string.find(class, "Priest")
-    or string.find(class, "Cleric")
-    or string.find(class, "Paladin")
-    or string.find(class, "Ranger")
-    or string.find(class, "Monk")
-    or string.find(class, "Druid")
+local is_holy_class = string.find(class, "priest")
+    or string.find(class, "cleric")
+    or string.find(class, "paladin")
+    or string.find(class, "ranger")
+    or string.find(class, "monk")
+    or string.find(class, "druid")
 
 if not is_holy_class then
     return true

@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor.is_player then
     wait(1)
-    if string.find(actor.class, "Anti") then
+    if string.find(actor.class, "anti") then
         actor:send("You feel a great surge of power rush through your body.")
         self.room:send_except(actor, "The eyes of " .. tostring(actor.name) .. " begin to burn brightly.")
         wait(1)

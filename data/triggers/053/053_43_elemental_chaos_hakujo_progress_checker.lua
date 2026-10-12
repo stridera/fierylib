@@ -54,7 +54,7 @@ elseif actor.level >= (actor:get_quest_stage("elemental_chaos") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'Give me more time to strategize how to bring Balance to Chaos.  Come back after you've gained some more experience.'")
 end
-if string.find(actor.class, "Monk") then
+if string.find(actor.class, "monk") then
     actor:send("</>")
     actor:send("</>")
     actor:send("<b:green>Enlightenment</>")

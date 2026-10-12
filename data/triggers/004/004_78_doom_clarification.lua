@@ -9,10 +9,10 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if arg == "doom" then
-    if (actor.level >= 75 and string.find(actor.class, "Druid")) or actor.level >= 85 then
+    if (actor.level >= 75 and string.find(actor.class, "druid")) or actor.level >= 85 then
         _return_value = true
         actor:send("Please Specify:")
-        if actor.level >= 75 and string.find(actor.class, "Druid") then
+        if actor.level >= 75 and string.find(actor.class, "druid") then
             actor:send("Creeping Doom")
         end
         if actor.level >= 85 then

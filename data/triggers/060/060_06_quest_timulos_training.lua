@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "training")) then
     return true  -- No matching keywords
 end
 wait(2)
-if string.find(actor.class, "Rogue") then
+if string.find(actor.class, "rogue") then
     if actor.level >= 10 and actor.level <= 25 then
         if not use_subclass then
             self:command("nod " .. tostring(actor.name))

@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #1850: no_monk
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if string.find(actor.class, "Monk") then
+if string.find(actor.class, "monk") then
     actor:send("You cannot use " .. tostring(self.shortdesc) .. ".")
     return false  -- Block the WEAR
 end

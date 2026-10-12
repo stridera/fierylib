@@ -12,7 +12,7 @@ if actor.level >= 100 then
     return true
 end
 
-if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
     actor:send("You feel a calmness come over you, as if the troubles of the world are washed away.")
     entry = (entry or 0) + 1
     return true

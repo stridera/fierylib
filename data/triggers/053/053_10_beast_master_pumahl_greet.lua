@@ -18,12 +18,12 @@ if not actor:get_has_completed("beast_master") then
     elseif actor:get_quest_stage("beast_master") >= 1 and not actor:get_has_completed("beast_master") then
         actor:send(tostring(self.name) .. " says, 'Ah, back for another creature to <b:cyan>[hunt]</> I see.'")
     end
-    if not actor:get_has_completed("ranger_trophy") and actor.level > 9 and (string.find(actor.class, "Warrior") or string.find(actor.class, "Berserker") or string.find(actor.class, "Ranger") or string.find(actor.class, "Mercenary")) then
+    if not actor:get_has_completed("ranger_trophy") and actor.level > 9 and (string.find(actor.class, "warrior") or string.find(actor.class, "berserker") or string.find(actor.class, "ranger") or string.find(actor.class, "mercenary")) then
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to prove your <b:cyan>[skill]</> as a hunter.'")
     end
 else
-    if (string.find(actor.class, "Ranger") or string.find(actor.class, "Warrior") or string.find(actor.class, "Berserker") or string.find(actor.class, "Mercenary")) and not actor:get_quest_stage("ranger_trophy") and actor.level > 9 then
+    if (string.find(actor.class, "ranger") or string.find(actor.class, "warrior") or string.find(actor.class, "berserker") or string.find(actor.class, "mercenary")) and not actor:get_quest_stage("ranger_trophy") and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'A new hunter looking to prove your <b:cyan>[skill]</> I see.'")
     elseif actor:get_quest_stage("ranger_trophy") and not actor:get_has_completed("ranger_trophy") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be looking to prove your <b:cyan>[skill]</> again.'")

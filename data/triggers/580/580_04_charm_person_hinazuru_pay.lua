@@ -10,7 +10,7 @@
 --
 -- The legacy DG numeric arg is 100000 (the 100 platinum Hinazuru quotes): the engine
 -- reads it from Triggers.num_args (`-- Num arg:` above) as the minimum bribe in copper.
-if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) and actor.level > 88 and actor:get_quest_stage("charm_person") == 0 then
+if (string.find(actor.class, "sorcerer") or string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 88 and actor:get_quest_stage("charm_person") == 0 then
     actor:start_quest("charm_person")
     self:command("bow " .. tostring(actor.name))
     self:say("I give humble thanks for your payment.")

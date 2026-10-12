@@ -11,7 +11,7 @@
 -- helm ya ask?
 -- 
 -- This is for anti-paladins only
-if string.find(actor.class, "Anti") and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
+if string.find(actor.class, "anti") and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, \"Helm ya ask? Well now I can make a nice helm for the anti-paladin types\"")
     actor:send(tostring(self.name) .. " tells you, \"but I'll need 3 radiant ambers, and a Crushed\"")

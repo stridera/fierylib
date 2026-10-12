@@ -48,7 +48,7 @@ elseif stage == 2 then
 elseif stage == 3 or stage == 4 then
     wait(2)
     actor:send(self.name .. " says, 'Have you recovered my sash from those thieves out west?  If you return my sash, I will complete your initiation as a monk.'")
-elseif not string.find(actor.class, "Warrior") then
+elseif not string.find(actor.class, "warrior") then
     actor:send(self.name .. " says, 'Ah, you are not well suited to my teaching.  So I shall not waste my time with you.'")
 else
     wait(2)

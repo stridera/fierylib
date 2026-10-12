@@ -28,7 +28,7 @@ wait(2)
 self:command("nod")
 self.room:send(tostring(self.name) .. " says, 'I specialize in group healing.  It's a powerful spell")
 self.room:send("</>involving complex prayers.  Not easy to learn.'")
-if ((string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 56) and actor:get_quest_stage("group_heal") == 0 then
+if ((string.find(actor.class, "cleric") or string.find(actor.class, "priest") or string.find(actor.class, "diabolist")) and actor.level > 56) and actor:get_quest_stage("group_heal") == 0 then
     wait(3)
     self.room:send(tostring(self.name) .. " says, 'But you look like a very capable healer!  Perhaps you can")
     self.room:send("</>help me out.'")

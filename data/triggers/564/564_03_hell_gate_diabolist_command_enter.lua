@@ -18,7 +18,7 @@ end
 -- abbreviations pass through unmodified; the Rust runtime's command
 -- filter only fires on exact "enter" so that branch is unreachable.
 
-if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") == 0 then
+if string.find(actor.class, "diabolist") and actor:get_quest_stage("hell_gate") == 0 then
     if arg == "c" or arg == "ci" or arg == "cir" or arg == "circ" or arg == "circl" or arg == "circle" then
         local priest = mobiles.template(564, 0).name
         if actor.level > 80 then

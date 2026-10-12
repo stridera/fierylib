@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
     return true  -- No matching keywords
 end
-if string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 25) then
+if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then
     -- switch on actor.race
     -- case ADD RESTRICTED RACES HERE
     -- msend %actor% &1Your race cannot subclass to bard.&0

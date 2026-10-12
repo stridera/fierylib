@@ -8,7 +8,7 @@
 -- Converted from DG Script #485: Monk Chants progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if string.find(actor.class, "Monk") then
+if string.find(actor.class, "monk") then
     local read
     local title
     local level

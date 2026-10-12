@@ -17,7 +17,7 @@ if not (string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or
 end
 wait(2)
 if actor:get_quest_stage("wall_ice") == 0 then
-    if actor.class and string.find(actor.class, "Cryomancer") and actor.level > 56 then
+    if actor.class and string.find(actor.class, "cryomancer") and actor.level > 56 then
         actor:start_quest("wall_ice")
         if actor.gender == "female" then
             self:say("Thank you so much ma'am!")

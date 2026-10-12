@@ -17,7 +17,7 @@ elseif stage == 2 then
 elseif stage == 3 then
     self:say("Give me any appropriate tributes you have found.")
 else
-    if actor.level > 57 and string.find(actor.class, "Diabolist") then
+    if actor.level > 57 and string.find(actor.class, "diabolist") then
         self:say("You seem to be quite powerful...  Powerful enough in fact to handle the Fire of the Dark One.")
         wait(2)
         self:say("Would you like to learn to rain fire and brimstone down on your enemies?")

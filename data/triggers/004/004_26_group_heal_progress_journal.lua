@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "group heal") or string.find(arg, "heal") or string.find(arg, "group_heal") then
     if actor.level >= 50 then
-        if string.find(actor.class, "Priest") or string.find(actor.class, "Cleric") or string.find(actor.class, "Diabolist") then
+        if string.find(actor.class, "priest") or string.find(actor.class, "cleric") or string.find(actor.class, "diabolist") then
             _return_value = true
             local stage = actor:get_quest_stage("group_heal")
             actor:send("<b:green>&uGroup Heal</>")

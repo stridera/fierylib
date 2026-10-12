@@ -14,7 +14,7 @@
 if not percent_chance(5) then
     return true
 end
-if string.find(actor.class, "Illusionist") then
+if string.find(actor.class, "illusionist") then
     return true  -- subclass already complete; flowers no longer affect them
 end
 

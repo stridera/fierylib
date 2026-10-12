@@ -22,9 +22,9 @@ if not actor.is_player then
 end
 
 local class
-if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
     class = "C"
-elseif string.find(actor.class, "Necromancer") or string.find(actor.class, "Sorcerer") then
+elseif string.find(actor.class, "necromancer") or string.find(actor.class, "sorcerer") then
     class = "S"
 end
 

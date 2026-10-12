@@ -24,12 +24,12 @@ end
 -- are exposed before reactivating this branch.
 local classgreet = "no"
 local maxlevel = 0
-if string.find(actor.class, "Warrior") then
+if string.find(actor.class, "warrior") then
     if actor.race ~= "drow" and actor.race ~= "faerie_unseelie" then
         classgreet = "yes"
         maxlevel = 25
     end
-elseif string.find(actor.class, "Cleric") then
+elseif string.find(actor.class, "cleric") then
     if actor.race ~= "drow" and actor.race ~= "faerie_unseelie" then
         classgreet = "yes"
         maxlevel = 35

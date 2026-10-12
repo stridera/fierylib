@@ -13,7 +13,7 @@ if not actor or not actor.can_be_seen then
     self:command("peer")
     self:say("I can't help you if I can't see you.")
     return _return_value
-elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "paladin") then
+elseif not string.find(string.lower(classes), actor.class, 1, true) or (classes == anti and actor.class == "paladin") then
     if string.find(classes, "and") then
         actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the")
         actor:send("</>" .. tostring(classes))

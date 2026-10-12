@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "remember") or string.find(string.lower(speech), "remember?") or string.find(string.lower(speech), "how") or string.find(string.lower(speech), "how?") or string.find(string.lower(speech), "forgotten") or string.find(string.lower(speech), "forgotten?")) then
     return true  -- No matching keywords
 end
-if string.find(actor.class, "Druid") then
+if string.find(actor.class, "druid") then
     if actor.level > 80 then
         if actor:get_quest_stage("creeping_doom") == 0 then
             self:say("I can teach you the power from Nature's darkest of")

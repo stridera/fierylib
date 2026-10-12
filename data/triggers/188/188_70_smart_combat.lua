@@ -30,7 +30,7 @@ local is_arc = is_sor  or  is_cry  or  is_pyr  or  is_nec
 local is_war = class == "warrior"
 local is_ran = class == "ranger"
 local is_pal = class == "paladin"
-local is_ant = class ~= nil and string.find(tostring(class), "Anti") ~= nil
+local is_ant = class ~= nil and string.find(tostring(class), "anti") ~= nil
 local is_mon = class == "monk"
 local is_com = is_ran  or  is_pal  or  is_ant
 local is_fig = is_war  or  is_mon  or  is_com
@@ -66,7 +66,7 @@ if is_fig or is_bac then
         local attempted
         while max_tries > 0 do
             local victim = self.room.actors[random(1, #self.room.actors)]
-            if victim and (victim.is_npc) and (victim.class ~= "warrior") and (victim.class ~= "ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "paladin") and (victim.class ~= "monk") then
+            if victim and (victim.is_npc) and (victim.class ~= "warrior") and (victim.class ~= "ranger") and (not (string.find(victim.class, "anti"))) and (victim.class ~= "paladin") and (victim.class ~= "monk") then
                 combat.rescue(self, victim.name)
                 attempted = 1
             end

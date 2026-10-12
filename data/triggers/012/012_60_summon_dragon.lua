@@ -32,7 +32,7 @@ if actor.class == "paladin" then
         dragon:spawn_object(12, 62)
         dragon:command("wear dragonsaddle")
     end
-elseif string.find(actor.class, "Anti") then
+elseif string.find(actor.class, "anti") then
     self.room:spawn_mobile(12, 63)
     self.room:send_except(actor, "A dusky black dragon flies in, seemingly from nowhere, and sits by " .. tostring(actor.name) .. "'s side.")
     actor:send("You begin calling for a mount..")

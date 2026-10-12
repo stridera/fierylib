@@ -18,7 +18,7 @@ if not rnd or not rnd.is_player or rnd.level >= 100 then
     return true
 end
 
-if string.find(rnd.class, "Cleric") or string.find(rnd.class, "Priest") then
+if string.find(rnd.class, "cleric") or string.find(rnd.class, "priest") then
     return true
 end
 

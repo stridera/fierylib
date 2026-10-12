@@ -26,7 +26,7 @@ local color, obj_id
 if actor.class == "paladin" then
     color = "golden"
     obj_id = 90
-elseif string.find(actor.class, "Anti") then
+elseif string.find(actor.class, "anti") then
     color = "black"
     obj_id = 91
 else

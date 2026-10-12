@@ -17,7 +17,7 @@ wait(2)
 self.room:send(tostring(self.name) .. " says, 'Yes, we need a powerful priest of Nature to be our")
 self.room:send("</>avenging avatar!'")
 wait(2)
-if string.find(actor.class, "Druid") then
+if string.find(actor.class, "druid") then
     if actor.level > 80 then
         self:say("Will you be our vessel?")
     else

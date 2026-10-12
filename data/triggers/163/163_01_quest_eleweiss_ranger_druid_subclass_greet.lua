@@ -36,8 +36,8 @@ end
 -- TODO(parity): legacy DG had a race switch ("ADD NEW RESTRICTED RACES HERE")
 -- that halted on disallowed races before the class check below.
 
-if (string.find(actor.class, "Warrior") and (actor.level >= 10 and actor.level <= 25))
-    or (string.find(actor.class, "Cleric") and (actor.level >= 10 and actor.level <= 35)) then
+if (string.find(actor.class, "warrior") and (actor.level >= 10 and actor.level <= 25))
+    or (string.find(actor.class, "cleric") and (actor.level >= 10 and actor.level <= 35)) then
     if not actor:get_quest_stage("ran_dru_subclass") then
         self:emote("grins casually.")
         actor:send(tostring(self.name) .. " says, 'Some know the ways of the woods, others are ignorant.  Do you know the <b:cyan>ways</> or not?'")

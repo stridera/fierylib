@@ -24,7 +24,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard") then
+if string.find(actor.class, "sorcerer") or string.find(actor.class, "illusionist") or string.find(actor.class, "bard") then
     if actor.level > 88 then
         if actor:get_quest_stage("charm_person") == 0 then
             wait(2)

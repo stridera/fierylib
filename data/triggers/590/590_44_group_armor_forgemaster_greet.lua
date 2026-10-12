@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
 local stage = actor:get_quest_stage("group_armor")
-if ((string.find(actor.class, "Cleric") and actor.level > 72) or (string.find(actor.class, "Priest") and actor.level > 56)) and stage == 0 then
+if ((string.find(actor.class, "cleric") and actor.level > 72) or (string.find(actor.class, "priest") and actor.level > 56)) and stage == 0 then
     self.room:send(tostring(self.name) .. " says, 'Well hello and welcome to the Sacred Haven's forge!")
     self.room:send("</>My name's Galen, son of Thorgrim, of the clan Grugnir.  I'm the resident")
     self.room:send("</>Forgemaster of the Sacred Haven.'")

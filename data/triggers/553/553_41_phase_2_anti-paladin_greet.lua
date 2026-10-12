@@ -8,7 +8,7 @@
 -- Converted from DG Script #55341: phase_2_anti-paladin_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
-if string.find(actor.class, "Anti") and actor.level >= 21 then
+if string.find(actor.class, "anti") and actor.level >= 21 then
     if actor:get_quest_stage("phase_armor") == 0 then
         actor:start_quest("phase_armor")
     end

@@ -86,7 +86,7 @@ if string.find(arg, "subclass") then
             actor:send("- &9<blue>Berserker</>")
             status = "running"
         else
-            if string.find(actor.class, "Sorcerer") then
+            if string.find(actor.class, "sorcerer") then
                 if not (string.find(cryoraces, actor.race)) then
                     actor:send("- <b:blue>Cryomancer</>_")
                 end
@@ -100,7 +100,7 @@ if string.find(arg, "subclass") then
                 if not (string.find(pyroraces, actor.race)) then
                     actor:send("- <b:red>Pyromancer</>_")
                 end
-            elseif string.find(actor.class, "Cleric") then
+            elseif string.find(actor.class, "cleric") then
                 if not (string.find(diabolistraces, actor.race)) then
                     actor:send("- <magenta>Diabolist</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
@@ -113,7 +113,7 @@ if string.find(arg, "subclass") then
                     actor:send("- <b:cyan>Priest</>")
                     actor:send("</>   <cyan>(This class is for good characters only)</>_")
                 end
-            elseif string.find(actor.class, "Rogue") then
+            elseif string.find(actor.class, "rogue") then
                 if not (string.find(assassinraces, actor.race)) then
                     actor:send("- <red>Assassin</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
@@ -127,7 +127,7 @@ if string.find(arg, "subclass") then
                 if not (string.find(thiefraces, actor.race)) then
                     actor:send("- <b:red>Thief</>_")
                 end
-            elseif string.find(actor.class, "Warrior") then
+            elseif string.find(actor.class, "warrior") then
                 if not (string.find(antipaladinraces, actor.race)) then
                     actor:send("- <b:red>Anti-Paladin</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
@@ -152,7 +152,7 @@ if string.find(arg, "subclass") then
             actor:send("<cyan>Status: In Progress</>_")
         end
     else
-        if string.find(actor.class, "Warrior") or string.find(actor.class, "Cleric") or string.find(actor.class, "Sorcerer") or string.find(actor.class, "Rogue") then
+        if string.find(actor.class, "warrior") or string.find(actor.class, "cleric") or string.find(actor.class, "sorcerer") or string.find(actor.class, "rogue") then
             actor:send("You have no subclass quests available.")
         else
             actor:send("You have already completed the quest to subclass to " .. tostring(actor.class) .. ".")

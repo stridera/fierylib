@@ -13,7 +13,7 @@ if not actor.is_player then
 end
 local stage = actor:get_quest_stage("waterform")
 if stage == 0 then
-    if actor.class and string.find(actor.class, "Cryomancer") then
+    if actor.class and string.find(actor.class, "cryomancer") then
         self:say("How nice to see someone other than those dreadful pirates.")
         if actor.level > 72 then
             wait(2)

@@ -51,7 +51,7 @@ if string.find(arg, "equipment") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    if string.find(sorcererclasses, actor.class) then
+    if string.find(string.lower(sorcererclasses), actor.class, 1, true) then
         actor:send("<b:green>&uAcid Wand</>")
         actor:send("Masters of earth will help you create and upgrade a new mystic weapon.")
         local status
@@ -97,7 +97,7 @@ if string.find(arg, "equipment") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
-    if string.find(actor.class, "Assassin") then
+    if string.find(actor.class, "assassin") then
         actor:send("<b:green>&uDeadly Promotion</>")
         actor:send("Assassins who have proven to be efficient bounty hunters can work their way up in the Guild to earn special masks.")
         local status
@@ -110,7 +110,7 @@ if string.find(arg, "equipment") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
-    if string.find(actor.class, "Priest") or string.find(actor.class, "Cleric") then
+    if string.find(actor.class, "priest") or string.find(actor.class, "cleric") then
         actor:send("Clerics and priests can make pilgrimages to various spiritual masters to craft weapons to smite the undead.")
         actor:send("<b:green>&uSpirit Maces</>")
         local status
@@ -123,7 +123,7 @@ if string.find(arg, "equipment") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
-    if string.find(actor.class, "Paladin") or actor.class == "anti-paladin" then
+    if string.find(actor.class, "paladin") or actor.class == "anti-paladin" then
         actor:send("<b:green>&uDivine Devotion</>")
         actor:send("Prove your devotion to your cause after slaying a dragon, be it justtice or destruction, and receive a divine reward.")
         local status
@@ -136,7 +136,7 @@ if string.find(arg, "equipment") then
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
-    if string.find(hunterclasses, actor.class) then
+    if string.find(string.lower(hunterclasses), actor.class, 1, true) then
         actor:send("<b:green>&uEye of the Tiger</>")
         actor:send("Mighty warriors who have bested the biggest beasts can further prove their skills to earn special trophies.")
         local status

@@ -14,7 +14,7 @@ if arg == "armor" then
     actor:send("Guild Armor Phase One")
     actor:send("Guild Armor Phase Two")
     actor:send("Guild Armor Phase Three")
-    if (string.find(actor.class, "Priest") and actor.level >= 50) or (string.find(actor.class, "Cleric") and actor.level >= 65) then
+    if (string.find(actor.class, "priest") and actor.level >= 50) or (string.find(actor.class, "cleric") and actor.level >= 65) then
         actor:send("Group Armor")
     end
 end

@@ -110,7 +110,7 @@ if quest_name then
         end
     end
 else
-    if string.find(actor.class, "Rogue") then
+    if string.find(actor.class, "rogue") then
         if actor.level >= 10 and actor.level <= 25 then
             actor:send(tostring(self.name) .. " says, 'You are not on any quests from me.'")
         elseif actor.level < 10 then

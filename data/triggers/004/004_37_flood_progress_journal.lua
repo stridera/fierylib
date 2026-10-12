@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "flood") then
-    if string.find(actor.class, "Cryomancer") and actor.level >= 75 then
+    if string.find(actor.class, "cryomancer") and actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("flood")
         actor:send("<b:green>&uFlood</>")

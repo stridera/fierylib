@@ -21,7 +21,7 @@ if not string.find(string.lower(speech), "weapon progress", 1, true) then
     return true  -- Not the phrase
 end
 wait(2)
-if string.find(actor.class, "Diabolist") then
+if string.find(actor.class, "diabolist") then
     local level, response
     if actor:get_quest_stage("hell_trident") then
         local hellstage = actor:get_quest_stage("hell_trident")

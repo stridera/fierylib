@@ -19,7 +19,7 @@ end
 -- TODO(parity): legacy DG had a race switch ("ADD NEW RESTRICTED RACES HERE")
 -- that halted on disallowed races before each class block.
 
-if string.find(actor.class, "Cleric") then
+if string.find(actor.class, "cleric") then
     wait(2)
     if actor.level >= 10 and actor.level <= 35 then
         if globals.use_subclass then
@@ -38,7 +38,7 @@ if string.find(actor.class, "Cleric") then
     else
         actor:send(tostring(self.name) .. " says, 'You have traveled too far on your current path to change your way.'")
     end
-elseif string.find(actor.class, "Warrior") then
+elseif string.find(actor.class, "warrior") then
     wait(2)
     if actor.level >= 10 and actor.level <= 25 then
         if globals.use_subclass then

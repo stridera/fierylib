@@ -32,7 +32,7 @@ elseif actor:get_quest_stage("bard_subclass") == 5 then
     self:command("wink " .. tostring(actor))
 else
     local classquest
-    if string.find(actor.class, "Rogue") then
+    if string.find(actor.class, "rogue") then
         -- switch on actor.race
         -- case ADD RESTRICTED RACES HERE
         -- set classquest no

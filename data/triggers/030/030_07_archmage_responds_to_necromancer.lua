@@ -8,7 +8,7 @@
 -- Converted from DG Script #3007: Archmage responds to 'necromancer'
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 wait(1)
-if string.find(actor.class, "Sorcerer") and actor.level > 9 and actor.level < 46 then
+if string.find(actor.class, "sorcerer") and actor.level > 9 and actor.level < 46 then
     self:say("So you want to take on the dark arts, eh?  The foul arts?  The stinky death arts?")
     wait(3)
     self:command("sniff")
@@ -23,7 +23,7 @@ if string.find(actor.class, "Sorcerer") and actor.level > 9 and actor.level < 46
     self:say("He's vain and no doubt sips blood in a musty parlour, but he won't stand for mold.")
     wait(4)
     self:say("I suppose a run-down shack of some kind would suit him.  I've never been to visit.  Never will.")
-elseif string.find(actor.class, "Sorcerer") and actor.level < 10 then
+elseif string.find(actor.class, "sorcerer") and actor.level < 10 then
     self:say("You want to know about evil, scheming death mages?  A fine young sorcerer like yourself?")
     wait(4)
     self:say("I canNOT imagine why.  They lead frightful lives.  Entertained and served by corpses.")
@@ -33,7 +33,7 @@ elseif string.find(actor.class, "Sorcerer") and actor.level < 10 then
     self:say("At any rate, Asiri won't do a thing for you at your age.  So you can just put the idea out of your mind.")
     wait(4)
     self:say("Preferably forever.")
-elseif string.find(actor.class, "Necromancer") then
+elseif string.find(actor.class, "necromancer") then
     actor:send(tostring(self.name) .. " looks you over.")
     self.room:send_except(actor, tostring(self.name) .. " looks " .. tostring(actor.name) .. " over.")
     wait(4)

@@ -31,7 +31,7 @@ end
 
 -- Level/race gating per class.
 local classquest = false
-if string.find(actor.class, "Cleric") then
+if string.find(actor.class, "cleric") then
     if actor.level >= 10 and actor.level <= 35 then
         if actor.race == "drow" or actor.race == "faerie_unseelie" then
             actor:send("<red>Your race may not subclass to priest.</>")
@@ -39,7 +39,7 @@ if string.find(actor.class, "Cleric") then
         end
         classquest = true
     end
-elseif string.find(actor.class, "Warrior") then
+elseif string.find(actor.class, "warrior") then
     if actor.level >= 10 and actor.level <= 25 then
         if actor.race == "drow" or actor.race == "faerie_unseelie" then
             actor:send("<red>Your race may not subclass to paladin.</>")
@@ -70,11 +70,11 @@ if actor.alignment <= 349 then
     return true
 end
 
-if string.find(actor.class, "Warrior") and actor.level >= 10 and actor.level <= 25 then
+if string.find(actor.class, "warrior") and actor.level >= 10 and actor.level <= 25 then
     self:command("nod " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, 'Do ye wish to join the ranks of the holy warriors?'")
     globals.use_subclass = "Pal"
-elseif string.find(actor.class, "Cleric") and actor.level >= 10 and actor.level <= 35 then
+elseif string.find(actor.class, "cleric") and actor.level >= 10 and actor.level <= 35 then
     self:command("nod " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, 'Do ye wish to join the ranks of the priests and help drive darkness from our world?'")
     globals.use_subclass = "Pri"

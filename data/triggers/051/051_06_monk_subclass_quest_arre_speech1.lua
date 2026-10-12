@@ -19,7 +19,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "here") or string.find(speech_lower, "where")) then
     return true  -- No matching keywords
 end
-if not string.find(actor.class, "Warrior") then
+if not string.find(actor.class, "warrior") then
     wait(2)
     actor:send(self.name .. " says, 'Ah, you are not well suited to my teaching.  So I shall not waste my time with you.'")
     return

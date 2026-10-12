@@ -12,7 +12,7 @@ local s = string.lower(speech)
 if not string.find(s, "lost") then
     return true
 end
-if not string.find(actor.class, "Cryomancer") then
+if not string.find(actor.class, "cryomancer") then
     return true
 end
 

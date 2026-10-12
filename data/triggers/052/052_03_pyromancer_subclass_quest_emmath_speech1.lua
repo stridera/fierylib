@@ -22,12 +22,12 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 
-if string.find(actor.class, "Pyromancer") then
+if string.find(actor.class, "pyromancer") then
     wait(2)
     self:command("chuckle")
     actor:send(tostring(self.name) .. " says, 'I have nothing more to teach you, young one.'")
 elseif not actor:get_quest_stage("pyromancer_subclass") then
-    if string.find(actor.class, "Sorcerer") then
+    if string.find(actor.class, "sorcerer") then
         if actor.race == "dragonborn_frost" or actor.race == "arborean" then
             actor:send("<red>Your race may not subclass to pyromancer.</>")
             return true

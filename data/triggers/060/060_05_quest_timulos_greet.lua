@@ -49,12 +49,12 @@ else
         actor:send(tostring(self.name) .. " says, 'That could have gone better.  I see you failed your mission.'")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'I suppose you want to try again.'")
-    elseif string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 25) then
+    elseif string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.name) .. ", have you come to me for training?'")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Well?  Do you want <b:cyan>training</> " .. tostring(actor.name) .. " or are you just going to stand there?'")
         self:command("tap")
-    elseif string.find(actor.class, "Rogue") and actor.level < 10 then
+    elseif string.find(actor.class, "rogue") and actor.level < 10 then
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.name) .. ", have you come to me for trai- '")
         wait(2)
         self:emote("stops cold.")

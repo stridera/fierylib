@@ -14,7 +14,7 @@ if not string.find(speech_lower, "restart") then
     return true  -- keyword not heard
 end
 
-if string.find(actor.class, "Sorcerer")
+if string.find(actor.class, "sorcerer")
     and actor.level > 9 and actor.level < 46
     and actor:get_quest_stage("illusionist_subclass") > 0 then
     wait(2)

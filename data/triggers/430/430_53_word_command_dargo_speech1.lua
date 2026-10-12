@@ -23,7 +23,7 @@ elseif actor:get_has_completed("word_command") then
     wait(1)
     self.room:send(tostring(self.name) .. " screams, 'NOOOOOOOO!!!!!' as he runs wildly into the shadows!")
     world.destroy(self)
-elseif (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 72 then
+elseif (string.find(actor.class, "priest") or string.find(actor.class, "diabolist")) and actor.level > 72 then
     self:say("Thank you!")
     if not actor:get_quest_stage("word_command") then
         actor:start_quest("word_command")

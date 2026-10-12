@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #13326: heavens_gate_starlight_look
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
-if string.find(actor.class, "Priest") and actor.level > 80 and actor:get_quest_stage("heavens_gate") == 0 then
+if string.find(actor.class, "priest") and actor.level > 80 and actor:get_quest_stage("heavens_gate") == 0 then
     self.room:send_except(actor, tostring(actor.name) .. " stands completely still, staring intently at nothing.")
     wait(1)
     actor:send("<b:white>Your mind is suddenly overwhelmed by the vision of a swirling vortex of stars above the formation.</>")

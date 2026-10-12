@@ -242,7 +242,7 @@ if go == "hunt" then
             self.room:spawn_object(4, 13)
             self:command("give gloves " .. tostring(actor))
         end
-        if (string.find(actor.class, "ranger") or string.find(actor.class, "warrior") or string.find(actor.class, "berserker") or string.find(actor.class, "Mercenary")) and actor:get_quest_stage("ranger_trophy") == 0 then
+        if (string.find(actor.class, "ranger") or string.find(actor.class, "warrior") or string.find(actor.class, "berserker") or string.find(actor.class, "mercenary")) and actor:get_quest_stage("ranger_trophy") == 0 then
             wait(2)
             actor:send(tostring(self.name) .. " says, 'I think you've earned this too.'")
             self.room:spawn_object(2, 170)

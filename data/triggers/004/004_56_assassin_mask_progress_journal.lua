@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(arg, "deadly_promotion or arg ~=assassin_mask") then
-    if string.find(actor.class, "Assassin") then
+    if string.find(actor.class, "assassin") then
         _return_value = true
         local bountystage = actor:get_quest_stage("bounty_hunt")
         local maskstage = actor:get_quest_stage("assassin_mask")

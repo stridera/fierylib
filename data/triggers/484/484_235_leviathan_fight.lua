@@ -18,7 +18,7 @@ if mode < 6 then
     self:command("sweep")
 else
     local victim = self.room.actors[random(1, #self.room.actors)]
-    if (victim.name ~= actor.name) and ((victim.class == "warrior") or (string.find(victim.class, "Anti")) or (victim.class == "ranger") or (victim.class == "paladin") or (victim.class == "monk") or (victim.class == "mercenary") or (victim.class == "berserker")) then
+    if (victim.name ~= actor.name) and ((victim.class == "warrior") or (string.find(victim.class, "anti")) or (victim.class == "ranger") or (victim.class == "paladin") or (victim.class == "monk") or (victim.class == "mercenary") or (victim.class == "berserker")) then
         if victim.room == self.room then
             self:teleport(get_room(11, 0))
             self:teleport(actor.room)

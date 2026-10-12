@@ -12,10 +12,10 @@ if actor.level > 10 then
     local druidraces = "none"
     local rangerraces = "none"
     local check
-    if string.find(arg, "Ranger") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(rangerraces, actor.race)) then
+    if string.find(arg, "Ranger") and string.find(actor.class, "warrior") and actor.level <= 25 and not (string.find(rangerraces, actor.race)) then
         actor:send("<b:green>Ranger</>")
         check = "yes"
-    elseif string.find(arg, "Druid") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(druidraces, actor.race)) then
+    elseif string.find(arg, "Druid") and string.find(actor.class, "cleric") and actor.level <= 35 and not (string.find(druidraces, actor.race)) then
         actor:send("<green>Druid</>")
         check = "yes"
     end

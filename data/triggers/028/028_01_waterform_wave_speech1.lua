@@ -33,7 +33,7 @@ end
 wait(2)
 local stage = actor:get_quest_stage("waterform")
 if stage == 0 and actor.is_player and actor.class
-        and string.find(actor.class, "Cryomancer") and actor.level > 72 then
+        and string.find(actor.class, "cryomancer") and actor.level > 72 then
     actor:start_quest("waterform")
     self.room:send(tostring(self.name) .. " says, 'I can teach you to transform you into a raging torrent,")
     self.room:send("</>giving you the strength of the water itself!  All you need is a single piece of")

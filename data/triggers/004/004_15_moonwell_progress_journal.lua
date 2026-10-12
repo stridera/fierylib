@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "moonwell") or string.find(arg, "moonwell_spell_quest") then
-    if string.find(actor.class, "Druid") and actor.level >= 65 then
+    if string.find(actor.class, "druid") and actor.level >= 65 then
         _return_value = true
         local stage = actor:get_quest_stage("moonwell_spell_quest")
         local master = mobiles.template(163, 16).name

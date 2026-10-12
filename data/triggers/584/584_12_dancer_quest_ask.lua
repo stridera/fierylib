@@ -37,9 +37,9 @@ if actor:get_has_completed("major_spell_quest") then
 end
 
 local class = tostring(actor.class)
-local eligible = string.find(class, "Sorcerer")
-        or string.find(class, "Cryomancer")
-        or string.find(class, "Pyromancer")
+local eligible = string.find(class, "sorcerer")
+        or string.find(class, "cryomancer")
+        or string.find(class, "pyromancer")
 
 if eligible then
     wait(1)

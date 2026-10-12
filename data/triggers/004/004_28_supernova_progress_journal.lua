@@ -14,7 +14,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "supernova") or string.find(arg, "nova") then
-    if actor.level >= 85 and string.find(actor.class, "Pyromancer") then
+    if actor.level >= 85 and string.find(actor.class, "pyromancer") then
         _return_value = true
         local stage = actor:get_quest_stage("supernova")
         actor:send("<b:green>&uSupernova</>")

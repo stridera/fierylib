@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "nature") or string.find(string.lower(speech), "majesty") or string.find(string.lower(speech), "treat") or string.find(string.lower(speech), "remind") or string.find(string.lower(speech), "nature?") or string.find(string.lower(speech), "majesty?") or string.find(string.lower(speech), "treat?") or string.find(string.lower(speech), "remind?")) then
     return true  -- No matching keywords
 end
-if string.find(actor.class, "Druid") then
+if string.find(actor.class, "druid") then
     if actor.level > 80 then
         if actor:get_quest_stage("creeping_doom") == 0 then
             wait(2)

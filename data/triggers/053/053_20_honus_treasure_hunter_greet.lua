@@ -20,12 +20,12 @@ if not actor:get_has_completed("treasure_hunter") then
     elseif actor:get_quest_stage("treasure_hunter") >= 1 and not actor:get_has_completed("treasure_hunter") then
         actor:send(tostring(self.name) .. " says, 'Ah, back to <b:cyan>[hunt]</> for more treasure!'")
     end
-    if not actor:get_has_completed("rogue_cloak") and actor.level > 9 and (string.find(actor.class, "Rogue") or string.find(actor.class, "Thief") or string.find(actor.class, "Bard")) then
+    if not actor:get_has_completed("rogue_cloak") and actor.level > 9 and (string.find(actor.class, "rogue") or string.find(actor.class, "thief") or string.find(actor.class, "bard")) then
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to seek a <b:cyan>[promotion]</>.'")
     end
 else
-    if (string.find(actor.class, "Rogue") or string.find(actor.class, "Thief") or string.find(actor.class, "Bard")) and not actor:get_quest_stage("rogue_cloak") and actor.level > 9 then
+    if (string.find(actor.class, "rogue") or string.find(actor.class, "thief") or string.find(actor.class, "bard")) and not actor:get_quest_stage("rogue_cloak") and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'Oh look, a new recruit gunning for a <b:cyan>[promotion]</>.'")
     elseif actor:get_quest_stage("rogue_cloak") and not actor:get_has_completed("rogue_cloak") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be looking for another <b:cyan>[promotion]</>.'")

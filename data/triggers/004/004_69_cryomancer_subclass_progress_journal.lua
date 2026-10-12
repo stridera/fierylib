@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local cryoraces = "arborean dragonborn_fire"
-    if string.find(arg, "Cryomancer") and string.find(actor.class, "Sorcerer") and actor.level <= 45 and not (string.find(cryoraces, actor.race)) then
+    if string.find(arg, "Cryomancer") and string.find(actor.class, "sorcerer") and actor.level <= 45 and not (string.find(cryoraces, actor.race)) then
         _return_value = true
         actor:send("<b:blue>Cryomancer</>")
         actor:send("Quest Master: " .. tostring(mobiles.template(550, 20).name))

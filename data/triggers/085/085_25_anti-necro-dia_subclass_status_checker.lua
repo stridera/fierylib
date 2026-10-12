@@ -47,9 +47,9 @@ else
     local classgreet = "no"
     if actor.alignment < -349 then
         local in_window =
-            (string.find(actor.class, "Warrior") and actor.level <= 25)
-            or (string.find(actor.class, "Cleric")  and actor.level <= 35)
-            or (string.find(actor.class, "Sorcerer") and actor.level <= 45)
+            (string.find(actor.class, "warrior") and actor.level <= 25)
+            or (string.find(actor.class, "cleric")  and actor.level <= 35)
+            or (string.find(actor.class, "sorcerer") and actor.level <= 45)
         if in_window and actor.race ~= "elf" and actor.race ~= "faerie_seelie" then
             classgreet = "yes"
         end

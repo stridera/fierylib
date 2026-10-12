@@ -11,7 +11,7 @@
 -- Plate ya ask?
 -- 
 -- This is for anti-paladins only
-if string.find(actor.class, "Anti") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
+if string.find(actor.class, "anti") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, \"Body armor? Well now I can make a fine plate for the anti-paladins but\"")
     actor:send(tostring(self.name) .. " tells you, \"I'll need 3 enchanted emeralds, and a Tarnished Plate. Return these\"")

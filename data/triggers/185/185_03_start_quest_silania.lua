@@ -12,7 +12,7 @@ if not (string.find(s, "yes") or string.find(s, "no")) then
 end
 
 local classquest = false
-if string.find(actor.class, "Cleric") then
+if string.find(actor.class, "cleric") then
     if actor.level >= 10 and actor.level <= 35 then
         if actor.race == "drow" or actor.race == "faerie_unseelie" then
             actor:send("<red>Your race may not subclass to priest.</>")
@@ -26,7 +26,7 @@ if string.find(actor.class, "Cleric") then
         actor:send(tostring(self.name) .. " says, 'You are already following your destiny.  I cannot help you any further.'")
         return true
     end
-elseif string.find(actor.class, "Warrior") then
+elseif string.find(actor.class, "warrior") then
     if actor.level >= 10 and actor.level <= 25 then
         if actor.race == "drow" or actor.race == "faerie_unseelie" then
             actor:send("<red>Your race may not subclass to paladin.</>")

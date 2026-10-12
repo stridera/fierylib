@@ -15,7 +15,7 @@ end
 if actor:get_quest_stage("bard_subclass") == 1 or actor:get_quest_stage("bard_subclass") == 2 or actor:get_quest_stage("bard_subclass") == 3 or actor:get_quest_stage("bard_subclass") == 4 then
     actor:send(tostring(self.name) .. " says, 'Ready to continue your audition?'")
 else
-    if string.find(actor.class, "Rogue") then
+    if string.find(actor.class, "rogue") then
         -- switch on actor.race
         -- case ADD RESTRICTED RACES HERE
         -- break

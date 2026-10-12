@@ -15,7 +15,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
-    if (string.find(relocateclasses, actor.class)) and actor.level >= 60 then
+    if (string.find(string.lower(relocateclasses), actor.class, 1, true)) and actor.level >= 60 then
         _return_value = true
         local stage = actor:get_quest_stage("relocate_spell_quest")
         actor:send("<b:green>&uRelocate</>")

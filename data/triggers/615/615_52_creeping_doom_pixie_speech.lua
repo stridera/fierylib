@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
 wait(2)
-if string.find(actor.class, "Druid") and actor:get_quest_stage("creeping_doom") == 0 and actor.level > 80 then
+if string.find(actor.class, "druid") and actor:get_quest_stage("creeping_doom") == 0 and actor.level > 80 then
     self:command("grin")
     actor:start_quest("creeping_doom")
     wait(1)

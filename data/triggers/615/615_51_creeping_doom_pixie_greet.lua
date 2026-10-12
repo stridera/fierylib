@@ -8,7 +8,7 @@
 -- Converted from DG Script #61551: creeping_doom_pixie_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
-if string.find(actor.class, "Druid") then
+if string.find(actor.class, "druid") then
     if actor.level > 80 then
         if actor:get_quest_stage("creeping_doom") == 0 then
             self:emote("grumbles about pathetic mortals ruining the world.")

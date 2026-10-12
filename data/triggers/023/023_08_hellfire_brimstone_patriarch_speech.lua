@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-if string.find(actor.class, "Diabolist") and actor.level > 56 and actor:get_quest_stage("hellfire_brimstone") == 0 then
+if string.find(actor.class, "diabolist") and actor.level > 56 and actor:get_quest_stage("hellfire_brimstone") == 0 then
     actor:start_quest("hellfire_brimstone")
     wait(2)
     self:command("grin")

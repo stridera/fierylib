@@ -32,11 +32,11 @@ if actor.alignment <= -350 then
     actor:send("You quaff a potion and begin to feel a little light-headed...")
     self.room:send_except(actor, tostring(actor.name) .. " quaffs a black potion of recall.")
     self.room:send_except(actor, tostring(actor.name) .. " disappears in a flash of darkness!")
-    if string.find(actor.class, "Thief") or string.find(actor.class, "Assassin") or string.find(actor.class, "Mercenary") or string.find(actor.class, "Rogue") then
+    if string.find(actor.class, "thief") or string.find(actor.class, "assassin") or string.find(actor.class, "mercenary") or string.find(actor.class, "rogue") then
         actor:teleport(get_room(495, 25))
-    elseif string.find(actor.class, "Sorcerer") or string.find(actor.class, "Cryomancer") or string.find(actor.class, "Pyromancer") then
+    elseif string.find(actor.class, "sorcerer") or string.find(actor.class, "cryomancer") or string.find(actor.class, "pyromancer") then
         actor:teleport(get_room(495, 22))
-    elseif string.find(actor.class, "Necromancer") then
+    elseif string.find(actor.class, "necromancer") then
         actor:teleport(get_room(495, 14))
     else
         actor:teleport(get_room(495, 12))

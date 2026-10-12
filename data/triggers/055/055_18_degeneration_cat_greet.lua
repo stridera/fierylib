@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
 local stage = actor:get_quest_stage("degeneration")
-if string.find(actor.class, "Necromancer") then
+if string.find(actor.class, "necromancer") then
     if actor.level > 80 then
         if stage == 0 then
             self.room:send(tostring(self.name) .. " says, 'Ah, finally a visitor worth my attention.  Have you come to")

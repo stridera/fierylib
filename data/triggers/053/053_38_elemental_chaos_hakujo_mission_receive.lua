@@ -112,7 +112,7 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
         self.room:spawn_object(123, 106)
         self:command("give ring " .. tostring(actor))
     end
-    if string.find(actor.class, "Monk") and actor:get_quest_stage("monk_vision") == 0 then
+    if string.find(actor.class, "monk") and actor:get_quest_stage("monk_vision") == 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You are ready to begin your own path to <b:cyan>[Enlightenment]</>.'")
         self.room:spawn_object(2, 190)

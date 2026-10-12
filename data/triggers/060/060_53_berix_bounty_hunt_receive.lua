@@ -237,7 +237,7 @@ if go == "hunt" then
             self.room:spawn_object(4, 43)
             self:command("give shroud " .. tostring(actor))
         end
-        if string.find(actor.class, "Assassin") and actor:get_quest_stage("assassin_mask") == 0 then
+        if string.find(actor.class, "assassin") and actor:get_quest_stage("assassin_mask") == 0 then
             wait(2)
             actor:send(tostring(self.name) .. " says, 'I think you've earned this too.'")
             self.room:spawn_object(2, 150)

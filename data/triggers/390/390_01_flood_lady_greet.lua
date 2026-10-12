@@ -12,7 +12,7 @@
 wait(1)
 local stage = actor:get_quest_stage("flood")
 if stage == 0 then
-    if string.find(actor.class, "Cryomancer") and actor.level > 80 then
+    if string.find(actor.class, "cryomancer") and actor.level > 80 then
         self:command("point " .. actor.name)
         self:emote("screams, 'YOU.'")
         wait(2)

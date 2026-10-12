@@ -11,7 +11,7 @@
 -- This will recognize the acceptance of the phase armor quest
 -- by a player and set the quest variable for later interaction.
 -- 
-if string.find(actor.class, "Anti") then
+if string.find(actor.class, "anti") then
     wait(2)
     if actor:get_quest_stage("phase_armor") == 2 then
         actor:advance_quest("phase_armor")

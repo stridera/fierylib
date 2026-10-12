@@ -13,7 +13,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-if string.find(actor.class, "Rogue") and (actor.level >= 10 and actor.level <= 25) then
+if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then
     if string.find(speech, "yes") then
         if actor:get_has_failed("merc_ass_thi_subclass") then
             actor:restart_quest("merc_ass_thi_subclass")

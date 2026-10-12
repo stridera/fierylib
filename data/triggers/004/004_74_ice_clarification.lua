@@ -10,11 +10,11 @@
 local _return_value = true  -- Default: allow action
 if arg == "ice" then
     local sorcererclasses = "Sorcerer Cryomancer Pyromancer Illusionist Necromancer"
-    if string.find(sorcererclasses, actor.class) then
+    if string.find(string.lower(sorcererclasses), actor.class, 1, true) then
         _return_value = true
         actor:send("Please specify:")
         actor:send("Ice Wand")
-        if string.find(actor.class, "Cryomancer") then
+        if string.find(actor.class, "cryomancer") then
             if actor.level >= 50 then
                 actor:send("Wall of Ice")
             end

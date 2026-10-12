@@ -14,13 +14,13 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
-    if (string.find(actor.class, "Sorcerer") and actor.level >= 65) or (string.find(actor.class, "Pyromancer") and actor.level >= 75) then
+    if (string.find(actor.class, "sorcerer") and actor.level >= 65) or (string.find(actor.class, "pyromancer") and actor.level >= 75) then
         _return_value = true
         local stage = actor:get_quest_stage("meteorswarm")
         actor:send("<b:green>&uMeteorswarm</>")
-        if string.find(actor.class, "Sorcerer") then
+        if string.find(actor.class, "sorcerer") then
             actor:send("Minimum Level: 73")
-        elseif string.find(actor.class, "Pyromancer") then
+        elseif string.find(actor.class, "pyromancer") then
             actor:send("Minimum Level: 81")
         end
         local status

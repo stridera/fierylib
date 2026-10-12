@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg, "maces"))) or string.find(arg, "phase_mace") or string.find(arg, "spirit_mace") then
-    if string.find(actor.class, "Priest") or string.find(actor.class, "Cleric") then
+    if string.find(actor.class, "priest") or string.find(actor.class, "cleric") then
         _return_value = true
         local stage = actor:get_quest_stage("phase_mace")
         local minlevel = stage * 10

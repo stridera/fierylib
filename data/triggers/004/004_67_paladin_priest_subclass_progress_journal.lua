@@ -12,10 +12,10 @@ if actor.level > 10 then
     local priestraces = "drow faerie_unseelie"
     local paladinraces = "drow faerie_unseelie"
     local check
-    if string.find(arg, "Paladin") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(paladinraces, actor.race)) then
+    if string.find(arg, "Paladin") and string.find(actor.class, "warrior") and actor.level <= 25 and not (string.find(paladinraces, actor.race)) then
         actor:send("<b:white>Paladin</>")
         check = "yes"
-    elseif string.find(arg, "Priest") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(priestraces, actor.race)) then
+    elseif string.find(arg, "Priest") and string.find(actor.class, "cleric") and actor.level <= 35 and not (string.find(priestraces, actor.race)) then
         actor:send("<b:cyan>Priest</>")
         check = "yes"
     end

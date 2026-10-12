@@ -14,7 +14,7 @@ if not string.find(speech_lower, "begin") then
     return true  -- keyword not heard
 end
 
-if not string.find(actor.class, "Sorcerer") then
+if not string.find(actor.class, "sorcerer") then
     return true
 end
 if actor.level < 10 or actor.level > 45 then

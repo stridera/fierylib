@@ -16,7 +16,7 @@ if not actor.is_player then
     return true
 end
 
-if not string.find(actor.class or "", "Necromancer") then
+if not string.find(actor.class or "", "necromancer") then
     return true
 end
 

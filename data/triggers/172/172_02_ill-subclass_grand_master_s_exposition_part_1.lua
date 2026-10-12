@@ -16,7 +16,7 @@ end
 
 -- Only sorcerers in the right level band get the story; everyone else gets
 -- a brief brushoff.
-if not string.find(actor.class, "Sorcerer") then
+if not string.find(actor.class, "sorcerer") then
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Nope, not a sorcerer, can't help.'")
     return true

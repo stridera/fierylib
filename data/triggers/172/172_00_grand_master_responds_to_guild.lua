@@ -14,23 +14,23 @@ if not string.find(speech_lower, "guild") then
     return true  -- keyword not heard
 end
 wait(1)
-if string.find(actor.class, "Sorcerer") then
+if string.find(actor.class, "sorcerer") then
     self:command("eyebrow " .. tostring(actor.name))
     wait(3)
     actor:send(tostring(self.name) .. " says, 'I know and you know that it's right behind Bigby's shop!'")
     wait(4)
     actor:send(tostring(self.name) .. " says, 'Now stop wasting my time.'")
-elseif string.find(actor.class, "Cryomancer") then
+elseif string.find(actor.class, "cryomancer") then
     actor:send(tostring(self.name) .. " says, 'Your guild?  Ickle, perhaps?'")
     wait(4)
     actor:send(tostring(self.name) .. " says, 'I'm impressed that you haven't melted into a puddle from being so far south.'")
-elseif string.find(actor.class, "Pyromancer") then
+elseif string.find(actor.class, "pyromancer") then
     actor:send(tostring(self.name) .. " says, 'Where's your guild?  Probably somewhere hot, I should say?'")
     wait(3)
     self:command("chuckle grand")
     wait(3)
     actor:send(tostring(self.name) .. " says, 'Sorry, I've been shut up in this tower far too long!'")
-elseif string.find(actor.class, "Illusionist") then
+elseif string.find(actor.class, "illusionist") then
     actor:send(tostring(self.name) .. " says, 'Yes, you'll be wanting to visit your guild.'")
     wait(3)
     self:command("nod " .. tostring(actor.name))

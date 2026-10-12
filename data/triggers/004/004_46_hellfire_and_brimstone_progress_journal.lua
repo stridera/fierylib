@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "hellfire") or string.find(arg, "brimstone") or string.find(arg, "hellfire_and_brimstone") or string.find(arg, "hellfire_brimstone") then
-    if string.find(actor.class, "Diabolist") and actor.level >= 50 then
+    if string.find(actor.class, "diabolist") and actor.level >= 50 then
         _return_value = true
         local master = mobiles.template(23, 11).name
         local stage = actor:get_quest_stage("hellfire_brimstone")

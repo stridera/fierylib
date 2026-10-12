@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "tremors") or string.find(arg, "tremors of saint augustine") or string.find(arg, "tremors_of_saint_augustine") then
-    if string.find(actor.class, "Monk") then
+    if string.find(actor.class, "monk") then
         _return_value = true
         local chantstage = actor:get_quest_stage("monk_chants")
         local visionstage = actor:get_quest_stage("monk_vision")

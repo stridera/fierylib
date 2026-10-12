@@ -10,7 +10,7 @@
 local stage = actor:get_quest_stage("heavens_gate")
 -- (empty send to actor)
 actor:send("<b:white>Soft starlight glitters throughout the cavern in welcome as you enter.</>")
-if string.find(actor.class, "Priest") and actor.level > 80 then
+if string.find(actor.class, "priest") and actor.level > 80 then
     if stage == 0 then
         -- (empty send to actor)
         actor:send("<b:white>A strange light glints off a strange rock formation near the center of the cavern.</>")

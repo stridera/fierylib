@@ -12,7 +12,7 @@ wait(5)
 local casters = 0
 for _, victim in ipairs(self:get_people()) do
     if (victim.is_player) and (victim.level < 100) then
-        if string.find(victim.class, "Cleric") or string.find(victim.class, "Priest") or string.find(victim.class, "Druid") or string.find(victim.class, "Diabolist") or string.find(victim.class, "Sorcerer") or string.find(victim.class, "Cryomancer") or string.find(victim.class, "Pyromancer") or string.find(victim.class, "Necromancer") then
+        if string.find(victim.class, "cleric") or string.find(victim.class, "priest") or string.find(victim.class, "druid") or string.find(victim.class, "diabolist") or string.find(victim.class, "sorcerer") or string.find(victim.class, "cryomancer") or string.find(victim.class, "pyromancer") or string.find(victim.class, "necromancer") then
             casters = casters + 1
         end
     end
@@ -24,7 +24,7 @@ if casters > 0 then
     local target = nil
     while gotyou == 0 do
         target = self.room.actors[random(1, #self.room.actors)]
-        if string.find(target.class, "Cleric") or string.find(target.class, "Priest") or string.find(target.class, "Druid") or string.find(target.class, "Diabolist") or string.find(target.class, "Sorcerer") or string.find(target.class, "Cryomancer") or string.find(target.class, "Pyromancer") or string.find(target.class, "Necromancer") then
+        if string.find(target.class, "cleric") or string.find(target.class, "priest") or string.find(target.class, "druid") or string.find(target.class, "diabolist") or string.find(target.class, "sorcerer") or string.find(target.class, "cryomancer") or string.find(target.class, "pyromancer") or string.find(target.class, "necromancer") then
             gotyou = gotyou + 1
         end
     end

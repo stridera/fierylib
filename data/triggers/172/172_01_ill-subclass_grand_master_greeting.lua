@@ -9,7 +9,7 @@
 --
 -- Original DG Script: #17201
 
-if string.find(actor.class, "Sorcerer") and actor.level >= 10 and actor.level <= 45 then
+if string.find(actor.class, "sorcerer") and actor.level >= 10 and actor.level <= 45 then
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Hello, " .. tostring(actor.name) .. ".'")
     wait(2)

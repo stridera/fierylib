@@ -18,7 +18,7 @@ end
 
 local stage = actor:get_quest_stage("illusionist_subclass")
 
-if string.find(actor.class, "Sorcerer") and stage == 0 then
+if string.find(actor.class, "sorcerer") and stage == 0 then
     wait(1)
     if actor.level >= 10 and actor.level <= 45 then
         actor:send(tostring(self.name) .. " says, 'Well, hello there.'")

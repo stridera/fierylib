@@ -34,7 +34,7 @@ if actor:get_quest_stage("type_wand") == "wandstep" then
 end
 local stage = actor:get_quest_stage("wall_ice")
 if stage == 0 then
-    if actor.class and string.find(actor.class, "Cryomancer") and actor.level > 56 then
+    if actor.class and string.find(actor.class, "cryomancer") and actor.level > 56 then
         self:command("wave")
         self:say("Hey, you there, you look like a capable cryomancer!  Lend me a hand with this wall, will ya?")
         wait(2)

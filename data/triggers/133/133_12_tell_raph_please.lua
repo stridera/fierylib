@@ -24,38 +24,39 @@ end
 
 actor:complete_quest("get_raph_food")
 
+-- Keys are lowercase class plain names (the value of actor.class).
 -- Spell rewards (full caster classes). The threshold messages warn the
 -- player that their level is not yet high enough to actually cast the spell.
 local spell_rewards = {
-    Cleric      = { spell = "group heal",       min_level = 57 },
-    Priest      = { spell = "group heal",       min_level = 57 },
-    Diabolist   = { spell = "group heal",       min_level = 57 },
-    Druid       = { spell = "invigorate",       min_level = 65 },
-    Sorcerer    = { spell = "major globe",      min_level = 57 },
-    Pyromancer  = { spell = "major globe",      min_level = 57 },
-    Cryomancer  = { spell = "major globe",      min_level = 57 },
-    Necromancer = { spell = "summon dracolich", min_level = 73 },
+    cleric      = { spell = "group heal",       min_level = 57 },
+    priest      = { spell = "group heal",       min_level = 57 },
+    diabolist   = { spell = "group heal",       min_level = 57 },
+    druid       = { spell = "invigorate",       min_level = 65 },
+    sorcerer    = { spell = "major globe",      min_level = 57 },
+    pyromancer  = { spell = "major globe",      min_level = 57 },
+    cryomancer  = { spell = "major globe",      min_level = 57 },
+    necromancer = { spell = "summon dracolich", min_level = 73 },
 }
 
 -- Skill rewards (martial / hybrid classes). proficiency = level * 10 + 50.
 local skill_rewards = {
-    Warrior    = "switch",
-    Thief      = "pick lock",
-    Paladin    = "switch",
-    Antipaladin = "switch",
-    Ranger     = "switch",
-    Assassin   = "pick lock",
-    Mercenary  = "switch",
-    Monk       = "switch",
-    Berserker  = "switch",
-    Rogue      = "pick lock",
-    Bard       = "pick lock",
+    warrior    = "switch",
+    thief      = "pick lock",
+    paladin    = "switch",
+    ["anti-paladin"] = "switch",
+    ranger     = "switch",
+    assassin   = "pick lock",
+    mercenary  = "switch",
+    monk       = "switch",
+    berserker  = "switch",
+    rogue      = "pick lock",
+    bard       = "pick lock",
 }
 
 local class = actor.class
 
 for class_name, reward in pairs(spell_rewards) do
-    if string.find(class, class_name) then
+    if class == class_name then
         self:command("smile " .. tostring(actor.name))
         skills.set_level(actor, reward.spell, 1000)
         if actor.level < reward.min_level then
@@ -68,7 +69,7 @@ for class_name, reward in pairs(spell_rewards) do
 end
 
 for class_name, skill in pairs(skill_rewards) do
-    if string.find(class, class_name) then
+    if class == class_name then
         self:command("smile " .. tostring(actor.name))
         local total = actor.level * 10 + 50
         skills.set_level(actor, skill, total)

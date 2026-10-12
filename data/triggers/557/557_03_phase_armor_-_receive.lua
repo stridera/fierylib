@@ -26,7 +26,7 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
         actor:send(tostring(self.name) .. " says, 'I can't help you if I can't see you.'")
         return _return_value
     end
-    if not string.find(classes, actor.class) or (classes == anti and actor.class == "paladin") then
+    if not string.find(string.lower(classes), actor.class, 1, true) or (classes == anti and actor.class == "paladin") then
         _return_value = true
         if string.find(classes, "and") then
             actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " classes only.'")

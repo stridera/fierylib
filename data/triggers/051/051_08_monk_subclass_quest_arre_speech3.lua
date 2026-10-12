@@ -18,7 +18,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
     return true  -- No matching keywords
 end
-if not string.find(actor.class, "Warrior") then
+if not string.find(actor.class, "warrior") then
     return  -- Non-warriors silently ignored, matching legacy DG
 end
 local stage = actor:get_quest_stage("monk_subclass")

@@ -8,7 +8,7 @@
 -- Converted from DG Script #3009: Erasmus responds to "charm person"
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 wait(2)
-if string.find(actor.class, "Illusionist") then
+if string.find(actor.class, "illusionist") then
     if actor:has_skill("charm person") == 100 then
         self:say("A nice spell, isn't it?  I hope you're enjoying it.")
     elseif actor.level < 17 then
@@ -35,7 +35,7 @@ if string.find(actor.class, "Illusionist") then
             self:say("Eh?  Where did " .. tostring(actor.name) .. " go?  Must not have a thirst for knowledge!")
         end
     end
-elseif string.find(actor.class, "Sorcerer") then
+elseif string.find(actor.class, "sorcerer") then
     if actor:has_skill("charm person") == 100 then
         self:command("gasp")
         wait(3)

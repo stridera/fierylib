@@ -24,17 +24,17 @@ elseif actor:get_quest_stage("nec_dia_ant_subclass") == 3 or actor:get_quest_sta
 else
     local classgreet = "no"
     local maxlevel = 0
-    if string.find(actor.class, "Warrior") then
+    if string.find(actor.class, "warrior") then
         if actor.race ~= "elf" and actor.race ~= "faerie_seelie" then
             classgreet = "yes"
             maxlevel = 25
         end
-    elseif string.find(actor.class, "Cleric") then
+    elseif string.find(actor.class, "cleric") then
         if actor.race ~= "elf" and actor.race ~= "faerie_seelie" then
             classgreet = "yes"
             maxlevel = 35
         end
-    elseif string.find(actor.class, "Sorcerer") then
+    elseif string.find(actor.class, "sorcerer") then
         if actor.race ~= "elf" and actor.race ~= "faerie_seelie" then
             classgreet = "yes"
             maxlevel = 45

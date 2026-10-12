@@ -18,7 +18,7 @@
 if not string.find(string.lower(speech), "reason") then
     return true  -- No matching keywords
 end
-if not string.find(actor.class, "Warrior") then
+if not string.find(actor.class, "warrior") then
     wait(2)
     actor:send(self.name .. " says, 'Ah, you are not well suited to my teaching.  So I shall not waste my time with you.'")
     return

@@ -50,14 +50,14 @@ if stage == 4 then
     -- TODO(parity): legacy script also fell through to a race-restriction
     -- "you won't be able to become a berserker" branch with placeholder
     -- "ADD RESTRICTED RACES HERE". Restricted-race list still TBD.
-    if not string.find(actor.class, "Warrior") then
+    if not string.find(actor.class, "warrior") then
         actor:send(tostring(self.name) .. " says, 'You won't be able to become a berserker, I'm afraid.'")
     end
     return true
 end
 
 -- stage 0 (or unset): not started yet.
-if string.find(actor.class, "Warrior") then
+if string.find(actor.class, "warrior") then
     if actor.level >= 10 and actor.level <= 25 then
         actor:send(tostring(self.name) .. " says, 'You aren't trying to join us yet!'")
     elseif actor.level < 10 then

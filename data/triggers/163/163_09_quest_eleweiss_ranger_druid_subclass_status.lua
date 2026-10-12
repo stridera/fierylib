@@ -38,7 +38,7 @@ elseif stage == 3 or stage == 4 then
 else
     -- TODO(parity): legacy DG had a race switch ("ADD NEW RESTRICTED RACES HERE")
     -- that halted on disallowed races before the level checks below.
-    if string.find(actor.class, "Cleric") then
+    if string.find(actor.class, "cleric") then
         if actor.level >= 10 and actor.level <= 35 then
             actor:send(tostring(self.name) .. " says, 'You are not on this quest.'")
         elseif actor.level < 10 then
@@ -46,7 +46,7 @@ else
         else
             actor:send(tostring(self.name) .. " says, 'You have traveled too far on your current path to change your way.'")
         end
-    elseif string.find(actor.class, "Warrior") then
+    elseif string.find(actor.class, "warrior") then
         if actor.level >= 10 and actor.level <= 25 then
             actor:send(tostring(self.name) .. " says, 'You are not on this quest.'")
         elseif actor.level < 10 then

@@ -21,13 +21,13 @@ if not (string.find(string.lower(speech), "shift")
     return true
 end
 wait(2)
-if string.find(self.class, "Necromancer") then
+if string.find(self.class, "necromancer") then
     if speech == "degeneration" or speech == "degeneration?" then
         self.room:send(tostring(self.name) .. " says, 'Controlling negative energy to bolster the dead or")
         self.room:send("</>degenerate the living is theoretically possible.  Someone is working to")
         self.room:send("</>develop a &9<blue>Degeneration</> spell for use in the ongoing battle against")
         self.room:send("</>the Eldorian Guard.'")
-    elseif string.find(actor.class, "Necromancer") and actor:get_quest_stage("shift_corpse") == 0 then
+    elseif string.find(actor.class, "necromancer") and actor:get_quest_stage("shift_corpse") == 0 then
         if speech == "shift" or speech == "shift?" or speech == "corpse" or speech == "corpse?" or speech == "shift corpse" or speech == "shift corpse?" then
             self:say("So you want to learn our most powerful secrets, eh?")
             self:command("peer " .. tostring(actor))

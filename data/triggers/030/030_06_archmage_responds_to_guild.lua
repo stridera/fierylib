@@ -8,21 +8,21 @@
 -- Converted from DG Script #3006: Archmage responds to 'guild'
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 wait(1)
-if string.find(actor.class, "Sorcerer") then
+if string.find(actor.class, "sorcerer") then
     self:command("smirk")
     wait(3)
     self:command("ruffle " .. tostring(actor.name))
-elseif string.find(actor.class, "Cryomancer") or string.find(actor.class, "Pyromancer") then
+elseif string.find(actor.class, "cryomancer") or string.find(actor.class, "pyromancer") then
     self:say("Silly bun!  It's right outside!")
     wait(3)
     self:command("pat " .. tostring(actor.name))
-elseif string.find(actor.class, "Necromancer") then
+elseif string.find(actor.class, "necromancer") then
     self:say("Why, you're looking for creepy old Asiri!")
     wait(2)
     self:command("nod")
     wait(3)
     self:say("I suppose he's around here somewhere.  Somewhere creepy!  I don't really know.")
-elseif string.find(actor.class, "Illusionist") then
+elseif string.find(actor.class, "illusionist") then
     self:say("Oh dear.  You're asking the wrong spellcaster.  You illusionists, so good at hiding.")
     wait(4)
     self:say("But there is one thing.  Old Eamus - Ermie?  What was his name?")

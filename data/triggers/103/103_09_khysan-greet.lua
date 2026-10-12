@@ -78,7 +78,7 @@ else
     end
     if not (ice_stage and ice_stage > 0) then
         wait(3)
-        if string.find(actor.class, "Cryomancer") then
+        if string.find(actor.class, "cryomancer") then
             if actor:get_has_completed("major_globe_spell")
                and actor:get_has_completed("relocate_spell_quest")
                and actor:get_has_completed("wall_ice")

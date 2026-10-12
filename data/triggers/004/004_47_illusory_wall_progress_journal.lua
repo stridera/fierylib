@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.find(arg, "illusory_wall") then
-    if (string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) and actor.level >= 50 then
+    if (string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level >= 50 then
         _return_value = true
         local stage = actor:get_quest_stage("illusory_wall")
         local master = mobiles.template(364, 2).name

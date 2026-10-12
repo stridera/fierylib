@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "shift") or string.find(arg, "corpse") or string.find(arg, "shift_corpse") then
-    if string.find(actor.class, "Necromancer") and actor.level >= 90 then
+    if string.find(actor.class, "necromancer") and actor.level >= 90 then
         _return_value = true
         local stage = actor:get_quest_stage("shift_corpse")
         actor:send("<b:green>&uShift Corpse</>")

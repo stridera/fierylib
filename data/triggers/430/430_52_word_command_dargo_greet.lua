@@ -11,7 +11,7 @@ wait(2)
 if self.room.zone_id == 430 and self.room.local_id == 148 then
     if globals.questor and globals.questor == actor.name then
         self:say("Thank the gods you found me again!  Help me get out of here!")
-    elseif (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 72 then
+    elseif (string.find(actor.class, "priest") or string.find(actor.class, "diabolist")) and actor.level > 72 then
         self:say("Oh thank the gods, please help me!  Someone used a scroll")
         self.room:send("</>of World Teleport on me as a joke and I wound up here!'")
         wait(1)

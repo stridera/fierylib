@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "yes") then
     return true
 end
 wait(2)
-if string.find(actor.class, "Diabolist") and actor:get_quest_stage("hell_gate") == 0 then
+if string.find(actor.class, "diabolist") and actor:get_quest_stage("hell_gate") == 0 then
     if actor.level > 80 then
         self.room:send(tostring(self.name) .. " says, 'Then it must be our fate to open the gates of")
         self.room:send("</>Hell together.  Come, <b:white>[enter]</> the <b:white>[circle]</> and join me.'")

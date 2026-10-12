@@ -21,7 +21,7 @@ if actor:get_quest_stage("nec_dia_ant_subclass") then
 end
 
 local classquest = false
-if string.find(actor.class, "Warrior") then
+if string.find(actor.class, "warrior") then
     if actor.level >= 10 and actor.level <= 25 then
         if actor.race == "elf" or actor.race == "faerie_seelie" then
             actor:send("<red>Your race may not subclass to anti-paladin.</>")
@@ -29,7 +29,7 @@ if string.find(actor.class, "Warrior") then
         end
         classquest = true
     end
-elseif string.find(actor.class, "Cleric") then
+elseif string.find(actor.class, "cleric") then
     if actor.level >= 10 and actor.level <= 35 then
         if actor.race == "elf" or actor.race == "faerie_unseelie" then
             actor:send("<red>Your race may not subclass to diabolist.</>")
@@ -37,7 +37,7 @@ elseif string.find(actor.class, "Cleric") then
         end
         classquest = true
     end
-elseif string.find(actor.class, "Sorcerer") then
+elseif string.find(actor.class, "sorcerer") then
     if actor.level >= 10 and actor.level <= 45 then
         if actor.race == "elf" or actor.race == "faerie_seelie" then
             actor:send("<red>Your race may not subclass to necromancer.</>")
@@ -66,7 +66,7 @@ end
 
 self:command("nod " .. tostring(actor.name))
 local subclass = nil
-if string.find(actor.class, "Warrior") then
+if string.find(actor.class, "warrior") then
     if actor.level >= 10 and actor.level <= 25 then
         actor:send(tostring(self.name) .. " says, 'Do ye wish to join the ranks of the unholy warriors?'")
         subclass = "Ant"
@@ -75,7 +75,7 @@ if string.find(actor.class, "Warrior") then
     else
         actor:send(tostring(self.name) .. " says, 'You are already following your destiny.  I cannot help you any further.'")
     end
-elseif string.find(actor.class, "Cleric") then
+elseif string.find(actor.class, "cleric") then
     if actor.level >= 10 and actor.level <= 35 then
         actor:send(tostring(self.name) .. " says, 'Do ye wish to join the ranks of the diabolists and derive power from madness and darkness?'")
         subclass = "Dia"
@@ -84,7 +84,7 @@ elseif string.find(actor.class, "Cleric") then
     else
         actor:send(tostring(self.name) .. " says, 'You are already following your destiny.  I cannot help you any further.'")
     end
-elseif string.find(actor.class, "Sorcerer") then
+elseif string.find(actor.class, "sorcerer") then
     if actor.level >= 10 and actor.level <= 45 then
         actor:send(tostring(self.name) .. " says, 'Do ye wish to join the ranks of the necromancers and have power over death?'")
         subclass = "Nec"

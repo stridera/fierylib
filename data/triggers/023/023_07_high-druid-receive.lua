@@ -10,7 +10,7 @@
 -- because the receive trigger fires anew per delivery.
 local _return_value = true  -- Default: allow action
 if actor.is_player then
-    if string.find(actor.class, "Druid") then
+    if string.find(actor.class, "druid") then
         if (object.zone_id == 23 and object.id == 31) then
             self:command("smile " .. tostring(actor.name))
             globals.blessings = 1

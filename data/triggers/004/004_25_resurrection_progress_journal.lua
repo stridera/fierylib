@@ -10,7 +10,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.find(arg, "resurrection_quest") or string.find(arg, "res") then
-    if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist") and actor.level >= 75 then
+    if string.find(actor.class, "cleric") or string.find(actor.class, "priest") or string.find(actor.class, "diabolist") and actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("resurrection_quest")
         actor:send("<b:green>&uResurrection</>")
@@ -59,9 +59,9 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                 local mob1 = 51005
                 local mob2 = 53001
                 local mob3 = 51014
-                if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+                if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
                     item = "a large book on healing from Nordus"
-                elseif string.find(actor.class, "Diabolist") then
+                elseif string.find(actor.class, "diabolist") then
                     item = objects.template(510, 28).name
                 end
             elseif stage == 10 then

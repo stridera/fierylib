@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if arg == "hell" then
-    if string.find(actor.class, "Diabolist") then
+    if string.find(actor.class, "diabolist") then
         _return_value = true
         actor:send("Please specify:")
         actor:send("Hellfire and Brimstone")

@@ -9,13 +9,13 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if arg == "gate" then
-    if actor.level >= 75 and (string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) then
+    if actor.level >= 75 and (string.find(actor.class, "priest") or string.find(actor.class, "diabolist")) then
         _return_value = true
         actor:send("Please specify:")
-        if string.find(actor.class, "Priest") then
+        if string.find(actor.class, "priest") then
             actor:send("Heavens Gate")
         end
-        if string.find(actor.class, "Diabolist") then
+        if string.find(actor.class, "diabolist") then
             actor:send("Hell Gate")
         end
     end

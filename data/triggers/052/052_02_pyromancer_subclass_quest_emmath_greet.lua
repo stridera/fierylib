@@ -31,7 +31,7 @@ elseif stage == 2 then
 elseif stage == 3 or stage == 4 then
     actor:send(tostring(self.name) .. " says, 'Do you have the " .. tostring(actor:get_quest_var("pyromancer_subclass:part")) .. " flame?  Give it here!'")
 else
-    if string.find(actor.class, "Sorcerer") then
+    if string.find(actor.class, "sorcerer") then
         if actor.race == "dragonborn_frost" or actor.race == "arborean" then
             return true
         else
@@ -39,7 +39,7 @@ else
                 self.room:send("Emmath Firehand's glowing eyes flash brightly for a moment.")
                 actor:send(tostring(self.name) .. " says, 'Some love the life of <b:red>flame</>.  Do you?'")
                 self:emote("flicks a grin around the room.")
-            elseif string.find(actor.class, "Sorcerer") and actor.level < 10 then
+            elseif string.find(actor.class, "sorcerer") and actor.level < 10 then
                 self:emote("stares in amazement at " .. tostring(actor.name) .. ".")
                 actor:send(tostring(self.name) .. " says, 'I have no idea how you found me but you are far too inexperienced to be in these tunnels in the first place, and even less to ask for my guidance.'")
             end

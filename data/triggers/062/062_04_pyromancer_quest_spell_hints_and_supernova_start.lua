@@ -24,7 +24,7 @@ wait(2)
 if string.find(self.class, "pyromancer") then
     -- Supernova quest entrypoint, Pyromancer asker only
     if speech == "super" or speech == "super?" or speech == "nova" or speech == "nova?" or speech == "supernova" or speech == "supernova?" then
-        if string.find(actor.class, "Pyromancer") then
+        if string.find(actor.class, "pyromancer") then
             if actor.level > 88 then
                 if actor:get_quest_stage("supernova") == 0 then
                     actor:start_quest("supernova")

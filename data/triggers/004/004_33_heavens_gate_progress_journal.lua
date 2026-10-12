@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "heavens gate") or string.find(arg, "heavens") or string.find(arg, "heaven's gate") or string.find(arg, "heaven's") or string.find(arg, "heavens_gate") or string.find(arg, "heaven's_gate") then
-    if actor.level >= 75 and string.find(actor.class, "Priest") then
+    if actor.level >= 75 and string.find(actor.class, "priest") then
         _return_value = true
         local stage = actor:get_quest_stage("heavens_gate")
         actor:send("<b:green>&uHeavens Gate</>")

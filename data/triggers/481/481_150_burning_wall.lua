@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor.level < 100 then
     if string.find(direction, "south") then
-        if string.find(actor.class, "Sorcerer") or string.find(actor.class, "Pyromancer") or actor:get_quest_stage("fire_wand") > 7 then
+        if string.find(actor.class, "sorcerer") or string.find(actor.class, "pyromancer") or actor:get_quest_stage("fire_wand") > 7 then
             actor:send("The flames and lava bend around you as you pass through unharmed.")
         else
             local damage = (random(1, 40) + 40)

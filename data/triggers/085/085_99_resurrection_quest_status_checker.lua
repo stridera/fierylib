@@ -67,15 +67,15 @@ elseif stage == 8 then
     mob1 = 51005
     mob2 = 53001
     mob3 = 51014
-    if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+    if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
         item = "a large book on healing from Nordus"
-    elseif string.find(actor.class, "Diabolist") then
+    elseif string.find(actor.class, "diabolist") then
         item = objects.template(510, 28).name
     end
 elseif stage == 9 then
-    if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+    if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
         item = "a large book on healing from Nordus"
-    elseif string.find(actor.class, "Diabolist") then
+    elseif string.find(actor.class, "diabolist") then
         item = objects.template(510, 28).name
     end
 elseif stage == 10 then

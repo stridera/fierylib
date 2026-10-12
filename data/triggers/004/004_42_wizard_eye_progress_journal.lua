@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "wizard eye") or string.find(arg, "wizard") or string.find(arg, "wizard_eye") then
-    if string.find(actor.class, "Sorcerer") and actor.level >= 75 then
+    if string.find(actor.class, "sorcerer") and actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("wizard_eye")
         local item1 = actor:get_quest_var("wizard_eye:item1")

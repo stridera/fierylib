@@ -24,7 +24,7 @@ elseif actor:get_quest_stage("berserker_subclass") == 3 then
 elseif actor:get_quest_stage("berserker_subclass") == 4 then
     actor:send(tostring(self.name) .. " says, 'Why are you here when you should be out hunting your prey?'")
 else
-    if string.find(actor.class, "Warrior") then
+    if string.find(actor.class, "warrior") then
         -- TODO(parity): legacy DG had `case ADD RESTRICTED RACES HERE` left as
         -- a placeholder; restricted races for berserker are still TBD.
         if actor.level >= 10 and actor.level <= 25 then

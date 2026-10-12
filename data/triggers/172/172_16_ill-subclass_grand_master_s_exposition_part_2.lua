@@ -17,7 +17,7 @@ end
 
 local stage = actor:get_quest_stage("illusionist_subclass")
 
-if string.find(actor.class, "Sorcerer")
+if string.find(actor.class, "sorcerer")
     and actor.level >= 10 and actor.level <= 45
     and stage == 0 then
     wait(1)

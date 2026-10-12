@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if string.find(arg, "hell gate") or string.find(arg, "hell_gate") then
-    if string.find(actor.class, "Diabolist") and actor.level >= 75 then
+    if string.find(actor.class, "diabolist") and actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("hell_gate")
         local master = mobiles.template(564, 0).name

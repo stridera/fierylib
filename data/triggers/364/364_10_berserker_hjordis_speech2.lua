@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "yes") then
     return true
 end
-if string.find(actor.class, "Warrior") then
+if string.find(actor.class, "warrior") then
     -- TODO(parity): legacy DG left placeholder for race restrictions:
     --   "Your race may not subclass to berserker." Restricted race list TBD.
     wait(2)

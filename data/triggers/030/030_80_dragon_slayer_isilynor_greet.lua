@@ -21,12 +21,12 @@ if not actor:get_has_completed("dragon_slayer") then
     elseif actor:get_quest_stage("dragon_slayer") >= 1 and not actor:get_has_completed("dragon_slayer") then
         actor:send(tostring(self.name) .. " says, 'Ah, back for another dragon to <b:cyan>[hunt]</> I see.'")
     end
-    if not actor:get_has_completed("paladin_pendant") and actor.level > 9 and (string.find(actor.class, "Paladin") or string.find(actor.class, "anti")) then
+    if not actor:get_has_completed("paladin_pendant") and actor.level > 9 and (string.find(actor.class, "paladin") or string.find(actor.class, "anti")) then
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to discuss your <b:cyan>[devotion]</> to the cause.'")
     end
 else
-    if (string.find(actor.class, "Paladin") or actor.class == "anti-paladin") and not actor:get_quest_stage("paladin_pendant") and actor.level > 9 then
+    if (string.find(actor.class, "paladin") or actor.class == "anti-paladin") and not actor:get_quest_stage("paladin_pendant") and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'A new recruit looking to prove your <b:cyan>[devotion]</> to the cause.'")
     elseif actor:get_quest_stage("paladin_pendant") and not actor:get_has_completed("paladin_pendant") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be looking to prove your <b:cyan>[devotion]</> again.'")

@@ -22,7 +22,7 @@ if not actor or not actor.can_be_seen then
 else
     if actor.level <= (20 * (phase - 1)) then
         _return_value = true
-    elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "paladin") then
+    elseif not string.find(string.lower(classes), actor.class, 1, true) or (classes == anti and actor.class == "paladin") then
         _return_value = true
     elseif actor:get_quest_stage("phase_armor") == (phase - 1) then
         wait(2)

@@ -20,7 +20,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local rogueclasses = "Rogue Mercenary Assassin Thief"
         local anti = "Anti-Paladin"
         local master
-        if string.find(sorcererclasses, actor.class) then
+        if string.find(string.lower(sorcererclasses), actor.class, 1, true) then
             local feet_gem = 55613
             local head_gem = 55635
             local hands_gem = 55602
@@ -42,16 +42,16 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local legs_reward = 55478
             local body_reward = 55477
             local wrist_reward = 55480
-            if string.find(actor.class, "Sorcerer") then
+            if string.find(actor.class, "sorcerer") then
                 master = "the Archmage of Ickle"
-            elseif string.find(actor.class, "Cryomancer") then
+            elseif string.find(actor.class, "cryomancer") then
                 master = "the Archmage of Ickle, the High Cryomancer, and the master cryomancer"
-            elseif string.find(actor.class, "Pyromancer") then
+            elseif string.find(actor.class, "pyromancer") then
                 master = "the Archmage of Ickle, the High Pyromancer, and the master pyromancer"
-            elseif string.find(actor.class, "Illusionist") then
+            elseif string.find(actor.class, "illusionist") then
                 master = "the Archmage of Ickle, Erasmus, and Esh"
             end
-        elseif string.find(actor.class, "Necromancer") then
+        elseif string.find(actor.class, "necromancer") then
             local feet_gem = 55609
             local head_gem = 55631
             local hands_gem = 55598
@@ -74,7 +74,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55456
             local wrist_reward = 55459
             master = "Asiri'Qaxt and Schkerra"
-        elseif string.find(clericclasses, actor.class) then
+        elseif string.find(string.lower(clericclasses), actor.class, 1, true) then
             local feet_gem = 55612
             local head_gem = 55634
             local hands_gem = 55601
@@ -97,7 +97,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55435
             local wrist_reward = 55438
             master = "the High Priestess of Anduin and Zeno the Priest"
-        elseif string.find(actor.class, "Diabolist") then
+        elseif string.find(actor.class, "diabolist") then
             local feet_gem = 55606
             local head_gem = 55628
             local hands_gem = 55595
@@ -120,7 +120,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55470
             local wrist_reward = 55473
             master = "the Black Priestess"
-        elseif string.find(actor.class, "Druid") then
+        elseif string.find(actor.class, "druid") then
             local feet_gem = 55607
             local head_gem = 55629
             local hands_gem = 55596
@@ -143,7 +143,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55449
             local wrist_reward = 55452
             master = "the Black Priestess and the diabolist"
-        elseif string.find(actor.class, "Warrior") then
+        elseif string.find(actor.class, "warrior") then
             local feet_gem = 55615
             local head_gem = 55637
             local hands_gem = 55604
@@ -189,7 +189,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55428
             local wrist_reward = 55431
             master = "the warrior coach of Anduin"
-        elseif string.find(actor.class, "Ranger") then
+        elseif string.find(actor.class, "ranger") then
             local feet_gem = 55611
             local head_gem = 55633
             local hands_gem = 55600
@@ -235,7 +235,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55421
             local wrist_reward = 55424
             master = "the Grey Knight"
-        elseif string.find(actor.class, "Monk") then
+        elseif string.find(actor.class, "monk") then
             local feet_gem = 55608
             local head_gem = 55630
             local hands_gem = 55597
@@ -258,7 +258,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55463
             local wrist_reward = 55466
             master = "the Head Monk"
-        elseif string.find(actor.class, "Berserker") then
+        elseif string.find(actor.class, "berserker") then
             local feet_gem = 55607
             local head_gem = 55631
             local hands_gem = 55595
@@ -281,7 +281,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55769
             local wrist_reward = 55772
             master = "Tozug, Khargol, Jora Granitearm"
-        elseif string.find(rogueclasses, actor.class) then
+        elseif string.find(string.lower(rogueclasses), actor.class, 1, true) then
             local feet_gem = 55614
             local head_gem = 55636
             local hands_gem = 55603
@@ -304,7 +304,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55484
             local wrist_reward = 55487
             master = "Princess Signess, Haren, and Blackhaven"
-        elseif string.find(actor.class, "Bard") then
+        elseif string.find(actor.class, "bard") then
             local feet_gem = 55606
             local head_gem = 55630
             local hands_gem = 55600

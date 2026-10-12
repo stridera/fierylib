@@ -18,11 +18,11 @@ if not actor.is_player then
 end
 
 local class = actor.class or ""
-local is_shadow_class = string.find(class, "Necromancer")
-    or string.find(class, "Anti-Paladin")
-    or string.find(class, "Thief")
-    or string.find(class, "Assassin")
-    or string.find(class, "Mercenary")
+local is_shadow_class = string.find(class, "necromancer")
+    or string.find(class, "anti-paladin", 1, true)
+    or string.find(class, "thief")
+    or string.find(class, "assassin")
+    or string.find(class, "mercenary")
 
 if not is_shadow_class then
     return true

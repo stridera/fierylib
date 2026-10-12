@@ -45,7 +45,7 @@ if can_summon then
         actor:send("You begin calling for a mount..")
         actor:send("A brilliant golden dragon answers your summons.")
         summoned = "yes"
-    elseif string.find(actor.class, "Anti") then
+    elseif string.find(actor.class, "anti") then
         -- Knight is an anti-paladin, give him/her a black dragon
         self.room:spawn_mobile(188, 91)
         self.room:send_except(actor, "A dusky black dragon flies in, seemingly from nowhere, and sits by " .. tostring(actor.name) .. "'s side.")

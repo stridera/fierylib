@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 wait(2)
-if string.find(actor.class, "Necromancer") and actor.level > 80 and actor:get_quest_stage("degeneration") == 0 then
+if string.find(actor.class, "necromancer") and actor.level > 80 and actor:get_quest_stage("degeneration") == 0 then
     self.room:send(tostring(self.name) .. " says, 'I've been working for many years on a new spell to suffuse")
     self.room:send("</>beings with the energy of the dead.'")
     wait(3)

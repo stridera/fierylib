@@ -14,7 +14,7 @@ local casters = "Sorcerer Necromancer Cryomancer Pyromancer Cleric Druid Diaboli
 for _, person in ipairs(self:get_people()) do
     if (person.zone_id ~= 489) and (person.level < 100) then
         local damage
-        if string.find(casters, tostring(person.class)) then
+        if string.find(string.lower(casters), tostring(person.class), 1, true) then
             damage = 100 + random(1, 50)
         else
             damage = 250 + random(1, 50)

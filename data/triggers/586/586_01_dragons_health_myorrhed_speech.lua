@@ -25,7 +25,7 @@ if actor:get_quest_stage("dragons_health") == 0 then
         self:emote("utters a prayer of health and strength for the hatchling.")
         wait(5)
         if actor.level > 88 then
-            if string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") then
+            if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
                 self.room:send(tostring(self.name) .. " says, 'However, I could use some assistance from someone as capable")
                 self.room:send("</>as you are.  If you're willing to help me, I can teach you a prayer to invoke")
                 self.room:send("</>the health of dragons in exchange.'")
@@ -35,7 +35,7 @@ if actor:get_quest_stage("dragons_health") == 0 then
         end
     elseif string.find(speech, "Yes") or string.find(speech, "yes?") then
         wait(2)
-        if (string.find(actor.class, "Cleric") or string.find(actor.class, "Priest")) and actor.level > 88 then
+        if (string.find(actor.class, "cleric") or string.find(actor.class, "priest")) and actor.level > 88 then
             self:emote("smiles with gratitude.")
             actor:start_quest("dragons_health")
             wait(1)
@@ -95,7 +95,7 @@ elseif actor:get_quest_stage("dragons_health") == 1 then
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'You may ask me about your <b:cyan>[progress]</> if you need a reminder.'")
     elseif string.find(speech, "No") or string.find(speech, "no?") then
-        if (string.find(actor.class, "Cleric") or string.find(actor.class, "Priest")) and actor.level > 88 and actor:get_quest_stage("dragons_health") == 0 then
+        if (string.find(actor.class, "cleric") or string.find(actor.class, "priest")) and actor.level > 88 and actor:get_quest_stage("dragons_health") == 0 then
             self:say("That's alright.  We shall let nature take its course.")
             self:emote("gently pats the egg.")
         end

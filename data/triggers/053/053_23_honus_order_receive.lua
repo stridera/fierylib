@@ -113,7 +113,7 @@ if actor:get_quest_stage("treasure_hunter") == "stage" and actor:get_quest_var("
         self.room:spawn_object(123, 117)
         self:command("give bracelet " .. tostring(actor))
     end
-    if (string.find(actor.class, "Rogue") or string.find(actor.class, "Thief") or string.find(actor.class, "Bard")) and actor:get_quest_stage("rogue_cloak") == 0 then
+    if (string.find(actor.class, "rogue") or string.find(actor.class, "thief") or string.find(actor.class, "bard")) and actor:get_quest_stage("rogue_cloak") == 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'I think you've earned this too.'")
         self.room:spawn_object(2, 180)

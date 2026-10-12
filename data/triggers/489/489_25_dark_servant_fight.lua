@@ -63,7 +63,7 @@ else
     local casters = "Sorcerer Cryomancer Pyromancer Necromancer Cleric Priest Diabolist Druid Conjurer Shaman"
     -- Be nice to casters
     local damage
-    if string.find(casters, tostring(victim.class)) then
+    if string.find(string.lower(casters), tostring(victim.class), 1, true) then
         damage = 200 + random(1, 30)
     else
         damage = 380 + random(1, 30)

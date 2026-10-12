@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
 end
 local stage = actor:get_quest_stage("group_armor")
 wait(2)
-if (string.find(actor.class, "Cleric") and actor.level > 72) or (string.find(actor.class, "Priest") and actor.level > 56) then
+if (string.find(actor.class, "cleric") and actor.level > 72) or (string.find(actor.class, "priest") and actor.level > 56) then
     if stage == 0 then
         actor:start_quest("group_armor")
         self:say("Then welcome aboard!")
@@ -41,7 +41,7 @@ if (string.find(actor.class, "Cleric") and actor.level > 72) or (string.find(act
     elseif stage == 6 then
         self:say("Let me see what you've brought!")
     end
-elseif (string.find(actor.class, "Cleric") and actor.level < 72) or (string.find(actor.class, "Priest") and actor.level < 56) then
+elseif (string.find(actor.class, "cleric") and actor.level < 72) or (string.find(actor.class, "priest") and actor.level < 56) then
     self.room:send(tostring(self.name) .. " says, 'I don't think you're quite ready to be a forge")
     self.room:send("</>acolyte yet.'")
     self:command("laugh")

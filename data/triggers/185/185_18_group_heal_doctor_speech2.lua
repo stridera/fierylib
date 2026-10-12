@@ -23,7 +23,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 wait(2)
-if ((string.find(actor.class, "Cleric") or string.find(actor.class, "Priest") or string.find(actor.class, "Diabolist")) and actor.level > 56) and actor:get_quest_stage("group_heal") == 0 then
+if ((string.find(actor.class, "cleric") or string.find(actor.class, "priest") or string.find(actor.class, "diabolist")) and actor.level > 56) and actor:get_quest_stage("group_heal") == 0 then
     actor:start_quest("group_heal")
     self:say("Thank you so much!")
     wait(1)

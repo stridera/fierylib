@@ -17,19 +17,19 @@ if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) the
     return true  -- No matching keywords
 end
 local classquest = false
-if string.find(actor.class, "Cleric") and actor.level >= 10 and actor.level <= 35 then
+if string.find(actor.class, "cleric") and actor.level >= 10 and actor.level <= 35 then
     if actor.race == "elf" or actor.race == "faerie_seelie" then
         actor:send("<red>Your race may not subclass to diabolist.</>")
         return true
     end
     classquest = true
-elseif string.find(actor.class, "Warrior") and actor.level >= 10 and actor.level <= 25 then
+elseif string.find(actor.class, "warrior") and actor.level >= 10 and actor.level <= 25 then
     if actor.race == "elf" or actor.race == "faerie_seelie" then
         actor:send("<red>Your race may not subclass to anti-paladin.</>")
         return true
     end
     classquest = true
-elseif string.find(actor.class, "Sorcerer") and actor.level >= 10 and actor.level <= 45 then
+elseif string.find(actor.class, "sorcerer") and actor.level >= 10 and actor.level <= 45 then
     if actor.race == "elf" or actor.race == "faerie_seelie" then
         actor:send("<red>Your race may not subclass to necromancer.</>")
         return true

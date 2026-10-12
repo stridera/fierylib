@@ -9,13 +9,13 @@
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
 if arg == "wall" then
-    if actor.level >= 50 and (string.find(actor.class, "Cryomancer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) then
+    if actor.level >= 50 and (string.find(actor.class, "cryomancer") or string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) then
         _return_value = true
         actor:send("Please specify:")
-        if string.find(actor.class, "Cryomancer") then
+        if string.find(actor.class, "cryomancer") then
             actor:send("Wall of Ice")
         end
-        if string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard") then
+        if string.find(actor.class, "illusionist") or string.find(actor.class, "bard") then
             actor:send("Illusory Wall")
         end
     end

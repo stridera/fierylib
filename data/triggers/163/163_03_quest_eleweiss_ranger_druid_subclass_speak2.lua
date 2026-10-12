@@ -20,7 +20,7 @@ end
 -- that halted on disallowed races before each class branch.
 
 local classquest = nil
-if string.find(actor.class, "Cleric") then
+if string.find(actor.class, "cleric") then
     if actor.level >= 10 and actor.level <= 35 then
         classquest = "yes"
     elseif actor.level < 10 then
@@ -28,7 +28,7 @@ if string.find(actor.class, "Cleric") then
     else
         actor:send(tostring(self.name) .. " says, 'You have traveled too far on your current path to change your way.'")
     end
-elseif string.find(actor.class, "Warrior") then
+elseif string.find(actor.class, "warrior") then
     if actor.level >= 10 and actor.level <= 25 then
         classquest = "yes"
     elseif actor.level < 10 then

@@ -14,13 +14,13 @@ if actor.level > 10 then
     local diabolistraces = "faerie_seelie elf"
     local necromancerraces = "faerie_seelie elf"
     local check
-    if string.find(arg, "anti") and string.find(actor.class, "Warrior") and actor.level <= 25 and not (string.find(antipaladinraces, actor.race)) then
+    if string.find(arg, "anti") and string.find(actor.class, "warrior") and actor.level <= 25 and not (string.find(antipaladinraces, actor.race)) then
         actor:send("<b:red>Anti-Paladin</>")
         check = "yes"
-    elseif string.find(arg, "Diabolist") and string.find(actor.class, "Cleric") and actor.level <= 35 and not (string.find(diabolistraces, actor.race)) then
+    elseif string.find(arg, "Diabolist") and string.find(actor.class, "cleric") and actor.level <= 35 and not (string.find(diabolistraces, actor.race)) then
         actor:send("<magenta>Diabolist</>")
         check = "yes"
-    elseif string.find(arg, "Necromancer") and string.find(actor.class, "Sorcerer") and actor.level <= 45 and not (string.find(necromancerraces, actor.race)) then
+    elseif string.find(arg, "Necromancer") and string.find(actor.class, "sorcerer") and actor.level <= 45 and not (string.find(necromancerraces, actor.race)) then
         actor:send("&9<blue>Necromancer</>")
         check = "yes"
     end
