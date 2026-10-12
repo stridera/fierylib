@@ -8,9 +8,9 @@
 -- Converted from DG Script #3040: blob-to-pawnbroker
 -- Original: MOB trigger, flags: RANDOM, SPEECH, num_arg: 1 (word list and random chance)
 
--- RANDOM + SPEECH trigger (num_arg 1): a spoken word list when someone speaks (speech is the
--- text), a 1% roll on the random pulse (speech is empty).
-if speech ~= "" then
+-- RANDOM + SPEECH trigger (num_arg 1): a spoken word list when someone speaks (event is SPEECH,
+-- speech is the text), a 1% roll on the random pulse (event is RANDOM).
+if event == "SPEECH" then
     -- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
     local speech_padded = " " .. string.lower(speech) .. " "
     local speech_hit = false

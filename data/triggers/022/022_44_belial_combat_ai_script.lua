@@ -4,28 +4,36 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #2244
--- TODO(parity): script references undefined `belial_ai`, `action` globals;
--- DG source uses %self.belial_ai% and %action% as a per-mob counter and
--- action selector. Needs rewrite to track state via globals.belial_ai and
--- to choose `action` from random(1, N). Speech keyword "test" gates the FIGHT
--- branch erroneously — original DG used speech to start a debug AI run; FIGHT
--- path should bypass the speech check.
+-- Legacy DG never set `action` on this trigger and only this script ever set `belial_ai`, so
+-- the action switch below never matched: the script only ran the belial_ai countdown. That is
+-- kept as is (action = 0); picking an action (random(1, 11)) would change the boss fight and
+-- needs a design call.
 
 -- Converted from DG Script #2244: belial_combat_ai_script
--- Original: MOB trigger, flags: SPEECH, FIGHT, probability: 20%
+-- Original: MOB trigger, flags: SPEECH, FIGHT, num_arg: 20 (FIGHT: 20% chance per round; SPEECH: word list, not a probability)
 
--- 20% chance to trigger
-if not percent_chance(20) then
+-- num_arg 20: FIGHT = 20% roll per round; SPEECH = the word "test" (DG word list, num_arg
+-- non-zero), no chance roll.
+if event == "SPEECH" then
+    -- DG word list (num_arg 20): the speech must contain one of these as a whole word or phrase.
+    local speech_padded = " " .. string.lower(speech) .. " "
+    local speech_hit = false
+    for _, w in ipairs({"test"}) do
+        if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+            speech_hit = true
+            break
+        end
+    end
+    if not speech_hit then
+        return true  -- None of the listed words
+    end
+elseif not percent_chance(20) then
     return true
-end
-
--- Speech keywords: test
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "test")) then
-    return true  -- No matching keywords
 end
 -- random combat events
 local timer = random(1, 4)
+local belial_ai = tonumber(self:getvar("belial_ai")) or 0  -- DG: `global belial_ai`
+local action = 0  -- DG never set it (see header)
 if belial_ai > 0 then
     -- switch on action
     if action == 1 then
@@ -80,10 +88,10 @@ if belial_ai > 0 then
         skills.execute(self, "kick", self.fighting)
         -- line 80
     end
-    if belial_ai >= 1 then
-        belial_ai = belial_ai - 1
-    else
-        local belial_ai = timer
-    end
-    globals.belial_ai = globals.belial_ai or true
 end  -- auto-close block
+if belial_ai >= 1 then
+    belial_ai = belial_ai - 1
+else
+    belial_ai = timer
+end
+self:setvar("belial_ai", belial_ai)
