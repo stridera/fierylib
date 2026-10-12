@@ -3,11 +3,14 @@
 -- by hand; edit the markdown and regenerate (tests/test_topic_help_sql.py checks).
 --
 -- fierymud-rs used to hard-code these articles (TOPIC_HELP_ARTICLES in commands/info.rs)
--- as a fallback behind the HelpEntry table. Insert-only and idempotent: an article is
--- added only when no entry readable by every player (min_level <= 0) already carries
--- its primary keyword, so existing legacy or builder-edited entries are never touched
--- and a re-run changes 0 rows. (`fierylib seed help` overwrites by primary keyword
--- instead; use it on a fresh database.)
+-- as a fallback behind the HelpEntry table. Idempotent, two steps per article:
+--  1. INSERT when no entry readable by every player (min_level <= 0) already carries
+--     its primary keyword.
+--  2. UPDATE the lowest-id such entry (primary keyword first) when its body differs,
+--     but only if it was never edited in Muditor (updated_at = created_at) or still
+--     holds a previously generated body (PREVIOUS_TOPIC_HASHES). Builder-edited
+--     entries are never touched, and a re-run changes 0 rows.
+-- (`fierylib seed help` overwrites by primary keyword instead; use it on a fresh database.)
 
 -- combat: Combat
 INSERT INTO "HelpEntry"
@@ -42,6 +45,57 @@ WHERE NOT EXISTS (
   WHERE h.min_level <= 0 AND lower(k) = 'combat'
 );
 
+UPDATE "HelpEntry" SET
+  keywords = ARRAY['combat']::text[],
+  title = 'Combat',
+  content = $help$Combat uses an accuracy-vs-evasion d100 contest.
+
+Hit chance = 50 + (attacker.accuracy - defender.evasion) / 2,
+clamped to [1, 99]. Each point of Acc or Eva on your score sheet
+shifts hit chance by 0.5%. Atk is a percent multiplier on weapon damage:
+Atk=+50 means swings deal +50% damage.
+
+Posture matters — sitting, resting, kneeling, or sleeping subtracts from
+your evasion (Sleeping = -30, full reset).
+
+A swing every 4 seconds per side; 'kill X' fires one immediate
+opening swing then continues on cadence. 'consider {target}' shows your
+predicted hit rates and the target's current HP.
+
+Class tools: warriors taunt and bash; rogues hide then
+backstab for a +50% opener; clerics heal allies; mages cast for fire/ice/
+lightning damage.$help$,
+  min_level = 0,
+  category = 'guide',
+  usage = NULL,
+  source_file = 'data/help/combat.md',
+  updated_at = now()
+WHERE id = (
+  SELECT h.id FROM "HelpEntry" h
+  WHERE h.min_level <= 0 AND 'combat' = ANY(h.keywords)
+  ORDER BY (lower(h.keywords[1]) = 'combat') DESC, h.id
+  LIMIT 1
+)
+  AND (updated_at = created_at)
+  AND (keywords, title, content, min_level, category, usage, source_file)
+      IS DISTINCT FROM (ARRAY['combat']::text[], 'Combat', $help$Combat uses an accuracy-vs-evasion d100 contest.
+
+Hit chance = 50 + (attacker.accuracy - defender.evasion) / 2,
+clamped to [1, 99]. Each point of Acc or Eva on your score sheet
+shifts hit chance by 0.5%. Atk is a percent multiplier on weapon damage:
+Atk=+50 means swings deal +50% damage.
+
+Posture matters — sitting, resting, kneeling, or sleeping subtracts from
+your evasion (Sleeping = -30, full reset).
+
+A swing every 4 seconds per side; 'kill X' fires one immediate
+opening swing then continues on cadence. 'consider {target}' shows your
+predicted hit rates and the target's current HP.
+
+Class tools: warriors taunt and bash; rogues hide then
+backstab for a +50% opener; clerics heal allies; mages cast for fire/ice/
+lightning damage.$help$, 0, 'guide', NULL, 'data/help/combat.md');
+
 -- death: Death
 INSERT INTO "HelpEntry"
   (keywords, title, content, min_level, category, usage, source_file, updated_at)
@@ -75,6 +129,57 @@ WHERE NOT EXISTS (
   WHERE h.min_level <= 0 AND lower(k) = 'death'
 );
 
+UPDATE "HelpEntry" SET
+  keywords = ARRAY['death', 'corpse', 'corpses']::text[],
+  title = 'Death',
+  content = $help$When you die, your spirit lingers where you fell while your corpse drops
+at the death scene. Type release to return to your recall point
+at full HP.
+
+Release precedence:
+1. Last touchstone you 'touch'ed
+2. Your race's home room (where character creation spawns)
+3. The Void (last resort)
+
+Finding your corpse: "where corpse" gives its room and the way to go
+from where you stand. Room names repeat, so the [zone:id] it prints is
+the exact place. Type "get all from corpse" there to take your things.
+
+Corpse decay: a player's corpse keeps for several days, so
+take your time — log off, sleep on it, come back. Mob corpses decay in
+10 minutes. You'll lose some XP on death (the standard fierymud-tier
+penalty); items stay on the corpse for you to retrieve.$help$,
+  min_level = 0,
+  category = 'guide',
+  usage = NULL,
+  source_file = 'data/help/death.md',
+  updated_at = now()
+WHERE id = (
+  SELECT h.id FROM "HelpEntry" h
+  WHERE h.min_level <= 0 AND 'death' = ANY(h.keywords)
+  ORDER BY (lower(h.keywords[1]) = 'death') DESC, h.id
+  LIMIT 1
+)
+  AND (updated_at = created_at OR md5(content) IN ('325d5f027953d9880b2287c611dc4de7'))
+  AND (keywords, title, content, min_level, category, usage, source_file)
+      IS DISTINCT FROM (ARRAY['death', 'corpse', 'corpses']::text[], 'Death', $help$When you die, your spirit lingers where you fell while your corpse drops
+at the death scene. Type release to return to your recall point
+at full HP.
+
+Release precedence:
+1. Last touchstone you 'touch'ed
+2. Your race's home room (where character creation spawns)
+3. The Void (last resort)
+
+Finding your corpse: "where corpse" gives its room and the way to go
+from where you stand. Room names repeat, so the [zone:id] it prints is
+the exact place. Type "get all from corpse" there to take your things.
+
+Corpse decay: a player's corpse keeps for several days, so
+take your time — log off, sleep on it, come back. Mob corpses decay in
+10 minutes. You'll lose some XP on death (the standard fierymud-tier
+penalty); items stay on the corpse for you to retrieve.$help$, 0, 'guide', NULL, 'data/help/death.md');
+
 -- stealth: Stealth
 INSERT INTO "HelpEntry"
   (keywords, title, content, min_level, category, usage, source_file, updated_at)
@@ -105,6 +210,51 @@ WHERE NOT EXISTS (
   WHERE h.min_level <= 0 AND lower(k) = 'stealth'
 );
 
+UPDATE "HelpEntry" SET
+  keywords = ARRAY['stealth']::text[],
+  title = 'Stealth',
+  content = $help$hide rolls how well you hide from your hide skill, Dexterity and
+Intelligence. Anyone whose perception is below that number cannot see
+you; your group always can. Anything but looking around, hiding, moving
+and the like gives you away, and walking wears it down (sneak
+slows that). search can find a hider; point gives one
+away.
+
+While hidden, your next swing lands an opening-strike bonus:
++acc, +50% damage, softened by the defender's Perception.
+It is gone after that first swing regardless of outcome.
+
+backstab is the rogue's specialty stealth strike: pierce-weapon
+only, big multiplier on the weapon roll, even bigger when paired with
+hide first. visible drops your hiding without swinging.$help$,
+  min_level = 0,
+  category = 'guide',
+  usage = NULL,
+  source_file = 'data/help/stealth.md',
+  updated_at = now()
+WHERE id = (
+  SELECT h.id FROM "HelpEntry" h
+  WHERE h.min_level <= 0 AND 'stealth' = ANY(h.keywords)
+  ORDER BY (lower(h.keywords[1]) = 'stealth') DESC, h.id
+  LIMIT 1
+)
+  AND (updated_at = created_at)
+  AND (keywords, title, content, min_level, category, usage, source_file)
+      IS DISTINCT FROM (ARRAY['stealth']::text[], 'Stealth', $help$hide rolls how well you hide from your hide skill, Dexterity and
+Intelligence. Anyone whose perception is below that number cannot see
+you; your group always can. Anything but looking around, hiding, moving
+and the like gives you away, and walking wears it down (sneak
+slows that). search can find a hider; point gives one
+away.
+
+While hidden, your next swing lands an opening-strike bonus:
++acc, +50% damage, softened by the defender's Perception.
+It is gone after that first swing regardless of outcome.
+
+backstab is the rogue's specialty stealth strike: pierce-weapon
+only, big multiplier on the weapon roll, even bigger when paired with
+hide first. visible drops your hiding without swinging.$help$, 0, 'guide', NULL, 'data/help/stealth.md');
+
 -- tank: Tank
 INSERT INTO "HelpEntry"
   (keywords, title, content, min_level, category, usage, source_file, updated_at)
@@ -133,6 +283,47 @@ WHERE NOT EXISTS (
   WHERE h.min_level <= 0 AND lower(k) = 'tank'
 );
 
+UPDATE "HelpEntry" SET
+  keywords = ARRAY['tank', 'tanking']::text[],
+  title = 'Tank',
+  content = $help$The tank role pulls a mob's attention so the healer can keep them alive
+while the DPS burns the mob down.
+
+taunt [target] forces the target to focus on you,
+regardless of who they were previously engaging. You're also pushed to
+the front of the target's grudge list, so when the current victim falls
+the target re-engages you first.
+
+rescue [ally] swaps the target's attention to you for one
+pull (less reliable than taunt but doesn't require facing the mob).
+guard [ally] intercepts swings aimed at the protected
+ally — they hit you instead.$help$,
+  min_level = 0,
+  category = 'guide',
+  usage = NULL,
+  source_file = 'data/help/tank.md',
+  updated_at = now()
+WHERE id = (
+  SELECT h.id FROM "HelpEntry" h
+  WHERE h.min_level <= 0 AND 'tank' = ANY(h.keywords)
+  ORDER BY (lower(h.keywords[1]) = 'tank') DESC, h.id
+  LIMIT 1
+)
+  AND (updated_at = created_at)
+  AND (keywords, title, content, min_level, category, usage, source_file)
+      IS DISTINCT FROM (ARRAY['tank', 'tanking']::text[], 'Tank', $help$The tank role pulls a mob's attention so the healer can keep them alive
+while the DPS burns the mob down.
+
+taunt [target] forces the target to focus on you,
+regardless of who they were previously engaging. You're also pushed to
+the front of the target's grudge list, so when the current victim falls
+the target re-engages you first.
+
+rescue [ally] swaps the target's attention to you for one
+pull (less reliable than taunt but doesn't require facing the mob).
+guard [ally] intercepts swings aimed at the protected
+ally — they hit you instead.$help$, 0, 'guide', NULL, 'data/help/tank.md');
+
 -- touchstone: Recall and Touchstones
 INSERT INTO "HelpEntry"
   (keywords, title, content, min_level, category, usage, source_file, updated_at)
@@ -156,3 +347,36 @@ WHERE NOT EXISTS (
   SELECT 1 FROM "HelpEntry" h, unnest(h.keywords) k
   WHERE h.min_level <= 0 AND lower(k) = 'touchstone'
 );
+
+UPDATE "HelpEntry" SET
+  keywords = ARRAY['touchstone']::text[],
+  title = 'Recall and Touchstones',
+  content = $help$recall teleports you to your bound touchstone. Bind a new one
+by walking to a recall stone and typing touch. Most major town
+halls and temples carry a stone.
+
+If you've never touched a stone, 'recall' will nudge you toward one.
+Until you touch one, your recall point is the room your race starts in.
+Some rooms have NoRecallRoom set — recall refuses to teleport out of
+those (dungeons, quest cells).$help$,
+  min_level = 0,
+  category = 'guide',
+  usage = NULL,
+  source_file = 'data/help/touchstone.md',
+  updated_at = now()
+WHERE id = (
+  SELECT h.id FROM "HelpEntry" h
+  WHERE h.min_level <= 0 AND 'touchstone' = ANY(h.keywords)
+  ORDER BY (lower(h.keywords[1]) = 'touchstone') DESC, h.id
+  LIMIT 1
+)
+  AND (updated_at = created_at OR md5(content) IN ('d4144922f4ff2e8e5cd83375eb221d47'))
+  AND (keywords, title, content, min_level, category, usage, source_file)
+      IS DISTINCT FROM (ARRAY['touchstone']::text[], 'Recall and Touchstones', $help$recall teleports you to your bound touchstone. Bind a new one
+by walking to a recall stone and typing touch. Most major town
+halls and temples carry a stone.
+
+If you've never touched a stone, 'recall' will nudge you toward one.
+Until you touch one, your recall point is the room your race starts in.
+Some rooms have NoRecallRoom set — recall refuses to teleport out of
+those (dungeons, quest cells).$help$, 0, 'guide', NULL, 'data/help/touchstone.md');

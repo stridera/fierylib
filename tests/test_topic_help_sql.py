@@ -30,7 +30,10 @@ def test_sql_patch_matches_markdown():
     assert SQL_PATH.read_text(encoding="utf-8") == expected, REGENERATE
 
 
-def test_sql_patch_is_insert_only():
+def test_sql_patch_inserts_and_guarded_updates():
     sql = SQL_PATH.read_text(encoding="utf-8")
-    assert "UPDATE" not in sql and "DELETE" not in sql
+    assert "DELETE" not in sql
     assert sql.count("WHERE NOT EXISTS") == len(TOPICS)
+    assert sql.count('UPDATE "HelpEntry"') == len(TOPICS)
+    # Every update is guarded so builder-edited rows are never overwritten.
+    assert sql.count("AND (updated_at = created_at") == len(TOPICS)
