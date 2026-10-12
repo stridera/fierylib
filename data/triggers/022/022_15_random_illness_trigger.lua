@@ -26,15 +26,15 @@ if #occupants > 0 then
             victim:send("You turn pale and shiver as nausea begins to set in. (<b:red>50</>)")
             victim:damage(50)  -- type: physical
             wait(15)
-            self.room:send_except(victim, tostring(victim.name) .. " falls over in pain as " .. tostring(victim.name) .. " begins to purge his stomach (<blue>100</>)")
-            victim:send("You fall over in pain as you being to vomit all over the floor. (<b:red>100</>)")
+            self.room:send_except(victim, tostring(victim.name) .. " falls over in pain as " .. tostring(victim.subjective) .. " begins to purge " .. tostring(victim.possessive) .. " stomach. (<blue>100</>)")
+            victim:send("You fall over in pain as you begin to vomit all over the floor. (<b:red>100</>)")
             victim:damage(100)  -- type: physical
         elseif message == 2 then
             self.room:send_except(victim, tostring(victim.name) .. " trips on a rock and cuts " .. tostring(victim.object) .. "self on a rusted blade. (<blue>50</>)")
             victim:send("You trip on a rock, cutting yourself on a rusted blade. (<b:red>50</>)")
             wait(15)
             victim:damage(50)  -- type: physical
-            self.room:send_except(victim, tostring(victim.name) .. " beings to twitch uncontrollably. (<blue>100</>)")
+            self.room:send_except(victim, tostring(victim.name) .. " begins to twitch uncontrollably. (<blue>100</>)")
             victim:send("You begin to twitch uncomfortably as a cold shiver runs through your body. (<b:red>100</>)")
             victim:damage(100)  -- type: physical
             wait(15)
@@ -42,11 +42,11 @@ if #occupants > 0 then
             victim:send("Uncontrollably you arch your back, causing extreme pain! (<b:red>150</>)")
             victim:damage(150)  -- type: physical
         else
-            self.room:send_except(victim, tostring(victim.name) .. " beings to cough endlessly. (<blue>50</>)")
-            victim:send("Something seems caught in your throat as you coughing harshly. (<b:red>50</>)")
+            self.room:send_except(victim, tostring(victim.name) .. " begins to cough endlessly. (<blue>50</>)")
+            victim:send("Something seems caught in your throat as you cough harshly. (<b:red>50</>)")
             victim:damage(50)  -- type: physical
             wait(15)
-            self.room:send_except(victim, tostring(victim.name) .. " gasps for air as " .. tostring(victim.name) .. " continues to cough. (<blue>100</>)")
+            self.room:send_except(victim, tostring(victim.name) .. " gasps for air as " .. tostring(victim.subjective) .. " continues to cough. (<blue>100</>)")
             victim:send("You gasp wildly for air as you continue to cough. (<b:red>100</>)")
             victim:damage(100)  -- type: physical
             wait(15)
