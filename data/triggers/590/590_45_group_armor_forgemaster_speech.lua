@@ -47,7 +47,7 @@ elseif (string.find(actor.class, "Cleric") and actor.level < 72) or (string.find
     self:command("laugh")
     actor:send(tostring(self.name) .. " claps you on the back with his mighty hand!")
     self.room:send_except(actor, tostring(self.name) .. " claps " .. tostring(actor.name) .. " on the back with his mighty hand.")
-elseif actor.class ~= "Cleric" or actor.class ~= "Priest" then
+elseif actor.class ~= "cleric" or actor.class ~= "priest" then
     self.room:send(tostring(self.name) .. " says, 'You may wish to prove your worth but I can only")
     self.room:send("</>work with those dedicated to divinity.'")
 end

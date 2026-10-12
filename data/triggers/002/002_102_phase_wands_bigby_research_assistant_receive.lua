@@ -54,9 +54,9 @@ if stage == 2 then
             self.room:spawn_object(2, next_id)
             self:command("give wand " .. tostring(actor.name))
             local expmod = 690
-            if actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
+            if actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
                 expmod = expmod + (expmod / 5)
-            elseif actor.class == "Necromancer" then
+            elseif actor.class == "necromancer" then
                 expmod = expmod + ((expmod * 2) / 5)
             end
             actor:send("<b:yellow>You gain experience!</>")

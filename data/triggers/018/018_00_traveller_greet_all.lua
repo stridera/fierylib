@@ -19,7 +19,7 @@ if self.room.zone_id == 18 and self.room.local_id == 2 and actor.level < 100 the
         self:command("rem blade")
         self:command("drop blade")
         actor:send("Thelmor dissipates before your very eyes.")
-        if actor.class == "Ranger" and actor.level > 80 then
+        if actor.class == "ranger" and actor.level > 80 then
             actor:start_quest("blur")
             actor:send("A voice from the forest whispers, 'You have done the forest a great service.")
             actor:send("</>Meet me at the nearby spring.'")

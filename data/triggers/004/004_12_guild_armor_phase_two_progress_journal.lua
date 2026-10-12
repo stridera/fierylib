@@ -212,7 +212,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             local body_reward = 55442
             local wrist_reward = 55445
             master = "Galithel Silverwing"
-        elseif actor.class == "Paladin" then
+        elseif actor.class == "paladin" then
             local feet_gem = 55610
             local head_gem = 55632
             local hands_gem = 55599

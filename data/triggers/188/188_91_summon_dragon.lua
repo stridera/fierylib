@@ -38,7 +38,7 @@ end
 if can_summon then
     local summoned
     -- The knight doesn't have a mount yet, allow them to get one
-    if actor.class == "Paladin" then
+    if actor.class == "paladin" then
         -- Knight is a paladin, give him/her a golden dragon
         self.room:spawn_mobile(188, 90)
         self.room:send_except(actor, "A brilliant golden dragon flies in from nowhere, and nuzzles " .. tostring(actor.name) .. "'s side.")

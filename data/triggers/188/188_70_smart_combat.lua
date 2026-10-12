@@ -22,27 +22,27 @@ local now = timestamp()
 local level = self.level
 local class = self.class
 local flags = self.flags
-local is_sor = class == "Sorcerer"
-local is_cry = class == "Cryomancer"
-local is_pyr = class == "Pyromancer"
-local is_nec = class == "Necromancer"
+local is_sor = class == "sorcerer"
+local is_cry = class == "cryomancer"
+local is_pyr = class == "pyromancer"
+local is_nec = class == "necromancer"
 local is_arc = is_sor  or  is_cry  or  is_pyr  or  is_nec
-local is_war = class == "Warrior"
-local is_ran = class == "Ranger"
-local is_pal = class == "Paladin"
+local is_war = class == "warrior"
+local is_ran = class == "ranger"
+local is_pal = class == "paladin"
 local is_ant = class ~= nil and string.find(tostring(class), "Anti") ~= nil
-local is_mon = class == "Monk"
+local is_mon = class == "monk"
 local is_com = is_ran  or  is_pal  or  is_ant
 local is_fig = is_war  or  is_mon  or  is_com
-local is_rog = class == "Rogue"
-local is_thi = class == "Thief"
-local is_ass = class == "Assassin"
-local is_mer = class == "Mercenary"
+local is_rog = class == "rogue"
+local is_thi = class == "thief"
+local is_ass = class == "assassin"
+local is_mer = class == "mercenary"
 local is_bac = is_rog  or  is_thi  or  is_ass  or  is_mer
-local is_cle = class == "Cleric"
-local is_pri = class == "Priest"
-local is_dia = class == "Diabolist"
-local is_dru = class == "Druid"
+local is_cle = class == "cleric"
+local is_pri = class == "priest"
+local is_dia = class == "diabolist"
+local is_dru = class == "druid"
 local is_div = is_cle  or  is_pri  or  is_dia  or  is_dru
 local is_mag = is_arc  or  is_div  or  is_com
 local cir_2 = level >= 9
@@ -66,7 +66,7 @@ if is_fig or is_bac then
         local attempted
         while max_tries > 0 do
             local victim = self.room.actors[random(1, #self.room.actors)]
-            if victim and (victim.is_npc) and (victim.class ~= "Warrior") and (victim.class ~= "Ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "Paladin") and (victim.class ~= "Monk") then
+            if victim and (victim.is_npc) and (victim.class ~= "warrior") and (victim.class ~= "ranger") and (not (string.find(victim.class, "Anti"))) and (victim.class ~= "paladin") and (victim.class ~= "monk") then
                 combat.rescue(self, victim.name)
                 attempted = 1
             end

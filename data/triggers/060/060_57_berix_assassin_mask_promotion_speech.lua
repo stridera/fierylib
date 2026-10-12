@@ -20,7 +20,7 @@ local job2 = actor:get_quest_var("assassin_mask:masktask2")
 local job3 = actor:get_quest_var("assassin_mask:masktask3")
 local job4 = actor:get_quest_var("assassin_mask:masktask4")
 wait(2)
-if actor.class ~= "Assassin" then
+if actor.class ~= "assassin" then
     self.room:send(tostring(self.name) .. " scoffs in disgust.")
     actor:send(tostring(self.name) .. " says, 'You ain't part of the Guild.  Get lost.'")
     return _return_value

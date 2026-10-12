@@ -166,16 +166,16 @@ if quester:get_quest_stage("ursa_quest") == 6 then
     --
     -- Adjust exp award by class so all classes receive the same proportionate amount.
     --
-    if quester.class == "Warrior" or quester.class == "Berserker" then
+    if quester.class == "warrior" or quester.class == "berserker" then
         -- 110% of standard
         expmod = expmod + (expmod / 10)
-    elseif quester.class == "Paladin" or quester.class == "Anti-Paladin" or quester.class == "Ranger" then
+    elseif quester.class == "paladin" or quester.class == "anti-paladin" or quester.class == "ranger" then
         -- 115% of standard
         expmod = expmod + ((expmod * 2) / 15)
-    elseif quester.class == "Sorcerer" or quester.class == "Pyromancer" or quester.class == "Cryomancer" or quester.class == "Illusionist" or quester.class == "Bard" then
+    elseif quester.class == "sorcerer" or quester.class == "pyromancer" or quester.class == "cryomancer" or quester.class == "illusionist" or quester.class == "bard" then
         -- 120% of standard
         expmod = expmod + (expmod / 5)
-    elseif quester.class == "Necromancer" or quester.class == "Monk" then
+    elseif quester.class == "necromancer" or quester.class == "monk" then
         -- 130% of standard
         expmod = expmod + ((expmod * 2) / 5)
     end

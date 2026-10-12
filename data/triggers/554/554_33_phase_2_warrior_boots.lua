@@ -11,7 +11,7 @@
 -- Boots ya ask?
 -- 
 -- This is for warriors only
-if actor.class == "Warrior" and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
+if actor.class == "warrior" and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
     wait(2)
     actor:send(tostring(self.name) .. " tells you, \"Boots ya ask? Well now I can make a fine pair of boots for the\"")
     actor:send(tostring(self.name) .. " tells you, \"warrior types but I'll need 3 quantities of some opal dust, and\"")

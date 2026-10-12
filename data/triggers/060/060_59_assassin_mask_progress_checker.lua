@@ -57,7 +57,7 @@ elseif actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'All my other jobs are too risky for someone without moreexperience.  Come back when you've seen a little more.'")
 end
-if actor.class == "Assassin" then
+if actor.class == "assassin" then
     actor:send("</>")
     actor:send("<b:green>Deadly Promotion</>")
     local bountystage = actor:get_quest_stage("bounty_hunt")
@@ -67,7 +67,7 @@ if actor.class == "Assassin" then
     local job3 = actor:get_quest_var("assassin_mask:masktask3")
     local job4 = actor:get_quest_var("assassin_mask:masktask4")
     wait(2)
-    if actor.class ~= "Assassin" then
+    if actor.class ~= "assassin" then
         self.room:send(tostring(self.name) .. " scoffs in disgust.")
         actor:send(tostring(self.name) .. " says, 'You ain't part of the Guild.  Get lost.'")
         return _return_value

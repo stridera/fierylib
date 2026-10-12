@@ -192,14 +192,14 @@ if complete then
         end
 
         local cls = actor.class
-        if cls == "Warrior" or cls == "Berserker" then
+        if cls == "warrior" or cls == "berserker" then
             expmod = expmod + (expmod / 10)
-        elseif cls == "Paladin" or cls == "Anti-Paladin" or cls == "Ranger" then
+        elseif cls == "paladin" or cls == "anti-paladin" or cls == "ranger" then
             expmod = expmod + ((expmod * 2) / 15)
-        elseif cls == "Sorcerer" or cls == "Pyromancer" or cls == "Cryomancer"
-            or cls == "Illusionist" or cls == "Bard" then
+        elseif cls == "sorcerer" or cls == "pyromancer" or cls == "cryomancer"
+            or cls == "illusionist" or cls == "bard" then
             expmod = expmod + (expmod / 5)
-        elseif cls == "Necromancer" or cls == "Monk" then
+        elseif cls == "necromancer" or cls == "monk" then
             expmod = expmod + (expmod * 2) / 5
         end
 

@@ -91,16 +91,16 @@ if actor:get_quest_stage("megalith_quest") == 5 then
         expmod = 20940 + ((expcap - 89) * 600)
     end
     -- Adjust exp award by class so all classes receive the same proportionate amount.
-    if actor.class == "Warrior" or actor.class == "Berserker" then
+    if actor.class == "warrior" or actor.class == "berserker" then
         -- 110% of standard
         expmod = expmod + (expmod / 10)
-    elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
+    elseif actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" then
         -- 115% of standard
         expmod = expmod + ((expmod * 2) / 15)
-    elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
+    elseif actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
         -- 120% of standard
         expmod = expmod + (expmod / 5)
-    elseif actor.class == "Necromancer" or actor.class == "Monk" then
+    elseif actor.class == "necromancer" or actor.class == "monk" then
         -- 130% of standard
         expmod = expmod + (expmod * 2) / 5
     end

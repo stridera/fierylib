@@ -39,16 +39,16 @@ for _, person in ipairs(self:get_people()) do
         --
         -- Adjust exp award by class so all classes receive the same proportionate amount
         --
-        if person.class == "Warrior" or person.class == "Berserker" then
+        if person.class == "warrior" or person.class == "berserker" then
             -- 110% of standard
             expmod = (expmod + (expmod / 10))
-        elseif person.class == "Paladin" or person.class == "Anti-Paladin" or person.class == "Ranger" then
+        elseif person.class == "paladin" or person.class == "anti-paladin" or person.class == "ranger" then
             -- 115% of standard
             expmod = (expmod + ((expmod * 2) / 15))
-        elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
+        elseif person.class == "sorcerer" or person.class == "pyromancer" or person.class == "cryomancer" or person.class == "illusionist" or person.class == "bard" then
             -- 120% of standard
             expmod = (expmod + (expmod / 5))
-        elseif person.class == "Necromancer" or person.class == "Monk" then
+        elseif person.class == "necromancer" or person.class == "monk" then
             -- 130% of standard
             expmod = (expmod + (expmod * 2) / 5)
         end

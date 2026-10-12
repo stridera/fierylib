@@ -28,7 +28,7 @@ if not who or not who.is_player then
 end
 
 local heat_resistant = who:has_effect(Effect.HeatResistance)
-if who.class == "Pyromancer" or heat_resistant then
+if who.class == "pyromancer" or heat_resistant then
     return true
 end
 

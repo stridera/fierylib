@@ -25,7 +25,7 @@ local job2 = actor:get_quest_var("monk_vision:visiontask2")
 local job3 = actor:get_quest_var("monk_vision:visiontask3")
 local job4 = actor:get_quest_var("monk_vision:visiontask4")
 wait(2)
-if actor.class ~= "Monk" then
+if actor.class ~= "monk" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'Only monks have the mental fortitude to seek Enlightenment.'")
     return _return_value

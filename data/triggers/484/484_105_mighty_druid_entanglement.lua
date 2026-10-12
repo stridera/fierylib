@@ -100,7 +100,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
         if victim.is_player then
             if (paralysis_victim_1 and (paralysis_victim_1.name == victim.name)) or (paralysis_victim_2 and (paralysis_victim_2.name == victim.name)) or (paralysis_victim_3 and (paralysis_victim_3.name == victim.name)) then
                 local victim = self
-            elseif victim.class == "Assassin" then
+            elseif victim.class == "assassin" then
                 max_tries = 0
             else
                 local secondary_victim = victim

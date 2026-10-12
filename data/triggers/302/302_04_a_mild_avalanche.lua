@@ -50,7 +50,7 @@ else
     damage = 80 + random(1, 50)
 end
 if victim.room == startroom then
-    if victim.class == "Ranger" then
+    if victim.class == "ranger" then
         self.room:send_except(victim, tostring(victim.name) .. " is nearly smacked by a large rock, but " .. tostring(victim.name) .. " steps aside at the last moment.")
         victim:send("A big rock comes hurtling toward you, but you step smoothly aside.")
     else

@@ -27,7 +27,7 @@ local job2 = actor:get_quest_var("ranger_trophy:trophytask2")
 local job3 = actor:get_quest_var("ranger_trophy:trophytask3")
 local job4 = actor:get_quest_var("ranger_trophy:trophytask4")
 wait(2)
-if actor.class ~= "Warrior" and actor.class ~= "Ranger" and actor.class ~= "Berserker" and actor.class ~= "Mercenary" then
+if actor.class ~= "warrior" and actor.class ~= "ranger" and actor.class ~= "berserker" and actor.class ~= "mercenary" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'Only warriors, rangers, berserkers, and mercenaries possess the skills required for this.'")
     return _return_value

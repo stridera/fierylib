@@ -64,7 +64,7 @@ end
 -- Adding hint to find Rogue Guild for Elspeth
 -- 
 if (self.zone_id == 30 and self.id == 10) then
-    if actor.class == "Rogue" and actor.level < 10 then
+    if actor.class == "rogue" and actor.level < 10 then
         wait(4)
         actor:send(tostring(self.name) .. " notices you skulking about her shop.")
         actor:send("<b:white>" .. tostring(self.name) .. " tells you, 'If you're looking for a certain Guild Hall, <cyan>search<white> behind</>")

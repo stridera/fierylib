@@ -31,7 +31,7 @@ elseif (chance == 2) and (self.zone_id == 489 and self.id == 9) then
     local victim
     for _ = 1, 9 do
         local candidate = self.room.actors[random(1, #self.room.actors)]
-        if candidate and (candidate.class == "Assassin" or candidate.class == "Thief") then
+        if candidate and (candidate.class == "assassin" or candidate.class == "thief") then
             victim = candidate
             break
         end

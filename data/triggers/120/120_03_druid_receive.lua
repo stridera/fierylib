@@ -179,13 +179,13 @@ elseif num_trees == 5 then
     end
 
     -- Class scaling so all classes receive the same proportionate amount.
-    if actor.class == "Warrior" or actor.class == "Berserker" then
+    if actor.class == "warrior" or actor.class == "berserker" then
         expmod = expmod + (expmod / 10)                       -- 110%
-    elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
+    elseif actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" then
         expmod = expmod + ((expmod * 2) / 15)                 -- 115%
-    elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
+    elseif actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
         expmod = expmod + (expmod / 5)                        -- 120%
-    elseif actor.class == "Necromancer" or actor.class == "Monk" then
+    elseif actor.class == "necromancer" or actor.class == "monk" then
         expmod = expmod + ((expmod * 2) / 5)                  -- 130%
     end
 

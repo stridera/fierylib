@@ -8,7 +8,7 @@
 -- Converted from DG Script #59043: sacred_haven_paladin_enter
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 if actor.alignment >= 350 then
-    if actor.class == "Paladin" or actor.class == "Priest" or actor.class == "Cleric" then
+    if actor.class == "paladin" or actor.class == "priest" or actor.class == "cleric" then
         wait(2)
         self:command("rem key")
         self:command("unlock door")

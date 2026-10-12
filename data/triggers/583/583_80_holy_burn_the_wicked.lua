@@ -9,7 +9,7 @@
 -- Worn by non-paladins: shakes / burns based on alignment, optionally damaging
 -- evil wielders.
 
-if actor.class == "Paladin" then
+if actor.class == "paladin" then
     if actor.alignment < 750 then
         wait(2)
         self.room:send("The holy blade of Godly vigor dulls in appearance.")

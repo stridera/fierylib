@@ -26,7 +26,7 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
         actor:send(tostring(self.name) .. " says, 'I can't help you if I can't see you.'")
         return _return_value
     end
-    if not string.find(classes, actor.class) or (classes == anti and actor.class == "Paladin") then
+    if not string.find(classes, actor.class) or (classes == anti and actor.class == "paladin") then
         _return_value = true
         if string.find(classes, "and") then
             actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " classes only.'")
@@ -161,13 +161,13 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
         wait(2)
         actor:send("<b:white>You gain experience!</>")
         local exp
-        if actor.class == "Warrior" or actor.class == "Berserker" then
+        if actor.class == "warrior" or actor.class == "berserker" then
             exp = 7590
-        elseif actor.class == "Paladin" or actor.class == "Anti-Paladin" or actor.class == "Ranger" then
+        elseif actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" then
             exp = 7935
-        elseif actor.class == "Sorcerer" or actor.class == "Pyromancer" or actor.class == "Cryomancer" or actor.class == "Illusionist" or actor.class == "Bard" then
+        elseif actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
             exp = 8280
-        elseif actor.class == "Necromancer" or actor.class == "Monk" then
+        elseif actor.class == "necromancer" or actor.class == "monk" then
             exp = 8970
         else
             exp = 6900

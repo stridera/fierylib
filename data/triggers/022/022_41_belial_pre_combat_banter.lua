@@ -12,7 +12,7 @@
 globals.belial_queue = 2
 for _, victim in ipairs(self:get_people()) do
     if (victim.zone_id ~= 22 or victim.id ~= 19) then
-        if victim.class == "Paladin" then
+        if victim.class == "paladin" then
             if victim.gender == "Female" then
                 wait(1)
                 victim:send("Belial slowly approaches, lifting your chin to meet his piercing gaze.")

@@ -26,7 +26,7 @@ if (object.zone_id == 23 and object.id == 0) then
     self.room:send_except(actor, tostring(self.name) .. " stops tossing meat into the fire and peers at " .. tostring(actor.name) .. ".")
     actor:send(tostring(self.name) .. " stops tossing meat into the fire and looks at you.")
     wait(3)
-    if actor.class == "Diabolist" then
+    if actor.class == "diabolist" then
         if actor.level >= 35 then
             self:command("smile")
             self:say("Excellent...very, very excellent.")

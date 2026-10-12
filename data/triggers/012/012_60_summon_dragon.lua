@@ -21,7 +21,7 @@ end
 -- the converter emitted dead `globals.has_one = globals.has_one or true`
 -- which never blocked re-summons. Leaving open until the runtime exposes
 -- a per-actor quest/flag suitable for tracking summoned mounts.
-if actor.class == "Paladin" then
+if actor.class == "paladin" then
     self.room:spawn_mobile(12, 60)
     self.room:send_except(actor, "A brilliant golden dragon flies in, seemingly from nowhere, and nuzzles " .. tostring(actor.name) .. "'s side.")
     actor:send("You begin calling for a mount..")

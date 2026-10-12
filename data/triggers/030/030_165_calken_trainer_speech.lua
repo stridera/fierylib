@@ -126,13 +126,13 @@ else
     local cap = 1000
     if speech == "track" then
         -- switch on actor.class
-        if actor.class == "Mercenary" then
+        if actor.class == "mercenary" then
             cap = 850
-        elseif actor.class == "Rogue" then
+        elseif actor.class == "rogue" then
             cap = 650
-        elseif actor.class == "Thief" then
+        elseif actor.class == "thief" then
             cap = 600
-        elseif actor.class == "Assassin" then
+        elseif actor.class == "assassin" then
             cap = 750
         end
     elseif speech == "dodge" or speech == "parry" then

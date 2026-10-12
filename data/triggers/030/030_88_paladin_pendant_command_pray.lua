@@ -77,7 +77,7 @@ end
 if continue == "yes" then
     actor:command("pray")
     wait(2)
-    if actor.class == "Paladin" then
+    if actor.class == "paladin" then
         actor:send("<b:yellow>You have gained new insights on your righteous cause!</>")
     elseif actor.class == "anti-paladin" then
         actor:send("<b:red>You have gained new insights on your ruinouse cause!</>")

@@ -22,7 +22,7 @@ if not actor or not actor.can_be_seen then
 else
     if actor.level <= (20 * (phase - 1)) then
         _return_value = true
-    elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "Paladin") then
+    elseif not string.find(classes, actor.class) or (classes == anti and actor.class == "paladin") then
         _return_value = true
     elseif actor:get_quest_stage("phase_armor") == (phase - 1) then
         wait(2)
@@ -95,7 +95,7 @@ elseif string.find(self.class, "pyromancer") then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You may be able to find a clue to her whereabouts there.'")
     end
-elseif (self.class == "cleric" or self.class == "priest" or self.class == "Diabolist") and macestep then
+elseif (self.class == "cleric" or self.class == "priest" or self.class == "diabolist") and macestep then
     if actor:get_quest_stage("phase_mace") == "macestep" then
         local minlevel = macestep * 10
         if actor.level >= minlevel then

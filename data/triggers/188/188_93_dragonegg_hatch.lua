@@ -23,7 +23,7 @@ if cmd == "h" or cmd == "ha" then
     return _return_value
 end
 local color, obj_id
-if actor.class == "Paladin" then
+if actor.class == "paladin" then
     color = "golden"
     obj_id = 90
 elseif string.find(actor.class, "Anti") then

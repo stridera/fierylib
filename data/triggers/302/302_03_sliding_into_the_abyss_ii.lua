@@ -25,7 +25,7 @@ if victim:has_effect(Effect.Flying) or victim:has_effect(Effect.Feather_Fall) th
     return true
 end
 -- Consider rangers and druids as too sure-footed to lose their footing.
-if victim.class == "Ranger" or victim.class == "Druid" then
+if victim.class == "ranger" or victim.class == "druid" then
     self.room:send_except(victim, "A rock shifts under " .. tostring(victim.name) .. "'s foot, but " .. tostring(victim.name) .. " quickly steps to one side.")
     victim:send("A rock shifts under your foot, and you step to steadier ground.")
     return true

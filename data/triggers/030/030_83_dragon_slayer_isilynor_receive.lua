@@ -10,7 +10,7 @@
 -- those declarations to the top of the trigger and drop the `local` keyword
 -- in branches.
 --
--- Also: line 205 references `person.class == "%anti%"` which is a stray DG-
+-- Also: line 205 references `person.class == "anti-paladin"` which is a stray DG-
 -- Script interpolation; should be `actor.class == anti` (with `anti` declared
 -- as `"Anti-Paladin"` in line 174). And `person` itself is never assigned in
 -- this trigger — should iterate `actor.group_member` or just use `actor`.
@@ -217,13 +217,13 @@ if go == "hunt" then
         end
         -- switch on person.class
         local expmod
-        if person.class == "Warrior" or person.class == "Berserker" then
+        if person.class == "warrior" or person.class == "berserker" then
             expmod = (expmod + (expmod / 10))
-        elseif person.class == "Paladin" or person.class == "%anti%" or person.class == "Ranger" then
+        elseif person.class == "paladin" or person.class == "anti-paladin" or person.class == "ranger" then
             expmod = (expmod + ((expmod * 2) / 15))
-        elseif person.class == "Sorcerer" or person.class == "Pyromancer" or person.class == "Cryomancer" or person.class == "Illusionist" or person.class == "Bard" then
+        elseif person.class == "sorcerer" or person.class == "pyromancer" or person.class == "cryomancer" or person.class == "illusionist" or person.class == "bard" then
             expmod = (expmod + (expmod / 5))
-        elseif person.class == "Necromancer" or person.class == "Monk" then
+        elseif person.class == "necromancer" or person.class == "monk" then
             expmod = (expmod + (expmod * 2) / 5)
         else
             expmod = expmod

@@ -60,7 +60,7 @@ elseif actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'Unfortunately I don't have any beasts for you to pursue at the moment.  Check back later!'")
 end
-if actor.class == "Warrior" or actor.class == "Ranger" or actor.class == "Berserker" or actor.class == "Mercenary" then
+if actor.class == "warrior" or actor.class == "ranger" or actor.class == "berserker" or actor.class == "mercenary" then
     actor:send("</>")
     actor:send("<b:green>Eye of the Tiger</>")
     local huntstage = actor:get_quest_stage("beast_master")

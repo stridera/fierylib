@@ -20,7 +20,7 @@ for _, target in ipairs(self.actors) do
     local is_ursa = (target.zone_id == 625 and (target.local_id == 7 or target.local_id == 50))
     if not is_ursa and target.level < 100 then
         local dam = math.floor(1.5 * target.level - random(1, 12))
-        if target.class == "Ranger" or target.class == "Druid" then
+        if target.class == "ranger" or target.class == "druid" then
             target:send("<yellow>Ursa's roar invigorates your wild spirit!<b:yellow></> (<b:red>0</>)")
             self.room:send_except(target, "<yellow>Ursa's roar invigortates " .. tostring(target.name) .. "'s wild spirit!</> (<b:red>0</>)")
         else

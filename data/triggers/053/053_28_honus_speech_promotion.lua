@@ -26,7 +26,7 @@ local job2 = actor:get_quest_var("rogue_cloak:cloaktask2")
 local job3 = actor:get_quest_var("rogue_cloak:cloaktask3")
 local job4 = actor:get_quest_var("rogue_cloak:cloaktask4")
 wait(2)
-if actor.class ~= "Rogue" and actor.class ~= "Bard" and actor.class ~= "Thief" then
+if actor.class ~= "rogue" and actor.class ~= "bard" and actor.class ~= "thief" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'We only promote within the cloak and dagger guilds.  Sorry.'")
     return _return_value

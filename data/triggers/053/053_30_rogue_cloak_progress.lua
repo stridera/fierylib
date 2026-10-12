@@ -55,7 +55,7 @@ elseif actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'There's still plenty of treasure out there, but it's too dangerous without more experience.  Come back when you've grown a little more.'")
 end
-if actor.class == "Rogue" or actor.class == "Bard" or actor.class == "Thief" then
+if actor.class == "rogue" or actor.class == "bard" or actor.class == "thief" then
     actor:send("</>")
     actor:send("<b:green>Cloak and Shadow</>")
     local huntstage = actor:get_quest_stage("treasure_hunter")

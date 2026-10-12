@@ -23,7 +23,7 @@ if i then
     while i > a do
         local person = actor.group_member[a]
         if person.room == self.room then
-            if person.class == "Ranger" and person.level > 80 and not person:get_quest_stage("blur") then
+            if person.class == "ranger" and person.level > 80 and not person:get_quest_stage("blur") then
                 person:start_quest("blur")
                 person:send("A voice from the forest whispers, 'You have done the forest a great service.  Meet me at the nearby spring.'")
             end
@@ -32,7 +32,7 @@ if i then
         end
         a = a + 1
     end
-elseif person.class == "Ranger" and person.level > 80 and not person:get_quest_stage("blur") then
+elseif person.class == "ranger" and person.level > 80 and not person:get_quest_stage("blur") then
     person:start_quest("blur")
     person:send("A voice from the forest whispers, 'You have done the forest a great service.  Meet me at the nearby spring.'")
 end

@@ -13,7 +13,7 @@ if not (cmd == "west") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if actor.class == "Paladin" then
+if actor.class == "paladin" then
     _return_value = true
 else
     actor:send(tostring(self.name) .. " jumps in front of you, preventing you from getting by.")
