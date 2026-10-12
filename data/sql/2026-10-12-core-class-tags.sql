@@ -12,7 +12,7 @@
 BEGIN;
 
 ALTER TABLE "Class"
-    ADD COLUMN IF NOT EXISTS tags text[] NOT NULL DEFAULT ARRAY[]::text[];
+    ADD COLUMN IF NOT EXISTS tags text[] DEFAULT ARRAY[]::text[];
 
 UPDATE "Class" AS c
 SET tags = array_append(coalesce(c.tags, ARRAY[]::text[]), 'core:monk'), updated_at = now()
