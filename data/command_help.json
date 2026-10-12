@@ -2463,11 +2463,11 @@
    "questlog"
   ],
   "category": "Quest",
-  "long": "In-progress quests appear first with their short description; completed/abandoned quests follow with their final status. Each in-progress quest also shows its phases + objective progress (▶ for current, ✓ for done, [N/M] for showProgress).",
+  "long": "In-progress quests appear first with their short description; completed/abandoned quests follow with their final status. Each in-progress quest also shows its phases + objective progress (▶ for current, ✓ for done, [N/M] for showProgress). Immortal+ may add a player's name (online or offline) to see that player's quests, including each quest's stored quest variables. A player hidden from you by wizinvis cannot be looked up.",
   "min_role": "Player",
   "name": "quests",
-  "summary": "List your accepted quests.",
-  "usage": "quests"
+  "summary": "List your accepted quests (staff: or a player's).",
+  "usage": "quests [<player>]"
  },
  {
   "aliases": [],
