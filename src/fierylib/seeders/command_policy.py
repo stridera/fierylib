@@ -129,6 +129,10 @@ ALLOWED_WHILE_PARALYZED = [
     "whoami",
     "wizlist",
     "world",
+    # The Rust gate matched any of a command's names, so these are on the list through
+    # their aliases `lastgos` / `policy`.
+    "lastgossips",
+    "policies",
 ]
 
 KEEPS_HIDDEN = [

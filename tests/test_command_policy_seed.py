@@ -17,7 +17,7 @@ def test_columns_and_list_sizes_match_the_rust_lists():
         "keeps_hidden",
         "held_by_cast_lag",
     ]
-    assert [len(v) for v in cp.FLAGS.values()] == [55, 56, 108, 9]
+    assert [len(v) for v in cp.FLAGS.values()] == [55, 58, 108, 9]
     for col, names in cp.FLAGS.items():
         assert len(names) == len(set(names)), col
 
@@ -48,7 +48,7 @@ def test_seeder_runs_ddl_then_one_update_per_column():
             calls.append(sql)
 
     n = asyncio.run(CommandSeeder(FakePrisma()).seed_policy_flags())
-    assert n == 55 + 56 + 108 + 9
+    assert n == 55 + 58 + 108 + 9
     assert calls[:4] == cp.COLUMN_DDL
     assert len(calls) == 8
     assert all(c.startswith('UPDATE "Command" SET') for c in calls[4:])

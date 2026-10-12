@@ -3,7 +3,7 @@
 -- Four per-command allow lists were hard-coded in fierymud-rs (legacy CMD_* flags). They now
 -- live on "Command", editable in Muditor (CODER role):
 --   allowed_while_casting    casting.rs   CASTING_ALLOWED  (55 commands)
---   allowed_while_paralyzed  commands.rs  PARALYSIS_ALLOWED (56 commands)
+--   allowed_while_paralyzed  commands.rs  PARALYSIS_ALLOWED (58 commands)
 --   keeps_hidden             hiding.rs    HIDE_SAFE        (108 commands)
 --   held_by_cast_lag         input_queue.rs LAG_HELD_VERBS (9 commands)
 -- The server keeps the lists as the fallback for a database without the columns or a
@@ -27,7 +27,7 @@ WHERE "name" IN ('abort', 'alert', 'bug', 'cancel', 'chants', 'cls', 'color', 'c
   AND NOT EXISTS (SELECT 1 FROM "Command" WHERE "allowed_while_casting");
 
 UPDATE "Command" SET "allowed_while_paralyzed" = true
-WHERE "name" IN ('''', 'abort', 'bug', 'clear', 'cls', 'color', 'commands', 'credits', 'ctell', 'date', 'display', 'equipment', 'experience', 'greport', 'gsay', 'gtell', 'help', 'idea', 'ignore', 'info', 'innate', 'inventory', 'lastgos', 'lasttells', 'level', 'look', 'motd', 'music', 'news', 'petition', 'policy', 'prompt', 'qsay', 'quest', 'quit', 'reply', 'return', 'say', 'score', 'skills', 'socials', 'songs', 'spells', 'tell', 'time', 'title', 'toggle', 'trophy', 'typo', 'uptime', 'version', 'weather', 'who', 'whoami', 'wizlist', 'world')
+WHERE "name" IN ('''', 'abort', 'bug', 'clear', 'cls', 'color', 'commands', 'credits', 'ctell', 'date', 'display', 'equipment', 'experience', 'greport', 'gsay', 'gtell', 'help', 'idea', 'ignore', 'info', 'innate', 'inventory', 'lastgos', 'lastgossips', 'lasttells', 'level', 'look', 'motd', 'music', 'news', 'petition', 'policies', 'policy', 'prompt', 'qsay', 'quest', 'quit', 'reply', 'return', 'say', 'score', 'skills', 'socials', 'songs', 'spells', 'tell', 'time', 'title', 'toggle', 'trophy', 'typo', 'uptime', 'version', 'weather', 'who', 'whoami', 'wizlist', 'world')
   AND NOT EXISTS (SELECT 1 FROM "Command" WHERE "allowed_while_paralyzed");
 
 UPDATE "Command" SET "keeps_hidden" = true
