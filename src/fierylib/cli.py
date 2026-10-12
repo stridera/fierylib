@@ -2986,6 +2986,74 @@ def seed_sphere_styles(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="weather-text")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_weather_text(verbose: bool):
+    """Seed the weather command's flavour lines (WeatherText table).
+
+    Creates missing rows and fills NULL texts; lines already set (e.g. edited in Muditor)
+    are left alone.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.weather_text_seeder import WeatherTextSeeder
+
+    async def run_seed():
+        click.echo("🌦️ Seeding Weather Text")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await WeatherTextSeeder(prisma).seed_weather_text(verbose=verbose)
+            click.echo(f"  Added/filled: {stats['changed']}")
+            click.echo("\n✅ Weather text seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
+@seed.command(name="spell-circles")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_spell_circles(verbose: bool):
+    """Seed the per-circle spell slot recovery times (SpellCircle table).
+
+    Creates missing rows and fills NULL times; times already set (e.g. edited in Muditor)
+    are left alone.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.spell_circle_seeder import SpellCircleSeeder
+
+    async def run_seed():
+        click.echo("🔮 Seeding Spell Circles")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await SpellCircleSeeder(prisma).seed_spell_circles(verbose=verbose)
+            click.echo(f"  Added/filled: {stats['changed']}")
+            click.echo("\n✅ Spell circle seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="content-tables")
 @click.option(
     "--verbose",

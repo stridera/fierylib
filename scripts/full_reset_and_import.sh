@@ -393,6 +393,16 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $SPHERE_CMD
 
+  # Weather flavour lines and per-circle spell slot recovery times.
+  WEATHER_CMD="poetry run fierylib seed weather-text"
+  SPELL_CIRCLE_CMD="poetry run fierylib seed spell-circles"
+  if [[ -n "$VERBOSE" ]]; then
+    WEATHER_CMD="$WEATHER_CMD --verbose"
+    SPELL_CIRCLE_CMD="$SPELL_CIRCLE_CMD --verbose"
+  fi
+  eval $WEATHER_CMD
+  eval $SPELL_CIRCLE_CMD
+
   # Reserved character names (staff voices, generic mob words).
   RESERVED_CMD="poetry run fierylib seed reserved-names"
   if [[ -n "$VERBOSE" ]]; then
