@@ -5794,7 +5794,8 @@
         "params": {
           "flag": "blind",
           "duration": 1,
-          "durationUnit": "hours"
+          "durationUnit": "hours",
+          "attackRoll": true
         },
         "trigger": "on_cast"
       },
@@ -6918,11 +6919,21 @@
     "isArea": false,
     "effects": [
       {
+        "effect": "status",
+        "order": 0,
+        "params": {
+          "flag": "glory",
+          "duration": "5 + (skill / 20)",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
         "effect": "modify",
         "order": 1,
         "params": {
           "amount": "50",
-          "duration": "eff[0].duration",
+          "duration": "5 + (skill / 20)",
           "target": "cha",
           "durationUnit": "hours"
         },
