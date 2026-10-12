@@ -36,7 +36,7 @@ if right_class then
         -- destroyed armor
         local id_destroyed_gloves = 55331
         local id_destroyed_boots = 55335
-        local id_destroyed_bracer = 55338
+        local id_destroyed_bracer = 55339
         local id_destroyed_helm = 55343
         local id_destroyed_arm = 55347
         local id_destroyed_legs = 55351

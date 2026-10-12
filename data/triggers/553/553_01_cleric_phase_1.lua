@@ -7,253 +7,133 @@
 -- Converted from DG Script #55301: cleric_phase_1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 --
--- TODO(parity): This trigger's gem/armor turn-in dispatch is broken end-to-end:
---   * `if object.id == "%id_destroyed_helm%"` compares against a literal string
---     instead of the local variable; none of the elseif branches will ever match.
---   * `local exp_multiplier`, `local team_a_idrmor`, `local id_gem`, `local id_reward`
---     are declared inside elseif blocks and go out of scope before they're used.
---   * Quest var keys like "%id_gem%_gems_acquired" / "%team_a_idrmor%_armor_acquired"
---     are stored as literal strings rather than being interpolated.
---   * `%get.obj_shortdesc[%id_gem%]%` style placeholders remain in user-facing text.
---   * `world.destroy(object.name)` should be `world.destroy(object)`.
--- Needs a full rewrite (likely as a table dispatch keyed by object.id) before this
--- quest can function. Left as-is to preserve original DG intent for the rewrite.
-local _return_value = true  -- Default: allow action
--- 
--- This is the main receive trigger for the phased
--- armor quests installed on the mud. This trigger
--- is class and phase specific as defined below.
--- 
-local CLERIC_SUB = (actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid")
-if CLERIC_SUB and actor:get_quest_stage("phase_armor") >= 1 then
-    -- 
-    -- pertinient object definitions for this class
-    -- destroyed armor
-    local id_destroyed_gloves = 55300
-    local id_destroyed_boots = 55304
-    local id_destroyed_bracer = 55308
-    local id_destroyed_helm = 55312
-    local id_destroyed_arm = 55316
-    local id_destroyed_legs = 55320
-    local id_destroyed_chest = 55324
-    -- gems for this class
-    local id_gem_gloves = 55566
-    local id_gem_boots = 55570
-    local id_gem_bracer = 55574
-    local id_gem_helm = 55578
-    local id_gem_arm = 55582
-    local id_gem_legs = 55586
-    local id_gem_chest = 55590
-    -- rewards for this class
-    local id_reward_helm = 91
-    local id_reward_arms = 92
-    local id_reward_chest = 93
-    local id_reward_legs = 94
-    local id_reward_boots = 95
-    local id_reward_bracer = 96
-    local id_reward_gloves = 97
-    -- 
-    -- attempt to reinitialize slutty dg variables to "" (nothing)
-    -- so this switch will work.
-    -- 
-    team_a_idrmor = nil
-    id_gem = nil
-    id_reward = nil
-    -- 
-    -- 
-    -- These cases set varialbes for the
-    -- quest.
-    -- 
-    -- switch on object.id
-    local is_armor, exp_multiplier, id_reward
-    if object.id == "%id_destroyed_helm%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_helm%" then
-        exp_multiplier = 10
-        local team_a_idrmor = id_destroyed_helm
-        local id_gem = id_gem_helm
-        id_reward = id_reward_helm
-    elseif object.id == "%id_destroyed_arm%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_arm%" then
-        exp_multiplier = 17
-        local team_a_idrmor = id_destroyed_arm
-        local id_gem = id_gem_arm
-        id_reward = id_reward_arms
-    elseif object.id == "%id_destroyed_chest%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_chest%" then
-        exp_multiplier = 29
-        local team_a_idrmor = id_destroyed_chest
-        local id_gem = id_gem_chest
-        id_reward = id_reward_chest
-    elseif object.id == "%id_destroyed_legs%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_legs%" then
-        exp_multiplier = 24
-        local team_a_idrmor = id_destroyed_legs
-        local id_gem = id_gem_legs
-        id_reward = id_reward_legs
-    elseif object.id == "%id_destroyed_boots%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_boots%" then
-        exp_multiplier = 4
-        local team_a_idrmor = id_destroyed_boots
-        local id_gem = id_gem_boots
-        id_reward = id_reward_boots
-    elseif object.id == "%id_destroyed_bracer%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_bracer%" then
-        exp_multiplier = 7
-        local team_a_idrmor = id_destroyed_bracer
-        local id_gem = id_gem_bracer
-        id_reward = id_reward_bracer
-    elseif object.id == "%id_destroyed_gloves%" then
-        is_armor = 1
-    elseif object.id == "%id_gem_gloves%" then
-        exp_multiplier = 2
-        local team_a_idrmor = id_destroyed_gloves
-        local id_gem = id_gem_gloves
-        id_reward = id_reward_gloves
-    else
-        _return_value = true
-        wait(1)
-        self:command("eye " .. tostring(actor.name))
-        actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
-        actor:send(tostring(self.name) .. " returns your item to you.")
-        return _return_value
+-- Phase armor turn-in (class and phase specific). Quest vars are keyed by the legacy object
+-- vnum, as DG did: phase_armor:<armor vnum>_armor_acquired (1 piece) and
+-- phase_armor:<gem vnum>_gems_acquired (3 gems). The zone 556 status scripts read these keys.
+-- The runtime fires RECEIVE after the item is already in the mob's hands, so a refusal hands
+-- it back with a give command (DG's `return 0`).
+
+local class_ok = false
+for _, c in ipairs({"cleric", "priest", "diabolist", "druid"}) do
+    if string.lower(actor.class or "") == c then
+        class_ok = true
+        break
     end
-    -- 
-    -- need to force character saving after each turnin.
-    -- 
-    if not is_armor then
-        -- hrmm Jelos' magical variable declaration
-        if actor:get_quest_var("phase_armor:id_gem_gems_acquired") then
-        else
-            actor:set_quest_var("phase_armor", "%id_gem%_gems_acquired", 0)
-        end
-        local gems = actor:get_quest_var("phase_armor:id_gem_gems_acquired")
-        actor:set_quest_var("phase_armor", "%id_gem%_gems_acquired", gems)
-        if gems < 3 then
-            gems = actor:get_quest_var("phase_armor:id_gem_gems_acquired") + 1
-            actor:set_quest_var("phase_armor", "%id_gem%_gems_acquired", gems)
-            wait(2)
-            actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
-            actor:send(tostring(self.name) .. " tells you, \"realm.  You have now given me " .. tostring(gems) .. " " .. "%get.obj_shortdesc[%id_gem%]%.\"")
-            world.destroy(object.name)
-            actor:save()
-        else
-            _return_value = true
-            wait(2)
-            self:command("eye " .. tostring(actor.name))
-            wait(1)
-            actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me 3 already!\"")
-            actor:send(tostring(self.name) .. " returns your item to you.")
-            -- 
-            -- Halt here so that the reward section isn't checked if the max
-            -- number of armor pieces has already been turned in so the reward
-            -- can't be given multiple times.
-            -- 
-            return _return_value
-        end
-        -- 
-        -- check to see if the quest is complete and the reward can be given..
-        -- 
-        if gems == 3 and actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired") == 1 then
-            wait(2)
-            actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
-            actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%id_reward%]%!\"")
-            wait(1)
-            self.room:spawn_object(553, id_reward)
-            wait(1)
-            -- 
-            -- loop for exp award.
-            -- 
-            actor:send("<b:yellow>You gain experience!</>")
-            local lap = 1
-            while lap <= exp_multiplier do
-                actor:award_exp(2640)
-                lap = lap + 1
-            end
-            -- 
-            -- end exp loop
-            -- 
-            -- all other items should be mpjunked or whatever by now
-            self:command("give all " .. tostring(actor.name))
-        end
-        -- 
-        -- other if's for the armor turn-ins should go between here and the last object
-        -- 
-    else
-        -- here is where the armor section goes
-        -- that is true for is_armor == 1
-        -- hrmm Jelos' magical variable declaration
-        if actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired") then
-        else
-            actor:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", 0)
-        end
-        local armor = actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired")
-        actor:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", armor)
-        if armor < 1 then
-            armor = actor:get_quest_var("phase_armor:team_a_idrmor_armor_acquired") + 1
-            actor:set_quest_var("phase_armor", "%team_a_idrmor%_armor_acquired", armor)
-            wait(2)
-            actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")
-            actor:send(tostring(self.name) .. " tells you, \"for quite some time.  You have now given me " .. "%get.obj_shortdesc[%team_a_idrmor%]%.\"")
-            world.destroy(object.name)
-            actor:save()
-        else
-            _return_value = true
-            wait(2)
-            self:command("eye " .. tostring(actor.name))
-            wait(1)
-            actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me " .. "%get.obj_shortdesc[%team_a_idrmor%]% already!\"")
-            actor:send(tostring(self.name) .. " returns your item to you.")
-            -- 
-            -- Halt here so that the reward section isn't checked if the max
-            -- number of armor pieces has already been turned in so the reward
-            -- can't be given multiple times.
-            -- 
-            return _return_value
-        end
-        -- 
-        -- check to see if the quest is complete and the reward can be given..
-        -- 
-        if armor == 1 and actor:get_quest_var("phase_armor:id_gem_gems_acquired") == 3 then
-            wait(2)
-            actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
-            actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. "%get.obj_shortdesc[%id_reward%]%!\"")
-            wait(1)
-            self.room:spawn_object(553, id_reward)
-            wait(1)
-            -- 
-            -- loop for exp award.
-            -- 
-            actor:send("<b:yellow>You gain experience!</>")
-            local lap = 1
-            while lap <= exp_multiplier do
-                actor:award_exp(2640)
-                lap = lap + 1
-            end
-            -- 
-            -- end exp loop
-            -- 
-            -- all other items should be mpjunked or whatever by now
-            self:command("give all " .. tostring(actor.name))
-        end
-    end
-    -- last object if before else that returns unwated objects to the player
-else
-    -- not the correct class for this particular quest?
-    -- 
-    -- This return will prevent the actual give from
-    -- the player in the first place and make it look
-    -- like homeslice is giving the object back.
-    -- 
-    _return_value = true
+end
+
+local function obj_name(vnum)
+    return objects.template(math.floor(vnum / 100), vnum % 100).name
+end
+
+-- Item names carry a leading article ("a rusted helm"); give matches on the bare words.
+local function bare_name(name)
+    return (string.gsub(string.gsub(name, "^%s*[Tt]he%s+", ""), "^%s*[Aa]n?%s+", ""))
+end
+
+local function give_back()
+    self:command("give " .. bare_name(object.name) .. " to " .. actor.name)
+    actor:send(tostring(self.name) .. " returns your item to you.")
+end
+
+if not (class_ok and actor:get_quest_stage("phase_armor") >= 1) then
+    -- not the right class / phase for this questmaster
     wait(1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
-    actor:send(tostring(self.name) .. " returns your item to you.")
+    give_back()
+    return true
 end
-return _return_value
+
+-- Slots for this class: destroyed armor, gem, reward (legacy 5-digit vnums) and exp multiplier.
+local slots = {
+    {slot = "helm", armor = 55312, gem = 55578, reward = 55391, mult = 10},
+    {slot = "arm", armor = 55316, gem = 55582, reward = 55392, mult = 17},
+    {slot = "chest", armor = 55324, gem = 55590, reward = 55393, mult = 29},
+    {slot = "legs", armor = 55320, gem = 55586, reward = 55394, mult = 24},
+    {slot = "boots", armor = 55304, gem = 55570, reward = 55395, mult = 4},
+    {slot = "bracer", armor = 55308, gem = 55574, reward = 55396, mult = 7},
+    {slot = "gloves", armor = 55300, gem = 55566, reward = 55397, mult = 2},
+}
+
+-- DG switch: an armor case falls through into its gem case, so both vnums map to the same slot.
+local object_vnum = object.zone_id * 100 + object.id
+local entry, is_armor
+for _, s in ipairs(slots) do
+    if object_vnum == s.armor then
+        entry = s
+        is_armor = true
+        break
+    elseif object_vnum == s.gem then
+        entry = s
+        is_armor = false
+        break
+    end
+end
+if not entry then
+    wait(1)
+    self:command("eye " .. tostring(actor.name))
+    actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
+    give_back()
+    return true
+end
+
+local armor_key = tostring(entry.armor) .. "_armor_acquired"
+local gem_key = tostring(entry.gem) .. "_gems_acquired"
+local armor = tonumber(actor:get_quest_var("phase_armor:" .. armor_key)) or 0
+local gems = tonumber(actor:get_quest_var("phase_armor:" .. gem_key)) or 0
+
+if is_armor then
+    if armor < 1 then
+        armor = armor + 1
+        actor:set_quest_var("phase_armor", armor_key, armor)
+        wait(2)
+        actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")
+        actor:send(tostring(self.name) .. " tells you, \"for quite some time.  You have now given me " .. obj_name(entry.armor) .. ".\"")
+        world.destroy(object)
+        actor:save()
+    else
+        wait(2)
+        self:command("eye " .. tostring(actor.name))
+        wait(1)
+        actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me " .. obj_name(entry.armor) .. " already!\"")
+        give_back()
+        -- Halt here so the reward can't be given twice.
+        return true
+    end
+else
+    if gems < 3 then
+        gems = gems + 1
+        actor:set_quest_var("phase_armor", gem_key, gems)
+        wait(2)
+        actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
+        actor:send(tostring(self.name) .. " tells you, \"realm.  You have now given me " .. tostring(gems) .. " " .. obj_name(entry.gem) .. ".\"")
+        world.destroy(object)
+        actor:save()
+    else
+        wait(2)
+        self:command("eye " .. tostring(actor.name))
+        wait(1)
+        actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me 3 already!\"")
+        give_back()
+        -- Halt here so the reward can't be given twice.
+        return true
+    end
+end
+
+-- Quest complete for this slot: armor piece plus all 3 gems.
+if armor == 1 and gems == 3 then
+    wait(2)
+    actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
+    actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. obj_name(entry.reward) .. "!\"")
+    wait(1)
+    local reward = self:spawn_object(math.floor(entry.reward / 100), entry.reward % 100)
+    wait(1)
+    actor:send("<b:yellow>You gain experience!</>")
+    for _ = 1, entry.mult do
+        actor:award_exp(2640)
+    end
+    if reward then
+        self:command("give " .. bare_name(reward.name) .. " to " .. actor.name)
+    end
+end
+return true
