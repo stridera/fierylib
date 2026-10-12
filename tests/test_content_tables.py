@@ -7,6 +7,8 @@ from pathlib import Path
 
 from fierylib.seeders.content_tables_seeder import (
     ContentTablesSeeder,
+    build_prevents_sql,
+    build_prevents_statements,
     build_sql,
     build_statements,
     config_value_text,
@@ -15,6 +17,7 @@ from fierylib.seeders.content_tables_seeder import (
 
 ROOT = Path(__file__).resolve().parents[1]
 SQL_PATH = ROOT / "data" / "sql" / "2026-10-09-content-tables.sql"
+PREVENTS_SQL_PATH = ROOT / "data" / "sql" / "2026-10-12-status-flag-prevents.sql"
 ABILITIES = json.loads((ROOT / "data" / "abilities.json").read_text(encoding="utf-8"))
 PLAIN_NAMES = {a["plainName"] for a in ABILITIES}
 
@@ -28,6 +31,28 @@ def _messages(key):
 
 def test_sql_patch_matches_the_json():
     assert SQL_PATH.read_text(encoding="utf-8") == build_sql()
+
+
+def test_prevents_sql_patch_matches_the_json():
+    assert PREVENTS_SQL_PATH.read_text(encoding="utf-8") == build_prevents_sql()
+
+
+def test_status_flag_prevents_match_the_old_flag_prevents_table():
+    """The three match arms of fierymud-rs's old hard-coded `flag_prevents`."""
+    movement = {
+        "webbed", "held", "hold_person", "paralyzed", "mesmerized", "asleep",
+        "sleeping", "rooted", "entangled", "stunned", "stun",
+    }
+    casting = {"silenced", "silence", "stunned", "stun", "asleep", "sleeping", "paralyzed", "mesmerized"}
+    speaking = {"silenced", "silence", "stunned", "stun", "asleep", "sleeping"}
+    rows = load_content()["status_flag_prevents"]
+    flags = [r[0] for r in rows]
+    assert len(flags) == len(set(flags)) == 13, "flag is the primary key"
+    assert {r[0] for r in rows if r[1]} == movement
+    assert {r[0] for r in rows if r[2]} == casting
+    assert {r[0] for r in rows if r[3]} == speaking
+    assert all(f == f.lower() for f in flags)
+    assert not any("StatusFlagValue" in s and "DROP" in s for s in build_prevents_statements())
 
 
 def test_status_flag_values_match_the_old_match_arms():
@@ -126,5 +151,5 @@ class _FakePrisma:
 def test_seeder_runs_every_statement():
     fake = _FakePrisma()
     stats = asyncio.run(ContentTablesSeeder(fake).seed_content_tables())
-    assert [c[0] for c in fake.calls] == build_statements()
+    assert [c[0] for c in fake.calls] == [*build_statements(), *build_prevents_statements()]
     assert stats == {"statements": len(fake.calls), "rows": len(fake.calls)}
