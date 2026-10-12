@@ -7,6 +7,7 @@ This makes Muditor the source of truth for command definitions.
 import click
 from prisma import Prisma
 
+from . import command_policy
 from .command_help import COLUMN_DDL, insert_sql, load_rows
 
 
@@ -1634,6 +1635,7 @@ class CommandSeeder:
             stats["total"] += 1
 
         stats["help_rows"] = await self.seed_help_text(verbose=verbose)
+        stats["policy_flags"] = await self.seed_policy_flags(verbose=verbose)
         return stats
 
     async def seed_help_text(self, verbose: bool = False) -> int:
@@ -1650,6 +1652,23 @@ class CommandSeeder:
         if verbose:
             click.echo(f"    Help text: {len(rows)} commands")
         return len(rows)
+
+    async def seed_policy_flags(self, verbose: bool = False) -> int:
+        """Set the per-command policy flags (allowed while casting / paralyzed, keeps hidden,
+        held by cast lag) from the lists the game used to hard-code.
+
+        A column is seeded only while no row has it set, so Muditor edits survive a re-seed.
+        Raw SQL so it works even when the generated Python client predates the columns.
+        Returns how many commands the lists name.
+        """
+        for ddl in command_policy.COLUMN_DDL:
+            await self.prisma.execute_raw(ddl)
+        for stmt in command_policy.statements():
+            await self.prisma.execute_raw(stmt)
+        total = sum(len(names) for names in command_policy.FLAGS.values())
+        if verbose:
+            click.echo(f"    Policy flags: {total} list entries")
+        return total
 
     async def get_command_count(self) -> int:
         """Get the count of commands in the database."""
