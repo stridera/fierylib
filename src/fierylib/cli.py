@@ -2914,6 +2914,42 @@ def seed_creation_recipes(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="starting-kit")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_starting_kit(verbose: bool):
+    """Seed the new-character starting kit.
+
+    Writes the StartingKit rows (the pack a new character is handed, common to
+    every class plus per-class gear) from data/starting_kit.json. Existing rows
+    are left alone. Run after the classes and the world objects are seeded.
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders import StartingKitSeeder
+
+    async def run_seed():
+        click.echo("🌱 Seeding Starting Kit")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await StartingKitSeeder(prisma).seed_starting_kit(verbose=verbose)
+            click.echo(f"  Inserted: {stats['inserted']}")
+            click.echo(f"  Existing: {stats['existing']}")
+            click.echo(f"\n✅ Starting kit seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="content-tables")
 @click.option(
     "--verbose",

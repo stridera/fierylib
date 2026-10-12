@@ -11,6 +11,7 @@ from .config_seeder import ConfigSeeder
 from .level_seeder import LevelSeeder
 from .recall_scroll_seeder import RecallScrollSeeder
 from .creation_recipe_seeder import CreationRecipeSeeder
+from .starting_kit_seeder import StartingKitSeeder
 from .content_tables_seeder import ContentTablesSeeder
 from .reserved_names_seeder import ReservedNamesSeeder
 from .mob_ai_seeder import MobAiSeeder
@@ -32,6 +33,7 @@ __all__ = [
     "LevelSeeder",
     "RecallScrollSeeder",
     "CreationRecipeSeeder",
+    "StartingKitSeeder",
     "ContentTablesSeeder",
     "ReservedNamesSeeder",
     "MobAiSeeder",

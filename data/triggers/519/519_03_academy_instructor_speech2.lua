@@ -8,15 +8,9 @@
 -- Converted from DG Script #51903: academy_instructor_speech2
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: hello teacher
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hello") or string.find(string.lower(speech), "teacher")) then
-    return true  -- No matching keywords
+-- Speech phrase: hello teacher (the DG arg 0 is "contains the phrase", not a chance)
+if not string.find(string.lower(speech), "hello teacher", 1, true) then
+    return true  -- Not the phrase
 end
 if actor:get_quest_var("school:speech") == 2 then
     actor:set_quest_var("school", "speech", 3)

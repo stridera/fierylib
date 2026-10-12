@@ -8,15 +8,9 @@
 -- Converted from DG Script #51986: academy_clerk_speech_hit_points
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: hit points
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "hit") or string.find(string.lower(speech), "points")) then
-    return true  -- No matching keywords
+-- Speech phrase: hit points (the DG arg 0 is "contains the phrase", not a chance)
+if not string.find(string.lower(speech), "hit points", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor:get_quest_stage("school") == 2 then

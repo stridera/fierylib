@@ -369,6 +369,14 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $RECIPES_CMD
 
+  # New-character starting kit (legacy give_newbie_eq): needs the classes and
+  # the world objects, so it runs after the world import.
+  KIT_CMD="poetry run fierylib seed starting-kit"
+  if [[ -n "$VERBOSE" ]]; then
+    KIT_CMD="$KIT_CMD --verbose"
+  fi
+  eval $KIT_CMD
+
   # Content tables moved out of the game server's source (status flag AI
   # values, spell syllables, prompt/insult/calendar/weather text, prompt
   # cooldown letters on Ability).

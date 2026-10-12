@@ -18,7 +18,7 @@ if actor:get_quest_stage("school") == 1 then
     actor:advance_quest("school")
     actor:set_quest_var("school", "speech", "complete")
     actor:set_quest_var("school", "gear", "complete")
-    actor:set_quest_var("school", "exploration", "complete")
+    actor:set_quest_var("school", "explore", "complete")
     actor:send(tostring(self.name) .. " tells you, 'Certainly.  You'll continue to the east.'")
     actor:command("search curtain")
     self:command("open curtain")
