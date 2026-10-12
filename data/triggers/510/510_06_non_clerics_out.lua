@@ -7,11 +7,13 @@
 -- sub-immortal player and not a Cleric/Priest, they are bounced to
 -- (510, 50) with a "this room is not for you" message.
 
-if self.actor_count == 0 then
+-- `self` is the room's actor handle; occupants live on its LuaRoom.
+local room = self.room
+if not room or room.actor_count == 0 then
     return true
 end
 
-local rnd = self.actors[random(1, self.actor_count)]
+local rnd = room.actors[random(1, room.actor_count)]
 if not rnd or not rnd.is_player or rnd.level >= 100 then
     return true
 end
@@ -21,7 +23,7 @@ if string.find(rnd.class, "Cleric") or string.find(rnd.class, "Priest") then
 end
 
 rnd:send("You feel a force pushing you out of the room - you are powerless to resist!")
-self:send_except(rnd, tostring(rnd.name) .. " suddenly starts moving out of the room.")
+room:send_except(rnd, tostring(rnd.name) .. " suddenly starts moving out of the room.")
 rnd:teleport(get_room(510, 50))
 rnd:send("You seem to hear a voice whisper, 'This room is not for you.'")
 wait(8)

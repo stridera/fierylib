@@ -26,7 +26,7 @@ local loop = 3
 -- -- we do that by looking for object 18701 -- if we are wearing it
 -- -- then we don't need to load gems again
 -- all the important stuff encased in this loop
-if not self:has_equipped("18701") then
+if not self:has_equipped(187, 1) then
     self.room:spawn_object(187, 1)
     get_room(11, 0):at(function()
         self:command("wear lock")
