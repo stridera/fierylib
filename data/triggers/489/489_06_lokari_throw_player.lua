@@ -12,7 +12,7 @@
 -- `_return_value` orphan was undefined. The rewrite below restores intent.
 local victim1
 for _ = 1, 6 do
-    local candidate = room.actors[random(1, #room.actors)]
+    local candidate = self.room.actors[random(1, #self.room.actors)]
     if candidate and (candidate.zone_id ~= 489) and (candidate.level < 100) then
         victim1 = candidate
         break
@@ -23,7 +23,7 @@ if not victim1 then
 end
 local victim2
 for _ = 1, 10 do
-    local candidate = room.actors[random(1, #room.actors)]
+    local candidate = self.room.actors[random(1, #self.room.actors)]
     if candidate and (candidate.zone_id ~= 489) and (candidate.level < 100) and (victim1.name ~= candidate.name) then
         victim2 = candidate
         break

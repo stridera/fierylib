@@ -12,7 +12,7 @@ local loop = 0
 while target == 0 do
     local dice = random(1, 50)
     local damage = 75 + dice
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     if (victim.is_npc) or (victim.gender ~= "Male") then
         if loop > 10 then
             target = 1

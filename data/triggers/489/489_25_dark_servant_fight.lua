@@ -30,7 +30,7 @@ elseif (chance == 2) and (self.zone_id == 489 and self.id == 9) then
     -- Assassin or Thief in the room.
     local victim
     for _ = 1, 9 do
-        local candidate = room.actors[random(1, #room.actors)]
+        local candidate = self.room.actors[random(1, #self.room.actors)]
         if candidate and (candidate.class == "Assassin" or candidate.class == "Thief") then
             victim = candidate
             break
@@ -47,7 +47,7 @@ else
     -- DG fallback path).
     local victim
     for _ = 1, 5 do
-        local candidate = room.actors[random(1, #room.actors)]
+        local candidate = self.room.actors[random(1, #self.room.actors)]
         if candidate and (candidate.zone_id ~= 489) then
             victim = candidate
             break

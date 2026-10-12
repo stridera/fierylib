@@ -17,7 +17,7 @@ self.room:send("Belial closes his eyes, raises his hands in the air and shouts, 
 wait(1)
 local person = 0
 while person < 1 do
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     if victim.is_player then
         if victim.class == "sorcerer" or victim.class == "cryomancer" or victim.class == "pyromancer" or victim.class == "priest" or victim.class == "druid" or victim.class == "cleric" then
             victim:send("Soul-wraiths phase out of Belial and lock onto your aura!")

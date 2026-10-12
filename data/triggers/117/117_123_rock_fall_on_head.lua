@@ -12,7 +12,7 @@ if actor.level < 100 then
     local die1 = random(1, 60)
     local die2 = random(1, 60)
     local damage = die1 + die2
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     local damage_dealt = victim:damage(damage)  -- type: crush
     if damage_dealt == 0 then
         self.room:send_except(victim, "A large stone slipped off of the entrance to a cave, but " .. tostring(victim.name) .. " is unharmed.")

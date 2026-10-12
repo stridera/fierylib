@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: RANDOM, probability: 100%
 if self.actor_count > 0 then
     local damage = random(1, 6) + 6
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     if victim then
         local damage_dealt = victim:damage(damage)  -- type: fire
         if damage_dealt == 0 then

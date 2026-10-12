@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #59040: old_man_steal
 -- Original: MOB trigger, flags: GREET, probability: 100%
-local target = room.actors[random(1, #room.actors)]
+local target = self.room.actors[random(1, #self.room.actors)]
 local rnd = random(1, 100)
 local loot
 if rnd > 99 then

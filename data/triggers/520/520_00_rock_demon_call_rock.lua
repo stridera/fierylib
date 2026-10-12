@@ -16,7 +16,7 @@ local numhits = random(1, 3) + 2
 local thishit = 0
 while thishit < numhits do
     local dmg = random(1, 50) + 50
-    local rnd = room.actors[random(1, #room.actors)]
+    local rnd = self.room.actors[random(1, #self.room.actors)]
     -- 520:17 is the rock demon itself - it absorbs the rocks instead of being hit
     if rnd.zone_id == 520 and rnd.local_id == 17 then
         self.room:send_except(rnd, "A lump of rock merges with " .. tostring(rnd.name) .. " and he seems stronger! (<yellow>" .. tostring(dmg) .. "</>)")

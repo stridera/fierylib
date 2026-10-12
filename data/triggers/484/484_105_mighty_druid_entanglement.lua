@@ -96,7 +96,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
     while max_tries >= 0 do
         -- find a victim, preferably an assassin
         -- but will settle for any player if no assassin found
-        local victim = room.actors[random(1, #room.actors)]
+        local victim = self.room.actors[random(1, #self.room.actors)]
         if victim.is_player then
             if (paralysis_victim_1 and (paralysis_victim_1.name == victim.name)) or (paralysis_victim_2 and (paralysis_victim_2.name == victim.name)) or (paralysis_victim_3 and (paralysis_victim_3.name == victim.name)) then
                 local victim = self

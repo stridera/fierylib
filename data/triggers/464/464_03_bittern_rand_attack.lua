@@ -13,7 +13,7 @@ if not percent_chance(40) then
     return true
 end
 -- Random chance to attack!
-local rnd = room.actors[random(1, #room.actors)]
+local rnd = self.room.actors[random(1, #self.room.actors)]
 if rnd.is_player then
     if rnd.level < 100 then
         wait(1)

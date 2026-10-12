@@ -16,7 +16,7 @@ while self.actor_count > 0 do
     local dice1 = random(1, 60)
     local dice2 = random(1, 60)
     local damage = dice1 + dice2
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     if victim then
         local damage_dealt = victim:damage(damage)  -- type: fire
         if damage_dealt == 0 then

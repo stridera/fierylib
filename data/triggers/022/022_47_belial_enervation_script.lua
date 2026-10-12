@@ -13,7 +13,7 @@ wait(1)
 self.room:send("Belial cackles madly, spreading his open hands apart!")
 self.room:send("A blackened bolts of energy crackles from Belial's fingertips.")
 while count > 0 do
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     if victim.is_player then
         local damage = 375 + random(1, 75)
         local saved = random(1, 2)

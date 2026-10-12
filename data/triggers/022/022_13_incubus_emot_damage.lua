@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 local dice = random(1, 50)
 local damage = 100 + dice
-local victim = room.actors[random(1, #room.actors)]
+local victim = self.room.actors[random(1, #self.room.actors)]
 if victim.is_player then
     if victim.gender == "Female" then
         self.room:send_except(victim, "The Incubus grabs hold of " .. tostring(victim.name) .. " and gives her a passionate kiss. (<blue>" .. tostring(damage) .. "</>)")

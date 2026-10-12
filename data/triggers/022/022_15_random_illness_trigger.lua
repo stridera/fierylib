@@ -12,8 +12,9 @@
 if not percent_chance(30) then
     return true
 end
-if self.people then
-    local victim = room.actors[random(1, #room.actors)]
+local occupants = self.room.actors
+if #occupants > 0 then
+    local victim = occupants[random(1, #occupants)]
     if victim.is_player then
         local message = random(1, 3)
         -- switch on message

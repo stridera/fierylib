@@ -22,7 +22,7 @@ elseif value == 4 or value == 5 then
     self:command("roar")
 elseif value == 8 or value == 9 then
     if world.count_mobiles(533, 1) < 6 then
-        local victim = room.actors[random(1, #room.actors)]
+        local victim = self.room.actors[random(1, #self.room.actors)]
         self:emote("hisses in anger, calling to her children.")
         wait(1)
         self.room:spawn_mobile(533, 1)

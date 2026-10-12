@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 if direction == "west" then
     wait(5)
-    local rndm = room.actors[random(1, #room.actors)]
+    local rndm = self.room.actors[random(1, #self.room.actors)]
     if not (rndm:get_eff_flagged("FLY")) then
         rndm:send("You feel your feet start slipping toward the pit!")
         wait(3)

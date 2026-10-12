@@ -14,7 +14,7 @@ if has_blur then
         globals.has_blur = globals.has_blur or true
     end
 end
-local victim = room.actors[random(1, #room.actors)]
+local victim = self.room.actors[random(1, #self.room.actors)]
 if victim then
     local action = random(1, 10)
     if action > 8 then

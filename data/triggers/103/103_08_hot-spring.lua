@@ -19,8 +19,8 @@
 
 local who = actor
 if not who then
-    if room and room.actors and #room.actors > 0 then
-        who = room.actors[random(1, #room.actors)]
+    if room and self.room.actors and #self.room.actors > 0 then
+        who = self.room.actors[random(1, #self.room.actors)]
     end
 end
 if not who or not who.is_player then

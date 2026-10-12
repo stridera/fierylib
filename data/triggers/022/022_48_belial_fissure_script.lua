@@ -19,7 +19,7 @@ if count > 3 then
     count = 3
 end
 while count > 0 do
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     if victim.is_player then
         local damage = 225 + random(1, 75)
         local which = random(1, 3)

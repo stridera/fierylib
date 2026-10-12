@@ -25,7 +25,7 @@ elseif mode < 8 then
     local max_hits = 5
     local hit_names = {}
     while max_hits > 0 do
-        local victim = room.actors[random(1, #room.actors)]
+        local victim = self.room.actors[random(1, #self.room.actors)]
         if victim and victim.is_player and not hit_names[victim.name] then
             local damage = 150 + random(1, 50)
             if victim:has_effect(Effect.Sanctuary) then

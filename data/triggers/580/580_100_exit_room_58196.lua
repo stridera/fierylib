@@ -23,7 +23,7 @@ if direction == "north" then
         local running = 1
         globals.running = globals.running or true
         wait(1)
-        local rnd = room.actors[random(1, #room.actors)]
+        local rnd = self.room.actors[random(1, #self.room.actors)]
         rnd:send("An image of a goddess appears before you for a second - she holds her hands out to you.")
         wait(1)
         rnd:send("The goddess says, 'Speak my name to leave this room, Yajiro was ever the joker...'")

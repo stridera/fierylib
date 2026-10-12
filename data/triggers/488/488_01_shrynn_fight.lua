@@ -19,7 +19,7 @@ if mode < 7 then
         local victim = nil
         local max_tries = 5
         while max_tries > 0 do
-            local candidate = room.actors[random(1, #room.actors)]
+            local candidate = self.room.actors[random(1, #self.room.actors)]
             if candidate and candidate.is_player and (candidate.name ~= actor.name) then
                 victim = candidate
                 break

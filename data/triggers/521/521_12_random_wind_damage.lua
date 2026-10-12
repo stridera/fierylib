@@ -15,11 +15,11 @@ if not percent_chance(25) then
     return true
 end
 -- WORLD/RANDOM triggers fire without an `actor` — pick a random occupant.
-if not room or not room.actors or #room.actors == 0 then
+if not room or not self.room.actors or #self.room.actors == 0 then
     return true
 end
 wait(1)
-local rndm = room.actors[random(1, #room.actors)]
+local rndm = self.room.actors[random(1, #self.room.actors)]
 if not rndm then
     return true
 end

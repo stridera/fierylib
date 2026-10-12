@@ -12,7 +12,7 @@
 if not percent_chance(10) then
     return true
 end
-local rnd = room.actors[random(1, #room.actors)]
+local rnd = self.room.actors[random(1, #self.room.actors)]
 if rnd.is_player then
     self.room:send_except(rnd, tostring(self.name) .. " glances up at " .. tostring(rnd.name) .. " then goes back to reading.")
     rnd:send(tostring(self.name) .. " glances up at you then goes back to reading.")

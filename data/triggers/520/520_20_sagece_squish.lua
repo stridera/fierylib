@@ -14,7 +14,7 @@ self.room:send("<b:cyan>Sagece of Raymif beats her monstrous wings, launching he
 wait(5)
 local victim = nil
 for attempt = 1, 10 do
-    local pick = room.actors[random(1, #room.actors)]
+    local pick = self.room.actors[random(1, #self.room.actors)]
     if pick and not (pick.zone_id == 520 and pick.local_id == 12) then
         victim = pick
         break

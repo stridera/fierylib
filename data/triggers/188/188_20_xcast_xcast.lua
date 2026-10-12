@@ -149,7 +149,7 @@ if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
                     local max_tries = 20
                     local target_list = ""
                     while max_tries > 0 do
-                        local victim = room.actors[random(1, #room.actors)]
+                        local victim = self.room.actors[random(1, #self.room.actors)]
                         if victim then
                             if (victim.id ~= actor.id) and not (string.find(target_list, victim.name, 1, true)) then
                                 target_list = target_list .. victim.name .. ","

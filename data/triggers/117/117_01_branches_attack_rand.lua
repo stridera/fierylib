@@ -12,7 +12,7 @@ if actor.is_player and actor.level < 100 then
     local dice1 = random(1, 55)
     local dice2 = random(1, 55)
     local damage = dice1 + dice2
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     local damage_dealt = victim:damage(damage)  -- type: slash
     if damage_dealt == 0 then
         self.room:send_except(victim, "One of the branches suddenly whips out at " .. tostring(victim.name) .. "!")

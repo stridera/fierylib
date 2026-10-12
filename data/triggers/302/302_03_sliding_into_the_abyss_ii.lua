@@ -12,10 +12,10 @@
 if not percent_chance(50) then
     return true
 end
-if #room.actors == 0 then
+if #self.room.actors == 0 then
     return true
 end
-local victim = room.actors[random(1, #room.actors)]
+local victim = self.room.actors[random(1, #self.room.actors)]
 if not victim or victim.is_npc then
     return true
 end

@@ -14,7 +14,7 @@ if not percent_chance(6) then
     return true
 end
 if world.count_mobiles(521, 18) < 6 then
-    local rnd = room.actors[random(1, #room.actors)]
+    local rnd = self.room.actors[random(1, #self.room.actors)]
     self.room:send("The Platinum Knight lets out a horrid SCREAM!")
     wait(2)
     self:emote("starts to hum a strange mantra.")

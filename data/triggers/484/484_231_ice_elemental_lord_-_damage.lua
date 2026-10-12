@@ -17,7 +17,7 @@ local max = 15
 local count = 1
 self.room:send("<b:cyan>The Ice Elemental Lord crashes into the wall, bringing down a shower of ice!</>")
 while count <= pop do
-    local victim = room.actors[random(1, #room.actors)]
+    local victim = self.room.actors[random(1, #self.room.actors)]
     -- Don't hit the Ice Elemental Lord
     if (victim.zone_id ~= 484 or victim.id ~= 232) then
         local flags = victim.aff_flags

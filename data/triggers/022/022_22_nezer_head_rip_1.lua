@@ -23,7 +23,7 @@ if casters > 0 then
     local gotyou = 0
     local target = nil
     while gotyou == 0 do
-        target = room.actors[random(1, #room.actors)]
+        target = self.room.actors[random(1, #self.room.actors)]
         if string.find(target.class, "Cleric") or string.find(target.class, "Priest") or string.find(target.class, "Druid") or string.find(target.class, "Diabolist") or string.find(target.class, "Sorcerer") or string.find(target.class, "Cryomancer") or string.find(target.class, "Pyromancer") or string.find(target.class, "Necromancer") then
             gotyou = gotyou + 1
         end

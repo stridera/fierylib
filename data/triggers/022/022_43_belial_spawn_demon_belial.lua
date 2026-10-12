@@ -10,7 +10,7 @@
 -- Spawn Demon Belial on 5% HP
 -- Stage marker: belial_queue == 3 (post-transformation)
 globals.belial_queue = 3
-local victim = room.actors[random(1, #room.actors)]
+local victim = self.room.actors[random(1, #self.room.actors)]
 self.room:spawn_mobile(22, 21)
 self.room:send("Belial falls to one knee, his chest heaving in exhaustion from battle.")
 wait(3)

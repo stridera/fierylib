@@ -43,7 +43,7 @@ if belial_ai > 0 then
         self.room:send("Belial says in common, 'Fear my wrath, puny mortal!'")
     elseif action == 5 then
         -- Kick / Switch Opponents
-        local victim = room.actors[random(1, #room.actors)]
+        local victim = self.room.actors[random(1, #self.room.actors)]
         local which = random(1, 2)
         -- switch on which
         -- line 30
@@ -58,7 +58,7 @@ if belial_ai > 0 then
             run_room_trigger(22, 49)
         end
         -- Kick / Switch Opponents
-        local victim = room.actors[random(1, #room.actors)]
+        local victim = self.room.actors[random(1, #self.room.actors)]
         local which = random(1, 2)
         -- switch on which
         if which == 1 then

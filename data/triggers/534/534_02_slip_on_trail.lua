@@ -13,7 +13,7 @@ if not percent_chance(5) then
     return true
 end
 wait(2)
-local rnd = room.actors[random(1, #room.actors)]
+local rnd = self.room.actors[random(1, #self.room.actors)]
 -- this trigger is in multiple rooms, socheck we are in right one
 if rnd.room == actor.room then
     -- check for flying first...
