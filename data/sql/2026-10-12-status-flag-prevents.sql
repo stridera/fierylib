@@ -21,8 +21,8 @@ ALTER TABLE "StatusFlagValue" ADD COLUMN IF NOT EXISTS "prevents_speaking" BOOLE
 
 INSERT INTO "StatusFlagValue" ("flag", "prevents_movement", "prevents_casting", "prevents_speaking") VALUES
   ('webbed', TRUE, FALSE, FALSE),
-  ('held', TRUE, FALSE, FALSE),
-  ('hold_person', TRUE, FALSE, FALSE),
+  ('held', TRUE, TRUE, FALSE),
+  ('hold_person', TRUE, TRUE, FALSE),
   ('paralyzed', TRUE, TRUE, FALSE),
   ('mesmerized', TRUE, TRUE, FALSE),
   ('asleep', TRUE, TRUE, TRUE),

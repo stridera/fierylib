@@ -787,13 +787,13 @@
     [
       "held",
       true,
-      false,
+      true,
       false
     ],
     [
       "hold_person",
       true,
-      false,
+      true,
       false
     ],
     [

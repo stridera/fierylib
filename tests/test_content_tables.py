@@ -43,7 +43,7 @@ def test_status_flag_prevents_match_the_old_flag_prevents_table():
         "webbed", "held", "hold_person", "paralyzed", "mesmerized", "asleep",
         "sleeping", "rooted", "entangled", "stunned", "stun",
     }
-    casting = {"silenced", "silence", "stunned", "stun", "asleep", "sleeping", "paralyzed", "mesmerized"}
+    casting = {"silenced", "silence", "stunned", "stun", "asleep", "sleeping", "paralyzed", "mesmerized", "held", "hold_person"}
     speaking = {"silenced", "silence", "stunned", "stun", "asleep", "sleeping"}
     rows = load_content()["status_flag_prevents"]
     flags = [r[0] for r in rows]
