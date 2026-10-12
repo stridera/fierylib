@@ -7960,8 +7960,8 @@
       }
     ],
     "messages": {
-      "successToCaster": "You summon a blade of glimmering ice to aid you.",
-      "successToRoom": "{actor.name} summons a dagger of glimmering ice to aid {actor.him}."
+      "successToCaster": "<b:white>You summon a blade of </><blue>glimmering ice</><b:white> to aid you.</>",
+      "successToRoom": "<b:white>{actor.name} summons a dagger of </><blue>glimmering ice</><b:white> to aid {actor.him}.</>"
     },
     "sphere": "SUMMONING",
     "pages": 17

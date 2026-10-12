@@ -36,11 +36,28 @@ def test_sql_param_literal_matches_json():
     assert _ability()["effects"][0]["params"] in literals
 
 
+COLOUR_SQL = (DATA / "sql" / "2026-10-12-ice-dagger-colour-35.sql").read_text(encoding="utf-8")
+
+
+def _plain(text):
+    return re.sub(r"</?[a-z:]*>", "", text)
+
+
 def test_sql_messages_match_json():
+    # The conjure patch wrote the plain text; the colour patch (below) dresses it.
     messages = _ability()["messages"]
-    assert f"'{messages['successToCaster']}'" in SQL
-    assert f"'{messages['successToRoom']}'" in SQL
+    assert f"'{_plain(messages['successToCaster'])}'" in SQL
+    assert f"'{_plain(messages['successToRoom'])}'" in SQL
     assert f"'{_ability()['description']}'" in SQL
+
+
+def test_messages_keep_the_legacy_colours():
+    # Legacy: &7&b ... &0&4glimmering ice&7&b ... (bold white around plain blue ice).
+    messages = _ability()["messages"]
+    for key in ("successToCaster", "successToRoom"):
+        assert "<blue>glimmering ice</>" in messages[key]
+        assert messages[key].startswith("<b:white>") and messages[key].endswith("</>")
+        assert f"'{messages[key]}'" in COLOUR_SQL
 
 
 def test_create_effect_documents_the_object_params():
