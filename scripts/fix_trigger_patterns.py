@@ -18,7 +18,12 @@ P2  `.id` / `.vnum` compared against a legacy 4+ digit vnum literal. The runtime
     The runtime (mud-script LuaActor/LuaRoom) exposes `.id` and `.zone_id` on actors, objects
     and rooms; `.local_id` exists on rooms only. Output therefore uses `.id`.
 
-Everything the rewriter cannot do safely (ranges, arithmetic on vnums, vnums held in
+    A closed range over vnums (`X.id >= 55300 and X.id <= 55383`, or the outside form
+    `X.id < 48900 or X.id > 48999`) becomes a `zone_id` test, plus `id` bounds on the local id when the
+    range covers only part of a zone: `(X.zone_id == 553 and X.id <= 83)`. A range that spans several zones
+    becomes an `or` of per-zone clauses. Works for `X.id` and for a `local v = X.id` variable.
+
+Everything the rewriter cannot do safely (open-ended ranges, arithmetic on vnums, vnums held in
 variables or tables, shadowed outer locals, ...) is left untouched and listed as "manual".
 
 Usage:
@@ -646,6 +651,7 @@ class Result:
     p3: int = 0
     p2: int = 0
     p2_vnum_reads: int = 0
+    p2_ranges: int = 0
     p1: P1Stats = field(default_factory=P1Stats)
     manual: list[Manual] = field(default_factory=list)
 
@@ -682,6 +688,42 @@ def chain_left(toks: list[Tok], dot_idx: int) -> tuple[int, str] | None:
                 continue
             return None
         return None
+
+
+def find_idvars(pr) -> dict[Decl, tuple[str, str]]:
+    """`local v = chain.id` with v and the chain root never reassigned: decl -> (chain text, property)."""
+    toks = pr.toks
+
+    def tv(i: int) -> str:
+        return toks[i].val if 0 <= i < len(toks) else ""
+
+    idvars: dict[Decl, tuple[str, str]] = {}  # decl -> (chain text, property)
+    written = {r.decl for r in pr.refs if r.write and r.decl is not None}
+    written_globals = {r.name for r in pr.refs if r.write and r.decl is None}
+    for s in pr.stmts:
+        if s.kind != "local" or len(s.decls) != 1 or not s.has_init or s.attribs:
+            continue
+        e = s.eq_tok + 1
+        # tokens: e .. s.end must be chain . (id|vnum)
+        if s.end - e < 3 or tv(s.end - 2) != "." or tv(s.end - 1) not in ("id", "vnum"):
+            continue
+        cl = chain_left(toks, s.end - 2)
+        if cl is None or cl[0] != e:
+            continue
+        root = toks[e]
+        root_ref = pr.ref_at.get(e)
+        if root_ref is None:
+            continue
+        if root_ref.decl is not None:
+            if root_ref.decl in written:
+                continue
+        elif root.val in written_globals or any(d.name == root.val for d in pr.decls):
+            continue  # the receiver name is reassigned or shadowed somewhere in the file
+        d = s.decls[0]
+        if d in written:
+            continue
+        idvars[d] = (pr.src[toks[e].start : toks[s.end - 2].start], toks[s.end - 1].val)
+    return idvars
 
 
 def rewrite_p2(src: str, ranges: ZoneRanges, path: str) -> tuple[str, int, int, list[Manual]]:
@@ -722,33 +764,7 @@ def rewrite_p2(src: str, ranges: ZoneRanges, path: str) -> tuple[str, int, int, 
             manual.append(Manual(path, tok.line, "no-zone-range", _line_text(src, tok.start)))
         return z
 
-    # Value variables: `local v = chain.id` with v, chain root never reassigned.
-    idvars: dict[Decl, tuple[str, str]] = {}  # decl -> (chain text, property)
-    written = {r.decl for r in pr.refs if r.write and r.decl is not None}
-    written_globals = {r.name for r in pr.refs if r.write and r.decl is None}
-    for s in pr.stmts:
-        if s.kind != "local" or len(s.decls) != 1 or not s.has_init or s.attribs:
-            continue
-        e = s.eq_tok + 1
-        # tokens: e .. s.end must be chain . (id|vnum)
-        if s.end - e < 3 or tv(s.end - 2) != "." or tv(s.end - 1) not in ("id", "vnum"):
-            continue
-        cl = chain_left(toks, s.end - 2)
-        if cl is None or cl[0] != e:
-            continue
-        root = toks[e]
-        root_ref = pr.ref_at.get(e)
-        if root_ref is None:
-            continue
-        if root_ref.decl is not None:
-            if root_ref.decl in written:
-                continue
-        elif root.val in written_globals or any(d.name == root.val for d in pr.decls):
-            continue  # the receiver name is reassigned or shadowed somewhere in the file
-        d = s.decls[0]
-        if d in written:
-            continue
-        idvars[d] = (pr.src[toks[e].start : toks[s.end - 2].start], toks[s.end - 1].val)
+    idvars = find_idvars(pr)
 
     covered_literals: set[int] = set()
 
@@ -840,6 +856,158 @@ def rewrite_p2(src: str, ranges: ZoneRanges, path: str) -> tuple[str, int, int, 
 
     new_src = apply_edits(src, edits) if edits else src
     return new_src, count, vnum_reads, manual
+
+
+@dataclass
+class _Cmp:
+    """One `X.id OP NUM` (or `idvar OP NUM`) comparison, optionally wrapped in its own parentheses."""
+
+    start: int  # first token (the '(' when wrapped)
+    end: int  # last token (the ')' when wrapped)
+    key: str  # what is compared: `chain.id` text, or the id variable's name
+    chain: str  # receiver chain text (`object`, `actor.room`), for `.zone_id`
+    op: str
+    value: int
+
+
+def rewrite_ranges(src: str, ranges: ZoneRanges, path: str) -> tuple[str, int, list[Manual]]:
+    """`X.id >= A and X.id <= B` / `X.id < A or X.id > B` over legacy vnums -> `zone_id` (+ id bounds) tests.
+
+    The vnum range is intersected with the zone ranges from lib/world/zon: a zone covered entirely is
+    just `X.zone_id == Z`; a zone covered in part adds `X.id >= a` / `X.id <= b` on the local id. A range
+    that spans several zones becomes an `or` of those clauses (an `and` of the negations for the outside
+    form). Only closed two-sided ranges are handled; `X.id > 1100` and ranges over variables that do not
+    hold `X.id` are left for the manual list.
+    """
+    pr = parse(src)
+    toks = pr.toks
+    n = len(toks)
+    idvars = find_idvars(pr)
+    manual: list[Manual] = []
+    edits: list[tuple[int, int, str]] = []
+
+    def tv(i: int) -> str:
+        return toks[i].val if 0 <= i < n else ""
+
+    def tk(i: int) -> str:
+        return toks[i].kind if 0 <= i < n else ""
+
+    def bare(i: int) -> _Cmp | None:
+        if tk(i) != "name" or (tv(i - 1) in (".", ":") and tk(i - 1) == "op"):
+            return None
+        ref = pr.ref_at.get(i)
+        if ref is not None and ref.decl in idvars and not ref.write:
+            op_i = i + 1
+            if tv(op_i) in ORDER and tk(op_i) == "op" and op_i + 1 < n and is_vnum_literal(toks[op_i + 1]):
+                return _Cmp(i, op_i + 1, toks[i].val, idvars[ref.decl][0], tv(op_i), int(toks[op_i + 1].val))
+            return None
+        k = i
+        while tv(k + 1) == "." and tk(k + 2) == "name" and tv(k + 2) != "id":
+            k += 2
+        if tv(k + 1) == "." and tv(k + 2) == "id" and tk(k + 2) == "name":
+            op_i = k + 3
+            if tv(op_i) in ORDER and tk(op_i) == "op" and op_i + 1 < n and is_vnum_literal(toks[op_i + 1]):
+                chain = pr.src[toks[i].start : toks[k + 1].start]
+                return _Cmp(i, op_i + 1, f"{chain}.id", chain, tv(op_i), int(toks[op_i + 1].val))
+        return None
+
+    def atom(i: int) -> _Cmp | None:
+        if tv(i) == "(" and tk(i) == "op":
+            c = bare(i + 1)
+            if c is not None and tv(c.end + 1) == ")" and tk(c.end + 1) == "op":
+                return _Cmp(i, c.end + 1, c.key, c.chain, c.op, c.value)
+            return None
+        return bare(i)
+
+    def tight_before(i: int) -> bool:
+        t = toks[i - 1] if i > 0 else None
+        if t is None:
+            return False
+        if t.kind == "op" and (t.val in ARITH or t.val in ORDER or t.val in ("==", "~=", ".", ":")):
+            return True
+        return t.kind == "kw" and t.val == "not"
+
+    def tight_after(i: int) -> bool:
+        t = toks[i] if i < n else None
+        if t is None:
+            return False
+        if t.kind == "op" and (t.val in ARITH or t.val in ORDER or t.val in ("==", "~=", ".", "[", "(", ":")):
+            return True
+        return t.kind == "str"
+
+    def interval(a: _Cmp, b: _Cmp, conj: str) -> tuple[int, int] | None:
+        """Inclusive vnum range the pair is true on (`and`) or false on (`or`); None when it is not a range."""
+        lo_ops, hi_ops = (("<", "<="), (">", ">=")) if conj == "or" else ((">", ">="), ("<", "<="))
+        first, second = (a, b) if a.op in lo_ops else (b, a)
+        if first.op not in lo_ops or second.op not in hi_ops:
+            return None
+        if conj == "and":  # x > A / x >= A  and  x < B / x <= B
+            lo = first.value + (1 if first.op == ">" else 0)
+            hi = second.value - (1 if second.op == "<" else 0)
+        else:  # x < A / x <= A  or  x > B / x >= B : the pair is false exactly on [A, B]
+            lo = first.value + (1 if first.op == "<=" else 0)
+            hi = second.value - (1 if second.op == ">=" else 0)
+        return (lo, hi) if lo <= hi else None
+
+    def clauses(chain: str, key: str, lo: int, hi: int, outside: bool) -> str | None:
+        parts_by_zone: list[list[str]] = []
+        for base, top, zone in sorted(ranges):
+            if base > hi or top < lo:
+                continue
+            a, b = max(lo, base) - base, min(hi, top) - base
+            if outside:
+                parts = [f"{chain}.zone_id ~= {zone}"]
+                if lo > base:
+                    parts.append(f"{key} < {a}")
+                if hi < top:
+                    parts.append(f"{key} > {b}")
+            else:
+                parts = [f"{chain}.zone_id == {zone}"]
+                if lo > base:
+                    parts.append(f"{key} >= {a}")
+                if hi < top:
+                    parts.append(f"{key} <= {b}")
+            parts_by_zone.append(parts)
+        if not parts_by_zone:
+            return None
+        joiner, inner = (" and ", " or ") if outside else (" or ", " and ")
+        texts = [inner.join(p) for p in parts_by_zone]
+        if len(texts) > 1:
+            texts = [f"({t})" if len(p) > 1 else t for t, p in zip(texts, parts_by_zone)]
+        return joiner.join(texts)
+
+    count = 0
+    i = 0
+    while i < n:
+        a = atom(i)
+        if a is None:
+            i += 1
+            continue
+        conj_i = a.end + 1
+        b = atom(conj_i + 1) if tk(conj_i) == "kw" and tv(conj_i) in ("and", "or") else None
+        if b is None or b.key != a.key or b.chain != a.chain:
+            i = a.end + 1
+            continue
+        conj = tv(conj_i)
+        rng = interval(a, b, conj)
+        # an `or` pair is only a unit when no `and` binds to either side of it
+        loose = tight_before(a.start) or tight_after(b.end + 1)
+        if conj == "or":
+            loose = loose or tv(a.start - 1) == "and" or tv(b.end + 1) == "and"
+        if rng is None or loose:
+            i = a.end + 1
+            continue
+        text = clauses(a.chain, a.key, rng[0], rng[1], outside=conj == "or")
+        if text is None:
+            manual.append(Manual(path, toks[a.start].line, "no-zone-range", _line_text(src, toks[a.start].start)))
+            i = b.end + 1
+            continue
+        if not (tv(a.start - 1) == "(" and tv(b.end + 1) == ")"):
+            text = f"({text})"
+        edits.append((toks[a.start].start, toks[b.end].end, text))
+        count += 1
+        i = b.end + 1
+    return (apply_edits(src, edits) if edits else src), count, manual
 
 
 def _line_text(src: str, pos: int) -> str:
@@ -1123,6 +1291,8 @@ def process(src: str, ranges: ZoneRanges, path: str = "<mem>", local_id_to_id: b
         return res
     res.p2, res.p2_vnum_reads = p2, vreads
     res.manual += man2
+    s1, res.p2_ranges, man_r = rewrite_ranges(s1, ranges, path)
+    res.manual += man_r
     s2, p1, man1 = rewrite_p1(s1, path)
     res.p1 = p1
     res.manual += man1
@@ -1172,7 +1342,7 @@ def main() -> int:
         files += sorted(p.rglob("*.lua")) if p.is_dir() else [p]
 
     changed = 0
-    tot_p2 = tot_vreads = tot_p3 = 0
+    tot_p2 = tot_vreads = tot_p3 = tot_ranges = 0
     tot_p1 = P1Stats()
     p2_files = p1_files = 0
     manual: list[Manual] = []
@@ -1187,8 +1357,9 @@ def main() -> int:
         tot_p1.hoisted_names += res.p1.hoisted_names
         tot_p1.shadow_assigns += res.p1.shadow_assigns
         tot_vreads += res.p2_vnum_reads
+        tot_ranges += res.p2_ranges
         tot_p3 += res.p3
-        p2_files += 1 if (res.p2 or res.p2_vnum_reads) else 0
+        p2_files += 1 if (res.p2 or res.p2_vnum_reads or res.p2_ranges) else 0
         p1_files += 1 if res.p1.statements else 0
         if res.src != src:
             changed += 1
@@ -1196,7 +1367,7 @@ def main() -> int:
                 f.write_text(res.src, encoding="utf-8")
     print(
         f"files scanned {len(files)}, changed {changed} | "
-        f"P2: {tot_p2} comparisons in {p2_files} files (+{tot_vreads} .vnum reads) | "
+        f"P2: {tot_p2} comparisons + {tot_ranges} ranges in {p2_files} files (+{tot_vreads} .vnum reads) | "
         f"P1: {tot_p1.statements} locals de-localised ({tot_p1.hoisted_names} hoisted declarations, "
         f"{tot_p1.shadow_assigns} shadow-to-assign) in {p1_files} files | "
         + (f"local_id->id: {tot_p3} | " if args.local_id_to_id else "")
@@ -1212,8 +1383,8 @@ def main() -> int:
             "# Trigger scripts that need manual work after fix_trigger_patterns.py",
             "",
             "Generated by `scripts/fix_trigger_patterns.py --check --manual-out`. Kinds:",
-            "- `range`: `.id` compared with `<`/`>` against legacy vnums (`id >= 55300 and id <= 55383`). Usually one",
-            "  zone, so `zone_id == 553 and id >= 0 and id <= 83`; left alone on purpose.",
+            "- `range`: `.id` compared with `<`/`>` against a legacy vnum without a matching bound (`id > 1100`);",
+            "  closed ranges are converted to `zone_id` checks by the range pass.",
             "- `var-compare`: `.id` compared with a variable that holds a legacy vnum.",
             "- `quest-var-vnum`: a quest variable that stores `.id` (the local id only) is compared with a vnum.",
             "- `vnum-table`: a table keyed by legacy vnums, matched in another trigger.",

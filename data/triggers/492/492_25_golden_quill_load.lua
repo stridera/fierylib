@@ -8,10 +8,8 @@
 -- Converted from DG Script #49225: Golden_quill_load
 -- Original: WORLD trigger, flags: GLOBAL, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- Runs only through run_room_trigger() (DG probability 0 = never automatic); the converter's
+-- percent_chance(0) guard blocked those calls.
 get_room(584, 122):at(function()
     self.room:spawn_object(492, 51)
 end)

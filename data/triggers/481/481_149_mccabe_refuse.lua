@@ -14,8 +14,11 @@
 -- Converted from DG Script #48249: McCabe refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
+-- DG receive trigger, num_arg 0: the arg list (48252 48251) holds the items
+-- other triggers handle; this one runs for every other item. The runtime does not filter on
+-- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
+if (object.zone_id == 481 and object.id == 152)
+    or (object.zone_id == 481 and object.id == 151) then
     return true
 end
 local _return_value = true  -- Default: allow action

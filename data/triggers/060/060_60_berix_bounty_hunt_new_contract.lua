@@ -8,15 +8,9 @@
 -- Converted from DG Script #6060: Berix bounty hunt new contract
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: I need a new contract
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "need") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "new") or string.find(string.lower(speech), "contract")) then
-    return true  -- No matching keywords
+-- Speech phrase: I need a new contract (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "i need a new contract", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then

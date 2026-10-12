@@ -17,8 +17,11 @@
 -- Converted from DG Script #55008: Master Shaman refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
+-- DG receive trigger, num_arg 0: the arg list (55005 55023) holds the items
+-- other triggers handle; this one runs for every other item. The runtime does not filter on
+-- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
+if (object.zone_id == 550 and object.id == 5)
+    or (object.zone_id == 550 and object.id == 23) then
     return true
 end
 local stage = actor:get_quest_stage("wizard_eye")

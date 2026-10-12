@@ -8,7 +8,7 @@
 -- Converted from DG Script #48503: mighty druid creeping doom
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
 for _, person in ipairs(self:get_people()) do
-    if (person.id < 48500) or (person.id > 48599) then
+    if (person.zone_id ~= 484 or person.id < 100 or person.id > 199) then
         local damage = 190 + random(1, 20)
         if person:has_effect(Effect.Sanctuary) then
             damage = damage / 2

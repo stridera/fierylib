@@ -8,8 +8,10 @@
 -- Converted from DG Script #48429: Hunt refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
+-- DG receive trigger, num_arg 0: the arg list (48429) holds the items
+-- other triggers handle; this one runs for every other item. The runtime does not filter on
+-- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
+if (object.zone_id == 484 and object.id == 29) then
     return true
 end
 local _return_value = true  -- Default: allow action

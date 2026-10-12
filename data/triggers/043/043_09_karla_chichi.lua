@@ -8,15 +8,9 @@
 -- Converted from DG Script #4309: karla_chichi
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: Don't you think so?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "don't") or string.find(string.lower(speech), "you") or string.find(string.lower(speech), "think") or string.find(string.lower(speech), "so?")) then
-    return true  -- No matching keywords
+-- Speech phrase: Don't you think so? (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "don't you think so?", 1, true) then
+    return true  -- Not the phrase
 end
 -- TODO(parity): original DG checked for chichi (mob 4301) in the room; rewrite
 -- once the runtime exposes a way to look up actors by composite (zone, id) in a room.

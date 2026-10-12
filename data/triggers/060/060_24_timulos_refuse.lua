@@ -8,8 +8,12 @@
 -- Converted from DG Script #6024: Timulos refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
+-- DG receive trigger, num_arg 0: the arg list (41014 3033 8813) holds the items
+-- other triggers handle; this one runs for every other item. The runtime does not filter on
+-- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
+if (object.zone_id == 410 and object.id == 14)
+    or (object.zone_id == 30 and object.id == 33)
+    or (object.zone_id == 88 and object.id == 13) then
     return true
 end
 local _return_value = true  -- Default: allow action

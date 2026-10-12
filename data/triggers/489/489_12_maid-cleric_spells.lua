@@ -71,7 +71,7 @@ else
         self.room:send("<blue>&9A maid in waiting speaks a word of demonic sacrilege!</>")
     end
     for _, person in ipairs(self:get_people()) do
-        if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
+        if (person.zone_id ~= 489) and (person.level < 100) then
             local hit = (spell == "good" and person.alignment < -349)
                      or (spell == "evil" and person.alignment > 349)
             if hit then

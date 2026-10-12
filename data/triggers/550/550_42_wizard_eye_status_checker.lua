@@ -12,15 +12,9 @@
 -- Converted from DG Script #55042: wizard_eye_status_checker
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: spell progress
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "spell") or string.find(speech_lower, "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: spell progress (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "spell progress", 1, true) then
+    return true  -- Not the phrase
 end
 
 local stage = actor:get_quest_stage("wizard_eye")

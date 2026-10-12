@@ -8,7 +8,7 @@
 -- TWICE (once with phase-1 values, once with phase-2 values, lines 43-67),
 -- so phase-2 always wins regardless of hellstage. Inner `hellstage ==
 -- "step"` is a string compare. `local response` is branch-scoped via
--- elseif. `%get.obj_shortdesc[%gem%]%` DG remnants. 0% probability gate.
+-- elseif. `%get.obj_shortdesc[%gem%]%` DG remnants. The dead 0% gate is gone.
 -- Full rewrite from DG #5357.
 --
 -- Original DG Script: #5357
@@ -16,15 +16,9 @@
 -- Converted from DG Script #5357: Hell Trident progress tracker
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: weapon progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "weapon") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: weapon progress (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "weapon progress", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if string.find(actor.class, "Diabolist") then

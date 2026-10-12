@@ -8,17 +8,9 @@
 -- Converted from DG Script #2232: START THE NINE HELLS QUEST
 -- Original: WORLD trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- TODO(parity): original DG keyword was the exact phrase "Start the Nine Hells quest.";
--- converter split it into OR of common words ("the", "quest.") which match nearly any speech.
--- Should require all keywords to match (admin-only quest start speech).
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "start") and string.find(speech_lower, "nine") and string.find(speech_lower, "hells") and string.find(speech_lower, "quest")) then
-    return true  -- No matching keywords
+-- Speech phrase: Start the Nine Hells quest. (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "start the nine hells quest.", 1, true) then
+    return true  -- Not the phrase
 end
 get_room(22, 1):exit("down"):set_state({hidden = false})
 get_room(22, 1):exit("down"):set_state({name = "hole"})

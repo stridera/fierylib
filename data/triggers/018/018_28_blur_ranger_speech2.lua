@@ -12,15 +12,9 @@
 -- Converted from DG Script #1828: blur_ranger_speech2
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: let's begin
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "let's") or string.find(speech_lower, "begin")) then
-    return true  -- No matching keywords
+-- Speech phrase: let's begin (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "let's begin", 1, true) then
+    return true  -- Not the phrase
 end
 actor:set_quest_var("blur", "east", 0)
 actor:set_quest_var("blur", "west", 0)

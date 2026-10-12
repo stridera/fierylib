@@ -8,15 +8,9 @@
 -- Converted from DG Script #49018: crowley_speak2
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: the seer requests your assistance
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "the") or string.find(string.lower(speech), "seer") or string.find(string.lower(speech), "requests") or string.find(string.lower(speech), "your") or string.find(string.lower(speech), "assistance")) then
-    return true  -- No matching keywords
+-- Speech phrase: the seer requests your assistance (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "the seer requests your assistance", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 self:set_flag("sentinel", true)

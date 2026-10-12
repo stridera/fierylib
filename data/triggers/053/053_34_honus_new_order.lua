@@ -2,23 +2,17 @@
 -- Zone: 53, ID: 34
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): `local order = N` branch-scoped. 0% probability never
--- fires. Same shape as 053_33. Full rewrite from DG #5334.
+-- TODO(parity): `local order = N` branch-scoped. The dead 0% gate is
+-- gone. Same shape as 053_33. Full rewrite from DG #5334.
 --
 -- Original DG Script: #5334
 
 -- Converted from DG Script #5334: Honus new order
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: I need a new order
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "need") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "new") or string.find(string.lower(speech), "order")) then
-    return true  -- No matching keywords
+-- Speech phrase: I need a new order (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "i need a new order", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then

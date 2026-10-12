@@ -8,17 +8,12 @@
 -- Converted from DG Script #12302: priestess_speech2
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
+-- Speech phrase: great rite (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "great rite", 1, true) then
+    return true  -- Not the phrase
 end
-
--- Speech keywords: great rite
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "great") or string.find(string.lower(speech), "rite")) then
-    return true  -- No matching keywords
-end
-if string.find(speech, "GREAT RITE OF INVOCATION?") or string.find(speech, "GREAT RITE?") or string.find(speech, "GREAT RITE OF INVOCATION") or string.find(speech, "GREAT RITE") then
+-- (the converter compared against upper-case text; `speech` is lower-case)
+if string.find(speech, "great rite", 1, true) then
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'For generations, our coven has scoured the face of Ethilien to find a place where the touch of the <b:cyan>Old Gods</> might still be found.'")
     wait(3)

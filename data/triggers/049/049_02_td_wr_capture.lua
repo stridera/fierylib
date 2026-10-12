@@ -10,14 +10,9 @@
 -- war-room mob say "TDCommand Capture T<team>T P<pylon>P", and this trigger
 -- updates globals.pylon[<pylon>] = <team> and gossips the capture.
 
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: "TDCommand Capture"
-if not (string.find(string.lower(speech), "tdcommand")
-        and string.find(string.lower(speech), "capture")) then
-    return true
+-- Speech phrase: TDCommand Capture (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "tdcommand capture", 1, true) then
+    return true  -- Not the phrase
 end
 
 if not globals.pylons or not globals.teams then

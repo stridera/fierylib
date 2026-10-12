@@ -3,24 +3,17 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
 -- TODO(parity): `local notice = N` branch-scoped (used at line 47
--- spawn_object). 0% probability gate at top will never fire — DG #5333
--- likely uses speech-keyword filtering only, not random %. Full rewrite
--- from DG #5333.
+-- spawn_object). the dead 0% gate is gone (DG #5333 arg 0 = phrase
+-- match, not a chance). Full rewrite from DG #5333 still wanted.
 --
 -- Original DG Script: #5333
 
 -- Converted from DG Script #5333: Pumahl new assignment
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: I need a new assignment
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "need") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "new") or string.find(string.lower(speech), "assignment")) then
-    return true  -- No matching keywords
+-- Speech phrase: I need a new assignment (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "i need a new assignment", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then

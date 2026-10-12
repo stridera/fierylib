@@ -8,15 +8,9 @@
 -- Converted from DG Script #4310: chapman_rosa
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: You best step off!
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "you") or string.find(string.lower(speech), "best") or string.find(string.lower(speech), "step") or string.find(string.lower(speech), "off!")) then
-    return true  -- No matching keywords
+-- Speech phrase: You best step off! (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "you best step off!", 1, true) then
+    return true  -- Not the phrase
 end
 if actor.zone_id == 43 and actor.local_id == 5 then
     self:emote("puts his hand up in a player's face.")

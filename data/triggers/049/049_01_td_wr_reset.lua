@@ -10,14 +10,9 @@
 -- control mob. Triggered by an admin saying "TDCommand Purge" in the war
 -- room. Companion to 049_00.
 
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: "TDCommand Purge"
-if not (string.find(string.lower(speech), "tdcommand")
-        and string.find(string.lower(speech), "purge")) then
-    return true
+-- Speech phrase: TDCommand Purge (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "tdcommand purge", 1, true) then
+    return true  -- Not the phrase
 end
 
 globals.teams = nil

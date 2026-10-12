@@ -103,7 +103,7 @@ def test_p2_value_variable_reassigned_is_left_alone():
 def test_p2_leaves_ranges_arithmetic_and_small_ids_and_lists_them():
     src = textwrap.dedent(
         """
-        if object.id >= 3000 and object.id < 3100 then a() end
+        if object.id > 3000 then a() end
         if self.id == 45 then b() end
         local n = object.id - 3000
         """
@@ -150,6 +150,108 @@ def test_p2_rewritten_condition_matches_the_right_entity():
     print(check({{zone_id = 30, id = 123}}), check({{zone_id = 31, id = 23}}), check({{zone_id = 30, id = 3123}}))
     """
     assert run_lua(prog).split() == ["true", "false", "false"]
+
+
+# ---- P2 ranges ----------------------------------------------------------------------------------
+
+
+def test_range_covering_a_whole_zone_is_a_zone_check():
+    r = fix("if (x.id >= 55500) and (x.id <= 55599) then a() end\n")
+    assert r.src == "if (x.zone_id == 555) then a() end\n"
+    assert r.p2_ranges == 1
+
+
+def test_range_inside_a_zone_adds_local_id_bounds():
+    assert fix("if x.id >= 55510 and x.id <=55580 then a() end\n").src == (
+        "if (x.zone_id == 555 and x.id >= 10 and x.id <= 80) then a() end\n"
+    )
+    # only the side that trims the zone gets a bound; zone 10 starts at 1000
+    assert fix("if x.id >= 1000 and x.id <= 1038 then a() end\n").src == (
+        "if (x.zone_id == 10 and x.id <= 38) then a() end\n"
+    )
+
+
+def test_range_exclusive_bounds_are_adjusted():
+    assert fix("if x.id > 55500 and x.id < 55599 then a() end\n").src == (
+        "if (x.zone_id == 555 and x.id >= 1 and x.id <= 98) then a() end\n"
+    )
+
+
+def test_outside_form_negates_the_zone_check():
+    assert fix("if candidate and ((candidate.id < 55500) or (candidate.id > 55599)) and ok then a() end\n").src == (
+        "if candidate and (candidate.zone_id ~= 555) and ok then a() end\n"
+    )
+    assert fix("if (p.id < 55510) or (p.id > 55580) then a() end\n").src == (
+        "if (p.zone_id ~= 555 or p.id < 10 or p.id > 80) then a() end\n"
+    )
+
+
+def test_range_spanning_zones_is_an_or_of_zone_clauses():
+    # 1050-3100 takes the tail of zone 10 and the head of zone 30 (nothing between them exists)
+    assert fix("if x.id >= 1050 and x.id <= 3100 then a() end\n").src == (
+        "if ((x.zone_id == 10 and x.id >= 50) or (x.zone_id == 30 and x.id <= 100)) then a() end\n"
+    )
+
+
+def test_range_on_an_id_variable_and_a_nested_receiver():
+    r = fix("local zone = room.id\nif a == 1 or zone >= 55510 and zone <= 55580 then b() end\n")
+    assert "or (room.zone_id == 555 and zone >= 10 and zone <= 80) then" in r.src
+    assert fix("if actor.room.id >= 55500 and actor.room.id <= 55599 then a() end\n").src == (
+        "if (actor.room.zone_id == 555) then a() end\n"
+    )
+
+
+def test_open_ended_and_unbound_ranges_are_left_and_listed():
+    src = "if object.id > 1100 then a() end\nif x.id >= 55500 and y.id <= 55599 then b() end\n"
+    r = fix(src)
+    assert r.src == src and r.p2_ranges == 0
+    assert sorted(m.line for m in r.manual if m.kind == "range") == [1, 2]
+
+
+def test_range_not_a_unit_is_left_alone():
+    # `not` or an `and` neighbour changes what the pair means
+    for src in (
+        "if ok and x.id < 55500 or x.id > 55599 then a() end\n",
+        "if x.id < 55500 or x.id > 55599 and ok then a() end\n",
+        "if not x.id >= 55500 and x.id <= 55599 then a() end\n",
+    ):
+        assert fix(src).p2_ranges == 0, src
+
+
+def test_range_with_no_zone_is_manual():
+    r = fix("if x.id >= 99000 and x.id <= 99100 then a() end\n")
+    assert r.p2_ranges == 0 and "no-zone-range" in {m.kind for m in r.manual}
+
+
+@needs_lua
+def test_range_rewrite_gives_the_same_answer_as_the_vnum_comparison():
+    exprs = [
+        "x.id >= 55510 and x.id <= 55580",
+        "(x.id < 55510) or (x.id > 55580)",
+        "x.id > 1000 and x.id < 1099",
+        "x.id >= 1050 and x.id <= 3100",
+        "x.id < 1050 or x.id >= 3100",
+    ]
+    for e in exprs:
+        new = fix(f"return {e}\n").src
+        assert "zone_id" in new, e
+        prog = f"""
+        local ranges = {{ {{55500, 55599, 555}}, {{3000, 3499, 30}}, {{1000, 1099, 10}}, {{0, 99, 0}} }}
+        local bad = 0
+        for vnum = 0, 56000 do
+          local zone, id
+          for _, r in ipairs(ranges) do
+            if vnum >= r[1] and vnum <= r[2] then zone, id = r[3], vnum - r[1] break end
+          end
+          if zone then
+            local function old(x) return {e} end
+            local function new(x) return {new.replace('return ', '', 1)} end
+            if old({{id = vnum}}) ~= new({{zone_id = zone, id = id}}) then bad = bad + 1 end
+          end
+        end
+        print(bad)
+        """
+        assert run_lua(prog).split() == ["0"], e
 
 
 # ---- P1 -----------------------------------------------------------------------------------------

@@ -8,15 +8,9 @@
 -- Converted from DG Script #48263: meteorswarm_new_meteorite_replacement
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: I lost the meteorite
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "lost") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "meteorite")) then
-    return true  -- No matching keywords
+-- Speech phrase: I lost the meteorite (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "i lost the meteorite", 1, true) then
+    return true  -- Not the phrase
 end
 if actor:get_quest_stage("meteorswarm") > 2 and not actor:get_quest_var("meteorswarm:air") then
     wait(2)

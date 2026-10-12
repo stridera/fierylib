@@ -11,13 +11,9 @@
 -- when an owner returns mid-capture and disrupts a rival countdown. This
 -- trigger gossips the disruption world-wide.
 
-if not percent_chance(0) then
-    return true
-end
-
-if not (string.find(string.lower(speech), "tdcommand")
-        and string.find(string.lower(speech), "cancel")) then
-    return true
+-- Speech phrase: TDCommand Cancel (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "tdcommand cancel", 1, true) then
+    return true  -- Not the phrase
 end
 
 if not globals.pylons or not globals.teams then

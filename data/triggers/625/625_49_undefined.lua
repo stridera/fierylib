@@ -11,8 +11,5 @@
 -- TODO(parity): The legacy script had no body and ran at 0%
 -- probability — effectively a placeholder. Left as a no-op.
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
+-- DG death triggers have no chance roll; the converter's percent_chance(0) guard is gone.
 return true

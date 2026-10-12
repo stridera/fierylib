@@ -22,7 +22,7 @@ local function try_creeping_doom_drop(person)
         return
     end
     local stage_ok = person:get_quest_stage("creeping_doom") == 2
-    local test_ok = person.level > 80 and (person.id >= 1000 and person.id <= 1038)
+    local test_ok = person.level > 80 and (person.zone_id == 10 and person.id <= 38)
     if stage_ok or test_ok then
         if random(1, 50) <= self.level then
             self.room:spawn_object(615, 17)

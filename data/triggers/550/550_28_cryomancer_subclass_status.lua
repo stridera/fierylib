@@ -11,15 +11,9 @@
 -- Converted from DG Script #55028: cryomancer_subclass_status
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: subclass progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "subclass") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "subclass progress", 1, true) then
+    return true  -- Not the phrase
 end
 -- switch on actor:get_quest_stage("cryomancer_subclass")
 if actor:get_quest_stage("cryomancer_subclass") == 1 then

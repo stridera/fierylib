@@ -11,17 +11,11 @@
 -- Spawns the war-room control mob (49:0) if not present. Triggered by an
 -- admin saying "TDCommand Start" in the war room.
 --
--- TODO(converter): probability=0% in source means this never auto-fires; the
--- intent is purely manual admin invocation. Left intact for fidelity.
+-- (DG num_arg 0 = phrase match; the converter's dead 0% gate is gone.)
 
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: "TDCommand Start"
-if not (string.find(string.lower(speech), "tdcommand")
-        and string.find(string.lower(speech), "start")) then
-    return true
+-- Speech phrase: TDCommand Start (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "tdcommand start", 1, true) then
+    return true  -- Not the phrase
 end
 
 local NUM_TEAMS = 4

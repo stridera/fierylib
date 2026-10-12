@@ -10,7 +10,7 @@
 
 -- Stop combat if our current target is another doom mobile (48900-48999)
 -- and rest in a holding room while we recover.
-if (actor.id >= 48900) and (actor.id <= 48999) then
+if (actor.zone_id == 489) then
     wait(1)
     get_room(11, 0):at(function()
         self.room:find_actor("dark-servant"):heal(1000)
@@ -48,13 +48,13 @@ else
     local victim
     for _ = 1, 5 do
         local candidate = room.actors[random(1, #room.actors)]
-        if candidate and ((candidate.id < 48900) or (candidate.id > 48999)) then
+        if candidate and (candidate.zone_id ~= 489) then
             victim = candidate
             break
         end
     end
     if not victim then
-        if actor and (actor.id > 48900) and (actor.id < 48999) then
+        if actor and (actor.zone_id == 489 and actor.id >= 1 and actor.id <= 98) then
             victim = actor
         else
             return true

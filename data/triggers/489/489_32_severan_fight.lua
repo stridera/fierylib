@@ -11,7 +11,7 @@ if self.room ~= get_room(489, 60) then
     self:emote("emits a loud wail, and returns to the site where he is bound.")
     self:teleport(get_room(489, 60))
 end
-if (actor.id >= 48900) and (actor.id <= 48999) then
+if (actor.zone_id == 489) then
     -- Stop combat if fighting another doom mobile
     wait(1)
     get_room(11, 0):at(function()

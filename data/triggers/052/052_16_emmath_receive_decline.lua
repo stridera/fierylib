@@ -6,12 +6,18 @@
 -- Original DG Script: #5216
 --
 -- Catch-all decline message Emmath gives when handed the wrong item.
--- Legacy DG used probability 0 to flag this as a fallback-only trigger,
--- explicitly invoked from other receive handlers — preserved as a guard
--- so it never auto-fires on every receive. Picks the response from the
+-- Legacy DG receive trigger with num_arg 0: it fires for every item that is
+-- not on its arg list (the items the specific receive handlers take). Picks the response from the
 -- most specific outstanding quest stage.
 
-if not percent_chance(0) then
+-- DG receive trigger, num_arg 0: the arg list (5211 5212 17308 23822 318) holds the items
+-- other triggers handle; this one runs for every other item. The runtime does not filter on
+-- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
+if (object.zone_id == 52 and object.id == 11)
+    or (object.zone_id == 52 and object.id == 12)
+    or (object.zone_id == 173 and object.id == 8)
+    or (object.zone_id == 238 and object.id == 22)
+    or (object.zone_id == 2 and object.id == 118) then
     return true
 end
 

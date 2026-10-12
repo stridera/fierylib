@@ -8,15 +8,9 @@
 -- Converted from DG Script #49020: seer_speak1
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: Earle sends me
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "earle") or string.find(string.lower(speech), "sends") or string.find(string.lower(speech), "me")) then
-    return true  -- No matching keywords
+-- Speech phrase: Earle sends me (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "earle sends me", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if self.room ~= get_room(490, 78) then

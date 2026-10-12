@@ -2,8 +2,8 @@
 -- Zone: 53, ID: 45
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): `local mission = N` branch-scoped. 0% probability gate
--- — DG #5345 likely had keyword-only filtering. Full rewrite from DG
+-- TODO(parity): `local mission = N` branch-scoped. The dead 0% gate is
+-- gone (DG #5345 filters on the phrase only). Full rewrite from DG
 -- #5345.
 --
 -- Original DG Script: #5345
@@ -11,15 +11,9 @@
 -- Converted from DG Script #5345: Elemental Chaos Hakujo new mission
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: I need a new note
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "need") or string.find(string.lower(speech), "a") or string.find(string.lower(speech), "new") or string.find(string.lower(speech), "note")) then
-    return true  -- No matching keywords
+-- Speech phrase: I need a new note (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "i need a new note", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("elemental_chaos") - 1) * 10 then

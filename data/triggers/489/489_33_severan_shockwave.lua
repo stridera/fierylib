@@ -12,7 +12,7 @@ wait(2)
 self.room:send("<b:white>A powerful shockwave leaps off Severan's body as the aura flares wildly!</>")
 local casters = "Sorcerer Necromancer Cryomancer Pyromancer Cleric Druid Diabolist Priest Shaman Conjurer"
 for _, person in ipairs(self:get_people()) do
-    if ((person.id < 48900) or (person.id > 48999)) and (person.level < 100) then
+    if (person.zone_id ~= 489) and (person.level < 100) then
         local damage
         if string.find(casters, tostring(person.class)) then
             damage = 100 + random(1, 50)

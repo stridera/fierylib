@@ -34,16 +34,16 @@ end
 local room = actor.room
 local dig, item, num
 -- Graveyard*
-if room.id >= 47000 and room.id <= 47404 then
+if (room.zone_id == 470 or room.zone_id == 472) then
     dig, item, num = "yes", 22, 3
 -- Cathedral*
-elseif room.id >= 8504 and room.id <= 8509 then
+elseif (room.zone_id == 85 and room.id >= 4 and room.id <= 9) then
     dig, item, num = "yes", 23, 4
 -- Pyramid*
-elseif room.id >= 16200 and room.id <= 16299 then
+elseif (room.zone_id == 162) then
     dig, item, num = "yes", 24, 5
 -- Barrow*
-elseif room.id >= 48000 and room.id <= 48099 then
+elseif (room.zone_id == 480) then
     dig, item, num = "yes", 25, 6
 end
 if dig == "yes" then

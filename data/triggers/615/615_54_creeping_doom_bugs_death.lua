@@ -15,7 +15,7 @@
 local function maybe_drop(person)
     if person and person.room == self.room then
         if person:get_quest_stage("creeping_doom") == 2
-            or (person.level > 80 and person.id >= 1000 and person.id <= 1038) then
+            or (person.level > 80 and (person.zone_id == 10 and person.id <= 38)) then
             if random(1, 50) <= self.level then
                 self.room:spawn_object(615, 17)
             end

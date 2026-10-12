@@ -13,7 +13,7 @@
 local victim1
 for _ = 1, 6 do
     local candidate = room.actors[random(1, #room.actors)]
-    if candidate and ((candidate.id < 48900) or (candidate.id > 48999)) and (candidate.level < 100) then
+    if candidate and (candidate.zone_id ~= 489) and (candidate.level < 100) then
         victim1 = candidate
         break
     end
@@ -24,7 +24,7 @@ end
 local victim2
 for _ = 1, 10 do
     local candidate = room.actors[random(1, #room.actors)]
-    if candidate and ((candidate.id < 48900) or (candidate.id > 48999)) and (candidate.level < 100) and (victim1.name ~= candidate.name) then
+    if candidate and (candidate.zone_id ~= 489) and (candidate.level < 100) and (victim1.name ~= candidate.name) then
         victim2 = candidate
         break
     end

@@ -24,7 +24,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 -- 18820 and 18821.  It may only be used by mobiles in the 18820 to 18842
 -- range, Laoris' dragonquest mobiles.
 -- 
-if (actor.id >= 18820) and (actor.id <= 18842) then
+if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
     _return_value = false
     actor:send("X-cast spells:           type       stars  amount")
     actor:send("</> deadly screech          area       0      300")

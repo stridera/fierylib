@@ -8,7 +8,7 @@
 --   * level >= 10: single-target 'terror' on the current attacker
 -- Skips when silenced or when the target is already affected.
 
-if (actor.id >= 48900) and (actor.id <= 48999) then
+if (actor.zone_id == 489) then
     -- Stop combat if fighting another doom mobile
     wait(1)
     get_room(11, 0):at(function()

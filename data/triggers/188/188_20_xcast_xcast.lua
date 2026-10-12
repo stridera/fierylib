@@ -32,7 +32,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 -- xmode - sets whether it's victim or self-only
 -- xamount - only meaningful for some spell types, ie., 100
 -- 
-if (actor.id >= 18820) and (actor.id <= 18842) then
+if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
     _return_value = false
     -- Must use x-decide to select a spell first
     if not xname then

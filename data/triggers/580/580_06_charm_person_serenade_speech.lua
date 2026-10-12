@@ -7,25 +7,15 @@
 -- serenade you", each declaring their preferred instrument so the
 -- player knows which one to play.
 --
--- TODO: legacy DG probability was 0% -- almost certainly a converter
--- artifact (the keyword gate is the real driver). The 0% gate currently
--- makes this trigger never fire, which breaks the stage-4 path.
--- TODO: keyword "let / me / you" match nearly any sentence; should
--- probably require the full phrase "let me serenade you" or just
--- "serenade".
+-- The converter's 0% gate (a misread of DG num_arg 0 = phrase match) is gone
+-- and the keyword `or` chain is now the full phrase "let me serenade you".
 -- TODO: branches dispatch on legacy vnums (self.id == 3010, 58017,
 -- 4353, 23721, 58406). Under composite keys self.id is local_id only,
 -- so these never match. Rewrite as (self.zone_id, self.local_id) checks.
 
--- 0% chance to trigger (preserved from original DG -- see TODO)
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: let me serenade you
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "let") or string.find(speech_lower, "me") or string.find(speech_lower, "serenade") or string.find(speech_lower, "you")) then
-    return true  -- No matching keywords
+-- Speech phrase: let me serenade you (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "let me serenade you", 1, true) then
+    return true  -- Not the phrase
 end
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("charm_person") == 4 then

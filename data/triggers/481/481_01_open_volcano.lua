@@ -8,15 +8,9 @@
 -- Converted from DG Script #48101: open_volcano
 -- Original: WORLD trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: buntoi nakkarri karisto
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "buntoi") or string.find(string.lower(speech), "nakkarri") or string.find(string.lower(speech), "karisto")) then
-    return true  -- No matching keywords
+-- Speech phrase: buntoi nakkarri karisto (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "buntoi nakkarri karisto", 1, true) then
+    return true  -- Not the phrase
 end
 get_room(481, 48):at(function()
     self.room:send("There is a load groaning noise and a crack develops in the side of the volcano.")

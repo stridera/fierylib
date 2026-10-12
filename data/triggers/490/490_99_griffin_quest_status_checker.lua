@@ -8,15 +8,9 @@
 -- Converted from DG Script #49099: griffin_quest_status_checker
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: quest progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: quest progress (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "quest progress", 1, true) then
+    return true  -- Not the phrase
 end
 local stage = actor:get_quest_stage("griffin_quest")
 wait(2)

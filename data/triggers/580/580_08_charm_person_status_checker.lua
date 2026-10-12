@@ -7,22 +7,16 @@
 -- ask about "spell progress": which instruments have been collected at
 -- stage 3, which charmers have been serenaded at stage 4, etc.
 --
--- TODO: legacy DG probability was 0%; preserved here, but the keyword
--- gate is the real driver -- 0% means the trigger never actually fires.
+-- The converter's 0% gate (a misread of DG num_arg 0 = phrase match) is gone;
+-- the trigger matches the phrase "spell progress".
 -- TODO: quest_vars are read using legacy-vnum keys
 -- ("charm_person:58017", ":charm1", etc). Set sites in 580_05 / 580_07 /
 -- 580_10 use composite "<zone>_<id>" keys, so these reads never see
 -- writes and the helpful progress lists stay empty. Unify the keys.
 
--- 0% chance to trigger (preserved from original DG -- see TODO)
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: spell / progress
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "spell") or string.find(speech_lower, "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: spell progress (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "spell progress", 1, true) then
+    return true  -- Not the phrase
 end
 wait(2)
 local stage = actor:get_quest_stage("charm_person")

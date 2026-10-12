@@ -5,27 +5,12 @@
 --
 -- Original DG Script: #4002
 -- Reveals the hidden up exit in room (40, 19) for 10 pulses when a
--- passphrase is spoken. Original DG probability is 0% (preserved);
--- effectively disabled until the script is re-enabled.
--- TODO: original keyword list "darkness hear my call unto you" looks
--- like a single phrase; the converter expanded it into an `or` chain
--- that matches almost any English speech. Re-enabling the script
--- should likely require the full phrase instead.
+-- passphrase is spoken (DG num_arg 0 = phrase match): the full phrase
+-- "darkness hear my call unto you".
 
--- 0% chance to trigger
-if not percent_chance(0) then
-    return true
-end
-
--- Speech keywords: darkness hear my call unto you
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "darkness")
-        or string.find(speech_lower, "hear")
-        or string.find(speech_lower, "my")
-        or string.find(speech_lower, "call")
-        or string.find(speech_lower, "unto")
-        or string.find(speech_lower, "you")) then
-    return true  -- No matching keywords
+-- Speech phrase: darkness hear my call unto you (DG num_arg 0 = the speech contains the phrase, not a chance)
+if not string.find(string.lower(speech), "darkness hear my call unto you", 1, true) then
+    return true  -- Not the phrase
 end
 
 get_room(40, 19):exit("up"):set_state({hidden = false})
