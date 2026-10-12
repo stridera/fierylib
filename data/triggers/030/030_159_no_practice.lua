@@ -8,15 +8,9 @@
 -- Converted from DG Script #3159: no practice
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
 
--- Command filter: practice
-if not (cmd == "practice") then
-    return true  -- Not our command
-end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-if cmd == "p" or cmd == "pr" or cmd == "pra" then
-    _return_value = true
-    return _return_value
-end
-actor:send(tostring(self.name) .. " says, 'You don't need to use a \"training\" or \"practice\" command.  Skills increase gradually as you use them.  The words don't change often, but your skills are getting better!'")
-return _return_value
+-- Retired (fierymud-rs playtest r7 #1). Legacy FieryMUD had no practice or
+-- training points: the guildmaster refused the `practice` command and told the
+-- player that skills grow with use. fierymud-rs spends practice points and
+-- train points with a trainer or guildmaster, so the refusal would make both
+-- unusable in every guild. The trigger now lets the command through.
+return true
