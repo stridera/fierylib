@@ -459,6 +459,19 @@ DEFAULT_CLASS_RATES = {
 }
 
 
+def stat_bonus(score: int) -> int:
+    """Attribute bonus on FieryMUD's 0-100 stat scale: ``(score - 50) / 5``
+    truncated toward zero and clamped to +-10. Mirrors ``CoreStats::bonus``
+    in fierymud-rs (``mud-world/src/components.rs``) and the dex term of
+    ``ClassCombatRates::baseline`` (``mud-db/src/characters.rs``), so a
+    character or mob built here scores the same as one built in game.
+
+    The legacy D&D-style ``(score - 10) // 2`` this replaces assumed a
+    3-18 scale: applied to a dex-84 mob it gave +37 evasion instead of +6.
+    """
+    return max(-10, min(10, int((score - 50) / 5)))
+
+
 def derive_hit_roll_baseline(
     level: int,
     dex_score: int = 13,
@@ -476,15 +489,23 @@ def derive_hit_roll_baseline(
 
     Formula:
         accuracy = 50 + hit_roll*2 + round(accuracy_per_level * level)
-        evasion  = 50 + round(dex_bonus * dex_evasion_mult)
+        evasion  = 50 + round(stat_bonus(dex) * dex_evasion_mult)
                       + round(evasion_per_level * level)
+
+    ``stat_bonus`` is on the 0-100 stat scale (see :func:`stat_bonus`).
+    The hit chance is ``50 + (accuracy - evasion) / 2`` clamped to 1-99
+    (fierymud-rs ``combat.rs::hit_chance_pct``).
 
     Source of truth for the rates: ``Class`` table columns
     ``accuracy_per_level`` / ``evasion_per_level`` / ``dex_evasion_mult``.
     Seeded from ``data/classes.json``. See the May 2026 data-only
     refactor in the schema-cleanup-plan doc.
+
+    The pre-2026-10-12 dex term was ``(dex - 10) // 2`` (3-18 scale);
+    ``data/sql/2026-10-12-combat-stat-scale.sql`` rebases rows imported
+    with it.
     """
-    dex_bonus = (dex_score - 10) // 2
+    dex_bonus = stat_bonus(dex_score)
     return {
         "accuracy": int(50 + hit_roll * 2 + round(accuracy_per_level * level)),
         "evasion": int(50 + round(dex_bonus * dex_evasion_mult) + round(evasion_per_level * level)),
