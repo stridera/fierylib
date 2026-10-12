@@ -1,0 +1,3999 @@
+[
+ {
+  "aliases": [],
+  "category": "Quest",
+  "long": "Argument is the slot number from the in-progress section of 'quests'. Marks the row ABANDONED rather than deleting it, preserving the audit trail and the (char, zone, id) unique key.",
+  "min_role": "Player",
+  "name": "abandon",
+  "summary": "Drop an in-progress quest.",
+  "usage": "abandon <#>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "FieryMUD legacy: aborts the spell you're currently casting and clears any spell queued behind it. Today's runtime resolves casts immediately and has no queue, so abort has nothing to do — kept as a registered command name for muscle memory and to provide a clear message instead of 'Unknown command'. Use 'cancel' to drop a non-permanent buff already on you.",
+  "min_role": "Player",
+  "name": "abort",
+  "summary": "Cancel an in-progress cast or queued spell.",
+  "usage": "abort"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Joins the inviter's group and starts you following them. No-op if you have no pending invite.",
+  "min_role": "Player",
+  "name": "accept",
+  "summary": "Accept a pending group invite.",
+  "usage": "accept"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Read-only summary of who you're logged in as and which character is currently active. Snapshot taken at login — characters created mid-session won't appear until you reconnect. Also reads 'discord_links' and 'google_links' for your Users row and prints whatever's bound; Discord links display as 'verified' / 'unverified' so you can tell whether the bot will honor messages from the linked account. ('whoami' is a separate one-line identity command.)",
+  "min_role": "Player",
+  "name": "account",
+  "summary": "Show your account email, role, character roster, and linked Discord/Google.",
+  "usage": "account"
+ },
+ {
+  "aliases": [
+   "abal",
+   "accountbal",
+   "accountbalance"
+  ],
+  "category": "Banking",
+  "long": "Read-only display of 'Users.account_wealth'. Every character on this account sees the same pool; pair with 'account_deposit' / 'account_withdraw' to transfer between the per-character bank ('balance') and the shared pool.",
+  "min_role": "Player",
+  "name": "account_balance",
+  "summary": "Show the account-shared bank balance.",
+  "usage": "account_balance"
+ },
+ {
+  "aliases": [
+   "adeposit"
+  ],
+  "category": "Banking",
+  "long": "Source is your 'bank' balance, not on-hand. Refuses if your per-character bank can't cover the amount. After success every online character on this account sees the new shared pool size.",
+  "min_role": "Player",
+  "name": "account_deposit",
+  "summary": "Move copper from per-character bank to the shared pool.",
+  "usage": "account_deposit <amount>"
+ },
+ {
+  "aliases": [
+   "awithdraw"
+  ],
+  "category": "Banking",
+  "long": "Inverse of 'account_deposit'. Refuses if the shared pool can't cover the amount. Cross-character sync runs after the transfer — all sibling characters online refresh their view of the pool.",
+  "min_role": "Player",
+  "name": "account_withdraw",
+  "summary": "Move copper from the shared pool to your per-character bank.",
+  "usage": "account_withdraw <amount>"
+ },
+ {
+  "aliases": [
+   "achieve"
+  ],
+  "category": "Information",
+  "long": "Filter by category: combat, exploration, social, crafting, misc. Unlocked entries show with a tick; locked-but-visible ones with a placeholder. Hidden achievements stay invisible until unlocked — those are the spoiler ones.",
+  "min_role": "Player",
+  "name": "achievements",
+  "summary": "List your unlocked achievements (and visible-but-locked ones).",
+  "usage": "achievements [<category>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+ (level 104+) only. Bumps the target's XP to the threshold for <level> and runs the standard level-up loop, so HP/stamina max + practice points scale through the normal path. Refuses level decreases (those need a separate 'delevel' path).",
+  "min_role": "Coder",
+  "name": "advance",
+  "summary": "Set a player's level (admin level-up).",
+  "usage": "advance <player> <level>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Marks you AFK so others see the indicator on 'who' and on incoming tells. Run again to come back.",
+  "min_role": "Player",
+  "name": "afk",
+  "summary": "Flip your away-from-keyboard flag.",
+  "usage": "afk"
+ },
+ {
+  "aliases": [
+   "aggro"
+  ],
+  "category": "Information",
+  "long": "Lists every mob anywhere in the world that has you in its hate list (most recent swing first) or its memory (mobs you've fled from that will re-engage on sight). Mobs in your current room are flagged so you know what's about to swing. Mirrored as a 'Char.Aggro' GMCP frame on each prompt for HUD-style clients.",
+  "min_role": "Player",
+  "name": "aggr",
+  "summary": "Show what's hostile to you right now.",
+  "usage": "aggr"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Immortal+. With no argument, lists every mob in the room with its alignment and aggression formula and reports whether it would attack you. 'aggrodebug on' makes the server log every aggression check (target 'aggression', level info) until 'aggrodebug off'.",
+  "min_role": "Immortal",
+  "name": "aggrodebug",
+  "summary": "Analyse aggression in this room, or toggle aggro logging.",
+  "usage": "aggrodebug [on|off]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "The opposite of 'rest': you drop the resting stance and sit at attention. Does nothing if you are already alert.",
+  "min_role": "Player",
+  "name": "alert",
+  "summary": "Stop resting and pay attention, without standing up.",
+  "usage": "alert"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "With no args, lists every alias you've defined. With 'alias <name>', shows that alias's expansion. With 'alias <name> <command>', sets the alias ('unalias <name>' removes it). A plain alias replaces whatever you type (extra words are dropped). Put '$*' where the rest of your line should go, '$1'..'$9' for single words, and ';' between commands to chain them: 'alias gg get all corpse;put all bag' or 'alias k kill $1;kill $2'. An alias never re-triggers itself, so 'alias look look $*' wraps the real command. Aliases persist across sessions.",
+  "min_role": "Player",
+  "name": "alias",
+  "summary": "Define a command shortcut.",
+  "usage": "alias [<name> [<command>]]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists abilities from the ability catalog. Abilities with no effects are flagged (NO EFFECTS). Default limit 50.",
+  "min_role": "Builder",
+  "name": "alist",
+  "summary": "List loaded abilities with optional filters.",
+  "usage": "alist [--type spell|skill|chant|song] [--circle N] [--effect type] [--limit N]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. Effect name is matched against the EffectCatalog. Default duration 60s.",
+  "min_role": "Implementor",
+  "name": "apply",
+  "summary": "Spawn an effect on a player.",
+  "usage": "apply <player> <effect> [duration_secs]"
+ },
+ {
+  "aliases": [
+   "approvename"
+  ],
+  "category": "Admin",
+  "long": "Immortal+. Flips Characters.name_approved to true for the named character. Removes the NameApprovalPending marker on the live entity if they're online and DMs them. No-op against an already-approved character. Pair with 'reject_name <char> <new>' if the name needs to change.",
+  "min_role": "Immortal",
+  "name": "approve_name",
+  "summary": "Approve a pending character name (keep the name).",
+  "usage": "approve_name <character>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Lists every area open to players, with its zone number. Give some text to list only the areas whose name contains it, e.g. 'areas forest'.",
+  "min_role": "Player",
+  "name": "areas",
+  "summary": "List the areas of the realm.",
+  "usage": "areas [<text>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. Re-reads every ability (with restrictions, effects, targeting, saves, components, damage components and messages) and the effect catalog, then swaps them into the running server.",
+  "min_role": "Coder",
+  "name": "areload",
+  "summary": "Reload the ability and effect catalogs from the DB.",
+  "usage": "areload"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. 'asearch fire' matches ability names; '--effect heal' finds abilities applying an effect of that type; '--no-effects' finds abilities that would cast but do nothing.",
+  "min_role": "Builder",
+  "name": "asearch",
+  "summary": "Search abilities by name, effect type, or find broken ones.",
+  "usage": "asearch <name> | --effect <type> | --no-effects"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Targets a single mob in the room and fires its SPEECH-flagged Lua bodies with the topic in the 'speech' Lua global. Bystanders see that you asked something but not what.",
+  "min_role": "Player",
+  "name": "ask",
+  "summary": "Ask a mob about a topic — fires SPEECH triggers.",
+  "usage": "ask <mob> <topic>"
+ },
+ {
+  "aliases": [
+   "ass"
+  ],
+  "category": "Combat",
+  "long": "Looks up <player> in your current room, finds whom they're fighting, and engages that target — same stamina cost and rules as 'attack'. Refused if they're not fighting, if their target is gone, or if you're already fighting someone else.",
+  "min_role": "Player",
+  "name": "assist",
+  "summary": "Engage your ally's current target.",
+  "usage": "assist <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Looks up the ability by name (or id) and shows its school, cost, duration, restrictions, linked effects.",
+  "min_role": "Builder",
+  "name": "astat",
+  "summary": "Dump an ability's metadata.",
+  "usage": "astat <ability>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. The location takes the same forms as 'goto': a room id in your zone, '<zone> <id>' or '<zone>:<id>', 'home', or the name of a player or mob (their room). You are moved there for the one command and put back afterwards, with no poof messages. If the command moves you (goto, a teleport) you stay where it left you; if you die you stay where you died. Moving ends any fight you are in, as it did in the legacy 'at'.",
+  "min_role": "Builder",
+  "name": "at",
+  "summary": "Run a command as if you were standing somewhere else.",
+  "usage": "at <location> <command>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor only. 'attach mtr 30:5 guard' bolts trigger 30:5 onto the mob 'guard'; otr takes an object name, wtr a room as 'zone:id'. The change is live only: it is not saved, and a respawned mob starts over with its prototype's triggers. <position> is 0 for the front of the list, otherwise the index to insert at (default: the end). The trigger's own type has to match: mtr for a mob trigger, otr for an object trigger, wtr for a world trigger.",
+  "min_role": "Implementor",
+  "name": "attach",
+  "summary": "Attach a trigger to a live mob, object or room.",
+  "usage": "attach { mtr | otr | wtr } { zone:id } { name | room } [ position ]"
+ },
+ {
+  "aliases": [
+   "hit",
+   "murder"
+  ],
+  "category": "Combat",
+  "long": "Match is by case-insensitive substring on visible names. Targets with combat stats will fight back. Combat resolves once per second on the world tick.",
+  "min_role": "Player",
+  "name": "attack",
+  "summary": "Engage a target in melee combat.",
+  "usage": "attack <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets AUTO_ASSIST. While you stand in the same room as someone you follow, or a member of your group, you automatically engage anyone who attacks them, whether a player or a monster starts the fight. You do not join when you are already fighting, are asleep or resting, or the attacker is not in your room.",
+  "min_role": "Player",
+  "name": "autoassist",
+  "summary": "Toggle automatically joining fights against the one you follow.",
+  "usage": "autoassist"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "When set, the room description is followed by the same line 'exits' would print. Already consumed by the look path.",
+  "min_role": "Player",
+  "name": "autoexit",
+  "summary": "Toggle automatic exit listing on 'look'.",
+  "usage": "autoexit"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets AUTO_GOLD. Coins from mobs you kill jump straight to your purse without taking the items (autoloot already collects coins too).",
+  "min_role": "Player",
+  "name": "autogold",
+  "summary": "Toggle automatic collection of coins from kills.",
+  "usage": "autogold"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets AUTO_LOOT. Items and coins from mobs you kill jump straight to you. Coins respect autosplit.",
+  "min_role": "Player",
+  "name": "autoloot",
+  "summary": "Toggle automatic looting of kills (items and coins).",
+  "usage": "autoloot"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets AUTO_SPLIT. Coins you take from a corpse, the floor or an autolooted kill are split evenly with the groupmates standing in the room; you keep the remainder. Use 'split <amount>' to divide coins by hand.",
+  "min_role": "Player",
+  "name": "autosplit",
+  "summary": "Toggle automatic splitting of coins you pick up.",
+  "usage": "autosplit"
+ },
+ {
+  "aliases": [
+   "bs"
+  ],
+  "category": "Combat",
+  "long": "Deals 2x your damage on the opening swing and engages the target. Refused if you're already fighting (the target sees you coming) or if your target is already in combat with someone else.",
+  "min_role": "Player",
+  "name": "backstab",
+  "summary": "Surprise opener for double damage; out-of-combat only.",
+  "usage": "backstab <target>"
+ },
+ {
+  "aliases": [
+   "bal"
+  ],
+  "category": "Banking",
+  "long": "Read-only display of the 'bank_wealth' column from your character row. Pair with 'deposit' / 'withdraw' to move coin to / from the bank.",
+  "min_role": "Player",
+  "name": "balance",
+  "summary": "Show your bank-stored coin.",
+  "usage": "balance"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. Looks up the player by name, resolves the owning Users row, inserts a BanRecords row. The login flow refuses any of that account's characters until 'unban' lifts.",
+  "min_role": "Implementor",
+  "name": "ban",
+  "summary": "Ban a player's account.",
+  "usage": "ban <player> <reason>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Heals 10 HP at a cost of 4 stamina. With no arg or 'me'/'self', bandages yourself. Otherwise tries to find the target in your room. Refused while fighting and refused on full-HP targets.",
+  "min_role": "Player",
+  "name": "bandage",
+  "summary": "Apply first aid for a small heal (out of combat).",
+  "usage": "bandage [<target>]"
+ },
+ {
+  "aliases": [
+   "bodyslam",
+   "maul"
+  ],
+  "category": "Combat",
+  "long": "Deals weapon damage + 3 and forces the target into a sitting posture. Targets without combat stats simply take the damage.",
+  "min_role": "Player",
+  "name": "bash",
+  "summary": "Slam a target, knocking them off their feet.",
+  "usage": "bash <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 8 stamina, spawns a 'berserk' EffectInstance on yourself for 60s. Refused if already berserk. Combat damage scaling is a follow-up — for now this is the visible buff state.",
+  "min_role": "Player",
+  "name": "berserk",
+  "summary": "Self-buff: rage state for 60s.",
+  "usage": "berserk"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "With just an alias, lists messages newest first (sticky-marked entries float to the top). Append a slot number to read that message's body.",
+  "min_role": "Player",
+  "name": "board",
+  "summary": "List or read messages on a board.",
+  "usage": "board <alias> [#]"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "Each board has an alias ('mortal', 'god', 'quest', etc.) and a title. Use 'board <alias>' to list messages on one.",
+  "min_role": "Player",
+  "name": "boards",
+  "summary": "List every public message board.",
+  "usage": "boards"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Dispatches the BREATHE_* ability your race grants (the DRAGONBORN_* races carry one, per the RaceAbilities table; 'innate breathe fire' works too). Refuses for races with no breath weapon. Drains 6 stamina; the actual damage / target gating runs through the data path.",
+  "min_role": "Player",
+  "name": "breathe",
+  "summary": "Dragonborn breath weapon — race-typed.",
+  "usage": "breathe [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Decrements your on-hand coin by 'amount' (copper units) and pads the target mob's coin by the same. Fires the target's BRIBE-flagged Lua triggers with 'actor' = you and 'amount' as a Lua global so bodies can react proportionally.",
+  "min_role": "Player",
+  "name": "bribe",
+  "summary": "Hand a sum of copper to a mob — fires BRIBE triggers.",
+  "usage": "bribe <amount> <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "When on, 'look' skips the full room description and shows just the title + exits + occupants.",
+  "min_role": "Player",
+  "name": "brief",
+  "summary": "Toggle terse room descriptions.",
+  "usage": "brief"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 5 stamina and dispatches the BUCK skill at the named target. The schema's data path runs 'dismount' (forced=true) → clears Mounted/RiddenBy, then 'knockdown' (duration=1) → drops the target's posture. v1 dispatches as a player skill so characters with BUCK trained (Sorcerer/Druid/etc.) can fire it; mob-AI usage waits for an autonomous ability scheduler.",
+  "min_role": "Player",
+  "name": "buck",
+  "summary": "Throw a rider — dismount + knockdown.",
+  "usage": "buck <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Logs a feedback row to the 'Reports' table. Body captures your name + character_id + room + the text. Empty messages refuse so we don't fill the table with noise.",
+  "min_role": "Player",
+  "name": "bug",
+  "summary": "Report a bug to the staff.",
+  "usage": "bug <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Argument is either the catalog index from 'list' or a substring of the item's name. Coin is deducted from your 'wealth'; the item lands in your inventory. Stock is advisory until per-shop instance state lands.",
+  "min_role": "Player",
+  "name": "buy",
+  "summary": "Buy an item from the shopkeeper here.",
+  "usage": "buy <#|name>"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Every mob following you (pets, hirelings, charmed creatures) that isn't already in your room leaves whatever it was doing and joins you. A mount you are riding is left alone.",
+  "min_role": "Player",
+  "name": "call",
+  "summary": "Call your followers to your location.",
+  "usage": "call"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Refuses indoors, in cities, on water, in the air, while mounted, or while in combat. Once setup completes (~35 seconds), you're saved and leave the game, to return right here. Walking away or being attacked aborts the camp.",
+  "min_role": "Player",
+  "name": "camp",
+  "summary": "Pitch camp, then save and leave the game.",
+  "usage": "camp"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "With no arg, lists the effects you can cancel. With an effect name (a prefix works; quote multi-word names), ends that beneficial spell on you right away, exactly as if it had worn off. Permanent effects (racial or from gear) and harmful ones cannot be cancelled, and you cannot cancel while fighting.",
+  "min_role": "Player",
+  "name": "cancel",
+  "summary": "Drop one of your own timed beneficial spells.",
+  "usage": "cancel [<effect>]"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Acrobatic attack that evades while striking. Requires an active fight; strikes your current opponent using the CARTWHEEL ability from the database.",
+  "min_role": "Player",
+  "name": "cartwheel",
+  "summary": "Tumble past your foe with an acrobatic strike.",
+  "usage": "cartwheel"
+ },
+ {
+  "aliases": [
+   "c"
+  ],
+  "category": "Magic",
+  "long": "Looks up a SPELL by case-insensitive name (partial match accepted). For now this is a stub: prints the ability's metadata so you can see what's in the catalog. Real effect application — slot consumption, restriction checks, damage/heal/buff resolution — lands when CharacterAbilities and the effect pipeline are wired. Only matches abilityType = SPELL; for chants and songs use 'chant' / 'perform'.",
+  "min_role": "Player",
+  "name": "cast",
+  "summary": "Cast a spell from the loaded catalog.",
+  "usage": "cast <spell> [target]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only.\n- 'create' opens a new clan; name + abbrev must both be unique.\n- 'assign' puts a character into a clan, defaulting to MEMBER. Rank can be LEADER / OFFICER / MEMBER / APPLICANT.\n- 'kick' removes their clan_member row entirely.\n- 'motd' sets a clan's message-of-the-day; empty text clears it.",
+  "min_role": "Implementor",
+  "name": "cclan",
+  "summary": "Manage clans (create / assign / kick / MOTD).",
+  "usage": "cclan create <name> <abbrev>\n       cclan assign <player> <abbrev> [rank]\n       cclan kick <player>\n       cclan motd <abbrev> <text>\n       cclan disband <abbrev>"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Same shape as 'cast' but filters to abilityType = CHANT. Stub: prints metadata and gates on KnownAbilities, no effect application yet.",
+  "min_role": "Player",
+  "name": "chant",
+  "summary": "Invoke a chant from the catalog (cleric-side spells).",
+  "usage": "chant <chant> [target]"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Like 'spells' but filtered to kind=Chant. Default shows only chants you've learned; 'chants all' dumps the catalog. Use 'chant <name>' to invoke.",
+  "min_role": "Player",
+  "name": "chants",
+  "summary": "List chants you know (or the full catalog).",
+  "usage": "chants [all] [filter]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Clients that don't announce UTF-8 support get plain ASCII: dashes, arrows, stars and box-drawing characters are replaced by look-alikes (-- -> * + - |). If your client does display UTF-8, 'charset utf8' turns the real symbols on; 'charset ascii' forces plain text; 'charset auto' follows what your client reports. Saved with your character. 'charset' alone shows the current setting.",
+  "min_role": "Player",
+  "name": "charset",
+  "summary": "Choose plain ASCII or UTF-8 output.",
+  "usage": "charset [ascii|utf8|auto]"
+ },
+ {
+  "aliases": [
+   "accountchest",
+   "achest",
+   "storage",
+   "vault"
+  ],
+  "category": "Banking",
+  "long": "Shows every item any character on this account has stored. 'chest deposit <item>' stores an item (same as 'chest_deposit'); 'chest withdraw <number>' takes the numbered item back (same as 'chest_withdraw').",
+  "min_role": "Player",
+  "name": "chest",
+  "summary": "List items in your account-shared chest.",
+  "usage": "chest [deposit <item> | withdraw <number>]"
+ },
+ {
+  "aliases": [
+   "chestdeposit"
+  ],
+  "category": "Banking",
+  "long": "Moves the named item from your inventory into the account-shared chest, where any character on this account can take it back via 'chest_withdraw'. Refuses SOULBOUND and NO_DROP items.",
+  "min_role": "Player",
+  "name": "chest_deposit",
+  "summary": "Store an inventory item in the account chest.",
+  "usage": "chest_deposit <item>   (or: chest deposit <item>)"
+ },
+ {
+  "aliases": [
+   "chestwithdraw"
+  ],
+  "category": "Banking",
+  "long": "Withdraws the item with the given number (see 'chest' for the listing; numbering starts at 1). The item is spawned back into your inventory with its per-instance state (charges, liquid level) restored.",
+  "min_role": "Player",
+  "name": "chest_withdraw",
+  "summary": "Take an item back from the account chest.",
+  "usage": "chest_withdraw <number>   (or: chest withdraw <number>)"
+ },
+ {
+  "aliases": [
+   "cl"
+  ],
+  "category": "Communication",
+  "long": "Prints clan name + abbreviation + MOTD plus the roster (sorted leader→officer→member, then by level desc, then name). Online members are marked with a '*'. Refused for players not in a clan. Subcommands: 'clan motd <text>' (LEADER / OFFICER), 'clan kick <player>' (LEADER).",
+  "min_role": "Player",
+  "name": "clan",
+  "summary": "Show your clan's info, MOTD, and roster.",
+  "usage": "clan"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Gated on knowing the Claw skill (legacy grants it to animal shapechange forms). Counts as a violent opening — engages the target if you're not already fighting them. Random damage scaled by your level.",
+  "min_role": "Player",
+  "name": "claw",
+  "summary": "Slash with bestial claws.",
+  "usage": "claw <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Reports your active character, role, session uptime (since login), and idle time (since the last command typed). Terminal capabilities — color depth, dimensions, MCCP — aren't tracked in the runtime today; the full RFC-1408 telnet negotiation would lift them off the wire.",
+  "min_role": "Player",
+  "name": "clientinfo",
+  "summary": "Show this session's connection info.",
+  "usage": "clientinfo"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Pairs the class plain name with its numeric id (the value 'Profile.class_id' carries) so you can plug it into 'set' / 'skillset' / 'advance' paths.",
+  "min_role": "Builder",
+  "name": "clist",
+  "summary": "List every class with its catalog id.",
+  "usage": "clist"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Refused if the exit has no door, is already closed, or doesn't exist.",
+  "min_role": "Player",
+  "name": "close",
+  "summary": "Close an open door in the given direction.",
+  "usage": "close <direction>"
+ },
+ {
+  "aliases": [
+   "clear"
+  ],
+  "category": "Settings",
+  "long": "Sends the ANSI clear-screen + cursor-home escape sequence. Cosmetic only; no game state changes.",
+  "min_role": "Player",
+  "name": "cls",
+  "summary": "Clear the terminal screen.",
+  "usage": "cls"
+ },
+ {
+  "aliases": [
+   "colour"
+  ],
+  "category": "Settings",
+  "long": "The server asks your client what it can display and adapts: 256-color and truecolor shades are mapped to the nearest of the 16 basic colors for clients that only do 16. 'color off' removes color entirely, 'color 16' / 'color 256' / 'color truecolor' pin a depth if your client misreports itself, and 'color auto' goes back to following the client. Saved with your character. 'color' alone shows the current setting.",
+  "min_role": "Player",
+  "name": "color",
+  "summary": "Choose how much color you see.",
+  "usage": "color [off|16|256|truecolor|auto]"
+ },
+ {
+  "aliases": [
+   "wrap"
+  ],
+  "category": "Settings",
+  "long": "The server wraps room descriptions, help and other prose to your client's reported window width (80 if it doesn't report one). 'columns 100' wraps narrower than the window, which reads better on very wide windows (a value wider than your window is capped to it); 'columns auto' goes back to following the client. The setting is saved with your character. 'toggle columns <n>' works too.",
+  "min_role": "Player",
+  "name": "columns",
+  "summary": "Set the width long text is word-wrapped to.",
+  "usage": "columns [<40-250>|auto]"
+ },
+ {
+  "aliases": [
+   "comm"
+  ],
+  "category": "Information",
+  "long": "Shows just the names you have access to, without the per-category framing 'help' uses. Aliases share their primary name's slot. With a category arg (info / movement / communication / combat / admin) the list is filtered to that category, useful when the full 200+ command roster is overwhelming.",
+  "min_role": "Player",
+  "name": "commands",
+  "summary": "Flat alphabetical list of every command you can use.",
+  "usage": "commands [<category>]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets COMPACT. Renderers that respect it tighten their leading whitespace.",
+  "min_role": "Player",
+  "name": "compact",
+  "summary": "Toggle compact output (suppresses leading blank lines).",
+  "usage": "compact"
+ },
+ {
+  "aliases": [
+   "comp"
+  ],
+  "category": "Inventory",
+  "long": "Each item is matched by keyword the same way 'wear' matches. Both items must be on you (inventory or equipped). With a single arg, the second item is inferred from whatever you're currently wearing in that item's wearable slot — handy for the \"should I switch?\" decision. Prints weight + level deltas, plus a weapon-damage row when both sides have non-zero average damage.",
+  "min_role": "Player",
+  "name": "compare",
+  "summary": "Compare two carried/worn items by weight, level, and weapon damage.",
+  "usage": "compare <item-a> [<item-b>]"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 4 stamina and dispatches the CONCEAL skill via the data path. Spawns a 'hidden' status effect and installs the Stealth marker, which earns the opening-strike bonus. It does not raise your hiding: use 'hide' for that.",
+  "min_role": "Player",
+  "name": "conceal",
+  "summary": "Magical concealment — improved hiding.",
+  "usage": "conceal"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Like 'meditate', but also grants a temporary Focus bonus (Intelligence / 4, at least 1) while it lasts. You sit down if standing. Cannot be used while fighting. Re-running 'concentrate' (or standing, or being drawn into combat) breaks your concentration.",
+  "min_role": "Player",
+  "name": "concentrate",
+  "summary": "Concentrate deeply to speed up spell memorization.",
+  "usage": "concentrate"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Sets CONSENT. Group invites and certain shared-effect spells will check this flag once those systems land.",
+  "min_role": "Player",
+  "name": "consent",
+  "summary": "Toggle consent for group/share interactions.",
+  "usage": "consent"
+ },
+ {
+  "aliases": [
+   "con"
+  ],
+  "category": "Combat",
+  "long": "Sizes up the target — compares their HP, accuracy, evasion, and attack power against yours and reports a rough difficulty band. Doesn't engage the target; purely informational.",
+  "min_role": "Player",
+  "name": "consider",
+  "summary": "Size up a potential opponent.",
+  "usage": "consider <target>"
+ },
+ {
+  "aliases": [
+   "cd"
+  ],
+  "category": "Magic",
+  "long": "Each line shows an ability name and its remaining cooldown in seconds, sorted longest-first. Empty when nothing is on cooldown.",
+  "min_role": "Player",
+  "name": "cooldowns",
+  "summary": "List abilities currently on cooldown.",
+  "usage": "cooldowns"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 4 stamina and dispatches the CORNER skill at the named target. Effect is a level-scaling physical-damage application like LURE; pin-in-place mechanics aren't modeled in the schema, so v1 is the damage hit and the engage.",
+  "min_role": "Player",
+  "name": "corner",
+  "summary": "Pin a mob with a hard hit to keep them in melee.",
+  "usage": "corner <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "The gnomish racial Minor Creation, as its own command: 'create <item>' is 'innate minor creation <item>'. The same one-hour racial cooldown applies. Only races whose innate abilities include Minor Creation can use it.",
+  "min_role": "Player",
+  "name": "create",
+  "summary": "Gnomes: tinker an item together without a spell.",
+  "usage": "create <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Acknowledges the project's antecedents.",
+  "min_role": "Player",
+  "name": "credits",
+  "summary": "Show contributors and credits.",
+  "usage": "credits"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Case-insensitive substring against the class's 'plain_name'. Subclass rows are flagged.",
+  "min_role": "Builder",
+  "name": "csearch",
+  "summary": "Find classes by name substring.",
+  "usage": "csearch <substring>"
+ },
+ {
+  "aliases": [
+   "ct"
+  ],
+  "category": "Communication",
+  "long": "Broadcasts to every online clan member sharing your 'clan_id'. Refused for players not in a clan. Each line is rendered with the clan abbreviation prefix so cross-clan staff can tell the channels apart in 'wiznet' cross-traffic.",
+  "min_role": "Player",
+  "name": "ctell",
+  "summary": "Chat on your clan's private channel.",
+  "usage": "ctell <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Real-world server time (UTC) and the in-game calendar date.",
+  "min_role": "Player",
+  "name": "date",
+  "summary": "Show the real-world server date and the in-game date.",
+  "usage": "date"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ (level 101+) only. Drops the player's Connection so the network task closes the socket cleanly. The autosave path runs on disconnect, so progress is preserved.",
+  "min_role": "Builder",
+  "name": "dc",
+  "summary": "Disconnect a player by name.",
+  "usage": "dc <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "When set, you no longer receive 'gossip' or 'shout' from other players. Run again to hear them.",
+  "min_role": "Player",
+  "name": "deaf",
+  "summary": "Stop hearing room-wide channels (gossip, shout).",
+  "usage": "deaf"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Clears the pending invite without joining. No-op if you have no pending invite.",
+  "min_role": "Player",
+  "name": "decline",
+  "summary": "Decline a pending group invite.",
+  "usage": "decline"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "Hard-deletes the row. Slot number is the '#' from 'mailbox'.",
+  "min_role": "Player",
+  "name": "delmail",
+  "summary": "Delete a mail message by slot.",
+  "usage": "delmail <#>"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "Hard-deletes the row at the given slot. Players can only delete posts they made (case-insensitive poster-name match); Builder-and-above can delete anyone's. Edit history ('BoardMessageEdit') cascades.",
+  "min_role": "Player",
+  "name": "delpost",
+  "summary": "Delete a board message (yours, or any if Builder+).",
+  "usage": "delpost <board-alias> <#>"
+ },
+ {
+  "aliases": [
+   "dep"
+  ],
+  "category": "Banking",
+  "long": "A bare number is copper ('deposit 100' is 100 copper); add a unit for more ('deposit 5 gold'), or say 'all'. Refuses if you don't have that much on hand. v1 is location-agnostic; banker-mob gating arrives once 'MobProfession::Banker' is hydrated.",
+  "min_role": "Player",
+  "name": "deposit",
+  "summary": "Move coin into the bank.",
+  "usage": "deposit <amount> [copper|silver|gold|platinum] | deposit all"
+ },
+ {
+  "aliases": [
+   "desc"
+  ],
+  "category": "Settings",
+  "long": "With no argument, prints your current description. With new text, replaces it (max 500 chars). With 'clear' / 'none' / '-', removes it. XML-Lite color tags render the same as room descriptions. Persists on disconnect.",
+  "min_role": "Player",
+  "name": "description",
+  "summary": "Show or set the prose 'examine' shows for you.",
+  "usage": "description [<new prose> | clear]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor only. The trigger is 'zone:id', its place in the list (1 is the first), or a word of its name ('2.beggar' for the second match). 'all' removes every trigger. 'detach <target> <trigger>' finds the target itself, preferring what you wear or carry. Live only; nothing is saved.",
+  "min_role": "Implementor",
+  "name": "detach",
+  "summary": "Remove a trigger from a live mob, object or room.",
+  "usage": "detach [ mob | object ] { target } { trigger | all }  |  detach room { trigger | all }"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. With no argument, prints current state. With 'on' or 'off', flips the server-wide ''DevMode'' resource AND persists the new state to the ''GameConfig'' row ''server.dev_mode'' so it survives restarts. When ON, every connected player is treated as Implementor for permission checks AND dice rolls are visible regardless of the per-player SHOW_DICE_ROLLS flag. NEVER leave this on in prod. Each toggle logs a loud syslog warning.",
+  "min_role": "Implementor",
+  "name": "devmode",
+  "summary": "Toggle server-wide dev mode (open playtest).",
+  "usage": "devmode [on|off]"
+ },
+ {
+  "aliases": [
+   "diag"
+  ],
+  "category": "Information",
+  "long": "With no arg, reports your own condition band (e.g. 'mortally wounded'), your raw HP / Stamina, and your posture. With a target, reports their condition band and posture only — exact numbers are private. Pair with 'glance' for a one-line summary or 'score' for the full sheet.",
+  "min_role": "Player",
+  "name": "diagnose",
+  "summary": "Verbose health readout for self or a target in your room.",
+  "usage": "diagnose [<target>]"
+ },
+ {
+  "aliases": [
+   "showdicerolls"
+  ],
+  "category": "Settings",
+  "long": "Sets SHOW_DICE_ROLLS. Combat output surfaces hit/dmg rolls when the flag is set.",
+  "min_role": "Player",
+  "name": "dice",
+  "summary": "Toggle showing per-swing dice rolls in combat.",
+  "usage": "dice"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Removes the target's wielded item; the weapon drops to the floor where any combatant can pick it up. Default target is your current Fighting target. Costs 5 stamina. Refused if the target isn't wielding anything.",
+  "min_role": "Player",
+  "name": "disarm",
+  "summary": "Knock your opponent's weapon to the ground.",
+  "usage": "disarm [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Breaks your group apart and drops everyone directly following you.",
+  "min_role": "Player",
+  "name": "disband",
+  "summary": "Dismiss your group and everyone following you.",
+  "usage": "disband"
+ },
+ {
+  "aliases": [
+   "discord_link",
+   "discordlink"
+  ],
+  "category": "Settings",
+  "long": "Two-step verification: 'discord link <id>' mints a one-time code; you then echo '/verify <code>' into the configured gossip channel within 10 minutes. 'discord unlink' clears the binding immediately. 'account' shows the current state.",
+  "min_role": "Player",
+  "name": "discord",
+  "summary": "Bind a Discord account to this user.",
+  "usage": "discord link <discord-id>  |  discord unlink"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Removes your Fighting state — you stop swinging. Opponents may keep attacking until they auto-disengage or you leave the room.",
+  "min_role": "Player",
+  "name": "disengage",
+  "summary": "Stop fighting your current target.",
+  "usage": "disengage"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Equivalent to 'group dismiss <player>' — removes the target from your group and ends their follow link to you. 'disband' clears everyone at once.",
+  "min_role": "Player",
+  "name": "dismiss",
+  "summary": "Drop a single direct follower from your group.",
+  "usage": "dismiss <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Mount",
+  "long": "Clears the 'Mounted' link on you and the 'RiddenBy' link on the mount. No-op when not mounted.",
+  "min_role": "Player",
+  "name": "dismount",
+  "summary": "Get off your current mount.",
+  "usage": "dismount"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Drops the item in the current room with a giving message. A real donation-room flag lands later — for now, donated items sit on the floor.",
+  "min_role": "Player",
+  "name": "donate",
+  "summary": "Charitably leave an item for someone else.",
+  "usage": "donate <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 10 stamina. Flips closed/locked exits to Open on both sides — useful when you don't have the key. Refused on already-open exits and when no exit exists in the named direction.",
+  "min_role": "Player",
+  "name": "doorbash",
+  "summary": "Force-open a closed or locked door.",
+  "usage": "doorbash <direction>"
+ },
+ {
+  "aliases": [
+   "d"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "down",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Takes the target (an object or corpse in the room, or a sitting/resting player who has used 'consent') along when you walk in the given direction. You must be standing. Anything you could pick up (or any corpse) can be dragged, up to three times what you can carry, and heavy loads cost extra stamina. Only staff can drag mobs. Player corpses are only draggable by their owner.",
+  "min_role": "Player",
+  "name": "drag",
+  "summary": "Drag a corpse, object or consenting body with you.",
+  "usage": "drag <target> <direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Decrements the container's 'remaining' liquid by 4 units. Empty containers refuse. Use 'quaff' for potions, 'sip' for a smaller swig (1 unit), 'taste' to identify the liquid without drinking.",
+  "min_role": "Player",
+  "name": "drink",
+  "summary": "Take a swig from a drink container.",
+  "usage": "drink <container>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Match is by case-insensitive substring on keywords. The item is left in the current room; bystanders see you drop it.",
+  "min_role": "Player",
+  "name": "drop",
+  "summary": "Drop an item from your inventory onto the floor.",
+  "usage": "drop <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+.\r\n  dtrig list <target>       - triggers attached to a mob/object\r\n  dtrig info <zone:id>      - details, fire stats and recent errors\r\n  dtrig fire <target> <id>  - run a trigger body with <target> as self\r\nTrigger ids are 'zone:id' or a bare id in your current zone.",
+  "min_role": "Builder",
+  "name": "dtrig",
+  "summary": "Debug triggers: list, inspect with errors, or fire.",
+  "usage": "dtrig <list|info|fire> <args>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. Useful for offline analysis. Path defaults to /tmp/world-dump-<ts>.json.",
+  "min_role": "Implementor",
+  "name": "dumpworld",
+  "summary": "Snapshot the entire entity store as JSON.",
+  "usage": "dumpworld [path]"
+ },
+ {
+  "aliases": [
+   "e"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "east",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Despawns the food. Refused on non-food items. Effects (hunger, ConsumableEffects) are deferred.",
+  "min_role": "Player",
+  "name": "eat",
+  "summary": "Consume a food item from your inventory.",
+  "usage": "eat <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Broadcasts the message verbatim (no speaker prefix) to everyone in the caster's room — useful for narrative prompts during live events. For a global broadcast, see 'gecho'.",
+  "min_role": "Builder",
+  "name": "echo",
+  "summary": "Speak a god-line into your current room.",
+  "usage": "echo <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "Pre-loads the existing subject and body into a composition session. Add lines to append, or '.clear' to wipe before writing the new body. Players can only edit their own posts; Builder+ bypasses the gate.",
+  "min_role": "Player",
+  "name": "editpost",
+  "summary": "Re-open a board post for editing.",
+  "usage": "editpost <board-alias> <#>"
+ },
+ {
+  "aliases": [
+   "affects",
+   "aff"
+  ],
+  "category": "Information",
+  "long": "Each line shows an effect name and its remaining duration in seconds (or 'permanent' if it has no timer).",
+  "min_role": "Player",
+  "name": "effects",
+  "summary": "List active effects on yourself.",
+  "usage": "effects"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Gated on knowing the Electrify skill (legacy grants it to the eel shapechange form). Electric strike — engages combat. Damage scales with level.",
+  "min_role": "Player",
+  "name": "electrify",
+  "summary": "Channel lightning into a target.",
+  "usage": "electrify <target>"
+ },
+ {
+  "aliases": [
+   ":"
+  ],
+  "category": "Communication",
+  "long": "Your name is prepended. 'emote smiles broadly.' shows everyone (including you): 'Strider smiles broadly.'",
+  "min_role": "Player",
+  "name": "emote",
+  "summary": "Perform a third-person action visible to the room.",
+  "usage": "emote <action>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Your name plus 's is prepended. 'emote's eyes widen.' shows everyone (including you): 'Strider's eyes widen.'",
+  "min_role": "Player",
+  "name": "emote's",
+  "summary": "Perform a possessive third-person action visible to the room.",
+  "usage": "emote's <action>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Reads the portal's 'Destination' and teleports you to the matching room. Refused while fighting. Portals with a missing or unresolved destination shimmer harmlessly.",
+  "min_role": "Player",
+  "name": "enter",
+  "summary": "Step into a portal in the room.",
+  "usage": "enter <portal>"
+ },
+ {
+  "aliases": [
+   "eq"
+  ],
+  "category": "Inventory",
+  "long": "Shows each occupied slot and the item filling it.",
+  "min_role": "Player",
+  "name": "equipment",
+  "summary": "List items you are wearing/wielding.",
+  "usage": "equipment"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Search one table by a field. Run it with only a type (or 'esearch' / 'tsearch' with nothing) to list the fields. Text fields match a substring; 'name' fields match whole-word prefixes of the name and keywords. Number fields take 5, >5, <5, >=5, <=5, !5 or 5..9 (an inclusive range). Add 'in <zone>' at the end to stay in one zone. Flag fields (wear, extraflags, effflags, flags, type, size, sector, ...) take one or more flag names, abbreviations allowed, and match when every one is present. Output is capped at 100 rows. Shops, zones, reset commands and skills are not searchable here.",
+  "min_role": "Builder",
+  "name": "esearch",
+  "summary": "Search room exits and doors by keyword, description, key or target.",
+  "usage": "esearch <field> <query> [in <zone>]"
+ },
+ {
+  "aliases": [
+   "exam",
+   "exa"
+  ],
+  "category": "Inventory",
+  "long": "Match by name or keyword (case-insensitive substring) on anything in your current room — mobs, other players, items, or equipped gear. Shows their long description.",
+  "min_role": "Player",
+  "name": "examine",
+  "summary": "Look closely at a person or thing in the room.",
+  "usage": "examine <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Converts coins between denominations at a banker. Rates: 10 copper = 1 silver, 10 silver = 1 gold, 10 gold = 1 platinum. Wealth is stored as a single copper total, so the exchange re-expresses your coins rather than changing your net worth; any remainder that doesn't fill a whole target coin is returned as change.",
+  "min_role": "Player",
+  "name": "exchange",
+  "summary": "Exchange coins at a money changer (banker).",
+  "usage": "exchange <amount> <from-type> <to-type>"
+ },
+ {
+  "aliases": [
+   "ex"
+  ],
+  "category": "Information",
+  "long": "Shows each direction with the destination room's name. Exits whose target room isn't loaded show as '(beyond)'.",
+  "min_role": "Player",
+  "name": "exits",
+  "summary": "List the exits from your current room.",
+  "usage": "exits"
+ },
+ {
+  "aliases": [
+   "exp",
+   "xp"
+  ],
+  "category": "Information",
+  "long": "Prints your level and total experience points. The per-level table that turns this into a 'to next' readout will land with the levelling system.",
+  "min_role": "Player",
+  "name": "experience",
+  "summary": "Show your current experience and level.",
+  "usage": "experience"
+ },
+ {
+  "aliases": [
+   "douse"
+  ],
+  "category": "Inventory",
+  "long": "Puts out a held, worn or carried light source. Refused on items that aren't lit and on permanent lights, which cannot be put out.",
+  "min_role": "Player",
+  "name": "extinguish",
+  "summary": "Put out a lit torch or lantern.",
+  "usage": "extinguish <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. The C++ server watched zone files for changes. World data now lives in the database, so there are no files to watch; use 'reloadzone' instead.",
+  "min_role": "Coder",
+  "name": "filewatch",
+  "summary": "Not applicable: world data is database-backed.",
+  "usage": "filewatch [on|off]"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Inverse-arg 'pour': same liquid-match rules, transfers up to the destination's remaining capacity.",
+  "min_role": "Player",
+  "name": "fill",
+  "summary": "Top up a container from another container.",
+  "usage": "fill <container> <source>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Useful for testing trigger bodies. The 'actor' defaults to the caster.",
+  "min_role": "Builder",
+  "name": "firetrig",
+  "summary": "Manually fire a trigger by id.",
+  "usage": "firetrig <zone> <id> [<actor>]"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 4 stamina and dispatches the FIRST_AID skill via the data path. Heal amount comes from the schema formula 'skill / 4' scaled by wisdom. Defaults to self when no target given. The shim gates 'Fighting' since first aid isn't an in-combat action.",
+  "min_role": "Player",
+  "name": "firstaid",
+  "summary": "Quick self/ally heal — wisdom-scaling.",
+  "usage": "firstaid [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Shows every flag currently set on you. Use 'toggle <flag>' to flip one on or off.",
+  "min_role": "Player",
+  "name": "flags",
+  "summary": "List your active player flags.",
+  "usage": "flags"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Picks an open exit at random and moves you through it. You stop fighting; attackers stop on the next combat tick (they auto-disengage when their target leaves the room).",
+  "min_role": "Player",
+  "name": "flee",
+  "summary": "Run away from combat through a random open exit.",
+  "usage": "flee"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Needs a source of flight (the fly spell, a winged form or a worn item). Movement charges a flat 2 stamina per move while flying — great savings over water/swamp (4-6 normally), slightly pricier on roads (1). Air rooms have no floor: anyone who is not flying falls through them, and so do loose items and corpses. Use 'land' (or 'walk') to come back down.",
+  "min_role": "Player",
+  "name": "fly",
+  "summary": "Take to the air (sets the Flying marker).",
+  "usage": "fly"
+ },
+ {
+  "aliases": [
+   "shadow",
+   "fol"
+  ],
+  "category": "Group",
+  "long": "When the target moves, you move with them through the same exit. 'follow self' (or 'unfollow') stops following. Cycles are silently broken — you can't follow someone who is already following you.",
+  "min_role": "Player",
+  "name": "follow",
+  "summary": "Trail another character automatically.",
+  "usage": "follow <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Shows the players and creatures currently following you, where each one is, and how healthy it looks. 'pets' narrows the list to creatures.",
+  "min_role": "Player",
+  "name": "followers",
+  "summary": "List everyone following you.",
+  "usage": "followers"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ (level 101+) only. Dispatches <command> with <player> as the actor — exactly as if they had typed it.",
+  "min_role": "Builder",
+  "name": "force",
+  "summary": "Make a player run a command as themselves.",
+  "usage": "force <player> <command>"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "There's no prepared-spell list to forget from. Spell slots are a circle-pool you draw from when casting; a slot you've spent regenerates on its own under resting / sleeping / meditating postures. Redirects to 'slots'.",
+  "min_role": "Player",
+  "name": "forget",
+  "summary": "(legacy alias) Slots aren't pre-prepared — see 'slots'.",
+  "usage": "forget"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ (level 101+) only. Frozen players can't input commands.",
+  "min_role": "Builder",
+  "name": "freeze",
+  "summary": "Toggle a player's frozen state.",
+  "usage": "freeze <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Without args, prints every toggle the caller is allowed to see along with its current state. With a toggle name, prints just that toggle's state; add 'on' / 'off' to flip it. Implementor-only flips like ''devmode'' upsert the matching ''GameConfig'' row so the choice survives a restart.\nKnown toggles: devmode, pk, summon, charm, sleep, roomeffect, names, ooc.",
+  "min_role": "Builder",
+  "name": "game",
+  "summary": "List or flip server-wide rule toggles.",
+  "usage": "game [<toggle> [on|off]]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Bypasses Deaf / IgnoreList — gechoes are out-of-character announcements that should always reach the audience.",
+  "min_role": "Builder",
+  "name": "gecho",
+  "summary": "Speak a god-line to every online player.",
+  "usage": "gecho <message>"
+ },
+ {
+  "aliases": [
+   "take",
+   "g"
+  ],
+  "category": "Inventory",
+  "long": "Match is by case-insensitive substring on the item's keywords (or its name). With 'from <container>', pulls from a container the player is carrying or one in the room. The item moves into your inventory; everyone else in the room sees the action.",
+  "min_role": "Player",
+  "name": "get",
+  "summary": "Pick up an item from the room or a container.",
+  "usage": "get <item> | get <item> from <container>"
+ },
+ {
+  "aliases": [
+   "gi"
+  ],
+  "category": "Inventory",
+  "long": "Both you and the target must be in the same room. The item must be in your inventory (not equipped — 'remove' first if needed).",
+  "min_role": "Player",
+  "name": "give",
+  "summary": "Hand an item to another character in the room.",
+  "usage": "give <item> <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Tells you the target's name, posture, condition (e.g. 'bleeding'), and whether they're fighting. Faster than 'examine' for a quick teammate / enemy check.",
+  "min_role": "Player",
+  "name": "glance",
+  "summary": "One-line condition check on someone in your room.",
+  "usage": "glance <target>"
+ },
+ {
+  "aliases": [
+   "."
+  ],
+  "category": "Communication",
+  "long": "Visible to every online player who hasn't toggled their 'deaf' flag and isn't ignoring you. The dot alias ('.') lets seasoned players stack gossips without arrowing back to type the verb. A lone '.send', '.abort', '.preview' or '.clear' is a mail-editor word, not a gossip; use 'gossip <word>' to say one of them on the channel.",
+  "min_role": "Player",
+  "name": "gossip",
+  "summary": "Talk on the global gossip channel.",
+  "usage": "gossip <message>"
+ },
+ {
+  "aliases": [
+   "go"
+  ],
+  "category": "Admin",
+  "long": "Builder+ command. Three forms:\r\n\r\n  goto <id>             — room <id> in your current zone\r\n  goto <zone> <id>      — composite (zone, id)\r\n  goto <name>           — teleport to a player or mob's room\r\n  goto home            — your recall (home) room\r\n\r\nBypasses exits, doors, and no-teleport rooms. Rooms restricted to the god ranks stay closed to lower staff. Your 'poofout' / 'poofin' lines are shown to the rooms you leave and arrive in.",
+  "min_role": "Builder",
+  "name": "goto",
+  "summary": "Teleport to a room by id, or to a player/mob by name.",
+  "usage": "goto <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 7 stamina, deals damage scaled by your skill and blinds the target for one tick (one MUD hour, about 75 seconds), cutting their accuracy. Default target is your current Fighting target. Cure Blind or Heal restores their sight.",
+  "min_role": "Player",
+  "name": "gouge",
+  "summary": "Eye gouge — damage plus a temporary blind effect.",
+  "usage": "gouge [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. Per-character command access. A grant lets a character use one command above their rank; a revoke takes a command away. Only online players strictly below your level, and only commands you can use yourself. 'grant <name>' lists a character's grants and revokes; 'grant <name> clear' drops the ones at or below your level. A mortal can only be granted commands on the grants.mortal_allowlist config row (empty by default), and never an admin command. Command groups and privilege flags do not exist on this server.",
+  "min_role": "Coder",
+  "name": "grant",
+  "summary": "Let a character use a command above their rank.",
+  "usage": "grant <name> [command <command> [level] | list | clear]"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Sends a one-line vitals snapshot to every member of your current group regardless of room. Used to coordinate healing / retreat without reading raw 'who' numbers.",
+  "min_role": "Player",
+  "name": "greport",
+  "summary": "Broadcast your hp/stamina to your group.",
+  "usage": "greport"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Picks one open exit at random; every group member in your current room moves through it and drops their Fighting state. Refused if you're not grouped or if the room has no open exits.",
+  "min_role": "Player",
+  "name": "gretreat",
+  "summary": "Coordinated group retreat — every group member in your room flees together.",
+  "usage": "gretreat"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Shows the group leader and every member, with HP and same-room indicator. Joining a group takes the leader's 'invite' and your 'accept'; merely following someone does not put you in their group.",
+  "min_role": "Player",
+  "name": "group",
+  "summary": "List your current group.",
+  "usage": "group"
+ },
+ {
+  "aliases": [
+   "gtell",
+   "gt"
+  ],
+  "category": "Communication",
+  "long": "Reaches every member of your current group regardless of room. Players outside the group never see it. Refused when you're not grouped.",
+  "min_role": "Player",
+  "name": "gsay",
+  "summary": "Speak privately to your group.",
+  "usage": "gsay <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Sets a 'Guarding' link from you onto the named player; while you're in the same room, attackers targeting them swing at you instead. 'guard off' clears the link. 'guard' with no arg reports the current target.",
+  "min_role": "Player",
+  "name": "guard",
+  "summary": "Stand bodyguard — intercept incoming swings on a target.",
+  "usage": "guard <player|off>"
+ },
+ {
+  "aliases": [
+   "h"
+  ],
+  "category": "Information",
+  "long": "With no arguments, shows commands available to you grouped by category. With an argument, shows the usage and details for that command. Admin commands live in 'wizhelp' (Builder+ only). Try 'help newbie' for a starter-pack of practical first goals.",
+  "min_role": "Player",
+  "name": "help",
+  "summary": "List commands or show details on a specific one.",
+  "usage": "help [command]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Looks up the target's PlayerHouse, synthesizes the ECS Room entities for it (if not yet cached in HousingIndex), then warps you to the foyer ('local_index = 0'). Works for offline owners — reads the snapshot straight from the DB. Routed through the async dispatcher; the sync stub only fires on dispatcher misconfig.",
+  "min_role": "Builder",
+  "name": "hgoto",
+  "summary": "Teleport into the named player's house foyer.",
+  "usage": "hgoto <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Creates a 'PlayerHouse' row for the named character with the entrance set to the room you're currently standing in. Seeds one foyer room ('local_index = 0'). Fails if the character already owns a house — use 'hrevoke' first.",
+  "min_role": "Builder",
+  "name": "hgrant",
+  "summary": "Assign a fresh house to a player.",
+  "usage": "hgrant <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Rolls how well you hide from your hide skill, Dexterity and Intelligence (rogues and DEX help most). Anyone whose perception is below that number cannot see you until you act: any command but looking around, hiding, moving and the like gives you away, as does attacking or being found by 'search'. Walking wears the hiding down; 'sneak' slows that. Hiding leaves you busy for a combat round (half for thieves). Your group always sees you.",
+  "min_role": "Player",
+  "name": "hide",
+  "summary": "Slip into the shadows.",
+  "usage": "hide"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Loads the named player's PlayerHouse row plus rooms / item count / guest list and prints the summary. Doesn't require the target to be online.",
+  "min_role": "Builder",
+  "name": "hinfo",
+  "summary": "Inspect any player's house from anywhere.",
+  "usage": "hinfo <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Mount",
+  "long": "Spawns a fresh mob as your follower. Coin from 'wealth'. Pet is renamed to '<you>'s <mob>' so it doesn't blend with wild mobs of the same kind.",
+  "min_role": "Player",
+  "name": "hire",
+  "summary": "Hire a pet from a pet-shop keeper.",
+  "usage": "hire <#|name>"
+ },
+ {
+  "aliases": [
+   "tantrum"
+  ],
+  "category": "Combat",
+  "long": "Costs 10 stamina. Damages each Mob in the room for half your damage. Mobs with no Health (test dummy) are skipped. The first surviving mob becomes your Fighting target if you weren't already fighting. Players are never targeted.",
+  "min_role": "Player",
+  "name": "hitall",
+  "summary": "One swing at every hostile mob in your room.",
+  "usage": "hitall"
+ },
+ {
+  "aliases": [
+   "grab"
+  ],
+  "category": "Inventory",
+  "long": "Equips an item in the Hold slot (lights, instruments, wands). Refused on items that don't go in Hold.",
+  "min_role": "Player",
+  "name": "hold",
+  "summary": "Hold a non-weapon item in your offhand.",
+  "usage": "hold <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets HOLY_LIGHT. Renderer plumbing for invisibility and darkness is pending; the flag persists so it's live the moment those land.",
+  "min_role": "Builder",
+  "name": "holylight",
+  "summary": "Toggle holy-light vision (admin/builder).",
+  "usage": "holylight"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Players who own a house can inspect its layout, guest list, room contents, or step inside via 'house enter'. 'house' (no arg) defaults to the info subcommand. Players without a house get a polite refusal — house creation isn't yet wired through the runtime.",
+  "min_role": "Player",
+  "name": "house",
+  "summary": "Inspect or enter your player house.",
+  "usage": "house [info|enter|guests|rooms]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. Deletes the named character's PlayerHouse row; FK cascades remove all rooms, exits, placed items, and guest entries. The owner's in-memory 'HouseSummary' component remains until they reconnect — bounce them if they're online.",
+  "min_role": "Implementor",
+  "name": "hrevoke",
+  "summary": "Delete a player's house and all its rooms / items.",
+  "usage": "hrevoke <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Same as 'bug' but tagged Idea. Same 'Reports' row shape; 'report list <kind>' filters.",
+  "min_role": "Player",
+  "name": "idea",
+  "summary": "Suggest a feature / change to the staff.",
+  "usage": "idea <message>"
+ },
+ {
+  "aliases": [
+   "id"
+  ],
+  "category": "Inventory",
+  "long": "Reveals the item's type, weight, base value, wear slots, weapon dice (when applicable), bound abilities (scrolls/wands/staves), liquid state (drink containers), remaining charges, and any active effects on the item.",
+  "min_role": "Player",
+  "name": "identify",
+  "summary": "Magical analysis of a carried item.",
+  "usage": "identify <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Same population as 'who', but ordered by how long since each player last typed something. Players who just connected and haven't typed yet show as 'fresh'; anyone under a minute shows as 'active'. With a numeric arg, filters to players idle that many minutes or more — handy for spotting AFK staff or stuck sessions.",
+  "min_role": "Player",
+  "name": "idle",
+  "summary": "Show online players sorted by idle time, longest first.",
+  "usage": "idle [<min-minutes>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Edits the specific item you carry, wear or see in the room; the prototype is untouched. 'iedit <item>' shows the editable fields. 'iedit <item> name <text>' sets the short description, 'examine <text>' the examine text, 'keywords <w1 w2 ...>' the keyword list, 'charges <n>' (-1 = unlimited). 'clear' on name/examine/keywords restores the prototype's. Colour tags are allowed. Changes apply at once and save with the holder.",
+  "min_role": "Builder",
+  "name": "iedit",
+  "summary": "Edit one item instance online (Builder+).",
+  "usage": "iedit <item> [name|examine|keywords|charges <value|clear>]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "No arg: list current entries. '<name>': add. '-<name>': remove. 'clear': drop the whole list. Per-session today; persistence is a follow-up.",
+  "min_role": "Player",
+  "name": "ignore",
+  "summary": "Block tells / channel msgs from a player.",
+  "usage": "ignore [<name> | -<name> | clear]"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "in",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+ (level 104+) only. Adds <hours> to 'MudClock.hour' modulo 24 — useful for testing day/night triggers and dawn/dusk weather transitions without waiting for real time.",
+  "min_role": "Coder",
+  "name": "inctime",
+  "summary": "Force-advance the in-game clock.",
+  "usage": "inctime <hours>"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Without arguments, reads the 'RaceAbilities' rows for your character's race and prints each ability's name, category (PRIMARY / SECONDARY / ...), starting bonus, and proficiency cap. 'innate <ability> [target]' uses one of the active ones, exactly as if you had typed its own command (cast, breathe, ...); only abilities your race grants can be used this way.",
+  "min_role": "Player",
+  "name": "innate",
+  "summary": "List or use your race's innate abilities.",
+  "usage": "innate [<ability> [target]]"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Legacy shop service. With no argument, lists the keeper's wares with their inspection fee (a tenth of the purchase price, minimum one copper). With an item number or name, pays the fee and shows that item's full stat block without buying it; a pet number or name shows the pet's stats. Staff inspect for free.",
+  "min_role": "Player",
+  "name": "inspect",
+  "summary": "Pay a shopkeeper to identify a wares item or pet.",
+  "usage": "inspect [<#|item|pet>]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Picks a random insult and emits it to you, the target, and the rest of the room. Self-targeting leaves you feeling insulted at yourself.",
+  "min_role": "Player",
+  "name": "insult",
+  "summary": "Hurl a random insult at someone in the room.",
+  "usage": "insult <target>"
+ },
+ {
+  "aliases": [
+   "i",
+   "inv"
+  ],
+  "category": "Inventory",
+  "long": "Shows everything in your inventory by name. Use 'get' to pick items up and 'drop' to set them down. With a filter arg, only items whose name contains the substring (case-insensitive) are shown — useful for pruning a packed bag down to e.g. just potions.",
+  "min_role": "Player",
+  "name": "inventory",
+  "summary": "List items you are carrying.",
+  "usage": "inventory [<filter>]"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Target gets a pending 'GroupInvite'; they can 'accept' or 'decline'. Invites expire after 5 minutes. Players already following you (in your group) can't be re-invited.",
+  "min_role": "Player",
+  "name": "invite",
+  "summary": "Send a group invite to another player.",
+  "usage": "invite <player>"
+ },
+ {
+  "aliases": [
+   "trash"
+  ],
+  "category": "Inventory",
+  "long": "The item is despawned; nothing is dropped on the floor and no coin is awarded. Refuses on equipped gear — 'remove' first.",
+  "min_role": "Player",
+  "name": "junk",
+  "summary": "Permanently destroy a carried item.",
+  "usage": "junk <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Extra attack outside the normal combat-tick rhythm. Rolls weapon damage scaled by attack_power, then adds +4. With no name it hits your current target; with one it picks that fight.",
+  "min_role": "Player",
+  "name": "kick",
+  "summary": "Kick your target, or the one you name (which starts a fight).",
+  "usage": "kick [<victim>]"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "For mortals, identical to attack. Staff characters of level 101 and above (legacy LVL_GOD) slay a non-player target on the spot, with no kill credit, instead of entering combat.",
+  "min_role": "Player",
+  "name": "kill",
+  "summary": "Engage a target in melee combat (staff slay it outright).",
+  "usage": "kill <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Changes your posture to kneeling. Ranks the same as sitting for ability gating, but regenerates like standing — useful for guards, prayer, or showing respect.",
+  "min_role": "Player",
+  "name": "kneel",
+  "summary": "Kneel — lower-profile but still alert.",
+  "usage": "kneel"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Looks up the character row by name and prints the last 'last_login' timestamp, level, race / class, and online-now status. Async DB call — output is delivered after the lookup returns.",
+  "min_role": "Builder",
+  "name": "last",
+  "summary": "Show last-login info for a character.",
+  "usage": "last <player>"
+ },
+ {
+  "aliases": [
+   "lastgos"
+  ],
+  "category": "Communication",
+  "long": "Shows the last <n> gossip utterances (default 10, capped at 50). In-memory only — clears on server restart, like the legacy ring buffer.",
+  "min_role": "Player",
+  "name": "lastgossips",
+  "summary": "Replay recent gossip channel lines.",
+  "usage": "lastgossips [<n>]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Shows the last <n> shouts (default 10, capped at 50).",
+  "min_role": "Player",
+  "name": "lastshouts",
+  "summary": "Replay recent shout channel lines.",
+  "usage": "lastshouts [<n>]"
+ },
+ {
+  "aliases": [
+   "lt"
+  ],
+  "category": "Communication",
+  "long": "Reads 'TellLog', hydrated at login from the 'tell_message' table. Each row shows the sender and how long ago the tell arrived.",
+  "min_role": "Player",
+  "name": "lasttells",
+  "summary": "Show your bounded recent-tells history.",
+  "usage": "lasttells"
+ },
+ {
+  "aliases": [
+   "lay"
+  ],
+  "category": "Combat",
+  "long": "Heals 30 HP at a cost of 12 stamina. Works while fighting (unlike 'bandage'). Refused on full-HP targets. Default target is yourself.",
+  "min_role": "Player",
+  "name": "layhands",
+  "summary": "Holy heal — bigger than bandage, works in combat.",
+  "usage": "layhands [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Inverse of 'enter' for vehicles. Today the only in-vehicle state we model is mounted, so 'leave' is a synonym for 'dismount'. When boats / carriages land it'll cover those too.",
+  "min_role": "Player",
+  "name": "leave",
+  "summary": "Exit your current vehicle / mount.",
+  "usage": "leave"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Shows your level, a progress bar and how much XP is left to the next level, scaled for your class. At the mortal cap with enough XP to reach level 100 you are marked with your class stars ('**') instead.",
+  "min_role": "Player",
+  "name": "level",
+  "summary": "Your level and progress toward the next one.",
+  "usage": "level"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Prints the experience your class needs to reach each level, and marks the level you are on. Use 'level' to see your own progress toward the next one.",
+  "min_role": "Player",
+  "name": "levels",
+  "summary": "Show the experience needed for every level.",
+  "usage": "levels"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Lights a Light-type item you are carrying, holding or wearing. Wearing or holding a light does not light it. Refused on non-light items, items that are already lit, and burnt-out lights. Permanent lights are always lit.",
+  "min_role": "Player",
+  "name": "light",
+  "summary": "Light a torch or lantern.",
+  "usage": "light <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Looks for a 'Shopkeeper'-tagged mob in your room, then prints the keeper's catalog with prices and stock. 'buy <#|name>' and 'sell <item>' land next.",
+  "min_role": "Player",
+  "name": "list",
+  "summary": "Show what the shopkeeper here is selling.",
+  "usage": "list"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Same as 'summon' for count=1, kept as a separate verb for muscle-memory.",
+  "min_role": "Builder",
+  "name": "load",
+  "summary": "Spawn a mob proto into your current room.",
+  "usage": "load <zone> <mob-id>"
+ },
+ {
+  "aliases": [
+   "loado"
+  ],
+  "category": "Admin",
+  "long": "Builder+. Materializes one instance of (zone, id) from 'ObjectPrototypes' Located on your current room.",
+  "min_role": "Builder",
+  "name": "loadobj",
+  "summary": "Spawn an object proto onto the floor.",
+  "usage": "loadobj <zone> <obj-id>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Mirror of 'unlock': requires the exit to be closed (not already locked, not open) and to have a key requirement, and that you carry that key. On match, the door is locked.",
+  "min_role": "Player",
+  "name": "lock",
+  "summary": "Lock a closed door using a key in your inventory.",
+  "usage": "lock <direction>"
+ },
+ {
+  "aliases": [
+   "l"
+  ],
+  "category": "Information",
+  "long": "Shows the current room's name, anyone or anything else present, and the available exits.",
+  "min_role": "Player",
+  "name": "look",
+  "summary": "Look at your surroundings.",
+  "usage": "look"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Runs 'code' with 'actor' bound to your character. Same Lua API surface as triggers.",
+  "min_role": "Builder",
+  "name": "lua",
+  "summary": "Run a snippet of Lua code.",
+  "usage": "lua <code>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 4 stamina and dispatches the LURE skill at the named target. Effect is a level-scaling physical-damage application; combat starts via the normal damage→engage path. Same arg-resolution as 'backstab'.",
+  "min_role": "Player",
+  "name": "lure",
+  "summary": "Bait a mob into engaging you with a stinging hit.",
+  "usage": "lure <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "Opens a multi-line composition session: first non-blank line is the subject, subsequent lines accumulate as body. Control verbs: '.send' ships the draft, '.abort' discards it, '.preview' shows what's queued, '.clear' wipes the draft.",
+  "min_role": "Player",
+  "name": "mail",
+  "summary": "Open a mail composition session to one player.",
+  "usage": "mail <character>"
+ },
+ {
+  "aliases": [
+   "check"
+  ],
+  "category": "Mail",
+  "long": "Newest first; unread messages have a '*' prefix. Use 'readmail <#>' to read by slot — that also marks the row read.",
+  "min_role": "Player",
+  "name": "mailbox",
+  "summary": "List inbound mail in your account inbox.",
+  "usage": "mailbox"
+ },
+ {
+  "aliases": [
+   "med"
+  ],
+  "category": "Magic",
+  "long": "Doubles the rate at which 'memorize' slots refill. Requires resting / sitting / kneeling — standing or sleeping breaks focus, as does taking a step or being attacked. Re-running 'meditate' ends the trance.",
+  "min_role": "Player",
+  "name": "meditate",
+  "summary": "Focus to speed up spell memorization.",
+  "usage": "meditate"
+ },
+ {
+  "aliases": [
+   "mem",
+   "pray"
+  ],
+  "category": "Magic",
+  "long": "FieryMUD uses a slot-pool model, not a Vance-style prepared-spell list. There's nothing to memorize ahead of time: at each level you have a fixed number of slots per circle (see 'slots' for your current capacity), and any spell you've trained ('study <spell>') can be cast while a slot of its circle is free. This command redirects to 'slots'.",
+  "min_role": "Player",
+  "name": "memorize",
+  "summary": "(legacy alias) Show your spell-slot pool.",
+  "usage": "memorize"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists mob prototypes from the loaded catalog as '[zone:id] name', sorted by (zone, id). With no argument it lists your current zone; '*' lists every zone; '<zone>' lists that zone; '<zone> <first> <last>' (or '<zone>:<first> <zone>:<last>') narrows to an id span, and a missing <last> means 'to the end of the zone'. Long lists are paged 50 rows at a time: add 'page <n>'. Pair with 'mstat <zone> <id>' for a prototype's detail, or 'msearch' to search by name.",
+  "min_role": "Builder",
+  "name": "mlist",
+  "summary": "List mob prototypes in a zone or id range.",
+  "usage": "mlist [*|<zone> [[from] <id> [to] [<id>]]] [page <n>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists prototypes whose name or keywords start with every word you give, as 'zone:id name', sorted by id and capped at 100 rows. 'vnum' takes a type first (mobiles, objects, rooms, triggers, exits), 'mnum' / 'onum' / 'rnum' / 'tnum' are the same search for one type. Add 'in <zone>' to stay in one zone. Pair with 'vstat', 'rstat' or 'tstat', or jump with 'goto <zone>:<id>'.",
+  "min_role": "Builder",
+  "name": "mnum",
+  "summary": "Find mob prototypes by keyword (zone:id).",
+  "usage": "mnum <keywords> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Reads the mob proto and 'TriggerCatalog' attachments, then summarises in plain English: alignment-driven aggression, behaviors (sentinel, wimpy, etc.), and whether the mob is scripted. For the raw fields use 'mstat'; this is the form you want when explaining a mob to a designer.",
+  "min_role": "Builder",
+  "name": "mob-ai",
+  "summary": "Plain-English brief of a mob's behavior.",
+  "usage": "mob-ai <zone> <id> | <id> | <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Static welcome text for now — once a GameConfig 'motd' row lands, this will read from there.",
+  "min_role": "Player",
+  "name": "motd",
+  "summary": "Show the message-of-the-day.",
+  "usage": "motd"
+ },
+ {
+  "aliases": [],
+  "category": "Mount",
+  "long": "Target must be 'Mountable' (auto-applied to mobs whose keywords contain horse / steed / mount / donkey / mare). When you move, your mount comes with you. Refused on already-mounted you, on already-ridden mounts, or on mobs in combat.",
+  "min_role": "Player",
+  "name": "mount",
+  "summary": "Climb onto a mountable mob.",
+  "usage": "mount <mob>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. 'msearch <field> <query> [in <zone>]' searches mob prototypes (legacy 'msearch'; same as 'vsearch mobiles'). Fields: name, short, long, desc, race, gender, role, level, alignment, flags (sentinel, wimpy, shopkeeper, aquatic, ...), effflags (permanent effects), size, lifeforce. Examples: 'msearch flags sentinel wimpy', 'msearch level 30..40 in 12', 'msearch race dragon', 'msearch lifeforce undead'. Numbers take 5, >5, <5, >=5, <=5, !5, 5..9 or the legacy 'gt 5' / 'bt 5 9'. Add 'in <zone>' to stay in one zone; at most 100 rows print.",
+  "min_role": "Builder",
+  "name": "msearch",
+  "summary": "Search mob prototypes by name, flags, level, race, size, ...",
+  "usage": "msearch <field> <query> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Reads 'MobPrototypes' and prints the proto fields + linked behaviors / professions / abilities / triggers. Three target forms:\r\n  mstat <zone> <id>   composite key\r\n  mstat <id>          id in your current zone\r\n  mstat <name>        substring against proto name\r\n\r\nFor a LIVE mob's per-instance state, use 'stat <name>' — stat reads every component on a live entity, mstat reads the static catalog row that produced it.",
+  "min_role": "Builder",
+  "name": "mstat",
+  "summary": "Dump a mob PROTOTYPE (template, not a live mob).",
+  "usage": "mstat <zone> <id> | <id> | <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "RP-flavored counterpart to 'gossip'. Same Deaf / ignore filtering. Convention: in-character song lyrics or melodic flavor.",
+  "min_role": "Player",
+  "name": "music",
+  "summary": "Sing on the global music channel.",
+  "usage": "music <message>"
+ },
+ {
+  "aliases": [
+   "squelch"
+  ],
+  "category": "Admin",
+  "long": "Builder+. Toggles 'PlayerFlag::Muted' on the target. Muted players can't use gossip / shout / music / clan / quest channels — 'say' and 'tell' are unaffected so they can still play. Re-running 'mute <name>' clears it.",
+  "min_role": "Builder",
+  "name": "mute",
+  "summary": "Toggle a player's silence on global channels.",
+  "usage": "mute <player>"
+ },
+ {
+  "aliases": [
+   "namestatus"
+  ],
+  "category": "Settings",
+  "long": "Reports the live name-approval gate state. Useful when chat channels refuse and you want to confirm that the gate (not an effect / freeze / ignore-list) is the cause. No-op besides the readout.",
+  "min_role": "Player",
+  "name": "name_status",
+  "summary": "Check whether your character name is staff-approved.",
+  "usage": "name_status"
+ },
+ {
+  "aliases": [
+   "label"
+  ],
+  "category": "Inventory",
+  "long": "Labels an item you carry or wear, e.g. 'nameitem sack gems' turns \"a cloth sack\" into \"a cloth sack (labeled 'gems')\". The item keeps its own name; the label's words also work for targeting ('get ruby gems'). Labels are 3-40 characters; colour codes and unusual symbols are removed. 'nameitem sack clear' removes the label. Works on any item. Carried items are matched before worn ones.",
+  "min_role": "Player",
+  "name": "nameitem",
+  "summary": "Add a label of your own to an item you carry.",
+  "usage": "nameitem <item> <label> | nameitem <item> clear"
+ },
+ {
+  "aliases": [
+   "tutorial"
+  ],
+  "category": "Information",
+  "long": "Lists the practical next steps for a new character: get oriented, equip gear, find a trainer, fight a safe mob, and recall back. Re-run any time you forget where you were — it's not state-dependent.",
+  "min_role": "Player",
+  "name": "newbie",
+  "summary": "Show a short starter-pack of first goals.",
+  "usage": "newbie"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Static for now; will read from a future news table.",
+  "min_role": "Player",
+  "name": "news",
+  "summary": "Recent server news.",
+  "usage": "news"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Toggles NO_REPEAT. While on, say, tell, reply, whisper, ask, gsay and the global channels answer you with just \"Ok.\" instead of repeating what you typed. Others see your message as usual.",
+  "min_role": "Player",
+  "name": "norepeat",
+  "summary": "Don't echo your own say/tell/channel text back.",
+  "usage": "norepeat"
+ },
+ {
+  "aliases": [
+   "n"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "north",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [
+   "ne"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "northeast",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [
+   "nw"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "northwest",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "By default, when someone casts SUMMON on you, you get a 30-second 'accept' / 'decline' prompt. Setting NO_SUMMON short-circuits that — incoming summons are silently refused without prompting you, and the caster sees \"X is not accepting summons.\" Use this when you want to AFK without summon-prompt interruptions. Run again to re-enable the prompt. PK-flagged players (see 'pk') bypass the prompt entirely — that's part of opting into PvP.",
+  "min_role": "Player",
+  "name": "nosummon",
+  "summary": "Silently auto-decline incoming summon spells.",
+  "usage": "nosummon"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "When set, other players' 'tell' to you is blocked with a message. Run again to allow tells.",
+  "min_role": "Player",
+  "name": "notell",
+  "summary": "Refuse incoming 'tell' messages.",
+  "usage": "notell"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Speak to a receptionist (or stand in an inn) to hear the terms. Your character and belongings are saved automatically and cost nothing to keep: 'quit' anywhere (or 'rent' at a receptionist) to save and leave. Inns additionally sell prepaid rest tiers; 'offer' lists them, 'rent <name>' books one.",
+  "min_role": "Player",
+  "name": "offer",
+  "summary": "Ask a receptionist what it costs to store your belongings.",
+  "usage": "offer"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists object prototypes from the loaded catalog as '[zone:id] name', sorted by (zone, id). With no argument it lists your current zone; '*' lists every zone; '<zone>' lists that zone; '<zone> <first> <last>' (or '<zone>:<first> <zone>:<last>') narrows to an id span, and a missing <last> means 'to the end of the zone'. Long lists are paged 50 rows at a time: add 'page <n>'. Pair with 'ostat <zone> <id>' for a prototype's detail, or 'osearch' to search by name.",
+  "min_role": "Builder",
+  "name": "olist",
+  "summary": "List object prototypes in a zone or id range.",
+  "usage": "olist [*|<zone> [[from] <id> [to] [<id>]]] [page <n>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists prototypes whose name or keywords start with every word you give, as 'zone:id name', sorted by id and capped at 100 rows. 'vnum' takes a type first (mobiles, objects, rooms, triggers, exits), 'mnum' / 'onum' / 'rnum' / 'tnum' are the same search for one type. Add 'in <zone>' to stay in one zone. Pair with 'vstat', 'rstat' or 'tstat', or jump with 'goto <zone>:<id>'.",
+  "min_role": "Builder",
+  "name": "onum",
+  "summary": "Find object prototypes by keyword (zone:id).",
+  "usage": "onum <keywords> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Refused if the exit is already open or locked. Locked doors need a key (use 'unlock').",
+  "min_role": "Player",
+  "name": "open",
+  "summary": "Open a closed door in the given direction.",
+  "usage": "open <direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Forwards '<command>' to a named mob follower (must be in the same room and have 'Follower(you)' set), or 'all' for every same-room follower at once. The mob runs the command through the normal dispatcher under its own identity, so target lookups, costs, and triggers fire as if it had typed the line. Admin commands are off-limits to mobs.",
+  "min_role": "Player",
+  "name": "order",
+  "summary": "Issue a command to one or all of your followers.",
+  "usage": "order <follower|all> <command>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. 'osearch <field> <query> [in <zone>]' searches object prototypes (legacy 'osearch'; same as 'vsearch objects'). Fields: name, short, long, desc, type, wear, extraflags (glow, magic, nodrop, ...), effflags (effects the item grants, e.g. sanctuary), level, weight, cost, timer. Examples: 'osearch type weapon', 'osearch wear head neck', 'osearch effflags sanctuary in 30', 'osearch level 20..30', 'osearch cost gt 5000'. Numbers take 5, >5, <5, >=5, <=5, !5, 5..9 or the legacy 'gt 5' / 'bt 5 9'. Add 'in <zone>' to stay in one zone; at most 100 rows print.",
+  "min_role": "Builder",
+  "name": "osearch",
+  "summary": "Search object prototypes by name, type, wear or effect flags, level, ...",
+  "usage": "osearch <field> <query> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Mirrors 'mstat' for objects: type, weight, wear flags, locks (!DROP / CURSED!!), armor, stat bonuses, effect flags, special-values per type. 'stat <object>' prints the same block for a live item. Same target forms — composite key, id in current zone, or substring against proto name.",
+  "min_role": "Builder",
+  "name": "ostat",
+  "summary": "Dump an object PROTOTYPE.",
+  "usage": "ostat <zone> <id> | <id> | <name>"
+ },
+ {
+  "aliases": [
+   "o"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "out",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Sends '*<you>* <message>' with two terminal bells to one player anywhere in the game. 'page all' reaches everyone and needs a level above 101.",
+  "min_role": "Builder",
+  "name": "page",
+  "summary": "Beep a player with a message.",
+  "usage": "page <player|all> <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Emits a roleplay-flavor pain line — no actual HP / stamina change. The target sees a personalized line; the room sees a third-person broadcast. Use to express divine displeasure during live events.",
+  "min_role": "Builder",
+  "name": "pain",
+  "summary": "Cosmetic divine wrath flourish on a single player.",
+  "usage": "pain <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Rogue skill. Conceals an item from your inventory from casual detection for a while; others may spot it with perception. Uses the PALM ability's proficiency and effect from the database.",
+  "min_role": "Player",
+  "name": "palm",
+  "summary": "Secretly hide a small item in your hand.",
+  "usage": "palm <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Removes the 'Fighting' component from every entity in your room — useful when a brawl gets out of hand or a Lua trigger spawned a hostile mob you'd rather not pile on. Each disengaged combatant gets a quiet \"calm settles over the room\" line; a room broadcast confirms the action.",
+  "min_role": "Builder",
+  "name": "peace",
+  "summary": "Stop all combat in your current room.",
+  "usage": "peace"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Race-gated to Avariel. Piercing strike — engages combat if not already fighting the target. Damage scales with level.",
+  "min_role": "Player",
+  "name": "peck",
+  "summary": "Drive your beak into a target (Avariel only).",
+  "usage": "peck <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Same shape as 'cast' but filters to abilityType = SONG. Stub: prints metadata and gates on KnownAbilities, no effect application yet.",
+  "min_role": "Player",
+  "name": "perform",
+  "summary": "Perform a song from the catalog (bard).",
+  "usage": "perform <song> [target]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "From a mortal: broadcasts the petition to every online Immortal+. From an immortal: if the first arg matches an online player name, reply to that player privately (the legacy 'ptell' form folded in). Mortals never see anyone else's petitions.",
+  "min_role": "Player",
+  "name": "petition",
+  "summary": "Send to immortals — or, as immortal, reply privately.",
+  "usage": "petition <message>  |  petition <player> <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "Shows your pets, hirelings and charmed creatures, where each one is, and how healthy it looks. Use 'call' to bring them to you.",
+  "min_role": "Player",
+  "name": "pets",
+  "summary": "List the creatures following you.",
+  "usage": "pets"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Skill check against your 'PICK_LOCK' proficiency. Refuses on unlocked exits, exits without a keyhole, and players who haven't trained pick lock. Costs 5 stamina whether you succeed or fail. On success the door flips Locked → Closed (same as 'unlock'); on failure you get a fumble line.",
+  "min_role": "Player",
+  "name": "pick",
+  "summary": "Pick a locked door open with rogue tools.",
+  "usage": "pick <direction>"
+ },
+ {
+  "aliases": [
+   "pkill"
+  ],
+  "category": "Settings",
+  "long": "Sets PK_ENABLED. Two players can fight each other only while BOTH have PK on. Turning it on works anywhere; you can turn it off only at your recall point, and not while fighting another player.",
+  "min_role": "Player",
+  "name": "pk",
+  "summary": "Toggle player-kill participation.",
+  "usage": "pk [on|off]"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Plays a held instrument; magical instruments invoke their bound abilities and spend a charge when they land.",
+  "min_role": "Player",
+  "name": "play",
+  "summary": "Play an instrument you are holding.",
+  "usage": "play <instrument>"
+ },
+ {
+  "aliases": [
+   "playernote",
+   "note"
+  ],
+  "category": "Admin",
+  "long": "Builder+. Without args after the name, prints the current staff notes. With text, appends a new line prefixed with the timestamp and your character name. 'clear' is Implementor-only and wipes the entire log.",
+  "min_role": "Builder",
+  "name": "pnote",
+  "summary": "Read / append / clear staff notes on a character.",
+  "usage": "pnote <player> [<text> | clear]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Resolves <target> against (in order): a direction (n/s/e/w/u/d), an actor in your room (player or mob), or an item in your room or inventory. Pointing at a hidden actor reveals them — stealth doesn't survive being singled out.",
+  "min_role": "Player",
+  "name": "point",
+  "summary": "Point at someone, something, or a direction.",
+  "usage": "point <target>"
+ },
+ {
+  "aliases": [
+   "rules",
+   "policy"
+  ],
+  "category": "Settings",
+  "long": "Static for now. Aliases: 'rules', 'policy'.",
+  "min_role": "Player",
+  "name": "policies",
+  "summary": "Server rules and code of conduct.",
+  "usage": "policies"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Replaces the generic \"$n appears with an ear-splitting bang.\" with your own line ('$n' stands for your name). Bare 'poofin' shows the current value; 'poofin clear' removes it.",
+  "min_role": "Builder",
+  "name": "poofin",
+  "summary": "Set your custom arrival message on goto / teleport.",
+  "usage": "poofin [<message>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Mirrors 'poofin'. Replaces the generic \"$n disappears in a puff of smoke.\" departure line.",
+  "min_role": "Builder",
+  "name": "poofout",
+  "summary": "Set your custom departure message on goto / teleport.",
+  "usage": "poofout [<message>]"
+ },
+ {
+  "aliases": [],
+  "category": "Mail",
+  "long": "Opens a multi-line composition session: first non-blank line is the subject, subsequent lines accumulate as body. '.send' ships, '.abort' cancels, '.preview' shows the draft. Locked boards refuse the open.",
+  "min_role": "Player",
+  "name": "post",
+  "summary": "Compose a new message on a board.",
+  "usage": "post <board-alias>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "With no target, dumps the source's liquid on the ground. With a target container, transfers as much as the target can accept; refuses on liquid-type mismatch unless the target is empty (in which case the target adopts the source's liquid + poison flag).",
+  "min_role": "Player",
+  "name": "pour",
+  "summary": "Transfer liquid between containers, or empty.",
+  "usage": "pour <container> [target]"
+ },
+ {
+  "aliases": [
+   "prac"
+  ],
+  "category": "Settings",
+  "long": "Without an argument, renders KnownAbilities with proficiency 0-1000 and a tier label. With an ability name, raises that ability's proficiency by 5 (capped at the class's 'proficiency_cap' from 'ClassAbilities'). Persists across reconnect via 'CharacterAbilities'.",
+  "min_role": "Player",
+  "name": "practice",
+  "summary": "List trained abilities, or improve proficiency.",
+  "usage": "practice [<ability>]"
+ },
+ {
+  "aliases": [
+   "display"
+  ],
+  "category": "Settings",
+  "long": "With no argument, prints your current template. With a template, replaces it. Variables: %h current HP, %H max HP, %v current stamina, %V max stamina, %n your name, %r current room, %g on-hand wealth (copper), %t in-game hour (zero-padded), %s season, %d day/night, %% literal percent. Examples: prompt <%h/%H hp %v/%V st> prompt [%t %h/%H %d] ",
+  "min_role": "Player",
+  "name": "prompt",
+  "summary": "Show or change your status prompt template.",
+  "usage": "prompt [template]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Joins 'CharacterItems' × 'Characters' × 'Objects' against an item-name substring and prints one row per (player, item) hit. Async DB query — covers offline characters, not just online ones. Capped at 200 hits server-side.",
+  "min_role": "Builder",
+  "name": "pscan",
+  "summary": "Scan every persisted character's inventory for an item.",
+  "usage": "pscan <substring>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Immortal+. Sends <message> privately to the petitioner and shows the other online immortals who answered whom. Refused for staff targets (use wiznet) and for a player who is writing a message.",
+  "min_role": "Immortal",
+  "name": "ptell",
+  "summary": "Answer a player's petition.",
+  "usage": "ptell <player> <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "HeadBuilder+ (level 103+) only. With no arg, removes every mob / item in your current room. With a name, despawns that one entity.",
+  "min_role": "HeadBuilder",
+  "name": "purge",
+  "summary": "Despawn the named target — or every non-player in the room.",
+  "usage": "purge [target]"
+ },
+ {
+  "aliases": [
+   "p"
+  ],
+  "category": "Inventory",
+  "long": "Container can be a carried item or one in the current room. Equipped items must be 'remove'd first. Bystanders see the action.",
+  "min_role": "Player",
+  "name": "put",
+  "summary": "Move a carried item into a container.",
+  "usage": "put <item> <container>"
+ },
+ {
+  "aliases": [],
+  "category": "Quest",
+  "long": "Self-service quest acceptance. Validates level range, checks every required prerequisite, and refuses if you already have it in progress (or completed it once already on a non-repeatable quest).",
+  "min_role": "Player",
+  "name": "qaccept",
+  "summary": "Accept a quest by composite id.",
+  "usage": "qaccept <zone> <quest-id>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Slot number from the 'quests' in-progress section. Flips IN_PROGRESS -> COMPLETED, stamps completed_at and bumps completion_count. Coder rank and above also get the quest's unconditional rewards exactly as a real completion pays them (conditional and choice rewards stay behind 'qreward'); lower ranks complete it without rewards. Objectives and phases are not run. Audited.",
+  "min_role": "Builder",
+  "name": "qcomplete",
+  "summary": "Admin: force-complete an in-progress quest (coder+ pays rewards).",
+  "usage": "qcomplete <#>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Drops a flavor announcement onto the quest channel without quoting the speaker (e.g. \"<msg>\" rather than \"X qsays, '<msg>'\"). Useful for run-of-show quest narration.",
+  "min_role": "Builder",
+  "name": "qecho",
+  "summary": "Admin echo to the quest channel.",
+  "usage": "qecho <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Same as 'qload' but targets a named online player instead of the caller. Target must be currently online (offline-character assignment is left for a future iteration).",
+  "min_role": "Builder",
+  "name": "qgive",
+  "summary": "Admin: assign a quest to another online player.",
+  "usage": "qgive <player> <zone> <quest-id>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Inserts a CharacterQuest row with status IN_PROGRESS for the caller's character. No-op if that quest is already assigned to you.",
+  "min_role": "Builder",
+  "name": "qload",
+  "summary": "Admin: assign a quest to your character (testing).",
+  "usage": "qload <zone> <quest-id>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Deletes the character's whole record of the quest: status, objective progress and quest variables, so it can be given or accepted from scratch ('qload', 'qgive' and 'qaccept' refuse while any record exists). Builders may reset their own character only; coder rank and above may reset anyone, including offline characters. Rewards already paid are not taken back. 'zone:id' is accepted in place of '<zone> <quest-id>'. Audited.",
+  "min_role": "Builder",
+  "name": "qreset",
+  "summary": "Admin: wipe a player's record of a quest.",
+  "usage": "qreset <player> <zone> <quest-id>"
+ },
+ {
+  "aliases": [],
+  "category": "Quest",
+  "long": "With no arguments, lists every choice-reward group from your completed quests that you haven't claimed yet. With <zone> <quest-id>, lists choices for that quest. With all three args, claims the named reward (id from the listing). One pick per choice_group.",
+  "min_role": "Player",
+  "name": "qreward",
+  "summary": "List or claim a choice-group reward.",
+  "usage": "qreward [<zone> <quest-id> [<reward-id>]]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Visible to every online player not Deaf and not ignoring you. Conventionally used to coordinate quest progress with other questers. Same shape as 'gossip' — separate channel mostly for ear cleanliness.",
+  "min_role": "Player",
+  "name": "qsay",
+  "summary": "Talk on the quest channel.",
+  "usage": "qsay <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Despawns the potion. Refused on non-potion items. Effect application (ConsumableEffects) is deferred.",
+  "min_role": "Player",
+  "name": "quaff",
+  "summary": "Drink a potion from your inventory.",
+  "usage": "quaff <potion>"
+ },
+ {
+  "aliases": [],
+  "category": "Quest",
+  "long": "Toggles your QUEST flag, which marks you as taking part in staff-run quest events ('quest on' / 'quest off' set it explicitly). Use 'quests' to see your own quests.",
+  "min_role": "Player",
+  "name": "quest",
+  "summary": "Join or leave the Quest event.",
+  "usage": "quest [on|off]"
+ },
+ {
+  "aliases": [],
+  "category": "Quest",
+  "long": "Reads the 'Quest' row for '(zone, id)' and prints name, level range, flags (repeatable / shareable / hidden / auto-accept), short description, and full description.",
+  "min_role": "Player",
+  "name": "questinfo",
+  "summary": "Show details for a single quest definition.",
+  "usage": "questinfo <zone> <id>"
+ },
+ {
+  "aliases": [
+   "qstat",
+   "qlist",
+   "questlog"
+  ],
+  "category": "Quest",
+  "long": "In-progress quests appear first with their short description; completed/abandoned quests follow with their final status. Each in-progress quest also shows its phases + objective progress (▶ for current, ✓ for done, [N/M] for showProgress).",
+  "min_role": "Player",
+  "name": "quests",
+  "summary": "List your accepted quests.",
+  "usage": "quests"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Saves your character, says goodbye and drops the connection. You can't quit while fighting (staff excepted) or while casting. The whole word is required; 'q', 'qu' and 'qui' only remind you of that.",
+  "min_role": "Player",
+  "name": "quit",
+  "summary": "Save your character and leave the game.",
+  "usage": "quit"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Finds an item by keyword on you or in the room and prints its description text. Refuses on mobs and players — use 'examine' for those.",
+  "min_role": "Player",
+  "name": "read",
+  "summary": "Read the text on an item (book, sign, scroll).",
+  "usage": "read <item>"
+ },
+ {
+  "aliases": [
+   "receive",
+   "getmail"
+  ],
+  "category": "Mail",
+  "long": "Slot number is the '#' from 'mailbox'. Marks the row read on first read; subsequent re-reads are silent.",
+  "min_role": "Player",
+  "name": "readmail",
+  "summary": "Read a single mail message by slot.",
+  "usage": "readmail <#>"
+ },
+ {
+  "aliases": [
+   "home"
+  ],
+  "category": "Movement",
+  "long": "Move instantly to your saved recall room. If you haven't bound one yet you go to your race's start room — 'touch <touchstone>' in a sanctuary room to bind your recall there. Builders can use 'setrecall' from any room.",
+  "min_role": "Player",
+  "name": "recall",
+  "summary": "Teleport to your recall point.",
+  "usage": "recall"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Looks up the bound abilities via ObjectAbilities and dispatches each through the cast pipeline. Despawns the scroll regardless of outcome (single-use).",
+  "min_role": "Player",
+  "name": "recite",
+  "summary": "Read a magic scroll, casting its inscribed spells.",
+  "usage": "recite <scroll> [<target>]"
+ },
+ {
+  "aliases": [
+   "rejectname"
+  ],
+  "category": "Admin",
+  "long": "Immortal+. Only for a character whose name is awaiting approval; an approved character is refused. Renames the named character to the staff-chosen replacement and flips name_approved to true (the new name is by definition staff-approved). Refuses while the target is online — the in-memory Named cache needs a fresh login to pick up the rename cleanly. A duplicate new-name surfaces as the Postgres unique-index error.",
+  "min_role": "Immortal",
+  "name": "reject_name",
+  "summary": "Force-rename a pending character and approve.",
+  "usage": "reject_name <character> <new-name>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "When you die, your spirit is left where you fell while your corpse drops at the death scene. 'release' returns you to your recall point at full HP. Refused when you aren't currently dead.",
+  "min_role": "Player",
+  "name": "release",
+  "summary": "End the ghost cycle: restore HP, return to recall.",
+  "usage": "release"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. Same as 'reloadzone' applied to every zone: rooms, prototypes and resets are re-read from the database; live instances are untouched.",
+  "min_role": "Coder",
+  "name": "reloadallzones",
+  "summary": "Reload every zone's world data from the DB.",
+  "usage": "reloadallzones"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Re-reads the zone's room definitions (name, description, flags, exits, extra descriptions), the mob/object prototypes it owns, and its reset rows from the database, so edits made in the editor take effect without a restart. Live mobs and items are left alone; new prototypes apply to future spawns. Defaults to your current zone. Exit door states of reloaded rooms reset to their authored default; rooms deleted from the DB stay until restart.",
+  "min_role": "Builder",
+  "name": "reloadzone",
+  "summary": "Reload one zone's rooms, mobs, objects and resets from the DB.",
+  "usage": "reloadzone [<zone>]"
+ },
+ {
+  "aliases": [
+   "rem"
+  ],
+  "category": "Inventory",
+  "long": "The item must currently be equipped on you.",
+  "min_role": "Player",
+  "name": "remove",
+  "summary": "Unequip an item, returning it to your inventory.",
+  "usage": "remove <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. Refuses while the target is online — the in-memory Named cache and the ConnRouter mappings would drift otherwise. The character_id is the FK across CharacterItems / CharacterAbilities / etc., so foreign-key relationships survive untouched. Conflicts on the new name surface as the unique-index error from Postgres.",
+  "min_role": "Implementor",
+  "name": "rename",
+  "summary": "Rename a character (offline-only).",
+  "usage": "rename <old> <new>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 7 stamina, deals weapon damage, applies a 'bleed' EffectInstance for 30s. Default target is the current Fighting target. Refused if the target is already bleeding.",
+  "min_role": "Player",
+  "name": "rend",
+  "summary": "Tearing attack — damage plus bleed effect.",
+  "usage": "rend [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "With a receptionist present, plain 'rent' stores your belongings and leaves the game exactly like 'quit', keeping any rest you have already booked. 'offer' lists the available inn tiers and their prices (so does 'rent' in an inn with no receptionist). 'rent <name>' books that tier and charges the fee in gold and queues an INN RestSource at the chosen tier; you'll see Refreshed regen and any Wake Effect attachments on your next XP gain after logging back in. Tiers 2 and 3 prompt for confirmation; reply 'y' to confirm or 'n' to abort. Fee is flat — pay once, return whenever.",
+  "min_role": "Player",
+  "name": "rent",
+  "summary": "Rent a room: save and leave at a receptionist, or book an inn rest.",
+  "usage": "rent [<tier-name>]"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Refills a lantern or torch for 10 copper per missing game-hour of fuel. Other items have no durability and are reported as already in perfect condition.",
+  "min_role": "Player",
+  "name": "repair",
+  "summary": "Have a shopkeeper repair or refuel an item.",
+  "usage": "repair <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Forwards through 'tell' so the LastTeller stamp lands on them too — start a back-and-forth without typing the name.",
+  "min_role": "Player",
+  "name": "reply",
+  "summary": "Send a tell to whoever last told you.",
+  "usage": "reply <message>"
+ },
+ {
+  "aliases": [
+   "rep"
+  ],
+  "category": "Communication",
+  "long": "If you're grouped, the report goes to every group member regardless of room (useful for healers in adjacent rooms). Solo players announce to the room only.",
+  "min_role": "Player",
+  "name": "report",
+  "summary": "Announce your HP/stamina to your group or room.",
+  "usage": "report"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ (level 101+) only. Wipes CoreStats and rolls 3d6 per axis (STR / DEX / CON / INT / WIS / CHA). Sends the new roll to the target so they can verify it.",
+  "min_role": "Builder",
+  "name": "reroll",
+  "summary": "Reroll a player's six core stats (3d6 each).",
+  "usage": "reroll <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Find <player> in your room. Their attacker now targets you instead and you target them. The ally is freed from combat. Costs 6 stamina. Refused if you're already fighting and refused if your ally isn't being attacked.",
+  "min_role": "Player",
+  "name": "rescue",
+  "summary": "Take an enemy's aggression onto yourself.",
+  "usage": "rescue <player>"
+ },
+ {
+  "aliases": [
+   "recline"
+  ],
+  "category": "Movement",
+  "long": "Changes your posture to resting. Posture sets how fast you recover: standing restores stamina only, sitting a little hit points as well, resting more, and sleeping the most.",
+  "min_role": "Player",
+  "name": "rest",
+  "summary": "Rest in place.",
+  "usage": "rest"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "HeadBuilder+ (level 103+) only. No-op for offline players.",
+  "min_role": "HeadBuilder",
+  "name": "restore",
+  "summary": "Refill a player's HP and stamina to max.",
+  "usage": "restore <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Like 'flee' but you choose where to go. Refused if the direction has no exit, the door's closed, or the target room is dangling.",
+  "min_role": "Player",
+  "name": "retreat",
+  "summary": "Flee combat in a specific direction.",
+  "usage": "retreat <direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Inverse of 'switch'. Always types as the puppeteer (not the mob) — the dispatcher keeps 'return' and 'switch' as escape hatches so a stuck switch can always be undone.",
+  "min_role": "Builder",
+  "name": "return",
+  "summary": "End a 'switch' session and return to your own body.",
+  "usage": "return"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. Per-character command access. A grant lets a character use one command above their rank; a revoke takes a command away. Only online players strictly below your level, and only commands you can use yourself. 'grant <name>' lists a character's grants and revokes; 'grant <name> clear' drops the ones at or below your level. A mortal can only be granted commands on the grants.mortal_allowlist config row (empty by default), and never an admin command. Command groups and privilege flags do not exist on this server.",
+  "min_role": "Coder",
+  "name": "revoke",
+  "summary": "Take a command away from a character.",
+  "usage": "revoke <name> command <command> [level]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Prints a sampler of every color and modifier the XML-Lite renderer supports — handy for verifying your client's color depth and for debugging color-tag rendering.",
+  "min_role": "Player",
+  "name": "richtest",
+  "summary": "Render a color-tag sampler.",
+  "usage": "richtest"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists loaded rooms as '[zone:id] name', sorted by (zone, id). With no argument it lists your current zone; '*' lists every zone; '<zone>' lists that zone; '<zone> <first> <last>' (or '<zone>:<first> <zone>:<last>') narrows to an id span, and a missing <last> means 'to the end of the zone'. Long lists are paged 50 rows at a time: add 'page <n>'. Pair with 'rstat' for a room's detail, or 'rsearch' to search by name.",
+  "min_role": "Builder",
+  "name": "rlist",
+  "summary": "List rooms in a zone or id range.",
+  "usage": "rlist [*|<zone> [[from] <id> [to] [<id>]]] [page <n>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists prototypes whose name or keywords start with every word you give, as 'zone:id name', sorted by id and capped at 100 rows. 'vnum' takes a type first (mobiles, objects, rooms, triggers, exits), 'mnum' / 'onum' / 'rnum' / 'tnum' are the same search for one type. Add 'in <zone>' to stay in one zone. Pair with 'vstat', 'rstat' or 'tstat', or jump with 'goto <zone>:<id>'.",
+  "min_role": "Builder",
+  "name": "rnum",
+  "summary": "Find rooms by name keyword (zone:id).",
+  "usage": "rnum <keywords> [in <zone>]"
+ },
+ {
+  "aliases": [
+   "howl"
+  ],
+  "category": "Combat",
+  "long": "Costs 8 stamina. Also deals the Roar skill's damage to each enemy in the room. Each enemy that fails its saving throw panics: it flees, trips over its own feet, or (if asleep) may be jolted awake. Aware and no-summon mobs, and mobs immune to fear, ignore it. Group members are not affected.",
+  "min_role": "Player",
+  "name": "roar",
+  "summary": "Terrify everyone in the room into running.",
+  "usage": "roar"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Diagnostic: prints the role and any extra permissions attached to your account.",
+  "min_role": "Player",
+  "name": "roles",
+  "summary": "Show your account role and permissions.",
+  "usage": "roles"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 7 stamina. Heavier kick than the basic 'kick' skill (which adds +4); pure damage multiplier. Requires you to be fighting someone.",
+  "min_role": "Player",
+  "name": "roundhouse",
+  "summary": "Powerful kick — 1.5x damage on your current target.",
+  "usage": "roundhouse"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "HeadBuilder+ (level 103+) only. Same as 'pain' but reaches every online player. Pure flavor — no stat change. Optional <message> overrides the default line. Players see your line; the caster sees a confirmation count.",
+  "min_role": "HeadBuilder",
+  "name": "rpain",
+  "summary": "Cosmetic divine pain across the realm.",
+  "usage": "rpain [<message>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Immortal+ (level 100+) only. Restores HP / stamina to max and clears every active EffectInstance for every online player. Optional <message> overrides the default flavor line. The realm-wide counterpart to 'restore'.",
+  "min_role": "Immortal",
+  "name": "rrestore",
+  "summary": "Heal every online player + strip every effect.",
+  "usage": "rrestore [<message>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. 'rsearch <field> <query> [in <zone>]' searches rooms (legacy 'rsearch'; same as 'vsearch rooms'). Fields: name, desc, sector (city, forest, water, ...), flags (peaceful, nomagic, norecall, nosummon, noteleport, deathtrap, indoors, soundproof, arena, guildhall, nomobs, notracking, noportals, noscanning, inn). Examples: 'rsearch flags deathtrap', 'rsearch sector forest in 30', 'rsearch flags nomagic peaceful'. Add 'in <zone>' to stay in one zone; at most 100 rows print.",
+  "min_role": "Builder",
+  "name": "rsearch",
+  "summary": "Search rooms by name, description, sector or room flags.",
+  "usage": "rsearch <field> <query> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. With no arg, inspects your current room. <id> alone looks up the room in your current zone. Composite <zone> <id> works too.",
+  "min_role": "Builder",
+  "name": "rstat",
+  "summary": "Dump a room's ECS state (live entity, not catalog).",
+  "usage": "rstat [<zone> <id> | <id>]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Persists hp / stamina / xp / inventory / location / flags / prompt / hunger / thirst / drunk / known abilities / spell-slot cooldowns / ability cooldowns back to the schema. The same path runs automatically on disconnect and on graceful shutdown — 'save' lets you force it right now without logging out, useful before a risky encounter or when the network feels unstable.",
+  "min_role": "Player",
+  "name": "save",
+  "summary": "Force a checkpoint of your character to the database.",
+  "usage": "save"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. The C++ server wrote zone files to disk. Here the database is the source of truth and the editor writes it, so there is nothing to save; use 'reloadzone' to pull editor changes into the world.",
+  "min_role": "Builder",
+  "name": "savezone",
+  "summary": "No-op: world data is saved by the editor.",
+  "usage": "savezone [<zone>]"
+ },
+ {
+  "aliases": [
+   "'"
+  ],
+  "category": "Communication",
+  "long": "Visible to every player in your current room. Triggers SPEECH-flagged Lua bodies on mobs / objects in the room.",
+  "min_role": "Player",
+  "name": "say",
+  "summary": "Speak to everyone in the room.",
+  "usage": "say <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Walks each unblocked exit and lists every mob / player you'd see in those rooms, with a distance label and posture (std/sit/fly/slp). Default range is one room; staff scan up to three. Closed or hidden doors stop the walk in that direction. Useful for spotting threats / hosts before walking in.",
+  "min_role": "Player",
+  "name": "scan",
+  "summary": "Peek at the adjacent rooms one step away.",
+  "usage": "scan"
+ },
+ {
+  "aliases": [
+   "sc"
+  ],
+  "category": "Information",
+  "long": "Shows HP, stamina, six core attributes, the modern combat triple (Acc / Eva / Atk / Armor%), alignment, posture, location, recall point, and your current combat target when fighting. Spell-circle slots are surfaced separately via 'slots'; full effect durations via 'effects'; XP / next-level gains via 'level'.",
+  "min_role": "Player",
+  "name": "score",
+  "summary": "Display your character's stats.",
+  "usage": "score"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "You must be sitting, out of combat, carrying a scroll, and know the spell at 50% proficiency or better.",
+  "min_role": "Player",
+  "name": "scribe",
+  "summary": "Scribe a known spell onto a blank scroll.",
+  "usage": "scribe '<spell name>'"
+ },
+ {
+  "aliases": [
+   "scripterr"
+  ],
+  "category": "Admin",
+  "long": "Builder+. Prints the in-memory 'ScriptErrorLog' ring (most-recent first). Default 'n=20'.",
+  "min_role": "Builder",
+  "name": "scripterrors",
+  "summary": "Show recent trigger fire failures.",
+  "usage": "scripterrors [<n>]"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Refuses while fighting. Hidden objects come first: 'search' checks the ones lying in the room, 'search <container>' the ones inside it. Your perception cuts each one's hiding by a random amount, and whatever is left within your perception is found (staff find them all); finding something ends the search. Otherwise each hidden exit you haven't found is checked in turn: naming its keyword ('search monolith') always finds it, otherwise your Intelligence is rolled against 0-200. The first exit found is revealed (staff always find one). A search leaves you busy for half a combat round. Reveals are per-character and session-scoped — a fresh login starts back at zero known hidden exits, matching the legacy contract until a persistent table for revealed exits lands. Pair with 'exits' afterward to confirm what surfaced. When no exit turns up, you look for hiding characters outside your group instead: your perception cuts each one's hiding by a random amount, and whoever is left within your perception is found.",
+  "min_role": "Player",
+  "name": "search",
+  "summary": "Search the area for hidden objects, exits and hiding characters.",
+  "usage": "search [<keyword>]"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Pays 'proto.cost * sell_profit' rounded (never more than the item's cost) for a carried item the keeper trades in. Equipped items are refused ('remove' first). A keeper with no 'ShopAccepts' rules buys nothing.",
+  "min_role": "Player",
+  "name": "sell",
+  "summary": "Sell a carried item to the shopkeeper here.",
+  "usage": "sell <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ (level 101+) only. Skips the rendering pipeline entirely — bytes go straight to the descriptor. Used to surface diagnostic output that already carries ANSI escapes.",
+  "min_role": "Builder",
+  "name": "send",
+  "summary": "Send raw text to a player's connection.",
+  "usage": "send <player> <text>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ (level 101+) only. Run 'set fields' to list every writable field with its aliases. 'stat <player>' dumps the full read-only component state — pair the two when poking at a character.",
+  "min_role": "Builder",
+  "name": "set",
+  "summary": "Mutate a player field directly.",
+  "usage": "set <player> <field> <value>  |  set fields"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Saves the room you're standing in as your recall destination. Persists across logins. Mortals reset their recall via a touchstone item (see 'touch <object>').",
+  "min_role": "Builder",
+  "name": "setrecall",
+  "summary": "Bind your recall point to the current room (admin).",
+  "usage": "setrecall"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Forces a precip kind in the zone's 'WeatherCatalog' entry until the next natural weather tick rolls a new value.",
+  "min_role": "Builder",
+  "name": "setweather",
+  "summary": "Override a zone's weather.",
+  "usage": "setweather <zone> <kind>"
+ },
+ {
+  "aliases": [
+   "sh"
+  ],
+  "category": "Communication",
+  "long": "Higher-volume cousin of 'say' (which is room-only). Same Deaf / ignore filtering as 'gossip'.",
+  "min_role": "Player",
+  "name": "shout",
+  "summary": "Shout to every online player.",
+  "usage": "shout <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Categories include 'audit', 'effects', 'weather', 'triggers', 'tickrate'. See in-source for the full list.",
+  "min_role": "Builder",
+  "name": "show",
+  "summary": "Dump runtime catalogs / counts.",
+  "usage": "show <category>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Sets SHOW_IDS. Look/inventory renderers that want to surface coordinates check the flag.",
+  "min_role": "Builder",
+  "name": "showids",
+  "summary": "Toggle showing (zone, id) on entities you can see.",
+  "usage": "showids"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. 'shutdown now' stops immediately; 'shutdown 60 maintenance' announces and counts down 60 seconds; 'shutdown cancel' aborts a pending countdown. Every online player is saved before the process exits; the process manager restarts it.",
+  "min_role": "Coder",
+  "name": "shutdown",
+  "summary": "Gracefully shut the server down (saves all players).",
+  "usage": "shutdown <now|cancel|seconds> [reason]"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Lighter than 'drink' (4 units). Same refusal on empty containers; same poison handling.",
+  "min_role": "Player",
+  "name": "sip",
+  "summary": "Sip 1 unit from a drink container.",
+  "usage": "sip <container>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Changes your posture to sitting.",
+  "min_role": "Player",
+  "name": "sit",
+  "summary": "Sit down.",
+  "usage": "sit"
+ },
+ {
+  "aliases": [
+   "sk"
+  ],
+  "category": "Magic",
+  "long": "Like 'spells' but filtered to kind=Skill. Default shows only what you've learned; 'skills all' dumps the full catalog. Optional substring filter applies to either scope.",
+  "min_role": "Player",
+  "name": "skills",
+  "summary": "List skills you know (or the full catalog).",
+  "usage": "skills [all] [filter]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Writes the row in the target's KnownAbilities. Inserts a new entry when the ability isn't already learned. Proficiency is 0..=1000 (legacy convention). Multi-word abilities work as written or quoted: skillset bob 'sphere of healing' 1000.",
+  "min_role": "Builder",
+  "name": "skillset",
+  "summary": "Set a player's proficiency in a single ability.",
+  "usage": "skillset <player> <ability> <proficiency>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Implementor-only. Same death pipeline as combat — corpses, loot drops, triggers all fire normally.",
+  "min_role": "Implementor",
+  "name": "slay",
+  "summary": "Kill a target instantly, ignoring HP / armor.",
+  "usage": "slay <player|mob>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Changes your posture to sleeping. Wake with 'wake', 'stand', 'sit', or 'rest'.",
+  "min_role": "Player",
+  "name": "sleep",
+  "summary": "Lie down and sleep.",
+  "usage": "sleep"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Pages through 'AbilityCatalog', sorted alphabetically. With no arg, prints every ability grouped by kind. With a kind label, narrows the list. Pair with 'astat <name>' for per-ability detail.",
+  "min_role": "Builder",
+  "name": "slist",
+  "summary": "List every ability of a given kind, or all kinds.",
+  "usage": "slist [spell|chant|song|skill]"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Pooled slot model (legacy): each circle has 'class+level' slots; casting consumes a slot and queues its recovery. Slots recover one at a time, in the order you cast: the next slot's timer starts only once the one ahead of it is back. They recover on their own under Sleeping / Resting / Sitting postures (faster while Meditating). Format 'Circle N: free/max  (recovering: 12s, 30s)'. Cooldowns persist across disconnect.",
+  "min_role": "Player",
+  "name": "slots",
+  "summary": "Show your spell-slot pool and any in-flight cooldowns.",
+  "usage": "slots"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 3 stamina and dispatches the SNEAK skill via the data path. Spawns a 'sneak' status effect that wears 'hide' down only slowly as you move, so a sneaking, hidden character passes observers whose perception is below their hiding unseen and unheard. Sneaking alone hides nothing: 'hide' first.",
+  "min_role": "Player",
+  "name": "sneak",
+  "summary": "Move silently — keep your hiding as you walk.",
+  "usage": "sneak"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. With a player name, starts mirroring their output (every line they receive prints to you with a dim '%' prefix). With no arg, stops the current snoop. Refuses snooping yourself, an equal-or-higher level account, or a player who's already being snooped — one snooper per target. Re-snooping a different target rewires cleanly.",
+  "min_role": "Builder",
+  "name": "snoop",
+  "summary": "Mirror another player's output to your screen.",
+  "usage": "snoop [<player>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Case-insensitive whole-name match. For substring search use 'ssearch'. The id surfaces on 'varset' / 'skillset' / formula bindings.",
+  "min_role": "Builder",
+  "name": "snum",
+  "summary": "Print the catalog id for an ability by name.",
+  "usage": "snum <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Sorted alphabetically, columnar layout. Use any listed verb on its own (or with a target) to fire the matching social — 'nod', 'shrug', 'smile alice', etc.",
+  "min_role": "Player",
+  "name": "socials",
+  "summary": "List every available social verb.",
+  "usage": "socials"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Like 'spells' but filtered to kind=Song. Default shows only songs you've learned; 'songs all' dumps the catalog. Use 'perform <song>' to invoke.",
+  "min_role": "Player",
+  "name": "songs",
+  "summary": "List bardic songs you know (or the full catalog).",
+  "usage": "songs [all] [filter]"
+ },
+ {
+  "aliases": [
+   "s"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "south",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [
+   "se"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "southeast",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [
+   "sw"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "southwest",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [
+   "abilities",
+   "abil"
+  ],
+  "category": "Magic",
+  "long": "By default shows the spells you've learned grouped by your class's spell circle (1 = lowest). Numeric args filter by circle: 'spells 3' shows circle 3, 'spells 1-2' shows circles 1 through 2. A trailing word filters by name, sphere, or damage type — 'spells 2-3 fire' or 'spells dam'. Add 'all' to dump the full spell catalog (handy for builders); the cross-class catalog has no circle grouping.",
+  "min_role": "Player",
+  "name": "spells",
+  "summary": "List spells you know, grouped by circle.",
+  "usage": "spells [<circle>|<lo>-<hi>] [filter] | spells all [filter]"
+ },
+ {
+  "aliases": [],
+  "category": "Banking",
+  "long": "Pulls '<amount>' from your wealth and splits it evenly across every group member in your room (including you). Remainder stays with the splitter. Refuses if you're not grouped, the only group member here, or carrying less than 'amount'. Coin amount is in copper; use 'wealth' to check yours.",
+  "min_role": "Player",
+  "name": "split",
+  "summary": "Divide coin evenly among same-room group members.",
+  "usage": "split <amount>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Deals 1.5x your damage on the opening swing and engages the target. Refused if you're already fighting or if the target is already in combat.",
+  "min_role": "Player",
+  "name": "springleap",
+  "summary": "Out-of-combat leaping kick — 1.5x damage opener.",
+  "usage": "springleap <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Case-insensitive substring against the ability's plain name. Renders '(id) name (kind)' per match, capped at 50.",
+  "min_role": "Builder",
+  "name": "ssearch",
+  "summary": "Find abilities by name substring.",
+  "usage": "ssearch <substring>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Reads 'ShopCatalog' for keeper, accept rules, items offered, pet roster. <id> alone defaults to your current zone.",
+  "min_role": "Builder",
+  "name": "sstat",
+  "summary": "Dump a shop's metadata.",
+  "usage": "sstat <zone> <id> | <id>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Changes your posture to standing.",
+  "min_role": "Player",
+  "name": "stand",
+  "summary": "Get to your feet.",
+  "usage": "stand"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Reads every component on the named live entity (player, mob, or item by name in your room) and prints a structured dump. Items print the same block as 'ostat' plus their instance state. \r\nNote the difference from mstat: stat shows what the entity actually has right now (e.g. current HP, active effects, stored vars); mstat / ostat show the catalog template the entity was spawned from.",
+  "min_role": "Builder",
+  "name": "stat",
+  "summary": "Dump a LIVE entity's per-instance component state.",
+  "usage": "stat <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Gated on the Steal skill (the classes that teach it, Thief and Bard in the legacy data). Refused while fighting, against yourself, against a Shopkeeper, and against staff. On failure the target notices and re-aggros on you. Pass 'coins' / 'gold' to grab a chunk of their coin instead of an item.",
+  "min_role": "Player",
+  "name": "steal",
+  "summary": "Pickpocket from a target.",
+  "usage": "steal <item|coins> <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 6 stamina, deals half your damage, sets the target's posture to Sitting. Default target is your current Fighting target. Refused on already-prone targets.",
+  "min_role": "Player",
+  "name": "stomp",
+  "summary": "Knock the target prone (Sitting posture).",
+  "usage": "stomp [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Moves the weapon in your wield slot into your inventory without the fuss of 'remove'.",
+  "min_role": "Player",
+  "name": "stow",
+  "summary": "Quickly sheathe your wielded weapon.",
+  "usage": "stow"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Adds the spell to your 'KnownAbilities' at the minimum proficiency tier ('known=true', proficiency=1). Refuses unknown abilities, already-known spells, or off-class spells. Persists across reconnect via 'CharacterAbilities'.",
+  "min_role": "Player",
+  "name": "study",
+  "summary": "Permanently learn a spell from your class list.",
+  "usage": "study <spell>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Three tiers: fancy (ASCII-art borders), standard (the default — clean indented lines), and minimal (a single dense line, useful in narrow viewports). With no argument, shows the current style. Currently only score honors this; more commands will follow.",
+  "min_role": "Player",
+  "name": "style",
+  "summary": "Choose a UI style for info commands like score.",
+  "usage": "style [fancy | standard | minimal]"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "With no argument, lists the subclasses available to your class. With a name (or unique prefix), specializes into that subclass. Requires level 20 (the 'character.subclass_min_level' config) and is permanent once chosen.",
+  "min_role": "Player",
+  "name": "subclass",
+  "summary": "List or choose a subclass specialization.",
+  "usage": "subclass [specialization]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Reads the (zone, id) MobProto and spawns 'count' (default 1) instances Located on your room.",
+  "min_role": "Builder",
+  "name": "summon",
+  "summary": "Spawn one or more mob proto instances at your location.",
+  "usage": "summon <mob proto> [<count>]"
+ },
+ {
+  "aliases": [
+   "summon-mount"
+  ],
+  "category": "Mount",
+  "long": "Gated on the Summon Mount skill (Paladin and Anti-Paladin from level 15 in the legacy data); refused indoors, while fighting, or when you already have a mount following you. Spawns the first matching mountable proto as a Follower in your current room.",
+  "min_role": "Player",
+  "name": "summonmount",
+  "summary": "Conjure a mount (Paladin / Anti-Paladin only).",
+  "usage": "summonmount"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Costs 12 stamina. Deals 1/4 damage to every Standing Mob in the room and sets each to Sitting. Players never targeted.",
+  "min_role": "Player",
+  "name": "sweep",
+  "summary": "Sweeping kick — knock every standing mob in room prone.",
+  "usage": "sweep"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Future commands you type dispatch against the mob instead of yourself; output the mob would receive forwards to your connection. Useful for testing triggers from inside a mob and for running RP-as-NPC. 'return' ends the switch.",
+  "min_role": "Builder",
+  "name": "switch",
+  "summary": "Take control of a mob in your current room.",
+  "usage": "switch <mob>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Two modes:\r\n  syslog                 — last 30 entries from the in-memory ring (newest at the bottom).\r\n  syslog <n> [<filter>]  — last n entries (1-500), optionally filtered by level ('WARN', 'ERROR') or a substring matched against target / message.\r\n  syslog watch           — subscribe to live WARN+ events; each new line lands on your prompt as it fires. Same as 'syslog watch warn'.\r\n  syslog watch error     — subscribe but raise the floor to ERROR-only.\r\n  syslog watch off       — unsubscribe. Disconnect also clears the subscription.",
+  "min_role": "Builder",
+  "name": "syslog",
+  "summary": "Show recent server log lines or subscribe to live errors.",
+  "usage": "syslog [<n> [<filter>] | watch [warn|error|off]]"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Drains 4 stamina and dispatches the TAME skill at the named target. The schema's 'charmed' status effect spawns on the mob; the runtime also installs 'Follower(you)' so existing pet-handling treats it as your follower. Mob charm persists until dismiss or the mob dies — animal-control checks against the will save aren't modeled yet, so v1 always succeeds at the schema-formula amount.",
+  "min_role": "Player",
+  "name": "tame",
+  "summary": "Befriend an animal mob into following you.",
+  "usage": "tame <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Same charge mechanic as wave but for STAFF items. Useful for buff staves and AOE-style staff effects.",
+  "min_role": "Player",
+  "name": "tap",
+  "summary": "Tap a staff to invoke its bound abilities.",
+  "usage": "tap <staff> [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Reveals the liquid name; on poisoned containers, adds an off-taste hint. No consumption.",
+  "min_role": "Player",
+  "name": "taste",
+  "summary": "Identify a liquid without drinking it.",
+  "usage": "taste <container>"
+ },
+ {
+  "aliases": [
+   "provoke"
+  ],
+  "category": "Combat",
+  "long": "Forces the target to focus its attacks on you, regardless of who else it was engaging. Also pushes you to the front of the target's grudge list so it re-engages you first when its current target falls. Costs stamina but no damage — paired with a healer, this lets a tank hold the front line while the dps works behind them.",
+  "min_role": "Player",
+  "name": "taunt",
+  "summary": "Pull a mob's aggro onto yourself (tank tool).",
+  "usage": "taunt <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Inverse of 'transfer' (which pulls them to you) and 'goto' (which moves you). The subject is a player or mob by name, 'N.name' or '<zone>:<id>' (a spawned mob instance). The destination is a room ('<zone> <id>', '<zone>:<id>', or a bare '<id>' in your zone) or any visible player, mob or object lying in a room: 'teleport bob 30:12', 'teleport 30:5 3.guard'. You cannot teleport a player of equal or higher level.",
+  "min_role": "Builder",
+  "name": "teleport",
+  "summary": "Send a player or mob to a room, or to wherever a target is.",
+  "usage": "teleport <player | mob> <zone> <room> | <zone:id> | <id> | <target>"
+ },
+ {
+  "aliases": [
+   "t"
+  ],
+  "category": "Communication",
+  "long": "Reaches one player by name. Refused if the target is offline, has set their 'notell' flag, or is ignoring you. Stamped on the receiver as their most-recent teller for 'reply' and appended to their bounded 'lasttells' log + the persistent 'tell_message' table.",
+  "min_role": "Player",
+  "name": "tell",
+  "summary": "Send a private message to one online player.",
+  "usage": "tell <player> <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Combat",
+  "long": "Like backstab but heavier: 2.5x your damage on the opening swing. Costs 8 stamina. Same engagement rules — refused if you or target are already in combat.",
+  "min_role": "Player",
+  "name": "throatcut",
+  "summary": "Out-of-combat assassination — 2.5x damage opener.",
+  "usage": "throatcut <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Real-world time, how long the server has been running, and the in-game date and hour. Staff also see the current world tick.",
+  "min_role": "Player",
+  "name": "time",
+  "summary": "Show server uptime and the game clock.",
+  "usage": "time"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "With no argument, prints your current title. With a new title, sets it (max 60 chars). With 'clear' (or 'none' / '-'), removes it. Persists on disconnect.",
+  "min_role": "Player",
+  "name": "title",
+  "summary": "Show or change the epithet shown after your name.",
+  "usage": "title [<new title> | clear]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists every trigger in the catalog whose id is in the zone (default: your current zone) with its attach type, event flags and attachment counts.",
+  "min_role": "Builder",
+  "name": "tlist",
+  "summary": "List the triggers defined in a zone.",
+  "usage": "tlist [<zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists prototypes whose name or keywords start with every word you give, as 'zone:id name', sorted by id and capped at 100 rows. 'vnum' takes a type first (mobiles, objects, rooms, triggers, exits), 'mnum' / 'onum' / 'rnum' / 'tnum' are the same search for one type. Add 'in <zone>' to stay in one zone. Pair with 'vstat', 'rstat' or 'tstat', or jump with 'goto <zone>:<id>'.",
+  "min_role": "Builder",
+  "name": "tnum",
+  "summary": "Find triggers by name keyword (zone:id).",
+  "usage": "tnum <keywords> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "With no argument, lists every toggle with its ON/OFF state. 'toggle <name>' flips one: names are matched like command abbreviations ('toggle auto' reaches the first AutoXxx in the list) and don't need underscores ('toggle showdicerolls', 'toggle dice', 'toggle show_dice_rolls' all work). 'toggle columns <n>' sets the text wrap width (see 'columns').",
+  "min_role": "Player",
+  "name": "toggle",
+  "summary": "List your toggles, or flip one on or off.",
+  "usage": "toggle [<flag>]"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Looks up the named keyword in your inventory or the room. If the object's prototype 'ObjectType' is 'Touchstone', your recall point binds to the room you're standing in. Other object types just refuse — touch is currently a recall-only verb.",
+  "min_role": "Player",
+  "name": "touch",
+  "summary": "Touch an object — touchstones bind your recall.",
+  "usage": "touch <object>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Looks up entry #N from 'scripterrors' (1 = most recent) and prints the full trigger body alongside the captured error message — so the builder doesn't have to chase (zone, id) → tstat after every failure. The body shown is the *current* catalog row; if the trigger was edited after the failure that text may not match what actually ran.",
+  "min_role": "Builder",
+  "name": "trace",
+  "summary": "Drill into a captured scripterror entry.",
+  "usage": "trace <N>"
+ },
+ {
+  "aliases": [
+   "hunt"
+  ],
+  "category": "Information",
+  "long": "BFS through open exits up to 50 rooms looking for a mob or player matching the name. Reports the direction and distance. Closed or locked doors block the scan. No perception check yet — hidden targets are tracked the same as visible ones.",
+  "min_role": "Player",
+  "name": "track",
+  "summary": "Find the direction toward a named target.",
+  "usage": "track <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "With no arg, lists your current six stats and available practice points. With 'train <stat>', spends 1 point from 'SkillPoints' to raise the named stat (str/dex/con/int/wis/cha) by 1. Refuses on stats already at 18 (the trainable cap), and on no points available. Persists across reconnect.",
+  "min_role": "Player",
+  "name": "train",
+  "summary": "Spend a practice point to bump a CoreStat by 1.",
+  "usage": "train [<stat>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+ command. The target is a player or mob you can see, by name or keyword; 'N.name' picks the Nth match and '<zone>:<id>' (or 'N.<zone>:<id>') picks a spawned instance of that mob prototype. Moves it to wherever you are (ending any fight it is in). You cannot transfer a player of higher level than you. 'transfer all' (level 102+) pulls every online player of lower level than you.",
+  "min_role": "Builder",
+  "name": "transfer",
+  "summary": "Pull an online player or a mob to your current room.",
+  "usage": "transfer <player | mob | all>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Re-queries the Triggers + attachment tables, atomically swaps the live 'TriggerCatalog' resource, and re-stamps every Room's 'AttachedTriggers'. Mob and object instances keep their current bindings — next respawn picks up catalog edits naturally. Mirrors the '/api/admin/triggers/reload' endpoint so builders can iterate without round-tripping through MCP. Routed through the async dispatcher; the sync stub only fires on dispatcher misconfig.",
+  "min_role": "Builder",
+  "name": "treload",
+  "summary": "Reload the trigger catalog from the database.",
+  "usage": "treload"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Mutates 'AttachedTriggers' on the target so a trigger fires for it on the next relevant event. Doesn't touch the DB — survives only this session. Use for builder iteration; persist via muditor when the trigger is ready. <target> is 'here' (room), 'me' / 'self', or a name in the current room.",
+  "min_role": "Builder",
+  "name": "trigattach",
+  "summary": "Bolt a trigger onto a live entity without reloading.",
+  "usage": "trigattach <target> <zone> <id>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Inverse of 'trigattach'. Removes the matching (zone, id) entry from the target's 'AttachedTriggers'. Silent no-op if no match.",
+  "min_role": "Builder",
+  "name": "trigdetach",
+  "summary": "Remove a runtime trigger attachment.",
+  "usage": "trigdetach <target> <zone> <id>"
+ },
+ {
+  "aliases": [
+   "trigs"
+  ],
+  "category": "Admin",
+  "long": "Builder+. Forms:\r\n  triggers                — list attachments on every entity in the current room.\r\n  triggers here           — same as bare form.\r\n  triggers <name>         — list attachments on a specific mob/item by name.\r\n  triggers <zone> <id>    — look up a trigger by catalog id (alias of 'tstat').\r\n  triggers full [<name>]  — include the trigger body inline alongside each attachment.",
+  "min_role": "Builder",
+  "name": "triggers",
+  "summary": "Inspect attached triggers on entities or by id.",
+  "usage": "triggers [here | <name> | <zone> <id> | full]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Filters the in-memory trigger fire log to fires whose listener was <target> ('here' / 'me' / 'self' / a name in the current room). With no <target>, shows the last <n> fires across all entities. <n> defaults to 20, capped at 200.",
+  "min_role": "Builder",
+  "name": "trighistory",
+  "summary": "Show recent trigger fires for an entity.",
+  "usage": "trighistory [<target>] [<n>]"
+ },
+ {
+  "aliases": [
+   "trip"
+  ],
+  "category": "Combat",
+  "long": "Costs 5 stamina, deals 1/4 your damage, sets the target to Resting. Like stomp but cheaper and leaves them slightly less prone.",
+  "min_role": "Player",
+  "name": "tripup",
+  "summary": "Trip target into Resting posture (lighter than stomp).",
+  "usage": "tripup [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Lists your most recent ~21 kill targets and the accumulated kill count per target. Re-killing targets you've farmed scales XP down — the color band on each row hints at how steep the penalty is. With a player name (Builder+), shows their trophy instead of yours.",
+  "min_role": "Player",
+  "name": "trophy",
+  "summary": "Show your recent kills (and the XP penalty band).",
+  "usage": "trophy [<player>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Search one table by a field. Run it with only a type (or 'esearch' / 'tsearch' with nothing) to list the fields. Text fields match a substring; 'name' fields match whole-word prefixes of the name and keywords. Number fields take 5, >5, <5, >=5, <=5, !5 or 5..9 (an inclusive range). Add 'in <zone>' at the end to stay in one zone. Flag fields (wear, extraflags, effflags, flags, type, size, sector, ...) take one or more flag names, abbreviations allowed, and match when every one is present. Output is capped at 100 rows. Shops, zones, reset commands and skills are not searchable here.",
+  "min_role": "Builder",
+  "name": "tsearch",
+  "summary": "Search triggers by name, type, argument, script text or attachment.",
+  "usage": "tsearch <field> <query> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Reads 'TriggerCatalog' and prints flags, body, fire stats. <id> alone defaults to current zone.",
+  "min_role": "Builder",
+  "name": "tstat",
+  "summary": "Dump a trigger's metadata.",
+  "usage": "tstat <zone> <id> | <id>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Same as 'bug' but tagged Typo. Useful for builders when reviewing room descriptions.",
+  "min_role": "Player",
+  "name": "typo",
+  "summary": "Report a typo / wording issue.",
+  "usage": "typo <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Despawns every 'EffectInstance' whose 'AppliedTo' is the target. Reverses any modifier deltas via the standard expiry path so stat bumps walk back cleanly. <target> is a name in the current room.",
+  "min_role": "Builder",
+  "name": "unaffect",
+  "summary": "Strip every active effect from a target.",
+  "usage": "unaffect <target>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "Drops the named alias from your list. No-op if no alias by that name exists.",
+  "min_role": "Player",
+  "name": "unalias",
+  "summary": "Remove a defined alias.",
+  "usage": "unalias <name>"
+ },
+ {
+  "aliases": [
+   "pardon"
+  ],
+  "category": "Admin",
+  "long": "Implementor-only. Inverse of 'ban'. Doesn't delete the row — flips active=false and stamps unbanned_at / unbanned_by for the audit trail.",
+  "min_role": "Implementor",
+  "name": "unban",
+  "summary": "Lift the active ban on a player's account.",
+  "usage": "unban <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Group",
+  "long": "No-op if you weren't following anyone.",
+  "min_role": "Player",
+  "name": "unfollow",
+  "summary": "Stop following whoever you were following.",
+  "usage": "unfollow"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Coder+. Per-character command access. A grant lets a character use one command above their rank; a revoke takes a command away. Only online players strictly below your level, and only commands you can use yourself. 'grant <name>' lists a character's grants and revokes; 'grant <name> clear' drops the ones at or below your level. A mortal can only be granted commands on the grants.mortal_allowlist config row (empty by default), and never an admin command. Command groups and privilege flags do not exist on this server.",
+  "min_role": "Coder",
+  "name": "ungrant",
+  "summary": "Remove a grant or revoke from a character.",
+  "usage": "ungrant <name> command <command>"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Equivalent to 'ignore -<name>'. No-op if the name isn't currently being ignored.",
+  "min_role": "Player",
+  "name": "unignore",
+  "summary": "Remove a name from your ignore list.",
+  "usage": "unignore <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Searches your carried items for a keyword that matches the exit's required key. On match, the door is unlocked (state Closed); use 'open' to then walk through. Refused if the exit isn't locked or you have no matching key.",
+  "min_role": "Player",
+  "name": "unlock",
+  "summary": "Unlock a locked door using a key in your inventory.",
+  "usage": "unlock <direction>"
+ },
+ {
+  "aliases": [
+   "u"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "up",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Time since the server booted.",
+  "min_role": "Player",
+  "name": "uptime",
+  "summary": "Show how long the server has been running.",
+  "usage": "uptime"
+ },
+ {
+  "aliases": [],
+  "category": "Magic",
+  "long": "Wands are pointed at a target (or waved when the spell needs none); staves are tapped on the ground. Each use spends a charge only when the magic lands. The item must be held, and not too powerful for you.",
+  "min_role": "Player",
+  "name": "use",
+  "summary": "Use a wand or staff you are holding.",
+  "usage": "use <wand|staff> [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Immortal+. One row per online player: name, role, level, current room, idle time and time online. (Peer addresses are not tracked by the runtime yet.)",
+  "min_role": "Immortal",
+  "name": "users",
+  "summary": "List connected players with level, room, idle and online time.",
+  "usage": "users"
+ },
+ {
+  "aliases": [
+   "vscripts"
+  ],
+  "category": "Admin",
+  "long": "Builder+. Syntax-checks each trigger body in the catalog without running it and lists the failures. 'validate_scripts zone <id>' limits the pass to one zone. Also available as GET /api/admin/triggers/validate.",
+  "min_role": "Builder",
+  "name": "validate_scripts",
+  "summary": "Compile-check every loaded Lua trigger.",
+  "usage": "validate_scripts [zone <id>]"
+ },
+ {
+  "aliases": [
+   "appraise",
+   "val"
+  ],
+  "category": "Banking",
+  "long": "Searches your inventory and the room for the named item, then prints its base value (the schema's 'Objects.cost') split into denominations. Shops will pay some fraction of this on sell once that lands.",
+  "min_role": "Player",
+  "name": "value",
+  "summary": "Show an item's catalog value in coin.",
+  "usage": "value <item>"
+ },
+ {
+  "aliases": [
+   "varunset"
+  ],
+  "category": "Admin",
+  "long": "Builder+. With <key>, removes that single entry. Without, wipes every variable on the target. <target> resolves the same way as 'varset' / 'varlist'.",
+  "min_role": "Builder",
+  "name": "varclear",
+  "summary": "Clear one script variable, or wipe the whole map.",
+  "usage": "varclear <target> [<key>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. <target> defaults to 'here' (current room). Renders the entity's 'ScriptVars' map sorted by key. Empty maps print a contained 'no script vars' note.",
+  "min_role": "Builder",
+  "name": "varlist",
+  "summary": "List script variables on an entity.",
+  "usage": "varlist [<target>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. <target> is 'here' (current room), 'me' (caller), or a mob/item name in the current room. Stores into the entity's 'ScriptVars' map; reads back via 'varlist'. Lua trigger bodies will (once the binding lands) see the same map via 'actor:varget(name)'.",
+  "min_role": "Builder",
+  "name": "varset",
+  "summary": "Set a script variable on an entity (Lua-side state).",
+  "usage": "varset <target> <key> <value...>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Crate name, version, and the rustc/profile combo the binary was built with. For ops/debug; players will rarely care.",
+  "min_role": "Player",
+  "name": "version",
+  "summary": "Show server build identity.",
+  "usage": "version"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Async DB load — pulls the Characters row + every CharacterItems row (resolved through the in-memory ObjectPrototypes for names) and prints what they're wearing / carrying. Replaces the legacy 'linkload' use case.",
+  "min_role": "Builder",
+  "name": "viewchar",
+  "summary": "View an offline character's gear and stats.",
+  "usage": "viewchar <name>"
+ },
+ {
+  "aliases": [
+   "vis"
+  ],
+  "category": "Settings",
+  "long": "Drops your hiding: back to normal visibility.",
+  "min_role": "Player",
+  "name": "visible",
+  "summary": "Stop hiding.",
+  "usage": "visible"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "Refuses unless the named owner has added you as a guest via 'house guest add <you>'. Synthesizes the house's ECS rooms on first call (cached in HousingIndex), then warps you to the foyer. Async: the multi-table guest-list + room fetch runs off the world tick.",
+  "min_role": "Player",
+  "name": "visit",
+  "summary": "Step into another player's house — guest list required.",
+  "usage": "visit <player>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Filters 'ObjectPrototypes' by 'ObjectType' (Weapon, Armor, Container, Light, Scroll, Wand, …). Case-insensitive. Capped at 50 hits with overflow footer; pair with 'ostat' to inspect any one.",
+  "min_role": "Builder",
+  "name": "vitem",
+  "summary": "List object prototypes by type.",
+  "usage": "vitem <type>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Lists prototypes whose name or keywords start with every word you give, as 'zone:id name', sorted by id and capped at 100 rows. 'vnum' takes a type first (mobiles, objects, rooms, triggers, exits), 'mnum' / 'onum' / 'rnum' / 'tnum' are the same search for one type. Add 'in <zone>' to stay in one zone. Pair with 'vstat', 'rstat' or 'tstat', or jump with 'goto <zone>:<id>'.",
+  "min_role": "Builder",
+  "name": "vnum",
+  "summary": "Find prototypes by keyword and print their zone:id.",
+  "usage": "vnum <mobiles|objects|rooms|triggers|exits> <keywords> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Search one table by a field. Run it with only a type (or 'esearch' / 'tsearch' with nothing) to list the fields. Text fields match a substring; 'name' fields match whole-word prefixes of the name and keywords. Number fields take 5, >5, <5, >=5, <=5, !5 or 5..9 (an inclusive range). Add 'in <zone>' at the end to stay in one zone. Flag fields (wear, extraflags, effflags, flags, type, size, sector, ...) take one or more flag names, abbreviations allowed, and match when every one is present. Output is capped at 100 rows. Shops, zones, reset commands and skills are not searchable here.",
+  "min_role": "Builder",
+  "name": "vsearch",
+  "summary": "Search prototypes, triggers or exits by a chosen field.",
+  "usage": "vsearch <mobiles|objects|rooms|triggers|exits> <field> <query> [in <zone>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Prints the same detail as 'mstat' (mob) or 'ostat' (object) for a prototype by id. Nothing is loaded into the world. The id is '<zone> <id>', '<zone>:<id>' as 'vnum' prints it, or a bare '<id>' in your current zone. Unlike mstat / ostat, a name is not accepted: find ids with 'vnum' first.",
+  "min_role": "Builder",
+  "name": "vstat",
+  "summary": "Show a mob or object prototype's stats without spawning it.",
+  "usage": "vstat <mob|obj> <zone> <id> | <zone>:<id> | <id>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Filters 'ObjectPrototypes' whose 'wear_flags' contain the named slot (Head, Body, Mainhand, etc.). Case-insensitive; matches the 'WearFlag' enum names from the schema.",
+  "min_role": "Builder",
+  "name": "vwear",
+  "summary": "List object prototypes by wear-slot.",
+  "usage": "vwear <slot>"
+ },
+ {
+  "aliases": [],
+  "category": "Movement",
+  "long": "With no argument, brings you out of sleep to standing. With a target, finds a sleeping player or mob in the room and stands them up; everyone in the room sees it.",
+  "min_role": "Player",
+  "name": "wake",
+  "summary": "Wake yourself, or rouse a sleeping companion.",
+  "usage": "wake [target]"
+ },
+ {
+  "aliases": [
+   "land"
+  ],
+  "category": "Movement",
+  "long": "Ends flight (also available as 'walk'). On solid ground you simply touch down. In an air room you have nothing to stand on, so landing there means falling through the down exits until you hit something solid, and the landing hurts (a long drop hurts more; Feather Fall and the Safefall skill soften it). Flight also ends on its own when the fly spell or item that grants it runs out, or when you pick up more than about 95% of what you can carry. You need a source of flight (the fly spell, a winged form or a worn item) to 'fly' in the first place. No-op when you are already on foot.",
+  "min_role": "Player",
+  "name": "walk",
+  "summary": "Come down to the ground (stop flying).",
+  "usage": "land"
+ },
+ {
+  "aliases": [
+   "gold",
+   "money",
+   "coins",
+   "wallet"
+  ],
+  "category": "Banking",
+  "long": "Prints the current coin total split across the four denominations (1 platinum = 10 gold = 100 silver = 1000 copper). Use 'balance' for bank-stored coin.",
+  "min_role": "Player",
+  "name": "wealth",
+  "summary": "Show your on-hand coin in platinum/gold/silver/copper.",
+  "usage": "wealth"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "The item must have a wear-slot, and that slot must be free. Use 'remove' to take something off first.",
+  "min_role": "Player",
+  "name": "wear",
+  "summary": "Equip a wearable item from your inventory.",
+  "usage": "wear <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Renders a single line based on your current zone's 'Climate' and the in-game time of day. Rule-of-thumb only — no per-tick weather simulation yet, so the same input produces the same output.",
+  "min_role": "Player",
+  "name": "weather",
+  "summary": "Atmospheric flavor for your zone's climate.",
+  "usage": "weather"
+ },
+ {
+  "aliases": [
+   "w"
+  ],
+  "category": "Movement",
+  "long": "Moves you through the named exit if one is open. Standard directions: n/s/e/w/u/d/ne/nw/se/sw/in/out.",
+  "min_role": "Player",
+  "name": "west",
+  "summary": "Walk through an exit.",
+  "usage": "<direction>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "With no argument, prints your own current room (name, zone, id). With a player name, prints that online player's current room. 'where corpse' tells you where your own corpse lies and which way to go. 'where all' (Builder+ only) lists every online player and where they are.\r\n\r\nImmortal+: 'where <name>' also searches live mobs (M lines: [zone:id] name - room) and objects (O lines, including carried, worn and contained ones) whose name or keywords match.",
+  "min_role": "Player",
+  "name": "where",
+  "summary": "Show your location, a named player's location, or list all online.",
+  "usage": "where [<name> | corpse | all]"
+ },
+ {
+  "aliases": [],
+  "category": "Communication",
+  "long": "Both you and the target see the full text. Other players in the room see that you whispered to them but not what.",
+  "min_role": "Player",
+  "name": "whisper",
+  "summary": "Quietly say something to one person in the room.",
+  "usage": "whisper <target> <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "With no args, shows every connected player. With one numeric arg, filters to players at that level or higher. With two numeric args, filters to the inclusive level range. 'who clan <abbrev>' filters to players in the named clan (case-insensitive match against the '[ABBR]' tag shown alongside each name).",
+  "min_role": "Player",
+  "name": "who",
+  "summary": "List players currently online.",
+  "usage": "who [<min-level> [<max-level>]] | who clan <abbrev>"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "One-line answer to \"which character am I logged in as?\" — handy after a long session or when a script needs to confirm identity. Pair with 'score' for the full sheet.",
+  "min_role": "Player",
+  "name": "whoami",
+  "summary": "Print your character's name, level, race, and class.",
+  "usage": "whoami"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Equivalent to wear, but only succeeds for items that go into the wield slot.",
+  "min_role": "Player",
+  "name": "wield",
+  "summary": "Wield a weapon (shortcut for wear into the Wield slot).",
+  "usage": "wield <item>"
+ },
+ {
+  "aliases": [],
+  "category": "Settings",
+  "long": "'wimpy 30' enables wimpy mode and panics you out of combat when your HP drops below 30% of max. 'wimpy off' (or 'wimpy 0') clears it. With no argument, prints the current setting. Default threshold when no number was set is 25%.",
+  "min_role": "Player",
+  "name": "wimpy",
+  "summary": "Set the HP percentage at which combat auto-flees you.",
+  "usage": "wimpy [pct|off]"
+ },
+ {
+  "aliases": [
+   "with"
+  ],
+  "category": "Banking",
+  "long": "A bare number is copper ('withdraw 50' is 50 copper); add a unit for more ('withdraw 2 silver'). Refuses if your bank balance can't cover the amount. Inverse of 'deposit'.",
+  "min_role": "Player",
+  "name": "withdraw",
+  "summary": "Move coin from the bank to on-hand wealth.",
+  "usage": "withdraw <amount> [copper|silver|gold|platinum] | withdraw all"
+ },
+ {
+  "aliases": [
+   "whelp"
+  ],
+  "category": "Admin",
+  "long": "Builder+ counterpart of 'help'. With no arguments, lists every admin command you can run. With an argument, shows the usage and details for that command — same shape as 'help', but scoped to admin tools so the player help stays uncluttered.",
+  "min_role": "Builder",
+  "name": "wizhelp",
+  "summary": "List admin commands or show details on a specific one.",
+  "usage": "wizhelp [command]"
+ },
+ {
+  "aliases": [
+   "invis"
+  ],
+  "category": "Admin",
+  "long": "Builder+. With no arg, toggles invis at your own level. 'wizinvis <level>' sets to that exact level (capped at your own). 'wizinvis off' clears it. Players whose level is below yours (or below the explicit level) won't see you in 'who' / 'look' / 'scan' listings.",
+  "min_role": "Builder",
+  "name": "wizinvis",
+  "summary": "Become invisible to lower-level players.",
+  "usage": "wizinvis [<level> | off]"
+ },
+ {
+  "aliases": [],
+  "category": "Information",
+  "long": "Shows the immortals who run the game, grouped by rank. A '*' marks staff who are online right now.",
+  "min_role": "Player",
+  "name": "wizlist",
+  "summary": "List the staff of the game.",
+  "usage": "wizlist"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. With no arg, prints the current state. 'wizlock on' blocks non-staff (UserRole < Builder) from completing login; 'wizlock off' clears the gate. Reset to off on every server restart so a forgotten lock doesn't outlive the deploy.",
+  "min_role": "Builder",
+  "name": "wizlock",
+  "summary": "Lock the mud to staff-only logins.",
+  "usage": "wizlock [on|off]"
+ },
+ {
+  "aliases": [
+   ";"
+  ],
+  "category": "Communication",
+  "long": "Immortal+. Sent to every online staff member (Immortal or higher). Players never see wiznet traffic. Convention: out-of-character coordination between staff during play.",
+  "min_role": "Immortal",
+  "name": "wiznet",
+  "summary": "Chat on the staff-only wiznet channel.",
+  "usage": "wiznet <message>"
+ },
+ {
+  "aliases": [
+   "stats"
+  ],
+  "category": "Information",
+  "long": "Snapshot of the world state right now: how many zones and rooms loaded, how many live mobs and items spawned, how many players online, uptime (plus the server tick for staff), and active effect-instance count. Aliases 'users' and 'stats' mirror 'world' since the player count and per-system load are the most-asked pieces.",
+  "min_role": "Player",
+  "name": "world",
+  "summary": "Live entity counts: zones, rooms, mobs, items, players.",
+  "usage": "world"
+ },
+ {
+  "aliases": [],
+  "category": "Inventory",
+  "long": "Writes the message onto a note-type object you carry or that lies in the room, replacing whatever was there. Anyone can then 'read' it.",
+  "min_role": "Player",
+  "name": "write",
+  "summary": "Write a message on a note or paper.",
+  "usage": "write <object> <message>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Sorted by zone id. Use 'znum <name>' to look up the id of a zone you only know by name, or 'zsearch <substring>' for a fuzzy match.",
+  "min_role": "Builder",
+  "name": "zlist",
+  "summary": "List every loaded zone (id + name).",
+  "usage": "zlist"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Case-insensitive whole-name match. For substring search use 'zsearch'.",
+  "min_role": "Builder",
+  "name": "znum",
+  "summary": "Print the zone id whose name exactly matches.",
+  "usage": "znum <name>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. With no arg, resets your current zone. Despawns every mob and object that came from a 'MobResets' / 'ObjectResets' row in the named zone. The next respawn tick (~6s) refills the gaps. Admin-summoned / loadobj'd entities are preserved (no 'FromMobReset' / 'FromObjectReset' marker).",
+  "min_role": "Builder",
+  "name": "zreset",
+  "summary": "Despawn reset-spawned mobs/objects so respawn refills the zone.",
+  "usage": "zreset [<zone_id>]"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. Case-insensitive substring against the zone's 'Named'. Capped at 50 hits.",
+  "min_role": "Builder",
+  "name": "zsearch",
+  "summary": "Find zones by name substring.",
+  "usage": "zsearch <substring>"
+ },
+ {
+  "aliases": [],
+  "category": "Admin",
+  "long": "Builder+. With no arg, inspects the zone you're in. Prints zone metadata + entity / mob / item counts.",
+  "min_role": "Builder",
+  "name": "zstat",
+  "summary": "Dump ECS state of a zone.",
+  "usage": "zstat [<zone_id>]"
+ }
+]

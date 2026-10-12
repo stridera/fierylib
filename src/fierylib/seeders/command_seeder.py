@@ -7,6 +7,8 @@ This makes Muditor the source of truth for command definitions.
 import click
 from prisma import Prisma
 
+from .command_help import COLUMN_DDL, insert_sql, load_rows
+
 
 # Command categories matching the Prisma enum
 class Category:
@@ -1656,7 +1658,23 @@ class CommandSeeder:
 
             stats["total"] += 1
 
+        stats["help_rows"] = await self.seed_help_text(verbose=verbose)
         return stats
+
+    async def seed_help_text(self, verbose: bool = False) -> int:
+        """Fill Command.help_summary / help_text from data/command_help.json.
+
+        Inserts a row for each game command the table lacks; existing rows only get the
+        help columns filled while NULL or empty (Muditor edits survive). Raw SQL so it
+        works even when the generated Python client predates the columns.
+        """
+        rows = load_rows()
+        for ddl in COLUMN_DDL:
+            await self.prisma.execute_raw(ddl)
+        await self.prisma.execute_raw(insert_sql(rows))
+        if verbose:
+            click.echo(f"    Help text: {len(rows)} commands")
+        return len(rows)
 
     async def get_command_count(self) -> int:
         """Get the count of commands in the database."""
