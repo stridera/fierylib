@@ -158,7 +158,8 @@
     "defaultParams": {
       "target": "str",
       "amount": 4,
-      "duration": "level"
+      "duration": "level",
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -212,6 +213,10 @@
             "string"
           ],
           "description": "Duration in ticks or formula"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     }
@@ -227,7 +232,8 @@
     ],
     "defaultParams": {
       "flag": "bless",
-      "duration": "level * 2"
+      "duration": "level * 2",
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -314,6 +320,10 @@
         "consumeOnCast": {
           "type": "boolean",
           "description": "For empowered: consumed after next spell cast. One-use buff."
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     }
@@ -640,7 +650,8 @@
     ],
     "defaultParams": {
       "form": "wolf",
-      "duration": "level * 2"
+      "duration": "level * 2",
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -662,6 +673,10 @@
         "hostile": {
           "type": "boolean",
           "description": "True for baleful polymorph (unwanted transformation)"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -762,7 +777,8 @@
     "defaultParams": {
       "mobType": "elemental",
       "duration": 100,
-      "maxCount": 1
+      "maxCount": 1,
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -788,6 +804,10 @@
         "consumesCorpse": {
           "type": "boolean",
           "description": "Whether summoning requires and consumes a corpse (animate dead)"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     }
@@ -864,7 +884,8 @@
     ],
     "defaultParams": {
       "maxCircle": 3,
-      "duration": "level"
+      "duration": "level",
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -882,6 +903,10 @@
             "string"
           ],
           "description": "Duration in ticks or formula"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -898,7 +923,8 @@
     "defaultParams": {
       "subtype": "effect",
       "type": "darkness",
-      "duration": 10
+      "duration": 10,
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -953,6 +979,10 @@
           ],
           "type": "string",
           "description": "For barriers: how movement is affected"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     }
@@ -1114,7 +1144,8 @@
       "movement"
     ],
     "defaultParams": {
-      "duration": 1
+      "duration": 1,
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -1129,6 +1160,10 @@
         "resistable": {
           "type": "boolean",
           "description": "Whether target can resist with strength check"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -1145,7 +1180,8 @@
     ],
     "defaultParams": {
       "duration": "level",
-      "chance": 100
+      "chance": 100,
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -1171,6 +1207,10 @@
         "maxInterceptions": {
           "type": "integer",
           "description": "Maximum number of attacks to intercept before effect ends"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -1187,7 +1227,8 @@
     ],
     "defaultParams": {
       "type": "two-way",
-      "duration": 10
+      "duration": 10,
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -1220,6 +1261,10 @@
         "maxUses": {
           "type": "integer",
           "description": "Maximum number of uses before portal closes"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -1234,7 +1279,8 @@
       "stealth"
     ],
     "defaultParams": {
-      "duration": "level * 10"
+      "duration": "level * 10",
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -1249,6 +1295,10 @@
         "contestedBy": {
           "type": "string",
           "description": "Skill that can detect concealed items (perception, detect_magic, etc.)"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -1264,7 +1314,8 @@
     ],
     "defaultParams": {
       "percent": 50,
-      "duration": "level"
+      "duration": "level",
+      "durationUnit": "hours"
     },
     "paramSchema": {
       "type": "object",
@@ -1290,6 +1341,10 @@
             "type": "string"
           },
           "description": "Damage types affected (all if omitted)"
+        },
+        "durationUnit": {
+          "type": "string",
+          "description": "Unit of duration: hours (the engine default, 75 s), minutes, rounds (4 s) or seconds"
         }
       }
     },
@@ -1305,7 +1360,8 @@
       "status"
     ],
     "defaultParams": {
-      "duration": 1800
+      "duration": 1800,
+      "durationUnit": "seconds"
     },
     "tickIntervalSec": 1,
     "onApply": "-- Refreshed (Rest / Repose system) on_apply — flavor only.\n-- The RegenBonus is applied in Rust (mud-server/src/rest.rs::spawn_refreshed_effect)\n-- when the EffectInstance is spawned; the matching RefreshedBonus companion\n-- component round-trips the delta so on_remove can subtract it. The Lua hook\n-- only fires the flavor line.\nactor:send('You feel refreshed by your rest.')",
