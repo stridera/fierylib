@@ -446,6 +446,28 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
 
   eval $HELP_CMD
 
+  # Authored help (data/help/*.md) overwrites the legacy entry with the same
+  # primary keyword, so the modern text for group/quit/sell/cancel/etc.
+  # survives the legacy re-import above (which --clear wipes and rebuilds).
+  echo ""
+  echo "[6.2] Seeding authored help articles (data/help/*.md)..."
+  poetry run fierylib seed help
+
+  # Help fixes that are not an authored article: delete the stray `help circle`
+  # fragment, add its `circle_skill` keyword, regenerate the class spell lists
+  # from ClassAbilities, and the 2026-10-11 text fixes (bash, magic). Each patch
+  # is guarded/idempotent, so it is safe to re-run.
+  echo ""
+  echo "[6.3] Applying help SQL patches..."
+  if [[ -z "${DATABASE_URL:-}" ]] && [[ -f .env ]]; then
+    DATABASE_URL="$(sed -n 's/^DATABASE_URL=//p' .env | tr -d '"' | head -1)"
+  fi
+  PSQL_URL="${DATABASE_URL%%\?*}"
+  for patch in 2026-10-11-help-circle 2026-10-11-text-fixes 2026-10-12-class-spell-lists; do
+    echo "  data/sql/$patch.sql"
+    psql "$PSQL_URL" -v ON_ERROR_STOP=1 -q -f "data/sql/$patch.sql" > /dev/null
+  done
+
   echo ""
   echo "✅ Help entries imported"
   echo ""

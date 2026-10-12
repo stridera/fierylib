@@ -296,15 +296,6 @@ COMMANDS = [
         "permissions": [],
     },
     {
-        "name": "affects",
-        "aliases": ["aff"],
-        "category": Category.INFORMATION,
-        "description": "List all magical effects currently affecting you.",
-        "usage": "affects",
-        "immortalOnly": False,
-        "permissions": [],
-    },
-    {
         "name": "consider",
         "aliases": ["con"],
         "category": Category.INFORMATION,
@@ -704,15 +695,6 @@ COMMANDS = [
         "permissions": [],
     },
     {
-        "name": "trip",
-        "aliases": [],
-        "category": Category.SKILLS,
-        "description": "Trip an opponent to knock them down.",
-        "usage": "trip [target]",
-        "immortalOnly": False,
-        "permissions": [],
-    },
-    {
         "name": "sneak",
         "aliases": [],
         "category": Category.SKILLS,
@@ -780,7 +762,7 @@ COMMANDS = [
     },
     {
         "name": "memorize",
-        "aliases": ["mem"],
+        "aliases": ["mem", "pray"],
         "category": Category.MAGIC,
         "description": "Memorize a spell to prepare it for casting.",
         "usage": "memorize <spell>",
@@ -793,15 +775,6 @@ COMMANDS = [
         "category": Category.MAGIC,
         "description": "Forget a memorized spell to make room for others.",
         "usage": "forget <spell>",
-        "immortalOnly": False,
-        "permissions": [],
-    },
-    {
-        "name": "pray",
-        "aliases": [],
-        "category": Category.MAGIC,
-        "description": "Pray to your deity to prepare divine spells.",
-        "usage": "pray <spell>",
         "immortalOnly": False,
         "permissions": [],
     },
@@ -1253,11 +1226,13 @@ COMMANDS = [
         "permissions": ["SNOOP"],
     },
     {
-        "name": "invis",
-        "aliases": [],
+        # Canonical command; `invis` is only an alias in the game registry, so it gets no
+        # Command row of its own (2026-10-12-command-alias-rows.sql removed the old one).
+        "name": "wizinvis",
+        "aliases": ["invis"],
         "category": Category.ADMIN,
         "description": "Toggle immortal invisibility.",
-        "usage": "invis [level]",
+        "usage": "wizinvis [<level> | off]",
         "immortalOnly": True,
         "permissions": ["INVISIBLE"],
     },
