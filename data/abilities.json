@@ -692,6 +692,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": true,
@@ -1364,6 +1367,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1.5,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": false,
@@ -2413,6 +2419,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": false,
@@ -3527,6 +3536,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 1.5,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": true,
@@ -6750,6 +6762,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": false,
@@ -7905,6 +7920,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": false,
@@ -14034,6 +14052,9 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
+    "tags": [
+      "requires_rigid"
+    ],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": true,
