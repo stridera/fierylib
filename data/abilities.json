@@ -7929,9 +7929,7 @@
     "minPosition": "STANDING",
     "violent": false,
     "castTimeRounds": 2.0,
-    "tags": [
-      "requires_rigid"
-    ],
+    "tags": [],
     "cooldownMs": 0,
     "inCombatOnly": false,
     "combatOk": false,
