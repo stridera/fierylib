@@ -79,6 +79,9 @@ class ClassImporterV2:
                     create_data["alignmentBias"] = class_data["alignmentBias"]
                 if "campcraftBonus" in class_data:
                     create_data["campcraftBonus"] = class_data["campcraftBonus"]
+                if class_data.get("tags"):
+                    # Engine-binding tags (core:<role>); omitted -> DB default [].
+                    create_data["tags"] = list(class_data["tags"])
                 if "resistances" in class_data:
                     create_data["resistances"] = class_data["resistances"]
                 if "spellProgression" in class_data:
