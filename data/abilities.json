@@ -205,6 +205,15 @@
         "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "wearoffToTarget": "Your undead creation crumbles to dust.",
       "failToCaster": "A corpse would help, don't you think?"
@@ -1014,8 +1023,55 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "flags",
+          "staffBypass": true,
+          "requireTypes": [
+            "WEAPON"
+          ],
+          "wrongTypeMessage": "This spell is only effective on weapons.",
+          "maxObjectLevel": "skill",
+          "tooPowerfulMessage": "{item} is too powerful for you to bless.",
+          "maxObjectWeight": "5 * skill",
+          "tooLargeMessage": "{item} is too large for you to bless.",
+          "blockedByFlags": [
+            "GLOW",
+            "HUM",
+            "INVISIBLE",
+            "MAGIC"
+          ],
+          "blockedByRestrictions": [
+            "NO_DROP"
+          ],
+          "blockedByAlignments": [
+            "GOOD"
+          ],
+          "blockedMessage": "{item} doesn't seem receptive to the blessing.",
+          "repelledIfMagical": true,
+          "repelledMessage": "The blessing is repelled from {item}.",
+          "barAlignment": "EVIL",
+          "messageToCaster": "{item} glows briefly.",
+          "messageToRoom": "{item} glows briefly.",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "wearoffToTarget": "You feel less righteous.",
       "successToVictim": "You feel righteous.",
@@ -2763,8 +2819,30 @@
           "objectType": "Water in container or creates spring"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "liquid",
+          "liquid": "water",
+          "mixedLiquid": "slime-mold-juice",
+          "amount": "1 + 15 * skill / 2",
+          "fullMessage": "{item} seems to be full already.",
+          "messageToCaster": "Water wells up within {item}."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "OBJECT_INV"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You cast create water.",
       "successToRoom": "{actor.name} casts create water."
@@ -3112,8 +3190,30 @@
           "amount": "skill / 2"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "corpse_feed",
+          "hunger": 24,
+          "thirst": 24,
+          "notCorpseMessageToCaster": "That is not a corpse!",
+          "messageToCaster": "<b:black>You gorge yourself on {item}.</>",
+          "messageToRoom": "<b:black>{actor.name} gorges {actor.ref} on {item}.</>"
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You channel healing energy into {target.him}.",
       "successToVictim": "{actor.name} channels healing energy into you.",
@@ -3196,8 +3296,32 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "light",
+          "lightAction": "drain",
+          "messageToCaster": "You drain {item}'s energy.",
+          "extinguishMessageToCaster": "<b:black>{item} quickly sputters out.</>",
+          "extinguishMessageToRoom": "<b:black>{item} quickly sputters out.</>",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "wearoffToTarget": "The magical darkness lifts.",
       "lookMessage": "{pronoun.subjective} is shrouded in an aura of magical darkness."
@@ -4182,8 +4306,41 @@
           "power": "skill"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "flags",
+          "requireAnyFlag": [
+            "INVISIBLE"
+          ],
+          "powerRoll": "random(1, 50) + skill",
+          "resistMessageToCaster": "You fail.",
+          "clearFlags": [
+            "INVISIBLE"
+          ],
+          "messageToCaster": "{item} fades into existence.",
+          "messageToRoom": "{item} fades into existence.",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ENEMY_PC",
+        "ENEMY_NPC",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "{target.name} gets a pained look, and falters a bit.",
       "successToVictim": "{actor.name} nullifies some of your enchantment!",
@@ -8056,8 +8213,34 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "light",
+          "lightAction": "ignite",
+          "capacityMultiplier": 2,
+          "defaultFuel": 50,
+          "permanentMessageToCaster": "The power of your magic washes uselessly over the surface of {item}.",
+          "messageToCaster": "{item} begins glowing with a <b:yellow>bright yellow light</>.",
+          "messageToRoom": "{item} begins glowing with a <b:yellow>bright yellow light</>.",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "wearoffToTarget": "The magical light fades away.&0",
       "successToVictim": "A magical light illuminates the area.",
@@ -8673,8 +8856,40 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 2,
+        "params": {
+          "mode": "flags",
+          "blockedByFlags": [
+            "INVISIBLE"
+          ],
+          "blockedByRestrictions": [
+            "NO_INVISIBLE"
+          ],
+          "setFlags": [
+            "INVISIBLE"
+          ],
+          "messageToCaster": "{item} vanishes.",
+          "messageToRoom": "{item} vanishes.",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "wearoffToTarget": "You fade back into view.",
       "successToVictim": "You vanish.",
@@ -10787,8 +11002,31 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 2,
+        "params": {
+          "mode": "poison",
+          "poisoned": true,
+          "messageToCaster": "{item} steams briefly.",
+          "messageToRoom": "{item} steams briefly.",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ENEMY_PC",
+        "ENEMY_NPC",
+        "OBJECT_INV"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "wearoffToTarget": "You feel less sick.",
       "successToVictim": "You feel burning poison in your blood, and suffer.",
@@ -10916,8 +11154,32 @@
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "corpse_timer",
+          "hours": "level",
+          "notCorpseMessageToCaster": "You can only preserve a corpse!",
+          "messageToCaster": [
+            "{item} glows <b:blue>blue</> briefly.",
+            "{item} is preserved for {hours} more hours."
+          ],
+          "messageToRoom": "{item} glows <b:blue>blue</> briefly."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You cast preserve.",
       "successToVictim": "{actor.name} casts preserve on you.",
@@ -11726,8 +11988,32 @@
           "roomMessage": "{target.name} looks better."
         },
         "trigger": "on_cast"
+      },
+      {
+        "effect": "alter_object",
+        "order": 1,
+        "params": {
+          "mode": "poison",
+          "poisoned": false,
+          "messageToCaster": "{item} steams briefly.",
+          "messageToRoom": "{item} steams briefly.",
+          "noopMessageToCaster": "Nothing seems to happen."
+        },
+        "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "ALLY_PC",
+        "ALLY_NPC",
+        "OBJECT_INV",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You dispel the magic affecting {target.him}.",
       "successToVictim": "{actor.name} dispels the magic affecting you.",
@@ -13971,6 +14257,15 @@
         "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF",
+        "OBJECT_WORLD"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "You summon a creature to serve you.",
       "successToRoom": "{actor.name} summons a creature.",

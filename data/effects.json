@@ -1310,7 +1310,7 @@
   {
     "name": "alter_object",
     "effectType": "alter_object",
-    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object. The enchant mode (Enchant Weapon) gives a non-magical weapon per-instance stat applies, the MAGIC flag and an anti-alignment bar.",
+    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object. The enchant mode (Enchant Weapon) gives a non-magical weapon per-instance stat applies, the MAGIC flag and an anti-alignment bar. The flags, poison, liquid, corpse_timer, corpse_feed and light modes give Bless, Invisibility, Dispel Magic, Poison, Remove Poison, Create Water, Preserve, Dark Feast, Darkness and Illumination their object uses.",
     "tags": [
       "utility",
       "magic",
@@ -1340,7 +1340,13 @@
           "enum": [
             "add",
             "remove",
-            "enchant"
+            "enchant",
+            "flags",
+            "poison",
+            "liquid",
+            "corpse_timer",
+            "corpse_feed",
+            "light"
           ],
           "type": "string",
           "description": "add (default) sets the restriction, remove clears it, enchant puts per-instance applies on a weapon (restriction is not used)"
@@ -1360,7 +1366,7 @@
             ],
             "type": "string"
           },
-          "description": "enchant: object flags set on success; an object already carrying one (or any stat apply) is refused"
+          "description": "enchant / flags: object flags set on success (enchant also refuses an object already carrying one, or any stat apply)"
         },
         "applies": {
           "type": "array",
@@ -1414,7 +1420,7 @@
         },
         "messageToCaster": {
           "type": "string",
-          "description": "Sent to the caster on change; {item} is the object's name"
+          "description": "Sent to the caster on change; {item} is the object's name (a string, or an array of lines)"
         },
         "messageToRoom": {
           "type": "string",
@@ -1423,6 +1429,160 @@
         "noopMessageToCaster": {
           "type": "string",
           "description": "Sent to the caster when there was nothing to change"
+        },
+        "requireTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags / poison / liquid: object types the spell works on (WEAPON, FOOD, DRINKCONTAINER, ...)"
+        },
+        "requireAnyFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags: the object must carry one of these object flags, else nothing happens"
+        },
+        "blockedByFlags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags: object flags that make the object refuse the spell"
+        },
+        "blockedByRestrictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags: ObjectRestriction values that make the object refuse the spell"
+        },
+        "blockedByAlignments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags: GOOD / NEUTRAL / EVIL the object already bars"
+        },
+        "maxObjectLevel": {
+          "description": "flags: formula in skill / level; a higher-level object is refused"
+        },
+        "maxObjectWeight": {
+          "description": "flags: formula in skill / level; a heavier object is refused"
+        },
+        "repelledIfMagical": {
+          "type": "boolean",
+          "description": "flags: refuse an object that already has stat applies, granted effects or an alignment bar"
+        },
+        "powerRoll": {
+          "description": "flags: formula (may use random(a, b)) that must beat the object's level"
+        },
+        "clearFlags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags: object flags taken off on success"
+        },
+        "barAlignment": {
+          "enum": [
+            "GOOD",
+            "NEUTRAL",
+            "EVIL"
+          ],
+          "type": "string",
+          "description": "flags: alignment the object refuses after success"
+        },
+        "staffBypass": {
+          "type": "boolean",
+          "description": "flags: staff skip every gate except requireAnyFlag"
+        },
+        "poisoned": {
+          "type": "boolean",
+          "description": "poison: true poisons the food or drink, false purifies it"
+        },
+        "liquid": {
+          "type": "string",
+          "description": "liquid: alias of the liquid the container ends up with"
+        },
+        "mixedLiquid": {
+          "type": "string",
+          "description": "liquid: alias used when the container held something else"
+        },
+        "amount": {
+          "description": "liquid: formula in skill / level; capped by the room left in the container"
+        },
+        "hours": {
+          "description": "corpse_timer: formula in level; game hours added to the corpse's decay timer ({hours} in messages)"
+        },
+        "hunger": {
+          "type": "integer",
+          "description": "corpse_feed: hours taken off the caster's hunger"
+        },
+        "thirst": {
+          "type": "integer",
+          "description": "corpse_feed: hours taken off the caster's thirst"
+        },
+        "lightAction": {
+          "enum": [
+            "ignite",
+            "drain"
+          ],
+          "type": "string",
+          "description": "light: ignite refuels and lights a burnt-out light, drain burns a light out"
+        },
+        "capacityMultiplier": {
+          "type": "integer",
+          "description": "light ignite: fuel base = the light's capacity times this"
+        },
+        "defaultFuel": {
+          "type": "integer",
+          "description": "light ignite: fuel base for a light with no capacity"
+        },
+        "wrongTypeMessage": {
+          "type": "string",
+          "description": "flags: sent when the object is the wrong type"
+        },
+        "tooPowerfulMessage": {
+          "type": "string",
+          "description": "flags: sent when the object's level is too high"
+        },
+        "tooLargeMessage": {
+          "type": "string",
+          "description": "flags: sent when the object is too heavy"
+        },
+        "blockedMessage": {
+          "type": "string",
+          "description": "flags: sent when a blocking flag, restriction or alignment is present"
+        },
+        "repelledMessage": {
+          "type": "string",
+          "description": "flags: sent when repelledIfMagical refuses"
+        },
+        "resistMessageToCaster": {
+          "type": "string",
+          "description": "flags: sent when powerRoll fails"
+        },
+        "fullMessage": {
+          "type": "string",
+          "description": "liquid: sent when the container is already full"
+        },
+        "notCorpseMessageToCaster": {
+          "type": "string",
+          "description": "corpse_timer / corpse_feed: sent when the object is not a corpse"
+        },
+        "permanentMessageToCaster": {
+          "type": "string",
+          "description": "light ignite: sent when the light never burns out"
+        },
+        "extinguishMessageToCaster": {
+          "type": "string",
+          "description": "light drain: sent when the light was lit"
+        },
+        "extinguishMessageToRoom": {
+          "type": "string",
+          "description": "light drain: sent to the room when the light was lit"
         }
       }
     },
