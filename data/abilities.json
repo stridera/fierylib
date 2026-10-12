@@ -3254,7 +3254,7 @@
         "order": 0,
         "params": {
           "flag": "bless",
-          "duration": "5 + (skill / 20)",
+          "duration": "10 + (skill / 7)",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -4512,8 +4512,19 @@
         "effect": "status",
         "order": 0,
         "params": {
-          "flag": "sanctuary",
-          "duration": "5 + (skill / 10)",
+          "flag": "bless",
+          "duration": "10 + (skill / 7)",
+          "durationUnit": "hours"
+        },
+        "trigger": "on_cast"
+      },
+      {
+        "effect": "modify",
+        "order": 1,
+        "params": {
+          "amount": "skill",
+          "duration": "skill / 15",
+          "target": "max_move",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -11234,16 +11245,6 @@
     "combatOk": false,
     "isArea": false,
     "effects": [
-      {
-        "effect": "status",
-        "order": 0,
-        "params": {
-          "flag": "sanctuary",
-          "duration": "skill / 5",
-          "durationUnit": "hours"
-        },
-        "trigger": "on_cast"
-      },
       {
         "effect": "alter_object",
         "order": 1,
