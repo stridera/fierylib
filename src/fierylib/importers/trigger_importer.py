@@ -36,6 +36,9 @@ class ParsedLuaTrigger:
     commands: str
     needs_review: bool
     file_path: Path
+    # DG numeric argument (`-- Num arg: N` header line). The engine reads it for BRIBE as the
+    # minimum coin value in copper; 0 when the header has no such line.
+    num_args: int = 0
 
 
 def validate_lua_syntax(code: str, name: str) -> tuple[bool, str]:
@@ -84,6 +87,7 @@ def parse_lua_trigger_file(file_path: Path) -> ParsedLuaTrigger:
         -- Zone: 489, ID: 2
         -- Type: MOB, Flags: LOAD, FIGHT
         -- Status: CLEAN|NEEDS_REVIEW
+        -- Num arg: 42            (optional DG numeric arg; BRIBE minimum in copper)
         --
         -- Original DG Script: #48902
 
@@ -108,6 +112,7 @@ def parse_lua_trigger_file(file_path: Path) -> ParsedLuaTrigger:
     attach_type = None
     flags = []
     needs_review = False
+    num_args = 0
     header_end = 0
 
     for i, line in enumerate(lines):
@@ -132,6 +137,10 @@ def parse_lua_trigger_file(file_path: Path) -> ParsedLuaTrigger:
                 flags_str = match.group(2).strip()
                 if flags_str:
                     flags = [f.strip() for f in flags_str.split(",") if f.strip()]
+
+        # Parse the DG numeric argument
+        elif match := re.match(r"^-- Num arg:\s*(\d+)\s*$", line):
+            num_args = int(match.group(1))
 
         # Parse status
         elif "Status: NEEDS_REVIEW" in line:
@@ -163,6 +172,7 @@ def parse_lua_trigger_file(file_path: Path) -> ParsedLuaTrigger:
         commands=commands,
         needs_review=needs_review,
         file_path=file_path,
+        num_args=num_args,
     )
 
 
@@ -563,7 +573,7 @@ class TriggerImporter:
             "attachType": trigger.attach_type,
             "flags": trigger.flags,
             "commands": trigger.commands,
-            "numArgs": 0,  # Args not tracked in file format
+            "numArgs": trigger.num_args,  # from the `-- Num arg:` header line
             "argList": [],
             "needsReview": trigger.needs_review or syntax_error is not None,
             "syntaxError": syntax_error,

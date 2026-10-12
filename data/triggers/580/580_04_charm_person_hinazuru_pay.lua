@@ -2,14 +2,14 @@
 -- Zone: 580, ID: 4
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
+-- Num arg: 100000
 --
 -- Accepts the player's payment and starts the charm_person quest if
 -- they qualify (Sorcerer/Illusionist/Bard, level > 88, stage 0).
 -- Otherwise just thanks them politely for the gratuity.
 --
--- TODO: legacy DG probability was 100000% (effectively always); also
--- doesn't enforce the 100 platinum amount Hinazuru quoted -- any bribe
--- starts the quest. Confirm whether to gate by amount.
+-- The legacy DG numeric arg is 100000 (the 100 platinum Hinazuru quotes): the engine
+-- reads it from Triggers.num_args (`-- Num arg:` above) as the minimum bribe in copper.
 if (string.find(actor.class, "Sorcerer") or string.find(actor.class, "Illusionist") or string.find(actor.class, "Bard")) and actor.level > 88 and actor:get_quest_stage("charm_person") == 0 then
     actor:start_quest("charm_person")
     self:command("bow " .. tostring(actor.name))

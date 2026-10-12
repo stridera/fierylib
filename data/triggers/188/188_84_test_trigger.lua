@@ -2,6 +2,7 @@
 -- Zone: 188, ID: 84
 -- Type: MOB, Flags: SPEECH, BRIBE
 -- Status: CLEAN
+-- Num arg: 100
 --
 -- Original DG Script: #18884
 

@@ -2,6 +2,7 @@
 -- Zone: 103, ID: 15
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
+-- Num arg: 100000
 --
 -- Original DG Script: #10315
 -- Bribe of 100000+ coins (DG narg = minimum coin value, NOT a

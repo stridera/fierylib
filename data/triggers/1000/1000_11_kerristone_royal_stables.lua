@@ -2,6 +2,7 @@
 -- Zone: 0, ID: 11
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
+-- Num arg: 25
 --
 -- Original DG Script: #11
 

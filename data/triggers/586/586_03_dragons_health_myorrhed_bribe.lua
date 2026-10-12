@@ -6,7 +6,7 @@
 -- Original DG Script: #58603
 -- Myorrhed accepts coin offerings during the final hoard-building stage of
 -- dragons_health (stage 5). At any other stage she returns the coins to the
--- player. The 1% probability matches the original DG trigger.
+-- player. The original DG numeric arg is 1 (minimum 1 copper), so any bribe fires it.
 
 if actor:get_quest_stage("dragons_health") == 5 then
     wait(2)

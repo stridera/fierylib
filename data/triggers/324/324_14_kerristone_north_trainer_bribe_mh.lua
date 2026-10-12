@@ -2,6 +2,7 @@
 -- Zone: 324, ID: 14
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
+-- Num arg: 30
 --
 -- Original DG Script: #32414
 

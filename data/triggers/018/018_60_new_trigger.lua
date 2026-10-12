@@ -2,6 +2,7 @@
 -- Zone: 18, ID: 60
 -- Type: MOB, Flags: BRIBE
 -- Status: CLEAN
+-- Num arg: 100
 --
 -- Original DG Script: #1860
 
