@@ -369,6 +369,16 @@ WHERE NOT quest_only
 """
 
 
+def refresh_lists_quest_block(quest_names):
+    """Keep the quest-flag UPDATE inside the class-spell-lists patch (#125) in step with abilities.json."""
+    path = SQL_DIR / f"{DATE}-class-spell-lists.sql"
+    text = path.read_text(encoding="utf-8")
+    head, rest = text.split("    AND plain_name IN (\n", 1)
+    _, tail = rest.split("\n    );\n  -- quest-flags:end", 1)
+    path.write_text(f"{head}    AND plain_name IN (\n{name_list(quest_names)}\n    );\n  -- quest-flags:end{tail}",
+                    encoding="utf-8")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--legacy", default="/home/strider/Code/mud/fierymud_legacy", type=Path)
@@ -386,6 +396,7 @@ def main():
     (SQL_DIR / f"{DATE}-teleport-messages.sql").write_text(render_message_sql(msgs), encoding="utf-8")
     (SQL_DIR / f"{DATE}-combat-ok-from-legacy.sql").write_text(render_combat_sql(combat_false), encoding="utf-8")
     (SQL_DIR / f"{DATE}-quest-spell-flags.sql").write_text(render_quest_sql(quest), encoding="utf-8")
+    refresh_lists_quest_block(quest)
     print(f"dice formulas: {len(dice)}; message sets: {len(msgs)}; "
           f"combatOk set on {combat_total} (false: {len(combat_false)}); questOnly: {len(quest)}")
 

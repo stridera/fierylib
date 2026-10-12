@@ -283,6 +283,16 @@ def test_class_spell_list_sql_is_generated_from_the_class_tables_and_idempotent(
     assert not re.search(r"\bid\s*=\s*\d", body)  # no hard-coded ids
 
 
+def test_class_spell_list_sql_sets_the_quest_flags_itself():
+    """Prod applied class-spell-lists before quest-spell-flags (alphabetical), so no list got its `*`."""
+    body = code_only(sql("class-spell-lists"))
+    block = body.split("plain_name IN (")[1].split(");")[0]
+    expected = {a["plainName"] for a in ABILITIES if a.get("questOnly")}
+    assert set(re.findall(r"'([A-Z_]+)'", block)) == expected
+    # the flag update runs before the lists are built
+    assert body.index("SET quest_only = true") < body.index('FROM "ClassAbilities" ca')
+
+
 def test_help_import_regenerates_the_spell_lists_after_the_legacy_import():
     src = (ROOT / "src/fierylib/importers/help_importer.py").read_text(encoding="utf-8")
     assert "2026-10-12-class-spell-lists.sql" in src
