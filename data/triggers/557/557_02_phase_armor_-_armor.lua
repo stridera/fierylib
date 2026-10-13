@@ -12,6 +12,41 @@
 -- Converted from DG Script #55702: Phase Armor - Armor
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+-- DG `%get.obj_shortdesc/noadesc/pldesc[VNUM]%` (legacy dg_scripts.cpp): VNUM = zone * 100 + id.
+local function proto_short(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return "[no description for object ?]" end
+    local name = objects.template(math.floor(vnum / 100), vnum % 100).name
+    if name == nil or name == "" then return "[no description for object " .. vnum .. "]" end
+    return name
+end
+local function without_article(s)
+    for _, a in ipairs({"a pair ", "a ", "an ", "some ", "the "}) do
+        if string.lower(string.sub(s, 1, #a)) == a then return string.sub(s, #a + 1) end
+    end
+    return s
+end
+local function proto_noa(vnum)
+    return without_article(proto_short(vnum))
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = without_article(s)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"boots", "slippers", "sandals", "helm", "cap", "circlet", "coif", "turban", "gauntlets", "gloves", "fistwraps", "vambraces", "sleeves", "greaves", "pants", "leggings", "plate", "guard", "jerkin", "tunic", "robe", "bracer", "bracelet", "mittens", "crown", "doublet"}) do
@@ -77,47 +112,45 @@ elseif actor:get_quest_stage("phase_armor") < phase then
     actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my quests yet.'")
     return true
 end
--- TODO(parity): converter inverted the original `==` checks to `~=`
--- across this slot-dispatch cascade. Original DG selected the slot
--- whose `<slot>_name` matched the speech keyword; the lines below
--- preserve the suspicious `~=` form pending legacy verification.
+-- Original DG selected the slot whose `<slot>_name` contains the speech
+-- (`%hands_name%? /= %speech%`: `/=` is a substring test, and the `?` lets
+-- a trailing question mark in the speech still match).
+local function slot_matches(slot_name)
+    return slot_name ~= nil and string.find(string.lower(tostring(slot_name)) .. "?", string.lower(speech), 1, true) ~= nil
+end
 local name, gem_id, armor_id
-if hands_name ~= speech then
+if slot_matches(hands_name) then
     name = "pair of " .. tostring(hands_name)
     gem_id = hands_gem
     armor_id = hands_armor
-elseif feet_name ~= speech then
+elseif slot_matches(feet_name) then
     name = "pair of " .. tostring(feet_name)
     gem_id = feet_gem
     armor_id = feet_armor
-elseif wrist_name ~= speech then
+elseif slot_matches(wrist_name) then
     name = wrist_name
     gem_id = wrist_gem
     armor_id = wrist_armor
-elseif head_name ~= speech then
+elseif slot_matches(head_name) then
     name = head_name
     gem_id = head_gem
     armor_id = head_armor
-elseif arms_name ~= speech then
+elseif slot_matches(arms_name) then
     name = "pair of " .. tostring(arms_name)
     gem_id = arms_gem
     armor_id = arms_armor
-elseif legs_name ~= speech then
+elseif slot_matches(legs_name) then
     name = "pair of " .. tostring(legs_name)
     gem_id = legs_gem
     armor_id = legs_armor
-elseif body_name ~= speech then
+elseif slot_matches(body_name) then
     name = body_name
     gem_id = body_gem
     armor_id = body_armor
 end
 if name then
-    -- TODO(parity): DG `%get.obj_shortdesc[%armor_id%]%` /
-    -- `%get.obj_pldesc[%gem_id%]%` left as literal placeholder text.
-    -- Replace with `objects.template(zone, id).name` lookups once the
-    -- gem/armor ids are split into (zone, local_id) pairs.
     actor:send(tostring(self.name) .. " tells you, 'Well, I can make a fine " .. tostring(name) .. " for you, but")
-    actor:send("</>I'll need <b:cyan>" .. "%get.obj_shortdesc[%armor_id%]%</> and <b:cyan>three %get.obj_pldesc[%gem_id%]%</>.")
+    actor:send("</>I'll need <b:cyan>" .. proto_short(armor_id) .. "</> and <b:cyan>three " .. proto_plural(gem_id) .. "</>.")
     actor:send("</>Bring these things to me in any order, at any time, and I will reward you.'")
     -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'You will find them on creatures across the world.")

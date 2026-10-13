@@ -19,7 +19,7 @@ if not (cmd == "bounce") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 _return_value = false
-if arg then
+if arg ~= nil and arg ~= "" then
     if actor.room ~= arg.room then
         actor:send("Bounce the ball on who?  They don't seem to be here!")
     else

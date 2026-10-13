@@ -76,7 +76,7 @@ class Object:
                     if "extras" not in obj:
                         obj["extras"] = []
                     keyword = object_data.read_string().split(" ")
-                    extra_desc = object_data.read_string()
+                    extra_desc = object_data.read_text()
                     obj["extras"].append(Extras(keywords=keyword, text=extra_desc))
                 elif line.startswith("A"):
                     if "affects" not in obj:

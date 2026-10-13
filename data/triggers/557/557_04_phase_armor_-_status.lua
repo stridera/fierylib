@@ -12,13 +12,45 @@
 
 -- Converted from DG Script #55704: Phase Armor - Status
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
--- TODO(parity): the per-slot output lines below still emit literal
--- DG placeholders like `%get.obj_shortdesc[%hands_armor%]%`.
--- Replace with `objects.template(zone, id).name` once each slot id
--- is known as a (zone, local_id) tuple.
 -- Speech phrase: armor progress (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "armor progress", 1, true) then
-    return true  -- Not the phrase
+local said = string.lower(speech)
+if not string.find(said, "armor progress", 1, true) and not string.find(said, "progress", 1, true) then
+    return true  -- Not the phrase (`ask <master> progress` is accepted too)
+end
+-- DG `%get.obj_shortdesc/noadesc/pldesc[VNUM]%` (legacy dg_scripts.cpp): VNUM = zone * 100 + id.
+local function proto_short(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return "[no description for object ?]" end
+    local name = objects.template(math.floor(vnum / 100), vnum % 100).name
+    if name == nil or name == "" then return "[no description for object " .. vnum .. "]" end
+    return name
+end
+local function without_article(s)
+    for _, a in ipairs({"a pair ", "a ", "an ", "some ", "the "}) do
+        if string.lower(string.sub(s, 1, #a)) == a then return string.sub(s, #a + 1) end
+    end
+    return s
+end
+local function proto_noa(vnum)
+    return without_article(proto_short(vnum))
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = without_article(s)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
 end
 -- DG globals set on this mob by its init (LOAD) trigger, 557:10-39
 local classes = self:getvar("classes")
@@ -72,43 +104,30 @@ elseif actor:get_quest_stage("phase_armor") < phase then
     actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my quests yet.'")
     return true
 end
-local got_hands = actor:get_quest_var("phase_armor:hands_armor_armor_acquired")
-local got_feet = actor:get_quest_var("phase_armor:feet_armor_armor_acquired")
-local got_wrist = actor:get_quest_var("phase_armor:wrist_armor_armor_acquired")
-local got_head = actor:get_quest_var("phase_armor:head_armor_armor_acquired")
-local got_arms = actor:get_quest_var("phase_armor:arms_armor_armor_acquired")
-local got_legs = actor:get_quest_var("phase_armor:legs_armor_armor_acquired")
-local got_body = actor:get_quest_var("phase_armor:body_armor_armor_acquired")
-local hands_count = actor:get_quest_var("phase_armor:hands_gem_gems_acquired")
-local feet_count = actor:get_quest_var("phase_armor:feet_gem_gems_acquired")
-local wrist_count = actor:get_quest_var("phase_armor:wrist_gem_gems_acquired")
-local head_count = actor:get_quest_var("phase_armor:head_gem_gems_acquired")
-local arms_count = actor:get_quest_var("phase_armor:arms_gem_gems_acquired")
-local legs_count = actor:get_quest_var("phase_armor:legs_gem_gems_acquired")
-local body_count = actor:get_quest_var("phase_armor:body_gem_gems_acquired")
-local done_hands = got_hands == 1  and  hands_count == 3
-local done_feet = got_feet == 1  and  feet_count == 3
-local done_wrist = got_wrist == 1  and  wrist_count == 3
-local done_head = got_head == 1  and  head_count == 3
-local done_arms = got_arms == 1  and  arms_count == 3
-local done_legs = got_legs == 1  and  legs_count == 3
-local done_body = got_body == 1  and  body_count == 3
--- Coerce nils to 0 so arithmetic and comparisons below are safe.
-got_hands = got_hands or 0; got_feet = got_feet or 0; got_wrist = got_wrist or 0
-got_head  = got_head  or 0; got_arms = got_arms or 0; got_legs  = got_legs  or 0
-got_body  = got_body  or 0
-hands_count = hands_count or 0; feet_count = feet_count or 0
-wrist_count = wrist_count or 0; head_count = head_count or 0
-arms_count  = arms_count  or 0; legs_count = legs_count or 0
-body_count  = body_count  or 0
-local given = got_hands + got_feet + got_wrist + got_head + got_arms + got_legs + got_body
-given = given + hands_count + feet_count + wrist_count + head_count + arms_count + legs_count + body_count
--- Count slots that have any partial progress but aren't fully rewarded
--- (i.e. armor + 3 gems = 4 turn-ins).
-local function _b2i(b) if b then return 1 else return 0 end end
-local unrewarded = _b2i(got_hands + hands_count ~= 4) + _b2i(got_feet + feet_count ~= 4) + _b2i(got_wrist + wrist_count ~= 4)
-unrewarded = unrewarded + _b2i(got_head + head_count ~= 4) + _b2i(got_arms + arms_count ~= 4)
-unrewarded = unrewarded + _b2i(got_legs + legs_count ~= 4) + _b2i(got_body + body_count ~= 4)
+-- Progress is keyed by the legacy vnum, as in 557:3 (`<vnum>_armor_acquired` /
+-- `<vnum>_gems_acquired`).
+local function acquired(vnum, suffix)
+    return tonumber(actor:get_quest_var("phase_armor:" .. tostring(vnum) .. suffix)) or 0
+end
+local slots = {
+    {armor = hands_armor, gem = hands_gem, reward = hands_reward},
+    {armor = feet_armor, gem = feet_gem, reward = feet_reward},
+    {armor = wrist_armor, gem = wrist_gem, reward = wrist_reward},
+    {armor = head_armor, gem = head_gem, reward = head_reward},
+    {armor = arms_armor, gem = arms_gem, reward = arms_reward},
+    {armor = legs_armor, gem = legs_gem, reward = legs_reward},
+    {armor = body_armor, gem = body_gem, reward = body_reward},
+}
+local given, unrewarded = 0, 0
+local any_done = false
+for _, slot in ipairs(slots) do
+    slot.got = acquired(slot.armor, "_armor_acquired")
+    slot.count = acquired(slot.gem, "_gems_acquired")
+    slot.done = slot.got == 1 and slot.count == 3
+    any_done = any_done or slot.done
+    given = given + slot.got + slot.count
+    if slot.got + slot.count ~= 4 then unrewarded = unrewarded + 1 end
+end
 actor:send(tostring(self.name) .. " tells you, 'Look for treasures from creatures:")
 if phase == 1 then
     actor:send("<b:cyan>below level 20</>.'_")
@@ -117,76 +136,26 @@ elseif phase == 2 then
 elseif phase == 3 then
     actor:send("<b:cyan>level 40 to 70</>.'_")
 end
-if not given then
+if given == 0 then
     actor:send(tostring(self.name) .. " tells you, 'You haven't given me anything yet.'")
     return true
-elseif unrewarded then
+elseif unrewarded > 0 then
     actor:send(tostring(self.name) .. " tells you, 'You have given me:'")
 end
-if got_hands and not done_hands then
-    actor:send("</>  " .. "%get.obj_shortdesc[%hands_armor%]%")
+for _, slot in ipairs(slots) do
+    if slot.got > 0 and not slot.done then
+        actor:send("</>  " .. proto_short(slot.armor))
+    end
+    if slot.count > 0 and not slot.done then
+        actor:send("</>  " .. tostring(slot.count) .. " of " .. proto_short(slot.gem))
+    end
 end
-if hands_count and not done_hands then
-    actor:send("</>  " .. tostring(hands_count) .. " of " .. "%get.obj_shortdesc[%hands_gem%]%")
-end
-if got_feet and not done_feet then
-    actor:send("</>  " .. "%get.obj_shortdesc[%feet_armor%]%")
-end
-if feet_count and not done_feet then
-    actor:send("</>  " .. tostring(feet_count) .. " of " .. "%get.obj_shortdesc[%feet_gem%]%")
-end
-if got_wrist and not done_wrist then
-    actor:send("</>  " .. "%get.obj_shortdesc[%wrist_armor%]%")
-end
-if wrist_count and not done_wrist then
-    actor:send("</>  " .. tostring(wrist_count) .. " of " .. "%get.obj_shortdesc[%wrist_gem%]%")
-end
-if got_head and not done_head then
-    actor:send("</>  " .. "%get.obj_shortdesc[%head_armor%]%")
-end
-if head_count and not done_head then
-    actor:send("</>  " .. tostring(head_count) .. " of " .. "%get.obj_shortdesc[%head_gem%]%")
-end
-if got_arms and not done_arms then
-    actor:send("</>  " .. "%get.obj_shortdesc[%arms_armor%]%")
-end
-if arms_count and not done_arms then
-    actor:send("</>  " .. tostring(arms_count) .. " of " .. "%get.obj_shortdesc[%arms_gem%]%")
-end
-if got_legs and not done_legs then
-    actor:send("</>  " .. "%get.obj_shortdesc[%legs_armor%]%")
-end
-if legs_count and not done_legs then
-    actor:send("</>  " .. tostring(legs_count) .. " of " .. "%get.obj_shortdesc[%legs_gem%]%")
-end
-if got_body and not done_body then
-    actor:send("</>  " .. "%get.obj_shortdesc[%body_armor%]%")
-end
-if body_count and not done_body then
-    actor:send("</>  " .. tostring(body_count) .. " of " .. "%get.obj_shortdesc[%body_gem%]%")
-end
-if done_hands and done_feet and done_wrist and done_head and done_arms and done_legs and done_body then
+if any_done then
     actor:send("_")
     actor:send(tostring(self.name) .. " tells you, 'You have completed quests for:'")
 end
-if done_hands then
-    actor:send("</>  " .. "%get.obj_shortdesc[%hands_reward%]%")
-end
-if done_feet then
-    actor:send("</>  " .. "%get.obj_shortdesc[%feet_reward%]%")
-end
-if done_wrist then
-    actor:send("</>  " .. "%get.obj_shortdesc[%wrist_reward%]%")
-end
-if done_head then
-    actor:send("</>  " .. "%get.obj_shortdesc[%head_reward%]%")
-end
-if done_arms then
-    actor:send("</>  " .. "%get.obj_shortdesc[%arms_reward%]%")
-end
-if done_legs then
-    actor:send("</>  " .. "%get.obj_shortdesc[%legs_reward%]%")
-end
-if done_body then
-    actor:send("</>  " .. "%get.obj_shortdesc[%body_reward%]%")
+for _, slot in ipairs(slots) do
+    if slot.done then
+        actor:send("</>  " .. proto_short(slot.reward))
+    end
 end

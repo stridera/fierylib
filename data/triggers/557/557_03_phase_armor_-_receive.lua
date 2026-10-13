@@ -10,6 +10,41 @@
 
 -- Converted from DG Script #55703: Phase Armor - Receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG `%get.obj_shortdesc/noadesc/pldesc[VNUM]%` (legacy dg_scripts.cpp): VNUM = zone * 100 + id.
+local function proto_short(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return "[no description for object ?]" end
+    local name = objects.template(math.floor(vnum / 100), vnum % 100).name
+    if name == nil or name == "" then return "[no description for object " .. vnum .. "]" end
+    return name
+end
+local function without_article(s)
+    for _, a in ipairs({"a pair ", "a ", "an ", "some ", "the "}) do
+        if string.lower(string.sub(s, 1, #a)) == a then return string.sub(s, #a + 1) end
+    end
+    return s
+end
+local function proto_noa(vnum)
+    return without_article(proto_short(vnum))
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = without_article(s)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end
 -- DG globals set on this mob by its init (LOAD) trigger, 557:10-39
 local classes = self:getvar("classes")
 local phase = self:getvar("phase")
@@ -38,14 +73,10 @@ if classes == nil or phase == nil then
     return true  -- the init trigger has not run for this mob
 end
 local _return_value = true  -- Default: allow action
--- TODO(parity): converter left every per-slot id comparison as a
--- string literal (e.g. `object.id == "%hands_armor%"`). They will
--- never match a real numeric object.id and the entire turn-in path
--- below is dead code until rewritten. Replace with comparisons
--- against the locals seeded by the LOAD trigger (e.g.
--- `object.id == hands_armor`) once it's confirmed whether stored
--- ids are local_id or composite (zone, id).
-if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor or object.id == feet_gem or object.id == wrist_armor or object.id == wrist_gem or object.id == head_armor or object.id == head_gem or object.id == arms_armor or object.id == arms_gem or object.id == legs_armor or object.id == legs_gem or object.id == body_armor or object.id == body_gem then
+-- The init trigger stores legacy vnums (zone * 100 + id); compare the
+-- turned-in object the same way.
+local object_id = (tonumber(object.zone_id) or 0) * 100 + (tonumber(object.local_id) or 0)
+if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor or object_id == feet_gem or object_id == wrist_armor or object_id == wrist_gem or object_id == head_armor or object_id == head_gem or object_id == arms_armor or object_id == arms_gem or object_id == legs_armor or object_id == legs_gem or object_id == body_armor or object_id == body_gem then
     local anti = "Anti-Paladin"
     if not actor or not actor.can_be_seen then
         _return_value = true
@@ -72,48 +103,28 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
         actor:send(tostring(self.name) .. " refuses your item.")
         return _return_value
     end
-    local object_id = object.id
+    -- DG `case <armor>` falls through into `case <gem>`: both set the slot's
+    -- multiplier and reward, only the armor sets `is_armor`.
     local is_armor, exp_x, reward_id
-    if object_id == hands_armor then
-        is_armor = 1
-    elseif object_id == hands_gem then
-        exp_x = 1
-        reward_id = hands_reward
-    elseif object_id == feet_armor then
-        is_armor = 1
-    elseif object_id == feet_gem then
-        exp_x = 2
-        reward_id = feet_reward
-    elseif object_id == wrist_armor then
-        is_armor = 1
-    elseif object_id == wrist_gem then
-        exp_x = 3
-        reward_id = wrist_reward
-    elseif object_id == head_armor then
-        is_armor = 1
-    elseif object_id == head_gem then
-        exp_x = 4
-        reward_id = head_reward
-    elseif object_id == arms_armor then
-        is_armor = 1
-    elseif object_id == arms_gem then
-        exp_x = 6
-        reward_id = arms_reward
-    elseif object_id == legs_armor then
-        is_armor = 1
-    elseif object_id == legs_gem then
-        exp_x = 8
-        reward_id = legs_reward
-    elseif object_id == body_armor then
-        is_armor = 1
-    elseif object_id == body_gem then
-        exp_x = 10
-        reward_id = body_reward
+    local slot_table = {
+        {hands_armor, hands_gem, 1, hands_reward},
+        {feet_armor, feet_gem, 2, feet_reward},
+        {wrist_armor, wrist_gem, 3, wrist_reward},
+        {head_armor, head_gem, 4, head_reward},
+        {arms_armor, arms_gem, 6, arms_reward},
+        {legs_armor, legs_gem, 8, legs_reward},
+        {body_armor, body_gem, 10, body_reward},
+    }
+    for _, sl in ipairs(slot_table) do
+        if object_id == sl[1] then
+            is_armor = 1
+        end
+        if object_id == sl[1] or object_id == sl[2] then
+            exp_x = sl[3]
+            reward_id = sl[4]
+            break
+        end
     end
-    -- TODO(parity): DG `%get.obj_*[%object_id%]%` placeholders below
-    -- are emitted as literal text. Substitute via
-    -- `objects.template(zone, id).name` once the per-slot ids are
-    -- promoted to (zone, local_id) tuples.
     if is_armor then
         local armor_key = tostring(object_id) .. "_armor_acquired"
         local armor_count = actor:get_quest_var("phase_armor:" .. armor_key) or 0
@@ -125,7 +136,7 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
             actor:set_quest_var("phase_armor", armor_key, armor_count)
             actor:send(tostring(self.name) .. " tells you, 'Hey now, what have we here!?")
             actor:send("</>I've been looking for this for some time.")
-            actor:send("</>You have now given me " .. "%get.obj_shortdesc[%object_id%]%.'")
+            actor:send("</>You have now given me " .. proto_short(object_id) .. ".'")
         else
             _return_value = true
             wait(2)
@@ -148,9 +159,9 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
             actor:send(tostring(self.name) .. " tells you, 'It is good to see that adventurers are out conquering the realm.'")
             wait(2)
             if gem_count == 1 then
-                actor:send(tostring(self.name) .. " tells you, 'You have given me 1 " .. "%get.obj_noadesc[%object_id%]%.'")
+                actor:send(tostring(self.name) .. " tells you, 'You have given me 1 " .. proto_noa(object_id) .. ".'")
             else
-                actor:send(tostring(self.name) .. " tells you, 'You have given me " .. tostring(gem_count) .. " " .. "%get.obj_pldesc[%object_id%]%.'")
+                actor:send(tostring(self.name) .. " tells you, 'You have given me " .. tostring(gem_count) .. " " .. proto_plural(object_id) .. ".'")
             end
         else
             _return_value = true
@@ -184,7 +195,7 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Excellent work, intrepid adventurer!")
         actor:send("</>You have provided me with all I need to reward you with:")
-        actor:send("</>" .. "%get.obj_shortdesc[%reward_id%]%!'")
+        actor:send("</>" .. proto_short(reward_id) .. "!'")
         wait(2)
         actor:send("<b:white>You gain experience!</>")
         local exp

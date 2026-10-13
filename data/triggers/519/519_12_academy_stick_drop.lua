@@ -16,7 +16,7 @@ if actor:get_quest_var("school:gear") == 10 then
     actor:send("You can permanently destroy objects with the <b:cyan>(J)UNK</> command.'</>")
     wait(2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Try junking a stick by typing <b:green>junk stick</>.'</>")
-elseif actor:get_quest_var("school:gear") == 13 and target.id == 18 then
+elseif actor:get_quest_var("school:gear") == 13 and target and target.id == 18 then
     actor:set_quest_var("school", "gear", 14)
     wait(2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'That's how it's done.'")

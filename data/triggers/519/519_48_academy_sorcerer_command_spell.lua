@@ -7,8 +7,8 @@
 -- Converted from DG Script #51948: academy_sorcerer_command_spell
 -- Original: MOB trigger, flags: COMMAND, probability: 100%
 
--- Command filter: spell
-if not (cmd == "spell") then
+-- Command filter: spells
+if not (cmd == "spells") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
@@ -19,7 +19,7 @@ if cmd == "s" or cmd == "sp" then
 end
 if actor:get_quest_var("school:fight") == 2 then
     actor:set_quest_var("school", "fight", 3)
-    actor:command("spell")
+    actor:command("spells")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Spells are divided up by Circle.")
     actor:send("For now you only have access to Circle 1 spells.")

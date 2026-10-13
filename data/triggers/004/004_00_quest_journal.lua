@@ -8,7 +8,7 @@
 -- Converted from DG Script #400: Quest Journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
 local _return_value = true  -- Default: allow action
-if not arg then
+if arg == nil or arg == "" then
     actor:send("This journal tracks all your quest information as you journey through Ethilien!")
     actor:send("<yellow>=====================================<==/>")
     actor:send("<yellow>OVERVIEW</>")

@@ -18,7 +18,7 @@ if cmd == "t" or cmd == "th" then
     _return_value = true
     return _return_value
 end
-if arg then
+if arg ~= nil and arg ~= "" then
     -- TODO(parity): these legacy vnum lists (4XXXX) need to be remapped to
     -- new (zone, local_id) pairs. For now we compare arg.id (the local id)
     -- against the trailing two-digit portion of each legacy vnum for

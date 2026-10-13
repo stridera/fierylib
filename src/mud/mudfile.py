@@ -51,12 +51,21 @@ class MudData:
     def split_by_delimiter(self, delimiter: str = "#") -> list[Self]:
         objects = []
         object_data = []
-        while line := self.get_next_line():
+        # Inside an entry the lines are kept as written (indentation and blank
+        # lines too) for `read_text`; `get_next_line` strips and skips blanks, so
+        # every other reader sees what it always did.
+        while self.current_line < len(self.data):
+            raw = self.data[self.current_line].rstrip("\r\n")
+            self.current_line += 1
+            line = raw.strip()
+            if line == "":
+                if object_data:
+                    object_data.append(raw)
+                continue
             if line.startswith(delimiter) or line == "$" or line == "$~":
                 if object_data:
                     objects.append(MudData(object_data))
                 if line == "$" or line == "$~":
-                    # Only break if we've actually started collecting data
                     # This handles leading $ characters in files
                     if objects or object_data:
                         break
@@ -64,7 +73,7 @@ class MudData:
                         continue
                 object_data = [line]
             else:
-                object_data.append(line)
+                object_data.append(raw)
         return objects
 
     def read_string(self) -> str:
@@ -80,6 +89,26 @@ class MudData:
                 return text
             text += line + " "
         return text
+
+    def read_text(self) -> str:
+        """
+        Reads a `~`-terminated block of text keeping its line breaks, leading
+        indentation (tabs expand to 8 columns) and blank lines (ASCII art such as maps
+        depends on them);
+        `read_string` folds the same block onto one line. Lines are joined with
+        "\\n" and trailing whitespace is dropped.
+        """
+        lines: list[str] = []
+        while self.current_line < len(self.data):
+            line = self.data[self.current_line].expandtabs(8).rstrip()
+            self.current_line += 1
+            if line.endswith("~"):
+                last = line[:-1].rstrip()
+                if last:
+                    lines.append(last)
+                break
+            lines.append(line)
+        return "\n".join(lines)
 
     def read_key_value(self) -> Optional[tuple[str, str]]:
         line = self.get_next_line()
