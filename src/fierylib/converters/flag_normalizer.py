@@ -562,8 +562,10 @@ def object_globe_circle(effect_flags: list) -> int:
 
 # Elemental weapon bits (legacy EFF_*_WEAPON, effect_flags word 2). Legacy convert_weapon_damage /
 # convert_weapon_type (src/damage.cpp) swap the weapon's damage type for the element (first match in
-# this order wins), so the modern import stores the element as the weapon's `weapon_damage_type`
-# instead of a worn effect. RADIANT_WEAPON hits as alignment (holy) damage.
+# this order wins), so the modern import stores the element as the weapon's `weapon_element` instead
+# of a worn effect; `weapon_damage_type` keeps the raw physical type, which picks the weapon family
+# and proficiency (legacy weapon_proficiency reads the raw type). RADIANT_WEAPON hits as alignment
+# (holy) damage.
 OBJECT_WEAPON_ELEMENT = (
     ('RADIANT_WEAPON', 'ALIGN'),
     ('FIRE_WEAPON', 'FIRE'),
@@ -574,10 +576,25 @@ OBJECT_WEAPON_ELEMENT = (
 )
 
 
+# DamageType labels that are elements (legacy skill_to_dtype maps these raw weapon types to DAM_*).
+# A weapon whose raw type is one of these (phase staffs, wands) deals that element and, in legacy,
+# belongs to no weapon family (weapon_proficiency returns -1 for them).
+ELEMENTAL_DAMAGE_TYPES = frozenset({'FIRE', 'COLD', 'ACID', 'SHOCK', 'POISON', 'ALIGN'})
+
+
 def object_weapon_damage_type(effect_flags: list) -> str | None:
-    """DamageType a weapon deals because of its *_WEAPON effect bit (None = keeps its own type)."""
+    """Element a weapon deals because of its *_WEAPON effect bit (None = no elemental bit)."""
     names = {normalize_flag(f) for f in effect_flags or [] if f}
     return next((dmg for flag, dmg in OBJECT_WEAPON_ELEMENT if flag in names), None)
+
+
+def object_weapon_element(raw_damage_type: str | None, effect_flags: list) -> str | None:
+    """Element a weapon deals (legacy convert_weapon_damage): its *_WEAPON bit, else its raw damage
+    type when that is itself an element. None = deals its physical type. The raw type is never
+    changed: it picks the weapon family / proficiency."""
+    return object_weapon_damage_type(effect_flags) or (
+        raw_damage_type if raw_damage_type in ELEMENTAL_DAMAGE_TYPES else None
+    )
 
 
 def mob_default_status_flags(

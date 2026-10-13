@@ -22,7 +22,7 @@ from fierylib.converters import legacy_id_to_composite, normalize_flags, convert
 from fierylib.converters.flag_normalizer import (
     process_object_flags,
     ProcessedObjectFlags,
-    object_weapon_damage_type,
+    object_weapon_element,
 )
 
 logger = logging.getLogger(__name__)
@@ -298,11 +298,15 @@ class ObjectImporter:
         weapon_dice_num, weapon_dice_size = sane_weapon_dice(obj_type, weapon_dice_num, weapon_dice_size)
 
         legacy_damtype = values_dict.pop("Damage Type", None)
+        # weapon_damage_type keeps the legacy raw type: the engine derives the weapon family and
+        # proficiency (slashing / piercing / bludgeoning) from it, as legacy weapon_proficiency does.
         weapon_damage_type = legacy_damtype if legacy_damtype else None
-        # EFF_FIRE/ICE/POISON/SHOCK/ACID/RADIANT_WEAPON: the element replaces the weapon's damage type
-        # (legacy convert_weapon_damage), so the engine needs no separate worn-effect lookup.
+        # weapon_element is what the weapon deals (legacy convert_weapon_damage): the EFF_FIRE/ICE/
+        # POISON/SHOCK/ACID/RADIANT_WEAPON element, else the raw type when that is itself elemental
+        # (phase staffs and wands). It never replaces weapon_damage_type.
+        weapon_element = None
         if obj_type == "WEAPON":
-            weapon_damage_type = object_weapon_damage_type(raw_effect_flags) or weapon_damage_type
+            weapon_element = object_weapon_element(weapon_damage_type, raw_effect_flags)
 
         # Drop fields the runtime never reads (vestigial JSONB noise):
         #   - "Average": redundant with the typed dice columns above.
@@ -440,6 +444,7 @@ class ObjectImporter:
                         "weaponDiceSize": weapon_dice_size,
                         "weaponDiceBonus": weapon_dice_bonus,
                         "weaponDamageType": weapon_damage_type,
+                        "weaponElement": weapon_element,
                         "restrictedAlignments": processed_flags.restricted_alignments,
                         "restrictedClassIds": processed_flags.restricted_class_ids,
                         "restrictedRaces": processed_flags.restricted_races,
@@ -482,6 +487,7 @@ class ObjectImporter:
                         "weaponDiceSize": weapon_dice_size,
                         "weaponDiceBonus": weapon_dice_bonus,
                         "weaponDamageType": weapon_damage_type,
+                        "weaponElement": weapon_element,
                         "restrictedAlignments": {"set": processed_flags.restricted_alignments},
                         "restrictedClassIds": {"set": processed_flags.restricted_class_ids},
                         "restrictedRaces": {"set": processed_flags.restricted_races},

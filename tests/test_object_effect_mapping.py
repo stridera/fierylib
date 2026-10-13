@@ -6,7 +6,11 @@ from pathlib import Path
 from mud.mudfile import MudData
 from mud.types.object import Object
 
-from fierylib.converters.flag_normalizer import object_weapon_damage_type, process_object_flags
+from fierylib.converters.flag_normalizer import (
+    object_weapon_damage_type,
+    object_weapon_element,
+    process_object_flags,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 SQL = ROOT / "data" / "sql" / "2026-10-13-object-effect-mapping.sql"
@@ -53,6 +57,19 @@ def test_weapon_bit_picks_the_element_in_legacy_order():
     assert object_weapon_damage_type(["MAJOR_GLOBE"]) is None
 
 
+def test_element_is_separate_from_the_physical_type():
+    # The ice dagger keeps its piercing family and deals cold (the importer writes both columns).
+    assert object_weapon_element("PIERCE", ["ICE_WEAPON"]) == "COLD"
+    # The bit wins over an elemental raw type, in legacy convert_weapon_damage order.
+    assert object_weapon_element("FIRE", ["RADIANT_WEAPON"]) == "ALIGN"
+    # Phase staffs / wands: the raw type is the element (legacy proficiency: no family).
+    assert object_weapon_element("SHOCK", []) == "SHOCK"
+    assert object_weapon_element("ALIGN", []) == "ALIGN"
+    # Plain physical weapons deal their physical type.
+    assert object_weapon_element("SLASH", []) is None
+    assert object_weapon_element(None, []) is None
+
+
 def test_generator_derives_old_and_new_state(tmp_path):
     gen = _load_generator()
     # The buggy parser read the dagger's bit 85 as bit 47 (MAJOR_GLOBE).
@@ -70,10 +87,17 @@ def test_generator_derives_old_and_new_state(tmp_path):
 def test_committed_patch_is_guarded_and_idempotent():
     sql = SQL.read_text()
     assert "CREATE TEMP TABLE _oem_hit" in sql and "= m.old_status" in sql and "= m.old_res" in sql
-    assert "AND o.weapon_damage_type = v.legacy" in sql
     assert "ON CONFLICT" not in sql
-    for ddl in ("ALTER TABLE", "DROP TABLE", "TRUNCATE"):
+    # the only DDL is the additive column, matching `prisma db push` for the muditor schema
+    assert 'ADD COLUMN IF NOT EXISTS "weapon_element" "DamageType";' in sql
+    for ddl in ("DROP TABLE", "DROP COLUMN", "TRUNCATE"):
         assert ddl not in sql
-    # the dagger: old = major globe (6), new = nothing; it is cold-typed after the patch
+    # the element is set only while empty and never touches the physical type
+    assert "SET weapon_element = v.element" in sql and "AND o.weapon_element IS NULL" in sql
+    assert "AND o.weapon_damage_type = v.legacy" in sql
+    assert "SET weapon_damage_type" not in sql
+    # the dagger: old = major globe (6), new = nothing; it deals cold but stays PIERCE
     assert "(10, 47, ARRAY[]::text[], 6, '{}'::jsonb, ARRAY[]::text[], 0, '{}'::jsonb)" in sql
     assert "(10, 47, 'PIERCE', 'COLD')" in sql
+    # weapons whose raw legacy type is an element (phase staffs) deal that element
+    assert "SET weapon_element = weapon_damage_type" in sql
