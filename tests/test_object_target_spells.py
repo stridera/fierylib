@@ -38,8 +38,20 @@ def test_each_spell_has_one_alter_object_row_in_its_mode():
         assert _alter(name)["trigger"] == "on_cast"
 
 
+# Preserve is a corpse-timer manual spell: it has no character effect, only the alter row.
+ALTER_ONLY = ("PRESERVE",)
+
+
+def test_alter_only_spells_have_just_the_alter_row():
+    for name in ALTER_ONLY:
+        effects = _abilities()[name]["effects"]
+        assert [e["effect"] for e in effects] == ["alter_object"], name
+
+
 def test_character_effect_is_kept_ahead_of_the_alter_row():
     for name in MODES:
+        if name in ALTER_ONLY:
+            continue
         effects = _abilities()[name]["effects"]
         assert len(effects) >= 2, name
         assert effects[-1]["effect"] == "alter_object", name
