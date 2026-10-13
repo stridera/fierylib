@@ -4522,9 +4522,9 @@
         "effect": "modify",
         "order": 1,
         "params": {
-          "amount": "skill",
-          "duration": "skill / 15",
-          "target": "max_move",
+          "amount": "pow(skill, 2) / 40 + 50 - random(2, 10)",
+          "duration": "if(clamp(skill - 95, 0, 1), 7, skill / 15)",
+          "target": "max_hp",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -4885,7 +4885,7 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "amount": "skill * 2",
+          "amount": "pow(skill, 2) / 20 + 90 - random(2, 10)",
           "duration": "skill / 10",
           "target": "max_hp",
           "durationUnit": "hours"
@@ -5206,9 +5206,9 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "amount": "skill / 2",
-          "duration": "skill / 20",
-          "target": "max_move",
+          "amount": "pow(skill, 2) / 60 + 40 - random(2, 10)",
+          "duration": "if(clamp(skill - 95, 0, 1), 5, if(skill / 20, skill / 20, 2 * clamp(skill, 0, 1)))",
+          "target": "max_hp",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -7018,9 +7018,9 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "amount": "skill",
-          "duration": "skill / 15",
-          "target": "max_move",
+          "amount": "pow(skill, 2) / 40 + 50 - random(2, 10)",
+          "duration": "if(clamp(skill - 95, 0, 1), 7, skill / 15)",
+          "target": "max_hp",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -7054,8 +7054,8 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "amount": "skill",
-          "duration": "skill / 15",
+          "amount": "pow(skill, 2) / 30 + 75 - random(2, 10)",
+          "duration": "if(clamp(skill - 95, 0, 1), 7, skill / 15)",
           "target": "max_hp",
           "durationUnit": "hours"
         },
@@ -9294,9 +9294,9 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "amount": "skill / 4",
-          "duration": "skill / 30",
-          "target": "max_move",
+          "amount": "pow(skill, 2) / 80 + 25 - random(2, 10)",
+          "duration": "if(skill / 30, skill / 30, 2)",
+          "target": "max_hp",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -15573,8 +15573,8 @@
         "effect": "modify",
         "order": 0,
         "params": {
-          "amount": "skill / 2",
-          "duration": "skill / 20",
+          "amount": "pow(skill, 2) / 35 + 75 - random(2, 10)",
+          "duration": "if(clamp(skill - 95, 0, 1), 5, if(skill / 20, skill / 20, 2 * clamp(skill, 0, 1)))",
           "target": "max_hp",
           "durationUnit": "hours"
         },
