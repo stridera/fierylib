@@ -187,7 +187,7 @@ SCENARIOS = [
         """
         env.speech = "progress"
         env.self = entity("self", {name = "Hakujo"})
-        env.actor = entity("actor", {class = "Monk", level = 60},
+        env.actor = entity("actor", {class = "monk", level = 60},
           {get_has_completed = function() return false end,
            get_quest_stage = function(q) if q == "monk_vision" then return 1 end return 5 end,
            get_quest_var = function(k) if k == "monk_vision:attack_counter" then return 0 end end})

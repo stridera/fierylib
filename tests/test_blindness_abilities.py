@@ -49,7 +49,13 @@ def test_eye_gouge_blinds_for_one_tick_before_it_damages():
     kinds = [e["effect"] for e in sorted(ability["effects"], key=lambda e: e["order"])]
     assert kinds == ["status", "modify", "damage"]
     (status,) = _effects("EYE_GOUGE", "status")
-    assert status["params"] == {"flag": "blind", "duration": 1, "durationUnit": "hours"}
+    # attackRoll arrived with fierymud-rs #144 (2026-10-12-glory-eye-gouge-v2-reworks.sql).
+    assert status["params"] == {
+        "flag": "blind",
+        "duration": 1,
+        "durationUnit": "hours",
+        "attackRoll": True,
+    }
     (modify,) = _effects("EYE_GOUGE", "modify")
     assert modify["params"]["target"] == "accuracy"
     assert modify["params"]["amount"] == "-2 - skill / 10"
@@ -68,7 +74,8 @@ def test_sql_literals_match_json():
         _effects("BLINDNESS", "status")[0]["params"],
         # The cleanse messages arrive later, in 2026-10-08-heal-cleanse-messages.sql.
         {"condition": "blind", "scope": "all"},
-        _effects("EYE_GOUGE", "status")[0]["params"],
+        # attackRoll is added later by 2026-10-12-glory-eye-gouge-v2-reworks.sql.
+        {k: v for k, v in _effects("EYE_GOUGE", "status")[0]["params"].items() if k != "attackRoll"},
         _effects("EYE_GOUGE", "modify")[0]["params"],
     ]
     for params in wanted:
