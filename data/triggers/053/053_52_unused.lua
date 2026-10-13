@@ -27,7 +27,7 @@ if cmd == "m" or cmd == "me" then
     return _return_value
 end
 if actor:get_quest_stage("monk_vision") > 8 and actor:get_quest_stage("monk_chants") == 6 and actor.level >= 80 and actor.room == 5272 then
-    if actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         if actor.is_fighting then
             actor:send("<magenta>You cannot properly focus while fighting!</>")
             return _return_value

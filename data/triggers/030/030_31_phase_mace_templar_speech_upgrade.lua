@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "upgrade") or string.find(string.lower
 end
 wait(2)
 if actor.level > 9 then
-    if actor:get_quest_stage("phase_mace") == 1 or (actor:get_quest_stage("phase_mace") == 0 and (actor:has_equipped("340") or actor:has_item("340"))) then
+    if actor:get_quest_stage("phase_mace") == 1 or (actor:get_quest_stage("phase_mace") == 0 and (actor:has_equipped(2, 140) or actor:has_item(2, 140))) then
         if actor:get_quest_stage("phase_mace") == 0 then
             actor:start_quest("phase_mace")
         end

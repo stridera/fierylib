@@ -10,7 +10,7 @@
 -- TODO(parity): `self.id ~= "flag_a"` was a string compare. Replace with
 -- `self.local_id ~= 82` / `self.local_id ~= 83` (the team flag local ids)
 -- once the team mapping is finalized.
--- TODO(parity): `actor:has_equipped("18880")` and `actor.wearing[18881]` use
+-- TODO(parity): `actor:has_equipped(188, 80)` and `actor.wearing[18881]` use
 -- legacy 5-digit vnums; switch to composite-key lookups.
 local _return_value = true  -- Default: allow action
 -- *** Set entity IDs ****
@@ -19,7 +19,7 @@ local flag_a = 18882
 local flag_b = 18883
 local enemy_flag
 -- Player is on team A
-if actor:has_equipped("18880") then
+if actor:has_equipped(188, 80) then
     -- Player is trying to pick up team A's flag
     if self.id ~= "flag_a" then
         enemy_flag = "yes"

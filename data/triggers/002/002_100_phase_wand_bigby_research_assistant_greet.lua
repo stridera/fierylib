@@ -10,9 +10,8 @@
 --  - prompts about gem progress if the player is mid-craft (stage 2),
 --  - reminds the player to come back for higher tiers (stage > 2).
 --
--- TODO(parity): `actor:has_equipped("300")` / `actor:has_item("300")`
--- pass legacy 5-digit vnums as strings; once the runtime exposes a
--- (zone, id) form for these checks, rewrite to has_equipped(2, 100) etc.
+-- Wand objects are looked up by (zone, id): the legacy vnums 300/310/320/330
+-- are 2:100, 2:110, 2:120 and 2:130.
 if self:has_effect(Effect.Invisible) then
     self:command("vis")
 end
@@ -38,8 +37,8 @@ end
 if actor.level < 10 then return end
 
 local offer, continue = false, false
-local function check(stage, q, wand_id)
-    if (actor:has_equipped(wand_id) or actor:has_item(wand_id)) and stage < 2 then
+local function check(stage, q, wand_zone, wand_id)
+    if (actor:has_equipped(wand_zone, wand_id) or actor:has_item(wand_zone, wand_id)) and stage < 2 then
         if stage == 0 then
             actor:start_quest(q)
         end
@@ -49,10 +48,10 @@ local function check(stage, q, wand_id)
         continue = true
     end
 end
-check(air, "air_wand", "300")
-check(fire, "fire_wand", "310")
-check(ice, "ice_wand", "320")
-check(acid, "acid_wand", "330")
+check(air, "air_wand", 2, 100)
+check(fire, "fire_wand", 2, 110)
+check(ice, "ice_wand", 2, 120)
+check(acid, "acid_wand", 2, 130)
 
 if continue then
     self:say("Have you been practicing and looking for the gems you need?")

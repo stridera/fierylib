@@ -36,82 +36,82 @@ local place, hasgem, hasvision
 if (self.zone_id == 590 and self.id == 6) then
     place = 4328
     local stage = 1
-    if actor:has_item("55582") then
+    if actor:has_item(555, 82) then
         hasgem = 1
     end
-    if actor:has_equipped("390") then
+    if actor:has_equipped(2, 190) then
         hasvision = 1
     end
 elseif (self.zone_id == 185 and self.id == 5) then
     place = 58707
     local stage = 2
-    if actor:has_item("55591") then
+    if actor:has_item(555, 91) then
         hasgem = 1
     end
-    if actor:has_equipped("391") then
+    if actor:has_equipped(2, 191) then
         hasvision = 1
     end
 elseif (self.zone_id == 85 and self.id == 1) then
     place = 18597
     local stage = 3
-    if actor:has_item("55623") then
+    if actor:has_item(556, 23) then
         hasgem = 1
     end
-    if actor:has_equipped("392") then
+    if actor:has_equipped(2, 192) then
         hasvision = 1
     end
 elseif (self.zone_id == 125 and self.id == 32) then
     place = 58102
     local stage = 4
-    if actor:has_item("55655") then
+    if actor:has_item(556, 55) then
         hasgem = 1
     end
-    if actor:has_equipped("393") then
+    if actor:has_equipped(2, 193) then
         hasvision = 1
     end
 elseif (self.zone_id == 162 and self.id == 9) then
     place = 16057
     local stage = 5
-    if actor:has_item("55665") then
+    if actor:has_item(556, 65) then
         hasgem = 1
     end
-    if actor:has_equipped("394") then
+    if actor:has_equipped(2, 194) then
         hasvision = 1
     end
 elseif (self.zone_id == 430 and self.id == 13) then
     place = 59054
     local stage = 6
-    if actor:has_item("55678") then
+    if actor:has_item(556, 78) then
         hasgem = 1
     end
-    if actor:has_equipped("395") then
+    if actor:has_equipped(2, 195) then
         hasvision = 1
     end
 elseif (self.zone_id == 530 and self.id == 9) then
     place = 49079
     local stage = 7
-    if actor:has_item("55710") then
+    if actor:has_item(557, 10) then
         hasgem = 1
     end
-    if actor:has_equipped("396") then
+    if actor:has_equipped(2, 196) then
         hasvision = 1
     end
 elseif (self.zone_id == 584 and self.id == 15) then
     place = 11820
     local stage = 8
-    if actor:has_item("55722") then
+    if actor:has_item(557, 22) then
         hasgem = 1
     end
-    if actor:has_equipped("397") then
+    if actor:has_equipped(2, 197) then
         hasvision = 1
     end
 elseif (self.zone_id == 584 and self.id == 12) then
     place = 52075
     local stage = 9
-    if actor:has_item("55741") then
+    if actor:has_item(557, 41) then
         hasgem = 1
     end
-    if actor:has_equipped("398") then
+    if actor:has_equipped(2, 198) then
         hasvision = 1
     end
 end

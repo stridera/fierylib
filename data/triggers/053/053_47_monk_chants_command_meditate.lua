@@ -38,7 +38,7 @@ if (self.zone_id == 18 and self.id == 7) then
     local chantstage = 1
     level = 30
     local place = 3205
-    if actor:has_equipped("393") or actor:has_equipped("394") or actor:has_equipped("395") or actor:has_equipped("396") or actor:has_equipped("397") or actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 193) or actor:has_equipped(2, 194) or actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&3The power of the earth begins to flow through your fists!&0"
@@ -49,7 +49,7 @@ elseif (self.zone_id == 125 and self.id == 8) then
     local chantstage = 2
     level = 40
     local place = 4752
-    if actor:has_equipped("394") or actor:has_equipped("395") or actor:has_equipped("396") or actor:has_equipped("397") or actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 194) or actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&4&bThe power of the storm begins to flow through your fists!&0"
@@ -60,7 +60,7 @@ elseif (self.zone_id == 550 and self.id == 3) then
     local chantstage = 3
     level = 50
     local place = 11837
-    if actor:has_equipped("395") or actor:has_equipped("396") or actor:has_equipped("397") or actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&6&bThe power of ice begins to flow through your fists!&0"
@@ -71,7 +71,7 @@ elseif (self.zone_id == 550 and self.id == 4) then
     local chantstage = 4
     level = 60
     local place = 2786
-    if actor:has_equipped("396") or actor:has_equipped("397") or actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&bReverberating from the walls are the discordant words of power!&0"
@@ -82,7 +82,7 @@ elseif (self.zone_id == 490 and self.id == 66) then
     local chantstage = 5
     level = 75
     local place = 16057
-    if actor:has_equipped("397") or actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&5The roaring of the dead forms into a chant!&0"
@@ -93,7 +93,7 @@ elseif (self.zone_id == 238 and self.id == 26) then
     local chantstage = 6
     level = 80
     local place = 5272
-    if actor:has_equipped("398") or actor:has_equipped("399") then
+    if actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&1&bThe power of fire begins to flow through your fists!&0"
@@ -104,7 +104,7 @@ elseif (self.zone_id == 480 and self.id == 37) then
     local chantstage = 7
     level = 99
     local place = 48913
-    if actor:has_equipped("399") then
+    if actor:has_equipped(2, 199) then
         mark = "yes"
     end
     text1 = "&9&bThe chant to engender catastrophe echoes from the altar!&0"

@@ -31,7 +31,7 @@ elseif arg.is_npc then
     actor:send("You can only tag players!")
 elseif arg.level > 99 then
     actor:send("You cannot tag immortals!")
-elseif arg:has_equipped("18899") then
+elseif arg:has_equipped(188, 99) then
     arg:teleport(get_room(0, 0))
     self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. " with a FieryTag bat!")
     arg:teleport(actor.room)

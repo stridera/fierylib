@@ -44,7 +44,7 @@ local function maybe_credit(person)
         return
     end
     -- Must have the dragon bone cup (28:8) in inventory or equipped.
-    if not (person:has_item("dragon-bone-cup") or person:has_equipped(28, 8)) then
+    if not (person:has_item(28, 8) or person:has_equipped(28, 8)) then
         return
     end
     local number = region_for(self.zone_id, self.local_id)

@@ -11,13 +11,17 @@
 if actor then
     -- If killer holds a lit branch (obj 520:34) or burning branch (520:35),
     -- the wound cauterises and no new head grows.
-    local no_head = actor:has_equipped(520, 35)
-    if not no_head then
-        no_head = actor:has_equipped(520, 34)
+    -- has_equipped returns a boolean, so remember which branch matched and
+    -- take the display name from the object template.
+    local no_head
+    if actor:has_equipped(520, 35) then
+        no_head = objects.template(520, 35)
+    elseif actor:has_equipped(520, 34) then
+        no_head = objects.template(520, 34)
     end
     if no_head then
-        self.room:send_except(actor, tostring(actor.name) .. " seals the Hydra's neck with " .. tostring(no_head.shortdesc) .. ", preventing another head from growing!")
-        actor:send("You cauterize the wound with " .. tostring(no_head.shortdesc) .. " - no more heads from there!")
+        self.room:send_except(actor, tostring(actor.name) .. " seals the Hydra's neck with " .. tostring(no_head.name) .. ", preventing another head from growing!")
+        actor:send("You cauterize the wound with " .. tostring(no_head.name) .. " - no more heads from there!")
     elseif random(1, 100) > 65 then
         self.room:send_except(actor, "As soon as " .. tostring(actor.name) .. " strikes the head from the body a new one grows!")
         actor:send("As soon as you chop the head off, another one starts to grow!")

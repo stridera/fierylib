@@ -17,7 +17,20 @@
 -- proper rewrite once the room exit / cross-zone teleport API is settled.
 local wielder = self.worn_by
 if not wielder then return true end
-local target = wielder.is_fighting
+-- `is_fighting` is a boolean in mud-script (there is no opponent accessor), so
+-- the opponent is taken to be a mob in the wielder's room that is in a fight.
+if not wielder.is_fighting then return true end
+local room = wielder.room
+local target
+if room then
+    for i = 1, room.actor_count do
+        local a = room.actors[i]
+        if a and a.is_mob and a.is_fighting and a.name ~= wielder.name then
+            target = a
+            break
+        end
+    end
+end
 if not target then return true end
 -- Size gate: only triggers for non-medium wielders (giants, etc.).
 if wielder.size == "medium" then

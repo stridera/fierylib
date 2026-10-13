@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #18822: scepter_reform
 -- Original: OBJECT trigger, flags: GLOBAL, WEAR, probability: 100%
-if ((self.zone_id == 188 and self.id == 22) and actor:has_equipped("18823")) or ((self.zone_id == 188 and self.id == 23) and actor:has_equipped("18822")) then
+if ((self.zone_id == 188 and self.id == 22) and actor:has_equipped(188, 23)) or ((self.zone_id == 188 and self.id == 23) and actor:has_equipped(188, 22)) then
     wait(1)
     self.room:send_except(actor, tostring(actor.name) .. " places the ruby in the mouth of the scepter's dragon.")
     actor:send("You place the ruby in the mouth of the dragon.")

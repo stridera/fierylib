@@ -16,7 +16,7 @@ if actor then
 else
     -- this is a random trigger
     if myowner then
-        if myowner:has_equipped("3306") then
+        if myowner:has_equipped(30, 306) then
             -- the global variable was set (by the wear trigger)
             self.room:send_except(myowner, "Bells ring on " .. tostring(myowner.name) .. "'s hat as " .. tostring(myowner.name) .. " moves.")
             myowner:send("The bells on your hat ring as you shift your position.")

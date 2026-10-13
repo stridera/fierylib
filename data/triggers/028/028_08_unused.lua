@@ -16,7 +16,7 @@ if i then
     while i > 0 do
         local person = actor.group_member[i]
         if person.room == self.room then
-            if person:get_quest_stage("waterform") == 4 and (person:has_item("2808") or person:has_equipped("2808")) then
+            if person:get_quest_stage("waterform") == 4 and (person:has_item(28, 8) or person:has_equipped(28, 8)) then
                 -- switch on self.id
                 if (self.zone_id == 28 and self.id == 5) or (self.zone_id == 28 and self.id == 8) or (self.zone_id == 28 and self.id == 9) or (self.zone_id == 117 and self.id == 105) then
                     local number = 1
@@ -49,7 +49,7 @@ if i then
         end
         i = i - 1
     end
-elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item("2808") or actor:has_equipped("2808")) then
+elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item(28, 8) or actor:has_equipped(28, 8)) then
     -- switch on self.id
     if (self.zone_id == 28 and self.id == 5) or (self.zone_id == 28 and self.id == 8) or (self.zone_id == 28 and self.id == 9) or (self.zone_id == 117 and self.id == 105) then
         local number = 1

@@ -10,7 +10,7 @@
 -- advance the quest.
 
 if actor:get_quest_stage("waterform") == 6
-   and (actor:has_equipped(28, 8) or actor:has_item("dragon-bone-cup")) then
+   and (actor:has_equipped(28, 8) or actor:has_item(28, 8)) then
     if actor:get_quest_var("waterform:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
         wait(1)
         actor:send("<b:blue>You have already examined this source.</>")

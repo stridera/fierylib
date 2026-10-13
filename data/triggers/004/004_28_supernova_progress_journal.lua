@@ -131,7 +131,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 -- end clue 5 switch
                 actor:send("Talk to Phayla.")
             elseif stage > 3 then
-                if actor:has_item("48917") or actor:has_equipped("48917") then
+                if actor:has_item(489, 17) or actor:has_equipped(489, 17) then
                     if stage == 4 then
                         actor:send("Learning is a life-long process.")
                         actor:send(tostring(clue2))
