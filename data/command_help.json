@@ -2618,11 +2618,11 @@
    "rep"
   ],
   "category": "Communication",
-  "long": "If you're grouped, the report goes to every group member regardless of room (useful for healers in adjacent rooms). Solo players announce to the room only.",
+  "long": "With no argument, says your hit and movement points to everyone in the room. 'report <player>' tells that player instead (only they see it, and the usual tell refusals apply). Use 'greport' to report to your whole group.",
   "min_role": "Player",
   "name": "report",
-  "summary": "Announce your HP/stamina to your group or room.",
-  "usage": "report"
+  "summary": "Announce your HP/stamina to the room or one player.",
+  "usage": "report [<player>]"
  },
  {
   "aliases": [],
