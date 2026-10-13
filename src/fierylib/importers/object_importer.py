@@ -19,7 +19,11 @@ import logging
 from mud.types.object import Object
 from mud.mudfile import MudData
 from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article, fix_indefinite_article
-from fierylib.converters.flag_normalizer import process_object_flags, ProcessedObjectFlags
+from fierylib.converters.flag_normalizer import (
+    process_object_flags,
+    ProcessedObjectFlags,
+    object_weapon_damage_type,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -295,6 +299,10 @@ class ObjectImporter:
 
         legacy_damtype = values_dict.pop("Damage Type", None)
         weapon_damage_type = legacy_damtype if legacy_damtype else None
+        # EFF_FIRE/ICE/POISON/SHOCK/ACID/RADIANT_WEAPON: the element replaces the weapon's damage type
+        # (legacy convert_weapon_damage), so the engine needs no separate worn-effect lookup.
+        if obj_type == "WEAPON":
+            weapon_damage_type = object_weapon_damage_type(raw_effect_flags) or weapon_damage_type
 
         # Drop fields the runtime never reads (vestigial JSONB noise):
         #   - "Average": redundant with the typed dice columns above.

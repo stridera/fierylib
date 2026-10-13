@@ -69,9 +69,9 @@ def test_generator_collects_and_renders_guarded_idempotent_sql(tmp_path):
     gen = _load_generator()
     obj_dir = tmp_path / "world" / "obj"
     obj_dir.mkdir(parents=True)
-    # zone 7: #701 carries DETECT_INVIS (eff word 1 bit 3) + FLY (word 2 bit 7); #702 has none.
+    # zone 7: #701 carries DETECT_INVIS (bit 3) + FLY (bit 20), both in effect word 0; #702 has none.
     (obj_dir / "7.obj").write_text(
-        "#701\nring~\na ring~\nA ring.~\n~\n9 0 1 10\n0 0 0 0 0 0 0\n0.50 10 0 8 0 0 128 0\n"
+        "#701\nring~\na ring~\nA ring.~\n~\n9 0 1 10\n0 0 0 0 0 0 0\n0.50 10 0 1048584 0 0 0 0\n"
         "#702\nrock~\na rock~\nA rock.~\n~\n9 0 1 10\n0 0 0 0 0 0 0\n0.50 10 0 0 0 0 0 0\n$\n"
     )
     rows, usage, skipped, failed = gen.collect(tmp_path)

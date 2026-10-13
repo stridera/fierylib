@@ -54,7 +54,10 @@ class Object:
             extra_flags = BitFlags.build_flags(int(extra_flags), OBJECT_FLAGS)
             wear_flags_text = BitFlags.build_flags(int(wear_flags), WEAR_FLAGS)
             extra_stats = obj_val(item_types_str, f1, f2, f3, f4, f5, f6, f7)
-            effects = (int(eff3) << 26) | (int(eff2) << int(13)) | int(eff1)
+            # Legacy effect_flags is three 32-bit words (FLAGBLOCK_SIZE = 32): flag N lives in
+            # word N // 32, bit N % 32. The old shifts (13 / 26) mapped e.g. word 2 bit 21
+            # (ICE_WEAPON, 85) onto bit 47 (MAJOR_GLOBE).
+            effects = (int(eff3) << 64) | (int(eff2) << 32) | int(eff1)
             obj_effects = BitFlags.build_flags(effects, EFFECTS)
 
             # Store the type as a string from OBJECT_TYPES list

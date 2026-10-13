@@ -560,6 +560,26 @@ def object_globe_circle(effect_flags: list) -> int:
     return max((c for k, c in OBJECT_GLOBE_MAX_CIRCLE.items() if k in names), default=0)
 
 
+# Elemental weapon bits (legacy EFF_*_WEAPON, effect_flags word 2). Legacy convert_weapon_damage /
+# convert_weapon_type (src/damage.cpp) swap the weapon's damage type for the element (first match in
+# this order wins), so the modern import stores the element as the weapon's `weapon_damage_type`
+# instead of a worn effect. RADIANT_WEAPON hits as alignment (holy) damage.
+OBJECT_WEAPON_ELEMENT = (
+    ('RADIANT_WEAPON', 'ALIGN'),
+    ('FIRE_WEAPON', 'FIRE'),
+    ('ICE_WEAPON', 'COLD'),
+    ('POISON_WEAPON', 'POISON'),
+    ('SHOCK_WEAPON', 'SHOCK'),
+    ('ACID_WEAPON', 'ACID'),
+)
+
+
+def object_weapon_damage_type(effect_flags: list) -> str | None:
+    """DamageType a weapon deals because of its *_WEAPON effect bit (None = keeps its own type)."""
+    names = {normalize_flag(f) for f in effect_flags or [] if f}
+    return next((dmg for flag, dmg in OBJECT_WEAPON_ELEMENT if flag in names), None)
+
+
 def mob_default_status_flags(
     effect_flags: list, table: dict[str, str] | None = None
 ) -> tuple[list[str], list[str]]:
