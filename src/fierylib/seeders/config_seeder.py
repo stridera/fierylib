@@ -69,7 +69,10 @@ class ConfigSeeder:
             ("server", "port", 4003, ConfigValueType.INT, "Main game port", "1024", "65535", False, True),
             ("server", "tls_port", 4443, ConfigValueType.INT, "TLS/SSL port", "1024", "65535", False, True),
             ("server", "max_connections", 200, ConfigValueType.INT, "Maximum concurrent connections", "10", "1000", False, True),
-            ("server", "connection_timeout_seconds", 300, ConfigValueType.INT, "Connection timeout in seconds", "60", "3600", False, False),
+            # Idle handling (legacy 600/900): idle_void_seconds idles a player into the void,
+            # idle_rent_seconds auto-rents them out. Replaces the retired connection_timeout_seconds.
+            ("server", "idle_void_seconds", 600, ConfigValueType.INT, "Seconds idle before a player is pulled into the void", "60", "86400", False, False),
+            ("server", "idle_rent_seconds", 900, ConfigValueType.INT, "Seconds idle before a player is auto-rented out", "60", "86400", False, False),
             ("server", "target_tps", 10, ConfigValueType.INT, "Target ticks per second", "1", "100", False, True),
             ("server", "max_command_queue_size", 10000, ConfigValueType.INT, "Maximum command queue size", "100", "100000", False, True),
 
