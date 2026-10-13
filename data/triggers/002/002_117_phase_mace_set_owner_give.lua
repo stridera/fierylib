@@ -14,7 +14,7 @@ local _return_value = true  -- Default: allow action
 local macestep
 if (victim.zone_id == 30 and victim.id == 25) then
     macestep = 1
-    if not actor:get_quest_stage("phase_mace") then
+    if actor:get_quest_stage("phase_mace") == 0 then
         actor:start_quest("phase_mace")
     end
 elseif (victim.zone_id == 185 and victim.id == 2) then

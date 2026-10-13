@@ -19,7 +19,7 @@ end
 wait(2)
 local weapon = "wand"
 local times = 50
-if actor:get_quest_stage("air_wand") then
+if actor:get_quest_stage("air_wand") > 0 then
     self.room:send("<b:yellow>AIR</>")
     if actor:get_has_completed("air_wand") then
         self:say("It looks like you already have the most powerful staff of air in existence!")
@@ -77,7 +77,7 @@ if actor:get_quest_stage("air_wand") then
     end
     -- (empty send to actor)
 end
-if actor:get_quest_stage("fire_wand") then
+if actor:get_quest_stage("fire_wand") > 0 then
     self.room:send("<red>FIRE</>")
     if actor:get_has_completed("fire_wand") then
         self:say("It looks like you already have the most powerful staff of fire in existence!")
@@ -135,7 +135,7 @@ if actor:get_quest_stage("fire_wand") then
     end
     -- (empty send to actor)
 end
-if actor:get_quest_stage("ice_wand") then
+if actor:get_quest_stage("ice_wand") > 0 then
     self.room:send("<b:cyan>ICE</>")
     if actor:get_has_completed("ice_wand") then
         self:say("It looks like you already have the most powerful staff of ice in existence!")
@@ -193,7 +193,7 @@ if actor:get_quest_stage("ice_wand") then
     end
     -- (empty send to actor)
 end
-if actor:get_quest_stage("acid_wand") then
+if actor:get_quest_stage("acid_wand") > 0 then
     self.room:send("<b:green>ACID</>")
     if actor:get_has_completed("acid_wand") then
         self:say("It looks like you already have the most powerful staff of acid in existence!")

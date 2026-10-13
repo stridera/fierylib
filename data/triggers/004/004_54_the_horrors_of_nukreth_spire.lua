@@ -15,13 +15,13 @@ if string.find(arg, "horrors") or string.find(arg, "nukreth") or string.find(arg
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 20")
         local status
-        if actor:get_quest_stage("nukreth_spire") then
+        if actor:get_quest_stage("nukreth_spire") > 0 then
             status = "Repeatable"
         else
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        if actor:get_quest_stage("nukreth_spire") then
+        if actor:get_quest_stage("nukreth_spire") > 0 then
             actor:send("This quest has multiple paths and outcomes.")
             local path1 = actor:get_quest_var("nukreth_spire:path1")
             local path2 = actor:get_quest_var("nukreth_spire:path2")

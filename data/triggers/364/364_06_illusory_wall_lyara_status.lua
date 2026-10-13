@@ -31,29 +31,29 @@ elseif stage == 0 then
     self:say("I haven't agreed to teach you yet.")
 elseif stage == 1 then
     self:say("You're looking for things to make magical spectacles.")
-    if lens_a or lens_b or spur or magic then
+    if (lens_a or 0) ~= 0 or (lens_b or 0) ~= 0 or (spur or 0) ~= 0 or (magic or 0) ~= 0 then
         self.room:send("</>You have already brought me:")
-        if lens_a then
+        if (lens_a or 0) ~= 0 then
             self.room:send("- <b:white>" .. tostring(objects.template(103, 7).name) .. "</>")
         end
-        if lens_b then
+        if (lens_b or 0) ~= 0 then
             self.room:send("- <b:white>" .. tostring(objects.template(185, 11).name) .. "</>")
         end
-        if spur then
+        if (spur or 0) ~= 0 then
             self.room:send("- <b:white>" .. tostring(objects.template(410, 5).name) .. "</>")
         end
-        if magic then
+        if (magic or 0) ~= 0 then
             self.room:send("- <b:white>" .. tostring(objects.template(510, 17).name) .. "</>")
         end
     end
     self.room:send("You still need to find:")
-    if not lens_a and not lens_b then
+    if (lens_a or 0) == 0 and (lens_b or 0) == 0 then
         self.room:send("- <b:yellow>" .. tostring(objects.template(103, 7).name) .. "</> or <b:yellow>" .. tostring(objects.template(185, 11).name) .. "</>")
     end
-    if not spur then
+    if (spur or 0) == 0 then
         self.room:send("- <b:yellow>" .. tostring(objects.template(410, 5).name) .. "</>")
     end
-    if not magic then
+    if (magic or 0) == 0 then
         self.room:send("- <b:yellow>" .. tostring(objects.template(510, 17).name) .. "</>")
     end
 elseif stage == 2 then

@@ -21,7 +21,7 @@ wait(2)
 actor:send("<b:green>Treasure Hunters</>")
 if actor:get_has_completed("treasure_hunter") then
     actor:send(tostring(self.name) .. " says, 'Only great treasures, the stuff of legend, still wait out there!'")
-elseif not actor:get_quest_stage("treasure_hunter") then
+elseif actor:get_quest_stage("treasure_hunter") == 0 then
     actor:send(tostring(self.name) .. " says, 'You aren't doing anything for me right now.'")
 elseif actor:get_quest_var("treasure_hunter:hunt") == "found" then
     actor:send(tostring(self.name) .. " says, 'Give me your current order first.'")

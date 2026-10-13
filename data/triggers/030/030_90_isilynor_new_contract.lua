@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "i need a new notice", 1, true) then
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("dragon_slayer") - 1) * 10 then
-    if actor:get_quest_stage("dragon_slayer") then
+    if actor:get_quest_stage("dragon_slayer") > 0 then
         local notice
         -- switch on actor:get_quest_stage("dragon_slayer")
         if actor:get_quest_stage("dragon_slayer") == 1 then

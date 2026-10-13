@@ -272,13 +272,13 @@ if go == "hunt" then
         if stage ~= 2 and stage ~= 3 then
             actor:send(tostring(victim1) .. " is still out there.")
         elseif stage == 2 or stage == 3 then
-            if not actor:get_quest_var("bounty_hunt:target1") then
+            if (actor:get_quest_var("bounty_hunt:target1") or 0) == 0 then
                 actor:send(tostring(victim1) .. " is still out there.")
             end
-            if not actor:get_quest_var("bounty_hunt:target2") then
+            if (actor:get_quest_var("bounty_hunt:target2") or 0) == 0 then
                 actor:send(tostring(victim2) .. " is still out there.")
             end
-            if stage == 3 and not actor:get_quest_var("bounty_hunt:target3") then
+            if stage == 3 and (actor:get_quest_var("bounty_hunt:target3") or 0) == 0 then
                 actor:send(tostring(victim3) .. " is still out there.")
             end
         end

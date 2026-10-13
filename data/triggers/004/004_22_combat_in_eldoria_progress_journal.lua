@@ -16,7 +16,7 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
     actor:send("Characters may align themselves with the forces of good or the forces of evil.")
     actor:send("But beware, once made that decision cannot be changed!")
     actor:send("Minimum Level: 10")
-    if actor:get_quest_stage("black_legion") then
+    if actor:get_quest_stage("black_legion") > 0 then
         actor:send("<cyan>Status: Continuous</>_")
         local id_trophy1
         local id_trophy2

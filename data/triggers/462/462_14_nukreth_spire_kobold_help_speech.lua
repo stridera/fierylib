@@ -14,7 +14,7 @@ if not (string.find(speech_lower, "baby") or string.find(speech_lower, "help") o
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path2") == 0 then
         self.room:send(tostring(self.name) .. " says, 'I hid an egg in the corner animal pen.  It should still")
         self.room:send("</>be there.'")
@@ -24,7 +24,7 @@ if actor:get_quest_stage("nukreth_spire") then
         wait(2)
         self.room:send(tostring(self.name) .. " hides herself out of sight.")
         self:command("hide")
-        if not actor:get_quest_var("nukreth_spire:baby") then
+        if (actor:get_quest_var("nukreth_spire:baby") or 0) == 0 then
             actor:set_quest_var("nukreth_spire", "baby", 1)
         end
     else

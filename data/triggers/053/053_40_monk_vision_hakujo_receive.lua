@@ -169,7 +169,7 @@ else
             end
             if actor:get_quest_stage("monk_vision") >= 4 then
                 wait(2)
-                if not actor:get_quest_stage("monk_chants") then
+                if actor:get_quest_stage("monk_chants") == 0 then
                     actor:send(tostring(self.name) .. " says, 'Your awareness has grown enough to handle the esoteric <b:cyan>[chants]</>.  I can give you instruction if you wish.'")
                 elseif (actor:get_quest_stage("monk_chants") == 7 and actor.level < 75) or (actor:get_quest_stage("monk_chants") > 9 and actor.level < 99) then
                     actor:send(tostring(self.name) .. " says, 'You will be ready for a new chant once you have gained more experience.'")

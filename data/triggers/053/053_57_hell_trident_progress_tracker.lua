@@ -23,7 +23,7 @@ end
 wait(2)
 if string.find(actor.class, "diabolist") then
     local level, response
-    if actor:get_quest_stage("hell_trident") then
+    if actor:get_quest_stage("hell_trident") > 0 then
         local hellstage = actor:get_quest_stage("hell_trident")
         if hellstage == 1 then
             level = 65
@@ -78,7 +78,7 @@ if string.find(actor.class, "diabolist") then
                         actor:set_quest_var("hell_trident", "helltask5", 1)
                     end
                 end
-                if not actor:get_quest_var("hell_trident:greet") then
+                if (actor:get_quest_var("hell_trident:greet") or 0) == 0 then
                     actor:send(tostring(self.name) .. " says, 'Tell me why you have come.'")
                 else
                     local job1 = actor:get_quest_var("hell_trident:helltask1")

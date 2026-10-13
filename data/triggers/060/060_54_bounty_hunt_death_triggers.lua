@@ -89,11 +89,11 @@ while i >= a do
             if stage ~= 2 and stage ~= 3 then
                 person:set_quest_var("bounty_hunt", "bounty", "dead")
             elseif stage == 2 then
-                if person:get_quest_var("bounty_hunt:target1") and person:get_quest_var("bounty_hunt:target2") then
+                if (person:get_quest_var("bounty_hunt:target1") or 0) ~= 0 and (person:get_quest_var("bounty_hunt:target2") or 0) ~= 0 then
                     person:set_quest_var("bounty_hunt", "bounty", "dead")
                 end
             elseif stage == 3 then
-                if person:get_quest_var("bounty_hunt:target1") and person:get_quest_var("bounty_hunt:target2") and person:get_quest_var("bounty_hunt:target3") then
+                if (person:get_quest_var("bounty_hunt:target1") or 0) ~= 0 and (person:get_quest_var("bounty_hunt:target2") or 0) ~= 0 and (person:get_quest_var("bounty_hunt:target3") or 0) ~= 0 then
                     person:set_quest_var("bounty_hunt", "bounty", "dead")
                 end
             end

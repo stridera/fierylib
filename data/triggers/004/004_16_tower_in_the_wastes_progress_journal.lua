@@ -17,7 +17,7 @@ if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "
         local status
         if actor:get_has_completed("krisenna_quest") then
             status = "Completed!"
-        elseif actor:get_quest_stage("krisenna_quest") then
+        elseif actor:get_quest_stage("krisenna_quest") > 0 then
             status = "In Progress"
         else
             status = "Not Started"

@@ -14,13 +14,13 @@ if size > 0 then
     for a = 1, size do
         local person = actor.group_member and actor.group_member[a]
         if person and person.room == self.room then
-            if person:get_quest_stage("enchanted_hollow_quest") and not person:get_has_completed("enchanted_hollow_quest") then
+            if person:get_quest_stage("enchanted_hollow_quest") > 0 and not person:get_has_completed("enchanted_hollow_quest") then
                 person:complete_quest("enchanted_hollow_quest")
             end
         end
     end
 elseif actor.room == self.room then
-    if actor:get_quest_stage("enchanted_hollow_quest") and not actor:get_has_completed("enchanted_hollow_quest") then
+    if actor:get_quest_stage("enchanted_hollow_quest") > 0 and not actor:get_has_completed("enchanted_hollow_quest") then
         actor:complete_quest("enchanted_hollow_quest")
     end
 end

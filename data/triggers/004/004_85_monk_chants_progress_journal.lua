@@ -88,7 +88,7 @@ if string.find(actor.class, "monk") then
             end
             actor:send("You are looking for " .. tostring(clue1))
             actor:send("Take it and <b:cyan>[meditate]</> " .. tostring(clue2))
-        elseif actor.level >= level and not chantstage then
+        elseif actor.level >= level and (chantstage or 0) == 0 then
             actor:send("Ask " .. tostring(master) .. " about <b:cyan>[chants]" .. "%0 to get started.")
         end
     end

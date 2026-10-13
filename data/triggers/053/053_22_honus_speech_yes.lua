@@ -28,7 +28,7 @@ end
 while i >= a do
     person = person.group_member[a]
     if person.room == self.room then
-        if not person:get_quest_stage("treasure_hunter") then
+        if person:get_quest_stage("treasure_hunter") == 0 then
             person:start_quest("treasure_hunter")
         end
         if person:get_has_completed("treasure_hunter") then

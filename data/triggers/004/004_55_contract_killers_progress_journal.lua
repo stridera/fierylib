@@ -46,7 +46,7 @@ if string.find(arg, "contract") or string.find(arg, "killers") or string.find(ar
         victim1 = "the Goblin King"
     end
     local level
-    if stage == 1 or not stage then
+    if stage == 1 or (stage or 0) == 0 then
         level = 1
     else
         level = (stage - 1) * 10
@@ -57,7 +57,7 @@ if string.find(arg, "contract") or string.find(arg, "killers") or string.find(ar
     local status
     if actor:get_has_completed("bounty_hunt") then
         status = "Completed!"
-    elseif stage then
+    elseif (stage or 0) > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -78,20 +78,20 @@ if string.find(arg, "contract") or string.find(arg, "killers") or string.find(ar
                     actor:send("You have completed the contract.")
                     actor:send("Return it to " .. tostring(master) .. " for your payment!")
                 elseif stage == 2 then
-                    if target1 then
+                    if (target1 or 0) ~= 0 then
                         actor:send("You have scratched " .. tostring(victim1) .. " off the list.")
                     end
-                    if target2 then
+                    if (target2 or 0) ~= 0 then
                         actor:send("You have scratched " .. tostring(victim2) .. " off the list.")
                     end
                 elseif stage == 3 then
-                    if target1 then
+                    if (target1 or 0) ~= 0 then
                         actor:send("You have scratched " .. tostring(victim1) .. " off the list.")
                     end
-                    if target2 then
+                    if (target2 or 0) ~= 0 then
                         actor:send("You have scratched " .. tostring(victim2) .. " off the list.")
                     end
-                    if target3 then
+                    if (target3 or 0) ~= 0 then
                         actor:send("You have scratched " .. tostring(victim3) .. " off the list.")
                     end
                 end

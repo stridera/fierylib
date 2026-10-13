@@ -14,7 +14,7 @@ local lair = get_room(42, 36)
 local lair_name = lair and lair.name or "the West Wind's lair"
 local cheetah_name = mobiles.template(18, 22).name
 for _, person in ipairs(self.room.actors) do
-    if (person:get_quest_stage("blur") == 4) and (not person:get_quest_var("blur:west")) then
+    if (person:get_quest_stage("blur") == 4) and ((person:get_quest_var("blur:west") or 0) == 0) then
         person:send("<b:white>" .. tostring(cheetah_name) .. " says, 'Well that was fun!</>")
         person:send("</><b:white>Now see if you can reach <b:cyan>" .. tostring(lair_name) .. "</><b:white> before I do!'</>")
         person:send(tostring(cheetah_name) .. " blasts away into the sky!")

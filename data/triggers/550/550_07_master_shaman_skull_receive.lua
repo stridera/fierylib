@@ -13,7 +13,7 @@ local a = 1
 while a <= i do
     local person = actor.group_member[a]
     if person and person.room == self.room then
-        if not person:get_quest_stage("tech_mysteries_quest") then
+        if person:get_quest_stage("tech_mysteries_quest") == 0 then
             person:start_quest("tech_mysteries_quest")
         end
         person:set_quest_var("tech_mysteries_quest", "cloak", 1)

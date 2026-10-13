@@ -11,6 +11,45 @@
 
 -- Converted from DG Script #55702: Phase Armor - Armor
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"boots", "slippers", "sandals", "helm", "cap", "circlet", "coif", "turban", "gauntlets", "gloves", "fistwraps", "vambraces", "sleeves", "greaves", "pants", "leggings", "plate", "guard", "jerkin", "tunic", "robe", "bracer", "bracelet", "mittens", "crown", "doublet"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
+end
+-- DG globals set on this mob by its init (LOAD) trigger, 557:10-39
+local classes = self:getvar("classes")
+local phase = self:getvar("phase")
+local feet_gem = self:getvar("feet_gem")
+local head_gem = self:getvar("head_gem")
+local hands_gem = self:getvar("hands_gem")
+local arms_gem = self:getvar("arms_gem")
+local legs_gem = self:getvar("legs_gem")
+local body_gem = self:getvar("body_gem")
+local wrist_gem = self:getvar("wrist_gem")
+local feet_armor = self:getvar("feet_armor")
+local head_armor = self:getvar("head_armor")
+local hands_armor = self:getvar("hands_armor")
+local arms_armor = self:getvar("arms_armor")
+local legs_armor = self:getvar("legs_armor")
+local body_armor = self:getvar("body_armor")
+local wrist_armor = self:getvar("wrist_armor")
+local feet_name = self:getvar("feet_name")
+local head_name = self:getvar("head_name")
+local hands_name = self:getvar("hands_name")
+local arms_name = self:getvar("arms_name")
+local legs_name = self:getvar("legs_name")
+local body_name = self:getvar("body_name")
+local wrist_name = self:getvar("wrist_name")
+if classes == nil or phase == nil then
+    return true  -- the init trigger has not run for this mob
+end
 wait(2)
 local anti = "Anti-Paladin"
 -- If you add more types of armor, you need to add their

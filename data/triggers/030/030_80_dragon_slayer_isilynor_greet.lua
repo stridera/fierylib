@@ -10,7 +10,7 @@
 wait(2)
 local anti = "Anti-Paladin"
 if not actor:get_has_completed("dragon_slayer") then
-    if not actor:get_quest_stage("dragon_slayer") then
+    if actor:get_quest_stage("dragon_slayer") == 0 then
         if actor.level > 4 then
             actor:send(tostring(self.name) .. " says, 'Hail!  I am Isilynor, Grand Master of the Knights of Dragonfire, a guild of professional dragon slayers.  We're always seeking bold recruits to <b:cyan>[hunt]</> the great dragons of the world.  I reward those who put their mettle to the test.'")
         end
@@ -26,9 +26,9 @@ if not actor:get_has_completed("dragon_slayer") then
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to discuss your <b:cyan>[devotion]</> to the cause.'")
     end
 else
-    if (string.find(actor.class, "paladin") or actor.class == "anti-paladin") and not actor:get_quest_stage("paladin_pendant") and actor.level > 9 then
+    if (string.find(actor.class, "paladin") or actor.class == "anti-paladin") and actor:get_quest_stage("paladin_pendant") == 0 and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'A new recruit looking to prove your <b:cyan>[devotion]</> to the cause.'")
-    elseif actor:get_quest_stage("paladin_pendant") and not actor:get_has_completed("paladin_pendant") then
+    elseif actor:get_quest_stage("paladin_pendant") > 0 and not actor:get_has_completed("paladin_pendant") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be looking to prove your <b:cyan>[devotion]</> again.'")
     end
 end

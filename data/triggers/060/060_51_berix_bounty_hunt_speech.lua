@@ -15,7 +15,7 @@ end
 wait(2)
 if actor:get_has_completed("bounty_hunt") then
     actor:send(tostring(self.name) .. " says, 'You know, I'm fresh out of work for you.  Good luck!'")
-elseif not actor:get_quest_stage("bounty_hunt") or (actor:get_quest_stage("bounty_hunt") == 1 and not actor:get_quest_var("bounty_hunt:bounty")) then
+elseif actor:get_quest_stage("bounty_hunt") == 0 or (actor:get_quest_stage("bounty_hunt") == 1 and (actor:get_quest_var("bounty_hunt:bounty") or 0) == 0) then
     actor:send(tostring(self.name) .. " says, 'Sure, I have something easy to start with.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'I have benefactors who would like certain individuals to... disappear.  The resulting chaos is to their benefit.  They're willing to pay handsomely for that to occur.  Ours is not ask questions but simply see that it happen.'")

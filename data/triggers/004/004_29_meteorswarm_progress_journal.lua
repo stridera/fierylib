@@ -26,7 +26,7 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
         local status
         if actor:get_has_completed("meteorswarm") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

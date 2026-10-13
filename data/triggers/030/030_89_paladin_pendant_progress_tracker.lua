@@ -31,7 +31,7 @@ wait(2)
 actor:send("<b:green>Dragon Slayer</>")
 if actor:get_has_completed("dragon_slayer") then
     actor:send(tostring(self.name) .. " says, 'The only dragons remaining are beasts of legend!'")
-elseif not actor:get_quest_stage("dragon_slayer") and actor.level > 4 then
+elseif actor:get_quest_stage("dragon_slayer") == 0 and actor.level > 4 then
     actor:send(tostring(self.name) .. " says, 'You aren't on a hunt at the moment.'")
 elseif actor.level < 5 then
     actor:send(tostring(self.name) .. " says, 'You're not quite ready to start taking on dragons.  Come back when you've seen a little more.'")

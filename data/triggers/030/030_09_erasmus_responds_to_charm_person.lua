@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 wait(2)
 if string.find(actor.class, "illusionist") then
-    if actor:has_skill("charm person") == 100 then
+    if actor:get_skill("charm person") >= 1000 then
         self:say("A nice spell, isn't it?  I hope you're enjoying it.")
     elseif actor.level < 17 then
         self:say("Ah, charm person.  A powerful spell, capable of great evil - or good.")
@@ -36,7 +36,7 @@ if string.find(actor.class, "illusionist") then
         end
     end
 elseif string.find(actor.class, "sorcerer") then
-    if actor:has_skill("charm person") == 100 then
+    if actor:get_skill("charm person") >= 1000 then
         self:command("gasp")
         wait(3)
         self:say("What's this?  An ordinary sorcerer with charm person?!")

@@ -22,7 +22,7 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
         local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
         actor:send("<b:green>&uDivine Devotion</>")
         local level
-        if not pendantstage then
+        if (pendantstage or 0) == 0 then
             level = 10
         else
             level = pendantstage * 10
@@ -33,7 +33,7 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
         local status
         if actor:get_has_completed("paladin_pendant") then
             status = "Completed!"
-        elseif pendantstage then
+        elseif (pendantstage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

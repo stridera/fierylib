@@ -12,7 +12,7 @@
 for i = 1, actor.group_size do
     local person = actor.group_member[i]
     if person and person.room == self.room then
-        if person:get_quest_stage("mystwatch_quest") then
+        if person:get_quest_stage("mystwatch_quest") > 0 then
             person:set_quest_var("mystwatch_quest", "step", "warrior")
             person:send("<b:white>You have advanced the quest!</>")
         end

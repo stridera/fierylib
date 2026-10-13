@@ -25,7 +25,7 @@ if string.find(arg, "equipment") then
     actor:send("Your home guild master is always the best place to start.")
     actor:send("Min Level: 1")
     local status
-    if actor:get_quest_stage("phase_armor") then
+    if actor:get_quest_stage("phase_armor") > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -57,7 +57,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("acid_wand") then
             status = "Completed!"
-        elseif actor:get_quest_stage("acid_wand") then
+        elseif actor:get_quest_stage("acid_wand") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -68,7 +68,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("air_wand") then
             status = "Completed!"
-        elseif actor:get_quest_stage("air_wand") then
+        elseif actor:get_quest_stage("air_wand") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -79,7 +79,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("fire_wand") then
             status = "Completed!"
-        elseif actor:get_quest_stage("fire_wand") then
+        elseif actor:get_quest_stage("fire_wand") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -90,7 +90,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("ice_wand") then
             status = "Completed!"
-        elseif actor:get_quest_stage("ice_wand") then
+        elseif actor:get_quest_stage("ice_wand") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -103,7 +103,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("assassin_mask") then
             status = "Completed!"
-        elseif actor:get_quest_stage("assassin_mask") then
+        elseif actor:get_quest_stage("assassin_mask") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -116,7 +116,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("phase_mace") then
             status = "Completed!"
-        elseif actor:get_quest_stage("phase_mace") then
+        elseif actor:get_quest_stage("phase_mace") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -129,7 +129,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("paladin_pendant") then
             status = "Completed!"
-        elseif actor:get_quest_stage("paladin_pendant") then
+        elseif actor:get_quest_stage("paladin_pendant") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -142,7 +142,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("ranger_trophy") then
             status = "Completed!"
-        elseif actor:get_quest_stage("ranger_trophy") then
+        elseif actor:get_quest_stage("ranger_trophy") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -155,7 +155,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("ranger_trophy") then
             status = "Completed!"
-        elseif actor:get_quest_stage("ranger_trophy") then
+        elseif actor:get_quest_stage("ranger_trophy") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -171,7 +171,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("vilekka_stew") then
             status = "Completed!"
-        elseif actor:get_quest_stage("vilekka_stew") then
+        elseif actor:get_quest_stage("vilekka_stew") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -182,7 +182,7 @@ if string.find(arg, "equipment") then
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("Recommended Level: 35")
         local status
-        if actor:get_quest_stage("sacred_haven") then
+        if actor:get_quest_stage("sacred_haven") > 0 then
             status = "Repeatable"
         else
             status = "Not Started"
@@ -196,7 +196,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("ursa_quest") then
             status = "Completed!"
-        elseif actor:get_quest_stage("ursa_quest") then
+        elseif actor:get_quest_stage("ursa_quest") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -212,7 +212,7 @@ if string.find(arg, "equipment") then
             local status
             if actor:get_has_completed("troll_quest") then
                 status = "Completed!"
-            elseif actor:get_quest_stage("troll_mask") then
+            elseif actor:get_quest_stage("troll_mask") > 0 then
                 status = "In Progress"
             else
                 status = "Not Started"
@@ -231,7 +231,7 @@ if string.find(arg, "equipment") then
             status = "Completed!"
         elseif actor:get_has_failed("megalith_quest") then
             status = "Failed"
-        elseif actor:get_quest_stage("megalith_quest") then
+        elseif actor:get_quest_stage("megalith_quest") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -244,7 +244,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("resort_cooking") then
             status = "Completed!"
-        elseif actor:get_quest_stage("resort_cooking") then
+        elseif actor:get_quest_stage("resort_cooking") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -260,7 +260,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("emmath_flameball") then
             status = "Completed!"
-        elseif actor:get_quest_stage("emmath_flameball") then
+        elseif actor:get_quest_stage("emmath_flameball") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -276,7 +276,7 @@ if string.find(arg, "equipment") then
         local status
         if actor:get_has_completed("sunfire_rescue") then
             status = "Completed!"
-        elseif actor:get_quest_stage("sunfire_rescue") then
+        elseif actor:get_quest_stage("sunfire_rescue") > 0 then
             status = "In Progress"
         else
             status = "Not Started"

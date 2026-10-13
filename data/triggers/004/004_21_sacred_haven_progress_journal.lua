@@ -17,13 +17,13 @@ if string.find(arg, "infiltrate the sacred haven") or string.find(arg, "sacred_h
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 35")
         local status
-        if stage then
+        if (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        if stage then
+        if (stage or 0) > 0 then
             actor:send("Quest Master: " .. tostring(mobiles.template(590, 29).name))
             actor:send("</>")
             local light = actor:get_quest_var("sacred_haven:given_light")

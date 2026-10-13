@@ -33,7 +33,7 @@ if string.find(arg, "tremors") or string.find(arg, "tremors of saint augustine")
             end
             actor:send("You are looking for a book surrounded by trees and shadows.")
             actor:send("Take it and <b:cyan>[meditate]" .. "%</> in a place that is both natural and urban, serenely peaceful and profoundly sorrowful.")
-        elseif actor.level >= level and not chantstage then
+        elseif actor.level >= level and (chantstage or 0) == 0 then
             actor:send("Ask " .. tostring(master) .. " about <b:cyan>[chants]" .. "%0 to get started.")
         end
     end

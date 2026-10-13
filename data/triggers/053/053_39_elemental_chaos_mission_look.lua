@@ -56,7 +56,7 @@ if actor:get_quest_var("elemental_chaos:bounty") == "dead" then
     actor:send("You have completed the mission.")
     actor:send("Return it to Hakujo!")
 elseif stage == 5 then
-    if actor:get_quest_var("elemental_chaos:target1") then
+    if (actor:get_quest_var("elemental_chaos:target1") or 0) ~= 0 then
         actor:send("You have scratched " .. tostring(victim1) .. " off the list.")
     end
     if actor:get_quest_var("elemental_chaos:target2") then

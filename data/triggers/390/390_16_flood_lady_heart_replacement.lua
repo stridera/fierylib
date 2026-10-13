@@ -18,7 +18,7 @@
 if string.lower(speech) ~= "i lost the heart" then
     return true
 end
-if not actor:get_quest_stage("flood") then
+if actor:get_quest_stage("flood") == 0 then
     return true
 end
 

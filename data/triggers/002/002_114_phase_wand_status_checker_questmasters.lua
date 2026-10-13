@@ -47,7 +47,7 @@ elseif stage == wandstep and actor.level >= (wandstep - 1) * 10 then
     else
         self:say("I'm improving your " .. tostring(quest_type) .. " weapon.  Talk to me about <b:cyan>upgrades</> to see what I need.")
     end
-elseif stage and stage > wandstep then
+elseif (stage or 0) > 0 and stage > wandstep then
     self:say("I can't help you anymore, but I know who can.  Speak with the next questmaster on your journey.")
 elseif (stage or 0) < wandstep then
     self:say("You need to make more improvements to your " .. tostring(globals.weapon or "wand") .. " before I can work with it.")

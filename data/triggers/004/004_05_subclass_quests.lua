@@ -67,22 +67,22 @@ if string.find(arg, "subclass") then
         elseif actor:get_quest_var("ran_dru_subclass:subclass_name") == "Druid" then
             actor:send("- <green>Druid</>")
             status = "running"
-        elseif actor:get_quest_stage("monk_subclass") then
+        elseif actor:get_quest_stage("monk_subclass") > 0 then
             actor:send("- <yellow>Monk</>")
             status = "running"
-        elseif actor:get_quest_stage("pyromancer_subclass") then
+        elseif actor:get_quest_stage("pyromancer_subclass") > 0 then
             actor:send("- <b:red>Pyromancer</>")
             status = "running"
-        elseif actor:get_quest_stage("cryomancer_subclass") then
+        elseif actor:get_quest_stage("cryomancer_subclass") > 0 then
             actor:send("- <b:blue>Cryomancer</>")
             status = "running"
-        elseif actor:get_quest_stage("illusionist_subclass") then
+        elseif actor:get_quest_stage("illusionist_subclass") > 0 then
             actor:send("- <b:magenta>Illusionist</>")
             status = "running"
-        elseif actor:get_quest_stage("bard_subclass") then
+        elseif actor:get_quest_stage("bard_subclass") > 0 then
             actor:send("- <b:magenta>Bard</>")
             status = "running"
-        elseif actor:get_quest_stage("berserker_subclass") then
+        elseif actor:get_quest_stage("berserker_subclass") > 0 then
             actor:send("- &9<blue>Berserker</>")
             status = "running"
         else

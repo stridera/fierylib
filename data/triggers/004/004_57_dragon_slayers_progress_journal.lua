@@ -39,7 +39,7 @@ if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.f
         victim1 = "the Hydra"
     end
     local level
-    if stage == 1 or not stage then
+    if stage == 1 or (stage or 0) == 0 then
         level = 5
     else
         level = (stage - 1) * 10
@@ -50,7 +50,7 @@ if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.f
     local status
     if actor:get_has_completed("dragon_slayer") then
         status = "Completed!"
-    elseif stage then
+    elseif (stage or 0) > 0 then
         status = "In Progress"
     else
         status = "Not Started"

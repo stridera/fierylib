@@ -17,7 +17,7 @@ if string.find(arg, "shift") or string.find(arg, "corpse") or string.find(arg, "
         local status
         if actor:get_has_completed("shift_corpse") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

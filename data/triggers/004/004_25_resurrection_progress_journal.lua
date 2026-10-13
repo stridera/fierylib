@@ -18,7 +18,7 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
         local status
         if actor:get_has_completed("resurrection_quest") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

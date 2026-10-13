@@ -10,7 +10,7 @@
 local response
 if actor:get_has_completed("ursa_quest") then
     response = "I don't really need this."
-elseif not actor:get_quest_stage("ursa_quest") or actor:get_quest_stage("ursa_quest") == 0 then
+elseif actor:get_quest_stage("ursa_quest") == 0 or actor:get_quest_stage("ursa_quest") == 0 then
     response = "I don't think this will help me."
 elseif actor:get_quest_stage("ursa_quest") == 1 then
     -- Three letter-objects (625, 10/11/12) advance the quest; pass them through.

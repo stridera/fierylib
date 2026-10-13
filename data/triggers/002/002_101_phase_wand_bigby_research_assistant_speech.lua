@@ -55,9 +55,9 @@ if not quest_type then
     -- progression to gate the message (matches DG behavior of probing the
     -- nonexistent "type_wand" namespace).
     local stage = actor:get_quest_stage("air_wand")
-        or actor:get_quest_stage("fire_wand")
-        or actor:get_quest_stage("ice_wand")
-        or actor:get_quest_stage("acid_wand")
+        or actor:get_quest_stage("fire_wand") > 0
+        or actor:get_quest_stage("ice_wand") > 0
+        or actor:get_quest_stage("acid_wand") > 0
         or 0
     if stage < 2 then
         self:say("Yeah, I can help you upgrade any basic wand!")
@@ -76,8 +76,8 @@ local stage = actor:get_quest_stage(quest)
 wait(2)
 if actor:get_has_completed(quest) then
     self.room:send(tostring(self.name) .. " says, 'It looks like you already have the most powerful weapon of " .. quest_type .. " in existence!'")
-elseif not stage or stage == 1 then
-    if not stage then
+elseif (stage or 0) == 0 or stage == 1 then
+    if (stage or 0) == 0 then
         actor:start_quest(quest)
     end
     self.room:send(tostring(self.name) .. " says, 'I can upgrade your " .. quest_type .. " wand!  But what I will do is just the first step in a life-long journey.'")

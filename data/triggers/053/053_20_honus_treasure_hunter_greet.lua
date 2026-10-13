@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
 if not actor:get_has_completed("treasure_hunter") then
-    if not actor:get_quest_stage("treasure_hunter") then
+    if actor:get_quest_stage("treasure_hunter") == 0 then
         actor:send(tostring(self.name) .. " says, 'Well hello and welcome!  I'm Honus, global representative of the Guild of Treasure Hunters.  We're always seeking bold explorers to <b:cyan>[hunt]</> down and recover exquisite rarities.'")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'We pay well, of course.'")
@@ -25,9 +25,9 @@ if not actor:get_has_completed("treasure_hunter") then
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to seek a <b:cyan>[promotion]</>.'")
     end
 else
-    if (string.find(actor.class, "rogue") or string.find(actor.class, "thief") or string.find(actor.class, "bard")) and not actor:get_quest_stage("rogue_cloak") and actor.level > 9 then
+    if (string.find(actor.class, "rogue") or string.find(actor.class, "thief") or string.find(actor.class, "bard")) and actor:get_quest_stage("rogue_cloak") == 0 and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'Oh look, a new recruit gunning for a <b:cyan>[promotion]</>.'")
-    elseif actor:get_quest_stage("rogue_cloak") and not actor:get_has_completed("rogue_cloak") then
+    elseif actor:get_quest_stage("rogue_cloak") > 0 and not actor:get_has_completed("rogue_cloak") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be looking for another <b:cyan>[promotion]</>.'")
     end
 end

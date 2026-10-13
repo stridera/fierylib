@@ -15,13 +15,13 @@ if string.find(arg, "siege") or string.find(arg, "mystwatch") or string.find(arg
         actor:send("<b:green>&uSiege Mystwatch Fortress</>")
         actor:send("Recommended Level: 45")
         local status
-        if stage then
+        if (stage or 0) > 0 then
             status = "Repeatable"
         else
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        if stage then
+        if (stage or 0) > 0 then
             actor:send("Quest Master: " .. tostring(mobiles.template(30, 25).name))
             -- switch on actor:get_quest_var("mystwatch_quest:step")
             local task

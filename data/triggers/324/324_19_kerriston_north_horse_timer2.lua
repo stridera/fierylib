@@ -9,11 +9,21 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- This is the reception of the strawberry
 -- that kicks off the whole affair to Mugnork
+-- Legacy mteleport to a room that is not there is a no-op, and zone 324 has no rooms at 324:97,
+-- 324:98 or 324:65 (legacy 32597, 32598, 32565 are not in 324.wld either), so the hops through
+-- them are skipped instead of raising an error halfway through the ride.
+local function ride_to(zone, id)
+    local room = get_room(zone, id)
+    if room then
+        actor:teleport(room)
+        self:teleport(room)
+    end
+    return room
+end
 if actor.is_player then
     if object.zone_id == 324 and object.local_id == 25 then
         wait(1)
-        actor:teleport(get_room(324, 197))
-        self:teleport(get_room(324, 197))
+        ride_to(324, 197)
         self:destroy_item("strawberry")
         -- Label reference: do_it_to_it
         wait(5)
@@ -27,8 +37,7 @@ if actor.is_player then
         wait(5)
         self.room:send("The tall grass whips by your feet so quickly it stings!")
         wait(5)
-        actor:teleport(get_room(324, 198))
-        self:teleport(get_room(324, 198))
+        ride_to(324, 198)
         wait(1)
         -- Label reference: do_it_to_it2
         self.room:send("Are you slowing down?")
@@ -43,10 +52,9 @@ if actor.is_player then
         wait(5)
         self.room:send("PHEW Nearly teeth, hair, and eyeballs everywhere!")
         wait(3)
-        actor:teleport(get_room(324, 165))
-        self:teleport(get_room(324, 165))
+        ride_to(324, 165)
         wait(1)
-        -- actor looks around
+        actor:command("look")
         self:command("pant")
         self.room:send(tostring(self.name) .. " wiggles from underneath you.")
         wait(1)
@@ -60,3 +68,5 @@ if actor.is_player then
         self:command("smile me")
     end
 end
+-- Legacy `purge_me`: the horse is gone once the ride (or the refusal) is over.
+world.destroy(self)

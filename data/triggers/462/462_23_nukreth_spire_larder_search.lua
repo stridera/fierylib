@@ -18,7 +18,7 @@ if cmd == "s" then
     _return_value = true
     return _return_value
 end
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path4") == 0 then
         if actor:get_quest_var("nukreth_spire:treasure") == 1 then
             actor:send("You begin searching...")

@@ -112,10 +112,10 @@ elseif stage == 7 then
     self:say("Just return the cup to me and you're done!")
 elseif actor:get_has_completed("waterform") then
     self:say("I already showed you how to transform into water.")
-elseif not stage then
+elseif (stage or 0) == 0 then
     self:say("But we're not doing anything together!")
 end
-if stage and stage > 3 then
+if (stage or 0) > 0 and stage > 3 then
     -- (empty room echo)
     self.room:send(tostring(self.name) .. " says, 'If you need a new cup, say \"<b:yellow>I need a new cup</>\".'")
 end

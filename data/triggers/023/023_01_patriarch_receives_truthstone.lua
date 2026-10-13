@@ -69,7 +69,7 @@ if (object.zone_id == 23 and object.id == 0) then
             end
             self.room:spawn_object(23, 34)
             self:command("give smoldering-trident " .. tostring(actor.name))
-            if not actor:get_quest_stage("hell_trident") then
+            if actor:get_quest_stage("hell_trident") == 0 then
                 actor:start_quest("hell_trident")
             end
             wait(1)
@@ -85,7 +85,7 @@ if (object.zone_id == 23 and object.id == 0) then
             -- 
             -- for Hellfire and Brimstone
             -- 
-            if (actor.level > 56) and not actor:get_quest_stage("hellfire_brimstone") then
+            if (actor.level > 56) and actor:get_quest_stage("hellfire_brimstone") == 0 then
                 wait(2)
                 self:say("You seem to be quite powerful already.  Powerful enough in fact to handle the Fire of the Dark One.")
                 wait(2)

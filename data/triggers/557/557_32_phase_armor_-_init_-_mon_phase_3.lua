@@ -42,9 +42,35 @@ local arms_name = "sleeves"
 local legs_name = "leggings"
 local body_name = "tunic"
 local wrist_name = "guard"
--- promote locals to globals so per-class speech triggers can read them
-globals.classes = classes; globals.phase = phase
-globals.feet_gem = feet_gem; globals.head_gem = head_gem; globals.hands_gem = hands_gem; globals.arms_gem = arms_gem; globals.legs_gem = legs_gem; globals.body_gem = body_gem; globals.wrist_gem = wrist_gem
-globals.feet_armor = feet_armor; globals.head_armor = head_armor; globals.hands_armor = hands_armor; globals.arms_armor = arms_armor; globals.legs_armor = legs_armor; globals.body_armor = body_armor; globals.wrist_armor = wrist_armor
-globals.feet_reward = feet_reward; globals.head_reward = head_reward; globals.hands_reward = hands_reward; globals.arms_reward = arms_reward; globals.legs_reward = legs_reward; globals.body_reward = body_reward; globals.wrist_reward = wrist_reward
-globals.feet_name = feet_name; globals.head_name = head_name; globals.hands_name = hands_name; globals.arms_name = arms_name; globals.legs_name = legs_name; globals.body_name = body_name; globals.wrist_name = wrist_name
+-- Persist the DG `set` values on the mob (per prototype) so the speech / greet / receive
+-- triggers (557:0-5) can read them with getvar; Lua locals do not outlive this LOAD run.
+self:setvar("classes", classes)
+self:setvar("phase", phase)
+self:setvar("feet_gem", feet_gem)
+self:setvar("head_gem", head_gem)
+self:setvar("hands_gem", hands_gem)
+self:setvar("arms_gem", arms_gem)
+self:setvar("legs_gem", legs_gem)
+self:setvar("body_gem", body_gem)
+self:setvar("wrist_gem", wrist_gem)
+self:setvar("feet_armor", feet_armor)
+self:setvar("head_armor", head_armor)
+self:setvar("hands_armor", hands_armor)
+self:setvar("arms_armor", arms_armor)
+self:setvar("legs_armor", legs_armor)
+self:setvar("body_armor", body_armor)
+self:setvar("wrist_armor", wrist_armor)
+self:setvar("feet_reward", feet_reward)
+self:setvar("head_reward", head_reward)
+self:setvar("hands_reward", hands_reward)
+self:setvar("arms_reward", arms_reward)
+self:setvar("legs_reward", legs_reward)
+self:setvar("body_reward", body_reward)
+self:setvar("wrist_reward", wrist_reward)
+self:setvar("feet_name", feet_name)
+self:setvar("head_name", head_name)
+self:setvar("hands_name", hands_name)
+self:setvar("arms_name", arms_name)
+self:setvar("legs_name", legs_name)
+self:setvar("body_name", body_name)
+self:setvar("wrist_name", wrist_name)

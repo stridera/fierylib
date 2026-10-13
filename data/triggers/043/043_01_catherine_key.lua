@@ -25,7 +25,7 @@ if actor:get_quest_stage("theatre") >= 1 then
         while i >= a do
             local member = actor.group_member[a]
             if member and member.room == self.room then
-                if member:get_quest_stage("theatre") >= 1 and not member:get_quest_var("theatre:lashes") then
+                if member:get_quest_stage("theatre") >= 1 and (member:get_quest_var("theatre:lashes") or 0) == 0 then
                     member:set_quest_var("theatre", "lashes", 1)
                     if member:get_quest_stage("theatre") == 1 then
                         member:send("<b:white>You have helped return Catherine's eyelashes.</>")

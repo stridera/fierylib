@@ -20,7 +20,7 @@ if string.find(arg, "enter door") then
         else
             self.room:send(tostring(self.name) .. " looks frantically for a door and panics!")
         end
-    elseif actor:get_quest_stage("word_command") then
+    elseif actor:get_quest_stage("word_command") > 0 then
         self:say("I'm not free from the curse yet!")
     end
 end

@@ -48,7 +48,7 @@ if string.find(self.name, arg or "") then
                 while i >= a do
                     local person = actor.group_member[a]
                     if person.room == actor.room then
-                        if not person:get_quest_stage("frost_valley_quest") then
+                        if person:get_quest_stage("frost_valley_quest") == 0 then
                             person:start_quest("frost_valley_quest")
                         end
                         person:set_quest_var("frost_valley_quest", "shake", 1)

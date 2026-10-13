@@ -37,7 +37,7 @@ if hellstep == 1 then
 elseif hellstep == 2 then
     level = 90
 end
-if hellstep then
+if (hellstep or 0) > 0 then
     -- switch on self.id
     -- switch on hellstage
     local response
@@ -76,7 +76,7 @@ if hellstep then
     local response
     if actor:get_quest_stage("hell_trident") == "step" then
         if actor.level >= level then
-            if not actor:get_quest_var("hell_trident:greet") then
+            if (actor:get_quest_var("hell_trident:greet") or 0) == 0 then
                 actor:set_quest_var("hell_trident", "greet", 1)
                 if (self.zone_id == 60 and self.id == 32) then
                     actor:send("In the hissed whisper of ecstatic fervor " .. tostring(self.name) .. " says, 'Six thrice is the number of the greater demons.  Undertaking thus six and six, and six again, their interest can be piqued.'")

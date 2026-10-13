@@ -18,7 +18,7 @@ if string.find(arg, "hell gate") or string.find(arg, "hell_gate") then
         local status
         if actor:get_has_completed("hell_gate") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

@@ -18,7 +18,7 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
         local status
         if actor:get_has_completed("creeping_doom") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

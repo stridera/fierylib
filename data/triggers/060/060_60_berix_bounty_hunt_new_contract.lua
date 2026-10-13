@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "i need a new contract", 1, true) then
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then
-    if actor:get_quest_var("bounty_hunt:bounty") then
+    if (actor:get_quest_var("bounty_hunt:bounty") or 0) ~= 0 then
         -- Hoisted: branch-scoped `local` would not be visible below.
         local contract
         -- switch on actor:get_quest_stage("bounty_hunt")

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "marvin") or string.find(string.lower(speech), "marvin?")) then
     return true  -- No matching keywords
 end
-if actor:get_quest_stage("griffin_quest") then
+if actor:get_quest_stage("griffin_quest") > 0 then
     self:command("sigh")
     self:say("Ah, the St. Marvin was lost with all hands many years ago.  They say the wreck has never been found.")
     self:command("peer")

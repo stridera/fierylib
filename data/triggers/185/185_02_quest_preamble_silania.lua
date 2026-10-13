@@ -25,7 +25,7 @@ if not (string.find(s, "destiny") or string.find(s, "destinies") or string.find(
     return true
 end
 
-if actor:get_quest_stage("pri_pal_subclass") then
+if actor:get_quest_stage("pri_pal_subclass") > 0 then
     return true
 end
 

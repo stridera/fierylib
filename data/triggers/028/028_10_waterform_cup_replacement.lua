@@ -18,7 +18,7 @@ if not string.find(speech_lower, "new cup") then
 end
 wait(2)
 local stage = actor:get_quest_stage("waterform")
-if stage and stage > 3 and actor:get_quest_var("waterform:new") ~= "yes" then
+if (stage or 0) > 0 and stage > 3 and actor:get_quest_var("waterform:new") ~= "yes" then
     actor:set_quest_var("waterform", "new", "yes")
     self:say("Oh no, you lost the cup??")
     wait(1)

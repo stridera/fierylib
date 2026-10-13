@@ -21,7 +21,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
     local status
     if actor:get_has_completed("beast_master") then
         status = "Completed!"
-    elseif actor:get_quest_stage("bounty_hunt") then
+    elseif actor:get_quest_stage("bounty_hunt") > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -33,7 +33,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
     local status
     if actor:get_has_completed("bounty_hunt") then
         status = "Completed!"
-    elseif actor:get_quest_stage("bounty_hunt") then
+    elseif actor:get_quest_stage("bounty_hunt") > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -45,7 +45,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
     local status
     if actor:get_has_completed("dragon_slayer") then
         status = "Completed!"
-    elseif actor:get_quest_stage("dragon_slayer") then
+    elseif actor:get_quest_stage("dragon_slayer") > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -57,7 +57,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
     local status
     if actor:get_has_completed("treasure_hunter") then
         status = "Completed!"
-    elseif actor:get_quest_stage("treasure_hunter") then
+    elseif actor:get_quest_stage("treasure_hunter") > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -69,7 +69,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
     local status
     if actor:get_has_completed("elemental_chaos") then
         status = "Completed!"
-    elseif actor:get_quest_stage("elemental_chaos") then
+    elseif actor:get_quest_stage("elemental_chaos") > 0 then
         status = "In Progress"
     else
         status = "Not Started"

@@ -21,7 +21,7 @@ local continue = false
 for _, person in ipairs(actor.group or { actor }) do
     if person.room == self.room and person.alignment <= -350 then
         continue = true
-        if not person:get_quest_stage("sacred_haven") then
+        if person:get_quest_stage("sacred_haven") == 0 then
             person:start_quest("sacred_haven")
             person:send("<b:white>You have begun the Sacred Haven quest!</>")
         end

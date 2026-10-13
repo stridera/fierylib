@@ -12,10 +12,10 @@ if size > 0 then
     for i = 1, size do
         local person = actor.group_member[i]
         if person and person.room == self.room
-                and person:get_quest_stage("desert_quest") then
+                and person:get_quest_stage("desert_quest") > 0 then
             person:set_quest_var("desert_quest", "scorpion", 1)
         end
     end
-elseif actor:get_quest_stage("desert_quest") then
+elseif actor:get_quest_stage("desert_quest") > 0 then
     actor:set_quest_var("desert_quest", "scorpion", 1)
 end

@@ -32,7 +32,7 @@ if actor:get_has_completed("dragon_slayer") then
     actor:send(tostring(self.name) .. " says, 'The only dragons remaining are beasts of legend!'")
 elseif actor.level < 5 then
     actor:send(tostring(self.name) .. " says, 'You're not quite ready to start taking on dragons.  Come back when you've seen a little more.'")
-elseif (not actor:get_quest_stage("dragon_slayer") and actor.level >= 5) or (actor:get_quest_stage("dragon_slayer") == 1 and not actor:get_quest_var("dragon_slayer:hunt")) then
+elseif (actor:get_quest_stage("dragon_slayer") == 0 and actor.level >= 5) or (actor:get_quest_stage("dragon_slayer") == 1 and (actor:get_quest_var("dragon_slayer:hunt") or 0) == 0) then
     actor:send(tostring(self.name) .. " says, 'Before you go slaying any real dragons, let's start with a test kill.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'The hedges in the topiary have been brought to life somehow.  We don't know exactly what's causing it, but that's also not our concern at the moment.'")

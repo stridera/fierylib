@@ -19,7 +19,7 @@ if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.f
         local status
         if actor:get_has_completed("illusory_wall") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

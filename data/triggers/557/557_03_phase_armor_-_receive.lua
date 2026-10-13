@@ -10,6 +10,33 @@
 
 -- Converted from DG Script #55703: Phase Armor - Receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG globals set on this mob by its init (LOAD) trigger, 557:10-39
+local classes = self:getvar("classes")
+local phase = self:getvar("phase")
+local feet_gem = self:getvar("feet_gem")
+local head_gem = self:getvar("head_gem")
+local hands_gem = self:getvar("hands_gem")
+local arms_gem = self:getvar("arms_gem")
+local legs_gem = self:getvar("legs_gem")
+local body_gem = self:getvar("body_gem")
+local wrist_gem = self:getvar("wrist_gem")
+local feet_armor = self:getvar("feet_armor")
+local head_armor = self:getvar("head_armor")
+local hands_armor = self:getvar("hands_armor")
+local arms_armor = self:getvar("arms_armor")
+local legs_armor = self:getvar("legs_armor")
+local body_armor = self:getvar("body_armor")
+local wrist_armor = self:getvar("wrist_armor")
+local feet_reward = self:getvar("feet_reward")
+local head_reward = self:getvar("head_reward")
+local hands_reward = self:getvar("hands_reward")
+local arms_reward = self:getvar("arms_reward")
+local legs_reward = self:getvar("legs_reward")
+local body_reward = self:getvar("body_reward")
+local wrist_reward = self:getvar("wrist_reward")
+if classes == nil or phase == nil then
+    return true  -- the init trigger has not run for this mob
+end
 local _return_value = true  -- Default: allow action
 -- TODO(parity): converter left every per-slot id comparison as a
 -- string literal (e.g. `object.id == "%hands_armor%"`). They will

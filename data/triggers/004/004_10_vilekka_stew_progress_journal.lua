@@ -19,7 +19,7 @@ if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, 
         local status
         if actor:get_has_completed("vilekka_stew") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

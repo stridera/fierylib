@@ -27,7 +27,8 @@ if actor:get_quest_var("trainer_3160:actor_level") == actor.level then
         actor:send("You feel you are getting the hang of things.")
         wait(3)
         actor:send("You feel your skill in " .. tostring(full_skill) .. " improving dramatically!")
-        skills.set_level(actor, full_skill, 1000)
+        -- Legacy mskillset: the maximum proficiency the trainer quoted (level and class capped).
+        skills.set_level(actor, full_skill, actor:get_quest_var("trainer_3160:max_skill") or 1000)
         actor:erase_quest("trainer_3160")
     else
         actor:send(tostring(self.name) .. " says, 'I appreciate your voluntary donation, but I'm afraid that's all it was.'")

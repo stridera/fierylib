@@ -16,7 +16,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "destiny") or string.find(speech_lower, "destinies") or string.find(speech_lower, "i know")) then
     return true  -- No matching keywords
 end
-if actor:get_quest_stage("nec_dia_ant_subclass") then
+if actor:get_quest_stage("nec_dia_ant_subclass") > 0 then
     return true
 end
 

@@ -8,7 +8,7 @@
 -- Converted from DG Script #46226: Nukreth Spire orc receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path3") == 0 then
         if globals.task ~= "done" then
             if object.zone_id == 462 and object.local_id == 13 then

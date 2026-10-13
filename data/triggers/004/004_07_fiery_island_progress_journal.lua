@@ -18,7 +18,7 @@ if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg,
         local status
         if actor:get_has_completed("fieryisle_quest") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

@@ -30,7 +30,7 @@ if object.zone_id == 481 and object.local_id == 4 then
     while i >= a do
         person = actor.group_member[a]
         if person.room == self.room then
-            if not person:get_quest_stage("fieryisle_quest") then
+            if person:get_quest_stage("fieryisle_quest") == 0 then
                 person:start_quest("fieryisle_quest")
                 person:send("<b:white>You have now begun the Fiery Island quest!</>")
             end

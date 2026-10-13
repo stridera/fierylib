@@ -403,10 +403,11 @@ def convert_variable_expr(var: str) -> str:
             var_name = varexists_match.group(1)
             return f'{obj}:has_var("{var_name}")'
 
-        # Skill check
+        # Skill check: DG %actor.skill[x]% is the proficiency number (0..100 in DG, 0..1000 from
+        # get_skill: scale any threshold by 10), not a flag
         skill_match = re.match(r'skill\[([^\]]+)\]', prop)
         if skill_match:
-            return f'{obj}:has_skill("{skill_match.group(1)}")'
+            return f'{obj}:get_skill("{skill_match.group(1)}")'
 
         # Inventory check
         inv_match = re.match(r'inventory\[([^\]]+)\]', prop)

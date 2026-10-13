@@ -19,7 +19,7 @@ local task = globals.task
 local in_breaker_room = self.room.zone_id == 462 and self.room.local_id == 78
 local in_tracker_rooms = self.room.zone_id == 462
     and (self.room.local_id == 65 or self.room.local_id == 20 or self.room.local_id == 5)
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if not actor:get_quest_var("nukreth_spire:pathnumber") then
         if in_breaker_room then
             -- the spiritbreaker is still alive

@@ -15,7 +15,7 @@ if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg,
     local status
     if actor:get_has_completed("twisted_sorrow") then
         status = "Completed!"
-    elseif actor:get_quest_stage("twisted_sorrow") then
+    elseif actor:get_quest_stage("twisted_sorrow") > 0 then
         status = "In Progress"
     else
         status = "Not Started"

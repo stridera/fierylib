@@ -80,20 +80,20 @@ if actor:get_quest_var("bounty_hunt:bounty") == "dead" then
     actor:send("You have completed the contract.")
     actor:send("Return it to Berix for your payment!")
 elseif stage == 2 then
-    if actor:get_quest_var("bounty_hunt:target1") then
+    if (actor:get_quest_var("bounty_hunt:target1") or 0) ~= 0 then
         actor:send("You have scratched " .. tostring(victim1) .. " off the list.")
     end
-    if actor:get_quest_var("bounty_hunt:target2") then
+    if (actor:get_quest_var("bounty_hunt:target2") or 0) ~= 0 then
         actor:send("You have scratched " .. tostring(victim2) .. " off the list.")
     end
 elseif stage == 3 then
-    if actor:get_quest_var("bounty_hunt:target1") then
+    if (actor:get_quest_var("bounty_hunt:target1") or 0) ~= 0 then
         actor:send("You have scratched " .. tostring(victim1) .. " off the list.")
     end
-    if actor:get_quest_var("bounty_hunt:target2") then
+    if (actor:get_quest_var("bounty_hunt:target2") or 0) ~= 0 then
         actor:send("You have scratched " .. tostring(victim2) .. " off the list.")
     end
-    if actor:get_quest_var("bounty_hunt:target3") then
+    if (actor:get_quest_var("bounty_hunt:target3") or 0) ~= 0 then
         actor:send("You have scratched " .. tostring(victim3) .. " off the list.")
     end
 end

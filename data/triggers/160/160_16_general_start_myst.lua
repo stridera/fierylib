@@ -19,7 +19,7 @@ if (object.zone_id == 30 and object.id == 26) then
     for i = 1, actor.group_size do
         local person = actor.group_member[i]
         if person and person.room == self.room then
-            if person:get_quest_stage("mystwatch_quest") then
+            if person:get_quest_stage("mystwatch_quest") > 0 then
                 person:set_quest_var("mystwatch_quest", "step", "general")
                 person:send("<b:white>You have delivered the totem to the General!</>")
             end

@@ -15,7 +15,7 @@ if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg,
     actor:send("<b:green>&uThe Finale</>")
     actor:send("Defeat wild monkeys, recover keys, and help the theatre troupe perform their fiery Finale!")
     actor:send("Recommended Level: 10")
-    if stage then
+    if (stage or 0) > 0 then
         actor:send("<cyan>Status: Repeatable</>")
         -- switch on stage
         local master
@@ -39,7 +39,7 @@ if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg,
         -- switch on stage
         if stage == 1 then
             actor:send("Get back Catherine's dressing room key from the ceiling monkeys, then bring her her eyelashes from her dressing room.")
-            if not actor:get_quest_var("theatre:lashes") then
+            if (actor:get_quest_var("theatre:lashes") or 0) == 0 then
                 actor:send("Give Catherine her eyelashes.")
             elseif actor:get_quest_var("theatre:lashes") == 1 then
                 actor:send("Give Catherine her dressing room key.")
@@ -52,22 +52,22 @@ if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg,
             local item1 = 4320
             local item2 = 4301
             actor:send("Give Charlemagne his dressing room key and his missing sash.")
-            if actor:get_quest_var("theatre:sash") or actor:get_quest_var("theatre:charles") then
+            if (actor:get_quest_var("theatre:sash") or 0) ~= 0 or (actor:get_quest_var("theatre:charles") or 0) ~= 0 then
                 actor:send("</>")
                 actor:send("You have brought him:")
-                if actor:get_quest_var("theatre:sash") then
+                if (actor:get_quest_var("theatre:sash") or 0) ~= 0 then
                     actor:send("%get.obj_shortdesc[%item1%]%")
                 end
-                if actor:get_quest_var("theatre:charles") then
+                if (actor:get_quest_var("theatre:charles") or 0) ~= 0 then
                     actor:send("%get.obj_shortdesc[%item2%]%")
                 end
             end
             actor:send("</>")
             actor:send("You still need:")
-            if not actor:get_quest_var("theatre:sash") then
+            if (actor:get_quest_var("theatre:sash") or 0) == 0 then
                 actor:send("%get.obj_shortdesc[%item1%]%")
             end
-            if not actor:get_quest_var("theatre:charles") then
+            if (actor:get_quest_var("theatre:charles") or 0) == 0 then
                 actor:send("%get.obj_shortdesc[%item2%]%")
             end
         elseif stage == 5 then

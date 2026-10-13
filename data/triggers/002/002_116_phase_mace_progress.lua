@@ -75,7 +75,7 @@ elseif stage == macestep and actor.level >= macestep * 10 then
             actor:send("- <b:yellow>find %get.obj_shortdesc[%maceitem6%]%</>")
         end
     end
-elseif stage and stage > macestep then
+elseif (stage or 0) > 0 and stage > macestep then
     if stage == 2 then     actor:send(tostring(self.name) .. " says, 'Someone familiar with the grave will be able to work on this mace.  Seek out the Sexton in the Abbey west of the Village of Mielikki.'")
     elseif stage == 3 then actor:send(tostring(self.name) .. " says, 'The Cleric Guild is capable of some miraculous crafting.  Visit the Cleric Guild Master in the Arctic Village of Ickle and talk to High Priest Zalish.  He should be able to help you.'")
     elseif stage == 4 then actor:send(tostring(self.name) .. " says, 'Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin.'")

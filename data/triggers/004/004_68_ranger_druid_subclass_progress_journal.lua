@@ -29,7 +29,7 @@ if actor.level > 10 then
         else
             actor:send("This class is for neutral characters only.")
         end
-        if actor:get_quest_stage("ran_dru_subclass") then
+        if actor:get_quest_stage("ran_dru_subclass") > 0 then
             actor:send(tostring(mobiles.template(163, 15).name) .. " said to you:")
             -- switch on actor:get_quest_stage("ran_dru_subclass")
             if actor:get_quest_stage("ran_dru_subclass") == 1 then

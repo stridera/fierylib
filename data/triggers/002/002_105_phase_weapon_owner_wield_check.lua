@@ -23,7 +23,7 @@ if self.id >= 300 and self.id <= 339 then
     end
     local quest = energy .. "_wand"
     local stage = actor:get_quest_stage(quest)
-    if not stage and (self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330) then
+    if (stage or 0) == 0 and (self.id == 300 or self.id == 310 or self.id == 320 or self.id == 330) then
         actor:start_quest(quest)
         stage = 0
     end
@@ -32,7 +32,7 @@ if self.id >= 300 and self.id <= 339 then
     end
 elseif self.id >= 340 and self.id <= 349 then
     local stage = actor:get_quest_stage("phase_mace")
-    if not stage and self.id == 340 then
+    if (stage or 0) == 0 and self.id == 340 then
         actor:start_quest("phase_mace")
         stage = 0
     end

@@ -25,7 +25,7 @@ if object.type == "DRINKCONTAINER" then
         while i >= a do
             person = person.group_member[a]
             if person.room == self.room then
-                if not person:get_quest_stage("griffin_quest") then
+                if person:get_quest_stage("griffin_quest") == 0 then
                     person:start_quest("griffin_quest")
                 end
                 person:set_quest_var("griffin_quest", "ladder", 1)

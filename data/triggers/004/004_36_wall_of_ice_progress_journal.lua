@@ -16,7 +16,7 @@ if (string.find(arg, "wall") and string.find(arg, "ice")) or string.find(arg, "w
         local status
         if actor:get_has_completed("wall_ice") then
             status = "Completed!"
-        elseif actor:get_quest_stage("wall_ice") then
+        elseif actor:get_quest_stage("wall_ice") > 0 then
             status = "In Progress"
         else
             status = "Not Started"

@@ -21,7 +21,7 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
         local job4 = actor:get_quest_var("monk_vision:visiontask4")
         actor:send("<b:green>&uEnlightenment</>")
         local level
-        if not visionstage then
+        if (visionstage or 0) == 0 then
             level = 10
         else
             level = visionstage * 10
@@ -32,7 +32,7 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
         local status
         if actor:get_has_completed("monk_vision") then
             status = "Completed!"
-        elseif visionstage then
+        elseif (visionstage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

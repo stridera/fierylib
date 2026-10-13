@@ -18,7 +18,7 @@ if not (string.find(string.lower(speech), "chant") or string.find(string.lower(s
 end
 wait(2)
 if actor:get_quest_stage("monk_vision") >= 3 then
-    if not actor:get_quest_stage("monk_chants") then
+    if actor:get_quest_stage("monk_chants") == 0 then
         actor:send(tostring(self.name) .. " says, 'As you walk your path to enlightenment, your mind's capacity for esoteric knowledge will vastly increase.  This knowledge forms the basis for many powerful chants and hymns.'")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Each new vision marking represents your readiness for a new chant.  Much like the vision quests you undertake, you will need to find a source of knowledge and meditate on it in a place of great resonance.'")

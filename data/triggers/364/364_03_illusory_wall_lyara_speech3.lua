@@ -14,7 +14,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "yes") or string.find(speech_lower, "willing") or string.find(speech_lower, "sure") or string.find(speech_lower, "okay")) then
     return true
 end
-if ((string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56) and not actor:get_quest_stage("illusory_wall") then
+if ((string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56) and actor:get_quest_stage("illusory_wall") == 0 then
     actor:start_quest("illusory_wall")
     wait(2)
     self:say("Splendid!  Let's get you set up.")

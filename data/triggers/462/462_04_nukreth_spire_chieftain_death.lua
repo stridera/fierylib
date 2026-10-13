@@ -17,13 +17,13 @@ if actor and actor.is_player then
         while i >= a do
             local person = actor.group_member[a]
             if person and person.room == self.room then
-                if not person:get_quest_stage("nukreth_spire") then
+                if person:get_quest_stage("nukreth_spire") == 0 then
                     person:start_quest("nukreth_spire")
                 end
             end
             a = a + 1
         end
-    elseif not actor:get_quest_stage("nukreth_spire") then
+    elseif actor:get_quest_stage("nukreth_spire") == 0 then
         actor:start_quest("nukreth_spire")
     end
 end

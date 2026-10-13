@@ -18,7 +18,7 @@ if not string.find(string.lower(speech), "please replace the spell") then
     return true  -- No matching phrase
 end
 wait(2)
-if actor:get_quest_stage("wall_ice") then
+if actor:get_quest_stage("wall_ice") > 0 then
     self:say("Oh sure.  But be careful.  Don't lose this spell again.")
     self.room:spawn_object(533, 26)
     self:command("give spell-living-ice " .. tostring(actor.name))

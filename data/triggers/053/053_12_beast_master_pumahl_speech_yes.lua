@@ -29,7 +29,7 @@ end
 while i >= a do
     person = person.group_member[a]
     if person.room == self.room then
-        if not person:get_quest_stage("beast_master") then
+        if person:get_quest_stage("beast_master") == 0 then
             person:start_quest("beast_master")
         end
         if person:get_has_completed("beast_master") then

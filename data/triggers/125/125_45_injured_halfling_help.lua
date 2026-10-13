@@ -19,7 +19,7 @@ for _, person in ipairs(actor.group) do
     if person.room == self.room then
         if person:get_quest_stage("krisenna_quest") < 2 then
             instruct = true
-            if not person:get_quest_stage("krisenna_quest") then
+            if person:get_quest_stage("krisenna_quest") == 0 then
                 person:start_quest("krisenna_quest")
                 person:send("<b:white>You have now begun the Tower in the Wastes quest!</>")
             end

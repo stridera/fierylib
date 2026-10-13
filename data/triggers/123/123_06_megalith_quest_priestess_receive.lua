@@ -114,7 +114,7 @@ end
 
 -- if you already gave us this item.
 local item_key = "item" .. tostring(item)
-if actor:get_quest_var("megalith_quest:" .. item_key) then
+if actor:get_quest_var("megalith_quest:" .. item_key) == 1 then
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
     self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
     return _return_value
@@ -137,12 +137,12 @@ end
 world.destroy(object)
 
 -- See if we've turned in everything for this step.
-local item1 = actor:get_quest_var("megalith_quest:item1") and 1 or nil
-local item2 = actor:get_quest_var("megalith_quest:item2") and 1 or nil
-local item3 = actor:get_quest_var("megalith_quest:item3") and 1 or nil
+local item1 = actor:get_quest_var("megalith_quest:item1") == 1 and 1 or nil
+local item2 = actor:get_quest_var("megalith_quest:item2") == 1 and 1 or nil
+local item3 = actor:get_quest_var("megalith_quest:item3") == 1 and 1 or nil
 -- item4 doesn't exist for stage 3, so treat that as satisfied there.
 local item4
-if (actor:get_quest_stage("megalith_quest") ~= 1) or actor:get_quest_var("megalith_quest:item4") then
+if (actor:get_quest_stage("megalith_quest") ~= 1) or actor:get_quest_var("megalith_quest:item4") == 1 then
     item4 = 1
 end
 

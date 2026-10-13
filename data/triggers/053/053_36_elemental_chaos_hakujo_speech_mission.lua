@@ -20,7 +20,7 @@ end
 wait(2)
 if actor:get_has_completed("elemental_chaos") then
     actor:send(tostring(self.name) .. " says, 'We're still analyzing the information you brought us on your last mission.  Check back later.'")
-elseif not actor:get_quest_stage("elemental_chaos") or (actor:get_quest_stage("elemental_chaos") == 1 and not actor:get_quest_var("elemental_chaos:bounty")) then
+elseif actor:get_quest_stage("elemental_chaos") == 0 or (actor:get_quest_stage("elemental_chaos") == 1 and (actor:get_quest_var("elemental_chaos:bounty") or 0) == 0) then
     actor:send(tostring(self.name) .. " says, 'Yes, something that will help bring Balance to the world.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Those who follow the Way seek to preserve Harmony through universal Balance.  We are the anathema of Chaos.  When unnatural forces rise in unlikely places, we follow the Way to restore Balance.'")

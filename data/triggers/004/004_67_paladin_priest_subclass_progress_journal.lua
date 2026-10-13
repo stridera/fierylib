@@ -25,7 +25,7 @@ if actor.level > 10 then
         actor:send("</>")
         actor:send("Minimum Level: 10")
         actor:send("This class is for good characters only.")
-        if actor:get_quest_stage("pri_pal_subclass") then
+        if actor:get_quest_stage("pri_pal_subclass") > 0 then
             actor:send(tostring(mobiles.template(185, 81).name) .. " said to you:")
             -- switch on actor:get_quest_stage("pri_pal_subclass")
             if actor:get_quest_stage("pri_pal_subclass") == 1 then

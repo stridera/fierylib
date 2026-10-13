@@ -186,7 +186,7 @@ INSERT INTO "SystemMessage" ("key", "category", "messages", "updated_at") VALUES
   ('weather_change_clear', 'weather', ARRAY['<b:yellow>The clouds part</>; the sky brightens.']::text[], CURRENT_TIMESTAMP),
   ('weather_change_cloudy', 'weather', ARRAY['<dim>Clouds gather overhead.</>']::text[], CURRENT_TIMESTAMP),
   ('weather_change_drizzle', 'weather', ARRAY['<cyan>A light drizzle</> begins to fall.']::text[], CURRENT_TIMESTAMP),
-  ('weather_change_rain', 'weather', ARRAY['The <cyan>rain</> picks up — a steady <cyan>downpour</>.']::text[], CURRENT_TIMESTAMP),
+  ('weather_change_rain', 'weather', ARRAY['The <cyan>rain</> picks up into a steady <cyan>downpour</>.']::text[], CURRENT_TIMESTAMP),
   ('weather_change_storm', 'weather', ARRAY['<dim>The wind howls</>; <dim>thunder</> rumbles in the distance.']::text[], CURRENT_TIMESTAMP),
   ('weather_change_snow', 'weather', ARRAY['<b:white>Snowflakes</> begin to fall.']::text[], CURRENT_TIMESTAMP),
   ('weather_change_blizzard', 'weather', ARRAY['The snow thickens into a blinding <b:white>blizzard</>.']::text[], CURRENT_TIMESTAMP)

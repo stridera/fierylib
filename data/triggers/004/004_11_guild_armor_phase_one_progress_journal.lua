@@ -14,7 +14,7 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
     actor:send("<b:green>&uGuild Armor Phase One</>")
     actor:send("Mininum Level: 1")
     actor:send("Items for this quest drop from mobs between level 1 and 20.")
-    if actor:get_quest_stage("phase_armor") then
+    if actor:get_quest_stage("phase_armor") > 0 then
         local sorcererclasses = "Sorcerer Cryomancer Pyromancer Illusionist Necromancer"
         local clericclasses = "Cleric Priest Druid Diabolist"
         local warriorclasses = "Warrior Anti-Paladin Ranger Paladin Monk Berserker"

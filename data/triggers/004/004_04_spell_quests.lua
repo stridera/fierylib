@@ -59,7 +59,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("major_globe_spell") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("major_globe_spell") then
+                elseif actor:get_quest_stage("major_globe_spell") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -72,7 +72,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("group_heal") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("group_heal") then
+                elseif actor:get_quest_stage("group_heal") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -85,7 +85,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("group_armor") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("group_armor") then
+                elseif actor:get_quest_stage("group_armor") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -98,7 +98,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("wall_ice") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("wall_ice") then
+                elseif actor:get_quest_stage("wall_ice") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -111,7 +111,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("illusory_wall") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("illusory_wall") then
+                elseif actor:get_quest_stage("illusory_wall") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -124,7 +124,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("hellfire_brimstone") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("hellfire_brimstone") then
+                elseif actor:get_quest_stage("hellfire_brimstone") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -152,7 +152,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("relocate_spell_quest") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("relocate_spell_quest") then
+                elseif actor:get_quest_stage("relocate_spell_quest") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -165,7 +165,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("banish") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("banish") then
+                elseif actor:get_quest_stage("banish") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -185,7 +185,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("group_armor") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("group_armor") then
+                elseif actor:get_quest_stage("group_armor") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -201,7 +201,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("moonwell_spell_quest") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("moonwell_spell_quest") then
+                elseif actor:get_quest_stage("moonwell_spell_quest") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -214,7 +214,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("meteorswarm") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("meteorswarm") then
+                elseif actor:get_quest_stage("meteorswarm") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -231,7 +231,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("word_command") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("word_command") then
+                elseif actor:get_quest_stage("word_command") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -244,7 +244,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("waterform") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("waterform") then
+                elseif actor:get_quest_stage("waterform") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -292,7 +292,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                     status = "Completed!"
                 elseif actor:get_has_failed("blur") then
                     status = "Failed"
-                elseif actor:get_quest_stage("blur") then
+                elseif actor:get_quest_stage("blur") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -305,7 +305,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("creeping_doom") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("creeping_doom") then
+                elseif actor:get_quest_stage("creeping_doom") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -318,7 +318,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("degeneration") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("degeneration") then
+                elseif actor:get_quest_stage("degeneration") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -331,7 +331,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("flood") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("flood") then
+                elseif actor:get_quest_stage("flood") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -344,7 +344,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("heavens_gate") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("heavens_gate") then
+                elseif actor:get_quest_stage("heavens_gate") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -357,7 +357,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("hell_gate") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("hell_gate") then
+                elseif actor:get_quest_stage("hell_gate") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -370,7 +370,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("meteorswarm") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("meteorswarm") then
+                elseif actor:get_quest_stage("meteorswarm") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -383,7 +383,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("resurrection_quest") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("resurrection_quest") then
+                elseif actor:get_quest_stage("resurrection_quest") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -396,7 +396,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("wizard_eye") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("wizard_eye") then
+                elseif actor:get_quest_stage("wizard_eye") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -411,7 +411,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("charm_person") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("charm_person") then
+                elseif actor:get_quest_stage("charm_person") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -424,7 +424,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("dragons_health") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("dragons_health") then
+                elseif actor:get_quest_stage("dragons_health") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -442,7 +442,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("ice_shards") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("ice_shards") then
+                elseif actor:get_quest_stage("ice_shards") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -455,7 +455,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("supernova") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("supernova") then
+                elseif actor:get_quest_stage("supernova") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"
@@ -475,7 +475,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 local status
                 if actor:get_has_completed("shift_corpse") then
                     status = "Completed!"
-                elseif actor:get_quest_stage("shift_corpse") then
+                elseif actor:get_quest_stage("shift_corpse") > 0 then
                     status = "In Progress"
                 else
                     status = "Not Started"

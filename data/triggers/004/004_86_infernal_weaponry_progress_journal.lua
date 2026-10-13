@@ -16,7 +16,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
         actor:send("Weapons of the lower realms await a diabolist dedicated enough to claim them.")
         local hellstage = actor:get_quest_stage("hell_trident")
         local minlevel
-        if not hellstage then
+        if (hellstage or 0) == 0 then
             minlevel = 35
         elseif hellstage == 1 then
             minlevel = 65
@@ -29,13 +29,13 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
         local status
         if actor:get_has_completed("hell_trident") then
             status = "Completed!"
-        elseif hellstage then
+        elseif (hellstage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        if actor:get_quest_stage("hell_trident") then
+        if actor:get_quest_stage("hell_trident") > 0 then
             local job1 = actor:get_quest_var("hell_trident:helltask1")
             local job2 = actor:get_quest_var("hell_trident:helltask2")
             local job3 = actor:get_quest_var("hell_trident:helltask3")
@@ -70,7 +70,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
             end
             if actor.level >= minlevel then
                 actor:send("Quest Master: " .. tostring(master))
-                if not actor:get_quest_var("hell_trident:greet") then
+                if (actor:get_quest_var("hell_trident:greet") or 0) == 0 then
                     actor:send("Speak with " .. tostring(master) .. ".")
                     return _return_value
                 else

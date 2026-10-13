@@ -9,10 +9,10 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 -- This trigger is different depending on stage and where in the stage the questor is at
 -- 
-local item1 = (actor:get_quest_var("megalith_quest:item1"))
-local item2 = (actor:get_quest_var("megalith_quest:item2"))
-local item3 = (actor:get_quest_var("megalith_quest:item3"))
-local item4 = (actor:get_quest_var("megalith_quest:item4"))
+local item1 = (actor:get_quest_var("megalith_quest:item1") == 1)
+local item2 = (actor:get_quest_var("megalith_quest:item2") == 1)
+local item3 = (actor:get_quest_var("megalith_quest:item3") == 1)
+local item4 = (actor:get_quest_var("megalith_quest:item4") == 1)
 if (actor.is_player) and (actor:get_quest_stage("megalith_quest") < 1) and (actor.level < 100) then
     wait(2)
     self.room:send(tostring(self.name) .. " looks up, startled to see new faces.")
@@ -28,7 +28,7 @@ elseif actor:get_quest_stage("megalith_quest") == 1 then
     -- 
     -- If all the Keepers have been helped in stage 2, give the incantation to start stage 3
     -- 
-elseif (actor:get_quest_stage("megalith_quest") == 2) and (actor:get_quest_var("megalith_quest:item1")) and (actor:get_quest_var("megalith_quest:item2")) and (actor:get_quest_var("megalith_quest:item3")) and (actor:get_quest_var("megalith_quest:item4")) then
+elseif (actor:get_quest_stage("megalith_quest") == 2) and (actor:get_quest_var("megalith_quest:item1") == 1) and (actor:get_quest_var("megalith_quest:item2") == 1) and (actor:get_quest_var("megalith_quest:item3") == 1) and (actor:get_quest_var("megalith_quest:item4") == 1) then
     wait(2)
     self:say("We're ready to finish calling the elements!  If you wish to proceed, repeat after me:")
     self.room:send("</>")
@@ -42,7 +42,7 @@ elseif actor:get_quest_stage("megalith_quest") == 2 then
     -- 
     -- If all the reliquaries have been returned and stage 4 is ready to start, ask if ready to proceed
     -- 
-elseif (actor:get_quest_stage("megalith_quest") == 4) and (actor:get_quest_var("megalith_quest:reliquary")) then
+elseif (actor:get_quest_stage("megalith_quest") == 4) and ((actor:get_quest_var("megalith_quest:reliquary") or 0) ~= 0) then
     wait(2)
     self:say("It's time.  Are you ready to proceed?")
     -- 

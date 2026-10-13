@@ -19,7 +19,7 @@ if not string.find(string.lower(speech), "new crystal") then
     return true
 end
 wait(2)
-if actor:get_quest_stage("shift_corpse") and actor:get_quest_stage("shift_corpse") > 0 then
+if actor:get_quest_stage("shift_corpse") > 0 and actor:get_quest_stage("shift_corpse") > 0 then
     self:say("I can assist.")
     wait(1)
     self:emote("opens a pitch black box.")

@@ -5834,12 +5834,12 @@
       }
     ],
     "messages": {
-      "successToCaster": "{target.name} reels back as you jam your thumbs right into {target.pos} eye sockets!",
-      "successToVictim": "Blood fills your vision as {actor.name} slips {actor.pos} thumbs into your eyes!",
-      "successToRoom": "{actor.name} lunges at {target.him}, gouging into {target.pos} eyes with {actor.pos} thumbs!",
-      "failToCaster": "Your lunge goes wide, missing {target.pos} head by a mile.",
+      "successToCaster": "{target.name} reels back as you jam your thumbs right into {target.his} eye sockets!",
+      "successToVictim": "Blood fills your vision as {actor.name} slips {actor.his} thumbs into your eyes!",
+      "successToRoom": "{actor.name} lunges at {target.name}, gouging into {target.his} eyes with {actor.his} thumbs!",
+      "failToCaster": "Your lunge goes wide, missing {target.his} head by a mile.",
       "failToVictim": "{actor.name} tries to grab for your eyes, but misses miserably.",
-      "failToRoom": "{actor.name} lunges wildly at {target.him}, nearly taking out an eye!",
+      "failToRoom": "{actor.name} lunges wildly at {target.name}, nearly taking out an eye!",
       "wearoffToTarget": "Your vision returns."
     }
   },

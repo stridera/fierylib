@@ -25,7 +25,7 @@ while i >= a do
     if person and person.room == self.room then
         if (object.zone_id == 43 and object.id == 1) then
             if person:get_quest_stage("theatre") >= stage then
-                if not person:get_quest_var("theatre:charles") then
+                if (person:get_quest_var("theatre:charles") or 0) == 0 then
                     person:set_quest_var("theatre", "charles", 1)
                     accept = 1
                     if person:get_quest_stage("theatre") == stage then
@@ -41,7 +41,7 @@ while i >= a do
             if person:get_quest_stage("theatre") <= stage then
                 accept = 3
                 if person:get_quest_stage("theatre") == stage then
-                    if not person:get_quest_var("theatre:sash") then
+                    if (person:get_quest_var("theatre:sash") or 0) == 0 then
                         person:set_quest_var("theatre", "sash", 1)
                         person:send("<b:white>You have helped return Charlemagne's sash.</>")
                     end
@@ -54,7 +54,7 @@ while i >= a do
         else
             refuse = "item"
         end
-        if person:get_quest_stage("theatre") == 4 and person:get_quest_var("theatre:sash") and person:get_quest_var("theatre:charles") then
+        if person:get_quest_stage("theatre") == 4 and (person:get_quest_var("theatre:sash") or 0) ~= 0 and (person:get_quest_var("theatre:charles") or 0) ~= 0 then
             person:advance_quest("theatre")
             person:set_quest_var("theatre", "charles", 0)
             person:set_quest_var("theatre", "sash", 0)
@@ -66,9 +66,9 @@ while i >= a do
     a = a + 1
 end
 if actor:get_quest_stage("theatre") == 4 then
-    if not actor:get_quest_var("theatre:sash") then
+    if (actor:get_quest_var("theatre:sash") or 0) == 0 then
         outcome = 2
-    elseif not actor:get_quest_var("theatre:charles") then
+    elseif (actor:get_quest_var("theatre:charles") or 0) == 0 then
         outcome = 3
     else
         outcome = 1

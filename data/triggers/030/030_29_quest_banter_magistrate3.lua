@@ -30,7 +30,7 @@ if actor.is_player then
         while i >= a do
             local person = actor.group_member[a]
             if person and person.room == self.room then
-                if not person:get_quest_stage("mystwatch_quest") then
+                if person:get_quest_stage("mystwatch_quest") == 0 then
                     person:start_quest("mystwatch_quest")
                     person:send("<b:white>You have begun the Mystwatch quest!</>")
                 end

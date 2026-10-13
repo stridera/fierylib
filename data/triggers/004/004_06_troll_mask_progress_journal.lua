@@ -18,7 +18,7 @@ if string.find(arg, "tribal") or string.find(arg, "trouble") or string.find(arg,
             actor:send("<b:green>&uTribal Trouble</>")
             actor:send("Minimum Level: 55")
             local status
-            if not actor:get_quest_stage("troll_quest") then
+            if actor:get_quest_stage("troll_quest") == 0 then
                 status = "Not Started"
             elseif actor:get_has_completed("troll_quest") then
                 status = "Completed!"

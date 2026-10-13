@@ -19,7 +19,7 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
         local status
         if actor:get_has_completed("major_globe_spell") then
             status = "Completed!"
-        elseif actor:get_quest_stage("major_globe_spell") then
+        elseif actor:get_quest_stage("major_globe_spell") > 0 then
             status = "In Progress"
         else
             status = "Not Started"

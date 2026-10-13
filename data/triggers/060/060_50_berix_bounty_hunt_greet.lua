@@ -8,7 +8,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(2)
 if not actor:get_has_completed("bounty_hunt") then
-    if not actor:get_quest_stage("bounty_hunt") then
+    if actor:get_quest_stage("bounty_hunt") == 0 then
         if actor.alignment <= -350 or string.find(actor.class, "assassin") or string.find(actor.class, "mercenary") then
             actor:send(tostring(self.name) .. " says, 'Well hello there.  You look like quite a piece of work.  I think I have a <b:cyan>[job]</> for you.'")
         else
@@ -26,9 +26,9 @@ if not actor:get_has_completed("bounty_hunt") then
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to discuss a <b:cyan>[promotion]</>.'")
     end
 else
-    if string.find(actor.class, "assassin") and not actor:get_quest_stage("assassin_mask") and actor.level > 9 then
+    if string.find(actor.class, "assassin") and actor:get_quest_stage("assassin_mask") == 0 and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'Oh look, someone else in line for a <b:cyan>[promotion]</>.'")
-    elseif actor:get_quest_stage("assassin_mask") and not actor:get_has_completed("assassin_mask") then
+    elseif actor:get_quest_stage("assassin_mask") > 0 and not actor:get_has_completed("assassin_mask") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be looking for another <b:cyan>[promotion]</>.'")
     end
 end

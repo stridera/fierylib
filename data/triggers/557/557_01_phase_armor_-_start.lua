@@ -7,6 +7,31 @@
 
 -- Converted from DG Script #55701: Phase Armor - Start
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "quests", "quest", "hello", "hi"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
+end
+-- DG globals set on this mob by its init (LOAD) trigger, 557:10-39
+local classes = self:getvar("classes")
+local phase = self:getvar("phase")
+local feet_name = self:getvar("feet_name")
+local head_name = self:getvar("head_name")
+local hands_name = self:getvar("hands_name")
+local arms_name = self:getvar("arms_name")
+local legs_name = self:getvar("legs_name")
+local body_name = self:getvar("body_name")
+local wrist_name = self:getvar("wrist_name")
+if classes == nil or phase == nil then
+    return true  -- the init trigger has not run for this mob
+end
 wait(2)
 local anti = "Anti-Paladin"
 if not actor or not actor.can_be_seen then

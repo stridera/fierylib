@@ -19,7 +19,7 @@ if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "
             local status
             if actor:get_has_completed("word_command") then
                 status = "Completed!"
-            elseif stage then
+            elseif (stage or 0) > 0 then
                 status = "In Progress"
             else
                 status = "Not Started"

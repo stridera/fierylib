@@ -7,6 +7,6 @@
 
 -- Converted from DG Script #49040: hermit_greet1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor:get_quest_stage("griffin_quest") then
+if actor:get_quest_stage("griffin_quest") > 0 then
     self:say("How may I help you " .. tostring(actor.name) .. "?")
 end

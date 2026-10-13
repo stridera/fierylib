@@ -20,7 +20,7 @@ end
 wait(2)
 if actor:get_has_completed("treasure_hunter") then
     actor:send(tostring(self.name) .. " says, 'Only great treasures, the stuff of legend, still wait out there!'")
-elseif not actor:get_quest_stage("treasure_hunter") then
+elseif actor:get_quest_stage("treasure_hunter") == 0 then
     actor:send(tostring(self.name) .. " says, 'Treasure hunting is equal parts cleverness and strength.  You can't always just hack your way through the hordes to your prize.  You have to be smart.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'If you want to see what I mean, here's one to start with.'")

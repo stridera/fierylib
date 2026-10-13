@@ -31,7 +31,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
             status = "Completed!"
         elseif actor:get_has_failed("megalith_quest") then
             status = "Failed"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

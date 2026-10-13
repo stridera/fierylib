@@ -14,7 +14,7 @@ if not (string.find(speech_lower, "axe") or string.find(speech_lower, "help") or
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path3") == 0 then
         self:command("nod")
         self.room:send(tostring(self.name) .. " says, 'They took my axe when they captured me.  Gave it to")

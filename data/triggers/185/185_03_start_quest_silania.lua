@@ -49,7 +49,7 @@ if not classquest then
 end
 
 if string.find(s, "yes") then
-    if actor.alignment > 349 and not actor:get_quest_stage("pri_pal_subclass") then
+    if actor.alignment > 349 and actor:get_quest_stage("pri_pal_subclass") == 0 then
         if not globals.use_subclass then
             actor:send(tostring(self.name) .. " says, 'First, we must discuss your destiny.'")
         else

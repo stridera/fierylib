@@ -18,7 +18,7 @@ if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg
         local status
         if actor:get_has_completed("griffin_quest") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -44,7 +44,7 @@ if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg
             elseif stage == 7 then
                 actor:send("Now you can strike the final blow and destroy the essence of the god of the cult itself.  Give the griffin skin to Awura, then seek out the hidden entrance to the other realms and destroy Adramalech.")
             end
-        elseif not stage then
+        elseif (stage or 0) == 0 then
             actor:send("Find the wreck of the St. Marvin and bring the cutting of the sacred oak to the eldest druid.")
         end
     end

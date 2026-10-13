@@ -21,7 +21,7 @@ if string.find(arg, "wizard eye") or string.find(arg, "wizard") or string.find(a
         local status
         if actor:get_has_completed("wizard_eye") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

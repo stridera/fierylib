@@ -17,7 +17,7 @@ if not string.find(string.lower(speech), "i need a new assignment", 1, true) the
 end
 wait(2)
 if actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then
-    if actor:get_quest_var("beast_master:hunt") then
+    if (actor:get_quest_var("beast_master:hunt") or 0) ~= 0 then
         -- switch on actor:get_quest_stage("beast_master")
         local notice
         if actor:get_quest_stage("beast_master") == 1 then

@@ -41,7 +41,7 @@ if actor.level > 10 then
         if questname == "assassin" then
             actor:send("This class is for evil characters only.")
         end
-        if actor:get_quest_stage("merc_ass_thi_subclass") then
+        if actor:get_quest_stage("merc_ass_thi_subclass") > 0 then
             actor:send(tostring(mobiles.template(60, 50).name) .. " said to you:")
             -- switch on actor:get_quest_stage("merc_ass_thi_subclass")
             if questname == "mercenary" then

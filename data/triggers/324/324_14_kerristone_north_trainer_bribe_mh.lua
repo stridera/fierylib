@@ -27,7 +27,8 @@ if actor.is_player then
     self.room:spawn_mobile(324, 21)
     self.room:send("</>The <yellow>horse</> trainer gets under you and pushes you up into the saddle.</>")
     wait(2)
-    self.room:spawn_object(324, 21)
+    -- mload obj: the carrot goes into the trainer's inventory so the give below can hand it over
+    self:spawn_object(324, 21)
     self.room:send(tostring(self.name) .. " says, '</>Feed him this </><yellow>carrot</> and he will know that you want to go to Morgan Hill.</>'")
     self:command("give carrot " .. tostring(actor.name))
     self.room:send("</>The <yellow>horse</> trainer forces your hand towards the mouth of the <yellow>horse</>.")

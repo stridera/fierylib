@@ -19,7 +19,7 @@ if not (string.find(string.lower(speech), "resume")) then
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_has_completed("school") or not actor:get_quest_stage("school") then
+if actor:get_has_completed("school") or actor:get_quest_stage("school") == 0 then
     return _return_value
 else
     -- switch on actor:get_quest_stage("school")

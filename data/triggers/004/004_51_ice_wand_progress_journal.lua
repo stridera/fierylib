@@ -26,7 +26,7 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
         local status
         if actor:get_has_completed("ice_wand") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

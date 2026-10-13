@@ -39,7 +39,7 @@ if string.find(arg, "beast") or string.find(arg, "masters") or string.find(arg, 
         victim1 = "the medusa"
     end
     local level
-    if stage == 1 or not stage then
+    if stage == 1 or (stage or 0) == 0 then
         level = 1
     else
         level = (stage - 1) * 10
@@ -50,7 +50,7 @@ if string.find(arg, "beast") or string.find(arg, "masters") or string.find(arg, 
     local status
     if actor:get_has_completed("beast_master") then
         status = "Completed!"
-    elseif stage then
+    elseif (stage or 0) > 0 then
         status = "In Progress"
     else
         status = "Not Started"

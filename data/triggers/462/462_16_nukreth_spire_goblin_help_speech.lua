@@ -14,7 +14,7 @@ if not (string.find(speech_lower, "treasure") or string.find(speech_lower, "help
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path4") == 0 then
         self.room:send(tostring(self.name) .. " says, 'Yessss, had me a shiny treasure I did.  Hid it on some")
         self.room:send("</>bodies before they could eats 'em.  Or me.'")
@@ -26,7 +26,7 @@ if actor:get_quest_stage("nukreth_spire") then
         wait(2)
         self.room:send(tostring(self.name) .. " hides himself out of sight.")
         self:command("hide")
-        if not actor:get_quest_var("nukreth_spire:treasure") then
+        if (actor:get_quest_var("nukreth_spire:treasure") or 0) == 0 then
             actor:set_quest_var("nukreth_spire", "treasure", 1)
         end
     else

@@ -18,7 +18,7 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
         local status
         if actor:get_has_completed("emmath_flameball") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

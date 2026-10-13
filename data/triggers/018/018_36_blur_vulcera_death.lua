@@ -18,7 +18,7 @@ if world.count_mobiles(18, 21) <= 0 then
     return true
 end
 for _, person in ipairs(self.room.actors) do
-    if person.is_player and (person:get_quest_stage("blur") == 4) and (not person:get_quest_var("blur:east")) then
+    if person.is_player and (person:get_quest_stage("blur") == 4) and ((person:get_quest_var("blur:east") or 0) == 0) then
         person:send(tostring(east_wind_name) .. " thanks you heartily!")
         self.room:send_except(person, tostring(east_wind_name) .. " thanks " .. tostring(person.name) .. " heartily!")
         person:send(tostring(east_wind_name) .. " tells you, 'See if you can get to<b:yellow> " .. tostring(lair_name) .. " </>first!'")

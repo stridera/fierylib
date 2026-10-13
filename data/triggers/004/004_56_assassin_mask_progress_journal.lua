@@ -21,7 +21,7 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
         local job4 = actor:get_quest_var("assassin_mask:masktask4")
         actor:send("<b:green>&uDeadly Promotion</>")
         local level
-        if not stage then
+        if (maskstage or 0) == 0 then
             level = 10
         else
             level = maskstage * 10
@@ -32,7 +32,7 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
         local status
         if actor:get_has_completed("assassin_mask") then
             status = "Completed!"
-        elseif maskstage then
+        elseif (maskstage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

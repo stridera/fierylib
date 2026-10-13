@@ -21,7 +21,7 @@ local ice_stage = actor:get_quest_stage("ice_shards")
 local wand_stage = actor:get_quest_stage("type_wand")
 
 local seen_before = false
-if ice_stage and ice_stage > 0 then
+if (ice_stage or 0) > 0 and ice_stage > 0 then
     seen_before = true
 end
 if wandstep and wand_stage > wandstep then
@@ -37,7 +37,7 @@ actor:send(self.name .. " looks up at your approach.")
 if seen_before then
     self:say("Welcome back my friend.")
     wait(2)
-    if ice_stage and ice_stage > 0 and not actor:get_has_completed("ice_shards") then
+    if (ice_stage or 0) > 0 and ice_stage > 0 and not actor:get_has_completed("ice_shards") then
         self:say("Did you find any more clues?")
         if wandstep and wand_stage == wandstep then
             local minlevel = (wandstep - 1) * 10
@@ -76,7 +76,7 @@ else
             self.room:send(self.name .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         end
     end
-    if not (ice_stage and ice_stage > 0) then
+    if not ((ice_stage or 0) > 0 and ice_stage > 0) then
         wait(3)
         if string.find(actor.class, "cryomancer") then
             if actor:get_has_completed("major_globe_spell")

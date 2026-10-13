@@ -30,7 +30,7 @@ if actor.level > 10 then
         actor:send("</>")
         actor:send("Minimum Level: 10")
         actor:send("This class is for evil characters only.")
-        if actor:get_quest_stage("nec_anti_dia_subclass") then
+        if actor:get_quest_stage("nec_anti_dia_subclass") > 0 then
             actor:send(tostring(mobiles.template(85, 1).name) .. " said to you:")
             -- switch on actor:get_quest_stage("nec_anti_dia_subclass")
             if actor:get_quest_stage("nec_anti_dia_subclass") == 1 then

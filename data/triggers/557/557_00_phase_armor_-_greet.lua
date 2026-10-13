@@ -14,6 +14,12 @@
 
 -- Converted from DG Script #55700: Phase Armor - Greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
+-- DG globals set on this mob by its init (LOAD) trigger, 557:10-39
+local classes = self:getvar("classes")
+local phase = self:getvar("phase")
+if classes == nil or phase == nil then
+    return true  -- the init trigger has not run for this mob
+end
 local _return_value = true  -- Default: allow action
 wait(2)
 local anti = "Anti-Paladin"
@@ -30,7 +36,7 @@ else
     end
 end
 if string.find(self.class, "necromancer") then
-    if actor:get_quest_stage("shift_corpse") then
+    if actor:get_quest_stage("shift_corpse") > 0 then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'May Death guide your hunt for Lokari.'")
         wait(1)

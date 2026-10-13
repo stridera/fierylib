@@ -20,7 +20,7 @@ wait(2)
 actor:send("<b:green>Elemental Chaos</>")
 if actor:get_has_completed("elemental_chaos") then
     actor:send(tostring(self.name) .. " says, 'Chaos can never be truly destroyed, but you have helped restore Balance.'")
-elseif not actor:get_quest_stage("elemental_chaos") then
+elseif actor:get_quest_stage("elemental_chaos") == 0 then
     actor:send(tostring(self.name) .. " says, 'You aren't walking the Way with me.'")
 elseif actor:get_quest_var("elemental_chaos:bounty") == "dead" then
     actor:send(tostring(self.name) .. " says, 'Give me your current mission first.'")
@@ -171,7 +171,7 @@ if string.find(actor.class, "monk") then
             end
         end
     end
-    if actor:get_quest_stage("monk_chants") then
+    if actor:get_quest_stage("monk_chants") > 0 then
         local chantstage = actor:get_quest_stage("monk_chants")
         -- switch on chantstage
         local chant, level, item, place

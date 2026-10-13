@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "ladder?")) then
     return true  -- No matching keywords
 end
-if actor:get_quest_stage("griffin_quest") then
+if actor:get_quest_stage("griffin_quest") > 0 then
     self:say("I do have a slightly used rope ladder, which I will trade with you.")
     wait(1)
     self:say("It's magical and will automatically deploy if you drop it in the right area to get down to St. Marvin.")

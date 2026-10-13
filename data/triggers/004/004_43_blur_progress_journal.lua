@@ -29,13 +29,13 @@ if string.find(arg, "blur") then
             status = "Completed!"
         elseif actor:get_has_failed("blur") then
             status = "Failed"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        if not stage then
+        if (stage or 0) == 0 then
             actor:send("Heal the spirits in the Forest of Shadows.")
         elseif actor:get_has_failed("blur") then
             actor:send("Find " .. tostring(master) .. " to restart the races.")
@@ -58,7 +58,7 @@ if string.find(arg, "blur") then
                     local seconds = timer - (minutes * 60)
                     actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race all four winds!")
                     actor:send("</>")
-                    if not north then
+                    if (north or 0) == 0 then
                         actor:send("The North Wind blows near the frozen town of Ickle.")
                     elseif north == 1 then
                         local room = get_room("30262")
@@ -70,7 +70,7 @@ if string.find(arg, "blur") then
                         actor:send("You have won the race against the North Wind!")
                     end
                     actor:send("</>")
-                    if not south then
+                    if (south or 0) == 0 then
                         actor:send("The South Wind blows around the hidden standing stones in South Caelia.")
                     elseif south == 1 then
                         local room = get_room("53557")
@@ -82,7 +82,7 @@ if string.find(arg, "blur") then
                         actor:send("You have won the race against the South Wind!")
                     end
                     actor:send("</>")
-                    if not east then
+                    if (east or 0) == 0 then
                         actor:send("The East Wind blows through an enormous volcano in the sea.")
                     elseif east == 1 then
                         local room = get_room("12597")
@@ -94,7 +94,7 @@ if string.find(arg, "blur") then
                         actor:send("You have won the race against the East Wind!")
                     end
                     actor:send("</>")
-                    if not west then
+                    if (west or 0) == 0 then
                         actor:send("The West Wind blows through ruins across the vast Gothra plains.")
                     elseif west == 1 then
                         local room = get_room("4236")

@@ -27,11 +27,11 @@ if is_wand_quest_item then
 end
 
 local response
-if actor:get_quest_stage("wall_ice") and actor:get_quest_stage("type_wand") == "wandstep" then
+if actor:get_quest_stage("wall_ice") > 0 and actor:get_quest_stage("type_wand") == "wandstep" then
     response = "This won't help us build this wall and I can't craft with it."
 elseif actor:get_quest_stage("type_wand") == "wandstep" then
     response = "I can't craft with this."
-elseif actor:get_quest_stage("wall_ice") then
+elseif actor:get_quest_stage("wall_ice") > 0 then
     response = "This won't help us build this wall."
 else
     response = "What is this for?"

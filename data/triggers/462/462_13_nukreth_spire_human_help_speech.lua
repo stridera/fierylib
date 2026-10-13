@@ -13,7 +13,7 @@ if not (string.find(speech_lower, "husband") or string.find(speech_lower, "help"
     return true  -- No matching keywords
 end
 wait(2)
-if actor:get_quest_stage("nukreth_spire") then
+if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path1") == 0 then
         self.room:send(tostring(self.name) .. " says, 'They took us both captive.  But just a moment ago three")
         self.room:send("</>of their cultists took him as a sacrifice to their Demon Lord...'")
@@ -25,7 +25,7 @@ if actor:get_quest_stage("nukreth_spire") then
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'They took him deeper into the den.  Find him and bring")
         self.room:send("</>him back here.  I'll keep this area safe.'")
-        if not actor:get_quest_var("nukreth_spire:rescue") then
+        if (actor:get_quest_var("nukreth_spire:rescue") or 0) == 0 then
             actor:set_quest_var("nukreth_spire", "rescue", 1)
         end
         if not globals.running then

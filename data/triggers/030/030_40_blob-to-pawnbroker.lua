@@ -26,12 +26,28 @@ if event == "SPEECH" then
 elseif not percent_chance(1) then
     return true
 end
-self:teleport(get_room(61, 72))
-self:destroy_item("all.key")
-self.room:find_actor("anduin_pawnbroker"):teleport(get_room(61, 72))
-self:command("remove all")
-self:command("drop all")
-self.room:find_actor("pawnbroker"):command("get all")
-self.room:find_actor("anduin_pawnbroker"):teleport(get_room(60, 34))
-local randmielrm = random(1, 18)
-self:teleport(get_room(30, 51 + randmielrm))
+-- Legacy: mgoto 6172, junk the keys, mteleport anduin_pawnbroker (60:16, the pawnbroker, wherever
+-- he is) to 6172, drop everything for him to collect, send him back to 6034, then mgoto a random
+-- room 3052..3069. Every piece is looked up before the first move, so a missing mob or room
+-- leaves the blob where it is instead of stranding it in the back room.
+local broker = world.find_mobile(60, 16)
+local back_room = get_room(61, 72)
+local shop = get_room(60, 34)
+local dest = get_room(30, 51 + random(1, 18))
+if not broker or not back_room or not shop or not dest then
+    return true
+end
+local ok, err = pcall(function()
+    self:teleport(back_room)
+    self:destroy_item("all.key")
+    broker:teleport(back_room)
+    self:command("remove all")
+    self:command("drop all")
+    broker:command("get all")
+end)
+-- Whatever happened above, both of them go home.
+broker:teleport(shop)
+self:teleport(dest)
+if not ok then
+    error(err, 0)
+end

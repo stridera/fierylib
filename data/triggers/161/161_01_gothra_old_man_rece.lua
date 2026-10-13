@@ -32,14 +32,14 @@ if (object.zone_id == 20 and object.id == 23) then
         for i = 1, size do
             local person = actor.group_member[i]
             if person and person.room == self.room then
-                if not person:get_quest_stage("desert_quest") then
+                if person:get_quest_stage("desert_quest") == 0 then
                     person:start_quest("desert_quest")
                 end
                 person:set_quest_var("desert_quest", "lever", 1)
             end
         end
     else
-        if not actor:get_quest_stage("desert_quest") then
+        if actor:get_quest_stage("desert_quest") == 0 then
             actor:start_quest("desert_quest")
         end
         actor:set_quest_var("desert_quest", "lever", 1)

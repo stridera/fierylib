@@ -18,7 +18,7 @@ if string.find(arg, "doom entrance") or string.find(arg, "the planes of doom") o
         local status
         if actor:get_has_completed("doom_entrance") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

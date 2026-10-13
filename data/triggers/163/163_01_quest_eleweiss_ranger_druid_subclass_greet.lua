@@ -17,7 +17,7 @@
 wait(2)
 
 local wandstep = actor:get_quest_stage("type_wand")
-if wandstep then
+if (wandstep or 0) > 0 then
     local minlevel = (wandstep - 1) * 10
     if actor.level >= minlevel then
         if actor:get_quest_var("type_wand:greet") == 0 then
@@ -38,7 +38,7 @@ end
 
 if (string.find(actor.class, "warrior") and (actor.level >= 10 and actor.level <= 25))
     or (string.find(actor.class, "cleric") and (actor.level >= 10 and actor.level <= 35)) then
-    if not actor:get_quest_stage("ran_dru_subclass") then
+    if actor:get_quest_stage("ran_dru_subclass") == 0 then
         self:emote("grins casually.")
         actor:send(tostring(self.name) .. " says, 'Some know the ways of the woods, others are ignorant.  Do you know the <b:cyan>ways</> or not?'")
         self:emote("puts a more serious look on his face.")

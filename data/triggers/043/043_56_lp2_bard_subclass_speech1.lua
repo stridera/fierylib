@@ -19,7 +19,7 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
     -- msend %actor% &1Your race cannot subclass to bard.&0
     -- halt
     -- break
-    if not actor:get_quest_stage("bard_subclass") then
+    if actor:get_quest_stage("bard_subclass") == 0 then
         wait(2)
         if string.find(speech, "yes") then
             actor:start_quest("bard_subclass", "bar")

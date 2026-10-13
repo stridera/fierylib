@@ -25,7 +25,7 @@ local stage_subclass = actor:get_quest_stage("pyromancer_subclass") or 0
 local response
 if stage_subclass > 0 and stage_subclass <= 4 then
     response = "I asked you to bring me the " .. tostring(actor:get_quest_var("pyromancer_subclass:part")) .. " flame, not this nonsense."
-elseif actor:get_quest_stage("type_wand") then
+elseif actor:get_quest_stage("type_wand") > 0 then
     response = "I can't craft with this!"
 elseif (actor:get_quest_stage("emmath_flameball") or 0) > 1 then
     response = "You're supposed to be out collecting flames, not whatever this is."

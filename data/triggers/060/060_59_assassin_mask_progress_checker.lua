@@ -23,7 +23,7 @@ wait(2)
 actor:send("<b:green>Contract Killers</>")
 if actor:get_has_completed("bounty_hunt") then
     actor:send(tostring(self.name) .. " says, 'You know, I'm fresh out of work for you.  Good luck!'")
-elseif not actor:get_quest_stage("bounty_hunt") then
+elseif actor:get_quest_stage("bounty_hunt") == 0 then
     actor:send(tostring(self.name) .. " says, 'You aren't doing a job for me.'")
 elseif actor:get_quest_var("bounty_hunt:bounty") == "dead" then
     actor:send(tostring(self.name) .. " says, 'Give me your current contract.'")

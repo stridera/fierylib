@@ -1,13 +1,7 @@
 -- Trigger: ***skill trainer speach***
 -- Zone: 30, ID: 160
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REWRITE
---
--- TODO(parity): converter declared `local skill`, `local word2`, `local cap`,
--- and `local maxskill` inside every if/elseif branch. They are nil at the
--- outer `local skill = 10 * skill` and `local maxskill = ...` recomputations,
--- and inside the cap/maxskill comparisons. Hoist those locals to the top of
--- the trigger and drop the `local` keyword in branches.
+-- Status: CLEAN
 --
 -- Original DG Script: #3160
 
@@ -48,67 +42,67 @@ else
     -- Identify the skill to be trained
     local skill, word2
     if speech == "backstab" then
-        skill = actor:has_skill("backstab")
+        skill = actor:get_skill("backstab")
     elseif speech == "bludgeoning weapons" then
-        skill = actor:has_skill("bludgeoning weapons")
+        skill = actor:get_skill("bludgeoning weapons")
         word2 = "weapons"
     elseif speech == "cartwheel" then
-        skill = actor:has_skill("cartwheel")
+        skill = actor:get_skill("cartwheel")
     elseif speech == "conceal" then
-        skill = actor:has_skill("conceal")
+        skill = actor:get_skill("conceal")
     elseif speech == "corner" then
-        skill = actor:has_skill("corner")
+        skill = actor:get_skill("corner")
     elseif speech == "double attack" then
-        skill = actor:has_skill("double attack")
+        skill = actor:get_skill("double attack")
         word2 = "attack"
     elseif speech == "dual wield" then
-        skill = actor:has_skill("dual wield")
+        skill = actor:get_skill("dual wield")
         word2 = "wield"
     elseif speech == "eye gouge" then
         word2 = "gouge"
-        skill = actor:has_skill("eye gouge")
+        skill = actor:get_skill("eye gouge")
     elseif speech == "group retreat" then
         word2 = "retreat"
-        skill = actor:has_skill("group retreat")
+        skill = actor:get_skill("group retreat")
     elseif speech == "hide" then
-        skill = actor:has_skill("hide")
+        skill = actor:get_skill("hide")
     elseif speech == "instant kill" then
-        skill = actor:has_skill("instant kill")
+        skill = actor:get_skill("instant kill")
         word2 = "kill"
     elseif speech == "lure" then
-        skill = actor:has_skill("lure")
+        skill = actor:get_skill("lure")
     elseif speech == "pick lock" then
-        skill = actor:has_skill("pick lock")
+        skill = actor:get_skill("pick lock")
         word2 = "lock"
     elseif speech == "piercing weapons" then
-        skill = actor:has_skill("piercing weapons")
+        skill = actor:get_skill("piercing weapons")
         word2 = "weapons"
     elseif speech == "rend" then
-        skill = actor:has_skill("rend")
+        skill = actor:get_skill("rend")
     elseif speech == "retreat" then
-        skill = actor:has_skill("retreat")
+        skill = actor:get_skill("retreat")
     elseif speech == "shadow" then
-        skill = actor:has_skill("shadow")
+        skill = actor:get_skill("shadow")
     elseif speech == "slashing weapons" then
-        skill = actor:has_skill("slashing weapons")
+        skill = actor:get_skill("slashing weapons")
         word2 = "weapons"
     elseif speech == "sneak" then
-        skill = actor:has_skill("sneak")
+        skill = actor:get_skill("sneak")
     elseif speech == "sneak attack" then
-        skill = actor:has_skill("sneak attack")
+        skill = actor:get_skill("sneak attack")
         word2 = "attack"
     elseif speech == "steal" then
-        skill = actor:has_skill("steal")
+        skill = actor:get_skill("steal")
     elseif speech == "switch" then
-        skill = actor:has_skill("switch")
+        skill = actor:get_skill("switch")
     elseif speech == "throatcut" then
-        skill = actor:has_skill("throatcut")
+        skill = actor:get_skill("throatcut")
     elseif speech == "track" then
-        skill = actor:has_skill("track")
+        skill = actor:get_skill("track")
     elseif speech == "bandage" then
-        skill = actor:has_skill("bandage")
+        skill = actor:get_skill("bandage")
     elseif speech == "douse" then
-        skill = actor:has_skill("douse")
+        skill = actor:get_skill("douse")
     else
         self:say("I'm not familiar with " .. tostring(speech) .. ".")
         return _return_value
@@ -116,7 +110,8 @@ else
     -- 
     -- Check to see if a skill should be taught at all
     -- 
-    local skill = 10 * skill
+    -- get_skill is the 0..1000 proficiency (DG %actor.skill[]% was 0..100, hence its `10 *`)
+    skill = skill or 0
     local maxskill = actor.level * 10 + 60
     -- check for capped skills
     local cap = 1000
@@ -144,7 +139,7 @@ else
     end
     if skill < 50 then
         self.room:send(tostring(self.name) .. " says, 'I wouldn't know where to start.")
-        -- Fragment (possible truncation): Lets talk about improving a skill you actually know.'
+        self.room:send("</>Let's talk about improving a skill you actually know.'")
         return _return_value
     elseif skill >= cap or skill >= maxskill then
         self:say("There is nothing left to teach you. You've mastered " .. tostring(speech) .. "!")
@@ -189,12 +184,12 @@ else
     -- Now a price is calculated
     local change = maxskill - skill
     local opinion = 200 - (cha + int)
-    local price = change * opinion * actor.level * actor.level / (skill * 20)
+    local price = math.floor(change * opinion * actor.level * actor.level / (skill * 20))
     -- 
     -- now the price in copper has to be divided into coinage.
-    local plat = price / 1000
-    local gold = price / 100 - plat * 10
-    local silv = price / 10 - plat * 100 - gold * 10
+    local plat = price // 1000
+    local gold = price // 100 - plat * 10
+    local silv = price // 10 - plat * 100 - gold * 10
     local copp = price  - plat * 1000 - gold * 100 - silv * 10
     -- now the price can be reported
     self:say("I'll teach you " .. tostring(speech) .. " for " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper.")
@@ -205,6 +200,7 @@ else
         actor:set_quest_var("trainer_3160", "word2", word2)
     end
     actor:set_quest_var("trainer_3160", "skill_level", skill)
+    actor:set_quest_var("trainer_3160", "max_skill", maxskill)
     actor:set_quest_var("trainer_3160", "price", price)
     actor:set_quest_var("trainer_3160", "actor_level", actor.level)
 end

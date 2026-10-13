@@ -19,7 +19,7 @@ if string.find(arg, "moonwell") or string.find(arg, "moonwell_spell_quest") then
         local status
         if actor:get_has_completed("moonwell_spell_quest") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -68,7 +68,7 @@ if string.find(arg, "moonwell") or string.find(arg, "moonwell_spell_quest") then
                 item = 55020
                 place = "a large temple hidden in a mountain"
             end
-            if stage < 6 or (stage >= 6 and not actor:get_quest_var("moonwell_spell_quest:map")) then
+            if stage < 6 or (stage >= 6 and (actor:get_quest_var("moonwell_spell_quest:map") or 0) == 0) then
                 actor:send("Bring " .. "%get.obj_shortdesc[%item%]% from %place%.")
             else
                 actor:send("Bring " .. tostring(master) .. " your bark map.")

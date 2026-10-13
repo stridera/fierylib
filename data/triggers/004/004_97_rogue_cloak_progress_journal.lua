@@ -20,7 +20,7 @@ if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "
         local job4 = actor:get_quest_var("rogue_cloak:cloaktask4")
         actor:send("<b:green>&uCloak and Dagger</>")
         local level
-        if not cloakstage then
+        if (cloakstage or 0) == 0 then
             level = 10
         else
             level = cloakstage * 10
@@ -31,7 +31,7 @@ if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "
         local status
         if actor:get_has_completed("rogue_cloak") then
             status = "Completed!"
-        elseif cloakstage then
+        elseif (cloakstage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

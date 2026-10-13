@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, "rescue") or string.find(arg, "sunfire_rescue") or string.find(arg, "sunfire_crest") or string.find(arg, "serin_sunfire_rescue") or string.find(arg, "sunfire crest") then
     local stage = actor:get_quest_stage("sunfire_rescue")
-    if actor.level >= 80 or stage then
+    if actor.level >= 80 or (stage or 0) > 0 then
         _return_value = true
         actor:send("<b:green>&uSunfire Rescue</>")
         actor:send("This quest is only available to good-aligned characters.")
@@ -19,7 +19,7 @@ if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, 
         local status
         if actor:get_has_completed("sunfire_rescue") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

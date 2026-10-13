@@ -23,7 +23,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     local status
     if actor:get_has_completed("twisted_sorrow") then
         status = "Completed!"
-    elseif actor:get_quest_stage("twisted_sorrow") then
+    elseif actor:get_quest_stage("twisted_sorrow") > 0 then
         status = "In Progress"
     else
         status = "Not Started"
@@ -35,7 +35,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     actor:send("But beware, once made that decision cannot be changed!")
     actor:send("Minimum Level: 10")
     local status
-    if actor:get_quest_stage("black_legion") then
+    if actor:get_quest_stage("black_legion") > 0 then
         status = "Continuous"
     else
         status = "Not Started"
@@ -45,7 +45,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     actor:send("Defeat wild monkeys, recover keys, and help the theatre troupe perform their fiery Finale!")
     actor:send("Recommended Level: 10")
     local status
-    if actor:get_quest_stage("theatre") then
+    if actor:get_quest_stage("theatre") > 0 then
         status = "Repeatable"
     else
         status = "Not Started"
@@ -58,7 +58,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 20")
         local status
-        if actor:get_quest_stage("nukreth_spire") then
+        if actor:get_quest_stage("nukreth_spire") > 0 then
             status = "Repeatable"
         else
             status = "Not Started"
@@ -73,7 +73,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         local status
         if actor:get_has_completed("fieryisle_quest") then
             status = "Completed!"
-        elseif actor:get_quest_stage("fieryisle_quest") then
+        elseif actor:get_quest_stage("fieryisle_quest") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -87,7 +87,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         local status
         if actor:get_has_completed("krisenna_quest") then
             status = "Completed!"
-        elseif actor:get_quest_stage("krisenna_quest") then
+        elseif actor:get_quest_stage("krisenna_quest") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -100,7 +100,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("Stop them before they can invade!")
         actor:send("Recommended Level: 45")
         local status
-        if actor:get_quest_stage("mystwatch_quest") then
+        if actor:get_quest_stage("mystwatch_quest") > 0 then
             status = "Repeatable"
         else
             status = "Not Started"
@@ -115,7 +115,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         local status
         if actor:get_has_completed("griffin_quest") then
             status = "Completed!"
-        elseif actor:get_quest_stage("griffin_quest") then
+        elseif actor:get_quest_stage("griffin_quest") > 0 then
             status = "In Progress"
         else
             status = "Not Started"
@@ -131,7 +131,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         local status
         if actor:get_has_completed("doom_entrance") then
             status = "Completed!"
-        elseif actor:get_quest_stage("doom_entrance") then
+        elseif actor:get_quest_stage("doom_entrance") > 0 then
             status = "In Progress"
         else
             status = "Not Started"

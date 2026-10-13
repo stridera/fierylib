@@ -25,7 +25,7 @@ local begin
 while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
-        if not person:get_quest_stage("doom_entrance") then
+        if person:get_quest_stage("doom_entrance") == 0 then
             person:start_quest("doom_entrance")
             begin = 1
             person:send("<b:white>You have begun the quest to enter Lokari's Keep!</>")

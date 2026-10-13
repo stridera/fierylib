@@ -30,7 +30,7 @@ if not matched then
 end
 
 wait(2)
-if not actor:get_quest_stage("gem_exchange") or actor:get_quest_stage("gem_exchange") == 0 then
+if actor:get_quest_stage("gem_exchange") == 0 or actor:get_quest_stage("gem_exchange") == 0 then
     actor:start_quest("gem_exchange")
 end
 

@@ -41,14 +41,14 @@ if size > 0 then
     for i = 1, size do
         local person = actor.group_member[i]
         if person and person.room == self.room then
-            if not person:get_quest_stage("kod_quest") then
+            if person:get_quest_stage("kod_quest") == 0 then
                 person:start_quest("kod_quest")
             end
             person:set_quest_var("kod_quest", "alicorn", 1)
         end
     end
 else
-    if not actor:get_quest_stage("kod_quest") then
+    if actor:get_quest_stage("kod_quest") == 0 then
         actor:start_quest("kod_quest")
     end
     actor:set_quest_var("kod_quest", "alicorn", 1)

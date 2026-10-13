@@ -17,13 +17,13 @@ if string.find(arg, "degeneration") then
         local status
         if actor:get_has_completed("degeneration") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        if stage and not actor:get_has_completed("degeneration") then
+        if (stage or 0) > 0 and not actor:get_has_completed("degeneration") then
             actor:send("Quest Master: " .. tostring(mobiles.template(55, 26).name))
             actor:send("</>")
             -- switch on stage

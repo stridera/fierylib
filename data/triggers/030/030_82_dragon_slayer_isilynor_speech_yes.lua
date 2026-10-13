@@ -32,7 +32,7 @@ end
 while i >= a do
     person = person.group_member[a]
     if person and person.room == self.room then
-        if not person:get_quest_stage("dragon_slayer") and person.level > 4 then
+        if person:get_quest_stage("dragon_slayer") == 0 and person.level > 4 then
             person:start_quest("dragon_slayer")
         end
         if person:get_has_completed("dragon_slayer") then

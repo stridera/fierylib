@@ -22,7 +22,7 @@ end
 wait(2)
 if actor:get_has_completed("beast_master") then
     actor:send(tostring(self.name) .. " says, 'You've already proven your dominion over the beasts of Ethilien!'")
-elseif not actor:get_quest_stage("beast_master") or (actor:get_quest_stage("beast_master") == 1 and not actor:get_quest_var("beast_master:hunt")) then
+elseif actor:get_quest_stage("beast_master") == 0 or (actor:get_quest_stage("beast_master") == 1 and (actor:get_quest_var("beast_master:hunt") or 0) == 0) then
     actor:send(tostring(self.name) .. " says, 'I have an excellent beast for you to start with.'")
     wait(4)
     actor:send(tostring(self.name) .. " says, 'Good hunters know terrible monsters lurk everywhere, even beneath our feet in this very city.'")

@@ -39,7 +39,7 @@ if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg
         treasure1 = "a piece of sleet armor"
     end
     local level
-    if stage == 1 or not stage then
+    if stage == 1 or (stage or 0) == 0 then
         level = 1
     else
         level = (stage - 1) * 10
@@ -50,7 +50,7 @@ if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg
     local status
     if actor:get_has_completed("treasure_hunter") then
         status = "Completed!"
-    elseif stage then
+    elseif (stage or 0) > 0 then
         status = "In Progress"
     else
         status = "Not Started"

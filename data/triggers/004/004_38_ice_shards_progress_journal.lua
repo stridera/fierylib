@@ -17,7 +17,7 @@ if string.find(arg, "ice shards") or string.find(arg, "shards") or string.find(a
         local status
         if actor:get_has_completed("ice_shards") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

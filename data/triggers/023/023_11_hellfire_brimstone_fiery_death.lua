@@ -12,7 +12,7 @@
 -- intent was likely stage 2 (the brimstone-collection phase). Confirm and
 -- tighten to == 2 when the quest design is reviewed.
 for _, person in ipairs(self.room.people) do
-    if person:get_quest_stage("hellfire_brimstone") and random(1, 10) > 6 then
+    if person:get_quest_stage("hellfire_brimstone") > 0 and random(1, 10) > 6 then
         self.room:spawn_object(23, 37)
     end
 end

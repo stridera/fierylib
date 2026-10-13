@@ -598,7 +598,7 @@
       "key": "weather_change_rain",
       "category": "weather",
       "messages": [
-        "The <cyan>rain</> picks up — a steady <cyan>downpour</>."
+        "The <cyan>rain</> picks up into a steady <cyan>downpour</>."
       ]
     },
     {

@@ -128,7 +128,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self.room:send("The menhir begins to hum and glow!")
                 wait(3)
                 -- Next person.
-                if (actor:get_quest_var("megalith_quest:item1")) and (actor:get_quest_var("megalith_quest:item2")) and (actor:get_quest_var("megalith_quest:item3")) and (actor:get_quest_var("megalith_quest:item4")) then
+                if (actor:get_quest_var("megalith_quest:item1") == 1) and (actor:get_quest_var("megalith_quest:item2") == 1) and (actor:get_quest_var("megalith_quest:item3") == 1) and (actor:get_quest_var("megalith_quest:item4") == 1) then
                     self:say("Now, return to " .. tostring(mobiles.template(123, 1).name) .. " at the altar and help her finish the call!")
                 else
                     -- TODO(parity): nxt is still a legacy 5-digit vnum.

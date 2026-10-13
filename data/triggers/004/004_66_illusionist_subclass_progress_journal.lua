@@ -16,7 +16,7 @@ if actor.level > 10 then
         actor:send("Quest Master: " .. tostring(mobiles.template(172, 0).name))
         actor:send("</>")
         actor:send("Minimum Level: 10")
-        if actor:get_quest_stage("illusionist_subclass") then
+        if actor:get_quest_stage("illusionist_subclass") > 0 then
             actor:send(tostring(mobiles.template(172, 0).name) .. " said to you:")
             -- switch on actor:get_quest_stage("illusionist_subclass")
             if actor:get_quest_stage("illusionist_subclass") == 1 then

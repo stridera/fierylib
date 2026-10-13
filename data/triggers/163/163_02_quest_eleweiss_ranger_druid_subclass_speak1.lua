@@ -12,7 +12,7 @@ if not (string.find(speech, "ways") or string.find(speech, "I know")) then
     return true
 end
 
-if actor:get_quest_stage("ran_dru_subclass") then
+if actor:get_quest_stage("ran_dru_subclass") > 0 then
     return true
 end
 

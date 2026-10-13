@@ -42,7 +42,7 @@ if (object.zone_id == 502 and object.id == 3) then
     while i >= a do
         local person = actor.group_member[a]
         if person.room == self.room then
-            if not person:get_quest_stage("bayou_quest") then
+            if person:get_quest_stage("bayou_quest") == 0 then
                 person:start_quest("bayou_quest")
             end
         elseif person then
@@ -101,7 +101,7 @@ elseif (object.zone_id == 502 and object.id == 15) then
     while i >= a do
         local person = actor.group_member[a]
         if person.room == self.room then
-            if not person:get_quest_stage("bayou_quest") then
+            if person:get_quest_stage("bayou_quest") == 0 then
                 person:start_quest("bayou_quest")
             end
         elseif person then

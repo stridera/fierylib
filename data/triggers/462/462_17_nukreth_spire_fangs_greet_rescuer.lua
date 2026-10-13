@@ -8,7 +8,7 @@
 -- Converted from DG Script #46217: Nukreth Spire fangs greet rescuer
 -- Original: WORLD trigger, flags: POSTENTRY, probability: 100%
 wait(2)
-if actor:get_quest_var("nukreth_spire:rescue") then
+if (actor:get_quest_var("nukreth_spire:rescue") or 0) ~= 0 then
     self.room:send("The Fangs of Yeenoghu look up and cackle with delight!")
     self.room:send("They cry, 'Fresh meat for Yeenoghu!'")
     wait(1)

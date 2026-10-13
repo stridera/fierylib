@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(2)
 if not actor:get_has_completed("elemental_chaos") then
-    if not actor:get_quest_stage("elemental_chaos") then
+    if actor:get_quest_stage("elemental_chaos") == 0 then
         self:command("bow")
         actor:send(tostring(self.name) .. " says, 'Welcome wanderer.  I have not seen the likes of you before.'")
         wait(2)
@@ -23,15 +23,15 @@ if not actor:get_has_completed("elemental_chaos") then
         actor:send(tostring(self.name) .. " says, 'Ah, I have <b:cyan>[news]</> for you.'")
     end
     wait(1)
-    if not actor:get_quest_stage("monk_vision") and actor.level > 9 and string.find(actor.class, "monk") then
+    if actor:get_quest_stage("monk_vision") == 0 and actor.level > 9 and string.find(actor.class, "monk") then
         actor:send(tostring(self.name) .. " says, 'Or maybe you're here to discuss <b:cyan>[enlightenment]</>.'")
     elseif actor.level > 9 and string.find(actor.class, "monk") then
         actor:send(tostring(self.name) .. " says, 'Or have you come to seek further <b:cyan>[enlightenment]</>.'")
     end
 else
-    if string.find(actor.class, "monk") and not actor:get_quest_stage("monk_vision") and actor.level > 9 then
+    if string.find(actor.class, "monk") and actor:get_quest_stage("monk_vision") == 0 and actor.level > 9 then
         actor:send(tostring(self.name) .. " says, 'Oh look, someone else in line for a <b:cyan>[enlightenment]</>.'")
-    elseif actor:get_quest_stage("monk_vision") and not actor:get_has_completed("monk_vision") then
+    elseif actor:get_quest_stage("monk_vision") > 0 and not actor:get_has_completed("monk_vision") then
         actor:send(tostring(self.name) .. " says, 'Ah, you must be seeking further <b:cyan>[enlightenment]</>.'")
     end
 end

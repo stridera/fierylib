@@ -23,7 +23,7 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
         local status
         if actor:get_has_completed("relocate_spell_quest") then
             status = "Completed!"
-        elseif stage then
+        elseif (stage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

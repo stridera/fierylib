@@ -33,7 +33,7 @@ if actor:get_quest_stage("major_globe_spell") == 1 then
     actor:send(tostring(self.name) .. " says, 'Return to me when you have procured the shale.'")
 elseif actor:get_quest_stage("major_globe_spell") == 2 then
     actor:send(tostring(self.name) .. " says, 'Well yes, I already know that.  Did you get the shale yet?'")
-elseif actor:get_quest_stage("major_globe_spell") then
+elseif actor:get_quest_stage("major_globe_spell") > 0 then
     actor:send(tostring(self.name) .. " says, 'Yes, yes, I know!  You told me already!'")
 else
     self:command("smirk")

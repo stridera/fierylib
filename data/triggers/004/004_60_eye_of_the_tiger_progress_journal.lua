@@ -21,7 +21,7 @@ if string.find(arg, "eye of the tiger") or string.find(arg, "tiger") then
         local job4 = actor:get_quest_var("ranger_trophy:trophytask4")
         actor:send("<b:green>&uEye of the Tiger</>")
         local level
-        if not trophystage then
+        if (trophystage or 0) == 0 then
             level = 10
         else
             level = trophystage * 10
@@ -32,7 +32,7 @@ if string.find(arg, "eye of the tiger") or string.find(arg, "tiger") then
         local status
         if actor:get_has_completed("ranger_trophy") then
             status = "Completed!"
-        elseif trophystage then
+        elseif (trophystage or 0) > 0 then
             status = "In Progress"
         else
             status = "Not Started"

@@ -22,7 +22,7 @@ if not speech_hit then
 end
 local speech_lower = string.lower(speech)
 
-if not actor:get_quest_stage("pyromancer_subclass") and string.find(actor.class, "sorcerer") then
+if actor:get_quest_stage("pyromancer_subclass") == 0 and string.find(actor.class, "sorcerer") then
     if string.find(speech_lower, "yes") then
         if actor.level >= 10 and actor.level <= 45 then
             if actor.race == "dragonborn_frost" or actor.race == "arborean" then

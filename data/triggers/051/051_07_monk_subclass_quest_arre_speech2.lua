@@ -25,7 +25,7 @@ if not string.find(actor.class, "warrior") then
 end
 -- Only react before the quest has started (stage nil/0).
 local stage = actor:get_quest_stage("monk_subclass")
-if stage and stage ~= 0 then
+if (stage or 0) > 0 and stage ~= 0 then
     return
 end
 wait(2)

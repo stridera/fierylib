@@ -103,7 +103,7 @@ if stage == 2 then
 elseif (stage or 0) < 2 then
     if wand then
         wait(2)
-        if not stage then
+        if (stage or 0) == 0 then
             actor:start_quest(quest)
             self:say("I can upgrade your " .. quest_type .. " wand!  But what I will do is just the first step in a life-long journey.")
             wait(2)

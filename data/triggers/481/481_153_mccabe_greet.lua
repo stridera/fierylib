@@ -38,7 +38,7 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
     if (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) then
         if actor:get_quest_var("meteorswarm:new") ~= "no" then
             actor:send(tostring(self.name) .. " tells you, 'Do you have the new meteorite?'")
-        elseif not stage then
+        elseif (stage or 0) == 0 then
             self.room:spawn_mobile(481, 151)
             self:command("peer seagull")
             self:emote("focuses closely on the seagull flying overhead.")

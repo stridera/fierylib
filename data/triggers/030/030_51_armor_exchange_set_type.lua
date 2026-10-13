@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "tarnished") or string.find(string.low
     return true  -- No matching keywords
 end
 wait(2)
-if not actor:get_quest_stage("armor_exchange") then
+if actor:get_quest_stage("armor_exchange") == 0 then
     actor:start_quest("armor_exchange")
 end
 local armor_id
