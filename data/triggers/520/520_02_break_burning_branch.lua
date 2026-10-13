@@ -12,4 +12,7 @@ self.room:send("The branch cracks and breaks into 3 pieces!")
 self.room:spawn_object(520, 35)
 self.room:spawn_object(520, 35)
 self.room:spawn_object(520, 35)
-world.destroy(self.room:find_object("burning-branch"))
+-- Legacy `opurge burning-branch` matches the script's own object by keyword wherever it is
+-- (floor, bag, hand); find_object only sees the room floor, so a branch put in a bag survived
+-- and the embers duplicated on every put/get.
+world.destroy(self)
