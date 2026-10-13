@@ -105,7 +105,7 @@ EFF_FLAG_MAPPINGS: Dict[str, Tuple[str, Dict[str, Any]]] = {
     "EFF_SONG_OF_REST": ("heal", {"resource": "hp", "amount": "level"}),
     "EFF_DISPLACEMENT": ("status", {"flag": "invisible"}),  # Map to invisible
     "EFF_GREATER_DISPLACEMENT": ("status", {"flag": "invisible"}),
-    "EFF_MISDIRECTION": ("status", {"flag": "camouflaged"}),
+    "EFF_MISDIRECTION": ("status", {"flag": "misdirection"}),
     "EFF_WRATH": ("modify", {"target": "attack_power", "amount": 10}),
     "EFF_GLORY": ("status", {"flag": "sanctuary"}),
     "EFF_BLUR": ("status", {"flag": "invisible"}),

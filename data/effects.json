@@ -1384,7 +1384,7 @@
   {
     "name": "alter_object",
     "effectType": "alter_object",
-    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object. The enchant mode (Enchant Weapon) gives a non-magical weapon per-instance stat applies, the MAGIC flag and an anti-alignment bar. The flags, poison, liquid, corpse_timer, corpse_feed and light modes give Bless, Invisibility, Dispel Magic, Poison, Remove Poison, Create Water, Preserve, Dark Feast, Darkness and Illumination their object uses.",
+    "description": "Change an object in place: add or remove a restriction such as NO_DROP (curse / remove curse), optionally shifting a weapon's dice size. Runs when the spell targets an object; on a person, the remove form lifts the restriction from the first carried object. The enchant mode (Enchant Weapon) gives a non-magical weapon per-instance stat applies, the MAGIC flag and an anti-alignment bar. The flags, poison, liquid, corpse_timer, corpse_feed and light modes give Bless, Invisibility, Dispel Magic, Poison, Remove Poison, Create Water, Preserve, Dark Feast, Darkness and Illumination their object uses. The speak_as mode (Ventriloquate) is a manual spell on a person: the room hears the target say the words typed after its name; listeners may see through it, and nothing is applied to the caster.",
     "tags": [
       "utility",
       "magic",
@@ -1420,7 +1420,8 @@
             "liquid",
             "corpse_timer",
             "corpse_feed",
-            "light"
+            "light",
+            "speak_as"
           ],
           "type": "string",
           "description": "add (default) sets the restriction, remove clears it, enchant puts per-instance applies on a weapon (restriction is not used)"

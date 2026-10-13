@@ -3162,6 +3162,15 @@
  },
  {
   "aliases": [],
+  "category": "Movement",
+  "long": "Does nothing but say so. With the Misdirection spell on you, 'stay <direction>' acts out leaving that way without going anywhere. See 'help misdirection'.",
+  "min_role": "Player",
+  "name": "stay",
+  "summary": "Stay where you are.",
+  "usage": "stay [<direction>]"
+ },
+ {
+  "aliases": [],
   "category": "Combat",
   "long": "Gated on the Steal skill (the classes that teach it, Thief and Bard in the legacy data). Refused while fighting, against yourself, against a Shopkeeper, and against staff. On failure the target notices and re-aggros on you. Pass 'coins' / 'gold' to grab a chunk of their coin instead of an item.",
   "min_role": "Player",

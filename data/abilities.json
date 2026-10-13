@@ -10070,9 +10070,8 @@
         "effect": "status",
         "order": 0,
         "params": {
-          "flag": "hidden",
-          "duration": "skill",
-          "amount": 20,
+          "flag": "misdirection",
+          "duration": "2 + (skill / 4)",
           "durationUnit": "hours"
         },
         "trigger": "on_cast"
@@ -15402,16 +15401,13 @@
     "notes": "Utility spell for deception and misdirection.",
     "effects": [
       {
-        "effect": "status",
+        "effect": "alter_object",
         "order": 0,
         "params": {
-          "flag": "hidden",
-          "duration": "skill",
-          "amount": 20,
-          "durationUnit": "hours"
+          "mode": "speak_as"
         },
         "trigger": "on_cast",
-        "notes": "Illusion/distraction effect. Not true stealth."
+        "notes": "Manual spell (legacy spell_ventriloquate): the room hears the target say the words after its name. Applies nothing to the caster."
       }
     ],
     "messages": {
