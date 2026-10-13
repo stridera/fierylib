@@ -403,6 +403,13 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   eval $WEATHER_CMD
   eval $SPELL_CIRCLE_CMD
 
+  # Summon-mount tiers (needs the imported zone 0 mount mobs).
+  MOUNT_CMD="poetry run fierylib seed mount-types"
+  if [[ -n "$VERBOSE" ]]; then
+    MOUNT_CMD="$MOUNT_CMD --verbose"
+  fi
+  eval $MOUNT_CMD
+
   # Reserved character names (staff voices, generic mob words).
   RESERVED_CMD="poetry run fierylib seed reserved-names"
   if [[ -n "$VERBOSE" ]]; then

@@ -3056,6 +3056,40 @@ def seed_spell_circles(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="mount-types")
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_mount_types(verbose: bool):
+    """Seed the summon-mount tiers (MountType table).
+
+    Creates missing (tier, side) rows; rows already present (e.g. edited in Muditor) are
+    left alone. Run after the mobs are imported (the mount mobs are zone 0 ids 45-52).
+    """
+    import asyncio
+    from prisma import Prisma
+    from fierylib.seeders.mount_type_seeder import MountTypeSeeder
+
+    async def run_seed():
+        click.echo("🐎 Seeding Mount Types")
+        click.echo("=" * 60)
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await MountTypeSeeder(prisma).seed_mount_types(verbose=verbose)
+            click.echo(f"  Added: {stats['changed']}")
+            click.echo("\n✅ Mount type seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="content-tables")
 @click.option(
     "--verbose",
