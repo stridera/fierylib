@@ -19,7 +19,9 @@ While mortal mode is on:
   - spells that cannot be cast in combat are refused while you fight
 
 Your rank, commands and permissions do not change: goto, stat, users and every
-other staff command still work. Mortal mode is not saved, so you start each
-login with it off.
+other staff command still work, and you still see and enter god zones. Mortal
+mode is not saved: it survives a dropped link while you are fighting (you
+reconnect to the same character) and taking over your own body, but a normal
+quit or logout resets it, so you start each fresh login with it off.
 
 See also: HOLYLIGHT, SPELLS, SCORE
