@@ -2,7 +2,7 @@
 --
 -- Four per-command allow lists were hard-coded in fierymud-rs (legacy CMD_* flags). They now
 -- live on "Command", editable in Muditor (CODER role):
---   allowed_while_casting    casting.rs   CASTING_ALLOWED  (55 commands)
+--   allowed_while_casting    casting.rs   CASTING_ALLOWED  (56 commands)
 --   allowed_while_paralyzed  commands.rs  PARALYSIS_ALLOWED (58 commands)
 --   keeps_hidden             hiding.rs    HIDE_SAFE        (108 commands)
 --   held_by_cast_lag         input_queue.rs LAG_HELD_VERBS (9 commands)
@@ -23,7 +23,7 @@ ALTER TABLE "Command" ADD COLUMN IF NOT EXISTS "keeps_hidden" BOOLEAN NOT NULL D
 ALTER TABLE "Command" ADD COLUMN IF NOT EXISTS "held_by_cast_lag" BOOLEAN NOT NULL DEFAULT false;
 
 UPDATE "Command" SET "allowed_while_casting" = true
-WHERE "name" IN ('abort', 'alert', 'bug', 'cancel', 'chants', 'cls', 'color', 'commands', 'consent', 'credits', 'ctell', 'date', 'disengage', 'equipment', 'experience', 'flee', 'gossip', 'greport', 'gsay', 'help', 'idea', 'ignore', 'innate', 'inventory', 'lastgossips', 'lasttells', 'level', 'look', 'motd', 'music', 'news', 'petition', 'policies', 'prompt', 'qsay', 'quest', 'quests', 'reply', 'score', 'skills', 'socials', 'songs', 'spells', 'tell', 'time', 'title', 'trophy', 'typo', 'uptime', 'version', 'weather', 'where', 'who', 'whoami', 'world')
+WHERE "name" IN ('abort', 'alert', 'bug', 'cancel', 'chants', 'cls', 'color', 'commands', 'consent', 'credits', 'ctell', 'date', 'disengage', 'effects', 'equipment', 'experience', 'flee', 'gossip', 'greport', 'gsay', 'help', 'idea', 'ignore', 'innate', 'inventory', 'lastgossips', 'lasttells', 'level', 'look', 'motd', 'music', 'news', 'petition', 'policies', 'prompt', 'qsay', 'quest', 'quests', 'reply', 'score', 'skills', 'socials', 'songs', 'spells', 'tell', 'time', 'title', 'trophy', 'typo', 'uptime', 'version', 'weather', 'where', 'who', 'whoami', 'world')
   AND NOT EXISTS (SELECT 1 FROM "Command" WHERE "allowed_while_casting");
 
 UPDATE "Command" SET "allowed_while_paralyzed" = true

@@ -34,6 +34,7 @@ ALLOWED_WHILE_CASTING = [
     "music",
     "ignore",
     "score",
+    "effects",
     "inventory",
     "equipment",
     "experience",

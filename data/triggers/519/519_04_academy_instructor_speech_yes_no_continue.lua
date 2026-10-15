@@ -10,9 +10,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"yes", "no", "continue"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -21,7 +23,7 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("school") == 1 then
-    if speech == "yes" then
+    if speech_word == "yes" then
         if (actor:get_quest_var("school:speech") or 0) == 3 then
             actor:send(tostring(self.name) .. " tells you, 'What would you like to review?  You can say:")
             actor:send("<b:yellow>Say</>")

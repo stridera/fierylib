@@ -22,6 +22,7 @@ RUNNING THE GROUP
                      is in your room.
   dismiss {name}     remove a member who follows you directly.
   group dismiss {name}   the same thing.
+  group {pet}        add your own charmed pet to the group, or remove it again.
   disband            dismiss everyone who follows you.
   order {name|all} {command}   give a command to your mob followers.
 

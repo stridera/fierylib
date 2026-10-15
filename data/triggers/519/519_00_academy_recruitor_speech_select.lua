@@ -10,9 +10,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"basic", "combat", "none"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -20,7 +22,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 wait(0.2)
-if speech == "basic" then
+if speech_word == "basic" then
     if actor:get_quest_stage("school") == 0 then
         actor:start_quest("school")
         actor:send(tostring(self.name) .. " tells you, 'Then welcome to the Ethilien Training Academy!")
@@ -48,7 +50,7 @@ if speech == "basic" then
         self:command("close gates")
         self:command("lock gates")
     end
-elseif speech == "none" then
+elseif speech_word == "none" then
     if actor.level == 1 then
         if actor:get_quest_stage("school") == 0 then
             actor:start_quest("school")
@@ -67,7 +69,7 @@ elseif speech == "none" then
     if not actor:get_has_completed("school") then
         actor:complete_quest("school")
     end
-elseif speech == "combat" then
+elseif speech_word == "combat" then
     if actor:get_quest_stage("school") == 0 then
         actor:start_quest("school")
     else

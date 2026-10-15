@@ -11,9 +11,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"say", "tell", "gossip"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -22,14 +24,14 @@ if not speech_hit then
 end
 wait(0.2)
 if (actor:get_quest_var("school:speech") or 0) == 3 then
-    if speech == "say" then
+    if speech_word == "say" then
         actor:send(tostring(self.name) .. " tells you, 'The most basic command is <b:cyan>(SA)Y</>.")
         actor:send("It sends your message to everything in the room, even NPCs and monsters.'")
-    elseif speech == "tell" or speech == "whisper" then
+    elseif speech_word == "tell" or speech_word == "whisper" then
         actor:send(tostring(self.name) .. " tells you, 'You can talk to one person by using <b:cyan>(T)ELL</>.")
         actor:send("Only the person you talk to will hear what you say, just like how I'm talking to you right now.")
         actor:send("You use it by typing <b:cyan>TELL [person] [message]</>.'")
-    elseif speech == "gossip" then
+    elseif speech_word == "gossip" then
         actor:send(tostring(self.name) .. " tells you, '<b:cyan>(GOS)SIP</> talks to everyone in the game.")
         actor:send("It's definitely the most popular communication channel.")
         actor:send("It's a great way to ask questions or get help.'")

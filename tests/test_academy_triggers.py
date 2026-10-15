@@ -64,3 +64,33 @@ def test_no_command_trigger_tests_an_argument_for_plain_truthiness():
             if re.search(r"\bnot arg\b(?! *or)", line) or re.fullmatch(r"\s*if arg then", line):
                 offenders.append(f"{path.name}: {line.strip()}")
     assert offenders == []
+
+
+def _picked_word(prefix: str, speech: str):
+    """Run a word-list trigger's gate in Lua; return the word it branches on (None = gate rejected)."""
+    import shutil
+    import subprocess
+
+    lua = shutil.which("lua5.4") or shutil.which("lua")
+    assert lua, "lua not installed"
+    body = _body(prefix)
+    gate = body[body.index("local speech_padded") : body.index("wait(0.2)")]
+    chunk = f"(function()\nlocal speech = {speech!r}\n{gate}\nprint('WORD=' .. tostring(speech_word))\nend)()"
+    r = subprocess.run([lua, "-"], input=chunk, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    return r.stdout.strip().removeprefix("WORD=") if "WORD=" in r.stdout else None
+
+
+def test_word_list_triggers_branch_on_the_matched_word_not_the_raw_speech():
+    # playtest r12: "say BASIC!" and "say Basic please" ran the gate but no branch,
+    # because the branches compared the whole (lowercased) speech to the word.
+    for prefix in ("519_00", "519_04", "519_05", "519_88"):
+        assert 'speech == "' not in _body(prefix).replace("speech_word == ", "")
+    assert _picked_word("519_00", "BASIC!") == "basic"
+    assert _picked_word("519_00", "Basic please") == "basic"
+    assert _picked_word("519_00", "I want combat, thanks") == "combat"
+    assert _picked_word("519_00", "None.") == "none"
+    assert _picked_word("519_00", "basically") is None  # the gate rejects, no word picked
+    assert _picked_word("519_04", "Yes, please") == "yes"
+    assert _picked_word("519_05", "Gossip!") == "gossip"
+    assert _picked_word("519_88", "SKIP it") == "skip"
