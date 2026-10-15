@@ -97,15 +97,15 @@ end
 local attacks = maskstage * 100
 self:command("nod")
 actor:send(tostring(self.name) .. " says, 'Sure, I can help you climb the ranks.  Each new station you'll earn a new mask.  Do the following:")
-actor:send("- Attack &9<blue>" .. tostring(attacks) .. "</> times while wearing your current mask.")
+actor:send("- Attack <b:black>" .. tostring(attacks) .. "</> times while wearing your current mask.")
 -- TODO(parity): %get.obj_shortdesc[%mask%]% / %get.obj_shortdesc[%gem%]%
 -- DG remnants. `mask` and `gem` are legacy global vnums (e.g. 4500, 55592)
 -- and need to be split into (zone, local) before calling
 -- objects.template(zone, id).name. Showing raw IDs as a placeholder.
-actor:send("- Find &9<blue>object id " .. tostring(mask) .. "</> as the base for the new mask.")
-actor:send("- Find &9<blue>object id " .. tostring(gem) .. "</> for decoration.")
+actor:send("- Find <b:black>object id " .. tostring(mask) .. "</> as the base for the new mask.")
+actor:send("- Find <b:black>object id " .. tostring(gem) .. "</> for decoration.")
 actor:send("</>")
-actor:send("You also need to take your mask and &9<blue>[hide]</> in a secret, dark, shadowy place.")
-actor:send("Find \"&9<blue>" .. tostring(place) .. "</>\".  It's " .. tostring(hint))
+actor:send("You also need to take your mask and <b:black>[hide]</> in a secret, dark, shadowy place.")
+actor:send("Find \"<b:black>" .. tostring(place) .. "</>\".  It's " .. tostring(hint))
 actor:send("</>")
 actor:send("You can ask about your <b:cyan>[mask progress]</> at any time.'")

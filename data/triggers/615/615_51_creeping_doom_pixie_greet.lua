@@ -31,8 +31,8 @@ if string.find(actor.class, "druid") then
             self.room:send("</>and the power that brings.'")
             wait(2)
             skills.set_level(actor, "creeping doom", 1000)
-            actor:send("<blue>&9The nightmare of the Deep Dreaming touches your soul!")
-            actor:send("You have mastered</> <red>Creeping <green>Doom<blue>&9!</>")
+            actor:send("<b:black>The nightmare of the Deep Dreaming touches your soul!")
+            actor:send("You have mastered</> <red>Creeping <green>Doom<b:black>!</>")
             actor:complete_quest("creeping_doom")
         elseif actor:get_quest_stage("creeping_doom") == 4 then
             self.room:send(tostring(self.name) .. " says, 'Is everything alright?")

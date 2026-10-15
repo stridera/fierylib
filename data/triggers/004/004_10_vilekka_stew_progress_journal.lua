@@ -12,7 +12,7 @@ if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, 
     if actor.level >= 25 then
         _return_value = true
         local stage = actor:get_quest_stage("vilekka_stew")
-        actor:send("<b:green>&uIn Service of Lolth</>")
+        actor:send("<b:u:green>In Service of Lolth</>")
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("Recommended Level: 90")
         actor:send("- This quest starts at level 25 and continues through level 90.")

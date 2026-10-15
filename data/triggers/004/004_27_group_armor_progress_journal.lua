@@ -12,7 +12,7 @@ if string.find(arg, "group armor") or string.find(arg, "group_armor") then
     if (actor.level >= 50 and string.find(actor.class, "priest")) or (actor.level >= 65 and string.find(actor.class, "cleric")) then
         _return_value = true
         local stage = actor:get_quest_stage("group_armor")
-        actor:send("<b:green>&uGroup Armor</>")
+        actor:send("<b:u:green>Group Armor</>")
         if string.find(actor.class, "priest") then
             actor:send("Minimum Level: 57")
         elseif string.find(actor.class, "cleric") then
@@ -51,11 +51,11 @@ if string.find(arg, "group armor") or string.find(arg, "group_armor") then
                     obj2 = objects.template(117, 4).name
                     obj3 = objects.template(117, 7).name
                     obj4 = objects.template(169, 6).name
-                    step = "locate items that cast the spell &7&barmor&0"
+                    step = "locate items that cast the spell <b:white>armor</>"
                 elseif tonumber(_sw1) == 2 then
-                    step = "find a new &7&bforging hammer&0"
+                    step = "find a new <b:white>forging hammer</>"
                 elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
-                    step = "take the forging hammer where light reaches deep underground and &7&b[commune]&0"
+                    step = "take the forging hammer where light reaches deep underground and <b:white>[commune]</>"
                 elseif tonumber(_sw1) == 5 then
                     step = "find a suitable amulet to be the focus of this spell"
                     item1 = actor:get_quest_var("group_armor:12500")

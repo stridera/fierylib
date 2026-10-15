@@ -24,20 +24,20 @@ end
 local color
 local id = self.local_id or self.id
 if id == 13 or id == 39013 then
-    color = "&4"
+    color = "<blue>"
 elseif id == 14 or id == 39014 then
-    color = "&6"
+    color = "<cyan>"
 elseif id == 16 or id == 39016 then
-    color = "&2"
+    color = "<green>"
 elseif id == 18 or id == 39018 then
-    color = "&7&b"
+    color = "<b:white>"
 elseif id == 19 or id == 39019 then
-    color = "&9&b"
+    color = "<b:black>"
 elseif id == 20 or id == 39020 then
-    color = "&6&b"
+    color = "<b:cyan>"
 elseif id == 15 or id == 39015 or id == 17 or id == 39017 then
     return true  -- silent spirits
 else
-    color = "&4&b"
+    color = "<b:blue>"
 end
 self.room:send(self.name .. " says, " .. color .. "'Help with what?'</>")

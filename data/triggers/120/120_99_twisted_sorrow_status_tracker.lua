@@ -51,7 +51,7 @@ if any_satisfied then
     self.room:send("You have already awakened the following trees:")
     for _, t in ipairs(trees) do
         if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) == 1 then
-            self.room:send("- &9<blue>" .. get_room(120, t[1]).name .. "</>")
+            self.room:send("- <b:black>" .. get_room(120, t[1]).name .. "</>")
         end
     end
 end

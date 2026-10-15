@@ -9,9 +9,9 @@
 
 if object.zone_id == 90 and object.local_id == 36 then
     wait(0.5)
-    actor:send("The </>&9<blue>Shadow Doom</> guard grins wickedly, and escourts you from the hall.</>")
+    actor:send("The </><b:black>Shadow Doom</> guard grins wickedly, and escourts you from the hall.</>")
     actor:teleport(get_room(91, 20))
-    self.room:send_except(actor, tostring(actor.name) .. " is thrown out from the </>&9<blue>Shadow Doom</> hall.</>")
+    self.room:send_except(actor, tostring(actor.name) .. " is thrown out from the </><b:black>Shadow Doom</> hall.</>")
 else
     wait(0.5)
     self:say("What the hell is this?!")

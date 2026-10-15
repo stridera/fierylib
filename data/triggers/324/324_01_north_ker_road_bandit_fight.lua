@@ -11,7 +11,7 @@
 -- a poor lil ole lil female merchant into...
 -- The Bandit leader! HA!
 self.room:send("</>A <b:magenta>feeble merchant</> tears off her cloak, revealing")
-self.room:send("her true nature as the <blue>&9bandit leader</>!")
+self.room:send("her true nature as the <b:black>bandit leader</>!")
 self:teleport(get_room(324, 36))
 self:command("rem brooch")
 self:command("give brooch bledq")

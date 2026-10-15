@@ -16,7 +16,7 @@ if not (string.find(s, "all") and string.find(s, "hail") and string.find(s, "ukl
 end
 
 if actor.is_player then
-    self.room:send("</>&9<blue>The ancient </><magenta>obelisk</>&9<blue> hums with pleasure.</>")
+    self.room:send("</><b:black>The ancient </><magenta>obelisk</><b:black> hums with pleasure.</>")
     self.room:send("A gust of </><white></>divine</><b:yellow> energy</> sweeps through the room, leaving a loaf of </><yellow>bread</> in its wake.")
     self.room:spawn_object(147, 11)
 end

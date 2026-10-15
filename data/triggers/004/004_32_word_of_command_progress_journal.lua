@@ -15,7 +15,7 @@ if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "
         if string.find(actor.class, "diabolist") or string.find(actor.class, "priest") then
             _return_value = true
             stage = actor:get_quest_stage("word_command")
-            actor:send("<b:green>&uWord of Command</>")
+            actor:send("<b:u:green>Word of Command</>")
             local status
             if actor:get_has_completed("word_command") then
                 status = "Completed!"

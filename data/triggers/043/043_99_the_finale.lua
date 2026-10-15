@@ -11,7 +11,7 @@
 -- mob 4399 (leading player) by vnum. Confirm composite (43, 36) / (43, 33) and
 -- the leading-player lookup once the runtime API stabilises.
 local fire_box_room = get_room(43, 36)
-if not fire_box_room or not fire_box_room.people then
+if not fire_box_room or #fire_box_room.people == 0 then
     return true
 else
     local stage_room = get_room(43, 33)
@@ -24,7 +24,7 @@ else
     if fire_box_room:find_actor("pippin") then
         char = fire_box_room:find_actor("pippin")
     else
-        char = self:get_people()[1]
+        char = fire_box_room.people[1]
     end
     self.room:send("The Fire Goddess shouts, 'Ladies and Gentlemen!  We present to you a spectacle never before seen on a public stage!  The only completely perfect act in our repertoire!'")
     get_room(43, 33):at(function()

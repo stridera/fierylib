@@ -19,7 +19,7 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
         local job2 = actor:get_quest_var("monk_vision:visiontask2")
         local job3 = actor:get_quest_var("monk_vision:visiontask3")
         local job4 = actor:get_quest_var("monk_vision:visiontask4")
-        actor:send("<b:green>&uEnlightenment</>")
+        actor:send("<b:u:green>Enlightenment</>")
         local level
         if (visionstage or 0) == 0 then
             level = 10
@@ -134,7 +134,7 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
             end
             if not job1 then
                 local remaining = attack - actor:get_quest_var("monk_vision:attack_counter")
-                actor:send("- attack &9<blue>" .. tostring(remaining) .. "</> more times while wearing your vision mark.")
+                actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your vision mark.")
             end
             if not job4 then
                 actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</> and <b:yellow>%get.obj_shortdesc[%book%]%</> and <b:yellow>read</> in a place called \"<b:yellow>%place%</>\".")

@@ -58,7 +58,7 @@ if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and 
             -- (zone, id) before relying on this.
             self.room:send("The energies of the megalith buckle suddenly as <magenta>" .. tostring(objects.template(584, 26).name) .. "</> shatters.")
             wait(4)
-            self.room:send("&9<blue>The harmonics shift into piercing discordant shrieks as</> <red>blood</> &9<blue>begins to pour from the altar!</>")
+            self.room:send("<b:black>The harmonics shift into piercing discordant shrieks as</> <red>blood</> <b:black>begins to pour from the altar!</>")
             wait(2)
             self.room:send("With a horrified look, " .. tostring(self.name) .. " screams, 'The Great Invocation has been corrupted!  What was in that <b:red>elixir</>?!'")
             wait(7)
@@ -151,7 +151,7 @@ if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and 
                 return _return_value
             -- The bad ending - get nothing
             elseif total >= 2 then
-                self.room:send("&9<blue>The harmonics of the monolith begin to shift, falling out of balance.</>")
+                self.room:send("<b:black>The harmonics of the monolith begin to shift, falling out of balance.</>")
                 wait(3)
                 self.room:send("The energy of the megalith begins to dim.")
                 self.room:send("In a despondent voice, " .. tostring(self.name) .. " cries out, 'The circle is failing!  <b:red>The tools or the reliquaries must have been flawed!</>'")

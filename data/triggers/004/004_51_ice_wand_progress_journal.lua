@@ -18,7 +18,7 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
         if minlevel < 1 then
             minlevel = 1
         end
-        actor:send("<b:green>&uIce Wand</>")
+        actor:send("<b:u:green>Ice Wand</>")
         actor:send("Masters of ice and water will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("ice_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
@@ -74,7 +74,7 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
                     hint = "A master of spirits in the far north will be able to help next."
                     wandgem = 55640
                     wandtask3 = 58018
-                    wandtask4 = "&6&bthe Arabel Ocean&0"
+                    wandtask4 = "<b:cyan>the Arabel Ocean</>"
                 elseif tonumber(_sw1) == 6 then
                     master = mobiles.template(238, 2).name
                     hint = "Your next crafter is a distant relative of the Sunfire clan.  He's been squatting in a flying fortress for many months, trying to unlock its secrets."

@@ -14,7 +14,7 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
     if actor.level >= 50 and string.find(string.lower(relocateclasses), actor.class, 1, true) then
         _return_value = true
         local stage = actor:get_quest_stage("major_globe_spell")
-        actor:send("<b:green>&uMajor Globe</>")
+        actor:send("<b:u:green>Major Globe</>")
         actor:send("Minimum Level: 57")
         local status
         if actor:get_has_completed("major_globe_spell") then
@@ -44,7 +44,7 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
                 local task = "Bring " .. tostring(master) .. " the salve Earle prepared."
             elseif stage == 6 then
                 local master = mobiles.template(534, 50).name
-                local task = "&6&bSearch&0 in each &2&blibrary&0 or &2&bstack&0 to find the lost spellbook."
+                local task = "<b:cyan>Search</> in each <b:green>library</> or <b:green>stack</> to find the lost spellbook."
             elseif stage == 7 then
                 local master = mobiles.template(534, 50).name
                 local task = "Bring " .. tostring(objects.template(534, 52).name) .. " to " .. tostring(master) .. "."
@@ -56,7 +56,7 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
                 local flame = actor:get_quest_var("major_globe_spell:ward_53456")
                 local ice = actor:get_quest_var("major_globe_spell:ward_53457")
                 local wards_left = 5 - actor:get_quest_var("major_globe_spell:ward_count")
-                local task = "Bring " .. tostring(master) .. " &3&bwards_left more elemental wards&0, one each from a mist, a water, an ice, a flame, and a plant elemental."
+                local task = "Bring " .. tostring(master) .. " <b:yellow>wards_left more elemental wards</>, one each from a mist, a water, an ice, a flame, and a plant elemental."
             elseif stage == 9 then
                 local master = mobiles.template(534, 50).name
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")

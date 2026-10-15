@@ -236,7 +236,7 @@ elseif stage == 9 and (object.zone_id == 125 and object.id == 26) then
     self.room:send("</>Here, see how it works!!'")
     wait(4)
     actor:send("Looking at the notes, you understand what " .. tostring(self.name) .. " has done.")
-    actor:send("<b:white>You have learned &9Degeneration<white>!</>")
+    actor:send("<b:white>You have learned <black>Degeneration<white>!</>")
     skills.set_level(actor, "degeneration", 1000)
     actor:complete_quest("degeneration")
 else

@@ -16,7 +16,7 @@ if string.find(arg, "elemental_chaos") or string.find(arg, "elemental") or strin
     local target1 = actor:get_quest_var("elemental_chaos:target1")
     local target2 = actor:get_quest_var("elemental_chaos:target2")
     local target3 = actor:get_quest_var("elemental_chaos:target3")
-    actor:send("<b:green>&uElemental Chaos</>")
+    actor:send("<b:u:green>Elemental Chaos</>")
     local mission
     local victim1, victim2, victim3
     -- switch on actor:get_quest_stage("elemental_chaos")

@@ -6,6 +6,11 @@
 
 -- Converted from DG Script #55627: **UNUSED**
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
+-- Speech phrase: status (DG num_arg 0 = the speech contains the phrase)
+if not string.find(string.lower(speech), "status", 1, true) then
+    return true  -- Not the phrase
+end
+
 
 -- TODO(parity): Status report relies on broken DG-Script remnants from auto-conversion.
 -- Issues to fix in a future rewrite of the phase_armor quest dispatch:

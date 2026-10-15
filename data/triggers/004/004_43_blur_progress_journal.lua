@@ -22,7 +22,7 @@ if string.find(arg, "blur") then
         local timer = actor:get_quest_var("blur:timer")
         local stage = actor:get_quest_stage("blur")
         local master = mobiles.template(18, 18).name
-        actor:send("<b:green>&uBlur</>")
+        actor:send("<b:u:green>Blur</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("blur") then

@@ -12,7 +12,7 @@ if string.find(arg, "shift") or string.find(arg, "corpse") or string.find(arg, "
     if string.find(actor.class, "necromancer") and actor.level >= 90 then
         _return_value = true
         local stage = actor:get_quest_stage("shift_corpse")
-        actor:send("<b:green>&uShift Corpse</>")
+        actor:send("<b:u:green>Shift Corpse</>")
         actor:send("Minimum Level: 97")
         local status
         if actor:get_has_completed("shift_corpse") then
@@ -31,7 +31,7 @@ if string.find(arg, "shift") or string.find(arg, "corpse") or string.find(arg, "
                 actor:send("</>")
                 actor:send("Give him " .. tostring(objects.template(62, 28).name) .. ", then destroy him.")
                 actor:send("</>")
-                actor:send("If you need a new crystal, say &9<blue>\"I need a new crystal\"</>.")
+                actor:send("If you need a new crystal, say <b:black>\"I need a new crystal\"</>.")
             elseif stage == 2 then
                 actor:send("Destroy Lokari!")
             end

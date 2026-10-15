@@ -56,7 +56,7 @@ do
             self.room:send("'traditions. Perhaps someone in the most trecherous of religious houses would'")
             self.room:send("'know where to begin.'")
         elseif string.find(self.class, "necromancer") then
-            self:say("Just use &9<blue>Animate Dead</>. Isn't that enough for you?")
+            self:say("Just use <b:black>Animate Dead</>. Isn't that enough for you?")
         else
             self:say("I'm afraid I know little about returning the dead")
             self.room:send("'to life.'")

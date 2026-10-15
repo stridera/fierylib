@@ -16,7 +16,7 @@ if string.find(arg, "wizard eye") or string.find(arg, "wizard") or string.find(a
         local item2 = actor:get_quest_var("wizard_eye:item2")
         local item3 = actor:get_quest_var("wizard_eye:item3")
         local item4 = actor:get_quest_var("wizard_eye:item4")
-        actor:send("<b:green>&uWizard Eye</>")
+        actor:send("<b:u:green>Wizard Eye</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("wizard_eye") then

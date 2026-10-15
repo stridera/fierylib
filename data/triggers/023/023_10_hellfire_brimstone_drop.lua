@@ -47,7 +47,7 @@ elseif actor:get_quest_stage("hellfire_brimstone") == 2 then
             wait(2)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Finally, gather six different types of fiery tribute:'")
             self.room:send("- three colors of flame:")
-            self.room:send("</>&9<blue>    black</> from Chaos incarnate")
+            self.room:send("</><b:black>    black</> from Chaos incarnate")
             self.room:send("</><blue>    gray</> from a devotee of neutrality")
             self.room:send("</><b:white>    white</> from a beam of starlight")
             self.room:send("- a torch carried by an actress pretending to be a goddess")

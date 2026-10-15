@@ -14,7 +14,7 @@ if string.find(arg, "beast") or string.find(arg, "masters") or string.find(arg, 
     local master = mobiles.template(53, 6).name
     local bounty = actor:get_quest_var("beast_master:hunt")
     local target1 = actor:get_quest_var("beast_master:target1")
-    actor:send("<b:green>&uBeast Masters</>")
+    actor:send("<b:u:green>Beast Masters</>")
     -- switch on stage
     local victim1
     do

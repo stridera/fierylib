@@ -31,7 +31,7 @@ do
         actor:send(tostring(self.name) .. " says, 'You need to show mastery over the fire.'")
         self:emote("pulls out his well-used thinking cap, and begins to think.")
         wait(2)
-        actor:send(tostring(self.name) .. " says, 'Bring me the three parts of flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.  I think we can talk again then.'")
+        actor:send(tostring(self.name) .. " says, 'Bring me the three parts of flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>.  I think we can talk again then.'")
         local black = actor:get_quest_var("emmath_flameball:17308")
         local white = actor:get_quest_var("emmath_flameball:5211")
         local gray = actor:get_quest_var("emmath_flameball:5212")
@@ -44,7 +44,7 @@ do
                 self.room:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
             end
             if black then
-                self.room:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
+                self.room:send("- <b:black>" .. tostring(objects.template(173, 8).name) .. "</>")
             end
         end
         self.room:send("I still need:")
@@ -55,7 +55,7 @@ do
             self.room:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
         end
         if not black then
-            self.room:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
+            self.room:send("- <b:black>" .. tostring(objects.template(173, 8).name) .. "</>")
         end
         wait(3)
         actor:send(tostring(self.name) .. " says, 'Well?  Go on, then!'")

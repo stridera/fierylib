@@ -24,15 +24,15 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
             do
                 local _sw2 = string.lower(tostring(actor:get_quest_stage("bard_subclass") or ""))
                 if tonumber(_sw2) == 1 then
-                    next_line = "Let's hear you &5&bsing&0!"
+                    next_line = "Let's hear you <b:magenta>sing</>!"
                 elseif tonumber(_sw2) == 2 then
-                    next_line = "Let's see you &5&bdance&0!"
+                    next_line = "Let's see you <b:magenta>dance</>!"
                 elseif tonumber(_sw2) == 3 or tonumber(_sw2) == 4 then
-                    next_line = "Do you have the &3&bscript&0?"
+                    next_line = "Do you have the <b:yellow>script</>?"
                 elseif tonumber(_sw2) == 5 then
-                    next_line = "Let's hear some &6&bdialogue&0!"
+                    next_line = "Let's hear some <b:cyan>dialogue</>!"
                 else
-                    next_line = "So, let's discuss your &6&baudition&0."
+                    next_line = "So, let's discuss your <b:cyan>audition</>."
                     wait(0.2)
                     actor:send(tostring(self.name) .. " says, 'Seems like you got real star potential kid.'")
                     wait(2)

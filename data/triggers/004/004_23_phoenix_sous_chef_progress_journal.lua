@@ -13,7 +13,7 @@ if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "
     if actor.level >= 50 then
         _return_value = true
         local stage = actor:get_quest_stage("resort_cooking")
-        actor:send("<b:green>&uPhoenix Sous Chef</>")
+        actor:send("<b:u:green>Phoenix Sous Chef</>")
         actor:send("Recommended Level: 90")
         actor:send("- This quest can be started at any level but requires level 90+ to finish.")
         local status

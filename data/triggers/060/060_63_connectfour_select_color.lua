@@ -34,25 +34,25 @@ if (status == 0) and player1 and (actor.name == player1.name) then
         actor:send("You are the <b:red>red</> pieces!")
         self.room:send_except(actor, tostring(actor.name) .. " chooses to play with the <b:red>red</> pieces!")
         if player2 then
-            player2:send("You are the <blue>&9black</> pieces!")
-            self.room:send_except(player2, tostring(player2.name) .. " gets the <blue>&9black</> pieces.")
+            player2:send("You are the <b:black>black</> pieces!")
+            self.room:send_except(player2, tostring(player2.name) .. " gets the <b:black>black</> pieces.")
             actor:send("You get to go first!")
             local status = 1
             globals.status = globals.status or true
             local turn = 1
             globals.turn = globals.turn or true
         end
-        local p1col = "&1&b"
+        local p1col = "<b:red>"
         globals.p1col = globals.p1col or true
-        local p2col = "&b&9"
+        local p2col = "<b:black>"
         globals.p2col = globals.p2col or true
-        local p1desc = "&1&bred&0"
+        local p1desc = "<b:red>red</>"
         globals.p1desc = globals.p1desc or true
-        local p2desc = "&b&9black&0"
+        local p2desc = "<b:black>black</>"
         globals.p2desc = globals.p2desc or true
     elseif arg == "black" then
-        actor:send("You are the <blue>&9black</> pieces!")
-        self.room:send_except(actor, tostring(actor.name) .. " chooses to play with the <blue>&9black</> pieces!")
+        actor:send("You are the <b:black>black</> pieces!")
+        self.room:send_except(actor, tostring(actor.name) .. " chooses to play with the <b:black>black</> pieces!")
         if player2 then
             player2:send("You are the <b:red>red</> pieces!")
             self.room:send_except(player2, tostring(player2.name) .. " gets the <b:red>red</> pieces.")
@@ -62,13 +62,13 @@ if (status == 0) and player1 and (actor.name == player1.name) then
             local turn = 1
             globals.turn = globals.turn or true
         end
-        local p1col = "&b&9"
+        local p1col = "<b:black>"
         globals.p1col = globals.p1col or true
-        local p2col = "&1&b"
+        local p2col = "<b:red>"
         globals.p2col = globals.p2col or true
-        local p1desc = "&b&9black&0"
+        local p1desc = "<b:black>black</>"
         globals.p1desc = globals.p1desc or true
-        local p2desc = "&1&bred&0"
+        local p2desc = "<b:red>red</>"
         globals.p2desc = globals.p2desc or true
     else
         actor:send("You may only select 'red' or 'black'.")

@@ -21,8 +21,8 @@ if not globals.pylons or not globals.teams then
 end
 
 -- Parse "T<team>T P<pylon>P" out of the speech.
-local team_idx = tonumber(string.match(speech, "T(%d+)T"))
-local pylon_idx = tonumber(string.match(speech, "P(%d+)P"))
+local team_idx = tonumber(string.match(speech, "t(%d+)t"))
+local pylon_idx = tonumber(string.match(speech, "p(%d+)p"))
 
 if not pylon_idx or pylon_idx < 0 or pylon_idx >= globals.pylons then
     trigger_log("TD Error: Bad pylon identifier to WR Capture trigger")

@@ -12,7 +12,7 @@ if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg,
     if actor.level >= 35 then
         _return_value = true
         local stage = actor:get_quest_stage("fieryisle_quest")
-        actor:send("<b:green>&uLiberate Fiery Island</>")
+        actor:send("<b:u:green>Liberate Fiery Island</>")
         actor:send("Recommended Level: 55")
         actor:send("Initial rewards can be received at level 35.")
         local status

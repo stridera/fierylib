@@ -19,7 +19,7 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
         local job2 = actor:get_quest_var("assassin_mask:masktask2")
         local job3 = actor:get_quest_var("assassin_mask:masktask3")
         local job4 = actor:get_quest_var("assassin_mask:masktask4")
-        actor:send("<b:green>&uDeadly Promotion</>")
+        actor:send("<b:u:green>Deadly Promotion</>")
         local level
         if (maskstage or 0) == 0 then
             level = 10
@@ -126,17 +126,17 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
             end
             if not job1 then
                 local remaining = attack - actor:get_quest_var("assassin_mask:attack_counter")
-                actor:send("- attack &9<blue>" .. tostring(remaining) .. "</> more times while wearing your mask.")
+                actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your mask.")
             end
             if not job2 then
-                actor:send("- find &9<blue>" .. "%get.obj_shortdesc[%mask%]%</>")
+                actor:send("- find <b:black>" .. "%get.obj_shortdesc[%mask%]%</>")
             end
             if not job3 then
-                actor:send("- find &9<blue>" .. "%get.obj_shortdesc[%gem%]%</>")
+                actor:send("- find <b:black>" .. "%get.obj_shortdesc[%gem%]%</>")
             end
             if not job4 then
-                actor:send("- &9<blue>hide in a place called \"&9<blue>" .. tostring(place) .. "</>\".")
-                actor:send("</>   It's &9<blue>" .. tostring(hint) .. "</>")
+                actor:send("- <b:black>hide in a place called \"<b:black>" .. tostring(place) .. "</>\".")
+                actor:send("</>   It's <b:black>" .. tostring(hint) .. "</>")
             end
         end
     end

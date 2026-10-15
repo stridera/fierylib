@@ -14,7 +14,7 @@ if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg
     local master = mobiles.template(53, 7).name
     local hunt = actor:get_quest_var("treasure_hunter:hunt")
     local target1 = actor:get_quest_var("treasure_hunter:treasure1")
-    actor:send("<b:green>&uTreasure Hunt</>")
+    actor:send("<b:u:green>Treasure Hunt</>")
     -- switch on stage
     local treasure1
     do

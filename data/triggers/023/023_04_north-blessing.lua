@@ -13,11 +13,11 @@
 if not string.find(string.lower(speech), "i pray for a blessing from mother earth, creator of life and bringer of death", 1, true) then
     return true  -- Not the phrase
 end
-self.room:send("The &9<blue>stone monoliths</> begin to <b:cyan>glow</> with power.")
+self.room:send("The <b:black>stone monoliths</> begin to <b:cyan>glow</> with power.")
 wait(4)
 self.room:spawn_object(23, 32)
 self.room:send("<green>The power seems to coalesce into a shining ball.</>")
 wait(20)
 self.room:purge()
 self.room:send("The <green>shining ball</> dissapates back into nothingness.")
-self.room:send("The &9<blue>stones</> stop glowing.")
+self.room:send("The <b:black>stones</> stop glowing.")

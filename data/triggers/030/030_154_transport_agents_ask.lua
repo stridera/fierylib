@@ -7,6 +7,19 @@
 
 -- Converted from DG Script #3154: Transport agents ask
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"transport"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
+end
+
 -- This is the ask trigger for intercity transport questmasters.
 -- It allows level 1-15 people to get transport by asking to
 -- Anduin, Ickle, or Mielikki.
@@ -71,16 +84,16 @@ end
 local dcolor
 if self.room == 3016 then
     -- Mielikki - GREEN
-    dcolor = "&2green&0"
+    dcolor = "<green>green</>"
 elseif self.room == 6015 then
     -- Anduin - RED
-    dcolor = "&1red&0"
+    dcolor = "<red>red</>"
 elseif self.room == 30115 then
     -- Ogakh - GRAY
-    dcolor = "&9&bgray&0"
+    dcolor = "<b:black>gray</>"
 else
     -- Ickle - BLUE
-    dcolor = "&4blue&0"
+    dcolor = "<blue>blue</>"
 end
 -- **********************
 -- * Perform transport **

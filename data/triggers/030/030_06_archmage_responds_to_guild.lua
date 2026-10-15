@@ -7,6 +7,19 @@
 
 -- Converted from DG Script #3006: Archmage responds to 'guild'
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"guild"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
+end
+
 wait(1)
 if string.find(actor.class, "sorcerer") then
     self:command("smirk")

@@ -39,7 +39,7 @@ if arg and #arg > 0 and string.find(string.lower(self.shortdesc or ""), string.l
             tostring(self.shortdesc) .. " sends up a shower of <yellow>brilliant <blue>golden<white> sparks</>!",
             "A blazing stream of <b:red>crimson</> and <b:green>vermillion<white> sparks</> shoots out of " .. tostring(self.shortdesc) .. "!",
             "A brilliant river of <blue>shining <b:blue>blue</> and <b:yellow>yellow</> <blue>motes</> streams out of " .. tostring(self.shortdesc) .. "!",
-            "Multitudes of brightly <red>bu<yellow>rn<red>in<yellow>g &9<blue>s</><blue>p</>&9<blue>a</><blue>r</>&9<blue>k</><blue>s</> shoot up into the sky from " .. tostring(self.shortdesc) .. "!",
+            "Multitudes of brightly <red>bu<yellow>rn<red>in<yellow>g <b:black>s</><blue>p</><b:black>a</><blue>r</><b:black>k</><blue>s</> shoot up into the sky from " .. tostring(self.shortdesc) .. "!",
             tostring(self.shortdesc) .. " lets loose with an impressive surge of <b:white>white</> and <b:blue>blue</> <blue>stars</>!",
             "A stream of <b:red>m<yellow>u<blue>l<magenta>t<green>i<cyan>c<yellow>o<red>l<blue>o<green>r<magenta>e<yellow>d</> <blue>sparks</> is surging up out of " .. tostring(self.shortdesc) .. "!",
         }

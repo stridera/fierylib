@@ -12,6 +12,6 @@ end
 local dest_local_id = random(1, 37) + 31
 self:command("sigh")
 self:say("I really don't have time for this right now.")
-self.room:send("&9<blue>" .. tostring(self.name) .. " slowly fades out of existence and is gone.</>")
+self.room:send("<b:black>" .. tostring(self.name) .. " slowly fades out of existence and is gone.</>")
 self:teleport(get_room(238, dest_local_id))
 self.room:send("<b:white>" .. tostring(self.name) .. " blinks into existence.</>")

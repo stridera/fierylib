@@ -22,10 +22,10 @@ local function award_shift_corpse(person)
     if person:get_quest_stage("shift_corpse") ~= 2 then
         return
     end
-    self.room:send("<blue>&9Swirling energy as black as the moonless night slithers from " .. tostring(objects.template(62, 28).name) .. ".<blue>&9")
-    person:send("<blue>&9It fills you with limitless arcane power as it forces its way into your body!</>")
-    person:send("<blue>&9Your awareness of death now stretches beyond the boundaries of the planes themselves!</>")
-    self.room:send_except(person, "<blue>&9It forces its way into " .. tostring(person.name) .. "'s body!</>")
+    self.room:send("<b:black>Swirling energy as black as the moonless night slithers from " .. tostring(objects.template(62, 28).name) .. ".<b:black>")
+    person:send("<b:black>It fills you with limitless arcane power as it forces its way into your body!</>")
+    person:send("<b:black>Your awareness of death now stretches beyond the boundaries of the planes themselves!</>")
+    self.room:send_except(person, "<b:black>It forces its way into " .. tostring(person.name) .. "'s body!</>")
     person:complete_quest("shift_corpse")
     skills.set_level(person, "shift corpse", 1000)
 end

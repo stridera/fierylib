@@ -10,4 +10,4 @@
 wait(2)
 self.room:send("<yellow>The trembling subsides and a <b:red>fi<yellow>er<red>y pit</> <yellow>appears, leading down.</>")
 get_room(22, 10):exit("down"):set_state({hidden = false})
-get_room(22, 10):exit("down"):set_state({description = "A &1&bburning&0 hole leads down."})
+get_room(22, 10):exit("down"):set_state({description = "A <b:red>burning</> hole leads down."})

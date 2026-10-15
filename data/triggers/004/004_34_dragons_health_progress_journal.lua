@@ -12,7 +12,7 @@ if string.find(arg, "dragons") or string.find(arg, "dragon's") or string.find(ar
     if actor.level >= 85 and string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
         _return_value = true
         local stage = actor:get_quest_stage("dragons_health")
-        actor:send("<b:green>&uDragons Health</>")
+        actor:send("<b:u:green>Dragons Health</>")
         actor:send("Minimum Level: 89")
         local status
         if actor:get_has_completed("dragons_health") then

@@ -12,7 +12,7 @@ if string.find(arg, "degeneration") then
     if string.find(actor.class, "necromancer") and actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("degeneration")
-        actor:send("<b:green>&uDegeneration</>")
+        actor:send("<b:u:green>Degeneration</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("degeneration") then

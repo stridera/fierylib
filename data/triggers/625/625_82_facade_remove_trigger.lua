@@ -16,7 +16,7 @@
 -- should become an explicit `actor.is_player` check.
 if actor.zone_id == 625 and actor.local_id == 70 then
     actor:send("As your patience dwindles you rip the rocky layer from your face, exposing the molten inner layers!")
-    self.room:send_except(actor, "&9<blue>As " .. tostring(actor.name) .. "'s patience dwindles <red>" .. tostring(actor.name) .. " <blue>r<b:yellow>ip</><yellow>s <b:red>the &9<blue>rocky layer from <b:red>" .. tostring(actor.possessive) .. " face, </><yellow>expos<blue>ing the molten inner layers!")
+    self.room:send_except(actor, "<b:black>As " .. tostring(actor.name) .. "'s patience dwindles <red>" .. tostring(actor.name) .. " <blue>r<b:yellow>ip</><yellow>s <b:red>the <b:black>rocky layer from <b:red>" .. tostring(actor.possessive) .. " face, </><yellow>expos<blue>ing the molten inner layers!")
     actor:send("<yellow>Your body melts, becoming more fluid.</>")
     self.room:send_except(actor, "<b:yellow>" .. tostring(actor.name) .. "'s body melts, becoming more fluid.</>")
 elseif actor.is_player then

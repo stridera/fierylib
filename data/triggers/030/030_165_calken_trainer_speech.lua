@@ -46,7 +46,7 @@ else
     local skill, word2
     if speech == "bash" then
         skill = actor:get_skill("bash")
-    elseif string.find(speech, "2H") then
+    elseif string.find(speech, "2h") then
         if string.find(speech, "bludgeoning") then
             word2 = "bludgeoning"
             skill = actor:get_skill("2H bludgeoning weapons")

@@ -12,7 +12,7 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
     if actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("emmath_flameball")
-        actor:send("<b:green>&uPower of Flame</>")
+        actor:send("<b:u:green>Power of Flame</>")
         actor:send("Recommended Level: 85")
         actor:send("- This quest can be started at any level but requires level 85 to finish.")
         local status
@@ -34,7 +34,7 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
                     actor:send("Return to Emmath and ask to prove your <b:red>worth</>.")
                 elseif tonumber(_sw1) == 2 then
                     actor:send("Prove your mastery over fire.")
-                    actor:send("Bring the three parts of flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.")
+                    actor:send("Bring the three parts of flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>.")
                     local black = actor:get_quest_var("emmath_flameball:17308")
                     local white = actor:get_quest_var("emmath_flameball:5211")
                     local gray = actor:get_quest_var("emmath_flameball:5212")
@@ -48,7 +48,7 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
                             actor:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
                         end
                         if black then
-                            actor:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
+                            actor:send("- <b:black>" .. tostring(objects.template(173, 8).name) .. "</>")
                         end
                     end
                     actor:send("</>")
@@ -60,7 +60,7 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
                         actor:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
                     end
                     if not black then
-                        actor:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
+                        actor:send("- <b:black>" .. tostring(objects.template(173, 8).name) .. "</>")
                     end
                 elseif tonumber(_sw1) == 3 then
                     actor:send("Bring the renegade <b:blue>blue flame</>.")

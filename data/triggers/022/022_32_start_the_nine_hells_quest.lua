@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "start the nine hells quest.", 1, true)
 end
 get_room(22, 1):exit("down"):set_state({hidden = false})
 get_room(22, 1):exit("down"):set_state({name = "hole"})
-get_room(22, 1):exit("down"):set_state({description = "&1The hole in the earth seems to be a bottomless shaft, with the roiling flames of hell licking the edges.&0"})
+get_room(22, 1):exit("down"):set_state({description = "<red>The hole in the earth seems to be a bottomless shaft, with the roiling flames of hell licking the edges.</>"})
 get_room(22, 1):at(function()
     self.room:send("<red>The earth <yellow>heaves<red> and suddenly breaks open to reveal a <blue>fiery </><red>pit.</>")
 end)

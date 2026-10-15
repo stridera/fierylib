@@ -12,7 +12,7 @@ if string.find(arg, "infiltrate the sacred haven") or string.find(arg, "sacred_h
     if actor.level >= 25 then
         _return_value = true
         local stage = actor:get_quest_stage("sacred_haven")
-        actor:send("<b:green>&uInfiltrate the Sacred Haven</>")
+        actor:send("<b:u:green>Infiltrate the Sacred Haven</>")
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("This quest is infinitely repeatable.")
         actor:send("Recommended Level: 35")

@@ -13,7 +13,7 @@ if string.find(arg, "rhell") or string.find(arg, "forest") or string.find(arg, "
         _return_value = true
         local stage = actor:get_quest_stage("ursa_quest")
         local path = actor:get_quest_var("ursa_quest:choice")
-        actor:send("<b:green>&uMystery of the Rhell Forest</>")
+        actor:send("<b:u:green>Mystery of the Rhell Forest</>")
         actor:send("Find the sick merchant in the Rhell Forest and help end his distress.")
         actor:send("Recommended Level: 45")
         local status

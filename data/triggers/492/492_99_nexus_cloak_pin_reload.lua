@@ -18,6 +18,6 @@ if not (cmd == "rock" or cmd == "well" or cmd == "demon") then
     return true  -- Not our command
 end
 self.room:spawn_object(492, 99)
-self.room:send("The &9<blue>Nexus <red>Cloak</> &9<blue>Pin</> begins to <b:blue>gl<b:cyan>ow</> mysteriously then fades back to normal.")
+self.room:send("The <b:black>Nexus <red>Cloak</> <b:black>Pin</> begins to <b:blue>gl<b:cyan>ow</> mysteriously then fades back to normal.")
 actor:command("get pin")
 world.destroy(self)

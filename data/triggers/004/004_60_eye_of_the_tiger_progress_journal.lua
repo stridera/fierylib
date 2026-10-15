@@ -19,7 +19,7 @@ if string.find(arg, "eye of the tiger") or string.find(arg, "tiger") then
         local job2 = actor:get_quest_var("ranger_trophy:trophytask2")
         local job3 = actor:get_quest_var("ranger_trophy:trophytask3")
         local job4 = actor:get_quest_var("ranger_trophy:trophytask4")
-        actor:send("<b:green>&uEye of the Tiger</>")
+        actor:send("<b:u:green>Eye of the Tiger</>")
         local level
         if (trophystage or 0) == 0 then
             level = 10

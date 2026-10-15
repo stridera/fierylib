@@ -12,7 +12,7 @@ if string.find(arg, "heavens gate") or string.find(arg, "heavens") or string.fin
     if actor.level >= 75 and string.find(actor.class, "priest") then
         _return_value = true
         local stage = actor:get_quest_stage("heavens_gate")
-        actor:send("<b:green>&uHeavens Gate</>")
+        actor:send("<b:u:green>Heavens Gate</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("heavens_gate") then

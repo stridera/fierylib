@@ -8,7 +8,7 @@
 -- offer of the ranger or druid subclass. Sets globals.use_subclass to "Ran"
 -- or "Dru" so the yes/no follow-up (speak2) knows what was offered.
 
-if not (string.find(speech, "ways") or string.find(speech, "I know")) then
+if not (string.find(speech, "ways") or string.find(speech, "i know")) then
     return true
 end
 

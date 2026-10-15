@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg, "twisted_sorrow") or string.find(arg, "twisted forest quest") then
     _return_value = true
-    actor:send("<b:green>&uTwisted Sorrow</>")
+    actor:send("<b:u:green>Twisted Sorrow</>")
     actor:send("Recommended Level: 10")
     local status
     if actor:get_has_completed("twisted_sorrow") then
@@ -39,19 +39,19 @@ if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg,
             actor:send("</>")
             actor:send("You have already awakened the following trees:")
             if luck == 1 then
-                actor:send("- &9<blue>" .. tostring(tree1.name) .. "</>")
+                actor:send("- <b:black>" .. tostring(tree1.name) .. "</>")
             end
             if reverence == 1 then
-                actor:send("- &9<blue>" .. tostring(tree2.name) .. "</>")
+                actor:send("- <b:black>" .. tostring(tree2.name) .. "</>")
             end
             if reliance == 1 then
-                actor:send("- &9<blue>" .. tostring(tree3.name) .. "</>")
+                actor:send("- <b:black>" .. tostring(tree3.name) .. "</>")
             end
             if nimbleness == 1 then
-                actor:send("- &9<blue>" .. tostring(tree4.name) .. "</>")
+                actor:send("- <b:black>" .. tostring(tree4.name) .. "</>")
             end
             if kindness == 1 then
-                actor:send("- &9<blue>" .. tostring(tree5.name) .. "</>")
+                actor:send("- <b:black>" .. tostring(tree5.name) .. "</>")
             end
         end
         actor:send("</>")

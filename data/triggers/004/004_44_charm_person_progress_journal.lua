@@ -14,7 +14,7 @@ if string.find(arg, "charm") or string.find(arg, "person") or string.find(arg, "
             _return_value = true
             local master = mobiles.template(580, 38).name
             local stage = actor:get_quest_stage("charm_person")
-            actor:send("<b:green>&uCharm Person</>")
+            actor:send("<b:u:green>Charm Person</>")
             actor:send("Minimum Level: 89")
             local status
             if actor:get_has_completed("charm_person") then

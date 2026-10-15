@@ -21,7 +21,7 @@ if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest
     wait(2)
     self:say("What are you doing here?! Get out!")
     wait(1)
-    self.room:send_except(actor, "<b:blue>" .. tostring(self.name) .. " </><cyan> sends a blast of air at &9<blue>" .. tostring(actor.name) .. "<cyan> sending them<blue> tumbling!</>")
+    self.room:send_except(actor, "<b:blue>" .. tostring(self.name) .. " </><cyan> sends a blast of air at <b:black>" .. tostring(actor.name) .. "<cyan> sending them<blue> tumbling!</>")
     actor:send("<b:blue>" .. tostring(self.name) .. " </><cyan> sends a blast of air at <b:red>YOU<cyan> sending you<blue> tumbling!</>")
     actor:teleport(get_room(481, 154))
     actor:send("<b:blue>" .. tostring(self.name) .. "'s </><cyan>blast of air sends you<blue> tumbling!</>")

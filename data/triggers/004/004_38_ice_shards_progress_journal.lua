@@ -12,7 +12,7 @@ if string.find(arg, "ice shards") or string.find(arg, "shards") or string.find(a
     if string.find(actor.class, "cryomancer") and actor.level >= 85 then
         _return_value = true
         local stage = actor:get_quest_stage("ice_shards")
-        actor:send("<b:green>&uIce Shards</>")
+        actor:send("<b:u:green>Ice Shards</>")
         actor:send("Minimum Level: 89")
         local status
         if actor:get_has_completed("ice_shards") then

@@ -22,10 +22,10 @@ if not speech_hit then
 end
 -- Preset item vars
 local item = 0
-local speech1 = "Under the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!"
-local speech2 = "Under the watchful eye of Earth Air Fire and Water we awaken this hallowed ground"
-local speech3 = "Under the watchful eye of Earth Air Fire and Water we awaken this hallowed ground!"
-local speech4 = "Under the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground"
+local speech1 = "under the watchful eye of earth, air, fire, and water, we awaken this hallowed ground!"
+local speech2 = "under the watchful eye of earth air fire and water we awaken this hallowed ground"
+local speech3 = "under the watchful eye of earth air fire and water we awaken this hallowed ground!"
+local speech4 = "under the watchful eye of earth, air, fire, and water, we awaken this hallowed ground"
 local item1 = actor:get_quest_var("megalith_quest:item1")
 local item2 = actor:get_quest_var("megalith_quest:item2")
 local item3 = actor:get_quest_var("megalith_quest:item3")

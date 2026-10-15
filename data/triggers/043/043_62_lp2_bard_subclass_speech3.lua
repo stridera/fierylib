@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if string.find(speech, "I believe if I refuse to grow old I can stay young til I die") or string.find(speech, "I believe if I refuse to grow old, I can stay young til I die") then
+if string.find(speech, "i believe if i refuse to grow old i can stay young til i die") or string.find(speech, "i believe if i refuse to grow old, i can stay young til i die") then
     if actor:get_quest_stage("bard_subclass") == 5 then
         wait(1)
         self.room:send(tostring(self.name) .. " wipes a tear from his eye.")

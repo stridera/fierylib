@@ -12,7 +12,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg, "theater") or string.find(arg, "finale") then
     _return_value = true
     local stage = actor:get_quest_stage("theatre")
-    actor:send("<b:green>&uThe Finale</>")
+    actor:send("<b:u:green>The Finale</>")
     actor:send("Defeat wild monkeys, recover keys, and help the theatre troupe perform their fiery Finale!")
     actor:send("Recommended Level: 10")
     if (stage or 0) > 0 then

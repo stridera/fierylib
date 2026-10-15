@@ -18,7 +18,7 @@ if damage then
         bonus = damage / 10
     end
     if bonus then
-        self.room:send("&9<blue>" .. tostring(self.shortdesc) .. " smites " .. tostring(victim.name) .. " with unholy might!</> (<yellow>" .. tostring(bonus) .. "</>)")
+        self.room:send("<b:black>" .. tostring(self.shortdesc) .. " smites " .. tostring(victim.name) .. " with unholy might!</> (<yellow>" .. tostring(bonus) .. "</>)")
         victim:damage(bonus)  -- type: align
     end
 end

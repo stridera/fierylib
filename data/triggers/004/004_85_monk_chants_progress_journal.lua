@@ -70,7 +70,7 @@ if string.find(actor.class, "monk") then
         local chantstage = actor:get_quest_stage("monk_chants")
         local visionstage = actor:get_quest_stage("monk_vision")
         local master = mobiles.template(53, 8).name
-        actor:send("<b:green>&u" .. tostring(title) .. "</>")
+        actor:send("<b:u:green>" .. tostring(title) .. "</>")
         actor:send("Minimum Level: " .. tostring(level))
         local status
         if chantstage > minstage then

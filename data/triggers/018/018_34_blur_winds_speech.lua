@@ -35,7 +35,7 @@ local color
 if self.zone_id == 18 and self.local_id == 19 then  -- North Wind
     direction = "north"
     home_zone, home_id = 302, 62  -- legacy 30262
-    color = "&2&b"
+    color = "<b:green>"
     local room = get_room(home_zone, home_id)
     local rname = room and room.name or "the northern peak"
     self.room:send(tostring(self.name) .. " says, 'Then you will have to beat me to: " .. tostring(color) .. tostring(rname) .. "</>")
@@ -45,7 +45,7 @@ if self.zone_id == 18 and self.local_id == 19 then  -- North Wind
 elseif self.zone_id == 18 and self.local_id == 20 then  -- South Wind
     direction = "south"
     home_zone, home_id = 535, 57  -- legacy 53557
-    color = "&1&b"
+    color = "<b:red>"
     local room = get_room(home_zone, home_id)
     local rname = room and room.name or "the standing stones"
     self.room:send(tostring(self.name) .. " says, 'Long has it been since one such as yourself has made this")
@@ -58,7 +58,7 @@ elseif self.zone_id == 18 and self.local_id == 20 then  -- South Wind
 elseif self.zone_id == 18 and self.local_id == 21 then  -- East Wind
     direction = "east"
     home_zone, home_id = 125, 97  -- legacy 12597
-    color = "&3&b"
+    color = "<b:yellow>"
     local room = get_room(home_zone, home_id)
     local rname = room and room.name or "the volcano caldera"
     if world.count_mobiles(481, 5) == 0 then
@@ -75,7 +75,7 @@ elseif self.zone_id == 18 and self.local_id == 21 then  -- East Wind
 elseif self.zone_id == 18 and self.local_id == 22 then  -- West Wind
     direction = "west"
     home_zone, home_id = 42, 36  -- legacy 4236
-    color = "&6&b"
+    color = "<b:cyan>"
     self:say("Well, let's play a different game first...")
     wait(3)
     self.room:send(tostring(self.name) .. " says, 'I'll be riding the fastest animal in Gothra!")

@@ -40,7 +40,7 @@ if not has_bell then
     return true
 end
 
-local color = "&4&b"
+local color = "<b:blue>"
 local hisher_pron = (hisher or "their")
 self.room:send_except(actor, actor.name .. " dances an ancient circle dance, calling to the great Spirits of the Canyon.")
 actor:send("You dance an ancient circle dance, calling to the great Spirits of the canyon.")

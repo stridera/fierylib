@@ -13,7 +13,7 @@ if string.find(arg, "hellfire") or string.find(arg, "brimstone") or string.find(
         _return_value = true
         local master = mobiles.template(23, 11).name
         local stage = actor:get_quest_stage("hellfire_brimstone")
-        actor:send("<b:green>&uHellfire and Brimstone</>")
+        actor:send("<b:u:green>Hellfire and Brimstone</>")
         actor:send("Minimum Level: 57")
         local status
         if actor:get_has_completed("hellfire_brimstone") then
@@ -91,7 +91,7 @@ if string.find(arg, "hellfire") or string.find(arg, "brimstone") or string.find(
                         actor:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</> from a devotee of neutrality on a hill.</>")
                     end
                     if not item4 then
-                        actor:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. " from Chaos incarnate.</>")
+                        actor:send("- <b:black>" .. tostring(objects.template(173, 8).name) .. " from Chaos incarnate.</>")
                     end
                     if not item5 then
                         actor:send("- <b:red>" .. tostring(objects.template(481, 10).name) .. "</> from the volcano goddess.</>")

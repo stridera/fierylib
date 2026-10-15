@@ -23,5 +23,5 @@ if actor.zone_id == 120 and actor.local_id == 19 then
         brownie:spawn_object(120, 2)
         brownie:command("mat 12050 drop meat-pie")
     end
-    self.room:send("&9<blue>Dark shadows</> move swiftly toward the haggard brownie.")
+    self.room:send("<b:black>Dark shadows</> move swiftly toward the haggard brownie.")
 end

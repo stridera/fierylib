@@ -19,7 +19,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
         actor:send("<b:green>AVAILABLE QUESTS:</>_")
         if actor.level >= 30 then
             if string.find(actor.class, "monk") then
-                actor:send("<b:green>&uTremors of Saint Augustine</>")
+                actor:send("<b:u:green>Tremors of Saint Augustine</>")
                 actor:send("Minimum Level: 30")
                 local status
                 if actor:get_quest_stage("monk_chants") > 1 then
@@ -30,7 +30,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                     status = "Not Started"
                 end
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-                actor:send("<b:green>&uTempest of Saint Augustine</>")
+                actor:send("<b:u:green>Tempest of Saint Augustine</>")
                 actor:send("Minimum Level: 40")
                 local status
                 if actor:get_quest_stage("monk_chants") > 2 then
@@ -41,7 +41,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                     status = "Not Started"
                 end
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-                actor:send("<b:green>&uBlizzards of Saint Augustine</>")
+                actor:send("<b:u:green>Blizzards of Saint Augustine</>")
                 actor:send("Minimum Level: 50")
                 local status
                 if actor:get_quest_stage("monk_chants") > 3 then
@@ -54,7 +54,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(string.lower(relocateclasses), actor.class, 1, true) then
-                actor:send("<b:green>&uMajor Globe</>")
+                actor:send("<b:u:green>Major Globe</>")
                 actor:send("Minimum Level: 57")
                 local status
                 if actor:get_has_completed("major_globe_spell") then
@@ -67,7 +67,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "priest") or string.find(actor.class, "cleric") or string.find(actor.class, "diabolist") then
-                actor:send("<b:green>&uGroup Heal</>")
+                actor:send("<b:u:green>Group Heal</>")
                 actor:send("Minimum Level: 57")
                 local status
                 if actor:get_has_completed("group_heal") then
@@ -80,7 +80,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "priest") then
-                actor:send("<b:green>&uGroup Armor</>")
+                actor:send("<b:u:green>Group Armor</>")
                 actor:send("Minimum Level: 57")
                 local status
                 if actor:get_has_completed("group_armor") then
@@ -93,7 +93,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "cryomancer") then
-                actor:send("<b:green>&uWall of Ice</>")
+                actor:send("<b:u:green>Wall of Ice</>")
                 actor:send("Minimum Level: 57")
                 local status
                 if actor:get_has_completed("wall_ice") then
@@ -106,7 +106,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "illusionist") or string.find(actor.class, "bard") then
-                actor:send("<b:green>&uIllusory Wall</>")
+                actor:send("<b:u:green>Illusory Wall</>")
                 actor:send("Minimum Level: 57")
                 local status
                 if actor:get_has_completed("illusory_wall") then
@@ -119,7 +119,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "diabolist") then
-                actor:send("<b:green>&uHellfire and Brimstone&")
+                actor:send("<b:u:green>Hellfire and Brimstone</>")
                 actor:send("Minimum Level: 57")
                 local status
                 if actor:get_has_completed("hellfire_brimstone") then
@@ -132,7 +132,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "monk") then
-                actor:send("<b:green>&uAria of Dissonance</>")
+                actor:send("<b:u:green>Aria of Dissonance</>")
                 actor:send("Minimum Level: 60")
                 local status
                 if actor:get_quest_stage("monk_chants") > 4 then
@@ -147,7 +147,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
         end
         if actor.level >= 60 then
             if string.find(string.lower(relocateclasses), actor.class, 1, true) then
-                actor:send("<b:green>&uRelocate</>")
+                actor:send("<b:u:green>Relocate</>")
                 actor:send("Minimum Level: 65")
                 local status
                 if actor:get_has_completed("relocate_spell_quest") then
@@ -160,7 +160,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "priest") or string.find(actor.class, "diabolist") then
-                actor:send("<b:green>&uBanish</>")
+                actor:send("<b:u:green>Banish</>")
                 actor:send("Minimum Level: 65")
                 local status
                 if actor:get_has_completed("banish") then
@@ -175,12 +175,12 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
         end
         if actor.level >= 65 then
             if string.find(actor.class, "bard") then
-                actor:send("<b:green>&uHearthsong</>")
+                actor:send("<b:u:green>Hearthsong</>")
                 actor:send("Minimum Level: 70")
                 actor:send("Note: This chant must be granted directly by the gods and cannot be tracked in the quest journal._")
             end
             if string.find(actor.class, "cleric") then
-                actor:send("<b:green>&uGroup Armor</>")
+                actor:send("<b:u:green>Group Armor</>")
                 actor:send("Minimum Level: 73")
                 local status
                 if actor:get_has_completed("group_armor") then
@@ -191,12 +191,12 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                     status = "Not Started"
                 end
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-                actor:send("<b:green>&uGroup Recall</>")
+                actor:send("<b:u:green>Group Recall</>")
                 actor:send("Minimum Level: 73")
                 actor:send("Note: This chant must be granted directly by the gods and cannot be tracked in the quest journal._")
             end
             if string.find(actor.class, "druid") then
-                actor:send("<b:green>&uMoonwell</>")
+                actor:send("<b:u:green>Moonwell</>")
                 actor:send("Minimum Level: 73")
                 local status
                 if actor:get_has_completed("moonwell_spell_quest") then
@@ -209,7 +209,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "sorcerer") then
-                actor:send("<b:green>&uMeteorswarm</>")
+                actor:send("<b:u:green>Meteorswarm</>")
                 actor:send("Minimum Level: 73")
                 local status
                 if actor:get_has_completed("meteorswarm") then
@@ -222,12 +222,12 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "bard") then
-                actor:send("<b:green>&uMajor Paralysis</>")
+                actor:send("<b:u:green>Major Paralysis</>")
                 actor:send("Minimum Level: 73")
                 actor:send("Note: This chant must be granted directly by the gods and cannot be tracked in the quest journal._")
             end
             if string.find(actor.class, "diabolist") or string.find(actor.class, "priest") then
-                actor:send("<b:green>&uWord of Command</>")
+                actor:send("<b:u:green>Word of Command</>")
                 local status
                 if actor:get_has_completed("word_command") then
                     status = "Completed!"
@@ -239,7 +239,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "cryomancer") then
-                actor:send("<b:green>&uWaterform</>")
+                actor:send("<b:u:green>Waterform</>")
                 actor:send("Minimum Level: 73")
                 local status
                 if actor:get_has_completed("waterform") then
@@ -252,7 +252,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "monk") then
-                actor:send("<b:green>&uApocalyptic Anthem</>")
+                actor:send("<b:u:green>Apocalyptic Anthem</>")
                 actor:send("Minimum Level: 75")
                 local status
                 if actor:get_quest_stage("monk_chants") > 5 then
@@ -267,12 +267,12 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
         end
         if actor.level >= 75 then
             if string.find(actor.class, "bard") then
-                actor:send("<b:green>&uCrown of Madness</>")
+                actor:send("<b:u:green>Crown of Madness</>")
                 actor:send("Minimum Level: 80")
                 actor:send("Note: This chant must be granted directly by the gods and cannot be tracked in the quest journal._")
             end
             if string.find(actor.class, "monk") then
-                actor:send("<b:green>&uFires of Saint Augustine</>")
+                actor:send("<b:u:green>Fires of Saint Augustine</>")
                 actor:send("Minimum Level: 80")
                 local status
                 if actor:get_quest_stage("monk_chants") > 6 then
@@ -285,7 +285,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "ranger") then
-                actor:send("<b:green>&uBlur</>")
+                actor:send("<b:u:green>Blur</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("blur") then
@@ -300,7 +300,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "druid") then
-                actor:send("<b:green>&uCreeping Doom</>")
+                actor:send("<b:u:green>Creeping Doom</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("creeping_doom") then
@@ -313,7 +313,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "necromancer") then
-                actor:send("<b:green>&uDegeneration</>")
+                actor:send("<b:u:green>Degeneration</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("degeneration") then
@@ -326,7 +326,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "cryomancer") then
-                actor:send("<b:green>&uFlood</>")
+                actor:send("<b:u:green>Flood</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("flood") then
@@ -339,7 +339,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "priest") then
-                actor:send("<b:green>&uHeavens Gate</>")
+                actor:send("<b:u:green>Heavens Gate</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("heavens_gate") then
@@ -352,7 +352,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "diabolist") then
-                actor:send("<b:green>&uHell Gate</>")
+                actor:send("<b:u:green>Hell Gate</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("hell_gate") then
@@ -365,7 +365,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "pyromancer") then
-                actor:send("<b:green>&uMeteorswarm</>")
+                actor:send("<b:u:green>Meteorswarm</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("meteorswarm") then
@@ -378,7 +378,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "cleric") or string.find(actor.class, "priest") or string.find(actor.class, "diabolist") then
-                actor:send("<b:green>&uResurrection</>")
+                actor:send("<b:u:green>Resurrection</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("resurrection_quest") then
@@ -391,7 +391,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "sorcerer") then
-                actor:send("<b:green>&uWizard Eye</>")
+                actor:send("<b:u:green>Wizard Eye</>")
                 actor:send("Minimum Level: 81")
                 local status
                 if actor:get_has_completed("wizard_eye") then
@@ -406,7 +406,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
         end
         if actor.level >= 85 then
             if string.find(actor.class, "sorcerer") or string.find(actor.class, "bard") or string.find(actor.class, "illusionist") then
-                actor:send("<b:green>&uCharm Person</>")
+                actor:send("<b:u:green>Charm Person</>")
                 actor:send("Minimum Level: 89")
                 local status
                 if actor:get_has_completed("charm_person") then
@@ -419,7 +419,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
-                actor:send("<b:green>&uDragons Health</>")
+                actor:send("<b:u:green>Dragons Health</>")
                 actor:send("Minimum Level: 89")
                 local status
                 if actor:get_has_completed("dragons_health") then
@@ -432,12 +432,12 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "ranger") then
-                actor:send("<b:green>&uGreater Displacement</>")
+                actor:send("<b:u:green>Greater Displacement</>")
                 actor:send("Minimum Level: 89")
                 actor:send("Note: This chant must be granted directly by the gods and cannot be tracked in the quest journal._")
             end
             if string.find(actor.class, "cryomancer") then
-                actor:send("<b:green>&uIce Shards</>")
+                actor:send("<b:u:green>Ice Shards</>")
                 actor:send("Minimum Level: 89")
                 local status
                 if actor:get_has_completed("ice_shards") then
@@ -450,7 +450,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "pyromancer") then
-                actor:send("<b:green>&uSupernova</>")
+                actor:send("<b:u:green>Supernova</>")
                 actor:send("Minimum Level: 89")
                 local status
                 if actor:get_has_completed("supernova") then
@@ -463,14 +463,14 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "bard") then
-                actor:send("<b:green>&uEnrapture</>")
+                actor:send("<b:u:green>Enrapture</>")
                 actor:send("Minimum Level: 90")
                 actor:send("Note: This chant must be granted directly by the gods and cannot be tracked in the quest journal._")
             end
         end
         if actor.level >= 90 then
             if string.find(actor.class, "necromancer") then
-                actor:send("<b:green>&uShift Corpse</>")
+                actor:send("<b:u:green>Shift Corpse</>")
                 actor:send("Minimum Level: 97")
                 local status
                 if actor:get_has_completed("shift_corpse") then
@@ -483,7 +483,7 @@ if string.find(arg, "spell") or string.find(arg, "spells") or string.find(arg, "
                 actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
             end
             if string.find(actor.class, "monk") then
-                actor:send("<b:green>&uSeed of Destruction</>")
+                actor:send("<b:u:green>Seed of Destruction</>")
                 actor:send("Minimum Level: 99")
                 local status
                 if actor:get_quest_stage("monk_chants") > 7 then

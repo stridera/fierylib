@@ -12,7 +12,7 @@ local _return_value = true  -- Default: allow action
 if string.find(arg, "trident") or string.find(arg, "hell trident") or string.find(arg, "hell_trident") or string.find(arg, "Infernal Weaponry") or string.find(arg, "infernal") or string.find(arg, "weaponry") or string.find(arg, "infernal_weaponry") then
     if string.find(actor.class, "diabolist") then
         _return_value = true
-        actor:send("<b:green>&uInfernal Weaponry</>")
+        actor:send("<b:u:green>Infernal Weaponry</>")
         actor:send("Weapons of the lower realms await a diabolist dedicated enough to claim them.")
         local hellstage = actor:get_quest_stage("hell_trident")
         local minlevel
@@ -54,7 +54,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                     spell2 = "Banish"
                     spell1 = "Hellfire and Brimstone"
                     task6 = "assisted Vilekka Kar'Shezden"
-                    task6do = "&3&bAssist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.&0"
+                    task6do = "<b:yellow>Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.</>"
                 elseif tonumber(_sw1) == 2 then
                     master = mobiles.template(125, 26).name
                     local gem = 55739
@@ -63,7 +63,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                     spell1 = "Resurrect"
                     spell2 = "Hell Gate"
                     task6 = "Defeated the Undead Prince"
-                    task6do = "find one long-buried and branded an infidel.  &3&bFinish his undying duel for him&0 as a sacrifice of honor."
+                    task6do = "find one long-buried and branded an infidel.  <b:yellow>Finish his undying duel for him</> as a sacrifice of honor."
                 else
                     if not actor:get_has_completed("hell_trident") then
                         actor:send("Only someone mighty enough to claim the ancient truthstone and present it unto the leader of chaos may be given the dark powers of hell.  These diabolists will be rewarded for their unquenchable devotion by the dark gods themselves!")

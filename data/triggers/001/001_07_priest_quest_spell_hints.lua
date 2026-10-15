@@ -73,7 +73,7 @@ do
     elseif _sw1 == "banish" or _sw1 == "banish?" then
         if string.find(self.class, "priest") or string.find(self.class, "diabolist") then
             self:say("There's a diabolist known to skulk about South")
-            self.room:send("'Caelia who is said to be quite adept at &9<blue>Banish</>.'")
+            self.room:send("'Caelia who is said to be quite adept at <b:black>Banish</>.'")
             -- (empty room echo)
             self.room:send("'They say she makes common use of it in the conflict between the military city'")
             self.room:send("'Ogakh and the paladins of Sacred Haven.'")

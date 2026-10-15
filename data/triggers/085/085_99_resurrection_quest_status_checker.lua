@@ -161,5 +161,5 @@ elseif stage == 5 or stage == 7 or stage == 9 or stage == 11 then
     self:say("Bring me back " .. tostring(item) .. ".")
 end
 if stage >= 4 then
-    self.room:send(tostring(self.name) .. " says, 'If you need a new talisman, say &9<blue>\"I need a new talisman\"</>.'")
+    self.room:send(tostring(self.name) .. " says, 'If you need a new talisman, say <b:black>\"I need a new talisman\"</>.'")
 end

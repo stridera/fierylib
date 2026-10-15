@@ -76,7 +76,7 @@ end
 if continue == "yes" then
     actor:command("hide")
     wait(0.2)
-    actor:send("&9<blue>" .. tostring(self.shortdesc) .. " seems to absorb the shadowy darkness around you!")
+    actor:send("<b:black>" .. tostring(self.shortdesc) .. " seems to absorb the shadowy darkness around you!")
     actor:set_quest_var("assassin_mask", "masktask4", 1)
 else
     _return_value = true

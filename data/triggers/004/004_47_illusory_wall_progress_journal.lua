@@ -14,7 +14,7 @@ if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.f
         _return_value = true
         local stage = actor:get_quest_stage("illusory_wall")
         local master = mobiles.template(364, 2).name
-        actor:send("<b:green>&uIllusory Wall</>")
+        actor:send("<b:u:green>Illusory Wall</>")
         actor:send("Minimum Level: 57")
         local status
         if actor:get_has_completed("illusory_wall") then

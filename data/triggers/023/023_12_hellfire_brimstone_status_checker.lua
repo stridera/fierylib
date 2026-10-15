@@ -83,7 +83,7 @@ do
             self.room:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</> from a devotee of neutrality on a hill.</>")
         end
         if not item4 then
-            self.room:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. " from Chaos incarnate.</>")
+            self.room:send("- <b:black>" .. tostring(objects.template(173, 8).name) .. " from Chaos incarnate.</>")
         end
         if not item5 then
             self.room:send("- <b:red>" .. tostring(objects.template(481, 10).name) .. "</> from the volcano goddess.</>")

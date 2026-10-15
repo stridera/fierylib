@@ -18,7 +18,7 @@ if ((string.find(arg, "acid") or string.find(arg, "earth")) and (string.find(arg
         if minlevel < 1 then
             minlevel = 1
         end
-        actor:send("<b:green>&uAcid Wand</>")
+        actor:send("<b:u:green>Acid Wand</>")
         actor:send("Masters of earth will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("acid_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
@@ -74,7 +74,7 @@ if ((string.find(arg, "acid") or string.find(arg, "earth")) and (string.find(arg
                     hint = "Your next crafter isn't exactly part of the ranger network...  It's not actually a person at all.  Find the treant in the Rhell forest and ask it for guidance."
                     wandgem = 55647
                     wandtask3 = 16303
-                    wandtask4 = "&9&bthe Northern Swamps&0"
+                    wandtask4 = "<b:black>the Northern Swamps</>"
                 elseif tonumber(_sw1) == 6 then
                     master = mobiles.template(470, 75).name .. " in the Graveyard"
                     hint = "The ranger who guards the massive necropolis near Anduin has wonderful insights on crafting with decay."

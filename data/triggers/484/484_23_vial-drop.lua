@@ -34,7 +34,7 @@ if actor:get_quest_stage("doom_entrance") == 5 then
             end
             a = a + 1
         end
-        self.room:send("&9<blue>The vial dissolves in a flash of light.</>")
+        self.room:send("<b:black>The vial dissolves in a flash of light.</>")
         world.destroy(self)
     else
         self.room:send("Dropping the vial here would have no effect!")

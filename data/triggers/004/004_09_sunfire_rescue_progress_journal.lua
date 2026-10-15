@@ -12,7 +12,7 @@ if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, 
     local stage = actor:get_quest_stage("sunfire_rescue")
     if actor.level >= 80 or (stage or 0) > 0 then
         _return_value = true
-        actor:send("<b:green>&uSunfire Rescue</>")
+        actor:send("<b:u:green>Sunfire Rescue</>")
         actor:send("This quest is only available to good-aligned characters.")
         actor:send("Minimum Level: 85")
         actor:send("- This quest can be started at any level but requires level 85 to finish.")

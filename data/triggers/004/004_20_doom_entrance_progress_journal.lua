@@ -12,7 +12,7 @@ if string.find(arg, "doom entrance") or string.find(arg, "the planes of doom") o
     if actor.level >= 85 then
         _return_value = true
         local stage = actor:get_quest_stage("doom_entrance")
-        actor:send("<b:green>&uThe Planes of Doom</>")
+        actor:send("<b:u:green>The Planes of Doom</>")
         actor:send("Minimum Level: 85")
         actor:send("- This quest begins a storyline intended for characters of level 95+")
         local status

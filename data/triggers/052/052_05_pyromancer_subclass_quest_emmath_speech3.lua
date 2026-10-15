@@ -42,7 +42,7 @@ if actor:get_quest_stage("pyromancer_subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'Well, part of the essence of fire is no longer under my power.'")
     self:emote("shakes his head sadly.")
     wait(2)
-    actor:send(tostring(self.name) .. " says, 'I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.'")
+    actor:send(tostring(self.name) .. " says, 'I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>.'")
     wait(2)
     self:command("frown")
     actor:send(tostring(self.name) .. " says, 'But one of them was taken from my <b:red>control</>.'")

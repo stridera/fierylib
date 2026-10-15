@@ -12,7 +12,7 @@
 if not percent_chance(20) then
     return true
 end
-self.room:send("</><green>The </><blue>&9witchwoman</><green> looks around frantically.</>")
+self.room:send("</><green>The </><b:black>witchwoman</><green> looks around frantically.</>")
 self:say("Damn!")
 self:command("frown")
 self:say("Hey you.")

@@ -38,7 +38,7 @@ if string.find(arg, "subclass") then
         actor:send("<b:green>AVAILABLE QUESTS:</>")
         local status
         if actor:get_quest_var("nec_dia_ant_subclass:subclass_name") == "Nec" then
-            actor:send("- &9<blue>Necromancer</>")
+            actor:send("- <b:black>Necromancer</>")
             status = "running"
         elseif actor:get_quest_var("nec_dia_ant_subclass:subclass_name") == "Diabolist" then
             actor:send("- <magenta>Diabolist</>")
@@ -47,7 +47,7 @@ if string.find(arg, "subclass") then
             actor:send("- <b:red>Anti-Paladin</>")
             status = "running"
         elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "Mercernary" then
-            actor:send("- &9<blue>Mercenary</>")
+            actor:send("- <b:black>Mercenary</>")
             status = "running"
         elseif actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "Assassin" then
             actor:send("- <red>Assassin</>")
@@ -83,7 +83,7 @@ if string.find(arg, "subclass") then
             actor:send("- <b:magenta>Bard</>")
             status = "running"
         elseif actor:get_quest_stage("berserker_subclass") > 0 then
-            actor:send("- &9<blue>Berserker</>")
+            actor:send("- <b:black>Berserker</>")
             status = "running"
         else
             if string.find(actor.class, "sorcerer") then
@@ -94,7 +94,7 @@ if string.find(arg, "subclass") then
                     actor:send("- <b:magenta>Illusionist</>_")
                 end
                 if not (string.find(necromancerraces, actor.race)) then
-                    actor:send("- &9<blue>Necromancer</>")
+                    actor:send("- <b:black>Necromancer</>")
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
                 end
                 if not (string.find(pyroraces, actor.race)) then
@@ -122,7 +122,7 @@ if string.find(arg, "subclass") then
                     actor:send("- <b:magenta>Bard</>_")
                 end
                 if not (string.find(mercenaryraces, actor.race)) then
-                    actor:send("- &9<blue>Mercenary</>_")
+                    actor:send("- <b:black>Mercenary</>_")
                 end
                 if not (string.find(thiefraces, actor.race)) then
                     actor:send("- <b:red>Thief</>_")
@@ -133,7 +133,7 @@ if string.find(arg, "subclass") then
                     actor:send("</>   <cyan>(This class is for evil characters only)</>_")
                 end
                 if not (string.find(berserkerraces, actor.race)) then
-                    actor:send("- &9<blue>Berserker</>_")
+                    actor:send("- <b:black>Berserker</>_")
                 end
                 if not (string.find(monkraces, actor.race)) then
                     actor:send("- <yellow>Monk</>_")

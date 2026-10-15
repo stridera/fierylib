@@ -33,7 +33,7 @@ if actor:get_quest_stage("dragons_health") == 0 then
                 self:say("Are you interested?")
             end
         end
-    elseif string.find(speech, "Yes") or string.find(speech, "yes?") then
+    elseif string.find(speech, "yes") or string.find(speech, "yes?") then
         wait(0.2)
         if (string.find(actor.class, "cleric") or string.find(actor.class, "priest")) and actor.level > 88 then
             self:emote("smiles with gratitude.")
@@ -94,7 +94,7 @@ elseif actor:get_quest_stage("dragons_health") == 1 then
         self.room:send("</>Anduin.  Bring back the crystal it keeps in its hoard for our hatchling.'")
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'You may ask me about your <b:cyan>[progress]</> if you need a reminder.'")
-    elseif string.find(speech, "No") or string.find(speech, "no?") then
+    elseif string.find(speech, "no") or string.find(speech, "no?") then
         if (string.find(actor.class, "cleric") or string.find(actor.class, "priest")) and actor.level > 88 and actor:get_quest_stage("dragons_health") == 0 then
             self:say("That's alright.  We shall let nature take its course.")
             self:emote("gently pats the egg.")

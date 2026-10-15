@@ -10,4 +10,4 @@
 wait(2)
 self.room:send("<green>The swamp drains, leaving a <blue>moss</><green>-covered staircase leading down.</>")
 get_room(22, 12):exit("down"):set_state({hidden = false})
-get_room(22, 12):exit("down"):set_state({description = "&2A slippery staircase leads down.&0"})
+get_room(22, 12):exit("down"):set_state({description = "<green>A slippery staircase leads down.</>"})

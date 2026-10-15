@@ -13,7 +13,7 @@ if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg
         _return_value = true
         local stage = actor:get_quest_stage("griffin_quest")
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        actor:send("<b:green>&uDestroy the Cult of the Griffin</>")
+        actor:send("<b:u:green>Destroy the Cult of the Griffin</>")
         actor:send("Recommended Level: 60")
         local status
         if actor:get_has_completed("griffin_quest") then

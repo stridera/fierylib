@@ -43,13 +43,13 @@ if actor:get_quest_stage("pyromancer_subclass") >= 2 then
     local part = actor:get_quest_var("pyromancer_subclass:part")
     local place
     if part == "white" then
-        place = "&bin some kind of mine&0"
+        place = "<b>in some kind of mine</>"
     elseif part == "black" then
-        place = "&bin some kind of temple&0"
+        place = "<b>in some kind of temple</>"
     elseif part == "gray" then
-        place = "&bnear some kind of hill&0"
+        place = "<b>near some kind of hill</>"
     else
-        place = "&bsomewhere out there&0"
+        place = "<b>somewhere out there</>"
     end
     actor:send(tostring(self.name) .. " says, 'Last I heard, it was <b:cyan>" .. tostring(place) .. "</>, or something of the like.'")
     self:emote("mutters something about the villainy of it all.")

@@ -12,8 +12,8 @@
 if not (cmd == "Pluck") then
     return true  -- Not our command
 end
-actor:send("You bend over and carefully pluck the &9<blue>black</> rose from between the two hearts.")
+actor:send("You bend over and carefully pluck the <b:black>black</> rose from between the two hearts.")
 -- *some command to directly load 3298 to player inventory**
-self.room:send_except(actor, tostring(actor.name) .. " bends over and carefully plucks the &9<blue>black</> rose from between the two hearts.")
+self.room:send_except(actor, tostring(actor.name) .. " bends over and carefully plucks the <b:black>black</> rose from between the two hearts.")
 wait(0.1)
-self.room:send("Another identical &9<blue>black</> rose magically grows up in the same spot.")
+self.room:send("Another identical <b:black>black</> rose magically grows up in the same spot.")

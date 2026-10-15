@@ -20,7 +20,7 @@ if actor.level > 10 then
     local questname
     if string.find(actor.class, "rogue") and actor.level <= 25 then
         if string.find(arg, "Mercenary") and not (string.find(mercenaryraces, actor.race)) then
-            actor:send("&9<blue>Mercenary</>")
+            actor:send("<b:black>Mercenary</>")
             questname = "mercenary"
             check = "yes"
         elseif string.find(arg, "Assassin") and not (string.find(assassinraces, actor.race)) then

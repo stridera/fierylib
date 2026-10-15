@@ -61,7 +61,7 @@ if string.find(actor.class, "diabolist") then
                     end
                 end
                 local task6 = "assisted Vilekka Kar'Shezden"
-                local task6do = "&3&bAssist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.&0"
+                local task6do = "<b:yellow>Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.</>"
             elseif (self.zone_id == 125 and self.id == 26) then
                 local step = 2
                 local gem = 55739
@@ -72,7 +72,7 @@ if string.find(actor.class, "diabolist") then
                 local spell2 = "Hell Gate"
                 local quest2 = actor:get_has_completed("hell_gate")
                 local task6 = "Defeated the Undead Prince"
-                local task6do = "find one long-buried and branded an infidel.  &3&bFinish his undying duel for him&0 as a sacrifice of honor."
+                local task6do = "find one long-buried and branded an infidel.  <b:yellow>Finish his undying duel for him</> as a sacrifice of honor."
             end
         end
         if hellstage == "step" then

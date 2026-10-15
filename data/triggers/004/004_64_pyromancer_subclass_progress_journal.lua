@@ -26,7 +26,7 @@ if actor.level > 10 then
                     actor:send("However, I am sure it is in you, if it is truly your desire, to complete this quest and become a pyromancer.")
                 elseif tonumber(_sw1) == 2 then
                     actor:send("Part of the essence of fire is no longer under my power.")
-                    actor:send("I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>._")
+                    actor:send("I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>._")
                     actor:send("But one of them was taken from my control.")
                 elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
                     actor:send("The " .. tostring(actor:get_quest_var("pyromancer_subclass:part")) .. " flame was taken from me._")
@@ -36,11 +36,11 @@ if actor.level > 10 then
                     do
                         local _sw2 = string.lower(tostring(actor:get_quest_var("pyromancer_subclass:part") or ""))
                         if _sw2 == "white" then
-                            place = "&bin some kind of mine&0"
+                            place = "<b>in some kind of mine</>"
                         elseif _sw2 == "black" then
-                            place = "&bin some kind of temple&0"
+                            place = "<b>in some kind of temple</>"
                         else
-                            place = "&bnear some kind of hill&0"
+                            place = "<b>near some kind of hill</>"
                         end
                     end
                     actor:send("Last I heard, it was " .. tostring(place) .. ", or something of the like.")

@@ -15,7 +15,7 @@ if string.find(arg, "tribal") or string.find(arg, "trouble") or string.find(arg,
             local job1 = actor:get_quest_var("troll_quest:got_item:37080")
             local job2 = actor:get_quest_var("troll_quest:got_item:37081")
             local job3 = actor:get_quest_var("troll_quest:got_item:37082")
-            actor:send("<b:green>&uTribal Trouble</>")
+            actor:send("<b:u:green>Tribal Trouble</>")
             actor:send("Minimum Level: 55")
             local status
             if actor:get_quest_stage("troll_quest") == 0 then

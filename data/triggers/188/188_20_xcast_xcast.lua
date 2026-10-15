@@ -103,9 +103,9 @@ if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
                     self.room:send_except(actor, "<b:white>" .. tostring(actor.name) .. " speaks a holy word of sanctification!</>")
                     actor:send("<b:white>You speak a holy word of sanctification!</>")
                 elseif xid == 6 then
-                    arg:send("&9<blue>" .. tostring(actor.name) .. " chants an arcane word at you, locking you in an iron maiden!</>")
-                    self.room:send_except(arg, "&9<blue>" .. tostring(actor.name) .. " chants an arcane word at " .. tostring(arg.name) .. ", locking " .. tostring(arg.object) .. " in an iron maiden!</>")
-                    actor:send("&9<blue>You chant an arcane word at " .. tostring(arg.name) .. ", locking " .. tostring(arg.object) .. " in an iron maiden!</>")
+                    arg:send("<b:black>" .. tostring(actor.name) .. " chants an arcane word at you, locking you in an iron maiden!</>")
+                    self.room:send_except(arg, "<b:black>" .. tostring(actor.name) .. " chants an arcane word at " .. tostring(arg.name) .. ", locking " .. tostring(arg.object) .. " in an iron maiden!</>")
+                    actor:send("<b:black>You chant an arcane word at " .. tostring(arg.name) .. ", locking " .. tostring(arg.object) .. " in an iron maiden!</>")
                 elseif xid == 7 then
                     self.room:send_except(actor, "<blue>Lightning streaks out from " .. tostring(actor.name) .. "'s body, sizzling through the air.</>")
                     actor:send("<blue>Lightning streaks out from your body, crackling through the air.</>")

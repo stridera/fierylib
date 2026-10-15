@@ -59,7 +59,7 @@ if actor.is_player then
                 self.room:send(tostring(self.name) .. " heaves a great sigh of relief as he places the blessings on the stone slab.")
                 globals.blessings = 0
                 wait(1)
-                self.room:send("The &9<blue>stone slab</> begins to <b:white>glow brightly!</>")
+                self.room:send("The <b:black>stone slab</> begins to <b:white>glow brightly!</>")
                 wait(2)
                 self.room:send("<b:green>Tendrils of power shoot out from the stone slab, lighting the vale!</>")
                 self.room:send(tostring(self.name) .. " smiles hapily as he watches Nature's power at work.")

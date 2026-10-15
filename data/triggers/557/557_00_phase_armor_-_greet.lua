@@ -40,7 +40,7 @@ if string.find(self.class, "necromancer") then
         wait(0.2)
         actor:send(tostring(self.name) .. " says, 'May Death guide your hunt for Lokari.'")
         wait(1)
-        actor:send(tostring(self.name) .. " says, 'If you need a new crystal, msend " .. tostring(actor) .. " " .. tostring(self.name) .. " says, &9<blue>\"I need a new crystal\"</>.'")
+        actor:send(tostring(self.name) .. " says, 'If you need a new crystal, msend " .. tostring(actor) .. " " .. tostring(self.name) .. " says, <b:black>\"I need a new crystal\"</>.'")
     end
 elseif string.find(self.class, "pyromancer") then
     if actor:get_quest_stage("supernova") == 2 and (actor:has_item(489, 17) or actor:has_equipped(489, 17)) then

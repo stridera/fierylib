@@ -11,7 +11,7 @@
 local _return_value = true  -- Default: allow action
 if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, "armor")) and (string.find(arg, "one") or string.find(arg, "1"))) or string.find(arg, "guild_armor_phase_one") or string.find(arg, "guild_armor_phase_1") or string.find(arg, "phase_armor_one") or string.find(arg, "phase_armor_1") then
     _return_value = true
-    actor:send("<b:green>&uGuild Armor Phase One</>")
+    actor:send("<b:u:green>Guild Armor Phase One</>")
     actor:send("Mininum Level: 1")
     actor:send("Items for this quest drop from mobs between level 1 and 20.")
     if actor:get_quest_stage("phase_armor") > 0 then

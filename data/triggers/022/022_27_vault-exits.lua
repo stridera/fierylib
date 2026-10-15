@@ -10,4 +10,4 @@
 wait(2)
 self.room:send("<b:red>A trapdoor clicks open, </><red>leading down.</>")
 get_room(22, 17):exit("down"):set_state({hidden = false})
-get_room(22, 17):exit("down"):set_state({description = "&1&bRed stairs lead &1down to the unknown.&0"})
+get_room(22, 17):exit("down"):set_state({description = "<b:red>Red stairs lead down to the unknown.</>"})

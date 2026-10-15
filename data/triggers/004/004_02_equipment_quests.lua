@@ -20,7 +20,7 @@ if string.find(arg, "equipment") then
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
     actor:send("<yellow>=====================================<==/>_")
     actor:send("<b:green>AVAILABLE QUESTS:</>_")
-    actor:send("<b:green>&uGuild Armor Phase One</>")
+    actor:send("<b:u:green>Guild Armor Phase One</>")
     actor:send("Crafters across Ethilien will ask you to bring them gems and junked up armor so they can fix it up and present you with something new.")
     actor:send("Your home guild master is always the best place to start.")
     actor:send("Min Level: 1")
@@ -31,7 +31,7 @@ if string.find(arg, "equipment") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uGuild Armor Phase Two</>")
+    actor:send("<b:u:green>Guild Armor Phase Two</>")
     actor:send("Crafters across Ethilien will ask you to bring them gems and junked up armor so they can fix it up and present you with something new.")
     actor:send("Min Level: 21")
     local status
@@ -41,7 +41,7 @@ if string.find(arg, "equipment") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uGuild Armor Phase Three</>")
+    actor:send("<b:u:green>Guild Armor Phase Three</>")
     actor:send("Crafters across Ethilien will ask you to bring them gems and junked up armor so they can fix it up and present you with something new.")
     actor:send("Min Level: 41")
     local status
@@ -52,7 +52,7 @@ if string.find(arg, "equipment") then
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if string.find(string.lower(sorcererclasses), actor.class, 1, true) then
-        actor:send("<b:green>&uAcid Wand</>")
+        actor:send("<b:u:green>Acid Wand</>")
         actor:send("Masters of earth will help you create and upgrade a new mystic weapon.")
         local status
         if actor:get_has_completed("acid_wand") then
@@ -63,7 +63,7 @@ if string.find(arg, "equipment") then
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        actor:send("<b:green>&uAir Wand</>")
+        actor:send("<b:u:green>Air Wand</>")
         actor:send("Masters of air will help you create and upgrade a new mystic weapon.")
         local status
         if actor:get_has_completed("air_wand") then
@@ -74,7 +74,7 @@ if string.find(arg, "equipment") then
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        actor:send("<b:green>&uFire Wand</>")
+        actor:send("<b:u:green>Fire Wand</>")
         actor:send("Masters of fire will help you create and upgrade a new mystic weapon.")
         local status
         if actor:get_has_completed("fire_wand") then
@@ -85,7 +85,7 @@ if string.find(arg, "equipment") then
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        actor:send("<b:green>&uIce Wand</>")
+        actor:send("<b:u:green>Ice Wand</>")
         actor:send("Masters of ice and water will help you create and upgrade a new mystic weapon.")
         local status
         if actor:get_has_completed("ice_wand") then
@@ -98,7 +98,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if string.find(actor.class, "assassin") then
-        actor:send("<b:green>&uDeadly Promotion</>")
+        actor:send("<b:u:green>Deadly Promotion</>")
         actor:send("Assassins who have proven to be efficient bounty hunters can work their way up in the Guild to earn special masks.")
         local status
         if actor:get_has_completed("assassin_mask") then
@@ -112,7 +112,7 @@ if string.find(arg, "equipment") then
     end
     if string.find(actor.class, "priest") or string.find(actor.class, "cleric") then
         actor:send("Clerics and priests can make pilgrimages to various spiritual masters to craft weapons to smite the undead.")
-        actor:send("<b:green>&uSpirit Maces</>")
+        actor:send("<b:u:green>Spirit Maces</>")
         local status
         if actor:get_has_completed("phase_mace") then
             status = "Completed!"
@@ -124,7 +124,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if string.find(actor.class, "paladin") or actor.class == "anti-paladin" then
-        actor:send("<b:green>&uDivine Devotion</>")
+        actor:send("<b:u:green>Divine Devotion</>")
         actor:send("Prove your devotion to your cause after slaying a dragon, be it justtice or destruction, and receive a divine reward.")
         local status
         if actor:get_has_completed("paladin_pendant") then
@@ -137,7 +137,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if string.find(string.lower(hunterclasses), actor.class, 1, true) then
-        actor:send("<b:green>&uEye of the Tiger</>")
+        actor:send("<b:u:green>Eye of the Tiger</>")
         actor:send("Mighty warriors who have bested the biggest beasts can further prove their skills to earn special trophies.")
         local status
         if actor:get_has_completed("ranger_trophy") then
@@ -150,7 +150,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if string.find(actor.class, "thief") or string.find(actor.class, "rogue") or string.find(actor.class, "bard") then
-        actor:send("<b:green>&uCloak and Shadow</>")
+        actor:send("<b:u:green>Cloak and Shadow</>")
         actor:send("Work your way up the ranks of the cloak and dagger guilds.")
         local status
         if actor:get_has_completed("ranger_trophy") then
@@ -163,7 +163,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 25 then
-        actor:send("<b:green>&uIn Service of Lolth</>")
+        actor:send("<b:u:green>In Service of Lolth</>")
         actor:send("Carry out the bidding of the hideous Spider Queen and her malevolent servants.")
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("Recommended Level: 90")
@@ -177,7 +177,7 @@ if string.find(arg, "equipment") then
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        actor:send("<b:green>&uInfiltrate the Sacred Haven</>")
+        actor:send("<b:u:green>Infiltrate the Sacred Haven</>")
         actor:send("A shadowy figure lurks outside a holy fortress, intent on getting back what belongs to them.")
         actor:send("This quest is only available to neutral and evil-aligned characters.")
         actor:send("Recommended Level: 35")
@@ -190,7 +190,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 35 then
-        actor:send("<b:green>&uMystery of the Rhell Forest</>")
+        actor:send("<b:u:green>Mystery of the Rhell Forest</>")
         actor:send("Find the sick merchant in the Rhell Forest and help end his distress.")
         actor:send("Recommended Level: 45")
         local status
@@ -205,7 +205,7 @@ if string.find(arg, "equipment") then
     end
     if actor.level >= 45 then
         if string.find(actor.race, "Troll") then
-            actor:send("<b:green>&uTribal Trouble</>")
+            actor:send("<b:u:green>Tribal Trouble</>")
             actor:send("Trolls need to stick together!")
             actor:send("Return lost symbols of station and be greatly rewarded.")
             actor:send("Minimum Level: 55")
@@ -221,7 +221,7 @@ if string.find(arg, "equipment") then
         end
     end
     if actor.level >= 50 then
-        actor:send("<b:green>&uThe Great Rite</>")
+        actor:send("<b:u:green>The Great Rite</>")
         actor:send("A group of witches has uncovered a powerful set of massive standing stones.")
         actor:send("Help them with their mystic ritual.")
         actor:send("Recommended Level: 70")
@@ -237,7 +237,7 @@ if string.find(arg, "equipment") then
             status = "Not Started"
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-        actor:send("<b:green>&uPhoenix Sous Chef</>")
+        actor:send("<b:u:green>Phoenix Sous Chef</>")
         actor:send("Create the meal of a lifetime!")
         actor:send("Recommended Level: 90")
         actor:send("- This quest can be started at any level but level 90+ is the intended finishing point.")
@@ -252,7 +252,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 75 then
-        actor:send("<b:green>&uPower of Flame</>")
+        actor:send("<b:u:green>Power of Flame</>")
         actor:send("Reunite the flame to hold its power in your hand.")
         actor:send("Recommended Level: 85")
         actor:send("- This quest can be started at any level but requires level 85 to finish.")
@@ -268,7 +268,7 @@ if string.find(arg, "equipment") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 80 then
-        actor:send("<b:green>&uSunfire Rescue</>")
+        actor:send("<b:u:green>Sunfire Rescue</>")
         actor:send("Recover ancient relics and rescue a long-lost prisoner.")
         actor:send("This quest is only available to good-aligned characters.")
         actor:send("Recommended Level: 85")

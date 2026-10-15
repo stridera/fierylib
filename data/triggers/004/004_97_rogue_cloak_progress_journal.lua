@@ -18,7 +18,7 @@ if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "
         local job2 = actor:get_quest_var("rogue_cloak:cloaktask2")
         local job3 = actor:get_quest_var("rogue_cloak:cloaktask3")
         local job4 = actor:get_quest_var("rogue_cloak:cloaktask4")
-        actor:send("<b:green>&uCloak and Dagger</>")
+        actor:send("<b:u:green>Cloak and Dagger</>")
         local level
         if (cloakstage or 0) == 0 then
             level = 10

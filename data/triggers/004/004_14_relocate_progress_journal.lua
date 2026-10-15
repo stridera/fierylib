@@ -18,7 +18,7 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
     if (string.find(string.lower(relocateclasses), actor.class, 1, true)) and actor.level >= 60 then
         _return_value = true
         local stage = actor:get_quest_stage("relocate_spell_quest")
-        actor:send("<b:green>&uRelocate</>")
+        actor:send("<b:u:green>Relocate</>")
         actor:send("Minimum Level: 65")
         local status
         if actor:get_has_completed("relocate_spell_quest") then

@@ -17,7 +17,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
     actor:send("<yellow>=====================================<==/>_")
     actor:send("<b:green>AVAILABLE QUESTS:</>_")
-    actor:send("<b:green>&uTwisted Sorrow</>")
+    actor:send("<b:u:green>Twisted Sorrow</>")
     actor:send("Can you heal the sorrows of the Twisted Forest?")
     actor:send("Recommended Level: 10")
     local status
@@ -29,7 +29,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uCombat in Eldoria</>")
+    actor:send("<b:u:green>Combat in Eldoria</>")
     actor:send("The Third Black Legion and the Eldorian Guard, along with their allies in Split Skull and the Abbey, are locked in eternal warfare.")
     actor:send("Characters may align themselves with the forces of good or the forces of evil.")
     actor:send("But beware, once made that decision cannot be changed!")
@@ -41,7 +41,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uThe Finale</>")
+    actor:send("<b:u:green>The Finale</>")
     actor:send("Defeat wild monkeys, recover keys, and help the theatre troupe perform their fiery Finale!")
     actor:send("Recommended Level: 10")
     local status
@@ -52,7 +52,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     if actor.level >= 10 then
-        actor:send("<b:green>&uThe Horrors of Nukreth Spire</>")
+        actor:send("<b:u:green>The Horrors of Nukreth Spire</>")
         actor:send("Slay the gnolls of Nukreth Spire and liberate their captives.")
         actor:send("Multiple outcomes and multiple rewards await!")
         actor:send("This quest is infinitely repeatable.")
@@ -66,7 +66,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 35 then
-        actor:send("<b:green>&uLiberate Fiery Island</>")
+        actor:send("<b:u:green>Liberate Fiery Island</>")
         actor:send("Save Fiery Island from the usurping demigod.")
         actor:send("Minimum Level: 55")
         actor:send("- Some rewards can be received starting at level 35.")
@@ -81,7 +81,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 30 then
-        actor:send("<b:green>&uTower in the Wastes</>")
+        actor:send("<b:u:green>Tower in the Wastes</>")
         actor:send("Help the injured halfling find his brother!")
         actor:send("Recommended Level: 40")
         local status
@@ -95,7 +95,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 35 then
-        actor:send("<b:green>&uSiege Mystwatch Fortress</>")
+        actor:send("<b:u:green>Siege Mystwatch Fortress</>")
         actor:send("The dead fortify their position just outside the town of Mielikki.")
         actor:send("Stop them before they can invade!")
         actor:send("Recommended Level: 45")
@@ -108,7 +108,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 45 then
-        actor:send("<b:green>&uDestroy the Cult of the Griffin</>")
+        actor:send("<b:u:green>Destroy the Cult of the Griffin</>")
         actor:send("A sect of griffin-worshiping cultists has invaded a druid enclave in the middle of the Arabel Ocean.")
         actor:send("Smash the cult before they achieve their nefarious goals!")
         actor:send("Recommended Level: 60")
@@ -123,7 +123,7 @@ if string.find(arg, "adventure") or string.find(arg, "adventures") then
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
     end
     if actor.level >= 85 then
-        actor:send("<b:green>&uThe Planes of Doom</>")
+        actor:send("<b:u:green>The Planes of Doom</>")
         actor:send("Prepare yourself to leave the Prime Material Plane for the elemental planes!")
         actor:send("This quest begins your voyage through the outer planes to banish Lokari, God of the Moonless night.")
         actor:send("Minimum Level: 85")

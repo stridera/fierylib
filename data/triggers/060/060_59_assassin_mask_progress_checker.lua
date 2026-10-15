@@ -164,18 +164,18 @@ if actor.class == "assassin" then
     end
     if not job1 then
         local remaining = attack - actor:get_quest_var("assassin_mask:attack_counter")
-        actor:send("- attack &9<blue>" .. tostring(remaining) .. "</> more times while wearing your mask.")
+        actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your mask.")
     end
     if not job2 then
         -- TODO(parity): DG %get.obj_shortdesc[%mask%]% — needs (zone, local) split.
-        actor:send("- find &9<blue>object id " .. tostring(mask) .. "</>")
+        actor:send("- find <b:black>object id " .. tostring(mask) .. "</>")
     end
     if not job3 then
         -- TODO(parity): DG %get.obj_shortdesc[%gem%]% — needs (zone, local) split.
-        actor:send("- find &9<blue>object id " .. tostring(gem) .. "</>")
+        actor:send("- find <b:black>object id " .. tostring(gem) .. "</>")
     end
     if not job4 then
-        actor:send("- &9<blue>hide in a place called \"&9<blue>" .. tostring(place) .. "</>\".")
-        actor:send("</>   It's &9<blue>" .. tostring(hint) .. "</>")
+        actor:send("- <b:black>hide in a place called \"<b:black>" .. tostring(place) .. "</>\".")
+        actor:send("</>   It's <b:black>" .. tostring(hint) .. "</>")
     end
 end

@@ -13,7 +13,7 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
     if actor.level >= 75 and string.find(actor.class, "druid") then
         _return_value = true
         local stage = actor:get_quest_stage("creeping_doom")
-        actor:send("<b:green>&uCreeping Doom</>")
+        actor:send("<b:u:green>Creeping Doom</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("creeping_doom") then

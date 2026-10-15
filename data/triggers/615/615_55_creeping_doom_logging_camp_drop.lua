@@ -20,11 +20,11 @@ if object.zone_id == 615 and object.local_id == 18 then
     if actor:get_quest_stage("creeping_doom") == 4 then
         actor:advance_quest("creeping_doom")
     end
-    self.room:send("&9<blue>The " .. tostring(objects.template(615, 18).name) .. " bursts open in a flood of insects!</>")
+    self.room:send("<b:black>The " .. tostring(objects.template(615, 18).name) .. " bursts open in a flood of insects!</>")
     wait(0.2)
-    zone.echo(87, "<blue>&9An endless wave of crawling </><red>arachnoids<blue>&9 and </><green>insects<blue>&9 pours through the camp consuming everything in sight!</>")
+    zone.echo(87, "<b:black>An endless wave of crawling </><red>arachnoids<b:black> and </><green>insects<b:black> pours through the camp consuming everything in sight!</>")
     wait(1)
-    zone.echo(87, "<blue>&9Screams pierce the quiet of the camp as everything is swallowed by a blanket of death!</>")
+    zone.echo(87, "<b:black>Screams pierce the quiet of the camp as everything is swallowed by a blanket of death!</>")
 
     -- Spared NPCs in the camp (zone 87 mob locals).
     local spare = { [8] = true, [10] = true, [11] = true, [14] = true }
@@ -35,7 +35,7 @@ if object.zone_id == 615 and object.local_id == 18 then
                 if person.is_npc and not spare[person.local_id] then
                     r:at(function()
                         person:damage(5000)
-                        r:send("<blue>&9An endless wave of crawling </><red>arachnoids<blue>&9 and </><green>insects<blue>&9 consumes " .. tostring(person.name) .. "!</>")
+                        r:send("<b:black>An endless wave of crawling </><red>arachnoids<b:black> and </><green>insects<b:black> consumes " .. tostring(person.name) .. "!</>")
                     end)
                     zone.echo(87, "Someone screams as he is consumed by an endless wave of crawling <red>arachnoids</> and <green>insects</>!")
                 end
@@ -43,5 +43,5 @@ if object.zone_id == 615 and object.local_id == 18 then
         end
         wait(0.2)
     end
-    zone.echo(87, "<blue>&9Eerie silence falls over the camp as the deluge of death subsides...</>")
+    zone.echo(87, "<b:black>Eerie silence falls over the camp as the deluge of death subsides...</>")
 end

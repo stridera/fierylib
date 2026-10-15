@@ -30,7 +30,7 @@ do
         actor:send(tostring(self.name) .. " says, 'Yes, you would need to show mastery over the fire.'")
         self:emote("pulls out his well-used thinking cap, and begins to think.")
         wait(2)
-        actor:send(tostring(self.name) .. " says, 'Bring me the three parts of flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.  I think we can talk again then.'")
+        actor:send(tostring(self.name) .. " says, 'Bring me the three parts of flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>.  I think we can talk again then.'")
         wait(3)
         actor:send(tostring(self.name) .. " says, 'Ask about your <b:red>[quest progress]</> if you need.'")
         wait(7)

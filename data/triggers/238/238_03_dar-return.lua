@@ -7,7 +7,7 @@
 if self.room ~= get_room(238, 92) then
     self:command("blink")
     wait(1)
-    self.room:send("&9<blue>Dargentan slowly fades out of existence and is gone.</>")
+    self.room:send("<b:black>Dargentan slowly fades out of existence and is gone.</>")
     self:teleport(get_room(238, 92))
     self.room:send("<b:white>Dargentan blinks into existence.</>")
 end

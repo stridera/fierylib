@@ -150,7 +150,7 @@ if reward == "yes" then
     wait(3)
     self.room:send_except(self, tostring(self.name) .. " rubs the earring with their wrinkly fingers and uncaps the vial of dragon's <red>blood</>.")
     wait(5)
-    self.room:send_except(self, tostring(self.name) .. " pours the vial onto the earring, which begins to release a thick black &9<blue>smoke</>.")
+    self.room:send_except(self, tostring(self.name) .. " pours the vial onto the earring, which begins to release a thick black <b:black>smoke</>.")
     wait(4)
     self.room:send_except(self, "The smoke clears and the blood has been dried and baked onto the earring, giving it a <b:red>red shine</>.")
     wait(4)

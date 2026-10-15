@@ -68,28 +68,28 @@ elseif z == 123 and lid == 5 then
     wandgem = 55644
     wandstep = 5
     wandtask3 = 12509
-    wandtask4 = "&7&bthe icy ledge outside Technitzitlan&0"
+    wandtask4 = "<b:white>the icy ledge outside Technitzitlan</>"
     wand_id = 303
 elseif z == 123 and lid == 4 then
     type = "fire"
     wandgem = 55639
     wandstep = 5
     wandtask3 = 12526
-    wandtask4 = "&1&bthe Lava Tunnels&0"
+    wandtask4 = "<b:red>the Lava Tunnels</>"
     wand_id = 313
 elseif z == 550 and lid == 13 then
     type = "ice"
     wandgem = 55640
     wandstep = 5
     wandtask3 = 58018
-    wandtask4 = "&6&bthe Arabel Ocean&0"
+    wandtask4 = "<b:cyan>the Arabel Ocean</>"
     wand_id = 323
 elseif z == 625 and lid == 3 then
     type = "acid"
     wandgem = 55647
     wandstep = 5
     wandtask3 = 16303
-    wandtask4 = "&9&bthe Northern Swamps&0"
+    wandtask4 = "<b:black>the Northern Swamps</>"
     wand_id = 333
 elseif z == 123 and lid == 2 then
     type = "air"

@@ -8,5 +8,5 @@
 -- Converted from DG Script #62581: facade wear trigger
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 wait(0.1)
-actor:send("&9<blue>Your skin hardens and turns to stone!</>")
-self.room:send_except(actor, "&9<blue>" .. tostring(actor.name) .. "'s skin hardens and turns to stone!")
+actor:send("<b:black>Your skin hardens and turns to stone!</>")
+self.room:send_except(actor, "<b:black>" .. tostring(actor.name) .. "'s skin hardens and turns to stone!")

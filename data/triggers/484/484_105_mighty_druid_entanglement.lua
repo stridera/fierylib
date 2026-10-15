@@ -122,7 +122,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
     self.room:send_except(victim, "<green>A crop of wriggling roots bursts from the ground, entangling " .. tostring(victim.name) .. "!</>")
     victim:send("<green>A crop of wriggling roots bursts from the ground, entangling you!</>")
     -- declare paralysis message
-    local message = "&2The roots lock you in place, preventing movement!&0"
+    local message = "<green>The roots lock you in place, preventing movement!</>"
     globals.message = globals.message or true
     -- create a basher to force the player into a bashed stance
     if (victim.size == "Small") or (victim.size == "Tiny") then

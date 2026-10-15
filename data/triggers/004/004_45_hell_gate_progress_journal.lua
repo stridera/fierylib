@@ -13,7 +13,7 @@ if string.find(arg, "hell gate") or string.find(arg, "hell_gate") then
         _return_value = true
         local stage = actor:get_quest_stage("hell_gate")
         local master = mobiles.template(564, 0).name
-        actor:send("<b:green>&uHell Gate</>")
+        actor:send("<b:u:green>Hell Gate</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("hell_gate") then

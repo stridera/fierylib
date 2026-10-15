@@ -15,7 +15,7 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
         local stage = actor:get_quest_stage("phase_mace")
         local minlevel = stage * 10
         actor:send("Clerics and priests can make pilgrimages to various spiritual masters to craft weapons to smite the undead.")
-        actor:send("<b:green>&uSpirit Maces</>")
+        actor:send("<b:u:green>Spirit Maces</>")
         if not actor:get_has_completed("phase_mace") then
             actor:send("Minimum Level: " .. tostring(minlevel))
         end

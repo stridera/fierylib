@@ -30,9 +30,9 @@ if actor.is_player then
     end
     wait(0.1)
     self.room:send(tostring(self.name) .. " says, '</>Ahh Thankyou! You will not be disappointed.</>'")
-    self.room:send(tostring(self.name) .. " says, '</>I have one of the fastest </><blue>&9stallions</> in the land for you!'")
+    self.room:send(tostring(self.name) .. " says, '</>I have one of the fastest </><b:black>stallions</> in the land for you!'")
     wait(0.2)
-    self.room:send("</>A <yellow>horse</> trainer leads a fine looking <blue>&9stallion</> into the room.")
+    self.room:send("</>A <yellow>horse</> trainer leads a fine looking <b:black>stallion</> into the room.")
     self.room:spawn_mobile(324, 23)
     wait(0.2)
     self.room:send("</>A horse trainer gets under you and pushes you up into the saddle.</>")

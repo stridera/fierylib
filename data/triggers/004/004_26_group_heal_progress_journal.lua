@@ -13,7 +13,7 @@ if string.find(arg, "group heal") or string.find(arg, "heal") or string.find(arg
         if string.find(actor.class, "priest") or string.find(actor.class, "cleric") or string.find(actor.class, "diabolist") then
             _return_value = true
             local stage = actor:get_quest_stage("group_heal")
-            actor:send("<b:green>&uGroup Heal</>")
+            actor:send("<b:u:green>Group Heal</>")
             actor:send("Minimum Level: 57")
             local status
             if actor:get_has_completed("group_heal") then

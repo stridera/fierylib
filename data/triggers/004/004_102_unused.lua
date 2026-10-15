@@ -15,7 +15,7 @@ if string.find(arg, "tremors") or string.find(arg, "tremors of saint augustine")
         local visionstage = actor:get_quest_stage("monk_vision")
         local master = mobiles.template(53, 8).name
         local level = 30
-        actor:send("<b:green>&uTremors of Saint Augustine</>")
+        actor:send("<b:u:green>Tremors of Saint Augustine</>")
         actor:send("Minimum Level: " .. tostring(level))
         local status
         if chantstage > 1 then

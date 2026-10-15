@@ -21,7 +21,7 @@ if actor.level > 10 then
         actor:send("<magenta>Diabolist</>")
         check = "yes"
     elseif string.find(arg, "Necromancer") and string.find(actor.class, "sorcerer") and actor.level <= 45 and not (string.find(necromancerraces, actor.race)) then
-        actor:send("&9<blue>Necromancer</>")
+        actor:send("<b:black>Necromancer</>")
         check = "yes"
     end
     if check == "yes" then

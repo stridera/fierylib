@@ -12,7 +12,7 @@ if string.find(arg, "siege") or string.find(arg, "mystwatch") or string.find(arg
     if actor.level >= 35 then
         _return_value = true
         local stage = actor:get_quest_stage("mystwatch_quest")
-        actor:send("<b:green>&uSiege Mystwatch Fortress</>")
+        actor:send("<b:u:green>Siege Mystwatch Fortress</>")
         actor:send("Recommended Level: 45")
         local status
         if (stage or 0) > 0 then

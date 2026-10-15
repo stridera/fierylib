@@ -12,7 +12,7 @@ if string.find(arg, "waterform") then
     if string.find(actor.class, "cryomancer") and actor.level >= 65 then
         _return_value = true
         local stage = actor:get_quest_stage("waterform")
-        actor:send("<b:green>&uWaterform</>")
+        actor:send("<b:u:green>Waterform</>")
         actor:send("Minimum Level: 73")
         local status
         if actor:get_has_completed("waterform") then

@@ -18,7 +18,7 @@ if string.find(actor.class, "warrior") then
     --   "Your race may not subclass to berserker." Restricted race list TBD.
     wait(0.2)
     if actor.level >= 10 and actor.level <= 25 then
-        actor:send(tostring(self.name) .. " says, 'Aye, you have the mettle of the most fearsome of all warriors, a &9<blue>ber<red>ser&9ker</>!'")
+        actor:send(tostring(self.name) .. " says, 'Aye, you have the mettle of the most fearsome of all warriors, a <b:black>ber<red>ser<black>ker</>!'")
         wait(2)
         actor:send(tostring(self.name) .. " says, 'Do you think you have what it takes?'")
     elseif actor.level < 10 then

@@ -24,20 +24,20 @@ local holding
 local direction
 -- switch on actor:get_quest_stage("school")
 if stage == 1 then
-    lesson = "&3&bCOMMUNICATION&0, &3&bGEAR&0, and &3&bEXPLORATION&0"
+    lesson = "<b:yellow>COMMUNICATION</>, <b:yellow>GEAR</>, and <b:yellow>EXPLORATION</>"
     holding = 0
     direction = "east"
     self:command("unlock gates")
     self:command("open gates")
 elseif stage == 2 then
-    lesson = "&3&bHIT POINTS&0 and &3&bSCORE&0"
+    lesson = "<b:yellow>HIT POINTS</> and <b:yellow>SCORE</>"
     holding = 9
     direction = "east"
 elseif stage == 3 or stage == 4 then
     if stage == 3 then
-        lesson = "&3&bCOMBAT&0"
+        lesson = "<b:yellow>COMBAT</>"
     elseif stage == 4 then
-        lesson = "&3&bLOOT&0 and &3&bTOGGLES&0"
+        lesson = "<b:yellow>LOOT</> and <b:yellow>TOGGLES</>"
     end
     -- switch on actor.class
     local class_lower = string.lower(tostring(actor.class or ""))
@@ -55,11 +55,11 @@ elseif stage == 3 or stage == 4 then
     end
     holding = 8
 elseif stage == 5 then
-    lesson = "&3&bRESTING&0 and &3&bMONEY&0"
+    lesson = "<b:yellow>RESTING</> and <b:yellow>MONEY</>"
     holding = 10
     direction = "east"
 elseif stage == 6 then
-    lesson = "&3&bLEVELING&0"
+    lesson = "<b:yellow>LEVELING</>"
     holding = 10
     direction = "east"
 end

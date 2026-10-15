@@ -18,5 +18,5 @@ if not (cmd == "Rock" or cmd == "well" or cmd == "demon") then
     return true  -- Not our command
 end
 self.room:spawn_object(12, 3)
-self.room:send("The &9<blue>Nexus</> <red>Cloak</> &9<blue>Pin</> beings to <b:blue>gl<b:cyan>ow</> mysteriously then fades back to normal.")
+self.room:send("The <b:black>Nexus</> <red>Cloak</> <b:black>Pin</> beings to <b:blue>gl<b:cyan>ow</> mysteriously then fades back to normal.")
 world.destroy(self)

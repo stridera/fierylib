@@ -18,7 +18,7 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
         if minlevel < 1 then
             minlevel = 1
         end
-        actor:send("<b:green>&uFire Wand</>")
+        actor:send("<b:u:green>Fire Wand</>")
         actor:send("Masters of fire will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("fire_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
@@ -74,7 +74,7 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                     hint = "A master of fire near the megalith in South Caelia will be able to help next."
                     wandgem = 55639
                     wandtask3 = 12526
-                    wandtask4 = "&1&bthe Lava Tunnels&0"
+                    wandtask4 = "<b:red>the Lava Tunnels</>"
                 elseif tonumber(_sw1) == 6 then
                     master = mobiles.template(238, 11).name
                     hint = "A seraph crafts with the power of the sun and sky.  It can be found in the floating fortress in South Caelia."

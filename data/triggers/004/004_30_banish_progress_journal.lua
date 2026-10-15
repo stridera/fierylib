@@ -14,7 +14,7 @@ if string.find(arg, "banish") then
         _return_value = true
         local stage = actor:get_quest_stage("banish")
         local master = mobiles.template(302, 16).name
-        actor:send("<b:green>&uBanish</>")
+        actor:send("<b:u:green>Banish</>")
         actor:send("Minimum Level: 65")
         local status
         if actor:get_has_completed("banish") then

@@ -13,7 +13,7 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
     if string.find(actor.class, "cleric") or string.find(actor.class, "priest") or string.find(actor.class, "diabolist") and actor.level >= 75 then
         _return_value = true
         local stage = actor:get_quest_stage("resurrection_quest")
-        actor:send("<b:green>&uResurrection</>")
+        actor:send("<b:u:green>Resurrection</>")
         actor:send("Minimum Level: 81")
         local status
         if actor:get_has_completed("resurrection_quest") then
@@ -157,7 +157,7 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
         end
         if stage >= 4 and not actor:get_has_completed("resurrection_quest") then
             actor:send("</>")
-            actor:send("If you need a new talisman, return to Norisent and say &9<blue>\"I need a new talisman\"</>.")
+            actor:send("If you need a new talisman, return to Norisent and say <b:black>\"I need a new talisman\"</>.")
         end
     end
 end

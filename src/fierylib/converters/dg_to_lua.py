@@ -18,6 +18,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+from fierylib.converters.color_converter import convert_legacy_colors
 from fierylib.parsers.trigger_parser import DGTrigger
 
 
@@ -87,27 +88,6 @@ def vnum_to_zone_and_local(vnum: int) -> tuple[int, int]:
     return zone_id, local_id
 
 
-# Color code conversions (DG/CircleMUD to FieryMUD markup)
-COLOR_CODES = {
-    '&0': '</>', '&n': '</>', '&N': '</>',
-    '&1': '<red>', '&2': '<green>', '&3': '<yellow>', '&4': '<blue>',
-    '&5': '<magenta>', '&6': '<cyan>', '&7': '<white>', '&8': '<black>',
-    '&r': '<red>', '&R': '<b:red>',
-    '&g': '<green>', '&G': '<b:green>',
-    '&y': '<yellow>', '&Y': '<b:yellow>',
-    '&b': '<blue>', '&B': '<b:blue>',
-    '&m': '<magenta>', '&M': '<b:magenta>',
-    '&c': '<cyan>', '&C': '<b:cyan>',
-    '&w': '<white>', '&W': '<b:white>',
-    '&k': '<black>', '&K': '<gray>',
-    '&d': '</>', '&D': '</>',
-    '@n': '</>', '@r': '<red>', '@g': '<green>', '@y': '<yellow>',
-    '@b': '<blue>', '@m': '<magenta>', '@c': '<cyan>', '@w': '<white>',
-    '@R': '<b:red>', '@G': '<b:green>', '@Y': '<b:yellow>',
-    '@B': '<b:blue>', '@M': '<b:magenta>', '@C': '<b:cyan>', '@W': '<b:white>',
-}
-
-
 @dataclass
 class LuaTrigger:
     """Converted Lua trigger ready for database import"""
@@ -129,29 +109,95 @@ class LuaTrigger:
         return vnum_to_zone_and_local(self.vnum)[1]
 
 
-def convert_colors(text: str) -> str:
-    """Convert DG Script color codes to FieryMUD markup."""
-    result = text
-
-    # Handle bold combinations like &6&b (bold cyan)
-    result = re.sub(r'&([1-7])&b', lambda m: f'<b:{_color_name(m.group(1))}>', result)
-    result = re.sub(r'&b&([1-7])', lambda m: f'<b:{_color_name(m.group(1))}>', result)
-
-    # Convert individual color codes (longer codes first)
-    for code, markup in sorted(COLOR_CODES.items(), key=lambda x: -len(x[0])):
-        result = result.replace(code, markup)
-
-    # Clean up any remaining & followed by non-letter (like &&)
-    result = re.sub(r'&([^a-zA-Z0-9])', r'\1', result)
-
-    return result
+def _lua_string(s: str) -> str:
+    return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def _color_name(num: str) -> str:
-    """Map color number to name."""
-    colors = {'1': 'red', '2': 'green', '3': 'yellow', '4': 'blue',
-              '5': 'magenta', '6': 'cyan', '7': 'white', '8': 'black'}
-    return colors.get(num, 'white')
+def dg_word_list(arg: str) -> list[str]:
+    """Legacy word_check list: space separated words, or "double quoted phrases" (delimited_arg), lowercased."""
+    out: list[str] = []
+    i, n = 0, len(arg)
+    while i < n:
+        while i < n and arg[i].isspace():
+            i += 1
+        if i >= n:
+            break
+        if arg[i] == '"':
+            j = arg.find('"', i + 1)
+            j = n if j < 0 else j
+            word = arg[i + 1:j]
+            i = j + 1
+        else:
+            j = i
+            while j < n and not arg[j].isspace():
+                j += 1
+            word = arg[i:j]
+            i = j
+        if word:
+            out.append(word.lower())
+    return out
+
+
+def speech_gate_lines(arg: str, num_arg: int) -> list[str]:
+    """Lua lines for a SPEECH / SPEECH_TO trigger's keyword test.
+
+    dg_triggers.cpp: num_arg != 0 -> word_check (the speech contains one word or "quoted phrase" of
+    the arg as a whole word, case-insensitive); num_arg == 0 -> the speech contains the whole arg as a
+    phrase. A leading `*` (or an empty arg) matches every speech. The needles are lowercase (the engine
+    also lowercases `speech` before the script sees it).
+    """
+    arg = arg.strip()
+    if not arg or arg.startswith('*'):
+        return []
+    if num_arg == 0:
+        return [
+            f'-- Speech phrase: {arg} (DG num_arg 0 = the speech contains the phrase)',
+            f'if not string.find(string.lower(speech), {_lua_string(arg.lower())}, 1, true) then',
+            '    return true  -- Not the phrase',
+            'end',
+            '',
+        ]
+    words = dg_word_list(arg)
+    if not words:
+        return []
+    items = ", ".join(_lua_string(w) for w in words)
+    return [
+        f'-- DG word list (num_arg {num_arg}): the speech must contain one of these as a whole word or phrase.',
+        'local speech_padded = " " .. string.lower(speech) .. " "',
+        'local speech_hit = false',
+        f'for _, w in ipairs({{{items}}}) do',
+        '    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then',
+        '        speech_hit = true',
+        '        break',
+        '    end',
+        'end',
+        'if not speech_hit then',
+        '    return true  -- None of the listed words',
+        'end',
+        '',
+    ]
+
+
+def convert_colors(text: str, carry: bool = False) -> str:
+    """Convert DG Script colour codes to FieryMUD markup.
+
+    Uses the importer's converter (color_converter.convert_legacy_colors), so `&3&b` is bold yellow,
+    `&9` black, `&u` underline and `&0` a reset, exactly like room and mob text. The old table here
+    read `&b` as blue, which turned `&9&b` (bold black) into the stray `&9<blue>`.
+    """
+    # Legacy DG text only uses &0-&9, &b, &u, &n (reset) and &d. &8 is black, &n a reset. Any other
+    # `&` is a literal ampersand; escape it so the colour converter does not swallow the next char.
+    text = text.replace('&n', '&0').replace('&8', '&9')
+    text = re.sub(r'&&|&(?![0-9bud_])', lambda m: '&&', text)
+    if not carry:
+        return convert_legacy_colors(text)
+    # `carry`: the text is one piece of a larger string (a `set` value later concatenated into a
+    # message). Codes that colour nothing here, or a colour still open at the end, must survive so
+    # they apply to what follows; the converter would drop the first and close the second.
+    out = convert_legacy_colors(text + '\x00').replace('\x00</>', '\x00').replace('\x00', '')
+    if text.startswith('&0') and not out.startswith('</>'):
+        out = '</>' + out  # closes the colour the previous piece left open
+    return out
 
 
 def _vnum_to_composite(vnum: str) -> str:
@@ -1846,6 +1892,8 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
             pass  # Keep numeric value
         # Otherwise, quote it as a string
         else:
+            if '&' in value:
+                value = convert_colors(value, carry=True)  # e.g. set lesson &3&bCOMBAT&0
             value = value.replace('\\', '\\\\').replace('"', '\\"')
             value = f'"{value}"'
         decl = _var_decl(var_name, declared_vars, value)
@@ -2548,8 +2596,14 @@ def convert_trigger(dg: DGTrigger) -> LuaTrigger:
     # percent_chance gate: a "3%" torch trigger would fire 3% of the time.
     command_only = 'COMMAND' in dg.flags and set(dg.flags) <= {'COMMAND', 'GLOBAL'}
 
+    # SPEECH / SPEECH_TO: the numeric argument is the word-list mode, not a chance, and
+    # the arg is the word list (dg_triggers.cpp speech_mtrigger / word_check).
+    speech_only = bool(set(dg.flags) & {'SPEECH', 'SPEECH_TO'}) and set(dg.flags) <= {'SPEECH', 'SPEECH_TO', 'GLOBAL'}
+
     # Probability check
-    if command_only:
+    if speech_only:
+        header_lines.extend(speech_gate_lines(dg.arg_string, dg.probability))
+    elif command_only:
         if dg.script_type.name == 'OBJECT':
             header_lines.extend(command_location_guard(dg.probability))
     elif dg.probability < 100:
@@ -2574,8 +2628,8 @@ def convert_trigger(dg: DGTrigger) -> LuaTrigger:
                 '',
             ])
 
-    # SPEECH trigger keyword check
-    if 'SPEECH' in dg.flags and dg.arg_string:
+    # Mixed speech + other types (e.g. RANDOM + SPEECH): keep the loose keyword filter.
+    if not speech_only and ({'SPEECH', 'SPEECH_TO'} & set(dg.flags)) and dg.arg_string:
         keywords = dg.arg_string.split()
         if keywords:
             checks = ' or '.join([f'string.find(string.lower(speech), "{kw.lower()}")' for kw in keywords])

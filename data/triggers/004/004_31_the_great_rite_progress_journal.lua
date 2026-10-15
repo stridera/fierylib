@@ -21,7 +21,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
         local job2 = actor:get_quest_var("megalith_quest:item2")
         local job3 = actor:get_quest_var("megalith_quest:item3")
         local job4 = actor:get_quest_var("megalith_quest:item4")
-        actor:send("<b:green>&uThe Great Invocation</>")
+        actor:send("<b:u:green>The Great Invocation</>")
         actor:send("A group of witches has uncovered a powerful set of massive standing stones.")
         actor:send("Help them with their mystic ritual.")
         actor:send("Recommended Level: 70")
@@ -71,7 +71,7 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                     receive4 = mobiles.template(123, 3).name
                     item4 = objects.template(550, 20).name
                     if job1 and job2 and job3 and job4 then
-                        task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0\""
+                        task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"<b:white>Under the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!</>\""
                     else
                         task = "Visit the Keepers and call the elements"
                         master = nil
@@ -87,11 +87,11 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                     local summon = actor:get_quest_var("megalith_quest:summon")
                     local invoke = actor:get_quest_var("megalith_quest:invoke")
                     if prayer == 1 then
-                        task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
+                        task = "Return to " .. tostring(master) .. " and say, \"<b:white>Great Lady of the Stars, hear our prayer!</>\""
                     elseif summon == 1 or summon == 2 or summon == 3 then
-                        task = "Return to " .. tostring(master) .. " and say, \"&7&bWe summon and stir thee!&0\""
+                        task = "Return to " .. tostring(master) .. " and say, \"<b:white>We summon and stir thee!</>\""
                     elseif invoke == 1 or invoke == 2 or invoke == 3 then
-                        task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
+                        task = "Return to " .. tostring(master) .. " and say, \"<b:white>We invoke thee!</>\""
                     end
                 elseif tonumber(_sw1) == 5 then
                     task = "Kneel before the High Mother to receive Her blessing."

@@ -22,7 +22,7 @@ if stage == 1 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'However, I am sure it is in you, if it is truly your desire, to complete this <b:red>quest</> and become a pyromancer.'")
 elseif stage == 2 then
-    actor:send(tostring(self.name) .. " says, 'Are you ready to finish listening now?  I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.'")
+    actor:send(tostring(self.name) .. " says, 'Are you ready to finish listening now?  I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>.'")
     wait(2)
     self:command("frown")
     actor:send(tostring(self.name) .. " says, 'But one of them was taken from my <b:red>control</>.'")

@@ -37,7 +37,7 @@ if string.find(speech, "wizard eye") or string.find(speech, "the shaman sent me"
         wait(1)
         actor:send(tostring(self.name) .. " says, 'You need three varieties.'")
         wait(2)
-        actor:send(tostring(self.name) .. " says, 'Two varieties of roses grow in Mielikki, one <red>red</> and one &9<blue>black</>.  Bring back one of each.'")
+        actor:send(tostring(self.name) .. " says, 'Two varieties of roses grow in Mielikki, one <red>red</> and one <b:black>black</>.  Bring back one of each.'")
         wait(3)
         actor:send(tostring(self.name) .. " says, 'A third kind is carried by serpents in Dargentan's sky tower.  Even though it's <b:blue>made of sapphire</> which is not the best for divination, it'll lend extra potency to the attunement process.'")
         wait(4)

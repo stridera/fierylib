@@ -15,7 +15,7 @@
 -- and enraged form 62550) is exempt; high-level (>=100) chars
 -- are exempt as well.
 local ursa = self.room:find_actor("Ursa")
-self.room:send_except(ursa, "&9<blue>Ursa makes your frame quake with a vicious <red>ROOOOOAAAAAARRRRRR!</>")
+self.room:send_except(ursa, "<b:black>Ursa makes your frame quake with a vicious <red>ROOOOOAAAAAARRRRRR!</>")
 for _, target in ipairs(self.actors) do
     local is_ursa = (target.zone_id == 625 and (target.local_id == 7 or target.local_id == 50))
     if not is_ursa and target.level < 100 then

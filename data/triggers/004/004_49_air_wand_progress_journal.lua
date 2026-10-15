@@ -18,7 +18,7 @@ if (string.find(arg, "air") and (string.find(arg, "wand") or string.find(arg, "w
         if minlevel < 1 then
             minlevel = 1
         end
-        actor:send("<b:green>&uAir Wand</>")
+        actor:send("<b:u:green>Air Wand</>")
         actor:send("Masters of air will help you create and upgrade a new mystic weapon.")
         if not actor:get_has_completed("air_wand") then
             actor:send("Minimum Level: " .. tostring(minlevel))
@@ -73,7 +73,7 @@ if (string.find(arg, "air") and (string.find(arg, "wand") or string.find(arg, "w
                     hint = "A master of air near the megalith in South Caelia will be able to help next."
                     wandgem = 55644
                     wandtask3 = 12509
-                    wandtask4 = "&7&bthe icy ledge outside Technitzitlan&0"
+                    wandtask4 = "<b:white>the icy ledge outside Technitzitlan</>"
                 elseif tonumber(_sw1) == 6 then
                     master = mobiles.template(123, 2).name
                     wandgem = 55665

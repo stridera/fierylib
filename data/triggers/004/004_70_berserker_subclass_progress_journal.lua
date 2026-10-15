@@ -13,7 +13,7 @@ if actor.level > 10 then
     local berserkerraces = "none"
     if string.find(arg, "Berserker") and string.find(actor.class, "warrior") and actor.level <= 25 and not (string.find(berserkerraces, actor.race)) then
         _return_value = true
-        actor:send("&9<blue>Berserker</>")
+        actor:send("<b:black>Berserker</>")
         actor:send("Quest Master: " .. tostring(mobiles.template(364, 30).name))
         actor:send("</>")
         actor:send("Minimum Level: 10")

@@ -14,7 +14,7 @@ if string.find(arg, "moonwell") or string.find(arg, "moonwell_spell_quest") then
         _return_value = true
         local stage = actor:get_quest_stage("moonwell_spell_quest")
         local master = mobiles.template(163, 16).name
-        actor:send("<b:green>&uMoonwell</>")
+        actor:send("<b:u:green>Moonwell</>")
         actor:send("Minimum Level: 73")
         local status
         if actor:get_has_completed("moonwell_spell_quest") then

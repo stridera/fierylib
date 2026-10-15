@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #2224: nezer-death
 -- Original: MOB trigger, flags: DEATH, probability: 100%
-self.room:send("&9<blue>The giant black dragon collapses to the ground with a mighty thunder!</>")
+self.room:send("<b:black>The giant black dragon collapses to the ground with a mighty thunder!</>")
 run_room_trigger(22, 25)

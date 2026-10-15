@@ -1,17 +1,10 @@
 -- Trigger: megalith_quest_keeper_speech
 -- Zone: 123, ID: 14
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
--- Status: NEEDS_REVIEW
+-- Status: CLEAN
 --
--- TODO(parity): the converter mangled a `switch on self.id` block of four
--- per-Keeper bodies (North 12303, South 12304, East 12305, West 12306)
--- into a chain of `if get_quest_var(direction) == 0 then ... elseif self.id == X`
--- blocks. The empty-then-elseif shape means most branches are unreachable.
--- A hand rewrite is needed: under stage 2 + affirmative speech, dispatch
--- on self.id and gate on the corresponding direction quest var.
--- Also _return_value is used without being declared.
--- self.id checks use legacy 5-digit vnums (12303..12306) instead of
--- self.local_id (3..6 in zone 123).
+-- Rewritten per DG #12314: the DG vnum switch -> dispatch on self.id (3 north, 4 south, 5 east, 6 west),
+-- each keeper only speaks while its own quest variable is still 0.
 --
 -- Original DG Script: #12314
 
@@ -32,13 +25,11 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("megalith_quest") == 2 then
-    if speech == "yes" or speech == "sure" or string.find(speech, "I will") or string.find(speech, "I can") then
-        -- switch on self.id
-        -- 
-        -- North - get ring from Tech
-        -- 
-        if actor:get_quest_var("megalith_quest:north") == 0 then
-            if (self.zone_id == 123 and self.id == 3) then
+    if speech == "yes" or speech == "sure" or string.find(speech, "i will", 1, true) or string.find(speech, "i can", 1, true) then
+        -- switch on self.id (keepers: 3 north, 4 south, 5 east, 6 west)
+        if self.zone_id == 123 and self.id == 3 then
+            -- North - get ring from Tech
+            if actor:get_quest_var("megalith_quest:north") == 0 then
                 self:say("Thank you very kindly.")
                 wait(0.5)
                 self.room:send(tostring(self.name) .. " says, 'Far to the north, there is a civilization dedicated to the Great Snow Leopard.  There, they make <green>rings of simple granite</> which grant their constructs powerful mystic protection.  Such energies should make an ideal offering to the Earth Spirits.  Please retrieve one for me.'")
@@ -48,13 +39,11 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self.room:send("</>so please start with <b:yellow>" .. tostring(mobiles.template(123, 5).name) .. "</>.'")
                 self:command("bow " .. tostring(actor.name))
                 actor:set_quest_var("megalith_quest", "north", 1)
-                return _return_value
+                return
             end
-            -- 
+        elseif self.zone_id == 123 and self.id == 4 then
             -- South - Fiery Eye from Vulcera
-            -- 
             if actor:get_quest_var("megalith_quest:south") == 0 then
-            elseif (self.zone_id == 123 and self.id == 4) then
                 self:say("Excellent.")
                 wait(0.4)
                 self.room:send(tostring(self.name) .. " says, 'There is an island in the sea where fires of the deep meet the outer world, ruled by a demigoddess.  My people know her magic to be the ultimate blending of divine spark and protean fire.  She carries <b:red>a jewel that burns with that same fire</>.  If you can retrieve it, I believe that would be the perfect offering to the Spirits of Fire.'")
@@ -66,13 +55,11 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 wait(2)
                 self:command("nod " .. tostring(actor.name))
                 self:say("Good hunting.")
-                return _return_value
+                return
             end
-            -- 
+        elseif self.zone_id == 123 and self.id == 5 then
             -- East - cumulus bracelet
-            -- 
             if actor:get_quest_var("megalith_quest:east") == 0 then
-            elseif (self.zone_id == 123 and self.id == 5) then
                 self:say("Hurray!")
                 self:command("clap")
                 wait(1)
@@ -94,13 +81,11 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self:say("Why are you still standing here?!")
                 wait(0.2)
                 self:say("Go!  Go!")
-                return _return_value
+                return
             end
-            -- 
+        elseif self.zone_id == 123 and self.id == 6 then
             -- West - Spring Water
-            -- 
             if actor:get_quest_var("megalith_quest:west") == 0 then
-            elseif (self.zone_id == 123 and self.id == 6) then
                 self:say("Wonderful!")
                 wait(2)
                 self:say("As a creature of the Dreaming, my magic is especially fueled by energies that thin the veil between the worlds.")
@@ -117,7 +102,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self.room:send("</><b:yellow>East</>, <red>South</>, <b:cyan>West</>, <b:green>North</>")
                 self.room:send("</>So please start with <b:yellow>" .. tostring(mobiles.template(123, 5).name) .. "</>.'")
                 self:command("curtsy " .. tostring(actor.name))
-                return _return_value
+                return
             end
         end
     elseif speech == "no" then

@@ -16,7 +16,7 @@ if string.find(arg, "contract") or string.find(arg, "killers") or string.find(ar
     local target1 = actor:get_quest_var("bounty_hunt:target1")
     local target2 = actor:get_quest_var("bounty_hunt:target2")
     local target3 = actor:get_quest_var("bounty_hunt:target3")
-    actor:send("<b:green>&uContract Killers</>")
+    actor:send("<b:u:green>Contract Killers</>")
     -- switch on stage
     local victim1
     local victim2

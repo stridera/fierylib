@@ -37,7 +37,7 @@ if actor:get_quest_stage("flood") == 1 then
         -- for Blue-Fog River and Lake
         -- 
         if (room.zone_id == 28 and zone <= 110) then
-            local color = "&4"
+            local color = "<blue>"
             local spirit = mobiles.template(390, 13).name
             if world.count_mobiles(390, 13) == 0 and not actor:get_quest_var("flood:water1") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -49,7 +49,7 @@ if actor:get_quest_stage("flood") == 1 then
             -- for Phoenix Feather Hot Springs
             -- 
         elseif (room.zone_id == 103 and zone == 14) or (room.zone_id == 103 and zone == 16) or (room.zone_id == 103 and zone >= 18 and zone <= 35) then
-            local color = "&6"
+            local color = "<cyan>"
             local spirit = mobiles.template(390, 14).name
             if world.count_mobiles(390, 14) == 0 and not actor:get_quest_var("flood:water2") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -61,7 +61,7 @@ if actor:get_quest_stage("flood") == 1 then
             -- for Canyon - multiple lines because one is too long
             -- 
         elseif (room.zone_id == 178 and zone == 2) or (room.zone_id == 178 and zone >= 11 and zone <= 13) or (room.zone_id == 178 and zone == 16) or (room.zone_id == 178 and zone == 17) or (room.zone_id == 178 and zone >= 23 and zone <= 27) then
-            local color = "&4&b"
+            local color = "<b:blue>"
             local spirit = mobiles.template(390, 15).name
             if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -70,7 +70,7 @@ if actor:get_quest_stage("flood") == 1 then
                 self.room:send(tostring(color) .. "A three-faced humanoid figure rises from the water.</>")
             end
         elseif (room.zone_id == 178 and zone == 34) or (room.zone_id == 178 and zone >= 39 and zone <= 41) or (room.zone_id == 178 and zone == 47) or (room.zone_id == 178 and zone == 50) or (room.zone_id == 178 and zone >= 53 and zone <= 56) then
-            local color = "&4&b"
+            local color = "<b:blue>"
             local spirit = mobiles.template(390, 15).name
             if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -79,7 +79,7 @@ if actor:get_quest_stage("flood") == 1 then
                 self.room:send(tostring(color) .. "A three-faced humanoid figure rises from the water.</>")
             end
         elseif (room.zone_id == 178 and zone == 62) or (room.zone_id == 178 and zone == 67) then
-            local color = "&4&b"
+            local color = "<b:blue>"
             local spirit = mobiles.template(390, 15).name
             if world.count_mobiles(390, 15) == 0 and not actor:get_quest_var("flood:water3") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -91,7 +91,7 @@ if actor:get_quest_stage("flood") == 1 then
             -- for Greengreen Sea
             -- 
         elseif (room.zone_id == 362 and zone <= 31) then
-            local color = "&2"
+            local color = "<green>"
             local spirit = mobiles.template(390, 16).name
             if world.count_mobiles(390, 16) == 0 and not actor:get_quest_var("flood:water4") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -103,12 +103,12 @@ if actor:get_quest_stage("flood") == 1 then
             -- for SeaWitch
             -- 
         elseif (room.zone_id == 411 and zone <= 142) then
-            local color = "&4&b"
+            local color = "<b:blue>"
             local spirit = mobiles.template(390, 17).name
             actor:send("Watery song whispers in your ear, " .. tostring(color) .. "'The Sea Witch must be removed before I may</>")
             actor:send("</>" .. tostring(color) .. "speak to thee...  Call to me from the bottom of the sea...'</>")
         elseif (room.zone_id == 411 and zone == 143) then
-            local color = "&4&b"
+            local color = "<b:blue>"
             local spirit = mobiles.template(390, 17).name
             if world.count_mobiles(411, 19) == 0 then
                 if world.count_mobiles(390, 17) == 0 and not actor:get_quest_var("flood:water5") then
@@ -125,7 +125,7 @@ if actor:get_quest_stage("flood") == 1 then
             -- for Frost Valley - two lines
             -- 
         elseif (room.zone_id == 534 and zone >= 38 and zone <= 40) or (room.zone_id == 534 and zone >= 45 and zone <= 49) or (room.zone_id == 534 and zone == 52) or (room.zone_id == 534 and zone == 55) or (room.zone_id == 534 and zone == 56) or (room.zone_id == 534 and zone == 64) then
-            local color = "&7&b"
+            local color = "<b:white>"
             local spirit = mobiles.template(390, 18).name
             if world.count_mobiles(390, 18) == 0 and not actor:get_quest_var("flood:water6") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -134,7 +134,7 @@ if actor:get_quest_stage("flood") == 1 then
                 self.room:send(tostring(color) .. "A willowy white woman rises from the lake.</>")
             end
         elseif (room.zone_id == 534 and zone == 67) or (room.zone_id == 534 and zone == 68) or (room.zone_id == 534 and zone >= 72 and zone <= 75) or (room.zone_id == 534 and zone == 81) or (room.zone_id == 534 and zone == 82) then
-            local color = "&7&b"
+            local color = "<b:white>"
             local spirit = mobiles.template(390, 18).name
             if world.count_mobiles(390, 18) == 0 and actor:get_quest_var("flood:water6") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -146,7 +146,7 @@ if actor:get_quest_stage("flood") == 1 then
             -- for Black Lake
             -- 
         elseif (room.zone_id == 564 and zone >= 2 and zone <= 4) or (room.zone_id == 564 and zone >= 6 and zone <= 31) or (room.zone_id == 370 and zone == 72) then
-            local color = "&9&b"
+            local color = "<b:black>"
             local spirit = mobiles.template(390, 19).name
             if world.count_mobiles(390, 19) == 0 and not actor:get_quest_var("flood:water7") then
                 self.room:send("<cyan>" .. tostring(self.shortdesc) .. " shimmers with pale light!</>")
@@ -158,7 +158,7 @@ if actor:get_quest_stage("flood") == 1 then
             -- for KoD
             -- 
         elseif (room.zone_id == 584 and zone >= 111 and zone <= 119) then
-            local color = "&6&b"
+            local color = "<b:cyan>"
             local spirit = mobiles.template(390, 20).name
             if time.hour > 19 or time.hour < 5 then
                 if world.count_mobiles(390, 20) == 0 and not actor:get_quest_var("flood:water8") then
@@ -173,9 +173,9 @@ if actor:get_quest_stage("flood") == 1 then
         end
         wait(1)
         if string.find(arg, "the arabel ocean calls for aid") then
-            self.room:find_actor("spirit"):command("mecho %spirit% says, color%'Why does the ocean call for aid?'&0")
+            self.room:find_actor("spirit"):command("mecho %spirit% says, color%'Why does the ocean call for aid?'")
         else
-            self.room:find_actor("spirit"):command("mecho %spirit% says, color%'Do you have what I asked for?'&0")
+            self.room:find_actor("spirit"):command("mecho %spirit% says, color%'Do you have what I asked for?'")
         end
     end
 end

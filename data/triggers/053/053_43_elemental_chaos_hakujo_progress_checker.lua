@@ -162,7 +162,7 @@ if string.find(actor.class, "monk") then
         else
             if not job1 then
                 local remaining = attack - actor:get_quest_var("monk_vision:attack_counter")
-                actor:send("- attack &9<blue>" .. tostring(remaining) .. "</> more times while wearing your vision mark.")
+                actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your vision mark.")
             end
             if not job4 then
                 actor:send("- take <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</> and <b:yellow>%get.obj_shortdesc[%book%]%</> and <b:yellow>read</> in a place called \"<b:yellow>%place%</>\".")

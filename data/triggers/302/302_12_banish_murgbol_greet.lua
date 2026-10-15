@@ -78,8 +78,8 @@ if string.find(class_lower, "priest") or string.find(class_lower, "diabolist") t
                 self.room:send(tostring(self.name) .. " says, 'The gods of light will have you undertake the next step and")
                 self.room:send("</>prove mastery over demonic energy.'")
                 wait(1)
-                self.room:send(tostring(self.name) .. " says, 'Far to the north in Frost Valley, there is a &9<blue>demon corrupting</>")
-                self.room:send("</>&9<blue>the world around it</> through its very presence.  Exorcise it from Ethilien and")
+                self.room:send(tostring(self.name) .. " says, 'Far to the north in Frost Valley, there is a <b:black>demon corrupting</>")
+                self.room:send("</><b:black>the world around it</> through its very presence.  Exorcise it from Ethilien and")
                 self.room:send("</>receive the reward of the gods, then return here.'")
             elseif stage == 6 then
                 self.room:send(tostring(self.name) .. " says, 'The gods of light are satisfied.")

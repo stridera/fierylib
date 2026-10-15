@@ -72,7 +72,7 @@ do
             end
         end
     elseif (self.zone_id == 390 and self.id == 14) then
-        local color = "&6"
+        local color = "<cyan>"
         if stage == 1 then
             if (object.zone_id == 584 and object.id == 1) then
                 self:destroy_item("feather")
@@ -93,7 +93,7 @@ do
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
         end
     elseif (self.zone_id == 390 and self.id == 16) then
-        local color = "&2"
+        local color = "<green>"
         if stage == 1 then
             if object.type == "FOOD" then
                 if actor:get_quest_var("flood:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
@@ -139,7 +139,7 @@ do
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
         end
     elseif (self.zone_id == 390 and self.id == 19) then
-        local color = "&9&b"
+        local color = "<b:black>"
         if stage == 1 then
             if object.type == "LIGHT" then
                 if object.val1 == -1 then

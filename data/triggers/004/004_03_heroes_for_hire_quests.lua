@@ -15,7 +15,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
     actor:send("<b:yellow>[Look]</> at the key words in a quest title for your current status.")
     actor:send("<yellow>=====================================<==/>_")
     actor:send("<b:green>AVAILABLE QUESTS:</>_")
-    actor:send("<b:green>&uBeast Masters</>")
+    actor:send("<b:u:green>Beast Masters</>")
     actor:send("Battle the most ferocious animals on Ethilien, mundane and magical alike.")
     actor:send("This quest spans from level 1 to 90.")
     local status
@@ -27,7 +27,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uContract Killers</>")
+    actor:send("<b:u:green>Contract Killers</>")
     actor:send("Sow some chaos by taking out key figures across the world.")
     actor:send("This quest spans from level 1 to 90.")
     local status
@@ -39,7 +39,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uDragon Slayers</>")
+    actor:send("<b:u:green>Dragon Slayers</>")
     actor:send("Take on those most awe-inspiring of creatures: the dragons!")
     actor:send("This quest spans from level 5 to 90.")
     local status
@@ -51,7 +51,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uTreasure Hunter</>")
+    actor:send("<b:u:green>Treasure Hunter</>")
     actor:send("Delve deep for legendary treasures!")
     actor:send("This quest spans from level 1 to 90.")
     local status
@@ -63,7 +63,7 @@ if string.find(arg, "heroes") or string.find(arg, "hire") then
         status = "Not Started"
     end
     actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
-    actor:send("<b:green>&uElemental Chaos</>")
+    actor:send("<b:u:green>Elemental Chaos</>")
     actor:send("Disperse the forces of Chaos and restore Balance to Ethilien.")
     actor:send("This quest spans from level 1 to 90.")
     local status

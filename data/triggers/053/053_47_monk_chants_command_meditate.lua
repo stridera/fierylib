@@ -41,8 +41,8 @@ if (self.zone_id == 18 and self.id == 7) then
     if actor:has_equipped(2, 193) or actor:has_equipped(2, 194) or actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&3The power of the earth begins to flow through your fists!&0"
-    text2 = "&3You have learned Tremors of Saint Augustine.&0"
+    text1 = "<yellow>The power of the earth begins to flow through your fists!</>"
+    text2 = "<yellow>You have learned Tremors of Saint Augustine.</>"
     local chant = "tremors of saint augustine"
 elseif (self.zone_id == 125 and self.id == 8) then
     visionstage = 4
@@ -52,8 +52,8 @@ elseif (self.zone_id == 125 and self.id == 8) then
     if actor:has_equipped(2, 194) or actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&4&bThe power of the storm begins to flow through your fists!&0"
-    text2 = "&4&bYou have learned Tempest of Saint Augustine.&0"
+    text1 = "<b:blue>The power of the storm begins to flow through your fists!</>"
+    text2 = "<b:blue>You have learned Tempest of Saint Augustine.</>"
     local chant = "tempest of saint augustine"
 elseif (self.zone_id == 550 and self.id == 3) then
     visionstage = 5
@@ -63,8 +63,8 @@ elseif (self.zone_id == 550 and self.id == 3) then
     if actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&6&bThe power of ice begins to flow through your fists!&0"
-    text2 = "&6&bYou have learned Blizzards of Saint Augustine.&0"
+    text1 = "<b:cyan>The power of ice begins to flow through your fists!</>"
+    text2 = "<b:cyan>You have learned Blizzards of Saint Augustine.</>"
     local chant = "blizzards of saint augustine"
 elseif (self.zone_id == 550 and self.id == 4) then
     visionstage = 6
@@ -74,8 +74,8 @@ elseif (self.zone_id == 550 and self.id == 4) then
     if actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&bReverberating from the walls are the discordant words of power!&0"
-    text2 = "&bYou have learned Aria of Dissonance.&0"
+    text1 = "<b>Reverberating from the walls are the discordant words of power!</>"
+    text2 = "<b>You have learned Aria of Dissonance.</>"
     local chant = "aria of dissonance"
 elseif (self.zone_id == 490 and self.id == 66) then
     visionstage = 7
@@ -85,8 +85,8 @@ elseif (self.zone_id == 490 and self.id == 66) then
     if actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&5The roaring of the dead forms into a chant!&0"
-    text2 = "&5You have learned Apocalyptic Anthem.&0"
+    text1 = "<magenta>The roaring of the dead forms into a chant!</>"
+    text2 = "<magenta>You have learned Apocalyptic Anthem.</>"
     local chant = "apocalyptic anthem"
 elseif (self.zone_id == 238 and self.id == 26) then
     visionstage = 8
@@ -96,8 +96,8 @@ elseif (self.zone_id == 238 and self.id == 26) then
     if actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&1&bThe power of fire begins to flow through your fists!&0"
-    text2 = "&1&bYou have learned Fires of Saint Augustine.&0"
+    text1 = "<b:red>The power of fire begins to flow through your fists!</>"
+    text2 = "<b:red>You have learned Fires of Saint Augustine.</>"
     local chant = "fires of saint augustine"
 elseif (self.zone_id == 480 and self.id == 37) then
     visionstage = 9
@@ -107,8 +107,8 @@ elseif (self.zone_id == 480 and self.id == 37) then
     if actor:has_equipped(2, 199) then
         mark = "yes"
     end
-    text1 = "&9&bThe chant to engender catastrophe echoes from the altar!&0"
-    text2 = "&9&bYou have learned Seed of Destruction.&0"
+    text1 = "<b:black>The chant to engender catastrophe echoes from the altar!</>"
+    text2 = "<b:black>You have learned Seed of Destruction.</>"
     local chant = "seed of destruction"
 end
 if actor:get_quest_stage("monk_vision") > visionstage and actor:get_quest_stage("monk_chants") == "chantstage" and actor.level >= level and actor.room == "place" then

@@ -16,7 +16,7 @@ for _, person in ipairs(self:get_people()) do
         if person:has_effect(Effect.Stone) then
             damage = damage / 2
         end
-        self.room:send("<blue>&9The mighty druid sends out an endless wave of crawling </><red>arachnoids<blue>&9 and </><green>insects<blue>&9 to consume his foes!</> (<b:red>" .. tostring(damage) .. "</>)")
+        self.room:send("<b:black>The mighty druid sends out an endless wave of crawling </><red>arachnoids<b:black> and </><green>insects<b:black> to consume his foes!</> (<b:red>" .. tostring(damage) .. "</>)")
         local damage_dealt = person:damage(damage)  -- type: physical
     end
 end

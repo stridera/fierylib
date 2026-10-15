@@ -38,7 +38,7 @@ elseif stage == 4 then
     actor:send(self.name .. " says, 'Wonderful, this shows your true dedication to helping one of the brotherhood.'")
     self:command("grin")
     wait(0.2)
-    actor:send(self.name .. " says, 'Type &9<blue>'subclass'</> to proceed.'")
+    actor:send(self.name .. " says, 'Type <b:black>'subclass'</> to proceed.'")
     actor:complete_quest("monk_subclass")
 else
     actor:send(self.name .. " says, 'What a wonderful sash, thank you.'")

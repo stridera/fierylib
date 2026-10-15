@@ -31,11 +31,11 @@ do
         obj2 = objects.template(117, 4).name
         obj3 = objects.template(117, 7).name
         obj4 = objects.template(169, 6).name
-        step = "locate items that cast the spell &7&barmor&0"
+        step = "locate items that cast the spell <b:white>armor</>"
     elseif tonumber(_sw1) == 2 then
-        step = "replace my &7&bforging hammer&0"
+        step = "replace my <b:white>forging hammer</>"
     elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
-        step = "Take the forging hammer where light reaches deep underground and &7&b[commune]&0"
+        step = "Take the forging hammer where light reaches deep underground and <b:white>[commune]</>"
     elseif tonumber(_sw1) == 5 then
         step = "find a suitable amulet to be the focus of this spell"
         item1 = actor:get_quest_var("group_armor:12500")

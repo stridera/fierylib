@@ -13,7 +13,7 @@
 
 -- Converted from DG Script #6391: Herlequin volcano trigger 1
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
-self.room:send("A blast of &9<blue>smoke</> and a burst of <b:red>flame</> charges into the air!")
+self.room:send("A blast of <b:black>smoke</> and a burst of <b:red>flame</> charges into the air!")
 wait(0.5)
 self.room:send("As the smoke clears a figure appears.")
 wait(0.5)

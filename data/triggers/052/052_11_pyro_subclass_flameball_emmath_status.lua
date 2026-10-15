@@ -33,7 +33,7 @@ elseif actor:get_quest_stage("pyromancer_subclass") == 2 then
     actor:send(tostring(self.name) .. " says, 'Well, part of the essence of fire is no longer under my power.'")
     self:emote("shakes his head sadly.")
     wait(2)
-    actor:send(tostring(self.name) .. " says, 'I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.'")
+    actor:send(tostring(self.name) .. " says, 'I once controlled all three parts of the flame: <b:white>White</>, <blue>Gray</>, and <b:black>Black</>.'")
     wait(2)
     self:command("frown")
     actor:send(tostring(self.name) .. " says, 'But one of them was taken from my <b:red>control</>.'")
@@ -51,13 +51,13 @@ elseif actor:get_quest_stage("pyromancer_subclass") == 3 or actor:get_quest_stag
     local part = actor:get_quest_var("pyromancer_subclass:part")
     local place
     if part == "white" then
-        place = "&bin some kind of mine&0"
+        place = "<b>in some kind of mine</>"
     elseif part == "black" then
-        place = "&bin some kind of temple&0"
+        place = "<b>in some kind of temple</>"
     elseif part == "gray" then
-        place = "&bnear some kind of hill&0"
+        place = "<b>near some kind of hill</>"
     else
-        place = "&bsomewhere out there&0"
+        place = "<b>somewhere out there</>"
     end
     actor:send(tostring(self.name) .. " says, 'Last I heard, it was <b:cyan>" .. tostring(place) .. "</>, or something of the like.'")
     if actor:get_has_completed("pyromancer_subclass") then

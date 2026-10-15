@@ -17,7 +17,7 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
     if (string.find(actor.class, "sorcerer") and actor.level >= 65) or (string.find(actor.class, "pyromancer") and actor.level >= 75) then
         _return_value = true
         local stage = actor:get_quest_stage("meteorswarm")
-        actor:send("<b:green>&uMeteorswarm</>")
+        actor:send("<b:u:green>Meteorswarm</>")
         if string.find(actor.class, "sorcerer") then
             actor:send("Minimum Level: 73")
         elseif string.find(actor.class, "pyromancer") then

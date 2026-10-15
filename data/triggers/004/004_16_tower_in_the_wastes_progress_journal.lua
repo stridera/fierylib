@@ -12,7 +12,7 @@ if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "
     if actor.level >= 30 then
         _return_value = true
         local stage = actor:get_quest_stage("krisenna_quest")
-        actor:send("<b:green>&uTower in the Wastes</>")
+        actor:send("<b:u:green>Tower in the Wastes</>")
         actor:send("Recommended Level: 40")
         local status
         if actor:get_has_completed("krisenna_quest") then

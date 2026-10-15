@@ -68,7 +68,7 @@ else
         self.room:send("<b:white>A maid in waiting speaks a word of divine consecration!</>")
     else
         self.room:send("A maid in waiting utters the words, 'ebparl xafm'.")
-        self.room:send("<blue>&9A maid in waiting speaks a word of demonic sacrilege!</>")
+        self.room:send("<b:black>A maid in waiting speaks a word of demonic sacrilege!</>")
     end
     for _, person in ipairs(self:get_people()) do
         if (person.zone_id ~= 489) and (person.level < 100) then
@@ -99,8 +99,8 @@ else
                         self.room:send_except(person, "<b:white>" .. tostring(person.name) .. " cries out in anguish upon hearing the maid's blessing!</> (<blue>" .. tostring(damage) .. "</>)")
                         person:send("<b:white>You cry out in anguish upon hearing the maid's blessing!</> (<b:red>" .. tostring(damage) .. "</>)")
                     else
-                        self.room:send_except(person, "<blue>&9" .. tostring(person.name) .. " screams in torment upon hearing the maid's curse!</> (<blue>" .. tostring(damage) .. "</>)")
-                        person:send("<blue>&9You scream in torment upon hearing the maid's curse!</> (<b:red>" .. tostring(damage) .. "</>)")
+                        self.room:send_except(person, "<b:black>" .. tostring(person.name) .. " screams in torment upon hearing the maid's curse!</> (<blue>" .. tostring(damage) .. "</>)")
+                        person:send("<b:black>You scream in torment upon hearing the maid's curse!</> (<b:red>" .. tostring(damage) .. "</>)")
                     end
                     person:damage(damage)  -- type: physical
                 end
