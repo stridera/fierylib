@@ -41,7 +41,7 @@ if arg == "glass" or arg == "case" then
         actor:send("You smash the glass with " .. tostring(item.shortdesc) .. " and the dusty case shatters into small pieces on the ground.")
         self.room:send_except(actor, tostring(actor.name) .. " smashes the glass with " .. tostring(item.shortdesc) .. " and the dusty case shatters into small pieces on the ground.")
     else
-        actor:damage(150)  -- type: slash
+        local damage_dealt = actor:damage(150)  -- type: slash
         if damage_dealt ~= 0 then
             actor:send("You smash the glass with your bare hands, shattering the glass and slicing your hands. (<b:yellow>" .. tostring(damage_dealt) .. "</>)")
             self.room:send_except(actor, tostring(actor.name) .. " smashes the glass with " .. tostring(actor.possessive) .. " bare hands, shattering the glass and slicing deep grooves into " .. tostring(actor.possessive) .. " hands. (<b:yellow>" .. tostring(damage_dealt) .. "</>)")

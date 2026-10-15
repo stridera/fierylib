@@ -25,6 +25,7 @@
 -- before it can be relied on. Left mostly as-is to preserve diff context.
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local spell1, spell2, step
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"trident", "upgrades"}) do
@@ -63,18 +64,18 @@ if (hellstep or 0) > 0 then
                 end
             end
         elseif (self.zone_id == 60 and self.id == 32) then
-            local step = 1
-            local spell1 = actor:get_has_completed("hellfire_brimstone")
-            local spell2 = actor:get_has_completed("banish")
+            step = 1
+            spell1 = actor:get_has_completed("hellfire_brimstone")
+            spell2 = actor:get_has_completed("banish")
             if not actor:get_quest_var("hell_trident:helltask6") then
                 if actor:get_quest_stage("vilekka_stew") > 3 then
                     actor:set_quest_var("hell_trident", "helltask6", 1)
                 end
             end
         elseif (self.zone_id == 125 and self.id == 26) then
-            local step = 2
-            local spell1 = actor:get_has_completed("resurrection_quest")
-            local spell2 = actor:get_has_completed("hell_gate")
+            step = 2
+            spell1 = actor:get_has_completed("resurrection_quest")
+            spell2 = actor:get_has_completed("hell_gate")
         end
     end
     if hellstage == "phase" then

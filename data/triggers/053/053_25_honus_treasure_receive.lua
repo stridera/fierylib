@@ -13,6 +13,7 @@
 
 -- Converted from DG Script #5325: Honus treasure receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+local accept, refuse
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 local stage
@@ -61,31 +62,31 @@ while i >= a do
         if person:get_quest_stage("treasure_hunter") == "stage" then
             if person:get_quest_var("treasure_hunter:hunt") == "found" then
                 person:set_quest_var("treasure_hunter", "hunt", "returned")
-                local accept = 1
-                local refuse = 0
+                accept = 1
+                refuse = 0
             elseif actor:get_quest_var("treasure_hunter:hunt") == "running" then
                 if accept then
-                    local refuse = 0
+                    refuse = 0
                 else
-                    local refuse = 1
+                    refuse = 1
                 end
             elseif actor:get_quest_var("treasure_hunter:hunt") == "returned" then
                 if accept then
-                    local refuse = 0
+                    refuse = 0
                 else
-                    local refuse = 2
+                    refuse = 2
                 end
             elseif actor:get_quest_stage("treasure_hunter") > stage then
                 if accept then
-                    local refuse = 0
+                    refuse = 0
                 else
-                    local refuse = 2
+                    refuse = 2
                 end
             elseif actor:get_quest_stage("treasure_hunter") < stage then
                 if accept then
-                    local refuse = 0
+                    refuse = 0
                 else
-                    local refuse = 3
+                    refuse = 3
                 end
             end
         end

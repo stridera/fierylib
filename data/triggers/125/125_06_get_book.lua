@@ -8,7 +8,7 @@
 -- Converted from DG Script #12506: Get_Book
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local _return_value = true  -- Default: allow action
-actor:damage(100)  -- type: slash
+local damage_dealt = actor:damage(100)  -- type: slash
 if damage_dealt == 0 then
     _return_value = false
 else

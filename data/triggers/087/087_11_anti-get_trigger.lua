@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor.size == "tiny" or actor.size == "small" or actor.size == "medium" or actor.size == "large" or actor.size == "huge" then
-    actor:damage(50)  -- type: crush
+    local damage_dealt = actor:damage(50)  -- type: crush
     if damage_dealt ~= 0 then
         actor:send("Your back buckles and pain shoots though you joints! (<b:red>" .. tostring(damage_dealt) .. "</>)")
         actor:send("You just can't hold that much weight!")

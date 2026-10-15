@@ -12,6 +12,7 @@
 
 -- Converted from DG Script #428: Supernova progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local clue2, clue3, clue5, clue4
 local _return_value = true  -- Default: allow action
 if string.find(arg, "supernova") or string.find(arg, "nova") then
     if actor.level >= 85 and string.find(actor.class, "pyromancer") then
@@ -53,7 +54,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 actor:send("Find further clues to Phayla's whereabouts.")
                 actor:send("</>")
                 -- switch on actor:get_quest_var("supernova:step4")
-                local clue2
+                clue2 = nil
                 if (actor:get_quest_var("supernova:step4") or 0) == 18577 then
                     clue2 = "I continue my journey where the sun rises amidst a sea of swirling worlds."
                     -- The Abbey, the rising sun room
@@ -68,7 +69,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 actor:send("Find yet another clue to Phayla's whereabouts.")
                 actor:send("</>")
                 -- switch on actor:get_quest_var("supernova:step5")
-                local clue3
+                clue3 = nil
                 if (actor:get_quest_var("supernova:step5") or 0) == 53219 then
                     clue3 = "Where DID the lizard men get that throne from?  I'll see if I can find out."
                     -- Lizard King's throne room, Sunken
@@ -86,7 +87,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 -- switch on actor:get_quest_var("supernova:step6")
                 if (actor:get_quest_var("supernova:step6") or 0) == 58657 then
                     -- A Hummock of Grass in the Beachhead
-                    local clue4
+                    clue4 = nil
                     if (step7 or 0) == 1 then
                         clue4 = "s pfqzqgc wq kecwk qy xug fwinlugev"
                     elseif (step7 or 0) == 2 then
@@ -96,7 +97,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                     end
                 elseif (actor:get_quest_var("supernova:step6") or 0) == 35119 then
                     -- A Pile of Stones in the Brush Lands
-                    local clue4
+                    clue4 = nil
                     if (step7 or 0) == 1 then
                         clue4 = "s xtpr qj kbzrru mf bsi otykp weafw"
                     elseif (step7 or 0) == 2 then
@@ -106,7 +107,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                     end
                 elseif (actor:get_quest_var("supernova:step6") or 0) == 55422 then
                     -- The Trail Overlooking the Falls in the dark mountains
-                    local clue4
+                    clue4 = nil
                     if (step7 or 0) == 1 then
                         clue4 = "lpp xecmd wgiensgstrt vlw nlpyu mf bsi qcvc uzyaveavd"
                     elseif (step7 or 0) == 2 then
@@ -117,7 +118,7 @@ if string.find(arg, "supernova") or string.find(arg, "nova") then
                 end
                 -- end clue4 switch
                 -- switch on step7
-                local clue5
+                clue5 = nil
                 if (step7 or 0) == 1 then
                     clue5 = "What disappears as soon as you say its name?"
                     -- Answer: Silence

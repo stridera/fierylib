@@ -8,6 +8,7 @@
 
 -- Converted from DG Script #419: Major Globe progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local wards_left, plant, mist, water, flame, ice
 local _return_value = true  -- Default: allow action
 if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(arg, "major_globe") or string.find(arg, "major_globe_spell") then
     local relocateclasses = "Sorcerer Cryomancer Pyromancer"
@@ -50,13 +51,13 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
                 local task = "Bring " .. tostring(objects.template(534, 52).name) .. " to " .. tostring(master) .. "."
             elseif stage == 8 then
                 local master = mobiles.template(534, 50).name
-                local plant = actor:get_quest_var("major_globe_spell:ward_53453")
-                local mist = actor:get_quest_var("major_globe_spell:ward_53454")
-                local water = actor:get_quest_var("major_globe_spell:ward_53455")
-                local flame = actor:get_quest_var("major_globe_spell:ward_53456")
-                local ice = actor:get_quest_var("major_globe_spell:ward_53457")
-                local wards_left = 5 - (actor:get_quest_var("major_globe_spell:ward_count") or 0)
-                local task = "Bring " .. tostring(master) .. " <b:yellow>wards_left more elemental wards</>, one each from a mist, a water, an ice, a flame, and a plant elemental."
+                plant = actor:get_quest_var("major_globe_spell:ward_53453")
+                mist = actor:get_quest_var("major_globe_spell:ward_53454")
+                water = actor:get_quest_var("major_globe_spell:ward_53455")
+                flame = actor:get_quest_var("major_globe_spell:ward_53456")
+                ice = actor:get_quest_var("major_globe_spell:ward_53457")
+                wards_left = 5 - (actor:get_quest_var("major_globe_spell:ward_count") or 0)
+                local task = "Bring " .. tostring(master) .. " <b:yellow>" .. tostring(wards_left) .. " more elemental wards</>, one each from a mist, a water, an ice, a flame, and a plant elemental."
             elseif stage == 9 then
                 local master = mobiles.template(534, 50).name
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")

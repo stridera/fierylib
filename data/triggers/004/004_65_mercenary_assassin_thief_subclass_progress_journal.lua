@@ -49,9 +49,9 @@ if actor.level > 10 then
                 if tonumber(_sw1) == 1 then
                     if questname == "mercenary" then
                         actor:send("He would pay well.  Yes, that Lord would pay well indeed.")
-                    elseif quest_name == "assassin" then
+                    elseif questname == "assassin" then
                         actor:send("Yes, that would bring a good price.")
-                    elseif quest_name == "thief" then
+                    elseif questname == "thief" then
                         actor:send("There is a package that someone could get back.")
                     end
                 elseif tonumber(_sw1) == 2 then
@@ -61,7 +61,7 @@ if actor.level > 10 then
                         actor:send("If you went and procured it, he would be grateful.")
                         actor:send("And if he is grateful, I would be as well, and your training would be finished._")
                         actor:send("It would be quite a payday for a cloak.")
-                    elseif quest_name == "thief" then
+                    elseif questname == "thief" then
                         actor:send("Some time ago it was sent and picked up by someone who should not have it._")
                         actor:send("Bloody farmers.")
                     elseif questname == "assassin" then

@@ -26,7 +26,7 @@ if which == 4 then
     actor:teleport(get_room(126, 8))
     actor:command("look")
 else
-    actor:damage(75)  -- type: fire
+    local damage_dealt = actor:damage(75)  -- type: fire
     if damage_dealt == 0 then
         _return_value = false
     else

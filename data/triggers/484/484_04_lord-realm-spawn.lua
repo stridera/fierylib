@@ -8,8 +8,9 @@
 -- Converted from DG Script #48404: lord-realm-spawn
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 -- This is for room 47658: The Heart of the Realm.
+local lord_loaded
 if not lord_loaded then
-    local lord_loaded = 1
+    lord_loaded = 1
     globals.lord_loaded = globals.lord_loaded or true
     wait(1)
     self.room:send("Before your eyes, a nondescript boulder molds itself into the image of a man of gigantic proportions.")

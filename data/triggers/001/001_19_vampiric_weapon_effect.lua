@@ -13,5 +13,5 @@ if not percent_chance(3) then
     return true
 end
 actor:send("A <b:black>black haze</> forms around your sword as you strike " .. tostring(victim.name) .. "!")
-victim:send("A <b:black>black haze</> forms around " .. tostring(actor.name) .. "'s sword as " .. tostring(heshe) .. " strikes you!")
+victim:send("A <b:black>black haze</> forms around " .. tostring(actor.name) .. "'s sword as " .. tostring(actor.heshe) .. " strikes you!")
 spells.cast(self, "vampiric breath", victim, actor.level)

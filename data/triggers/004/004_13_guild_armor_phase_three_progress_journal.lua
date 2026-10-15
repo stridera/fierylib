@@ -351,9 +351,9 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local done_body = (got_body or 0) == 1  and  (body_count or 0) == 3
         local given = (got_hands or 0) + (got_feet or 0) + (got_wrist or 0) + (got_head or 0) + (got_arms or 0) + (got_legs or 0) + (got_body or 0)
         given = given + (hands_count or 0) + (feet_count or 0) + (wrist_count or 0) + (head_count or 0) + (arms_count or 0) + (legs_count or 0) + (body_count or 0)
-        local unrewarded = ((got_hands or 0) + (hands_count or 0)  ~=  4) + ((got_feet or 0) + (feet_count or 0)  ~=  4) + ((got_wrist or 0) + (wrist_count or 0)  ~=  4)
-        unrewarded = unrewarded + ((got_head or 0) + (head_count or 0)  ~=  4) + ((got_arms or 0) + (arms_count or 0)  ~=  4)
-        unrewarded = unrewarded + ((got_legs or 0) + (legs_count or 0)  ~=  4) + ((got_body or 0) + (body_count or 0)  ~=  4)
+        local unrewarded = ((((got_hands or 0) + (hands_count or 0)) ~= 4) and 1 or 0) + ((((got_feet or 0) + (feet_count or 0)) ~= 4) and 1 or 0) + ((((got_wrist or 0) + (wrist_count or 0)) ~= 4) and 1 or 0)
+        unrewarded = unrewarded + ((((got_head or 0) + (head_count or 0)) ~= 4) and 1 or 0) + ((((got_arms or 0) + (arms_count or 0)) ~= 4) and 1 or 0)
+        unrewarded = unrewarded + ((((got_legs or 0) + (legs_count or 0)) ~= 4) and 1 or 0) + ((((got_body or 0) + (body_count or 0)) ~= 4) and 1 or 0)
         if done_hands and done_feet and done_wrist and done_head and done_arms and done_legs and done_body then
             actor:send("<cyan>Status: Completed</>")
             return _return_value
@@ -368,10 +368,10 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         actor:send("</>  " .. "%get.obj_shortdesc[%arms_armor%]% and 3 of %get.obj_shortdesc[%arms_gem%]%")
         actor:send("</>  " .. "%get.obj_shortdesc[%legs_armor%]% and 3 of %get.obj_shortdesc[%legs_gem%]%")
         actor:send("</>  " .. "%get.obj_shortdesc[%body_armor%]% and 3 of %get.obj_shortdesc[%body_gem%]%")
-        if not given then
+        if given == 0 then
             actor:send("You haven't retrieved anything yet.")
             return _return_value
-        elseif unrewarded then
+        elseif unrewarded > 0 then
             actor:send("You have found:")
         end
         if got_hands and not done_hands then

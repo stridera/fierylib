@@ -18,7 +18,7 @@ if string.find(actor.class, "pyr") then
     actor:send("Your hands are accustomed to the heat, making the key easy to handle.")
 end
 if burn == 1 then
-    actor:damage(50)  -- type: fire
+    local damage_dealt = actor:damage(50)  -- type: fire
     if damage_dealt ~= 0 then
         actor:send("OUCH!  You grab the key, but it's burning your hand! (<red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, tostring(actor.name) .. " yelps as the key burns " .. tostring(actor.possessive) .. " hand! (<red>" .. tostring(damage_dealt) .. "</>)")

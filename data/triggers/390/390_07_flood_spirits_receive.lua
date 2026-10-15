@@ -17,6 +17,7 @@
 --
 -- TODO: legacy vnum dispatch (self.id == 39012..39019, object.id == 39000,
 -- object.id == 58401). Replace with (zone, local_id) once confirmed.
+local color
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("flood")
 -- switch on self.id
@@ -72,7 +73,7 @@ do
             end
         end
     elseif (self.zone_id == 390 and self.id == 14) then
-        local color = "<cyan>"
+        color = "<cyan>"
         if stage == 1 then
             if (object.zone_id == 584 and object.id == 1) then
                 self:destroy_item("feather")
@@ -93,7 +94,7 @@ do
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
         end
     elseif (self.zone_id == 390 and self.id == 16) then
-        local color = "<green>"
+        color = "<green>"
         if stage == 1 then
             if object.type == "FOOD" then
                 if actor:get_quest_var("flood:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
@@ -139,7 +140,7 @@ do
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
         end
     elseif (self.zone_id == 390 and self.id == 19) then
-        local color = "<b:black>"
+        color = "<b:black>"
         if stage == 1 then
             if object.type == "LIGHT" then
                 if object.val1 == -1 then

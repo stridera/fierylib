@@ -274,7 +274,7 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
             actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_smace%]%</> for <magenta>%get.obj_shortdesc[%id_gem_smace%]%</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_smace) .. "_reward")) .. ")_")
         end
-        if statu < 160 then
+        if (status or 0) < 160 then
             actor:send("As your standing with the " .. tostring(legion) .. " improves you will have access to more rewards.")
         end
     else

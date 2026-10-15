@@ -17,6 +17,7 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
 -- Speech phrase: weapon progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local quest1, quest2, pl_word, spell1, spell2, task6, word, task6do, step
 local speech_padded = " " .. string.lower(speech) .. " "
 if not string.find(speech_padded, "[%s%p]weapon progress[%s%p]") then
     return true  -- Not the phrase
@@ -48,32 +49,32 @@ if string.find(actor.class, "diabolist") then
                     end
                 end
             elseif (self.zone_id == 60 and self.id == 32) then
-                local step = 1
+                step = 1
                 local gem = 55662
-                local pl_word = "angels"
-                local word = "angel"
-                local spell1 = "Hellfire and Brimstone"
-                local quest1 = actor:get_has_completed("hellfire_brimstone")
-                local spell2 = "Banish"
-                local quest2 = actor:get_has_completed("banish")
+                pl_word = "angels"
+                word = "angel"
+                spell1 = "Hellfire and Brimstone"
+                quest1 = actor:get_has_completed("hellfire_brimstone")
+                spell2 = "Banish"
+                quest2 = actor:get_has_completed("banish")
                 if not actor:get_quest_var("hell_trident:helltask6") and actor.level >= level and hellstage == 1 then
                     if actor:get_quest_stage("vilekka_stew") > 3 then
                         actor:set_quest_var("hell_trident", "helltask6", 1)
                     end
                 end
-                local task6 = "assisted Vilekka Kar'Shezden"
-                local task6do = "<b:yellow>Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.</>"
+                task6 = "assisted Vilekka Kar'Shezden"
+                task6do = "<b:yellow>Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.</>"
             elseif (self.zone_id == 125 and self.id == 26) then
-                local step = 2
+                step = 2
                 local gem = 55739
-                local pl_word = "ghaeles, solars, or seraphs"
-                local word = "ghaele, solar, or seraph"
-                local spell1 = "Resurrect"
-                local quest1 = actor:get_has_completed("resurrection_quest")
-                local spell2 = "Hell Gate"
-                local quest2 = actor:get_has_completed("hell_gate")
-                local task6 = "Defeated the Undead Prince"
-                local task6do = "find one long-buried and branded an infidel.  <b:yellow>Finish his undying duel for him</> as a sacrifice of honor."
+                pl_word = "ghaeles, solars, or seraphs"
+                word = "ghaele, solar, or seraph"
+                spell1 = "Resurrect"
+                quest1 = actor:get_has_completed("resurrection_quest")
+                spell2 = "Hell Gate"
+                quest2 = actor:get_has_completed("hell_gate")
+                task6 = "Defeated the Undead Prince"
+                task6do = "find one long-buried and branded an infidel.  <b:yellow>Finish his undying duel for him</> as a sacrifice of honor."
             end
         end
         if hellstage == "step" then

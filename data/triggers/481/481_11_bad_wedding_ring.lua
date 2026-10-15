@@ -10,7 +10,7 @@
 if not (actor.zone_id == 481 and actor.local_id == 5) then
     wait(0.2)
     self.room:send("The ivory ring flares brightly!")
-    actor:damage(100)  -- type: fire
+    local damage_dealt = actor:damage(100)  -- type: fire
     if damage_dealt ~= 0 then
         self.room:send_except(actor, tostring(actor.name) .. " shouts in surprise and pain. (<b:red>" .. tostring(damage_dealt) .. "</>)")
         if actor:has_item(self.zone_id, self.id) then

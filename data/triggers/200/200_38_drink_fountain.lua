@@ -22,7 +22,7 @@ _return_value = true
 allow_command()  -- the drink goes ahead; the choking below follows the wait
 wait(0.1)
 if actor.level < 99 then
-    actor:damage(50)  -- type: physical
+    local damage_dealt = actor:damage(50)  -- type: physical
     self.room:send_except(actor, tostring(actor.name) .. " is caught in a fit of choking. (<red>" .. tostring(damage_dealt) .. "</>)")
     actor:send("You are caught in a fit of choking. (<red>" .. tostring(damage_dealt) .. "</>)")
 end

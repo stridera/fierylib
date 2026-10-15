@@ -17,8 +17,6 @@
 --   17309 -> (173, 9)
 -- Confirm those (zone, local_id) tuples against the imported objects
 -- before relying on this in production.
--- TODO: `hisher` was a DG global; replace with proper pronoun lookup
--- (e.g. actor:pronoun("possessive")) when that helper is wired up.
 
 if cmd ~= "dance" then
     return true
@@ -41,7 +39,7 @@ if not has_bell then
 end
 
 local color = "<b:blue>"
-local hisher_pron = (hisher or "their")
+local hisher_pron = (actor.hisher or "their")
 self.room:send_except(actor, actor.name .. " dances an ancient circle dance, calling to the great Spirits of the Canyon.")
 actor:send("You dance an ancient circle dance, calling to the great Spirits of the canyon.")
 wait(1)

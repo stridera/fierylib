@@ -7,7 +7,7 @@
 -- who are immune.
 if not (actor.zone_id == 238 and (actor.local_id == 14 or actor.local_id == 15)) then
     wait(1)
-    actor:damage(50)  -- type: cold
+    local damage_dealt = actor:damage(50)  -- type: cold
     if damage_dealt > 0 then
         actor:send("The icicle freezes your fingers. (<blue>" .. tostring(damage_dealt) .. "</>)")
     end

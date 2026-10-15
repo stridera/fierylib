@@ -31,7 +31,7 @@ if (arg ~= "doll") and (arg ~= "ehlissa") and (arg ~= "miniature-ehlissa-doll") 
     return _return_value
 end
 _return_value = false
-self.room:send(tostring(actor.name) .. " squeezes " .. tostring(hisher) .. " doll.")
+self.room:send(tostring(actor.name) .. " squeezes " .. tostring(actor.hisher) .. " doll.")
 local i = 99
 while i > 0 do
     self.room:send(tostring(self.shortdesc) .. " sings, '" .. tostring(i) .. " bottles of beer on the wall...'")

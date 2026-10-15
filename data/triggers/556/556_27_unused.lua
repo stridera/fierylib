@@ -37,7 +37,7 @@ end
 if not percent_chance(0) then
     return true
 end
-local right_class = actor.class == Cleric  or  actor.class == Priest
+local right_class = actor.class == "cleric" or actor.class == "priest"
 local min_level = 41
 local quest_stage = 2
 if right_class then

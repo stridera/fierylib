@@ -11,13 +11,14 @@
 -- DG receive trigger, num_arg 0: the arg list (48429) holds the items
 -- other triggers handle; this one runs for every other item. The runtime does not filter on
 -- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
+local response
 if (object.zone_id == 484 and object.id == 29) then
     return true
 end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 do
-    local response = "Why do you bother the Goddess of the Hunt?"
+    response = "Why do you bother the Goddess of the Hunt?"
 end
 if response then
     _return_value = true

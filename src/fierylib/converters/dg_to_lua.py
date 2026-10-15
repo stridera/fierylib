@@ -751,6 +751,47 @@ def pulses_to_seconds_literal(pulses: int) -> str:
     return str(whole) if tenth == 0 else f'{whole}.{tenth}'
 
 
+_COMPARE_OP = re.compile(r'==|~=|<=|>=|(?<![<>=~])[<>](?!=)')
+
+
+def _count_comparison_operands(expr: str) -> str:
+    """Make `(a != b) + (c != d)` count instead of adding booleans.
+
+    DG evaluates a comparison to 1 or 0, so `eval n (%a% != 4) + (%b% != 4)` counts how many are
+    unequal. Lua comparisons yield booleans and `true + true` raises, so a parenthesised group
+    that holds a comparison and sits next to an arithmetic operator becomes
+    `((a ~= 4) and 1 or 0)`.
+    """
+    out: list[str] = []
+    i, n = 0, len(expr)
+    while i < n:
+        if expr[i] != '(':
+            out.append(expr[i])
+            i += 1
+            continue
+        depth, j = 0, i
+        while j < n:
+            depth += (expr[j] == '(') - (expr[j] == ')')
+            if depth == 0:
+                break
+            j += 1
+        if depth != 0:
+            out.append(expr[i:])
+            break
+        inner = expr[i + 1:j]
+        before = expr[:i].rstrip()
+        after = expr[j + 1:].lstrip()
+        arith_adjacent = (before[-1:] in tuple('+-*/%')) or (after[:1] in tuple('+-*/%') and after[:1] != '')
+        # only direct (top-level inside the group) comparisons count, not ones nested deeper
+        top = re.sub(r'\([^()]*\)', '', inner)
+        if arith_adjacent and _COMPARE_OP.search(top):
+            out.append(f'(({inner}) and 1 or 0)')
+        else:
+            out.append('(' + _count_comparison_operands(inner) + ')')
+        i = j + 1
+    return ''.join(out)
+
+
 def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None) -> Optional[str]:
     """Convert a single DG Script command to Lua."""
     cmd = cmd.strip()
@@ -1338,7 +1379,7 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
         target = convert_variable_expr(match.group(1))
         damage = match.group(2)
         dtype = match.group(3) or 'physical'
-        return f'{ind}{target}:damage({damage})  -- type: {dtype}'
+        return f'{ind}local damage_dealt = {target}:damage({damage})  -- type: {dtype}'
 
     # wdamage silent (damage without message)
     match = re.match(r'^wdamage\s+silent\s+(\d+)$', cmd, re.IGNORECASE)
@@ -1943,6 +1984,7 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
         expr = expr.replace('&&', ' and ')
         expr = expr.replace('||', ' or ')
         expr = re.sub(r'(?<!\|)\|(?!\|)', ' or ', expr)
+        expr = _count_comparison_operands(expr)
         decl = _var_decl(var_name, declared_vars, expr)
         return f'{ind}{decl}{var_name} = {expr}'
 

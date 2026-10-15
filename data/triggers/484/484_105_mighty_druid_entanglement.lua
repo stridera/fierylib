@@ -16,6 +16,7 @@
 --   `bash %victim.name%` DG token. The whole entanglement state machine
 --   needs a rewrite once we have a stable globals API for per-mob
 --   paralysis tracking.
+local paralysis_expire_1, paralysis_expire_2, paralysis_expire_3, paralysis_expire_4, secondary_victim
 local now = time.stamp
 if paralysis_victim_1 and ((paralysis_victim_1.room ~= self.room) or (paralysis_expire_1 <= now)) then
     -- Clear paralysis on expired victim
@@ -103,7 +104,7 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
             elseif victim.class == "assassin" then
                 max_tries = 0
             else
-                local secondary_victim = victim
+                secondary_victim = victim
             end
         end
         max_tries = max_tries - 1
@@ -152,24 +153,24 @@ if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim
             if paralysis_victim_3 then
                 local paralysis_victim_4 = victim
                 globals.paralysis_victim_4 = globals.paralysis_victim_4 or true
-                local paralysis_expire_4 = now + 1
+                paralysis_expire_4 = now + 1
                 globals.paralysis_expire_4 = globals.paralysis_expire_4 or true
             else
                 local paralysis_victim_3 = victim
                 globals.paralysis_victim_3 = globals.paralysis_victim_3 or true
-                local paralysis_expire_3 = now + 1
+                paralysis_expire_3 = now + 1
                 globals.paralysis_expire_3 = globals.paralysis_expire_3 or true
             end
         else
             local paralysis_victim_2 = victim
             globals.paralysis_victim_2 = globals.paralysis_victim_2 or true
-            local paralysis_expire_2 = now + 1
+            paralysis_expire_2 = now + 1
             globals.paralysis_expire_2 = globals.paralysis_expire_2 or true
         end
     else
         local paralysis_victim_1 = victim
         globals.paralysis_victim_1 = globals.paralysis_victim_1 or true
-        local paralysis_expire_1 = now + 1
+        paralysis_expire_1 = now + 1
         globals.paralysis_expire_1 = globals.paralysis_expire_1 or true
     end
 end

@@ -7,10 +7,11 @@
 
 -- Converted from DG Script #48408: lord-realm fight
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
+local has_blur
 if has_blur then
     if not (self:has_effect(Effect.Blur)) then
         self:emote("slows as " .. tostring(self.name) .. " returns to normal speed.")
-        local has_blur = 0
+        has_blur = 0
         globals.has_blur = globals.has_blur or true
     end
 end

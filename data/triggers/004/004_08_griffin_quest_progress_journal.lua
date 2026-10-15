@@ -7,15 +7,15 @@
 
 -- Converted from DG Script #408: Griffin quest progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local status
 local _return_value = true  -- Default: allow action
 if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg, "cult") or string.find(arg, "destroy_the_cult_of_the_griffin") or string.find(arg, "griffin_quest") or string.find(arg, "griffin_island_quest") or string.find(arg, "griffin_island") or string.find(arg, "griffin island quest") then
     if actor.level >= 45 then
         _return_value = true
         local stage = actor:get_quest_stage("griffin_quest")
-        actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         actor:send("<b:u:green>Destroy the Cult of the Griffin</>")
         actor:send("Recommended Level: 60")
-        local status
+        status = nil
         if actor:get_has_completed("griffin_quest") then
             status = "Completed!"
         elseif (stage or 0) > 0 then

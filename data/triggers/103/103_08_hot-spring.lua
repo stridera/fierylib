@@ -19,7 +19,7 @@
 
 local who = actor
 if not who then
-    if room and self.room.actors and #self.room.actors > 0 then
+    if self.room and self.room.actors and #self.room.actors > 0 then
         who = self.room.actors[random(1, #self.room.actors)]
     end
 end
