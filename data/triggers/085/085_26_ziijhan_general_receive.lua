@@ -20,8 +20,6 @@ end
 if dg.quest_item(object, globals) then
     return true
 end
-dg.give(self, object, actor)
 actor:send(tostring(self.name) .. " scoffs at " .. tostring(object.shortdesc) .. ".")
-wait(0.2)
 actor:send(tostring(self.name) .. " says, 'What is this garbage?'")
-return true
+return false  -- legacy return 0: the giver keeps the item

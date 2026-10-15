@@ -49,7 +49,6 @@ elseif object.zone_id == 302 and object.local_id == 8 then
 else
     self.room:send_except(actor, tostring(actor.name) .. " tries to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You try to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ", but " .. tostring(self.name) .. " refuses.")
-    wait(1)
     self:say("I don't need your rubbish!  Show some respect, dog!")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end

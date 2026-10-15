@@ -31,9 +31,6 @@ local _return_value = true  -- Default: allow action
 -- The give command takes one word for the item and has no "give all", so items go over one by
 -- one through dg.give, by their first keyword.
 local dg = require("dg")
-local function give_back()
-    dg.give(self, object, actor)
-end
 -- 
 -- This is the main receive trigger for the Edorian
 -- combat quests installed on the mud. This trigger
@@ -104,12 +101,10 @@ if actor.alignment >= -150 and actor:get_quest_stage("black_legion") > 0 then
             id_trophy = entry.item
         end
     else
-        give_back()
-        wait(0.1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
         actor:send(tostring(self.name) .. " returns your item to you.")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     end
     -- 
     -- need to force character saving after each turnin.
@@ -147,7 +142,12 @@ if actor.alignment >= -150 and actor:get_quest_stage("black_legion") > 0 then
                 local trophies = (actor:get_quest_var("black_legion:" .. tostring(id_trophy) .. "_trophies") or 0) + 1
                 actor:set_quest_var("black_legion", tostring(id_trophy) .. "_trophies", trophies)
             else
-                give_back()
+                self:command("eye " .. tostring(actor.name))
+                actor:send(tostring(self.name) .. " tells you, 'You have garnered as")
+                actor:send("</>much favor with the Eldorian Guard as you possibly can by fighting the Third")
+                actor:send("</>Black Legion.  You may one day find other more difficult battles with those")
+                actor:send("</>tree rats that will curry more favor with our masters.'")
+                return false  -- legacy return 0: the giver keeps the item
             end
             wait(0.2)
             self:command("eye " .. tostring(actor.name))
@@ -209,11 +209,9 @@ if actor.alignment >= -150 and actor:get_quest_stage("black_legion") > 0 then
         local rewards = actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward")
         actor:set_quest_var("black_legion", tostring(id_reward) .. "_reward", rewards)
         if actor.alignment <= -151 then
-            give_back()
-            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite good")
             actor:send("</>enough for these rewards.'")
-            return _return_value
+            return false  -- legacy return 0: the giver keeps the item
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= faction_required then
             local rewards = (actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward") or 0) + 1
@@ -267,20 +265,17 @@ if actor.alignment >= -150 and actor:get_quest_stage("black_legion") > 0 then
             dg.give(self, reward_item, actor)
             actor:save()
         else
-            give_back()
-            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied")
             actor:send("</>enough with our cause to earn that reward.'")
-            return _return_value
+            return false  -- legacy return 0: the giver keeps the item
         end
         -- end of if_gem section
     end
 else
     -- Alignment not high enough or hasn't started the quest yet.
-    give_back()
-    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied")
     actor:send("</>enough with our cause to earn our rewards.  You need a higher alignment or to")
     actor:send("</>start these quests by saying <b:white>[yes]</> or <b:white>[quest]</> or <b:white>[hello]</>.'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

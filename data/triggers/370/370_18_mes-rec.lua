@@ -63,21 +63,18 @@ if string.find(actor.race, "troll") then
         wait(0.1)
         self:say("I am certain we shall meet again.")
     elseif actor:get_has_completed("troll_quest") then
-        wait(3)
         self:say("You have already helped me once, please let others help me now.")
-        self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
+        return false  -- legacy return 0: the giver keeps the item
     elseif gotitem then
         wait(3)
         self:say("Why thank you.  Run along now.")
         world.destroy(object)
     elseif gooditem then
-        wait(3)
         self:say("I'm sorry but you already gave me this item.")
-        self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
+        return false  -- legacy return 0: the giver keeps the item
     else
-        wait(3)
         self:say("What is this? I can not use this.")
-        self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
     -- Non-troll path: the fire ruby (125,26) gives an XP + gem reward.
@@ -100,9 +97,8 @@ else
         self:say("Here is a small token of my appreciation.")
         self:say("Now move along.")
     else
-        wait(1)
         self:say("What is this? I can not use this.")
-        self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
+        return false  -- legacy return 0: the giver keeps the item
     end
 end
 return true

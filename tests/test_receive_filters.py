@@ -60,7 +60,6 @@ EXEMPT_RETURN_0 = {
 # the refusal return before the first wait().
 KNOWN_RETURN_AFTER_WAIT = {
     "051_02": "the statue quest consumes the ring",
-    "103_25": "dg.give hands the item back before the wait",
     "120_03": "the tree quest consumes the item",
     "300_07": "both branches consume the item",
 }
@@ -188,7 +187,7 @@ def test_scripts_that_read_the_object_reference_it():
     assert not bad, f"DG reads %object.% but the Lua never mentions object: {bad}"
 
 
-GIVE_BACK = re.compile(r"give_back|dg\.give\(self, object|give[^\n]*object\.(?:alias|name)")
+GIVE_BACK = re.compile(r"give_back|dg\.give\(self, object|\"give \"[^\n]*object\.(?:alias|name)")
 
 
 def test_return_0_refusals_return_false_or_hand_the_item_back():
@@ -238,10 +237,30 @@ def returns_after_wait(path: Path) -> list[int]:
     return hits
 
 
+# Scripts that return an item with a give command on purpose: the item goes back after a quest step
+# (the wand/mace/cup is checked and returned, not refused), or the story waits first. A refusal must
+# not do this: the engine returns the item itself on `return false`.
+KNOWN_GIVE_BACK = {
+    "002_102": "wand accepted as a match, handed back",
+    "002_108": "primed staff/wand handed back",
+    "028_02": "waterform cup handed back after the sample check",
+    "185_22": "legacy returns the item on every path; the success path waits",
+}
+
+
+def test_refusals_do_not_queue_a_give_back():
+    bad = []
+    for path in lua_files().values():
+        code = code_of(path)
+        if "return false" in code and GIVE_BACK.search(code) and re.match(r"\d+_\d+", path.name).group(0) not in KNOWN_GIVE_BACK:
+            bad.append(path.name)
+    assert not bad, f"a refusal returns false, the engine hands the item back; drop the give command: {bad}"
+
+
 def test_refusals_return_before_the_first_wait():
     bad = {}
     for (z, i), path in lua_files().items():
-        stem = path.name[:6]
+        stem = re.match(r"\d+_\d+", path.name).group(0)
         hits = returns_after_wait(path)
         if hits and stem not in KNOWN_RETURN_AFTER_WAIT:
             bad[path.name] = hits
@@ -249,7 +268,7 @@ def test_refusals_return_before_the_first_wait():
 
 
 def test_known_return_after_wait_entries_still_apply():
-    by_stem = {p.name[:6]: p for p in lua_files().values()}
+    by_stem = {re.match(r"\d+_\d+", p.name).group(0): p for p in lua_files().values()}
     for stem in KNOWN_RETURN_AFTER_WAIT:
         assert stem in by_stem and returns_after_wait(by_stem[stem]), f"{stem} is fixed; drop the entry"
 

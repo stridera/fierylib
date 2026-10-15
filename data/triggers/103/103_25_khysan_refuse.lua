@@ -80,8 +80,6 @@ else
     response = "Oh, is this a gift for me?  I appreciate it, but I'm fine for now."
 end
 
-dg.give(self, object, actor)
 self.room:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(0.2)
 self:say(response)
-return false
+return false  -- legacy return 0: the giver keeps the item

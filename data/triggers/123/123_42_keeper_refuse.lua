@@ -48,13 +48,11 @@ local function need_name()
 end
 
 if actor:get_quest_stage("megalith_quest") < 2 then
-    dg.give(self, object, actor)
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("I'm sorry, I'm quite busy right now.")
+    return false  -- legacy return 0: the giver keeps the item
 elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and (actor:get_quest_var("megalith_quest:item" .. tostring(part)) or 0) == 1) then
-    dg.give(self, object, actor)
     self:command("shake")
     self:say("I don't need any additional assistance at the moment, thank you.")
     if (self.zone_id == 123 and self.id == 6) then
@@ -62,9 +60,9 @@ elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("me
     else
         self:command("bow " .. tostring(actor.name))
     end
+    return false  -- legacy return 0: the giver keeps the item
 elseif actor:get_quest_stage("megalith_quest") == 2 then
     if direction and ((actor:get_quest_var("megalith_quest:" .. direction) or 0) == 0) and (not actor:get_quest_var("megalith_quest:item" .. tostring(part))) then
-        dg.give(self, object, actor)
         if (self.zone_id == 123 and self.id == 3) then
             self:command("eye " .. tostring(actor.name))
             self:say("I haven't yet told you what I need.")
@@ -78,19 +76,19 @@ elseif actor:get_quest_stage("megalith_quest") == 2 then
             self:emote("looks confused.")
             self:say("I have yet to tell you what I need.")
         end
+        return false  -- legacy return 0: the giver keeps the item
     else
         if ((self.zone_id == 123 and self.id == 3) and (object.zone_id == 550 and object.id == 20)) or ((self.zone_id == 123 and self.id == 4) and (object.zone_id == 481 and object.id == 9)) or ((self.zone_id == 123 and self.id == 5) and (object.zone_id == 83 and object.id == 1)) or ((self.zone_id == 123 and self.id == 6) and ((object.zone_id == 411 and object.id == 10) or (object.zone_id == 411 and object.id == 11) or (object.zone_id == 185 and object.id == 12))) then
             return _return_value
         else
-            dg.give(self, object, actor)
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             if (self.zone_id == 123 and self.id == 6) then
                 self:say("Unfortunately, I need " .. need_name() .. " filled with water, not this.")
             else
                 self:say("Unfortunately, I need " .. need_name() .. ", not this.")
             end
+            return false  -- legacy return 0: the giver keeps the item
         end
     end
 end

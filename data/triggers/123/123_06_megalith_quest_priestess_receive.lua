@@ -116,8 +116,7 @@ end
 local item_key = "item" .. tostring(item)
 if (actor:get_quest_var("megalith_quest:" .. item_key) or 0) == 1 then
     self.room:send(tostring(self.name) .. " says, 'Thank you, but you already brought me " .. tostring(this) .. ".'")
-    self:command("give " .. tostring(object.name) .. " " .. tostring(actor.name))
-    return _return_value
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Accept the item.

@@ -17,8 +17,6 @@ end
 if dg.quest_item(object, globals) then
     return true
 end
-dg.give(self, object, actor)
 self:command("eye")
-wait(1)
 actor:send(tostring(self.name) .. " tells you, 'And what exactly am I supposed to do with this?'")
-return true
+return false  -- legacy return 0: the giver keeps the item

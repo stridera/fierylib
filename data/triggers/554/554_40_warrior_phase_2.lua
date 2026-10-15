@@ -30,18 +30,11 @@ local function bare_name(name)
     return (string.gsub(string.gsub(name, "^%s*[Tt]he%s+", ""), "^%s*[Aa]n?%s+", ""))
 end
 
-local function give_back()
-    self:command("give " .. bare_name(object.name) .. " to " .. actor.name)
-    actor:send(tostring(self.name) .. " returns your item to you.")
-end
-
 if not (class_ok and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2) then
     -- not the right class / phase for this questmaster
-    wait(0.1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
-    give_back()
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Slots for this class: destroyed armor, gem, reward (legacy 5-digit vnums) and exp multiplier.
@@ -70,11 +63,9 @@ for _, s in ipairs(slots) do
     end
 end
 if not entry then
-    wait(0.1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
-    give_back()
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 local armor_key = tostring(entry.armor) .. "_armor_acquired"
@@ -92,13 +83,10 @@ if is_armor then
         world.destroy(object)
         actor:save()
     else
-        wait(0.2)
         self:command("eye " .. tostring(actor.name))
-        wait(0.1)
         actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me " .. obj_name(entry.armor) .. " already!\"")
-        give_back()
         -- Halt here so the reward can't be given twice.
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
     if gems < 3 then
@@ -110,13 +98,10 @@ else
         world.destroy(object)
         actor:save()
     else
-        wait(0.2)
         self:command("eye " .. tostring(actor.name))
-        wait(0.1)
         actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me 3 already!\"")
-        give_back()
         -- Halt here so the reward can't be given twice.
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     end
 end
 

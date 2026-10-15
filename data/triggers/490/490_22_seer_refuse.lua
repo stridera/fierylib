@@ -29,12 +29,11 @@ else
     response = "This isn't sunscreen, what use do I have for it?"
 end
 if response then
-    dg.give(self, object, actor)
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
     if action then
         self:command(action)
     end
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

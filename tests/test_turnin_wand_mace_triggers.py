@@ -87,6 +87,7 @@ local chunk = assert(loadfile("%(path)s", "t", env))
 local ok, err = pcall(chunk)
 if not ok then print("ERROR|" .. tostring(err)) end
 for _, line in ipairs(log) do print(line) end
+if ok and err == false then print("ret|false") end
 local keys = {}
 for k in pairs(qv) do keys[#keys + 1] = k end
 table.sort(keys)
@@ -117,6 +118,12 @@ def run(rel: str, setup: str) -> tuple[list[str], dict[str, str], dict[str, str]
 
 def has(log: list[str], text: str) -> bool:
     return any(text in line for line in log)
+
+
+def handed_back(log: list[str]) -> bool:
+    """The item goes back to the giver: the script returns false (the engine cancels the give; it
+    must happen before any wait()) or, for scripts that wait first, gives it back with a command."""
+    return "ret|false" in log or "cmd|give thing Hero" in log
 
 
 # ---- Black Legion / Eldorian Guard turn-ins -------------------------------------------------------
@@ -197,7 +204,7 @@ def test_repeat_gem_reward_pays_no_second_exp(rel, side, align, fvar, ovar, trop
 def test_gem_without_enough_faction_is_handed_back(rel, side, align, fvar, ovar, trophy, tkey, reward, cap):
     log, state, _ = run(rel, turnin_setup(side, align, (555, 70), {f"black_legion:{fvar}": 19}))
     assert not any(line.startswith("spawn|") for line in log)
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
     assert has(log, "to earn that reward")
     assert state[f"black_legion:{fvar}"] == "19"
 
@@ -207,7 +214,7 @@ def test_gem_without_enough_faction_is_handed_back(rel, side, align, fvar, ovar,
 def test_unknown_item_is_not_interesting_and_handed_back(rel, side, align, fvar, ovar, trophy, tkey, reward, cap):
     log, _, _ = run(rel, turnin_setup(side, align, (7, 7)))
     assert has(log, "I am not interested in this from you")
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
     assert not any(line.startswith(("spawn|", "exp|")) for line in log)
 
 
@@ -215,7 +222,7 @@ def test_unknown_item_is_not_interesting_and_handed_back(rel, side, align, fvar,
 @pytest.mark.parametrize("rel, side, align, fvar, ovar, trophy, tkey, reward, cap", TURNINS, ids=IDS)
 def test_wrong_alignment_is_handed_back(rel, side, align, fvar, ovar, trophy, tkey, reward, cap):
     log, state, _ = run(rel, turnin_setup(side, -align, trophy))
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
     assert has(log, "to earn our rewards")
     assert not state
 
@@ -225,7 +232,7 @@ def test_wrong_alignment_is_handed_back(rel, side, align, fvar, ovar, trophy, tk
 def test_maxed_faction_with_all_trophies_is_handed_back(rel, side, align, fvar, ovar, trophy, tkey, reward, cap):
     setup = turnin_setup(side, align, trophy, {f"black_legion:{fvar}": cap, f"black_legion:{tkey}_trophies": 10})
     log, state, _ = run(rel, setup)
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
     assert has(log, "You have garnered as")
     assert state[f"black_legion:{fvar}"] == str(cap)
 
@@ -344,7 +351,7 @@ def test_wand_gem_twice_is_refused_and_handed_back():
     setup = wand_setup(WAND3, (555, 91), 3, {"greet": 1, "wandtask2": 1})
     log, state, _ = run("002/002_108_*", setup)
     assert "say|You already gave me this." in log
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
     assert not has(log, "destroy")
 
 
@@ -372,7 +379,7 @@ def test_wand_upgrade_when_everything_is_done():
 @needs_lua
 def test_wand_without_the_rest_is_handed_back_with_the_attack_count():
     log, _, stages = run("002/002_108_*", wand_setup(WAND3, (2, 101), 3, {"greet": 1, "attack_counter": 40}))
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
     assert has(log, "attack <b:yellow>60</> more times")
     assert "say|I need the other items as well." in log
     assert stages["air_wand"] == "3"
@@ -407,7 +414,7 @@ def test_wand_stage_6_primes_the_wand_instead_of_upgrading():
     log, state, stages = run("002/002_108_*", wand_setup(WAND6, (2, 104), 6, done))
     assert state["air_wand:wandtask5"] == "1"
     assert "spawn|590|40" in log  # the item to play
-    assert "cmd|give thing Hero" in log  # the primed wand goes back ...
+    assert handed_back(log)  # the primed wand goes back ...
     assert "cmd|give item590_40 Hero" in log  # ... with the instrument
     assert stages["air_wand"] == "6"
     assert not has(log, "destroy")
@@ -428,7 +435,7 @@ def test_wand_stage_10_sends_the_player_to_the_plane_room():
     log, state, _ = run("002/002_108_*", wand_setup(WAND10, (2, 108), 10, done))
     assert state["air_wand:wandtask4"] == "1"
     assert has(log, "ROOM[488,62]")
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
 
 
 @needs_lua
@@ -504,7 +511,7 @@ def test_mace_last_material_asks_for_the_mace_when_the_attacks_are_done():
 def test_mace_material_twice_is_refused():
     log, _, _ = run("002/002_126_*", mace_setup(MACE1, (555, 77), 1, {"greet": 1, "macetask2": 1}))
     assert has(log, "You already gave me a mace.")
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
 
 
 @needs_lua
@@ -523,7 +530,7 @@ def test_mace_upgrade_when_everything_is_done():
 def test_mace_before_the_other_materials_is_handed_back():
     log, _, _ = run("002/002_126_*", mace_setup(MACE1, (2, 140), 1, {"greet": 1, "macetask2": 1}))
     assert has(log, "Bring me the other materials first.")
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
 
 
 @needs_lua
@@ -1300,7 +1307,7 @@ def test_refusers_let_the_quest_items_through_and_hand_back_the_rest(rel, base, 
     log, _, _ = run(rel, setup(ours))
     assert log == [], "a wand or mace item belongs to the receive trigger"
     log, _, _ = run(rel, setup(other))
-    assert has(log, "cmd|give thing Hero") or has(log, "cmd|drop thing"), "everything else goes back"
+    assert handed_back(log) or has(log, "cmd|drop thing"), "everything else goes back"
 
 
 @needs_lua
@@ -1418,7 +1425,7 @@ def test_bigby_receive_reads_the_composite_keys_not_legacy_ids():
     log, _, stages = run("002/002_102_*", setup)
     assert stages["air_wand"] == "2"
     assert has(log, "OBJ[555,77]")
-    assert "cmd|give thing Hero" in log
+    assert handed_back(log)
 
 
 @needs_lua

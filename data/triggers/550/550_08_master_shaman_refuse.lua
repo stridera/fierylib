@@ -46,8 +46,7 @@ elseif stage == 11 then
 else
     response = "What is this?"
 end
-dg.give(self, object, actor)
 self:command("eye " .. tostring(actor.name))
 actor:send(tostring(self.name) .. " says, '" .. response .. "'")
 self.room:send(tostring(self.name) .. " refuses " .. desc .. ".")
-return true
+return false  -- legacy return 0: the giver keeps the item

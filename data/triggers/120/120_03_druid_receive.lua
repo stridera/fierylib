@@ -15,72 +15,61 @@ local stage = actor:get_quest_stage("twisted_sorrow")
 if stage > 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(0.8)
     self:say("No further offerings are necessary.")
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Quest not yet started: refuse with confusion.
 if stage ~= 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(0.8)
     self:say("Why do you give me this?")
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Stage 1: must be a liquid container.
 if object.type ~= "DRINKCONTAINER" then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(0.4)
     self:say("This is not a liquid container.")
-    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Druid's home grove (no tree): redirect player.
 if self.room == 12015 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(0.4)
     self:say("Let us move to one of the mighty Rhells first, friend.")
-    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Empty container: refuse.
 if object.val1 == 0 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(0.4)
     self:emote("peers into " .. object.shortdesc .. ".")
-    wait(0.4)
     self:say("This won't do at all!  It's empty.")
-    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- This tree already satisfied: refuse.
 if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) or 0) == 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(0.4)
     self:say("This tree is already satisfied, my friend.")
-    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Otherwise: druid consumes the offering and may advance the quest.

@@ -45,4 +45,4 @@ end
 self.room:send_except(actor, actor.name .. " offers " .. object.shortdesc .. " to " .. self.name .. ".")
 self.room:send_except(actor, self.name .. " does not stir.")
 actor:send("You offer up " .. object.shortdesc .. " to " .. self.name .. ", but there is no reaction.")
-return true
+return false  -- legacy return 0: the giver keeps the item

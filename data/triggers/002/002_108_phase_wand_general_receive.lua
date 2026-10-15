@@ -163,10 +163,9 @@ elseif is_obj(wandvnum) then
         continue = "no"
     end
 else
-    give_back()
     self.room:send(self.name .. " refuses " .. object.shortdesc .. ".")
-    wait(0.2)
     self:say("What's that for?")
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 if continue == "yes" then
@@ -261,18 +260,16 @@ if continue == "yes" then
         actor:set_quest_var(quest, "wandtask" .. number, 0)
     end
 elseif continue == "no" then
-    give_back()
     self.room:send(self.name .. " refuses " .. object.shortdesc .. ".")
-    wait(0.2)
     if not set_(job1) and (not set_(job2) or not set_(job3) or not set_(job4)) then
         local counter = 50
         local remaining = ((actor:get_quest_stage(quest) - 1) * counter) - (actor:get_quest_var(quest .. ":attack_counter") or 0)
         self.room:send(self.name .. " says, 'You still need to attack <b:yellow>" .. remaining .. "</> more times to fully bond with your " .. weapon .. "!'")
-        wait(1)
         self:say("I need the other items as well.")
     elseif set_(job1) and (not set_(job2) or not set_(job3) or not set_(job4)) then
         self:say("You have to give me everything else first.")
     end
+    return false  -- legacy return 0: the giver keeps the item
 elseif check == "yes" then
     wait(0.2)
     world.destroy(object)
@@ -308,9 +305,8 @@ elseif check == "yes" then
         self:say("Do you have the rest?")
     end
 elseif response then
-    give_back()
     self.room:send(self.name .. " refuses " .. object.shortdesc .. ".")
-    wait(0.2)
     self:say(response)
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

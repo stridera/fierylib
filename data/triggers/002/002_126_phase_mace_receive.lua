@@ -32,9 +32,6 @@ local function is_obj(vnum) return dg.is_obj(object, vnum) end
 -- A quest flag is set when it holds a non-zero value (0 is truthy in Lua).
 local set_ = dg.flag
 
-local function give_back()
-    dg.give(self, object, actor)
-end
 local function says(msg)
     actor:send(self.name .. " says, '" .. msg .. "'")
 end
@@ -222,10 +219,9 @@ elseif reward == "stop" then
 end
 
 if response then
-    give_back()
     actor:send(self.name .. " refuses " .. object.shortdesc .. ".")
-    wait(0.2)
     says(response)
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 if priest then

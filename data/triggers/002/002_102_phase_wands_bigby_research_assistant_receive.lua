@@ -85,11 +85,10 @@ if stage == 2 then
                 end
             end
         else
-            give_back()
             self.room:send(tostring(self.name) .. " scrutinizes " .. tostring(object.shortdesc) .. " with suspicion.")
-            wait(1)
             self.room:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. ".")
             self:say("You haven't finished all the tasks to prime the wand yet.")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif wandgem then
         actor:set_quest_var(quest, "wandtask2", 1)
@@ -126,15 +125,13 @@ elseif stage < 2 then
         self:say("Do that and I'll be able to improve it.")
         give_back()
     elseif wandgem then
-        give_back()
         self.room:send(tostring(self.name) .. " declines " .. tostring(object.shortdesc) .. ".")
-        wait(1)
         self:say("Before you give me anything else, give me the wand you wish to improve.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
-    give_back()
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
     self:say("I've already upgraded your wand as much as I know how.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

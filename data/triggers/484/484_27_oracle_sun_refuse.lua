@@ -12,8 +12,6 @@ if dg.gone(object) then return true end  -- an earlier receive trigger already t
 if dg.quest_item(object, globals) then
     return true
 end
-dg.give(self, object, actor)
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(0.2)
 actor:send(tostring(self.name) .. " says, 'I have no need of this.'")
-return true
+return false  -- legacy return 0: the giver keeps the item
