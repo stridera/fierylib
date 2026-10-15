@@ -22,7 +22,7 @@ if not speech_hit then
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
     wait(0.2)
-    if actor:get_quest_var("megalith_quest:eexpo") == 0 then
+    if (actor:get_quest_var("megalith_quest:eexpo") or 0) == 0 then
         self:say("Who am I?  Are you sure you want to know?")
         self:emote("looks around slightly confused.")
         wait(4)
@@ -43,7 +43,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 1)
-    elseif actor:get_quest_var("megalith_quest:eexpo") == 1 then
+    elseif (actor:get_quest_var("megalith_quest:eexpo") or 0) == 1 then
         self:say("I was an acolyte under the most respected cleric in Nordus, the great Shema.")
         wait(4)
         self:say("Shema was brilliant.  She loved languages and codes, though her favorite magic password was just spelling her name backward!")
@@ -57,7 +57,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:emote("wipes a tear from her eye.")
         self.room:send(tostring(self.name) .. " says, 'Aaaahhh Shema, good times...  Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 2)
-    elseif actor:get_quest_var("megalith_quest:eexpo") == 2 then
+    elseif (actor:get_quest_var("megalith_quest:eexpo") or 0) == 2 then
         self:say("Anyway, when Luchiaans arrived in Nordus and the \"sickness\" started, Shema was the only one with enough wit to suspect him.  There was a book she --")
         wait(1)
         self:emote("suddenly focuses intently on a vacant space, as if listening to someone.")
@@ -72,7 +72,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 3)
-    elseif actor:get_quest_var("megalith_quest:eexpo") == 3 then
+    elseif (actor:get_quest_var("megalith_quest:eexpo") or 0) == 3 then
         self:say("Turns out, Luchiaans had been conducting necromantic experiments on us while looking for a powerful tome about healing the body beyond death hidden in Nordus.")
         wait(5)
         self:say("Shema caught on to his plot, so she warded the book with her favorite code, bundled up a few of us and hit the road!")
@@ -81,7 +81,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 4)
-    elseif actor:get_quest_var("megalith_quest:eexpo") == 4 then
+    elseif (actor:get_quest_var("megalith_quest:eexpo") or 0) == 4 then
         self:say("We eventually discovered we carried a part of Nordus within us everywhere we went.")
         wait(3)
         self:say("Luchiaans' experimentations had permanently changed us.  Our magics never really worked the same way again.")
@@ -92,7 +92,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 5)
-    elseif actor:get_quest_var("megalith_quest:eexpo") == 5 then
+    elseif (actor:get_quest_var("megalith_quest:eexpo") or 0) == 5 then
         self:say("Luchiaans' meddling had somehow opened my mind to a deeper consciousness.  By total accident, I connected to the Lady of the Stars on the other side of the Veil!")
         wait(5)
         self:say("She explained the voices I was hearing was the wind calling me to dance.")

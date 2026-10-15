@@ -121,7 +121,7 @@ elseif (self.class == "cleric" or self.class == "priest" or self.class == "diabo
         local minlevel = macestep * 10
         if actor.level >= minlevel then
             wait(0.2)
-            if actor:get_quest_var("phase_mace:greet") == 0 then
+            if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'I sense a ghostly presence about your weapons.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
             else
                 actor:send(tostring(self.name) .. " says, 'Do you have what I need for the mace?'")
@@ -168,7 +168,7 @@ if actor:get_quest_stage("hell_trident") == 1 and self.zone_id == 60 and self.lo
                 actor:set_quest_var("hell_trident", "helltask6", 1)
             end
         end
-        if actor:get_quest_var("hell_trident:greet") == 0 then
+        if (actor:get_quest_var("hell_trident:greet") or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'Hmmm, is that a demon's trident I sense on you?  Perhaps you would like some help with <b:cyan>[upgrades]</>.'")
         else
             local job1 = actor:get_quest_var("hell_trident:helltask1")

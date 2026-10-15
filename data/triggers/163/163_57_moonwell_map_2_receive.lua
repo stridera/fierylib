@@ -12,7 +12,7 @@ if actor:get_quest_stage("moonwell_spell_quest") ~= 7 then
     return true
 end
 
-if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
+if (actor:get_quest_var("moonwell_spell_quest:map") or 0) == 1 then
     actor:advance_quest("moonwell_spell_quest")
     actor:set_quest_var("moonwell_spell_quest", "map", 0)
     wait(1.5)

@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- Path 2: if the golden sceptre is returned, the merchant asks for the sunstone diadem from tech.
 if actor:get_quest_stage("ursa_quest") == 2 then
-    if actor:get_quest_var("ursa_quest:choice") == 2 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 2 then
         if object.zone_id == 162 and object.local_id == 1 then
             wait(0.2)
             world.destroy(object)

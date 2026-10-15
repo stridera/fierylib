@@ -95,7 +95,7 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                     return _return_value
                 end
             elseif stage == 6 then
-                if target1 and (target2 == 2) then
+                if target1 and ((target2 or 0) == 2) then
                     actor:send("</>")
                     actor:send("Show Norisent the death talisman.")
                     return _return_value
@@ -126,14 +126,14 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                     end
                 end
             end
-            if (stage ~= 6 and (not target1 or not target2 or not target3)) or (stage == 6 and (not target1 or target2 < 2)) then
+            if (stage ~= 6 and (not target1 or not target2 or not target3)) or (stage == 6 and (not target1 or (target2 or 0) < 2)) then
                 actor:send("</>")
                 actor:send("You still need to dispatch:")
                 if not target1 then
                     actor:send("- " .. "%get.mob_shortdesc[%mob1%]%")
                 end
                 if stage == 6 then
-                    if target2 < 2 then
+                    if (target2 or 0) < 2 then
                         local xeg = (2 - target2)
                         actor:send("- " .. tostring(xeg) .. " " .. "%get.mob_shortdesc[%mob2%]%")
                     end

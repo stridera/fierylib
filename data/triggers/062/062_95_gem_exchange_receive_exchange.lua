@@ -19,7 +19,7 @@
 -- gems being handed in really live in zone 555.
 
 local item = actor:get_quest_var("gem_exchange:gem_id")
-if item == 0 or item == nil then
+if (item or 0) == 0 or item == nil then
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'I don't have any exchange orders listed for you at the")

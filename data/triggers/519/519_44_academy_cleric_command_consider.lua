@@ -22,7 +22,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:fight") == 7 then
+if (actor:get_quest_var("school:fight") or 0) == 7 then
     actor:set_quest_var("school", "fight", "last")
     actor:command("con " .. tostring(arg))
     wait(0.2)

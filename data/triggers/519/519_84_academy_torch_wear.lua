@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51984: academy_torch_wear
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if actor:get_quest_var("school:gear") == 4 then
+if (actor:get_quest_var("school:gear") or 0) == 4 then
     actor:set_quest_var("school", "gear", 5)
     wait(0.2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Notice you have a torch equipped now.")

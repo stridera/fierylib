@@ -48,7 +48,7 @@ self:say("Bring drink to awaken the trees from the corruption.")
 
 local any_satisfied = false
 for _, t in ipairs(trees) do
-    if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) == 1 then
+    if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) or 0) == 1 then
         any_satisfied = true
         break
     end
@@ -57,7 +57,7 @@ end
 if any_satisfied then
     self.room:send("You have already awakened the following trees:")
     for _, t in ipairs(trees) do
-        if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) == 1 then
+        if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) or 0) == 1 then
             self.room:send("- <b:black>" .. get_room(120, t[1]).name .. "</>")
         end
     end
@@ -65,7 +65,7 @@ end
 
 self.room:send("Offerings are still needed for:")
 for _, t in ipairs(trees) do
-    if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) ~= 1 then
+    if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. t[2]) or 0) ~= 1 then
         self.room:send("- <green>" .. get_room(120, t[1]).name .. "</>")
     end
 end

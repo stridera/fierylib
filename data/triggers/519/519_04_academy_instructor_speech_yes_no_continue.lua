@@ -22,13 +22,13 @@ end
 wait(0.2)
 if actor:get_quest_stage("school") == 1 then
     if speech == "yes" then
-        if actor:get_quest_var("school:speech") == 3 then
+        if (actor:get_quest_var("school:speech") or 0) == 3 then
             actor:send(tostring(self.name) .. " tells you, 'What would you like to review?  You can say:")
             actor:send("<b:yellow>Say</>")
             actor:send("<b:yellow>Tell</>")
             actor:send("<b:yellow>Gossip</>_")
             actor:send("I'll know you're ready to move on if you <b:green>say continue</>.'")
-        elseif actor:get_quest_var("school:gear") == 16 then
+        elseif (actor:get_quest_var("school:gear") or 0) == 16 then
             actor:send(tostring(self.name) .. " tells you, 'What would you like to review?  You can say:")
             actor:send("<b:yellow>Inventory</>")
             actor:send("<b:yellow>Wear</>")
@@ -41,7 +41,7 @@ if actor:get_quest_stage("school") == 1 then
             actor:send("<b:yellow>Give</>")
             actor:send("<b:yellow>Put</>_")
             actor:send("I'll know you're ready to move on if you <b:green>say continue</>.'")
-        elseif actor:get_quest_var("school:explore") == 6 then
+        elseif (actor:get_quest_var("school:explore") or 0) == 6 then
             actor:send(tostring(self.name) .. " tells you, 'What would you like to review?  You can say:")
             actor:send("<b:yellow>Look</>")
             actor:send("<b:yellow>Search</>")
@@ -51,11 +51,11 @@ if actor:get_quest_stage("school") == 1 then
             actor:send("I'll know you're ready to move on if you <b:green>say continue</>.'")
         end
     else
-        if actor:get_quest_var("school:speech") == 3 then
+        if (actor:get_quest_var("school:speech") or 0) == 3 then
             actor:set_quest_var("school", "speech", "complete")
-        elseif actor:get_quest_var("school:gear") == 16 then
+        elseif (actor:get_quest_var("school:gear") or 0) == 16 then
             actor:set_quest_var("school", "gear", "complete")
-        elseif actor:get_quest_var("school:explore") == 6 then
+        elseif (actor:get_quest_var("school:explore") or 0) == 6 then
             actor:set_quest_var("school", "explore", "complete")
         end
         local advance

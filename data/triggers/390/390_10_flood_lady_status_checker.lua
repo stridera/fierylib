@@ -63,19 +63,19 @@ if actor:get_quest_stage("flood") == 1 then
     end
     if not water2 then
         self.room:send("- <b:blue>" .. phoenix .. "</>")
-        if item2 == 1 then
+        if (item2 or 0) == 1 then
             self.room:send("</>    Bring it " .. objects.template(584, 1).name .. " to heat its springs.")
         end
     end
     if not water3 then
         self.room:send("- <b:blue>" .. falls .. "</>")
-        if item3 == 1 then
+        if (item3 or 0) == 1 then
             self.room:send("</>    Find a bell and dance for them.")
         end
     end
     if not water4 then
         self.room:send("- <b:blue>" .. green .. "</>")
-        if item4 == 1 then
+        if (item4 or 0) == 1 then
             self.room:send("</>    Feed her as many different foods as you can until she is full.")
         end
     end
@@ -84,13 +84,13 @@ if actor:get_quest_stage("flood") == 1 then
     end
     if not water6 then
         self.room:send("- <b:blue>" .. frost .. "</>")
-        if item6 == 1 then
+        if (item6 or 0) == 1 then
             self.room:send("</>    Force her to join the cause.")
         end
     end
     if not water7 then
         self.room:send("- <b:blue>" .. black .. "</>")
-        if item7 == 1 then
+        if (item7 or 0) == 1 then
             self.room:send("</>    Bring it an eternal light to swallow into its blackness.")
         end
     end

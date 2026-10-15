@@ -48,51 +48,51 @@ if string.find(arg, "rhell") or string.find(arg, "forest") or string.find(arg, "
                     end
                     if _run1 or tonumber(_sw1) == 2 then
                         _run1 = true
-                        if path == 1 then
+                        if (path or 0) == 1 then
                             actor:send("Please bring me some pepper.  Prices are always cheapest up near Anduin.")
-                        elseif path == 2 then
+                        elseif (path or 0) == 2 then
                             actor:send("Return to me a particular sceptre of gold that symbolized a king's undying leadership.")
-                        elseif path == 3 then
+                        elseif (path or 0) == 3 then
                             actor:send("A devourer has a ring with power to heal.  Please bring me this ring.")
                         end
                         break
                     end
                     if _run1 or tonumber(_sw1) == 3 then
                         _run1 = true
-                        if path == 1 then
+                        if (path or 0) == 1 then
                             actor:send("Please bring me a plant, found as \"a bit of bones and plants\" from Blue-Fog Trail.")
-                        elseif path == 2 then
+                        elseif (path or 0) == 2 then
                             actor:send("Please bring me an emblem of a king's power.  An emblem of the sun.  The one written of in legends of the warring gods in the far north.")
-                        elseif path == 3 then
+                        elseif (path or 0) == 3 then
                             actor:send("Find the Golhen DrubStatt or whatever that the hermit wrote about from the Highlands, and bring it back to me quickly.")
                         end
                         break
                     end
                     if _run1 or tonumber(_sw1) == 4 then
                         _run1 = true
-                        if path == 1 then
+                        if (path or 0) == 1 then
                             actor:send("I need a particular thorny wood.  Because of it's unpleasant nature there are some unpleasant people that make staves and walking sticks out of it.  Please find one, and bring it back here.")
-                        elseif path == 2 then
+                        elseif (path or 0) == 2 then
                             actor:send("Please bring be the dagger that radiates glorious light.  The priests of South Caelia know its fierce beauty.")
-                        elseif path == 3 then
+                        elseif (path or 0) == 3 then
                             actor:send("Bring me milk, in any container.")
                         end
                         break
                     end
                     if _run1 or tonumber(_sw1) == 5 then
                         _run1 = true
-                        if path == 1 then
+                        if (path or 0) == 1 then
                             actor:send("Bring me a pitcher from the hot springs or the Dancing Dolphin Inn.  Either will do.")
-                        elseif path == 2 then
+                        elseif (path or 0) == 2 then
                             actor:send("I can't do this sober!  Fetch me something to drink, and make it strong!")
-                        elseif path == 3 then
+                        elseif (path or 0) == 3 then
                             actor:send("Off of the great road is a lumber mill.  Their smith has an anvil that will do our work perfectly.  Please fetch it for me.")
                         end
                         break
                     end
                     if _run1 or tonumber(_sw1) == 6 then
                         _run1 = true
-                        if path == 2 then
+                        if (path or 0) == 2 then
                             actor:send("I need a large container for a sarcophagus, like a body-bag or a large chest.")
                         end
                     end

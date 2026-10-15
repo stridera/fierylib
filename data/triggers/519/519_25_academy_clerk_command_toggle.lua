@@ -13,7 +13,7 @@ if not (cmd == "toggle") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if actor:get_quest_var("school:fight") == 3 and string.find(arg, "autosplit") then
+if (actor:get_quest_var("school:fight") or 0) == 3 and string.find(arg, "autosplit") then
     actor:set_quest_var("school", "fight", 4)
     actor:command("toggle autosplit")
     wait(0.2)

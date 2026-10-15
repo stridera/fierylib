@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 wait(0.2)
 if actor:get_quest_stage("school") == 2 then
-    if actor:get_quest_var("school:prep") == 1 then
+    if (actor:get_quest_var("school:prep") or 0) == 1 then
         actor:set_quest_var("school", "prep", "complete")
         actor:send(tostring(self.name) .. " tells you, 'Aww, a fresh-faced adventurer, how sweet.'")
         self:command("chuckle")
@@ -20,7 +20,7 @@ if actor:get_quest_stage("school") == 2 then
         actor:send("</>")
         actor:send("<b:green>Say</> one or the other to learn about it.")
         actor:send("You can also say <magenta>SKIP</> to move to the next lesson.'")
-    elseif actor:get_quest_var("school:score") == 1 then
+    elseif (actor:get_quest_var("school:score") or 0) == 1 then
         actor:send(tostring(self.name) .. " tells you, 'Let's pick up where we left off.'")
         wait(0.2)
         actor:send(tostring(self.name) .. " tells you, '<b:cyan>SCORE</> is how you see all the numeric stuff about yourself:")

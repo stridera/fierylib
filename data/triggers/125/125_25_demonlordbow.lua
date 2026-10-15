@@ -42,7 +42,7 @@ if actor:get_quest_stage("hell_trident") == 2 then
                 actor:set_quest_var("hell_trident", "helltask4", 1)
             end
         end
-        if actor:get_quest_var("hell_trident:greet") == 1 then
+        if (actor:get_quest_var("hell_trident:greet") or 0) == 1 then
             go = "trident"
         else
             go = "zone"

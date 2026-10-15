@@ -115,7 +115,7 @@ if stage == 4 or stage == 6 or stage == 8 or stage == 10 then
     if stage == 4 or stage == 8 then
         if target1 and target2 and target3 then done = true end
     elseif stage == 6 then
-        if target1 and (target2 == 2) then done = true end
+        if target1 and ((target2 or 0) == 2) then done = true end
     else
         if target1 and target2 then done = true end
     end
@@ -130,7 +130,7 @@ if stage == 4 or stage == 6 or stage == 8 or stage == 10 then
             self.room:send("- " .. mob1_name)
         end
         if stage == 6 then
-            if target2 == 2 and mob2_name then
+            if (target2 or 0) == 2 and mob2_name then
                 self.room:send("- " .. tostring(target2) .. " " .. mob2_name)
             end
         else

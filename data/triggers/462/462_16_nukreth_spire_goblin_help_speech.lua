@@ -22,7 +22,7 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path4") == 0 then
+    if (actor:get_quest_var("nukreth_spire:path4") or 0) == 0 then
         self.room:send(tostring(self.name) .. " says, 'Yessss, had me a shiny treasure I did.  Hid it on some")
         self.room:send("</>bodies before they could eats 'em.  Or me.'")
         wait(1)

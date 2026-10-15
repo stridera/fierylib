@@ -46,7 +46,7 @@ else
             wait(1)
             actor:send(tostring(self.name) .. " tells you, 'No, go find the rock demon first.'")
         elseif tonumber(_sw1) == 3 then
-            if earth == 0 then
+            if (earth or 0) == 0 then
                 _return_value = true
                 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 actor:send(tostring(self.name) .. " tells you, 'Such wonderfully powerful stone.  This will do perfectly.'")
@@ -71,7 +71,7 @@ else
             wait(1)
             actor:send(tostring(self.name) .. " tells you, 'No, go find Dargentan first.'")
         elseif tonumber(_sw1) == 5 then
-            if air == 0 then
+            if (air or 0) == 0 then
                 self:destroy_item("meteorite")
                 wait(1)
                 actor:send(tostring(self.name) .. " tells you, 'This meteorite, representing the force of earth, has been imbued with the spirits of fire and air.  It will serve as the perfect focus for casting meteorswarm.'")

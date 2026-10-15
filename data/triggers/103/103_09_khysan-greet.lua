@@ -27,7 +27,7 @@ end
 if wandstep and wand_stage > wandstep then
     seen_before = true
 end
-if wandstep and wand_stage == wandstep and actor:get_quest_var("type_wand:greet") == 1 then
+if wandstep and wand_stage == wandstep and (actor:get_quest_var("type_wand:greet") or 0) == 1 then
     seen_before = true
 end
 
@@ -43,7 +43,7 @@ if seen_before then
             local minlevel = (wandstep - 1) * 10
             wait(1)
             if actor.level >= minlevel then
-                if actor:get_quest_var("type_wand:greet") == 0 then
+                if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                     self:say("Or is there something else that brings you back?")
                 else
                     self:say("Or do you have what I need for a new staff?")
@@ -54,7 +54,7 @@ if seen_before then
         if wandstep and wand_stage == wandstep then
             local minlevel = (wandstep - 1) * 10
             if actor.level >= minlevel then
-                if actor:get_quest_var("type_wand:greet") == 0 then
+                if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                     self:say("Is there something else that brings you back?")
                 else
                     self:say("Do you have what I need for a new staff?")
@@ -72,7 +72,7 @@ else
     if wandstep and wand_stage == wandstep then
         wait(1)
         local minlevel = (wandstep - 1) * 10
-        if actor.level >= minlevel and actor:get_quest_var("type_wand:greet") == 0 then
+        if actor.level >= minlevel and (actor:get_quest_var("type_wand:greet") or 0) == 0 then
             self.room:send(self.name .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         end
     end

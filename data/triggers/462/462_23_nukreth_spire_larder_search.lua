@@ -22,8 +22,8 @@ do
     end
 end
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path4") == 0 then
-        if actor:get_quest_var("nukreth_spire:treasure") == 1 then
+    if (actor:get_quest_var("nukreth_spire:path4") or 0) == 0 then
+        if (actor:get_quest_var("nukreth_spire:treasure") or 0) == 1 then
             actor:send("You begin searching...")
             actor:set_quest_var("nukreth_spire", "treasure", 2)
             wait(1)
@@ -34,7 +34,7 @@ if actor:get_quest_stage("nukreth_spire") > 0 then
             actor:send("<b:yellow>You better kill this thing and search again!</>")
             self.room:spawn_mobile(462, 24)
             self.room:find_actor("spiritbreaker"):command("kill " .. tostring(actor.name))
-        elseif actor:get_quest_var("nukreth_spire:treasure") == 3 then
+        elseif (actor:get_quest_var("nukreth_spire:treasure") or 0) == 3 then
             actor:set_quest_var("nukreth_spire", "treasure", 0)
             actor:send("You find a strange stone hidden amongst the bodies!")
             self.room:send_except(actor, tostring(actor.name) .. " finds a strange stone hidden amongst the bodies!")

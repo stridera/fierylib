@@ -62,49 +62,49 @@ if string.find(arg, "blur") then
                         actor:send("</>")
                         if (north or 0) == 0 then
                             actor:send("The North Wind blows near the frozen town of Ickle.")
-                        elseif north == 1 then
+                        elseif (north or 0) == 1 then
                             local room = get_room("30262")
                             actor:send("Beat the North Wind to " .. tostring(room.name) .. " in Bluebonnet Pass.")
                             local minutes = (ntimer / 60)
                             local seconds = ntimer - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the North Wind!")
-                        elseif north == 2 then
+                        elseif (north or 0) == 2 then
                             actor:send("You have won the race against the North Wind!")
                         end
                         actor:send("</>")
                         if (south or 0) == 0 then
                             actor:send("The South Wind blows around the hidden standing stones in South Caelia.")
-                        elseif south == 1 then
+                        elseif (south or 0) == 1 then
                             local room = get_room("53557")
                             actor:send("Beat the South Wind to " .. tostring(room.name) .. ".")
                             local minutes = (stimer / 60)
                             local seconds = stimer - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the South Wind!")
-                        elseif south == 2 then
+                        elseif (south or 0) == 2 then
                             actor:send("You have won the race against the South Wind!")
                         end
                         actor:send("</>")
                         if (east or 0) == 0 then
                             actor:send("The East Wind blows through an enormous volcano in the sea.")
-                        elseif east == 1 then
+                        elseif (east or 0) == 1 then
                             local room = get_room("12597")
                             actor:send("Beat the East Wind to " .. tostring(room.name) .. ".")
                             local minutes = (etimer / 60)
                             local seconds = etimer - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the East Wind!")
-                        elseif east == 2 then
+                        elseif (east or 0) == 2 then
                             actor:send("You have won the race against the East Wind!")
                         end
                         actor:send("</>")
                         if (west or 0) == 0 then
                             actor:send("The West Wind blows through ruins across the vast Gothra plains.")
-                        elseif west == 1 then
+                        elseif (west or 0) == 1 then
                             local room = get_room("4236")
                             actor:send("Beat the West Wind to " .. tostring(room.name) .. ".")
                             local minutes = (wtimer / 60)
                             local seconds = wtimer - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the West Wind!")
-                        elseif west == 2 then
+                        elseif (west or 0) == 2 then
                             actor:send("You have won the race against the West Wind!")
                         end
                     end

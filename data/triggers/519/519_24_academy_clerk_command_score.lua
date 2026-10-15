@@ -22,7 +22,7 @@ do
     end
 end
 if actor:get_quest_stage("school") == 2 then
-    if actor:get_quest_var("school:score") == 1 then
+    if (actor:get_quest_var("school:score") or 0) == 1 then
         actor:set_quest_var("school", "score", "complete")
         actor:command("score")
         wait(0.2)

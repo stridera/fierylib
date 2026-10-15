@@ -291,7 +291,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
         -- The highest faction a player can gain from interacting with the 3rd front creatures will
         -- be 200.  For this section the trophy turn in will reply on this and other checks.
-        if actor:get_quest_var("black_legion:eg_faction") < 200 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) < 200 then
             local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
             actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             wait(0.2)
@@ -307,7 +307,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 faction_advance = 1
             end
         else
-            if trophies < 10 then
+            if (trophies or 0) < 10 then
                 exp_advance = 1
                 local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
                 actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
@@ -389,7 +389,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             wait(0.1)
             self.room:spawn_object(55, id_reward)
             wait(0.1)
-            if actor:get_quest_var("black_legion:id_reward_reward") == 1 then
+            if (actor:get_quest_var("black_legion:id_reward_reward") or 0) == 1 then
                 -- 
                 -- loop for exp award.
                 -- 
@@ -405,7 +405,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
                 -- 
                 -- all other items should be mpjunked or whatever by now
             end
-            if actor:get_quest_var("black_legion:eg_faction") < 200 then
+            if (actor:get_quest_var("black_legion:eg_faction") or 0) < 200 then
                 -- 
                 -- loop for faction award.
                 -- 

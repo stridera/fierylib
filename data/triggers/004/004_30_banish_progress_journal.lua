@@ -61,7 +61,7 @@ if string.find(arg, "banish") then
                     return _return_value
                 end
             end
-            if actor:get_quest_var("banish:greet") == 1 then
+            if (actor:get_quest_var("banish:greet") or 0) == 1 then
                 actor:send("To learn Banish you must next kill " .. "%get.mob_shortdesc[%mob%]% in %place%.")
             else
                 actor:send("Return to " .. tostring(master) .. " for further instruction.")

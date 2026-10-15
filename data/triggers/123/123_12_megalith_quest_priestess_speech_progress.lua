@@ -85,7 +85,7 @@ do
             item4 = "water from " .. tostring(objects.template(123, 52).name)
             wait(0.2)
             actor:send(self_name .. " says, 'We're trying to " .. tostring(step) .. ".'")
-            if (actor:get_quest_var("megalith_quest:item1") == 1) and (actor:get_quest_var("megalith_quest:item2") == 1) and (actor:get_quest_var("megalith_quest:item3") == 1) and (actor:get_quest_var("megalith_quest:item4") == 1) then
+            if ((actor:get_quest_var("megalith_quest:item1") or 0) == 1) and ((actor:get_quest_var("megalith_quest:item2") or 0) == 1) and ((actor:get_quest_var("megalith_quest:item3") or 0) == 1) and ((actor:get_quest_var("megalith_quest:item4") or 0) == 1) then
                 self.room:send(self_name .. " says, 'We're ready to finish calling the elements!")
                 self.room:send("</>If you wish to proceed, repeat after me:'")
                 self.room:send("<b:white>Under the watchful eye of Earth, Air, Fire, and Water, we awaken this")
@@ -119,7 +119,7 @@ do
 end
 -- Quest vars item1..item4 are 1 once that item has been handed over; unset or 0 means still needed.
 local function have(n)
-    return actor:get_quest_var("megalith_quest:item" .. n) == 1
+    return (actor:get_quest_var("megalith_quest:item" .. n) or 0) == 1
 end
 -- list items already given
 if have(1) or have(2) or have(3) or have(4) then
@@ -143,7 +143,7 @@ if stage ~= 4 then
 end
 if stage == 2 and not have(1) then
     actor:send("to assist <b:white>" .. tostring(receive1) .. "</>.")
-    if actor:get_quest_var("megalith_quest:east") ~= 1 then
+    if (actor:get_quest_var("megalith_quest:east") or 0) ~= 1 then
         actor:send("She needs " .. tostring(item1))
     else
         actor:send("Please check with her to see what she needs.")
@@ -153,7 +153,7 @@ elseif item1 and not have(1) then
 end
 if stage == 2 and not have(2) then
     actor:send("to assist <b:red>" .. tostring(receive2) .. "</>.")
-    if actor:get_quest_var("megalith_quest:south") ~= 1 then
+    if (actor:get_quest_var("megalith_quest:south") or 0) ~= 1 then
         actor:send("She needs " .. tostring(item2))
     else
         actor:send("Please check with her to see what she needs.")
@@ -163,7 +163,7 @@ elseif item2 and not have(2) then
 end
 if stage == 2 and not have(3) then
     actor:send("to assist <b:green>" .. tostring(receive3) .. "</>.")
-    if actor:get_quest_var("megalith_quest:north") ~= 1 then
+    if (actor:get_quest_var("megalith_quest:north") or 0) ~= 1 then
         actor:send("She needs " .. tostring(item3))
     else
         actor:send("Please check with her to see what she needs.")
@@ -173,7 +173,7 @@ elseif item3 and not have(3) then
 end
 if stage == 2 and not have(4) then
     actor:send("to assist <b:cyan>" .. tostring(receive4) .. "</>.")
-    if actor:get_quest_var("megalith_quest:west") ~= 1 then
+    if (actor:get_quest_var("megalith_quest:west") or 0) ~= 1 then
         actor:send("She needs " .. tostring(item4))
     else
         actor:send("Please check with her to see what she needs.")

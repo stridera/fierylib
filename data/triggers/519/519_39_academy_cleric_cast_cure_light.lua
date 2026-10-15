@@ -8,7 +8,7 @@
 -- Converted from DG Script #51939: academy_cleric_cast_cure_light
 -- Original: MOB trigger, flags: CAST, probability: 100%
 local _return_value = true  -- Default: allow action
-if actor:get_quest_var("school:fight") == 2 and spell == "cure light" then
+if (actor:get_quest_var("school:fight") or 0) == 2 and spell == "cure light" then
     actor:set_quest_var("school", "fight", 3)
     wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'You're a natural healer!'")

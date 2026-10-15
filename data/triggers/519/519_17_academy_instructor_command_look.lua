@@ -13,7 +13,7 @@ if not (cmd == "look") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if actor:get_quest_var("school:explore") == 1 and (arg == nil or arg == "") then
+if (actor:get_quest_var("school:explore") or 0) == 1 and (arg == nil or arg == "") then
     actor:set_quest_var("school", "explore", 2)
     -- actor looks around
     wait(0.2)
@@ -37,7 +37,7 @@ if actor:get_quest_var("school:explore") == 1 and (arg == nil or arg == "") then
     actor:send("That can be objects, creatures, even the directions!")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'For example, type <b:green>look curtain</> to find more clues.'")
-elseif actor:get_quest_var("school:explore") == 2 and arg == "curtain" then
+elseif (actor:get_quest_var("school:explore") or 0) == 2 and arg == "curtain" then
     actor:set_quest_var("school", "explore", 3)
     actor:command("look curtain")
     wait(0.2)

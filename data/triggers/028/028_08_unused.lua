@@ -31,7 +31,7 @@ if i then
                 else
                     _return_value = true
                 end
-                if person:get_quest_var("waterform:regionnumber") == 0 then
+                if (person:get_quest_var("waterform:regionnumber") or 0) == 0 then
                     person:set_quest_var("waterform", "region%number%", 1)
                     person:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
                     self.room:send_except(person, "<b:blue>" .. tostring(person.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
@@ -64,7 +64,7 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item(28, 8) or act
     else
         _return_value = true
     end
-    if actor:get_quest_var("waterform:regionnumber") == 0 then
+    if (actor:get_quest_var("waterform:regionnumber") or 0) == 0 then
         actor:set_quest_var("waterform", "region%number%", 1)
         actor:send("<b:blue>You gather part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
         self.room:send_except(actor, "<b:blue>" .. tostring(actor.name) .. " gathers part of " .. tostring(self.name) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")

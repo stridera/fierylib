@@ -18,7 +18,7 @@ local function obj_is(z, l)
 end
 if stage == 1 then
     if obj_is(118, 12) or obj_is(162, 13) or obj_is(480, 29) then
-        if actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
+        if (actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
             _return_value = true
             self:say("You already brought me " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
@@ -98,7 +98,7 @@ elseif stage == 2 then
     end
 elseif stage == 3 then
     if obj_is(484, 16) or obj_is(520, 34) or obj_is(625, 3) then
-        if actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
+        if (actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
             _return_value = true
             self:say("You already found this.")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")

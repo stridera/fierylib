@@ -13,7 +13,7 @@ wait(2)
 if actor:get_quest_stage("phase_mace") == "macestep" then
     local minlevel = (macestep or 0) * 10
     if actor.level >= minlevel then
-        if actor:get_quest_var("phase_mace:greet") == 0 then
+        if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'I sense a ghostly presence about your weapons.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
             actor:send(tostring(self.name) .. " says, 'Do you have what I need?'")

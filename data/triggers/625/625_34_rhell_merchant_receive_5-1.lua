@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- final step on good quest: either the pitcher from dancing dolphin or hot springs will work; merchant is healed and the thorny staff transforms into the redeeming staff.
 if actor:get_quest_stage("ursa_quest") == 5 then
-    if actor:get_quest_var("ursa_quest:choice") == 1 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 1 then
         if (object.zone_id == 103 and object.local_id == 9) or (object.zone_id == 587 and object.local_id == 6) then
             wait(1)
             world.destroy(object)

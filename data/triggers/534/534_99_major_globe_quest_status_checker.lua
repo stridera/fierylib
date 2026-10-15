@@ -48,19 +48,19 @@ elseif stage == 8 then
     else
         actor:send("You have found: <b:yellow>0 wards</>")
     end
-    if plant == 2 then
+    if (plant or 0) == 2 then
         actor:send(tostring(objects.template(534, 53).name))
     end
-    if mist == 2 then
+    if (mist or 0) == 2 then
         actor:send(tostring(objects.template(534, 54).name))
     end
-    if water == 2 then
+    if (water or 0) == 2 then
         actor:send(tostring(objects.template(534, 55).name))
     end
-    if flame == 2 then
+    if (flame or 0) == 2 then
         actor:send(tostring(objects.template(534, 56).name))
     end
-    if ice == 2 then
+    if (ice or 0) == 2 then
         actor:send(tostring(objects.template(534, 57).name))
     end
 elseif stage == 9 then
@@ -68,11 +68,11 @@ elseif stage == 9 then
     -- (ids 58-61) — see trigger 53467.
     local final_item = actor:get_quest_var("major_globe_spell:final_item")
     local place
-    if final_item == 58 then
+    if (final_item or 0) == 58 then
         place = "in a border keep"
-    elseif final_item == 59 then
+    elseif (final_item or 0) == 59 then
         place = "on an emerald isle"
-    elseif final_item == 60 then
+    elseif (final_item or 0) == 60 then
         place = "within a misty fortress"
     else
         place = "in an underground city"

@@ -106,7 +106,7 @@ elseif flameball_item then
         actor:send(tostring(self.name) .. " says, 'How do you expect to gain power like this?'")
     elseif actor:get_quest_stage("emmath_flameball") == 2 then
         if (object.zone_id == 52 and object.id == 11) or (object.zone_id == 52 and object.id == 12) or (object.zone_id == 173 and object.id == 8) then
-            if actor:get_quest_var("emmath_flameball:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) ~= 1 then
+            if (actor:get_quest_var("emmath_flameball:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) ~= 1 then
                 count = 1 + (actor:get_quest_var("emmath_flameball:count") or 0)
                 actor:set_quest_var("emmath_flameball", "count", count)
                 actor:set_quest_var("emmath_flameball", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)

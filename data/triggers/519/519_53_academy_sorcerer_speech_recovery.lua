@@ -22,7 +22,7 @@ if not speech_hit then
 end
 local _return_value = true  -- Default: allow action
 wait(0.2)
-if actor:get_quest_var("school:fight") == 8 then
+if (actor:get_quest_var("school:fight") or 0) == 8 then
     actor:set_quest_var("school", "fight", 9)
     actor:send(tostring(self.name) .. " tells you, 'Once you cast a spell, the spell slot it used will automatically begin to <b:cyan>RECOVER</>.")
     actor:send("The amount of time a spell slot takes to recover depends on the Circle of spell slot, your <b:cyan>FOCUS</> score, and whether or not you <b:cyan>MEDITATE</>.")

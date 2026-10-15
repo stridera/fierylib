@@ -32,7 +32,7 @@ if string.find(actor.race, "troll") then
     if is_troll_ingredient(object) then
         gooditem = true
         local key = ingredient_key(object)
-        if actor:get_quest_var("troll_quest:" .. key) ~= 1 then
+        if (actor:get_quest_var("troll_quest:" .. key) or 0) ~= 1 then
             gotitem = true
             actor:set_quest_var("troll_quest", key, 1)
         end
@@ -40,9 +40,9 @@ if string.find(actor.race, "troll") then
 
     -- Have we collected everything?
     local have_all =
-        actor:get_quest_var("troll_quest:got_item:37080") == 1
-        and actor:get_quest_var("troll_quest:got_item:37081") == 1
-        and actor:get_quest_var("troll_quest:got_item:37082") == 1
+        (actor:get_quest_var("troll_quest:got_item:37080") or 0) == 1
+        and (actor:get_quest_var("troll_quest:got_item:37081") or 0) == 1
+        and (actor:get_quest_var("troll_quest:got_item:37082") or 0) == 1
 
     if have_all and not actor:get_has_completed("troll_quest") then
         self.room:send(tostring(self.name) .. " smiles broadly as he looks at the gathered ingredients.")

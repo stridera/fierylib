@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51934: academy_shield_wear
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if actor:get_quest_var("school:fight") == 3 then
+if (actor:get_quest_var("school:fight") or 0) == 3 then
     actor:set_quest_var("school", "fight", 4)
     wait(0.2)
     actor:send(tostring(mobiles.template(519, 4).name) .. " tells you, '<b:cyan>(BAS)H</> deals some damage, but more importantly it <b:red>knocks your opponent down</>.")

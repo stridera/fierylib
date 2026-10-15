@@ -15,13 +15,13 @@ local readable = stage > 0 and stage >= 4 and (actor:has_item(489, 17) or actor:
 if readable then
     local step4 = actor:get_quest_var("supernova:step4")
     local clue2
-    if step4 == 18577 then
+    if (step4 or 0) == 18577 then
         -- The Abbey, the rising sun room
         clue2 = "I continue my journey where the sun rises amidst a sea of swirling worlds."
-    elseif step4 == 17277 then
+    elseif (step4 or 0) == 17277 then
         -- Citadel of Testing
         clue2 = "Atop a tower I visit a master who waits to give his final examination."
-    elseif step4 == 8561 then
+    elseif (step4 or 0) == 8561 then
         -- Cathedral of Betrayal near Norisent
         clue2 = "I study in a secret place above a hall of misery beyond a gallery of horrors."
     end

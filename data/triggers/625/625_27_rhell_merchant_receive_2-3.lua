@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- Path 3: ring of stolen life is returned, merchant asks for the golden druidstaff
 if actor:get_quest_stage("ursa_quest") == 2 then
-    if actor:get_quest_var("ursa_quest:choice") == 3 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 3 then
         if object.zone_id == 125 and object.local_id == 38 then
             wait(0.2)
             world.destroy(object)

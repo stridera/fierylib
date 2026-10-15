@@ -22,7 +22,7 @@ local reward = "no"
 -- adornment of light
 if (object.zone_id == 590 and obj == 26) then
     -- check to see if quest is started and PC hasent given light already
-    if (actor.is_player) and (actor:get_quest_stage("sacred_haven") == 1) and (actor:get_quest_var("sacred_haven:given_light") ~= 1) then
+    if (actor.is_player) and (actor:get_quest_stage("sacred_haven") == 1) and ((actor:get_quest_var("sacred_haven:given_light") or 0) ~= 1) then
         wait(0.5)
         self:emote("slowly rubs its hands together and cackles with a wicked sounding glee.")
         world.destroy(object.name)
@@ -38,7 +38,7 @@ if (object.zone_id == 590 and obj == 26) then
         self:emote("grumbles loudly.")
         actor:set_quest_var("sacred_haven", "given_light", 1)
         -- last line just set var to let code know light has been given
-    elseif actor:get_quest_var("sacred_haven:given_light") == 1 then
+    elseif (actor:get_quest_var("sacred_haven:given_light") or 0) == 1 then
         -- return light if already given
         wait(0.2)
         self:command("give adornment " .. tostring(actor.name))
@@ -53,7 +53,7 @@ if (object.zone_id == 590 and obj == 26) then
         world.destroy(object.name)
     end
     -- UNCONVERTED: &3&b* vial of blood&0
-    if actor:get_quest_var("sacred_haven:given_blood") == 1 then
+    if (actor:get_quest_var("sacred_haven:given_blood") or 0) == 1 then
     elseif (object.zone_id == 590 and obj == 28) then
         wait(0.2)
         self:say("You have already given me this.")
@@ -72,14 +72,14 @@ if (object.zone_id == 590 and obj == 26) then
         self:destroy_item("vial-dragons-blood")
         actor:set_quest_var("sacred_haven", "given_blood", 1)
         -- check to see if all 3 items have been returned
-        if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
+        if ((actor:get_quest_var("sacred_haven:given_blood") or 0) == 1) and ((actor:get_quest_var("sacred_haven:given_trinket") or 0) == 1) and ((actor:get_quest_var("sacred_haven:given_earring") or 0) == 1) then
             reward = "yes"
         else
             reward = "no"
         end
     end
     -- UNCONVERTED: &3&b*trinket of tattered leather&0
-    if actor:get_quest_var("sacred_haven:given_trinket") == 1 then
+    if (actor:get_quest_var("sacred_haven:given_trinket") or 0) == 1 then
     elseif (object.zone_id == 590 and obj == 29) then
         wait(0.2)
         self:say("You have already given me this.")
@@ -99,14 +99,14 @@ if (object.zone_id == 590 and obj == 26) then
         world.destroy(object.name)
         actor:set_quest_var("sacred_haven", "given_trinket", 1)
         -- check to see if all 3 items have been returned
-        if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
+        if ((actor:get_quest_var("sacred_haven:given_blood") or 0) == 1) and ((actor:get_quest_var("sacred_haven:given_trinket") or 0) == 1) and ((actor:get_quest_var("sacred_haven:given_earring") or 0) == 1) then
             reward = "yes"
         else
             reward = "no"
         end
     end
     -- UNCONVERTED: &3&b*earring&0
-    if actor:get_quest_var("sacred_haven:given_earring") == 1 then
+    if (actor:get_quest_var("sacred_haven:given_earring") or 0) == 1 then
     elseif (object.zone_id == 590 and obj == 30) then
         wait(0.2)
         self:say("You have already given me this.")
@@ -126,7 +126,7 @@ if (object.zone_id == 590 and obj == 26) then
         self.room:send("</>quite some time.'")
         actor:set_quest_var("sacred_haven", "given_earring", 1)
         -- check to see if all 3 items have been returned
-        if (actor:get_quest_var("sacred_haven:given_blood") == 1) and (actor:get_quest_var("sacred_haven:given_trinket") == 1) and (actor:get_quest_var("sacred_haven:given_earring") == 1) then
+        if ((actor:get_quest_var("sacred_haven:given_blood") or 0) == 1) and ((actor:get_quest_var("sacred_haven:given_trinket") or 0) == 1) and ((actor:get_quest_var("sacred_haven:given_earring") or 0) == 1) then
             reward = "yes"
         else
             reward = "no"

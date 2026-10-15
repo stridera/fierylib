@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51990: academy_wear_pen
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
-if actor:get_quest_var("school:fight") == 4 then
+if (actor:get_quest_var("school:fight") or 0) == 4 then
     actor:set_quest_var("school", "fight", 5)
     wait(0.2)
     actor:send(tostring(mobiles.template(519, 6).name) .. " tells you, 'Wonderful, you're all set!")

@@ -95,7 +95,7 @@ elseif stage == 4 then
 elseif stage == 5 then
     if object.zone_id == 185 and (object.local_id == 15 or object.local_id == 16 or object.local_id == 17 or object.local_id == 18 or object.local_id == 19 or object.local_id == 20) then
         local notes_key = tostring(object.zone_id) .. "_" .. tostring(object.local_id)
-        if actor:get_quest_var("group_heal:" .. notes_key) == 1 then
+        if (actor:get_quest_var("group_heal:" .. notes_key) or 0) == 1 then
             wait(2)
             self:command("shake")
             self:say("You already brought me " .. tostring(object.shortdesc) .. ".")

@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:rest") == 5 then
+if (actor:get_quest_var("school:rest") or 0) == 5 then
     actor:set_quest_var("school", "rest", 6)
     actor:command("fill " .. tostring(arg))
     wait(0.2)

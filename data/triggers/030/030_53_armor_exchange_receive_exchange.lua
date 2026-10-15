@@ -9,89 +9,89 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 local item = actor:get_quest_var("armor_exchange:armor_id")
-if item ~= 0 then
+if (item or 0) ~= 0 then
     local found
-    if item <= 55303 then
+    if (item or 0) <= 55303 then
         if (object.zone_id == 553 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55307 then
+    elseif (item or 0) <= 55307 then
         if (object.zone_id == 553 and object.id >= 4 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55311 then
+    elseif (item or 0) <= 55311 then
         if (object.zone_id == 553 and object.id >= 8 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55315 then
+    elseif (item or 0) <= 55315 then
         if (object.zone_id == 553 and object.id >= 12 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55319 then
+    elseif (item or 0) <= 55319 then
         if (object.zone_id == 553 and object.id >= 16 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55323 then
+    elseif (item or 0) <= 55323 then
         if (object.zone_id == 553 and object.id >= 20 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55327 then
+    elseif (item or 0) <= 55327 then
         if (object.zone_id == 553 and object.id >= 24 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55331 then
+    elseif (item or 0) <= 55331 then
         if (object.zone_id == 553 and object.id >= 28 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55335 then
+    elseif (item or 0) <= 55335 then
         if (object.zone_id == 553 and object.id >= 32 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55339 then
+    elseif (item or 0) <= 55339 then
         if (object.zone_id == 553 and object.id >= 36 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55343 then
+    elseif (item or 0) <= 55343 then
         if (object.zone_id == 553 and object.id >= 40 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55347 then
+    elseif (item or 0) <= 55347 then
         if (object.zone_id == 553 and object.id >= 44 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55351 then
+    elseif (item or 0) <= 55351 then
         if (object.zone_id == 553 and object.id >= 48 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55355 then
+    elseif (item or 0) <= 55355 then
         if (object.zone_id == 553 and object.id >= 52 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55359 then
+    elseif (item or 0) <= 55359 then
         if (object.zone_id == 553 and object.id >= 56 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55363 then
+    elseif (item or 0) <= 55363 then
         if (object.zone_id == 553 and object.id >= 60 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55367 then
+    elseif (item or 0) <= 55367 then
         if (object.zone_id == 553 and object.id >= 64 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55371 then
+    elseif (item or 0) <= 55371 then
         if (object.zone_id == 553 and object.id >= 68 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55375 then
+    elseif (item or 0) <= 55375 then
         if (object.zone_id == 553 and object.id >= 72 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55379 then
+    elseif (item or 0) <= 55379 then
         if (object.zone_id == 553 and object.id >= 76 and object.id <= 83) then
             found = 1
         end
-    elseif item <= 55783 then
+    elseif (item or 0) <= 55783 then
         if (object.zone_id == 553 and object.id >= 80 and object.id <= 83) then
             found = 1
         end

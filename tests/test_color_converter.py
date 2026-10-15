@@ -37,6 +37,21 @@ class TestRelativeColorCodes:
         assert convert_legacy_colors("&uUnderlined&0") == "<u>Underlined</>"
         assert convert_legacy_colors("&dDimmed&0") == "<dim>Dimmed</>"
 
+    def test_eight_is_underline_like_u(self):
+        """Legacy screen.cpp maps both '8' and 'u' to AUND: &8 must not be dropped."""
+        assert convert_legacy_colors("&8Underlined&0") == "<u>Underlined</>"
+        assert convert_legacy_colors("&8&bGreen&0") == convert_legacy_colors("&u&bGreen&0") == "<b:u>Green</>"
+        assert convert_legacy_colors("&7(&0&6Human&7&8) end") == "<white>(</><cyan>Human</><u:white>) end</>"
+        assert convert_legacy_colors("&&8 stays literal") == "&8 stays literal"
+
+    def test_every_background_code_maps_to_bg_markup(self):
+        expected = {
+            "R": "bg-red", "G": "bg-green", "Y": "bg-yellow", "B": "bg-blue",
+            "M": "bg-magenta", "C": "bg-cyan", "W": "bg-white", "L": "bg-black", "K": "bg-black",
+        }
+        for code, bg in expected.items():
+            assert convert_legacy_colors(f"&{code}x&0") == f"<{bg}>x</>"
+
     def test_combined_styles(self):
         """Test combining multiple style codes"""
         result = convert_legacy_colors("&b&1Bold red&0")

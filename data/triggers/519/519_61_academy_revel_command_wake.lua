@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:rest") == 2 then
+if (actor:get_quest_var("school:rest") or 0) == 2 then
     actor:set_quest_var("school", "rest", 3)
     actor:command("wake")
     wait(0.2)

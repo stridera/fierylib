@@ -14,7 +14,7 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- `arg` is the typed argument, not an object: the lesson stick (519:2) is the object with keyword "stick".
 local names_stick = string.find(string.lower(arg), "stick", 1, true) ~= nil
-if actor:get_quest_var("school:gear") == 7 then
+if (actor:get_quest_var("school:gear") or 0) == 7 then
     if names_stick then
         actor:set_quest_var("school", "gear", 8)
         actor:command("get " .. tostring(arg))
@@ -25,7 +25,7 @@ if actor:get_quest_var("school:gear") == 7 then
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Try typing <b:green>get 2.stick</> and see what happens.'")
     end
-elseif actor:get_quest_var("school:gear") == 8 then
+elseif (actor:get_quest_var("school:gear") or 0) == 8 then
     if names_stick and string.find(arg, "2.", 1, true) then
         actor:set_quest_var("school", "gear", 9)
         actor:command("get " .. tostring(arg))
@@ -38,7 +38,7 @@ elseif actor:get_quest_var("school:gear") == 8 then
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'Type <b:green>get all</> with nothing after it.'")
     end
-elseif actor:get_quest_var("school:gear") == 9 and arg == "all" then
+elseif (actor:get_quest_var("school:gear") or 0) == 9 and arg == "all" then
     actor:set_quest_var("school", "gear", 10)
     actor:command("get all")
     wait(0.2)
@@ -51,7 +51,7 @@ elseif actor:get_quest_var("school:gear") == 9 and arg == "all" then
     actor:send(tostring(self.name) .. " tells you, 'First, you can <b:cyan>(DRO)P</> items with the command <b:cyan>DROP [object]</>.'")
     actor:send("</>")
     actor:send(tostring(self.name) .. " tells you, 'Drop one of those sticks by typing <b:green>drop stick</>.'")
-elseif actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick bag") then
+elseif (actor:get_quest_var("school:gear") or 0) == 15 and string.find(arg, "stick bag") then
     actor:set_quest_var("school", "gear", 16)
     actor:command("get stick bag")
     wait(0.2)

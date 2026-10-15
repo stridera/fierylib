@@ -86,7 +86,7 @@ if string.find(arg, "flood") then
                 end
                 if not water2 then
                     actor:send("- <b:blue>" .. tostring(phoenix) .. "</>")
-                    if item2 == 1 then
+                    if (item2 or 0) == 1 then
                         actor:send("</>    Bring it " .. tostring(objects.template(584, 1).name) .. " to heat its springs.")
                         actor:send("</>    Say <b:blue>Spirit I have returned</> when you return.")
                     end
@@ -94,7 +94,7 @@ if string.find(arg, "flood") then
                 end
                 if not water3 then
                     actor:send("- <b:blue>" .. tostring(falls) .. "</>")
-                    if item3 == 1 then
+                    if (item3 or 0) == 1 then
                         actor:send("</>    Find a bell and dance for them.")
                         actor:send("</>    Say <b:blue>Spirit I have returned</> when you return.")
                     end
@@ -102,7 +102,7 @@ if string.find(arg, "flood") then
                 end
                 if not water4 then
                     actor:send("- <b:blue>" .. tostring(green) .. "</>")
-                    if item4 == 1 then
+                    if (item4 or 0) == 1 then
                         actor:send("</>    Feed her as many different foods as you can until she is full.")
                         actor:send("</>    Say <b:blue>Spirit I have returned</> when you return.")
                     end
@@ -114,14 +114,14 @@ if string.find(arg, "flood") then
                 end
                 if not water6 then
                     actor:send("- <b:blue>" .. tostring(frost) .. "</>")
-                    if item6 == 1 then
+                    if (item6 or 0) == 1 then
                         actor:send("</>    Force her to join the cause.")
                     end
                     actor:send("</>")
                 end
                 if not water7 then
                     actor:send("- <b:blue>" .. tostring(black) .. "</>")
-                    if item7 == 1 then
+                    if (item7 or 0) == 1 then
                         actor:send("</>    Bring it an eternal light to swallow into its blackness.")
                         actor:send("</>    Say <b:blue>Spirit I have returned</> when you return.")
                     end

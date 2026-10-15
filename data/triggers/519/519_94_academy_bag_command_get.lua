@@ -13,7 +13,7 @@ if not (cmd == "get") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick") then
+if (actor:get_quest_var("school:gear") or 0) == 15 and string.find(arg, "stick") then
     -- switch on arg
     do
         local _sw1 = string.lower(tostring(arg or ""))

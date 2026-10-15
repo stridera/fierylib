@@ -25,7 +25,7 @@ end
 do
     local _sw2 = string.lower(tostring(arg or ""))
     if _sw2 == "magic m" or _sw2 == "magic mi" or _sw2 == "magic mis" or _sw2 == "magic miss" or _sw2 == "magic missi" or _sw2 == "magic missil" or _sw2 == "magic missile" then
-        if actor:get_quest_var("school:fight") == 5 then
+        if (actor:get_quest_var("school:fight") or 0) == 5 then
             actor:set_quest_var("school", "fight", 6)
             actor:command("scribe magic missile")
             wait(0.2)

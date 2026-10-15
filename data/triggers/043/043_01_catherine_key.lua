@@ -63,7 +63,7 @@ if actor:get_quest_stage("theatre") >= 1 then
         while i >= a do
             local member = actor.group_member[a]
             if member and member.room == self.room then
-                if member:get_quest_stage("theatre") >= 1 and member:get_quest_var("theatre:lashes") == 1 then
+                if member:get_quest_stage("theatre") >= 1 and (member:get_quest_var("theatre:lashes") or 0) == 1 then
                     if member:get_quest_stage("theatre") == 1 then
                         member:advance_quest("theatre")
                         member:send("<b:white>You have advanced the quest!</>")

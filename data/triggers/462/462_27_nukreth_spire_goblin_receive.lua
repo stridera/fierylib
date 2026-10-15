@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path4") == 0 then
+    if (actor:get_quest_var("nukreth_spire:path4") or 0) == 0 then
         if globals.task ~= "done" then
             if object.zone_id == 462 and object.local_id == 15 then
                 wait(0.2)

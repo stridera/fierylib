@@ -23,49 +23,49 @@ local blood = actor:get_quest_var("sacred_haven:given_blood")
 local trinket = actor:get_quest_var("sacred_haven:given_trinket")
 local earring = actor:get_quest_var("sacred_haven:given_earring")
 wait(0.2)
-if stage == 1 and light == 0 then
+if stage == 1 and (light or 0) == 0 then
     self.room:send(tostring(self.name) .. " says, 'Prove yourself.  Bring me " .. tostring(objects.template(590, 26).name))
     self.room:send("</>from a priest on the second floor.'")
-elseif stage == 1 and light == 1 then
+elseif stage == 1 and (light or 0) == 1 then
     self:say("Ask me about my artifacts.")
-elseif stage == 2 and key == 0 then
+elseif stage == 2 and (key or 0) == 0 then
     self:say("Break my ally out of jail.")
     -- (empty room echo)
     self.room:send("Then bring me:")
     self.room:send("- " .. tostring(objects.template(590, 28).name))
     self.room:send("- " .. tostring(objects.template(590, 29).name))
     self.room:send("- " .. tostring(objects.template(590, 30).name))
-elseif stage == 2 and key == 1 then
+elseif stage == 2 and (key or 0) == 1 then
     self:say("Find the key my ally stashed in the courtyard.")
     -- (empty room echo)
     self.room:send("Then bring me:")
     self.room:send("- " .. tostring(objects.template(590, 28).name))
     self.room:send("- " .. tostring(objects.template(590, 29).name))
     self.room:send("- " .. tostring(objects.template(590, 30).name))
-elseif stage == 2 and key == 2 then
+elseif stage == 2 and (key or 0) == 2 then
     self:say("Bring me my artifacts.")
     if blood or trinket or earring then
         -- (empty room echo)
         self.room:send("You have brought me:")
-        if blood == 1 then
+        if (blood or 0) == 1 then
             self.room:send("- " .. tostring(objects.template(590, 28).name))
         end
-        if trinket == 1 then
+        if (trinket or 0) == 1 then
             self.room:send("- " .. tostring(objects.template(590, 29).name))
         end
-        if earring == 1 then
+        if (earring or 0) == 1 then
             self.room:send("- " .. tostring(objects.template(590, 30).name))
         end
     end
     -- (empty room echo)
     self.room:send("You still need to find:")
-    if blood == 0 then
+    if (blood or 0) == 0 then
         self.room:send("- " .. tostring(objects.template(590, 28).name))
     end
-    if trinket == 0 then
+    if (trinket or 0) == 0 then
         self.room:send("- " .. tostring(objects.template(590, 29).name))
     end
-    if earring == 0 then
+    if (earring or 0) == 0 then
         self.room:send("- " .. tostring(objects.template(590, 30).name))
     end
     wait(0.2)

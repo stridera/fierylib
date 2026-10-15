@@ -25,7 +25,7 @@ local speech2 = "great lady of the stars, hear our prayer"
 local speech3 = "great lady of the stars, hear our prayer!"
 local stage = actor:get_quest_stage("megalith_quest")
 if speech == speech1 or speech == speech2 or speech == speech3 then
-    if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and (actor:get_quest_var("megalith_quest:prayer") == 1) then
+    if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and ((actor:get_quest_var("megalith_quest:prayer") or 0) == 1) then
         run_room_trigger(123, 17)
         wait(5)
         self.room:send(tostring(self.name) .. " chants:")

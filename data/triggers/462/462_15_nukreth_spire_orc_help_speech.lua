@@ -22,7 +22,7 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path3") == 0 then
+    if (actor:get_quest_var("nukreth_spire:path3") or 0) == 0 then
         self:command("nod")
         self.room:send(tostring(self.name) .. " says, 'They took my axe when they captured me.  Gave it to")
         self.room:send("</>one of the chieftain's favorite mates.'")

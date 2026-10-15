@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:fight") == 1 then
+if (actor:get_quest_var("school:fight") or 0) == 1 then
     actor:set_quest_var("school", "fight", 2)
     actor:command("spell")
     wait(0.2)

@@ -65,7 +65,7 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
         end
         if actor:get_quest_stage("type_wand") == "wandstep" then
             if actor.level >= minlevel then
-                if actor:get_quest_var("type_wand:greet") == 0 then
+                if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                     actor:send(tostring(self.name) .. " tells you, 'Or is there even MORE you want from me?  You seem to be in need of a crafting <b:cyan>[upgrade]</>.'")
                 else
                     actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(weapon) .. "?'")
@@ -74,7 +74,7 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
         end
     else
         if actor.level >= minlevel then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
             else
                 actor:send(tostring(self.name) .. " tells you, 'Do you have what I need for the " .. tostring(weapon) .. "?'")

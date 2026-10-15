@@ -30,13 +30,13 @@ elseif stage == 3 then
     self.room:send("</>in her favorite leisure activities.'")
     wait(2)
     local step3 = actor:get_quest_var("supernova:step3")
-    if step3 == 4318 then
+    if (step3 or 0) == 4318 then
         self.room:send(tostring(self.name) .. " says, 'Recently, she was spotted in Anduin, taking in a")
         self.room:send("</>show from the best seat in the house.'")
-    elseif step3 == 10316 then
+    elseif (step3 or 0) == 10316 then
         self.room:send(tostring(self.name) .. " says, 'I understand she frequents the hottest spring at")
         self.room:send("</>the popular resort up north.'")
-    elseif step3 == 58062 then
+    elseif (step3 or 0) == 58062 then
         self.room:send(tostring(self.name) .. " says, 'She occasionally visits a small remote island")
         self.room:send("</>theatre, where she enjoys meditating in their reflecting room.'")
     end

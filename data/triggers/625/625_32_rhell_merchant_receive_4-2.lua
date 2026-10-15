@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- for path 2, the merchant asks for hard liquor - firebreather is best.
 if actor:get_quest_stage("ursa_quest") == 4 then
-    if actor:get_quest_var("ursa_quest:choice") == 2 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 2 then
         if object.zone_id == 590 and object.local_id == 12 then
             wait(0.2)
             world.destroy(object)

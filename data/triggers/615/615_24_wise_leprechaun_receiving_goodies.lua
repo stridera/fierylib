@@ -109,7 +109,7 @@ elseif obj_is(615, 4) then
 elseif obj_is(615, 5) or obj_is(615, 6) then
     -- Flint knife (615,6) or already-enchanted (615,5).
     -- If the giver has fed a cherry, enchant it. Otherwise return it.
-    if actor:get_quest_var("enchanted_hollow_quest:got_cherry") == 1 then
+    if (actor:get_quest_var("enchanted_hollow_quest:got_cherry") or 0) == 1 then
         wait(0.8)
         -- Clear the per-group eligibility flag now that we've earned the knife.
         local size = (actor.group_size or 0)

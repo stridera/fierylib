@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:rest") == 6 and (arg == "meat" or arg == "food") and actor:has_item(203, 5) then
+if (actor:get_quest_var("school:rest") or 0) == 6 and (arg == "meat" or arg == "food") and actor:has_item(203, 5) then
     actor:set_quest_var("school", "rest", 7)
     actor:command("eat " .. tostring(arg))
     wait(0.2)

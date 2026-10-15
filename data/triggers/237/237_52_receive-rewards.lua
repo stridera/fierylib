@@ -81,7 +81,7 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
     local is_spice = key ~= nil
     -- Reject duplicates.
     local already_given = key
-        and actor:get_quest_var("vilekka_stew:got_spice:" .. key) == 1
+        and (actor:get_quest_var("vilekka_stew:got_spice:" .. key) or 0) == 1
     if (not is_spice) or already_given then
         self:emote("refuses to accept " .. tostring(object.shortdesc) .. ".")
         wait(1)
@@ -139,8 +139,8 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
     actor:send(tostring(self.name) .. " says, 'Oh yes, your reward....'")
     -- Reward boots depend on whether saffron (23760) and salt (23756) were
     -- among the ten spices delivered.
-    local has_saffron = actor:get_quest_var("vilekka_stew:got_spice:23760") == 1
-    local has_salt = actor:get_quest_var("vilekka_stew:got_spice:23756") == 1
+    local has_saffron = (actor:get_quest_var("vilekka_stew:got_spice:23760") or 0) == 1
+    local has_salt = (actor:get_quest_var("vilekka_stew:got_spice:23756") or 0) == 1
     local expcap
     if has_saffron and has_salt then
         self.room:spawn_object(237, 98)

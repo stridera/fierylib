@@ -62,7 +62,7 @@ do
         if num_spices > 0 then
             self.room:send("So far you have brought me:")
             for _, s in ipairs(spices) do
-                if actor:get_quest_var("vilekka_stew:got_spice:" .. s[1]) == 1 then
+                if (actor:get_quest_var("vilekka_stew:got_spice:" .. s[1]) or 0) == 1 then
                     self.room:send("- " .. tostring(objects.template(s[2], s[3]).name))
             end
         end

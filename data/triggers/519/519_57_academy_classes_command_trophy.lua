@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:loot") == 4 then
+if (actor:get_quest_var("school:loot") or 0) == 4 then
     actor:set_quest_var("school", "loot", "complete")
     actor:advance_quest("school")
     actor:command("trophy")

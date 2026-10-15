@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51910: academy_torch_remove
 -- Original: OBJECT trigger, flags: REMOVE, probability: 100%
-if actor:get_quest_var("school:gear") == 6 then
+if (actor:get_quest_var("school:gear") or 0) == 6 then
     actor:set_quest_var("school", "gear", 7)
     wait(0.2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Good, save that light!'")

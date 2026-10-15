@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:loot") == 2 then
+if (actor:get_quest_var("school:loot") or 0) == 2 then
     -- switch on arg
     do
         local _sw2 = string.lower(tostring(arg or ""))
@@ -38,7 +38,7 @@ if actor:get_quest_var("school:loot") == 2 then
             actor:send(tostring(self.name) .. " tells you, 'Type <b:green>toggle autosplit</> to set that.'")
         end
     end
-elseif actor:get_quest_var("school:loot") == 3 then
+elseif (actor:get_quest_var("school:loot") or 0) == 3 then
     -- switch on arg
     do
         local _sw3 = string.lower(tostring(arg or ""))

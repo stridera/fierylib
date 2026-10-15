@@ -20,7 +20,7 @@ if actor:get_quest_stage("hell_trident") == 2 then
                 actor:set_quest_var("hell_trident", "helltask5", 1)
             end
         end
-        if actor:get_quest_var("hell_trident:greet") == 1 then
+        if (actor:get_quest_var("hell_trident:greet") or 0) == 1 then
             local job1 = actor:get_quest_var("hell_trident:helltask1")
             local job2 = actor:get_quest_var("hell_trident:helltask2")
             local job3 = actor:get_quest_var("hell_trident:helltask3")

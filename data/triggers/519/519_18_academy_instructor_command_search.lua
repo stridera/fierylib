@@ -25,7 +25,7 @@ end
 do
     local _sw2 = string.lower(tostring(arg or ""))
     if _sw2 == "c" or _sw2 == "cu" or _sw2 == "cur" or _sw2 == "curt" or _sw2 == "curta" or _sw2 == "curtai" or _sw2 == "curtain" then
-        if actor:get_quest_var("school:explore") == 3 then
+        if (actor:get_quest_var("school:explore") or 0) == 3 then
             actor:set_quest_var("school", "explore", 4)
             actor:command("search curtain")
             wait(0.2)
@@ -43,7 +43,7 @@ do
         end
         _return_value = true
     else
-        if actor:get_quest_var("school:explore") == 3 then
+        if (actor:get_quest_var("school:explore") or 0) == 3 then
             actor:send(tostring(self.name) .. " tells you, 'No no, you have to <b:green>search curtain</>.'")
         else
             _return_value = true

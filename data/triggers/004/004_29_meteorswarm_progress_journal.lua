@@ -51,23 +51,23 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
                 elseif tonumber(_sw1) == 2 then
                     task = "Find a suitable meteor focus from the rock demon in Templace."
                 elseif tonumber(_sw1) == 3 then
-                    if actor:get_quest_var("meteorswarm:earth") == 0 then
+                    if (actor:get_quest_var("meteorswarm:earth") or 0) == 0 then
                         task = "Show him the meteorite."
                     else
-                        if actor:get_quest_var("meteorswarm:fire") == 0 then
+                        if (actor:get_quest_var("meteorswarm:fire") or 0) == 0 then
                             task = "Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers."
                         else
                             task = "Find the lava bubble in the high fire priest's secret chambers."
                         end
                     end
                 elseif tonumber(_sw1) == 4 then
-                    if actor:get_quest_var("meteorswarm:fire") == 1 then
+                    if (actor:get_quest_var("meteorswarm:fire") or 0) == 1 then
                         task = "Return to McCabe."
-                    elseif actor:get_quest_var("meteorswarm:fire") == 2 then
+                    elseif (actor:get_quest_var("meteorswarm:fire") or 0) == 2 then
                         task = "Convince the ancient dragon Dargentan to teach you the ways of air magic."
                     end
                 elseif tonumber(_sw1) == 5 then
-                    if actor:get_quest_var("meteorswarm:air") == 0 then
+                    if (actor:get_quest_var("meteorswarm:air") or 0) == 0 then
                         task = "Show him the meteorite now that you have mastered earth, fire, and air."
                     else
                         task = "Take your finished focus and unleash its potential!"

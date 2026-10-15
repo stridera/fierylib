@@ -18,7 +18,7 @@ if arg == "stones" then
     actor:send("You move the stone from the wall, and a bent key falls to the ground.")
     self.room:send_except(actor, tostring(actor.name) .. " moves a stone from the wall, and a bent key falls to the ground.")
     self.room:spawn_object(590, 27)
-    if actor:get_quest_var("sacred_haven:find_key") == 1 then
+    if (actor:get_quest_var("sacred_haven:find_key") or 0) == 1 then
         actor:set_quest_var("sacred_haven", "find_key", 2)
     end
 else

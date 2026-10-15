@@ -24,7 +24,7 @@ if not quester then
 end
 if quester:get_quest_stage("ursa_quest") == 6 then
     -- now find the right script to run, based on that players questvar: choice
-    if quester:get_quest_var("ursa_quest:choice") == 1 then
+    if (quester:get_quest_var("ursa_quest:choice") or 0) == 1 then
         wait(0.5)
         self.room:send("The mild mannered merchant says, 'Fantastic.  Now let's see what miracle the Emperor has found.'")
         self.room:find_actor("mild"):emote("digs a slight divot into the ground with the end of the thorny staff.")
@@ -71,7 +71,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
         self.room:find_actor("mild"):command("tip " .. tostring(quester))
         self.room:find_actor("mild"):emote("leaves north toward Blue Fog Trail.")
         world.destroy(self.room:find_actor("merchant"))
-    elseif quester:get_quest_var("ursa_quest:choice") == 2 then
+    elseif (quester:get_quest_var("ursa_quest:choice") or 0) == 2 then
         wait(1)
         self.room:find_actor("mild"):say("Good enough.")
         self.room:find_actor("mild"):command("wear " .. tostring(object))
@@ -108,7 +108,7 @@ if quester:get_quest_stage("ursa_quest") == 6 then
             self.room:spawn_object(557, 36 + random(1, 11))
         end
         self.room:spawn_object(625, 8)
-    elseif quester:get_quest_var("ursa_quest:choice") == 3 then
+    elseif (quester:get_quest_var("ursa_quest:choice") or 0) == 3 then
         wait(1)
         self.room:find_actor("mild"):emote("tosses the anvil to the ground with a grunt.")
         wait(3)

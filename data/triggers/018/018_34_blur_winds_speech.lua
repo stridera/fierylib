@@ -111,13 +111,13 @@ while count > 0 do
 end
 
 local arrived = actor.room and actor.room.zone_id == home_zone and actor.room.local_id == home_id
-if actor:get_quest_var("blur:" .. direction) == 2 then
+if (actor:get_quest_var("blur:" .. direction) or 0) == 2 then
     world.destroy(self)
 elseif arrived then
-    if actor:get_quest_var("blur:" .. direction) == 1 then
+    if (actor:get_quest_var("blur:" .. direction) or 0) == 1 then
         actor:send(tostring(self.name) .. " tells you, '" .. tostring(color) .. "Wow you're fast!  Incredible!</>'")
         actor:set_quest_var("blur", direction, 2)
-        if actor:get_quest_var("blur:east") == 2 and actor:get_quest_var("blur:west") == 2 and actor:get_quest_var("blur:north") == 2 and actor:get_quest_var("blur:south") == 2 then
+        if (actor:get_quest_var("blur:east") or 0) == 2 and (actor:get_quest_var("blur:west") or 0) == 2 and (actor:get_quest_var("blur:north") or 0) == 2 and (actor:get_quest_var("blur:south") or 0) == 2 then
             skills.set_level(actor, "blur", 1000)
             wait(0.2)
             actor:send("You have matched the greatest speeds of nature!")

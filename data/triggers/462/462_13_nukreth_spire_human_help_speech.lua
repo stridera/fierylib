@@ -21,7 +21,7 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path1") == 0 then
+    if (actor:get_quest_var("nukreth_spire:path1") or 0) == 0 then
         self.room:send(tostring(self.name) .. " says, 'They took us both captive.  But just a moment ago three")
         self.room:send("</>of their cultists took him as a sacrifice to their Demon Lord...'")
         wait(0.2)

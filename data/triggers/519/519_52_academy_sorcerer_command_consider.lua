@@ -22,7 +22,7 @@ do
     end
 end
 local thing = "horrible-little-monster"
-if actor:get_quest_var("school:fight") == 7 then
+if (actor:get_quest_var("school:fight") or 0) == 7 then
     actor:set_quest_var("school", "fight", 8)
     actor:command("consider " .. tostring(arg))
     wait(0.2)

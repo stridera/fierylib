@@ -17,7 +17,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 do
     local _sw1 = string.lower(tostring(arg or ""))
     if _sw1 == "all c" or _sw1 == "all co" or _sw1 == "all cor" or _sw1 == "all corp" or _sw1 == "all corps" or _sw1 == "all corpse" then
-        if actor:get_quest_var("school:loot") == 1 then
+        if (actor:get_quest_var("school:loot") or 0) == 1 then
             actor:set_quest_var("school", "loot", 2)
             actor:command("get all corpse")
             wait(0.2)

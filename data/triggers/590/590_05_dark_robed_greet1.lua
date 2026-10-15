@@ -16,11 +16,11 @@ if not (actor.is_player and actor.level < 100) then
     return true
 end
 local stage = actor:get_quest_stage("sacred_haven")
-if stage == 1 and actor:get_quest_var("sacred_haven:given_light") ~= 1 then
+if stage == 1 and (actor:get_quest_var("sacred_haven:given_light") or 0) ~= 1 then
     wait(0.6)
     actor:send(tostring(self.name) .. " whispers to you, 'Have you located the adornment of light")
     actor:send("</>for me?'")
-elseif stage > 1 and actor:get_quest_var("sacred_haven:given_blood") ~= 1 and actor:get_quest_var("sacred_haven:given_earring") ~= 1 then
+elseif stage > 1 and (actor:get_quest_var("sacred_haven:given_blood") or 0) ~= 1 and (actor:get_quest_var("sacred_haven:given_earring") or 0) ~= 1 then
     wait(0.4)
     self:whisper(actor.name, "Have you brought me my artifacts?")
 elseif stage < 1 then

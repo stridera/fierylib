@@ -24,7 +24,7 @@ do
     local _sw1 = string.lower(tostring(stage or ""))
     if tonumber(_sw1) == 1 then
         if (object.zone_id == 61 and object.id == 18) or (object.zone_id == 117 and object.id == 4) or (object.zone_id == 117 and object.id == 7) or (object.zone_id == 169 and object.id == 6) then
-            if actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
+            if (actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
                 _return_value = true
                 self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
             else
@@ -154,7 +154,7 @@ do
         end
     elseif tonumber(_sw1) == 6 then
         if (object.zone_id == 470 and object.id == 4) or (object.zone_id == 470 and object.id == 18) or (object.zone_id == 530 and object.id == 3) then
-            if actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) == 1 then
+            if (actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
                 _return_value = true
                 self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
             else

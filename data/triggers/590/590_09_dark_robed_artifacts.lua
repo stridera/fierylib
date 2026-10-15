@@ -26,7 +26,7 @@ wait(0.4)
 -- if they're still on stage 1.
 local continue = false
 for _, person in ipairs(actor.group or { actor }) do
-    if person.room == self.room and person:get_quest_var("sacred_haven:given_light") == 1 and person.alignment <= -350 then
+    if person.room == self.room and (person:get_quest_var("sacred_haven:given_light") or 0) == 1 and person.alignment <= -350 then
         continue = true
         person:set_quest_var("sacred_haven", "find_blood", 1)
         if person:get_quest_stage("sacred_haven") == 1 then

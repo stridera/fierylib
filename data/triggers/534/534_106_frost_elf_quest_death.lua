@@ -19,7 +19,7 @@ end
 while i >= a do
     local person = actor.group_member[a]
     if person.room == self.room then
-        if person:get_quest_var("frost_valley_quest:shake") == 1 then
+        if (person:get_quest_var("frost_valley_quest:shake") or 0) == 1 then
             person:set_quest_var("frost_valley_quest", "elf", 1)
         end
     elseif person then

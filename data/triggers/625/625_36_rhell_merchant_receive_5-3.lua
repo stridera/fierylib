@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- final step on neutral quest: merchant turns into Ursa and fights!
 -- note - the anvil is extremely heavy but must be picked up and given to the merchant to complete the quest; it cannot just be dragged to him.
 if actor:get_quest_stage("ursa_quest") == 5 then
-    if actor:get_quest_var("ursa_quest:choice") == 3 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 3 then
         if object.zone_id == 87 and object.local_id == 2 then
             wait(0.2)
             world.destroy(object)

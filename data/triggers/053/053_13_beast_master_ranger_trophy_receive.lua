@@ -371,7 +371,7 @@ elseif go == "trophy" then
             end
         elseif item == "trophy" then
             local task2 = actor:get_quest_var("ranger_trophy:trophytask2")
-            if task2 == object.id or ((object.zone_id == 533 and object.id == 11) and task2 == 53323) or ((object.zone_id == 533 and object.id == 23) and task2 == 53311) then
+            if task2 == object.id or ((object.zone_id == 533 and object.id == 11) and (task2 or 0) == 53323) or ((object.zone_id == 533 and object.id == 23) and (task2 or 0) == 53311) then
                 accept = "no"
             else
                 accept = "yes"

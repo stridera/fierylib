@@ -22,14 +22,14 @@ if not speech_hit then
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
     wait(0.2)
-    if actor:get_quest_var("megalith_quest:vexpo") == 0 then
+    if (actor:get_quest_var("megalith_quest:vexpo") or 0) == 0 then
         self:say("I am a sorcerer-warrior of the Tzigane people.  Though others call us by a cruder name, you've certainly seen us around the world before.  I myself come from a family caravan which is usually camped not far to the east of here.")
         wait(4)
         self:say("When I was a girl, the old witchy woman of my caravan saw mystic potential in me.  She took me under her wing and taught me to utilize that potential to defend my family and our home.")
         wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "vexpo", 1)
-    elseif actor:get_quest_var("megalith_quest:vexpo") == 1 then
+    elseif (actor:get_quest_var("megalith_quest:vexpo") or 0) == 1 then
         self:say("Shortly after I came of age, I heard a voice calling to me in my dreams.  It told me new Sisters were waiting for me, in need of my defense.")
         wait(4)
         self:say("I came upon several sisters of the coven besieged by the walking dead outside the graveyard near Anduin.  My added strength turned the tide of battle.")
@@ -38,7 +38,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "vexpo", 2)
-    elseif actor:get_quest_var("megalith_quest:vexpo") == 2 then
+    elseif (actor:get_quest_var("megalith_quest:vexpo") or 0) == 2 then
         self:say("To assist in the Great Rite of Invocation, in my duty duty as defender, I am casting and reinforcing a circle of protection between these smaller menhir.")
         wait(4)
         self:say("I will maintain it throughout the rite.")

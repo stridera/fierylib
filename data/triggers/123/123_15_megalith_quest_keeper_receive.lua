@@ -55,16 +55,16 @@ if actor:get_quest_stage("megalith_quest") == 2 then
     if (item == need) or ((self.zone_id == 123 and me == 6) and ((object.zone_id == 411 and item == 10) or (object.zone_id == 411 and item == 11) or (object.zone_id == 185 and item == 12))) then
         -- Already given, right item.
         local part_key = "item" .. tostring(part)
-        if actor:get_quest_var("megalith_quest:" .. part_key) == 1 then
+        if (actor:get_quest_var("megalith_quest:" .. part_key) or 0) == 1 then
             self:command("shake")
             self:say("You've already given me this.")
             return _return_value
-        elseif actor:get_quest_var("megalith_quest:" .. direction) == 1 then
+        elseif (actor:get_quest_var("megalith_quest:" .. direction) or 0) == 1 then
             -- Right item, wrong order.
             if part > 1 then
                 local check = part - 1
                 local check_key = "item" .. tostring(check)
-                if actor:get_quest_var("megalith_quest:" .. check_key) == 0 then
+                if (actor:get_quest_var("megalith_quest:" .. check_key) or 0) == 0 then
                     self:command("shake")
                     self.room:send(tostring(self.name) .. " says, 'We must cast the circle in order:")
                     self.room:send("East, South, West, North.")
@@ -107,7 +107,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                     self.room:send("'Hail to the guardian Spirits of the East")
                     self.room:send("</>Spirits of Air and Intellect")
                 elseif direction == "west" then
-                    if actor:get_quest_var("megalith_quest:item5") == 1 then
+                    if (actor:get_quest_var("megalith_quest:item5") or 0) == 1 then
                         self:say("Ah, delightful!  This water will make a perfect offering.")
                         wait(0.6)
                     else
@@ -128,7 +128,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self.room:send("The menhir begins to hum and glow!")
                 wait(3)
                 -- Next person.
-                if (actor:get_quest_var("megalith_quest:item1") == 1) and (actor:get_quest_var("megalith_quest:item2") == 1) and (actor:get_quest_var("megalith_quest:item3") == 1) and (actor:get_quest_var("megalith_quest:item4") == 1) then
+                if ((actor:get_quest_var("megalith_quest:item1") or 0) == 1) and ((actor:get_quest_var("megalith_quest:item2") or 0) == 1) and ((actor:get_quest_var("megalith_quest:item3") or 0) == 1) and ((actor:get_quest_var("megalith_quest:item4") or 0) == 1) then
                     self:say("Now, return to " .. tostring(mobiles.template(123, 1).name) .. " at the altar and help her finish the call!")
                 else
                     -- TODO(parity): nxt is still a legacy 5-digit vnum.

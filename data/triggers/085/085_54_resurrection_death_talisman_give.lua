@@ -28,9 +28,9 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
     if not actor:get_quest_var("resurrection_quest:4003") then
         if actor:get_quest_stage("resurrection_quest") == 4 then
             victim:say("You have not banished Lajon's Soul.")
-        elseif actor:get_quest_var("resurrection_quest:4004") == 0 then
+        elseif (actor:get_quest_var("resurrection_quest:4004") or 0) == 0 then
             victim:say("You have not destroyed Lajon's Corruption.")
-        elseif actor:get_quest_var("resurrection_quest:4016") == 0 then
+        elseif (actor:get_quest_var("resurrection_quest:4016") or 0) == 0 then
             self.room:send(tostring(victim.name) .. " says, 'You must still stop the one responsible, the Tres Keeper, and return his ring of souls.'")
         else
             actor:advance_quest("resurrection_quest")
@@ -38,10 +38,10 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
         end
     elseif actor:get_quest_stage("resurrection_quest") == 5 then
         victim:say("I need to have that ring.")
-        if actor:get_quest_var("resurrection_quest:53411") < 2 then
+        if (actor:get_quest_var("resurrection_quest:53411") or 0) < 2 then
         elseif actor:get_quest_stage("resurrection_quest") == 6 then
             victim:say("You have not yet removed enough of the Xeg-Yi from this realm.")
-        elseif actor:get_quest_var("resurrection_quest:53308") == 0 then
+        elseif (actor:get_quest_var("resurrection_quest:53308") or 0) == 0 then
             self.room:send(tostring(victim.name) .. " says, 'Aelfric is still out there, with the white robes.  Go finish the job!'")
         else
             actor:advance_quest("resurrection_quest")
@@ -49,12 +49,12 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
         end
     elseif actor:get_quest_stage("resurrection_quest") == 7 then
         victim:say("Before we may continue, I must have the dragon robes.")
-        if actor:get_quest_var("resurrection_quest:53001") == 0 then
+        if (actor:get_quest_var("resurrection_quest:53001") or 0) == 0 then
         elseif actor:get_quest_stage("resurrection_quest") == 8 then
             victim:say("The spectral man is still out there.  Why are you here?")
-        elseif actor:get_quest_var("resurrection_quest:51005") == 0 then
+        elseif (actor:get_quest_var("resurrection_quest:51005") or 0) == 0 then
             victim:say("The poor man's bloody remains must be dispelled.  Go now!")
-        elseif actor:get_quest_var("resurrection_quest:51014") == 0 then
+        elseif (actor:get_quest_var("resurrection_quest:51014") or 0) == 0 then
             self.room:send(tostring(victim.name) .. " says, 'Go stop Luchiaans, and bring the source of power before he finds it.'")
         else
             actor:advance_quest("resurrection_quest")
@@ -62,10 +62,10 @@ if actor:get_quest_stage("resurrection_quest") > 10 then
         end
     elseif actor:get_quest_stage("resurrection_quest") == 9 then
         victim:say("Luchiaans' object of power, do you have it?  Give it to me.")
-        if actor:get_quest_var("resurrection_quest:52015") == 0 then
+        if (actor:get_quest_var("resurrection_quest:52015") or 0) == 0 then
         elseif actor:get_quest_stage("resurrection_quest") == 10 then
             victim:say("The weaponsmith's spirit still dwells.  Go set her free.")
-        elseif actor:get_quest_var("resurrection_quest:52003") == 0 then
+        elseif (actor:get_quest_var("resurrection_quest:52003") or 0) == 0 then
             self.room:send(tostring(victim.name) .. " says, 'The crazed mage must be destroyed.  Go, end this.  Return with his ring.'")
         else
             actor:advance_quest("resurrection_quest")

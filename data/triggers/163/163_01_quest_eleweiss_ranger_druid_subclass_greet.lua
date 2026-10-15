@@ -20,7 +20,7 @@ local wandstep = actor:get_quest_stage("type_wand")
 if (wandstep or 0) > 0 then
     local minlevel = (wandstep - 1) * 10
     if actor.level >= minlevel then
-        if actor:get_quest_var("type_wand:greet") == 0 then
+        if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         elseif actor:get_quest_var("type_wand:wandtask1")
             and actor:get_quest_var("type_wand:wandtask2")

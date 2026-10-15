@@ -36,10 +36,10 @@ do
     elseif tonumber(_sw1) == 2 then
         actor:send(tostring(self.name) .. " tells you, 'Find a suitable focus by defeating the rock demon in Templace.'")
     elseif tonumber(_sw1) == 3 then
-        if actor:get_quest_var("meteorswarm:earth") == 0 then
+        if (actor:get_quest_var("meteorswarm:earth") or 0) == 0 then
             actor:send(tostring(self.name) .. " tells you, 'Show me the meteorite.'")
         else
-            if actor:get_quest_var("meteorswarm:fire") == 0 then
+            if (actor:get_quest_var("meteorswarm:fire") or 0) == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers.'")
             else
                 actor:send(tostring(self.name) .. " tells you, 'Find the lava bubble in the high fire priest's secret chambers.'")
@@ -52,7 +52,7 @@ do
         wait(1)
         actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")
     elseif tonumber(_sw1) == 5 then
-        if actor:get_quest_var("meteorswarm:air") == 0 then
+        if (actor:get_quest_var("meteorswarm:air") or 0) == 0 then
             actor:send(tostring(self.name) .. " tells you, 'Show me the meteorite now that you have mastered earth, fire, and air.'")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")

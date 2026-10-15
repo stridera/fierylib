@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("ursa_quest") == 6 then
-    if actor:get_quest_var("ursa_quest:choice") == 2 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 2 then
         if object.type == "CONTAINER" then
             wait(0.2)
             self.room:send(tostring(self.name) .. " examines " .. tostring(object.shortdesc) .. ".")

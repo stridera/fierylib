@@ -72,7 +72,7 @@ if object.val1 == 0 then
 end
 
 -- This tree already satisfied: refuse.
-if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) == 1 then
+if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) or 0) == 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
     wait(0.4)

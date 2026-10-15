@@ -113,7 +113,7 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                 return _return_value
             else
                 if actor.level >= minlevel then
-                    if actor:get_quest_var("fire_wand:greet") == 0 and stage ~= 2 then
+                    if (actor:get_quest_var("fire_wand:greet") or 0) == 0 and stage ~= 2 then
                         actor:send("Find the next master crafter and tell them why you have come.")
                         actor:send(tostring(hint))
                         return _return_value

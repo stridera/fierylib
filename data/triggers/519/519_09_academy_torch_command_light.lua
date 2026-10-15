@@ -29,7 +29,7 @@ end
 -- `arg` is the typed argument ("torch"), not an object: this trigger sits on the academy torch
 -- (0:23), so the lesson step applies when the argument names this object.
 local names_this_torch = arg ~= "" and string.find(string.lower(tostring(self.name)), string.lower(arg), 1, true)
-if actor:get_quest_var("school:gear") == 5 and names_this_torch then
+if (actor:get_quest_var("school:gear") or 0) == 5 and names_this_torch then
     -- The queued command below does the lighting, so the typed one is blocked (it would otherwise
     -- run first and the queued `light` would toggle the torch straight back off).
     _return_value = false

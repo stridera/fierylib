@@ -114,7 +114,7 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
                 end
             end
             if actor.level >= minlevel then
-                if actor:get_quest_var("phase_mace:greet") == 0 then
+                if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
                     actor:send("Find the next master crafter and tell them why you have come.")
                     actor:send(tostring(hint))
                     return _return_value

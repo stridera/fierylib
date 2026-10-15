@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 -- for path 1, after the plant, comes the thorny staff, from The Citadel of Betrayal.
 if actor:get_quest_stage("ursa_quest") == 3 then
-    if actor:get_quest_var("ursa_quest:choice") == 1 then
+    if (actor:get_quest_var("ursa_quest:choice") or 0) == 1 then
         if object.zone_id == 118 and object.local_id == 10 then
             wait(0.2)
             actor:advance_quest("ursa_quest")

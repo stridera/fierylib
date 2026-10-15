@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:rest") == 3 and (arg == "waterskin" or arg == "leather" or arg == "skin") then
+if (actor:get_quest_var("school:rest") or 0) == 3 and (arg == "waterskin" or arg == "leather" or arg == "skin") then
     actor:set_quest_var("school", "rest", 4)
     actor:command("drink " .. tostring(arg))
     wait(0.2)

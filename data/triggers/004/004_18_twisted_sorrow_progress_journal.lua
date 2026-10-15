@@ -35,40 +35,40 @@ if string.find(arg, "twisted") or string.find(arg, "sorrow") or string.find(arg,
         actor:send("Quest Master: " .. tostring(mobiles.template(302, 14).name))
         actor:send("</>")
         actor:send("Bring drink to awaken the trees from the corruption.")
-        if luck == 1 or reverence == 1 or reliance == 1 or nimbleness == 1 or kindness == 1 then
+        if (luck or 0) == 1 or (reverence or 0) == 1 or (reliance or 0) == 1 or (nimbleness or 0) == 1 or (kindness or 0) == 1 then
             actor:send("</>")
             actor:send("You have already awakened the following trees:")
-            if luck == 1 then
+            if (luck or 0) == 1 then
                 actor:send("- <b:black>" .. tostring(tree1.name) .. "</>")
             end
-            if reverence == 1 then
+            if (reverence or 0) == 1 then
                 actor:send("- <b:black>" .. tostring(tree2.name) .. "</>")
             end
-            if reliance == 1 then
+            if (reliance or 0) == 1 then
                 actor:send("- <b:black>" .. tostring(tree3.name) .. "</>")
             end
-            if nimbleness == 1 then
+            if (nimbleness or 0) == 1 then
                 actor:send("- <b:black>" .. tostring(tree4.name) .. "</>")
             end
-            if kindness == 1 then
+            if (kindness or 0) == 1 then
                 actor:send("- <b:black>" .. tostring(tree5.name) .. "</>")
             end
         end
         actor:send("</>")
         actor:send("Offerings are still needed for:")
-        if luck == 0 then
+        if (luck or 0) == 0 then
             actor:send("- <green>" .. tostring(tree1.name) .. "</>")
         end
-        if reverence == 0 then
+        if (reverence or 0) == 0 then
             actor:send("- <green>" .. tostring(tree2.name) .. "</>")
         end
-        if reliance == 0 then
+        if (reliance or 0) == 0 then
             actor:send("- <green>" .. tostring(tree3.name) .. "</>")
         end
-        if nimbleness == 0 then
+        if (nimbleness or 0) == 0 then
             actor:send("- <green>" .. tostring(tree4.name) .. "</>")
         end
-        if kindness == 0 then
+        if (kindness or 0) == 0 then
             actor:send("- <green>" .. tostring(tree5.name) .. "</>")
         end
         actor:send("</>")

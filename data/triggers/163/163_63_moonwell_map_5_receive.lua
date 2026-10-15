@@ -12,7 +12,7 @@ if actor:get_quest_stage("moonwell_spell_quest") ~= 11 then
     return true
 end
 
-if actor:get_quest_var("moonwell_spell_quest:map") ~= 1 then
+if (actor:get_quest_var("moonwell_spell_quest:map") or 0) ~= 1 then
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(0.2)

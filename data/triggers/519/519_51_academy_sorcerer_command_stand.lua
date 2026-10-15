@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:fight") == 6 then
+if (actor:get_quest_var("school:fight") or 0) == 6 then
     actor:set_quest_var("school", "fight", 7)
     actor:command("stand")
     wait(0.2)
@@ -46,7 +46,7 @@ if actor:get_quest_var("school:fight") == 6 then
     actor:send("Keep in mind FieryMUD is made for groups of 4-8, so the results of <b:cyan>CONSIDER</> aren't perfect")
     actor:send("</>")
     actor:send(tostring(self.name) .. " tells you, 'Type <b:green>consider monster</> for see chances.'")
-elseif actor:get_quest_var("school:fight") == 12 then
+elseif (actor:get_quest_var("school:fight") or 0) == 12 then
     actor:set_quest_var("school", "fight", "complete")
     actor:advance_quest("school")
     actor:command("stand")

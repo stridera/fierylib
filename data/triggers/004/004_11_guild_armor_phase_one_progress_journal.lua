@@ -148,13 +148,13 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local arms_count = actor:get_quest_var("phase_armor:arms_gem_gems_acquired")
         local legs_count = actor:get_quest_var("phase_armor:legs_gem_gems_acquired")
         local body_count = actor:get_quest_var("phase_armor:body_gem_gems_acquired")
-        local done_hands = got_hands == 1  and  hands_count == 3
-        local done_feet = got_feet == 1  and  feet_count == 3
-        local done_wrist = got_wrist == 1  and  wrist_count == 3
-        local done_head = got_head == 1  and  head_count == 3
-        local done_arms = got_arms == 1  and  arms_count == 3
-        local done_legs = got_legs == 1  and  legs_count == 3
-        local done_body = got_body == 1  and  body_count == 3
+        local done_hands = (got_hands or 0) == 1  and  (hands_count or 0) == 3
+        local done_feet = (got_feet or 0) == 1  and  (feet_count or 0) == 3
+        local done_wrist = (got_wrist or 0) == 1  and  (wrist_count or 0) == 3
+        local done_head = (got_head or 0) == 1  and  (head_count or 0) == 3
+        local done_arms = (got_arms or 0) == 1  and  (arms_count or 0) == 3
+        local done_legs = (got_legs or 0) == 1  and  (legs_count or 0) == 3
+        local done_body = (got_body or 0) == 1  and  (body_count or 0) == 3
         local given = got_hands + got_feet + got_wrist + got_head + got_arms + got_legs + got_body
         given = given + hands_count + feet_count + wrist_count + head_count + arms_count + legs_count + body_count
         local unrewarded = (got_hands + hands_count  ~=  4) + (got_feet + feet_count  ~=  4) + (got_wrist + wrist_count  ~=  4)

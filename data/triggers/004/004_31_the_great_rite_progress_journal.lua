@@ -86,11 +86,11 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
                     local prayer = actor:get_quest_var("megalith_quest:prayer")
                     local summon = actor:get_quest_var("megalith_quest:summon")
                     local invoke = actor:get_quest_var("megalith_quest:invoke")
-                    if prayer == 1 then
+                    if (prayer or 0) == 1 then
                         task = "Return to " .. tostring(master) .. " and say, \"<b:white>Great Lady of the Stars, hear our prayer!</>\""
-                    elseif summon == 1 or summon == 2 or summon == 3 then
+                    elseif (summon or 0) == 1 or (summon or 0) == 2 or (summon or 0) == 3 then
                         task = "Return to " .. tostring(master) .. " and say, \"<b:white>We summon and stir thee!</>\""
-                    elseif invoke == 1 or invoke == 2 or invoke == 3 then
+                    elseif (invoke or 0) == 1 or (invoke or 0) == 2 or (invoke or 0) == 3 then
                         task = "Return to " .. tostring(master) .. " and say, \"<b:white>We invoke thee!</>\""
                     end
                 elseif tonumber(_sw1) == 5 then

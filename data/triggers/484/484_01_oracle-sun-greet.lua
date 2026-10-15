@@ -28,7 +28,7 @@ else
 end
 if actor:get_quest_stage("type_wand") == "wandstep" and actor:get_quest_stage("doom_entrance") ~= 5 and actor:get_quest_stage("doom_entrance") ~= 6 and not actor:get_has_completed("doom_entrance") then
     if actor.level >= minlevel then
-        if actor:get_quest_var("type_wand:greet") == 0 then
+        if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
         else
             actor:send(tostring(self.name) .. " says, 'Do you have what I require to craft your staff?'")
@@ -36,7 +36,7 @@ if actor:get_quest_stage("type_wand") == "wandstep" and actor:get_quest_stage("d
     end
 elseif actor:get_quest_stage("phase_mace") == "macestep" and actor:get_quest_stage("doom_entrance") ~= 5 and actor:get_quest_stage("doom_entrance") ~= 6 and not actor:get_has_completed("doom_entrance") then
     if actor.level >= minlevel then
-        if actor:get_quest_var("phase_mace:greet") == 0 then
+        if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'I sense a ghostly presence about your weapons.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
             actor:send(tostring(self.name) .. " says, 'Do you have what I need?'")
@@ -57,7 +57,7 @@ elseif actor:get_quest_stage("doom_entrance") == 5 then
     wait(4)
     if actor:get_quest_stage("type_wand") == "wandstep" then
         if actor.level >= minlevel then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -67,7 +67,7 @@ elseif actor:get_quest_stage("doom_entrance") == 5 then
         end
     elseif actor:get_quest_stage("phase_mace") == "macestep" then
         if actor.level >= minlevel then
-            if actor:get_quest_var("phase_mace:greet") == 0 then
+            if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'Timun sees you also seek His lambent blessing to repel the forces of the dead.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -108,7 +108,7 @@ elseif actor:get_quest_stage("doom_entrance") == 6 then
         local minlevel = (wandstep - 1) * 10
         if actor.level >= minlevel then
             wait(3)
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -118,7 +118,7 @@ elseif actor:get_quest_stage("doom_entrance") == 6 then
         end
     elseif actor:get_quest_stage("phase_mace") == "macestep" then
         if actor.level >= minlevel then
-            if actor:get_quest_var("phase_mace:greet") == 0 then
+            if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'Timun sees you also seek His lambent blessing to repel the forces of the dead.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -140,7 +140,7 @@ elseif actor:get_has_completed("doom_entrance") then
     if actor:get_quest_stage("type_wand") == "wandstep" then
         local minlevel = (wandstep - 1) * 10
         if actor.level >= minlevel then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")
                 wait(1)
             else
@@ -149,7 +149,7 @@ elseif actor:get_has_completed("doom_entrance") then
             end
         elseif actor:get_quest_stage("phase_mace") == "macestep" then
             if actor.level >= minlevel then
-                if actor:get_quest_var("phase_mace:greet") == 0 then
+                if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
                     actor:send(tostring(self.name) .. " says, 'Timun sees you also seek His lambent blessing to repel the forces of the dead.  Tell us what you are working on.'")
                     wait(1)
                 else

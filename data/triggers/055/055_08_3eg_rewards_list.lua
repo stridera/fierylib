@@ -80,12 +80,12 @@ if actor:get_quest_var("Black_Legion:bl_ally") then
 end
 if actor.alignment >= -150 then
     if actor:get_quest_stage("Black_Legion") > 0 then
-        if actor:get_quest_var("black_legion:eg_faction") < 20 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) < 20 then
             -- (empty send to actor)
             actor:send(tostring(self.name) .. " tells you, 'You are a bit raw for a")
             actor:send("</>recruit, come back when you have defeated more of the Black Legion hordes.'")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 20 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 20 then
             -- (empty send to actor)
             -- msend %actor% %self.name% tells you,'Your bl faction is %actor:get_quest_var("black_legion:eg_faction")%.
             actor:send(tostring(self.name) .. " tells you, 'Though you are a bit")
@@ -97,43 +97,43 @@ if actor.alignment >= -150 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_cap%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_cap%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_ssword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_ssword%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 40 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 40 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_neck%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_neck%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_staff%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_staff%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 55 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 55 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_arm%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_arm%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_whammer%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_whammer%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 70 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 70 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_wrist%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_wrist%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_flail%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_flail%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 85 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 85 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_gloves%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_gloves%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_symbol%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_symbol%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_light%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_light%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 100 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 100 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_belt%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_belt%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_shiv%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_shiv%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 115 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 115 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_boots%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_boots%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_lsword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_lsword%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 130 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 130 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_legs%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_legs%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 145 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 145 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_robe%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_robe%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_jerkin%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_jerkin%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") >= 160 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 160 then
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_mask%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_mask%]%</>")
             actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_smace%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_smace%]%</>")
         end
-        if actor:get_quest_var("black_legion:eg_faction") < 160 then
+        if (actor:get_quest_var("black_legion:eg_faction") or 0) < 160 then
             -- (empty send to actor)
             actor:send(tostring(self.name) .. " tells you, 'As your standing with")
             actor:send("</>the 3rd Eldorian Guard improves I will show you more rewards.'")

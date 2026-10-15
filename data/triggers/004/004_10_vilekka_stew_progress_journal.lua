@@ -55,7 +55,7 @@ if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, 
                     local spice12 = actor:get_quest_var("vilekka_stew:got_spice:23759")
                     local spice13 = actor:get_quest_var("vilekka_stew:got_spice:23760")
                     actor:send("Bring Vilekka 10 herbs and spices so that she can make a stew out of the head and heart.")
-                    if num_spices > 0 then
+                    if (num_spices or 0) > 0 then
                         actor:send("</>")
                         actor:send("So far you have brought:")
                         if spice1 then

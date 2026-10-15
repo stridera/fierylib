@@ -13,7 +13,7 @@ local speech_padded = " " .. string.lower(speech) .. " "
 if not string.find(speech_padded, "[%s%p]hello teacher[%s%p]") then
     return true  -- Not the phrase
 end
-if actor:get_quest_var("school:speech") == 2 then
+if (actor:get_quest_var("school:speech") or 0) == 2 then
     actor:set_quest_var("school", "speech", 3)
     wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Well hello yourself!  You're learning well!'")

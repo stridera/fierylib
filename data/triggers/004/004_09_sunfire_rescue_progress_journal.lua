@@ -48,13 +48,13 @@ if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, 
                 actor:send("</>")
             end
             actor:send("You still need to find:")
-            if boots == 0 then
+            if (boots or 0) == 0 then
                 actor:send(tostring(objects.template(520, 8).name) .. ".")
             end
-            if cloak == 0 then
+            if (cloak or 0) == 0 then
                 actor:send(tostring(objects.template(520, 9).name) .. ".")
             end
-            if ring == 0 then
+            if (ring or 0) == 0 then
                 actor:send(tostring(objects.template(520, 1).name) .. ".")
             end
         end

@@ -23,73 +23,73 @@ end
 wait(0.2)
 local item = actor:get_quest_var("armor_exchange:armor_id")
 if string.find(speech, "yes") then
-    if item == 0 then
+    if (item or 0) == 0 then
         actor:send(tostring(self.name) .. " says, 'I don't think you asked me for anything, no sir.'")
         return _return_value
     end
     actor:send(tostring(self.name) .. " tells you, 'Oh my, yes dearie, of course.'")
     local class, tier
-    if item <= 55303 then
+    if (item or 0) <= 55303 then
         class = 1
         tier = 1
-    elseif item <= 55307 then
+    elseif (item or 0) <= 55307 then
         class = 1
         tier = 2
-    elseif item <= 55311 then
+    elseif (item or 0) <= 55311 then
         class = 1
         tier = 3
-    elseif item <= 55315 then
+    elseif (item or 0) <= 55315 then
         class = 1
         tier = 4
-    elseif item <= 55319 then
+    elseif (item or 0) <= 55319 then
         class = 1
         tier = 5
-    elseif item <= 55323 then
+    elseif (item or 0) <= 55323 then
         class = 1
         tier = 6
-    elseif item <= 55327 then
+    elseif (item or 0) <= 55327 then
         class = 1
         tier = 7
-    elseif item <= 55331 then
+    elseif (item or 0) <= 55331 then
         class = 2
         tier = 1
-    elseif item <= 55335 then
+    elseif (item or 0) <= 55335 then
         class = 2
         tier = 2
-    elseif item <= 55339 then
+    elseif (item or 0) <= 55339 then
         class = 2
         tier = 3
-    elseif item <= 55343 then
+    elseif (item or 0) <= 55343 then
         class = 2
         tier = 4
-    elseif item <= 55347 then
+    elseif (item or 0) <= 55347 then
         class = 2
         tier = 5
-    elseif item <= 55351 then
+    elseif (item or 0) <= 55351 then
         class = 2
         tier = 6
-    elseif item <= 55355 then
+    elseif (item or 0) <= 55355 then
         class = 2
         tier = 7
-    elseif item <= 55359 then
+    elseif (item or 0) <= 55359 then
         class = 3
         tier = 1
-    elseif item <= 55363 then
+    elseif (item or 0) <= 55363 then
         class = 3
         tier = 2
-    elseif item <= 55367 then
+    elseif (item or 0) <= 55367 then
         class = 3
         tier = 3
-    elseif item <= 55371 then
+    elseif (item or 0) <= 55371 then
         class = 3
         tier = 4
-    elseif item <= 55375 then
+    elseif (item or 0) <= 55375 then
         class = 3
         tier = 5
-    elseif item <= 55379 then
+    elseif (item or 0) <= 55379 then
         class = 3
         tier = 6
-    elseif item <= 55383 then
+    elseif (item or 0) <= 55383 then
         class = 3
         tier = 7
     end

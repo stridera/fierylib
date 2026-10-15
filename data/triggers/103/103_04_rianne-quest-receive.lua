@@ -137,7 +137,7 @@ actor:set_quest_var("resort_cooking", slot_key, 1)
 local complete = true
 for i = 1, slot_count do
     local v = actor:get_quest_var("resort_cooking:item" .. tostring(i))
-    if not v or v == 0 or v == "" or v == "0" then
+    if not v or (v or 0) == 0 or (v or "") == "" or v == "0" then
         complete = false
         break
     end

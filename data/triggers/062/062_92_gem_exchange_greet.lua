@@ -15,7 +15,7 @@ if actor.is_player then
         self:say("Welcome back!")
         self:command("bow " .. tostring(actor))
         wait(2)
-        if item == 0 or item == nil then
+        if (item or 0) == 0 or item == nil then
             actor:send(tostring(self.name) .. " says, 'Tell me, what gemstone are you interested in trading for")
             actor:send("</>today?'")
         else

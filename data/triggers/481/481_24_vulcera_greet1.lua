@@ -30,7 +30,7 @@ while i >= a do
     if person.room == self.room then
         if person:get_quest_stage("type_wand") == "wandstep" then
             if person.level >= 60 then
-                if person:get_quest_var("type_wand:greet") == 0 then
+                if (person:get_quest_var("type_wand:greet") or 0) == 0 then
                     wait(0.2)
                     self:say("What do you want pathetic mortal?")
                 else

@@ -76,7 +76,7 @@ if string.find(arg, "group heal") or string.find(arg, "heal") or string.find(arg
                         actor:send("</>")
                         actor :send("If you need a new copy of the Rite, go to the doctor and say: <b:yellow>\"I lost the Rite\"</>.")
                     elseif tonumber(_sw1) == 6 then
-                        if actor:get_quest_var("group_heal:total") == 6 then
+                        if (actor:get_quest_var("group_heal:total") or 0) == 6 then
                             actor:send("Give " .. tostring(objects.template(185, 14).name) .. " to the doctor.")
                             return _return_value
                         end

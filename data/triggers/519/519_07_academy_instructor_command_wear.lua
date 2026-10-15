@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:gear") == 2 and arg == "all" then
+if (actor:get_quest_var("school:gear") or 0) == 2 and arg == "all" then
     actor:command("wear all")
     actor:set_quest_var("school", "gear", 3)
     wait(0.2)

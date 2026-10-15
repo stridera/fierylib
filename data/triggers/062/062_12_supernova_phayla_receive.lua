@@ -22,7 +22,7 @@ local is_sun = (object.zone_id == 510 and object.local_id == 73)
 local is_lamp = (object.zone_id == 489 and object.local_id == 17)
 
 if is_sun or is_lamp then
-    if actor:get_quest_var("supernova:" .. payment_key(object)) == 1 then
+    if (actor:get_quest_var("supernova:" .. payment_key(object)) or 0) == 1 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("You've already given me this.")
     else
@@ -30,7 +30,7 @@ if is_sun or is_lamp then
         wait(0.2)
         self:command("nod")
         world.destroy(object)
-        if actor:get_quest_var("supernova:510_73") == 1 and actor:get_quest_var("supernova:489_17") == 1 then
+        if (actor:get_quest_var("supernova:510_73") or 0) == 1 and (actor:get_quest_var("supernova:489_17") or 0) == 1 then
             self:say("Alright, get comfortable.  This may take a while.")
             wait(3)
             self.room:send(tostring(self.name) .. " demonstrates some of the basics.")

@@ -30,7 +30,7 @@ if now > last then
     self.room:send_except(actor, tostring(actor.name) .. " finds a vial of dark red dragons blood setting on top of the table.")
     self.room:spawn_object(590, 28)
     actor:set_quest_var("sacred_haven", "blood_time", now)
-    if actor:get_quest_var("sacred_haven:find_blood") == 1 then
+    if (actor:get_quest_var("sacred_haven:find_blood") or 0) == 1 then
         actor:set_quest_var("sacred_haven", "find_blood", 2)
     end
 else

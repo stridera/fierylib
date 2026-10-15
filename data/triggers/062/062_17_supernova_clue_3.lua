@@ -15,30 +15,30 @@ if readable then
     local step6 = actor:get_quest_var("supernova:step6")
     local step7 = actor:get_quest_var("supernova:step7")
     local clue4
-    if step6 == 58657 then
+    if (step6 or 0) == 58657 then
         -- A Hummock of Grass in the Beachhead
-        if step7 == 1 then clue4 = "s pfqzqgc wq kecwk qy xug fwinlugev"
-        elseif step7 == 2 then clue4 = "d hlwzsuc rf xbnwk aq tyo oisukhvkq"
-        elseif step7 == 3 then clue4 = "s oidfgjy fy yyojl au hyx tlotazlou"
+        if (step7 or 0) == 1 then clue4 = "s pfqzqgc wq kecwk qy xug fwinlugev"
+        elseif (step7 or 0) == 2 then clue4 = "d hlwzsuc rf xbnwk aq tyo oisukhvkq"
+        elseif (step7 or 0) == 3 then clue4 = "s oidfgjy fy yyojl au hyx tlotazlou"
         end
-    elseif step6 == 35119 then
+    elseif (step6 or 0) == 35119 then
         -- A Pile of Stones in the Brush Lands
-        if step7 == 1 then clue4 = "s xtpr qj kbzrru mf bsi otykp weafw"
-        elseif step7 == 2 then clue4 = "d pzvr sx kwoeof mf lke sbhwz ddnuc"
-        elseif step7 == 3 then clue4 = "s wwcx gm gkhflg zg los skmzv ctfkg"
+        if (step7 or 0) == 1 then clue4 = "s xtpr qj kbzrru mf bsi otykp weafw"
+        elseif (step7 or 0) == 2 then clue4 = "d pzvr sx kwoeof mf lke sbhwz ddnuc"
+        elseif (step7 or 0) == 3 then clue4 = "s wwcx gm gkhflg zg los skmzv ctfkg"
         end
-    elseif step6 == 55422 then
+    elseif (step6 or 0) == 55422 then
         -- The Trail Overlooking the Falls in the dark mountains
-        if step7 == 1 then clue4 = "lpp xecmd wgiensgstrt vlw nlpyu mf bsi qcvc uzyaveavd"
-        elseif step7 == 2 then clue4 = "whv deead ovvbysgclnx dui xsolj sa xzw gaiu zsmfwazxf"
-        elseif step7 == 3 then clue4 = "los kkspz fowyzfhcpbx mzl tredz we mzl rrkc tclglhwel"
+        if (step7 or 0) == 1 then clue4 = "lpp xecmd wgiensgstrt vlw nlpyu mf bsi qcvc uzyaveavd"
+        elseif (step7 or 0) == 2 then clue4 = "whv deead ovvbysgclnx dui xsolj sa xzw gaiu zsmfwazxf"
+        elseif (step7 or 0) == 3 then clue4 = "los kkspz fowyzfhcpbx mzl tredz we mzl rrkc tclglhwel"
         end
     end
 
     local clue5
-    if step7 == 1 then clue5 = "What disappears as soon as you say its name?"          -- Silence
-    elseif step7 == 2 then clue5 = "The more there is, the less you see. What am I?"   -- Darkness
-    elseif step7 == 3 then clue5 = "What word becomes shorter when you add two to it?" -- Short
+    if (step7 or 0) == 1 then clue5 = "What disappears as soon as you say its name?"          -- Silence
+    elseif (step7 or 0) == 2 then clue5 = "The more there is, the less you see. What am I?"   -- Darkness
+    elseif (step7 or 0) == 3 then clue5 = "What word becomes shorter when you add two to it?" -- Short
     end
 
     actor:send("I know you're following me.  Answer this:")

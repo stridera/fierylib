@@ -38,6 +38,7 @@ RELATIVE_BACKGROUND_CODES = {
 
 RELATIVE_STYLE_CODES = {
     'u': 'u',      # Underline
+    '8': 'u',      # Underline too: legacy screen.cpp maps both '8' and 'u' to AUND (not black)
     'b': 'b',      # Bold
     'd': 'dim',    # Dim
 }

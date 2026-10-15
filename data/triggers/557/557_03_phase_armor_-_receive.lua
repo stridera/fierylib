@@ -190,8 +190,8 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
     end
     local slot_armor_id, slot_gem_id = _slot_for(object_id)
     if slot_armor_id
-       and (actor:get_quest_var("phase_armor:" .. tostring(slot_gem_id) .. "_gems_acquired") == 3)
-       and (actor:get_quest_var("phase_armor:" .. tostring(slot_armor_id) .. "_armor_acquired") == 1) then
+       and ((actor:get_quest_var("phase_armor:" .. tostring(slot_gem_id) .. "_gems_acquired") or 0) == 3)
+       and ((actor:get_quest_var("phase_armor:" .. tostring(slot_armor_id) .. "_armor_acquired") or 0) == 1) then
         wait(0.2)
         actor:send(tostring(self.name) .. " tells you, 'Excellent work, intrepid adventurer!")
         actor:send("</>You have provided me with all I need to reward you with:")

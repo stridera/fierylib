@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51914: academy_instructor_command_give
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-if actor:get_quest_var("school:gear") == 12 then
+if (actor:get_quest_var("school:gear") or 0) == 12 then
     actor:set_quest_var("school", "gear", 13)
     wait(0.2)
     world.destroy(object)

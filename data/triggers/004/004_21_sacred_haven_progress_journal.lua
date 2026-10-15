@@ -31,38 +31,38 @@ if string.find(arg, "infiltrate the sacred haven") or string.find(arg, "sacred_h
             local blood = actor:get_quest_var("sacred_haven:given_blood")
             local trinket = actor:get_quest_var("sacred_haven:given_trinket")
             local earring = actor:get_quest_var("sacred_haven:given_earring")
-            if stage == 1 and light == 0 then
+            if stage == 1 and (light or 0) == 0 then
                 actor:send("Prove yourself.  Bring " .. tostring(objects.template(590, 26).name) .. " from a priest on the second floor of the Haven.")
-            elseif stage == 1 and light == 1 then
+            elseif stage == 1 and (light or 0) == 1 then
                 actor:send("Ask the figure about their artifacts.")
-            elseif stage == 2 and key == 0 then
+            elseif stage == 2 and (key or 0) == 0 then
                 actor:send("Break the figure's ally out of jail.")
-            elseif stage == 2 and key == 1 then
+            elseif stage == 2 and (key or 0) == 1 then
                 actor:send("Find the key the prisoner stashed in the Haven courtyard.")
-            elseif stage == 2 and key == 2 then
+            elseif stage == 2 and (key or 0) == 2 then
                 actor:send("Bring " .. tostring(mobiles.template(590, 29).name) .. " their artifacts.")
                 if blood or trinket or earring then
                     actor:send("</>")
                     actor:send("You have brought:")
-                    if blood == 1 then
+                    if (blood or 0) == 1 then
                         actor:send("- " .. tostring(objects.template(590, 28).name))
                     end
-                    if trinket == 1 then
+                    if (trinket or 0) == 1 then
                         actor:send("- " .. tostring(objects.template(590, 29).name))
                     end
-                    if earring == 1 then
+                    if (earring or 0) == 1 then
                         actor:send("- " .. tostring(objects.template(590, 30).name))
                     end
                 end
                 actor:send("</>")
                 actor:send("You still need to find:")
-                if blood == 0 then
+                if (blood or 0) == 0 then
                     actor:send("- " .. tostring(objects.template(590, 28).name))
                 end
-                if trinket == 0 then
+                if (trinket or 0) == 0 then
                     actor:send("- " .. tostring(objects.template(590, 29).name))
                 end
-                if earring == 0 then
+                if (earring or 0) == 0 then
                     actor:send("- " .. tostring(objects.template(590, 30).name))
                 end
             end

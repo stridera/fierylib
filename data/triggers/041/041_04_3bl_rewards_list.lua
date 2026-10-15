@@ -70,11 +70,11 @@ local id_3bl_drink   = 5557
 -- Check faction and react accordingly.
 if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     local bl_faction = actor:get_quest_var("black_legion:bl_faction")
-    if bl_faction < 20 then
+    if (bl_faction or 0) < 20 then
         actor:send(tostring(self.name) .. " tells you, 'You are a bit raw for a recruit, come back")
         actor:send("</>when you have defeated more of the Eldorian villainy.'")
     end
-    if bl_faction >= 20 then
+    if (bl_faction or 0) >= 20 then
         actor:send(tostring(self.name) .. " tells you, 'Though you are a bit wet behind the ears I")
         actor:send("</>suppose we can trust you with some of our goods.'")
         actor:send("</>You have access to:")
@@ -83,19 +83,19 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         actor:send(reward_line(id_3bl_cap,    id_gem_3bl_cap))
         actor:send(reward_line(id_3bl_ssword, id_gem_3bl_ssword))
     end
-    if bl_faction >= 40 then
+    if (bl_faction or 0) >= 40 then
         actor:send(reward_line(id_3bl_neck,  id_gem_3bl_neck))
         actor:send(reward_line(id_3bl_staff, id_gem_3bl_staff))
     end
-    if bl_faction >= 55 then
+    if (bl_faction or 0) >= 55 then
         actor:send(reward_line(id_3bl_arm,     id_gem_3bl_arm))
         actor:send(reward_line(id_3bl_whammer, id_gem_3bl_whammer))
     end
-    if bl_faction >= 70 then
+    if (bl_faction or 0) >= 70 then
         actor:send(reward_line(id_3bl_wrist, id_gem_3bl_wrist))
         actor:send(reward_line(id_3bl_flail, id_gem_3bl_flail))
     end
-    if bl_faction < 70 then
+    if (bl_faction or 0) < 70 then
         actor:send(tostring(self.name) .. " tells you, 'As your standing with the Black Legion")
         actor:send("</>improves I will show you more rewards.'")
     end

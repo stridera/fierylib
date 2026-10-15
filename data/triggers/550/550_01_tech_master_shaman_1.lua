@@ -59,7 +59,7 @@ if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower
             end
         end
         if actor:get_quest_stage("type_wand") == 5 then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 self:command("peer " .. tostring(actor))
                 wait(1)
                 actor:send(tostring(self.name) .. " tells you, 'Or perhaps you come about a crafting <b:cyan>[upgrade]</>...'")
@@ -77,7 +77,7 @@ if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower
         local job3 = actor:get_quest_var("type_wand:wandtask3")
         local job4 = actor:get_quest_var("type_wand:wandtask4")
         if actor.level >= 40 then
-            if actor:get_quest_var("type_wand:greet") == 0 then
+            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you come for the Great Snow Leopard's help, let's discuss an <b:cyan>[upgrade]</>.'")
             elseif actor:get_quest_stage("type_wand") == 5 and job1 and job2 and job3 and job4 then
                 actor:send(tostring(self.name) .. " tells you, 'It looks like the wand is ready for upgrading!  Please give it to me.'")

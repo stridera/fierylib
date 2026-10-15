@@ -13,7 +13,7 @@ if not (cmd == "rest") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if actor:get_quest_var("school:fight") == 1 then
+if (actor:get_quest_var("school:fight") or 0) == 1 then
     actor:set_quest_var("school", "fight", 2)
     actor:command("rest")
     wait(0.2)
@@ -33,7 +33,7 @@ if actor:get_quest_var("school:fight") == 1 then
     actor:send("Once you leave the Academy, you many only <b:cyan>SCRIBE</> spells in the presence of your <b:yellow>Guild Master</>.'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Check your spell list by typing <b:green>spell</>.'")
-elseif actor:get_quest_var("school:fight") == 10 then
+elseif (actor:get_quest_var("school:fight") or 0) == 10 then
     actor:set_quest_var("school", "fight", 11)
     actor:command("rest")
     wait(0.2)

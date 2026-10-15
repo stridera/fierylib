@@ -26,7 +26,7 @@ while self.actor_count > 0 do
             self.room:send_except(victim, "A large lava bubble bursts near " .. tostring(victim.name) .. ", burning " .. tostring(victim.object) .. "! (<red>" .. tostring(damage_dealt) .. "</>)")
             victim:send("A large lava bubble bursts right next to you - OUCH, that burns! (<red>" .. tostring(damage_dealt) .. "</>)")
         end
-        if victim:get_quest_stage("meteorswarm") == 3 and victim:get_quest_var("meteorswarm:fire") == 1 then
+        if victim:get_quest_stage("meteorswarm") == 3 and (victim:get_quest_var("meteorswarm:fire") or 0) == 1 then
             victim:advance_quest("meteorswarm")
             wait(1)
             victim:send("<red>You feel your mastery over fire growing!</>")

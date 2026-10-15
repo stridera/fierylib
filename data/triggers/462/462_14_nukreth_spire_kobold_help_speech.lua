@@ -22,7 +22,7 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path2") == 0 then
+    if (actor:get_quest_var("nukreth_spire:path2") or 0) == 0 then
         self.room:send(tostring(self.name) .. " says, 'I hid an egg in the corner animal pen.  It should still")
         self.room:send("</>be there.'")
         wait(1)

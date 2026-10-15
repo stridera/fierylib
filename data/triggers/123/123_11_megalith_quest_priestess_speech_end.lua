@@ -17,7 +17,7 @@ local _return_value = true
 local speech1 = "we invoke thee"
 local speech2 = "we invoke thee!"
 local stage = actor:get_quest_stage("megalith_quest")
-if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and (actor:get_quest_var("megalith_quest:summon") == 3) and (speech == speech1 or speech == speech2) then
+if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and ((actor:get_quest_var("megalith_quest:summon") or 0) == 3) and (speech == speech1 or speech == speech2) then
     local invoke = actor:get_quest_var("megalith_quest:invoke") or 0
     local chant = invoke + 1
     if chant == 1 then

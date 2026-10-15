@@ -22,8 +22,8 @@ do
     end
 end
 if actor:get_quest_stage("nukreth_spire") > 0 then
-    if actor:get_quest_var("nukreth_spire:path2") == 0 then
-        if actor:get_quest_var("nukreth_spire:baby") == 1 then
+    if (actor:get_quest_var("nukreth_spire:path2") or 0) == 0 then
+        if (actor:get_quest_var("nukreth_spire:baby") or 0) == 1 then
             actor:set_quest_var("nukreth_spire", "baby", 2)
             actor:send("You begin searching...")
             wait(1)
@@ -36,7 +36,7 @@ if actor:get_quest_stage("nukreth_spire") > 0 then
             self.room:find_actor("beastmaster"):command("kill " .. tostring(actor.name))
             self.room:spawn_mobile(462, 27)
             self.room:find_actor("dire-hyena"):command("kill " .. tostring(actor.name))
-        elseif actor:get_quest_var("nukreth_spire:baby") == 4 then
+        elseif (actor:get_quest_var("nukreth_spire:baby") or 0) == 4 then
             actor:set_quest_var("nukreth_spire", "baby", 0)
             actor:send("You find a speckled kobold egg hidden amongst the straw!")
             self.room:send_except(actor, tostring(actor.name) .. " finds a speckled kobold egg hidden amongst the straw!")

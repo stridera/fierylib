@@ -13,7 +13,7 @@ if i then
     while i >= a do
         local person = actor.group_member[a]
         if person.room == self.room then
-            if person:get_quest_var("nukreth_spire:treasure") == 2 then
+            if (person:get_quest_var("nukreth_spire:treasure") or 0) == 2 then
                 person:set_quest_var("nukreth_spire", "treasure", 3)
             end
         elseif person then
@@ -22,7 +22,7 @@ if i then
         a = a + 1
     end
 else
-    if actor:get_quest_var("nukreth_spire:treasure") == 2 then
+    if (actor:get_quest_var("nukreth_spire:treasure") or 0) == 2 then
         actor:set_quest_var("nukreth_spire", "treasure", 3)
     end
 end

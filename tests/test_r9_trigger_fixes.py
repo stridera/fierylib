@@ -120,7 +120,7 @@ def test_megalith_progress_reads_retrieved_items_as_one_not_as_present():
     for ident in (0, 6, 15):
         text = body(123, ident)
         assert re.search(r'get_quest_var\("megalith_quest:item[1-4]"\)\)? and', text) is None
-    assert 'get_quest_var("megalith_quest:" .. item_key) == 1' in body(123, 6)
+    assert '(actor:get_quest_var("megalith_quest:" .. item_key) or 0) == 1' in body(123, 6)
 
 
 def test_megalith_progress_runs_for_a_fresh_quester():

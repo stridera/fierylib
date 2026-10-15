@@ -21,7 +21,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:explore") == 5 then
+if (actor:get_quest_var("school:explore") or 0) == 5 then
     actor:set_quest_var("school", "explore", 6)
     actor:command("scan")
     wait(0.2)

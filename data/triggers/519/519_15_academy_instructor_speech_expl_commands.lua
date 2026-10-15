@@ -19,7 +19,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if actor:get_quest_var("school:explore") == 6 then
+if (actor:get_quest_var("school:explore") or 0) == 6 then
     -- switch on speech
     do
         local _sw1 = string.lower(tostring(speech or ""))

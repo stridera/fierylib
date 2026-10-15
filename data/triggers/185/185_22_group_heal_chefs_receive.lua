@@ -20,7 +20,7 @@ local function is_mob(zone, id)
 end
 
 local function chef_already_consulted()
-    return actor:get_quest_var("group_heal:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) == 1
+    return (actor:get_quest_var("group_heal:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) or 0) == 1
 end
 
 local function refuse_misc()

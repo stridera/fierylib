@@ -82,13 +82,13 @@ if right_class then
         local arm_gems = actor:get_quest_var("phase_armor:id_gem_arm_gems_acquired")
         local legs_gems = actor:get_quest_var("phase_armor:id_gem_legs_gems_acquired")
         local chest_gems = actor:get_quest_var("phase_armor:id_gem_chest_gems_acquired")
-        local done_gloves = gloves_armor == 1  and  gloves_gems == 3
-        local done_boots = boots_armor == 1  and  boots_gems == 3
-        local done_bracer = bracer_armor == 1  and  bracer_gems == 3
-        local done_helm = helm_armor == 1  and  helm_gems == 3
-        local done_arm = arm_armor == 1  and  arm_gems == 3
-        local done_legs = legs_armor == 1  and  legs_gems == 3
-        local done_chest = chest_armor == 1  and  chest_gems == 3
+        local done_gloves = (gloves_armor or 0) == 1  and  (gloves_gems or 0) == 3
+        local done_boots = (boots_armor or 0) == 1  and  (boots_gems or 0) == 3
+        local done_bracer = (bracer_armor or 0) == 1  and  (bracer_gems or 0) == 3
+        local done_helm = (helm_armor or 0) == 1  and  (helm_gems or 0) == 3
+        local done_arm = (arm_armor or 0) == 1  and  (arm_gems or 0) == 3
+        local done_legs = (legs_armor or 0) == 1  and  (legs_gems or 0) == 3
+        local done_chest = (chest_armor or 0) == 1  and  (chest_gems or 0) == 3
         local given = gloves_armor + boots_armor + bracer_armor + helm_armor + arm_armor + legs_armor + chest_armor
         given = given + gloves_gems + boots_gems + bracer_gems + helm_gems + arm_gems + legs_gems + chest_gems
         if given then

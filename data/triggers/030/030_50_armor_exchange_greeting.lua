@@ -14,7 +14,7 @@ if actor.is_player then
         actor:send(tostring(self.name) .. " shouts to you, 'Well howdy-hoo!  Welcome back!'")
         self:command("grin " .. tostring(actor))
         wait(2)
-        if item == 0 then
+        if (item or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'Tell me dearie, what can I help ya find today?'")
         else
             actor:send(tostring(self.name) .. " says, 'Are you still looking for " .. objects.template(math.floor(item / 100), item % 100).name .. "?'")

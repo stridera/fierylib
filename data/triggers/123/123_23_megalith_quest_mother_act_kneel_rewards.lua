@@ -17,9 +17,9 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 _return_value = true
 allow_command()
 wait(0.2)
-local bad1 = (actor:get_quest_var("megalith_quest:bad1") == 1) and 1 or 0
-local bad2 = (actor:get_quest_var("megalith_quest:bad2") == 1) and 1 or 0
-local bad3 = (actor:get_quest_var("megalith_quest:bad3") == 1) and 1 or 0
+local bad1 = ((actor:get_quest_var("megalith_quest:bad1") or 0) == 1) and 1 or 0
+local bad2 = ((actor:get_quest_var("megalith_quest:bad2") or 0) == 1) and 1 or 0
+local bad3 = ((actor:get_quest_var("megalith_quest:bad3") or 0) == 1) and 1 or 0
 if actor:get_quest_stage("megalith_quest") == 5 then
     local total = bad1 + bad2 + bad3
     if total == 0 then

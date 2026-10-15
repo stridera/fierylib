@@ -20,7 +20,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_var("school:money") == 1 and string.find(arg, "1 gold 1 silver 1 copper") then
+if (actor:get_quest_var("school:money") or 0) == 1 and string.find(arg, "1 gold 1 silver 1 copper") then
     actor:set_quest_var("school", "money", "complete")
     actor:command("deposit 1 gold 1 silver 1 copper")
     wait(0.2)

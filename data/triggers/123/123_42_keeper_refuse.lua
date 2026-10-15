@@ -56,7 +56,7 @@ if actor:get_quest_stage("megalith_quest") < 2 then
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(0.2)
     self:say("I'm sorry, I'm quite busy right now.")
-elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and actor:get_quest_var("megalith_quest:item" .. tostring(part)) == 1) then
+elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and (actor:get_quest_var("megalith_quest:item" .. tostring(part)) or 0) == 1) then
     self:command("shake")
     self:say("I don't need any additional assistance at the moment, thank you.")
     if (self.zone_id == 123 and self.id == 6) then
@@ -65,7 +65,7 @@ elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("me
         self:command("bow " .. tostring(actor.name))
     end
 elseif actor:get_quest_stage("megalith_quest") == 2 then
-    if direction and (actor:get_quest_var("megalith_quest:" .. direction) == 0) and (not actor:get_quest_var("megalith_quest:item" .. tostring(part))) then
+    if direction and ((actor:get_quest_var("megalith_quest:" .. direction) or 0) == 0) and (not actor:get_quest_var("megalith_quest:item" .. tostring(part))) then
         if (self.zone_id == 123 and self.id == 3) then
             self:command("eye " .. tostring(actor.name))
             self:say("I haven't yet told you what I need.")

@@ -26,7 +26,7 @@ if actor:get_quest_stage("illusory_wall") == 1 then
     local lens_b = actor:get_quest_var("illusory_wall:" .. lens_b_z .. "_" .. lens_b_id)
     local spur   = actor:get_quest_var("illusory_wall:" .. spur_z   .. "_" .. spur_id)
     local magic  = actor:get_quest_var("illusory_wall:" .. magic_z  .. "_" .. magic_id)
-    if actor:get_quest_var("illusory_wall:" .. key) == 1 then
+    if (actor:get_quest_var("illusory_wall:" .. key) or 0) == 1 then
         wait(1)
         self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_short) .. ".")
         self:command("shake")

@@ -21,7 +21,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 wait(0.2)
-if actor:get_quest_var("school:speech") == 3 then
+if (actor:get_quest_var("school:speech") or 0) == 3 then
     if speech == "say" then
         actor:send(tostring(self.name) .. " tells you, 'The most basic command is <b:cyan>(SA)Y</>.")
         actor:send("It sends your message to everything in the room, even NPCs and monsters.'")

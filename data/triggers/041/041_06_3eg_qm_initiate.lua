@@ -38,7 +38,7 @@ if actor.alignment >= -150 then
         -- variables to 0 because non-existent quest variables
         -- return the same as variables set to 0 in conditionals
     end
-    if actor:get_quest_stage("Black_Legion") > 0 and actor:get_quest_var("black_legion:eg_faction") > 99 then
+    if actor:get_quest_stage("Black_Legion") > 0 and (actor:get_quest_var("black_legion:eg_faction") or 0) > 99 then
         actor:send(tostring(self.name) .. " tells you, 'Your help to us has not gone unnoticed.  I")
         actor:send("</>wonder...  Perhaps you can help on the front lines in our assault in Eldoria.'")
         actor:send(tostring(self.name) .. " tells you, 'Go at once to Tarelithis!  Seek out the Third")

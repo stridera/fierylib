@@ -41,7 +41,7 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
                     place = "a druid hiding out beyond Anlun Vale"
                     master = master1
                 elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
-                    if actor:get_quest_var("relocate_spell_quest:greet") == 0 then
+                    if (actor:get_quest_var("relocate_spell_quest:greet") or 0) == 0 then
                         next = "the Crystal Telescope"
                         place = "an observer of the cold village"
                         master = master1

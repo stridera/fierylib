@@ -62,11 +62,11 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")
                 -- switch on final_item
                 local place
-                if final_item == 53458 then
+                if (final_item or 0) == 53458 then
                     place = "in a border keep"
-                elseif final_item == 53459 then
+                elseif (final_item or 0) == 53459 then
                     place = "on an emerald isle"
-                elseif final_item == 53460 then
+                elseif (final_item or 0) == 53460 then
                     place = "within a misty fortress"
                 else
                     place = "in an underground city"
