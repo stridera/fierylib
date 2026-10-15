@@ -42,7 +42,10 @@ Clock (namespace "time", read-only snapshot taken when the script starts):
 Event globals (strings): speech (SPEECH, lowercased), cmd and args (COMMAND).
 Lua standard libraries: string, table, math, utf8, coroutine (read-only copies),
 plus pairs, ipairs, tostring, tonumber, type, select, pcall, error, assert.
-Removed: os, io, debug, package, require, load, loadstring, loadfile, dofile.
+Removed: os, io, debug, package, load, loadstring, loadfile, dofile.
+require("name") loads a shared library script (Muditor Scripts > Libraries); it
+returns the same value to every trigger, so return data and functions. Libraries
+cannot wait() at their top level. See fierymud-rs/docs/SCRIPTING.md.
 Limits: about 5 million instructions per run, 64 MB memory.
 Persistent variables: obj:setvar / getvar / clearvar on mobs, items and rooms;
 quest variables on players (see help lua-actor). Mob and item variables are

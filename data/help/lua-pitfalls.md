@@ -19,8 +19,9 @@ Common mistakes:
      not work in Lua; write time.stamp.
   5. Unknown fields are nil and fields are read-only: a typo (actor.levl) is
      silent, and "self.hp = 5" raises an error. Use damage() / heal().
-  6. get_quest_var returns a string, "" when unset (which is truthy). Compare
-     with tonumber(...) or == "".
+  6. get_quest_var returns nil when unset, an integer when the value is numeric,
+     else a string. get_quest_stage returns 0 when the quest was never started:
+     0 is truthy in Lua, so compare (== 0), never test it as a boolean.
   7. tostring(actor) is "Actor(Name)". Build commands with actor.name.
   8. In SPEECH fired by "say", actor equals self (the listener); only "ask"
      gives the speaker. Match keywords against the speech global (lowercase).
@@ -28,8 +29,10 @@ Common mistakes:
  10. setvar / getvar do nothing on players; use quest variables.
  11. In room triggers self is the room: use self.room:send(...).
  12. actor:command runs after the script finishes, not at that line.
- 13. Flags with no dispatcher (RANDOM, TIME, ...) never fire. See trigger-types.
- 14. wait() scripts die on restart; errors after a wait are not logged.
+ 13. Flags with no dispatcher (ACT, RESET, TIME, TIMER, AUTO, MEMORY, DOOR) never
+     fire. See trigger-types.
+ 14. wait() scripts die on restart. Errors after a wait are logged like any other.
+     A trigger that is parked in wait() cannot start again on the same entity.
  15. Output: print() is not shown to players. Do not add \r\n.
  16. Endless loops stop at about 5 million instructions with an "instruction
      budget" error. Always wait() inside loops that poll.

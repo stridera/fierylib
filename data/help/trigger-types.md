@@ -36,11 +36,18 @@ Flag-less: run_room_trigger(zone, id) runs ALL triggers on that room whatever
 their flags (self = room). The firetrig command and /api/admin/triggers/fire
 also run a body directly.
 
-Defined in the schema but NOT fired by the Rust server (no dispatcher yet):
-GLOBAL RANDOM CAST LEAVE TIME ACT ENTRY HIT_PERCENT BRIBE MEMORY DOOR SPEECH_TO
-LOOK AUTO DEFEND TIMER GIVE RESET. A trigger carrying only these never runs by
-itself; for periodic behaviour use wait() loops started from LOAD, or
-run_room_trigger.
+Also fired: SPEECH_TO (ask/tell/whisper), RANDOM (13 s pulse; GLOBAL lifts the
+"zone has players" gate), BRIBE (coins given to a mob; globals value, platinum,
+gold, silver, copper; the trigger's num arg is the minimum in copper), HIT_PERCENT
+(num arg = HP% threshold), LOOK, GIVE, CAST, LEAVE, ENTRY, DEFEND and object
+ATTACK. For RANDOM and HIT_PERCENT the first statement of the body must be the
+`if not percent_chance(N) then return true end` gate; the server reads N from it.
+
+NOT fired (no dispatcher): ACT, RESET, TIME, TIMER, AUTO, MEMORY, DOOR. Use wait()
+loops started from LOAD, or run_room_trigger, for periodic behaviour.
+
+Full reference (fire order, bindings, API, require, errors):
+fierymud-rs/docs/SCRIPTING.md.
 
 Listeners for GREET, SPEECH, COMMAND are things located in the same room that
 have triggers (mobs, and items lying on the floor).
