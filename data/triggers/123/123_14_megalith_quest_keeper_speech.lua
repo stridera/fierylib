@@ -14,9 +14,11 @@
 -- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"yes", "sure", "no", "i"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -25,7 +27,7 @@ if not speech_hit then
 end
 wait(0.2)
 if actor:get_quest_stage("megalith_quest") == 2 then
-    if speech == "yes" or speech == "sure" or string.find(speech, "i will", 1, true) or string.find(speech, "i can", 1, true) then
+    if speech_word == "yes" or speech_word == "sure" or string.find(speech, "i will", 1, true) or string.find(speech, "i can", 1, true) then
         -- switch on self.id (keepers: 3 north, 4 south, 5 east, 6 west)
         if self.zone_id == 123 and self.id == 3 then
             -- North - get ring from Tech
@@ -105,7 +107,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 return
             end
         end
-    elseif speech == "no" then
+    elseif speech_word == "no" then
         wait(0.2)
         self:command("shrug")
         self:say("Alright then.")

@@ -11,9 +11,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"yes", "no"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -24,7 +26,7 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
     -- switch on actor.race
     do
         wait(0.2)
-        if speech == "yes" then
+        if speech_word == "yes" then
             actor:send(tostring(self.name) .. " says, 'Right this way then!'")
             local next_line
             -- switch on actor:get_quest_stage("bard_subclass")

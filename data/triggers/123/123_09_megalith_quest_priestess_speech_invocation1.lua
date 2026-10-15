@@ -24,7 +24,9 @@ local speech1 = "great lady of the stars hear our prayer"
 local speech2 = "great lady of the stars, hear our prayer"
 local speech3 = "great lady of the stars, hear our prayer!"
 local stage = actor:get_quest_stage("megalith_quest")
-if speech == speech1 or speech == speech2 or speech == speech3 then
+-- DG `/=`: the speech contains the sentence (any case, any words around it)
+local speech_lower = string.lower(speech)
+if string.find(speech_lower, speech1, 1, true) or string.find(speech_lower, speech2, 1, true) or string.find(speech_lower, speech3, 1, true) then
     if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and ((actor:get_quest_var("megalith_quest:prayer") or 0) == 1) then
         run_room_trigger(123, 17)
         wait(5)

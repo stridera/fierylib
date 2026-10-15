@@ -28,8 +28,17 @@ else
     actor:erase_quest("trainer_3170")
     actor:start_quest("trainer_3170")
 end
+-- Which topic was asked about?  The player may wrap it in other words ("dodge please"), so look for the
+-- longest known topic named as a whole word or phrase; the greeting words rank last.
+local topic
+for _, name in ipairs({"spell knowledge", "vampiric touch", "quick chant", "meditate", "perform", "scribe", "chant", "training", "yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(name, "%p", "%%%0") .. "[%s%p]") then
+        topic = name
+        break
+    end
+end
 -- introductions: lists the skills available
-if speech == "training?" or speech == "training" or speech == "yes" then
+if topic == "training" or topic == "yes" then
     self.room:send(tostring(self.name) .. " says, 'Sure, I can help you improve just about any necessary magical")
     self.room:send("</>talent.  But remember, I can't teach you skills you don't already know.'")
     -- (empty room echo)
@@ -43,13 +52,14 @@ if speech == "training?" or speech == "training" or speech == "yes" then
     return _return_value
 else
     -- defining variables for this script
+    speech = topic or speech  -- canonical topic name: it is echoed and saved as the skill below
     local name = actor.name
     local cha = actor.real_cha
     local int = actor.real_int
     -- 
     -- Identify the skill to be trained
     local word2, skill
-    if speech == "spell knowledge" then
+    if topic == "spell knowledge" then
         word2 = "knowledge"
         skill = actor:get_skill("spell knowledge")
     elseif string.find(speech, "sphere") then
@@ -109,19 +119,19 @@ else
             self:say("Whatever that is, you can't breathe it!")
             return _return_value
         end
-    elseif speech == "quick chant" then
+    elseif topic == "quick chant" then
         word2 = "chant"
         skill = actor:get_skill("quick chant")
-    elseif speech == "chant" then
+    elseif topic == "chant" then
         skill = actor:get_skill("chant")
-    elseif speech == "scribe" then
+    elseif topic == "scribe" then
         skill = actor:get_skill("scribe")
-    elseif speech == "meditate" then
+    elseif topic == "meditate" then
         skill = actor:get_skill("meditate")
-    elseif speech == "vampiric touch" then
+    elseif topic == "vampiric touch" then
         word2 = "touch"
         skill = actor:get_skill("vampiric touch")
-    elseif speech == "perform" then
+    elseif topic == "perform" then
         skill = actor:get_skill("perform")
     else
         self:say("I'm not familiar with " .. tostring(speech) .. ".")

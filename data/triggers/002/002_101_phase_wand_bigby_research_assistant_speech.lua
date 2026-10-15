@@ -39,15 +39,23 @@ if actor.level < 10 then
     return true
 end
 
+-- "wand" or "upgrade" can share a sentence with the element ("upgrade my fire wand"), and the first listed
+-- word found would then be "wand", so look for the element words themselves.
+local element_of = {
+    air = "air", lightning = "air", wind = "air", shock = "air", electricity = "air",
+    fire = "fire", smoldering = "fire", burning = "fire",
+    water = "ice", cold = "ice", ice = "ice", frost = "ice",
+    earth = "acid", acid = "acid", tremors = "acid", corrosion = "acid",
+}
+local gem_of = {air = 55577, fire = 55575, ice = 55574, acid = 55576}
 local quest_type, wandgem
-if speech == "air" or speech == "lightning" or speech == "wind" or speech == "shock" or speech == "electricity" then
-    quest_type, wandgem = "air", 55577
-elseif speech == "fire" or speech == "smoldering" or speech == "burning" then
-    quest_type, wandgem = "fire", 55575
-elseif speech == "water" or speech == "cold" or speech == "ice" or speech == "frost" then
-    quest_type, wandgem = "ice", 55574
-elseif speech == "earth" or speech == "acid" or speech == "tremors" or speech == "corrosion" then
-    quest_type, wandgem = "acid", 55576
+for _, word in ipairs({"air", "lightning", "wind", "shock", "electricity", "fire", "smoldering", "burning",
+                       "water", "cold", "ice", "frost", "earth", "acid", "tremors", "corrosion"}) do
+    if string.find(speech_padded, "[%s%p]" .. word .. "[%s%p]") then
+        quest_type = element_of[word]
+        wandgem = gem_of[quest_type]
+        break
+    end
 end
 
 if not quest_type then

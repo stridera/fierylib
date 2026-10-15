@@ -30,7 +30,9 @@ local item1 = actor:get_quest_var("megalith_quest:item1")
 local item2 = actor:get_quest_var("megalith_quest:item2")
 local item3 = actor:get_quest_var("megalith_quest:item3")
 local item4 = actor:get_quest_var("megalith_quest:item4")
-if speech == speech1 or speech == speech2 or speech == speech3 or speech == speech4 then
+-- DG `/=`: the speech contains the sentence (any case, any words around it)
+local speech_lower = string.lower(speech)
+if string.find(speech_lower, speech1, 1, true) or string.find(speech_lower, speech2, 1, true) or string.find(speech_lower, speech3, 1, true) or string.find(speech_lower, speech4, 1, true) then
     if actor:get_quest_stage("megalith_quest") == 2 then
         if item1 and item2 and item3 and item4 then
             actor:advance_quest("megalith_quest")

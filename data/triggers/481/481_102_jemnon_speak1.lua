@@ -11,9 +11,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"yes", "no"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -21,7 +23,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 wait(0.4)
-if speech == "yes" then
+if speech_word == "yes" then
     actor:send("Very inebriated, " .. tostring(self.name) .. " says, 'Then you come t' the right place!  Pull up a chair an' siddown!'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Now, whaddya wan' kno 'bout??'")

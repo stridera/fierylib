@@ -16,9 +16,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"waterform", "waterform?", "flood", "flood?", "ice", "ice?", "shards", "shards?", "water", "water?", "form", "form?", "wall", "wall?"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -29,7 +31,7 @@ local _return_value = true  -- Default: allow action
 wait(0.2)
 -- switch on speech
 do
-    local _sw1 = string.lower(tostring(speech or ""))
+    local _sw1 = speech_word
     if _sw1 == "waterform" or _sw1 == "waterform?" or _sw1 == "water" or _sw1 == "water?" or _sw1 == "form" or _sw1 == "form?" then
         if string.find(self.class, "cryomancer") then
             self.room:send(tostring(self.name) .. " says, '<b:blue>Waterform</> is more absorbed via osmosis than")

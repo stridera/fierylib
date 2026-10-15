@@ -16,9 +16,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"supernova", "supernova?", "super", "super?", "nova", "nova?", "meteorswarm", "meteorswarm?", "meteor", "meteor?", "swarm", "swarm?"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -28,7 +30,7 @@ end
 wait(0.2)
 if string.find(self.class, "pyromancer") then
     -- Supernova quest entrypoint, Pyromancer asker only
-    if speech == "super" or speech == "super?" or speech == "nova" or speech == "nova?" or speech == "supernova" or speech == "supernova?" then
+    if speech_word == "super" or speech_word == "super?" or speech_word == "nova" or speech_word == "nova?" or speech_word == "supernova" or speech_word == "supernova?" then
         if string.find(actor.class, "pyromancer") then
             if actor.level > 88 then
                 if actor:get_quest_stage("supernova") == 0 then
@@ -69,7 +71,7 @@ if string.find(self.class, "pyromancer") then
         else
             self:say("Supernova is far outside our discipline.")
         end
-    elseif speech == "meteor" or speech == "meteor?" or speech == "swarm" or speech == "swarm?" or speech == "meteorswarm" or speech == "meteorswarm?" then
+    elseif speech_word == "meteor" or speech_word == "meteor?" or speech_word == "swarm" or speech_word == "swarm?" or speech_word == "meteorswarm" or speech_word == "meteorswarm?" then
         self.room:send(tostring(self.name) .. " says, 'Crazy old McCabe the Elementalist has developed")
         self.room:send("</>such a spell. If you can find him, you might be able to persuade him to teach")
         self.room:send("</>you <b:red>Meteorswarm</>.'")

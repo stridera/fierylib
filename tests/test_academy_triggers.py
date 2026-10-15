@@ -94,3 +94,51 @@ def test_word_list_triggers_branch_on_the_matched_word_not_the_raw_speech():
     assert _picked_word("519_04", "Yes, please") == "yes"
     assert _picked_word("519_05", "Gossip!") == "gossip"
     assert _picked_word("519_88", "SKIP it") == "skip"
+
+
+# SPEECH/RECEIVE triggers that may still compare the raw speech for equality (zone:id -> why). Empty on
+# purpose: DG `==` on %speech% was an exact compare, but players type "say dodge please", so every
+# word-list trigger branches on `speech_word` (or a `topic` found in the speech), and DG `/=`
+# (contains) uses string.find.
+EXACT_SPEECH_ALLOWED: dict[str, str] = {}
+
+
+def test_no_speech_trigger_compares_the_raw_speech_for_equality():
+    import re
+
+    root = ZONE.parent
+    offenders = []
+    for path in sorted(root.glob("*/*.lua")):
+        text = path.read_text(encoding="utf-8")
+        flags = re.search(r"^-- Type: \w+, Flags: (.*)$", text, re.M)
+        if not flags or not re.search(r"SPEECH|RECEIVE", flags.group(1)):
+            continue
+        if path.name in EXACT_SPEECH_ALLOWED:
+            continue
+        for n, line in enumerate(text.splitlines(), 1):
+            if not line.lstrip().startswith("--") and re.search(r"\bspeech\s*==|==\s*speech\b", line):
+                offenders.append(f"{path.name}:{n}: {line.strip()}")
+    assert offenders == []
+
+
+def test_trainers_find_the_topic_inside_a_longer_sentence():
+    import shutil
+    import subprocess
+
+    lua = shutil.which("lua5.4") or shutil.which("lua")
+    assert lua, "lua not installed"
+    for prefix, speech, want in (
+        ("030_165", "Dodge please!", "dodge"),
+        ("030_165", "tell me about first aid", "first aid"),
+        ("030_160", "sneak attack?", "sneak attack"),
+        ("030_160", "how much for sneak", "sneak"),
+        ("030_170", "quick chant", "quick chant"),
+        ("030_165", "yes", "yes"),
+    ):
+        (path,) = (ZONE.parent / "030").glob(f"{prefix}_*.lua")
+        body = path.read_text(encoding="utf-8")
+        scan = body[body.index("local topic") : body.index("-- introductions")]
+        chunk = f"local speech_padded = ' ' .. string.lower({speech!r}) .. ' '\n{scan}\nprint(topic)"
+        r = subprocess.run([lua, "-"], input=chunk, capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        assert r.stdout.strip() == want, (prefix, speech)

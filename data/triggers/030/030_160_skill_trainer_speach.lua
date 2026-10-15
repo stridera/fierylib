@@ -28,8 +28,17 @@ else
     actor:erase_quest("trainer_3160")
     actor:start_quest("trainer_3160")
 end
+-- Which topic was asked about?  The player may wrap it in other words ("dodge please"), so look for the
+-- longest known topic named as a whole word or phrase; the greeting words rank last.
+local topic
+for _, name in ipairs({"bludgeoning weapons", "piercing weapons", "slashing weapons", "double attack", "group retreat", "instant kill", "sneak attack", "dual wield", "cartwheel", "eye gouge", "pick lock", "throatcut", "backstab", "bandage", "conceal", "retreat", "riposte", "corner", "shadow", "switch", "dodge", "douse", "parry", "sneak", "steal", "track", "hide", "lure", "rend", "training", "yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(name, "%p", "%%%0") .. "[%s%p]") then
+        topic = name
+        break
+    end
+end
 -- introductions: lists the skills available
-if speech == "training?" or speech == "training" or speech == "yes" then
+if topic == "training" or topic == "yes" then
     self.room:send(tostring(self.name) .. " says, 'Sure, I can help you improve just about any necessary stealthy")
     self.room:send("</>talent.  But remember, I can't teach you skills you don't already know.'")
     -- (empty room echo)
@@ -42,73 +51,74 @@ if speech == "training?" or speech == "training" or speech == "yes" then
     return _return_value
 else
     -- defining variables for this script
+    speech = topic or speech  -- canonical topic name: it is echoed and saved as the skill below
     local name = actor.name
     local cha = actor.real_cha
     local int = actor.real_int
     -- 
     -- Identify the skill to be trained
     local skill, word2
-    if speech == "backstab" then
+    if topic == "backstab" then
         skill = actor:get_skill("backstab")
-    elseif speech == "bludgeoning weapons" then
+    elseif topic == "bludgeoning weapons" then
         skill = actor:get_skill("bludgeoning weapons")
         word2 = "weapons"
-    elseif speech == "cartwheel" then
+    elseif topic == "cartwheel" then
         skill = actor:get_skill("cartwheel")
-    elseif speech == "conceal" then
+    elseif topic == "conceal" then
         skill = actor:get_skill("conceal")
-    elseif speech == "corner" then
+    elseif topic == "corner" then
         skill = actor:get_skill("corner")
-    elseif speech == "double attack" then
+    elseif topic == "double attack" then
         skill = actor:get_skill("double attack")
         word2 = "attack"
-    elseif speech == "dual wield" then
+    elseif topic == "dual wield" then
         skill = actor:get_skill("dual wield")
         word2 = "wield"
-    elseif speech == "eye gouge" then
+    elseif topic == "eye gouge" then
         word2 = "gouge"
         skill = actor:get_skill("eye gouge")
-    elseif speech == "group retreat" then
+    elseif topic == "group retreat" then
         word2 = "retreat"
         skill = actor:get_skill("group retreat")
-    elseif speech == "hide" then
+    elseif topic == "hide" then
         skill = actor:get_skill("hide")
-    elseif speech == "instant kill" then
+    elseif topic == "instant kill" then
         skill = actor:get_skill("instant kill")
         word2 = "kill"
-    elseif speech == "lure" then
+    elseif topic == "lure" then
         skill = actor:get_skill("lure")
-    elseif speech == "pick lock" then
+    elseif topic == "pick lock" then
         skill = actor:get_skill("pick lock")
         word2 = "lock"
-    elseif speech == "piercing weapons" then
+    elseif topic == "piercing weapons" then
         skill = actor:get_skill("piercing weapons")
         word2 = "weapons"
-    elseif speech == "rend" then
+    elseif topic == "rend" then
         skill = actor:get_skill("rend")
-    elseif speech == "retreat" then
+    elseif topic == "retreat" then
         skill = actor:get_skill("retreat")
-    elseif speech == "shadow" then
+    elseif topic == "shadow" then
         skill = actor:get_skill("shadow")
-    elseif speech == "slashing weapons" then
+    elseif topic == "slashing weapons" then
         skill = actor:get_skill("slashing weapons")
         word2 = "weapons"
-    elseif speech == "sneak" then
+    elseif topic == "sneak" then
         skill = actor:get_skill("sneak")
-    elseif speech == "sneak attack" then
+    elseif topic == "sneak attack" then
         skill = actor:get_skill("sneak attack")
         word2 = "attack"
-    elseif speech == "steal" then
+    elseif topic == "steal" then
         skill = actor:get_skill("steal")
-    elseif speech == "switch" then
+    elseif topic == "switch" then
         skill = actor:get_skill("switch")
-    elseif speech == "throatcut" then
+    elseif topic == "throatcut" then
         skill = actor:get_skill("throatcut")
-    elseif speech == "track" then
+    elseif topic == "track" then
         skill = actor:get_skill("track")
-    elseif speech == "bandage" then
+    elseif topic == "bandage" then
         skill = actor:get_skill("bandage")
-    elseif speech == "douse" then
+    elseif topic == "douse" then
         skill = actor:get_skill("douse")
     else
         self:say("I'm not familiar with " .. tostring(speech) .. ".")
@@ -122,7 +132,7 @@ else
     local maxskill = actor.level * 10 + 60
     -- check for capped skills
     local cap = 1000
-    if speech == "track" then
+    if topic == "track" then
         -- switch on actor.class
         if actor.class == "mercenary" then
             cap = 850
@@ -133,12 +143,12 @@ else
         elseif actor.class == "assassin" then
             cap = 750
         end
-    elseif speech == "dodge" or speech == "parry" then
+    elseif topic == "dodge" or topic == "parry" then
         -- switch on actor.race
         if actor.race == "ogre" or actor.race == "troll" then
             cap = 700
         end
-    elseif speech == "riposte" then
+    elseif topic == "riposte" then
         -- switch on actor.race
         if actor.race == "ogre" then
             cap = 700

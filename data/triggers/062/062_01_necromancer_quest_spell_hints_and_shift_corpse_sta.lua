@@ -17,9 +17,11 @@
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
+local speech_word = nil  -- the first listed word found; branch on this, not on the raw speech
 for _, w in ipairs({"shift", "shift?", "corpse", "corpse?", "degeneration", "degeneration?"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
+        speech_word = w
         break
     end
 end
@@ -28,13 +30,13 @@ if not speech_hit then
 end
 wait(0.2)
 if string.find(self.class, "necromancer") then
-    if speech == "degeneration" or speech == "degeneration?" then
+    if speech_word == "degeneration" or speech_word == "degeneration?" then
         self.room:send(tostring(self.name) .. " says, 'Controlling negative energy to bolster the dead or")
         self.room:send("</>degenerate the living is theoretically possible.  Someone is working to")
         self.room:send("</>develop a <b:black>Degeneration</> spell for use in the ongoing battle against")
         self.room:send("</>the Eldorian Guard.'")
     elseif string.find(actor.class, "necromancer") and actor:get_quest_stage("shift_corpse") == 0 then
-        if speech == "shift" or speech == "shift?" or speech == "corpse" or speech == "corpse?" or speech == "shift corpse" or speech == "shift corpse?" then
+        if speech_word == "shift" or speech_word == "shift?" or speech_word == "corpse" or speech_word == "corpse?" then
             self:say("So you want to learn our most powerful secrets, eh?")
             self:command("peer " .. tostring(actor))
             wait(1)
