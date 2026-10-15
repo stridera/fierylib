@@ -176,7 +176,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         faction_multiplier = 3
     else
         _return_value = true
-        wait(1)
+        wait(0.1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
         actor:send(tostring(self.name) .. " returns your item to you.")
@@ -200,7 +200,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         if actor:get_quest_var("black_legion:eg_faction") < 100 then
             local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
             actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Hrm, yes... you have been out fighting the")
             actor:send("</>influence of the Black Legion.  I see from my records you have now turned in")
             actor:send("</><b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%id_trophy%]%</>.'")
@@ -220,7 +220,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             else
                 _return_value = true
             end
-            wait(2)
+            wait(0.2)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'You have garnered as much favor with the")
             actor:send("</>Eldorian Guard as you possibly can by raiding Split Skull.'")
@@ -285,7 +285,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
         if actor.alignment <= -151 then
             _return_value = true
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite good enough for these")
             actor:send("</>rewards.'")
             return _return_value
@@ -293,12 +293,12 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
         if actor:get_quest_var("black_legion:eg_faction") >= faction_required then
             local rewards = actor:get_quest_var("black_legion:id_reward_reward") + 1
             actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Guard thanks you for your")
             actor:send("</>efforts.  Take this to aid you in your battles.'")
-            wait(1)
+            wait(0.1)
             self.room:spawn_object(55, id_reward)
-            wait(1)
+            wait(0.1)
             if actor:get_quest_var("black_legion:id_reward_reward") == 1 then
                 -- 
                 -- loop for exp award.
@@ -345,7 +345,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:save()  -- TODO(parity): legacy converter wrote `actor.name:save()`
         else
             _return_value = true
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with our cause")
             actor:send("</>to earn that reward.'")
             return _return_value
@@ -355,7 +355,7 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
 else
     -- Alignment not high enough or hasn't started the quest yet.
     _return_value = true
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with our cause")
     actor:send("</>to earn our rewards.  You need a higher alignment or to start these quests by")
     actor:send("</>saying <b:white>[yes]</> or <b:white>[quest]</> or <b:white>[hello]</>.'")

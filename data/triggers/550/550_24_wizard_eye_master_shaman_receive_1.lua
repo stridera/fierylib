@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local stage = actor:get_quest_stage("wizard_eye")
 if stage == 2 then
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     actor:advance_quest("wizard_eye")
     actor:send(tostring(self.name) .. " says, 'Ah, marigold for clairvoyance.  That makes sense.  I will store it while you seek the advice of the next sage.'")

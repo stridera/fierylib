@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "money")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("school") == 5 and not actor:get_quest_var("school:money") then
     actor:set_quest_var("school", "money", 1)
     actor:send(tostring(self.name) .. " tells you, 'You can <b:cyan>GET</>, <b:cyan>DROP</>, and <b:cyan>GIVE</> money like items.")

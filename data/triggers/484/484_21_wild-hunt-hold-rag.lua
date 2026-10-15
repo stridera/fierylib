@@ -19,7 +19,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 -- Like trigger 48418, only when they are not already holding the rag.
 if actor:get_quest_stage("doom_entrance") == 1 then
     actor:command("hold ragtoscarewhitetaileddeer")
-    wait(1)
+    wait(0.1)
     if (self.zone_id == 552 and self.id == 14) then
         self.room:send("The deer flees wildly at the sight of the blood-soaked rag!")
         self:command("flee")

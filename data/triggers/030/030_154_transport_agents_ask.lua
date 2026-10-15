@@ -46,7 +46,7 @@ elseif (self.zone_id == 30 and self.id == 150) then
     -- legacy: questmaster 3150 had no agent record; bail
     return true
 end
-wait(4)
+wait(0.4)
 -- **************************
 -- * Check for eligibility **
 -- **************************
@@ -87,7 +87,7 @@ end
 -- **********************
 self.room:send_except(actor, tostring(self.name) .. " nods briefly to " .. tostring(actor.name) .. ".")
 actor:send(tostring(self.name) .. " nods briefly to you.")
-wait(4)
+wait(0.4)
 self.room:send_except(actor, tostring(self.name) .. " makes a magical gesture at " .. tostring(actor.name) .. ".")
 actor:send(tostring(self.name) .. " makes a magical gesture at you.")
 self.room:send_except(actor, tostring(actor.name) .. " disappears in a cloud of gray smoke.")

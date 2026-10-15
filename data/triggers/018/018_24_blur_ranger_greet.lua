@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #1824: blur_ranger_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if string.find(actor.class, "ranger") then
     self:command("bow " .. tostring(actor))
     self:say("Welcome fellow warden.")

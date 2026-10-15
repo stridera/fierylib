@@ -17,7 +17,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local person = actor
 local i = person.group_size
 local a

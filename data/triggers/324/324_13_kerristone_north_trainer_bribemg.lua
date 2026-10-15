@@ -23,24 +23,24 @@ if actor.is_player then
     -- The ride ends in 324:165 (legacy 32565), a room the legacy world never defined. Without it the
     -- ride cannot arrive, so hand the money back instead of selling a trip to nowhere.
     if not get_room(324, 165) then
-        wait(1)
+        wait(0.1)
         self.room:send(tostring(self.name) .. " says, 'I am sorry, the road to Mugnork is closed right now.'")
         self:command("give " .. tostring(value) .. " copper " .. tostring(actor.name))
         return true
     end
-    wait(1)
+    wait(0.1)
     self.room:send(tostring(self.name) .. " says, '</>Ahh Thankyou! You will not be disappointed.</>'")
     self.room:send(tostring(self.name) .. " says, '</>I have one of the fastest </><blue>&9stallions</> in the land for you!'")
-    wait(2)
+    wait(0.2)
     self.room:send("</>A <yellow>horse</> trainer leads a fine looking <blue>&9stallion</> into the room.")
     self.room:spawn_mobile(324, 23)
-    wait(2)
+    wait(0.2)
     self.room:send("</>A horse trainer gets under you and pushes you up into the saddle.</>")
     -- mload obj: the strawberry goes into the trainer's inventory so the give below can hand it over
     self:spawn_object(324, 25)
     self.room:send(tostring(self.name) .. " says, 'Feed him this <red>strawberry</> and he will know that you want to go to <b:cyan>Mugnork</>.'")
     self:command("give strawberry " .. tostring(actor.name))
-    wait(2)
+    wait(0.2)
     self.room:send("</>A <yellow>horse</> trainer forces your hand towards the mouth of the horse.")
     actor:command("give strawberry stallion")
     self.room:send(tostring(self.name) .. " says, 'Good journey!'")

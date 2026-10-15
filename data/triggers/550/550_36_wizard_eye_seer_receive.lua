@@ -28,7 +28,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     else
         actor:set_quest_var("wizard_eye", var_key, 1)
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         self:command("nod")
         actor:send(tostring(self.name) .. " says, 'Yep, this'll do.'")
@@ -39,7 +39,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
                 actor:set_quest_var("wizard_eye", "item" .. tostring(i), 0)
                 i = i + 1
             end
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'Let me just stitch up a little bag for you.'")
             wait(1)
             self:emote("cuts a large square from the indigo silk dress.")
@@ -53,7 +53,7 @@ if actor:get_quest_stage("wizard_eye") == 4 then
             actor:send(tostring(self.name) .. " says, 'Sweet dreams!'")
             self:command("cackle")
         else
-            wait(2)
+            wait(0.2)
             if not actor:get_quest_var("wizard_eye:item1") then
                 actor:send(tostring(self.name) .. " says, 'What about the bay?'")
             end

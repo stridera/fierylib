@@ -21,7 +21,7 @@ actor:set_quest_var("blur", "west", 0)
 actor:set_quest_var("blur", "south", 0)
 actor:set_quest_var("blur", "north", 0)
 if actor:get_quest_stage("blur") == 4 then
-    wait(2)
+    wait(0.2)
     self:say("Ready...")
     wait(3)
     self:say("Set...")
@@ -58,7 +58,7 @@ if actor:get_quest_stage("blur") == 4 then
         actor:fail_quest("blur")
         actor:set_quest_var("blur", "race", "off")
         actor:send(self.name .. " tells you, '" .. "You'll have to be a little quicker on your toes next time." .. "'")
-        wait(2)
+        wait(0.2)
         actor:send(self.name .. " tells you, '" .. "'Come back to me if you want to try again.'" .. "'")
     end
 end

@@ -17,7 +17,7 @@ local id = object.id
 
 if zone == 510 and id == 22 then
     -- Damaged book - more work to do.
-    wait(5)
+    wait(0.5)
     self:say("Hmm...a damaged spellbook.")
     wait(2)
     self:say("Look, " .. tostring(actor.name) .. ", why don't you fix this then maybe we can talk.")
@@ -25,7 +25,7 @@ if zone == 510 and id == 22 then
     return true
 elseif zone == 510 and id == 23 then
     -- Completed spellbook - reward depends on whether they did it solo.
-    wait(5)
+    wait(0.5)
     self:command("grin")
     self:say(tostring(actor.name) .. ", you've done me proud.")
     self:say("Although I guess you haven't really done any favours for the rest of the world!")
@@ -50,7 +50,7 @@ elseif zone == 510 and id == 23 then
     return true
 elseif zone == 510 and id == 28 then
     -- Phoenix heart.
-    wait(5)
+    wait(0.5)
     self:say("Thanks, " .. tostring(actor.name) .. ".")
     self:say("Now I can generate an army of undead, unkillable zombies to help in my plans.")
     self:command("cackle")
@@ -77,7 +77,7 @@ else
     -- Unrecognized gift - return it.
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    wait(8)
+    wait(0.8)
     self:say("What am I supposed to do with this?")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")

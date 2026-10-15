@@ -23,18 +23,21 @@ while target == 0 do
         target = 1
         local message = random(1, 4)
         -- switch on message
-        if message == 1 then
-            self.room:send_except(victim, "A Succubus reaches in and fondles " .. tostring(victim.name) .. " gently. (<blue>" .. tostring(damage) .. "</>)")
-            victim:send("A Succubus reaches in and fondles you gently. (<b:red>" .. tostring(damage) .. "</>)")
-        elseif message == 2 then
-            self.room:send_except(victim, "A Succubus kisses " .. tostring(victim.name) .. " passionately... (<blue>" .. tostring(damage) .. "</>)")
-            victim:send("A Succubus kisses you passionately, it seems to last forever... (<b:red>" .. tostring(damage) .. "</>)")
-        elseif message == 3 then
-            self.room:send_except(victim, "A Succubus gropes at " .. tostring(victim.name) .. ". How inappropriate! (<blue>" .. tostring(damage) .. "</>)")
-            victim:send("A Succubus gropes you wildly! Boy does that feel good! (<b:red>" .. tostring(damage) .. "</>)")
-        else
-            self.room:send_except(victim, "A Succubus strokes " .. tostring(victim.name) .. "'s inner thigh. (<blue>" .. tostring(damage) .. "</>)")
-            victim:send("A Succubus strokes your inner thigh. She's getting frisky! (<b:red>" .. tostring(damage) .. "</>)")
+        do
+            local _sw1 = string.lower(tostring(message or ""))
+            if tonumber(_sw1) == 1 then
+                self.room:send_except(victim, "A Succubus reaches in and fondles " .. tostring(victim.name) .. " gently. (<blue>" .. tostring(damage) .. "</>)")
+                victim:send("A Succubus reaches in and fondles you gently. (<b:red>" .. tostring(damage) .. "</>)")
+            elseif tonumber(_sw1) == 2 then
+                self.room:send_except(victim, "A Succubus kisses " .. tostring(victim.name) .. " passionately... (<blue>" .. tostring(damage) .. "</>)")
+                victim:send("A Succubus kisses you passionately, it seems to last forever... (<b:red>" .. tostring(damage) .. "</>)")
+            elseif tonumber(_sw1) == 3 then
+                self.room:send_except(victim, "A Succubus gropes at " .. tostring(victim.name) .. ". How inappropriate! (<blue>" .. tostring(damage) .. "</>)")
+                victim:send("A Succubus gropes you wildly! Boy does that feel good! (<b:red>" .. tostring(damage) .. "</>)")
+            else
+                self.room:send_except(victim, "A Succubus strokes " .. tostring(victim.name) .. "'s inner thigh. (<blue>" .. tostring(damage) .. "</>)")
+                victim:send("A Succubus strokes your inner thigh. She's getting frisky! (<b:red>" .. tostring(damage) .. "</>)")
+            end
         end
         local damage_dealt = victim:damage(damage)  -- type: physical
         target = 1

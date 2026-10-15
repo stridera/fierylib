@@ -20,8 +20,8 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(1)
+wait(0.1)
 self:say("Those bastards kill them all...")
 self:command("grumble")
-wait(1)
+wait(0.1)
 self:say("One day they'll all pay for what they did to my friends.")

@@ -82,18 +82,18 @@ if go == "gem" then
     local gem_id = object.id
     local gem_count = actor:get_quest_var("hell_trident:gems")
     if gem_count < 6 then
-        wait(2)
+        wait(0.2)
         world.destroy(object.name)
         gem_count = gem_count + 1
         actor:set_quest_var("hell_trident", "gems", gem_count)
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
-        wait(2)
+        wait(0.2)
         if gem_count == 1 then
             actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
         else
             actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
         end
-        wait(2)
+        wait(0.2)
         if gem_count >= 6 then
             actor:set_quest_var("hell_trident", "helltask3", 1)
             local job1 = actor:get_quest_var("hell_trident:helltask1")
@@ -111,7 +111,7 @@ if go == "gem" then
     else
         _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
     end
 elseif go == "trident" then
@@ -122,7 +122,7 @@ elseif go == "trident" then
     local job5 = actor:get_quest_var("hell_trident:helltask5")
     local job6 = actor:get_quest_var("hell_trident:helltask6")
     if job1 and job2 and job3 and job4 and job5 and job6 then
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         if (self.zone_id == 125 and self.id == 26) then
             actor:send(tostring(self.name) .. " says, 'We are pleased.'")
@@ -216,7 +216,7 @@ end
 if refuse then
     _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(reason) .. "'")
 end
 return _return_value

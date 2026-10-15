@@ -12,7 +12,7 @@
 -- 
 -- This is for necromancers only
 if actor.class == "necromancer" and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Body armor? Well now I can make a fine robe for the necromancers but\"")
     actor:send(tostring(self.name) .. " tells you, \"I'll need 3 cursed emeralds, and a Worn Robe. Return these\"")
     actor:send(tostring(self.name) .. " tells you, \"things to me in any order at any time and I will reward you.\"")

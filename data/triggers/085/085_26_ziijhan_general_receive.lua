@@ -16,6 +16,6 @@
 -- quest var system, we always reject — restore the early-allow branch
 -- when the mace item ids are pinned down.
 actor:send(self.name .. " scoffs at " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, 'What is this garbage?'")
 return true

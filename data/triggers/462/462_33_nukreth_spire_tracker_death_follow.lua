@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #46233: Nukreth Spire tracker death follow
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-wait(4)
+wait(0.4)
 if world.count_mobiles(462, 1) == 0 then
     self.room:find_actor("captive"):say("Alright, who do I follow?")
 end

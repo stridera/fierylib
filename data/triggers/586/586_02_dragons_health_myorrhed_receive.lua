@@ -17,7 +17,7 @@ local _return_value = true  -- Default: allow the give to proceed
 local stage = actor:get_quest_stage("dragons_health")
 if stage == 1 then
     if object.zone_id == 125 and object.local_id == 9 then
-        wait(2)
+        wait(0.2)
         self:emote("examines " .. tostring(object.shortdesc) .. ".")
         world.destroy(object)
         wait(1)
@@ -46,7 +46,7 @@ if stage == 1 then
 elseif stage == 2 then
     if object.zone_id == 533 and object.local_id == 25 then
         actor:advance_quest("dragons_health")
-        wait(2)
+        wait(0.2)
         self:emote("runs her eyes over " .. tostring(object.shortdesc) .. ".")
         world.destroy(object)
         wait(1)
@@ -71,14 +71,14 @@ elseif stage == 2 then
     else
         _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, '" .. tostring(object.shortdesc) .. " is not one of Tri-Aszp's scales.'")
     end
 elseif stage == 3 then
     if object.zone_id == 480 and object.local_id == 24 then
         if actor:get_quest_var("dragons_health:thelriki") and actor:get_quest_var("dragons_health:jerajai") then
             actor:advance_quest("dragons_health")
-            wait(2)
+            wait(0.2)
             self:emote("looks suspiciously at " .. tostring(object.shortdesc) .. ".")
             world.destroy(object)
             wait(1)
@@ -130,17 +130,20 @@ elseif stage == 4 then
                 return _return_value
             else
                 actor:set_quest_var("dragons_health", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
-                wait(2)
+                wait(0.2)
                 local emote = random(1, 4)
                 -- switch on emote
-                if emote == 1 then
-                    self:emote("looks at " .. tostring(object.shortdesc) .. " with disdain.")
-                elseif emote == 2 then
-                    self:emote("regards " .. tostring(object.shortdesc) .. " with caution.")
-                elseif emote == 3 then
-                    self:emote("grimaces at " .. tostring(object.shortdesc) .. ".")
-                else
-                    self:emote("sneers at " .. tostring(object.shortdesc) .. ".")
+                do
+                    local _sw1 = string.lower(tostring(emote or ""))
+                    if tonumber(_sw1) == 1 then
+                        self:emote("looks at " .. tostring(object.shortdesc) .. " with disdain.")
+                    elseif tonumber(_sw1) == 2 then
+                        self:emote("regards " .. tostring(object.shortdesc) .. " with caution.")
+                    elseif tonumber(_sw1) == 3 then
+                        self:emote("grimaces at " .. tostring(object.shortdesc) .. ".")
+                    else
+                        self:emote("sneers at " .. tostring(object.shortdesc) .. ".")
+                    end
                 end
                 world.destroy(object)
             end
@@ -155,7 +158,7 @@ elseif stage == 4 then
             actor:send(tostring(self.name) .. " says, 'I can't believe she's finally gone.'")
             wait(2)
             self:emote("places the remnants of the other dragons' hoards around the egg.")
-            wait(2)
+            wait(0.2)
             actor:send("The egg shifts and rocks slightly with signs of life!")
             wait(3)
             actor:send(tostring(self.name) .. " says, 'The last thing the egg needs is money.  Lots of it.'")
@@ -181,31 +184,31 @@ elseif stage == 4 then
 elseif stage == 5 then
     if object.cost == 0 and object.level < 60 then
         _return_value = true
-        wait(2)
+        wait(0.2)
         self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Unfortunately there isn't enough inherent value to <b:yellow>" .. tostring(object.shortdesc) .. " to be part of the hatchling's hoard.'")
         return _return_value
     end
 
-    wait(2)
-    self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
+        wait(0.2)
+        self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
     local price = 0
-    if (object.level >= 60) and (object.cost == 0) then
+        if (object.level >= 60) and (object.cost == 0) then
         price = (object.level * 1000)
-        actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Although it has no inherent price, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
-    elseif object.level >= 60 and object.cost < (object.level * 1000) then
-        price = (object.level * 1000)
-        actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Even though it has some material value, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
-    elseif (object.level < 60 and object.cost > 0) or (object.level >= 60 and object.cost >= (object.level * 1000)) then
-        price = object.cost
-        actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  It has a value of: <b:yellow>" .. tostring(object.cost) .. "</> copper.'")
-    end
-    actor:send("</>")
-    actor:send(tostring(self.name) .. " says, 'It shall be included in the offerings.'")
-    self:emote("places " .. tostring(object.shortdesc) .. " next to the egg.")
-    world.destroy(object)
-    wait(2)
+            actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Although it has no inherent price, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
+        elseif object.level >= 60 and object.cost < (object.level * 1000) then
+            price = (object.level * 1000)
+            actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  Even though it has some material value, the mystic value of it is: <b:yellow>" .. tostring(price) .. "</> copper.'")
+        elseif (object.level < 60 and object.cost > 0) or (object.level >= 60 and object.cost >= (object.level * 1000)) then
+            price = object.cost
+            actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".  It has a value of: <b:yellow>" .. tostring(object.cost) .. "</> copper.'")
+        end
+        actor:send("</>")
+        actor:send(tostring(self.name) .. " says, 'It shall be included in the offerings.'")
+        self:emote("places " .. tostring(object.shortdesc) .. " next to the egg.")
+        world.destroy(object)
+        wait(0.2)
 
     local hoard = actor:get_quest_var("dragons_health:hoard") or 0
     local wealth = hoard + price
@@ -224,7 +227,7 @@ elseif stage == 5 then
 else
     _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'I'm not looking for anything right now.'")
 end
 return _return_value

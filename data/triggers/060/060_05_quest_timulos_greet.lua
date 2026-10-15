@@ -6,7 +6,7 @@
 
 -- Converted from DG Script #6005: quest_timulos_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 local quest_name = actor:get_quest_var("merc_ass_thi_subclass:subclass_name")
 local quest_stage = actor:get_quest_stage("merc_ass_thi_subclass")
 -- Restructured: the converter mangled the nested switch. The original DG
@@ -38,7 +38,7 @@ if quest_name then
             actor:send(tostring(self.name) .. " says, 'Have you put your mercenary potential to good use?  Give me the <b:yellow>cloak</> the insect warriors stole.'")
         elseif quest_name == "assassin" then
             actor:send(tostring(self.name) .. " says, 'Is the job done?'")
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'Shhhh, don't say anything!  Assassins keep their secrets.'")
             wait(1)
             actor:send(tostring(self.name) .. " says, 'But do give me the target's <b:yellow>cane</> if you have it.'")
@@ -47,16 +47,16 @@ if quest_name then
 else
     if actor:get_has_failed("merc_ass_thi_subclass") then
         actor:send(tostring(self.name) .. " says, 'That could have gone better.  I see you failed your mission.'")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'I suppose you want to try again.'")
     elseif string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.name) .. ", have you come to me for training?'")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Well?  Do you want <b:cyan>training</> " .. tostring(actor.name) .. " or are you just going to stand there?'")
         self:command("tap")
     elseif string.find(actor.class, "rogue") and actor.level < 10 then
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.name) .. ", have you come to me for trai- '")
-        wait(2)
+        wait(0.2)
         self:emote("stops cold.")
         wait(1)
         self:command("eye " .. tostring(actor))

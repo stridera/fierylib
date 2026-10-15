@@ -15,13 +15,13 @@ if not (string.find(string.lower(speech), "help")) then
 end
 if actor.level >= 65 then
     if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" then
-        wait(10)
+        wait(1)
         actor:send("A lost mage tells you, 'I used to know a spell, yes, quite the spell!'")
         self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
-        wait(10)
+        wait(1)
         actor:send("A lost mage tells you, 'But I do not have the materials I need...'")
         self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
-        wait(5)
+        wait(0.5)
         self:command("ponder")
         actor:send("A lost mage tells you, 'Please, help me find the <b:cyan>items</>.'")
         self.room:send_except(actor, "A lost mage pleads with " .. tostring(actor.name) .. ".")

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who?") or string.find(string.lower(speech), "vulcera") or string.find(string.lower(speech), "vulcera?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Vulcera is some kind of fiery demigoddess.  She appeared many years ago and took the volcano as her new palace.'")
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Vulcera enslaved the dwarrow, the gnome-dwarves of the Mountain Tribe who live inside the volcano itself, and forced them to build her an ivory tower.'")

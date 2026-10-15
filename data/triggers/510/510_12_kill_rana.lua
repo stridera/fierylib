@@ -11,7 +11,7 @@ if not (actor.zone_id == 510 and actor.id == 10) then
     return true
 end
 
-wait(1)
+wait(0.1)
 self.room:send("An large image of a face appears in the room.")
 local rana = self.room:find_actor("rana")
 if rana then
@@ -21,9 +21,9 @@ self.room:send(tostring(actor.name) .. " waves the petrified magic defiantly.")
 if rana then
     rana:say("This will protect me against you.")
 end
-wait(5)
+wait(0.5)
 self.room:send("The aparition laughs and says a couple of words.")
 actor:damage(10000)
 self.room:send("The aparition chuckles and says, 'Well, HE underestimated my power bigtime.'")
-wait(5)
+wait(0.5)
 self.room:send("The aparition fades.")

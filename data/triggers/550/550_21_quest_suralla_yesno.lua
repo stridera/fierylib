@@ -19,7 +19,7 @@ end
 if not string.find(string.lower(actor.class), "sorcerer") then
     return true
 end
-wait(2)
+wait(0.2)
 if string.find(speech_lower, "yes") then
     if actor.race == "dragonborn_fire" or actor.race == "arborean" then
         actor:send("<red>Your race cannot subclass to cryomancer.</>")

@@ -41,7 +41,7 @@ while counter > 0 do
     get_room(324, 198):at(function()
         self.room:send("of the hills, their outline weathered into grotesque shapes.</>")
     end)
-    wait(4)
+    wait(0.4)
     get_room(324, 198):at(function()
         self.room:send("You catch a glimpse of the passing countryside!")
     end)

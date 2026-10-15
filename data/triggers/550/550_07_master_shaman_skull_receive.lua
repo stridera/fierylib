@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #55007: Master Shaman skull receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-wait(2)
+wait(0.2)
 local i = actor.group_size or 0
 local a = 1
 while a <= i do
@@ -22,9 +22,9 @@ while a <= i do
 end
 self:destroy_item("skull")
 self:say("Oh my!  You have destroyed a great evil!  My kingdom will never be threatened by it again!")
-wait(2)
+wait(0.2)
 self:command("thank " .. tostring(actor.name))
-wait(2)
+wait(0.2)
 self:say("I know the Snow Leopard would want you to have this!")
 self.room:spawn_object(550, 8)
 self:command("give cloak " .. tostring(actor.name))

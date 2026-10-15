@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 -- Legacy `return 0` comes first: the typed kneel always goes ahead.
 _return_value = true
 allow_command()
-wait(2)
+wait(0.2)
 local bad1 = (actor:get_quest_var("megalith_quest:bad1") == 1) and 1 or 0
 local bad2 = (actor:get_quest_var("megalith_quest:bad2") == 1) and 1 or 0
 local bad3 = (actor:get_quest_var("megalith_quest:bad3") == 1) and 1 or 0
@@ -59,7 +59,7 @@ if actor:get_quest_stage("megalith_quest") == 5 then
             gem = gem + 1
         end
         self:command("give all " .. tostring(actor.name))
-        wait(4)
+        wait(0.4)
         self:command("bow " .. tostring(actor.name))
     end
     -- Clear all the Bads, just in case.

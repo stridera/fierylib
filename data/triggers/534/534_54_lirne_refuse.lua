@@ -36,6 +36,6 @@ elseif stage == 4 then
     end
 end
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 self:say(response)
 return true

@@ -29,51 +29,54 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
             actor:send("Quest Master: " .. tostring(mobiles.template(85, 50).name))
             actor:send("</>")
             -- switch on stage
-            if stage == 1 then
-                actor:send("Ask Norisent about payment.")
-                return _return_value
-            elseif stage == 2 then
-                actor:send("Norisent told you:")
-                actor:send("Do something to interfere with Ziijhan.  I hear he has a bishop locked up in the Cathedral dungeon.")
-                return _return_value
-            elseif stage == 3 then
-                actor:send("Return to Norisent.")
-                return _return_value
-            elseif stage == 4 then
-                hunt = tostring(mobiles.template(40, 4).name) .. ", " .. tostring(mobiles.template(40, 3).name) .. ", and " .. tostring(mobiles.template(40, 16).name)
-                local mob1 = 4004
-                local mob2 = 4003
-                local mob3 = 4016
-                item = objects.template(40, 8).name
-            elseif stage == 5 then
-                item = objects.template(40, 8).name
-            elseif stage == 6 then
-                hunt = "2 Xeg-Yi and " .. tostring(mobiles.template(533, 8).name)
-                local mob2 = 53411
-                local mob1 = 53308
-                item = objects.template(533, 7).name
-            elseif stage == 7 then
-                item = objects.template(533, 7).name
-            elseif stage == 8 or stage == 9 then
-                hunt = tostring(mobiles.template(510, 5).name) .. ", " .. tostring(mobiles.template(530, 1).name) .. ", and " .. tostring(mobiles.template(510, 14).name)
-                local mob1 = 51005
-                local mob2 = 53001
-                local mob3 = 51014
-                if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
-                    item = "a large book on healing from Nordus"
-                elseif string.find(actor.class, "diabolist") then
-                    item = objects.template(510, 28).name
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("Ask Norisent about payment.")
+                    return _return_value
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("Norisent told you:")
+                    actor:send("Do something to interfere with Ziijhan.  I hear he has a bishop locked up in the Cathedral dungeon.")
+                    return _return_value
+                elseif tonumber(_sw1) == 3 then
+                    actor:send("Return to Norisent.")
+                    return _return_value
+                elseif tonumber(_sw1) == 4 then
+                    hunt = tostring(mobiles.template(40, 4).name) .. ", " .. tostring(mobiles.template(40, 3).name) .. ", and " .. tostring(mobiles.template(40, 16).name)
+                    local mob1 = 4004
+                    local mob2 = 4003
+                    local mob3 = 4016
+                    item = objects.template(40, 8).name
+                elseif tonumber(_sw1) == 5 then
+                    item = objects.template(40, 8).name
+                elseif tonumber(_sw1) == 6 then
+                    hunt = "2 Xeg-Yi and " .. tostring(mobiles.template(533, 8).name)
+                    local mob2 = 53411
+                    local mob1 = 53308
+                    item = objects.template(533, 7).name
+                elseif tonumber(_sw1) == 7 then
+                    item = objects.template(533, 7).name
+                elseif tonumber(_sw1) == 8 or tonumber(_sw1) == 9 then
+                    hunt = tostring(mobiles.template(510, 5).name) .. ", " .. tostring(mobiles.template(530, 1).name) .. ", and " .. tostring(mobiles.template(510, 14).name)
+                    local mob1 = 51005
+                    local mob2 = 53001
+                    local mob3 = 51014
+                    if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
+                        item = "a large book on healing from Nordus"
+                    elseif string.find(actor.class, "diabolist") then
+                        item = objects.template(510, 28).name
+                    end
+                elseif tonumber(_sw1) == 10 then
+                    hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
+                    local mob1 = 52003
+                    local mob2 = 52015
+                    item = objects.template(520, 1).name
+                elseif tonumber(_sw1) == 11 then
+                    item = objects.template(520, 1).name
+                elseif tonumber(_sw1) == 12 then
+                    actor:send("Destroy Norisent!")
+                    return _return_value
                 end
-            elseif stage == 10 then
-                hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
-                local mob1 = 52003
-                local mob2 = 52015
-                item = objects.template(520, 1).name
-            elseif stage == 11 then
-                item = objects.template(520, 1).name
-            elseif stage == 12 then
-                actor:send("Destroy Norisent!")
-                return _return_value
             end
         end
         if stage == 4 or stage == 6 or stage == 8 or stage == 10 then

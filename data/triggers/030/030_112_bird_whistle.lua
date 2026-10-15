@@ -19,9 +19,12 @@ if not (cmd == "whistle") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "w" or cmd == "wh" or cmd == "whi" or cmd == "whis" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "w" or _sw1 == "wh" or _sw1 == "whi" or _sw1 == "whis" then
+        _return_value = true
+        return _return_value
+    end
 end
 self.room:send_except(actor, tostring(actor.name) .. " places a bird whistle to " .. tostring(actor.possessive) .. " lips and lets out a twitter.")
 actor:send("You blow on a bird whistle, making a twittering noise.")

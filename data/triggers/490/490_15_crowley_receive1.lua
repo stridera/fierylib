@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if (object.zone_id == 490 and object.id == 1) then
     _return_value = false
-    wait(4)
+    wait(0.4)
     self:emote("examines the griffin skin carefully.")
     self.room:send(tostring(self.name) .. " says, 'This is fantastic!  You have defeated his earthly form!")
     self.room:send("</>However, this was merely a material manifestation, and his true incarnation")
@@ -27,7 +27,7 @@ if (object.zone_id == 490 and object.id == 1) then
     self.room:send("</>destroy it.  Maybe she will give you something more to your taste.'")
 elseif (object.zone_id == 490 and object.id == 42) then
     _return_value = false
-    wait(8)
+    wait(0.8)
     self:emote("looks rather surprised.")
     wait(2)
     self:say("Well now, you found it!  How very resourceful of you!")
@@ -58,7 +58,7 @@ elseif (object.zone_id == 490 and object.id == 42) then
     end
 else
     _return_value = true
-    wait(1)
+    wait(0.1)
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'No, thank you.'</>")
 end
 return _return_value

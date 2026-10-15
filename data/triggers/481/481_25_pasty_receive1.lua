@@ -9,11 +9,11 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if object.zone_id == 481 and object.local_id == 1 then
     self:emote("examines the shell.")
-    wait(2)
+    wait(0.2)
     self:command("cry")
     self.room:send(tostring(self.name) .. " says, 'This is a wonderful gift from my father, he forgives me for my cowardice.'")
     self:command("hol shell")
-    wait(2)
+    wait(0.2)
     self:command("thanks " .. tostring(actor.name))
     self.room:send(tostring(self.name) .. " says, 'You have brought me hope in this dark place, so I will help you.'")
     wait(1)

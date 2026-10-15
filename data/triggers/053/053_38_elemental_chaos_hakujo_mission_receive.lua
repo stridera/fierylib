@@ -49,7 +49,7 @@ elseif (object.zone_id == 53 and object.id == 29) then
 end
 if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("elemental_chaos:bounty") == "dead" then
     local anti = "Anti-Paladin"
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     self:command("bow")
     actor:send(tostring(self.name) .. " says, 'Harmony follows your actions.'")
@@ -100,7 +100,7 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
     end
     actor:set_quest_var("elemental_chaos", "target1", 0)
     actor:set_quest_var("elemental_chaos", "bounty", 0)
-    wait(2)
+    wait(0.2)
     if stage < 10 then
         actor:advance_quest("elemental_chaos")
         actor:send(tostring(self.name) .. " says, 'I will investigate further.  Return later and I shall tell you my findings.'")
@@ -129,10 +129,10 @@ elseif actor:get_quest_stage("elemental_chaos") > stage then
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses the mission.")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You already accomplished this!'")
 elseif actor:get_quest_stage("elemental_chaos") < stage then
-    wait(2)
+    wait(0.2)
     self:command("eye " .. tostring(actor))
     actor:send(tostring(self.name) .. " says, 'How'd you get this?!  You steal it off someone else??'")
     self.room:send(tostring(self.name) .. " rips up the mission!")
@@ -140,7 +140,7 @@ elseif actor:get_quest_stage("elemental_chaos") < stage then
 elseif actor:get_quest_var("elemental_chaos:bounty") == "running" then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses the mission.")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You have to complete your mission first!")
     if stage == 5 then
         actor:send(tostring(target1) .. " are still out there.'")

@@ -28,16 +28,19 @@ if actor.level > 10 then
         if actor:get_quest_stage("pri_pal_subclass") > 0 then
             actor:send(tostring(mobiles.template(185, 81).name) .. " said to you:")
             -- switch on actor:get_quest_stage("pri_pal_subclass")
-            if actor:get_quest_stage("pri_pal_subclass") == 1 then
-                actor:send("It is necessary to make a quest such as this quite tough to ensure you really want to do this._")
-                actor:send("I am sure you will complete the quest though.")
-            elseif actor:get_quest_stage("pri_pal_subclass") == 2 then
-                actor:send("One of our guests made off with our most sacred bronze chalice._")
-                actor:send("We have reason to believe it was a ruse by the filthy diabolists to try and weaken us.")
-                actor:send("</>Our Prior has offered to try and retrieve it for us, but..._")
-                actor:send("I think perhaps that would be a bad idea and that you should find it instead.")
-            elseif actor:get_quest_stage("pri_pal_subclass") == 3 then
-                actor:send("Have you found the bronze chalice the diabolists stole?")
+            do
+                local _sw1 = string.lower(tostring(actor:get_quest_stage("pri_pal_subclass") or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("It is necessary to make a quest such as this quite tough to ensure you really want to do this._")
+                    actor:send("I am sure you will complete the quest though.")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("One of our guests made off with our most sacred bronze chalice._")
+                    actor:send("We have reason to believe it was a ruse by the filthy diabolists to try and weaken us.")
+                    actor:send("</>Our Prior has offered to try and retrieve it for us, but..._")
+                    actor:send("I think perhaps that would be a bad idea and that you should find it instead.")
+                elseif tonumber(_sw1) == 3 then
+                    actor:send("Have you found the bronze chalice the diabolists stole?")
+                end
             end
         end
     end

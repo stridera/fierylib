@@ -14,5 +14,5 @@ if not string.find(speech_lower, "help") then
     return true  -- No matching keywords
 end
 self:say("If you want to return to the shaman say 'I have failed my quest'.")
-wait(1)
+wait(0.1)
 self:say("Then I will return you to the shaman.")

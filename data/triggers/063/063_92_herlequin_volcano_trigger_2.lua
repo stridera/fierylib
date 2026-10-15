@@ -29,7 +29,7 @@ local victim = actors[random(1, #actors)]
 local victim_name = tostring(victim.name)
 
 self.room:send("A massive volcano shoots out a <b:red>flaming rock</>!")
-wait(2)
+wait(0.2)
 victim:damage(damage)  -- type: crush (DG `odamage`)
 self.room:send_except(
     victim,

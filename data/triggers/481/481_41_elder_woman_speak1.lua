@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 local stage = 2
 local person = actor
 local i = person.group_size

@@ -29,7 +29,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "trident") or string.find(string.lower(speech), "upgrades")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local hellstep = actor:get_quest_stage("hell_trident")
 local level
 if hellstep == 1 then
@@ -39,28 +39,37 @@ elseif hellstep == 2 then
 end
 if (hellstep or 0) > 0 then
     -- switch on self.id
-    -- switch on hellstage
-    local response
-    if hellstage == 1 then
-        response = "stage2"
-    elseif hellstage == 2 then
-        response = "stage3"
-    else
-        if actor:get_has_completed("hell_trident") then
-            response = "complete"
+    do
+        if (self.zone_id == 23 and self.id == 11) then
+            -- switch on hellstage
+            local response
+            do
+                local _sw2 = string.lower(tostring(hellstage or ""))
+                if tonumber(_sw2) == 1 then
+                    response = "stage2"
+                elseif tonumber(_sw2) == 2 then
+                    response = "stage3"
+                else
+                    if actor:get_has_completed("hell_trident") then
+                        response = "complete"
+                    end
+                end
+            end
+        elseif (self.zone_id == 60 and self.id == 32) then
+            local step = 1
+            local spell1 = actor:get_has_completed("hellfire_brimstone")
+            local spell2 = actor:get_has_completed("banish")
+            if not actor:get_quest_var("hell_trident:helltask6") then
+                if actor:get_quest_stage("vilekka_stew") > 3 then
+                    actor:set_quest_var("hell_trident", "helltask6", 1)
+                end
+            end
+        elseif (self.zone_id == 125 and self.id == 26) then
+            local step = 2
+            local spell1 = actor:get_has_completed("resurrection_quest")
+            local spell2 = actor:get_has_completed("hell_gate")
         end
     end
-    local step = 1
-    local spell1 = actor:get_has_completed("hellfire_brimstone")
-    local spell2 = actor:get_has_completed("banish")
-    if not actor:get_quest_var("hell_trident:helltask6") then
-        if actor:get_quest_stage("vilekka_stew") > 3 then
-            actor:set_quest_var("hell_trident", "helltask6", 1)
-        end
-    end
-    local step = 2
-    local spell1 = actor:get_has_completed("resurrection_quest")
-    local spell2 = actor:get_has_completed("hell_gate")
     if hellstage == "phase" then
         if not actor:get_quest_var("hell_trident:helltask5") then
             if spell1 then

@@ -11,11 +11,11 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("ursa_quest") == 6 then
     if actor:get_quest_var("ursa_quest:choice") == 2 then
         if object.type == "CONTAINER" then
-            wait(2)
+            wait(0.2)
             self.room:send(tostring(self.name) .. " examines " .. tostring(object.shortdesc) .. ".")
             if object.val0 > 120 then
                 -- The following regular items can be picked up and have large enough values: 3147, 16102, 55029
-                wait(2)
+                wait(0.2)
                 world.destroy(object)
                 run_room_trigger(625, 50)
             else

@@ -45,70 +45,73 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
             local maceitem5
             local hint
             local maceitem6
-            if stage == 1 then
-                master = mobiles.template(30, 25).name
-                maceitem2 = 55577
-                maceitem3 = 55211
-                maceitem4 = 13614
-                maceitem5 = 58809
-                hint = "The Holy Templar Magistrate is a master of spiritual combat.  Perhaps he knows more."
-            elseif stage == 2 then
-                master = mobiles.template(185, 2).name
-                maceitem2 = 55593
-                maceitem3 = 18522
-                maceitem4 = 18523
-                maceitem5 = 18524
-                maceitem6 = 18525
-                hint = "Someone familiar with the grave will be able to work on this mace.  Seek out the Sexton in the Abbey west of the Village of Mielikki."
-            elseif stage == 3 then
-                master = mobiles.template(100, 0).name
-                maceitem2 = 55604
-                maceitem3 = 32409
-                maceitem4 = 59022
-                maceitem5 = 2327
-                hint = "The Cleric Guild is capable of some miraculous crafting.  Visit the Cleric Guild Master in the Arctic Village of Ickle and talk to High Priest Zalish.  He should be able to help you."
-            elseif stage == 4 then
-                master = mobiles.template(62, 18).name
-                maceitem2 = 55631
-                maceitem3 = 16030
-                maceitem4 = 47002
-                maceitem5 = 5211
-                hint = "Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin."
-            elseif stage == 5 then
-                master = mobiles.template(85, 1).name
-                maceitem2 = 55660
-                maceitem3 = 43007
-                maceitem4 = 59012
-                maceitem5 = 17308
-                hint = "Sometimes to battle the dead, we need to use their own dark natures against them.  Few are as knowledgeable about the dark arts as Ziijhan, the Defiler, in the Cathedral of Betrayal."
-            elseif stage == 6 then
-                master = mobiles.template(185, 81).name
-                maceitem2 = 55681
-                maceitem3 = 23824
-                maceitem4 = 53016
-                maceitem5 = 16201
-                hint = "Return again to the Abbey of St. George and seek out Silania.  Her mastry of spiritual matters will be necessary to improve this mace any further."
-            elseif stage == 7 then
-                master = mobiles.template(60, 7).name
-                maceitem2 = 55708
-                maceitem3 = 49502
-                maceitem4 = 4008
-                maceitem5 = 47017
-                hint = "Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne's servators."
-            elseif stage == 8 then
-                master = mobiles.template(484, 12).name
-                maceitem2 = 55737
-                maceitem3 = 53305
-                maceitem4 = 12307
-                maceitem5 = 51073
-                hint = "The most powerful force in the war against the dead is the sun itself.  Consult with the sun's Oracle in the ancient pyramid near Anduin."
-            elseif stage == 9 then
-                master = mobiles.template(30, 21).name
-                maceitem2 = 55738
-                maceitem3 = 48002
-                maceitem4 = 52010
-                maceitem5 = 3218
-                hint = "With everything prepared, return to the very beginning of your journey.  The High Priestess of Mielikki, the very center of the Cleric Guild, will know what to do."
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    master = mobiles.template(30, 25).name
+                    maceitem2 = 55577
+                    maceitem3 = 55211
+                    maceitem4 = 13614
+                    maceitem5 = 58809
+                    hint = "The Holy Templar Magistrate is a master of spiritual combat.  Perhaps he knows more."
+                elseif tonumber(_sw1) == 2 then
+                    master = mobiles.template(185, 2).name
+                    maceitem2 = 55593
+                    maceitem3 = 18522
+                    maceitem4 = 18523
+                    maceitem5 = 18524
+                    maceitem6 = 18525
+                    hint = "Someone familiar with the grave will be able to work on this mace.  Seek out the Sexton in the Abbey west of the Village of Mielikki."
+                elseif tonumber(_sw1) == 3 then
+                    master = mobiles.template(100, 0).name
+                    maceitem2 = 55604
+                    maceitem3 = 32409
+                    maceitem4 = 59022
+                    maceitem5 = 2327
+                    hint = "The Cleric Guild is capable of some miraculous crafting.  Visit the Cleric Guild Master in the Arctic Village of Ickle and talk to High Priest Zalish.  He should be able to help you."
+                elseif tonumber(_sw1) == 4 then
+                    master = mobiles.template(62, 18).name
+                    maceitem2 = 55631
+                    maceitem3 = 16030
+                    maceitem4 = 47002
+                    maceitem5 = 5211
+                    hint = "Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin."
+                elseif tonumber(_sw1) == 5 then
+                    master = mobiles.template(85, 1).name
+                    maceitem2 = 55660
+                    maceitem3 = 43007
+                    maceitem4 = 59012
+                    maceitem5 = 17308
+                    hint = "Sometimes to battle the dead, we need to use their own dark natures against them.  Few are as knowledgeable about the dark arts as Ziijhan, the Defiler, in the Cathedral of Betrayal."
+                elseif tonumber(_sw1) == 6 then
+                    master = mobiles.template(185, 81).name
+                    maceitem2 = 55681
+                    maceitem3 = 23824
+                    maceitem4 = 53016
+                    maceitem5 = 16201
+                    hint = "Return again to the Abbey of St. George and seek out Silania.  Her mastry of spiritual matters will be necessary to improve this mace any further."
+                elseif tonumber(_sw1) == 7 then
+                    master = mobiles.template(60, 7).name
+                    maceitem2 = 55708
+                    maceitem3 = 49502
+                    maceitem4 = 4008
+                    maceitem5 = 47017
+                    hint = "Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne's servators."
+                elseif tonumber(_sw1) == 8 then
+                    master = mobiles.template(484, 12).name
+                    maceitem2 = 55737
+                    maceitem3 = 53305
+                    maceitem4 = 12307
+                    maceitem5 = 51073
+                    hint = "The most powerful force in the war against the dead is the sun itself.  Consult with the sun's Oracle in the ancient pyramid near Anduin."
+                elseif tonumber(_sw1) == 9 then
+                    master = mobiles.template(30, 21).name
+                    maceitem2 = 55738
+                    maceitem3 = 48002
+                    maceitem4 = 52010
+                    maceitem5 = 3218
+                    hint = "With everything prepared, return to the very beginning of your journey.  The High Priestess of Mielikki, the very center of the Cleric Guild, will know what to do."
+                end
             end
             if actor.level >= minlevel then
                 if actor:get_quest_var("phase_mace:greet") == 0 then

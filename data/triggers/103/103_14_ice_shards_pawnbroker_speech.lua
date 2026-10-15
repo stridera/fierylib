@@ -13,7 +13,7 @@ local s = string.lower(speech)
 if not string.find(s, "butcher") then
     return true
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("ice_shards") == 4 then
     self:say("Sorry, never heard of 'im.")
     wait(1)

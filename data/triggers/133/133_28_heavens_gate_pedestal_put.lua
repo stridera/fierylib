@@ -24,10 +24,10 @@ local stage = actor:get_quest_stage("heavens_gate")
 
 -- Stage 1: silver prayer bowl on pedestal -> reveal the seven keys.
 if stage == 1 and target.zone_id == 238 and target.local_id == 17 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("heavens_gate")
     world.destroy(self.room:find_object("bowl"))
-    wait(2)
+    wait(0.2)
     self.room:send("Starlight settles on the burnished silver of " .. tostring(objects.template(238, 17).name) .. ".")
     wait(1)
     actor:send("<b:white>For a moment, all is calm, until the starlight crone rushes at you!</>")
@@ -73,9 +73,9 @@ if stage == 2 then
         end
 
         actor:set_quest_var("heavens_gate", tostring(legacy_id), 1)
-        wait(1)
+        wait(0.1)
         world.destroy(target)
-        wait(2)
+        wait(0.2)
 
         local function got(id) return actor:get_quest_var("heavens_gate:" .. id) and 1 or 0 end
         local total = got("4005") + got("12142") + got("23709")

@@ -22,7 +22,7 @@ end
 actor:advance_quest("berserker_subclass")
 actor:send("You raise your voice in a mighty howl to the Spirits!")
 self.room:send_except(actor, tostring(actor.name) .. " raises " .. tostring(hisher) .. " voice in a mighty howl to the Spirits!")
-wait(2)
+wait(0.2)
 
 -- TODO(parity): targets are stored as legacy 5-digit ids (zone*100 + local).
 -- This matches the comparisons in 364_14/15/20 which do `self.id`. When the

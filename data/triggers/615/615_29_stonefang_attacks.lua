@@ -13,10 +13,10 @@ if not percent_chance(60) then
     return true
 end
 if actor.is_player and actor.level < 31 then
-    wait(2)
+    wait(0.2)
     self.room:send_except(actor, tostring(actor.name) .. " triggered a hidden tripwire!")
     actor:send("You triggered a hidden tripwire!")
-    wait(8)
+    wait(0.8)
     local holding = get_room(615, 99)
     if holding and holding:find_actor("stonefang") then
         holding:at(function()

@@ -14,14 +14,17 @@ if not (cmd == "wear") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "w" or cmd == "we" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "w" or _sw1 == "we" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:gear") == 2 and arg == "all" then
     actor:command("wear all")
     actor:set_quest_var("school", "gear", 3)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'That's how you do it!'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'The <b:cyan>(EQ)UIPMENT</> command shows what gear you're using.")

@@ -14,14 +14,17 @@ if not (cmd == "drink") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "d" or cmd == "dr" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "d" or _sw1 == "dr" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:rest") == 3 and (arg == "waterskin" or arg == "leather" or arg == "skin") then
     actor:set_quest_var("school", "rest", 4)
     actor:command("drink " .. tostring(arg))
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Cheers!'")
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'Every now then you'll have to <b:cyan>FILL</> your drinking vessel.'")

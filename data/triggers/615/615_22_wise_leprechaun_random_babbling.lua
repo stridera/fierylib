@@ -14,11 +14,14 @@ if not percent_chance(40) then
 end
 local val = random(1, 5)
 -- switch on val
-if val == 1 then
-    self:say("I sure could use some fruit... mmmhmm, yep.")
-elseif val == 2 or val == 3 then
-    self:say("I don't suppose you whippersnappers are having any trouble with spiders, eh?")
-elseif val == 4 then
-    self:say("Golblasted fairies, always zipping around your head squeaking.")
-    self:say("It's enough to drive you crazy!")
+do
+    local _sw1 = string.lower(tostring(val or ""))
+    if tonumber(_sw1) == 1 then
+        self:say("I sure could use some fruit... mmmhmm, yep.")
+    elseif tonumber(_sw1) == 2 or tonumber(_sw1) == 3 then
+        self:say("I don't suppose you whippersnappers are having any trouble with spiders, eh?")
+    elseif tonumber(_sw1) == 4 then
+        self:say("Golblasted fairies, always zipping around your head squeaking.")
+        self:say("It's enough to drive you crazy!")
+    end
 end

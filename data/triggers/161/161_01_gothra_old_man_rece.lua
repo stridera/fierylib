@@ -11,14 +11,14 @@
 
 -- TODO: confirm bracelet identity; legacy used vnum 2023 (zone 20, local 23?).
 if (object.zone_id == 20 and object.id == 23) then
-    wait(1)
+    wait(0.1)
     self:destroy_item("bracelet")
     self:shout("Woo Hoo!")
     self:say("YES!")
     self:command("thanks " .. tostring(actor.name))
     self:say("I may actually get out of the dog house now!")
     self:command("grin me")
-    wait(3)
+    wait(0.3)
     self:command("eye " .. tostring(actor.name))
     self:say("Hey, if you are resourceful enough to find this, then maybe you are up for some adventure!")
     self:command("grin")

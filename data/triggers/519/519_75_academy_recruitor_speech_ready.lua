@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "ready")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("school") == 1 then
-    wait(2)
+    wait(0.2)
     self:command("unlock gates")
     self:command("open gates")
     actor:send(tostring(self.name) .. " tells you, 'Your first lesson is with the Instructor of Adventure.'")

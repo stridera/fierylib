@@ -17,26 +17,29 @@ if string.find(arg, "treasure") or string.find(arg, "hunter") or string.find(arg
     actor:send("<b:green>&uTreasure Hunt</>")
     -- switch on stage
     local treasure1
-    if stage == 1 then
-        treasure1 = "a singing chain"
-    elseif stage == 2 then
-        treasure1 = "a true fire ring"
-    elseif stage == 3 then
-        treasure1 = "a sandstone ring"
-    elseif stage == 4 then
-        treasure1 = "a crimson-tinged electrum hoop"
-    elseif stage == 5 then
-        treasure1 = "a Rainbow Shell"
-    elseif stage == 6 then
-        treasure1 = "the Stormshield"
-    elseif stage == 7 then
-        treasure1 = "the Snow Leopard Cloak"
-    elseif stage == 8 then
-        treasure1 = "a coiled rope ladder"
-    elseif stage == 9 then
-        treasure1 = "a glowing phoenix feather"
-    elseif stage == 10 then
-        treasure1 = "a piece of sleet armor"
+    do
+        local _sw1 = string.lower(tostring(stage or ""))
+        if tonumber(_sw1) == 1 then
+            treasure1 = "a singing chain"
+        elseif tonumber(_sw1) == 2 then
+            treasure1 = "a true fire ring"
+        elseif tonumber(_sw1) == 3 then
+            treasure1 = "a sandstone ring"
+        elseif tonumber(_sw1) == 4 then
+            treasure1 = "a crimson-tinged electrum hoop"
+        elseif tonumber(_sw1) == 5 then
+            treasure1 = "a Rainbow Shell"
+        elseif tonumber(_sw1) == 6 then
+            treasure1 = "the Stormshield"
+        elseif tonumber(_sw1) == 7 then
+            treasure1 = "the Snow Leopard Cloak"
+        elseif tonumber(_sw1) == 8 then
+            treasure1 = "a coiled rope ladder"
+        elseif tonumber(_sw1) == 9 then
+            treasure1 = "a glowing phoenix feather"
+        elseif tonumber(_sw1) == 10 then
+            treasure1 = "a piece of sleet armor"
+        end
     end
     local level
     if stage == 1 or (stage or 0) == 0 then

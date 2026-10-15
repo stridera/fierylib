@@ -13,7 +13,7 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("ursa_quest") == 5 then
     if actor:get_quest_var("ursa_quest:choice") == 3 then
         if object.zone_id == 87 and object.local_id == 2 then
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             actor:advance_quest("ursa_quest")
             wait(1)

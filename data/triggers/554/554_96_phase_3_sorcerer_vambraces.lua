@@ -12,7 +12,7 @@
 -- 
 -- This is for sorcerers only
 if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Sleeves ya ask? Well now I can make a fine set of sleeves for\"")
     actor:send(tostring(self.name) .. " tells you, \"the sorcerer types but I'll need 3 topazes, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Worn Sleeves. Return these things to me in\"")

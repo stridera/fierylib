@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 if direction == "south" then
     self.room:send("Rays of light creep in as the lumber around the mine's entrance is pulled back.")
-    wait(1)
+    wait(0.1)
     self.room:send("The lumber around the mine's entrance suddenly grows unstable, creaking loudly.")
     self.room:send("In a great cloud of dust the mine entrance collapses, leaving no way back out.")
 end

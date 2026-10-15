@@ -11,9 +11,9 @@ local _return_value = true  -- Default: allow action
 if actor.is_player then
     if actor.alignment > -350 then
         _return_value = true
-        wait(1)
+        wait(0.1)
         self.room:send("The mask of enmity starts to &9<blue>smoke</> violently!")
-        wait(2)
+        wait(0.2)
         actor:send("You feel the smoke dig into your skin and burn!")
         self.room:send_except(actor, "The smoke from the mask digs into " .. tostring(actor.name) .. "'s skin and severely burns " .. tostring(actor.object) .. ".")
         self.room:send_except(actor, tostring(actor.name) .. " rips the mask of enmity from " .. tostring(actor.possessive) .. " face.")

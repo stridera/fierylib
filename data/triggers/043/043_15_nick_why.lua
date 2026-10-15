@@ -16,5 +16,5 @@ self.room:send(tostring(self.name) .. " says, 'Oh if only you could see it the w
 self.room:send("</>that of COURSE I'm right.'")
 wait(4)
 self:emote("fumes with rage!")
-wait(5)
+wait(0.5)
 self:say("Why do I always let guys do this to me?!")

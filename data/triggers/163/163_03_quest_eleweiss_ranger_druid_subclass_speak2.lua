@@ -38,7 +38,7 @@ elseif string.find(actor.class, "warrior") then
     end
 end
 
-wait(2)
+wait(0.2)
 if classquest == "yes" then
     if string.find(speech, "yes") then
         if not globals.use_subclass then

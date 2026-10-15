@@ -8,7 +8,7 @@
 -- Converted from DG Script #12544: FlaminKey
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 local burn = 1
-wait(1)
+wait(0.1)
 if string.find(actor.class, "cry") then
     actor:send("Your cool touch makes the fiery key's heat bearable.")
     burn = 0

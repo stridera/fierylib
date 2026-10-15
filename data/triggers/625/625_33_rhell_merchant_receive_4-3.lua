@@ -14,7 +14,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
         -- note - the anvil is extremely heavy but must be picked up and given to the merchant to complete the quest; it cannot just be dragged to him.
         if object.type == "DRINKCONTAINER" then
             if object.val2 == 10 then
-                wait(2)
+                wait(0.2)
                 world.destroy(object)
                 actor:advance_quest("ursa_quest")
                 wait(1)
@@ -31,7 +31,7 @@ if actor:get_quest_stage("ursa_quest") == 4 then
                 self:command("grumble")
                 self.room:send(tostring(self.name) .. " says, This isn't going to work.  Off the Great Road is a lumber mill.  Their smith has an anvil that will do perfectly.")
             else
-                wait(2)
+                wait(0.2)
                 self.room:send(tostring(self.name) .. " examines " .. tostring(object.shortdesc) .. ".")
                 wait(1)
                 self:say("Good, now put some milk in this, and bring it to me again.")

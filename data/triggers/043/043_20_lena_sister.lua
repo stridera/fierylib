@@ -13,6 +13,6 @@ if not percent_chance(10) then
     return true
 end
 self:command("scream")
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'My sister is so MEAN to me!  I wish someone would just KILL")
 self.room:send("</>her!'")

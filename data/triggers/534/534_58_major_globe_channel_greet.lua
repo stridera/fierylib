@@ -24,7 +24,7 @@ if actor:get_quest_stage("major_globe_spell") == 9 then
     if load_channel then
         self:destroy_item("majorglobe-channel")
         self.room:spawn_object(534, load_channel)
-        wait(1)
+        wait(0.1)
         actor:send("<blue>" .. tostring(self.name) .. "'s eyes flash briefly as you approach.</>")
         self.room:send_except(actor, "<blue>" .. tostring(self.name) .. "'s eyes flash briefly as " .. tostring(actor.name) .. " approaches.</>")
     end

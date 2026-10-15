@@ -19,7 +19,7 @@ end
 local stage = actor:get_quest_stage("nec_anti_dia_subclass")
 if stage == 1 then
     actor:send(tostring(self.name) .. " says, 'So you come crawling back.'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Only the most cunning and strong will complete the <magenta>quest</> I set before you.  I shall take great pleasure in your demise, but I will offer great rewards for your success.'")
 elseif stage == 2 then
     actor:send(tostring(self.name) .. " says, 'Many years ago, my pact with the demon realm allowed me to be master of this domain.  All were subjugated, man, woman, and beast.'")
@@ -34,14 +34,14 @@ elseif stage == 2 then
     actor:send(tostring(self.name) .. " says, 'Perhaps you will remedy that.'")
 elseif stage == 3 or stage == 4 then
     actor:send(tostring(self.name) .. " says, 'My wretched sibling, Ber...  I shall not utter his name!'")
-    wait(2)
+    wait(0.2)
     self:command("fume")
-    wait(3)
+    wait(0.3)
     actor:send(tostring(self.name) .. " says, 'I despise him and his reverent little life.'")
-    wait(2)
+    wait(0.2)
     self:command("ponder")
     actor:send(tostring(self.name) .. " says, 'He thinks he is safe now, beyond my grasp.  That FOOL!'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Bring back proof of the deed and you shall be accepted.'")
 else
     local classgreet = "no"

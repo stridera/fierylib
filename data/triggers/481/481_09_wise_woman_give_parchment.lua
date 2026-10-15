@@ -8,7 +8,7 @@
 -- Converted from DG Script #48109: wise_woman_give_parchment
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if object.zone_id == 481 and object.local_id == 24 then
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     local stage = 4
     local person = actor

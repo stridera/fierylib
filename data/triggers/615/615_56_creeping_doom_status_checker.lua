@@ -18,48 +18,51 @@ if not (string.find(speech_lower, "progress") or string.find(speech_lower, "stat
     return true  -- No matching keywords
 end
 local stage = actor:get_quest_stage("creeping_doom")
-wait(2)
+wait(0.2)
 
 local item1, item2, item3
 local place1, place2, place3
 local step
 
-if stage == 1 then
-    item1 = { z = 118, l = 12 }
-    place1 = "an assassin vine on Mist Mountain"
-    item2 = { z = 162, l = 13 }
-    place2 = "the great pyramid"
-    item3 = { z = 480, l = 29 }
-    place3 = "Rhalean's evil sister in the northern barrow"
-    step = "gathering Nature's Rage"
-elseif stage == 2 then
-    local essence = actor:get_quest_var("creeping_doom:spiders") or 0
-    local total = 11 - essence
-    self.room:send(tostring(self.name) .. " says, 'You are collecting essences of swarms from:")
-    self.room:send("</>Flies, insects, spiders, bugs, scorpions, giant ant people, etc.'")
-    self.room:send("You have found " .. tostring(essence) .. " essences.")
-    self.room:send("You need to find " .. tostring(total) .. " more.")
-    self.room:send("Remember, the tougher the bug, the better your chances of finding essences.")
-    return true
-elseif stage == 3 then
-    step = "locate three sources of Nature's Vengeance."
-    item1 = { z = 484, l = 16 }
-    place1 = "the elder tremaen in the elemental Plane of Fire"
-    item2 = { z = 520, l = 34 }
-    place2 = "the burning tree in Templace"
-    item3 = { z = 625, l = 3 }
-    place3 = "the Treant in the eldest Rhell's forest"
-elseif stage == 4 then
-    self.room:send(tostring(self.name) .. " says, 'Take the Essence of Nature's Vengeance and")
-    self.room:send("</>drop it at the entrance to the logging camp.'")
-    return true
-else
-    if actor:get_has_completed("creeping_doom") then
-        self:say("I already taught you Creeping Doom!")
+do
+    local _sw1 = string.lower(tostring(stage or ""))
+    if tonumber(_sw1) == 1 then
+        item1 = { z = 118, l = 12 }
+        place1 = "an assassin vine on Mist Mountain"
+        item2 = { z = 162, l = 13 }
+        place2 = "the great pyramid"
+        item3 = { z = 480, l = 29 }
+        place3 = "Rhalean's evil sister in the northern barrow"
+        step = "gathering Nature's Rage"
+    elseif tonumber(_sw1) == 2 then
+        local essence = actor:get_quest_var("creeping_doom:spiders") or 0
+        local total = 11 - essence
+        self.room:send(tostring(self.name) .. " says, 'You are collecting essences of swarms from:")
+        self.room:send("</>Flies, insects, spiders, bugs, scorpions, giant ant people, etc.'")
+        self.room:send("You have found " .. tostring(essence) .. " essences.")
+        self.room:send("You need to find " .. tostring(total) .. " more.")
+        self.room:send("Remember, the tougher the bug, the better your chances of finding essences.")
+        return true
+    elseif tonumber(_sw1) == 3 then
+        step = "locate three sources of Nature's Vengeance."
+        item1 = { z = 484, l = 16 }
+        place1 = "the elder tremaen in the elemental Plane of Fire"
+        item2 = { z = 520, l = 34 }
+        place2 = "the burning tree in Templace"
+        item3 = { z = 625, l = 3 }
+        place3 = "the Treant in the eldest Rhell's forest"
+    elseif tonumber(_sw1) == 4 then
+        self.room:send(tostring(self.name) .. " says, 'Take the Essence of Nature's Vengeance and")
+        self.room:send("</>drop it at the entrance to the logging camp.'")
+        return true
     else
-        self:say("You haven't started to dream my Dream yet.")
+        if actor:get_has_completed("creeping_doom") then
+            self:say("I already taught you Creeping Doom!")
+        else
+            self:say("You haven't started to dream my Dream yet.")
+        end
+        return true
     end
-    return true
 end
 
 local function key(it) return it.z .. "_" .. it.l end
@@ -74,7 +77,7 @@ if have1 or have2 or have3 then
     if have1 then self.room:send("- " .. name(item1)) end
     if have2 then self.room:send("- " .. name(item2)) end
     if have3 then self.room:send("- " .. name(item3)) end
-end
+    end
 self.room:send("I still need:")
 if not have1 then self.room:send("- " .. name(item1) .. " from " .. place1) end
 if not have2 then self.room:send("- " .. name(item2) .. " from " .. place2) end

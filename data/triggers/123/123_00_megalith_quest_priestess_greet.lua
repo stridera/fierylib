@@ -14,7 +14,7 @@ local item2 = (actor:get_quest_var("megalith_quest:item2") == 1)
 local item3 = (actor:get_quest_var("megalith_quest:item3") == 1)
 local item4 = (actor:get_quest_var("megalith_quest:item4") == 1)
 if (actor.is_player) and (actor:get_quest_stage("megalith_quest") < 1) and (actor.level < 100) then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " looks up, startled to see new faces.")
     self:say("Goddess be praised!")
     wait(2)
@@ -23,13 +23,13 @@ if (actor.is_player) and (actor:get_quest_stage("megalith_quest") < 1) and (acto
     -- Check in during stage 1, seeing if the questor has her tools or not
     -- 
 elseif actor:get_quest_stage("megalith_quest") == 1 then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'Have you been able to find replacements for the sacred prophetic implements?  Do you need a reminder of your <b:cyan>[progress]?</>'")
     -- 
     -- If all the Keepers have been helped in stage 2, give the incantation to start stage 3
     -- 
 elseif (actor:get_quest_stage("megalith_quest") == 2) and (actor:get_quest_var("megalith_quest:item1") == 1) and (actor:get_quest_var("megalith_quest:item2") == 1) and (actor:get_quest_var("megalith_quest:item3") == 1) and (actor:get_quest_var("megalith_quest:item4") == 1) then
-    wait(2)
+    wait(0.2)
     self:say("We're ready to finish calling the elements!  If you wish to proceed, repeat after me:")
     self.room:send("</>")
     self.room:send("<b:cyan>Under the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!</>")
@@ -37,25 +37,25 @@ elseif (actor:get_quest_stage("megalith_quest") == 2) and (actor:get_quest_var("
     -- If all the Keepers have not been helped in stage 2, do a check in
     -- 
 elseif actor:get_quest_stage("megalith_quest") == 2 then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'I hope your work with the Keepers is coming along well.  Do you need a reminder of your <b:cyan>[progress]?</>'")
     -- 
     -- If all the reliquaries have been returned and stage 4 is ready to start, ask if ready to proceed
     -- 
 elseif (actor:get_quest_stage("megalith_quest") == 4) and ((actor:get_quest_var("megalith_quest:reliquary") or 0) ~= 0) then
-    wait(2)
+    wait(0.2)
     self:say("It's time.  Are you ready to proceed?")
     -- 
     -- If all the reliquaries have not been returned yet in stage 3, do a check in
     -- 
 elseif actor:get_quest_stage("megalith_quest") == 3 then
-    wait(2)
+    wait(0.2)
     self:say("I hope you have had luck finding the reliquaries.")
     -- 
     -- If the quest was successfully completed, give a friendly welcome.
     -- 
 elseif actor:get_has_completed("megalith_quest") then
-    wait(2)
+    wait(0.2)
     if actor.gender == "female" then
         self:say("Hail and well met, Sister!")
     elseif actor.gender == "male" then
@@ -67,9 +67,9 @@ elseif actor:get_has_completed("megalith_quest") then
     -- If the quest was failed,
     -- 
 elseif actor:get_has_failed("megalith_quest") then
-    wait(2)
+    wait(0.2)
     self:say("Welcome back.")
-    wait(2)
+    wait(0.2)
     self:say("Had that we reunited under better blessings...")
     wait(3)
     self:say("Though perhaps we could try again?")

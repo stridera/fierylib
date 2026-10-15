@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "rock") or string.find(string.lower(speech), "monster") or string.find(string.lower(speech), "stone") or string.find(string.lower(speech), "guardian") or string.find(string.lower(speech), "demon")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("meteorswarm") == 1 then
     actor:send(tostring(self.name) .. " says, 'Itsss made outta rocks!  So much rocks!  A rack MONSTER!'")
     wait(1)

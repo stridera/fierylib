@@ -7,28 +7,31 @@
 -- Eleweiss receives the jewel of the heart. Stage 4 -> complete the
 -- subclass quest. Other stages get a flavor response. The jewel is
 -- always destroyed.
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("ran_dru_subclass") == 4 then
     self:emote("throws back his head and howls loudly with pleasure.")
-    wait(3)
+    wait(0.3)
     self:command("shake " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, 'You have done me a great service!  I cannot believe I have it back!'")
     self:command("grin")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Type <b:green>'subclass'</> to proceed.'")
     actor:complete_quest("ran_dru_subclass")
 else
     -- switch on actor:get_quest_stage("ran_dru_subclass")
-    if actor:get_quest_stage("ran_dru_subclass") == 1 or actor:get_quest_stage("ran_dru_subclass") == 2 then
-        actor:send(tostring(self.name) .. " says, 'Woah, slow down, I have not even told you the quest yet!'")
-    elseif actor:get_quest_stage("ran_dru_subclass") == 3 then
-        actor:send(tostring(self.name) .. " says, 'How on earth did you bring me the jewel of the heart without getting it yourself?'")
-        self:command("chuckle")
-    else
-        actor:send(tostring(self.name) .. " says, 'Nice little gift, thanks much.'")
-        self:emote("tucks it into his cloak.")
-        wait(2)
-        actor:send(tostring(self.name) .. " says, 'Pity you were not on a quest for me, this could have been worth it for you.'")
+    do
+        local _sw1 = string.lower(tostring(actor:get_quest_stage("ran_dru_subclass") or ""))
+        if tonumber(_sw1) == 1 or tonumber(_sw1) == 2 then
+            actor:send(tostring(self.name) .. " says, 'Woah, slow down, I have not even told you the quest yet!'")
+        elseif tonumber(_sw1) == 3 then
+            actor:send(tostring(self.name) .. " says, 'How on earth did you bring me the jewel of the heart without getting it yourself?'")
+            self:command("chuckle")
+        else
+            actor:send(tostring(self.name) .. " says, 'Nice little gift, thanks much.'")
+            self:emote("tucks it into his cloak.")
+            wait(0.2)
+            actor:send(tostring(self.name) .. " says, 'Pity you were not on a quest for me, this could have been worth it for you.'")
+        end
     end
 end
 self:destroy_item("jewel")

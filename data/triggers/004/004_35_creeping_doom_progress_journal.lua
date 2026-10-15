@@ -29,38 +29,41 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
             actor:send("</>")
             -- switch on stage
             local step
-            if stage == 1 then
-                local item1 = 11812
-                local place1 = "an assassin vine on Mist Mountain"
-                local item2 = 16213
-                local place2 = "the great pyramid"
-                local item3 = 48029
-                local place3 = "Rhalean's evil sister in the northern barrow"
-                step = "gathering Nature's Rage"
-            elseif stage == 2 then
-                local essence = actor:get_quest_var("creeping_doom:spiders")
-                local total = 11 - actor:get_quest_var("creeping_doom:spiders")
-                actor:send("You are collecting essences of swarms from flies, insects, spiders, bugs, scorpions, giant ant people, etc.")
-                actor:send("</>")
-                actor:send("You have found " .. tostring(essence) .. " essences.")
-                actor:send("You need to find " .. tostring(total) .. " more.")
-                actor:send("</>")
-                actor:send("Remember, the tougher the bug, the better your chances of finding essences.")
-                return _return_value
-            elseif stage == 3 then
-                step = "locate three sources of Nature's Vengeance."
-                local item1 = 48416
-                local place1 = "the elder tremaen in the elemental Plane of Fire"
-                local item2 = 52034
-                local place2 = "the burning tree in Templace"
-                local item3 = 62503
-                local place3 = "the Treant in the eldest Rhell's forest"
-            elseif stage == 4 then
-                actor:send("Take the Essence of Nature's Vengeance and drop it at the entrance to the logging camp, then return to the angry pixie.")
-                return _return_value
-            elseif stage == 5 then
-                actor:send("return to the very angry pixie.")
-                return _return_value
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    local item1 = 11812
+                    local place1 = "an assassin vine on Mist Mountain"
+                    local item2 = 16213
+                    local place2 = "the great pyramid"
+                    local item3 = 48029
+                    local place3 = "Rhalean's evil sister in the northern barrow"
+                    step = "gathering Nature's Rage"
+                elseif tonumber(_sw1) == 2 then
+                    local essence = actor:get_quest_var("creeping_doom:spiders")
+                    local total = 11 - actor:get_quest_var("creeping_doom:spiders")
+                    actor:send("You are collecting essences of swarms from flies, insects, spiders, bugs, scorpions, giant ant people, etc.")
+                    actor:send("</>")
+                    actor:send("You have found " .. tostring(essence) .. " essences.")
+                    actor:send("You need to find " .. tostring(total) .. " more.")
+                    actor:send("</>")
+                    actor:send("Remember, the tougher the bug, the better your chances of finding essences.")
+                    return _return_value
+                elseif tonumber(_sw1) == 3 then
+                    step = "locate three sources of Nature's Vengeance."
+                    local item1 = 48416
+                    local place1 = "the elder tremaen in the elemental Plane of Fire"
+                    local item2 = 52034
+                    local place2 = "the burning tree in Templace"
+                    local item3 = 62503
+                    local place3 = "the Treant in the eldest Rhell's forest"
+                elseif tonumber(_sw1) == 4 then
+                    actor:send("Take the Essence of Nature's Vengeance and drop it at the entrance to the logging camp, then return to the angry pixie.")
+                    return _return_value
+                elseif tonumber(_sw1) == 5 then
+                    actor:send("return to the very angry pixie.")
+                    return _return_value
+                end
             end
             local job1 = actor:get_quest_var("creeping_doom:item1")
             local job2 = actor:get_quest_var("creeping_doom:item2")

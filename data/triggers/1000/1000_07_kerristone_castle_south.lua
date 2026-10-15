@@ -7,9 +7,9 @@
 -- Receive trigger: praises the giver if the gift is the right item.
 
 if object.zone_id == 147 and object.local_id == 50 then
-    wait(5)
+    wait(0.5)
     self:say("Good!")
 else
-    wait(5)
+    wait(0.5)
     self:say("bad!")
 end

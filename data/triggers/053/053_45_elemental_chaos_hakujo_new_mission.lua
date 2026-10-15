@@ -15,7 +15,7 @@
 if not string.find(string.lower(speech), "i need a new note", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if actor.level >= (actor:get_quest_stage("elemental_chaos") - 1) * 10 then
     if (actor:get_quest_var("elemental_chaos:bounty") or 0) ~= 0 then
         -- switch on actor:get_quest_stage("elemental_chaos")

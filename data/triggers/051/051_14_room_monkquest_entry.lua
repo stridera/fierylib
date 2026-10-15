@@ -38,7 +38,7 @@ door_east:set_state({
     name = "heavy stone door",
     description = "A heavy slab of stone sits in your way.",
 })
-wait(3)
+wait(0.3)
 self.room:send(priest_name .. " presses a little harder, fully opening the stone door.")
 self.room:send_except(actor, priest_name .. " points to the east and nudges " .. actor.name .. " forward.")
 actor:send(priest_name .. " points to the east and nudges you forward.")

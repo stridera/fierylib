@@ -8,7 +8,7 @@
 -- Converted from DG Script #48100: falling_from_48191
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 if direction == "west" then
-    wait(5)
+    wait(0.5)
     local rndm = self.room.actors[random(1, #self.room.actors)]
     if not (rndm:get_eff_flagged("FLY")) then
         rndm:send("You feel your feet start slipping toward the pit!")

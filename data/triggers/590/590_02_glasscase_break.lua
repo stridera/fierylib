@@ -50,7 +50,7 @@ if arg == "glass" or arg == "case" then
             self.room:send_except(actor, tostring(actor.name) .. " smashes the glass with " .. tostring(actor.possessive) .. " bare hands.")
         end
     end
-    wait(1)
+    wait(0.1)
     self.room:send("A pristine iridescent sword falls out of the broken case, landing on the ground.")
     -- destroy case and load it in rm 59091 to prevent it from loading here again, as it is a reset item
     -- TODO(parity): both spawn calls reference (590, 24); original DG comment says one should

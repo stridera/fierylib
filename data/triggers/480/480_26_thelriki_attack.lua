@@ -14,12 +14,15 @@ if not percent_chance(20) then
 end
 local val = random(1, 10)
 -- switch on val
-if val == 1 then
-    self:breath_attack("gas", nil)
-elseif val == 2 or val == 3 then
-    self:command("sweep")
-elseif val == 4 or val == 5 then
-    self:command("roar")
-else
-    self:command("growl")
+do
+    local _sw1 = string.lower(tostring(val or ""))
+    if tonumber(_sw1) == 1 then
+        self:breath_attack("gas", nil)
+    elseif tonumber(_sw1) == 2 or tonumber(_sw1) == 3 then
+        self:command("sweep")
+    elseif tonumber(_sw1) == 4 or tonumber(_sw1) == 5 then
+        self:command("roar")
+    else
+        self:command("growl")
+    end
 end

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(6)
+wait(0.6)
 if world.count_mobiles(502, 9) < 1 then
     self:command("peer " .. tostring(actor.name))
 else

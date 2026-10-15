@@ -10,7 +10,7 @@
 local ROG_SUB = (actor.class == "rogue"  or  actor.class == "assassin"  or  actor.class == "thief"  or  actor.class == "mercenary")
 if ROG_SUB then
     if actor:get_quest_stage("phase_armor") == 0 then
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, \"Welcome, would you like to do some [<b:white>armor quests</>]?\"")
         actor:send(tostring(self.name) .. " tells you, \"If so, just ask me, <b:white>Yes</> I would like to do some <b:white>armor quests</>\"")
     end

@@ -11,7 +11,7 @@
 -- in red. Bonus: meteorswarm quest stage 3 + var fire == 1 advances when
 -- the bearer survives a hit, granting "mastery over fire" feedback.
 
-wait(2)
+wait(0.2)
 while self.actor_count > 0 do
     local dice1 = random(1, 60)
     local dice2 = random(1, 60)

@@ -13,7 +13,7 @@ if not percent_chance(80) then
     return true
 end
 if actor.level < 100 then
-    wait(4)
+    wait(0.4)
     actor:send(tostring(self.name) .. " shrieks in utter <b:yellow>terror</> at your entrance!")
     self.room:send_except(actor, tostring(self.name) .. " shrieks in utter <b:yellow>terror</> as " .. tostring(actor.name) .. " enters!")
 end

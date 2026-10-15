@@ -24,8 +24,8 @@ if actor:get_quest_stage("major_spell_quest") ~= 2 then
     return true
 end
 
-wait(1)
+wait(0.1)
 self:command("eye " .. tostring(actor.name))
-wait(1)
+wait(0.1)
 actor:send(tostring(self.name) .. " says to you, 'Greetings, traveler what brings you to my camp?'")
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")

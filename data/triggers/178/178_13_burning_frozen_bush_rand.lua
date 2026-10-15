@@ -13,5 +13,5 @@ if not percent_chance(15) then
     return true
 end
 self.room:send("Pitiful wails of pain scream from the burning part of the shrub.")
-wait(2)
+wait(0.2)
 self:emote("moans as best as shrubs can moan.")

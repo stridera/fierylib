@@ -12,7 +12,7 @@
 -- 
 -- This is for anti-paladins only
 if string.find(actor.class, "anti") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Helm ya ask? Well now I can make a nice helm for the anti-paladin types\"")
     actor:send(tostring(self.name) .. " tells you, \"but I'll need 3 radiant topazs, and a Tarnished\"")
     actor:send(tostring(self.name) .. " tells you, \"Helm. Return these things to me in any order at any time and I\"")

@@ -13,10 +13,10 @@ if not percent_chance(15) then
     return true
 end
 self:command("bleed")
-wait(3)
+wait(0.3)
 self:say("why did i agree to fight against the dark monks, I knew they where to strong.")
 self:command("shake")
-wait(4)
+wait(0.4)
 self:command("choke")
-wait(2)
+wait(0.2)
 self:say("now i must face my foolish mistakes.")

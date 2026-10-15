@@ -14,10 +14,10 @@
 -- that always falls through to the refusal path. Wire the wand quest schema
 -- through before re-enabling.
 
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, 'What is this?'")
-wait(3)
+wait(0.3)
 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, 'I have no need of " .. tostring(object.shortdesc) .. ".'")
 return true

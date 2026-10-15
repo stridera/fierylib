@@ -14,12 +14,15 @@ if not (cmd == "level") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "l" or cmd == "le" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "l" or _sw1 == "le" then
+        _return_value = true
+        return _return_value
+    end
 end
 actor:send(tostring(self.name) .. " says, 'Sorry, I'm not a guild master.'")
-wait(2)
+wait(0.2)
 local warriors = "warrior paladin ranger monk berserker anti-paladin"
 local clerics = "cleric druid priest diabolist"
 local rogues = "rogue bard mercenary assassin thief"

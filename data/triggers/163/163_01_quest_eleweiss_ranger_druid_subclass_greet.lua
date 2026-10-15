@@ -14,7 +14,7 @@
 -- are preserved but the per-task lookups need a real schema before this is
 -- wired up.
 
-wait(2)
+wait(0.2)
 
 local wandstep = actor:get_quest_stage("type_wand")
 if (wandstep or 0) > 0 then

@@ -14,18 +14,18 @@ if not (string.find(string.lower(speech), "who") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
-    wait(2)
+    wait(0.2)
     if actor:get_quest_var("megalith_quest:wexpo") == 0 then
         self:say("My home realm, the Reverie, the Dreaming, is a plane of the dreams of mortals made manifest.")
         wait(3)
         self:say("Unlike most of the other fey creatures in Ethilien, I am not in this world by choice.")
         wait(3)
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "wexpo", 1)
     elseif actor:get_quest_var("megalith_quest:wexpo") == 1 then
         self:say("I am also unique from my coven Sisters because I knew our Mother.  I was shaped by Her hand directly.  Reaching out from the deepest parts of the Dreaming, The Great Mother formed me from a river in part of the Reverie ruled by a creature known as the Goblin King.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "wexpo", 2)
     elseif actor:get_quest_var("megalith_quest:wexpo") == 2 then
@@ -34,14 +34,14 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("So, he approached the troll witch Baba Yaga.  Together they concocted a way to pierce the veil between the world and merge his court with the mortal realm.")
         wait(4)
         self:say("Not caring what the consequences might be, they tore the Goblin King's land from the Reverie and smashed it into the Syric Mountains.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "wexpo", 3)
     elseif actor:get_quest_var("megalith_quest:wexpo") == 3 then
         self:say("In the chaos that ensued, I could still hear my Mother's voice.  She whispered to me that there was a new world waiting beyond the Dreaming and She would be there, with a new family if I dared to dream it.")
         wait(4)
         self:say("I chose to leave.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "wexpo", 4)
     elseif actor:get_quest_var("megalith_quest:wexpo") == 4 then

@@ -12,7 +12,7 @@
 -- 
 -- This is for anti-paladins only
 if string.find(actor.class, "anti") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Gauntlets? Well now I can make a fine pair of gauntlets for the\"")
     actor:send(tostring(self.name) .. " tells you, \"anti-paladin types but I'll need 3 chrysoberyls, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Tarnished Gauntlets. Return these things to me in any\"")

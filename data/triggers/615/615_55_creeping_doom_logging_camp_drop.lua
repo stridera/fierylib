@@ -15,13 +15,13 @@
 -- Converted from DG Script #61555: creeping_doom_logging_camp_drop
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 if object.zone_id == 615 and object.local_id == 18 then
-    wait(1)
+    wait(0.1)
     world.destroy(object)
     if actor:get_quest_stage("creeping_doom") == 4 then
         actor:advance_quest("creeping_doom")
     end
     self.room:send("&9<blue>The " .. tostring(objects.template(615, 18).name) .. " bursts open in a flood of insects!</>")
-    wait(2)
+    wait(0.2)
     zone.echo(87, "<blue>&9An endless wave of crawling </><red>arachnoids<blue>&9 and </><green>insects<blue>&9 pours through the camp consuming everything in sight!</>")
     wait(1)
     zone.echo(87, "<blue>&9Screams pierce the quiet of the camp as everything is swallowed by a blanket of death!</>")
@@ -41,7 +41,7 @@ if object.zone_id == 615 and object.local_id == 18 then
                 end
             end
         end
-        wait(2)
+        wait(0.2)
     end
     zone.echo(87, "<blue>&9Eerie silence falls over the camp as the deluge of death subsides...</>")
 end

@@ -21,7 +21,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if world.count_mobiles(87, 12) == 0 then
     actor:send(tostring(self.name) .. " says, 'Thank you, thank you I will ever be in your debt if you")
     actor:send("</>find Doren.  He will be traveling here from the dwarven mines near Anduin.  If")

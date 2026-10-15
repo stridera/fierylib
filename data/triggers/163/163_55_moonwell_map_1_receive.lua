@@ -15,18 +15,18 @@ end
 if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
     actor:advance_quest("moonwell_spell_quest")
     actor:set_quest_var("moonwell_spell_quest", "map", 0)
-    wait(2)
+    wait(0.2)
     self:destroy_item("map")
     self.room:spawn_object(163, 52)
-    wait(15)
+    wait(1.5)
     self.room:send(tostring(self.name) .. " quickly marks something on the bark map.")
     self:command("give map " .. tostring(actor.name))
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " tells you, 'There you go!'")
 else
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'I need the ring first.'")
 end
 return true

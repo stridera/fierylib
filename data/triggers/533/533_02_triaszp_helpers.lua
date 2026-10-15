@@ -14,28 +14,31 @@ if not percent_chance(30) then
 end
 wait(1)
 local value = random(1, 10)
-if value == 1 then
-    self:breath_attack("frost", nil)
-elseif value == 2 or value == 3 then
-    self:command("sweep")
-elseif value == 4 or value == 5 then
-    self:command("roar")
-elseif value == 8 or value == 9 then
-    if world.count_mobiles(533, 1) < 6 then
-        local victim = self.room.actors[random(1, #self.room.actors)]
-        self:emote("hisses in anger, calling to her children.")
-        wait(1)
-        self.room:spawn_mobile(533, 1)
-        local baby = self.room:find_actor("baby-dragon")
-        if baby then
-            baby:emote("scampers in and attacks!")
-            if victim and victim.is_player then
-                baby:command("kill " .. tostring(victim.name))
+do
+    local _sw1 = string.lower(tostring(value or ""))
+    if tonumber(_sw1) == 1 then
+        self:breath_attack("frost", nil)
+    elseif tonumber(_sw1) == 2 or tonumber(_sw1) == 3 then
+        self:command("sweep")
+    elseif tonumber(_sw1) == 4 or tonumber(_sw1) == 5 then
+        self:command("roar")
+    elseif tonumber(_sw1) == 8 or tonumber(_sw1) == 9 then
+        if world.count_mobiles(533, 1) < 6 then
+            local victim = self.room.actors[random(1, #self.room.actors)]
+            self:emote("hisses in anger, calling to her children.")
+            wait(1)
+            self.room:spawn_mobile(533, 1)
+            local baby = self.room:find_actor("baby-dragon")
+            if baby then
+                baby:emote("scampers in and attacks!")
+                if victim and victim.is_player then
+                    baby:command("kill " .. tostring(victim.name))
             else
-                baby:command("kill " .. tostring(actor.name))
+                    baby:command("kill " .. tostring(actor.name))
+                end
             end
         end
+    else
+        self:command("growl")
     end
-else
-    self:command("growl")
 end

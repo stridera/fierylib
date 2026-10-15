@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
 self:command("smile")
-wait(1)
+wait(0.1)
 self:say("Very good.")
-wait(1)
+wait(0.1)
 self:say("But first you must prove your worth.")

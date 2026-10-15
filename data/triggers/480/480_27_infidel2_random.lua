@@ -18,7 +18,7 @@ if globals.fight and now - 1 > globals.fight then
     self:command("sniff")
     self:command("remove scimitar")
     self:emote("waves his hands in the air in a mystical manner.")
-    wait(1)
+    wait(0.1)
     self.room:send("The body of the infidel ages rapidly to return to the decayed state.")
     get_room(480, 84):at(function()
         self.room:spawn_mobile(480, 25)

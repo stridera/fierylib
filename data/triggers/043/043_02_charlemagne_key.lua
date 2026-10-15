@@ -77,15 +77,15 @@ else
     outcome = 1
 end
 if accept then
-    wait(2)
+    wait(0.2)
     if accept == 1 then
         self:say("Ah marvelous!")
         wait(2)
     elseif accept > 1 then
         if accept == 2 then
-            wait(2)
+            wait(0.2)
             self:say("Another?")
-            wait(2)
+            wait(0.2)
             self:command("ponder")
             wait(2)
             self:say("Well I guess one never can be too prepared!")
@@ -95,11 +95,11 @@ if accept then
         self:command("remove sash")
         self:command("wear charlemagne's-fire-sash")
         self:destroy_item("sash")
-        wait(5)
+        wait(0.5)
         self:command("bow")
         wait(2)
         self:say("Oh, since you seem to be so good at returning things, I think I might have something for you to do...")
-        wait(2)
+        wait(0.2)
         self:emote("goes searching around through the room, tossing aside bedding and clothing.")
         wait(5)
         self:say("Ah ha!  Here it is!")
@@ -107,7 +107,7 @@ if accept then
         self:emote("pulls the <red>F<b:yellow>i<b:red>r</><red>e G<b:yellow>o<b:red>dd</><b:yellow>e</><red>ss<b:red>'s</> skirt from a pile of clothing.")
         wait(2)
         self:say("The actress, umm, left this here by accident last night...")
-        wait(2)
+        wait(0.2)
         self:command("cough")
         wait(2)
         self:say("I've been meaning to return it to her, but I've been locked in here all day.  I'm sure she would be most happy to have it back.")
@@ -128,7 +128,7 @@ if accept then
     end
 elseif refuse then
     if refuse == "item" then
-        wait(2)
+        wait(0.2)
         self:command("roll " .. tostring(actor))
         wait(1)
         self:say("This isn't what I'm looking for.  Stop wasting time and help me look.")
@@ -141,7 +141,7 @@ elseif refuse then
             self:command("point " .. tostring(actor.name))
         elseif refuse == "key" then
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
+            wait(0.2)
             self:say("You already gave me my key back, thank you.")
         end
     end

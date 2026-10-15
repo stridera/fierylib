@@ -14,16 +14,18 @@
 -- Converted from DG Script #6391: Herlequin volcano trigger 1
 -- Original: OBJECT trigger, flags: RANDOM, probability: 100%
 self.room:send("A blast of &9<blue>smoke</> and a burst of <b:red>flame</> charges into the air!")
-wait(5)
+wait(0.5)
 self.room:send("As the smoke clears a figure appears.")
-wait(5)
+wait(0.5)
 local val = random(1, 10)
 if val >= 1 and val <= 3 then
     self.room:send("A herlequin warrior lets off a horrible screech!")
     self.room:spawn_mobile(63, 90)
-elseif val == 4 or val == 5 then
-    self.room:send("A herlequin assassin finds a shadow to hide in.")
-elseif val == 6 or val == 7 then
+elseif val >= 4 and val <= 7 then
+    -- DG case 4/5 has no break: it echoes, then falls into the case 6/7 body.
+    if val <= 5 then
+        self.room:send("A herlequin assassin finds a shadow to hide in.")
+    end
     self.room:spawn_mobile(63, 93)
     -- DG `oload obj 3020` (legacy vnum 3020) -> zone 30, id 20.
     self.room:spawn_object(30, 20)

@@ -21,14 +21,14 @@ if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and 
     local chant = invoke + 1
     if chant == 1 then
         actor:set_quest_var("megalith_quest", "invoke", 1)
-        wait(2)
+        wait(0.2)
         run_room_trigger(123, 22)
         wait(1)
         self:say("Again!")
         self.room:send("<b:cyan>We invoke thee!</>")
     elseif chant == 2 then
         actor:set_quest_var("megalith_quest", "invoke", 2)
-        wait(2)
+        wait(0.2)
         run_room_trigger(123, 22)
         wait(1)
         self:say("Once more!")
@@ -111,7 +111,7 @@ if (stage == 4) and (self.room.zone_id == 123 and self.room.local_id == 89) and 
                 self.room:send(tostring(mother) .. " says, 'I have watched from afar as you and your mothers and your grandmothers struggled to keep our traditions alive.'")
                 wait(5)
                 self.room:send(tostring(mother) .. " proclaims, 'But now is our time to flourish again!'")
-                wait(2)
+                wait(0.2)
                 self.room:send(tostring(mother) .. " proclaims, 'Let this sacred megalith be home to our coven from here after!'")
                 wait(5)
                 self.room:send(tostring(mother) .. " proclaims, 'Let us reignite the flames of passion, be the clay of reason, give the breath of life, be the ocean of serenity.'")

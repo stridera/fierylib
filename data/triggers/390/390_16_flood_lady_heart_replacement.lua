@@ -22,9 +22,9 @@ if actor:get_quest_stage("flood") == 0 then
     return true
 end
 
-wait(2)
+wait(0.2)
 self:command("scream")
-wait(2)
+wait(0.2)
 self.room:send(self.name .. " shrieks, 'HOW DARE YOU!!!'")
 wait(1)
 local dealt = actor:damage(400)  -- physical drowning

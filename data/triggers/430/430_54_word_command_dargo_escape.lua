@@ -10,7 +10,7 @@
 
 -- Converted from DG Script #43054: word_command_dargo_escape
 -- Original: MOB trigger, flags: ENTRY, probability: 100%
-wait(2)
+wait(0.2)
 if not globals.questor then
     return true
 end

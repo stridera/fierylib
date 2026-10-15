@@ -12,7 +12,7 @@
 if not string.find(string.lower(speech), "no") then
     return true
 end
-wait(2)
+wait(0.2)
 if string.find(actor.class, "diabolist") and actor:get_quest_stage("hell_gate") == 0 then
     self:say("Pity for you.  The demons must not think you worthy.")
 elseif actor:get_quest_stage("hell_gate") > 0 then

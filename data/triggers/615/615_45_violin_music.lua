@@ -19,9 +19,12 @@ if not (cmd == "throw") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "t" or cmd == "th" or cmd == "thr" or cmd == "thro" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "t" or _sw1 == "th" or _sw1 == "thr" or _sw1 == "thro" then
+        _return_value = true
+        return _return_value
+    end
 end
 self.room:send("I'm throwing!")
 return _return_value

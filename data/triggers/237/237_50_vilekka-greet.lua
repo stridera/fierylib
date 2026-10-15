@@ -54,7 +54,7 @@ else
         wait(1)
         self.room:send_except(actor, "<magenta>Vilekka gestures at " .. tostring(actor.name) .. ", and " .. tostring(actor.name) .. " disappears.</>")
         actor:teleport(get_room(237, 93))
-        wait(1)
+        wait(0.1)
         get_room(237, 93):at(function()
             actor:send("<magenta>Vilekka gestures at you, and your vision wavers...</>")
         end)

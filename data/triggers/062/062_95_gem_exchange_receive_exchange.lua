@@ -69,12 +69,12 @@ local in_gem_range = obj_vnum >= 55566 and obj_vnum <= 55751
 local found = lo and hi and obj_vnum >= lo and obj_vnum <= hi
 
 if found then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Here you are, as requested!'")
     world.destroy(object)
     self.room:spawn_object(math.floor(item / 100), item % 100)
     self:command("give all " .. tostring(actor))
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'A pleasure doing business with you!'")
     actor:set_quest_var("gem_exchange", "gem_id", 0)
 else

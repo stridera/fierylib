@@ -25,14 +25,14 @@ if actor.level < 45 then
     self.room:send(tostring(self.name) .. " says, 'Hehe, thanks for asking, but I really don't think you")
     self.room:send("</>can help " .. tostring(actor.name) .. ".")
     self:command("ruffle " .. tostring(actor.name))
-    wait(1)
+    wait(0.1)
     self.room:send(tostring(self.name) .. " says, 'But find me a powerful hero and maybe the cult can be")
     self.room:send("</>stopped.'")
 else
     self.room:send(tostring(self.name) .. " says, 'Yes, you may have noticed a lot of griffins around this")
     self.room:send("</>island, well their nature has brought an imbalance to this place, and our holy")
     self.room:send("</>mistletoe is dying.'")
-    wait(1)
+    wait(0.1)
     self.room:send(tostring(self.name) .. " says, 'They distract my druids from tending to their trees")
     self.room:send("</>too.  We must stop the cult of griffin worshippers before it is too late.")
 end

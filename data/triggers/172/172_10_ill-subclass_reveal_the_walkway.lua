@@ -21,7 +21,7 @@ if actor:get_quest_stage("illusionist_subclass") ~= 4 then
     return true
 end
 
-wait(15)
+wait(1.5)
 self.room:send("The illusion falls like a sheet of water, revealing in a moment a walkway.")
 self.room:send("It snakes eastward across the face of the falls, narrow and dangerous.")
 get_room(363, 39):exit("east"):set_state({hidden = false, description = "A narrow walkway zigzags through the air."})

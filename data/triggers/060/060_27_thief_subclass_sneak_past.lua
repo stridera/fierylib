@@ -20,7 +20,7 @@ for _, person in ipairs(room:get_people()) do
                 self.room:send_except(person, tostring(self.name) .. " shoos " .. tostring(person.name) .. " off the farm!")
                 person:send(tostring(self.name) .. " shoos you off the farm!")
                 person:teleport(get_room(80, 6))
-                wait(1)
+                wait(0.1)
                 -- person looks around
                 actor:fail_quest("merc_ass_thi_subclass")
                 actor:send("<b:yellow>You have failed your quest!</>")

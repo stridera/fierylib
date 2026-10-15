@@ -21,12 +21,12 @@ for _, w in ipairs({"status", "progress"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
         break
-    end
+end
 end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 actor:send("<b:green>Beast Masters</>")
 if actor:get_has_completed("beast_master") then
     actor:send(tostring(self.name) .. " says, 'You've already proven your dominion over the beasts of Ethilien!'")
@@ -35,26 +35,29 @@ elseif actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then
         actor:send(tostring(self.name) .. " says, 'You aren't on a hunt at the moment.'")
     else
         -- switch on actor:get_quest_stage("beast_master")
-        if actor:get_quest_stage("beast_master") == 1 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Slay an abominable slime creature in the sewers beneath Mielikki.'")
-        elseif actor:get_quest_stage("beast_master") == 2 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Hunt down a large buck in the forests just outside of Mielikki.'")
-        elseif actor:get_quest_stage("beast_master") == 3 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Track down the giant scorpion of Gothra.'")
-        elseif actor:get_quest_stage("beast_master") == 4 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Head far to the south and kill a monstrous canopy spider.'")
-        elseif actor:get_quest_stage("beast_master") == 5 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Behead the famed chimera of Fiery Island.'")
-        elseif actor:get_quest_stage("beast_master") == 6 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Slay the \"king\" of the abominations known as driders.'")
-        elseif actor:get_quest_stage("beast_master") == 7 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Close the eyes of a beholder from under Mt. Frostbite.'")
-        elseif actor:get_quest_stage("beast_master") == 8 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Lay the Banshee to eternal rest.'")
-        elseif actor:get_quest_stage("beast_master") == 9 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Put an end to Baba Yaga's dreamy witchcraft.'")
-        elseif actor:get_quest_stage("beast_master") == 10 then
-            actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Defeat the medusa below the city of Templace.'")
+        do
+            local _sw1 = string.lower(tostring(actor:get_quest_stage("beast_master") or ""))
+            if tonumber(_sw1) == 1 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Slay an abominable slime creature in the sewers beneath Mielikki.'")
+            elseif tonumber(_sw1) == 2 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Hunt down a large buck in the forests just outside of Mielikki.'")
+            elseif tonumber(_sw1) == 3 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Track down the giant scorpion of Gothra.'")
+            elseif tonumber(_sw1) == 4 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Head far to the south and kill a monstrous canopy spider.'")
+            elseif tonumber(_sw1) == 5 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Behead the famed chimera of Fiery Island.'")
+            elseif tonumber(_sw1) == 6 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Slay the \"king\" of the abominations known as driders.'")
+            elseif tonumber(_sw1) == 7 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Close the eyes of a beholder from under Mt. Frostbite.'")
+            elseif tonumber(_sw1) == 8 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Lay the Banshee to eternal rest.'")
+            elseif tonumber(_sw1) == 9 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Put an end to Baba Yaga's dreamy witchcraft.'")
+            elseif tonumber(_sw1) == 10 then
+                actor:send(tostring(self.name) .. " says, 'You're still on the hunt.  Defeat the medusa below the city of Templace.'")
+            end
         end
     end
 else
@@ -88,51 +91,54 @@ if actor.class == "warrior" or actor.class == "ranger" or actor.class == "berser
     end
     -- switch on trophystage
     local place, hint
-    if trophystage == 1 then
-        local trophy = 1607
-        local gem = 55579
-        place = "A Coyote's Den"
-        hint = "near the Kingdom of the Meer Cats."
-    elseif trophystage == 2 then
-        local trophy = 17806
-        local gem = 55591
-        place = "In the Lions' Den"
-        hint = "in the western reaches of Gothra."
-    elseif trophystage == 3 then
-        local trophy = 1805
-        local gem = 55628
-        place = "either of the two Gigantic Roc Nests"
-        hint = "in the Wailing Mountains."
-    elseif trophystage == 4 then
-        local trophy = 62513
-        local gem = 55652
-        place = "Chieftain's Lair"
-        hint = "in Nukreth Spire in South Caelia."
-    elseif trophystage == 5 then
-        local trophy = 23803
-        local gem = 55664
-        place = "The Heart of the Den"
-        hint = "where the oldest unicorn in South Caelia makes its home."
-    elseif trophystage == 6 then
-        local trophy = 43009
-        local gem = 55685
-        place = "Giant Lynx's Lair"
-        hint = "far to the north beyond Mt. Frostbite."
-    elseif trophystage == 7 then
-        local trophy = 47008
-        local gem = 55705
-        place = "Giant Griffin's Nest"
-        hint = "tucked away in a secluded and well guarded corner of Griffin Island."
-    elseif trophystage == 8 then
-        local trophy = 53323
-        local gem = 55729
-        place = "Witch's Den"
-        hint = "entombed with an ancient evil king."
-    elseif trophystage == 9 then
-        local trophy = 52014
-        local gem = 55741
-        place = "Dargentan's Lair"
-        hint = "at the pinnacle of his flying fortress."
+    do
+        local _sw2 = string.lower(tostring(trophystage or ""))
+        if tonumber(_sw2) == 1 then
+            local trophy = 1607
+            local gem = 55579
+            place = "A Coyote's Den"
+            hint = "near the Kingdom of the Meer Cats."
+        elseif tonumber(_sw2) == 2 then
+            local trophy = 17806
+            local gem = 55591
+            place = "In the Lions' Den"
+            hint = "in the western reaches of Gothra."
+        elseif tonumber(_sw2) == 3 then
+            local trophy = 1805
+            local gem = 55628
+            place = "either of the two Gigantic Roc Nests"
+            hint = "in the Wailing Mountains."
+        elseif tonumber(_sw2) == 4 then
+            local trophy = 62513
+            local gem = 55652
+            place = "Chieftain's Lair"
+            hint = "in Nukreth Spire in South Caelia."
+        elseif tonumber(_sw2) == 5 then
+            local trophy = 23803
+            local gem = 55664
+            place = "The Heart of the Den"
+            hint = "where the oldest unicorn in South Caelia makes its home."
+        elseif tonumber(_sw2) == 6 then
+            local trophy = 43009
+            local gem = 55685
+            place = "Giant Lynx's Lair"
+            hint = "far to the north beyond Mt. Frostbite."
+        elseif tonumber(_sw2) == 7 then
+            local trophy = 47008
+            local gem = 55705
+            place = "Giant Griffin's Nest"
+            hint = "tucked away in a secluded and well guarded corner of Griffin Island."
+        elseif tonumber(_sw2) == 8 then
+            local trophy = 53323
+            local gem = 55729
+            place = "Witch's Den"
+            hint = "entombed with an ancient evil king."
+        elseif tonumber(_sw2) == 9 then
+            local trophy = 52014
+            local gem = 55741
+            place = "Dargentan's Lair"
+            hint = "at the pinnacle of his flying fortress."
+        end
     end
     local attack = trophystage * 100
     if job1 or job2 or job3 or job4 then

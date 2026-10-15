@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("meteorswarm") == 1 then
     actor:advance_quest("meteorswarm")
     actor:send(tostring(self.name) .. " says, 'Ooohhhhh you wann kno wheeeeere itis?!'")
@@ -29,17 +29,17 @@ if actor:get_quest_stage("meteorswarm") == 1 then
     self:emote("blinks drunkenly.")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Wat wuz I sayin'?'")
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " says, 'Oh yeah, the ROOK MONSTER.'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Itz in a hole.'")
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " says, 'Yep.  Great big hole.'")
     wait(2)
     self:emote("becomes deathly still.")
     wait(6)
     actor:send("In a suddenly clear voice, " .. tostring(self.name) .. " speaks.  'I remember the smoke and ruins of the city. A fountain of blood gushed up from the town square.  I avoided the demons as best I could, but by accident I stumbled into a collapsed house at the end of a road...'")
-    wait(2)
+    wait(0.2)
     self:command("shiver")
     wait(4)
     actor:send(tostring(self.name) .. " says, 'That's where I saw it, in a cave under the rubble...'")

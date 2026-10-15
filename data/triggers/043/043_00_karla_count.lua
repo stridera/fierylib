@@ -13,7 +13,7 @@ if not percent_chance(15) then
     return true
 end
 self:emote("takes a deep breath")
-wait(3)
+wait(0.3)
 self:say("Here we go!  5, 6, 7, 8!")
 wait(2)
 self:emote("executes a flawless combination of steps.")

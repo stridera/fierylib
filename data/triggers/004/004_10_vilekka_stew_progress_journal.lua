@@ -29,76 +29,79 @@ if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, 
             actor:send("Quest Master: " .. tostring(mobiles.template(237, 28).name))
             actor:send("</>")
             -- switch on stage
-            if stage == 1 then
-                actor:send("Bring Vilekka the heart of the drow living in the surface city!")
-            elseif stage == 2 then
-                actor:send("Tell Vilekka if you wish to stop or continue.")
-            elseif stage == 3 then
-                actor:send("You must bring Vilekka the head of the drider king.")
-            elseif stage == 4 then
-                actor:send("Tell Vilekka if you wish to stop or continue.")
-            elseif stage == 5 then
-                local num_spices = actor:get_quest_var("vilekka_stew:num_spices")
-                local spice1 = actor:get_quest_var("vilekka_stew:got_spice:12552")
-                local spice2 = actor:get_quest_var("vilekka_stew:got_spice:49022")
-                local spice3 = actor:get_quest_var("vilekka_stew:got_spice:23750")
-                local spice4 = actor:get_quest_var("vilekka_stew:got_spice:23751")
-                local spice5 = actor:get_quest_var("vilekka_stew:got_spice:23752")
-                local spice6 = actor:get_quest_var("vilekka_stew:got_spice:23753")
-                local spice7 = actor:get_quest_var("vilekka_stew:got_spice:23754")
-                local spice8 = actor:get_quest_var("vilekka_stew:got_spice:23755")
-                local spice9 = actor:get_quest_var("vilekka_stew:got_spice:23756")
-                local spice10 = actor:get_quest_var("vilekka_stew:got_spice:23757")
-                local spice11 = actor:get_quest_var("vilekka_stew:got_spice:23758")
-                local spice12 = actor:get_quest_var("vilekka_stew:got_spice:23759")
-                local spice13 = actor:get_quest_var("vilekka_stew:got_spice:23760")
-                actor:send("Bring Vilekka 10 herbs and spices so that she can make a stew out of the head and heart.")
-                if num_spices > 0 then
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("Bring Vilekka the heart of the drow living in the surface city!")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("Tell Vilekka if you wish to stop or continue.")
+                elseif tonumber(_sw1) == 3 then
+                    actor:send("You must bring Vilekka the head of the drider king.")
+                elseif tonumber(_sw1) == 4 then
+                    actor:send("Tell Vilekka if you wish to stop or continue.")
+                elseif tonumber(_sw1) == 5 then
+                    local num_spices = actor:get_quest_var("vilekka_stew:num_spices")
+                    local spice1 = actor:get_quest_var("vilekka_stew:got_spice:12552")
+                    local spice2 = actor:get_quest_var("vilekka_stew:got_spice:49022")
+                    local spice3 = actor:get_quest_var("vilekka_stew:got_spice:23750")
+                    local spice4 = actor:get_quest_var("vilekka_stew:got_spice:23751")
+                    local spice5 = actor:get_quest_var("vilekka_stew:got_spice:23752")
+                    local spice6 = actor:get_quest_var("vilekka_stew:got_spice:23753")
+                    local spice7 = actor:get_quest_var("vilekka_stew:got_spice:23754")
+                    local spice8 = actor:get_quest_var("vilekka_stew:got_spice:23755")
+                    local spice9 = actor:get_quest_var("vilekka_stew:got_spice:23756")
+                    local spice10 = actor:get_quest_var("vilekka_stew:got_spice:23757")
+                    local spice11 = actor:get_quest_var("vilekka_stew:got_spice:23758")
+                    local spice12 = actor:get_quest_var("vilekka_stew:got_spice:23759")
+                    local spice13 = actor:get_quest_var("vilekka_stew:got_spice:23760")
+                    actor:send("Bring Vilekka 10 herbs and spices so that she can make a stew out of the head and heart.")
+                    if num_spices > 0 then
+                        actor:send("</>")
+                        actor:send("So far you have brought:")
+                        if spice1 then
+                            actor:send("- " .. tostring(objects.template(125, 52).name))
+                        end
+                        if spice2 then
+                            actor:send("- " .. tostring(objects.template(490, 22).name))
+                        end
+                        if spice3 then
+                            actor:send("- " .. tostring(objects.template(237, 50).name))
+                        end
+                        if spice4 then
+                            actor:send("- " .. tostring(objects.template(237, 51).name))
+                        end
+                        if spice5 then
+                            actor:send("- " .. tostring(objects.template(237, 52).name))
+                        end
+                        if spice6 then
+                            actor:send("- " .. tostring(objects.template(237, 53).name))
+                        end
+                        if spice7 then
+                            actor:send("- " .. tostring(objects.template(237, 54).name))
+                        end
+                        if spice8 then
+                            actor:send("- " .. tostring(objects.template(237, 55).name))
+                        end
+                        if spice9 then
+                            actor:send("- " .. tostring(objects.template(237, 56).name))
+                        end
+                        if spice10 then
+                            actor:send("- " .. tostring(objects.template(237, 57).name))
+                        end
+                        if spice11 then
+                            actor:send("- " .. tostring(objects.template(237, 58).name))
+                        end
+                        if spice12 then
+                            actor:send("- " .. tostring(objects.template(237, 59).name))
+                        end
+                        if spice13 then
+                            actor:send("- " .. tostring(objects.template(237, 60).name))
+                        end
+                    end
                     actor:send("</>")
-                    actor:send("So far you have brought:")
-                    if spice1 then
-                        actor:send("- " .. tostring(objects.template(125, 52).name))
-                    end
-                    if spice2 then
-                        actor:send("- " .. tostring(objects.template(490, 22).name))
-                    end
-                    if spice3 then
-                        actor:send("- " .. tostring(objects.template(237, 50).name))
-                    end
-                    if spice4 then
-                        actor:send("- " .. tostring(objects.template(237, 51).name))
-                    end
-                    if spice5 then
-                        actor:send("- " .. tostring(objects.template(237, 52).name))
-                    end
-                    if spice6 then
-                        actor:send("- " .. tostring(objects.template(237, 53).name))
-                    end
-                    if spice7 then
-                        actor:send("- " .. tostring(objects.template(237, 54).name))
-                    end
-                    if spice8 then
-                        actor:send("- " .. tostring(objects.template(237, 55).name))
-                    end
-                    if spice9 then
-                        actor:send("- " .. tostring(objects.template(237, 56).name))
-                    end
-                    if spice10 then
-                        actor:send("- " .. tostring(objects.template(237, 57).name))
-                    end
-                    if spice11 then
-                        actor:send("- " .. tostring(objects.template(237, 58).name))
-                    end
-                    if spice12 then
-                        actor:send("- " .. tostring(objects.template(237, 59).name))
-                    end
-                    if spice13 then
-                        actor:send("- " .. tostring(objects.template(237, 60).name))
-                    end
+                    local total = 10 - num_spices
+                    actor:send("Bring " .. tostring(total) .. " more spices to prepare the stew.")
                 end
-                actor:send("</>")
-                local total = 10 - num_spices
-                actor:send("Bring " .. tostring(total) .. " more spices to prepare the stew.")
             end
         end
     end

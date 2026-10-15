@@ -32,12 +32,12 @@ if (object.zone_id == 43 and object.id == 0) then
         a = a + 1
     end
     if actor:get_quest_stage("theatre") >= 2 then
-        wait(2)
+        wait(0.2)
         self:say("Hurray!  Thank you!")
         self:command("clap")
         wait(2)
         self:say("Oh!  Mummy's going to want her key back too!")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " fishes a key out of his armor.")
         wait(1)
         self:say("Please, give this to her.")
@@ -45,7 +45,7 @@ if (object.zone_id == 43 and object.id == 0) then
         self:command("give key " .. tostring(actor.name))
         wait(2)
         self:say("Ta!")
-        wait(3)
+        wait(0.3)
         self:emote("makes air kisses.")
     else
         refuse = "quest"
@@ -57,11 +57,11 @@ if refuse then
     _return_value = true
     if refuse == "quest" then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         self:say("What is this??  How did you get in here??")
     elseif refuse == "item" then
         self.room:send(tostring(self.name) .. " looks blankly at " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         self:say("Well yes that's nice but it doesn't exactly help the situation.")
     end
 end

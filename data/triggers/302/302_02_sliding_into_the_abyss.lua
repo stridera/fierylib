@@ -30,7 +30,7 @@ if victim.class == "ranger" or victim.class == "druid" then
     victim:send("A rock shifts under your foot, and you step to steadier ground.")
     return true
 end
-wait(4)
+wait(0.4)
 if victim.room ~= startroom then
     return true
 end

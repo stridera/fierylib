@@ -10,10 +10,12 @@
 local _return_value = true  -- Default: allow action
 local response
 -- switch on object.id
-if actor:get_quest_stage("bard_subclass") > 0 then
-    response = "Nah nah nah.  We need to go down to the studio before you do anything else.  You ready to keep going?"
-else
-    response = "Ummmmm, what exactly is this for?"
+do
+    if actor:get_quest_stage("bard_subclass") > 0 then
+        response = "Nah nah nah.  We need to go down to the studio before you do anything else.  You ready to keep going?"
+    else
+        response = "Ummmmm, what exactly is this for?"
+    end
 end
 if response then
     _return_value = true

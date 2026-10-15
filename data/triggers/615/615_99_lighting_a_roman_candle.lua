@@ -51,7 +51,7 @@ if arg and #arg > 0 and string.find(string.lower(self.shortdesc or ""), string.l
         end
         wait(1)
         self.room:send(tostring(self.shortdesc) .. " shoots out a few sputtering sparks.")
-        wait(3)
+        wait(0.3)
         self.room:send(tostring(self.shortdesc) .. " quietly burns out.")
         world.destroy(self.name)
     end

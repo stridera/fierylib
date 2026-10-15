@@ -12,7 +12,7 @@
 -- 
 -- This is for rogues only
 if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary") and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Ah, protection for yer legs? Well now I can make a fine set of\"")
     actor:send(tostring(self.name) .. " tells you, \"leggings for the rogue types but I'll need 3 radiant tourmalines,\"")
     actor:send(tostring(self.name) .. " tells you, \"and a set of Crushed Leggings. Return these things\"")

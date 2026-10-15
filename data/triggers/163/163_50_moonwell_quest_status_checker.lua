@@ -13,7 +13,7 @@ if not (string.find(sl, "status") or string.find(sl, "progress")) then
     return true
 end
 
-wait(2)
+wait(0.2)
 
 if actor:get_has_completed("moonwell_spell_quest") then
     self:say("I have already taught you to travel through moonwells.")

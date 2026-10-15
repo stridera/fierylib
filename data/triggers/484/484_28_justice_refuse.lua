@@ -14,19 +14,24 @@ local _return_value = true  -- Default: allow action
 -- inside each branch, scoping each to its branch and breaking
 -- the post-block `if response then` test).
 local response = nil
-if actor:get_quest_stage("wizard_eye") == 10 then
-    if (object.zone_id == 30 and object.id == 218) or (object.zone_id == 534 and object.id == 24) or (object.zone_id == 430 and object.id == 21) or (object.zone_id == 40 and object.id == 3) then
-        return _return_value
+do
+    if actor:get_quest_stage("wizard_eye") == 10 then
+        -- switch on object.id
+        do
+            if (object.zone_id == 30 and object.id == 218) or (object.zone_id == 534 and object.id == 24) or (object.zone_id == 430 and object.id == 21) or (object.zone_id == 40 and object.id == 3) then
+                return _return_value
+            else
+                response = "This " .. tostring(object.shortdesc) .. " can't possibly be what you needed to ask me about."
+            end
+        end
     else
-        response = "This " .. tostring(object.shortdesc) .. " can't possibly be what you needed to ask me about."
+        response = "I'm sorry, do you need something?"
     end
-else
-    response = "I'm sorry, do you need something?"
 end
 if response then
     _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
 end
 return _return_value

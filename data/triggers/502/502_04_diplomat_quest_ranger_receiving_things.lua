@@ -17,9 +17,9 @@
 -- once the intended composite IDs are confirmed; the local `mdiplomat`
 -- assignments below are dead (block-scoped, never read).
 local actor_id = actor.id
-wait(1)
+wait(0.1)
 if (object.zone_id == 502 and object.id == 18) then
-    wait(1)
+    wait(0.1)
     if (actor.zone_id == 502 and actor_id == 1) then
         local mdiplomat = 1
         globals.mdiplomat = globals.mdiplomat or true

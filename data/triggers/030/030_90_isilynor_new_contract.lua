@@ -12,31 +12,34 @@
 if not string.find(string.lower(speech), "i need a new notice", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if actor.level >= (actor:get_quest_stage("dragon_slayer") - 1) * 10 then
     if actor:get_quest_stage("dragon_slayer") > 0 then
         local notice
         -- switch on actor:get_quest_stage("dragon_slayer")
-        if actor:get_quest_stage("dragon_slayer") == 1 then
-            notice = 80
-        elseif actor:get_quest_stage("dragon_slayer") == 2 then
-            notice = 81
-        elseif actor:get_quest_stage("dragon_slayer") == 3 then
-            notice = 82
-        elseif actor:get_quest_stage("dragon_slayer") == 4 then
-            notice = 83
-        elseif actor:get_quest_stage("dragon_slayer") == 5 then
-            notice = 84
-        elseif actor:get_quest_stage("dragon_slayer") == 6 then
-            notice = 85
-        elseif actor:get_quest_stage("dragon_slayer") == 7 then
-            notice = 86
-        elseif actor:get_quest_stage("dragon_slayer") == 8 then
-            notice = 87
-        elseif actor:get_quest_stage("dragon_slayer") == 9 then
-            notice = 88
-        elseif actor:get_quest_stage("dragon_slayer") == 10 then
-            notice = 89
+        do
+            local _sw1 = string.lower(tostring(actor:get_quest_stage("dragon_slayer") or ""))
+            if tonumber(_sw1) == 1 then
+                notice = 80
+            elseif tonumber(_sw1) == 2 then
+                notice = 81
+            elseif tonumber(_sw1) == 3 then
+                notice = 82
+            elseif tonumber(_sw1) == 4 then
+                notice = 83
+            elseif tonumber(_sw1) == 5 then
+                notice = 84
+            elseif tonumber(_sw1) == 6 then
+                notice = 85
+            elseif tonumber(_sw1) == 7 then
+                notice = 86
+            elseif tonumber(_sw1) == 8 then
+                notice = 87
+            elseif tonumber(_sw1) == 9 then
+                notice = 88
+            elseif tonumber(_sw1) == 10 then
+                notice = 89
+            end
         end
         self:command("grumble")
         self.room:spawn_object(30, notice)

@@ -7,12 +7,12 @@
 
 -- Converted from DG Script #12008: Check whether brownie freed from tormentors
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-wait(3)
+wait(0.3)
 local brownie = self.room:find_actor("haggard-brownie")
 local tormentor = self.room:find_actor("dark-pixie-tormentor")
 if brownie and not tormentor then
     -- The pixies are dead and the haggard brownie can be rescued.
-    wait(8)
+    wait(0.8)
     brownie:say("Thank goodness!  You've killed them!")
     wait(3)
     brownie:say("I must return home... but there will be others...")

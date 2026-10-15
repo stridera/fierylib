@@ -14,7 +14,7 @@
 if not string.find(string.lower(speech), "i need a new order", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then
     if (actor:get_quest_var("treasure_hunter:hunt") or 0) ~= 0 then
         -- switch on actor:get_quest_stage("treasure_hunter")

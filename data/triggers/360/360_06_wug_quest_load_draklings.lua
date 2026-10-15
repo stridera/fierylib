@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #36006: wug_quest_load_draklings
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-wait(2)
+wait(0.2)
 self.room:send(mobiles.template(360, 4).name .. " lets slip a crystalline amulet which shatters on impact!")
 self.room:send(mobiles.template(360, 4).name .. " groans, 'They will now be free of our prison...'")
 wait(1)

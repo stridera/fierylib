@@ -32,19 +32,22 @@ if actor.level > 10 then
         if actor:get_quest_stage("ran_dru_subclass") > 0 then
             actor:send(tostring(mobiles.template(163, 15).name) .. " said to you:")
             -- switch on actor:get_quest_stage("ran_dru_subclass")
-            if actor:get_quest_stage("ran_dru_subclass") == 1 then
-                actor:send("Only the most dedicated to the forests shall complete the quest I set upon you.")
-            elseif actor:get_quest_stage("ran_dru_subclass") == 2 then
-                actor:send("Yes, quest. I do suppose it would help if I told you about it._")
-                actor:send("Long ago I lost something.")
-                actor:send("It is a shame, but it has never been recovered._")
-                actor:send("If you were to help me with that, then we could arrange something.")
-            elseif actor:get_quest_stage("ran_dru_subclass") == 3 or actor:get_quest_stage("ran_dru_subclass") == 4 then
-                actor:send("It seems I am becoming forgetful in my age._")
-                actor:send("Well, you see now, I lost the jewel of my heart.")
-                actor:send("If you are up to it, finding and returning it to me will get you your reward._")
-                actor:send("But for now, it is time for you to depart I think._")
-                actor:send("You have brought up painful memories for me to relive.")
+            do
+                local _sw1 = string.lower(tostring(actor:get_quest_stage("ran_dru_subclass") or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("Only the most dedicated to the forests shall complete the quest I set upon you.")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("Yes, quest. I do suppose it would help if I told you about it._")
+                    actor:send("Long ago I lost something.")
+                    actor:send("It is a shame, but it has never been recovered._")
+                    actor:send("If you were to help me with that, then we could arrange something.")
+                elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+                    actor:send("It seems I am becoming forgetful in my age._")
+                    actor:send("Well, you see now, I lost the jewel of my heart.")
+                    actor:send("If you are up to it, finding and returning it to me will get you your reward._")
+                    actor:send("But for now, it is time for you to depart I think._")
+                    actor:send("You have brought up painful memories for me to relive.")
+                end
             end
         end
     end

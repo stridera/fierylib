@@ -7,9 +7,9 @@
 -- Antipaladin quest hand-in: delight at the right offering, scorn otherwise.
 
 if object.zone_id == 85 and object.local_id == 4 then
-    wait(5)
+    wait(0.5)
     self:emote("throws his head back in childish delight!")
 else
-    wait(5)
+    wait(0.5)
     self:say("You are a miserable failure!")
 end

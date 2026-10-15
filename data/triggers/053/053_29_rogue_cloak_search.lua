@@ -24,48 +24,53 @@ if not (cmd == "search") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "se" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "se" then
+        _return_value = true
+        return _return_value
+    end
 end
 local cloakstage = actor:get_quest_stage("rogue_cloak")
 -- switch on self.id
 local continue
-if actor.room == 13660 and cloakstage == 1 then
-    if self.id == 380 then
-        continue = "yes"
-    end
-    if actor.room == 18549 and cloakstage == 2 then
-    elseif self.id == 381 then
-        continue = "yes"
-    end
-    if (actor.room == 59080 or actor.room == 59081) and cloakstage == 3 then
-    elseif self.id == 382 then
-        continue = "yes"
-    end
-    if actor.room == 12626 and cloakstage == 4 then
-    elseif self.id == 383 then
-        continue = "yes"
-    end
-    if actor.room == 16068 and cloakstage == 5 then
-    elseif self.id == 384 then
-        continue = "yes"
-    end
-    if (actor.room == 16215 or actor.room == 16220) and cloakstage == 6 then
-    elseif self.id == 385 then
-        continue = "yes"
-    end
-    if actor.room == 37062 and cloakstage == 7 then
-    elseif self.id == 386 then
-        continue = "yes"
-    end
-    if actor.room == 53103 and cloakstage == 8 then
-    elseif self.id == 387 then
-        continue = "yes"
-    end
-    if actor.room == 48083 and cloakstage == 9 then
-    elseif self.id == 388 then
-        continue = "yes"
+do
+    if (self.zone_id == 2 and self.id == 180) then
+        if actor.room == 13660 and cloakstage == 1 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 181) then
+        if actor.room == 18549 and cloakstage == 2 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 182) then
+        if (actor.room == 59080 or actor.room == 59081) and cloakstage == 3 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 183) then
+        if actor.room == 12626 and cloakstage == 4 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 184) then
+        if actor.room == 16068 and cloakstage == 5 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 185) then
+        if (actor.room == 16215 or actor.room == 16220) and cloakstage == 6 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 186) then
+        if actor.room == 37062 and cloakstage == 7 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 187) then
+        if actor.room == 53103 and cloakstage == 8 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 188) then
+        if actor.room == 48083 and cloakstage == 9 then
+            continue = "yes"
+        end
     end
 end
 if continue == "yes" then

@@ -12,8 +12,8 @@
 if not percent_chance(20) then
     return true
 end
-wait(1)
+wait(0.1)
 self:command("peer")
-wait(2)
+wait(0.2)
 self:command("sigh")
 self:say("anyone fancy a game of dice?")

@@ -11,6 +11,6 @@ if not percent_chance(25) then
     return true
 end
 self:command("roar")
-wait(2)
+wait(0.2)
 self:emote("yells out for a guard to assist him.")
 self.room:spawn_mobile(83, 0)

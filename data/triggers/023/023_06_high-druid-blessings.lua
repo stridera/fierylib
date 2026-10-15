@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 100%
 if actor.is_player then
     if string.find(actor.class, "druid") then
-        wait(1)
+        wait(0.1)
         self:command("nod")
         wait(1)
         self:say("Long ago, the founders of the Vale left gret stone monoliths in each of the four power points of nature.")

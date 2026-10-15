@@ -13,7 +13,7 @@ if not percent_chance(20) then
     return true
 end
 self:emote("beams.")
-wait(3)
+wait(0.3)
 self:say("I'm just so CUTE!!")
-wait(5)
+wait(0.5)
 self:say("Don't you think so?")

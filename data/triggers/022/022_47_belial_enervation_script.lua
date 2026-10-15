@@ -18,14 +18,17 @@ while count > 0 do
         local damage = 375 + random(1, 75)
         local saved = random(1, 2)
         -- switch on saved
-        if saved == 1 then
-            damage = damage/2
-            victim:send("You narrowly avoid a blackened bolt of energy! (<b:red>" .. tostring(damage) .. "</>)")
-            self.room:send_except(victim, tostring(victim.name) .. " narrowly avoids a blackend bolt of energy! (<blue>" .. tostring(damage) .. "</>)")
-        elseif saved == 2 then
-            victim:send("You are hit dead on by a blackened bolt of energy! (<b:red>" .. tostring(damage) .. "</>)")
-            self.room:send_except(victim, tostring(victim.name) .. " is hit dead on by a blackend bolt of energy! (<blue>" .. tostring(damage) .. "</>)")
-        else
+        do
+            local _sw1 = string.lower(tostring(saved or ""))
+            if tonumber(_sw1) == 1 then
+                damage = damage/2
+                victim:send("You narrowly avoid a blackened bolt of energy! (<b:red>" .. tostring(damage) .. "</>)")
+                self.room:send_except(victim, tostring(victim.name) .. " narrowly avoids a blackend bolt of energy! (<blue>" .. tostring(damage) .. "</>)")
+            elseif tonumber(_sw1) == 2 then
+                victim:send("You are hit dead on by a blackened bolt of energy! (<b:red>" .. tostring(damage) .. "</>)")
+                self.room:send_except(victim, tostring(victim.name) .. " is hit dead on by a blackend bolt of energy! (<blue>" .. tostring(damage) .. "</>)")
+            else
+            end
         end
         local damage_dealt = victim:damage(damage)  -- type: physical
     end

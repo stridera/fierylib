@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #1829: blur_winds_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("blur") == 4 and self.zone_id == 18 then
     if self.local_id == 19 then  -- North Wind
         self.room:send("A mighty chill blows through the temple.")

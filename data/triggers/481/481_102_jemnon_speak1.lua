@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 if speech == "yes" then
     actor:send("Very inebriated, " .. tostring(self.name) .. " says, 'Then you come t' the right place!  Pull up a chair an' siddown!'")
     wait(2)

@@ -20,7 +20,7 @@
 if not string.find(string.lower(speech), "weapon progress", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if string.find(actor.class, "diabolist") then
     local level, response
     if actor:get_quest_stage("hell_trident") > 0 then
@@ -31,41 +31,50 @@ if string.find(actor.class, "diabolist") then
             level = 90
         end
         -- switch on self.id
-        -- switch on hellstage
-        if hellstage == 1 then
-            response = "stage2"
-        elseif hellstage == 2 then
-            response = "stage3"
-        else
-            if actor:get_has_completed("hell_trident") then
-                response = "complete"
+        do
+            if (self.zone_id == 23 and self.id == 11) then
+                -- switch on hellstage
+                do
+                    local _sw2 = string.lower(tostring(hellstage or ""))
+                    if tonumber(_sw2) == 1 then
+                        response = "stage2"
+                    elseif tonumber(_sw2) == 2 then
+                        response = "stage3"
+                    else
+                        if actor:get_has_completed("hell_trident") then
+                            response = "complete"
+                        end
+                    end
+                end
+            elseif (self.zone_id == 60 and self.id == 32) then
+                local step = 1
+                local gem = 55662
+                local pl_word = "angels"
+                local word = "angel"
+                local spell1 = "Hellfire and Brimstone"
+                local quest1 = actor:get_has_completed("hellfire_brimstone")
+                local spell2 = "Banish"
+                local quest2 = actor:get_has_completed("banish")
+                if not actor:get_quest_var("hell_trident:helltask6") and actor.level >= level and hellstage == 1 then
+                    if actor:get_quest_stage("vilekka_stew") > 3 then
+                        actor:set_quest_var("hell_trident", "helltask6", 1)
+                    end
+                end
+                local task6 = "assisted Vilekka Kar'Shezden"
+                local task6do = "&3&bAssist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.&0"
+            elseif (self.zone_id == 125 and self.id == 26) then
+                local step = 2
+                local gem = 55739
+                local pl_word = "ghaeles, solars, or seraphs"
+                local word = "ghaele, solar, or seraph"
+                local spell1 = "Resurrect"
+                local quest1 = actor:get_has_completed("resurrection_quest")
+                local spell2 = "Hell Gate"
+                local quest2 = actor:get_has_completed("hell_gate")
+                local task6 = "Defeated the Undead Prince"
+                local task6do = "find one long-buried and branded an infidel.  &3&bFinish his undying duel for him&0 as a sacrifice of honor."
             end
         end
-        local step = 1
-        local gem = 55662
-        local pl_word = "angels"
-        local word = "angel"
-        local spell1 = "Hellfire and Brimstone"
-        local quest1 = actor:get_has_completed("hellfire_brimstone")
-        local spell2 = "Banish"
-        local quest2 = actor:get_has_completed("banish")
-        if not actor:get_quest_var("hell_trident:helltask6") and actor.level >= level and hellstage == 1 then
-            if actor:get_quest_stage("vilekka_stew") > 3 then
-                actor:set_quest_var("hell_trident", "helltask6", 1)
-            end
-        end
-        local task6 = "assisted Vilekka Kar'Shezden"
-        local task6do = "&3&bAssist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.&0"
-        local step = 2
-        local gem = 55739
-        local pl_word = "ghaeles, solars, or seraphs"
-        local word = "ghaele, solar, or seraph"
-        local spell1 = "Resurrect"
-        local quest1 = actor:get_has_completed("resurrection_quest")
-        local spell2 = "Hell Gate"
-        local quest2 = actor:get_has_completed("hell_gate")
-        local task6 = "Defeated the Undead Prince"
-        local task6do = "find one long-buried and branded an infidel.  &3&bFinish his undying duel for him&0 as a sacrifice of honor."
         if hellstage == "step" then
             if actor.level >= level then
                 if not actor:get_quest_var("hell_trident:helltask4") then

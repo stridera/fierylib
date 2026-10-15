@@ -16,7 +16,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "i need a new talisman") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("resurrection_quest") > 4 then
     self:command("grumble")
     wait(1)

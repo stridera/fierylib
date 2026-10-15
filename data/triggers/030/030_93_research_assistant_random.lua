@@ -14,7 +14,7 @@ if not percent_chance(15) then
 end
 self:command("sigh")
 self:say("She was suppose to be here already.")
-wait(20)
+wait(2)
 self:say("She must be lost.")
-wait(20)
+wait(2)
 self:say("Bigby's not going to be happy about this.")

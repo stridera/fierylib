@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "foe")) then
     return true  -- No matching keywords
 end
 self:say("Then we are on the same side.")
-wait(1)
+wait(0.1)
 self:command("grin")
 self:say("When you come to the guard tell him 'I am an enemy of Ruin Wormheart")
 self:say("and he will not bother you.")

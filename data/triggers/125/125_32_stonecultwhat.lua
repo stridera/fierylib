@@ -15,5 +15,5 @@ end
 local delay = random(1, 5)
 wait(delay)
 self:emote("bows before the statue.")
-wait(2)
+wait(0.2)
 self:emote("chants, 'Bring her back to flesh, back to life.'")

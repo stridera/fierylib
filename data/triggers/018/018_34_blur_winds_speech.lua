@@ -24,7 +24,7 @@ if actor:get_quest_stage("blur") ~= 4 then
     return true
 end
 
-wait(2)
+wait(0.2)
 
 -- Hoist all branch-scoped locals.
 local direction
@@ -112,7 +112,7 @@ elseif arrived then
         actor:set_quest_var("blur", direction, 2)
         if actor:get_quest_var("blur:east") == 2 and actor:get_quest_var("blur:west") == 2 and actor:get_quest_var("blur:north") == 2 and actor:get_quest_var("blur:south") == 2 then
             skills.set_level(actor, "blur", 1000)
-            wait(2)
+            wait(0.2)
             actor:send("You have matched the greatest speeds of nature!")
             actor:send("You have learned <red>Blur</>!")
             actor:complete_quest("blur")

@@ -12,7 +12,7 @@
 
 if actor:get_quest_stage("ice_shards") == 4 then
     actor:advance_quest("ice_shards")
-    wait(2)
+    wait(0.2)
     self.room:send(self.name .. " says, 'I don't know much, but I do know someone paid me to help")
     self.room:send("</>'im slip outta the city.  I'm talkin', they paid A LOT.  Was a dark-skinned elf")
     self.room:send("</>with a buncha orcs.'")

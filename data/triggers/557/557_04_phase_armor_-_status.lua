@@ -80,7 +80,7 @@ if classes == nil or phase == nil then
     return true  -- the init trigger has not run for this mob
 end
 local anti = "Anti-Paladin"
-wait(2)
+wait(0.2)
 if not actor or not actor.can_be_seen then
     self:command("peer")
     self:say("I can't help you if I can't see you.")

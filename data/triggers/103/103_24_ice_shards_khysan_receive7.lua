@@ -9,7 +9,7 @@
 -- Ice Shards skill.
 
 if actor:get_quest_stage("ice_shards") == 10 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("book")
     self:command("hug " .. actor.name)
     self:say("I don't know how I can ever express my gratitude to you for bringing this to me.  The Sunfire clan will be sure this knowledge is never lost again.")

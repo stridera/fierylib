@@ -17,20 +17,20 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "fiend") or string.find(speech_lower, "who")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("monk_subclass") ~= 2 then
     return
 end
 self:command("sigh " .. actor.name)
 actor:send(self.name .. " says, 'Yes, fiends.  The filthy thieves from the blistering sands in North Caelia.'")
 self:command("shiver")
-wait(1)
+wait(0.1)
 actor:send(self.name .. " says, 'Personally I enjoy much cooler weather, but they seem to manage themselves fine there.'")
-wait(2)
+wait(0.2)
 self:command("grin")
 actor:send(self.name .. " says, 'I would not mind seeing them vanish outright, however.'")
 self:emote("sighs again.")
-wait(1)
+wait(0.1)
 actor:send(self.name .. " says, 'Enough, I have grown tired of your company.  You bring back bad memories.'")
 actor:advance_quest("monk_subclass")
 self.room:send(self.name .. " dismisses you.")

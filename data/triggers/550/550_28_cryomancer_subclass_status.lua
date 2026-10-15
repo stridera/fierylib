@@ -17,22 +17,22 @@ if not string.find(string.lower(speech), "subclass progress", 1, true) then
 end
 -- switch on actor:get_quest_stage("cryomancer_subclass")
 if actor:get_quest_stage("cryomancer_subclass") == 1 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'It will take a great mage with a dedication to the cold arts to complete the <b:cyan>quest</> I lay before you.  Your reward is simple if you succeed, and I am sure you will enjoy a life of the cold.'")
 elseif actor:get_quest_stage("cryomancer_subclass") == 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'It is quite simple.")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'My counterpart, the great Emmath Firehand, long ago battled with me once.'")
     self:emote("reminisces for a brief moment, looking thoughtful.")
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " says, 'It was not serious by any means, but it did end in a stalemate.  The catch however...'")
     self:command("sigh")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Is that what we battled over may still be <b:cyan>suffering</>.'")
     self:emote("sighs deeply again.")
 elseif actor:get_quest_stage("cryomancer_subclass") == 3 then
-    wait(2)
+    wait(0.2)
     self:emote("smiles sadly.")
     actor:send(tostring(self.name) .. " says, 'It is a shame really, that poor shrub, it really was an innocent in all of that.'")
     wait(1)
@@ -49,7 +49,7 @@ elseif actor:get_quest_stage("cryomancer_subclass") == 3 then
     self:command("smile")
     actor:send(tostring(self.name) .. " says, 'Go about it now.")
 elseif actor:get_quest_stage("cryomancer_subclass") == 4 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Say <b:cyan>\"The shrub suffers no longer\"</>, and the prize will be yours.'")
 else
     if string.find(string.lower(actor.class), "sorcerer") then
@@ -57,14 +57,14 @@ else
             if actor.race == "dragonborn_fire" or actor.race == "arborean" then
                 actor:send("<red>Your race cannot subclass to cryomancer.</>")
             else
-                wait(2)
+                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You are not yet on my quest.'")
             end
         elseif actor.level < 10 then
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'Come back to me once you've gained more experience.'")
         elseif actor.level > 45 then
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
         end
     end

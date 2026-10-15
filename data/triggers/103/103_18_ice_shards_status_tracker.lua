@@ -13,7 +13,7 @@ if not (string.find(s, "ice") or string.find(s, "shards") or string.find(s, "pro
     return true
 end
 
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("ice_shards")
 
 local function got(z, i)

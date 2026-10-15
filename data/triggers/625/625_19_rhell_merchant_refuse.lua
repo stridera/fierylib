@@ -27,7 +27,7 @@ self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) 
 wait(1)
 self:say(tostring(response))
 if actor:get_quest_stage("ursa_quest") == 1 then
-    wait(2)
+    wait(0.2)
     self:say("Maybe you could ask someone who might know.")
 end
 return true

@@ -17,7 +17,7 @@ end
 if string.find(actor.class, "sorcerer")
     and actor.level > 9 and actor.level < 46
     and actor:get_quest_stage("illusionist_subclass") > 0 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Very well, if you insist.'")
     actor:restart_quest("illusionist_subclass")
     wait(1)

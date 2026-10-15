@@ -12,7 +12,7 @@
 -- 
 -- This is for necromancers only
 if actor.class == "necromancer" and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Bracer ya ask? Well now I can make a protective bracelet for the\"")
     actor:send(tostring(self.name) .. " tells you, \"necromancer types but I'll need 3 flawed lapis-lazulis, and a\"")
     actor:send(tostring(self.name) .. " tells you, \"Burned Bracelet. Return these things to me in any order at any\"")

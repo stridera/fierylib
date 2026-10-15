@@ -17,7 +17,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "status") or string.find(string.lower(speech), "progress")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 actor:send("<b:green>Treasure Hunters</>")
 if actor:get_has_completed("treasure_hunter") then
     actor:send(tostring(self.name) .. " says, 'Only great treasures, the stuff of legend, still wait out there!'")
@@ -30,26 +30,29 @@ elseif actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then
         actor:send(tostring(self.name) .. " says, 'You aren't doing anything for me right now.'")
     else
         -- switch on actor:get_quest_stage("treasure_hunter")
-        if actor:get_quest_stage("treasure_hunter") == 1 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find that singing chain and I'll pay you for your time.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 2 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find one of the true fire rings the theatre in Anduin gives out.  Not the fake prop ones most of the performers carry around, but the real ones they give out at their grand finale.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 3 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find a sandstone ring in the caves to the west.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 4 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Recover the electrum hoop lost in the bayou shipwreck.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 5 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Bring me back a Rainbow Shell from the volcanic islands.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 6 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Raid Mystwatch and bring back the legendary Stormshield.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 7 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Get your hands on a Snow Leopard Cloak.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 8 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find a magic ladder that uncoils itself.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 9 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Seek out a glowing phoenix feather.'")
-        elseif actor:get_quest_stage("treasure_hunter") == 10 then
-            actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Secure a piece of sleet armor.'")
+        do
+            local _sw1 = string.lower(tostring(actor:get_quest_stage("treasure_hunter") or ""))
+            if tonumber(_sw1) == 1 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find that singing chain and I'll pay you for your time.'")
+            elseif tonumber(_sw1) == 2 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find one of the true fire rings the theatre in Anduin gives out.  Not the fake prop ones most of the performers carry around, but the real ones they give out at their grand finale.'")
+            elseif tonumber(_sw1) == 3 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find a sandstone ring in the caves to the west.'")
+            elseif tonumber(_sw1) == 4 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Recover the electrum hoop lost in the bayou shipwreck.'")
+            elseif tonumber(_sw1) == 5 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Bring me back a Rainbow Shell from the volcanic islands.'")
+            elseif tonumber(_sw1) == 6 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Raid Mystwatch and bring back the legendary Stormshield.'")
+            elseif tonumber(_sw1) == 7 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Get your hands on a Snow Leopard Cloak.'")
+            elseif tonumber(_sw1) == 8 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Find a magic ladder that uncoils itself.'")
+            elseif tonumber(_sw1) == 9 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Seek out a glowing phoenix feather.'")
+            elseif tonumber(_sw1) == 10 then
+                actor:send(tostring(self.name) .. " says, 'You still have a treasure to find.  Secure a piece of sleet armor.'")
+            end
         end
     end
 else
@@ -83,51 +86,54 @@ if actor.class == "rogue" or actor.class == "bard" or actor.class == "thief" the
     end
     -- switch on cloakstage
     local place, hint
-    if cloakstage == 1 then
-        local cloak = 58801
-        local gem = 55585
-        place = "A Storage Room"
-        hint = "in the house on the hill."
-    elseif cloakstage == 2 then
-        local cloak = 17307
-        local gem = 55593
-        place = "A Small Alcove"
-        hint = "in the holy library."
-    elseif cloakstage == 3 then
-        local cloak = 10308
-        local gem = 55619
-        place = "either Treasure Room"
-        hint = "in the paladin fortress."
-    elseif cloakstage == 4 then
-        local cloak = 12325
-        local gem = 55659
-        place = "The Treasure Room"
-        hint = "beyond the Tower in the Wastes."
-    elseif cloakstage == 5 then
-        local cloak = 43022
-        local gem = 55663
-        place = "Treasury"
-        hint = "in the ghostly fortress."
-    elseif cloakstage == 6 then
-        local cloak = 23810
-        local gem = 55674
-        place = "either Treasure Room with a chest"
-        hint = "lost in the sands."
-    elseif cloakstage == 7 then
-        local cloak = 51013
-        local gem = 55714
-        place = "Mesmeriz's Secret Treasure Room"
-        hint = "hidden deep underground."
-    elseif cloakstage == 8 then
-        local cloak = 58410
-        local gem = 55740
-        place = "Treasure Room"
-        hint = "sunken in the swamp."
-    elseif cloakstage == 9 then
-        local cloak = 52009
-        local gem = 55741
-        place = "Treasure Room"
-        hint = "buried with an ancient king."
+    do
+        local _sw2 = string.lower(tostring(cloakstage or ""))
+        if tonumber(_sw2) == 1 then
+            local cloak = 58801
+            local gem = 55585
+            place = "A Storage Room"
+            hint = "in the house on the hill."
+        elseif tonumber(_sw2) == 2 then
+            local cloak = 17307
+            local gem = 55593
+            place = "A Small Alcove"
+            hint = "in the holy library."
+        elseif tonumber(_sw2) == 3 then
+            local cloak = 10308
+            local gem = 55619
+            place = "either Treasure Room"
+            hint = "in the paladin fortress."
+        elseif tonumber(_sw2) == 4 then
+            local cloak = 12325
+            local gem = 55659
+            place = "The Treasure Room"
+            hint = "beyond the Tower in the Wastes."
+        elseif tonumber(_sw2) == 5 then
+            local cloak = 43022
+            local gem = 55663
+            place = "Treasury"
+            hint = "in the ghostly fortress."
+        elseif tonumber(_sw2) == 6 then
+            local cloak = 23810
+            local gem = 55674
+            place = "either Treasure Room with a chest"
+            hint = "lost in the sands."
+        elseif tonumber(_sw2) == 7 then
+            local cloak = 51013
+            local gem = 55714
+            place = "Mesmeriz's Secret Treasure Room"
+            hint = "hidden deep underground."
+        elseif tonumber(_sw2) == 8 then
+            local cloak = 58410
+            local gem = 55740
+            place = "Treasure Room"
+            hint = "sunken in the swamp."
+        elseif tonumber(_sw2) == 9 then
+            local cloak = 52009
+            local gem = 55741
+            place = "Treasure Room"
+            hint = "buried with an ancient king."
+        end
     end
     local attack = cloakstage * 100
     if job1 or job2 or job3 or job4 then

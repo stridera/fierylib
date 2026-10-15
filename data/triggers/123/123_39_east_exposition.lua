@@ -14,13 +14,13 @@ if not (string.find(string.lower(speech), "who") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
-    wait(2)
+    wait(0.2)
     if actor:get_quest_var("megalith_quest:eexpo") == 0 then
         self:say("Who am I?  Are you sure you want to know?")
         self:emote("looks around slightly confused.")
         wait(4)
         self:say("Well, okay!  I come from the \"Fourth City\", Nordus.  Ever heard of it?  We used to be known for --")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " suddenly lets out a blood curdling scream!")
         wait(3)
         self.room:send("She continues to scream.")
@@ -33,7 +33,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self.room:send(tostring(self.name) .. " looks around herself, blinking.")
         wait(4)
         self:say("I'm sorry, did something weird just happen?  If you've ever been to Nordus, you may have seen stuff like that before...")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 1)
     elseif actor:get_quest_var("megalith_quest:eexpo") == 1 then
@@ -46,7 +46,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         wait(6)
         self:say("Have you ever heard of anything that ridiculous?!  A talking fence?!  Talking front doors, sure, but a fence??  Come on!!")
         self:command("rofl")
-        wait(2)
+        wait(0.2)
         self:emote("wipes a tear from her eye.")
         self.room:send(tostring(self.name) .. " says, 'Aaaahhh Shema, good times...  Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 2)
@@ -62,7 +62,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("Point is, after he arrived, things changed.  For example, I met Umberto here!'")  -- typo: sat
         wait(3)
         self:emote("points at the empty space next to her.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 3)
     elseif actor:get_quest_var("megalith_quest:eexpo") == 3 then
@@ -71,7 +71,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("Shema caught on to his plot, so she warded the book with her favorite code, bundled up a few of us and hit the road!")
         wait(4)
         self:say("We had plenty of adventures before Shema finally kicked the bucket a few years back.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 4)
     elseif actor:get_quest_var("megalith_quest:eexpo") == 4 then
@@ -82,7 +82,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("I started... hearing things...  Whispers in the dark, voices when no one was around...")
         wait(3)
         self:say("At first I thought I was finally succumbing to the madness of Nordus, but then I was visited with a revelation from the stars.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "eexpo", 5)
     elseif actor:get_quest_var("megalith_quest:eexpo") == 5 then

@@ -14,7 +14,7 @@ if actor.is_player then
             self:say("Thank you " .. tostring(actor.name) .. ", I hope this gift will help you against the king.")
         else
             self:say("Hmm, although your motives are not pure, you have done me a great service.")
-            wait(1)
+            wait(0.1)
             self:say("In return I will give you this staff, may you find it a help as you continue in your quest.")
         end
         self.room:spawn_object(480, 19)

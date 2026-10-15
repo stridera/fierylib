@@ -44,31 +44,34 @@ if string.find(arg, "meteor") or string.find(arg, "meteorswarm") then
             end
             -- switch on stage
             local task
-            if stage == 1 then
-                task = "Find Jemnon and ask about the rock demon.  McCabe said, \"He's in some tavern, no doubt, waiting for some new blunder to embark on.\""
-            elseif stage == 2 then
-                task = "Find a suitable meteor focus from the rock demon in Templace."
-                if actor:get_quest_var("meteorswarm:earth") == 0 then
-                elseif stage == 3 then
-                    task = "Show him the meteorite."
-                else
-                    if actor:get_quest_var("meteorswarm:fire") == 0 then
-                        task = "Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers."
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    task = "Find Jemnon and ask about the rock demon.  McCabe said, \"He's in some tavern, no doubt, waiting for some new blunder to embark on.\""
+                elseif tonumber(_sw1) == 2 then
+                    task = "Find a suitable meteor focus from the rock demon in Templace."
+                elseif tonumber(_sw1) == 3 then
+                    if actor:get_quest_var("meteorswarm:earth") == 0 then
+                        task = "Show him the meteorite."
                     else
-                        task = "Find the lava bubble in the high fire priest's secret chambers."
+                        if actor:get_quest_var("meteorswarm:fire") == 0 then
+                            task = "Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers."
+                        else
+                            task = "Find the lava bubble in the high fire priest's secret chambers."
+                        end
                     end
-                end
-                if actor:get_quest_var("meteorswarm:fire") == 1 then
-                elseif stage == 4 then
-                    task = "Return to McCabe."
-                elseif actor:get_quest_var("meteorswarm:fire") == 2 then
-                    task = "Convince the ancient dragon Dargentan to teach you the ways of air magic."
-                end
-                if actor:get_quest_var("meteorswarm:air") == 0 then
-                elseif stage == 5 then
-                    task = "Show him the meteorite now that you have mastered earth, fire, and air."
-                else
-                    task = "Take your finished focus and unleash its potential!"
+                elseif tonumber(_sw1) == 4 then
+                    if actor:get_quest_var("meteorswarm:fire") == 1 then
+                        task = "Return to McCabe."
+                    elseif actor:get_quest_var("meteorswarm:fire") == 2 then
+                        task = "Convince the ancient dragon Dargentan to teach you the ways of air magic."
+                    end
+                elseif tonumber(_sw1) == 5 then
+                    if actor:get_quest_var("meteorswarm:air") == 0 then
+                        task = "Show him the meteorite now that you have mastered earth, fire, and air."
+                    else
+                        task = "Take your finished focus and unleash its potential!"
+                    end
                 end
             end
             actor:send("McCabe wants you to:")

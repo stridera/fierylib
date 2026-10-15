@@ -13,11 +13,11 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "cloak")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "mercenary" and actor:get_quest_stage("merc_ass_thi_subclass") == 2 then
     actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Well yes, this cloak is worth much to him.'")
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " says, 'It was made off with in a raid on his castle by some bothersome insect warriors.'")
     self:command("mutter")
     wait(3)

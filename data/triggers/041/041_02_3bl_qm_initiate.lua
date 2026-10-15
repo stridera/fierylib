@@ -23,7 +23,7 @@ if actor:get_quest_var("Black_Legion:eg_ally") then
 end
 -- This is for neutrals and evils only.
 if actor.alignment <= 150 and actor.level > 9 then
-    wait(2)
+    wait(0.2)
     if actor:get_quest_stage("Black_Legion") == 0 then
         actor:start_quest("Black_Legion")
         actor:set_quest_var("Black_Legion", "BL_FACTION", 0)

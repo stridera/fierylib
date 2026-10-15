@@ -172,13 +172,13 @@ else
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     self:say("What is this for?")
     return _return_value
 end
 if go == "hunt" then
     if actor:get_quest_stage("beast_master") == "stage" and actor:get_quest_var("beast_master:hunt") == "dead" then
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         self:command("cheer")
         actor:send(tostring(self.name) .. " says, 'Congratulations!  Here's your reward.'")
@@ -230,7 +230,7 @@ if go == "hunt" then
         end
         actor:set_quest_var("beast_master", "target1", 0)
         actor:set_quest_var("beast_master", "hunt", 0)
-        wait(2)
+        wait(0.2)
         if stage < 10 then
             actor:advance_quest("beast_master")
             actor:send(tostring(self.name) .. " says, 'Check in again if you have time for more hunts.'")
@@ -261,10 +261,10 @@ if go == "hunt" then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already killed this creature!'")
     elseif actor:get_quest_stage("beast_master") < stage then
-        wait(2)
+        wait(0.2)
         self:command("eye " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'How'd you get this?!  You steal it off someone else??'")
         self.room:send(tostring(self.name) .. " rips up the notice!")
@@ -272,7 +272,7 @@ if go == "hunt" then
     elseif actor:get_quest_var("beast_master:hunt") ~= "dead" then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have to slay kill the beast first!  " .. tostring(victim1) .. " is still out there.")
     end
 elseif go == "trophy" then
@@ -280,31 +280,31 @@ elseif go == "trophy" then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.class) .. "s aren't fit for these kinds of tests.'")
     elseif actor:get_quest_stage("beast_master") < actor:get_quest_stage("ranger_trophy") then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Defeat some more monsters first.'")
     elseif actor.level < (actor:get_quest_stage("ranger_trophy") * 10) then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
     elseif trophystage > actor:get_quest_stage("ranger_trophy") then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You don't need that to demonstrate your skills yet.  Be patient!'")
     elseif trophystage < actor:get_quest_stage("ranger_trophy") then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You've already used that as proof.'")
     else
         local accept
@@ -314,7 +314,7 @@ elseif go == "trophy" then
             local job3 = actor:get_quest_var("ranger_trophy:trophytask3")
             local job4 = actor:get_quest_var("ranger_trophy:trophytask4")
             if job1 and job2 and job3 and job4 then
-                wait(2)
+                wait(0.2)
                 local reward = object.id + 1
                 world.destroy(object)
                 self:command("nod")
@@ -366,7 +366,7 @@ elseif go == "trophy" then
                 _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-                wait(2)
+                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You need to do everything else before you exchange your trophy!'")
             end
         elseif item == "trophy" then
@@ -388,10 +388,10 @@ elseif go == "trophy" then
         if accept == "no" then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
         elseif accept == "yes" then
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             local job1 = actor:get_quest_var("ranger_trophy:trophytask1")
             local job2 = actor:get_quest_var("ranger_trophy:trophytask2")

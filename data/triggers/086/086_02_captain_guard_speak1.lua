@@ -14,6 +14,6 @@ if not string.find(speech_lower, "foe") then
     return true  -- No matching keywords
 end
 self:say("That is unacceptable!")
-wait(1)
+wait(0.1)
 -- TODO: combat.engage expects an entity (target), not a name string; verify actor is the correct target
 combat.engage(actor)

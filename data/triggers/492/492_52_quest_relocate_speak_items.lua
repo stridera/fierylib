@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "items")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 -- Legacy DG had `%actor.class% > 64` here, almost certainly a typo for `%actor.level%`.
 -- Compare against actor.level since actor.class is a string in the Lua runtime.
 if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer") and (actor.level > 64) then
@@ -21,12 +21,12 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
     actor:send("</>Do this for me and I'll share this great spell with you.'")
     self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
     self:command("wink " .. tostring(actor.name))
-    wait(10)
+    wait(1)
     self.room:send("A lost mage begins taking inventory of the items she needs.")
-    wait(10)
+    wait(1)
     actor:send("A lost mage tells you, 'The first item I need...  A great mage once created a")
     actor:send("</>very powerful staff, but the druids stole it!'")
-    wait(10)
+    wait(1)
     actor:send("A lost mage tells you, 'The first item I'll need will be the Staff of the")
     actor:send("</>Mystics.  That druid, having angered the mage, fled as far as he could go, all")
     actor:send("</>the way past the Vale of Anlun.'")
@@ -34,7 +34,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
     actor:send("A lost mage tells you, 'If you need to remember your <b:white>[progress]</> you can'")
     actor:send("</>come back and check with me.'")
     self.room:send_except(actor, "A lost mage tells something to " .. tostring(actor.name) .. ".")
-    wait(10)
+    wait(1)
     actor:send("A lost mage tells you, 'Please go, go get me the staff I require!'")
     actor:start_quest("relocate_spell_quest")
 end

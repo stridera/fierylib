@@ -27,13 +27,13 @@ end
 if rightobj == 1 then
     self.room:send_except(actor, tostring(actor.name) .. " tickles " .. tostring(self.name) .. ".")
     actor:send("You tickle " .. tostring(self.name) .. ".")
-    wait(1)
+    wait(0.1)
     self:emote("doubles over, giggling!")
-    wait(5)
+    wait(0.5)
     self:emote("loses contact with the ground, spinning upward into the air...")
-    wait(10)
+    wait(1)
     self:command("get purple-cherry-in-tree")
-    wait(10)
+    wait(1)
     self:emote("descends slowly back to the ground.")
 else
     _return_value = true

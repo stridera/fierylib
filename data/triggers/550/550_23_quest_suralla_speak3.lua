@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "suffering") or string.find(string.lower(speech), "suffer") or string.find(string.lower(speech), "battled") or string.find(string.lower(speech), "still") or string.find(string.lower(speech), "what")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("cryomancer_subclass") == 2 then
     wait(1)
     self:emote("smiles sadly.")

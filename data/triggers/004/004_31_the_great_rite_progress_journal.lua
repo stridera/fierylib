@@ -41,58 +41,61 @@ if string.find(arg, "great") or string.find(arg, "rite") or string.find(arg, "th
             local master = mobiles.template(123, 1).name
             -- switch on stage
             local task, item1, item2, item3, item4, receive1, receive2, receive3, receive4
-            if stage == 1 then
-                task = "Replace the sacred prophetic implements."
-                -- salt 23756
-                item1 = "salt"
-                -- Goblet or chalice 41110 or 41111 or 18512
-                item2 = "a goblet or chalice"
-                -- censer 8507 or 17300
-                item3 = "a censer"
-                -- candles 8612 or 58809
-                item4 = "candles"
-                -- give to the priestess
-            elseif stage == 2 then
-                -- 
-                -- Must be done East South West North
-                -- 
-                -- thin sheet of cloud to Keeper of the East
-                receive1 = mobiles.template(123, 5).name
-                item1 = objects.template(83, 1).name
-                -- the fiery eye to Keeper of the South
-                receive2 = mobiles.template(123, 4).name
-                item2 = objects.template(481, 9).name
-                -- water from room 12463 to Keeper of the West
-                receive3 = mobiles.template(123, 6).name
-                item3 = "water from " .. tostring(objects.template(123, 52).name)
-                -- granite ring to Keeper of the North
-                receive4 = mobiles.template(123, 3).name
-                item4 = objects.template(550, 20).name
-                if job1 and job2 and job3 and job4 then
-                    task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0\""
-                else
-                    task = "Visit the Keepers and call the elements"
-                    master = nil
-                    master = "The Keepers of East, South, West, and North"
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    task = "Replace the sacred prophetic implements."
+                    -- salt 23756
+                    item1 = "salt"
+                    -- Goblet or chalice 41110 or 41111 or 18512
+                    item2 = "a goblet or chalice"
+                    -- censer 8507 or 17300
+                    item3 = "a censer"
+                    -- candles 8612 or 58809
+                    item4 = "candles"
+                    -- give to the priestess
+                elseif tonumber(_sw1) == 2 then
+                    -- 
+                    -- Must be done East South West North
+                    -- 
+                    -- thin sheet of cloud to Keeper of the East
+                    receive1 = mobiles.template(123, 5).name
+                    item1 = objects.template(83, 1).name
+                    -- the fiery eye to Keeper of the South
+                    receive2 = mobiles.template(123, 4).name
+                    item2 = objects.template(481, 9).name
+                    -- water from room 12463 to Keeper of the West
+                    receive3 = mobiles.template(123, 6).name
+                    item3 = "water from " .. tostring(objects.template(123, 52).name)
+                    -- granite ring to Keeper of the North
+                    receive4 = mobiles.template(123, 3).name
+                    item4 = objects.template(550, 20).name
+                    if job1 and job2 and job3 and job4 then
+                        task = "Finish calling the elements!  Return to " .. tostring(mobiles.template(123, 1).name) .. " and say \"&7&bUnder the watchful eye of Earth, Air, Fire, and Water, we awaken this hallowed ground!&0\""
+                    else
+                        task = "Visit the Keepers and call the elements"
+                        master = nil
+                        master = "The Keepers of East, South, West, and North"
+                    end
+                elseif tonumber(_sw1) == 3 then
+                    task = "Locate three holy reliquaries."
+                    item1 = "a holy prayer bowl"
+                    item2 = "a piece of a goddess's regalia"
+                    item3 = "a faerie relic from the land of the Reverie made manifest"
+                elseif tonumber(_sw1) == 4 then
+                    local prayer = actor:get_quest_var("megalith_quest:prayer")
+                    local summon = actor:get_quest_var("megalith_quest:summon")
+                    local invoke = actor:get_quest_var("megalith_quest:invoke")
+                    if prayer == 1 then
+                        task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
+                    elseif summon == 1 or summon == 2 or summon == 3 then
+                        task = "Return to " .. tostring(master) .. " and say, \"&7&bWe summon and stir thee!&0\""
+                    elseif invoke == 1 or invoke == 2 or invoke == 3 then
+                        task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
+                    end
+                elseif tonumber(_sw1) == 5 then
+                    task = "Kneel before the High Mother to receive Her blessing."
                 end
-            elseif stage == 3 then
-                task = "Locate three holy reliquaries."
-                item1 = "a holy prayer bowl"
-                item2 = "a piece of a goddess's regalia"
-                item3 = "a faerie relic from the land of the Reverie made manifest"
-            elseif stage == 4 then
-                local prayer = actor:get_quest_var("megalith_quest:prayer")
-                local summon = actor:get_quest_var("megalith_quest:summon")
-                local invoke = actor:get_quest_var("megalith_quest:invoke")
-                if prayer == 1 then
-                    task = "Return to " .. tostring(master) .. " and say, \"&7&bGreat Lady of the Stars, hear our prayer!&0\""
-                elseif summon == 1 or summon == 2 or summon == 3 then
-                    task = "Return to " .. tostring(master) .. " and say, \"&7&bWe summon and stir thee!&0\""
-                elseif invoke == 1 or invoke == 2 or invoke == 3 then
-                    task = "Return to " .. tostring(master) .. " and say, \"&7&bWe invoke thee!&0\""
-                end
-            elseif stage == 5 then
-                task = "Kneel before the High Mother to receive Her blessing."
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

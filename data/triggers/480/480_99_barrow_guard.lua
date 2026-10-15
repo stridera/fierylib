@@ -17,7 +17,7 @@ end
 if actor.is_player and actor.level < 60 then
     self:whisper(actor.name, "This barrow is far too dangerous without more experience.")
     self:whisper(actor.name, "Very few who venture further have ever returned.")
-    wait(1)
+    wait(0.1)
     self:whisper(actor.name, "Come back when you're ready for imminent danger.")
 end
 return true

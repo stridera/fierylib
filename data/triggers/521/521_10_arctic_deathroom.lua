@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #52110: Arctic_Deathroom
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-wait(1)
+wait(0.1)
 actor:send("The loud CRACK of a door slamming chills your bones.")

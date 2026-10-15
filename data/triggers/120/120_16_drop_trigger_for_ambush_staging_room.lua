@@ -13,7 +13,7 @@
 -- means she came from below (chase down to room 30); object 120-2 (meat-pie)
 -- means she came from above (chase up to room 95).
 if actor.zone_id == 120 and actor.local_id == 19 then
-    wait(1)
+    wait(0.1)
     local direction, destination = "d", 30
     if object.zone_id == 120 and object.local_id == 2 then
         direction, destination = "u", 95
@@ -22,7 +22,7 @@ if actor.zone_id == 120 and actor.local_id == 19 then
     local male = self.room:find_actor("dark-pixie-ambusher-male")
     if male then
         male:command(direction)
-        wait(1)
+        wait(0.1)
         get_room(120, destination):at(function()
             local m = get_room(120, destination):find_actor("dark-pixie-ambusher-male")
             if m then m:command("kill haggard-brownie") end
@@ -31,7 +31,7 @@ if actor.zone_id == 120 and actor.local_id == 19 then
     local female = self.room:find_actor("dark-pixie-ambusher-female")
     if female then
         female:command(direction)
-        wait(1)
+        wait(0.1)
         get_room(120, destination):at(function()
             local f = get_room(120, destination):find_actor("dark-pixie-ambusher-female")
             if f then f:command("kill haggard-brownie") end

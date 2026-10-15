@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("school:fight") == 2 and spell == "cure light" then
     actor:set_quest_var("school", "fight", 3)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'You're a natural healer!'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Once you cast a spell, the spell slot it used will automatically begin to <b:cyan>RECOVER</>.")

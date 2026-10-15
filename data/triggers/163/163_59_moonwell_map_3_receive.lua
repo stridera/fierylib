@@ -15,12 +15,12 @@ end
 if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
     actor:advance_quest("moonwell_spell_quest")
     actor:set_quest_var("moonwell_spell_quest", "map", 0)
-    wait(2)
+    wait(0.2)
     self:destroy_item("map")
-    wait(15)
+    wait(1.5)
     self.room:spawn_object(163, 54)
     self.room:send(tostring(self.name) .. " quickly marks another check on the bark map.")
-    wait(15)
+    wait(1.5)
     self:command("give map " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'Okay, there are two items left.  This next might seem\n"
         .. "</>odd, but we need a single item of evil and chaos to mislead forces that wish to\n"
@@ -34,7 +34,7 @@ if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
 else
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'I need the ring first.'")
 end
 return true

@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: DROP, probability: 100%
 if actor:get_quest_var("school:gear") == 10 then
     actor:set_quest_var("school", "gear", 11)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Exactly.  Dropping objects leaves them for anyone else to pick up.")
     actor:send("Be careful!  Sometimes monsters can pick up things too!")
     actor:send("</>")
@@ -18,7 +18,7 @@ if actor:get_quest_var("school:gear") == 10 then
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Try junking a stick by typing <b:green>junk stick</>.'</>")
 elseif actor:get_quest_var("school:gear") == 13 and target and target.id == 18 then
     actor:set_quest_var("school", "gear", 14)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'That's how it's done.'")
     wait(2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'To see what's inside something, use <b:cyan>(EXA)MINE [target]</>.")

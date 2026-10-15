@@ -18,15 +18,15 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "hi") or string.find(speech_lower, "hello")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 -- switch on actor:get_quest_stage("subclass")
 if actor:get_quest_stage("subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'Welcome back.'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'It will take a great mage with a dedication to the cold arts to complete the <b:cyan>quest</> I lay before you.  Your reward is simple if you succeed, and I am sure you will enjoy a life of the cold.'")
 elseif actor:get_quest_stage("subclass") == 2 then
     actor:send(tostring(self.name) .. " says, 'I see you return.'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Recall, what Emmath and I battled over may still be <b:cyan>suffering</>.'")
 elseif actor:get_quest_stage("subclass") == 3 then
     actor:send(tostring(self.name) .. " says, 'Why have you returned already?  The shrub still suffers!'")

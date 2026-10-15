@@ -9,11 +9,11 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- if the player returns the letter from Ruin, 'choice' is set to path 2: the golden sceptre of imanhotep
 if actor:get_quest_stage("ursa_quest") == 1 then
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     actor:set_quest_var("ursa_quest", "choice", 2)
     actor:advance_quest("ursa_quest")
-    wait(8)
+    wait(0.8)
     self:command("gasp")
     wait(1)
     self:say("Ruin has unlocked the secrets of lycanthropy?!")

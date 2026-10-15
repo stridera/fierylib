@@ -10,5 +10,5 @@
 -- the most recent entry burst (legacy author flagged this limitation).
 
 local peeps_before = get_room(520, 59).actor_count
-wait(5)
+wait(0.5)
 globals.peeps = get_room(520, 59).actor_count - peeps_before

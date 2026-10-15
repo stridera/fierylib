@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "recovery")) then
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-wait(2)
+wait(0.2)
 if actor:get_quest_var("school:fight") == 8 then
     actor:set_quest_var("school", "fight", 9)
     actor:send(tostring(self.name) .. " tells you, 'Once you cast a spell, the spell slot it used will automatically begin to <b:cyan>RECOVER</>.")

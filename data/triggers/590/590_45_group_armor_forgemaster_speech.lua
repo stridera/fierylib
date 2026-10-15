@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 local stage = actor:get_quest_stage("group_armor")
-wait(2)
+wait(0.2)
 if (string.find(actor.class, "cleric") and actor.level > 72) or (string.find(actor.class, "priest") and actor.level > 56) then
     if stage == 0 then
         actor:start_quest("group_armor")

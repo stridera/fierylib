@@ -14,9 +14,12 @@ if not (cmd == "throatcut") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "t" or cmd == "th" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "t" or _sw1 == "th" then
+        _return_value = true
+        return _return_value
+    end
 end
 if arg ~= nil and arg ~= "" then
     -- TODO(parity): these legacy vnum lists (4XXXX) need to be remapped to

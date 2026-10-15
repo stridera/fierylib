@@ -19,7 +19,7 @@ if string.find(actor.class, "rogue") then
     -- msend %actor% &1Your race may not subclass to assassin.&0
     -- halt
     -- endif
-    wait(2)
+    wait(0.2)
     if actor.level >= 10 and actor.level <= 25 then
         if actor.alignment <= -350 then
             if use_subclass then

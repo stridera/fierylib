@@ -19,7 +19,7 @@ end
 -- drow master's heart (the dude from Anduin) and the second
 -- is after returning the drider king's head (who's in
 -- this area).  It follows trigger 23752 parts 1 and 2.
-wait(2)
+wait(0.2)
 if actor.is_player then
     if actor:get_quest_stage("vilekka_stew") == 4 then
         actor:advance_quest("vilekka_stew")

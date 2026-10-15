@@ -17,7 +17,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor:get_quest_var("school:gear") == 11 and string.find(string.lower(arg), "stick", 1, true) then
     actor:set_quest_var("school", "gear", 12)
     actor:command("junk " .. tostring(arg))
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Very good.'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'You can drop and junk everything with the same keyword by typing in <b:cyan>all.[object]</> as well.")

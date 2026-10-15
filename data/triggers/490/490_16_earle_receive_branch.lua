@@ -8,7 +8,7 @@
 -- Converted from DG Script #49016: Earle receive branch
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- Small oak branch given
-wait(2)
+wait(0.2)
 local person = actor
 local i = person.group_size
 local a

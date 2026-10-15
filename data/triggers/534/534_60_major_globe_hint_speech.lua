@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, 'Yeah, Lirne.  He disappeared a little while ago on a job in Frost Valley.'")
 self:command("frown")
 wait(2)

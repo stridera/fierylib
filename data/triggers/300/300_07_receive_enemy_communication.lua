@@ -12,7 +12,7 @@
 -- 302:8  = paladin message parchment (player is foolishly handing in evidence
 --          against themselves; general attacks and kicks them through a door)
 if object.zone_id == 302 and object.local_id == 12 then
-    wait(4)
+    wait(0.4)
     self:destroy_item("scroll")
     self:say("Why thank you... good spy.  I'll have my warlocks extract this message,")
     self:say("and find out what those self-righteous paladins are up to.")
@@ -24,14 +24,14 @@ if object.zone_id == 302 and object.local_id == 12 then
     self:command("give all.gem " .. tostring(actor.name))
     return false
 elseif object.zone_id == 302 and object.local_id == 8 then
-    wait(3)
+    wait(0.3)
     self:destroy_item("parchment")
     self:command("growl")
     wait(2)
     self:say("What are you doing with this!  You spy!  Paladin!  GUARDS!")
     wait(1)
     self:command("open door")
-    wait(4)
+    wait(0.4)
     local damage = actor.level * 2 + 5
     local damage_dealt = actor:damage(damage)  -- crush
     if damage_dealt == 0 then
@@ -42,7 +42,7 @@ elseif object.zone_id == 302 and object.local_id == 8 then
         actor:send(tostring(self.name) .. " kicks you solidly in the head! (<red>" .. tostring(damage_dealt) .. "</>)")
         self.room:send_except(actor, tostring(actor.name) .. " is sent reeling through the doorway!")
         actor:send("You topple through the door into the next room!")
-        wait(3)
+        wait(0.3)
         actor:teleport(get_room(300, 38))
     end
     return false

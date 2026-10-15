@@ -8,7 +8,7 @@
 -- Converted from DG Script #48121: give_ivory_vulcera
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_stage("fieryisle_quest") == 8 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("fieryisle_quest")
     actor:send("<b:white>You have advanced your quest!</>")
     if world.count_mobiles(481, 27) == 0 then

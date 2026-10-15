@@ -8,9 +8,9 @@
 -- per-quest "map" flag so handing over the bark map next (16363) finishes
 -- the ceremony. The ring is destroyed.
 if actor:get_quest_stage("moonwell_spell_quest") == 11 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("ring")
     actor:set_quest_var("moonwell_spell_quest", "map", 1)
-    wait(15)
+    wait(1.5)
     actor:send(tostring(self.name) .. " tells you, 'Excellent, hand me your map so that I may finish this.'")
 end

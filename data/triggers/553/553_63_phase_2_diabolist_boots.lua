@@ -12,7 +12,7 @@
 -- 
 -- This is for diabolists only
 if actor.class == "diabolist" and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Boots ya ask? Well now I can make a fine pair of boots for the\"")
     actor:send(tostring(self.name) .. " tells you, \"diabolist types but I'll need 3 enchanted turquioses, and a set of\"")
     actor:send(tostring(self.name) .. " tells you, \"Crushed Plate Boots. Return these things to me in any order at\"")

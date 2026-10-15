@@ -14,7 +14,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "wild") or string.find(speech_lower, "hunt")) then
     return true
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("berserker_subclass") == 1 then
     actor:advance_quest("berserker_subclass")
     self:command("nod")

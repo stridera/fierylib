@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "forget?")) then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 self.room:send(tostring(self.name) .. " says, 'I drink to forget until I forget to drink.  The chapel")
 self.room:send("</>was the most horrible place I have ever seen.  The sight of it is burned into")
 self.room:send("</>my mind.'")

@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 self:command("smile " .. tostring(actor.name))
-wait(1)
+wait(0.1)
 self:say("There is a guard to the north that is blocking the way to my escape.")
 self:say("I need you to go kill him and bring back his axe,")
 self:say("so i have proof you have killed him.")

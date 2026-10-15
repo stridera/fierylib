@@ -26,7 +26,7 @@ local job1 = actor:get_quest_var("ranger_trophy:trophytask1")
 local job2 = actor:get_quest_var("ranger_trophy:trophytask2")
 local job3 = actor:get_quest_var("ranger_trophy:trophytask3")
 local job4 = actor:get_quest_var("ranger_trophy:trophytask4")
-wait(2)
+wait(0.2)
 if actor.class ~= "warrior" and actor.class ~= "ranger" and actor.class ~= "berserker" and actor.class ~= "mercenary" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'Only warriors, rangers, berserkers, and mercenaries possess the skills required for this.'")
@@ -53,51 +53,54 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on trophystage
 local place, hint
-if trophystage == 1 then
-    local trophy = 1607
-    local gem = 55579
-    place = "A Coyote's Den"
-    hint = "near the Kingdom of the Meer Cats."
-elseif trophystage == 2 then
-    local trophy = 17806
-    local gem = 55591
-    place = "In the Lions' Den"
-    hint = "in the western reaches of Gothra."
-elseif trophystage == 3 then
-    local trophy = 1805
-    local gem = 55628
-    place = "either of the two Gigantic Roc Nests"
-    hint = "in the Wailing Mountains."
-elseif trophystage == 4 then
-    local trophy = 62513
-    local gem = 55652
-    place = "Chieftain's Lair"
-    hint = "in Nukreth Spire in South Caelia."
-elseif trophystage == 5 then
-    local trophy = 23803
-    local gem = 55664
-    place = "The Heart of the Den"
-    hint = "where the oldest unicorn in South Caelia makes its home."
-elseif trophystage == 6 then
-    local trophy = 43009
-    local gem = 55685
-    place = "Giant Lynx's Lair"
-    hint = "far to the north beyond Mt. Frostbite."
-elseif trophystage == 7 then
-    local trophy = 47008
-    local gem = 55705
-    place = "Giant Griffin's Nest"
-    hint = "tucked away in a secluded and well guarded corner of Griffin Island."
-elseif trophystage == 8 then
-    local trophy = 53323
-    local gem = 55729
-    place = "Witch's Den"
-    hint = "entombed with an ancient evil king."
-elseif trophystage == 9 then
-    local trophy = 52014
-    local gem = 55741
-    place = "Dargentan's Lair"
-    hint = "at the pinnacle of his flying fortress."
+do
+    local _sw1 = string.lower(tostring(trophystage or ""))
+    if tonumber(_sw1) == 1 then
+        local trophy = 1607
+        local gem = 55579
+        place = "A Coyote's Den"
+        hint = "near the Kingdom of the Meer Cats."
+    elseif tonumber(_sw1) == 2 then
+        local trophy = 17806
+        local gem = 55591
+        place = "In the Lions' Den"
+        hint = "in the western reaches of Gothra."
+    elseif tonumber(_sw1) == 3 then
+        local trophy = 1805
+        local gem = 55628
+        place = "either of the two Gigantic Roc Nests"
+        hint = "in the Wailing Mountains."
+    elseif tonumber(_sw1) == 4 then
+        local trophy = 62513
+        local gem = 55652
+        place = "Chieftain's Lair"
+        hint = "in Nukreth Spire in South Caelia."
+    elseif tonumber(_sw1) == 5 then
+        local trophy = 23803
+        local gem = 55664
+        place = "The Heart of the Den"
+        hint = "where the oldest unicorn in South Caelia makes its home."
+    elseif tonumber(_sw1) == 6 then
+        local trophy = 43009
+        local gem = 55685
+        place = "Giant Lynx's Lair"
+        hint = "far to the north beyond Mt. Frostbite."
+    elseif tonumber(_sw1) == 7 then
+        local trophy = 47008
+        local gem = 55705
+        place = "Giant Griffin's Nest"
+        hint = "tucked away in a secluded and well guarded corner of Griffin Island."
+    elseif tonumber(_sw1) == 8 then
+        local trophy = 53323
+        local gem = 55729
+        place = "Witch's Den"
+        hint = "entombed with an ancient evil king."
+    elseif tonumber(_sw1) == 9 then
+        local trophy = 52014
+        local gem = 55741
+        place = "Dargentan's Lair"
+        hint = "at the pinnacle of his flying fortress."
+    end
 end
 local attacks = trophystage * 100
 self:command("nod")

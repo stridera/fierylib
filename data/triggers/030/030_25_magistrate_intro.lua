@@ -8,7 +8,7 @@
 -- Converted from DG Script #3025: Magistrate_intro
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.is_player then
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " says to you, 'Greetings, " .. tostring(actor.name) .. ".  It is good to see you.  If you would like, I have some <b:cyan>[quests]</> you could give me a hand with.'")
     wait(1)
     if (actor:get_quest_stage("phase_mace") == 1 or (actor:get_quest_stage("phase_mace") == 0 and (actor:has_equipped(2, 140) or actor:has_item(2, 140)))) and not actor:get_quest_var("phase_mace:greet") then

@@ -13,7 +13,7 @@ if world.count_mobiles(18, 8) > 0 then
         wait(2)
         actor:send("The nymph cackles, 'So, Thelmor has sent you fools to kill me...'")
     elseif actor.level < 100 then
-        wait(3)
+        wait(0.3)
         actor:send("The nymph says to you, 'You do not belong here.  Begone!'")
         actor:teleport(get_room(18, 13))
         wait(1)

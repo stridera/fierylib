@@ -15,7 +15,7 @@ end
 
 if actor:get_quest_stage("ice_shards") == 5 then
     actor:advance_quest("ice_shards")
-    wait(2)
+    wait(0.2)
     self:command("sigh")
     self.room:send(self.name .. " says, 'Yes, I do know where he is and before you ask, no I don't mind")
     self.room:send("</>telling you.  My contractual obligation to him is fulfilled and if I do tell")

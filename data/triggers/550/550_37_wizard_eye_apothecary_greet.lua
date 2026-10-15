@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #55037: wizard_eye_apothecary_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if actor.is_player then
     actor:send(tostring(self.name) .. " says, 'What can I get for ya dearie?'")
     if actor:get_quest_stage("wizard_eye") == 6 then

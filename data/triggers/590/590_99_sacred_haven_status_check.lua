@@ -25,7 +25,7 @@ local key = actor:get_quest_var("sacred_haven:find_key")
 local blood = actor:get_quest_var("sacred_haven:given_blood")
 local trinket = actor:get_quest_var("sacred_haven:given_trinket")
 local earring = actor:get_quest_var("sacred_haven:given_earring")
-wait(2)
+wait(0.2)
 if stage == 1 and light == 0 then
     self.room:send(tostring(self.name) .. " says, 'Prove yourself.  Bring me " .. tostring(objects.template(590, 26).name))
     self.room:send("</>from a priest on the second floor.'")
@@ -71,6 +71,6 @@ elseif stage == 2 and key == 2 then
     if earring == 0 then
         self.room:send("- " .. tostring(objects.template(590, 30).name))
     end
-    wait(2)
+    wait(0.2)
     self:say("Bring me my artifacts! Chop chop!")
 end

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "power") or string.find(string.lower(speech), "something") or string.find(string.lower(speech), "what") or string.find(string.lower(speech), "found")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor.level < 30 then
     self:command("nod")
     actor:send(tostring(self.name) .. " tells you, 'They have discovered a secret chamber below")

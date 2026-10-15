@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "supernova")
         or string.find(string.lower(speech), "swarm")) then
     return true
 end
-wait(2)
+wait(0.2)
 if string.find(self.class, "pyromancer") then
     -- Supernova quest entrypoint, Pyromancer asker only
     if speech == "super" or speech == "super?" or speech == "nova" or speech == "nova?" or speech == "supernova" or speech == "supernova?" then

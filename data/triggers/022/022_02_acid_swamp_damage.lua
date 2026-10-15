@@ -33,15 +33,18 @@ while count > 0 do
         local damage = 50 + random(1, 30)
         local which = random(1, 2)
         -- switch on which
-        if which == 1 then
-            local damage_dealt = victim:damage(damage)  -- type: poison
-            victim:send("You accidentally inhale some noxious gases!  Oops! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-            room:send_except(victim, tostring(victim.name) .. " suddenly chokes, coughing on the acrid swamp gases. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-        elseif which == 2 then
-            local damage_dealt = victim:damage(damage)  -- type: acid
-            victim:send("A large bubble pops in the waters, spewing acid on you! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-            room:send_except(victim, "A large bubble pops in the waters, spewing burning acid on " .. tostring(victim.name) .. "! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-        else
+        do
+            local _sw1 = string.lower(tostring(which or ""))
+            if tonumber(_sw1) == 1 then
+                local damage_dealt = victim:damage(damage)  -- type: poison
+                victim:send("You accidentally inhale some noxious gases!  Oops! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+                room:send_except(victim, tostring(victim.name) .. " suddenly chokes, coughing on the acrid swamp gases. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+            elseif tonumber(_sw1) == 2 then
+                local damage_dealt = victim:damage(damage)  -- type: acid
+                victim:send("A large bubble pops in the waters, spewing acid on you! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+                room:send_except(victim, "A large bubble pops in the waters, spewing burning acid on " .. tostring(victim.name) .. "! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+            else
+            end
         end
     end
     count = count - 1

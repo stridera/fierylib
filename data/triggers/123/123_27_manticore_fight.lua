@@ -12,7 +12,7 @@
 if not percent_chance(5) then
     return true
 end
-wait(2)
+wait(0.2)
 if actor and (actor.room == self.room) and (actor.is_player) then
     local hit = (self.hitroll + random(1, 100)) + (actor.armor + ((actor.real_dex / 2) - 24))
     if hit >= 0 then

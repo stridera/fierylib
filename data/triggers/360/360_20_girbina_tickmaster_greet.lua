@@ -19,7 +19,7 @@ if actor.class ~= "sorcerer" then
     return _return_value
 end
 
-wait(2)
+wait(0.2)
 
 -- Determine the active port-quest for this character. Quests must be
 -- completed in order; first matching gate wins.

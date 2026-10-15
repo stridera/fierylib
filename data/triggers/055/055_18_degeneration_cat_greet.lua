@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #5518: degeneration_cat_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("degeneration")
 if string.find(actor.class, "necromancer") then
     if actor.level > 80 then

@@ -23,7 +23,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "status") or string.find(speech_lower, "progress")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_has_completed("resurrection_quest") then
     self:say("You have already learned the secrets of the Resurrection.")
     return true

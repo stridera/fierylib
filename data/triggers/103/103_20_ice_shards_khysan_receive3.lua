@@ -9,7 +9,7 @@
 -- Anduin pawnbroker for word of the Butcher.
 
 if actor:get_quest_stage("ice_shards") == 3 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("ice_shards")
     self:destroy_item("book")
     self:emote("sits down and reads through Commander Thraja's journal.")

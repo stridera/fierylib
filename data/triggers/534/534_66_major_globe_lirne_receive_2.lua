@@ -10,7 +10,7 @@
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 7 then
     actor:advance_quest("major_globe_spell")
-    wait(1)
+    wait(0.1)
     self:destroy_item("majorglobe-spellbook")
     self:command("gasp")
     actor:send(tostring(self.name) .. " says, 'This is fantastic!  I knew you would find it.'")
@@ -25,10 +25,10 @@ if stage == 7 then
     actor:send(tostring(self.name) .. " says, 'Yes... go and <b:cyan>banish five unique elementals</> and bring back their energies!'")
 elseif stage < 7 then
     self:command("eyebrow")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'How could you have found this?  Do the quest in order!'")
 elseif stage > 7 then
-    wait(1)
+    wait(0.1)
     self:destroy_item("majorglobe-spellbook")
     actor:send(tostring(self.name) .. " says, 'You've already brought me this!")
 end

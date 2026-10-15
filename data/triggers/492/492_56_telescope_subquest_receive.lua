@@ -11,7 +11,7 @@ local _return_value = true  -- Default: allow action
 -- Check for proper actor stage and item
 if (object.zone_id == 534 and object.id == 24) then
     if actor:get_quest_stage("relocate_spell_quest") == 4 then
-        wait(10)
+        wait(1)
         actor:send("The observer tells you, 'Thank you so much, you have recovered the lost globe!'")
         self:command("thank " .. tostring(actor.name))
         self:command("rem telescope")
@@ -24,7 +24,7 @@ if (object.zone_id == 534 and object.id == 24) then
         world.destroy(self.room:find_actor("observer"))
         return _return_value
     else
-        wait(10)
+        wait(1)
         self:command("eyebrow " .. tostring(actor.name))
         actor:send("The observer tells you, 'Yes, this is what I seek, but how did you come by it?")
         actor:send("</>Only the one that did retrieve the glass for me can be rewarded!'")
@@ -34,7 +34,7 @@ if (object.zone_id == 534 and object.id == 24) then
 else
     -- Legacy DG returned 0 here (refuse the item, return it to actor).
     _return_value = false
-    wait(2)
+    wait(0.2)
     actor:send("The observer tells you, 'This isn't my globe!'")
     actor:send("The observer returns your item to you.")
     self.room:send_except(actor, "The observer refuses " .. tostring(object.shortdesc) .. " from " .. tostring(actor.name) .. ".")

@@ -9,7 +9,7 @@
 -- Frost Lake. Advances to stage 7 → Ysgarran's Keep.
 
 if actor:get_quest_stage("ice_shards") == 6 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("ice_shards")
     self:destroy_item("map")
     self:say("Incredible, you found it!")

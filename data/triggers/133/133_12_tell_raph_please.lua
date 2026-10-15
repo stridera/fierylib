@@ -11,7 +11,7 @@
 -- class-appropriate skill / spell at full level. Casters get a fresh spell;
 -- martial / hybrid classes get an enhanced skill (switch or pick lock)
 -- whose proficiency scales with level.
-wait(2)
+wait(0.2)
 
 if not actor.is_player then
     return true

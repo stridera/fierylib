@@ -21,7 +21,7 @@ if classes == nil or phase == nil then
     return true  -- the init trigger has not run for this mob
 end
 local _return_value = true  -- Default: allow action
-wait(2)
+wait(0.2)
 local anti = "Anti-Paladin"
 if not actor or not actor.can_be_seen then
     _return_value = true
@@ -31,13 +31,13 @@ else
     elseif not string.find(string.lower(classes), actor.class, 1, true) or (classes == anti and actor.class == "paladin") then
         _return_value = true
     elseif actor:get_quest_stage("phase_armor") == (phase - 1) then
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, 'Welcome, would you like to do some armor quests?  If so, just ask me about them.'")
     end
 end
 if string.find(self.class, "necromancer") then
     if actor:get_quest_stage("shift_corpse") > 0 then
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'May Death guide your hunt for Lokari.'")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'If you need a new crystal, msend " .. tostring(actor) .. " " .. tostring(self.name) .. " says, &9<blue>\"I need a new crystal\"</>.'")
@@ -47,56 +47,71 @@ elseif string.find(self.class, "pyromancer") then
         actor:advance_quest("supernova")
         local step3, step4, step5, step6
         local rnd1 = random(1, 3)
-        if rnd1 == 1 then
-            step3 = 4318
-        elseif rnd1 == 2 then
-            step3 = 10316
-        elseif rnd1 == 3 then
-            step3 = 58062
+        do
+            local _sw1 = string.lower(tostring(rnd1 or ""))
+            if tonumber(_sw1) == 1 then
+                step3 = 4318
+            elseif tonumber(_sw1) == 2 then
+                step3 = 10316
+            elseif tonumber(_sw1) == 3 then
+                step3 = 58062
+            end
         end
         actor:set_quest_var("supernova", "step3", step3)
         local rnd2 = random(1, 3)
-        if rnd2 == 1 then
-            step4 = 18577
-        elseif rnd2 == 2 then
-            step4 = 17277
-        elseif rnd2 == 3 then
-            step4 = 8561
+        do
+            local _sw2 = string.lower(tostring(rnd2 or ""))
+            if tonumber(_sw2) == 1 then
+                step4 = 18577
+            elseif tonumber(_sw2) == 2 then
+                step4 = 17277
+            elseif tonumber(_sw2) == 3 then
+                step4 = 8561
+            end
         end
         actor:set_quest_var("supernova", "step4", step4)
         local rnd3 = random(1, 3)
-        if rnd3 == 1 then
-            step5 = 53219
-        elseif rnd3 == 2 then
-            step5 = 47343
-        elseif rnd3 == 3 then
-            step5 = 16278
+        do
+            local _sw3 = string.lower(tostring(rnd3 or ""))
+            if tonumber(_sw3) == 1 then
+                step5 = 53219
+            elseif tonumber(_sw3) == 2 then
+                step5 = 47343
+            elseif tonumber(_sw3) == 3 then
+                step5 = 16278
+            end
         end
         actor:set_quest_var("supernova", "step5", step5)
         local rnd4 = random(1, 3)
-        if rnd4 == 1 then
-            step6 = 58657
-        elseif rnd4 == 2 then
-            step6 = 35119
-        elseif rnd4 == 3 then
-            step6 = 55422
+        do
+            local _sw4 = string.lower(tostring(rnd4 or ""))
+            if tonumber(_sw4) == 1 then
+                step6 = 58657
+            elseif tonumber(_sw4) == 2 then
+                step6 = 35119
+            elseif tonumber(_sw4) == 3 then
+                step6 = 55422
+            end
         end
         actor:set_quest_var("supernova", "step6", step6)
         local step7 = random(1, 3)
         actor:set_quest_var("supernova", "step7", step7)
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Ah I see you found one of Phayla's lamps!'")
         wait(3)
         actor:send(tostring(self.name) .. " says, 'Phayla likes to visit the material plane to engage in her favorite leisure activities.'")
         wait(2)
         local clue = actor:get_quest_var("supernova:step3")
         -- switch on clue
-        if clue == 4318 then
-            actor:send(tostring(self.name) .. " says, 'Recently, she was spotted in Anduin, taking in a show from the best seat in the house.'")
-        elseif clue == 10316 then
-            actor:send(tostring(self.name) .. " says, 'I understand she frequents the hottest spring at the popular resort up north.'")
-        elseif clue == 58062 then
-            actor:send(tostring(self.name) .. " says, 'She occasionally visits a small remote island theatre, where she enjoys meditating in their reflecting room.'")
+        do
+            local _sw5 = string.lower(tostring(clue or ""))
+            if tonumber(_sw5) == 4318 then
+                actor:send(tostring(self.name) .. " says, 'Recently, she was spotted in Anduin, taking in a show from the best seat in the house.'")
+            elseif tonumber(_sw5) == 10316 then
+                actor:send(tostring(self.name) .. " says, 'I understand she frequents the hottest spring at the popular resort up north.'")
+            elseif tonumber(_sw5) == 58062 then
+                actor:send(tostring(self.name) .. " says, 'She occasionally visits a small remote island theatre, where she enjoys meditating in their reflecting room.'")
+            end
         end
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You may be able to find a clue to her whereabouts there.'")
@@ -105,7 +120,7 @@ elseif (self.class == "cleric" or self.class == "priest" or self.class == "diabo
     if actor:get_quest_stage("phase_mace") == "macestep" then
         local minlevel = macestep * 10
         if actor.level >= minlevel then
-            wait(2)
+            wait(0.2)
             if actor:get_quest_var("phase_mace:greet") == 0 then
                 actor:send(tostring(self.name) .. " says, 'I sense a ghostly presence about your weapons.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
             else
@@ -137,7 +152,7 @@ if actor:get_quest_stage("ursa_quest") > 0 and self.zone_id == 60 and self.local
 end
 if actor:get_quest_stage("hell_trident") == 1 and self.zone_id == 60 and self.local_id == 32 then
     if actor.level >= 65 then
-        wait(2)
+        wait(0.2)
         if not actor:get_quest_var("hell_trident:helltask5") then
             if actor:get_has_completed("banish") then
                 actor:set_quest_var("hell_trident", "helltask5", 1)

@@ -14,9 +14,12 @@ if not (cmd == "sing") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "si" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "si" then
+        _return_value = true
+        return _return_value
+    end
 end
 actor:command("sing")
 if actor:get_quest_stage("bard_subclass") == 1 then

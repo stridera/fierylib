@@ -28,7 +28,7 @@ if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor
     return _return_value
 else
     _return_value = true
-    wait(1)
+    wait(0.1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
     actor:send(tostring(self.name) .. " returns your item to you.")

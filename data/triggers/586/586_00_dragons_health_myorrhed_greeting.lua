@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #58600: dragons_health_myorrhed_greeting
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("dragons_health") > 0 then
     self:command("wave " .. tostring(actor.name))
     self:say("Welcome back!")

@@ -15,16 +15,19 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:rest") == 7 then
     -- switch on arg
-    if arg == "zo" or arg == "zon" or arg == "zone" then
-        actor:set_quest_var("school", "rest", "complete")
-        actor:command("help zone")
-        wait(2)
-        actor:send(tostring(self.name) .. " tells you, 'When you're ready to stop playing, to safely log out, you have to find an inn.")
-        actor:send("Talk to the inn's receptionist and <b:cyan>RENT</> a room.")
-        actor:send("Think of inns like save points.")
-        actor:send("Renting stores all your items for free.")
-        actor:send("When you log back in, you'll be at the inn.'")
-        wait(1)
+    do
+        local _sw1 = string.lower(tostring(arg or ""))
+        if _sw1 == "zo" or _sw1 == "zon" or _sw1 == "zone" then
+            actor:set_quest_var("school", "rest", "complete")
+            actor:command("help zone")
+            wait(0.2)
+            actor:send(tostring(self.name) .. " tells you, 'When you're ready to stop playing, to safely log out, you have to find an inn.")
+            actor:send("Talk to the inn's receptionist and <b:cyan>RENT</> a room.")
+            actor:send("Think of inns like save points.")
+            actor:send("Renting stores all your items for free.")
+            actor:send("When you log back in, you'll be at the inn.'")
+            wait(1)
+        end
     end
 end
 if actor:get_quest_stage("school") == 5 then

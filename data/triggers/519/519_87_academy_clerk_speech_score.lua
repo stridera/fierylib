@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "score")) then
 end
 if actor:get_quest_stage("school") == 2 then
     actor:set_quest_var("school", "score", 1)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, '<b:cyan>SCORE</> is how you see all the numeric stuff about yourself:")
     actor:send("Experience, Hit and Movement Points, Stats, Saves, blah blah blah.'")
     wait(2)

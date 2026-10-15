@@ -12,34 +12,37 @@
 if not string.find(string.lower(speech), "i need a new contract", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if actor.level >= (actor:get_quest_stage("bounty_hunt") - 1) * 10 then
     if (actor:get_quest_var("bounty_hunt:bounty") or 0) ~= 0 then
         -- Hoisted: branch-scoped `local` would not be visible below.
         local contract
         -- switch on actor:get_quest_stage("bounty_hunt")
-        if actor:get_quest_stage("bounty_hunt") == 1 then
-            contract = 50
-        elseif actor:get_quest_stage("bounty_hunt") == 2 then
-            contract = 51
-        elseif actor:get_quest_stage("bounty_hunt") == 3 then
-            contract = 52
-        elseif actor:get_quest_stage("bounty_hunt") == 4 then
-            contract = 53
-        elseif actor:get_quest_stage("bounty_hunt") == 5 then
-            contract = 54
-        elseif actor:get_quest_stage("bounty_hunt") == 6 then
-            contract = 55
-        elseif actor:get_quest_stage("bounty_hunt") == 7 then
-            contract = 56
-        elseif actor:get_quest_stage("bounty_hunt") == 8 then
-            contract = 57
-        elseif actor:get_quest_stage("bounty_hunt") == 9 then
-            contract = 58
-        elseif actor:get_quest_stage("bounty_hunt") == 10 then
-            contract = 59
-        else
-            contract = 50
+        do
+            local _sw1 = string.lower(tostring(actor:get_quest_stage("bounty_hunt") or ""))
+            if tonumber(_sw1) == 1 then
+                contract = 50
+            elseif tonumber(_sw1) == 2 then
+                contract = 51
+            elseif tonumber(_sw1) == 3 then
+                contract = 52
+            elseif tonumber(_sw1) == 4 then
+                contract = 53
+            elseif tonumber(_sw1) == 5 then
+                contract = 54
+            elseif tonumber(_sw1) == 6 then
+                contract = 55
+            elseif tonumber(_sw1) == 7 then
+                contract = 56
+            elseif tonumber(_sw1) == 8 then
+                contract = 57
+            elseif tonumber(_sw1) == 9 then
+                contract = 58
+            elseif tonumber(_sw1) == 10 then
+                contract = 59
+            else
+                contract = 50
+            end
         end
         self:command("whap " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'Don't be such an idiot again!'")

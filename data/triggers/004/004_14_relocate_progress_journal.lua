@@ -34,35 +34,38 @@ if string.find(arg, "relocate") or string.find(arg, "relocate_spell_quest") then
             local master2 = mobiles.template(492, 51).name
             -- switch on stage
             local next, place, master
-            if stage == 1 or stage == 2 then
-                next = "the Staff of the Mystics"
-                place = "a druid hiding out beyond Anlun Vale"
-                master = master1
-                if actor:get_quest_var("relocate_spell_quest:greet") == 0 then
-                elseif stage == 3 or stage == 4 then
-                    next = "the Crystal Telescope"
-                    place = "an observer of the cold village"
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 or tonumber(_sw1) == 2 then
+                    next = "the Staff of the Mystics"
+                    place = "a druid hiding out beyond Anlun Vale"
                     master = master1
-                else
-                    next = "a glass globe"
-                    place = "the Valley of the Frost Elves"
-                    master = master2
+                elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+                    if actor:get_quest_var("relocate_spell_quest:greet") == 0 then
+                        next = "the Crystal Telescope"
+                        place = "an observer of the cold village"
+                        master = master1
+                    else
+                        next = "a glass globe"
+                        place = "the Valley of the Frost Elves"
+                        master = master2
+                    end
+                elseif tonumber(_sw1) == 5 then
+                    next = "the Crystal Telescope"
+                    master = master1
+                elseif tonumber(_sw1) == 6 then
+                    next = "a silver-trimmed spellbook"
+                    place = "a tower within a destroyed land"
+                    master = master1
+                elseif tonumber(_sw1) == 7 then
+                    next = "a map"
+                    place = "from a mapper in South Caelia"
+                    master = master1
+                elseif tonumber(_sw1) == 8 or tonumber(_sw1) == 9 then
+                    next = "the Golden Quill"
+                    place = "the forest near Baba Yaga's hut"
+                    master = master1
                 end
-            elseif stage == 5 then
-                next = "the Crystal Telescope"
-                master = master1
-            elseif stage == 6 then
-                next = "a silver-trimmed spellbook"
-                place = "a tower within a destroyed land"
-                master = master1
-            elseif stage == 7 then
-                next = "a map"
-                place = "from a mapper in South Caelia"
-                master = master1
-            elseif stage == 8 or stage == 9 then
-                next = "the Golden Quill"
-                place = "the forest near Baba Yaga's hut"
-                master = master1
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

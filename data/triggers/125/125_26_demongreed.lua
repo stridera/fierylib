@@ -26,6 +26,6 @@ if actor:get_quest_stage("krisenna_quest") == 3 then
     self.room:spawn_object(125, 44)
     self:command("drop pouch")
     self:say("Now...")
-    wait(2)
+    wait(0.2)
     self:say("BEGONE!")
 end

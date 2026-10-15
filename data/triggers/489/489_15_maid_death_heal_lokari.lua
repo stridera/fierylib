@@ -22,7 +22,7 @@ if world.count_mobiles(489, 1) > 0 then
         self.room:find_actor("lokari"):heal(2000)
     end)
 end
-wait(1)
+wait(0.1)
 if world.count_mobiles(489, 23) == 0 then
     globals.stop_casting = 1
 end

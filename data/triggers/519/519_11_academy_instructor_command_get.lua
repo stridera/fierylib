@@ -18,7 +18,7 @@ if actor:get_quest_var("school:gear") == 7 then
     if names_stick then
         actor:set_quest_var("school", "gear", 8)
         actor:command("get " .. tostring(arg))
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, 'Well done!  It's as simple as that!'")
         wait(2)
         actor:send(tostring(self.name) .. " tells you, 'If you don't want to pick up the first one, you can target a different one by adding a number and a \".\" before the name.'")
@@ -29,7 +29,7 @@ elseif actor:get_quest_var("school:gear") == 8 then
     if names_stick and string.find(arg, "2.", 1, true) then
         actor:set_quest_var("school", "gear", 9)
         actor:command("get " .. tostring(arg))
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, 'Yes, like that.'")
         actor:send("</>")
         actor:send("You can also pick up all of one thing by typing <b:cyan>GET all.[object]</>.")
@@ -41,7 +41,7 @@ elseif actor:get_quest_var("school:gear") == 8 then
 elseif actor:get_quest_var("school:gear") == 9 and arg == "all" then
     actor:set_quest_var("school", "gear", 10)
     actor:command("get all")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Those are some sticky fingers!'")
     self:command("laugh")
     wait(2)
@@ -54,7 +54,7 @@ elseif actor:get_quest_var("school:gear") == 9 and arg == "all" then
 elseif actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick bag") then
     actor:set_quest_var("school", "gear", 16)
     actor:command("get stick bag")
-    wait(2)
+    wait(0.2)
     self:command("cheer")
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Congratulations, you mastered equipment management!")
     actor:send("Would you like to review?")

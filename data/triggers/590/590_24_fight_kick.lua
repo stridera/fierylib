@@ -9,7 +9,10 @@
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
 local rdm = random(1, 10)
 -- switch on rdm
-if rdm == 1 or rdm == 2 or rdm == 3 then
-    wait(3)
-    skills.execute(self, "kick", self.fighting)
+do
+    local _sw1 = string.lower(tostring(rdm or ""))
+    if tonumber(_sw1) == 1 or tonumber(_sw1) == 2 or tonumber(_sw1) == 3 then
+        wait(0.3)
+        skills.execute(self, "kick", self.fighting)
+    end
 end

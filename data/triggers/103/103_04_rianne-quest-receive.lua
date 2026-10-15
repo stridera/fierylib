@@ -39,7 +39,7 @@ if actor:get_quest_stage("group_heal") == 5 then
         end
         actor:set_quest_var("group_heal", tostring(self.zone_id) .. "_" .. tostring(self.local_id), 1)
         self:say("Well you've definitely come to the right place!")
-        wait(4)
+        wait(0.4)
         self:emote("reads over the ritual recipe.")
         wait(4)
         self.room:send(self.name .. " says, 'Oh my, what a challenge.  No wonder someone would need help with this.'")
@@ -127,9 +127,9 @@ if already and already ~= 0 and already ~= "" and already ~= "0" then
     return false
 end
 
-wait(1)
+wait(0.1)
 world.destroy(object)
-wait(4)
+wait(0.4)
 self.room:send(self.name .. " says, 'Just what we need for <b:white>" .. recipe .. "</>!'")
 actor:set_quest_var("resort_cooking", slot_key, 1)
 
@@ -160,7 +160,7 @@ if complete then
         self.room:send(self.name .. " says, 'You've been such a great help, " .. actor.name .. "!  Now I'm almost prepared for this huge dinner party, thanks!'")
         wait(3)
         self:say("I'd like you to have this.")
-        wait(5)
+        wait(0.5)
         self.room:send(self.name .. " says, 'It was enchanted by a good friend of mine, so I hope it will help you as much as you've helped me.'")
         self.room:spawn_object(103, 15)
         for _ = 1, 3 do
@@ -214,7 +214,7 @@ if complete then
         self:command("ponder")
         wait(1)
         self:say("The next dish is " .. tostring(next_recipe) .. ".")
-        wait(2)
+        wait(0.2)
         self:say("Here's the recipe.  Please take a look at it.")
         self:emote("points out a slip of paper hanging on the wall.")
     end

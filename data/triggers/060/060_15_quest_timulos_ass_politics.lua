@@ -13,14 +13,14 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "politics?") or string.find(string.lower(speech), "politics")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" and actor:get_quest_stage("merc_ass_thi_subclass") == 2 then
     actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Ah yes, the politics of it all.  Personally I am not one for them, but some people get all mixed up in those.'")
-    wait(2)
+    wait(0.2)
     self:command("consider " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " says, 'Well, you seem fit, I guess.'")
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " says, 'Go kill the Mayor of Mielikki.  He's probably holed up in his office in City Hall.'")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'You'll have to break in, sneak past the guards, and <red>kill</> him.  Get his <b:yellow>cane</> as proof and come back and give it to me.'")

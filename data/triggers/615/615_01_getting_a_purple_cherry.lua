@@ -15,7 +15,7 @@ local _return_value = true  -- Default: allow action
 _return_value = true
 if (actor.zone_id == 615 and (actor.local_id == 50 or actor.local_id == 0)) then
     self.room:send(tostring(actor.name) .. " tries to grab a purple cherry, but accidentally knocks it down!")
-    wait(1)
+    wait(0.1)
     self.room:send("A purple cherry falls to the ground.")
     self.room:spawn_object(615, 51)
     world.destroy(self)

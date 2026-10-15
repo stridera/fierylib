@@ -34,7 +34,7 @@ elseif actor and (actor.room == self.room) and (actor.is_player) then
             actor:send("<cyan>The cloud of droplets envelopes you, draining your energy!</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
             self.room:send_except(actor, "<cyan>" .. tostring(actor.name) .. " gasps for breath as the cloud of droplets envelopes " .. tostring(actor.object) .. "!</> (<blue>" .. tostring(damage_dealt) .. "</>)")
         end
-        wait(1)
+        wait(0.1)
     end
     self.room:send("<cyan>The cloud of droplets coalesces back into the form of " .. tostring(self.name) .. ".</>")
 end

@@ -10,19 +10,19 @@
 if actor.is_player then
     if (object.zone_id == 30 and object.id == 80) then
         if actor:get_quest_stage("zzurs_funky_quest") == 4 then
-            wait(1)
+            wait(0.1)
             self:command("gasp")
             self:destroy_item("necklace")
             self:say("My brother is alive! woo hoo!")
-            wait(2)
+            wait(0.2)
             self.room:spawn_object(160, 9)
             self:command("give shield " .. tostring(actor.name))
             self:say("take that as an expression of my grattitude!")
             actor:complete_quest("zzurs_funky_quest")
         else
-            wait(1)
+            wait(0.1)
             self:say("Yes! My brother is alive!")
-            wait(1)
+            wait(0.1)
             self:say("Thank you!")
             self:destroy_item("necklace")
         end

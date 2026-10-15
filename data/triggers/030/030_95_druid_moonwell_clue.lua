@@ -13,5 +13,5 @@ if not percent_chance(8) then
     return true
 end
 self:command("sigh")
-wait(15)
+wait(1.5)
 self:say("Such a shame she had to be punished.")

@@ -12,7 +12,7 @@
 -- 
 -- This is for warriors only
 if actor.class == "warrior" and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Vambraces ya ask? Well now I can make a fine set of vambraces for\"")
     actor:send(tostring(self.name) .. " tells you, \"the warrior types but I'll need 3 diamond shards, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Tarnished Vambraces. Return these things to me in\"")

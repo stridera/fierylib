@@ -15,7 +15,7 @@ local stage = actor:get_quest_stage("twisted_sorrow")
 if stage > 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(8)
+    wait(0.8)
     self:say("No further offerings are necessary.")
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
@@ -26,7 +26,7 @@ end
 if stage ~= 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(8)
+    wait(0.8)
     self:say("Why do you give me this?")
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
@@ -37,9 +37,9 @@ end
 if object.type ~= "DRINKCONTAINER" then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(4)
+    wait(0.4)
     self:say("This is not a liquid container.")
-    wait(4)
+    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
     return true
@@ -49,9 +49,9 @@ end
 if self.room == 12015 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(4)
+    wait(0.4)
     self:say("Let us move to one of the mighty Rhells first, friend.")
-    wait(4)
+    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
     return true
@@ -61,11 +61,11 @@ end
 if object.val1 == 0 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(4)
+    wait(0.4)
     self:emote("peers into " .. object.shortdesc .. ".")
-    wait(4)
+    wait(0.4)
     self:say("This won't do at all!  It's empty.")
-    wait(4)
+    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
     return true
@@ -75,9 +75,9 @@ end
 if actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) == 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
-    wait(4)
+    wait(0.4)
     self:say("This tree is already satisfied, my friend.")
-    wait(4)
+    wait(0.4)
     actor:send(self.name .. " returns " .. object.shortdesc .. " to you.")
     self.room:send_except(actor, self.name .. " returns " .. object.shortdesc .. " to " .. actor.name .. ".")
     return true
@@ -111,13 +111,13 @@ elseif self.room == 12046 and object.val2 == 10 then         -- Kindness: milk
 end
 
 self.room:send(self.name .. " carefully pours out " .. object.shortdesc .. " onto the Rhell's roots.")
-wait(1)
+wait(0.1)
 world.destroy(object)
-wait(8)
+wait(0.8)
 
 if not success then
     self:command("sigh")
-    wait(8)
+    wait(0.8)
     self:say("The tree is not responding.")
     wait(1)
     self:say("I fear it has little liking for that drink.")
@@ -145,12 +145,12 @@ elseif num_trees == 4 then
     self:say("There can be no peace until it, too, is satisfied.")
 elseif num_trees == 5 then
     self:say("Excellent, my friend!  The trees are satisfied.")
-    wait(8)
+    wait(0.8)
     self:say("Please take this gift on their behalf.")
-    wait(8)
+    wait(0.8)
     self.room:spawn_object(120, 18)
     self:command("give sleeves-sorrow " .. actor.name)
-    wait(4)
+    wait(0.4)
     self:emote("walks away quietly.")
     actor:complete_quest("twisted_sorrow")
 

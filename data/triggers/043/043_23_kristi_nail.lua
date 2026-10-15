@@ -15,5 +15,5 @@ end
 self:emote("dramatically throws one hand to her brow.")
 self.room:send(tostring(self.name) .. " says, 'Oh!  Oh!  The world is so miserable!  My hand is nailed to my")
 self.room:send("</>forehead!'")
-wait(5)
+wait(0.5)
 self:emote("sighs with the weight of a thousand elephants.")

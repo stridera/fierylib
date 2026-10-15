@@ -14,7 +14,7 @@ if mode > 8 then
     self.room:send("The hands of Nikita glow as she lays them on herself. (<b:yellow>" .. tostring(amount) .. "</>)")
     spells.cast(self, "full heal", self, 100)
     -- Mini-wait so the trigger only goes off once per round
-    wait(1)
+    wait(0.1)
 elseif mode > 7 then
     -- 10% chance for hitall
     wait(1)

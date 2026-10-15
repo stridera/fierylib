@@ -12,7 +12,7 @@
 --   1. (TODO) crafting-quest hint if the player is mid-staff-upgrade.
 --   2. Pyromancer subclass progress reminders by stage.
 --   3. First-contact recruitment patter for eligible Sorcerers.
-wait(2)
+wait(0.2)
 -- TODO: type_wand greet branch removed pending quest schema rework.
 local stage = actor:get_quest_stage("pyromancer_subclass")
 -- switch on stage

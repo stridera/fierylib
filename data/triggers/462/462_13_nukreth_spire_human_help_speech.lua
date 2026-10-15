@@ -12,12 +12,12 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "husband") or string.find(speech_lower, "help") or string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "who") or string.find(speech_lower, "where")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path1") == 0 then
         self.room:send(tostring(self.name) .. " says, 'They took us both captive.  But just a moment ago three")
         self.room:send("</>of their cultists took him as a sacrifice to their Demon Lord...'")
-        wait(2)
+        wait(0.2)
         self.room:send("Her voice trails off.")
         wait(2)
         self:command("shake")

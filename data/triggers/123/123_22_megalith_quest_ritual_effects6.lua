@@ -7,5 +7,5 @@
 
 -- Converted from DG Script #12322: megalith_quest_ritual_effects6
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-wait(2)
+wait(0.2)
 zone.echo(123, "The voices of the coven cry out, 'We invoke thee!'")

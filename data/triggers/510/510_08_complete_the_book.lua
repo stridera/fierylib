@@ -18,7 +18,7 @@ actor:send("You feel a strong attraction between the book and the magic - you ca
 self.room:send_except(actor, tostring(actor.name) .. " appears to be struggling to keep the book and the magic apart, but vainly.")
 wait(1)
 self.room:send("The magic melts into the book, and makes it whole!")
-wait(6)
+wait(0.6)
 self.room:send("The book glows more and more brightly!")
 actor:send("Ack - the book is heating up too! You don't think you can hold it much longer...")
 actor:command("remove book-of-healing")

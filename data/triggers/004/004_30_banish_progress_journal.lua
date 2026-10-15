@@ -30,33 +30,36 @@ if string.find(arg, "banish") then
             actor:send("</>")
             -- switch on stage
             local known
-            if stage == 1 then
-                local mob = 41119
-                local place = "her chamber under the ocean waves"
-                known = "Nothing."
-            elseif stage == 2 then
-                local mob = 53313
-                local place = "the frozen tunnels of the north"
-                known = "v"
-            elseif stage == 3 then
-                local mob = 37000
-                local place = "a deep and ancient mine"
-                known = "vi"
-            elseif stage == 4 then
-                local mob = 48005
-                local place = "a room filled with art in an ancient barrow"
-                known = "vib"
-            elseif stage == 5 then
-                local mob = 53417
-                local place = "the cold valley of the far north"
-                known = "vibu"
-            elseif stage == 6 then
-                local mob = 23811
-                local place = "a nearby fortress of clouds and crystals"
-                known = "vibug"
-            elseif stage == 7 then
-                actor:send("Return to " .. tostring(mobiles.template(302, 16).name) .. " and speak the prayer aloud: <b:magenta>vibugp</>")
-                return _return_value
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    local mob = 41119
+                    local place = "her chamber under the ocean waves"
+                    known = "Nothing."
+                elseif tonumber(_sw1) == 2 then
+                    local mob = 53313
+                    local place = "the frozen tunnels of the north"
+                    known = "v"
+                elseif tonumber(_sw1) == 3 then
+                    local mob = 37000
+                    local place = "a deep and ancient mine"
+                    known = "vi"
+                elseif tonumber(_sw1) == 4 then
+                    local mob = 48005
+                    local place = "a room filled with art in an ancient barrow"
+                    known = "vib"
+                elseif tonumber(_sw1) == 5 then
+                    local mob = 53417
+                    local place = "the cold valley of the far north"
+                    known = "vibu"
+                elseif tonumber(_sw1) == 6 then
+                    local mob = 23811
+                    local place = "a nearby fortress of clouds and crystals"
+                    known = "vibug"
+                elseif tonumber(_sw1) == 7 then
+                    actor:send("Return to " .. tostring(mobiles.template(302, 16).name) .. " and speak the prayer aloud: <b:magenta>vibugp</>")
+                    return _return_value
+                end
             end
             if actor:get_quest_var("banish:greet") == 1 then
                 actor:send("To learn Banish you must next kill " .. "%get.mob_shortdesc[%mob%]% in %place%.")

@@ -11,7 +11,7 @@
 -- check. Verify this triggers when the captive enters (462, 0). Also
 -- legacy used DG `%number%`/`%loop%` interpolations in quest var names —
 -- we resolve `globals.number` (set in 462_07) and iterate path1..path4.
-wait(2)
+wait(0.2)
 if destination == 46200 then
     local leader_name = globals.leader
     local leader = leader_name and find_player(leader_name) or nil
@@ -45,7 +45,7 @@ if destination == 46200 then
         self:say("Please, take this.  It's all I have.")
         self.room:spawn_object(462, 11)
         self:command("give kobold " .. tostring(leader_name))
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " scurries off into the pine barrens.")
     elseif self.local_id == 22 then
         self:emote("bellows a mighty roar!!")

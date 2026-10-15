@@ -16,7 +16,7 @@
 local stage = actor:get_quest_stage("waterform")
 if actor:get_quest_var("waterform:new") == "yes" then
     if object.zone_id == 28 and object.local_id == 7 then
-        wait(2)
+        wait(0.2)
         self:say("Yes, I can make a new dragon bone cup from this.")
         world.destroy(object)
         actor:set_quest_var("waterform", "new", 0)
@@ -29,14 +29,14 @@ if actor:get_quest_var("waterform:new") == "yes" then
         self:command("give dragon-bone-cup " .. tostring(actor.name))
         self:say("Don't lose this again!")
     else
-        wait(2)
+        wait(0.2)
         self:say("I can't make a new cup from this.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 1 then
     if object.zone_id == 510 and object.local_id == 9 then
         actor:advance_quest("waterform")
-        wait(2)
+        wait(0.2)
         self:destroy_item("shield")
         self:say("Yes, this will do nicely.")
         self.room:send(tostring(self.name) .. " absorbs " .. tostring(objects.template(510, 9).name) .. " into its massive form!")
@@ -72,7 +72,7 @@ elseif stage == 1 then
 elseif stage == 3 then
     if object.zone_id == 28 and object.local_id == 7 then
         actor:advance_quest("waterform")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " examines " .. tostring(object.shortdesc) .. ".")
         self:destroy_item("thigh-bone")
         self:say("This bone will make an excellent water vessel.")
@@ -156,7 +156,7 @@ elseif stage == 6 then
     end
 elseif stage == 7 then
     if object.zone_id == 28 and object.local_id == 8 then
-        wait(2)
+        wait(0.2)
         self:destroy_item("dragon-bone-cup")
         self.room:send(tostring(self.name) .. " says, 'Everything is ready!  I shall attempt the transformation")
         self.room:send("</>again.'")

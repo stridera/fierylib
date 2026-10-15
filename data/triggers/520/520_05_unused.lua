@@ -10,7 +10,7 @@
 -- TODO(parity): `actor` is not bound for PREENTRY in our runtime; this
 -- trigger needs a runtime PREENTRY actor binding before it can be enabled.
 
-wait(5)
+wait(0.5)
 if globals.smoke_demon ~= "pi" then
     if actor and actor.is_player then
         self.room:spawn_mobile(520, 19)

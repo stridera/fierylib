@@ -20,166 +20,168 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("flood")
 -- switch on self.id
-if stage == 2 then
-    if (object.zone_id == 390 and object.id == 0) then
-        if (self.zone_id == 390 and self.id == 12) then
-            self:destroy_item("heart-ocean")
-            wait(1)
-            self.room:send(tostring(self.name) .. " screams, 'LET THE SIEGE BEGIN!!'")
-            -- (empty room echo)
-            self.room:send("The ocean erupts in a violent frenzy.")
-            wait(3)
-            self.room:send("Massive waves begin to crest and smash against the settlement gate.")
-            self.room:send(tostring(self.name) .. " screams with reckless abandon like the most terrifying of barbarian berserkers.")
-            wait(6)
-            self.room:send("Spirits rise up through the churning ocean.")
-            self.room:send("Giant black waves and enormous icebergs assault the rocky shores!")
-            self.room:send(tostring(self.name) .. " wails, 'YOU SHALL DIE FOR STEALING FROM ME.'")
-            wait(7)
-            self.room:send("The nine Great Waters pull away from the settlement's borders as if granting a moment of reprieve.")
-            wait(4)
-            self.room:send("The ocean's level drops as the waters quickly rush away.")
-            wait(4)
-            self.room:send("On the horizon, a titanic wall of water rises up like a hellish behemoth.")
-            wait(2)
-            self.room:send("The gargantuan tsunami rushes toward the rocks and SMASHES through the settlement gate!")
-            wait(6)
-            self.room:send("Screaming voices are instantly snuffed out.")
-            self.room:send("Dozens of bodies smash into the rocks and shatter like glass as the tsunami obliterates the settlement.")
-            wait(8)
-            self.room:send("As quickly as it began, the flood waters recede leaving nothing but chilling silence and carnage in its wake.")
-            wait(6)
-            self.room:send("The Lady of the Sea vanishes beneath the waves.")
-            run_room_trigger(390, 13)
-            wait(4)
-            actor:send("A watery voice floats past your ear:")
-            actor:send("'Never forget what you have witnessed here today.'")
-            wait(1)
-            actor:send("It whispers the eldritch formula for summoning such a cataclysm again.")
-            actor:complete_quest("flood")
-            skills.set_level(actor, "flood", 1000)
-            actor:send("<b:blue>You have learned Flood.</>")
-            wait(2)
-            actor:send("'Thank you for the role you played.'")
-            world.destroy(self)
-        else
-            _return_value = true
-            self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            self:say("This is not my heart!")
-            wait(1)
-            self.room:send(tostring(self.name) .. " bellows, 'GIVE IT BACK OR I WILL DESTROY YOU.'")
-        end
-    end
-elseif (self.zone_id == 390 and self.id == 14) then
-    local color = "&6"
-    if stage == 1 then
-        if (object.zone_id == 584 and object.id == 1) then
-            self:destroy_item("feather")
-            wait(1)
-            self.room:send(tostring(self.name) .. " submerges the feather in the steaming water.")
-            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I can entrust the safety of the springs to this</>")
-            self.room:send("</>" .. tostring(color) .. "feather's magical energy for a short while.  I will join the ocean's crusade.'</>")
-            actor:set_quest_var("flood", "water2", 1)
-            wait(2)
-            self.room:send(tostring(color) .. "With a mighty cry " .. tostring(self.name) .. " dives back into the water.</>")
-        else
-            _return_value = true
-            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This will not keep my spring sufficiently warm.'</>")
-        end
-    else
-        _return_value = true
-        self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
-    end
-elseif (self.zone_id == 390 and self.id == 16) then
-    local color = "&2"
-    if stage == 1 then
-        if object.type == "FOOD" then
-            if actor:get_quest_var("flood:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
-                wait(2)
-                self.room:send(tostring(self.name) .. " wails in anger as she thrashes about!")
-                self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the sea!")
-                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have already eaten that!  I refuse to eat it again!'</>")
-            else
-                actor:set_quest_var("flood", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
-                local full = actor:get_quest_var("flood:hunger")
-                local hunger = (full + object.val0)
-                actor:set_quest_var("flood", "hunger", hunger)
-                self:destroy_item("food")
-                self.room:send(tostring(self.name) .. " greedily devours " .. tostring(object.shortdesc) .. ".")
-                if hunger >= 200 then
-                    wait(2)
-                    self.room:send(tostring(self.name) .. " licks her massive chops.</>")
-                    wait(1)
-                    self:command("burp")
-                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'The dead within me are sated.'")
-                    wait(1)
-                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'For now.'")
-                    wait(1)
-                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'We will join with the ocean in her revenge.'")
-                    wait(1)
-                    self.room:send(tostring(color) .. tostring(self.name) .. " sinks beneath the waves.</>")
-                    actor:set_quest_var("flood", "water4", 1)
-                else
-                    wait(2)
-                    self.room:send(tostring(self.name) .. " licks her massive chops.")
-                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'Bring me more!'</>")
-                    return _return_value
-                end
-            end
-        else
-            _return_value = true
-            self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This is not food!!'</>")
-        end
-    else
-        _return_value = true
-        self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
-    end
-elseif (self.zone_id == 390 and self.id == 19) then
-    local color = "&9&b"
-    if stage == 1 then
-        if object.type == "LIGHT" then
-            if object.val1 == -1 then
-                actor:set_quest_var("flood", "water7", 1)
-                wait(2)
-                self.room:send(tostring(self.name) .. " grins with a sick malevolence.")
-                wait(2)
-                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I'll take great joy in this!'</>")
-                wait(2)
-                self.room:send(tostring(self.name) .. " plunges the light into the depths of the Black Lake.")
-                world.destroy(object)
+do
+    if (self.zone_id == 390 and self.id == 12) then
+        if stage == 2 then
+            if (object.zone_id == 390 and object.id == 0) then
+                self:destroy_item("heart-ocean")
+                wait(1)
+                self.room:send(tostring(self.name) .. " screams, 'LET THE SIEGE BEGIN!!'")
+                -- (empty room echo)
+                self.room:send("The ocean erupts in a violent frenzy.")
                 wait(3)
-                self.room:send("The light twinkles for a few moments as it sinks into the darkness before fading forever.")
+                self.room:send("Massive waves begin to crest and smash against the settlement gate.")
+                self.room:send(tostring(self.name) .. " screams with reckless abandon like the most terrifying of barbarian berserkers.")
+                wait(6)
+                self.room:send("Spirits rise up through the churning ocean.")
+                self.room:send("Giant black waves and enormous icebergs assault the rocky shores!")
+                self.room:send(tostring(self.name) .. " wails, 'YOU SHALL DIE FOR STEALING FROM ME.'")
+                wait(7)
+                self.room:send("The nine Great Waters pull away from the settlement's borders as if granting a moment of reprieve.")
                 wait(4)
-                self:command("laugh")
-                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'Intoxicating.'</>")
+                self.room:send("The ocean's level drops as the waters quickly rush away.")
+                wait(4)
+                self.room:send("On the horizon, a titanic wall of water rises up like a hellish behemoth.")
                 wait(2)
-                self.room:send(tostring(self.name) .. " says," .. tostring(color) .. " 'I will join the Arabel Ocean with pleasure.'</>")
-                self:command("bow")
+                self.room:send("The gargantuan tsunami rushes toward the rocks and SMASHES through the settlement gate!")
+                wait(6)
+                self.room:send("Screaming voices are instantly snuffed out.")
+                self.room:send("Dozens of bodies smash into the rocks and shatter like glass as the tsunami obliterates the settlement.")
+                wait(8)
+                self.room:send("As quickly as it began, the flood waters recede leaving nothing but chilling silence and carnage in its wake.")
+                wait(6)
+                self.room:send("The Lady of the Sea vanishes beneath the waves.")
+                run_room_trigger(390, 13)
+                wait(4)
+                actor:send("A watery voice floats past your ear:")
+                actor:send("'Never forget what you have witnessed here today.'")
+                wait(1)
+                actor:send("It whispers the eldritch formula for summoning such a cataclysm again.")
+                actor:complete_quest("flood")
+                skills.set_level(actor, "flood", 1000)
+                actor:send("<b:blue>You have learned Flood.</>")
                 wait(2)
-                self.room:send(tostring(color) .. tostring(self.name) .. " splashes back into the inky blackness of the lake.</>")
+                actor:send("'Thank you for the role you played.'")
+                world.destroy(self)
             else
                 _return_value = true
-                self.room:send(tostring(self.name) .. " scoffs.")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This wouldn't glow forever even before I consume it.'</>")
+                self:say("This is not my heart!")
+                wait(1)
+                self.room:send(tostring(self.name) .. " bellows, 'GIVE IT BACK OR I WILL DESTROY YOU.'")
+            end
+        end
+    elseif (self.zone_id == 390 and self.id == 14) then
+        local color = "&6"
+        if stage == 1 then
+            if (object.zone_id == 584 and object.id == 1) then
+                self:destroy_item("feather")
+                wait(1)
+                self.room:send(tostring(self.name) .. " submerges the feather in the steaming water.")
+                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I can entrust the safety of the springs to this</>")
+                self.room:send("</>" .. tostring(color) .. "feather's magical energy for a short while.  I will join the ocean's crusade.'</>")
+                actor:set_quest_var("flood", "water2", 1)
+                wait(2)
+                self.room:send(tostring(color) .. "With a mighty cry " .. tostring(self.name) .. " dives back into the water.</>")
+            else
+                _return_value = true
+                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This will not keep my spring sufficiently warm.'</>")
             end
         else
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This isn't even a light!'</>")
+            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
+        end
+    elseif (self.zone_id == 390 and self.id == 16) then
+        local color = "&2"
+        if stage == 1 then
+            if object.type == "FOOD" then
+                if actor:get_quest_var("flood:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
+                    wait(0.2)
+                    self.room:send(tostring(self.name) .. " wails in anger as she thrashes about!")
+                    self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the sea!")
+                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have already eaten that!  I refuse to eat it again!'</>")
+                else
+                    actor:set_quest_var("flood", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
+                    local full = actor:get_quest_var("flood:hunger")
+                    local hunger = (full + object.val0)
+                    actor:set_quest_var("flood", "hunger", hunger)
+                    self:destroy_item("food")
+                    self.room:send(tostring(self.name) .. " greedily devours " .. tostring(object.shortdesc) .. ".")
+                    if hunger >= 200 then
+                        wait(0.2)
+                        self.room:send(tostring(self.name) .. " licks her massive chops.</>")
+                        wait(1)
+                        self:command("burp")
+                        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'The dead within me are sated.'")
+                        wait(1)
+                        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'For now.'")
+                        wait(1)
+                        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'We will join with the ocean in her revenge.'")
+                        wait(1)
+                        self.room:send(tostring(color) .. tostring(self.name) .. " sinks beneath the waves.</>")
+                        actor:set_quest_var("flood", "water4", 1)
+                    else
+                        wait(0.2)
+                        self.room:send(tostring(self.name) .. " licks her massive chops.")
+                        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'Bring me more!'</>")
+                        return _return_value
+                    end
+                end
+            else
+                _return_value = true
+                self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This is not food!!'</>")
+            end
+        else
+            _return_value = true
+            self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
+        end
+    elseif (self.zone_id == 390 and self.id == 19) then
+        local color = "&9&b"
+        if stage == 1 then
+            if object.type == "LIGHT" then
+                if object.val1 == -1 then
+                    actor:set_quest_var("flood", "water7", 1)
+                    wait(0.2)
+                    self.room:send(tostring(self.name) .. " grins with a sick malevolence.")
+                    wait(2)
+                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I'll take great joy in this!'</>")
+                    wait(2)
+                    self.room:send(tostring(self.name) .. " plunges the light into the depths of the Black Lake.")
+                    world.destroy(object)
+                    wait(3)
+                    self.room:send("The light twinkles for a few moments as it sinks into the darkness before fading forever.")
+                    wait(4)
+                    self:command("laugh")
+                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'Intoxicating.'</>")
+                    wait(2)
+                    self.room:send(tostring(self.name) .. " says," .. tostring(color) .. " 'I will join the Arabel Ocean with pleasure.'</>")
+                    self:command("bow")
+                    wait(2)
+                    self.room:send(tostring(color) .. tostring(self.name) .. " splashes back into the inky blackness of the lake.</>")
+                else
+                    _return_value = true
+                    self.room:send(tostring(self.name) .. " scoffs.")
+                    self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+                    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This wouldn't glow forever even before I consume it.'</>")
+                end
+            else
+                _return_value = true
+                self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+                self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This isn't even a light!'</>")
+            end
+        else
+            _return_value = true
+            self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+            self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'You have nothing to offer me.'</>")
         end
     else
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'You have nothing to offer me.'</>")
+        self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have no need for this.'</>")
     end
-else
-    _return_value = true
-    self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have no need for this.'</>")
 end
 if stage == 1 then
     local water1 = actor:get_quest_var("flood:water1")

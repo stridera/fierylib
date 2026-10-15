@@ -8,9 +8,9 @@
 -- Converted from DG Script #12006: Haggard brownie greets
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.is_player and self.room == 12103 then
-    wait(3)
+    wait(0.3)
     self:emote("looks at you with desperation.")
-    wait(8)
+    wait(0.8)
     -- Mob 120-20 = dark pixie tormentor. Present in this room?
     local tormentor = self.room:find_actor("dark-pixie-tormentor")
     if tormentor then

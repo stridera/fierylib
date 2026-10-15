@@ -8,7 +8,7 @@
 -- Diabolist's greeting on the receive island. Welcomes Diabolist class
 -- on stage 0; aggros Paladins / Priests; otherwise gives a per-stage
 -- nudge of what's currently expected.
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("hell_gate")
 if string.find(actor.class, "diabolist") and stage == 0 then
     self:command("bow " .. tostring(actor))

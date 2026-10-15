@@ -12,7 +12,7 @@
 -- 
 -- This is for rogues only
 if (actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary") and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Sleeves ya ask? Well now I can make a fine set of sleeves for\"")
     actor:send(tostring(self.name) .. " tells you, \"the rogue types but I'll need 3 pearl shards, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Crushed Sleeves. Return these things to me in\"")

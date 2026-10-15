@@ -11,7 +11,7 @@ if not string.find(string.lower(speech), "how") then
     return true
 end
 if string.find(speech, "how are you?") or string.find(speech, "How's your day going?") then
-    wait(2)
+    wait(0.2)
     self:say("Wonderful, thank you for asking!")
     self.room:spawn_object(238, 87)
     self:command("give cookie " .. tostring(actor.name))

@@ -20,7 +20,7 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 _return_value = true
 allow_command()  -- the drink goes ahead; the choking below follows the wait
-wait(1)
+wait(0.1)
 if actor.level < 99 then
     actor:damage(50)  -- type: physical
     self.room:send_except(actor, tostring(actor.name) .. " is caught in a fit of choking. (<red>" .. tostring(damage_dealt) .. "</>)")

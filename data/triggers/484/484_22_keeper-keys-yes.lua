@@ -36,7 +36,7 @@ while i >= a do
     a = a + 1
 end
 if begin then
-    wait(2)
+    wait(0.2)
     self:command("bow " .. tostring(actor.name))
     self.room:send(tostring(self.name) .. " says, 'Then go ask the Oracle of the Hunt if you can prove your worth.'")
     wait(1)

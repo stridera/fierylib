@@ -9,13 +9,15 @@
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
 local chant = random(1, 4)
 -- switch on chant
-if chant == 1 then
-    self:chant("war cry")
-elseif chant == 2 then
-    self:chant("battle hymn")
-elseif chant == 3 then
-    self:chant("peace")
-elseif chant == 4 then
-else
-    self:chant("regeneration")
+do
+    local _sw1 = string.lower(tostring(chant or ""))
+    if tonumber(_sw1) == 1 then
+        self:chant("war cry")
+    elseif tonumber(_sw1) == 2 then
+        self:chant("battle hymn")
+    elseif tonumber(_sw1) == 3 then
+        self:chant("peace")
+    else
+        self:chant("regeneration")
+    end
 end

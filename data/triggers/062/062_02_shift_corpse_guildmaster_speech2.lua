@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "taken")
     return true
 end
 if actor:get_quest_stage("shift_corpse") == 1 then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'Not just any god will do, either.  It cannot be one who is")
     self.room:send("</>imprisoned in mortal flesh, like Kannon in Odaishyozen, no.'")
     self:command("shake")
@@ -27,7 +27,7 @@ if actor:get_quest_stage("shift_corpse") == 1 then
     self.room:send("</>mortal men.'")
     wait(3)
     self:emote("opens a pitch black box.")
-    wait(4)
+    wait(0.4)
     self:emote("takes a glowing black crystal from the box.")
     wait(1)
     self:say("Take this.")

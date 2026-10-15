@@ -16,7 +16,7 @@ if not string.find(actor.class, "cryomancer") then
     return true
 end
 
-wait(2)
+wait(0.2)
 self.room:send(self.name .. " says, 'The spell was called Ice Shards.  Supreme cryomancers")
 self.room:send("</>could conjure a multitude of glistening ice fragments to annihilate their")
 self.room:send("</>foes.'")

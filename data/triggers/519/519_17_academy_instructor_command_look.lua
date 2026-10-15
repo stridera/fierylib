@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor:get_quest_var("school:explore") == 1 and (arg == nil or arg == "") then
     actor:set_quest_var("school", "explore", 2)
     -- actor looks around
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'As you look around the room, you'll get four big pieces of information:'")
     actor:send("</>")
     actor:send("</><b:magenta>1. The description of the room.</>")
@@ -40,7 +40,7 @@ if actor:get_quest_var("school:explore") == 1 and (arg == nil or arg == "") then
 elseif actor:get_quest_var("school:explore") == 2 and arg == "curtain" then
     actor:set_quest_var("school", "explore", 3)
     actor:command("look curtain")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'And THAT is a hidden door!'")
     actor:send("</>")
     actor:send(tostring(self.name) .. " tells you, 'Throughout the world there are hundreds of hidden doors.")

@@ -25,7 +25,7 @@ end
 if quester:get_quest_stage("ursa_quest") == 6 then
     -- now find the right script to run, based on that players questvar: choice
     if quester:get_quest_var("ursa_quest:choice") == 1 then
-        wait(5)
+        wait(0.5)
         self.room:send("The mild mannered merchant says, 'Fantastic.  Now let's see what miracle the Emperor has found.'")
         self.room:find_actor("mild"):emote("digs a slight divot into the ground with the end of the thorny staff.")
         self.room:find_actor("mild"):emote("places the pepper and plant into the divot.")

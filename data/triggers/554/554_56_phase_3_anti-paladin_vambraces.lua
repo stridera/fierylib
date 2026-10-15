@@ -12,7 +12,7 @@
 -- 
 -- This is for anti-paladins only
 if string.find(actor.class, "anti") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Vambraces ya ask? Well now I can make a fine set of vambraces for\"")
     actor:send(tostring(self.name) .. " tells you, \"the anti-paladin types but I'll need 3 perfect aquamarines, and a set of\"")
     actor:send(tostring(self.name) .. " tells you, \"Tarnished Vambraces. Return these things to me in\"")

@@ -21,29 +21,32 @@ if string.find(arg, "contract") or string.find(arg, "killers") or string.find(ar
     local victim1
     local victim2
     local victim3
-    if stage == 1 then
-        victim1 = "the King of the Meer Cats"
-    elseif stage == 2 then
-        victim1 = "the Noble"
-        victim2 = "the Abbot"
-    elseif stage == 3 then
-        victim1 = "the O'Connor Chieftain"
-        victim2 = "the McLeod Chieftain"
-        victim3 = "the Cameron Chieftain"
-    elseif stage == 4 then
-        victim1 = "the Frakati Leader"
-    elseif stage == 5 then
-        victim1 = "Cyrus"
-    elseif stage == 6 then
-        victim1 = "Lord Venth"
-    elseif stage == 7 then
-        victim1 = "the high druid of Anlun Vale"
-    elseif stage == 8 then
-        victim1 = "the Lizard King"
-    elseif stage == 9 then
-        victim1 = "Sorcha"
-    elseif stage == 10 then
-        victim1 = "the Goblin King"
+    do
+        local _sw1 = string.lower(tostring(stage or ""))
+        if tonumber(_sw1) == 1 then
+            victim1 = "the King of the Meer Cats"
+        elseif tonumber(_sw1) == 2 then
+            victim1 = "the Noble"
+            victim2 = "the Abbot"
+        elseif tonumber(_sw1) == 3 then
+            victim1 = "the O'Connor Chieftain"
+            victim2 = "the McLeod Chieftain"
+            victim3 = "the Cameron Chieftain"
+        elseif tonumber(_sw1) == 4 then
+            victim1 = "the Frakati Leader"
+        elseif tonumber(_sw1) == 5 then
+            victim1 = "Cyrus"
+        elseif tonumber(_sw1) == 6 then
+            victim1 = "Lord Venth"
+        elseif tonumber(_sw1) == 7 then
+            victim1 = "the high druid of Anlun Vale"
+        elseif tonumber(_sw1) == 8 then
+            victim1 = "the Lizard King"
+        elseif tonumber(_sw1) == 9 then
+            victim1 = "Sorcha"
+        elseif tonumber(_sw1) == 10 then
+            victim1 = "the Goblin King"
+        end
     end
     local level
     if stage == 1 or (stage or 0) == 0 then

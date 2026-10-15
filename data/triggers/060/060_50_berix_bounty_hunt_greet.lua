@@ -6,7 +6,7 @@
 
 -- Converted from DG Script #6050: Berix bounty hunt greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 if not actor:get_has_completed("bounty_hunt") then
     if actor:get_quest_stage("bounty_hunt") == 0 then
         if actor.alignment <= -350 or string.find(actor.class, "assassin") or string.find(actor.class, "mercenary") then

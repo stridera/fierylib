@@ -14,5 +14,5 @@ if not percent_chance(28) then
 end
 self:command("panic")
 self:emote("screams for his guardians to come to his aid.")
-wait(2)
+wait(0.2)
 self.room:spawn_mobile(200, 34)

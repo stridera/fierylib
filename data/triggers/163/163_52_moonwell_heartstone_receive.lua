@@ -7,18 +7,18 @@
 -- Dryad receives the Heartstone (480/24). Advances stage 3 -> 4 and tells
 -- the flask backstory.
 if actor:get_quest_stage("moonwell_spell_quest") == 3 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("moonwell_spell_quest")
     actor:send(tostring(self.name) .. " tells you, 'Very good! This will work perfectly as an anchor stone.'")
     self.room:send(tostring(self.name) .. " places " .. tostring(object.shortdesc) .. " in the center of the well's outline.")
     self:destroy_item("jewel")
-    wait(15)
+    wait(1.5)
     actor:send(tostring(self.name) .. " tells you, 'Back when I was still mortal, I frequently traveled with")
     actor:send("</>Eleweiss, a ranger of great skill and magical acumen.  We once ventured north")
     actor:send("</>into the frozen mountains, and came across a cult that worshipped a")
     actor:send("</>particularly nasty white dragon.  Due to some unfortunate circumstances, we")
     actor:send("</>ended up having to battle the dragon and were forced to retreat.'")
-    wait(20)
+    wait(2)
     actor:send(tostring(self.name) .. " tells you, 'In our retreat, Eleweiss lost a flask which contained")
     actor:send("</>water blessed by the Goddess Herself.  That water would be ideal for our magic")
     actor:send("</>well.'")

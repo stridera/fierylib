@@ -12,5 +12,5 @@
 if not (cmd == "l" or cmd == "lo" or cmd == "loo" or cmd == "look") then
     return true  -- Not our command
 end
-wait(1)
+wait(0.1)
 self.room:send("You can't see anything, the world blurrs around you!")

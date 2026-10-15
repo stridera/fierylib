@@ -27,7 +27,7 @@ local job1 = actor:get_quest_var("paladin_pendant:necklacetask1")
 local job2 = actor:get_quest_var("paladin_pendant:necklacetask2")
 local job3 = actor:get_quest_var("paladin_pendant:necklacetask3")
 local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
-wait(2)
+wait(0.2)
 if actor.class ~= "paladin" and actor.class ~= "anti-paladin" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'Such acts are only for warriors of Justice or Destruction.'")
@@ -54,51 +54,54 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on pendantstage
 local place, hint
-if pendantstage == 1 then
-    local necklace = 12003
-    local gem = 55582
-    place = "The Mist Temple Altar"
-    hint = "in the Misty Caverns."
-elseif pendantstage == 2 then
-    local necklace = 23708
-    local gem = 55590
-    place = "Chamber of Chaos"
-    hint = "in the Temple of Chaos."
-elseif pendantstage == 3 then
-    local necklace = 58005
-    local gem = 55622
-    place = "Altar of Borgan"
-    hint = "in the lost city of Nymrill."
-elseif pendantstage == 4 then
-    local necklace = 48123
-    local gem = 55654
-    place = "A Hidden Altar Room"
-    hint = "in a cave in South Caelia's Wailing Mountains."
-elseif pendantstage == 5 then
-    local necklace = 12336
-    local gem = 55662
-    place = "The Altar of the Snow Leopard Order"
-    hint = "buried deep in Mt. Frostbite"
-elseif pendantstage == 6 then
-    local necklace = 43019
-    local gem = 55677
-    place = "Chapel Altar"
-    hint = "deep underground in a lost castle."
-elseif pendantstage == 7 then
-    local necklace = 37015
-    local gem = 55709
-    place = "A Cliffside Altar"
-    hint = "tucked away in the land of Dreams."
-elseif pendantstage == 8 then
-    local necklace = 58429
-    local gem = 55738
-    place = "Dark Altar"
-    hint = "entombed with an ancient evil king."
-elseif pendantstage == 9 then
-    local necklace = 52010
-    local gem = 55739
-    place = "An Altar"
-    hint = "far away in the Plane of Air."
+do
+    local _sw1 = string.lower(tostring(pendantstage or ""))
+    if tonumber(_sw1) == 1 then
+        local necklace = 12003
+        local gem = 55582
+        place = "The Mist Temple Altar"
+        hint = "in the Misty Caverns."
+    elseif tonumber(_sw1) == 2 then
+        local necklace = 23708
+        local gem = 55590
+        place = "Chamber of Chaos"
+        hint = "in the Temple of Chaos."
+    elseif tonumber(_sw1) == 3 then
+        local necklace = 58005
+        local gem = 55622
+        place = "Altar of Borgan"
+        hint = "in the lost city of Nymrill."
+    elseif tonumber(_sw1) == 4 then
+        local necklace = 48123
+        local gem = 55654
+        place = "A Hidden Altar Room"
+        hint = "in a cave in South Caelia's Wailing Mountains."
+    elseif tonumber(_sw1) == 5 then
+        local necklace = 12336
+        local gem = 55662
+        place = "The Altar of the Snow Leopard Order"
+        hint = "buried deep in Mt. Frostbite"
+    elseif tonumber(_sw1) == 6 then
+        local necklace = 43019
+        local gem = 55677
+        place = "Chapel Altar"
+        hint = "deep underground in a lost castle."
+    elseif tonumber(_sw1) == 7 then
+        local necklace = 37015
+        local gem = 55709
+        place = "A Cliffside Altar"
+        hint = "tucked away in the land of Dreams."
+    elseif tonumber(_sw1) == 8 then
+        local necklace = 58429
+        local gem = 55738
+        place = "Dark Altar"
+        hint = "entombed with an ancient evil king."
+    elseif tonumber(_sw1) == 9 then
+        local necklace = 52010
+        local gem = 55739
+        place = "An Altar"
+        hint = "far away in the Plane of Air."
+    end
 end
 local attacks = pendantstage * 100
 self:command("nod")

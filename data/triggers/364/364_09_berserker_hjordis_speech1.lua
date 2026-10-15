@@ -16,7 +16,7 @@ end
 if string.find(actor.class, "warrior") then
     -- TODO(parity): legacy DG left placeholder for race restrictions:
     --   "Your race may not subclass to berserker." Restricted race list TBD.
-    wait(2)
+    wait(0.2)
     if actor.level >= 10 and actor.level <= 25 then
         actor:send(tostring(self.name) .. " says, 'Aye, you have the mettle of the most fearsome of all warriors, a &9<blue>ber<red>ser&9ker</>!'")
         wait(2)

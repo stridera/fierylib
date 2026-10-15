@@ -8,7 +8,7 @@
 -- Converted from DG Script #48103: hold_bloody_paper
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor.is_player then
-    wait(4)
+    wait(0.4)
     actor:send("You feel a burning pain in your hand as the magic tries to activate.")
     actor:damage(50)  -- type: physical
     actor:send("You gasp in pain and drop the paper.")

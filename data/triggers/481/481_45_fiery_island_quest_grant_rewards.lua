@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48145: Fiery_Island_Quest_Grant_rewards
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-wait(1)
+wait(0.1)
 for _, person in ipairs(self:get_people()) do
     if person:get_quest_var("fieryisle_quest:reward") == "yes" and not person:get_has_completed("fieryisle_quest") then
         person:send("You notice special glittering gems amongst the chamber's crystals!")

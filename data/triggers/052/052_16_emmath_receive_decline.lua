@@ -34,6 +34,6 @@ else
 end
 
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
 return true

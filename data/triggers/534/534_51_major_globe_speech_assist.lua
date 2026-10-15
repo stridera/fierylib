@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "assist") or string.find(string.lower(
 end
 if (actor.is_player) and (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class== "pyromancer") and (actor.level >= 57) and not (actor:get_has_completed("major_globe_spell")) and (actor:get_quest_stage("major_globe_spell") == 0) then
     actor:start_quest("major_globe_spell")
-    wait(2)
+    wait(0.2)
     self:emote("nods slowly.")
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Yes...  I was recently defeated by a rogue demon roving this valley.  He injured me terribly, but...'")
@@ -23,7 +23,7 @@ if (actor.is_player) and (actor.class == "sorcerer" or actor.class == "cryomance
     wait(2)
     self:emote("recomposes himself.")
     actor:send(tostring(self.name) .. " says, 'I can't let down Ysgarran, though.  I must defeat the demon.'")
-    wait(3)
+    wait(0.3)
     actor:send(tostring(self.name) .. " says, 'But not in this state.'")
     self:command("sigh")
     wait(3)

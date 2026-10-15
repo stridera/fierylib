@@ -51,51 +51,54 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
             local gem
             local place
             local hint
-            if maskstage == 1 then
-                mask = 4500
-                gem = 55592
-                place = "The Shadowy Lair"
-                hint = "in the Misty Caverns."
-            elseif maskstage == 2 then
-                mask = 17809
-                gem = 55594
-                place = "The Dark Chamber"
-                hint = "behind a desert door."
-            elseif maskstage == 3 then
-                mask = 59023
-                gem = 55620
-                place = "A Dark Tunnel"
-                hint = "on the way to a dark, hidden city."
-            elseif maskstage == 4 then
-                mask = 10304
-                gem = 55638
-                place = "Dark Chamber"
-                hint = "hidden below a ghostly fortress."
-            elseif maskstage == 5 then
-                mask = 16200
-                gem = 55666
-                place = "Darkness......"
-                hint = "inside an enchanted closet."
-            elseif maskstage == 6 then
-                mask = 43017
-                gem = 55675
-                place = "Surrounded by Darkness"
-                hint = "in a volcanic shaft."
-            elseif maskstage == 7 then
-                mask = 51075
-                gem = 55693
-                place = "Dark Indecision"
-                hint = "before an altar in a fallen maze."
-            elseif maskstage == 8 then
-                mask = 49062
-                gem = 55719
-                place = "Heart of Darkness"
-                hint = "buried deep in an ancient tomb."
-            elseif maskstage == 9 then
-                mask = 48427
-                gem = 55743
-                place = "A Dark Room"
-                hint = "under the ruins of a shop in an ancient city."
+            do
+                local _sw1 = string.lower(tostring(maskstage or ""))
+                if tonumber(_sw1) == 1 then
+                    mask = 4500
+                    gem = 55592
+                    place = "The Shadowy Lair"
+                    hint = "in the Misty Caverns."
+                elseif tonumber(_sw1) == 2 then
+                    mask = 17809
+                    gem = 55594
+                    place = "The Dark Chamber"
+                    hint = "behind a desert door."
+                elseif tonumber(_sw1) == 3 then
+                    mask = 59023
+                    gem = 55620
+                    place = "A Dark Tunnel"
+                    hint = "on the way to a dark, hidden city."
+                elseif tonumber(_sw1) == 4 then
+                    mask = 10304
+                    gem = 55638
+                    place = "Dark Chamber"
+                    hint = "hidden below a ghostly fortress."
+                elseif tonumber(_sw1) == 5 then
+                    mask = 16200
+                    gem = 55666
+                    place = "Darkness......"
+                    hint = "inside an enchanted closet."
+                elseif tonumber(_sw1) == 6 then
+                    mask = 43017
+                    gem = 55675
+                    place = "Surrounded by Darkness"
+                    hint = "in a volcanic shaft."
+                elseif tonumber(_sw1) == 7 then
+                    mask = 51075
+                    gem = 55693
+                    place = "Dark Indecision"
+                    hint = "before an altar in a fallen maze."
+                elseif tonumber(_sw1) == 8 then
+                    mask = 49062
+                    gem = 55719
+                    place = "Heart of Darkness"
+                    hint = "buried deep in an ancient tomb."
+                elseif tonumber(_sw1) == 9 then
+                    mask = 48427
+                    gem = 55743
+                    place = "A Dark Room"
+                    hint = "under the ruins of a shop in an ancient city."
+                end
             end
             local attack = maskstage * 100
             actor:send("Quest Master: " .. tostring(master))

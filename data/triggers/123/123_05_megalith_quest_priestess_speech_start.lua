@@ -25,7 +25,7 @@ end
 -- 
 if actor:get_quest_stage("megalith_quest") < 1 then
     actor:start_quest("megalith_quest")
-    wait(2)
+    wait(0.2)
     self:say("May the Goddess smile upon you!")
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'First, I'll need your help replacing the <b:cyan>implements</> destroyed in the maze getting here.'")
@@ -44,7 +44,7 @@ end
 -- List tools for stage 1
 -- 
 if actor:get_quest_stage("megalith_quest") == 1 then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'We need the following:")
     self.room:send("- <b:white>Salt</>.")
     -- (empty room echo)
@@ -73,7 +73,7 @@ if actor:get_quest_stage("megalith_quest") == 1 then
     -- If ready to continue stage 4
     -- 
 elseif actor:get_quest_stage("megalith_quest") > 0 and self.room.zone_id == 123 and self.room.local_id == 89 and actor:get_quest_var("megalith_quest:reliquary") == 1 then
-    wait(2)
+    wait(0.2)
     self:say("The Great Rite of Invocation has a great deal of call and response.  I will chant a line and you must repeat it to continue the ritual.  The coven will chant their response after you do.")
     wait(4)
     self:say("Repeat after me.")

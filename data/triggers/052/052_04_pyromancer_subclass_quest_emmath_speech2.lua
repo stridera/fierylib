@@ -15,7 +15,7 @@ for _, w in ipairs({"yes", "no"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
         break
-    end
+end
 end
 if not speech_hit then
     return true  -- None of the listed words
@@ -25,23 +25,26 @@ local speech_lower = string.lower(speech)
 if actor:get_quest_stage("pyromancer_subclass") == 0 and string.find(actor.class, "sorcerer") then
     if string.find(speech_lower, "yes") then
         if actor.level >= 10 and actor.level <= 45 then
-            if actor.race == "dragonborn_frost" or actor.race == "arborean" then
-                actor:send("<red>Your race may not subclass to Pyromancer.</>")
-                return true
-            else
-                wait(2)
-                actor:start_quest("pyromancer_subclass", "Pyr")
-                self:command("nod")
-                actor:send(tostring(self.name) .. " says, 'Only the best and most motivated of mages will complete the <b:red>quest</> I lay before you.'")
-                self:command("smile")
-                wait(2)
-                actor:send(tostring(self.name) .. " says, 'However, I am sure it is in you, if it is truly your desire, to complete this quest and become a pyromancer.'")
-                wait(4)
-                actor:send(tostring(self.name) .. " says, 'You may ask about your quest <b:red>[subclass progress]</> at any time.'")
-                wait(2)
-                actor:send(tostring(self.name) .. " says, 'Don't ask me to repeat myself though.'")
-                wait(1)
-                actor:send(tostring(self.name) .. " says, 'I hate that.'")
+            do
+                local _sw1 = string.lower(tostring(actor.race or ""))
+                if _sw1 == "dragonborn_frost" or _sw1 == "arborean" then
+                    actor:send("<red>Your race may not subclass to Pyromancer.</>")
+                    return true
+                else
+                    wait(0.2)
+                    actor:start_quest("pyromancer_subclass", "Pyr")
+                    self:command("nod")
+                    actor:send(tostring(self.name) .. " says, 'Only the best and most motivated of mages will complete the <b:red>quest</> I lay before you.'")
+                    self:command("smile")
+                    wait(2)
+                    actor:send(tostring(self.name) .. " says, 'However, I am sure it is in you, if it is truly your desire, to complete this quest and become a pyromancer.'")
+                    wait(4)
+                    actor:send(tostring(self.name) .. " says, 'You may ask about your quest <b:red>[subclass progress]</> at any time.'")
+                    wait(2)
+                    actor:send(tostring(self.name) .. " says, 'Don't ask me to repeat myself though.'")
+                    wait(1)
+                    actor:send(tostring(self.name) .. " says, 'I hate that.'")
+                end
             end
         elseif actor.level < 10 then
             actor:send(tostring(self.name) .. " says, 'Come back to me once you've gained more experience.'")
@@ -49,7 +52,7 @@ if actor:get_quest_stage("pyromancer_subclass") == 0 and string.find(actor.class
             actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
         end
     else
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Very well, then begone from here.  I suppose you do not have it in you to be a mage of fire anyway.'")
         actor:send("Emmath places his fiery palm in the air, making the room glow brightly.")
         self.room:send_except(actor, "Emmath raises his palm into the air, making the room very bright.")

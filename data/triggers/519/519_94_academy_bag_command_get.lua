@@ -15,14 +15,17 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if actor:get_quest_var("school:gear") == 15 and string.find(arg, "stick") then
     -- switch on arg
-    if arg == "b" or arg == "ba" or arg == "bag" then
-        actor:set_quest_var("school", "gear", 16)
-        actor:command("get stick bag")
-        wait(2)
-        self:command("cheer")
-        actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Congratulations, you mastered equipment management!")
-        actor:send("Would you like to review?")
-        actor:send("You can <b:green>say yes</> or <b:green>say no</>.'")
+    do
+        local _sw1 = string.lower(tostring(arg or ""))
+        if _sw1 == "b" or _sw1 == "ba" or _sw1 == "bag" then
+            actor:set_quest_var("school", "gear", 16)
+            actor:command("get stick bag")
+            wait(0.2)
+            self:command("cheer")
+            actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Congratulations, you mastered equipment management!")
+            actor:send("Would you like to review?")
+            actor:send("You can <b:green>say yes</> or <b:green>say no</>.'")
+        end
     end
 end
 _return_value = true

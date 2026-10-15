@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
 if actor.is_player then
-    wait(1)
+    wait(0.1)
     -- If any of the quest guys have spawned in Mystwatch don't give another totem.
     if world.count_mobiles(160, 8) > 0 or world.count_mobiles(160, 10) > 0 or world.count_mobiles(160, 11) > 0 or world.count_mobiles(160, 15) > 0 or world.count_mobiles(160, 16) > 0 or world.count_mobiles(160, 17) > 0 or world.count_mobiles(160, 18) > 0 or world.count_mobiles(160, 19) > 0 then
         self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
@@ -42,7 +42,7 @@ if actor.is_player then
         end
         self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
         actor:send(tostring(self.name) .. " says to you, 'Splendid, Mielikki be praised that one valiant enough has come amongst us to help rid us of this nuisance.'")
-        wait(2)
+        wait(0.2)
         self:command("think")
         actor:send(tostring(self.name) .. " says to you, 'Here.  Give this to that rat general in Mystwatch and it should start you on your way.'")
         self.room:spawn_object(30, 26)

@@ -15,111 +15,113 @@
 local _return_value = true  -- Default: allow action
 -- switch on object.id
 local cloakstage, item
-if object.id == 380 then
-    cloakstage = 1
-    item = "quest"
-elseif (object.zone_id == 588 and object.id == 1) then
-    cloakstage = 1
-    item = "cloak"
-elseif (object.zone_id == 555 and object.id == 85) then
-    cloakstage = 1
-    item = "gem"
-elseif object.id == 381 then
-    cloakstage = 2
-    item = "quest"
-elseif (object.zone_id == 173 and object.id == 7) then
-    cloakstage = 2
-    item = "cloak"
-elseif (object.zone_id == 555 and object.id == 93) then
-    cloakstage = 2
-    item = "gem"
-elseif object.id == 382 then
-    cloakstage = 3
-    item = "quest"
-elseif (object.zone_id == 103 and object.id == 8) then
-    cloakstage = 3
-    item = "cloak"
-elseif (object.zone_id == 556 and object.id == 19) then
-    cloakstage = 3
-    item = "gem"
-elseif object.id == 383 then
-    cloakstage = 4
-    item = "quest"
-elseif (object.zone_id == 123 and object.id == 25) then
-    cloakstage = 4
-    item = "cloak"
-elseif (object.zone_id == 556 and object.id == 59) then
-    cloakstage = 4
-    item = "gem"
-elseif object.id == 384 then
-    cloakstage = 5
-    item = "quest"
-elseif (object.zone_id == 430 and object.id == 22) then
-    cloakstage = 5
-    item = "cloak"
-elseif (object.zone_id == 556 and object.id == 63) then
-    cloakstage = 5
-    item = "gem"
-elseif object.id == 385 then
-    cloakstage = 6
-    item = "quest"
-elseif (object.zone_id == 238 and object.id == 10) then
-    cloakstage = 6
-    item = "cloak"
-elseif (object.zone_id == 556 and object.id == 74) then
-    cloakstage = 6
-    item = "gem"
-elseif object.id == 386 then
-    cloakstage = 7
-    item = "quest"
-elseif (object.zone_id == 510 and object.id == 13) then
-    cloakstage = 7
-    item = "cloak"
-elseif (object.zone_id == 557 and object.id == 14) then
-    cloakstage = 7
-    item = "gem"
-elseif object.id == 387 then
-    cloakstage = 8
-    item = "quest"
-elseif (object.zone_id == 584 and object.id == 10) then
-    cloakstage = 8
-    item = "cloak"
-elseif (object.zone_id == 557 and object.id == 40) then
-    cloakstage = 8
-    item = "gem"
-elseif object.id == 388 then
-    cloakstage = 9
-    item = "quest"
-elseif (object.zone_id == 520 and object.id == 9) then
-    cloakstage = 9
-    item = "cloak"
-elseif (object.zone_id == 557 and object.id == 41) then
-    cloakstage = 9
-    item = "gem"
+do
+    if (object.zone_id == 2 and object.id == 180) then
+        cloakstage = 1
+        item = "quest"
+    elseif (object.zone_id == 588 and object.id == 1) then
+        cloakstage = 1
+        item = "cloak"
+    elseif (object.zone_id == 555 and object.id == 85) then
+        cloakstage = 1
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 181) then
+        cloakstage = 2
+        item = "quest"
+    elseif (object.zone_id == 173 and object.id == 7) then
+        cloakstage = 2
+        item = "cloak"
+    elseif (object.zone_id == 555 and object.id == 93) then
+        cloakstage = 2
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 182) then
+        cloakstage = 3
+        item = "quest"
+    elseif (object.zone_id == 103 and object.id == 8) then
+        cloakstage = 3
+        item = "cloak"
+    elseif (object.zone_id == 556 and object.id == 19) then
+        cloakstage = 3
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 183) then
+        cloakstage = 4
+        item = "quest"
+    elseif (object.zone_id == 123 and object.id == 25) then
+        cloakstage = 4
+        item = "cloak"
+    elseif (object.zone_id == 556 and object.id == 59) then
+        cloakstage = 4
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 184) then
+        cloakstage = 5
+        item = "quest"
+    elseif (object.zone_id == 430 and object.id == 22) then
+        cloakstage = 5
+        item = "cloak"
+    elseif (object.zone_id == 556 and object.id == 63) then
+        cloakstage = 5
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 185) then
+        cloakstage = 6
+        item = "quest"
+    elseif (object.zone_id == 238 and object.id == 10) then
+        cloakstage = 6
+        item = "cloak"
+    elseif (object.zone_id == 556 and object.id == 74) then
+        cloakstage = 6
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 186) then
+        cloakstage = 7
+        item = "quest"
+    elseif (object.zone_id == 510 and object.id == 13) then
+        cloakstage = 7
+        item = "cloak"
+    elseif (object.zone_id == 557 and object.id == 14) then
+        cloakstage = 7
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 187) then
+        cloakstage = 8
+        item = "quest"
+    elseif (object.zone_id == 584 and object.id == 10) then
+        cloakstage = 8
+        item = "cloak"
+    elseif (object.zone_id == 557 and object.id == 40) then
+        cloakstage = 8
+        item = "gem"
+    elseif (object.zone_id == 2 and object.id == 188) then
+        cloakstage = 9
+        item = "quest"
+    elseif (object.zone_id == 520 and object.id == 9) then
+        cloakstage = 9
+        item = "cloak"
+    elseif (object.zone_id == 557 and object.id == 41) then
+        cloakstage = 9
+        item = "gem"
+    end
 end
 if actor:get_quest_stage("treasure_hunter") < actor:get_quest_stage("rogue_cloak") then
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Find some more treasure first.'")
 elseif actor.level < (actor:get_quest_stage("rogue_cloak") * 10) then
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
 elseif cloakstage > actor:get_quest_stage("rogue_cloak") then
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Your promotion doesn't involve that yet.  Be patient!'")
 elseif cloakstage < actor:get_quest_stage("rogue_cloak") then
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You've already earned that promotion.'")
 else
     local accept
@@ -129,7 +131,7 @@ else
         local job3 = actor:get_quest_var("rogue_cloak:cloaktask3")
         local job4 = actor:get_quest_var("rogue_cloak:cloaktask4")
         if job1 and job2 and job3 and job4 then
-            wait(2)
+            wait(0.2)
             local reward = object.id + 1
             world.destroy(object)
             self:command("nod")
@@ -173,7 +175,7 @@ else
             _return_value = true
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You need to do everything else before you trade in your cloak!'")
         end
     elseif item == "cloak" then
@@ -194,10 +196,10 @@ else
     if accept == "no" then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
     elseif accept == "yes" then
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         local job1 = actor:get_quest_var("rogue_cloak:cloaktask1")
         local job2 = actor:get_quest_var("rogue_cloak:cloaktask2")

@@ -16,6 +16,6 @@ end
 -- Remember who is escorting us so trigger 120-21 can hand out the reward.
 globals.rescuer = actor
 if self.room ~= 12103 and self.room ~= 12095 and self.room ~= 12030 then
-    wait(4)
+    wait(0.4)
     self:follow(actor)
 end

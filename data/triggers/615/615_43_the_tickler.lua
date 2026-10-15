@@ -15,8 +15,11 @@ end
 wait(1)
 local val = random(1, 3)
 -- switch on val
-if val == 1 then
-    local ch = self.room.actors[random(1, #self.room.actors)]
-    self:command("tickle " .. tostring(ch.name))
-else
+do
+    local _sw1 = string.lower(tostring(val or ""))
+    if tonumber(_sw1) == 1 then
+        local ch = self.room.actors[random(1, #self.room.actors)]
+        self:command("tickle " .. tostring(ch.name))
+    else
+    end
 end

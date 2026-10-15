@@ -8,10 +8,10 @@
 -- Converted from DG Script #4368: fastrada_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if self.room == get_room(43, 53) and actor:get_quest_stage("theatre") == 3 then
-    wait(2)
+    wait(0.2)
     actor:send("Fastrada tosses a sultry smile your way.")
     self.room:send_except(actor, "Fastrada puts on a sultry smile.")
-    wait(3)
+    wait(0.3)
     self.room:send(tostring(self.name) .. " says, 'Thank you for letting me out of here.  Please, allow me to")
     self.room:send("</>to repay you in the future.'")
     self:command("wink " .. tostring(actor.name))

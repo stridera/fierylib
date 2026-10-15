@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor:get_quest_var("school:fight") == 1 then
     actor:set_quest_var("school", "fight", 2)
     actor:command("rest")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'As a sorcerer, you need to <b:cyan>SCRIBE</> spells in your spellbook.")
     actor:send("<b:cyan>(SPE)LL</> will show you all the spells you can <b:cyan>SCRIBE</>.")
     actor:send("You must <b:cyan>HOLD</> a <b:yellow>SPELLBOOK</> with blank pages and a <b:yellow>PEN</> of some kind to scribe.")
@@ -36,7 +36,7 @@ if actor:get_quest_var("school:fight") == 1 then
 elseif actor:get_quest_var("school:fight") == 10 then
     actor:set_quest_var("school", "fight", 11)
     actor:command("rest")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Next, you should <b:cyan>(MED)ITATE</> to get into the proper state of mind.")
     actor:send("As it goes up, the <b:cyan>MEDITATE</> skill increases your <b:cyan>FOCUS</> score when you <b:cyan>MEDITATE</>.")
     actor:send("You can <b:cyan>MEDITATE</> as long as you're not in combat.'")

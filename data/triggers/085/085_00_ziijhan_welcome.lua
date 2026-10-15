@@ -9,15 +9,15 @@
 
 -- Converted from DG Script #8500: ziijhan_welcome
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 -- switch on actor:get_quest_stage("nec_dia_ant_subclass")
 if actor:get_quest_stage("nec_dia_ant_subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'So you come crawling back.'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Only the most cunning and strong will complete the <magenta>quest</> I set before you.  I shall take great pleasure in your demise, but I will offer great rewards for your success.'")
 elseif actor:get_quest_stage("nec_dia_ant_subclass") == 2 then
     actor:send(tostring(self.name) .. " says, 'It is time to hunt!'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'My pitiful waste of a <magenta>brother</> escaped my minions.'")
 elseif actor:get_quest_stage("nec_dia_ant_subclass") == 3 or actor:get_quest_stage("nec_dia_ant_subclass") == 4 then
     actor:send(tostring(self.name) .. " says, 'Have you brought proof that my brother is not beyond my reach?'")

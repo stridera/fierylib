@@ -12,7 +12,7 @@
 -- 
 -- This is for warriors only
 if actor.class == "warrior" and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Ah, protection for yer legs? Well now I can make a fine set of\"")
     actor:send(tostring(self.name) .. " tells you, \"greaves for the warrior types but I'll need 3 opals, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Tarnished Greaves. Return these things\"")

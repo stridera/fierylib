@@ -179,14 +179,14 @@ else
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     self:say("What is this for?")
     return _return_value
 end
 if go == "hunt" then
     if actor:get_quest_stage("dragon_slayer") == "stage" and actor:get_quest_var("dragon_slayer:hunt") == "dead" then
         local anti = "Anti-Paladin"
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         self:command("cheer")
         actor:send(tostring(self.name) .. " says, 'Congratulations!  Here's your reward.'")
@@ -237,7 +237,7 @@ if go == "hunt" then
         end
         actor:set_quest_var("dragon_slayer", "target1", 0)
         actor:set_quest_var("dragon_slayer", "hunt", 0)
-        wait(2)
+        wait(0.2)
         if stage < 10 then
             actor:advance_quest("dragon_slayer")
             actor:send(tostring(self.name) .. " says, 'Check in again if you have time for more work.'")
@@ -268,10 +268,10 @@ if go == "hunt" then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already killed this dragon!'")
     elseif actor:get_quest_stage("dragon_slayer") < stage then
-        wait(2)
+        wait(0.2)
         self:command("eye " .. tostring(actor))
         actor:send(tostring(self.name) .. " says, 'How'd you get this?!  You steal it off someone else??'")
         self.room:send(tostring(self.name) .. " rips up the notice!")
@@ -279,7 +279,7 @@ if go == "hunt" then
     elseif actor:get_quest_var("dragon_slayer:hunt") ~= "dead" then
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have to slay the dragon first!  " .. tostring(victim1) .. " is still out there.")
     end
 elseif go == "necklace" then
@@ -287,25 +287,25 @@ elseif go == "necklace" then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Slay some more dragons first.'")
     elseif actor.level < (actor:get_quest_stage("paladin_pendant") * 10) then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
     elseif pendantstage > actor:get_quest_stage("paladin_pendant") then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Your devotional act doesn't involve that yet.  Be patient!'")
     elseif pendantstage < actor:get_quest_stage("paladin_pendant") then
         _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You've already performed that act of devotion.'")
     else
         local accept
@@ -315,7 +315,7 @@ elseif go == "necklace" then
             local job3 = actor:get_quest_var("paladin_pendant:necklacetask3")
             local job4 = actor:get_quest_var("paladin_pendant:necklacetask4")
             if job1 and job2 and job3 and job4 then
-                wait(2)
+                wait(0.2)
                 local reward = object.id + 1
                 world.destroy(object)
                 self:command("nod")
@@ -359,7 +359,7 @@ elseif go == "necklace" then
                 _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-                wait(2)
+                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You need to do everything else before you offer up your necklace!'")
             end
         elseif item == "necklace" then
@@ -380,10 +380,10 @@ elseif go == "necklace" then
         if accept == "no" then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
         elseif accept == "yes" then
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             local job1 = actor:get_quest_var("paladin_pendant:necklacetask1")
             local job2 = actor:get_quest_var("paladin_pendant:necklacetask2")

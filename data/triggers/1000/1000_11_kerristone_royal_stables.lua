@@ -14,5 +14,5 @@ if (value or 0) < 25 then
     return true
 end
 self.room:send("</><b:yellow>Licub</> nods to " .. tostring(actor.name) .. " and goes to fetch a horse.")
-wait(5)
+wait(0.5)
 self.room:send("</><b:yellow>Licub</> returns with a </><yellow>well-bred warhorse</>.")

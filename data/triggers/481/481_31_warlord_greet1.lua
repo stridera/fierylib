@@ -10,6 +10,6 @@
 if actor.is_player then
     self:emote("looks up quickly as you enter.")
     self:command("sigh")
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'I live in hope that my son will survive and return to me one day.'")
 end

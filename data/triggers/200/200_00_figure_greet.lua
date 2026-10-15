@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.is_player then
     if direction == "west" then
-        wait(1)
+        wait(0.1)
         self:command("roar " .. tostring(actor.name))
         self:say("Are you friend or foe of Ruin Wormheart?")
         self:command("glare " .. tostring(actor.name))

@@ -15,6 +15,6 @@ if not (string.find(string.lower(speech), "exit")) then
 end
 self.room:send("The room suddenly becomes pitch dark and a bright flash of light erupts from the ground.")
 self.room:spawn_object(200, 52)
-wait(1)
+wait(0.1)
 self.room:send("Yix'Xyua says, 'Very well, on your way!'")
 actor:command("enter portal")

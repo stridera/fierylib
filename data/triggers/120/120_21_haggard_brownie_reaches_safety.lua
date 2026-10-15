@@ -11,7 +11,7 @@
 -- Reward the rescuer recorded by trigger 120-10, drop the gifts, despawn.
 if destination == 12000 then
     self:follow(self)
-    wait(4)
+    wait(0.4)
     self:say("Thank you!  Thank you at last I am safe!")
     local rescuer = globals.rescuer
     if rescuer then

@@ -8,14 +8,14 @@
 -- Converted from DG Script #59016: rylee_wield
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
 if globals.wie_dagger ~= 2 then
-    wait(2)
+    wait(0.2)
     self.room:send_except(self, tostring(self.name) .. " reaches under her robe and pulls a dagger from a sheath strapped to her leg.")
-    wait(1)
+    wait(0.1)
     self.room:spawn_object(590, 12)
     self:command("wie radiant-dagger")
-    wait(2)
+    wait(0.2)
     self:say("Lets see if you can defend against this.")
-    wait(2)
+    wait(0.2)
     spells.cast(self, "divine bolt", actor.name)
     globals.wie_dagger = 2
 end

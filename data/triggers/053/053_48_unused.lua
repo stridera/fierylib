@@ -23,9 +23,12 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- For Tempest of Saint Augustine on item 12508
 -- switch on cmd
-if cmd == "m" or cmd == "me" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "m" or _sw1 == "me" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_stage("monk_vision") > 4 and actor:get_quest_stage("monk_chants") == 2 and actor.level >= 40 and actor.room == 58186 then
     if actor:has_equipped(2, 194) or actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then

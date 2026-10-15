@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48425: wild-hunt-rec-antlers
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-wait(2)
+wait(0.2)
 self:destroy_item("antlers")
 local accept = 0
 local person = actor
@@ -35,6 +35,6 @@ while i >= a do
 end
 if accept == 0 then
     actor:send(tostring(self.name) .. " says, 'What is this?'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You mock the Goddess of the Hunt!'")
 end

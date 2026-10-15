@@ -15,17 +15,17 @@ if not (string.find(string.lower(speech), "help?")) then
 end
 local target = actor
 if target.alignment <= -350 and target.level < 100 then
-    wait(3)
+    wait(0.3)
     if target.room == self.room then
         target:send(tostring(self.name) .. " squints their eyes and peers at you.")
         self.room:send_except(target, tostring(self.name) .. " squints their eyes and peers at " .. tostring(target.name) .. ".")
-        wait(6)
+        wait(0.6)
         target:send(tostring(self.name) .. " whispers to you, 'Are you strong enough to assist me?")
         target:send("</>I have a couple of allies that have breached the Sacred Haven and secured me")
         target:send("</>a key of great importance.'")
-        wait(2)
+        wait(0.2)
         self:emote("flashes a dingy key, held tight in their skinny, grey hands.")
-        wait(5)
+        wait(0.5)
         target:send(tostring(self.name) .. " whispers to you, 'Before I release my key I need you to")
         target:send("</>prove that you are worthy of this deed.  Do you feel strong enough to handle")
         target:send("</>this task?'")

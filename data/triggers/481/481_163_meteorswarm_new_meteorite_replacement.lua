@@ -13,7 +13,7 @@ if not string.find(string.lower(speech), "i lost the meteorite", 1, true) then
     return true  -- Not the phrase
 end
 if actor:get_quest_stage("meteorswarm") > 2 and not actor:get_quest_var("meteorswarm:air") then
-    wait(2)
+    wait(0.2)
     self:command("gasp")
     actor:send(tostring(self.name) .. " says, 'WHAT?!'")
     wait(1)

@@ -15,14 +15,12 @@ if not (string.find(string.lower(speech), "audition") or string.find(string.lowe
 end
 if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then
     -- switch on actor.race
-    -- case ADD RESTRICTED RACES HERE
-    -- msend %actor% &1Your race cannot subclass to bard.&0
-    -- halt
-    -- break
-    if actor:get_quest_stage("bard_subclass") == 0 then
-        wait(2)
-        actor:send(tostring(self.name) .. " says, 'We're looking for someone who can sing and dance and act - a real triple threat.  It'll earn you a place in the spotlight and the Bard Guild.  You'll be a real professional!'")
-        wait(2)
-        actor:send(tostring(self.name) .. " says, 'Whadda ya say kid?  You wanna give it a shot?'")
+    do
+        if actor:get_quest_stage("bard_subclass") == 0 then
+            wait(0.2)
+            actor:send(tostring(self.name) .. " says, 'We're looking for someone who can sing and dance and act - a real triple threat.  It'll earn you a place in the spotlight and the Bard Guild.  You'll be a real professional!'")
+            wait(2)
+            actor:send(tostring(self.name) .. " says, 'Whadda ya say kid?  You wanna give it a shot?'")
+        end
     end
 end

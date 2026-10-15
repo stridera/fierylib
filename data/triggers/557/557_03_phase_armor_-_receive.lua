@@ -130,7 +130,7 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
         local armor_count = actor:get_quest_var("phase_armor:" .. armor_key) or 0
         if armor_count < 1 then
             _return_value = false
-            wait(1)
+            wait(0.1)
             world.destroy(object)
             armor_count = armor_count + 1
             actor:set_quest_var("phase_armor", armor_key, armor_count)
@@ -139,7 +139,7 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
             actor:send("</>You have now given me " .. proto_short(object_id) .. ".'")
         else
             _return_value = true
-            wait(2)
+            wait(0.2)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'Hey now, you've already given me one of these!'")
             actor:send(tostring(self.name) .. " refuses your item.")
@@ -150,14 +150,14 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
         local gem_count = actor:get_quest_var("phase_armor:" .. gem_key) or 0
         if gem_count < 3 then
             _return_value = false
-            wait(1)
+            wait(0.1)
             world.destroy(object)
             gem_count = gem_count + 1
             actor:set_quest_var("phase_armor", gem_key, gem_count)
             actor:send(tostring(self.name) .. " tells you, 'Hey, very nice.'")
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'It is good to see that adventurers are out conquering the realm.'")
-            wait(2)
+            wait(0.2)
             if gem_count == 1 then
                 actor:send(tostring(self.name) .. " tells you, 'You have given me 1 " .. proto_noa(object_id) .. ".'")
             else
@@ -165,7 +165,7 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
             end
         else
             _return_value = true
-            wait(1)
+            wait(0.1)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'Hey now, you've already given me " .. tostring(gem_count) .. " of these!'")
             actor:send(tostring(self.name) .. " refuses your item.")
@@ -192,11 +192,11 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
     if slot_armor_id
        and (actor:get_quest_var("phase_armor:" .. tostring(slot_gem_id) .. "_gems_acquired") == 3)
        and (actor:get_quest_var("phase_armor:" .. tostring(slot_armor_id) .. "_armor_acquired") == 1) then
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, 'Excellent work, intrepid adventurer!")
         actor:send("</>You have provided me with all I need to reward you with:")
         actor:send("</>" .. proto_short(reward_id) .. "!'")
-        wait(2)
+        wait(0.2)
         actor:send("<b:white>You gain experience!</>")
         local exp
         if actor.class == "warrior" or actor.class == "berserker" then

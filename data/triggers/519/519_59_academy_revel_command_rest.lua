@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if not actor:get_quest_var("school:rest") then
     actor:set_quest_var("school", "rest", 1)
     actor:command("rest")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Yeah, that's it!'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'If you want to speed things up even more, you can lay down and go to <b:cyan>SLEEP</>.")

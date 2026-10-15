@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "training")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if string.find(actor.class, "rogue") then
     if actor.level >= 10 and actor.level <= 25 then
         if not use_subclass then
@@ -35,7 +35,7 @@ if string.find(actor.class, "rogue") then
     end
 else
     actor:send(tostring(self.name) .. " says, 'Go find someone else to train with.'")
-    wait(2)
+    wait(0.2)
     -- this may need to be changed in the future if new classes are invented that aren't just <name>s for pluralizing.
     actor:send(tostring(self.name) .. " says, 'I don't work with " .. tostring(actor.class) .. "s.'")
 end

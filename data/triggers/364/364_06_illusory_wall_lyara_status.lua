@@ -19,7 +19,7 @@ local lens_a = actor:get_quest_var("illusory_wall:103_7")
 local lens_b = actor:get_quest_var("illusory_wall:185_11")
 local spur   = actor:get_quest_var("illusory_wall:410_5")
 local magic  = actor:get_quest_var("illusory_wall:510_17")
-wait(2)
+wait(0.2)
 if actor.class ~= "illusionist" and actor.class ~= "bard" then
     self.room:send(tostring(self.name) .. " says, 'I appreciate your interest but I have nothing I")
     self.room:send("</>can teach you.'")

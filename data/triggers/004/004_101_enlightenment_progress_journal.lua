@@ -52,60 +52,63 @@ if string.find(arg, "enlightenment") or string.find(arg, "monk vision") or strin
             local room
             local place
             local hint
-            if visionstage == 1 then
-                book = 59006
-                gem = 55582
-                room = get_room("4328")
-                place = room.name
-                hint = "in a place to perform."
-            elseif visionstage == 2 then
-                book = 18505
-                gem = 55591
-                room = get_room("58707")
-                place = room.name
-                hint = "near a sandy beach."
-            elseif visionstage == 3 then
-                book = 8501
-                gem = 55623
-                room = get_room("18597")
-                place = room.name
-                hint = "in a cloistered library."
-            elseif visionstage == 4 then
-                book = 12532
-                gem = 55655
-                room = get_room("58102")
-                place = room.name
-                hint = "on Hakujo's home island."
-            elseif visionstage == 5 then
-                book = 16209
-                gem = 55665
-                room = get_room("16057")
-                place = room.name
-                hint = "in the ghostly fortress."
-            elseif visionstage == 6 then
-                book = 43013
-                gem = 55678
-                room = get_room("59054")
-                place = room.name
-                hint = "in the fortress of the zealous."
-            elseif visionstage == 7 then
-                book = 53009
-                gem = 55710
-                room = get_room("49079")
-                place = room.name
-                hint = "off-shore of the island of great beasts."
-            elseif visionstage == 8 then
-                book = 58415
-                gem = 55722
-                room = get_room("11820")
-                place = room.name
-                hint = "beyond the Blue-Fog Trail."
-            elseif visionstage == 9 then
-                book = 58412
-                gem = 55741
-                room = get_room("52075")
-                place = room.name
-                hint = "in the shattered citadel of Templace."
+            do
+                local _sw1 = string.lower(tostring(visionstage or ""))
+                if tonumber(_sw1) == 1 then
+                    book = 59006
+                    gem = 55582
+                    room = get_room("4328")
+                    place = room.name
+                    hint = "in a place to perform."
+                elseif tonumber(_sw1) == 2 then
+                    book = 18505
+                    gem = 55591
+                    room = get_room("58707")
+                    place = room.name
+                    hint = "near a sandy beach."
+                elseif tonumber(_sw1) == 3 then
+                    book = 8501
+                    gem = 55623
+                    room = get_room("18597")
+                    place = room.name
+                    hint = "in a cloistered library."
+                elseif tonumber(_sw1) == 4 then
+                    book = 12532
+                    gem = 55655
+                    room = get_room("58102")
+                    place = room.name
+                    hint = "on Hakujo's home island."
+                elseif tonumber(_sw1) == 5 then
+                    book = 16209
+                    gem = 55665
+                    room = get_room("16057")
+                    place = room.name
+                    hint = "in the ghostly fortress."
+                elseif tonumber(_sw1) == 6 then
+                    book = 43013
+                    gem = 55678
+                    room = get_room("59054")
+                    place = room.name
+                    hint = "in the fortress of the zealous."
+                elseif tonumber(_sw1) == 7 then
+                    book = 53009
+                    gem = 55710
+                    room = get_room("49079")
+                    place = room.name
+                    hint = "off-shore of the island of great beasts."
+                elseif tonumber(_sw1) == 8 then
+                    book = 58415
+                    gem = 55722
+                    room = get_room("11820")
+                    place = room.name
+                    hint = "beyond the Blue-Fog Trail."
+                elseif tonumber(_sw1) == 9 then
+                    book = 58412
+                    gem = 55741
+                    room = get_room("52075")
+                    place = room.name
+                    hint = "in the shattered citadel of Templace."
+                end
             end
             local attack = visionstage * 100
             if job1 or job2 or job3 or job4 then

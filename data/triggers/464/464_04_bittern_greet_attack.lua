@@ -15,7 +15,7 @@ end
 -- attack them players!
 if actor.is_player then
     if actor.level < 100 then
-        wait(1)
+        wait(0.1)
         self.room:send_except(actor, tostring(self.name) .. " flies into a rage!")
         actor:send(tostring(self.name) .. " flies into a rage and attacks you!")
         combat.engage(actor)

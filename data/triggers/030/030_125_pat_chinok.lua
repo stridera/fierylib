@@ -19,9 +19,12 @@ if not (cmd == "pat") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "p" or cmd == "pa" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "p" or _sw1 == "pa" then
+        _return_value = true
+        return _return_value
+    end
 end
 local test1 = (arg ~= "doll") and (arg ~= "chinok") and (arg ~= "chinok-doll") and (arg ~= "chinok-rag") and (arg ~= "rag-doll") and (arg ~= "rag") and (arg ~= "chinok-rag-doll")
 local test2 = (arg ~= "little") and (arg ~= "hooded") and (arg ~= "figure") and (arg ~= "little-hooded") and (arg ~= "hooded-figure") and (arg ~= "little-hooded-figure")

@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor:get_quest_var("school:fight") == 3 then
     actor:set_quest_var("school", "fight", 4)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 6).name) .. " tells you, 'Next, <b:cyan>(H)OLD</> your quill.")
     if not actor:has_equipped(11, 54) and not actor:has_item(11, 54) then
         actor:send("Looks like you need a new one.'")

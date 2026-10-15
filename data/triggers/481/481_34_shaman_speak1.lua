@@ -13,11 +13,11 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "help?") or string.find(string.lower(speech), "aid?") or string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Vulcera has prevented us from making our customary sacrifices by placing one of her...'")
-wait(2)
+wait(0.2)
 self:command("ponder")
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, '\"pets\" in our sacred area before the volcano, and I fear that if we do not make a sacrifice soon...'")
 wait(1)
 self:command("shrug")

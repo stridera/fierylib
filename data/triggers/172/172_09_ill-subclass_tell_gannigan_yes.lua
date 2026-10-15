@@ -13,18 +13,21 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "yes") then
     return true  -- keyword not heard
 end
-wait(6)
+wait(0.6)
 -- switch on actor:get_quest_stage("illusionist_subclass")
-if actor:get_quest_stage("illusionist_subclass") == 4 then
-    self:say("I thought you might.  Hurry off to the safe room!")
-    wait(4)
-    self:say("Please, Cestia!  I'll not have you clubbed by the filthy Mielikki militia!")
-elseif actor:get_quest_stage("illusionist_subclass") == 5 then
-    self:command("snort")
-    wait(3)
-    self:say("I had no doubt of it.  You never knew loyalty.  I should have seen it when you hurt that illusionist so cavalierly.")
-else
-    self:command("glare " .. tostring(actor.name))
-    wait(2)
-    self:command("ponder")
+do
+    local _sw1 = string.lower(tostring(actor:get_quest_stage("illusionist_subclass") or ""))
+    if tonumber(_sw1) == 4 then
+        self:say("I thought you might.  Hurry off to the safe room!")
+        wait(4)
+        self:say("Please, Cestia!  I'll not have you clubbed by the filthy Mielikki militia!")
+    elseif tonumber(_sw1) == 5 then
+        self:command("snort")
+        wait(3)
+        self:say("I had no doubt of it.  You never knew loyalty.  I should have seen it when you hurt that illusionist so cavalierly.")
+    else
+        self:command("glare " .. tostring(actor.name))
+        wait(2)
+        self:command("ponder")
+    end
 end

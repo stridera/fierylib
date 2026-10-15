@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #3005: Illusionists sense illusion
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-wait(1)
+wait(0.1)
 if string.find(actor.class, "illusionist") then
     actor:send("<magenta>You sense the magic of illusion at work upon your senses.</>")
 end

@@ -51,51 +51,54 @@ if string.find(arg, "eye of the tiger") or string.find(arg, "tiger") then
             local gem
             local place
             local hint
-            if trophystage == 1 then
-                trophy = 1607
-                gem = 55579
-                place = "A Coyote's Den"
-                hint = "near the Kingdom of the Meer Cats."
-            elseif trophystage == 2 then
-                trophy = 17806
-                gem = 55591
-                place = "In the Lions' Den"
-                hint = "in the western reaches of Gothra."
-            elseif trophystage == 3 then
-                trophy = 1805
-                gem = 55628
-                place = "either of the two Gigantic Roc Nests"
-                hint = "in the Wailing Mountains."
-            elseif trophystage == 4 then
-                trophy = 62513
-                gem = 55652
-                place = "Chieftain's Lair"
-                hint = "in Nukreth Spire in South Caelia."
-            elseif trophystage == 5 then
-                trophy = 23803
-                gem = 55664
-                place = "The Heart of the Den"
-                hint = "where the oldest unicorn in South Caelia makes its home."
-            elseif trophystage == 6 then
-                trophy = 43009
-                gem = 55685
-                place = "Giant Lynx's Lair"
-                hint = "far to the north beyond Mt. Frostbite."
-            elseif trophystage == 7 then
-                trophy = 47008
-                gem = 55705
-                place = "Giant Griffin's Nest"
-                hint = "tucked away in a secluded and well guarded corner of Griffin Island."
-            elseif trophystage == 8 then
-                trophy = 53323
-                gem = 55729
-                place = "Witch's Den"
-                hint = "entombed with an ancient evil king."
-            elseif trophystage == 9 then
-                trophy = 52014
-                gem = 55741
-                place = "Dargentan's Lair"
-                hint = "at the pinnacle of his flying fortress."
+            do
+                local _sw1 = string.lower(tostring(trophystage or ""))
+                if tonumber(_sw1) == 1 then
+                    trophy = 1607
+                    gem = 55579
+                    place = "A Coyote's Den"
+                    hint = "near the Kingdom of the Meer Cats."
+                elseif tonumber(_sw1) == 2 then
+                    trophy = 17806
+                    gem = 55591
+                    place = "In the Lions' Den"
+                    hint = "in the western reaches of Gothra."
+                elseif tonumber(_sw1) == 3 then
+                    trophy = 1805
+                    gem = 55628
+                    place = "either of the two Gigantic Roc Nests"
+                    hint = "in the Wailing Mountains."
+                elseif tonumber(_sw1) == 4 then
+                    trophy = 62513
+                    gem = 55652
+                    place = "Chieftain's Lair"
+                    hint = "in Nukreth Spire in South Caelia."
+                elseif tonumber(_sw1) == 5 then
+                    trophy = 23803
+                    gem = 55664
+                    place = "The Heart of the Den"
+                    hint = "where the oldest unicorn in South Caelia makes its home."
+                elseif tonumber(_sw1) == 6 then
+                    trophy = 43009
+                    gem = 55685
+                    place = "Giant Lynx's Lair"
+                    hint = "far to the north beyond Mt. Frostbite."
+                elseif tonumber(_sw1) == 7 then
+                    trophy = 47008
+                    gem = 55705
+                    place = "Giant Griffin's Nest"
+                    hint = "tucked away in a secluded and well guarded corner of Griffin Island."
+                elseif tonumber(_sw1) == 8 then
+                    trophy = 53323
+                    gem = 55729
+                    place = "Witch's Den"
+                    hint = "entombed with an ancient evil king."
+                elseif tonumber(_sw1) == 9 then
+                    trophy = 52014
+                    gem = 55741
+                    place = "Dargentan's Lair"
+                    hint = "at the pinnacle of his flying fortress."
+                end
             end
             local attack = trophystage * 100
             if job1 or job2 or job3 or job4 then

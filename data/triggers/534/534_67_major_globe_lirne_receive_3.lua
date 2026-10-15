@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 8 then
-    wait(1)
+    wait(0.1)
     -- TODO(parity): original DG keyed the quest var by global vnum
     -- of the handed-in ward. With composite ids, key by the object's
     -- local id within zone 534 (wards are objects 53-57 in zone 534 —
@@ -73,10 +73,10 @@ if stage == 8 then
     end
 elseif stage < 8 then
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'I'm not quite ready to deal with those yet.  Do the quest in order.'")
 elseif stage > 8 then
-    wait(1)
+    wait(0.1)
     self:destroy_item("majorglobe-ward")
     actor:send(tostring(self.name) .. " says, 'You already gave me all the elemental wards!'")
 end

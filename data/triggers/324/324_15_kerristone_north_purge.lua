@@ -16,10 +16,10 @@ end
 -- purge will dump a mobile as mpurge %self%
 -- seems broken
 if actor.zone_id == 324 and actor.local_id == 21 then
-    wait(1)
+    wait(0.1)
     world.destroy(actor)
 end
 if actor.zone_id == 324 and actor.local_id == 23 then
-    wait(1)
+    wait(0.1)
     world.destroy(actor)
 end

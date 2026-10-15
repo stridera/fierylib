@@ -40,10 +40,10 @@ else
 end
 if load then
     if world.count_mobiles(490, 21) == 0 then
-        wait(2)
+        wait(0.2)
         self:command("cackle")
         self:say("You are too late!  It is time to call the great Dagon!")
-        wait(2)
+        wait(0.2)
         self:emote("makes some mystical moves with his hands and whispers an ancient spell.")
         self.room:send("There is a shimmer in the air and suddenly Dagon stands before you.")
         get_room(11, 0):at(function()
@@ -60,7 +60,7 @@ if load then
             self.room:find_actor("dagon"):teleport(get_room(490, 91))
         end)
         self.room:find_actor("dagon"):command("roar")
-        wait(4)
+        wait(0.4)
         self.room:find_actor("dagon"):say("At last, summoned to the aid of my faithful.")
     end
 end

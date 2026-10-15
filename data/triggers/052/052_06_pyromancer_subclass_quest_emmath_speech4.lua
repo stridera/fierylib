@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("pyromancer_subclass") == 2 then
     actor:advance_quest("pyromancer_subclass")
     self:command("nod " .. tostring(actor.name))

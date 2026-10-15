@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "skip")) then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("school") == 5 then
-    wait(2)
+    wait(0.2)
     actor:set_quest_var("school", "money", "complete")
     actor:set_quest_var("school", "rest", "complete")
     actor:advance_quest("school")

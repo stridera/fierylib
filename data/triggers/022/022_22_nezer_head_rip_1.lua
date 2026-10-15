@@ -36,30 +36,33 @@ if casters > 0 then
         -- TODO(parity): legacy check `victim.room == 2216` (vnum) — verify victim is in arena room (22, 16)
         if victim.room and victim.room.zone_id == 22 and victim.room.local_id == 16 then
             -- switch on message
-            if message == 1 then
-                self.room:send_except(victim, tostring(victim.name) .. "'s magic catches the attention of one of Nezer's heads.")
-                victim:send("One of Nezer's heads suddenly takes notice of you.'")
-            elseif message == 2 then
-                self.room:send_except(victim, "Nezer's head darts at " .. tostring(victim.name) .. ", who only barely side steps the attack.")
-                victim:send("You just barely side step a bite by Nezer's head. Lucky you.")
-            elseif message == 3 then
-                local damage = random(1, 20)
-                damage = damage + 105
-                self.room:send_except(victim, "Nezer's head darts at " .. tostring(victim.name) .. " again, this time grabbing " .. tostring(victim.possessive) .. " in his razor sharp teeth! (<blue>" .. tostring(damage) .. "</>)")
-                victim:send("Nezer's head darts at you again, this time grabbing at you with it's shapr teeth, OUCH! (<b:red>" .. tostring(damage) .. "</>)")
-                local damage_dealt = victim:damage(damage)  -- type: physical
-            elseif message == 4 then
-                local damage = random(1, 20)
-                damage = damage + 150
-                self.room:send_except(victim, "Nezer's second head notices the first chewing on something. (<blue>" .. tostring(damage) .. "</>)")
-                victim:send("Nezer's second head notices you as the first chomps down on you hard, OUCH! (<b:red>" .. tostring(damage) .. "</>)")
-                local damage_dealt = victim:damage(damage)  -- type: physical
-            elseif message == 5 then
-                self.room:send_except(victim, "Nezer's second head bites onto the half of " .. tostring(victim.name) .. " that was sticking out before RIPPING " .. tostring(victim.possessive) .. " in half! (<blue>DEAD</>)")
-                victim:send("Nezer's second head bites onto the half of you that wasn't already being consumed before RIPPING you in half! You are DEAD! (<b:red>DEAD</>)")
-                victim:damage(10000)  -- type: physical
-                keepgoing = keepgoing + 1
-            else
+            do
+                local _sw1 = string.lower(tostring(message or ""))
+                if tonumber(_sw1) == 1 then
+                    self.room:send_except(victim, tostring(victim.name) .. "'s magic catches the attention of one of Nezer's heads.")
+                    victim:send("One of Nezer's heads suddenly takes notice of you.'")
+                elseif tonumber(_sw1) == 2 then
+                    self.room:send_except(victim, "Nezer's head darts at " .. tostring(victim.name) .. ", who only barely side steps the attack.")
+                    victim:send("You just barely side step a bite by Nezer's head. Lucky you.")
+                elseif tonumber(_sw1) == 3 then
+                    local damage = random(1, 20)
+                    damage = damage + 105
+                    self.room:send_except(victim, "Nezer's head darts at " .. tostring(victim.name) .. " again, this time grabbing " .. tostring(victim.possessive) .. " in his razor sharp teeth! (<blue>" .. tostring(damage) .. "</>)")
+                    victim:send("Nezer's head darts at you again, this time grabbing at you with it's shapr teeth, OUCH! (<b:red>" .. tostring(damage) .. "</>)")
+                    local damage_dealt = victim:damage(damage)  -- type: physical
+                elseif tonumber(_sw1) == 4 then
+                    local damage = random(1, 20)
+                    damage = damage + 150
+                    self.room:send_except(victim, "Nezer's second head notices the first chewing on something. (<blue>" .. tostring(damage) .. "</>)")
+                    victim:send("Nezer's second head notices you as the first chomps down on you hard, OUCH! (<b:red>" .. tostring(damage) .. "</>)")
+                    local damage_dealt = victim:damage(damage)  -- type: physical
+                elseif tonumber(_sw1) == 5 then
+                    self.room:send_except(victim, "Nezer's second head bites onto the half of " .. tostring(victim.name) .. " that was sticking out before RIPPING " .. tostring(victim.possessive) .. " in half! (<blue>DEAD</>)")
+                    victim:send("Nezer's second head bites onto the half of you that wasn't already being consumed before RIPPING you in half! You are DEAD! (<b:red>DEAD</>)")
+                    victim:damage(10000)  -- type: physical
+                    keepgoing = keepgoing + 1
+                else
+                end
             end
         else
             self.room:send("Nezer looks around for something that is no longer there.")

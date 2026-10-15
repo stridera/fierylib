@@ -67,7 +67,7 @@ if go then
         self:command("peer " .. tostring(actor.name))
         wait(2)
         self:say("What brings you to me?")
-        wait(2)
+        wait(0.2)
         if hell == 2 then
             actor:send(tostring(self.name) .. " says, 'Your quest for a new <b:cyan>[trident]</> perhaps?'")
             if krisenna == 2 then

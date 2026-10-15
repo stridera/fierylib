@@ -22,7 +22,7 @@ if string.find(arg, "ice") or string.find(arg, "sculpture") then
         self.room:send("There is a sudden split in the wall of ice!")
     end)
     actor:move("south")
-    wait(1)
+    wait(0.1)
     get_room(550, 15):exit("south"):set_state({hidden = true})
     self.room:send("The sculpture seals behind " .. tostring(actor.name) .. ".")
 end

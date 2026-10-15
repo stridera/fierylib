@@ -15,7 +15,7 @@
 if not string.find(string.lower(speech), "quest") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("monk_subclass") == 1 then
     actor:advance_quest("monk_subclass")
     actor:send(self.name .. " says, 'Alright, well sit back.'")

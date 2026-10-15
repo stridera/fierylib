@@ -17,7 +17,7 @@ if not string.find(string.lower(speech), "i need a new dagger") then
     return true
 end
 
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("hell_gate") == 3 then
     actor:set_quest_var("hell_gate", "new", "yes")
     self:command("grumble")

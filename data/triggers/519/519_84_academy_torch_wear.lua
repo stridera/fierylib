@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor:get_quest_var("school:gear") == 4 then
     actor:set_quest_var("school", "gear", 5)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Notice you have a torch equipped now.")
     actor:send("However, you need to turn it on before it provides you any light.")
     actor:send("The <b:cyan>(LI)GHT</> command turns lights on and off.")

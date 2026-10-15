@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #3080: Dragon Slayer Isilynor Greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 local anti = "Anti-Paladin"
 if not actor:get_has_completed("dragon_slayer") then
     if actor:get_quest_stage("dragon_slayer") == 0 then

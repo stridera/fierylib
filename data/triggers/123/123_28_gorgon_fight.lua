@@ -12,7 +12,7 @@
 if not percent_chance(1) then
     return true
 end
-wait(2)
+wait(0.2)
 self.room:send("A gorgon exhales a cloud of <cyan>paralyzing gas!</>")
 local room = self.room
 for _, person in ipairs(room:get_people()) do

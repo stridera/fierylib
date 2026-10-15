@@ -179,7 +179,7 @@ if clue >= 20 then
     actor:set_skill("illusory wall", 1000)
     actor:send("<b:cyan>You have learned everything you need to cast illusory walls!</>")
     actor:complete_quest("illusory_wall")
-    wait(1)
+    wait(0.1)
     if lyara then
         world.destroy(lyara)
     end

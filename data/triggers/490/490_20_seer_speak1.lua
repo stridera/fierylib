@@ -12,27 +12,30 @@
 if not string.find(string.lower(speech), "earle sends me", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if self.room ~= get_room(490, 78) then
     self:say("I am powerless to help you outside my cave.")
 else
     -- switch on actor:get_quest_stage("griffin_quest")
-    if actor:get_quest_stage("griffin_quest") == 0 then
-        self.room:send(tostring(self.name) .. " says, 'You say Earle sent you?  Hmm, he may have done, but there is nothing I can do for you.'")
-    elseif actor:get_quest_stage("griffin_quest") == 1 then
-        self.room:send(tostring(self.name) .. " says, 'Did you give the rune sword to Earle yet?  He has to verify that you can go through with this.'")
-    else
-        self.room:send(tostring(self.name) .. " says, 'Ah... my vision is coming true.  The cult grows in strength and will soon be strong enough to summon Dagon, the powerful griffin god.'")
-        wait(3)
-        self.room:send(tostring(self.name) .. " says, 'Seek ye that drunken lout, for he has found the path to the chapel.  Say to him, <b:white>'the seer requests your assistance'</> and he will tell you what he knows.'")
-        self:emote("closers her eyes and goes into a trance.")
-        wait(3)
-        self:emote("wails with fear.")
-        self.room:send(tostring(self.name) .. " says, 'I see the future, when an evil greater than Dagon will walk the island.'")
-        self:emote("opens her eyes again.")
-        wait(2)
-        self:command("sigh")
-        self:say("There is much to do, and little time to do it.")
+    do
+        local _sw1 = string.lower(tostring(actor:get_quest_stage("griffin_quest") or ""))
+        if tonumber(_sw1) == 0 then
+            self.room:send(tostring(self.name) .. " says, 'You say Earle sent you?  Hmm, he may have done, but there is nothing I can do for you.'")
+        elseif tonumber(_sw1) == 1 then
+            self.room:send(tostring(self.name) .. " says, 'Did you give the rune sword to Earle yet?  He has to verify that you can go through with this.'")
+        else
+            self.room:send(tostring(self.name) .. " says, 'Ah... my vision is coming true.  The cult grows in strength and will soon be strong enough to summon Dagon, the powerful griffin god.'")
+            wait(3)
+            self.room:send(tostring(self.name) .. " says, 'Seek ye that drunken lout, for he has found the path to the chapel.  Say to him, <b:white>'the seer requests your assistance'</> and he will tell you what he knows.'")
+            self:emote("closers her eyes and goes into a trance.")
+            wait(3)
+            self:emote("wails with fear.")
+            self.room:send(tostring(self.name) .. " says, 'I see the future, when an evil greater than Dagon will walk the island.'")
+            self:emote("opens her eyes again.")
+            wait(2)
+            self:command("sigh")
+            self:say("There is much to do, and little time to do it.")
+        end
     end
     local person = actor
     local stage = 2

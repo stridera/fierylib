@@ -14,14 +14,17 @@ if not (cmd == "study") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "st" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "st" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 3 then
     actor:set_quest_var("school", "fight", 4)
     actor:command("study")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Spell slots will recover significantly faster if you <b:cyan>(MED)ITATE</>.")
     actor:send("I'll walk you through that process now.")
     actor:send("First, get comfortable.")

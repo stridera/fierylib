@@ -12,10 +12,10 @@ local _return_value = true  -- Default: allow action
 if actor:get_quest_stage("ursa_quest") == 2 then
     if actor:get_quest_var("ursa_quest:choice") == 2 then
         if object.zone_id == 162 and object.local_id == 1 then
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             actor:advance_quest("ursa_quest")
-            wait(1)
+            wait(0.1)
             self:emote("runs his hand down the shaft of the golden sceptre.")
             wait(2)
             self:say("What power!")

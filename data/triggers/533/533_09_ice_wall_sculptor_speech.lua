@@ -15,7 +15,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "wall") or string.find(speech_lower, "how") or string.find(speech_lower, "ice") or string.find(speech_lower, "supplies")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("wall_ice") == 0 then
     if actor.class and string.find(actor.class, "cryomancer") and actor.level > 56 then
         actor:start_quest("wall_ice")

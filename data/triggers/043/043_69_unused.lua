@@ -43,17 +43,17 @@ if actor.is_player then
             a = a + 1
         end
     end
-    wait(2)
+    wait(0.2)
     self:command("grin")
     wait(3)
     self:say("Then you'll need this.")
     self.room:spawn_object(43, 4)
-    wait(4)
+    wait(0.4)
     self:emote("produces a key from his pocket.")
     self:command("give key " .. tostring(actor.name))
     wait(3)
     self:say("You should be able to reach their nest from our workshop in the back of the theater.  There's a second entrance above the balcony, but it's always locked from the other side.")
-    wait(4)
+    wait(0.4)
     self:say("Good luck!")
     self:command("bow " .. tostring(actor.name))
     self:set_flag("sentinel", false)

@@ -12,11 +12,11 @@
 if actor:get_quest_stage("waterform") == 6
    and (actor:has_equipped(28, 8) or actor:has_item(28, 8)) then
     if actor:get_quest_var("waterform:" .. tostring(self.zone_id) .. "_" .. tostring(self.local_id)) then
-        wait(1)
+        wait(0.1)
         actor:send("<b:blue>You have already examined this source.</>")
         return true
     else
-        wait(1)
+        wait(0.1)
         actor:send("<b:blue>You gather some water from " .. tostring(self.shortdesc) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")
         actor:set_quest_var("waterform", (tostring(self.zone_id) .. "_" .. tostring(self.local_id)), 1)
         self.room:send_except(actor, "<blue>" .. tostring(actor.name) .. " gathers some water from " .. tostring(self.shortdesc) .. " in " .. tostring(objects.template(28, 8).name) .. ".</>")

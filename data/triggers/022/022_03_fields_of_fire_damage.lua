@@ -29,23 +29,26 @@ while count > 0 do
         local which = random(1, 3)
         damage = damage * 2
         -- switch on which
-        if which == 1 then
-            local damage_dealt = victim:damage(damage)  -- type: fire
-            victim:send("Scorching <red>flames</> burst out of a nearby crack, scalding your skin! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-            room:send_except(victim, "White-hot flames explode out of a crack in the ground right next to " .. tostring(victim.name) .. "! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-        elseif which == 2 then
-            local damage_dealt = victim:damage(damage)  -- type: fire
-            victim:send("Bubbling, hot lava roils out of the ground onto your feet! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-            room:send_except(victim, "Burning lava bubbles out of the ground onto " .. tostring(victim.name) .. "'s feet! Ouch! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-        elseif which == 3 then
-            local damage_dealt = victim:damage(damage)  -- type: fire
-            victim:send("The sharp leaves of a lava bush cut at your legs! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-            room:send_except(victim, tostring(victim.name) .. " yelps as a lava bush's sharp leaves slice into " .. tostring(victim.possessive) .. " legs. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
-        else
-            damage = math.floor(damage * 1.5)
-            local damage_dealt = victim:damage(damage)  -- type: fire
-            victim:send("Some of your hair spontaneously catches fire, burning your scalp! (<b:red>" .. tostring(damage_dealt) .. "</>)")
-            room:send_except(victim, "A caustic odor fills the air as " .. tostring(victim.name) .. "'s hair suddenly bursts into flame. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+        do
+            local _sw1 = string.lower(tostring(which or ""))
+            if tonumber(_sw1) == 1 then
+                local damage_dealt = victim:damage(damage)  -- type: fire
+                victim:send("Scorching <red>flames</> burst out of a nearby crack, scalding your skin! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+                room:send_except(victim, "White-hot flames explode out of a crack in the ground right next to " .. tostring(victim.name) .. "! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+            elseif tonumber(_sw1) == 2 then
+                local damage_dealt = victim:damage(damage)  -- type: fire
+                victim:send("Bubbling, hot lava roils out of the ground onto your feet! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+                room:send_except(victim, "Burning lava bubbles out of the ground onto " .. tostring(victim.name) .. "'s feet! Ouch! (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+            elseif tonumber(_sw1) == 3 then
+                local damage_dealt = victim:damage(damage)  -- type: fire
+                victim:send("The sharp leaves of a lava bush cut at your legs! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+                room:send_except(victim, tostring(victim.name) .. " yelps as a lava bush's sharp leaves slice into " .. tostring(victim.possessive) .. " legs. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+            else
+                damage = math.floor(damage * 1.5)
+                local damage_dealt = victim:damage(damage)  -- type: fire
+                victim:send("Some of your hair spontaneously catches fire, burning your scalp! (<b:red>" .. tostring(damage_dealt) .. "</>)")
+                room:send_except(victim, "A caustic odor fills the air as " .. tostring(victim.name) .. "'s hair suddenly bursts into flame. (<b:blue>" .. tostring(damage_dealt) .. "</>)")
+            end
         end
     end
     count = count - 1

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "follow") or string.find(speech_lower, "me")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if world.count_mobiles(462, 1) == 0 and world.count_mobiles(462, 24) == 0 then
     if not globals.leader then
         self:follow(actor)

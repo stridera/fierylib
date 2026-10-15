@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #53416: look_into_globe
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
-wait(3)
+wait(0.3)
 -- TODO(parity): legacy comparisons used room vnums 53466 (Lirne's ruined
 -- tower, zone 534/id 66) and 53570 (intact past tower, zone 535/id 70).
 -- actor.room is now a Room object; compare via zone_id/local_id.

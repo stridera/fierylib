@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "hi") or string.find(string.lower(spee
     return true  -- No matching keywords
 end
 if actor.is_player and actor.level < 100 then
-    wait(6)
+    wait(0.6)
     self:command("bow " .. tostring(actor.name))
     wait(2)
     self:say("Have a care in these swamps, little one, for evil is afoot.")

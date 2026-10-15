@@ -16,7 +16,7 @@ end
 local rnd = self.room.actors[random(1, #self.room.actors)]
 if rnd.is_player then
     if rnd.level < 100 then
-        wait(1)
+        wait(0.1)
         self.room:send_except(rnd, tostring(self.name) .. " flies into a rage!")
         rnd:send(tostring(self.name) .. " flies into a rage and attacks you!")
         combat.engage(rnd)

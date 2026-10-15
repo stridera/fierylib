@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor:get_quest_var("school:fight") == 4 then
     actor:set_quest_var("school", "fight", 5)
     actor:command("rest")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Next, you should <b:cyan>(MED)ITATE</> to get into the proper state of mind.")
     actor:send("As it goes up, the <b:cyan>MEDITATE</> skill increases your <b:cyan>FOCUS</> score when you <b:cyan>MEDITATE</>.")
     actor:send("You can <b:cyan>MEDITATE</> as long as you're not in combat.'")

@@ -37,17 +37,17 @@ if (object.zone_id == 490 and object.id == 16) then
         end
         a = a + 1
     end
-    wait(2)
+    wait(0.2)
     self:command("smile")
     self:say("Thanks " .. tostring(leader.name) .. ".  Now, lead me to the boulder.")
     wait(1)
     self.room:send(tostring(self.name) .. " says, 'When you want it shifted, say <b:white>'push now'</> and I will get to work.'")
     self:follow(leader.name)
-    wait(4)
+    wait(0.4)
     self:say("Be ready to move quick - I won't be able to hold it forever.")
     self:emote("polishes the earring.")
     self:emote("peers at the earring and says 'Hello little midget.'")
-    wait(8)
+    wait(0.8)
     self:command("wear earring ear")
 else
     _return_value = true

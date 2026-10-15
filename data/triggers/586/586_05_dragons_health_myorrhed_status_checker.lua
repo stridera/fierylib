@@ -15,7 +15,7 @@ if not (string.find(speech_lower, "progress") or string.find(speech_lower, "stat
 end
 
 local stage = actor:get_quest_stage("dragons_health")
-wait(2)
+wait(0.2)
 if actor:get_has_completed("dragons_health") then
     self.room:send(tostring(self.name) .. " says, 'You have already kept vigil with me.")
     self.room:send("</>May the Song of the Dragons give you strength.'")

@@ -13,8 +13,8 @@ if not percent_chance(50) then
     return true
 end
 self:command("roar")
-wait(2)
+wait(0.2)
 self:emote("yells out for assistance from anyone that can help!")
-wait(2)
+wait(0.2)
 self.room:spawn_mobile(30, 52)
 self.room:send("A half-elven town guard arrives so quickly, you're not sure what direction he came from.")

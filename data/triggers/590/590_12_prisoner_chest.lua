@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "chest?")) then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 -- Mark every co-located group member at quest stage >= 2 with find_key.
 local continue = false
 for _, person in ipairs(actor.group or { actor }) do
@@ -27,7 +27,7 @@ if continue then
     actor:send(tostring(self.name) .. " whispers to you, 'Yes, I swiped the key for the chest off of one of the guards before I was confined, and hid it in the courtyard.'")
     wait(2)
     self:say("Now I must go, since I have been freed.")
-    wait(3)
+    wait(0.3)
     self:emote("leaves east.")
     self:teleport(get_room(590, 91))
     world.destroy(self)

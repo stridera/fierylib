@@ -8,7 +8,7 @@
 -- Converted from DG Script #48112: VULCERA_gets_ring
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 if object.zone_id == 481 and object.local_id == 27 then
-    wait(2)
+    wait(0.2)
     world.destroy(self.room:find_actor("ivory-ring"))
     find_player("vulcera"):teleport(get_room(481, 109))
     get_room(481, 109):at(function()

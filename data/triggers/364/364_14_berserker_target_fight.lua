@@ -51,7 +51,7 @@ for _, person in ipairs(actors) do
         and person.group_size and person.group_size ~= 0
         and person:get_quest_var("berserker_subclass:target") == self.id
     then
-        wait(2)
+        wait(0.2)
         person:send("<b:red>You must hunt this creature alone!  No groups allowed!</>")
         person:send(tostring(self.name) .. entry.msg_self)
         local their_pronoun = person.himher or person.name

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local item = actor:get_quest_var("armor_exchange:armor_id")
 if string.find(speech, "yes") then
     if item == 0 then

@@ -19,9 +19,12 @@ if not (cmd == "light") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "l" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "l" then
+        _return_value = true
+        return _return_value
+    end
 end
 -- `arg` is the typed argument ("torch"), not an object: this trigger sits on the academy torch
 -- (0:23), so the lesson step applies when the argument names this object.
@@ -32,7 +35,7 @@ if actor:get_quest_var("school:gear") == 5 and names_this_torch then
     _return_value = false
     actor:command("light " .. tostring(arg))
     actor:set_quest_var("school", "gear", 6)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Now you can see in dark spaces or outside at night!")
     actor:send("Remember, most lights have a limited duration.")
     actor:send("It's best to turn them off when not using them.")

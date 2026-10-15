@@ -19,10 +19,10 @@ local _return_value = true  -- Default: allow action
 -- original Smoldering Trident trigger
 -- 
 if (object.zone_id == 23 and object.id == 0) then
-    wait(1)
+    wait(0.1)
     local object_shortdesc = object.shortdesc
     world.destroy(object)
-    wait(3)
+    wait(0.3)
     self.room:send_except(actor, tostring(self.name) .. " stops tossing meat into the fire and peers at " .. tostring(actor.name) .. ".")
     actor:send(tostring(self.name) .. " stops tossing meat into the fire and looks at you.")
     wait(3)
@@ -117,16 +117,16 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
         if actor:get_quest_var("hellfire_brimstone:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
             _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
+            wait(0.2)
             self:say("I have no need for a second " .. tostring(objects.template(object.zone_id, object.local_id).name) .. "!")
         else
-            wait(2)
+            wait(0.2)
             actor:set_quest_var("hellfire_brimstone", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             self.room:send(tostring(self.name) .. " holds " .. tostring(object.shortdesc) .. " in his gnarled fist.")
             self:say("You have done well " .. tostring(actor.name) .. ".")
             world.destroy(object)
         end
-        wait(2)
+        wait(0.2)
         local item1 = actor:get_quest_var("hellfire_brimstone:4318")
         local item2 = actor:get_quest_var("hellfire_brimstone:5211")
         local item3 = actor:get_quest_var("hellfire_brimstone:5212")
@@ -157,7 +157,7 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
     else
         _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         self:say("I have no need for this!")
     end
 end

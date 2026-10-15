@@ -12,7 +12,7 @@ if not (string.find(string.lower(speech), "yes")
         or string.find(string.lower(speech), "no")) then
     return true
 end
-wait(2)
+wait(0.2)
 local item = actor:get_quest_var("gem_exchange:gem_id")
 if string.find(speech, "yes") then
     if item == 0 or item == nil then

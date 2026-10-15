@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 if actor.level < 30 then
     actor:send(tostring(self.name) .. " tells you, 'There is a temple just outside the West Gate")
     actor:send("</>of town, dedicated to the Kaaz clan, the great heroes of the Rift Wars.")

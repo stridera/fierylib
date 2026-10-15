@@ -6,7 +6,7 @@
 
 -- Converted from DG Script #46205: Nukreth Spire path2 3 4 captive greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 local kill, job, follow
 local task = globals.task
 local in_breaker_room = self.room.zone_id == 462 and self.room.local_id == 78

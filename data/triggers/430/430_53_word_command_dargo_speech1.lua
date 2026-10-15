@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "yes?") or string.find(string.lower(speech), "sure") or string.find(string.lower(speech), "okay") or string.find(string.lower(speech), "yeah")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if globals.questor == actor.name then
     self:say("Lead on!")
 elseif actor:get_has_completed("word_command") then

@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "worthy?")) then
 end
 self:say("Only the sharpest of minds can answer the riddle my master dictated to me.")
 self:command("sigh")
-wait(1)
+wait(0.1)
 self:say("You, I fear, are not of sharp mind.")
 self:emote("casts his hollow eye sockets upon you.")
 self:say("Or body.")

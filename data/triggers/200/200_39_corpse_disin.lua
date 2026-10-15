@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 if actor.is_player then
     _return_value = true
-    wait(1)
+    wait(0.1)
     actor:send("As you grab the corpse from the coffin, it disintigrates in your hands!")
     self.room:send_except(actor, tostring(actor.name) .. " grabs the corpse and it disintigrates in " .. tostring(actor.possessive) .. " hands!")
     world.destroy(self.room:find_object("corpse"))

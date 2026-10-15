@@ -15,16 +15,19 @@ end
 wait(1)
 local value = random(1, 10)
 -- switch on value
-if value == 1 then
-    self:breath_attack("fire", nil)
-elseif value == 2 or value == 3 then
-    self:command("sweep")
-elseif value == 4 or value == 5 then
-    self:command("roar")
-elseif value == 6 then
-    run_room_trigger(520, 20)
-elseif value == 7 then
-    run_room_trigger(520, 21)
-else
-    self:command("growl")
+do
+    local _sw1 = string.lower(tostring(value or ""))
+    if tonumber(_sw1) == 1 then
+        self:breath_attack("fire", nil)
+    elseif tonumber(_sw1) == 2 or tonumber(_sw1) == 3 then
+        self:command("sweep")
+    elseif tonumber(_sw1) == 4 or tonumber(_sw1) == 5 then
+        self:command("roar")
+    elseif tonumber(_sw1) == 6 then
+        run_room_trigger(520, 20)
+    elseif tonumber(_sw1) == 7 then
+        run_room_trigger(520, 21)
+    else
+        self:command("growl")
+    end
 end

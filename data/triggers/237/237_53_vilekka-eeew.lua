@@ -16,7 +16,7 @@ end
 -- OK, this is in response to 23752, the returning of the Drider King's
 -- head. (Why is she questioning? Check 23754 part 2..her goddess
 -- is requiring that she eat the head and heart the player returns to her.
-wait(2)
+wait(0.2)
 if (actor.is_player) and (actor:get_quest_stage("vilekka_stew") == 5) then
     self:emote("looks shrewdly around the room.")
     wait(2)

@@ -11,10 +11,10 @@ if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "assassin" then
     if actor:get_quest_stage("merc_ass_thi_subclass") == 3 then
         if actor:get_quest_var("merc_ass_thi_subclass:mayor") == 1 then
             actor:advance_quest("merc_ass_thi_subclass")
-            wait(1)
+            wait(0.1)
             actor:send("<b:red>You've got the cane!</>")
         else
-            wait(1)
+            wait(0.1)
             actor:send("<b:yellow>You haven't killed the Mayor yet...</>")
         end
     end

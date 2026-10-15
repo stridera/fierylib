@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #11823: rock_fall_on_head
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
-wait(2)
+wait(0.2)
 if actor.level < 100 then
     local die1 = random(1, 60)
     local die2 = random(1, 60)

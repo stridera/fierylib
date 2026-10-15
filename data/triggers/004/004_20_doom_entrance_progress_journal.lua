@@ -28,24 +28,27 @@ if string.find(arg, "doom entrance") or string.find(arg, "the planes of doom") o
             -- switch on stage
             local master
             local task
-            if stage == 1 then
-                master = mobiles.template(484, 11).name
-                task = "Track down the White Hart in the Eldorian Foothills and hold the bloody rag in its presence"
-            elseif stage == 2 then
-                master = mobiles.template(484, 11).name
-                task = "Slay the White Hart and bring its antlers to " .. tostring(master)
-            elseif stage == 3 then
-                master = mobiles.template(484, 10).name
-                task = "Slay Rhalean's Evil Sister, trapped deep underground"
-            elseif stage == 4 then
-                master = mobiles.template(484, 10).name
-                task = "Return to " .. tostring(master)
-            elseif stage == 5 then
-                master = mobiles.template(484, 12).name
-                task = "Drop the vial of sunlight before a mockery of the sun in a place steeped in darkness"
-            elseif stage == 6 then
-                master = mobiles.template(484, 12).name
-                task = "Return to " .. tostring(master)
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    master = mobiles.template(484, 11).name
+                    task = "Track down the White Hart in the Eldorian Foothills and hold the bloody rag in its presence"
+                elseif tonumber(_sw1) == 2 then
+                    master = mobiles.template(484, 11).name
+                    task = "Slay the White Hart and bring its antlers to " .. tostring(master)
+                elseif tonumber(_sw1) == 3 then
+                    master = mobiles.template(484, 10).name
+                    task = "Slay Rhalean's Evil Sister, trapped deep underground"
+                elseif tonumber(_sw1) == 4 then
+                    master = mobiles.template(484, 10).name
+                    task = "Return to " .. tostring(master)
+                elseif tonumber(_sw1) == 5 then
+                    master = mobiles.template(484, 12).name
+                    task = "Drop the vial of sunlight before a mockery of the sun in a place steeped in darkness"
+                elseif tonumber(_sw1) == 6 then
+                    master = mobiles.template(484, 12).name
+                    task = "Return to " .. tostring(master)
+                end
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

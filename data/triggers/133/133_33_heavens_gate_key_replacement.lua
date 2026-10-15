@@ -27,7 +27,7 @@ if actor:get_quest_stage("heavens_gate") ~= 3 then
     return true
 end
 
-wait(2)
+wait(0.2)
 if actor:has_item(133, 51) then
     actor:send("<b:cyan>You already possess a Key of Heaven.</>")
     return true

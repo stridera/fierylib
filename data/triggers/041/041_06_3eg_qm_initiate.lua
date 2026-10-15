@@ -15,7 +15,7 @@ if not (string.find(speech_lower, "quest") or string.find(speech_lower, "sod") o
     return true  -- No matching keywords
 end
 -- This is for neutrals and goods only.
-wait(2)
+wait(0.2)
 if actor:get_quest_var("Black_Legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have pledged yourself to the forces of")
     actor:send("</>darkness!  Suffer under your choice!'")

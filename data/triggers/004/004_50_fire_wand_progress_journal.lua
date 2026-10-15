@@ -53,57 +53,60 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
             local wandtask3
             local wandtask4
             local place
-            if stage == 2 then
-                master = mobiles.template(30, 13).name
-                wandgem = 55575
-            elseif stage == 3 then
-                master = mobiles.template(41, 26).name
-                hint = "A minion of the dark flame out east will know what to do."
-                wandgem = 55590
-                wandtask3 = 23752
-            elseif stage == 4 then
-                master = mobiles.template(103, 6).name
-                hint = "There's a fire master in the frozen north who likes to spend his time at the hot springs."
-                wandgem = 55612
-                wandtask3 = 2331
-                wandtask4 = 37006
-            elseif stage == 5 then
-                master = mobiles.template(123, 4).name
-                hint = "A master of fire near the megalith in South Caelia will be able to help next."
-                wandgem = 55639
-                wandtask3 = 12526
-                wandtask4 = "&1&bthe Lava Tunnels&0"
-            elseif stage == 6 then
-                master = mobiles.template(238, 11).name
-                hint = "A seraph crafts with the power of the sun and sky.  It can be found in the floating fortress in South Caelia."
-                wandgem = 55662
-                wandtask3 = 5201
-                wandtask4 = 32412
-            elseif stage == 7 then
-                master = mobiles.template(481, 5).name
-                hint = "I hate to admit it, but Vulcera is your next crafter.  Good luck appeasing her though..."
-                wandgem = 55689
-                wandtask3 = 43018
-                wandtask4 = 11705
-            elseif stage == 8 then
-                master = mobiles.template(481, 150).name
-                hint = "You're headed back to Fiery Island.  Crazy old McCabe can help you improve your staff further."
-                wandgem = 55716
-                wandtask3 = 53000
-                wandtask4 = 53456
-                place = 5272
-            elseif stage == 9 then
-                master = mobiles.template(484, 12).name
-                hint = "Seek out the one who speaks for the Sun near Anduin.  He can upgrade your wand."
-                wandgem = 55739
-                wandtask3 = 48126
-                wandtask4 = 4013
-            elseif stage == 10 then
-                master = mobiles.template(52, 30).name
-                hint = "Surely you've heard of Emmath Firehand.  He's the supreme artisan of fiery goods.  He can help you make the final improvements to your staff."
-                wandgem = 23822
-                wandtask3 = 52002
-                wandtask4 = 47800
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 2 then
+                    master = mobiles.template(30, 13).name
+                    wandgem = 55575
+                elseif tonumber(_sw1) == 3 then
+                    master = mobiles.template(41, 26).name
+                    hint = "A minion of the dark flame out east will know what to do."
+                    wandgem = 55590
+                    wandtask3 = 23752
+                elseif tonumber(_sw1) == 4 then
+                    master = mobiles.template(103, 6).name
+                    hint = "There's a fire master in the frozen north who likes to spend his time at the hot springs."
+                    wandgem = 55612
+                    wandtask3 = 2331
+                    wandtask4 = 37006
+                elseif tonumber(_sw1) == 5 then
+                    master = mobiles.template(123, 4).name
+                    hint = "A master of fire near the megalith in South Caelia will be able to help next."
+                    wandgem = 55639
+                    wandtask3 = 12526
+                    wandtask4 = "&1&bthe Lava Tunnels&0"
+                elseif tonumber(_sw1) == 6 then
+                    master = mobiles.template(238, 11).name
+                    hint = "A seraph crafts with the power of the sun and sky.  It can be found in the floating fortress in South Caelia."
+                    wandgem = 55662
+                    wandtask3 = 5201
+                    wandtask4 = 32412
+                elseif tonumber(_sw1) == 7 then
+                    master = mobiles.template(481, 5).name
+                    hint = "I hate to admit it, but Vulcera is your next crafter.  Good luck appeasing her though..."
+                    wandgem = 55689
+                    wandtask3 = 43018
+                    wandtask4 = 11705
+                elseif tonumber(_sw1) == 8 then
+                    master = mobiles.template(481, 150).name
+                    hint = "You're headed back to Fiery Island.  Crazy old McCabe can help you improve your staff further."
+                    wandgem = 55716
+                    wandtask3 = 53000
+                    wandtask4 = 53456
+                    place = 5272
+                elseif tonumber(_sw1) == 9 then
+                    master = mobiles.template(484, 12).name
+                    hint = "Seek out the one who speaks for the Sun near Anduin.  He can upgrade your wand."
+                    wandgem = 55739
+                    wandtask3 = 48126
+                    wandtask4 = 4013
+                elseif tonumber(_sw1) == 10 then
+                    master = mobiles.template(52, 30).name
+                    hint = "Surely you've heard of Emmath Firehand.  He's the supreme artisan of fiery goods.  He can help you make the final improvements to your staff."
+                    wandgem = 23822
+                    wandtask3 = 52002
+                    wandtask4 = 47800
+                end
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

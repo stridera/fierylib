@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("wizard_eye") == 3 then
     actor:advance_quest("wizard_eye")
     actor:send(tostring(self.name) .. " says, 'As I suspected.'")

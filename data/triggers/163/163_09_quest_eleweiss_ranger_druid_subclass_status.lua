@@ -13,7 +13,7 @@ if not (string.find(sl, "subclass") or string.find(sl, "progress")) then
     return true
 end
 
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("ran_dru_subclass")
 if stage == 1 then
     actor:send(tostring(self.name) .. " says, 'Only the most dedicated to the forests shall complete the <b:cyan>quest</> I set upon you.'")
@@ -31,7 +31,7 @@ elseif stage == 3 or stage == 4 then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Well, you see now, I lost the jewel of my heart. If you are up to it, finding and returning it to me will get you your reward.'")
     self:command("shrug")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'But for now, it is time for you to depart I think.'")
     self:command("sigh")
     actor:send(tostring(self.name) .. " says, 'You have brought up painful memories for me to relive.'")

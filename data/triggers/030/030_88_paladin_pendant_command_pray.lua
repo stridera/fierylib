@@ -29,54 +29,59 @@ if not (cmd == "pray") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "p" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "p" then
+        _return_value = true
+        return _return_value
+    end
 end
 local anti = "Anti-Paladin"
 local pendantstage = actor:get_quest_stage("paladin_pendant")
 -- switch on self.id
 local continue
-if actor.room == 5479 and pendantstage == 1 then
-    if self.id == 360 then
-        continue = "yes"
-    end
-    if (actor.room == 17345 or actor.room == 17346 or actor.room == 17351 or actor.room == 17352) and pendantstage == 2 then
-    elseif self.id == 361 then
-        continue = "yes"
-    end
-    if actor.room == 49516 and pendantstage == 3 then
-    elseif self.id == 362 then
-        continue = "yes"
-    end
-    if actor.room == 2408 and pendantstage == 4 then
-    elseif self.id == 363 then
-        continue = "yes"
-    end
-    if actor.room == 55105 and pendantstage == 5 then
-    elseif self.id == 364 then
-        continue = "yes"
-    end
-    if actor.room == 53159 and pendantstage == 6 then
-    elseif self.id == 365 then
-        continue = "yes"
-    end
-    if actor.room == 58424 and pendantstage == 7 then
-    elseif self.id == 366 then
-        continue = "yes"
-    end
-    if actor.room == 48032 and pendantstage == 8 then
-    elseif self.id == 367 then
-        continue = "yes"
-    end
-    if actor.room == 48880 and pendantstage == 9 then
-    elseif self.id == 368 then
-        continue = "yes"
+do
+    if (self.zone_id == 2 and self.id == 160) then
+        if actor.room == 5479 and pendantstage == 1 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 161) then
+        if (actor.room == 17345 or actor.room == 17346 or actor.room == 17351 or actor.room == 17352) and pendantstage == 2 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 162) then
+        if actor.room == 49516 and pendantstage == 3 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 163) then
+        if actor.room == 2408 and pendantstage == 4 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 164) then
+        if actor.room == 55105 and pendantstage == 5 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 165) then
+        if actor.room == 53159 and pendantstage == 6 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 166) then
+        if actor.room == 58424 and pendantstage == 7 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 167) then
+        if actor.room == 48032 and pendantstage == 8 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 168) then
+        if actor.room == 48880 and pendantstage == 9 then
+            continue = "yes"
+        end
     end
 end
 if continue == "yes" then
     actor:command("pray")
-    wait(2)
+    wait(0.2)
     if actor.class == "paladin" then
         actor:send("<b:yellow>You have gained new insights on your righteous cause!</>")
     elseif actor.class == "anti-paladin" then

@@ -13,7 +13,7 @@
 
 -- Converted from DG Script #48124: vulcera_greet1
 -- Original: MOB trigger, flags: GREET, GREET_ALL, probability: 100%
-wait(6)
+wait(0.6)
 self:command("peer " .. tostring(actor.name))
 self:say("So puny one, you dare to disturb me?")
 local stage = 7
@@ -31,7 +31,7 @@ while i >= a do
         if person:get_quest_stage("type_wand") == "wandstep" then
             if person.level >= 60 then
                 if person:get_quest_var("type_wand:greet") == 0 then
-                    wait(2)
+                    wait(0.2)
                     self:say("What do you want pathetic mortal?")
                 else
                     self:say("Do you have what I require for the " .. tostring(weapon) .. "?")
@@ -42,7 +42,7 @@ while i >= a do
             person:advance_quest("fieryisle_quest")
             person:send("<b:white>You have advanced your quest!</>")
             if person:has_item(481, 16) then
-                wait(2)
+                wait(0.2)
                 self:emote("does a double take at " .. tostring(person.name) .. ".")
                 self:say("Are you the one who has the key to the ivory chest?!")
                 wait(1)

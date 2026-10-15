@@ -12,7 +12,7 @@
 -- 
 -- This is for druids only
 if actor.class == "druid" and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Gloves? Well now I can make a fine pair of gloves for the\"")
     actor:send(tostring(self.name) .. " tells you, \"druid types but I'll need 3 handfulls of tourmalines, and a\"")
     actor:send(tostring(self.name) .. " tells you, \"set of Corroded Gloves. Return these things to me in any order\"")

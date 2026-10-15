@@ -8,8 +8,8 @@
 -- Converted from DG Script #59036: agressive_attack
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.alignment <= -350 and actor.level < 100 and actor.is_player then
-    wait(4)
+    wait(0.4)
     self:say("There is no place for your kind around here.")
-    wait(6)
+    wait(0.6)
     combat.engage(self, actor.name)
 end

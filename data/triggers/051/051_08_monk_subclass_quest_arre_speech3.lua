@@ -23,7 +23,7 @@ if not string.find(actor.class, "warrior") then
 end
 local stage = actor:get_quest_stage("monk_subclass")
 if string.find(speech_lower, "yes") then
-    wait(2)
+    wait(0.2)
     if actor.level < 10 then
         self:command("eye " .. actor.name)
         actor:send(self.name .. " says, 'Perhaps in time, after you've gained a little more experience, we can talk more.'")
@@ -41,7 +41,7 @@ if string.find(speech_lower, "yes") then
         actor:send(self.name .. " says, 'Ah, you are no longer suited for my teachings.  So I shall not waste my time with you.'")
     end
 else
-    wait(2)
+    wait(0.2)
     if stage == nil or stage == 0 then
         actor:send(self.name .. " says, 'It is too bad then, we could use more in our ranks, but only if they truly wish to belong.'")
         self:command("smile")

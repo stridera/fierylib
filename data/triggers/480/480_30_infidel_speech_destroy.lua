@@ -15,16 +15,16 @@ if not (string.find(speech_lower, "destroy", 1, true)) then
 end
 if actor.alignment < -349 then
     if actor.level > 80 then
-        wait(2)
+        wait(0.2)
         self:say("If you bring me the prince's skull, I can reward you.")
-        wait(1)
+        wait(0.1)
         self:say("He is bound by certain rules.  If you say 'the champion wishes to challenge you by proxy', he will be forced to fight you.")
-        wait(1)
+        wait(0.1)
         self:command("smile")
         self:say("That way, my victory will be absolute.")
     else
         self:say("If you are able to return once you are stronger, perhaps you can be of great assistance then.")
-        wait(1)
+        wait(0.1)
         self:say("Now leave.")
     end
 end

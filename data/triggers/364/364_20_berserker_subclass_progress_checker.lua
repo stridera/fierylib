@@ -14,7 +14,7 @@ if not (string.find(speech_lower, "subclass") or string.find(speech_lower, "prog
     return true
 end
 
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("berserker_subclass")
 
 if stage == 1 then

@@ -40,7 +40,7 @@ if actor:get_quest_stage("theatre") >= 1 then
         if not accept_lashes then
             refuse = "lashes"
         else
-            wait(2)
+            wait(0.2)
             self:say("Thank you so much!")
             wait(1)
             self:command("sit")
@@ -48,7 +48,7 @@ if actor:get_quest_stage("theatre") >= 1 then
             self:emote("flutters her eyelids a few times.")
             wait(2)
             self:command("stand")
-            wait(2)
+            wait(0.2)
             self:say("Finally!  Now if I could just have my dressing room key back too please...")
         end
     elseif (object.zone_id == 43 and object.id == 3) then
@@ -77,7 +77,7 @@ if actor:get_quest_stage("theatre") >= 1 then
             a = a + 1
         end
         if not accept_key then
-            wait(2)
+            wait(0.2)
             self.room:send(tostring(self.name) .. " makes a weird, embarrassed face.")
             wait(1)
             self:say("Can you be a dear and bring me my eyelashes first?")
@@ -85,7 +85,7 @@ if actor:get_quest_stage("theatre") >= 1 then
             self:say("Thaaaaaaanks!")
             self:command("give key " .. tostring(actor.name))
         else
-            wait(2)
+            wait(0.2)
             self:emote("looks incredibly relieved.")
             self:say("I can't believe those monkeys made off with my key but not my costumes.")
             wait(2)
@@ -112,20 +112,20 @@ if refuse then
     _return_value = true
     if refuse == "lashes" then
         self.room:send(tostring(self.name) .. " blinks in confusion.")
-        wait(2)
+        wait(0.2)
         self:say("N...o?  You already gave me my eyelashes.")
         actor:send(tostring(self.name) .. " slowly pushes the eyelashes back to you.")
-        wait(2)
+        wait(0.2)
         self.room:send_except(actor, tostring(self.name) .. " slowly pushes the eyelashes back to " .. tostring(actor.name) .. ".")
     elseif refuse == "item" then
         self.room:send("A confused look crosses Catherine's face as she refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         self:say("This isn't what I was looking for!")
         wait(1)
         self:say("Please help me or I'll miss my cue!")
     elseif refuse == "person" then
         self.room:send(tostring(self.name) .. " looks at " .. tostring(object.shortdesc) .. " with confusion.")
-        wait(2)
+        wait(0.2)
         self:say("Ummm, what is that?")
         wait(1)
         self.room:send_except(actor, tostring(self.name) .. " looks at " .. tostring(actor.name) .. " with confusion.")

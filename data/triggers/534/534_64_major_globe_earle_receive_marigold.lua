@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_stage("major_globe_spell") == 4 then
     -- marigold salve
-    wait(1)
+    wait(0.1)
     actor:advance_quest("major_globe_spell")
     self:destroy_item("marigold-poultice")
     actor:send(tostring(self.name) .. " says, 'Excellent, let me just finish this salve then...'")

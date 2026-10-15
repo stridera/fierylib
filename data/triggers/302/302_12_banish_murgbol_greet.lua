@@ -8,7 +8,7 @@
 -- based on quest stage. The "banish:greet" var prevents repeated greets
 -- while the player loiters in the room.
 local stage = actor:get_quest_stage("banish")
-wait(4)
+wait(0.4)
 local class_lower = string.lower(actor.class or "")
 if string.find(class_lower, "priest") or string.find(class_lower, "diabolist") then
     if (actor:get_quest_var("banish:greet") or 0) ~= 1 then

@@ -17,17 +17,17 @@ local key = "ice_shards:" .. tostring(object.zone_id) .. "_" .. tostring(object.
 local prior = actor:get_quest_var(key)
 if prior and prior ~= 0 and prior ~= "" and prior ~= "0" then
     self.room:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     self:say("Thanks, but you already delivered " .. tostring(object.shortdesc) .. " to me.")
     return false
 end
 
 actor:set_quest_var("ice_shards", tostring(object.zone_id) .. "_" .. tostring(object.local_id), 1)
 self:destroy_item("book")
-wait(2)
+wait(0.2)
 self.room:send(self.name .. "'s eyes grow wide.")
 self:say("This is incredible!  I never imagined I'd be holding a copy of " .. tostring(object.shortdesc) .. "!")
-wait(2)
+wait(0.2)
 
 -- The four target books, looked up by composite (zone, id):
 --   16209 → (162, 9)   the Book of Kings

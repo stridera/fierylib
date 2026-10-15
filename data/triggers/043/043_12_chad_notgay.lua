@@ -14,10 +14,10 @@ if not (string.find(string.lower(speech), "oh") or string.find(string.lower(spee
     return true  -- No matching keywords
 end
 if actor.zone_id == 43 and actor.local_id == 2 then
-    wait(5)
+    wait(0.5)
     self:emote("scoots away from his fellow player.")
     wait(3)
     self:say("I just don't know...  I mean, I COULD be...")
-    wait(5)
+    wait(0.5)
     self:emote("is so confused by it all!")
 end

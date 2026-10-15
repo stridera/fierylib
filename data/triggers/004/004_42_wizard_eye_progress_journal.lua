@@ -35,44 +35,47 @@ if string.find(arg, "wizard eye") or string.find(arg, "wizard") or string.find(a
             local thing2
             local thing3
             local thing4
-            if stage == 1 then
-                master = mobiles.template(324, 10).name
-                task = "You are trying to find " .. tostring(master) .. " in South Caelia Highlands to ask her about Wizard Eye."
-            elseif stage == 2 then
-                task = "Find marigold poultice from a healer on the beachhead and give it to " .. tostring(master) .. "."
-            elseif stage == 3 then
-                master = mobiles.template(490, 3).name
-                task = "Go visit " .. tostring(master) .. " of Griffin Isle to ask her about Wizard Eye and see what you need to do next."
-            elseif stage == 4 then
-                master = mobiles.template(490, 3).name
-                task = "Have " .. tostring(master) .. " make you an herbal sachet."
-                thing1 = objects.template(23, 29).name
-                thing2 = objects.template(237, 53).name
-                thing3 = objects.template(480, 5).name
-            elseif stage == 5 then
-                task = "Give " .. tostring(master) .. " the sachet."
-            elseif stage == 6 then
-                task = "You are looking for the apothecary in Anduin."
-            elseif stage == 7 then
-                master = mobiles.template(60, 22).name
-                task = "Get The Green Woman to make you incense."
-                thing1 = objects.template(237, 54).name
-                thing2 = objects.template(30, 298).name
-                thing3 = objects.template(238, 47).name
-                thing4 = objects.template(180, 1).name
-            elseif stage == 8 then
-                task = "Give " .. tostring(master) .. " the incense."
-            elseif stage == 9 or stage == 10 then
-                master = mobiles.template(484, 10).name
-                thing1 = objects.template(30, 218).name
-                thing2 = objects.template(534, 24).name
-                thing3 = objects.template(430, 21).name
-                thing4 = objects.template(40, 3).name
-                task = "See the Oracle of Justice."
-            elseif stage == 11 then
-                task = "Give " .. tostring(master) .. " the crystal ball."
-            elseif stage == 12 then
-                task = "Return to " .. tostring(master) .. " and lay back and go to sleep."
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    master = mobiles.template(324, 10).name
+                    task = "You are trying to find " .. tostring(master) .. " in South Caelia Highlands to ask her about Wizard Eye."
+                elseif tonumber(_sw1) == 2 then
+                    task = "Find marigold poultice from a healer on the beachhead and give it to " .. tostring(master) .. "."
+                elseif tonumber(_sw1) == 3 then
+                    master = mobiles.template(490, 3).name
+                    task = "Go visit " .. tostring(master) .. " of Griffin Isle to ask her about Wizard Eye and see what you need to do next."
+                elseif tonumber(_sw1) == 4 then
+                    master = mobiles.template(490, 3).name
+                    task = "Have " .. tostring(master) .. " make you an herbal sachet."
+                    thing1 = objects.template(23, 29).name
+                    thing2 = objects.template(237, 53).name
+                    thing3 = objects.template(480, 5).name
+                elseif tonumber(_sw1) == 5 then
+                    task = "Give " .. tostring(master) .. " the sachet."
+                elseif tonumber(_sw1) == 6 then
+                    task = "You are looking for the apothecary in Anduin."
+                elseif tonumber(_sw1) == 7 then
+                    master = mobiles.template(60, 22).name
+                    task = "Get The Green Woman to make you incense."
+                    thing1 = objects.template(237, 54).name
+                    thing2 = objects.template(30, 298).name
+                    thing3 = objects.template(238, 47).name
+                    thing4 = objects.template(180, 1).name
+                elseif tonumber(_sw1) == 8 then
+                    task = "Give " .. tostring(master) .. " the incense."
+                elseif tonumber(_sw1) == 9 or tonumber(_sw1) == 10 then
+                    master = mobiles.template(484, 10).name
+                    thing1 = objects.template(30, 218).name
+                    thing2 = objects.template(534, 24).name
+                    thing3 = objects.template(430, 21).name
+                    thing4 = objects.template(40, 3).name
+                    task = "See the Oracle of Justice."
+                elseif tonumber(_sw1) == 11 then
+                    task = "Give " .. tostring(master) .. " the crystal ball."
+                elseif tonumber(_sw1) == 12 then
+                    task = "Return to " .. tostring(master) .. " and lay back and go to sleep."
+                end
             end
             actor:send("Quest Master: " .. tostring(master))
             actor:send("</>")

@@ -23,5 +23,5 @@ end
 local stair_room = get_room(495, 13)
 stair_room:exit("up"):set_state({hidden = false})
 self:send("With a terrifying crash the ceiling above falls downward, ceasing. A stairway leads upwards.")
-wait(20)
+wait(2)
 stair_room:exit("up"):set_state({hidden = true})

@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor:get_quest_var("school:fight") == 3 then
     actor:set_quest_var("school", "fight", 4)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 4).name) .. " tells you, '<b:cyan>(BAS)H</> deals some damage, but more importantly it <b:red>knocks your opponent down</>.")
     actor:send("That <b:red>prevents your opponent from attacking you</> and <b:red>stops spellcasters from casting spells</>.")
     actor:send("</>")

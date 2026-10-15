@@ -13,7 +13,7 @@ if not percent_chance(15) then
     return true
 end
 self:say("Look at me look at me look at me now!")
-wait(4)
+wait(0.4)
 self:emote("hits a pose!")
 wait(2)
 self:command("grin")

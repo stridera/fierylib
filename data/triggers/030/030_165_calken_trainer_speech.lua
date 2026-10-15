@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "training") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "2h") or string.find(string.lower(speech), "dodge") or string.find(string.lower(speech), "parry") or string.find(string.lower(speech), "riposte") or string.find(string.lower(speech), "hitall") or string.find(string.lower(speech), "barehand") or string.find(string.lower(speech), "bash") or string.find(string.lower(speech), "disarm") or string.find(string.lower(speech), "first") or string.find(string.lower(speech), "guard") or string.find(string.lower(speech), "kick") or string.find(string.lower(speech), "mount") or string.find(string.lower(speech), "rescue") or string.find(string.lower(speech), "riding") or string.find(string.lower(speech), "safefall") or string.find(string.lower(speech), "springleap") or string.find(string.lower(speech), "tame") or string.find(string.lower(speech), "tantrum") or string.find(string.lower(speech), "maul") or string.find(string.lower(speech), "berserk") or string.find(string.lower(speech), "ground") or string.find(string.lower(speech), "battle") or string.find(string.lower(speech), "roundhouse")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 -- make sure they have a quest record for saving variables
 if actor:get_quest_stage("trainer_3165") < 1 then
     actor:start_quest("trainer_3165")

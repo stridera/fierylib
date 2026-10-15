@@ -12,7 +12,7 @@
 -- 
 -- This is for monks only
 if actor.class == "monk" and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Bracer ya ask? Well now I can make a protective bracer for the\"")
     actor:send(tostring(self.name) .. " tells you, \"monk types but I'll need 3 radiant jades, and a Corroded Wristband.\"")
     actor:send(tostring(self.name) .. " tells you, \"Return these things to me in any order at any time and\"")

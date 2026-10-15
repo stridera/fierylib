@@ -21,12 +21,12 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 if actor.alignment > 349 then
-    wait(2)
+    wait(0.2)
     self:command("sigh")
     self:say("Many years ago when King Ureal threatened the land, I swore that I would try to stop him.")
-    wait(1)
+    wait(0.1)
     self:say("I was the paladin champion, and it was my duty to bring an end to his evil.")
-    wait(1)
+    wait(0.1)
     self:emote("sighs again loudly.")
     self:say("But I failed.")
 end

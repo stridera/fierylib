@@ -16,7 +16,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "faction") or string.find(string.lower(speech), "status")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_var("Black_Legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You are pledged to the Black")
     actor:send("</>Legion.'")

@@ -19,7 +19,7 @@ if not string.find(string.lower(speech), "spell progress", 1, true) then
     return true  -- Not the phrase
 end
 local stage = actor:get_quest_stage("meteorswarm")
-wait(2)
+wait(0.2)
 if actor:get_quest_var("meteorswarm:new") ~= "yes" then
     actor:send(tostring(self.name) .. " says, 'Go find a new meteorite.'")
     return true
@@ -28,32 +28,35 @@ elseif actor:get_quest_var("meteorswarm:new") ~= "no" then
     return true
 end
 -- switch on stage
-if stage == 1 then
-    actor:send(tostring(self.name) .. " tells you, 'You need to find Jemnon and <b:cyan>ask about the rock demon</>.  He's in some <b:cyan>tavern</>, no doubt, waiting for some new blunder to embark on.'")
-elseif stage == 2 then
-    actor:send(tostring(self.name) .. " tells you, 'Find a suitable focus by defeating the rock demon in Templace.'")
-    if actor:get_quest_var("meteorswarm:earth") == 0 then
-    elseif stage == 3 then
-        actor:send(tostring(self.name) .. " tells you, 'Show me the meteorite.'")
-    else
-        if actor:get_quest_var("meteorswarm:fire") == 0 then
-            actor:send(tostring(self.name) .. " tells you, 'Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers.'")
+do
+    local _sw1 = string.lower(tostring(stage or ""))
+    if tonumber(_sw1) == 1 then
+        actor:send(tostring(self.name) .. " tells you, 'You need to find Jemnon and <b:cyan>ask about the rock demon</>.  He's in some <b:cyan>tavern</>, no doubt, waiting for some new blunder to embark on.'")
+    elseif tonumber(_sw1) == 2 then
+        actor:send(tostring(self.name) .. " tells you, 'Find a suitable focus by defeating the rock demon in Templace.'")
+    elseif tonumber(_sw1) == 3 then
+        if actor:get_quest_var("meteorswarm:earth") == 0 then
+            actor:send(tostring(self.name) .. " tells you, 'Show me the meteorite.'")
         else
-            actor:send(tostring(self.name) .. " tells you, 'Find the lava bubble in the high fire priest's secret chambers.'")
+            if actor:get_quest_var("meteorswarm:fire") == 0 then
+                actor:send(tostring(self.name) .. " tells you, 'Find and kill the high fire priest in the Lava Tunnels.  Then enter the lava bubble below his secret chambers.'")
+            else
+                actor:send(tostring(self.name) .. " tells you, 'Find the lava bubble in the high fire priest's secret chambers.'")
+            end
         end
-    end
-    wait(1)
-    actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")
-elseif stage == 4 then
-    actor:send(tostring(self.name) .. " tells you, 'Convince the ancient dragon Dargentan to teach you the ways of air magic.'")
-    wait(1)
-    actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")
-    if actor:get_quest_var("meteorswarm:air") == 0 then
-    elseif stage == 5 then
-        actor:send(tostring(self.name) .. " tells you, 'Show me the meteorite now that you have mastered earth, fire, and air.'")
         wait(1)
         actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")
-    else
-        actor:send(tostring(self.name) .. " tells you, 'Take your finished focus and unleash its potential!'")
+    elseif tonumber(_sw1) == 4 then
+        actor:send(tostring(self.name) .. " tells you, 'Convince the ancient dragon Dargentan to teach you the ways of air magic.'")
+        wait(1)
+        actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")
+    elseif tonumber(_sw1) == 5 then
+        if actor:get_quest_var("meteorswarm:air") == 0 then
+            actor:send(tostring(self.name) .. " tells you, 'Show me the meteorite now that you have mastered earth, fire, and air.'")
+            wait(1)
+            actor:send(tostring(self.name) .. " says, 'If you somehow lost the meteorite, say <b:red>\"I lost the meteorite\"</>.'")
+        else
+            actor:send(tostring(self.name) .. " tells you, 'Take your finished focus and unleash its potential!'")
+        end
     end
 end

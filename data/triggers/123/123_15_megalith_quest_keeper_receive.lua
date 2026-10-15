@@ -78,12 +78,12 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 self:say("I need water returned in the cup " .. tostring(mobiles.template(123, 1).name) .. " has consecrated.")
                 return _return_value
             else
-                wait(2)
+                wait(0.2)
                 actor:set_quest_var("megalith_quest", direction, 0)
                 actor:set_quest_var("megalith_quest", part_key, 1)
                 if direction == "north" then
                     self:say("Ah, excellent!  This will make a perfect offering.")
-                    wait(6)
+                    wait(0.6)
                     self.room:send(tostring(self.name) .. " places " .. tostring(object.shortdesc) .. " before the menhir and kneels.")
                     wait(2)
                     self.room:send(tostring(self.name) .. " chants:")
@@ -91,7 +91,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                     self.room:send("</>Spirits of Earth and Determination")
                 elseif direction == "south" then
                     self:say("Marvelous!  This will make a perfect offering.")
-                    wait(6)
+                    wait(0.6)
                     self.room:send(tostring(self.name) .. " raises " .. tostring(object.shortdesc) .. " above her head.")
                     wait(2)
                     self.room:send(tostring(self.name) .. " chants:")
@@ -99,7 +99,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                     self.room:send("</>Spirits of Fire and Feeling")
                 elseif direction == "east" then
                     self:say("Great!  This will make a perfect offering.")
-                    wait(6)
+                    wait(0.6)
                     self.room:send(tostring(self.name) .. " shakes out " .. tostring(object.shortdesc) .. " like a blanket.")
                     self.room:send("She watches with delight as it dissolves into wisps of cloudy mist.")
                     wait(4)
@@ -109,11 +109,11 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 elseif direction == "west" then
                     if actor:get_quest_var("megalith_quest:item5") == 1 then
                         self:say("Ah, delightful!  This water will make a perfect offering.")
-                        wait(6)
+                        wait(0.6)
                     else
                         self:say("This will do.")
                         actor:set_quest_var("megalith_quest", "bad2", 1)
-                        wait(6)
+                        wait(0.6)
                     end
                     self.room:send(tostring(self.name) .. " pours the water from " .. tostring(object.shortdesc) .. " before the menhir.")
                     wait(2)

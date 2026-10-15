@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local stage = actor:get_quest_stage("wizard_eye")
 if stage == 5 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("sachet")
     actor:advance_quest("wizard_eye")
     actor:send(tostring(self.name) .. " says, 'Very smart blend of herbs.  It will bring prophetic dreams.  She always did know her sachets.'")

@@ -7,6 +7,6 @@
 
 -- Converted from DG Script #1000: armor of gaia destroy self remove
 -- Original: OBJECT trigger, flags: REMOVE, probability: 100%
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " crumbles to dust and blows away.")
 world.destroy(self)

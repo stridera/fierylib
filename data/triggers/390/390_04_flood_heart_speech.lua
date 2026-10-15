@@ -28,7 +28,7 @@ end
 
 -- Legacy `return 0` ahead of the wait: the player's `say` goes ahead and the script carries on.
 allow_command()
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("flood") == 1 then
     local room = actor.room
     local zone = room.id  -- TODO: should be a (zone_id, local_id) tuple

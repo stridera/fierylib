@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "perfect") or string.find(string.lower(speech), "act?") or string.find(string.lower(speech), "repertoire?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self:emote("presents himself with grand poise.")
 self.room:send(tostring(self.name) .. " says, 'Yes, our grand Finale, never before seen on a public")
 self.room:send("</>stage!'")

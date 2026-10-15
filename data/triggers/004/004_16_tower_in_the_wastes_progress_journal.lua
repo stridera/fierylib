@@ -29,12 +29,15 @@ if string.find(arg, "tower") or string.find(arg, "wastes") or string.find(arg, "
             actor:send("The injured halfling said:")
             -- switch on stage
             local phrase
-            if stage == 1 then
-                phrase = "Have you found my brother yet?  He must be in the tower somewhere!"
-            elseif stage == 2 then
-                phrase = "He carried our grandfather's warhammer.  The warhammer is very precious to my family.  Would you please find it?  I will reward you as best I can!"
-            elseif stage == 3 or stage == 4 then
-                phrase = "A... demon has the warhammer, you say?  I must have the warhammer!  Losing my brother is bad enough!"
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    phrase = "Have you found my brother yet?  He must be in the tower somewhere!"
+                elseif tonumber(_sw1) == 2 then
+                    phrase = "He carried our grandfather's warhammer.  The warhammer is very precious to my family.  Would you please find it?  I will reward you as best I can!"
+                elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+                    phrase = "A... demon has the warhammer, you say?  I must have the warhammer!  Losing my brother is bad enough!"
+                end
             end
             actor:send("The halfling said, '" .. tostring(phrase) .. "'")
         end

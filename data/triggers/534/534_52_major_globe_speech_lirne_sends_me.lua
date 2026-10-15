@@ -16,7 +16,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "lirne") or string.find(string.lower(speech), "sends") or string.find(string.lower(speech), "me")) then
     return true  -- No matching keywords
 end
-wait(1)
+wait(0.1)
 if actor:get_quest_stage("major_globe_spell") == 1 then
     actor:advance_quest("major_globe_spell")
     self:command("smirk")

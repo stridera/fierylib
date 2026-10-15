@@ -31,7 +31,7 @@ end
 if response then
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     self:say(tostring(response))
 end
 return _return_value

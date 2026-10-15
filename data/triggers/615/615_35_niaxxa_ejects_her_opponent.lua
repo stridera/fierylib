@@ -22,7 +22,7 @@ elseif actor.level < 20 and self:has_equipped(615, 14) and self.room.zone_id == 
         outcome = random(1, 20)
     end
     if outcome == 1 then
-        wait(3)
+        wait(0.3)
         local val = random(1, 3)
         if val == 1 then
             self:say("I tire of your foolishness.")

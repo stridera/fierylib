@@ -15,7 +15,7 @@
 if not string.find(string.lower(speech), "aderci") then
     return true  -- No matching keywords
 end
-wait(1)
+wait(0.1)
 if not actor:has_equipped(14, 6) then
     -- No Eyes of Truth, no exit!
     return true

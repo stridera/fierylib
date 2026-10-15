@@ -16,7 +16,7 @@
 -- clarified.
 
 if actor:get_quest_stage("ice_shards") == 8 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("ice_shards")
     self.room:send("Khysan carefully opens " .. tostring(object.shortdesc) .. " and starts to read.")
     wait(2)

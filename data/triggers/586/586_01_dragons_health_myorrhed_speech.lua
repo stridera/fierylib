@@ -14,7 +14,7 @@ if not (string.find(speech_lower, "egg") or string.find(speech_lower, "yes") or 
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("dragons_health") == 0 then
-    wait(2)
+    wait(0.2)
     if string.find(speech, "egg?") or string.find(speech, "egg") then
         self:say("Yes, this egg here.")
         self:emote("gestures to the large bronze egg.")
@@ -34,7 +34,7 @@ if actor:get_quest_stage("dragons_health") == 0 then
             end
         end
     elseif string.find(speech, "Yes") or string.find(speech, "yes?") then
-        wait(2)
+        wait(0.2)
         if (string.find(actor.class, "cleric") or string.find(actor.class, "priest")) and actor.level > 88 then
             self:emote("smiles with gratitude.")
             actor:start_quest("dragons_health")
@@ -51,7 +51,7 @@ if actor:get_quest_stage("dragons_health") == 0 then
     end
 elseif actor:get_quest_stage("dragons_health") == 1 then
     if string.find(speech, "why") or string.find(speech, "why?") then
-        wait(2)
+        wait(0.2)
         self:say("Dragons love treasure.  This is well-known.")
         wait(2)
         self.room:send(tostring(self.name) .. " says, 'On one level, they just love having it.  To many, all dragons,")
@@ -63,7 +63,7 @@ elseif actor:get_quest_stage("dragons_health") == 1 then
         self.room:send(tostring(self.name) .. " says, 'Dragons are compelled to hoard treasure because they draw")
         self.room:send("</>power directly from the <b:cyan>value</> of the artifacts they claim dominion over.'")
     elseif string.find(speech, "value") or string.find(speech, "value?") then
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'That value isn't always monetary.  Things imbued with precious")
         self.room:send("</>memories, little physical bits of ruins, even a plant that has been carried")
         self.room:send("</>from one land to another, all of that contributes to something's value.'")
@@ -77,7 +77,7 @@ elseif actor:get_quest_stage("dragons_health") == 1 then
         self.room:send(tostring(self.name) .. " says, 'It would be... valuable if you <b:cyan>\"procured\"</> a few items from the")
         self.room:send("</>hoards of chromatic dragons.'")
     elseif string.find(speech, "procured") or string.find(speech, "procured?") or string.find(speech, "procure") or string.find(speech, "procure?") then
-        wait(2)
+        wait(0.2)
         self:say("Yes, that probably means you would have to slay them.")
         self:command("shrug")
         wait(5)
@@ -89,7 +89,7 @@ elseif actor:get_quest_stage("dragons_health") == 1 then
         self.room:send("</>To see if you're up to the <b:cyan>task</> though, let's start with something less")
         self.room:send("</>dangerous.'")
     elseif string.find(speech, "task") or string.find(speech, "task?") then
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'A young blue dragon has made a lair near the old tower west of")
         self.room:send("</>Anduin.  Bring back the crystal it keeps in its hoard for our hatchling.'")
         wait(2)

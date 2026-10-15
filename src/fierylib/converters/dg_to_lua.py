@@ -678,6 +678,12 @@ def _var_decl(var_name: str, declared_vars: set | None, value_expr: str = '') ->
     return 'local '
 
 
+def pulses_to_seconds_literal(pulses: int) -> str:
+    """Lua number literal (seconds) for a legacy pulse count: 10 pulses per second."""
+    whole, tenth = divmod(pulses, 10)
+    return str(whole) if tenth == 0 else f'{whole}.{tenth}'
+
+
 def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None) -> Optional[str]:
     """Convert a single DG Script command to Lua."""
     cmd = cmd.strip()
@@ -958,8 +964,13 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
 
     # === Timing ===
 
-    # wait N or wait N s
-    match = re.match(r'^wait\s+(\d+)\s*s?$', cmd, re.IGNORECASE)
+    # Legacy `wait` units (process_wait, dg_scripts.cpp): a bare number is PULSES
+    # (10 per second, so `wait 2` is 0.2s), `N s` / `Ns` / `N seconds` is seconds,
+    # `N t` is game hours (75s each). Lua `wait(n)` takes (fractional) seconds and
+    # `wait_ticks(n)` takes game hours.
+
+    # wait N s / wait Ns (seconds)
+    match = re.match(r'^wait\s+(\d+)\s*s$', cmd, re.IGNORECASE)
     if match:
         return f'{ind}wait({match.group(1)})'
 
@@ -968,11 +979,22 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
     if match:
         return f'{ind}wait({match.group(1)})'
 
+    # wait N (bare number = pulses, tenths of a second)
+    match = re.match(r'^wait\s+(\d+)$', cmd, re.IGNORECASE)
+    if match:
+        return f'{ind}wait({pulses_to_seconds_literal(int(match.group(1)))})'
+
     # wait %var%s or wait %var% s (variable seconds)
-    match = re.match(r'^wait\s+%([^%]+)%\s*s?$', cmd, re.IGNORECASE)
+    match = re.match(r'^wait\s+%([^%]+)%\s*s$', cmd, re.IGNORECASE)
     if match:
         delay = convert_variable_expr(match.group(1))
         return f'{ind}wait({delay})'
+
+    # wait %var% (variable pulses)
+    match = re.match(r'^wait\s+%([^%]+)%$', cmd, re.IGNORECASE)
+    if match:
+        delay = convert_variable_expr(match.group(1))
+        return f'{ind}wait(({delay}) / 10)'
 
     # wait until HH:MM (time-based wait)
     match = re.match(r'^wait\s+until\s+(\d{1,2}):(\d{2})$', cmd, re.IGNORECASE)
@@ -2203,31 +2225,192 @@ def command_location_guard(mask: int) -> list[str]:
     ]
 
 
-def convert_script_body(commands: str, command_trigger: bool = False) -> str:
-    """Convert the entire script body from DG Script to Lua.
+_SWITCH_DEFAULT = None  # sentinel label for `default`
 
-    `command_trigger` selects the legacy COMMAND default verdict (block) for the
-    `_return_value` variable; see RETURN_VALUE_DEFAULT_COMMAND.
+
+@dataclass
+class _SwitchSegment:
+    """One run of grouped `case`/`default` labels and the body that follows them."""
+    labels: list = field(default_factory=list)  # case strings; _SWITCH_DEFAULT for `default`
+    body: list = field(default_factory=list)    # raw DG lines
+    breaks: bool = False                        # body ends with a top-level `break`
+
+
+def _is_default_label(line_lower: str) -> bool:
+    # 'defalt' is a common typo in the legacy scripts; the DG interpreter would not
+    # match it either, but the builders clearly meant `default`.
+    return line_lower in ('default', 'defalt')
+
+
+def _split_switch(lines: list[str], start: int) -> tuple[int, list[_SwitchSegment], bool]:
+    """Split the DG `switch` at lines[start] into segments.
+
+    Returns (index of the matching `done`, or len(lines) if it is missing; the
+    segments; whether a `break` sits inside an `if` block of the switch).
+
+    Mirrors the interpreter: `find_case` scans forward for the first `case` whose
+    value equals the switch value (or a `default`), skipping nested while/switch
+    blocks; execution then falls through every following label until a `break`
+    (which jumps to the switch's `done`). Lines before the first label never run.
     """
-    lines = commands.split('\n')
-    lua_lines = []
-    indent = 0
-    in_switch = False
-    in_while = False  # Track if we're in a while loop
-    switch_var = ""
-    first_case = True
-    switch_has_if = False  # Track if switch generated an if statement
-    pending_cases = []  # For collecting fall-through cases
-    has_return_value = False  # Track if we need the _return_value variable
-    declared_vars: set[str] = set()  # Track declared variables to avoid re-declaring with 'local'
+    segments: list[_SwitchSegment] = []
+    nest: list[str] = []  # open 'if' / 'loop' blocks inside the switch
+    nested_break = False
+    dead = False  # after a top-level `break`, up to the next label
+    i = start + 1
+    while i < len(lines):
+        line = lines[i].strip()
+        low = line.lower()
+        i += 1
+        if not line:
+            continue
+        if low.startswith(('while ', 'switch ')):
+            nest.append('loop')
+        elif low.startswith('if '):
+            nest.append('if')
+        elif low in ('end', 'endif', 'end if'):
+            if nest and nest[-1] == 'if':
+                nest.pop()
+        elif low == 'done':
+            if 'loop' in nest:
+                while nest.pop() != 'loop':
+                    pass
+            else:
+                return i - 1, segments, nested_break
+        elif not nest and (low.startswith('case ') or _is_default_label(low)):
+            label = _SWITCH_DEFAULT if _is_default_label(low) else line[5:].strip()
+            cur = segments[-1] if segments else None
+            if cur is not None and not cur.body and not cur.breaks:
+                cur.labels.append(label)  # grouped labels share one body
+            else:
+                segments.append(_SwitchSegment(labels=[label]))
+            dead = False
+            continue
+        elif low == 'break' and not nest:
+            if segments:
+                segments[-1].breaks = True
+            dead = True
+            continue
+        elif low == 'break' and 'loop' not in nest:
+            nested_break = True  # leaves the switch from inside an `if`
+        if segments and not dead:
+            segments[-1].body.append(line)
+    return len(lines), segments, nested_break
 
-    # Check if script uses return 0/1 (not immediately followed by halt)
-    commands_lower = commands.lower()
-    if 'return 0' in commands_lower or 'return 1' in commands_lower:
-        has_return_value = True
-        default = RETURN_VALUE_DEFAULT_COMMAND if command_trigger else RETURN_VALUE_DEFAULT_ALLOW
-        lua_lines.append(default)
 
+def _switch_label_condition(sw: str, label, vnum_owner: Optional[str] = None) -> str:
+    """Lua test for one case label against the lowered switch value in `sw`.
+
+    The interpreter compares with `==`: both numeric -> numbers, otherwise
+    case-insensitive string equality of the whole value. When the switch is on a
+    legacy `.vnum`, a numeric label is a legacy vnum and becomes the composite
+    (zone_id, id) test, since the runtime has no flat vnums.
+    """
+    if vnum_owner and re.fullmatch(r'\d+', label):
+        zone_id, local_id = vnum_to_zone_and_local(int(label))
+        return f'({vnum_owner}.zone_id == {zone_id} and {vnum_owner}.id == {local_id})'
+    if re.fullmatch(r'-?\d+', label):
+        return f'tonumber({sw}) == {int(label)}'
+    if '%' in label:
+        return f'{sw} == string.lower({convert_text_with_vars(label)})'
+    escaped = label.lower().replace('\\', '\\\\').replace('"', '\\"')
+    return f'{sw} == "{escaped}"'
+
+
+def _switch_segment_condition(sw: str, seg: _SwitchSegment, vnum_owner: Optional[str] = None) -> str:
+    if _SWITCH_DEFAULT in seg.labels:
+        return 'true'
+    return ' or '.join(_switch_label_condition(sw, label, vnum_owner) for label in seg.labels)
+
+
+def _convert_switch(lines: list[str], start: int, indent: int, declared_vars: set[str],
+                    counter: list[int]) -> tuple[list[str], int]:
+    """Convert the DG switch at lines[start]; returns (Lua lines, index after its `done`)."""
+    end, segments, nested_break = _split_switch(lines, start)
+    expr = lines[start].strip()[7:].strip()
+    whole_var = re.fullmatch(r'%([^%]+)%', expr)
+    value = convert_variable_expr(whole_var.group(1)) if whole_var else convert_text_with_vars(expr)
+    counter[0] += 1
+    sw = f'_sw{counter[0]}'
+    pad = '    ' * indent
+    inner = '    ' * (indent + 1)
+    vnum_owner = None
+    if whole_var and whole_var.group(1).lower().endswith('.vnum') and value.endswith('.id'):
+        vnum_owner = value[:-len('.id')]
+
+    out = [f'{pad}-- switch on {value}']
+    out.append(f'{pad}do')
+    if any(not (vnum_owner and re.fullmatch(r'\d+', label))
+           for seg in segments for label in seg.labels if label is not _SWITCH_DEFAULT):
+        out.append(f'{inner}local {sw} = string.lower(tostring({value} or ""))')
+
+    # Labels after a `default` can never be the entry point: the scan stops there.
+    for k, seg in enumerate(segments):
+        if _SWITCH_DEFAULT in seg.labels:
+            segments = segments[:k + 1]
+            break
+
+    fallthrough = any(not seg.breaks and seg.body for seg in segments[:-1])
+    if not segments:
+        pass
+    elif not fallthrough and not nested_break:
+        # Plain shape: every body ends in `break` (or the switch), so the cases are
+        # mutually exclusive and become an if / elseif / else chain.
+        chain_open = False
+        for seg in segments:
+            is_default = _SWITCH_DEFAULT in seg.labels
+            real = [label for label in seg.labels if label is not _SWITCH_DEFAULT]
+            if is_default:
+                if chain_open:
+                    out.append(f'{inner}else')
+                    body_indent = indent + 2
+                else:
+                    body_indent = indent + 1  # only a default: run unconditionally
+            else:
+                cond = _switch_segment_condition(sw, seg, vnum_owner)
+                out.append(f'{inner}{"elseif" if chain_open else "if"} {cond} then')
+                chain_open = True
+                body_indent = indent + 2
+            out.extend(_convert_lines(seg.body, body_indent, declared_vars, counter))
+            if is_default:
+                break
+        if chain_open:
+            out.append(f'{inner}end')
+    else:
+        # Fall-through (or a `break` inside an `if`): once a label matches, every
+        # following body runs until a `break`, which leaves the repeat block.
+        run = f'_run{counter[0]}'
+        body_pad = '    ' * (indent + 2)
+        out.append(f'{inner}local {run} = false')
+        out.append(f'{inner}repeat')
+        for seg in segments:
+            if _SWITCH_DEFAULT in seg.labels:
+                out.append(f'{body_pad}do  -- default')
+            else:
+                out.append(f'{body_pad}if {run} or {_switch_segment_condition(sw, seg, vnum_owner)} then')
+            out.append(f'{body_pad}    {run} = true')
+            body = _convert_lines(seg.body, indent + 3, declared_vars, counter, in_break_scope=True)
+            out.extend(body)
+            # A trailing `return` (halt) already leaves; Lua forbids a statement after it.
+            if seg.breaks and not (body and body[-1].strip().startswith('return')):
+                out.append(f'{body_pad}    break')
+            out.append(f'{body_pad}end')
+        out.append(f'{inner}until true')
+    out.append(f'{pad}end')
+    return out, end + 1
+
+
+def _convert_lines(lines: list[str], indent: int, declared_vars: set[str],
+                   counter: list[int], in_break_scope: bool = False) -> list[str]:
+    """Convert DG control flow and commands to Lua lines at `indent`.
+
+    Blocks the DG source leaves open are closed at the end (DG is more lenient).
+    `in_break_scope` is set for the body of a switch that is wrapped in a Lua
+    `repeat ... until true` block, where a DG `break` becomes a Lua `break`.
+    """
+    lua_lines: list[str] = []
+    base_indent = indent
+    while_depth = 0
     i = 0
     while i < len(lines):
         line = lines[i].strip()
@@ -2247,20 +2430,20 @@ def convert_script_body(commands: str, command_trigger: bool = False) -> str:
             continue
 
         if line_lower.startswith('elseif '):
-            indent = max(0, indent - 1)
+            indent = max(base_indent, indent - 1)
             cond = line[7:].strip()
             lua_lines.append('    ' * indent + f'elseif {convert_condition(cond)} then')
             indent += 1
             continue
 
         if line_lower == 'else':
-            indent = max(0, indent - 1)
+            indent = max(base_indent, indent - 1)
             lua_lines.append('    ' * indent + 'else')
             indent += 1
             continue
 
         if line_lower in ('end', 'endif', 'end if'):
-            indent = max(0, indent - 1)
+            indent = max(base_indent, indent - 1)
             lua_lines.append('    ' * indent + 'end')
             continue
 
@@ -2269,120 +2452,61 @@ def convert_script_body(commands: str, command_trigger: bool = False) -> str:
             cond = line[6:].strip()
             lua_lines.append('    ' * indent + f'while {convert_condition(cond)} do')
             indent += 1
-            in_while = True
+            while_depth += 1
             continue
 
         if line_lower.startswith('switch '):
-            switch_expr = line[7:].strip()
-            switch_var = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), switch_expr)
-            in_switch = True
-            first_case = True
-            switch_has_if = False  # Track if we actually generated an if statement
-            pending_cases = []  # Collect fall-through cases
-            lua_lines.append('    ' * indent + f'-- switch on {switch_var}')
-            continue
-
-        if line_lower.startswith('case '):
-            case_val = line[5:].strip()
-            # Quote the value if it's not a number and not already quoted
-            if case_val and not case_val.isdigit() and not case_val.startswith('"'):
-                case_val = f'"{case_val}"'
-            if in_switch:
-                pending_cases.append(case_val)
-            continue
-
-        if line_lower == 'default':
-            if in_switch:
-                # Flush any pending cases before default
-                if pending_cases:
-                    conditions = ' or '.join([f'{switch_var} == {c}' for c in pending_cases])
-                    if first_case:
-                        lua_lines.append('    ' * indent + f'if {conditions} then')
-                        indent += 1
-                        first_case = False
-                        switch_has_if = True
-                    else:
-                        indent = max(0, indent - 1)
-                        lua_lines.append('    ' * indent + f'elseif {conditions} then')
-                        indent += 1
-                    pending_cases = []
-                # Default becomes else (only if we have an if)
-                if not first_case and switch_has_if:
-                    indent = max(0, indent - 1)
-                    lua_lines.append('    ' * indent + 'else')
-                    indent += 1
-                # If switch only has default (no cases), just run the code unconditionally
-            continue
-
-        if line_lower == 'break':
-            # In switch, break just ends the case - no action needed
+            switch_lines, i = _convert_switch(lines, i - 1, indent, declared_vars, counter)
+            lua_lines.extend(switch_lines)
             continue
 
         if line_lower == 'done':
-            if in_while:
-                # Close the while loop
-                indent = max(0, indent - 1)
+            if while_depth:
+                indent = max(base_indent, indent - 1)
                 lua_lines.append('    ' * indent + 'end')
-                in_while = False
-            elif in_switch:
-                # Flush any remaining pending cases
-                if pending_cases:
-                    conditions = ' or '.join([f'{switch_var} == {c}' for c in pending_cases])
-                    if first_case:
-                        lua_lines.append('    ' * indent + f'if {conditions} then')
-                        indent += 1
-                        first_case = False
-                        switch_has_if = True
-                    else:
-                        indent = max(0, indent - 1)
-                        lua_lines.append('    ' * indent + f'elseif {conditions} then')
-                        indent += 1
-                    pending_cases = []
-                # Only add 'end' if we actually generated an 'if'
-                if switch_has_if:
-                    indent = max(0, indent - 1)
-                    lua_lines.append('    ' * indent + 'end')
-                in_switch = False
-                first_case = True
-                switch_has_if = False
+                while_depth -= 1
             continue
 
-        # When we encounter a non-case line inside a switch, flush pending cases first
-        if in_switch and pending_cases:
-            conditions = ' or '.join([f'{switch_var} == {c}' for c in pending_cases])
-            if first_case:
-                lua_lines.append('    ' * indent + f'if {conditions} then')
-                indent += 1
-                first_case = False
-                switch_has_if = True
-            else:
-                indent = max(0, indent - 1)
-                lua_lines.append('    ' * indent + f'elseif {conditions} then')
-                indent += 1
-            pending_cases = []
+        # `break` leaves the innermost while loop, or the enclosing switch block; it is
+        # inert elsewhere. `case` and `default` outside a switch are inert.
+        if line_lower == 'break':
+            if while_depth or in_break_scope:
+                lua_lines.append('    ' * indent + 'break')
+            continue
+        if line_lower.startswith('case ') or _is_default_label(line_lower):
+            continue
 
         # Regular command
         converted = convert_command(line, indent, declared_vars)
         if converted:
-            # Skip redundant halt after setting _return_value
-            # In DG Scripts, "return 0" followed by "halt" is common
-            if 'return _return_value' in converted and lua_lines:
-                last_line = lua_lines[-1].strip()
-                if last_line.startswith('_return_value ='):
-                    # Previous line just set _return_value, keep the return
-                    pass
             lua_lines.append(converted)
 
-    # Close any unclosed blocks (DG Script is more lenient than Lua)
-    # This handles scripts that end with an if/else block without explicit 'end'
-    if in_switch:
-        indent = max(0, indent - 1)
-        lua_lines.append('    ' * indent + 'end  -- auto-close switch')
-        indent = max(0, indent - 1)
-
-    while indent > 0:
+    while indent > base_indent:
         indent -= 1
         lua_lines.append('    ' * indent + 'end  -- auto-close block')
+
+    return lua_lines
+
+
+def convert_script_body(commands: str, command_trigger: bool = False) -> str:
+    """Convert the entire script body from DG Script to Lua.
+
+    `command_trigger` selects the legacy COMMAND default verdict (block) for the
+    `_return_value` variable; see RETURN_VALUE_DEFAULT_COMMAND.
+    """
+    lines = commands.split('\n')
+    lua_lines = []
+    has_return_value = False  # Track if we need the _return_value variable
+    declared_vars: set[str] = set()  # Track declared variables to avoid re-declaring with 'local'
+
+    # Check if script uses return 0/1 (not immediately followed by halt)
+    commands_lower = commands.lower()
+    if 'return 0' in commands_lower or 'return 1' in commands_lower:
+        has_return_value = True
+        default = RETURN_VALUE_DEFAULT_COMMAND if command_trigger else RETURN_VALUE_DEFAULT_ALLOW
+        lua_lines.append(default)
+
+    lua_lines.extend(_convert_lines(lines, 0, declared_vars, [0]))
 
     # Add final return if script uses _return_value but doesn't end with a return
     if has_return_value:

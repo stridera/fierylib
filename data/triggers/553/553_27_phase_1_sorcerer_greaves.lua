@@ -13,7 +13,7 @@
 -- This is for sorcerers only
 local SORC_SUB = (actor.class == "sorcerer"  or  actor.class == "necromancer"  or  actor.class == "conjurer"  or  actor.class == "cryomancer"  or  actor.class == "pyromancer")
 if SORC_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 1 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Ah, protection for yer legs? Well now I can make a fine set of\"")
     actor:send(tostring(self.name) .. " tells you, \"pants for the sorcerer types but I'll need 3 quantities of some\"")
     actor:send(tostring(self.name) .. " tells you, \"pearl dust, and a set of Decayed Leggings. Return these things\"")

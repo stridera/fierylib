@@ -22,13 +22,13 @@ if not speech_hit then
 end
 if actor.alignment > 350 then
     if actor.level > 80 then
-        wait(2)
+        wait(0.2)
         self:say("Yes.  He is still alive due to his magic arts, and so he can still be killed.")
-        wait(1)
+        wait(0.1)
         self:say("He is a coward, however, and I have heard that when the tides of battle turn against him, he is quick to disappear.")
         self:say("I may have something to help you with that if you are willing to... trade.")
     else
-        wait(2)
+        wait(0.2)
         self:say("Sadly yes, you have come too soon.  If you are able to return once you are stronger, perhaps you can be of great assistance then.")
     end
 end

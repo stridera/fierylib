@@ -13,14 +13,17 @@ if not (cmd == "north") then
     return true  -- Not our command
 end
 -- switch on actor.class
-if actor.class == "rogue" or actor.class == "thief" or actor.class == "assassin" or actor.class == "mercenary" or actor.class == "bard" then
-    actor:send(tostring(self.name) .. " tells you, 'Your trainer is down.'")
-elseif actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid" then
-    actor:send(tostring(self.name) .. " tells you, 'Your trainer is to the east.'")
-elseif actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" or actor.class == "illusionist" or actor.class == "necromancer" then
-    actor:send(tostring(self.name) .. " tells you, 'Your trainer is to the south.'")
-elseif actor.class == "warrior" or actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" or actor.class == "berserker" or actor.class == "monk" then
-    actor:move("north")
-else
-    actor:send(tostring(self.name) .. " tells you, 'Hmmm, I don't actually know where to send you...  Talk to a god.'")
+do
+    local _sw1 = string.lower(tostring(actor.class or ""))
+    if _sw1 == "rogue" or _sw1 == "thief" or _sw1 == "assassin" or _sw1 == "mercenary" or _sw1 == "bard" then
+        actor:send(tostring(self.name) .. " tells you, 'Your trainer is down.'")
+    elseif _sw1 == "cleric" or _sw1 == "priest" or _sw1 == "diabolist" or _sw1 == "druid" then
+        actor:send(tostring(self.name) .. " tells you, 'Your trainer is to the east.'")
+    elseif _sw1 == "sorcerer" or _sw1 == "cryomancer" or _sw1 == "pyromancer" or _sw1 == "illusionist" or _sw1 == "necromancer" then
+        actor:send(tostring(self.name) .. " tells you, 'Your trainer is to the south.'")
+    elseif _sw1 == "warrior" or _sw1 == "paladin" or _sw1 == "anti-paladin" or _sw1 == "ranger" or _sw1 == "berserker" or _sw1 == "monk" then
+        actor:move("north")
+    else
+        actor:send(tostring(self.name) .. " tells you, 'Hmmm, I don't actually know where to send you...  Talk to a god.'")
+    end
 end

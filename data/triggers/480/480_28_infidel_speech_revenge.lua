@@ -14,14 +14,14 @@ if not (string.find(speech_lower, "revenge", 1, true)) then
     return true  -- No matching keywords
 end
 if actor.alignment < -349 then
-    wait(2)
+    wait(0.2)
     self:command("grin")
     self:say("Many centuries ago, I was the champion of King Ureal, the mighty sorcerer who would conquer Ethilien.")
-    wait(1)
+    wait(0.1)
     self:say("Some pathetic paladin sought to slay our King, claiming it was his duty to bring an end to his reign.")
-    wait(1)
+    wait(0.1)
     self:say("He challenged me to a duel.")
     self:command("chuckle")
-    wait(1)
+    wait(0.1)
     self:say("And lost.")
 end

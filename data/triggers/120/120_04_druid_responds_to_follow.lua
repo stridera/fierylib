@@ -14,8 +14,8 @@ if not string.find(speech_lower, "follow") then
     return true  -- No matching keywords
 end
 if actor:get_quest_stage("twisted_sorrow") == 1 then
-    wait(4)
+    wait(0.4)
     self:emote("nods solemnly.")
-    wait(8)
+    wait(0.8)
     self:follow(actor)
 end

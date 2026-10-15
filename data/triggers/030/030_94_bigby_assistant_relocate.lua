@@ -17,12 +17,12 @@ if actor:get_quest_stage("relocate_spell_quest") < 1 then
     if actor.level >=65 then
         if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" then
             self:say("Yes, one of our research mages.")
-            wait(15)
+            wait(1.5)
             self:command("sigh")
             self:say("She was researching a very powerful transportation spell.")
-            wait(15)
+            wait(1.5)
             self:say("I believe Bigby called the spell 'Relocate'.")
-            wait(15)
+            wait(1.5)
             self:say("But she hasn't returned yet. Can you please find her?")
             self:say("She mentioned going to a dark desert to find something.")
             self:say("But that is all I know. I'm sorry I can not help more.")

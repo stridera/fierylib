@@ -43,20 +43,20 @@ if actor:get_quest_stage("illusory_wall") == 1 then
     else
         if obj_id_matches(object, lens_a_z, lens_a_id) or obj_id_matches(object, lens_b_z, lens_b_id) then
             actor:set_quest_var("illusory_wall", key, 1)
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             wait(1)
             self:say("These are excellent lenses.")
         elseif obj_id_matches(object, spur_z, spur_id) then
             actor:set_quest_var("illusory_wall", key, 1)
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             wait(1)
             self.room:send(tostring(self.name) .. " says, 'Yes, this will do nicely.  Hopefully you gained a")
             self.room:send("</>few insights on bending light from the prisms in the Hive as well.'")
         elseif obj_id_matches(object, magic_z, magic_id) then
             actor:set_quest_var("illusory_wall", key, 1)
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             wait(1)
             self.room:send(tostring(self.name) .. " looks at the odd glowing lump.")

@@ -15,7 +15,7 @@
 --
 -- Original DG Script: #17206
 
-wait(1)
+wait(0.1)
 local room_zone = actor.room.zone_id
 local room_id = actor.room.local_id
 local in_hideout = room_zone == 363 and room_id >= 15 and room_id <= 39

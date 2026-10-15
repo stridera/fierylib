@@ -12,7 +12,7 @@ if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path3") == 0 then
         if globals.task ~= "done" then
             if object.zone_id == 462 and object.local_id == 13 then
-                wait(2)
+                wait(0.2)
                 self.room:send(tostring(self.name) .. " grins wickedly as he wraps his fingers around the axe.")
                 self:command("wie axe")
                 wait(1)

@@ -89,7 +89,7 @@ if kind == "boots" then
     end
     actor:set_quest_var("sunfire_rescue", "boots", 1)
     boots = 1
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     self:command("smile " .. tostring(actor.name))
     self:say("Thank you.")
@@ -101,7 +101,7 @@ elseif kind == "cloak" then
     end
     actor:set_quest_var("sunfire_rescue", "cloak", 1)
     cloak = 1
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     self:emote("carefully looks at the cloak.")
     self:say("This is it!  Thank you!")
@@ -114,7 +114,7 @@ elseif kind == "ring" then
     end
     actor:set_quest_var("sunfire_rescue", "ring", 1)
     ring = 1
-    wait(2)
+    wait(0.2)
     self.room:send("Looking at the ring, the prisoner looks overwhelmed with emotion.")
     self:say("Escape is so close I can feel it!")
     world.destroy(object)

@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48135: shaman_greet1
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if actor.is_player then
     self:say("Welcome, adventurer, have you come to help us in our time of need?")
 end

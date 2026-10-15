@@ -12,7 +12,7 @@
 -- 
 -- This is for necromancers only
 if actor.class == "necromancer" and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Sleeves ya ask? Well now I can make a fine set of sleeves for\"")
     actor:send(tostring(self.name) .. " tells you, \"the necromancer types but I'll need 3 radiant pearls, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Worn Sleeves. Return these things to me in\"")

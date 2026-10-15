@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "hello class", 1, true) then
 end
 if actor:get_quest_var("school:speech") == 1 then
     actor:set_quest_var("school", "speech", 2)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Exactly!'")
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'You can talk to one person at a time by using the <b:cyan>(T)ELL</> command.")

@@ -12,7 +12,7 @@
 -- 
 -- This is for diabolists only
 if actor.class == "diabolist" and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Vambraces ya ask? Well now I can make a fine set of vambraces for\"")
     actor:send(tostring(self.name) .. " tells you, \"the diabolist types but I'll need 3 enchanted lapis-lazulis, and a set of\"")
     actor:send(tostring(self.name) .. " tells you, \"Crushed Vambraces. Return these things to me in\"")

@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "progress") or string.find(string.lowe
 end
 local stage = actor:get_quest_stage("ursa_quest")
 local path = actor:get_quest_var("ursa_quest:choice")
-wait(2)
+wait(0.2)
 if actor:get_has_completed("ursa_quest") then
     self.room:send(tostring(self.name) .. " says, 'You have brought me the remedy, and I thank you")
     self.room:send("</>for that.'")

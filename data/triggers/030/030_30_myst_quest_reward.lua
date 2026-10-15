@@ -10,7 +10,7 @@
 
 -- Converted from DG Script #3030: Myst_quest_reward
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-wait(1)
+wait(0.1)
 self:destroy_item("shard")
 -- Create a random number by which to judge prize table off of.
 local rnd = random(1, 100)
@@ -86,9 +86,9 @@ else
     self:say("The reward for this quest is broken, contact a god and let them know.")
 end
 self:shout("Hark all and listen, " .. tostring(actor.name) .. " has fended off a great evil for our fair town!")
-wait(1)
+wait(0.1)
 self:say("Here, " .. tostring(actor.name) .. " you have earned this as a reward.")
-wait(1)
+wait(0.1)
 self:command("give all " .. tostring(actor.name))
 if not actor:get_has_completed("mystwatch_quest") and actor:get_quest_var("mystwatch_quest:step") == "complete" then
     actor:complete_quest("mystwatch_quest")

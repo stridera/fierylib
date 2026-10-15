@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #12321: megalith_quest_ritual_effects5
 -- Original: WORLD trigger, flags: GLOBAL, probability: 100%
-wait(2)
+wait(0.2)
 zone.echo(123, "<b:blue>The rift <yellow>in the sky begins<blue> to churn and swirl.</>")
 zone.echo(123, "<b:blue>Millions of <yellow>tiny stars <blue>and <cyan>alien moons <blue>twinkle in the depths of the vortex.</>")
 wait(4)

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 if actor:get_quest_stage("hell_trident") == 2 then
     if actor.level >= 90 then
-        wait(2)
+        wait(0.2)
         if not actor:get_quest_var("hell_trident:helltask5") then
             if actor:get_has_completed("resurrection_quest") then
                 actor:set_quest_var("hell_trident", "helltask4", 1)

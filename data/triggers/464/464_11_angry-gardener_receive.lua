@@ -15,14 +15,14 @@
 -- composite mapping needs to be verified against the catalog before this
 -- branch will fire.
 if (object.zone_id == 180 and object.id == 0) then
-    wait(1)
+    wait(0.1)
     self:command("scream")
-    wait(1)
+    wait(0.1)
     self:shout(tostring(actor.name) .. " is a murderer!  I'm going to kill them.")
     self.room:spawn_object(464, 13)
     get_room(464, 49):at(function()
         self:command("drop bracelet")
     end)
-    wait(1)
+    wait(0.1)
     combat.engage(actor)
 end

@@ -7,4 +7,4 @@
 -- Self-heal during combat (arena combatant heals itself).
 
 spells.cast(self, "heal", self)
-wait(15)
+wait(1.5)

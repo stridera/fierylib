@@ -9,7 +9,7 @@
 -- Book of Redemption. Advances to stage 8.
 
 if actor:get_quest_stage("ice_shards") == 7 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("ice_shards")
     self:destroy_item("book")
     self.room:send(tostring(self.name) .. " reads aloud, '\"The Lost Library of Shiran\".'")

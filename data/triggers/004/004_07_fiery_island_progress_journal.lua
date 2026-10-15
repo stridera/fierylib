@@ -29,24 +29,27 @@ if string.find(arg, "liberate") or string.find(arg, "fiery") or string.find(arg,
             actor:send("</>")
             actor:send("You are trying to:")
             -- switch on stage
-            if stage == 1 then
-                actor:send("Enter the volcano and find the warlord's son.")
-            elseif stage == 2 then
-                actor:send("Find the dwarrow woman and ask for a spell of reversal.")
-            elseif stage == 3 then
-                actor:send("Kill the ash lord and retrieve his crown.")
-            elseif stage == 4 then
-                actor:send("Return the crown of the ash lord to the dwarrow woman.")
-            elseif stage == 5 then
-                actor:send("Find the person turned to rock and hold the spell the dwarrow woman gave you.")
-            elseif stage == 6 then
-                actor:send("Retrieve the ivory key.")
-            elseif stage == 7 then
-                actor:send("Find Vulcera in the ivory tower.")
-            elseif stage == 8 then
-                actor:send("Give the ivory key to Vulcera.")
-            elseif stage == 9 then
-                actor:send("Defeat Vulcera!")
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("Enter the volcano and find the warlord's son.")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("Find the dwarrow woman and ask for a spell of reversal.")
+                elseif tonumber(_sw1) == 3 then
+                    actor:send("Kill the ash lord and retrieve his crown.")
+                elseif tonumber(_sw1) == 4 then
+                    actor:send("Return the crown of the ash lord to the dwarrow woman.")
+                elseif tonumber(_sw1) == 5 then
+                    actor:send("Find the person turned to rock and hold the spell the dwarrow woman gave you.")
+                elseif tonumber(_sw1) == 6 then
+                    actor:send("Retrieve the ivory key.")
+                elseif tonumber(_sw1) == 7 then
+                    actor:send("Find Vulcera in the ivory tower.")
+                elseif tonumber(_sw1) == 8 then
+                    actor:send("Give the ivory key to Vulcera.")
+                elseif tonumber(_sw1) == 9 then
+                    actor:send("Defeat Vulcera!")
+                end
             end
             actor:send("</>")
             if actor:get_quest_var("fieryisle_quest:chimera") then

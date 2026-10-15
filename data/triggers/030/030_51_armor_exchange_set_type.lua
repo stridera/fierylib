@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "tarnished") or string.find(string.lower(speech), "worn") or string.find(string.lower(speech), "creased") or string.find(string.lower(speech), "crushed") or string.find(string.lower(speech), "burned") or string.find(string.lower(speech), "corroded") or string.find(string.lower(speech), "decayed") or string.find(string.lower(speech), "rusted") or string.find(string.lower(speech), "flimsy")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("armor_exchange") == 0 then
     actor:start_quest("armor_exchange")
 end

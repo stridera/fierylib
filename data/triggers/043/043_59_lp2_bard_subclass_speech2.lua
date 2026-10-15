@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "borrow") or string.find(string.lower(speech), "borrow?") or string.find(string.lower(speech), "someone") or string.find(string.lower(speech), "someone?") or string.find(string.lower(speech), "who") or string.find(string.lower(speech), "who?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("bard_subclass") == 2 then
     self:command("roll")
     actor:send(tostring(self.name) .. " says, 'I mean go beat up an actor and take their shoes!'")

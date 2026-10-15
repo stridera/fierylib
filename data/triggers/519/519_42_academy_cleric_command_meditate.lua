@@ -14,14 +14,17 @@ if not (cmd == "meditate") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "m" or cmd == "me" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "m" or _sw1 == "me" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 5 then
     actor:set_quest_var("school", "fight", 6)
     actor:command("meditate")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'It will take a while to finish recovering your spell slots.")
     actor:send("You will receive a notification each time you recover a spell slot and when you recover them all.'")
     wait(2)

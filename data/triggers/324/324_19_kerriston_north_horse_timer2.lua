@@ -22,7 +22,7 @@ local function ride_to(zone, id)
 end
 if actor.is_player then
     if object.zone_id == 324 and object.local_id == 25 then
-        wait(1)
+        wait(0.1)
         ride_to(324, 197)
         self:destroy_item("strawberry")
         -- Label reference: do_it_to_it
@@ -38,7 +38,7 @@ if actor.is_player then
         self.room:send("The tall grass whips by your feet so quickly it stings!")
         wait(5)
         ride_to(324, 198)
-        wait(1)
+        wait(0.1)
         -- Label reference: do_it_to_it2
         self.room:send("Are you slowing down?")
         wait(5)
@@ -49,21 +49,21 @@ if actor.is_player then
         self.room:send("You slip and nearly fall off!")
         wait(5)
         self.room:send("A Northern Deer darts across the trail infront of you!")
-        wait(5)
+        wait(0.5)
         self.room:send("PHEW Nearly teeth, hair, and eyeballs everywhere!")
-        wait(3)
+        wait(0.3)
         ride_to(324, 165)
-        wait(1)
+        wait(0.1)
         actor:command("look")
         self:command("pant")
         self.room:send(tostring(self.name) .. " wiggles from underneath you.")
-        wait(1)
+        wait(0.1)
         self.room:send(tostring(self.name) .. " is summoned by his master.")  -- from MPROG
         self.room:send(tostring(self.name) .. " disappears in a puff of smoke.")  -- from MPROG
     else
-        wait(1)
+        wait(0.1)
         self:command("eye " .. tostring(actor.name))
-        wait(3)
+        wait(0.3)
         self:command("bite " .. tostring(actor.name))
         self:command("smile me")
     end

@@ -13,14 +13,17 @@ if not (cmd == "spells") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "sp" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "sp" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 2 then
     actor:set_quest_var("school", "fight", 3)
     actor:command("spells")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Spells are divided up by Circle.")
     actor:send("For now you only have access to Circle 1 spells.")
     actor:send("You gain access to a new Circle every 8 levels.")

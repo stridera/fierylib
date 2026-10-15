@@ -18,9 +18,12 @@ if not (cmd == "hatch") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "h" or cmd == "ha" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "h" or _sw1 == "ha" then
+        _return_value = true
+        return _return_value
+    end
 end
 local color, obj_id
 if actor.class == "paladin" then
@@ -53,11 +56,11 @@ if color then
     local dragon = self.room:find_actor(dragon_name)
     if dragon then
         dragon:command("bow")
-        if actor.gender == "Female" then
+    if actor.gender == "Female" then
             dragon:say("Mistress, thank you for protecting me.")
-        else
+    else
             dragon:say("Master, thank you for protecting me.")
-        end
+    end
         dragon:say("Henceforth shall I be at your command.  Merely call and I shall answer!")
     end
     wait(5)

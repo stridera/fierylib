@@ -9,7 +9,7 @@
 -- destroyed after being placed on the well perimeter.
 if actor:get_quest_stage("moonwell_spell_quest") == 9 then
     actor:set_quest_var("moonwell_spell_quest", "map", 1)
-    wait(5)
+    wait(0.5)
     self.room:send(tostring(self.name) .. " places " .. tostring(object.shortdesc) .. " along the circumference of the circle and utters a prayer.")
     wait(1)
     self.room:send(tostring(object.shortdesc) .. " dissipates into a circle of undulating soft blue-green light.")

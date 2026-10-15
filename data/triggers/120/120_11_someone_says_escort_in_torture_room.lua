@@ -18,7 +18,7 @@ local tormentor = self.room:find_actor("dark-pixie-tormentor")
 if brownie and not tormentor then
     brownie:command("nod " .. actor.name)
     brownie:say("Please take me back to the light forest!")
-    wait(8)
+    wait(0.8)
     brownie:follow(actor)
 elseif brownie and tormentor then
     tormentor:command("snicker")

@@ -14,6 +14,6 @@ if not percent_chance(10) then
 end
 self:emote("cracks his whip.")
 self:say("No no thats not how its done.")
-wait(2)
+wait(0.2)
 self:say("Like this.")
 self:emote("sneaks around the room.")

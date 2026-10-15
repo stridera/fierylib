@@ -20,5 +20,7 @@ if (object.zone_id == 552 and object.id == 11)
     return true
 end
 -- switch on objet.id
-wait(1)
-self:say("Thanks!")
+do
+    wait(0.1)
+    self:say("Thanks!")
+end

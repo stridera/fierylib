@@ -18,7 +18,7 @@ if actor:get_quest_stage("illusory_wall") <= 1 then
     return true
 end
 
-wait(2)
+wait(0.2)
 self:say("That's unfortunate!  You'll have to make new ones.")
 wait(2)
 self:say("Bring me:")

@@ -17,7 +17,7 @@ if not (string.find(speech_lower, "flood")
     return true
 end
 
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("flood")
 if stage == 0 then
     if string.find(actor.class, "cryomancer") and actor.level > 80 then

@@ -19,7 +19,7 @@ if not string.find(string.lower(speech), "reason") then
     return true  -- No matching keywords
 end
 if not string.find(actor.class, "warrior") then
-    wait(2)
+    wait(0.2)
     actor:send(self.name .. " says, 'Ah, you are not well suited to my teaching.  So I shall not waste my time with you.'")
     return
 end
@@ -28,7 +28,7 @@ local stage = actor:get_quest_stage("monk_subclass")
 if (stage or 0) > 0 and stage ~= 0 then
     return
 end
-wait(2)
+wait(0.2)
 if actor.level < 10 then
     self:command("eye " .. actor.name)
     actor:send(self.name .. " says, 'Perhaps in time, after you've gained a little more experience, we can talk more.'")

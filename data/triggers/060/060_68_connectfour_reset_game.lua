@@ -22,9 +22,12 @@ if not (cmd == "reset") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "r" or cmd == "re" or cmd == "res" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "r" or _sw1 == "re" or _sw1 == "res" then
+        _return_value = true
+        return _return_value
+    end
 end
 if status == 2 then
     self.room:send("Resetting ConnectFour.")

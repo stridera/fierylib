@@ -38,7 +38,7 @@ while i >= a do
     end
     a = a + 1
 end
-wait(2)
+wait(0.2)
 if oak == 0 then
     self:say("A fine weapon, but it will be of no use without the holy tree.")
     self:emote("returns the sword.")

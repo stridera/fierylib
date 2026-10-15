@@ -29,7 +29,7 @@ if (object.zone_id == 502 and object.id == 3) then
     -- drive him mad. The player's job will then be to find
     -- him (with the help of the quiet ranger) and retrieve the
     -- enhanced earring (now a crimson-tinged electrum hoop).
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     local person = actor
     local i = person.group_size
@@ -109,7 +109,7 @@ elseif (object.zone_id == 502 and object.id == 15) then
         end
         a = a + 1
     end
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     if world.count_mobiles(502, 9) < 1 then
         get_room(502, 43):at(function()
@@ -136,16 +136,16 @@ elseif (object.zone_id == 502 and object.id == 15) then
     -- Now: move dip to secret room; load maddip; give earring maddip; purge dip; bring maddip back
     local startroom = self.room
     self.room:find_actor("maddened-diplomat-spectre"):teleport(startroom)
-    wait(1)
+    wait(0.1)
     world.destroy(self)
 else
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     _return_value = true
-    wait(6)
+    wait(0.6)
     self:command("laugh")
     self:say("I'm afraid not.")
-    wait(8)
+    wait(0.8)
     self:emote("politely returns the item.")
 end
 return _return_value

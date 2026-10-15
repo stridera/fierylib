@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local levelcheck, queststart, lowlevel
 if object.zone_id == 481 and object.local_id == 22 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("head")
     self:command("bow " .. tostring(actor.name))
     self:say("You are indeed a mighty warrior.  Please have this gift as a token of my appreciation.")

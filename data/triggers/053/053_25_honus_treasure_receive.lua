@@ -95,7 +95,7 @@ while i >= a do
     a = a + 1
 end
 if accept == 1 then
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     self:command("grin")
     self.room:send(tostring(self.name) .. " says, 'Excellent!  Now just give me the order paperwork and I can pay you.'")
@@ -104,13 +104,13 @@ elseif refuse then
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     if refuse == 1 then
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Nah nah nah, you gotta put in at least a little effort toward finding this yourself, come on.'")
     elseif refuse == 2 then
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'You already stole - er, recovered this treasure!'")
     elseif refuse == 3 then
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'I'm not looking for that...  Yet.'")
     end
 end

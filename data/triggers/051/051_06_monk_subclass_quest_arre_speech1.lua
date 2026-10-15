@@ -20,23 +20,23 @@ if not (string.find(speech_lower, "here") or string.find(speech_lower, "where"))
     return true  -- No matching keywords
 end
 if not string.find(actor.class, "warrior") then
-    wait(2)
+    wait(0.2)
     actor:send(self.name .. " says, 'Ah, you are not well suited to my teaching.  So I shall not waste my time with you.'")
     return
 end
-wait(2)
+wait(0.2)
 if actor.level < 10 then
     self:command("eye " .. actor.name)
     actor:send(self.name .. " says, 'Perhaps in time, after you've gained a little more experience, we can talk more.'")
 elseif actor.level <= 25 then
-    wait(2)
+    wait(0.2)
     self:command("chuckle")
     actor:send(self.name .. " says, 'Do you not know where you are?  Silly youth.'")
-    wait(1)
+    wait(0.1)
     actor:send(self.name .. " says, 'Why did you come to my chambers if you do not have a reason?'")
     wait(1)
     self:command("frown")
-    wait(1)
+    wait(0.1)
     actor:send(self.name .. " says, 'I suppose you are here for the same <b:cyan>reason</> as everyone else that ever visits me.'")
     self:command("sigh")
 else

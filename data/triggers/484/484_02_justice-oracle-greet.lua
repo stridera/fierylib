@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48402: justice-oracle-greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 local person = actor
 local i = person.group_size
 local a

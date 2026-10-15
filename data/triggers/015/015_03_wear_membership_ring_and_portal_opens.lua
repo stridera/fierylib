@@ -16,11 +16,11 @@ end
 
 -- Legacy `return 0` ahead of the wait: the typed command goes ahead and the script carries on.
 allow_command()
-wait(2)
+wait(0.2)
 if actor:has_equipped(15, 0) then
     if not globals.wof_exit then
         globals.wof_exit = true
-        wait(4)
+        wait(0.4)
         self.room:send_except(actor, tostring(actor.name) .. "'s <magenta>Soul Gem</> begins to glow.")
         actor:send("Your <magenta>Soul Gem</> begins to glow.")
         self.room:send("A light shimmering develops to the east, and resolves itself into a portal.")

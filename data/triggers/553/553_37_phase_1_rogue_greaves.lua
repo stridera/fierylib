@@ -13,7 +13,7 @@
 -- This is for rogues only
 local ROG_SUB = (actor.class == "rogue"  or  actor.class == "assassin"  or  actor.class == "thief"  or  actor.class == "mercenary")
 if ROG_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 1 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Ah, protection for yer legs? Well now I can make a fine set of\"")
     actor:send(tostring(self.name) .. " tells you, \"pants for the rogue types but I'll need 3 quantities of some\"")
     actor:send(tostring(self.name) .. " tells you, \"citrine dust, and a set of Rusted Leggings. Return these things\"")

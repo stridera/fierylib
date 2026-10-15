@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "monkey") or string.find(string.lower(
     return true  -- No matching keywords
 end
 if actor.is_player then
-    wait(2)
+    wait(0.2)
     self:emote("points up to the ceiling.")
     wait(1)
     self:say("Ya see, there's these monkeys that live in the rafters...")
@@ -38,6 +38,6 @@ if actor.is_player then
     self:say("So now my eyelashes are still locked in my dressing room, Theo needs his duck, and the only person who can get to the stupid monkeys to get my key back is the House Gnome King.")
     wait(3)
     self:say("Find my key and my eyelashes and bring them back to me.")
-    wait(2)
+    wait(0.2)
     self:say("Help me " .. tostring(actor.name) .. ", you're my only hope!")
 end

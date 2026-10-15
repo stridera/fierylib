@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #2310: hellfire_brimstone_drop
 -- Original: WORLD trigger, flags: DROP, probability: 100%
-wait(1)
+wait(0.1)
 if actor:get_quest_stage("hellfire_brimstone") == 1 then
     if (object.zone_id == 23 and object.id == 38) then
         self.room:send("The bonfire crackles and roars!")
@@ -26,7 +26,7 @@ if actor:get_quest_stage("hellfire_brimstone") == 1 then
             wait(5)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Six quantities of brimstone are necessary to make the_proper diagram for summoning hellfire.  Bring them here and <b:red>[drop]</> them'")
         else
-            wait(2)
+            wait(0.2)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Bring some more.'")
         end
     end
@@ -56,7 +56,7 @@ elseif actor:get_quest_stage("hellfire_brimstone") == 2 then
             wait(6)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Return with these six fires and by six given thrice,_the spell shall be complete.'")
         else
-            wait(2)
+            wait(0.2)
             self.room:send(tostring(mobiles.template(23, 11).name) .. " says, 'Bring some more.'")
         end
     end

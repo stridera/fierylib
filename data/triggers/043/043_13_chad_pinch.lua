@@ -13,7 +13,7 @@ if not percent_chance(10) then
     return true
 end
 self:emote("pinches a player on the behind!")
-wait(4)
+wait(0.4)
 self:command("whistle")
 wait(3)
 self:say("Wasn't me.  I like girls.")

@@ -24,7 +24,7 @@ if actor:get_quest_var("Black_Legion:bl_ally") then
     return _return_value
 end
 if actor.alignment >= -150 then
-    wait(2)
+    wait(0.2)
     if actor:get_quest_stage("Black_Legion") == 0 then
         actor:start_quest("Black_Legion")
         actor:set_quest_var("Black_Legion", "BL_FACTION", 0)

@@ -13,6 +13,6 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 self:command("smile")
 self:say("Then we would forever be in your debt.")

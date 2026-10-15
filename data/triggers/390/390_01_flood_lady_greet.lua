@@ -15,7 +15,7 @@ if stage == 0 then
     if string.find(actor.class, "cryomancer") and actor.level > 80 then
         self:command("point " .. actor.name)
         self:emote("screams, 'YOU.'")
-        wait(2)
+        wait(0.2)
         self:emote("screams, 'YOU WILL HELP ME DESTROY THIS SETTLEMENT.'")
     end
 elseif stage == 1 then

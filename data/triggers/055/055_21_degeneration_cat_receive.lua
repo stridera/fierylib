@@ -27,7 +27,7 @@ if stage == 0 then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:command("hiss actor")
-    wait(2)
+    wait(0.2)
     self:say("Who are you?  Why are you giving me this?")
 elseif stage == 1 and (object.zone_id == 580 and object.id == 8) then
     actor:advance_quest("degeneration")
@@ -81,7 +81,7 @@ elseif stage == 2 and (object.zone_id == 370 and object.id == 15) then
     self.room:send("</>purposes.  Secure it and bring it back.'")
 elseif stage == 3 and (object.zone_id == 510 and object.id == 75) then
     actor:advance_quest("degeneration")
-    wait(1)
+    wait(0.1)
     self:destroy_item("mask")
     wait(1)
     self:emote("greedily devours the " .. get_obj_noadesc(510, 75) .. "!")
@@ -109,7 +109,7 @@ elseif stage == 3 and (object.zone_id == 510 and object.id == 75) then
     self.room:send("</>It should give me sufficient insight to Voliangloch's magic.'")
 elseif stage == 4 and (object.zone_id == 430 and object.id == 20) then
     actor:advance_quest("degeneration")
-    wait(1)
+    wait(0.1)
     self:destroy_item("rod")
     wait(1)
     self:emote("bats " .. tostring(objects.template(430, 20).name) .. " around a bit.")
@@ -243,7 +243,7 @@ else
     _return_value = true
     self:command("hiss " .. tostring(actor.name))
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'This isn't what I asked for. What are you, stupid?")
     self.room:send("</>Do you need me to remind you of your <b:white>[spell progress]</>?'")
 end

@@ -14,38 +14,41 @@ if not (string.find(string.lower(speech), "hell") or string.find(string.lower(sp
     return true  -- No matching keywords
 end
 local _return_value = true  -- Default: allow action
-wait(2)
+wait(0.2)
 -- switch on speech
-if string.find(self.class, "diabolist") then
-    if speech == "hell" or speech == "hell?" then
-        self:say("Our infernal lords do grant us the power to open a")
-        self.room:send("'<b:red>Hell Gate</> to travel anywhere instantly via the Nine Hells.'")
-        -- (empty room echo)
-        self.room:send("'Places where Garl'lixxil have touched Ethilienm, like Templace, are'")
-        self.room:send("'particularly suitable for attuning to the proper energies.'")
-    elseif string.find(self.class, "priest") then
-        self:say("Members of priestly orders travel by the Will of")
-        self.room:send("'Heaven. We do not spread the knowledge of Infernal magics.'")
-    elseif string.find(self.class, "druid") then
-        self:say("We move by the power of the Moon,")
-        self.room:send("'not the Nine Hells.'")
+do
+    local _sw1 = string.lower(tostring(speech or ""))
+    if _sw1 == "hell" or _sw1 == "hell?" then
+        if string.find(self.class, "diabolist") then
+            self:say("Our infernal lords do grant us the power to open a")
+            self.room:send("'<b:red>Hell Gate</> to travel anywhere instantly via the Nine Hells.'")
+            -- (empty room echo)
+            self.room:send("'Places where Garl'lixxil have touched Ethilienm, like Templace, are'")
+            self.room:send("'particularly suitable for attuning to the proper energies.'")
+        elseif string.find(self.class, "priest") then
+            self:say("Members of priestly orders travel by the Will of")
+            self.room:send("'Heaven. We do not spread the knowledge of Infernal magics.'")
+        elseif string.find(self.class, "druid") then
+            self:say("We move by the power of the Moon,")
+            self.room:send("'not the Nine Hells.'")
+        else
+            self:say("We have no knowledge of that spell in our Guild.")
+        end
+    elseif _sw1 == "hellfire" or _sw1 == "hellfire?" or _sw1 == "brimstone" or _sw1 == "brimstone?" or _sw1 == "fire" or _sw1 == "fire?" then
+        if string.find(self.class, "diabolist") then
+            self:say("There is a cult on the edge of South Caelia known")
+            self.room:send("'for conjuring <b:red>Hellfire and Brimstone</>. Their dark leader holds the keys'")
+            self.room:send("'to the spell.'")
+        elseif string.find(self.class, "priest") or string.find(self.class, "cleric") then
+            self:say("We do not dabble in such unholy magics.")
+        elseif string.find(self.class, "pyromancer") then
+            self:say("Unfortunately I don't know much about that spell,")
+            self.room:send("'but I sure would love to...'")
+        else
+            self:say("That spell isn't part of our magical tradition.")
+        end
     else
-        self:say("We have no knowledge of that spell in our Guild.")
+        _return_value = true
     end
-    if string.find(self.class, "diabolist") then
-    elseif speech == "hellfire" or speech == "hellfire?" or speech == "brimstone" or speech == "brimstone?" or speech == "fire" or speech == "fire?" then
-        self:say("There is a cult on the edge of South Caelia known")
-        self.room:send("'for conjuring <b:red>Hellfire and Brimstone</>. Their dark leader holds the keys'")
-        self.room:send("'to the spell.'")
-    elseif string.find(self.class, "priest") or string.find(self.class, "cleric") then
-        self:say("We do not dabble in such unholy magics.")
-    elseif string.find(self.class, "pyromancer") then
-        self:say("Unfortunately I don't know much about that spell,")
-        self.room:send("'but I sure would love to...'")
-    else
-        self:say("That spell isn't part of our magical tradition.")
-    end
-else
-    _return_value = true
 end
 return _return_value

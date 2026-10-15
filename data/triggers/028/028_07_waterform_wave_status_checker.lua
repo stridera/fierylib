@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "status") or string.find(string.lower(speech), "status?") or string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("waterform")
 if stage == 1 then
     self.room:send(tostring(self.name) .. " says, 'Find a piece of armor made of water to serve as the basis")

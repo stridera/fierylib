@@ -13,14 +13,17 @@ if not (cmd == "deposit") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on arg
-if arg == "d" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(arg or ""))
+    if _sw1 == "d" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:money") == 1 and string.find(arg, "1 gold 1 silver 1 copper") then
     actor:set_quest_var("school", "money", "complete")
     actor:command("deposit 1 gold 1 silver 1 copper")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Thank you for using Academy Bank.")
     actor:send("You can <b:cyan>WITHDRAW</> your funds at any time.'")
     wait(1)

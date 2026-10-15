@@ -13,12 +13,12 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 if actor:get_quest_stage("sacred_haven") >= 2 and actor.is_player and actor.level < 100 then
     self:command("grin")
     actor:send(tostring(self.name) .. " whispers to you, 'Good, we have been trying to retrieve")
     actor:send("</>our stolen artifacts when I was captured and place here.'")
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " whispers to you, 'I've learned of the location of")
     actor:send("</>the earring.  It's locked in a chest.'")
 end

@@ -17,7 +17,7 @@ if actor.is_player then
     if actor:get_quest_stage("nec_dia_ant_subclass") == 1 then
         actor:advance_quest("nec_dia_ant_subclass")
     end
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Many years ago, my pact with the demon realm allowed me to be master of this domain.  All were subjugated, man, woman, and beast.'")
     self:command("smirk")
     wait(1)

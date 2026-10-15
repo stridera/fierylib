@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #48033: Infidel receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-wait(2)
+wait(0.2)
 world.destroy(object)
 self.room:send(tostring(self.name) .. " grins as he crushes the Prince's skull to dust.")
 wait(1)

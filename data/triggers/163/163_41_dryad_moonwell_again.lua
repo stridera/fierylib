@@ -21,14 +21,14 @@ end
 
 globals.moon_name = actor.name
 
-wait(5)
+wait(0.5)
 self:command("sigh")
-wait(10)
+wait(1)
 actor:send(tostring(self.name) .. " tells you, 'Yes, well...'")
 self.room:send_except(actor, tostring(self.name) .. " tells something to " .. tostring(actor.name) .. ".")
-wait(5)
+wait(0.5)
 self.room:send(tostring(self.name) .. " starts to reminisce about her past.")
-wait(5)
+wait(0.5)
 actor:send(tostring(self.name) .. " tells you, 'You see, I was not always like this.  Many years ago I\n"
     .. "</>too was a young mortal druid.  But while on my journeys I made a grave error in\n"
     .. "</>judgement.'")
@@ -48,9 +48,9 @@ actor:send(tostring(self.name) .. " tells you, 'Now, if I do not perform my duti
 self.room:send_except(actor, tostring(self.name) .. " tells her story to " .. tostring(actor.name) .. ".")
 wait(7)
 self:command("sigh")
-wait(5)
+wait(0.5)
 self:command("ponder")
-wait(5)
+wait(0.5)
 actor:send(tostring(self.name) .. " tells you, 'But perhaps if I repent by teaching you these ancient\n"
     .. "</>magics, the goddess will release me from this place!'")
 wait(4)

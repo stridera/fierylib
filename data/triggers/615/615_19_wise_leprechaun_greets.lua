@@ -13,12 +13,12 @@ if not percent_chance(40) then
     return true
 end
 if actor.is_player then
-    wait(6)
+    wait(0.6)
     if actor.gender == "female" then
         self:say("Well hello there, little lassie!")
     else
         self:say("Well hello there, whippersnapper!")
     end
-    wait(5)
+    wait(0.5)
     self:command("bow " .. tostring(actor.name))
 end

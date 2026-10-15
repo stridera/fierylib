@@ -8,7 +8,7 @@
 --
 -- Original DG Script: #6292
 
-wait(2)
+wait(0.2)
 if actor.is_player then
     local item = actor:get_quest_var("gem_exchange:gem_id")
     if actor:get_quest_stage("gem_exchange") == 1 then

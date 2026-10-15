@@ -32,7 +32,7 @@ elseif (self.zone_id == 30 and self.id == 150) then
     -- legacy: questmaster 3150 had no myname/dest; bail before sending speech
     return true
 end
-wait(3)
+wait(0.3)
 if actor.level < 16 then
     actor:send("<blue>The " .. tostring(myname) .. " tells you, 'As long as you're under level 16, I can transport you to " .. tostring(dest) .. ".'</>")
     actor:send("<blue>The " .. tostring(myname) .. " tells you, 'Just ask me 'transport', and I'll send you.'</>")

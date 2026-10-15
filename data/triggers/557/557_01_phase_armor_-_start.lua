@@ -32,7 +32,7 @@ local wrist_name = self:getvar("wrist_name")
 if classes == nil or phase == nil then
     return true  -- the init trigger has not run for this mob
 end
-wait(2)
+wait(0.2)
 local anti = "Anti-Paladin"
 if not actor or not actor.can_be_seen then
     self:command("peer")
@@ -64,18 +64,18 @@ elseif actor:get_quest_stage("phase_armor") == phase - 1 then
 end
 actor:send(tostring(self.name) .. " tells you, 'Excellent.  I can make " .. tostring(hands_name) .. ", " .. tostring(feet_name) .. ",")
 actor:send("</>a " .. tostring(wrist_name) .. ", a " .. tostring(head_name) .. ", " .. tostring(arms_name) .. ", " .. tostring(legs_name) .. ", or a " .. tostring(body_name) .. ".'")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " tells you, 'If you want to know about how to quest for")
 actor:send("</>one, ask me about it and I will tell you the components you need to get for me")
 actor:send("</>in order to receive your reward.'")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " tells you, 'Remember, you can ask me <b:cyan>armor progress</> at any")
 actor:send("</>time and I'll tell you what you have given me so far.'")
-wait(2)
+wait(0.2)
 if not actor:has_item(2, 99) and not actor:has_equipped(2, 99) then
     actor:send("You can also track the progress of all your quests in this journal.")
     self.room:spawn_object(2, 99)
     self:command("give quest-journal " .. tostring(actor.name))
-    wait(2)
+    wait(0.2)
     actor:send("<b:cyan>[Look]</> at the journal for instructions on how to use it.")
 end

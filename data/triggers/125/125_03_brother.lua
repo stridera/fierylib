@@ -14,29 +14,32 @@ if not string.find(speech_lower, "brother") then
     return true  -- No matching keywords
 end
 -- switch on actor:get_quest_stage("krisenna_quest")
-if actor:get_quest_stage("krisenna_quest") == 0 or actor:get_quest_stage("krisenna_quest") == 1 then
-    wait(1)
-    self.room:send(tostring(self.name) .. " says, 'Our father warned him not to go... But he wouldn't")
-    self.room:send("</>listen.'")
-    wait(2)
-    self:say("Now he's probably dead...")
-    wait(1)
-    self:emote("starts bawling like a baby.")
-    wait(3)
-    self:emote("sobs, 'You've got to find him!!  Will you find him?'")
-elseif actor:get_quest_stage("krisenna_quest") == 2 then
-    wait(1)
-    self:say("He's dead??  Oh no!")
-    wait(2)
-    self:command("cry")
-    wait(2)
-    self:emote("dries his tears on his bloodstained sleeve.")
-    wait(1)
-    self.room:send(tostring(self.name) .. " says, 'He carried our grandfather's warhammer.  The")
-    self.room:send("</>warhammer is very precious to my family.  Would you please find it?")
-    self.room:send("</>I will reward you as best I can!'")
-else
-    wait(1)
-    self.room:send(tostring(self.name) .. " says, 'He was very dear to me... foolhardy, but a good")
-    self.room:send("</>brother.'")
+do
+    local _sw1 = string.lower(tostring(actor:get_quest_stage("krisenna_quest") or ""))
+    if tonumber(_sw1) == 0 or tonumber(_sw1) == 1 then
+        wait(1)
+        self.room:send(tostring(self.name) .. " says, 'Our father warned him not to go... But he wouldn't")
+        self.room:send("</>listen.'")
+        wait(2)
+        self:say("Now he's probably dead...")
+        wait(1)
+        self:emote("starts bawling like a baby.")
+        wait(3)
+        self:emote("sobs, 'You've got to find him!!  Will you find him?'")
+    elseif tonumber(_sw1) == 2 then
+        wait(1)
+        self:say("He's dead??  Oh no!")
+        wait(2)
+        self:command("cry")
+        wait(2)
+        self:emote("dries his tears on his bloodstained sleeve.")
+        wait(1)
+        self.room:send(tostring(self.name) .. " says, 'He carried our grandfather's warhammer.  The")
+        self.room:send("</>warhammer is very precious to my family.  Would you please find it?")
+        self.room:send("</>I will reward you as best I can!'")
+    else
+        wait(1)
+        self.room:send(tostring(self.name) .. " says, 'He was very dear to me... foolhardy, but a good")
+        self.room:send("</>brother.'")
+    end
 end

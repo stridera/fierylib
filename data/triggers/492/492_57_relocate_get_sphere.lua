@@ -17,6 +17,6 @@ if victim and victim:get_quest_stage("relocate_spell_quest") == 3 then
     echo = true
 end
 if echo then
-    wait(2)
+    wait(0.2)
     self.room:send("The globe glares brightly with power!")
 end

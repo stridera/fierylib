@@ -12,7 +12,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "beast") then
     return true
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("berserker_subclass") == 2 then
     actor:advance_quest("berserker_subclass")
     actor:send(tostring(self.name) .. " says, 'The target of our Wild Hunt is always left to the Spirits to determine.  It is always a ferocious predator.  But it could be just about anything.'")

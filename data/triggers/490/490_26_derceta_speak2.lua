@@ -43,7 +43,7 @@ while i >= a do
     end
     a = a + 1
 end
-wait(2)
+wait(0.2)
 if level then
     if accept then
         self:emote("spits on her hands and starts to move the boulder.")

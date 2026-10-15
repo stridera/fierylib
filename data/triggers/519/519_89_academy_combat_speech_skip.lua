@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "skip")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("school") == 3 then
     actor:set_quest_var("school", "fight", "complete")
     actor:advance_quest("school")

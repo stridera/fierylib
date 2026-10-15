@@ -8,6 +8,6 @@
 -- Converted from DG Script #59037: agressive_attack2
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.alignment <= -350 and actor.level < 100 and actor.is_player then
-    wait(4)
+    wait(0.4)
     combat.engage(self, actor.name)
 end

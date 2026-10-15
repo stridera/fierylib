@@ -14,14 +14,17 @@ if not (cmd == "stand") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 6 then
     actor:set_quest_var("school", "fight", 7)
     actor:command("stand")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'With the spell scribed you can <b:cyan>CAST</> it.")
     actor:send("Unlike many other MUDs, <red>FieryMUD does not use mana.</>")
     actor:send("You can cast any spell from your list as long as you have available <b:cyan>SPELL SLOTS</> of the same level or higher.")
@@ -47,7 +50,7 @@ elseif actor:get_quest_var("school:fight") == 12 then
     actor:set_quest_var("school", "fight", "complete")
     actor:advance_quest("school")
     actor:command("stand")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Next I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
     actor:send("<b:green>Say loot</> when you're ready to continue.'")
 end

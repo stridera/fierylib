@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_stage("major_globe_spell") == 3 then
     -- bottle of sake
-    wait(1)
+    wait(0.1)
     actor:advance_quest("major_globe_spell")
     self:destroy_item("sake")
     actor:send(tostring(self.name) .. " says, 'Good, good.  This will mix well.  Just one more ingredient.  We'll need some <b:yellow>marigold poultice</> to complete this salve.'")

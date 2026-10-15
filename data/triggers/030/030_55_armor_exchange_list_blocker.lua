@@ -14,9 +14,12 @@ if not (cmd == "list") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "l" or cmd == "li" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "l" or _sw1 == "li" then
+        _return_value = true
+        return _return_value
+    end
 end
 actor:send(tostring(self.name) .. " says, 'Betsy Boo's Treasure Palace is not a SHOP.  I don't buy, sell, list, or value goods.'")
 wait(1)

@@ -12,7 +12,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local person = actor
 local i = person.group_size
 -- Hoisted: branch-scoped `local a` would not be visible to the while below.
@@ -39,28 +39,31 @@ while i >= a do
                     -- Hoisted: branch-scoped `local` would not be visible below.
                     local contract
                     -- switch on person:get_quest_stage("bounty_hunt")
-                    if person:get_quest_stage("bounty_hunt") == 1 then
-                        contract = 50
-                    elseif person:get_quest_stage("bounty_hunt") == 2 then
-                        contract = 51
-                    elseif person:get_quest_stage("bounty_hunt") == 3 then
-                        contract = 52
-                    elseif person:get_quest_stage("bounty_hunt") == 4 then
-                        contract = 53
-                    elseif person:get_quest_stage("bounty_hunt") == 5 then
-                        contract = 54
-                    elseif person:get_quest_stage("bounty_hunt") == 6 then
-                        contract = 55
-                    elseif person:get_quest_stage("bounty_hunt") == 7 then
-                        contract = 56
-                    elseif person:get_quest_stage("bounty_hunt") == 8 then
-                        contract = 57
-                    elseif person:get_quest_stage("bounty_hunt") == 9 then
-                        contract = 58
-                    elseif person:get_quest_stage("bounty_hunt") == 10 then
-                        contract = 59
-                    else
-                        contract = 50
+                    do
+                        local _sw1 = string.lower(tostring(person:get_quest_stage("bounty_hunt") or ""))
+                        if tonumber(_sw1) == 1 then
+                            contract = 50
+                        elseif tonumber(_sw1) == 2 then
+                            contract = 51
+                        elseif tonumber(_sw1) == 3 then
+                            contract = 52
+                        elseif tonumber(_sw1) == 4 then
+                            contract = 53
+                        elseif tonumber(_sw1) == 5 then
+                            contract = 54
+                        elseif tonumber(_sw1) == 6 then
+                            contract = 55
+                        elseif tonumber(_sw1) == 7 then
+                            contract = 56
+                        elseif tonumber(_sw1) == 8 then
+                            contract = 57
+                        elseif tonumber(_sw1) == 9 then
+                            contract = 58
+                        elseif tonumber(_sw1) == 10 then
+                            contract = 59
+                        else
+                            contract = 50
+                        end
                     end
                     self.room:spawn_object(60, contract)
                     self:command("give contract " .. tostring(person))
@@ -72,26 +75,29 @@ while i >= a do
                     person:set_quest_var("bounty_hunt", "bounty", "running")
                 else
                     -- switch on person:get_quest_stage("bounty_hunt")
-                    if person:get_quest_stage("bounty_hunt") == 1 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Best get on killing that cat-king or whatever first.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 2 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Take out the Noble and the Abbot  sheltering him at the Abbey of St. George.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 3 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Take out the three Chieftains in the southwestern Highlands.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 4 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Find the Frakati Leader and kill him.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 5 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Infiltrate the Sacred Haven and take out the number two in command, Cyrus.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 6 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Disappear Lord Venth down south.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 7 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Send the high druid on a permanent pilgrimage.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 8 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Kill the Lizard King.  If you can even find him...'")
-                    elseif person:get_quest_stage("bounty_hunt") == 9 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  Take out the leader of the Ice Cult up north before they get wind of it.'")
-                    elseif person:get_quest_stage("bounty_hunt") == 10 then
-                        person:send(tostring(self.name) .. " says, 'You still have a job to do.  End the reign of the Goblin King.  We'll all probably dream a little more soundly then.'")
+                    do
+                        local _sw2 = string.lower(tostring(person:get_quest_stage("bounty_hunt") or ""))
+                        if tonumber(_sw2) == 1 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Best get on killing that cat-king or whatever first.'")
+                        elseif tonumber(_sw2) == 2 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Take out the Noble and the Abbot  sheltering him at the Abbey of St. George.'")
+                        elseif tonumber(_sw2) == 3 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Take out the three Chieftains in the southwestern Highlands.'")
+                        elseif tonumber(_sw2) == 4 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Find the Frakati Leader and kill him.'")
+                        elseif tonumber(_sw2) == 5 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Infiltrate the Sacred Haven and take out the number two in command, Cyrus.'")
+                        elseif tonumber(_sw2) == 6 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Disappear Lord Venth down south.'")
+                        elseif tonumber(_sw2) == 7 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Send the high druid on a permanent pilgrimage.'")
+                        elseif tonumber(_sw2) == 8 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Kill the Lizard King.  If you can even find him...'")
+                        elseif tonumber(_sw2) == 9 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  Take out the leader of the Ice Cult up north before they get wind of it.'")
+                        elseif tonumber(_sw2) == 10 then
+                            person:send(tostring(self.name) .. " says, 'You still have a job to do.  End the reign of the Goblin King.  We'll all probably dream a little more soundly then.'")
+                        end
                     end
                 end
             else
@@ -102,4 +108,4 @@ while i >= a do
         i = i + 1
     end
     a = a + 1
-end  -- auto-close block
+end

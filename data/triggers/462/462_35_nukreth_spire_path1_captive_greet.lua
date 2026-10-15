@@ -8,7 +8,7 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 if actor.zone_id == 462 and actor.local_id == 25 and globals.task ~= "done" then
     globals.task = "done"
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " rushes to her husband.")
     self.room:send("Choking back tears she says, 'I can't believe it!'")
     wait(1)

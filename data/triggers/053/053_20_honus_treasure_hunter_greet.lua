@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #5320: Honus Treasure Hunter greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 if not actor:get_has_completed("treasure_hunter") then
     if actor:get_quest_stage("treasure_hunter") == 0 then
         actor:send(tostring(self.name) .. " says, 'Well hello and welcome!  I'm Honus, global representative of the Guild of Treasure Hunters.  We're always seeking bold explorers to <b:cyan>[hunt]</> down and recover exquisite rarities.'")

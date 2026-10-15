@@ -24,7 +24,7 @@ local trees = {
     { 46, "12046" },  -- Tree of Kindness
 }
 
-wait(4)
+wait(0.4)
 local stage = actor:get_quest_stage("twisted_sorrow")
 if stage > 1 then
     self:command("smile " .. actor.name)

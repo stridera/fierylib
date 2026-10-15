@@ -12,11 +12,11 @@
 if not percent_chance(80) then
     return true
 end
-wait(2)
+wait(0.2)
 if actor.is_player then
     self:emote("mutters to himself.")
     self:say("Where has he gone?")
-    wait(2)
+    wait(0.2)
     self:command("peer " .. tostring(actor.name))
     self:say("Could you help me find my friend?")
 end

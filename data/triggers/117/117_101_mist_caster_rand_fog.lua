@@ -19,5 +19,5 @@ local mist = self.room:find_actor("mist")
 if mist then
     -- mist:set_attr("invis", 100)
 end
-wait(2)
+wait(0.2)
 spells.cast(self, "wall of fog")

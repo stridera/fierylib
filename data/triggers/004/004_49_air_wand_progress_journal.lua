@@ -52,56 +52,59 @@ if (string.find(arg, "air") and (string.find(arg, "wand") or string.find(arg, "w
             local hint
             local wandtask3
             local wandtask4
-            if stage == 2 then
-                master = mobiles.template(30, 13).name
-                wandgem = 55577
-            elseif stage == 3 then
-                master = mobiles.template(185, 0).name
-                hint = "Speak with the old Abbot in the Abbey of St. George."
-                wandgem = 55591
-                wandtask3 = 23750
-            elseif stage == 4 then
-                master = mobiles.template(586, 1).name
-                hint = "The keeper of a southern coastal tower will have advice for you."
-                wandgem = 55605
-                wandtask3 = 2330
-                wandtask4 = 37006
-            elseif stage == 5 then
-                master = mobiles.template(123, 5).name
-                hint = "A master of air near the megalith in South Caelia will be able to help next."
-                wandgem = 55644
-                wandtask3 = 12509
-                wandtask4 = "&7&bthe icy ledge outside Technitzitlan&0"
-            elseif stage == 6 then
-                master = mobiles.template(123, 2).name
-                wandgem = 55665
-                hint = "Seek out the warrior-witch at the center of the southern megalith."
-                wandtask3 = 23800
-                wandtask4 = 59040
-            elseif stage == 7 then
-                master = mobiles.template(490, 3).name
-                wandgem = 55682
-                hint = "She's hard to deal with, but the Seer of Griffin Isle should have some additional guidance for you."
-                wandtask3 = 51014
-                wandtask4 = 23710
-            elseif stage == 8 then
-                master = mobiles.template(85, 15).name
-                hint = "In the diabolist's church is a seer who cannot see.  He's a good resource for this kind of work."
-                wandgem = 55721
-                wandtask3 = 11799
-                wandtask4 = 53454
-            elseif stage == 9 then
-                master = mobiles.template(62, 16).name
-                hint = "The guardian ranger of the Druid Guild in the Red City has some helpful crafting tips."
-                wandgem = 55742
-                wandtask3 = 49019
-                wandtask4 = 23803
-            elseif stage == 10 then
-                master = mobiles.template(185, 81).name
-                hint = "Silania will help you craft the finest of air weapons."
-                wandgem = 11811
-                wandtask3 = 52001
-                wandtask4 = 48862
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 2 then
+                    master = mobiles.template(30, 13).name
+                    wandgem = 55577
+                elseif tonumber(_sw1) == 3 then
+                    master = mobiles.template(185, 0).name
+                    hint = "Speak with the old Abbot in the Abbey of St. George."
+                    wandgem = 55591
+                    wandtask3 = 23750
+                elseif tonumber(_sw1) == 4 then
+                    master = mobiles.template(586, 1).name
+                    hint = "The keeper of a southern coastal tower will have advice for you."
+                    wandgem = 55605
+                    wandtask3 = 2330
+                    wandtask4 = 37006
+                elseif tonumber(_sw1) == 5 then
+                    master = mobiles.template(123, 5).name
+                    hint = "A master of air near the megalith in South Caelia will be able to help next."
+                    wandgem = 55644
+                    wandtask3 = 12509
+                    wandtask4 = "&7&bthe icy ledge outside Technitzitlan&0"
+                elseif tonumber(_sw1) == 6 then
+                    master = mobiles.template(123, 2).name
+                    wandgem = 55665
+                    hint = "Seek out the warrior-witch at the center of the southern megalith."
+                    wandtask3 = 23800
+                    wandtask4 = 59040
+                elseif tonumber(_sw1) == 7 then
+                    master = mobiles.template(490, 3).name
+                    wandgem = 55682
+                    hint = "She's hard to deal with, but the Seer of Griffin Isle should have some additional guidance for you."
+                    wandtask3 = 51014
+                    wandtask4 = 23710
+                elseif tonumber(_sw1) == 8 then
+                    master = mobiles.template(85, 15).name
+                    hint = "In the diabolist's church is a seer who cannot see.  He's a good resource for this kind of work."
+                    wandgem = 55721
+                    wandtask3 = 11799
+                    wandtask4 = 53454
+                elseif tonumber(_sw1) == 9 then
+                    master = mobiles.template(62, 16).name
+                    hint = "The guardian ranger of the Druid Guild in the Red City has some helpful crafting tips."
+                    wandgem = 55742
+                    wandtask3 = 49019
+                    wandtask4 = 23803
+                elseif tonumber(_sw1) == 10 then
+                    master = mobiles.template(185, 81).name
+                    hint = "Silania will help you craft the finest of air weapons."
+                    wandgem = 11811
+                    wandtask3 = 52001
+                    wandtask4 = 48862
+                end
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

@@ -14,15 +14,18 @@ if not (cmd == "score") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_stage("school") == 2 then
     if actor:get_quest_var("school:score") == 1 then
         actor:set_quest_var("school", "score", "complete")
         actor:command("score")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, 'Yep, just like that.  That great big bar at the")
         actor:send("</>bottom is your experience bar.  That will fill as you kill stuff.  When it")
         actor:send("</>reaches full, you'll be ready to level!'")

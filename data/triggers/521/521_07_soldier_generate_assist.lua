@@ -18,7 +18,7 @@ if world.count_mobiles(521, 18) < 6 then
     self.room:send("The Platinum Knight lets out a horrid SCREAM!")
     wait(2)
     self:emote("starts to hum a strange mantra.")
-    wait(2)
+    wait(0.2)
     self.room:send("A Bright flash of light fills the room and two soldiers crawl forth through it.")
     self.room:spawn_mobile(521, 18)
     self.room:spawn_mobile(521, 18)

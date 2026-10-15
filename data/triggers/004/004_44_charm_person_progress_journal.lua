@@ -29,97 +29,100 @@ if string.find(arg, "charm") or string.find(arg, "person") or string.find(arg, "
                 actor:send("Quest Master: " .. tostring(master))
                 actor:send("</>")
                 -- switch on stage
-                if stage == 1 then
-                    actor:send("You must find the rod that casts Charm Person in the crypt in the Iron Hills.")
-                elseif stage == 2 then
-                    actor:send("Help the theatre company in Anduin perform their grand finale and bring back the unique fire ring they give out afterward.")
-                    actor:send("</>")
-                    actor:send("They have a number of problems which you will need to work out before you can seek out their replacement \"Pippin\" and lure him to his fiery grave.")
-                elseif stage == 3 then
-                    local item1 = actor:get_quest_var("charm_person:58017")
-                    local item2 = actor:get_quest_var("charm_person:16312")
-                    local item3 = actor:get_quest_var("charm_person:48925")
-                    local item4 = actor:get_quest_var("charm_person:37012")
-                    local item5 = actor:get_quest_var("charm_person:41119")
-                    actor:send("Locate five musical instruments and bring them to " .. tostring(master) .. ".")
-                    if item1 or item2 or item3 or item4 or item5 then
+                do
+                    local _sw1 = string.lower(tostring(stage or ""))
+                    if tonumber(_sw1) == 1 then
+                        actor:send("You must find the rod that casts Charm Person in the crypt in the Iron Hills.")
+                    elseif tonumber(_sw1) == 2 then
+                        actor:send("Help the theatre company in Anduin perform their grand finale and bring back the unique fire ring they give out afterward.")
                         actor:send("</>")
-                        actor:send("You have already brought:")
-                        if item1 then
-                            actor:send("- <magenta>" .. tostring(objects.template(580, 17).name) .. "</>")
+                        actor:send("They have a number of problems which you will need to work out before you can seek out their replacement \"Pippin\" and lure him to his fiery grave.")
+                    elseif tonumber(_sw1) == 3 then
+                        local item1 = actor:get_quest_var("charm_person:58017")
+                        local item2 = actor:get_quest_var("charm_person:16312")
+                        local item3 = actor:get_quest_var("charm_person:48925")
+                        local item4 = actor:get_quest_var("charm_person:37012")
+                        local item5 = actor:get_quest_var("charm_person:41119")
+                        actor:send("Locate five musical instruments and bring them to " .. tostring(master) .. ".")
+                        if item1 or item2 or item3 or item4 or item5 then
+                            actor:send("</>")
+                            actor:send("You have already brought:")
+                            if item1 then
+                                actor:send("- <magenta>" .. tostring(objects.template(580, 17).name) .. "</>")
+                            end
+                            if item2 then
+                                actor:send("- <magenta>" .. tostring(objects.template(163, 12).name) .. "</>")
+                            end
+                            if item3 then
+                                actor:send("- <magenta>" .. tostring(objects.template(489, 25).name) .. "</>")
+                            end
+                            if item4 then
+                                actor:send("- <magenta>" .. tostring(objects.template(370, 12).name) .. "</>")
+                            end
+                            if item5 then
+                                actor:send("- <magenta>" .. tostring(objects.template(411, 19).name) .. "</>")
+                            end
                         end
-                        if item2 then
-                            actor:send("- <magenta>" .. tostring(objects.template(163, 12).name) .. "</>")
-                        end
-                        if item3 then
-                            actor:send("- <magenta>" .. tostring(objects.template(489, 25).name) .. "</>")
-                        end
-                        if item4 then
-                            actor:send("- <magenta>" .. tostring(objects.template(370, 12).name) .. "</>")
-                        end
-                        if item5 then
-                            actor:send("- <magenta>" .. tostring(objects.template(411, 19).name) .. "</>")
-                        end
-                    end
-                    actor:send("</>")
-                    actor:send("You still need to find:")
-                    if not item1 then
-                        actor:send("- <b:magenta>" .. tostring(objects.template(580, 17).name) .. "</>")
-                    end
-                    if not item2 then
-                        actor:send("- <b:magenta>" .. tostring(objects.template(163, 12).name) .. "</>")
-                    end
-                    if not item3 then
-                        actor:send("- <b:magenta>" .. tostring(objects.template(489, 25).name) .. "</>")
-                    end
-                    if not item4 then
-                        actor:send("- <b:magenta>" .. tostring(objects.template(370, 12).name) .. "</>")
-                    end
-                    if not item5 then
-                        actor:send("- <b:magenta>" .. tostring(objects.template(411, 19).name) .. "</>")
-                    end
-                elseif stage == 4 then
-                    local charm1 = actor:get_quest_var("charm_person:charm1")
-                    local charm2 = actor:get_quest_var("charm_person:charm2")
-                    local charm3 = actor:get_quest_var("charm_person:charm3")
-                    local charm4 = actor:get_quest_var("charm_person:charm4")
-                    local charm5 = actor:get_quest_var("charm_person:charm5")
-                    actor:send("You must charm the five master charmers.  Ask them <b:white>[Let me serenade you]</>.")
-                    if charm1 or charm2 or charm3 or charm4 or charm5 then
                         actor:send("</>")
-                        actor:send("You have already charmed:")
-                        if charm1 then
-                            actor:send("- <magenta>" .. tostring(mobiles.template(30, 10).name) .. "</>")
+                        actor:send("You still need to find:")
+                        if not item1 then
+                            actor:send("- <b:magenta>" .. tostring(objects.template(580, 17).name) .. "</>")
                         end
-                        if charm2 then
-                            actor:send("- <magenta>" .. tostring(mobiles.template(580, 17).name) .. "</>")
+                        if not item2 then
+                            actor:send("- <b:magenta>" .. tostring(objects.template(163, 12).name) .. "</>")
                         end
-                        if charm3 then
-                            actor:send("- <magenta>" .. tostring(mobiles.template(43, 53).name) .. "</>")
+                        if not item3 then
+                            actor:send("- <b:magenta>" .. tostring(objects.template(489, 25).name) .. "</>")
                         end
-                        if charm4 then
-                            actor:send("- <magenta>" .. tostring(mobiles.template(237, 21).name) .. "</>")
+                        if not item4 then
+                            actor:send("- <b:magenta>" .. tostring(objects.template(370, 12).name) .. "</>")
                         end
-                        if charm5 then
-                            actor:send("- <magenta>" .. tostring(mobiles.template(584, 6).name) .. "</>")
+                        if not item5 then
+                            actor:send("- <b:magenta>" .. tostring(objects.template(411, 19).name) .. "</>")
                         end
-                    end
-                    actor:send("</>")
-                    actor:send("You still need to find:")
-                    if not charm1 then
-                        actor:send("- <b:magenta>" .. tostring(mobiles.template(30, 10).name) .. "</>")
-                    end
-                    if not charm2 then
-                        actor:send("- <b:magenta>" .. tostring(mobiles.template(580, 17).name) .. "</>")
-                    end
-                    if not charm3 then
-                        actor:send("- <b:magenta>" .. tostring(mobiles.template(43, 53).name) .. "</>")
-                    end
-                    if not charm4 then
-                        actor:send("- <b:magenta>" .. tostring(mobiles.template(237, 21).name) .. "</>")
-                    end
-                    if not charm5 then
-                        actor:send("- <b:magenta>" .. tostring(mobiles.template(584, 6).name) .. "</>")
+                    elseif tonumber(_sw1) == 4 then
+                        local charm1 = actor:get_quest_var("charm_person:charm1")
+                        local charm2 = actor:get_quest_var("charm_person:charm2")
+                        local charm3 = actor:get_quest_var("charm_person:charm3")
+                        local charm4 = actor:get_quest_var("charm_person:charm4")
+                        local charm5 = actor:get_quest_var("charm_person:charm5")
+                        actor:send("You must charm the five master charmers.  Ask them <b:white>[Let me serenade you]</>.")
+                        if charm1 or charm2 or charm3 or charm4 or charm5 then
+                            actor:send("</>")
+                            actor:send("You have already charmed:")
+                            if charm1 then
+                                actor:send("- <magenta>" .. tostring(mobiles.template(30, 10).name) .. "</>")
+                            end
+                            if charm2 then
+                                actor:send("- <magenta>" .. tostring(mobiles.template(580, 17).name) .. "</>")
+                            end
+                            if charm3 then
+                                actor:send("- <magenta>" .. tostring(mobiles.template(43, 53).name) .. "</>")
+                            end
+                            if charm4 then
+                                actor:send("- <magenta>" .. tostring(mobiles.template(237, 21).name) .. "</>")
+                            end
+                            if charm5 then
+                                actor:send("- <magenta>" .. tostring(mobiles.template(584, 6).name) .. "</>")
+                            end
+                        end
+                        actor:send("</>")
+                        actor:send("You still need to find:")
+                        if not charm1 then
+                            actor:send("- <b:magenta>" .. tostring(mobiles.template(30, 10).name) .. "</>")
+                        end
+                        if not charm2 then
+                            actor:send("- <b:magenta>" .. tostring(mobiles.template(580, 17).name) .. "</>")
+                        end
+                        if not charm3 then
+                            actor:send("- <b:magenta>" .. tostring(mobiles.template(43, 53).name) .. "</>")
+                        end
+                        if not charm4 then
+                            actor:send("- <b:magenta>" .. tostring(mobiles.template(237, 21).name) .. "</>")
+                        end
+                        if not charm5 then
+                            actor:send("- <b:magenta>" .. tostring(mobiles.template(584, 6).name) .. "</>")
+                        end
                     end
                 end
             end

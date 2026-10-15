@@ -8,7 +8,7 @@
 -- Converted from DG Script #48111: bad_wedding_ring
 -- Original: OBJECT trigger, flags: GET, probability: 100%
 if not (actor.zone_id == 481 and actor.local_id == 5) then
-    wait(2)
+    wait(0.2)
     self.room:send("The ivory ring flares brightly!")
     actor:damage(100)  -- type: fire
     if damage_dealt ~= 0 then

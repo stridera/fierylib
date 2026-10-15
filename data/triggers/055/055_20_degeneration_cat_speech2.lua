@@ -13,8 +13,8 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "cat") or string.find(string.lower(speech), "cat?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self:say("Yes, I'm a cat.  A talking cat.  What of it?")
-wait(4)
+wait(0.4)
 self:say("I still know more about magic than you do.")
 self:command("hiss " .. tostring(actor.name))

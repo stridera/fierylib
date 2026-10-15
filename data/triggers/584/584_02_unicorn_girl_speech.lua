@@ -23,6 +23,6 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 
-wait(1)
+wait(0.1)
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
 actor:send(tostring(self.name) .. " says to you, 'The King will not free me, even though my obligation of service to him is done.  He shall never have my hand in marriage, thus I shall remain his slave forever.'")

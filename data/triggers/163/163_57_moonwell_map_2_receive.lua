@@ -15,13 +15,13 @@ end
 if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
     actor:advance_quest("moonwell_spell_quest")
     actor:set_quest_var("moonwell_spell_quest", "map", 0)
-    wait(15)
+    wait(1.5)
     self:destroy_item("map")
     self.room:spawn_object(163, 53)
     self.room:send(tostring(self.name) .. " marks something on the bark map.")
-    wait(15)
+    wait(1.5)
     self:command("give map " .. tostring(actor.name))
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " tells you, 'Okay, the third element in this ritual is Water.  In\n"
         .. "</>magic, water is often represented by jade.'")
     wait(4)
@@ -32,7 +32,7 @@ if actor:get_quest_var("moonwell_spell_quest:map") == 1 then
 else
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'I need the orb first.'")
 end
 return true

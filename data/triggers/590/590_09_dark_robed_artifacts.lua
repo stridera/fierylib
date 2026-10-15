@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "artifacts?") then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 -- Walk the speaker's group; for any evil-aligned member that already gave the
 -- adornment of light, mark them as searching for blood and advance the quest
 -- if they're still on stage 1.
@@ -30,12 +30,12 @@ for _, person in ipairs(actor.group or { actor }) do
 end
 if continue then
     actor:send(tostring(self.name) .. " whispers to you, 'I had a vial of dragon's blood, a trinket of tattered leather, and a small shadow forged earring stolen from me.  They are held somewhere inside the Sacred Haven.'")
-    wait(6)
+    wait(0.6)
     actor:send(tostring(self.name) .. " whispers to you, 'Once you find them all, I can meld two of them together to form a reward for you.'")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " whispers to you, 'You will find a prisoner who is an ally of mine, and he might be able to help you.'")
-    wait(6)
+    wait(0.6)
     actor:send(tostring(self.name) .. " tells you, 'Ask me <b:white>[what am I doing?]</> if you forget.'")
-    wait(1)
+    wait(0.1)
     self:whisper(actor, "Now hurry, I need the items I have lost.")
 end

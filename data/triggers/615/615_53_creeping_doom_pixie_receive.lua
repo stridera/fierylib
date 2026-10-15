@@ -24,7 +24,7 @@ if stage == 1 then
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         else
             actor:set_quest_var("creeping_doom", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
-            wait(2)
+            wait(0.2)
             world.destroy(object)
             self:say("Just what we need.")
             if actor:get_quest_var("creeping_doom:118_12") and actor:get_quest_var("creeping_doom:162_13") and actor:get_quest_var("creeping_doom:480_29") then
@@ -47,24 +47,24 @@ if stage == 1 then
                 self.room:send("</>The more powerful the insect you kill, the more likely you'll find acceptable")
                 self.room:send("</>essences.  Bring those essences to me.'")
             else
-                wait(2)
+                wait(0.2)
                 self:say("Where's the rest?")
             end
         end
     else
         _return_value = true
-        wait(2)
+        wait(0.2)
         self:say("This isn't going to help.")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     end
 elseif stage == 2 then
     if obj_is(615, 17) then
-        wait(2)
+        wait(0.2)
         self:say("Yesssss...  More essences!")
         local spiders = (actor:get_quest_var("creeping_doom:spiders") or 0) + 1
         actor:set_quest_var("creeping_doom", "spiders", spiders)
         self:destroy_item("essence-of-swarms")
-        wait(2)
+        wait(0.2)
         if spiders == 11 then
             actor:advance_quest("creeping_doom")
             self.room:send(tostring(self.name) .. " says, 'The Rage and Doom are hyped, but we need to keep 'em")

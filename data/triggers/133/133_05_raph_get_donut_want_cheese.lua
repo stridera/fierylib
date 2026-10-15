@@ -8,7 +8,7 @@
 -- Converted from DG Script #13305: raph_get_donut_want_cheese
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor.is_player then
-    wait(3)
+    wait(0.3)
     if object.zone_id == 363 and object.local_id == 3 then
         if actor:get_quest_stage("get_raph_food") == 4 then
             self:emote("whines as his tummy growls again.")
@@ -19,18 +19,21 @@ if actor.is_player then
             self:command("smile")
         else
             -- switch on actor:get_quest_stage("get_raph_food")
-            if actor:get_quest_stage("get_raph_food") == 1 or actor:get_quest_stage("get_raph_food") == 2 then
-                self:say("Unusual that you can get an object I have not even asked for yet.")
-                wait(2)
-                self:say("You shouldn't know to have this yet, cheater.")
-            elseif actor:get_quest_stage("get_raph_food") == 3 then
-                self:say("How ever did you manage to get the donuts without actually picking it up yourself?!")
-                self:command("frown " .. tostring(actor.name))
-            else
-                self:say("What a lovely bit of food, thank you!")
-                self:command("thank " .. tostring(actor.name))
-                wait(2)
-                self:say("Shame you were not performing a quest, you seem like you could have helped an old man.")
+            do
+                local _sw1 = string.lower(tostring(actor:get_quest_stage("get_raph_food") or ""))
+                if tonumber(_sw1) == 1 or tonumber(_sw1) == 2 then
+                    self:say("Unusual that you can get an object I have not even asked for yet.")
+                    wait(0.2)
+                    self:say("You shouldn't know to have this yet, cheater.")
+                elseif tonumber(_sw1) == 3 then
+                    self:say("How ever did you manage to get the donuts without actually picking it up yourself?!")
+                    self:command("frown " .. tostring(actor.name))
+                else
+                    self:say("What a lovely bit of food, thank you!")
+                    self:command("thank " .. tostring(actor.name))
+                    wait(0.2)
+                    self:say("Shame you were not performing a quest, you seem like you could have helped an old man.")
+                end
             end
         end
     end

@@ -17,7 +17,7 @@ end
 if self.room:find_actor("chichi") then
     self:emote("gets up in a player's face.")
     self:say("Oh no you di'in' Chichi!")
-    wait(5)
+    wait(0.5)
     self:say("You best step off!")
     self:emote("struts around the room, waiving her finger.")
 end

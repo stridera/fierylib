@@ -31,7 +31,7 @@ if (object.zone_id == 43 and object.id == 2) then
         a = a + 1
     end
     if actor:get_quest_stage("theatre") >= 3 then
-        wait(3)
+        wait(0.3)
         self:say("Thank you sooooo much.")
         self.room:send_except(actor, tostring(self.name) .. " drapes herself all over " .. tostring(actor.name) .. ".")
         actor:send(tostring(self.name) .. " drapes herself all over you.")
@@ -40,25 +40,25 @@ if (object.zone_id == 43 and object.id == 2) then
         wait(2)
         self:emote("picks up a key.")
         self.room:spawn_object(43, 1)
-        wait(2)
+        wait(0.2)
         self:command("give key " .. tostring(actor.name))
         wait(2)
         self:say("My darling husband, the King, will probably want that.")
         wait(4)
         self:say("Go let him out of his cage, he'll enjoy some fresh air.")
-        wait(5)
+        wait(0.5)
         self:command("wave")
     else
         _return_value = true
         self.room:send(tostring(self.name) .. " refused " .. tostring(object.shortdesc) .. ".")
-        wait(2)
+        wait(0.2)
         self:say("How did you get this?")
         wait(1)
         self:command("peer " .. tostring(actor))
         self:say("Are you stalking me?")
     end
 else
-    wait(2)
+    wait(0.2)
     self:say("Why thank you!  I love a good gift!")
 end
 self:set_flag("sentinel", false)

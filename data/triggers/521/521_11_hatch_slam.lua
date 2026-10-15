@@ -9,7 +9,7 @@
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 if actor.is_player then
     if direction == "up" then
-        wait(1)
+        wait(0.1)
         actor:send("The Hatch slams shut above you, creating a smooth airtight ceiling.")
     end
 end

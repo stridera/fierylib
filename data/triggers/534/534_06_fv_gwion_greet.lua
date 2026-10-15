@@ -13,11 +13,11 @@ if not percent_chance(20) then
     return true
 end
 if actor.is_player then
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " tells you, 'Hello Traveler, my name is Gwion'")
     self:command("bow")
 else
-    wait(1)
+    wait(0.1)
     self:command("poke " .. tostring(actor.name))
     self:say("fancy a game of dice?")
     actor:emote("mutters an excuse and looks around for an exit.")

@@ -19,9 +19,12 @@ if not (cmd == "rules") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "r" or cmd == "ru" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "r" or _sw1 == "ru" then
+        _return_value = true
+        return _return_value
+    end
 end
 actor:send("Playing Connect Four is simple!  Your goal is simply to get four of your pieces")
 actor:send("in a line before your opponent.  The pieces can be horizontal, vertical, or")

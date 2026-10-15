@@ -23,7 +23,7 @@ if not speech_hit then
 end
 
 if string.find(actor.class, "pyromancer") then
-    wait(2)
+    wait(0.2)
     self:command("chuckle")
     actor:send(tostring(self.name) .. " says, 'I have nothing more to teach you, young one.'")
 elseif actor:get_quest_stage("pyromancer_subclass") == 0 then
@@ -32,7 +32,7 @@ elseif actor:get_quest_stage("pyromancer_subclass") == 0 then
             actor:send("<red>Your race may not subclass to pyromancer.</>")
             return true
         end
-        wait(2)
+        wait(0.2)
         if actor.level >= 10 and actor.level <= 45 then
             self:command("nod " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " says, 'Do you wish to become one with the flame, becoming a mage of fire?'")
@@ -42,7 +42,7 @@ elseif actor:get_quest_stage("pyromancer_subclass") == 0 then
             actor:send(tostring(self.name) .. " says, 'Unfortunately you are too dedicated to your universalist ways for me to teach you now.'")
         end
     else
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Sorry, I cannot help you learn the ways of the flame.'")
     end
 end

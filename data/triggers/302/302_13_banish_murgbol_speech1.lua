@@ -16,7 +16,7 @@ if not (string.find(speech_lower, "yes") or string.find(speech_lower, "sure")
         or string.find(speech_lower, "good")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("banish")
 local class_lower = string.lower(actor.class or "")
 if string.find(class_lower, "priest") or string.find(class_lower, "diabolist") then

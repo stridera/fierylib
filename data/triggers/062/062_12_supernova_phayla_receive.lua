@@ -27,7 +27,7 @@ if is_sun or is_lamp then
         self:say("You've already given me this.")
     else
         actor:set_quest_var("supernova", payment_key(object), 1)
-        wait(2)
+        wait(0.2)
         self:command("nod")
         world.destroy(object)
         if actor:get_quest_var("supernova:510_73") == 1 and actor:get_quest_var("supernova:489_17") == 1 then

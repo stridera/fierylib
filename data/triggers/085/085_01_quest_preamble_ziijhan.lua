@@ -54,7 +54,7 @@ if not classquest then
     return true
 end
 
-wait(2)
+wait(0.2)
 if globals.use_subclass then
     actor:send(tostring(self.name) .. " says, 'Sorry little one.  I am already setting up one quest - come back in a moment.'")
     return true

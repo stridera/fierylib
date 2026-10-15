@@ -25,7 +25,7 @@ local job1 = actor:get_quest_var("rogue_cloak:cloaktask1")
 local job2 = actor:get_quest_var("rogue_cloak:cloaktask2")
 local job3 = actor:get_quest_var("rogue_cloak:cloaktask3")
 local job4 = actor:get_quest_var("rogue_cloak:cloaktask4")
-wait(2)
+wait(0.2)
 if actor.class ~= "rogue" and actor.class ~= "bard" and actor.class ~= "thief" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'We only promote within the cloak and dagger guilds.  Sorry.'")
@@ -52,51 +52,54 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on cloakstage
 local place, hint
-if cloakstage == 1 then
-    local cloak = 58801
-    local gem = 55585
-    place = "A Storage Room"
-    hint = "in the house on the hill."
-elseif cloakstage == 2 then
-    local cloak = 17307
-    local gem = 55593
-    place = "A Small Alcove"
-    hint = "in the holy library."
-elseif cloakstage == 3 then
-    local cloak = 10308
-    local gem = 55619
-    place = "either Treasure Room"
-    hint = "in the paladin fortress."
-elseif cloakstage == 4 then
-    local cloak = 12325
-    local gem = 55659
-    place = "The Treasure Room"
-    hint = "beyond the Tower in the Wastes."
-elseif cloakstage == 5 then
-    local cloak = 43022
-    local gem = 55663
-    place = "Treasury"
-    hint = "in the ghostly fortress."
-elseif cloakstage == 6 then
-    local cloak = 23810
-    local gem = 55674
-    place = "either Treasure Room with a chest"
-    hint = "lost in the sands."
-elseif cloakstage == 7 then
-    local cloak = 51013
-    local gem = 55714
-    place = "Mesmeriz's Secret Treasure Room"
-    hint = "hidden deep underground."
-elseif cloakstage == 8 then
-    local cloak = 58410
-    local gem = 55740
-    place = "Treasure Room"
-    hint = "sunken in the swamp."
-elseif cloakstage == 9 then
-    local cloak = 52009
-    local gem = 55741
-    place = "Treasure Room"
-    hint = "buried with an ancient king."
+do
+    local _sw1 = string.lower(tostring(cloakstage or ""))
+    if tonumber(_sw1) == 1 then
+        local cloak = 58801
+        local gem = 55585
+        place = "A Storage Room"
+        hint = "in the house on the hill."
+    elseif tonumber(_sw1) == 2 then
+        local cloak = 17307
+        local gem = 55593
+        place = "A Small Alcove"
+        hint = "in the holy library."
+    elseif tonumber(_sw1) == 3 then
+        local cloak = 10308
+        local gem = 55619
+        place = "either Treasure Room"
+        hint = "in the paladin fortress."
+    elseif tonumber(_sw1) == 4 then
+        local cloak = 12325
+        local gem = 55659
+        place = "The Treasure Room"
+        hint = "beyond the Tower in the Wastes."
+    elseif tonumber(_sw1) == 5 then
+        local cloak = 43022
+        local gem = 55663
+        place = "Treasury"
+        hint = "in the ghostly fortress."
+    elseif tonumber(_sw1) == 6 then
+        local cloak = 23810
+        local gem = 55674
+        place = "either Treasure Room with a chest"
+        hint = "lost in the sands."
+    elseif tonumber(_sw1) == 7 then
+        local cloak = 51013
+        local gem = 55714
+        place = "Mesmeriz's Secret Treasure Room"
+        hint = "hidden deep underground."
+    elseif tonumber(_sw1) == 8 then
+        local cloak = 58410
+        local gem = 55740
+        place = "Treasure Room"
+        hint = "sunken in the swamp."
+    elseif tonumber(_sw1) == 9 then
+        local cloak = 52009
+        local gem = 55741
+        place = "Treasure Room"
+        hint = "buried with an ancient king."
+    end
 end
 local attacks = cloakstage * 100
 self:command("nod")

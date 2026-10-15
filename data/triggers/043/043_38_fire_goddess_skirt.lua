@@ -34,11 +34,11 @@ if (object.zone_id == 43 and object.id == 5) then
         end
         a = a + 1
     end
-    wait(2)
+    wait(0.2)
     self:command("blush")
     self:emote("says sheepishly, 'I was wondering where I left that.'")
     self:command("rest")
-    wait(5)
+    wait(0.5)
     self:command("remove sash")
     self:command("drop sash")
     self:command("wear skirt")
@@ -83,7 +83,7 @@ else
     _return_value = true
     actor:send("The Fire Goddess looks at you funny.")
     self.room:send_except(actor, "The Fire Goddess looks at " .. tostring(actor.name) .. " with an odd expression.")
-    wait(2)
+    wait(0.2)
     self:say("What is this?")
 end
 self:set_flag("sentinel", false)

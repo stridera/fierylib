@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "spiders") or string.find(string.lower(speech), "spiders?")) then
     return true  -- No matching keywords
 end
-wait(4)
+wait(0.4)
 self:say("They've been terrorizing us for a long time now.")
 self:say("But I know how to defeat their webs.")
 wait(3)

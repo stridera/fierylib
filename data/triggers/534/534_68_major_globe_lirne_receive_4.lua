@@ -12,7 +12,7 @@ local response
 if stage == 10 then
     -- final_item quest var stores the chosen object's local id within zone 534
     if actor:get_quest_var("major_globe_spell:final_item") == object.local_id then
-        wait(1)
+        wait(0.1)
         self:destroy_item("majorglobe-channel")
         skills.set_level(actor, "major globe", 1000)
         self:emote("grins excitedly.")
@@ -46,7 +46,7 @@ elseif stage < 10 then
 end
 if response then
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
 end
 return true

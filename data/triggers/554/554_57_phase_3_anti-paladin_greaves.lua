@@ -12,7 +12,7 @@
 -- 
 -- This is for anti-paladins only
 if string.find(actor.class, "anti") and actor.level >= 41 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Ah, protection for yer legs? Well now I can make a fine set of\"")
     actor:send(tostring(self.name) .. " tells you, \"greaves for the anti-paladin types but I'll need 3 radiant opals, and\"")
     actor:send(tostring(self.name) .. " tells you, \"a set of Tarnished Greaves. Return these things\"")

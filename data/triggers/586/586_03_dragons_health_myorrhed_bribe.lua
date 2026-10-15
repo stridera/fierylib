@@ -9,7 +9,7 @@
 -- player. The original DG numeric arg is 1 (minimum 1 copper), so any bribe fires it.
 
 if actor:get_quest_stage("dragons_health") == 5 then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'Ah, coin itself!  I count:'")
     if platinum and platinum > 0 then
         self.room:send(tostring(platinum) .. " platinum")
@@ -23,7 +23,7 @@ if actor:get_quest_stage("dragons_health") == 5 then
     if copper and copper > 0 then
         self.room:send(tostring(copper) .. " copper")
     end
-    wait(2)
+    wait(0.2)
     self:say("This shall be included in the offerings.")
     self:emote("places the money next to the egg.")
     local hoard = actor:get_quest_var("dragons_health:hoard") or 0

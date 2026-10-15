@@ -13,5 +13,5 @@ if not percent_chance(10) then
     return true
 end
 self:emote("sweeps dirt from a corner.")
-wait(4)
+wait(0.4)
 self:command("sigh")

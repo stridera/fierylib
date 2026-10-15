@@ -10,7 +10,7 @@
 if actor:get_quest_stage("meteorswarm") == 1 then
     if actor:get_quest_var("meteorswarm:bar_num") == self.id and not world.count_mobiles(481, 100) then
         self.room:spawn_mobile(481, 100)
-        wait(2)
+        wait(0.2)
         self.room:find_actor("Jemnon"):emote("mutters something about " .. tostring(actor.class) .. "s.")
     end
 end

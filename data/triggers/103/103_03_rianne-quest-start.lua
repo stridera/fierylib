@@ -17,7 +17,7 @@ end
 
 if actor.is_player and actor:get_quest_stage("resort_cooking") < 1 then
     actor:start_quest("resort_cooking")
-    wait(5)
+    wait(0.5)
     self.room:send(tostring(self.name) .. " says, 'Excellent!  The dish I am making next is <b:white>Peach Cobbler</>.'")
     wait(2)
     self:say("I will need you to find the following ingredients for me:")

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "reward")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("cryomancer_subclass") == 1 then
     actor:advance_quest("cryomancer_subclass")
     wait(1)
@@ -21,7 +21,7 @@ if actor:get_quest_stage("cryomancer_subclass") == 1 then
     wait(1)
     actor:send(tostring(self.name) .. " says, 'My counterpart, the great Emmath Firehand, long ago battled with me once.'")
     self:emote("reminisces for a brief moment, looking thoughtful.")
-    wait(1)
+    wait(0.1)
     actor:send(tostring(self.name) .. " says, 'It was not serious by any means, but it did end in a stalemate.  The catch however...'")
     wait(1)
     self:command("sigh")

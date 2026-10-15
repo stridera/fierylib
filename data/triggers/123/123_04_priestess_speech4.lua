@@ -21,7 +21,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 if string.find(speech, "slipping away") or string.find(speech, "slipping away?") or string.find(speech, "how terrible") or string.find(speech, "how sad") or string.find(speech, "what can be done?") then
-    wait(2)
+    wait(0.2)
     self:say("We began to lose hope until we found this ancient circle of standing stones.  But I believe this place is powerful enough for us to perform the Great Invocation Rite.")
     wait(4)
     self:say("Several of our sacred prophetic implements were damaged navigating the maze.  My Sisters are too busy tending to their duties preparing this site for the Great Rite to find suitable replacements.")

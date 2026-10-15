@@ -29,20 +29,23 @@ if string.find(arg, "griffin") or string.find(arg, "destroy") or string.find(arg
             actor:send("</>")
             actor:send(tostring(mobiles.template(490, 8).name) .. " has told you:")
             -- switch on stage
-            if stage == 1 then
-                actor:send("The sword used to cut the oak is also critical.  Bring the eldest druid the mystic sword from the wreck of the St. Marvin.")
-            elseif stage == 2 then
-                actor:send("You'll need oracular guidance.  Go to the Seer and say <b:white>\"Earle sends me\"</>.")
-            elseif stage == 3 then
-                actor:send("Get assistance from the strongest person on the island.  Find Derceta and return her crystal earring to her.")
-            elseif stage == 4 then
-                actor:send("The entrance to the cult's lair is hidden under a massive boulder.  Find Derceta again and ask her to move the boulder.")
-            elseif stage == 5 then
-                actor:send("Find the cult's altar and destroy it.  Go into the cave Derceta unearthed and drop the sapling at the cult's altar.")
-            elseif stage == 6 then
-                actor:send("It is time to destroy the cult!  Slay Dagon!")
-            elseif stage == 7 then
-                actor:send("Now you can strike the final blow and destroy the essence of the god of the cult itself.  Give the griffin skin to Awura, then seek out the hidden entrance to the other realms and destroy Adramalech.")
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("The sword used to cut the oak is also critical.  Bring the eldest druid the mystic sword from the wreck of the St. Marvin.")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("You'll need oracular guidance.  Go to the Seer and say <b:white>\"Earle sends me\"</>.")
+                elseif tonumber(_sw1) == 3 then
+                    actor:send("Get assistance from the strongest person on the island.  Find Derceta and return her crystal earring to her.")
+                elseif tonumber(_sw1) == 4 then
+                    actor:send("The entrance to the cult's lair is hidden under a massive boulder.  Find Derceta again and ask her to move the boulder.")
+                elseif tonumber(_sw1) == 5 then
+                    actor:send("Find the cult's altar and destroy it.  Go into the cave Derceta unearthed and drop the sapling at the cult's altar.")
+                elseif tonumber(_sw1) == 6 then
+                    actor:send("It is time to destroy the cult!  Slay Dagon!")
+                elseif tonumber(_sw1) == 7 then
+                    actor:send("Now you can strike the final blow and destroy the essence of the god of the cult itself.  Give the griffin skin to Awura, then seek out the hidden entrance to the other realms and destroy Adramalech.")
+                end
             end
         elseif (stage or 0) == 0 then
             actor:send("Find the wreck of the St. Marvin and bring the cutting of the sacred oak to the eldest druid.")

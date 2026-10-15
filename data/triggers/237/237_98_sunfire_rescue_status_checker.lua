@@ -15,7 +15,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "progress") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local boots = actor:get_quest_var("sunfire_rescue:boots") or 0
 local cloak = actor:get_quest_var("sunfire_rescue:cloak") or 0
 local ring = actor:get_quest_var("sunfire_rescue:ring") or 0

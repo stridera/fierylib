@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "yes")) then
 end
 if string.find(actor.class, "diabolist") and actor.level > 56 and actor:get_quest_stage("hellfire_brimstone") == 0 then
     actor:start_quest("hellfire_brimstone")
-    wait(2)
+    wait(0.2)
     self:command("grin")
     self.room:send(tostring(self.name) .. " says, 'Then first, you must prove your dedication to the dark")
     self.room:send("</>gods.'")

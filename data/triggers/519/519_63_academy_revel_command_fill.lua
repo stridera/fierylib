@@ -14,14 +14,17 @@ if not (cmd == "fill") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "f" or cmd == "fi" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "f" or _sw1 == "fi" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:rest") == 5 then
     actor:set_quest_var("school", "rest", 6)
     actor:command("fill " .. tostring(arg))
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Just like that, perfect!'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Now we feast!'")

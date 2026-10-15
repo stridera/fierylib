@@ -23,9 +23,12 @@ if not (cmd == "endgame") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "e" or cmd == "en" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "e" or _sw1 == "en" then
+        _return_value = true
+        return _return_value
+    end
 end
 if status == 4 then
     local plyr = 1

@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #36300: chief_guard_rant
 -- Original: MOB trigger, flags: ENTRY, probability: 100%
-wait(2)
+wait(0.2)
 local rnd = self.room.actors[random(1, #self.room.actors)]
 -- 36303 -> (zone_id 363, local_id 3) smuggler guard
 if rnd and rnd.zone_id == 363 and rnd.local_id == 3 then

@@ -13,7 +13,7 @@ if not percent_chance(20) then
     return true
 end
 self:command("mutter")
-wait(4)
+wait(0.4)
 self:say("What ARE those filthy paladins up to?")
 wait(2)
 self:command("stomp")

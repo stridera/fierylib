@@ -16,7 +16,7 @@ local stage = actor:get_quest_stage("hell_gate")
 if stage == 1 then
     if object.zone_id == 30 and object.local_id == 213 then
         actor:advance_quest("hell_gate")
-        wait(1)
+        wait(0.1)
         self:say("Yes, this seems to match the description.")
         self.room:send(tostring(self.name) .. " lifts " .. tostring(object.shortdesc) .. " in offering.")
         self:destroy_item("dagger")
@@ -80,7 +80,7 @@ elseif stage == 2 then
             return false
         else
             actor:set_quest_var("hell_gate", key_var, 1)
-            wait(1)
+            wait(0.1)
             self:destroy_item("key")
         end
         local key1 = actor:get_quest_var("hell_gate:83_3")
@@ -126,7 +126,7 @@ elseif stage == 2 then
 elseif stage == 3 then
     if actor:get_quest_var("hell_gate:new") ~= "yes" then
         if object.zone_id == 30 and object.local_id == 213 then
-            wait(2)
+            wait(0.2)
             self:say("Yes, this is a suitable replacement.")
             self:destroy_item("dagger")
             wait(1)
@@ -145,10 +145,10 @@ elseif stage == 3 then
     end
 elseif stage == 4 then
     if object.zone_id == 564 and object.local_id == 7 then
-        wait(1)
+        wait(0.1)
         self:destroy_item("dagger")
         actor:advance_quest("hell_gate")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " swirls the dagger through the pool of blood while reciting an incantation.")
         self.room:send(tostring(self.name) .. " smears each key with the crimson mixture.")
         wait(2)

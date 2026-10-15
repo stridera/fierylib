@@ -8,11 +8,11 @@
 -- Converted from DG Script #48251: meteor grants sworm
 -- Original: OBJECT trigger, flags: USE, probability: 100%
 if actor:get_quest_stage("meteorswarm") == 5 then
-    wait(1)
+    wait(0.1)
     skills.set_level(actor, "meteorswarm", 1000)
     actor:complete_quest("meteorswarm")
     actor:send("<b:red>You have learned the ability to call meteors from the sky!</>")
-    wait(1)
+    wait(0.1)
     self.room:send("The meteorite crumbles to ash and blows away.")
     world.destroy(self)
 end

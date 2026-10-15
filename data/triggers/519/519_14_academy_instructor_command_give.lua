@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if actor:get_quest_var("school:gear") == 12 then
     actor:set_quest_var("school", "gear", 13)
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     actor:send(tostring(self.name) .. " tells you, 'Why thank you, what a lovely gift.'")
     self:command("grin")

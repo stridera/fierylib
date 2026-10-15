@@ -14,14 +14,17 @@ if not (cmd == "skills") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 1 then
     actor:set_quest_var("school", "fight", 2)
     actor:command("skill")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Unlike many MUDs you will not need to train or practice your skills with a trainer or Guild Master.")
     actor:send("Skills will improve gradually as you use them.")
     actor:send("The meter next to the skill name shows you two things:")

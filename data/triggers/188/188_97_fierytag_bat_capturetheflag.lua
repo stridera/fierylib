@@ -23,9 +23,12 @@ if not (cmd == "tag") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "t" or cmd == "ta" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "t" or _sw1 == "ta" then
+        _return_value = true
+        return _return_value
+    end
 end
 local zone_a_start = 3000
 local zone_a_end = 3199
@@ -54,19 +57,19 @@ else
         actor_home = zone_a_home
         actor_jail = zone_a_jail
         if actor.room >= zone_a_start and actor.room <= zone_a_end then
-            actor_at_home = "yes"
+                actor_at_home = "yes"
         end
     elseif actor.gender == "Female" then
         actor_home = zone_b_home
         actor_jail = zone_b_jail
         if actor.room >= zone_b_start and actor.room <= zone_b_end then
-            actor_at_home = "yes"
+                actor_at_home = "yes"
         end
     elseif actor.gender == "Neutral" then
         actor_home = zone_c_home
         actor_jail = zone_c_jail
         if actor.room >= zone_c_start and actor.room <= zone_c_end then
-            actor_at_home = "yes"
+                actor_at_home = "yes"
         end
     end
     if arg.gender == actor.gender then

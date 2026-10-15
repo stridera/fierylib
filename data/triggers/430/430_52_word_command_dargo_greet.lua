@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #43052: word_command_dargo_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 if self.room.zone_id == 430 and self.room.local_id == 148 then
     if globals.questor and globals.questor == actor.name then
         self:say("Thank the gods you found me again!  Help me get out of here!")

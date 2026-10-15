@@ -8,7 +8,7 @@
 -- Converted from DG Script #50210: Ranger greetings
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.is_player and actor.level < 100 then
-    wait(6)
+    wait(0.6)
     if world.count_mobiles(502, 9) < 1 then
         self:emote("discreetly takes note of your passage.")
         wait(3)

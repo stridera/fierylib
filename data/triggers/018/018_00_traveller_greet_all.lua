@@ -30,7 +30,7 @@ if self.room.zone_id == 18 and self.room.local_id == 2 and actor.level < 100 the
         actor:send("Thelmor shouts, 'Izaro!  It is time to end this.'")
         wait(2)
         actor:send("Izaro streaks in from the forest.")
-        wait(1)
+        wait(0.1)
         local izaro = self.room:find_actor("fallen-nymph")
         if izaro then
             izaro:teleport(self.room)

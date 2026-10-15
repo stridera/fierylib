@@ -41,7 +41,7 @@ while counter > 0 do
     get_room(324, 197):at(function()
         self.room:send("part travelers are left to fend for themselves.</>")
     end)
-    wait(4)
+    wait(0.4)
     get_room(324, 197):at(function()
         self.room:send("</><yellow>Dirt Road</> cutting through </><green>Vast Grasslands</>")
     end)

@@ -8,7 +8,7 @@
 -- Converted from DG Script #48130: warlord_receive1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 if object.zone_id == 481 and object.local_id == 4 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("severed-head")
     self:command("smi")
     self:say("Ah, the enemy of my enemy is my friend.")
@@ -41,6 +41,6 @@ if object.zone_id == 481 and object.local_id == 4 then
         a = a + 1
     end
     self:command("give shell " .. tostring(actor.name))
-    wait(2)
+    wait(0.2)
     self:say("The island shaman will know more.")
 end

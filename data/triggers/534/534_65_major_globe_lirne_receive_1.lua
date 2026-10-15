@@ -34,7 +34,7 @@ if stage == 5 then
         target_vnum = 53078
     end
     actor:set_quest_var("major_globe_spell", "room", target_vnum)
-    wait(1)
+    wait(0.1)
     self:destroy_item("majorglobe-salve")
     self:command("smile")
     self:emote("sniffs " .. tostring(objects.template(534, 50).name) .. ".")
@@ -62,10 +62,10 @@ if stage == 5 then
     actor:send(tostring(self.name) .. " says, 'Well?  Quickly, now!'")
 elseif stage < 5 then
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Perhaps you should do the steps of this quest in order.  Go talk to Earle.'")
 elseif stage > 5 then
-    wait(1)
+    wait(0.1)
     self:destroy_item("majorglobe-salve")
     actor:send(tostring(self.name) .. " says, 'But... you've already given me this.  I'm healed already.'")
 end

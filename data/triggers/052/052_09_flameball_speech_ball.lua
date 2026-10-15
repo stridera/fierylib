@@ -21,7 +21,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 
-wait(2)
+wait(0.2)
 if actor.is_player then
     if actor:get_quest_stage("emmath_flameball") == 1 then
         self:command("sigh")

@@ -12,7 +12,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then
     if string.find(speech, "yes") then
         if actor:get_has_failed("merc_ass_thi_subclass") then
@@ -21,7 +21,7 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
             actor:advance_quest("merc_ass_thi_subclass")
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'Then try again.'")
-            wait(2)
+            wait(0.2)
             if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" then
                 actor:send(tostring(self.name) .. " says, 'Be careful this time!  Stay hidden getting in and out.'")
                 wait(2)
@@ -35,7 +35,7 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
             actor:start_quest("merc_ass_thi_subclass", use_subclass)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'So, you truly wish to continue.'")
-            wait(1)
+            wait(0.1)
             if string.find(use_subclass, "Mer") then
                 actor:send(tostring(self.name) .. " says, 'Yes, a mercenary would serve well for that...'")
                 self:emote("thinks back for a moment.")

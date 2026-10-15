@@ -28,29 +28,32 @@ if string.find(arg, "dragons") or string.find(arg, "dragon's") or string.find(ar
             actor:send("</>")
             -- switch on stage
             local dragon, treasure
-            if stage == 1 then
-                dragon = "the blue dragon in the Tower in the Wastes"
-                treasure = "its crystal"
-            elseif stage == 2 then
-                dragon = "Tri-Aszp"
-                treasure = "one of her scales"
-            elseif stage == 3 then
-                dragon = "Thelriki and Jerajai"
-                treasure = "the jewel in their hoard"
-            elseif stage == 4 then
-                dragon = "Sagece"
-                treasure = "her skins and shields"
-            elseif stage == 5 then
-                local total = 10000000 - actor:get_quest_var("dragons_health:hoard")
-                local plat = total / 1000
-                local gold = total / 100 - plat * 10
-                local silv = total / 10 - plat * 100 - gold * 10
-                local copp = total  - plat * 1000 - gold * 100 - silv * 10
-                -- now the price can be reported
-                actor:send("The new hatchling's hoard needs enriching._")
-                actor:send("</><b:yellow>" .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper</>_")
-                actor:send("</>more in treasure or coins ought to do it.")
-                return _return_value
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    dragon = "the blue dragon in the Tower in the Wastes"
+                    treasure = "its crystal"
+                elseif tonumber(_sw1) == 2 then
+                    dragon = "Tri-Aszp"
+                    treasure = "one of her scales"
+                elseif tonumber(_sw1) == 3 then
+                    dragon = "Thelriki and Jerajai"
+                    treasure = "the jewel in their hoard"
+                elseif tonumber(_sw1) == 4 then
+                    dragon = "Sagece"
+                    treasure = "her skins and shields"
+                elseif tonumber(_sw1) == 5 then
+                    local total = 10000000 - actor:get_quest_var("dragons_health:hoard")
+                    local plat = total / 1000
+                    local gold = total / 100 - plat * 10
+                    local silv = total / 10 - plat * 100 - gold * 10
+                    local copp = total  - plat * 1000 - gold * 100 - silv * 10
+                    -- now the price can be reported
+                    actor:send("The new hatchling's hoard needs enriching._")
+                    actor:send("</><b:yellow>" .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper</>_")
+                    actor:send("</>more in treasure or coins ought to do it.")
+                    return _return_value
+                end
             end
             actor:send("You are trying to:")
             actor:send("- kill " .. tostring(dragon) .. " and return with " .. tostring(treasure) .. ".")

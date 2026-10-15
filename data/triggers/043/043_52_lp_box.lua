@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "place?") or string.find(string.lower(speech), "where?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 actor:send("With a deft motion, the Leading Player places himself behind you, whispering in your ear.")
 self.room:send_except(actor, "With a deft motion, the Leading Player places himself behind " .. tostring(actor.name) .. ".")
 wait(2)

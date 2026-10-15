@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "eye") or string.find(string.lower(speech), "scrying") or string.find(string.lower(speech), "divination") or string.find(string.lower(speech), "ball") or string.find(string.lower(speech), "yes")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("wizard_eye")
 local actor_class_lower = string.lower(actor.class)
 if string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist") then

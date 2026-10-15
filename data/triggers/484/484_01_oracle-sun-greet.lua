@@ -15,7 +15,7 @@
 --   and clamped to the actor's level so the gate is permissive, and the
 --   group walk's `a` is hoisted. Real values for wandstep/macestep need
 --   to come from quest-var lookups once that API is wired up.
-wait(2)
+wait(0.2)
 local wandstep = actor:get_quest_var("type_wand:step")
 local macestep = actor:get_quest_var("phase_mace:step")
 local minlevel

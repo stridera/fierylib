@@ -10,7 +10,7 @@
 if globals.web_present ~= 1 and globals.web_pause ~= 1 then
     globals.web_present = 1
     self.room:find_actor("orbweaver"):emote("carefully tosses a leader thread across the path.")
-    wait(4)
+    wait(0.4)
     self.room:find_actor("orbweaver"):emote("crosses the path several more times, then spins the rest of its web.")
     get_room(615, 66):exit("north"):set_state({closed = true, locked = true, pickproof = true})
     get_room(615, 66):exit("north"):set_state({description = "A delicate-looking web stretches between two trees, blocking the path."})

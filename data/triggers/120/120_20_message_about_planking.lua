@@ -8,7 +8,7 @@
 -- Converted from DG Script #12020: Message about planking
 -- Original: WORLD trigger, flags: PREENTRY, probability: 100%
 if direction == "south" and globals.planking_open ~= 1 then
-    wait(3)
+    wait(0.3)
     actor:send("As you enter, a bit of planking falls back, obscuring the opening to the south.")
     actor:send("It looks like you could push it aside, should the need arise.")
 end

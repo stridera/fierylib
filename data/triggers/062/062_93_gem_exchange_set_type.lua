@@ -29,7 +29,7 @@ if not matched then
     return true
 end
 
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("gem_exchange") == 0 or actor:get_quest_stage("gem_exchange") == 0 then
     actor:start_quest("gem_exchange")
 end

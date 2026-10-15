@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- Knight Champion Receive object for quest goodie
 if object.zone_id == 550 and object.local_id == 4 then
-    wait(1)
+    wait(0.1)
     local i = actor.group_size or 0
     local a = 1
     while a <= i do
@@ -29,6 +29,6 @@ if object.zone_id == 550 and object.local_id == 4 then
     self:command("give girth " .. tostring(actor.name))
     self:command("drop girth")
 else
-    wait(1)
+    wait(0.1)
     self:command("eye " .. tostring(actor.name))
 end

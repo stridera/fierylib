@@ -18,7 +18,7 @@ end
 if not room or not self.room.actors or #self.room.actors == 0 then
     return true
 end
-wait(1)
+wait(0.1)
 local rndm = self.room.actors[random(1, #self.room.actors)]
 if not rndm then
     return true

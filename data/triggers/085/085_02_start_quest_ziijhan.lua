@@ -18,21 +18,30 @@ if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) the
 end
 local classquest = false
 if string.find(actor.class, "cleric") and actor.level >= 10 and actor.level <= 35 then
-    if actor.race == "elf" or actor.race == "faerie_seelie" then
-        actor:send("<red>Your race may not subclass to diabolist.</>")
-        return true
+    do
+        local _sw1 = string.lower(tostring(actor.race or ""))
+        if _sw1 == "elf" or _sw1 == "faerie_seelie" then
+            actor:send("<red>Your race may not subclass to diabolist.</>")
+            return true
+        end
     end
     classquest = true
 elseif string.find(actor.class, "warrior") and actor.level >= 10 and actor.level <= 25 then
-    if actor.race == "elf" or actor.race == "faerie_seelie" then
-        actor:send("<red>Your race may not subclass to anti-paladin.</>")
-        return true
+    do
+        local _sw2 = string.lower(tostring(actor.race or ""))
+        if _sw2 == "elf" or _sw2 == "faerie_seelie" then
+            actor:send("<red>Your race may not subclass to anti-paladin.</>")
+            return true
+        end
     end
     classquest = true
 elseif string.find(actor.class, "sorcerer") and actor.level >= 10 and actor.level <= 45 then
-    if actor.race == "elf" or actor.race == "faerie_seelie" then
-        actor:send("<red>Your race may not subclass to necromancer.</>")
-        return true
+    do
+        local _sw3 = string.lower(tostring(actor.race or ""))
+        if _sw3 == "elf" or _sw3 == "faerie_seelie" then
+            actor:send("<red>Your race may not subclass to necromancer.</>")
+            return true
+        end
     end
     classquest = true
 end
@@ -42,7 +51,7 @@ if classquest then
             actor:start_quest("nec_dia_ant_subclass", globals.use_subclass)
         end
         globals.use_subclass = nil
-        wait(2)
+        wait(0.2)
         self:command("nod")
         actor:send(tostring(self.name) .. " says, 'Only the most cunning and strong will complete the <magenta>quest</> I set before you.  I shall take great pleasure in your demise, but I will offer great rewards for your success.'")
         wait(2)

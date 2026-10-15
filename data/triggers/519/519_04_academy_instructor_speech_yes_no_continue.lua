@@ -12,7 +12,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no") or string.find(string.lower(speech), "continue")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("school") == 1 then
     if speech == "yes" then
         if actor:get_quest_var("school:speech") == 3 then

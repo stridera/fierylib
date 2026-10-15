@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "status") or string.find(string.lower(speech), "status?") or string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("blur")
 if stage == 2 then
     self.room:send(tostring(self.name) .. " says, 'Seek out and kill the Syric Warder and bring me his")

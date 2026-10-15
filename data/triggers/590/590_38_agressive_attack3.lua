@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #59038: agressive_attack3
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(8)
+wait(0.8)
 local victim = self.room.actors[random(1, #self.room.actors)]
 if victim.level <100 and victim.is_player then
     combat.engage(self, victim.name)

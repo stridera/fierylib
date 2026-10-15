@@ -37,7 +37,7 @@ end
 
 if not (class_ok and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2) then
     -- not the right class / phase for this questmaster
-    wait(1)
+    wait(0.1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
     give_back()
@@ -70,7 +70,7 @@ for _, s in ipairs(slots) do
     end
 end
 if not entry then
-    wait(1)
+    wait(0.1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
     give_back()
@@ -86,15 +86,15 @@ if is_armor then
     if armor < 1 then
         armor = armor + 1
         actor:set_quest_var("phase_armor", armor_key, armor)
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, \"Hey now. what have we here?!  I've been looking for some of this\"")
         actor:send(tostring(self.name) .. " tells you, \"for quite some time.  You have now given me " .. obj_name(entry.armor) .. ".\"")
         world.destroy(object)
         actor:save()
     else
-        wait(2)
+        wait(0.2)
         self:command("eye " .. tostring(actor.name))
-        wait(1)
+        wait(0.1)
         actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me " .. obj_name(entry.armor) .. " already!\"")
         give_back()
         -- Halt here so the reward can't be given twice.
@@ -104,15 +104,15 @@ else
     if gems < 3 then
         gems = gems + 1
         actor:set_quest_var("phase_armor", gem_key, gems)
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, \"Hey, very nice. It is good to see adventurers out conquering the\"")
         actor:send(tostring(self.name) .. " tells you, \"realm.  You have now given me " .. tostring(gems) .. " " .. obj_name(entry.gem) .. ".\"")
         world.destroy(object)
         actor:save()
     else
-        wait(2)
+        wait(0.2)
         self:command("eye " .. tostring(actor.name))
-        wait(1)
+        wait(0.1)
         actor:send(tostring(self.name) .. " tells you, \"Hey now, you have given me 3 already!\"")
         give_back()
         -- Halt here so the reward can't be given twice.
@@ -122,12 +122,12 @@ end
 
 -- Quest complete for this slot: armor piece plus all 3 gems.
 if armor == 1 and gems == 3 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Excellent intrepid adventurer, you have provided me with all\"")
     actor:send(tostring(self.name) .. " tells you, \"I need in order to reward you with " .. obj_name(entry.reward) .. "!\"")
-    wait(1)
+    wait(0.1)
     local reward = self:spawn_object(math.floor(entry.reward / 100), entry.reward % 100)
-    wait(1)
+    wait(0.1)
     actor:send("<b:yellow>You gain experience!</>")
     for _ = 1, entry.mult do
         actor:award_exp(29880)

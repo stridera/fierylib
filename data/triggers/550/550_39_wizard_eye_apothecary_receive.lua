@@ -32,9 +32,9 @@ if actor:get_quest_stage("wizard_eye") == 7 then
     else
         actor:set_quest_var("wizard_eye", var_key, 1)
         world.destroy(object)
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Ah, " .. tostring(object.shortdesc) .. ".'")
-        wait(4)
+        wait(0.4)
         if actor:get_quest_var("wizard_eye:item1") and actor:get_quest_var("wizard_eye:item2") and actor:get_quest_var("wizard_eye:item3") and actor:get_quest_var("wizard_eye:item4") then
             actor:advance_quest("wizard_eye")
             local i = 1

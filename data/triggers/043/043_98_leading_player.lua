@@ -30,7 +30,7 @@ for _, person in ipairs(self:get_people()) do
 end
 wait(4)
 self.room:send("The Leading Player blows a kiss over his shoulder and slinks off into the shadows.")
-wait(8)
+wait(0.8)
 self.room:send("One by one the other players follow, slipping off into the theater.")
 wait(6)
 self.room:send("You blink and the theater has returned to normal.")

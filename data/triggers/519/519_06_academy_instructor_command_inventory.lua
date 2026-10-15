@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor:get_quest_var("school:gear") == 1 then
     actor:command("inventory")
     actor:set_quest_var("school", "gear", 2)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Good!  Now you can see everything you have.")
     actor:send("In order to gain benefits from items, you have to equip them.'")
     wait(3)

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local instruct = false
 for _, person in ipairs(actor.group) do
     if person.room == self.room then

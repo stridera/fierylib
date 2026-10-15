@@ -14,12 +14,12 @@ if not (string.find(string.lower(speech), "who") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
-    wait(2)
+    wait(0.2)
     if actor:get_quest_var("megalith_quest:nexpo") == 0 then
         self:say("After Sagece's siege on our ancestral home, my family sought refuge with our frost relatives near the land of the Great Snow Leopard.")
         wait(3)
         self:say("The Children of the Snow Leopard instilled a love of stone in me.  Not just a love of magical stone, their enchanted jades or mystic crystals, but mundane stone too, because it so often is more than meets the eye.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "nexpo", 1)
     elseif actor:get_quest_var("megalith_quest:nexpo") == 1 then
@@ -30,14 +30,14 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("In the Old Ways, I heard the voices of my ancestors.")
         wait(3)
         self:say("In the Old Ways, I heard the voice of my ancient Mother.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "nexpo", 2)
     elseif actor:get_quest_var("megalith_quest:nexpo") == 2 then
         self:say("She revealed to me that, just as we elves and the Fair Folk once shared a home in the Dreaming, our various traditions have common roots as well.")
         wait(5)
         self:say("Druidry and witchcraft are the same traditions, just viewed through different lenses.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "nexpo", 3)
     elseif actor:get_quest_var("megalith_quest:nexpo") == 3 then

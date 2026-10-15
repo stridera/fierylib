@@ -13,5 +13,5 @@ if not percent_chance(20) then
     return true
 end
 self:emote("puts her hands on her hips and looks around, exasperated.")
-wait(4)
+wait(0.4)
 self:say("Where is he?  We can't start the show without him.")

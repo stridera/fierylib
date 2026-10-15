@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local stage = actor:get_quest_stage("wizard_eye")
 if stage == 8 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("wizard_eye")
     world.destroy(object)
     self:emote("smells the cinnamon-rose blend.")

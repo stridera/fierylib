@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "hello teacher", 1, true) then
 end
 if actor:get_quest_var("school:speech") == 2 then
     actor:set_quest_var("school", "speech", 3)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Well hello yourself!  You're learning well!'")
     wait(1)
     actor:send(tostring(self.name) .. " tells you, 'Mass communication channels include:'")

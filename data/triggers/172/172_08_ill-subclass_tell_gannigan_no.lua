@@ -13,16 +13,19 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "no") then
     return true  -- keyword not heard
 end
-wait(6)
+wait(0.6)
 -- switch on actor:get_quest_stage("illusionist_subclass")
-if actor:get_quest_stage("illusionist_subclass") == 4 then
-    actor:send(tostring(self.name) .. " says, 'Of course.  Here is the incantation: <b:cyan>\"where the dough ever rises\"</>.'")
-    wait(4)
-    self:say("Now get yourself quickly across the waterfall - The townspeople are almost upon us!")
-elseif actor:get_quest_stage("illusionist_subclass") == 5 then
-    self:say("We'll see about that.")
-else
-    self:command("peer " .. tostring(actor.name))
-    wait(2)
-    self:command("eyebrow")
+do
+    local _sw1 = string.lower(tostring(actor:get_quest_stage("illusionist_subclass") or ""))
+    if tonumber(_sw1) == 4 then
+        actor:send(tostring(self.name) .. " says, 'Of course.  Here is the incantation: <b:cyan>\"where the dough ever rises\"</>.'")
+        wait(4)
+        self:say("Now get yourself quickly across the waterfall - The townspeople are almost upon us!")
+    elseif tonumber(_sw1) == 5 then
+        self:say("We'll see about that.")
+    else
+        self:command("peer " .. tostring(actor.name))
+        wait(2)
+        self:command("eyebrow")
+    end
 end

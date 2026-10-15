@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "supernova")
         or string.find(string.lower(speech), "teach")) then
     return true
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("supernova") == 7 then
     self:command("roll")
     self:say("Of course that's what you want.")

@@ -13,9 +13,9 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "help") or string.find(string.lower(speech), "aid") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "friend")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Not long after I escaped in here, I met someone who had been changed into a pile of rock.'")
-wait(2)
+wait(0.2)
 self:command("frown")
 self.room:send(tostring(self.name) .. " says, 'It was strange though, it must have been Vulcera, but he never said a word against her.'")
 wait(1)

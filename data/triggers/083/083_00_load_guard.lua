@@ -9,7 +9,7 @@
 --
 -- Original DG Script: #8300
 if actor.alignment < -349 then
-    wait(2)
+    wait(0.2)
     self.room:send("A giant guard pops out from behind the coffin.")
     get_room(83, 123):at(function()
         local guard = self.room:find_actor("frakatiguard")

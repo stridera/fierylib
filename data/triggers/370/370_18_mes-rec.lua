@@ -60,7 +60,7 @@ if string.find(actor.race, "troll") then
         self.room:spawn_object(370, 83)
         self:command("give troll-mask " .. tostring(actor.name))
         self:command("bow " .. tostring(actor.name))
-        wait(1)
+        wait(0.1)
         self:say("I am certain we shall meet again.")
     elseif actor:get_has_completed("troll_quest") then
         wait(3)

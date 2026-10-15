@@ -47,7 +47,7 @@ while counter > 0 do
     get_room(324, 198):at(function()
         self.room:send("that it will bring bad luck.</>")
     end)
-    wait(4)
+    wait(0.4)
     get_room(324, 198):at(function()
         self.room:send("You catch a glimpse of the passing countryside!")
     end)

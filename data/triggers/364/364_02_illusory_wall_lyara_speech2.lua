@@ -13,7 +13,7 @@ if not (string.find(speech_lower, "teach") or string.find(speech_lower, "student
     return true
 end
 if (string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56 then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'I don't get many students these days.  They just")
     self.room:send("</>don't have enough patience...'")
     wait(4)

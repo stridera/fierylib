@@ -11,7 +11,7 @@
 
 -- Converted from DG Script #8550: Resurrect_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(1)
+wait(0.1)
 if actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" then
     if actor.level < 81 then
         wait(1)

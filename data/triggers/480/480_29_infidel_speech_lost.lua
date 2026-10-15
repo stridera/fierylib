@@ -14,16 +14,16 @@ if not (string.find(speech_lower, "lost", 1, true)) then
     return true  -- No matching keywords
 end
 if actor.alignment < -349 then
-    wait(2)
+    wait(0.2)
     self:command("laugh")
     self:say("Yes.  He was overconfident and reckless.  I easily snuffed him out.")
     self:command("flex")
-    wait(1)
+    wait(0.1)
     self:say("As a punishment, the King brought him back to life, and toys with him deep in this barrow.")
-    wait(1)
+    wait(0.1)
     self:command("frown")
     self:say("But he continues to be a thorn in my King's side...  The prince continues to try to destroy my King, even as he became Eternal in Death.")
-    wait(1)
+    wait(0.1)
     if actor.level >80 then
         self:say("But you might be powerful enough to destroy the prince for good.")
     else

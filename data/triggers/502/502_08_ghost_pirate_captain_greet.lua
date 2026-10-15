@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #50208: Ghost Pirate Captain greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(3)
+wait(0.3)
 if actor.level < 100 then
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'Did you take my earring?  What have you</>")
     actor:send("</><blue>done with it, rapscallion!'</>")

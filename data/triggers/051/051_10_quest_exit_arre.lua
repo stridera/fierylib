@@ -15,7 +15,7 @@
 if not string.find(string.lower(speech), "exit") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self:command("sigh")
 self:say("Again, my time has been wasted.  Very well, leave.")
 actor:send(self.name .. " waves her arms, sending you out of her chamber.")

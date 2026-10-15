@@ -10,7 +10,7 @@
 
 -- Runs only through run_room_trigger() (DG probability 0 = never automatic); the converter's
 -- percent_chance(0) guard blocked those calls.
-wait(2)
+wait(0.2)
 zone.echo(123, "The coven chants, 'We summon and stir thee!'")
 wait(1)
 zone.echo(123, "<green>The harmonic rumbling intensifies as the ground starts to shake as if awakening.</>")

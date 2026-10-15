@@ -22,7 +22,7 @@ local stage = actor:get_quest_stage("wall_ice")
 if stage == 1 then
     local have = tonumber(actor:get_quest_var("wall_ice:blocks")) or 0
     local need = 20 - have
-    wait(2)
+    wait(0.2)
     self:say("Let me see...")
     self.room:send(tostring(self.name) .. " counts the number of blocks.")
     wait(2)

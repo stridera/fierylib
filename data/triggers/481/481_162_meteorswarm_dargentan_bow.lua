@@ -17,7 +17,7 @@ if string.find(arg, "dargentan") or string.find(arg, "dar") or string.find(arg, 
     actor:send("You bow before him.")
     self.room:send_except(actor, tostring(actor.name) .. " bows before Dargentan.")
     if actor:get_quest_stage("meteorswarm") == 4 then
-        wait(2)
+        wait(0.2)
         self:command("glare")
         actor:send(tostring(self.name) .. " says, 'Wherefore hast thou awakened one such as this from deepest slumber?'")
     end

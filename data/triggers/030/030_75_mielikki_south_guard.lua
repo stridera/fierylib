@@ -16,7 +16,7 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if actor.is_player then
     if actor.level < 30 then
         self:whisper(actor.name, "You are much too little to venture south of here.")
-        wait(1)
+        wait(0.1)
         self:whisper(actor.name, "Try other areas first.")
         self:command("nudge " .. tostring(actor.name))
         self:emote("points at the sign.")

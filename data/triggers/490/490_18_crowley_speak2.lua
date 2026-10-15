@@ -12,7 +12,7 @@
 if not string.find(string.lower(speech), "the seer requests your assistance", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 self:set_flag("sentinel", true)
 if actor:get_quest_stage("griffin_quest") < 3 then
     self:say("Oh, does she now?  Are you certain?")
@@ -20,7 +20,7 @@ if actor:get_quest_stage("griffin_quest") < 3 then
 elseif actor.is_player then
     self:say("Oh, I had hoped this would never happen.")
     self:command("hiccup")
-    wait(4)
+    wait(0.4)
     self.room:send(tostring(self.name) .. " says, 'I suppose she told you that I know where the cult's chapel is?'")
     self:command("sigh")
     wait(2)

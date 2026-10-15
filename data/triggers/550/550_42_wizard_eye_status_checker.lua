@@ -22,7 +22,7 @@ local item1 = actor:get_quest_var("wizard_eye:item1")
 local item2 = actor:get_quest_var("wizard_eye:item2")
 local item3 = actor:get_quest_var("wizard_eye:item3")
 local item4 = actor:get_quest_var("wizard_eye:item4")
-wait(2)
+wait(0.2)
 if actor:get_has_completed("wizard_eye") then
     actor:send(tostring(self.name) .. " says, 'You already have the sight of the Great Snow Leopard.'")
     return true
@@ -30,53 +30,56 @@ end
 
 local who, visit, thing1, thing2, thing3, thing4
 
-if stage == 1 then
-    actor:send(tostring(self.name) .. " says, 'You are trying to find the <b:cyan>gypsy witch in South Caelia Highlands.  Ask her about Wizard Eye.</>'")
-    return true
-elseif stage == 2 then
-    actor:send(tostring(self.name) .. " says, 'The gypsy witch says to find <b:yellow>marigold poultice</> from a healer on the beachhead.'")
-    return true
-elseif stage == 3 then
-    actor:send(tostring(self.name) .. " says, 'Go visit the <b:cyan>Seer of Griffin Isle</> to see what you need to do next.  <b:cyan>Ask her about Wizard Eye</>.'")
-    return true
-elseif stage == 4 then
-    who = "her"
-    visit = "have the Seer make you an herbal sachet"
-    thing1 = objects.template(23, 29).name
-    thing2 = objects.template(237, 53).name
-    thing3 = objects.template(480, 5).name
-elseif stage == 5 then
-    actor:send(tostring(self.name) .. " says, 'Give me the sachet.'")
-    return true
-elseif stage == 6 then
-    actor:send(tostring(self.name) .. " says, 'You are looking for <b:cyan>the apothecary in Anduin</>.'")
-    return true
-elseif stage == 7 then
-    who = "her"
-    visit = "get The Green Woman to make you incense"
-    thing1 = objects.template(237, 54).name
-    thing2 = objects.template(30, 298).name
-    thing3 = objects.template(238, 47).name
-    thing4 = objects.template(180, 1).name
-elseif stage == 8 then
-    actor:send(tostring(self.name) .. " says, 'Give me the incense.'")
-    return true
-elseif stage == 9 or stage == 10 then
-    who = "him"
-    visit = "see the Oracle of Justice"
-    thing1 = objects.template(30, 218).name
-    thing2 = objects.template(534, 24).name
-    thing3 = objects.template(430, 21).name
-    thing4 = objects.template(40, 3).name
-elseif stage == 11 then
-    actor:send(tostring(self.name) .. " says, 'Give me the crystal ball.'")
-    return true
-elseif stage == 12 then
-    actor:send(tostring(self.name) .. " says, 'All you need to do now is lay back and go to <b:cyan>sleep</>.'")
-    return true
-else
-    actor:send(tostring(self.name) .. " says, 'Progress on what spell?  I am not guiding you.'")
-    return true
+do
+    local _sw1 = string.lower(tostring(stage or ""))
+    if tonumber(_sw1) == 1 then
+        actor:send(tostring(self.name) .. " says, 'You are trying to find the <b:cyan>gypsy witch in South Caelia Highlands.  Ask her about Wizard Eye.</>'")
+        return true
+    elseif tonumber(_sw1) == 2 then
+        actor:send(tostring(self.name) .. " says, 'The gypsy witch says to find <b:yellow>marigold poultice</> from a healer on the beachhead.'")
+        return true
+    elseif tonumber(_sw1) == 3 then
+        actor:send(tostring(self.name) .. " says, 'Go visit the <b:cyan>Seer of Griffin Isle</> to see what you need to do next.  <b:cyan>Ask her about Wizard Eye</>.'")
+        return true
+    elseif tonumber(_sw1) == 4 then
+        who = "her"
+        visit = "have the Seer make you an herbal sachet"
+        thing1 = objects.template(23, 29).name
+        thing2 = objects.template(237, 53).name
+        thing3 = objects.template(480, 5).name
+    elseif tonumber(_sw1) == 5 then
+        actor:send(tostring(self.name) .. " says, 'Give me the sachet.'")
+        return true
+    elseif tonumber(_sw1) == 6 then
+        actor:send(tostring(self.name) .. " says, 'You are looking for <b:cyan>the apothecary in Anduin</>.'")
+        return true
+    elseif tonumber(_sw1) == 7 then
+        who = "her"
+        visit = "get The Green Woman to make you incense"
+        thing1 = objects.template(237, 54).name
+        thing2 = objects.template(30, 298).name
+        thing3 = objects.template(238, 47).name
+        thing4 = objects.template(180, 1).name
+    elseif tonumber(_sw1) == 8 then
+        actor:send(tostring(self.name) .. " says, 'Give me the incense.'")
+        return true
+    elseif tonumber(_sw1) == 9 or tonumber(_sw1) == 10 then
+        who = "him"
+        visit = "see the Oracle of Justice"
+        thing1 = objects.template(30, 218).name
+        thing2 = objects.template(534, 24).name
+        thing3 = objects.template(430, 21).name
+        thing4 = objects.template(40, 3).name
+    elseif tonumber(_sw1) == 11 then
+        actor:send(tostring(self.name) .. " says, 'Give me the crystal ball.'")
+        return true
+    elseif tonumber(_sw1) == 12 then
+        actor:send(tostring(self.name) .. " says, 'All you need to do now is lay back and go to <b:cyan>sleep</>.'")
+        return true
+    else
+        actor:send(tostring(self.name) .. " says, 'Progress on what spell?  I am not guiding you.'")
+        return true
+    end
 end
 
 actor:send(tostring(self.name) .. " says, 'You need to " .. visit .. ".'")
@@ -106,6 +109,6 @@ if not item3 then
     actor:send("- <b:yellow>" .. tostring(thing3) .. "</>")
 end
 if stage ~= 4 and not item4 and thing4 then
-    actor:send("- <b:yellow>" .. tostring(thing4) .. "</>")
-end
+        actor:send("- <b:yellow>" .. tostring(thing4) .. "</>")
+    end
 return true

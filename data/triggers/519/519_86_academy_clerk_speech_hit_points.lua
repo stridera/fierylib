@@ -12,7 +12,7 @@
 if not string.find(string.lower(speech), "hit points", 1, true) then
     return true  -- Not the phrase
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("school") == 2 then
     actor:set_quest_var("school", "hp", "complete")
     actor:send(tostring(self.name) .. " tells you, 'Look at the prompt in the lower-left corner of your screen again.")

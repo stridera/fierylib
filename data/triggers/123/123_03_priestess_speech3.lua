@@ -21,7 +21,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 if string.find(speech, "old gods") or string.find(speech, "old gods?") or string.find(speech, "why?") then
-    wait(2)
+    wait(0.2)
     self:say("You see, when the Nine Hells cracked open to vomit forth Sagece on Templace, the putrid rift she crawled through so corrupted the world around it, many of the Old Gods found their holy sites defiled and their physical access to Ethilien severed.")
     wait(6)
     self:say("The Great Mother was one such unfortunate victim.")

@@ -27,7 +27,7 @@ if actor:get_quest_var("hell_gate:" .. key) then
 end
 
 actor:set_quest_var("hell_gate", key, 1)
-wait(1)
+wait(0.1)
 self.room:send(tostring(object.shortdesc) .. " spills on the ground, gathering in a pool.")
 local pool = self.room:find_actor("blood")
 if pool then

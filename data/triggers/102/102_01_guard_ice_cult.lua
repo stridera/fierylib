@@ -16,7 +16,7 @@ end
 -- players (and non-players) pass through. Mirrors legacy DG #10201.
 if actor.is_player and actor.level < 40 then
     self:whisper(actor.name, "You are much too weak to venture through this tunnel.")
-    wait(1)
+    wait(0.1)
     self:whisper(actor.name, "Try other areas first.")
     self:command("nudge " .. tostring(actor.name))
     return false

@@ -16,7 +16,7 @@ if not (string.find(speech_lower, "yes") or string.find(speech_lower, "willing")
 end
 if ((string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56) and actor:get_quest_stage("illusory_wall") == 0 then
     actor:start_quest("illusory_wall")
-    wait(2)
+    wait(0.2)
     self:say("Splendid!  Let's get you set up.")
     wait(2)
     self.room:send(tostring(self.name) .. " says, 'Replicating walls with tangible illusions is")

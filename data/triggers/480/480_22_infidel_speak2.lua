@@ -15,10 +15,10 @@ if not (string.find(speech_lower, "challenge", 1, true)) then
 end
 self:say("Yes, challenge.  I presume you have been sent by that young upstart.")
 self:command("spit")
-wait(1)
+wait(0.1)
 self:say("If you haven't, then you had better leave before my patience wears thin.")
 self:command("ponder")
-wait(1)
+wait(0.1)
 self:say("And if you have, then you'd better leave before I kill you.")
 self:command("pat " .. tostring(actor.name))
 self:say("Run along now little one.")

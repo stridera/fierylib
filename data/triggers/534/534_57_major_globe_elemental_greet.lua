@@ -56,7 +56,7 @@ if actor:get_quest_stage("major_globe_spell") == 8 or wand == 8 then
             if actor:get_quest_stage("major_globe_spell") == 8 then
                 actor:set_quest_var("major_globe_spell", "ward_" .. tostring(load_ward), 1)
             end
-            wait(1)
+            wait(0.1)
             actor:send("<blue>" .. tostring(self.name) .. " flares briefly as you approach.</>")
             self.room:send_except(actor, "<blue>" .. tostring(self.name) .. " flares briefly as " .. tostring(actor.name) .. " approaches.</>")
         end

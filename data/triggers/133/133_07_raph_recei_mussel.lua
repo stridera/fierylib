@@ -12,7 +12,7 @@ if actor.is_player then
     if object.zone_id == 490 and object.local_id == 24 then
         if actor:get_quest_stage("get_raph_food") == 8 then
             self:emote("smiles a bit as his tummy growls very much.")
-            wait(3)
+            wait(0.3)
             self:command("shake " .. tostring(actor.name))
             self:say("I thank you for all of your effort, but I am afraid you are too late.  Death is coming for me.")
             actor:advance_quest("get_raph_food")
@@ -20,18 +20,21 @@ if actor.is_player then
             wait(2)
         else
             -- switch on actor:get_quest_stage("get_raph_food")
-            if actor:get_quest_stage("get_raph_food") == 1 or actor:get_quest_stage("get_raph_food") == 2 or actor:get_quest_stage("get_raph_food") == 3 or actor:get_quest_stage("get_raph_food") == 4 or actor:get_quest_stage("get_raph_food") == 5 or actor:get_quest_stage("get_raph_food") == 6 then
-                self:say("Unusual that you can get an object I have not even asked for yet.")
-                wait(2)
-                self:say("You shouldn't know to have this yet, cheater.")
-            elseif actor:get_quest_stage("get_raph_food") == 7 then
-                self:say("How ever did you manage to get the mussel without actually picking it up yourself?!")
-                self:command("frown " .. tostring(actor.name))
-            else
-                self:say("What a lovely bit of food, thank you!")
-                self:command("thank " .. tostring(actor.name))
-                wait(2)
-                self:say("Shame you were not performing a quest, you seem like you could have helped an old man.")
+            do
+                local _sw1 = string.lower(tostring(actor:get_quest_stage("get_raph_food") or ""))
+                if tonumber(_sw1) == 1 or tonumber(_sw1) == 2 or tonumber(_sw1) == 3 or tonumber(_sw1) == 4 or tonumber(_sw1) == 5 or tonumber(_sw1) == 6 then
+                    self:say("Unusual that you can get an object I have not even asked for yet.")
+                    wait(0.2)
+                    self:say("You shouldn't know to have this yet, cheater.")
+                elseif tonumber(_sw1) == 7 then
+                    self:say("How ever did you manage to get the mussel without actually picking it up yourself?!")
+                    self:command("frown " .. tostring(actor.name))
+                else
+                    self:say("What a lovely bit of food, thank you!")
+                    self:command("thank " .. tostring(actor.name))
+                    wait(0.2)
+                    self:say("Shame you were not performing a quest, you seem like you could have helped an old man.")
+                end
             end
             wait(2)
         end

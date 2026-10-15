@@ -16,7 +16,7 @@ if not string.find(actor.class, "cryomancer") then
     return true
 end
 
-wait(2)
+wait(0.2)
 self:command("nod")
 self.room:send(self.name .. " says, 'Even my elven family, the Sunfire clan, has lost the")
 self.room:send("</>secrets to the spell.'")

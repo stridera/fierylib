@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "yes") or string.find(speech_lower, "ok") or string.find(speech_lower, "okay") or string.find(speech_lower, "sure") or string.find(speech_lower, "help")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if (actor.is_player) and (actor.alignment > 349) then
     if actor:get_quest_stage("sunfire_rescue") == 0 then
         -- Responding to the trigger in 23721...rescuing poor elf boy.

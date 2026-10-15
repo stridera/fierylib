@@ -13,7 +13,7 @@
 local bishop = self.room:find_actor("bishop")
 if (actor:get_quest_stage("resurrection_quest") == 2 or actor:get_quest_var("resurrection_quest:new") == "yes") and bishop then
     self:say("You've made a fatal mistake, bishop!")
-    wait(1)
+    wait(0.1)
     self:say("Your life is now forfeit!")
     bishop:say("<blue>Please, " .. tostring(actor.name) .. ", help me!</>")
     skills.execute(self, "backstab", bishop)

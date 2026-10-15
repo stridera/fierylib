@@ -11,7 +11,7 @@
 if not string.find(speech, "quest") then
     return true
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("ran_dru_subclass") == 1 then
     actor:advance_quest("ran_dru_subclass")
     actor:send(tostring(self.name) .. " says, 'Yes, quest.  I do suppose it would help if I told you about it.'")

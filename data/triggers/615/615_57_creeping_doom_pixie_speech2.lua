@@ -13,10 +13,10 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "vengeance") or string.find(string.lower(speech), "revenge") or string.find(string.lower(speech), "avenger") or string.find(string.lower(speech), "vessel?") or string.find(string.lower(speech), "abuses?") or string.find(string.lower(speech), "vengeance?") or string.find(string.lower(speech), "revenge?") or string.find(string.lower(speech), "avenger?") or string.find(string.lower(speech), "vessel") or string.find(string.lower(speech), "abuses")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Yes, we need a powerful priest of Nature to be our")
 self.room:send("</>avenging avatar!'")
-wait(2)
+wait(0.2)
 if string.find(actor.class, "druid") then
     if actor.level > 80 then
         self:say("Will you be our vessel?")

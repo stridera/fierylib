@@ -14,9 +14,12 @@ if not (cmd == "doorbash") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "d" or cmd == "do" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "d" or _sw1 == "do" then
+        _return_value = true
+        return _return_value
+    end
 end
 if globals.web_present == 1 then
     _return_value = false

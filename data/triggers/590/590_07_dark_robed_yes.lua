@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "yes") then
     return true  -- No matching keywords
 end
-wait(3)
+wait(0.3)
 -- Walk the speaker's group; start the Sacred Haven quest for any evil-aligned
 -- members co-located with the dark adept. Continue with the dialogue if at
 -- least one member qualifies (matches the speaker's own group).
@@ -30,10 +30,10 @@ end
 if continue then
     actor:send(tostring(self.name) .. " steps in closer towards you and rests his hand on your shoulder.")
     self.room:send_except(actor, tostring(self.name) .. " steps in closer towards " .. tostring(actor.name) .. " and rests its hand on " .. tostring(actor.possessive) .. " shoulder.")
-    wait(6)
+    wait(0.6)
     actor:send(tostring(self.name) .. " tells you, 'Bring me an adornment of light from one of the sanctuary priests and I will be convinced that you are capable enough that my key will not be wasted.'")
-    wait(6)
+    wait(0.6)
     actor:send(tostring(self.name) .. " tells you, 'Ask me <b:white>[what am I doing?]</> if you forget.'")
-    wait(9)
+    wait(0.9)
     self.room:send(tostring(self.name) .. " says, 'Now be gone with you, and hurry before they destroy my artifacts.'")
 end

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "son?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Yes, he was kidnapped by the Bone Tribe head-hunters for a sacrifice.'")
 wait(1)
 self:command("spit")

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "yes") or string.find(speech_lower, "ready") or string.find(speech_lower, "deeper") or string.find(speech_lower, "ways") or string.find(speech_lower, "nature")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("blur") == 1 then
     self.room:send("A twinkle shines in " .. tostring(self.name) .. "'s eye.")
     self:say("I had hoped so.")

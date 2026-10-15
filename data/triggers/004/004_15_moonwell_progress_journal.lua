@@ -31,42 +31,45 @@ if string.find(arg, "moonwell") or string.find(arg, "moonwell_spell_quest") then
             -- switch on stage
             local item
             local place
-            if stage == 1 or stage == 2 then
-                -- Vine of Mielikki
-                item = 16350
-                place = "an island of lava and fire"
-            elseif stage == 3 then
-                -- The Heartstone
-                item = 48024
-                place = "an ancient burial site far to the north"
-            elseif stage == 4 then
-                -- Flask of Eleweiss
-                item = 16356
-                place = "the cult of the ice dragon"
-            elseif stage == 5 then
-                -- Flask of Eleweiss
-                item = 16356
-                place = "the cult of the ice dragon"
-            elseif stage == 6 then
-                -- Glittering ruby ring
-                item = 5201
-                place = "a temple dedicated to fire"
-            elseif stage == 7 then
-                -- Orb of Winds
-                item = 16006
-                place = "a dark fortress to the east"
-            elseif stage == 8 then
-                -- Jade ring
-                item = 49011
-                place = "a wood nymph on an island of our brothers beset by beasts"
-            elseif stage == 10 then
-                -- Chaos Orb
-                item = 4003
-                place = "a great dragon hidden in a hellish labyrinth"
-            elseif stage == 11 then
-                -- Granite Ring
-                item = 55020
-                place = "a large temple hidden in a mountain"
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 or tonumber(_sw1) == 2 then
+                    -- Vine of Mielikki
+                    item = 16350
+                    place = "an island of lava and fire"
+                elseif tonumber(_sw1) == 3 then
+                    -- The Heartstone
+                    item = 48024
+                    place = "an ancient burial site far to the north"
+                elseif tonumber(_sw1) == 4 then
+                    -- Flask of Eleweiss
+                    item = 16356
+                    place = "the cult of the ice dragon"
+                elseif tonumber(_sw1) == 5 then
+                    -- Flask of Eleweiss
+                    item = 16356
+                    place = "the cult of the ice dragon"
+                elseif tonumber(_sw1) == 6 then
+                    -- Glittering ruby ring
+                    item = 5201
+                    place = "a temple dedicated to fire"
+                elseif tonumber(_sw1) == 7 then
+                    -- Orb of Winds
+                    item = 16006
+                    place = "a dark fortress to the east"
+                elseif tonumber(_sw1) == 8 then
+                    -- Jade ring
+                    item = 49011
+                    place = "a wood nymph on an island of our brothers beset by beasts"
+                elseif tonumber(_sw1) == 10 then
+                    -- Chaos Orb
+                    item = 4003
+                    place = "a great dragon hidden in a hellish labyrinth"
+                elseif tonumber(_sw1) == 11 then
+                    -- Granite Ring
+                    item = 55020
+                    place = "a large temple hidden in a mountain"
+                end
             end
             if stage < 6 or (stage >= 6 and (actor:get_quest_var("moonwell_spell_quest:map") or 0) == 0) then
                 actor:send("Bring " .. "%get.obj_shortdesc[%item%]% from %place%.")

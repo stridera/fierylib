@@ -50,7 +50,7 @@ elseif (object.zone_id == 53 and object.id == 19) then
 end
 if actor:get_quest_stage("treasure_hunter") == "stage" and actor:get_quest_var("treasure_hunter:hunt") == "returned" then
     local anti = "Anti-Paladin"
-    wait(2)
+    wait(0.2)
     world.destroy(object)
     self:command("cheer")
     actor:send(tostring(self.name) .. " says, 'Congratulations!  Here's your reward.'")
@@ -101,7 +101,7 @@ if actor:get_quest_stage("treasure_hunter") == "stage" and actor:get_quest_var("
     end
     actor:set_quest_var("treasure_hunter", "treasure1", 0)
     actor:set_quest_var("treasure_hunter", "hunt", 0)
-    wait(2)
+    wait(0.2)
     if stage < 10 then
         actor:advance_quest("treasure_hunter")
         actor:send(tostring(self.name) .. " says, 'Check in again if you have time for more work.'")
@@ -132,10 +132,10 @@ elseif actor:get_quest_stage("treasure_hunter") > stage then
     _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses the order.")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You already stole - er, recovered this treasure!'")
 elseif actor:get_quest_stage("treasure_hunter") < stage then
-    wait(2)
+    wait(0.2)
     self:command("eye " .. tostring(actor))
     actor:send(tostring(self.name) .. " says, 'How'd you get this?!  You steal it off someone else??'")
     self.room:send(tostring(self.name) .. " rips up the order!")
@@ -143,12 +143,12 @@ elseif actor:get_quest_stage("treasure_hunter") < stage then
 elseif actor:get_quest_var("treasure_hunter:hunt") == "running" then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses the order.")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You have to find the treasure still!  " .. tostring(treasure1) .. " is still out there.")
 elseif actor:get_quest_var("treasure_hunter:hunt") == "found" then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses the order.")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You have to give me the treasure first!  You still have " .. tostring(treasure1) .. " in your possession.'")
 end
 return _return_value

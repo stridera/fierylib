@@ -30,12 +30,23 @@ elseif actor:get_eff_flagged("fireshield") then
     spells.cast(self, "immolate", actor)
 else
     -- switch on random(1, 3)
-    if random(1, 3) == 1 then
-        spells.cast(self, "fireball", actor)
-    elseif random(1, 3) == 2 then
-        spells.cast(self, "acid burst", actor)
-    else
-        spells.cast(self, "positive field", actor)
+    do
+        local _sw1 = string.lower(tostring(random(1, 3) or ""))
+        local _run1 = false
+        repeat
+            if _run1 or tonumber(_sw1) == 1 then
+                _run1 = true
+                spells.cast(self, "fireball", actor)
+            end
+            if _run1 or tonumber(_sw1) == 2 then
+                _run1 = true
+                spells.cast(self, "acid burst", actor)
+            end
+            do  -- default
+                _run1 = true
+                spells.cast(self, "positive field", actor)
+            end
+        until true
     end
 end
 wait(2)

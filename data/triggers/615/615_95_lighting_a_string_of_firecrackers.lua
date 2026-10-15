@@ -59,7 +59,7 @@ if string.find(arg, "firework") or string.find(arg, "firecracker") or string.fin
         while counter > 0 do
             self.room:send(tostring(self.shortdesc) .. " explodes!")
             self.room:send(bangs[random(1, #bangs)])
-            wait(3)
+            wait(0.3)
             counter = counter - 1
         end
         wait(1)

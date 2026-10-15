@@ -12,7 +12,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "basic") or string.find(string.lower(speech), "combat") or string.find(string.lower(speech), "none")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if speech == "basic" then
     if actor:get_quest_stage("school") == 0 then
         actor:start_quest("school")

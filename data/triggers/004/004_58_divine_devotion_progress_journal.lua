@@ -52,51 +52,54 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
             local gem
             local place
             local hint
-            if pendantstage == 1 then
-                necklace = 12003
-                gem = 55582
-                place = "The Mist Temple Altar"
-                hint = "in the Misty Caverns."
-            elseif pendantstage == 2 then
-                necklace = 23708
-                gem = 55590
-                place = "Chamber of Chaos"
-                hint = "in the Temple of Chaos."
-            elseif pendantstage == 3 then
-                necklace = 58005
-                gem = 55622
-                place = "Altar of Borgan"
-                hint = "in the lost city of Nymrill."
-            elseif pendantstage == 4 then
-                necklace = 48123
-                gem = 55654
-                place = "A Hidden Altar Room"
-                hint = "in a cave in South Caelia's Wailing Mountains."
-            elseif pendantstage == 5 then
-                necklace = 12336
-                gem = 55662
-                place = "The Altar of the Snow Leopard Order"
-                hint = "buried deep in Mt. Frostbite"
-            elseif pendantstage == 6 then
-                necklace = 43019
-                gem = 55677
-                place = "Chapel Altar"
-                hint = "deep underground in a lost castle."
-            elseif pendantstage == 7 then
-                necklace = 37015
-                gem = 55709
-                place = "A Cliffside Altar"
-                hint = "tucked away in the land of Dreams."
-            elseif pendantstage == 8 then
-                necklace = 58429
-                gem = 55738
-                place = "Dark Altar"
-                hint = "entombed with an ancient evil king."
-            elseif pendantstage == 9 then
-                necklace = 52010
-                gem = 55739
-                place = "An Altar"
-                hint = "far away in the Plane of Air."
+            do
+                local _sw1 = string.lower(tostring(pendantstage or ""))
+                if tonumber(_sw1) == 1 then
+                    necklace = 12003
+                    gem = 55582
+                    place = "The Mist Temple Altar"
+                    hint = "in the Misty Caverns."
+                elseif tonumber(_sw1) == 2 then
+                    necklace = 23708
+                    gem = 55590
+                    place = "Chamber of Chaos"
+                    hint = "in the Temple of Chaos."
+                elseif tonumber(_sw1) == 3 then
+                    necklace = 58005
+                    gem = 55622
+                    place = "Altar of Borgan"
+                    hint = "in the lost city of Nymrill."
+                elseif tonumber(_sw1) == 4 then
+                    necklace = 48123
+                    gem = 55654
+                    place = "A Hidden Altar Room"
+                    hint = "in a cave in South Caelia's Wailing Mountains."
+                elseif tonumber(_sw1) == 5 then
+                    necklace = 12336
+                    gem = 55662
+                    place = "The Altar of the Snow Leopard Order"
+                    hint = "buried deep in Mt. Frostbite"
+                elseif tonumber(_sw1) == 6 then
+                    necklace = 43019
+                    gem = 55677
+                    place = "Chapel Altar"
+                    hint = "deep underground in a lost castle."
+                elseif tonumber(_sw1) == 7 then
+                    necklace = 37015
+                    gem = 55709
+                    place = "A Cliffside Altar"
+                    hint = "tucked away in the land of Dreams."
+                elseif tonumber(_sw1) == 8 then
+                    necklace = 58429
+                    gem = 55738
+                    place = "Dark Altar"
+                    hint = "entombed with an ancient evil king."
+                elseif tonumber(_sw1) == 9 then
+                    necklace = 52010
+                    gem = 55739
+                    place = "An Altar"
+                    hint = "far away in the Plane of Air."
+                end
             end
             local attack = pendantstage * 100
             actor:send("Quest Master: " .. tostring(master))

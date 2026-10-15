@@ -14,25 +14,28 @@ if not percent_chance(70) then
 end
 local antic = random(1, 4)
 -- switch on antic
-if antic == 1 then
-    self:command("sing")
-    self:command("dance drunk")
-    self:say("Good day to you.")
-    self:command("wave")
-elseif antic == 2 then
-    self:command("ponder")
-    self:say("I uh..")
-    wait(2)
-    self:say("Er wonder where I put that beeeer...")
-    self:command("giggle")
-elseif antic == 3 then
-    self:command("sing")
-    self:command("hiccup")
-    self:say("I used to be a big cheese round here you know.")
-    self:command("hiccup")
-else
-    self:command("drink drunkdrink")
-    self:command("burp")
-    self:emote("wipes his mouth.")
-    self:say("Aaaahhhh thas the good stuff...")
+do
+    local _sw1 = string.lower(tostring(antic or ""))
+    if tonumber(_sw1) == 1 then
+        self:command("sing")
+        self:command("dance drunk")
+        self:say("Good day to you.")
+        self:command("wave")
+    elseif tonumber(_sw1) == 2 then
+        self:command("ponder")
+        self:say("I uh..")
+        wait(0.2)
+        self:say("Er wonder where I put that beeeer...")
+        self:command("giggle")
+    elseif tonumber(_sw1) == 3 then
+        self:command("sing")
+        self:command("hiccup")
+        self:say("I used to be a big cheese round here you know.")
+        self:command("hiccup")
+    else
+        self:command("drink drunkdrink")
+        self:command("burp")
+        self:emote("wipes his mouth.")
+        self:say("Aaaahhhh thas the good stuff...")
+    end
 end

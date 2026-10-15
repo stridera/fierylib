@@ -7,16 +7,16 @@
 
 -- Converted from DG Script #49255: relocate_telescope_subquest
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("relocate_spell_quest") == 3 then
     actor:set_quest_var("relocate_spell_quest", "greet", 1)
     actor:send("The observer tells you, 'You were sent here for my crystal instrument.  I'll be")
     actor:send("</>more then happy to give it to you, but...'")
     self.room:send_except(actor, "The observer tells something to " .. tostring(actor.name) .. ".")
-    wait(5)
+    wait(0.5)
     actor:send("The observer tells you, 'I cannot just give it away for free.'")
     self.room:send_except(actor, "The observer tells something to " .. tostring(actor.name) .. ".")
-    wait(10)
+    wait(1)
     actor:send("The observer tells you, 'I have heard of a powerful artifact that I would")
     actor:send("</>greatly value...  For research purposes, of course.'")
     self.room:send_except(actor, "The observer tells something to " .. tostring(actor.name) .. ".")

@@ -10,9 +10,9 @@
 -- Original DG Script: #17205
 
 if actor:get_quest_stage("illusionist_subclass") == 6 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("choker")
-    wait(2)
+    wait(0.2)
     self:command("smile " .. tostring(actor.name))
     wait(1)
     actor:send(tostring(self.name) .. " says, 'Fantastic work!  The smugglers must be in utter disarray!  You've done well.'")
@@ -26,7 +26,7 @@ if actor:get_quest_stage("illusionist_subclass") == 6 then
     return true
 end
 
-wait(2)
+wait(0.2)
 self:command("frown")
 wait(2)
 self:emote("peers closely at the choker.")

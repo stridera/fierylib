@@ -121,7 +121,7 @@ if actor:get_quest_var("megalith_quest:" .. item_key) == 1 then
 end
 
 -- Accept the item.
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Blessed be!  Just what we need to " .. tostring(step) .. "!'")
 actor:set_quest_var("megalith_quest", item_key, 1)
 if (object.zone_id == 411 and object.id == 10) or (object.zone_id == 185 and object.id == 12) or (object.zone_id == 411 and object.id == 11) then
@@ -147,7 +147,7 @@ if (actor:get_quest_stage("megalith_quest") ~= 1) or actor:get_quest_var("megali
 end
 
 if item1 and item2 and item3 and item4 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("megalith_quest")
     -- Reset item variables (5 slots; only 4 are checked, but clear all to be safe).
     for slot = 1, 5 do
@@ -194,7 +194,7 @@ if item1 and item2 and item3 and item4 then
     elseif actor:get_quest_stage("megalith_quest") == 4 then
         actor:set_quest_var("megalith_quest", "reliquary", 1)
         self:emote("reverentially places each of the reliquaries on the altar.")
-        wait(2)
+        wait(0.2)
         self:emote("whispers,")
         self.room:send("'By the power of three times three,")
         self.room:send("</>As I will it, so shall it be.'")
@@ -207,7 +207,7 @@ if item1 and item2 and item3 and item4 then
     end
 else
     -- We need more stuff.
-    wait(2)
+    wait(0.2)
     self:say("If you have the other necessaries, please give them to me.")
 end
 return _return_value

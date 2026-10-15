@@ -14,7 +14,7 @@ if actor:get_quest_stage("relocate_spell_quest") == 8 then
 elseif actor:get_quest_stage("relocate_spell_quest") == 9 then
     self.room:send("The quill begins to glow brightly!")
 else
-    wait(5)
+    wait(0.5)
     actor:send("The quill glows so brightly it burns your hand!")
     self.room:send_except(actor, tostring(actor.name) .. " burns " .. tostring(actor.possessive) .. " hand on the quill!")
     actor:command("drop golden-quill")

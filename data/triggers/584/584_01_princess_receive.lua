@@ -15,12 +15,12 @@ if not (object.zone_id == 584 and object.local_id == 17) then
     return true
 end
 
-wait(1)
+wait(0.1)
 self.room:send(tostring(self.name) .. " sighs in great relief.")
-wait(2)
+wait(0.2)
 self:say("Thank you from the bottom of my heart, kind adventurer.")
 self:say("Your deeds shall not go unrewarded.")
-wait(2)
+wait(0.2)
 self:destroy_item("feathers")
 self.room:spawn_object(584, 1)
 self:command("give feather " .. tostring(actor.name))

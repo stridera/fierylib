@@ -22,12 +22,12 @@ for _, w in ipairs({"status", "progress"}) do
     if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
         speech_hit = true
         break
-    end
+end
 end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 actor:send("<b:green>Dragon Slayer</>")
 if actor:get_has_completed("dragon_slayer") then
     actor:send(tostring(self.name) .. " says, 'The only dragons remaining are beasts of legend!'")
@@ -42,26 +42,29 @@ elseif actor.level >= (actor:get_quest_stage("dragon_slayer") - 1) * 10 then
         actor:send(tostring(self.name) .. " says, 'You aren't on a hunt at the moment.'")
     else
         -- switch on actor:get_quest_stage("dragon_slayer")
-        if actor:get_quest_stage("dragon_slayer") == 1 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  If you can't even take out a dragon hedge, you'll never be ready for the real thing.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 2 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Hunt down the green wyrmling in Morgan Hill.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 3 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Hunt down Wug the Fiery Drakling.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 4 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Hunt down the young blue dragon near the Tower in the Wastes.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 5 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Search the forests in South Caelia for a faerie dragon.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 6 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Kill that damn wyvern in the Highlands.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 7 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Take down one of those ice lizards in Frost Valley.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 8 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Find and vanquish the Beast of Borgan.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 9 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Eliminate the dragon the Ice Cult up north worships.'")
-        elseif actor:get_quest_stage("dragon_slayer") == 10 then
-            actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Destroy the mighty Hydra - and watch out for all its heads!'")
+        do
+            local _sw1 = string.lower(tostring(actor:get_quest_stage("dragon_slayer") or ""))
+            if tonumber(_sw1) == 1 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  If you can't even take out a dragon hedge, you'll never be ready for the real thing.'")
+            elseif tonumber(_sw1) == 2 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Hunt down the green wyrmling in Morgan Hill.'")
+            elseif tonumber(_sw1) == 3 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Hunt down Wug the Fiery Drakling.'")
+            elseif tonumber(_sw1) == 4 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Hunt down the young blue dragon near the Tower in the Wastes.'")
+            elseif tonumber(_sw1) == 5 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Search the forests in South Caelia for a faerie dragon.'")
+            elseif tonumber(_sw1) == 6 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Kill that damn wyvern in the Highlands.'")
+            elseif tonumber(_sw1) == 7 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Take down one of those ice lizards in Frost Valley.'")
+            elseif tonumber(_sw1) == 8 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Find and vanquish the Beast of Borgan.'")
+            elseif tonumber(_sw1) == 9 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Eliminate the dragon the Ice Cult up north worships.'")
+            elseif tonumber(_sw1) == 10 then
+                actor:send(tostring(self.name) .. " says, 'You still have a dragon to slay.  Destroy the mighty Hydra - and watch out for all its heads!'")
+            end
         end
     end
 else
@@ -96,51 +99,54 @@ if actor.class == "paladin" or actor.class == "anti-paladin" then
     end
     -- switch on pendantstage
     local place, hint
-    if pendantstage == 1 then
-        local necklace = 12003
-        local gem = 55582
-        place = "The Mist Temple Altar"
-        hint = "in the Misty Caverns."
-    elseif pendantstage == 2 then
-        local necklace = 23708
-        local gem = 55590
-        place = "Chamber of Chaos"
-        hint = "in the Temple of Chaos."
-    elseif pendantstage == 3 then
-        local necklace = 58005
-        local gem = 55622
-        place = "Altar of Borgan"
-        hint = "in the lost city of Nymrill."
-    elseif pendantstage == 4 then
-        local necklace = 48123
-        local gem = 55654
-        place = "A Hidden Altar Room"
-        hint = "in a cave in South Caelia's Wailing Mountains."
-    elseif pendantstage == 5 then
-        local necklace = 12336
-        local gem = 55662
-        place = "The Altar of the Snow Leopard Order"
-        hint = "buried deep in Mt. Frostbite"
-    elseif pendantstage == 6 then
-        local necklace = 43019
-        local gem = 55677
-        place = "Chapel Altar"
-        hint = "deep underground in a lost castle."
-    elseif pendantstage == 7 then
-        local necklace = 37015
-        local gem = 55709
-        place = "A Cliffside Altar"
-        hint = "tucked away in the land of Dreams."
-    elseif pendantstage == 8 then
-        local necklace = 58429
-        local gem = 55738
-        place = "Dark Altar"
-        hint = "entombed with an ancient evil king."
-    elseif pendantstage == 9 then
-        local necklace = 52010
-        local gem = 55739
-        place = "An Altar"
-        hint = "far away in the Plane of Air."
+    do
+        local _sw2 = string.lower(tostring(pendantstage or ""))
+        if tonumber(_sw2) == 1 then
+            local necklace = 12003
+            local gem = 55582
+            place = "The Mist Temple Altar"
+            hint = "in the Misty Caverns."
+        elseif tonumber(_sw2) == 2 then
+            local necklace = 23708
+            local gem = 55590
+            place = "Chamber of Chaos"
+            hint = "in the Temple of Chaos."
+        elseif tonumber(_sw2) == 3 then
+            local necklace = 58005
+            local gem = 55622
+            place = "Altar of Borgan"
+            hint = "in the lost city of Nymrill."
+        elseif tonumber(_sw2) == 4 then
+            local necklace = 48123
+            local gem = 55654
+            place = "A Hidden Altar Room"
+            hint = "in a cave in South Caelia's Wailing Mountains."
+        elseif tonumber(_sw2) == 5 then
+            local necklace = 12336
+            local gem = 55662
+            place = "The Altar of the Snow Leopard Order"
+            hint = "buried deep in Mt. Frostbite"
+        elseif tonumber(_sw2) == 6 then
+            local necklace = 43019
+            local gem = 55677
+            place = "Chapel Altar"
+            hint = "deep underground in a lost castle."
+        elseif tonumber(_sw2) == 7 then
+            local necklace = 37015
+            local gem = 55709
+            place = "A Cliffside Altar"
+            hint = "tucked away in the land of Dreams."
+        elseif tonumber(_sw2) == 8 then
+            local necklace = 58429
+            local gem = 55738
+            place = "Dark Altar"
+            hint = "entombed with an ancient evil king."
+        elseif tonumber(_sw2) == 9 then
+            local necklace = 52010
+            local gem = 55739
+            place = "An Altar"
+            hint = "far away in the Plane of Air."
+        end
     end
     local attack = pendantstage * 100
     if job1 or job2 or job3 or job4 then

@@ -17,7 +17,7 @@ if actor.is_player then
     if actor.level < 30 then
         _return_value = false
         self:whisper(actor.name, "Young adventurer, you are far too small to venture north of here.")
-        wait(1)
+        wait(0.1)
         self:whisper(actor.name, "Try a safer location to pick battles for now.")
         self:command("smile " .. tostring(actor.name))
     else

@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "duck?") or string.find(string.lower(s
     return true  -- No matching keywords
 end
 self:say("Mommy locked my duck Otto in her dressing room.")
-wait(4)
+wait(0.4)
 self:command("sniff")
 wait(3)
 self:say("Otto must be getting so lonely!")

@@ -15,7 +15,7 @@ if not (string.find(string.lower(speech), "corpse") or string.find(string.lower(
     return true  -- No matching keywords
 end
 if actor.is_player then
-    wait(2)
+    wait(0.2)
     local cha = actor.real_cha
     -- make sure they have a quest record for saving variables
     if actor:get_quest_stage("corpse_retrieval") < 1 then

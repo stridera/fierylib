@@ -14,16 +14,19 @@ if not (cmd == "bash") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "b" or cmd == "ba" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "b" or _sw1 == "ba" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 4 then
     actor:set_quest_var("school", "fight", "last")
     actor:command("bash " .. tostring(arg))
-    wait(2)
+    wait(0.2)
     world.destroy(self.room:find_actor("monster"))
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " breaks up the fight.")
     actor:send(tostring(self.name) .. " tells you, 'Good attempt!'")
     self.room:spawn_mobile(519, 0)

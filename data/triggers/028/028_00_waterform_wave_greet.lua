@@ -7,7 +7,7 @@
 -- The Great Wave reacts to anyone entering its room based on their waterform
 -- quest stage. Stage 0 with a high-level Cryomancer triggers the quest pitch.
 
-wait(2)
+wait(0.2)
 if not actor.is_player then
     return true
 end

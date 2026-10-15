@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51958: academy_revel_greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("school") == 5 then
     actor:send(tostring(self.name) .. " tells you, 'Congratulations on completing your combat training!")
     actor:send("I'm the last instructor in the Academy.")

@@ -20,7 +20,7 @@ end
 -- that halted on disallowed races before each class block.
 
 if string.find(actor.class, "cleric") then
-    wait(2)
+    wait(0.2)
     if actor.level >= 10 and actor.level <= 35 then
         if globals.use_subclass then
             actor:send(tostring(self.name) .. " says, 'I'm currently assisting someone else, one moment please.'")
@@ -39,7 +39,7 @@ if string.find(actor.class, "cleric") then
         actor:send(tostring(self.name) .. " says, 'You have traveled too far on your current path to change your way.'")
     end
 elseif string.find(actor.class, "warrior") then
-    wait(2)
+    wait(0.2)
     if actor.level >= 10 and actor.level <= 25 then
         if globals.use_subclass then
             actor:send(tostring(self.name) .. " says, 'I'm currently assisting someone else, one moment please.'")
@@ -58,7 +58,7 @@ elseif string.find(actor.class, "warrior") then
         actor:send(tostring(self.name) .. " says, 'You have traveled too far on your current path to change your way.'")
     end
 else
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'I can do nothing for you, I am sorry.'")
     self:emote("smiles a little bit.")
 end

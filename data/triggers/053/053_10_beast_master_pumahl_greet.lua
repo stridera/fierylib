@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #5310: Beast Master Pumahl greet
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
-wait(2)
+wait(0.2)
 if not actor:get_has_completed("beast_master") then
     if actor:get_quest_stage("beast_master") == 0 then
         actor:send(tostring(self.name) .. " says, 'Welcome to the Hall of the Hunt, home of the Beast Masters.  We give out assignments to <b:cyan>[hunt]</> and defeat legendary creatures.  Great rewards wait those who prove their mettle.'")

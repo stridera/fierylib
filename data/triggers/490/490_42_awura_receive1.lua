@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if (object.zone_id == 490 and object.id == 1) then
-    wait(2)
+    wait(0.2)
     self:destroy_item("griffin-skin")
     if world.count_mobiles(490, 10) == 0 then
         get_room(490, 190):at(function()
@@ -28,19 +28,19 @@ if (object.zone_id == 490 and object.id == 1) then
     end
     self.room:send("A look of disgust crosses Awura's features as she handles the skin.")
     self:emote("utters a short spell.")
-    wait(8)
+    wait(0.8)
     self.room:send("The griffin skin turns to smoke and blows away in the breeze.")
-    wait(4)
+    wait(0.4)
     actor:send("Awura studies you closely, to be sure of your intentions.")
     self.room:send_except(actor, "Awura studies " .. tostring(actor.name) .. " closely, to be sure of " .. tostring(actor.possessive) .. " intentions.")
     self.room:send(tostring(self.name) .. " says, '" .. tostring(actor.name) .. ", thank you so much for saving our home from Dagon's rule.'")
-    wait(4)
+    wait(0.4)
     self.room:send(tostring(self.name) .. " says, 'As a small token of gratitude, please accept this helmet.  It is not much, but I pray it will help you in the future.'")
     self.room:spawn_object(490, 61)
     self:command("give helmet " .. tostring(actor.name))
-    wait(4)
+    wait(0.4)
     self:command("curtsey " .. tostring(actor.name))
-    wait(4)
+    wait(0.4)
     self.room:send(tostring(self.name) .. " says, 'Now, seek out and destroy Dagon's demonic essence, Adramalech.  A portal to its home realm is locked beneath the well.  The cult leader must have had a key of some kind.'")
 else
     _return_value = true

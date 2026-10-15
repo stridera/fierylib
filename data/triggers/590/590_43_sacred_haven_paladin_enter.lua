@@ -9,13 +9,13 @@
 -- Original: MOB trigger, flags: GREET_ALL, probability: 100%
 if actor.alignment >= 350 then
     if actor.class == "paladin" or actor.class == "priest" or actor.class == "cleric" then
-        wait(2)
+        wait(0.2)
         self:command("rem key")
         self:command("unlock door")
-        wait(2)
+        wait(0.2)
         self:command("open door")
         self:command("hold key")
-        wait(2)
+        wait(0.2)
         self:command("bow " .. tostring(actor.name))
         self:say("Welcome to the Sacred Haven, fellow warrior.")
     end

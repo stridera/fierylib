@@ -13,7 +13,7 @@ if actor.is_player then
         self:say("You have done well")
         self.room:send("Yix'Xyua pulls something out of his clothes and gives it to his assistant.")
         self.room:spawn_object(200, 53)
-        wait(1)
+        wait(0.1)
         self:say("Here is your reward for your bravery.")
         self:command("give gaze " .. tostring(actor.name))
         self:say("When we come up with a plan to destroy Ruin we will call for you.")

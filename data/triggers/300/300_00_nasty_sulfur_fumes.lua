@@ -21,13 +21,11 @@ if not victim or victim.is_npc then
 end
 -- single roll, branched (legacy DG used switch which evaluated once)
 local roll = random(1, 10)
-if roll == 1 then
-    -- light sting, no damage message yet
-    victim:send("Acrid fumes briefly sting your eyes.")
-elseif roll == 2 then
+if roll == 1 or roll == 2 then
+    -- DG case 1 sets damage 1 and has no break: it falls into the case 2 body.
     victim:send("You just inhaled a lungful of sulphurous fumes!  It burns!")
     self.room:send_except(victim, tostring(victim.name) .. " inhales a lungful of fumes and chokes and gags!")
-    victim:damage(2)  -- physical
+    victim:damage(roll == 1 and 1 or 2)  -- physical
 elseif roll == 3 or roll == 4 then
     victim:send("The stinking yellow smoke wafts under your nose, making you sneeze.")
     self.room:send_except(victim, tostring(victim.name) .. " breathes in a bit of yellow smoke, and sneezes.")

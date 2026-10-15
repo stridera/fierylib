@@ -21,9 +21,12 @@ if not (cmd == "forfeit") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "f" or cmd == "fo" or cmd == "for" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "f" or _sw1 == "fo" or _sw1 == "for" then
+        _return_value = true
+        return _return_value
+    end
 end
 if (status == 0) or (not player1) or (not player2) then
     actor:send("But the game hasn't even started yet!")

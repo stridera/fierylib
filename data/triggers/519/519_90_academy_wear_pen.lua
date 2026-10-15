@@ -9,7 +9,7 @@
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor:get_quest_var("school:fight") == 4 then
     actor:set_quest_var("school", "fight", 5)
-    wait(2)
+    wait(0.2)
     actor:send(tostring(mobiles.template(519, 6).name) .. " tells you, 'Wonderful, you're all set!")
     actor:send("Now you can <b:cyan>SCRIBE</> any spell on your spell list.")
     actor:send("Each spell takes up pages in your spellbook.")

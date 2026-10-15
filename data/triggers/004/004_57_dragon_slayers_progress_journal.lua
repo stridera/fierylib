@@ -17,26 +17,29 @@ if string.find(arg, "dragon_slayers") or string.find(arg, "slayers") or string.f
     actor:send("<b:green>&uDragon Slayers</>")
     -- switch on stage
     local victim1
-    if stage == 1 then
-        victim1 = "a dragon hedge"
-    elseif stage == 2 then
-        victim1 = "the green wyrmling"
-    elseif stage == 3 then
-        victim1 = "Wug the Fiery Drakling"
-    elseif stage == 4 then
-        victim1 = "the young blue dragon"
-    elseif stage == 5 then
-        victim1 = "a faerie dragon"
-    elseif stage == 6 then
-        victim1 = "the wyvern"
-    elseif stage == 7 then
-        victim1 = "an ice lizard"
-    elseif stage == 8 then
-        victim1 = "the Beast of Borgan"
-    elseif stage == 9 then
-        victim1 = "Tri-Aszp"
-    elseif stage == 10 then
-        victim1 = "the Hydra"
+    do
+        local _sw1 = string.lower(tostring(stage or ""))
+        if tonumber(_sw1) == 1 then
+            victim1 = "a dragon hedge"
+        elseif tonumber(_sw1) == 2 then
+            victim1 = "the green wyrmling"
+        elseif tonumber(_sw1) == 3 then
+            victim1 = "Wug the Fiery Drakling"
+        elseif tonumber(_sw1) == 4 then
+            victim1 = "the young blue dragon"
+        elseif tonumber(_sw1) == 5 then
+            victim1 = "a faerie dragon"
+        elseif tonumber(_sw1) == 6 then
+            victim1 = "the wyvern"
+        elseif tonumber(_sw1) == 7 then
+            victim1 = "an ice lizard"
+        elseif tonumber(_sw1) == 8 then
+            victim1 = "the Beast of Borgan"
+        elseif tonumber(_sw1) == 9 then
+            victim1 = "Tri-Aszp"
+        elseif tonumber(_sw1) == 10 then
+            victim1 = "the Hydra"
+        end
     end
     local level
     if stage == 1 or (stage or 0) == 0 then

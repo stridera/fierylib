@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: GREET, probability: 100%
 if actor.is_player then
     if world.count_mobiles(80, 31) < 1 and actor.level < 30 then
-        wait(2)
+        wait(0.2)
         self:command("hiss " .. actor.name)
         self:say("You can't have it!  You'll just break it!")
         self.room:send(self.name .. " clutches a crystalline amulet to its chest!")

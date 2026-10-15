@@ -14,15 +14,18 @@ if not (cmd == "trophy") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "t" or cmd == "tr" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "t" or _sw1 == "tr" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:loot") == 4 then
     actor:set_quest_var("school", "loot", "complete")
     actor:advance_quest("school")
     actor:command("trophy")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Your most recent kills appear at the top.")
     actor:send("</>")
     actor:send("You earn 1.00 share of each monster you kill solo.")

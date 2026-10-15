@@ -12,7 +12,7 @@
 -- 
 -- This is for warriors only
 if actor.class == "warrior" and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Helm ya ask? Well now I can make a nice helm for the warrior types\"")
     actor:send(tostring(self.name) .. " tells you, \"but I'll need 3 quantities of some emerald dust, and a Crushed\"")
     actor:send(tostring(self.name) .. " tells you, \"Helm. Return these things to me in any order at any time and I\"")

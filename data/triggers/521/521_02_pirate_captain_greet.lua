@@ -12,6 +12,6 @@
 if not percent_chance(25) then
     return true
 end
-wait(1)
+wait(0.1)
 self:shout("Leave here, or you shall die!")
 self:say("She will kill you!")

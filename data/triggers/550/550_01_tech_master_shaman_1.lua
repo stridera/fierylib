@@ -16,43 +16,46 @@ if string.find(string.lower(actor.race), "troll") then
     self:destroy_item("mangrove-branch")
     self.room:spawn_object(370, 80)
 end
-wait(2)
---
+wait(0.2)
+-- 
 -- for Wizard Eye
---
+-- 
 local actor_class_lower = string.lower(actor.class)
 if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80) or actor:get_quest_stage("type_wand") == 5 then
     if (string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80 then
         local stage = actor:get_quest_stage("wizard_eye")
-        if stage == 1 then
-            actor:send(tostring(self.name) .. " tells you, 'You best seek out the gypsy witch.  Without her advice, I cannot help you further.'")
-        elseif stage == 2 then
-            actor:send(tostring(self.name) .. " tells you, 'Have you brought what the witch suggested?'")
-        elseif stage == 3 or stage == 4 then
-            actor:send(tostring(self.name) .. " tells you, 'How is the Seer in her cave on Griffin Isle?  I have not seen her for many years!'")
-        elseif stage == 5 then
-            actor:send(tostring(self.name) .. " tells you, 'Have you brought what the Seer suggested?'")
-        elseif stage == 6 or stage == 7 then
-            actor:send(tostring(self.name) .. " tells you, 'Before you return to me, speak with the Green Woman in Anduin.  She has learned a great many things from her post behind the counter.'")
-        elseif stage == 8 then
-            actor:send(tostring(self.name) .. " tells you, 'Have you brought what the Green Woman suggested?'")
-        elseif stage == 9 or stage == 10 then
-            actor:send(tostring(self.name) .. " tells you, 'The orbs are far too dangerous to bring back here without consulting the Oracle of Justice!'")
-            if actor:has_item(30, 218) or actor:has_item(534, 24) or actor:has_item(430, 21) or actor:has_item(40, 3)
-               or actor:has_equipped(30, 218) or actor:has_equipped(534, 24) or actor:has_equipped(430, 21) or actor:has_equipped(40, 3) then
-                actor:send(tostring(self.name) .. " tells you, 'Leave my chamber before these orbs corrupt it!'")
-                actor:send(tostring(self.name) .. " shoves you back out into the hallway!")
-                self.room:send_except(actor, tostring(self.name) .. " shoves " .. tostring(actor.name) .. " back out into the hallway!")
-                actor:teleport(get_room(550, 73))
-                actor:command("look")
-            end
-        elseif stage == 11 then
-            actor:send(tostring(self.name) .. " tells you, 'I see you have returned enlightened!  Let me see the crystal ball and I shall make the preparations.'")
-        elseif stage == 12 then
-            actor:send(tostring(self.name) .. " tells you, 'Come, <b:cyan>sleep</>, let your dreams impart mastery of divination to you.'")
-        else
-            if not actor:get_has_completed("wizard_eye") then
-                actor:send(tostring(self.name) .. " tells you, 'You are more powerful than most visitors.  Have you come to see as the Great Snow Leopard does?'")
+        do
+            local _sw1 = string.lower(tostring(stage or ""))
+            if tonumber(_sw1) == 1 then
+                actor:send(tostring(self.name) .. " tells you, 'You best seek out the gypsy witch.  Without her advice, I cannot help you further.'")
+            elseif tonumber(_sw1) == 2 then
+                actor:send(tostring(self.name) .. " tells you, 'Have you brought what the witch suggested?'")
+            elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+                actor:send(tostring(self.name) .. " tells you, 'How is the Seer in her cave on Griffin Isle?  I have not seen her for many years!'")
+            elseif tonumber(_sw1) == 5 then
+                actor:send(tostring(self.name) .. " tells you, 'Have you brought what the Seer suggested?'")
+            elseif tonumber(_sw1) == 6 or tonumber(_sw1) == 7 then
+                actor:send(tostring(self.name) .. " tells you, 'Before you return to me, speak with the Green Woman in Anduin.  She has learned a great many things from her post behind the counter.'")
+            elseif tonumber(_sw1) == 8 then
+                actor:send(tostring(self.name) .. " tells you, 'Have you brought what the Green Woman suggested?'")
+            elseif tonumber(_sw1) == 9 or tonumber(_sw1) == 10 then
+                actor:send(tostring(self.name) .. " tells you, 'The orbs are far too dangerous to bring back here without consulting the Oracle of Justice!'")
+                if actor:has_item(30, 218) or actor:has_item(534, 24) or actor:has_item(430, 21) or actor:has_item(40, 3)
+                   or actor:has_equipped(30, 218) or actor:has_equipped(534, 24) or actor:has_equipped(430, 21) or actor:has_equipped(40, 3) then
+                    actor:send(tostring(self.name) .. " tells you, 'Leave my chamber before these orbs corrupt it!'")
+                    actor:send(tostring(self.name) .. " shoves you back out into the hallway!")
+                    self.room:send_except(actor, tostring(self.name) .. " shoves " .. tostring(actor.name) .. " back out into the hallway!")
+                    actor:teleport(get_room(550, 73))
+                    actor:command("look")
+                end
+            elseif tonumber(_sw1) == 11 then
+                actor:send(tostring(self.name) .. " tells you, 'I see you have returned enlightened!  Let me see the crystal ball and I shall make the preparations.'")
+            elseif tonumber(_sw1) == 12 then
+                actor:send(tostring(self.name) .. " tells you, 'Come, <b:cyan>sleep</>, let your dreams impart mastery of divination to you.'")
+            else
+                if not actor:get_has_completed("wizard_eye") then
+                    actor:send(tostring(self.name) .. " tells you, 'You are more powerful than most visitors.  Have you come to see as the Great Snow Leopard does?'")
+                end
             end
         end
         if actor:get_quest_stage("type_wand") == 5 then

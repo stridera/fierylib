@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #51919: academy_bag_examine
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
-wait(2)
+wait(0.2)
 if actor:get_quest_var("school:gear") == 14 then
     actor:set_quest_var("school", "gear", 15)
     actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Now you can see everything inside the bag.")

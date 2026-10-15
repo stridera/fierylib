@@ -14,14 +14,17 @@ if not (cmd == "stand") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 6 then
     actor:set_quest_var("school", "fight", 7)
     actor:command("stand")
-    wait(2)
+    wait(0.2)
     self.room:spawn_mobile(519, 0)
     self.room:send(tostring(self.name) .. " summons a horrible little monster!")
     wait(2)

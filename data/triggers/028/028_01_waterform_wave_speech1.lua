@@ -30,7 +30,7 @@ if not (string.find(speech_lower, "yes") or string.find(speech_lower, "protectio
         or string.find(speech_lower, "how") or string.find(speech_lower, "okay")) then
     return true
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("waterform")
 if stage == 0 and actor.is_player and actor.class
         and string.find(actor.class, "cryomancer") and actor.level > 72 then

@@ -15,5 +15,5 @@ if not (string.find(string.lower(speech), "master?")) then
 end
 self:emote("shakes his head in disgust.")
 self:say("Yes, my master.")
-wait(1)
+wait(0.1)
 self:say("Only those that are worthy of mind and body may enter.")

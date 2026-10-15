@@ -14,9 +14,12 @@ if not (cmd == "buy") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "b" or cmd == "bu" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "b" or _sw1 == "bu" then
+        _return_value = true
+        return _return_value
+    end
 end
 actor:send(tostring(self.name) .. " says, 'Betsy Boo's Treasure Palace is not a SHOP.  I don't buy, sell, list, or value goods.'")
 wait(1)

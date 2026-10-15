@@ -17,26 +17,29 @@ if string.find(arg, "beast") or string.find(arg, "masters") or string.find(arg, 
     actor:send("<b:green>&uBeast Masters</>")
     -- switch on stage
     local victim1
-    if stage == 1 then
-        victim1 = "an abominable slime creature"
-    elseif stage == 2 then
-        victim1 = "a large buck"
-    elseif stage == 3 then
-        victim1 = "the giant scorpion"
-    elseif stage == 4 then
-        victim1 = "a monstrous canopy spider"
-    elseif stage == 5 then
-        victim1 = "the chimera"
-    elseif stage == 6 then
-        victim1 = "the drider king"
-    elseif stage == 7 then
-        victim1 = "a beholder"
-    elseif stage == 8 then
-        victim1 = "the Banshee"
-    elseif stage == 9 then
-        victim1 = "Baba Yaga"
-    elseif stage == 10 then
-        victim1 = "the medusa"
+    do
+        local _sw1 = string.lower(tostring(stage or ""))
+        if tonumber(_sw1) == 1 then
+            victim1 = "an abominable slime creature"
+        elseif tonumber(_sw1) == 2 then
+            victim1 = "a large buck"
+        elseif tonumber(_sw1) == 3 then
+            victim1 = "the giant scorpion"
+        elseif tonumber(_sw1) == 4 then
+            victim1 = "a monstrous canopy spider"
+        elseif tonumber(_sw1) == 5 then
+            victim1 = "the chimera"
+        elseif tonumber(_sw1) == 6 then
+            victim1 = "the drider king"
+        elseif tonumber(_sw1) == 7 then
+            victim1 = "a beholder"
+        elseif tonumber(_sw1) == 8 then
+            victim1 = "the Banshee"
+        elseif tonumber(_sw1) == 9 then
+            victim1 = "Baba Yaga"
+        elseif tonumber(_sw1) == 10 then
+            victim1 = "the medusa"
+        end
     end
     local level
     if stage == 1 or (stage or 0) == 0 then

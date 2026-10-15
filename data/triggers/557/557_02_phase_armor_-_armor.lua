@@ -85,7 +85,7 @@ local wrist_name = self:getvar("wrist_name")
 if classes == nil or phase == nil then
     return true  -- the init trigger has not run for this mob
 end
-wait(2)
+wait(0.2)
 local anti = "Anti-Paladin"
 -- If you add more types of armor, you need to add their
 -- keywords in the argument field for this trigger.

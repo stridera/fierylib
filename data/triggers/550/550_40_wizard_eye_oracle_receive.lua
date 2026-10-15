@@ -31,7 +31,7 @@ if actor:get_quest_stage("wizard_eye") == 10 then
         actor:send(tostring(self.name) .. " says, 'You already brought me " .. tostring(object.shortdesc) .. ".'")
     else
         actor:set_quest_var("wizard_eye", var_key, 1)
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         if actor:get_quest_var("wizard_eye:item1") and actor:get_quest_var("wizard_eye:item2") and actor:get_quest_var("wizard_eye:item3") and actor:get_quest_var("wizard_eye:item4") then
             actor:advance_quest("wizard_eye")

@@ -26,5 +26,5 @@ rnd:send("You feel a force pushing you out of the room - you are powerless to re
 room:send_except(rnd, tostring(rnd.name) .. " suddenly starts moving out of the room.")
 rnd:teleport(get_room(510, 50))
 rnd:send("You seem to hear a voice whisper, 'This room is not for you.'")
-wait(8)
+wait(0.8)
 rnd:command("look")

@@ -14,6 +14,6 @@ if not (string.find(string.lower(speech), "escape!")) then
     return true  -- No matching keywords
 end
 self:say("Get out of here, don't worry about me!")
-wait(1)
+wait(0.1)
 self:say("Save yourself!!")
 self:command("wince")

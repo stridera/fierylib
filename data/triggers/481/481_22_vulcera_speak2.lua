@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "punishment") or string.find(string.lower(speech), "punishment?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self:emote("sighs loudly.")
 self.room:send(tostring(self.name) .. " says, 'Many years ago, I fell in love with a mortal man who wanted to wed me, but Lokari found out.'")
 self:emote("grimaces.")

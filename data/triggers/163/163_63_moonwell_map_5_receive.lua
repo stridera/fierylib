@@ -15,16 +15,16 @@ end
 if actor:get_quest_var("moonwell_spell_quest:map") ~= 1 then
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'I need the ring first.'")
     return true
 end
 
-wait(15)
+wait(1.5)
 self:destroy_item("map")
 self.room:spawn_object(163, 66)
 self.room:send(tostring(self.name) .. " completes her drawing on the bark map.")
-wait(15)
+wait(1.5)
 self:command("give map " .. tostring(actor.name))
 if actor.gender == "female" then
     actor:send(tostring(self.name) .. " tells you, 'Keep that map Sister, that you may never forget how to\n"
@@ -33,23 +33,23 @@ else
     actor:send(tostring(self.name) .. " tells you, 'Keep that map Brother, that you may never forget how to\n"
         .. "</>conduct this ceremony.'")
 end
-wait(20)
+wait(2)
 actor:send(tostring(self.name) .. " tells you, 'Let us finish the ceremony.'")
 self.room:send(tostring(self.name) .. " places " .. tostring(objects.template(550, 20).name) .. " at the edge of the circle and prays.")
-wait(5)
+wait(0.5)
 self.room:send("<magenta>A </>moonwell <magenta>appears at " .. tostring(self.name) .. "'s feet!</>")
-wait(20)
+wait(2)
 self.room:send("<b:cyan>The moonwell begins to <b:magenta>swirl</>!")
-wait(25)
+wait(2.5)
 run_room_trigger(163, 48)
-wait(30)
+wait(3)
 self.room:send("A soft yet loud voice says, 'You have done well young dryad.  Perhaps you truly\n"
     .. "</>are repentant.  For your service, I release you from your shackles.'")
-wait(10)
+wait(1)
 self.room:send("The voice says, 'Remember this always.'")
-wait(15)
+wait(1.5)
 self.room:send("A bright flash of light pierces the area and the dryad is transformed into a beautiful mortal woman!")
-wait(10)
+wait(1)
 self.room:send("The beautiful druid says, 'Thank you my Goddess, Mielikki!  At last, I am free\n"
     .. "</>again!'")
 wait(2)

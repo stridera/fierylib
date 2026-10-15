@@ -14,14 +14,17 @@ if not (cmd == "hide") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "h" or cmd == "hi" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "h" or _sw1 == "hi" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:fight") == 1 then
     actor:set_quest_var("school", "fight", 2)
     actor:command("hide")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Excellent job!'")
     wait(2)
     self.room:spawn_mobile(519, 0)

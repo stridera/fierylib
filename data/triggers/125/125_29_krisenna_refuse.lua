@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
 local _return_value = true  -- Default: allow action
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 self:command("snarl " .. tostring(actor.name))
 self:say("You try to appease me with trinkets?  Bah.")
 return _return_value

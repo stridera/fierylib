@@ -16,7 +16,7 @@ local speech_lower = string.lower(speech or "")
 if not string.find(speech_lower, "new cup") then
     return true
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("waterform")
 if (stage or 0) > 0 and stage > 3 and actor:get_quest_var("waterform:new") ~= "yes" then
     actor:set_quest_var("waterform", "new", "yes")

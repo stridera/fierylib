@@ -37,7 +37,7 @@ if actor:get_quest_stage("group_armor") == 3 and self.room == target_room then
     self.room:send("The humming ceases, leaving the hammer glowing with a faint, ethereal light.")
     self.room:spawn_object(590, 39)
     actor:command("get mystic-forging-hammer")
-    wait(2)
+    wait(0.2)
     world.destroy(self)
 else
     _return_value = true

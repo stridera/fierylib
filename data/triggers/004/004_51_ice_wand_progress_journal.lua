@@ -53,57 +53,60 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
             local wandtask3
             local wandtask4
             local place
-            if stage == 2 then
-                master = mobiles.template(30, 13).name
-                wandgem = 55574
-            elseif stage == 3 then
-                master = mobiles.template(178, 6).name
-                hint = "The shaman near Three-Falls River has developed a powerful affinity for water from his life in the canyons.  Seek his advice."
-                wandgem = 55592
-                wandtask3 = 23753
-            elseif stage == 4 then
-                master = mobiles.template(23, 37).name
-                hint = "Many of the best craftspeople aren't even mortal.  There is a water sprite of some renown deep in Anlun Vale."
-                wandgem = 55607
-                wandtask3 = 2333
-                wandtask4 = 37006
-            elseif stage == 5 then
-                master = mobiles.template(550, 13).name
-                hint = "A master of spirits in the far north will be able to help next."
-                wandgem = 55640
-                wandtask3 = 58018
-                wandtask4 = "&6&bthe Arabel Ocean&0"
-            elseif stage == 6 then
-                master = mobiles.template(238, 2).name
-                hint = "Your next crafter is a distant relative of the Sunfire clan.  He's been squatting in a flying fortress for many months, trying to unlock its secrets."
-                wandgem = 55666
-                wandtask3 = 49011
-                wandtask4 = 17309
-            elseif stage == 7 then
-                master = mobiles.template(533, 16).name
-                hint = "You'll need the advice of a master ice sculptor.  One works regularly up in Mt. Frostbite."
-                wandgem = 55684
-                wandtask3 = 55016
-                wandtask4 = 23815
-            elseif stage == 8 then
-                master = mobiles.template(103, 0).name
-                hint = "There's another distant relative of the Sunfire clan who runs the hot springs near Ickle.  He's book smart and knows a thing or two about jewel crafting."
-                wandgem = 55717
-                wandtask3 = 23847
-                wandtask4 = 53457
-                place = 55105
-            elseif stage == 9 then
-                master = mobiles.template(100, 12).name
-                hint = "The guild guard for the Sorcerer Guild in Ickle has learned plenty of secrets from the inner sanctum.  Talk to him."
-                wandgem = 55743
-                wandtask3 = 48018
-                wandtask4 = 53300
-            elseif stage == 10 then
-                master = mobiles.template(550, 20).name
-                hint = "You must know Suralla Iceeye by now.  She's the master artisan of cold and ice.  She'll know how to make the final improvements to your staff."
-                wandgem = 53314
-                wandtask3 = 52005
-                wandtask4 = 47708
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 2 then
+                    master = mobiles.template(30, 13).name
+                    wandgem = 55574
+                elseif tonumber(_sw1) == 3 then
+                    master = mobiles.template(178, 6).name
+                    hint = "The shaman near Three-Falls River has developed a powerful affinity for water from his life in the canyons.  Seek his advice."
+                    wandgem = 55592
+                    wandtask3 = 23753
+                elseif tonumber(_sw1) == 4 then
+                    master = mobiles.template(23, 37).name
+                    hint = "Many of the best craftspeople aren't even mortal.  There is a water sprite of some renown deep in Anlun Vale."
+                    wandgem = 55607
+                    wandtask3 = 2333
+                    wandtask4 = 37006
+                elseif tonumber(_sw1) == 5 then
+                    master = mobiles.template(550, 13).name
+                    hint = "A master of spirits in the far north will be able to help next."
+                    wandgem = 55640
+                    wandtask3 = 58018
+                    wandtask4 = "&6&bthe Arabel Ocean&0"
+                elseif tonumber(_sw1) == 6 then
+                    master = mobiles.template(238, 2).name
+                    hint = "Your next crafter is a distant relative of the Sunfire clan.  He's been squatting in a flying fortress for many months, trying to unlock its secrets."
+                    wandgem = 55666
+                    wandtask3 = 49011
+                    wandtask4 = 17309
+                elseif tonumber(_sw1) == 7 then
+                    master = mobiles.template(533, 16).name
+                    hint = "You'll need the advice of a master ice sculptor.  One works regularly up in Mt. Frostbite."
+                    wandgem = 55684
+                    wandtask3 = 55016
+                    wandtask4 = 23815
+                elseif tonumber(_sw1) == 8 then
+                    master = mobiles.template(103, 0).name
+                    hint = "There's another distant relative of the Sunfire clan who runs the hot springs near Ickle.  He's book smart and knows a thing or two about jewel crafting."
+                    wandgem = 55717
+                    wandtask3 = 23847
+                    wandtask4 = 53457
+                    place = 55105
+                elseif tonumber(_sw1) == 9 then
+                    master = mobiles.template(100, 12).name
+                    hint = "The guild guard for the Sorcerer Guild in Ickle has learned plenty of secrets from the inner sanctum.  Talk to him."
+                    wandgem = 55743
+                    wandtask3 = 48018
+                    wandtask4 = 53300
+                elseif tonumber(_sw1) == 10 then
+                    master = mobiles.template(550, 20).name
+                    hint = "You must know Suralla Iceeye by now.  She's the master artisan of cold and ice.  She'll know how to make the final improvements to your staff."
+                    wandgem = 53314
+                    wandtask3 = 52005
+                    wandtask4 = 47708
+                end
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

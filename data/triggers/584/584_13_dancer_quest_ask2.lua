@@ -28,18 +28,18 @@ if actor:get_quest_stage("major_spell_quest") ~= 1 then
     return true
 end
 
-wait(1)
+wait(0.1)
 actor:send(tostring(self.name) .. " says to you, 'Oh thank you!'")
 actor:send(tostring(self.name) .. " says to you, 'You must gain the princes favor..'")
 actor:send(tostring(self.name) .. " says to you, 'then maybe he will give me to you so you can set me free.'")
 self.room:send_except(actor, tostring(self.name) .. " whispers something to " .. tostring(actor.name))
 actor:advance_quest("major_spell_quest")  -- advances to stage 2
-wait(5)
+wait(0.5)
 
 local prince = self.room:find_actor("prince")
 if prince then
     prince:say("Hey, what are you talking to them about?!")
     prince:command("sigh")
-    wait(2)
+    wait(0.2)
     prince:say("You can't get good help now days...")
 end

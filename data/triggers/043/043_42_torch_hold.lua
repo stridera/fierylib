@@ -37,7 +37,7 @@ if room:find_actor("pippin") then
     end
     if leader then
         room:find_actor("pippin"):set_flag("sentinel", true)
-        wait(1)
+        wait(0.1)
         room:send("The <red>F<b:yellow>i<b:red>r</><red>e G<b:yellow>o<b:red>dd</><b:yellow>e</><red>ss<b:red>'s</> Torch erupts to life and spews a shower of sparks and flame!")
         wait(1)
         room:send("Pippin watches the flames, completely entranced.")

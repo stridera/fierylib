@@ -22,9 +22,12 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 -- Doing so will set item5 if the questor is on stage 2
 -- 
 -- switch on cmd
-if cmd == "f" or cmd == "fi" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "f" or _sw1 == "fi" then
+        _return_value = true
+        return _return_value
+    end
 end
 if (actor:get_quest_stage("megalith_quest") == 2) and (actor.room.zone_id == 124 and actor.room.local_id == 1) and (actor:get_quest_var("megalith_quest:goblet") == self.id) then
     -- TODO(parity): legacy room 12401 likely splits to (124, 1) but the

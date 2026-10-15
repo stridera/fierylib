@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "i lost my map") then
     return true
 end
 
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("moonwell_spell_quest")
 if stage <= 6 then
     return true

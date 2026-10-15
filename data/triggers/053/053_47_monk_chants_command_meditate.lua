@@ -156,7 +156,7 @@ if actor:get_quest_stage("monk_vision") > visionstage and actor:get_quest_stage(
             else
                 actor:complete_quest("monk_chants")
             end
-            wait(2)
+            wait(0.2)
             actor:send(tostring(self.shortdesc) .. " crumbles to dust and blows away...")
             world.destroy(self)
         end

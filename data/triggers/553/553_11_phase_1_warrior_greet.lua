@@ -7,11 +7,11 @@
 
 -- Converted from DG Script #55311: phase_1_warrior_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 local WARRIOR_SUB = (actor.class == "warrior" or actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" or actor.class == "monk")
 if WARRIOR_SUB then
     if actor:get_quest_stage("phase_armor") == 0 then
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " tells you, \"Welcome, would you like to do some [<b:white>armor quests</>]?\"")
         actor:send(tostring(self.name) .. " tells you, \"If so, just ask me, <b:white>Yes</> I would like to do some <b:white>armor quests</>\"")
     end

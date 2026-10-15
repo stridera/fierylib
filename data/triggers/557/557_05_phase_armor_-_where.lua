@@ -47,7 +47,7 @@ elseif actor:get_quest_stage("phase_armor") < phase - 1 then
 end
 local low_level = (phase - 1) * 20 + 1
 local high_level = phase * 20
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " tells you, 'You can find the items I seek by playing and adventuring in areas appropriate to your level.'")
 actor:send(tostring(self.name) .. " tells you, 'My quests are for those from level " .. tostring(low_level) .. " to " .. tostring(high_level) .. ", so the items I desire can be found in areas of that difficulty.'")
 if phase < max_phase then

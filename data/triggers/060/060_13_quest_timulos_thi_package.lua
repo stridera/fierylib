@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "package?") or string.find(string.lower(speech), "package")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_var("merc_ass_thi_subclass:subclass_name") == "thief" and actor:get_quest_stage("merc_ass_thi_subclass") == 1 then
     actor:advance_quest("merc_ass_thi_subclass")
     actor:send(tostring(self.name) .. " says, 'Yes a package.'")

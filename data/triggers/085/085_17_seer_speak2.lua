@@ -15,11 +15,11 @@ if not (string.find(string.lower(speech), "riddle?")) then
 end
 self:say("Yes.  Very well.")
 self:command("grin")
-wait(1)
+wait(0.1)
 self:say("The riddle:")
 self.room:send("Two bodies have I,")
 self.room:send("Though both joined in one.")
 self.room:send("The more still I stand,")
 self.room:send("The quicker I run.")
-wait(1)
+wait(0.1)
 self:say("What am I?")

@@ -21,11 +21,11 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 if actor.alignment > 350 and actor.level > 80 then
-    wait(2)
+    wait(0.2)
     self:say("If you bring me the head of the king's dark champion, then I will give you an item that may help you in your battle with the king.")
-    wait(1)
+    wait(0.1)
     self:say("According to our rules of dueling, you must say 'the prince wishes to challenge you by proxy', before starting the fight.")
-    wait(1)
+    wait(0.1)
     self:command("smile")
     self:say("That way, I can claim the victory as my own.")
 end

@@ -12,7 +12,7 @@ local speech_lower = string.lower(speech)
 if not string.find(speech_lower, "vibugp") then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("banish") == 7 then
     actor:send(tostring(self.name) .. " chants along with you.")
     self.room:send_except(actor, tostring(self.name) .. " chants along with " .. tostring(actor.name) .. ".")

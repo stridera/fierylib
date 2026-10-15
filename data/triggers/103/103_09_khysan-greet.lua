@@ -36,7 +36,7 @@ actor:send(self.name .. " looks up at your approach.")
 
 if seen_before then
     self:say("Welcome back my friend.")
-    wait(2)
+    wait(0.2)
     if (ice_stage or 0) > 0 and ice_stage > 0 and not actor:get_has_completed("ice_shards") then
         self:say("Did you find any more clues?")
         if wandstep and wand_stage == wandstep then
@@ -77,7 +77,7 @@ else
         end
     end
     if not ((ice_stage or 0) > 0 and ice_stage > 0) then
-        wait(3)
+        wait(0.3)
         if string.find(actor.class, "cryomancer") then
             if actor:get_has_completed("major_globe_spell")
                and actor:get_has_completed("relocate_spell_quest")

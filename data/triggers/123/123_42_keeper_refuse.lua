@@ -54,7 +54,7 @@ end
 if actor:get_quest_stage("megalith_quest") < 2 then
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     self:say("I'm sorry, I'm quite busy right now.")
 elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and actor:get_quest_var("megalith_quest:item" .. tostring(part)) == 1) then
     self:command("shake")
@@ -85,7 +85,7 @@ elseif actor:get_quest_stage("megalith_quest") == 2 then
         else
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(2)
+            wait(0.2)
             if (self.zone_id == 123 and self.id == 6) then
                 self:say("Unfortunately, I need " .. need_name() .. " filled with water, not this.")
             else

@@ -17,7 +17,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "progress")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("degeneration")
 self:say("You are trying to help me finish the spell Degeneration.")
 -- (empty room echo)

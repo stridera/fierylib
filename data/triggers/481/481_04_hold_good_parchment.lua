@@ -8,14 +8,14 @@
 -- Converted from DG Script #48104: hold_good_parchment
 -- Original: OBJECT trigger, flags: WEAR, probability: 100%
 if actor.is_player then
-    wait(5)
+    wait(0.5)
     actor:send("You feel a slight tickling sensation as the parchment draws strength from you to activate.")
     actor:damage(20)  -- type: physical
     actor:send("You gasp in surprise and drop the paper.")
     self.room:send_except(actor, tostring(actor.name) .. " gasps in surprise and drops the paper.")
     actor:command("rem parchment-paper")
     actor:command("drop parchment-paper")
-    wait(2)
+    wait(0.2)
     self.room:send("The parchment glows more and more brightly until you almost have to shield your eyes.")
     if actor.room and actor.room.zone_id == 481 and actor.room.local_id == 97 then
         if self.room:find_actor("rock-monster") then

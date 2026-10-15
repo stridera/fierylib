@@ -14,14 +14,17 @@ if not (cmd == "eat") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "e" or cmd == "ea" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "e" or _sw1 == "ea" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:rest") == 6 and (arg == "meat" or arg == "food") and actor:has_item(203, 5) then
     actor:set_quest_var("school", "rest", 7)
     actor:command("eat " .. tostring(arg))
-    wait(2)
+    wait(0.2)
     self:command("eat meat")
     self:command("lick")
     actor:send(tostring(self.name) .. " tells you, 'Mmmmm, delicious!'")

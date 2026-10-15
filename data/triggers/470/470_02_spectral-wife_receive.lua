@@ -11,11 +11,11 @@
 if object.zone_id == 470 and object.local_id == 19 then
     if actor.is_player then
         if actor.level > 99 then
-            wait(1)
+            wait(0.1)
             actor:send(tostring(self.name) .. " says, '<b:yellow>Silly immortal, tricks are for kids!</>'")
             self:command("give broken-wedding-ring " .. tostring(actor.name))
         else
-            wait(1)
+            wait(0.1)
             self.room:send(tostring(self.name) .. " says, '<b:yellow>Oh my poor husband!  What have you done to him?!?</>'")
             self:command("remove ethereal-ring-undead")
             self:command("unlock door south")

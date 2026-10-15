@@ -11,7 +11,7 @@ if not string.find(string.lower(speech), "progress") then
     return true
 end
 local stage = actor:get_quest_stage("supernova")
-wait(2)
+wait(0.2)
 if stage == 1 then
     self:say("You are trying to find one of Phayla's lamps.")
 elseif stage == 2 then

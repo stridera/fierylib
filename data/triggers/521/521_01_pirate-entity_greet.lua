@@ -12,7 +12,7 @@
 if not percent_chance(25) then
     return true
 end
-wait(1)
+wait(0.1)
 self.room:send("The shade mourns out, 'Help us! Free us from her!'")
 wait(3)
 self.room:send("The shade yells out, 'She is enternal evil! Beware!'")

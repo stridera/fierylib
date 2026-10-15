@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "treasure") or string.find(speech_lower, "help") or string.find(speech_lower, "yes") or string.find(speech_lower, "okay") or string.find(speech_lower, "what") or string.find(speech_lower, "where")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("nukreth_spire") > 0 then
     if actor:get_quest_var("nukreth_spire:path4") == 0 then
         self.room:send(tostring(self.name) .. " says, 'Yessss, had me a shiny treasure I did.  Hid it on some")
@@ -23,7 +23,7 @@ if actor:get_quest_stage("nukreth_spire") > 0 then
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'Please find it and bring it back to me!  I'll hide here")
         self.room:send("</>while you go look.'")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " hides himself out of sight.")
         self:command("hide")
         if (actor:get_quest_var("nukreth_spire:treasure") or 0) == 0 then

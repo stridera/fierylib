@@ -17,7 +17,7 @@ end
 if actor.is_player and actor.level < 40 then
     self:command("laugh " .. tostring(actor.name))
     self:whisper(actor.name, "You should go try somewhere a little more manageable for you.")
-    wait(1)
+    wait(0.1)
     self:whisper(actor.name, "You will grow to adventure here soon enough.")
     self:command("bow")
     return false  -- Block the north movement

@@ -12,7 +12,7 @@
 if not percent_chance(5) then
     return true
 end
-wait(2)
+wait(0.2)
 local rnd = self.room.actors[random(1, #self.room.actors)]
 -- this trigger is in multiple rooms, socheck we are in right one
 if rnd.room == actor.room then
@@ -26,12 +26,14 @@ if rnd.room == actor.room then
         -- using actor.room.zone_id / actor.room.local_id once those rooms map.
         local rzone = actor.room.zone_id
         local rid = actor.room.local_id
+        -- The DG cases fall through (no break): each room adds its own damage and
+        -- every lower room's, so the top of the trail is 100 + 75 + 50 + 25.
         if rzone == 535 and rid == 30 then
-            dam = dam + 100
+            dam = dam + 100 + 75 + 50 + 25
         elseif rzone == 535 and rid == 29 then
-            dam = dam + 75
+            dam = dam + 75 + 50 + 25
         elseif rzone == 535 and rid == 28 then
-            dam = dam + 50
+            dam = dam + 50 + 25
         elseif rzone == 535 and rid == 27 then
             dam = dam + 25
         end

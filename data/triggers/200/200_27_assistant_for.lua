@@ -15,6 +15,6 @@ if not (string.find(string.lower(speech), "for?")) then
 end
 self:say("Yes for.")
 self:command("sigh")
-wait(1)
+wait(0.1)
 self.room:send("Yix'Xyua whispers something to the assistant.")
 self:say("Have you come here to assist us in our problem with Ruin Wormheart?")

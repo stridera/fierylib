@@ -14,14 +14,17 @@ if not (cmd == "scan") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "sc" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "sc" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_var("school:explore") == 5 then
     actor:set_quest_var("school", "explore", 6)
     actor:command("scan")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'You can move in any direction there's an open exit.")
     actor:send("Just type <b:cyan>(N)ORTH (S)OUTH (E)AST (W)EST (U)P</> or <b:cyan>(D)OWN</>.")
     actor:send("</>")

@@ -15,6 +15,6 @@ if not (string.find(string.lower(speech), "ladder?")) then
 end
 if actor:get_quest_stage("griffin_quest") > 0 then
     self:say("I do have a slightly used rope ladder, which I will trade with you.")
-    wait(1)
+    wait(0.1)
     self:say("It's magical and will automatically deploy if you drop it in the right area to get down to St. Marvin.")
 end

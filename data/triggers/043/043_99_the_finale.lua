@@ -64,7 +64,7 @@ else
     get_room(43, 33):at(function()
         self.room:send("Oppressively bright light bursts down from the enormous sun on the theater ceiling.")
     end)
-    wait(6)
+    wait(0.6)
     self.room:send("A powerful, driving chord strikes and strikes hard!")
     get_room(43, 33):at(function()
         self.room:send("A powerful, driving chord strikes and strikes hard!")
@@ -109,7 +109,7 @@ else
     get_room(43, 33):at(function()
         self.room:send("The players belt out in unison 'THINK ABOUT THE SUN!!'")
     end)
-    wait(10)
+    wait(1)
     self.room:send("A voice cackles from the stage as the box <red>E<b:yellow>X<b:red>P</><red>L<red>O<b:yellow>D<red>E</><red>S</> into flames!!!!")
     get_room(43, 33):at(function()
         self.room:send("The Leading Player cackles as the box <red>E<b:yellow>X<b:red>P</><red>L<red>O<b:yellow>D<red>E</><red>S</> into flames!!!")
@@ -121,7 +121,7 @@ else
             person:damage(200)  -- type: physical
         end
     end
-    wait(2)
+    wait(0.2)
     self.room:teleport_all(get_room(43, 33))
     get_room(43, 33):at(function()
         world.destroy(self.room:find_actor("box"))

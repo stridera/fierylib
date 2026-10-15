@@ -17,13 +17,16 @@ if actor.class == "paladin" then
     _return_value = true
 else
     -- switch on arg
-    if arg == "door" or arg == "door e" or arg == "door ea" or arg == "door eas" or arg == "door east" then
-        self.room:send_except(actor, tostring(self.name) .. " slaps " .. tostring(actor.name) .. "'s hand away from the door.")
-        actor:send(tostring(self.name) .. " slaps your hand away from the door.")
-        _return_value = false  -- block the open
-    else
-        actor:send("There doesn't seem to be an " .. tostring(arg) .. " here.")
-        _return_value = false  -- block, since we already echoed our own response
+    do
+        local _sw1 = string.lower(tostring(arg or ""))
+        if _sw1 == "door" or _sw1 == "door e" or _sw1 == "door ea" or _sw1 == "door eas" or _sw1 == "door east" then
+            self.room:send_except(actor, tostring(self.name) .. " slaps " .. tostring(actor.name) .. "'s hand away from the door.")
+            actor:send(tostring(self.name) .. " slaps your hand away from the door.")
+            _return_value = false  -- block the open
+        else
+            actor:send("There doesn't seem to be an " .. tostring(arg) .. " here.")
+            _return_value = false  -- block, since we already echoed our own response
+        end
     end
 end
 return _return_value

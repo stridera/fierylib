@@ -26,14 +26,14 @@ if not (args and string.find(args, "volcano", 1, true)) then
     return true
 end
 
-wait(5)
+wait(0.5)
 actor:send("Metamorpho's vial is ripped from your hands.")
 self.room:send_except(actor, "Metamorpho's vial is ripped from " .. tostring(actor.name) .. "'s hands!")
-wait(6)
+wait(0.6)
 self.room:send("Metamorpho's vial hovers above the massive volcano before turning upside down.")
-wait(2)
+wait(0.2)
 self.room:send("The top of the vial pops open unleashing a <b:cyan>FLOOD</> of water!")
-wait(2)
+wait(0.2)
 self.room:send("The massive volcano slowly burns itself out with a puff of smoke!")
 local volcano = self.room:find_object("volcano")
 if volcano then

@@ -21,7 +21,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 if actor:get_quest_stage("megalith_quest") == 3 then
-    wait(2)
+    wait(0.2)
     self:say("Indeed.  Sources of divine power to guide the Invocation:")
     self.room:send("</>")
     self.room:send("- A <b:yellow>prayer bowl</> to scry upon and pierce through the veil between the worlds.")

@@ -26,53 +26,58 @@ if not (cmd == "forage") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "f" or cmd == "fo" or cmd == "for" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "f" or _sw1 == "fo" or _sw1 == "for" then
+        _return_value = true
+        return _return_value
+    end
 end
 local trophystage = actor:get_quest_stage("ranger_trophy")
 -- switch on self.id
 local continue
-if actor.room == 8614 and trophystage == 1 then
-    if self.id == 370 then
-        continue = "yes"
-    end
-    if (actor.room >= 20352 and actor.room <= 20354) and trophystage == 2 then
-    elseif self.id == 371 then
-        continue = "yes"
-    end
-    if (actor.room == 2392 or actor.room == 2410) and trophystage == 3 then
-    elseif self.id == 372 then
-        continue = "yes"
-    end
-    if actor.room == 46244 and trophystage == 4 then
-    elseif self.id == 373 then
-        continue = "yes"
-    end
-    if actor.room == 12429 and trophystage == 5 then
-    elseif self.id == 374 then
-        continue = "yes"
-    end
-    if actor.room == 53568 and trophystage == 6 then
-    elseif self.id == 375 then
-        continue = "yes"
-    end
-    if actor.room == 49094 and trophystage == 7 then
-    elseif self.id == 376 then
-        continue = "yes"
-    end
-    if actor.room == 48080 and trophystage == 8 then
-    elseif self.id == 377 then
-        continue = "yes"
-    end
-    if actor.room == 23892 and trophystage == 9 then
-    elseif self.id == 378 then
-        continue = "yes"
+do
+    if (self.zone_id == 2 and self.id == 170) then
+        if actor.room == 8614 and trophystage == 1 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 171) then
+        if (actor.room >= 20352 and actor.room <= 20354) and trophystage == 2 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 172) then
+        if (actor.room == 2392 or actor.room == 2410) and trophystage == 3 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 173) then
+        if actor.room == 46244 and trophystage == 4 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 174) then
+        if actor.room == 12429 and trophystage == 5 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 175) then
+        if actor.room == 53568 and trophystage == 6 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 176) then
+        if actor.room == 49094 and trophystage == 7 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 177) then
+        if actor.room == 48080 and trophystage == 8 then
+            continue = "yes"
+        end
+    elseif (self.zone_id == 2 and self.id == 178) then
+        if actor.room == 23892 and trophystage == 9 then
+            continue = "yes"
+        end
     end
 end
 if continue == "yes" then
     actor:send("You forage through the lair.")
-    wait(2)
+    wait(0.2)
     actor:send("<b:green>Your connection to " .. tostring(self.shortdesc) .. " takes on new meaning!</>")
     actor:set_quest_var("ranger_trophy", "trophytask4", 1)
 else

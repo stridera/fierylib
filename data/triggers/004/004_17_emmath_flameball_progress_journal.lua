@@ -28,40 +28,43 @@ if string.find(arg, "power") or string.find(arg, "flame") or string.find(arg, "f
             actor:send("Quest Master: " .. tostring(mobiles.template(52, 30).name))
             actor:send("</>")
             -- switch on stage
-            if stage == 1 then
-                actor:send("Return to Emmath and ask to prove your <b:red>worth</>.")
-            elseif stage == 2 then
-                actor:send("Prove your mastery over fire.")
-                actor:send("Bring the three parts of flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.")
-                local black = actor:get_quest_var("emmath_flameball:17308")
-                local white = actor:get_quest_var("emmath_flameball:5211")
-                local gray = actor:get_quest_var("emmath_flameball:5212")
-                if black or white or gray then
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("Return to Emmath and ask to prove your <b:red>worth</>.")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("Prove your mastery over fire.")
+                    actor:send("Bring the three parts of flame: <b:white>White</>, <blue>Gray</>, and &9<blue>Black</>.")
+                    local black = actor:get_quest_var("emmath_flameball:17308")
+                    local white = actor:get_quest_var("emmath_flameball:5211")
+                    local gray = actor:get_quest_var("emmath_flameball:5212")
+                    if black or white or gray then
+                        actor:send("</>")
+                        actor:send("You have delivered:")
+                        if white then
+                            actor:send("- <b:white>" .. tostring(objects.template(52, 11).name) .. "</>")
+                        end
+                        if gray then
+                            actor:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
+                        end
+                        if black then
+                            actor:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
+                        end
+                    end
                     actor:send("</>")
-                    actor:send("You have delivered:")
-                    if white then
+                    actor:send("You still need:")
+                    if not white then
                         actor:send("- <b:white>" .. tostring(objects.template(52, 11).name) .. "</>")
                     end
-                    if gray then
+                    if not gray then
                         actor:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
                     end
-                    if black then
+                    if not black then
                         actor:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
                     end
+                elseif tonumber(_sw1) == 3 then
+                    actor:send("Bring the renegade <b:blue>blue flame</>.")
                 end
-                actor:send("</>")
-                actor:send("You still need:")
-                if not white then
-                    actor:send("- <b:white>" .. tostring(objects.template(52, 11).name) .. "</>")
-                end
-                if not gray then
-                    actor:send("- <blue>" .. tostring(objects.template(52, 12).name) .. "</>")
-                end
-                if not black then
-                    actor:send("- &9<blue>" .. tostring(objects.template(173, 8).name) .. "</>")
-                end
-            elseif stage == 3 then
-                actor:send("Bring the renegade <b:blue>blue flame</>.")
             end
         end
     end

@@ -13,7 +13,7 @@ if not (string.find(s, "yes") or string.find(s, "sure") or string.find(s, "yep")
     return true
 end
 
-wait(2)
+wait(0.2)
 if string.find(actor.class, "cryomancer") then
     if actor.level > 88 and actor:get_quest_stage("ice_shards") == 0 then
         actor:start_quest("ice_shards")

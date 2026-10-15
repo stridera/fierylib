@@ -15,7 +15,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "subclass") or string.find(speech_lower, "progress")) then
     return true
 end
-wait(2)
+wait(0.2)
 -- switch on actor:get_quest_stage("pyromancer_subclass")
 if actor:get_quest_stage("pyromancer_subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'Only the best and most motivated of mages will complete the <b:red>quest</> I lay before you.'")

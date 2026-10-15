@@ -20,7 +20,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("wizard_eye") == 1 then
     actor:send(tostring(self.name) .. " says, 'Why yes, I can help with that!  So you want your own crystal ball, ya say?'")
     wait(2)

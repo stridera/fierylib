@@ -18,9 +18,12 @@ if not (cmd == "summon") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "su" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "su" then
+        _return_value = true
+        return _return_value
+    end
 end
 local last_summon = actor:get_quest_var("quest_items:dragonhelm_time")
 -- timestamp() counts game hours (legacy time.stamp); 168 game hours == one MUD week.

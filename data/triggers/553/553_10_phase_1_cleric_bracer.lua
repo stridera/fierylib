@@ -13,7 +13,7 @@
 -- This is for clerics only
 local CLERIC_SUB = (actor.class == "cleric" or actor.class == "priest" or actor.class == "diabolist" or actor.class == "druid")
 if CLERIC_SUB and actor.level >= 1 and actor:get_quest_stage("phase_armor") >= 1 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Bracer ya ask? Well now I can make a protective bracer for the\"")
     actor:send(tostring(self.name) .. " tells you, \"cleric types but I'll need 3 crushed jades, and a Rusted Plate\"")
     actor:send(tostring(self.name) .. " tells you, \"Bracer. Return these things to me in any order at any time and\"")

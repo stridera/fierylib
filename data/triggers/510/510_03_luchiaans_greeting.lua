@@ -11,14 +11,14 @@ local magequest = magequest or 0
 local clericquest = clericquest or 0
 if actor.is_player and actor.level < 100 then
     if (string.find(actor.class, "necromancer") or string.find(actor.class, "sorcerer")) and magequest < 2 then
-        wait(5)
+        wait(0.5)
         self:command("ponder")
         wait(2)
         self.room:send_except(actor, "Luchiaans leans close to " .. tostring(actor.name) .. ".")
         self:whisper(actor.name, "You and I could be partners in this, if you want? I could use an extra pair of hands.")
     end
     if string.find(actor.class, "warrior") then
-        wait(5)
+        wait(0.5)
         self:command("ponder")
         wait(2)
         self:command("poke " .. tostring(actor.name))
@@ -27,7 +27,7 @@ if actor.is_player and actor.level < 100 then
         self:command("cackle")
     end
     if (string.find(actor.class, "cleric") or string.find(actor.class, "priest")) and clericquest < 2 then
-        wait(5)
+        wait(0.5)
         self:command("ponder")
         wait(2)
         self.room:send_except(actor, "Luchiaans leans close to " .. tostring(actor.name) .. ".")

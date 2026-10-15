@@ -23,31 +23,31 @@ local reward = "no"
 if (object.zone_id == 590 and obj == 26) then
     -- check to see if quest is started and PC hasent given light already
     if (actor.is_player) and (actor:get_quest_stage("sacred_haven") == 1) and (actor:get_quest_var("sacred_haven:given_light") ~= 1) then
-        wait(5)
+        wait(0.5)
         self:emote("slowly rubs its hands together and cackles with a wicked sounding glee.")
         world.destroy(object.name)
         self.room:spawn_object(590, 31)
-        wait(6)
+        wait(0.6)
         self:command("give dingy-key " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " whispers to you, 'Here is a key that will help you finish")
         actor:send("</>my task.  Don't waste my efforts acquiring it.'")
-        wait(3)
+        wait(0.3)
         actor:send(tostring(self.name) .. " whispers to you, 'I have lost a few of my dark artifacts to the")
         actor:send("</>clutches of the brothers from the Sacred Haven.'")
-        wait(2)
+        wait(0.2)
         self:emote("grumbles loudly.")
         actor:set_quest_var("sacred_haven", "given_light", 1)
         -- last line just set var to let code know light has been given
     elseif actor:get_quest_var("sacred_haven:given_light") == 1 then
         -- return light if already given
-        wait(2)
+        wait(0.2)
         self:command("give adornment " .. tostring(actor.name))
-        wait(3)
+        wait(0.3)
         self:say("You already gave me this!")
         self.room:send(tostring(self.name) .. " mumbles something about " .. tostring(actor.name) .. ".")
     else
         -- junk it if quest hasn't started
-        wait(6)
+        wait(0.6)
         self:say("I don't want this.")
         self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the woods.")
         world.destroy(object.name)
@@ -55,19 +55,19 @@ if (object.zone_id == 590 and obj == 26) then
     -- UNCONVERTED: &3&b* vial of blood&0
     if actor:get_quest_var("sacred_haven:given_blood") == 1 then
     elseif (object.zone_id == 590 and obj == 28) then
-        wait(2)
+        wait(0.2)
         self:say("You have already given me this.")
         self:command("give vial-dragons-blood " .. tostring(actor.name))
     elseif actor:get_quest_stage("sacred_haven") < 2 then
         -- junk it if quest isn't at stage 2 yet
-        wait(6)
+        wait(0.6)
         self:say("I don't want this.")
         self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the woods.")
         world.destroy(object.name)
     else
-        wait(5)
+        wait(0.5)
         self:command("grin")
-        wait(2)
+        wait(0.2)
         self:say("Good, now I have the vial of dragon's blood.")
         self:destroy_item("vial-dragons-blood")
         actor:set_quest_var("sacred_haven", "given_blood", 1)
@@ -81,19 +81,19 @@ if (object.zone_id == 590 and obj == 26) then
     -- UNCONVERTED: &3&b*trinket of tattered leather&0
     if actor:get_quest_var("sacred_haven:given_trinket") == 1 then
     elseif (object.zone_id == 590 and obj == 29) then
-        wait(2)
+        wait(0.2)
         self:say("You have already given me this.")
         self:command("give trinket-tattered-leather " .. tostring(actor.name))
     elseif actor:get_quest_stage("sacred_haven") < 2 then
         -- junk it if quest isn't at stage 2 yet
-        wait(6)
+        wait(0.6)
         self:say("I don't want this.")
         self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the woods.")
         world.destroy(object.name)
     else
-        wait(5)
+        wait(0.5)
         self:command("grin")
-        wait(3)
+        wait(0.3)
         actor:send(tostring(self.name) .. " says, 'Ahhh, I savor the feel of my skin against my trinket")
         self.room:send("</>of tattered leather.'")
         world.destroy(object.name)
@@ -108,20 +108,20 @@ if (object.zone_id == 590 and obj == 26) then
     -- UNCONVERTED: &3&b*earring&0
     if actor:get_quest_var("sacred_haven:given_earring") == 1 then
     elseif (object.zone_id == 590 and obj == 30) then
-        wait(2)
+        wait(0.2)
         self:say("You have already given me this.")
         self:command("give shadow-forged-earring " .. tostring(actor.name))
     elseif actor:get_quest_stage("sacred_haven") < 2 then
         -- junk it if quest isn't at stage 2 yet
-        wait(6)
+        wait(0.6)
         self:say("I don't want this.")
         self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the woods.")
         world.destroy(object.name)
     else
-        wait(9)
+        wait(0.9)
         world.destroy(object.name)
         self:command("cackle")
-        wait(5)
+        wait(0.5)
         actor:send(tostring(self.name) .. " says, 'Yes... I have not seen the shadow forged earring in")
         self.room:send("</>quite some time.'")
         actor:set_quest_var("sacred_haven", "given_earring", 1)
@@ -134,7 +134,7 @@ if (object.zone_id == 590 and obj == 26) then
     end
 else
     -- junk all other obj's
-    wait(6)
+    wait(0.6)
     self:say("I don't want this.")
     self.room:send(tostring(self.name) .. " throws " .. tostring(object.shortdesc) .. " into the woods.")
     world.destroy(object.name)
@@ -165,7 +165,7 @@ if reward == "yes" then
         wait(3)
         self.room:send(tostring(self.name) .. " says, 'Ahhh, you've been such a foolish one to complete")
         self.room:send("</>my deeds for me.'")
-        wait(2)
+        wait(0.2)
         actor:complete_quest("sacred_haven")
         actor:erase_quest("sacred_haven")
         spells.cast(self, "cause crit", actor.name)
@@ -178,7 +178,7 @@ if reward == "yes" then
         wait(5)
         self.room:spawn_object(590, 2)
         self:command("give dragons-blood-earring " .. tostring(actor.name))
-        wait(6)
+        wait(0.6)
         self.room:send(tostring(self.name) .. " says, 'And it is rumored that there are two more shadow")
         self.room:send("</>forged earrings still within the realms.'")
         wait(3)
@@ -189,6 +189,6 @@ if reward == "yes" then
     end
 elseif reward == "no" then
     -- ask for more stuff
-    wait(4)
+    wait(0.4)
     self:whisper(actor.name, "Ok, now bring me the rest of my artifacts.")
 end

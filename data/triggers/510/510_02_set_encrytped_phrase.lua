@@ -16,15 +16,18 @@ running = "yes"
 chosen = random(1, 4)
 
 local descr
-if chosen == 1 then
-    descr = "PLTWK ZHWIL OIXWI ONXML KMJ"
-elseif chosen == 2 then
-    descr = "PLTWK ZHWIL OIXMB XGFVZ LIYBX"
-elseif chosen == 3 then
-    descr = "PLTWK ZHWIL OIXBK KVJZL ORIMW KNX"
-elseif chosen == 4 then
-    descr = "PLTWK ZHWIL OIXTX DMJQG NOWSN C"
-end
+    do
+        local _sw1 = string.lower(tostring(chosen or ""))
+        if tonumber(_sw1) == 1 then
+            descr = "PLTWK ZHWIL OIXWI ONXML KMJ"
+        elseif tonumber(_sw1) == 2 then
+            descr = "PLTWK ZHWIL OIXMB XGFVZ LIYBX"
+        elseif tonumber(_sw1) == 3 then
+            descr = "PLTWK ZHWIL OIXBK KVJZL ORIMW KNX"
+        elseif tonumber(_sw1) == 4 then
+            descr = "PLTWK ZHWIL OIXTX DMJQG NOWSN C"
+        end
+    end
 
 -- TODO(parity): The Lua runtime does not yet expose
 -- `room:exit(dir):set_state{description = ...}`. Original intent: write
@@ -33,5 +36,5 @@ end
 -- plaintext at room (510, 0). Restore when the door API lands.
 local _ = descr  -- keep `descr` referenced until the door API is wired.
 
-wait(2)
-running = nil
+    wait(2)
+    running = nil

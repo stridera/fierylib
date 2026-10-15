@@ -18,5 +18,5 @@ if string.find(actor.race, "troll") then
     self:destroy_item("red-dye")
     self.room:spawn_object(370, 81)
 end
-wait(2)
+wait(0.2)
 self:say("Have you come to face your greatest fear?")

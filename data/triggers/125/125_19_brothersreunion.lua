@@ -104,7 +104,7 @@ else
     _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    wait(8)
+    wait(0.8)
     self:say("I don't want this.")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")

@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "who?") or string.find(string.lower(speech), "he?") or string.find(string.lower(speech), "him?")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Pippin of course!  He's our star of this production.")
 self.room:send("</> He's the last thing we need for our grand finale.'")
 wait(2)

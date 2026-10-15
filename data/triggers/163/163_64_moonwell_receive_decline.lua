@@ -34,7 +34,7 @@ elseif stage == 11 and ((object.zone_id == 550 and object.id == 20) or (object.z
     return true
 end
 
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " tells you, 'I do not want this from you.'")
 actor:send(tostring(self.name) .. " returns your item to you.")
 return false  -- block the receive: bounce the item back to the actor

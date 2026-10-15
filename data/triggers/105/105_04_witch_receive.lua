@@ -11,7 +11,7 @@
 -- Anything else: just eye the actor.
 self:say("thanks " .. tostring(actor.alias))
 if object.zone_id == 105 and object.local_id == 9 then
-    wait(1)
+    wait(0.1)
     self:destroy_item("mushroom")
     spells.cast(self, "create food")
     self.room:spawn_object(105, 10)
@@ -20,16 +20,16 @@ if object.zone_id == 105 and object.local_id == 9 then
     self:command("give waybread " .. tostring(actor.name))
     self:say("Thanks for the thought, but thats no good for me.")
 elseif object.zone_id == 105 and object.local_id == 8 then
-    wait(1)
+    wait(0.1)
     self:destroy_item("mushroom")
     spells.cast(self, "armor", actor.name)
     self:command("thank " .. tostring(actor.name))
 elseif object.zone_id == 105 and object.local_id == 7 then
-    wait(1)
+    wait(0.1)
     self:command("junk mushroom")
     self:command("thank " .. tostring(actor.name))
     spells.cast(self, "cure crit", actor.name)
 else
-    wait(1)
+    wait(0.1)
     self:command("eye " .. tostring(actor.name))
 end

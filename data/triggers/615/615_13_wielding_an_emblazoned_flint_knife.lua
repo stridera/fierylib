@@ -13,7 +13,7 @@ if actor.is_player then
         _return_value = true
         -- If you wield the emblazoned flint knife in a room that
         -- could have webs, it gets excited and flies out of your hand.
-        wait(2)
+        wait(0.2)
         self.room:send_except(actor, tostring(self.shortdesc) .. " suddenly wriggles, and " .. tostring(actor.name) .. " drops it!")
         actor:send(tostring(self.shortdesc) .. " suddenly wriggles, and you drop it!")
         actor:command("drop emblazoned-flint-knife")

@@ -15,13 +15,13 @@ if not (string.find(string.lower(speech), "punished")) then
 end
 if actor.class == "druid" then
     if actor.level >= 73 then
-        wait(15)
+        wait(1.5)
         self:say("Yes, yes, but hopefully one day she'll be able to leave that tree.")
-        wait(15)
+        wait(1.5)
     else
-        wait(15)
+        wait(1.5)
         self:say("I'm sorry, but you are still too young.")
-        wait(5)
+        wait(0.5)
         self:command("smile " .. tostring(actor.name))
         self:command("ruffle " .. tostring(actor.name))
     end

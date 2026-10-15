@@ -24,7 +24,7 @@ if actor:get_quest_stage("major_spell_quest") ~= 3 then
     return true
 end
 
-wait(2)
+wait(0.2)
 self.room:send_except(actor, tostring(self.name) .. " speaks to " .. tostring(actor.name) .. " in a low voice.")
 actor:send(tostring(self.name) .. " says to you, 'Excellent!  That rogue of a guard, a monstrous bronze statue'")
 actor:send(tostring(self.name) .. " says to you, 'that now guards the entrance of that accursed village was to'")

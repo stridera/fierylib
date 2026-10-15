@@ -29,20 +29,20 @@ end
 
 if string.find(sl, "yes") then
     self.room:send(tostring(self.name) .. " smiles with a slight twinkle in her eye.")
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " tells you, 'Very well, I will teach you what I know.'")
     self.room:send_except(actor, tostring(self.name) .. " seems pleased as she speaks with " .. tostring(actor.name) .. ".")
-    wait(20)
+    wait(2)
     actor:send(tostring(self.name) .. " tells you 'I will guide you through the proper performance of a\n"
         .. "</>complex ceremony to create a well of moonlight.'")
     wait(4)
     actor:send(tostring(self.name) .. " tells you, 'This ceremony requires several powerful symbols and\n"
         .. "</>materials.  You must attain these materials since I cannot leave this place.'")
     self.room:send_except(actor, tostring(self.name) .. " excitedly tells " .. tostring(actor.name) .. " something.")
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " tells you, 'First we need something to mark the well's outline.'")
     self.room:send_except(actor, tostring(self.name) .. " begins telling something to " .. tostring(actor.name) .. ".")
-    wait(5)
+    wait(0.5)
     actor:send(tostring(self.name) .. " tells you, 'Long ago during the Rift Wars, the goddess Mielikki was\n"
         .. "</>injured by another god, and one of the vines that surround her body was cut\n"
         .. "</>off.  As this was more than a mere plant but rather part of Her divine body, it\n"

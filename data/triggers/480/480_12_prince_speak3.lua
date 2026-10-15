@@ -21,10 +21,10 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 if actor.alignment > 350 then
-    wait(2)
+    wait(0.2)
     self:say("Yes.  I was too confident and his dark infidel champion overcame me.")
     self:command("grumble")
-    wait(1)
+    wait(0.1)
     self:say("As a punishment, the King brought me back to life, and now I am compelled to do his bidding.")
     self:command("frown")
     if actor.level >80 then

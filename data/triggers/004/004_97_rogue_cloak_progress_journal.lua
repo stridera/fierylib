@@ -50,51 +50,54 @@ if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "
             local gem
             local place
             local hint
-            if cloakstage == 1 then
-                cloak = 58801
-                gem = 55585
-                place = "A Storage Room"
-                hint = "in the house on the hill."
-            elseif cloakstage == 2 then
-                cloak = 17307
-                gem = 55593
-                place = "A Small Alcove"
-                hint = "in the holy library."
-            elseif cloakstage == 3 then
-                cloak = 10308
-                gem = 55619
-                place = "either Treasure Room"
-                hint = "in the paladin fortress."
-            elseif cloakstage == 4 then
-                cloak = 12325
-                gem = 55659
-                place = "The Treasure Room"
-                hint = "beyond the Tower in the Wastes."
-            elseif cloakstage == 5 then
-                cloak = 43022
-                gem = 55663
-                place = "Treasury"
-                hint = "in the ghostly fortress."
-            elseif cloakstage == 6 then
-                cloak = 23810
-                gem = 55674
-                place = "either Treasure Room with a chest"
-                hint = "lost in the sands."
-            elseif cloakstage == 7 then
-                cloak = 51013
-                gem = 55714
-                place = "Mesmeriz's Secret Treasure Room"
-                hint = "hidden deep underground."
-            elseif cloakstage == 8 then
-                cloak = 58410
-                gem = 55740
-                place = "Treasure Room"
-                hint = "sunk in the swamp."
-            elseif cloakstage == 9 then
-                cloak = 52009
-                gem = 55741
-                place = "Treasure Room"
-                hint = "buried with an ancient king."
+            do
+                local _sw1 = string.lower(tostring(cloakstage or ""))
+                if tonumber(_sw1) == 1 then
+                    cloak = 58801
+                    gem = 55585
+                    place = "A Storage Room"
+                    hint = "in the house on the hill."
+                elseif tonumber(_sw1) == 2 then
+                    cloak = 17307
+                    gem = 55593
+                    place = "A Small Alcove"
+                    hint = "in the holy library."
+                elseif tonumber(_sw1) == 3 then
+                    cloak = 10308
+                    gem = 55619
+                    place = "either Treasure Room"
+                    hint = "in the paladin fortress."
+                elseif tonumber(_sw1) == 4 then
+                    cloak = 12325
+                    gem = 55659
+                    place = "The Treasure Room"
+                    hint = "beyond the Tower in the Wastes."
+                elseif tonumber(_sw1) == 5 then
+                    cloak = 43022
+                    gem = 55663
+                    place = "Treasury"
+                    hint = "in the ghostly fortress."
+                elseif tonumber(_sw1) == 6 then
+                    cloak = 23810
+                    gem = 55674
+                    place = "either Treasure Room with a chest"
+                    hint = "lost in the sands."
+                elseif tonumber(_sw1) == 7 then
+                    cloak = 51013
+                    gem = 55714
+                    place = "Mesmeriz's Secret Treasure Room"
+                    hint = "hidden deep underground."
+                elseif tonumber(_sw1) == 8 then
+                    cloak = 58410
+                    gem = 55740
+                    place = "Treasure Room"
+                    hint = "sunk in the swamp."
+                elseif tonumber(_sw1) == 9 then
+                    cloak = 52009
+                    gem = 55741
+                    place = "Treasure Room"
+                    hint = "buried with an ancient king."
+                end
             end
             local attack = cloakstage * 100
             if job1 or job2 or job3 or job4 then

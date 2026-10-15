@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 if object.type == "DRINKCONTAINER" then
-    wait(2)
+    wait(0.2)
     if object.val2 == 5 then
         self:command("cheer")
         self:say("Thank you " .. tostring(actor.name) .. ", you have made an old man very happy.")
@@ -36,7 +36,7 @@ if object.type == "DRINKCONTAINER" then
         end
         self:command("give ladder " .. tostring(actor.name))
         self:say("That completes my part of the bargain.")
-        wait(2)
+        wait(0.2)
         self:command("drink bottle")
         self:command("smile")
     else

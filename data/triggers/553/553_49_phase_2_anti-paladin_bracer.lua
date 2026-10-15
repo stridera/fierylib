@@ -12,7 +12,7 @@
 -- 
 -- This is for anti-paladins only
 if string.find(actor.class, "anti") and actor.level >= 21 and actor:get_quest_stage("phase_armor") >= 2 then
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, \"Bracer ya ask? Well now I can make a protective bracer for the\"")
     actor:send(tostring(self.name) .. " tells you, \"anti-paladin types but I'll need 3 amber shards, and a Crushed Plate\"")
     actor:send(tostring(self.name) .. " tells you, \"Bracer. Return these things to me in any order at any time and\"")

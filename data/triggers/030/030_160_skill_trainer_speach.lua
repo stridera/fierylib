@@ -13,7 +13,7 @@ local speech_lower = string.lower(speech)
 if not (string.find(string.lower(speech), "training") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "backstab") or string.find(string.lower(speech), "bludgeoning") or string.find(string.lower(speech), "shadow") or string.find(string.lower(speech), "slashing") or string.find(string.lower(speech), "sneak") or string.find(string.lower(speech), "steal") or string.find(string.lower(speech), "switch") or string.find(string.lower(speech), "throatcut") or string.find(string.lower(speech), "track") or string.find(string.lower(speech), "conceal") or string.find(string.lower(speech), "corner") or string.find(string.lower(speech), "double") or string.find(string.lower(speech), "dual") or string.find(string.lower(speech), "eye") or string.find(string.lower(speech), "switch") or string.find(string.lower(speech), "retreat") or string.find(string.lower(speech), "hide") or string.find(string.lower(speech), "pick") or string.find(string.lower(speech), "piercing") or string.find(string.lower(speech), "bandage") or string.find(string.lower(speech), "douse") or string.find(string.lower(speech), "lure") or string.find(string.lower(speech), "cartwheel") or string.find(string.lower(speech), "rend")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 -- make sure they have a quest record for saving variables
 if actor:get_quest_stage("trainer_3160") < 1 then
     actor:start_quest("trainer_3160")

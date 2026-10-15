@@ -15,22 +15,22 @@ if not (object.zone_id == 584 and object.local_id == 35) then
     return true
 end
 
-wait(1)
+wait(0.1)
 self:destroy_item("legal")
 self.room:send(tostring(self.name) .. " begins to sob hysterically.")
 self:say("Thank you, thank you so very much!")
-wait(2)
+wait(0.2)
 self:command("rem fetter")
 self:command("drop fetter")
 self:say("I am free!")
-wait(2)
+wait(0.2)
 self:say("Please accept this gift, as reward for setting me free.")
-wait(2)
+wait(0.2)
 self.room:send("The slave girl pulls a necklace with a spiral horn from her tattered clothes.")
-wait(2)
+wait(0.2)
 self.room:spawn_object(584, 29)
 self:command("give alicorn " .. tostring(actor.name))
-wait(2)
+wait(0.2)
 self:say("I must return to my family!")
 self.room:send("The slave girl quickly runs away!")
 

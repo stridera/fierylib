@@ -13,52 +13,55 @@ local speech_lower = string.lower(speech)
 if not (string.find(speech_lower, "status") or string.find(speech_lower, "progress")) then
     return true  -- No matching keywords
 end
-wait(2)
+wait(0.2)
 local stage = actor:get_quest_stage("group_armor")
 -- Hoisted out of branches so the print pass below can reference them.
 local step
 local item1, item2, item3, item4
 local obj1, obj2, obj3, obj4
 -- switch on stage
-if stage == 1 then
-    item1 = actor:get_quest_var("group_armor:6118")
-    item2 = actor:get_quest_var("group_armor:11704")
-    item3 = actor:get_quest_var("group_armor:11707")
-    item4 = actor:get_quest_var("group_armor:16906")
-    obj1 = objects.template(61, 18).name
-    obj2 = objects.template(117, 4).name
-    obj3 = objects.template(117, 7).name
-    obj4 = objects.template(169, 6).name
-    step = "locate items that cast the spell &7&barmor&0"
-elseif stage == 2 then
-    step = "replace my &7&bforging hammer&0"
-elseif stage == 3 or stage == 4 then
-    step = "Take the forging hammer where light reaches deep underground and &7&b[commune]&0"
-elseif stage == 5 then
-    step = "find a suitable amulet to be the focus of this spell"
-    item1 = actor:get_quest_var("group_armor:12500")
-    obj1 = objects.template(125, 0).name
-elseif stage == 6 then
-    step = "locate ethereal items to provide protective energy to the amulet"
-    item1 = actor:get_quest_var("group_armor:47004")
-    item2 = actor:get_quest_var("group_armor:47018")
-    item3 = actor:get_quest_var("group_armor:53003")
-    obj1 = objects.template(470, 4).name
-    obj2 = objects.template(470, 18).name
-    obj3 = objects.template(530, 3).name
-else
-    if actor:get_has_completed("group_armor") then
-        if actor.gender == "male" then
-            self:say("You've already helped me lad.")
-        elseif actor.gender == "female" then
-            self:say("You've already helped me lass.")
-        end
+do
+    local _sw1 = string.lower(tostring(stage or ""))
+    if tonumber(_sw1) == 1 then
+        item1 = actor:get_quest_var("group_armor:6118")
+        item2 = actor:get_quest_var("group_armor:11704")
+        item3 = actor:get_quest_var("group_armor:11707")
+        item4 = actor:get_quest_var("group_armor:16906")
+        obj1 = objects.template(61, 18).name
+        obj2 = objects.template(117, 4).name
+        obj3 = objects.template(117, 7).name
+        obj4 = objects.template(169, 6).name
+        step = "locate items that cast the spell &7&barmor&0"
+    elseif tonumber(_sw1) == 2 then
+        step = "replace my &7&bforging hammer&0"
+    elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+        step = "Take the forging hammer where light reaches deep underground and &7&b[commune]&0"
+    elseif tonumber(_sw1) == 5 then
+        step = "find a suitable amulet to be the focus of this spell"
+        item1 = actor:get_quest_var("group_armor:12500")
+        obj1 = objects.template(125, 0).name
+    elseif tonumber(_sw1) == 6 then
+        step = "locate ethereal items to provide protective energy to the amulet"
+        item1 = actor:get_quest_var("group_armor:47004")
+        item2 = actor:get_quest_var("group_armor:47018")
+        item3 = actor:get_quest_var("group_armor:53003")
+        obj1 = objects.template(470, 4).name
+        obj2 = objects.template(470, 18).name
+        obj3 = objects.template(530, 3).name
     else
-        self:say("You aren't doing anything for me at the moment.")
+        if actor:get_has_completed("group_armor") then
+            if actor.gender == "male" then
+                self:say("You've already helped me lad.")
+            elseif actor.gender == "female" then
+                self:say("You've already helped me lass.")
+            end
+        else
+            self:say("You aren't doing anything for me at the moment.")
+        end
     end
     return true
 end
-wait(2)
+wait(0.2)
 self:say("You are trying to:")
 self.room:send(tostring(step) .. ".")
 if stage == 1 or stage == 5 or stage == 6 then

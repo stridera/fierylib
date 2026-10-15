@@ -27,7 +27,7 @@ if brownie and tormentor then
     else
         self.room:send("Snap!  A dark pixie raises another welt on the haggard brownie's arm.")
     end
-    wait(8)
+    wait(0.8)
     local r2 = random(1, 4)
     if r2 == 1 then
         brownie:emote("whimpers piteously.")

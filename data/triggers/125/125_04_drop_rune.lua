@@ -8,9 +8,9 @@
 -- Converted from DG Script #12504: Drop_rune
 -- Original: WORLD trigger, flags: DROP, probability: 100%
 if object.zone_id == 125 and object.local_id == 4 then
-    wait(1)
+    wait(0.1)
     world.destroy(object)
-    wait(5)
+    wait(0.5)
     self.room:send("The runestone flares green as it falls into place.")
     wait(1)
     self.room:send("As the stone settles, a field of green energy spreads across the circle of stones.")

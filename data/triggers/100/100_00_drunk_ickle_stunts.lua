@@ -14,20 +14,23 @@ if not percent_chance(20) then
 end
 local antic = random(1, 3)
 -- switch on antic
-if antic == 1 then
-    self:command("shiver")
-    self:emote("tries to huddle in the snow for warmth.")
-    self:command("hiccup")
-    self:say("Need a little nip to warm the bones...")
-elseif antic == 2 then
-    self:command("glare")
-    self:say("What are you looking at?")
-    self:emote("puts up his fists.")
-    self:say("Do you want some?  Do ya?")
-    self:command("fart")
-else
-    self:command("drink drunkdrink")
-    self:command("burp")
-    self:emote("wipes his mouth.")
-    self:say("Aaaahhhh thas the good stuff...")
+do
+    local _sw1 = string.lower(tostring(antic or ""))
+    if tonumber(_sw1) == 1 then
+        self:command("shiver")
+        self:emote("tries to huddle in the snow for warmth.")
+        self:command("hiccup")
+        self:say("Need a little nip to warm the bones...")
+    elseif tonumber(_sw1) == 2 then
+        self:command("glare")
+        self:say("What are you looking at?")
+        self:emote("puts up his fists.")
+        self:say("Do you want some?  Do ya?")
+        self:command("fart")
+    else
+        self:command("drink drunkdrink")
+        self:command("burp")
+        self:emote("wipes his mouth.")
+        self:say("Aaaahhhh thas the good stuff...")
+    end
 end

@@ -13,8 +13,11 @@
 if cmd ~= "search" then
     return true
 end
-if cmd == "s" or cmd == "se" then
-    return true
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "se" then
+        return true
+    end
 end
 
 actor:send("<blue>Something doesn't seem quite right here...</>")
@@ -29,7 +32,7 @@ get_room(52, 20):at(function()
 end)
 get_room(52, 19):exit("east"):set_state({hidden = false})
 actor:move("east")
-wait(1)
+wait(0.1)
 self.room:send("The wall closes again as if it were never there.")
 get_room(52, 19):exit("east"):set_state({hidden = true})
 return false

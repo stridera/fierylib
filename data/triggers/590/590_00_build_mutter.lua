@@ -14,12 +14,27 @@ if not percent_chance(30) then
 end
 local val = random(1, 10)
 -- switch on val
-if val == 1 or val == 2 then
-    self:say("Man, Rydack is a slave driver.")
-elseif val == 3 or val == 4 then
-    self:emote("starts using OLC.")
-elseif val == 5 or val == 6 then
-    self:emote("looks at his watch.")
-else
-    self:emote("looks around to see if anyone is watching.")
+do
+    local _sw1 = string.lower(tostring(val or ""))
+    local _run1 = false
+    repeat
+        if _run1 or tonumber(_sw1) == 1 or tonumber(_sw1) == 2 then
+            _run1 = true
+            self:say("Man, Rydack is a slave driver.")
+        end
+        if _run1 or tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+            _run1 = true
+            self:emote("starts using OLC.")
+            break
+        end
+        if _run1 or tonumber(_sw1) == 5 or tonumber(_sw1) == 6 then
+            _run1 = true
+            self:emote("looks at his watch.")
+            break
+        end
+        do  -- default
+            _run1 = true
+            self:emote("looks around to see if anyone is watching.")
+        end
+    until true
 end

@@ -9,7 +9,7 @@
 -- Original: MOB trigger, flags: RANDOM, probability: 100%
 if world.count_mobiles(43, 2) < 1 then
     self.room:spawn_mobile(43, 2)
-    wait(1)
+    wait(0.1)
     self.room:find_actor("nick"):spawn_object(43, 12)
     self.room:find_actor("nick"):spawn_object(43, 13)
     self.room:find_actor("nick"):spawn_object(43, 14)

@@ -16,5 +16,5 @@ end
 self:say("running the ASK trigger")
 wait(3)
 self:say("the speech was " .. tostring(speech))
-wait(10)
+wait(1)
 self:say("finished")

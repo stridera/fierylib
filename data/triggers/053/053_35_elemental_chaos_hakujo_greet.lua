@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #5335: Elemental Chaos Hakujo greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if not actor:get_has_completed("elemental_chaos") then
     if actor:get_quest_stage("elemental_chaos") == 0 then
         self:command("bow")

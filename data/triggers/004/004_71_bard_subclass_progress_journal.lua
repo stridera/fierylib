@@ -18,18 +18,21 @@ if actor.level > 10 then
         actor:send("Minimum Level: 10")
         if actor:get_quest_stage("bard_subclass") > 0 then
             -- switch on actor:get_quest_stage("bard_subclass")
-            if actor:get_quest_stage("bard_subclass") == 1 then
-                actor:send("Go to the audition room and sing for " .. tostring(mobiles.template(43, 98).name) .. ".")
-            elseif actor:get_quest_stage("bard_subclass") == 2 then
-                actor:send("Go to the audition room and dance for " .. tostring(mobiles.template(43, 98).name) .. ".")
-            elseif actor:get_quest_stage("bard_subclass") == 3 or actor:get_quest_stage("bard_subclass") == 4 then
-                actor:send("You were looking for an old script in Morgan Hill.")
-                actor:send("Give it to " .. tostring(mobiles.template(43, 98).name) .. " when you find it.")
-            elseif actor:get_quest_stage("bard_subclass") == 5 then
-                actor:send(tostring(mobiles.template(43, 98).name) .. " said to you:")
-                actor:send("Time to gimme some dialogue work.")
-                actor:send("I sure hope you're off book!_")
-                actor:send("That means \"memorized\" in the business.")
+            do
+                local _sw1 = string.lower(tostring(actor:get_quest_stage("bard_subclass") or ""))
+                if tonumber(_sw1) == 1 then
+                    actor:send("Go to the audition room and sing for " .. tostring(mobiles.template(43, 98).name) .. ".")
+                elseif tonumber(_sw1) == 2 then
+                    actor:send("Go to the audition room and dance for " .. tostring(mobiles.template(43, 98).name) .. ".")
+                elseif tonumber(_sw1) == 3 or tonumber(_sw1) == 4 then
+                    actor:send("You were looking for an old script in Morgan Hill.")
+                    actor:send("Give it to " .. tostring(mobiles.template(43, 98).name) .. " when you find it.")
+                elseif tonumber(_sw1) == 5 then
+                    actor:send(tostring(mobiles.template(43, 98).name) .. " said to you:")
+                    actor:send("Time to gimme some dialogue work.")
+                    actor:send("I sure hope you're off book!_")
+                    actor:send("That means \"memorized\" in the business.")
+                end
             end
         end
     end

@@ -24,7 +24,7 @@ local job1 = actor:get_quest_var("monk_vision:visiontask1")
 local job2 = actor:get_quest_var("monk_vision:visiontask2")
 local job3 = actor:get_quest_var("monk_vision:visiontask3")
 local job4 = actor:get_quest_var("monk_vision:visiontask4")
-wait(2)
+wait(0.2)
 if actor.class ~= "monk" then
     self:command("shake")
     actor:send(tostring(self.name) .. " says, 'Only monks have the mental fortitude to seek Enlightenment.'")
@@ -51,60 +51,63 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on visionstage
 local place, hint
-if visionstage == 1 then
-    local book = 59006
-    local gem = 55582
-    local room = get_room("4328")
-    place = room.name
-    hint = "in a place to perform."
-elseif visionstage == 2 then
-    local book = 18505
-    local gem = 55591
-    local room = get_room("58707")
-    place = room.name
-    hint = "near a sandy beach."
-elseif visionstage == 3 then
-    local book = 8501
-    local gem = 55623
-    local room = get_room("18597")
-    place = room.name
-    hint = "in a cloistered library."
-elseif visionstage == 4 then
-    local book = 12532
-    local gem = 55655
-    local room = get_room("58102")
-    place = room.name
-    hint = "on my home island."
-elseif visionstage == 5 then
-    local book = 16209
-    local gem = 55665
-    local room = get_room("16057")
-    place = room.name
-    hint = "in the ghostly fortress."
-elseif visionstage == 6 then
-    local book = 43013
-    local gem = 55678
-    local room = get_room("59054")
-    place = room.name
-    hint = "in the fortress of the zealous."
-elseif visionstage == 7 then
-    local book = 53009
-    local gem = 55710
-    local room = get_room("49079")
-    place = room.name
-    hint = "off-shore of the island of great beasts."
-elseif visionstage == 8 then
-    local book = 58415
-    local gem = 55722
-    local room = get_room("11820")
-    place = room.name
-    hint = "beyond the Blue-Fog Trail."
-elseif visionstage == 9 then
-    local book = 58412
-    local gem = 55741
-    local room = get_room("52075")
-    place = room.name
-    hint = "in the shattered citadel of Templace."
+do
+    local _sw1 = string.lower(tostring(visionstage or ""))
+    if tonumber(_sw1) == 1 then
+        local book = 59006
+        local gem = 55582
+        local room = get_room("4328")
+        place = room.name
+        hint = "in a place to perform."
+    elseif tonumber(_sw1) == 2 then
+        local book = 18505
+        local gem = 55591
+        local room = get_room("58707")
+        place = room.name
+        hint = "near a sandy beach."
+    elseif tonumber(_sw1) == 3 then
+        local book = 8501
+        local gem = 55623
+        local room = get_room("18597")
+        place = room.name
+        hint = "in a cloistered library."
+    elseif tonumber(_sw1) == 4 then
+        local book = 12532
+        local gem = 55655
+        local room = get_room("58102")
+        place = room.name
+        hint = "on my home island."
+    elseif tonumber(_sw1) == 5 then
+        local book = 16209
+        local gem = 55665
+        local room = get_room("16057")
+        place = room.name
+        hint = "in the ghostly fortress."
+    elseif tonumber(_sw1) == 6 then
+        local book = 43013
+        local gem = 55678
+        local room = get_room("59054")
+        place = room.name
+        hint = "in the fortress of the zealous."
+    elseif tonumber(_sw1) == 7 then
+        local book = 53009
+        local gem = 55710
+        local room = get_room("49079")
+        place = room.name
+        hint = "off-shore of the island of great beasts."
+    elseif tonumber(_sw1) == 8 then
+        local book = 58415
+        local gem = 55722
+        local room = get_room("11820")
+        place = room.name
+        hint = "beyond the Blue-Fog Trail."
+    elseif tonumber(_sw1) == 9 then
+        local book = 58412
+        local gem = 55741
+        local room = get_room("52075")
+        place = room.name
+        hint = "in the shattered citadel of Templace."
+    end
 end
 local attacks = visionstage * 100
 self:command("nod")

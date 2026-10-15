@@ -11,11 +11,11 @@
 -- per-vnum filtering is implicit via the stage check below.
 
 if actor:get_quest_stage("ice_shards") == 2 then
-    wait(2)
+    wait(0.2)
     actor:advance_quest("ice_shards")
     self:destroy_item("book")
     self:emote("cautiously takes " .. object.shortdesc .. " and places it on the reception desk.")
-    wait(2)
+    wait(0.2)
     self:say("Yikes, this looks pretty dangerous.")
     self:emote("opens " .. object.shortdesc .. " and begins to read.")
     wait(3)

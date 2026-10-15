@@ -38,41 +38,44 @@ if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "
             local item5
             local item6
             local item7
-            if stage == 1 then
-                recipe = "Peach Cobbler"
-                item1 = 61501
-                item2 = 23754
-                item3 = 3114
-                item4 = 35001
-            elseif stage == 2 then
-                recipe = "Seafood Salad"
-                item1 = 49024
-                item2 = 23750
-                item3 = 23722
-                item4 = 8003
-                item5 = 12515
-                item6 = 1606
-            elseif stage == 3 then
-                recipe = "Fish Stew"
-                item1 = 55213
-                item2 = 30002
-                item3 = 10030
-                item4 = 12552
-                item5 = 23757
-                item6 = 18509
-                item7 = 10311
-            elseif stage == 4 then
-                recipe = "Honey-Glazed Ham"
-                item1 = 41011
-                item2 = 8350
-                item3 = 2001
-                item4 = 50207
-                item5 = 6106
-            elseif stage == 5 then
-                recipe = "Saffroned Jasmine Rice"
-                item1 = 58019
-                item2 = 37013
-                item3 = 23760
+            do
+                local _sw1 = string.lower(tostring(stage or ""))
+                if tonumber(_sw1) == 1 then
+                    recipe = "Peach Cobbler"
+                    item1 = 61501
+                    item2 = 23754
+                    item3 = 3114
+                    item4 = 35001
+                elseif tonumber(_sw1) == 2 then
+                    recipe = "Seafood Salad"
+                    item1 = 49024
+                    item2 = 23750
+                    item3 = 23722
+                    item4 = 8003
+                    item5 = 12515
+                    item6 = 1606
+                elseif tonumber(_sw1) == 3 then
+                    recipe = "Fish Stew"
+                    item1 = 55213
+                    item2 = 30002
+                    item3 = 10030
+                    item4 = 12552
+                    item5 = 23757
+                    item6 = 18509
+                    item7 = 10311
+                elseif tonumber(_sw1) == 4 then
+                    recipe = "Honey-Glazed Ham"
+                    item1 = 41011
+                    item2 = 8350
+                    item3 = 2001
+                    item4 = 50207
+                    item5 = 6106
+                elseif tonumber(_sw1) == 5 then
+                    recipe = "Saffroned Jasmine Rice"
+                    item1 = 58019
+                    item2 = 37013
+                    item3 = 23760
+                end
             end
             actor:send("You are trying to make:")
             actor:send("</>========<==b:white>" .. tostring(recipe) .. "</>==========")

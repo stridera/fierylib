@@ -22,9 +22,12 @@ end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- For Apocalyptic Anthem on item 49066
 -- switch on cmd
-if cmd == "m" or cmd == "me" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "m" or _sw1 == "me" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_stage("monk_vision") > 7 and actor:get_quest_stage("monk_chants") == 5 and actor.level >= 75 and actor.room == 16072 then
     if actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then

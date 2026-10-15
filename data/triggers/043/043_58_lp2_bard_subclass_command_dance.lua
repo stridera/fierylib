@@ -14,13 +14,16 @@ if not (cmd == "dance") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "d" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "d" then
+        _return_value = true
+        return _return_value
+    end
 end
 if actor:get_quest_stage("bard_subclass") == 2 then
     if not actor:has_equipped(43, 15) then
-        local shoes = actor:get_worn("feet")
+            local shoes = actor:get_worn("feet")
         local pronoun = (actor.sex == "male" and "him") or (actor.sex == "female" and "her") or "them"
         actor:send("You start to dance when " .. tostring(self.name) .. " abruptly stops you.")
         self.room:send_except(actor, tostring(actor.name) .. " starts to dance when " .. tostring(self.name) .. " abruptly stops " .. pronoun .. ".")
@@ -46,7 +49,7 @@ if actor:get_quest_stage("bard_subclass") == 2 then
         self:command("think")
         wait(3)
         self:command("snap")
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'I know someone who had one you might be able to <b:cyan>borrow</>.'")
     end
 else

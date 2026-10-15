@@ -13,5 +13,5 @@ if not percent_chance(15) then
     return true
 end
 self:command("daydream")
-wait(6)
+wait(0.6)
 self:say("My thoughts seem to be my only friend.")

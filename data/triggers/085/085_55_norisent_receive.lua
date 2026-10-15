@@ -73,44 +73,83 @@ elseif (object.zone_id == 533 and object.id == 7) then
     return _return_value
 elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 510 and object.id == 23) or (object.zone_id == 510 and object.id == 28) or (object.zone_id == 510 and object.id == 22)) then
     if (object.zone_id == 510 and object.id == 23) then
-        if actor.class == "cleric" or actor.class == "priest" then
-            wait(2)
-            world.destroy(object)
-            self:say("Ah, the angelic book!  You have done well to keep this from him.")
-            actor:advance_quest("resurrection_quest")
-        elseif actor.class == "diabolist" then
-            _return_value = true
-            self:say("Wrong one, dummy.")
-        else
-            _return_value = true
-            self:say("What's your class?")
-            return _return_value
+        -- switch on actor.class
+        do
+            local _sw1 = string.lower(tostring(actor.class or ""))
+            local _run1 = false
+            repeat
+                if _run1 or _sw1 == "cleric" or _sw1 == "priest" then
+                    _run1 = true
+                    wait(0.2)
+                    world.destroy(object)
+                    self:say("Ah, the angelic book!  You have done well to keep this from him.")
+                    actor:advance_quest("resurrection_quest")
+                    break
+                end
+                if _run1 or _sw1 == "diabolist" then
+                    _run1 = true
+                    _return_value = true
+                    self:say("Wrong one, dummy.")
+                end
+                do  -- default
+                    _run1 = true
+                    _return_value = true
+                    self:say("What's your class?")
+                    return _return_value
+                end
+            until true
         end
     elseif (object.zone_id == 510 and object.id == 28) then
-        if actor.class == "diabolist" then
-            wait(2)
-            world.destroy(object)
-            self:say("Ah, the phoenix heart!  You've done well to keep this from him.")
-            actor:advance_quest("resurrection_quest")
-        elseif actor.class == "cleric" or actor.class == "priest" then
-            _return_value = true
-            self:say("Wrong one, dummy.")
-        else
-            _return_value = true
-            self:say("What's your class?")
-            return _return_value
+        -- switch on actor.class
+        do
+            local _sw2 = string.lower(tostring(actor.class or ""))
+            local _run2 = false
+            repeat
+                if _run2 or _sw2 == "diabolist" then
+                    _run2 = true
+                    wait(0.2)
+                    world.destroy(object)
+                    self:say("Ah, the phoenix heart!  You've done well to keep this from him.")
+                    actor:advance_quest("resurrection_quest")
+                    break
+                end
+                if _run2 or _sw2 == "cleric" or _sw2 == "priest" then
+                    _run2 = true
+                    _return_value = true
+                    self:say("Wrong one, dummy.")
+                end
+                do  -- default
+                    _run2 = true
+                    _return_value = true
+                    self:say("What's your class?")
+                    return _return_value
+                end
+            until true
         end
     elseif (object.zone_id == 510 and object.id == 22) then
-        if actor.class == "cleric" or actor.class == "priest" then
-            _return_value = true
-            self:say("This book is incomplete!  Something has drained its magic!  Fix that then bring the book back.")
-        elseif actor.class == "diabolist" then
-            _return_value = true
-            self:say("Wrong one, dummy.")
-        else
-            _return_value = true
-            self:say("What's your class?")
-            return _return_value
+        -- switch on actor.class
+        do
+            local _sw3 = string.lower(tostring(actor.class or ""))
+            local _run3 = false
+            repeat
+                if _run3 or _sw3 == "cleric" or _sw3 == "priest" then
+                    _run3 = true
+                    _return_value = true
+                    self:say("This book is incomplete!  Something has drained its magic!  Fix that then bring the book back.")
+                    break
+                end
+                if _run3 or _sw3 == "diabolist" then
+                    _run3 = true
+                    _return_value = true
+                    self:say("Wrong one, dummy.")
+                end
+                do  -- default
+                    _run3 = true
+                    _return_value = true
+                    self:say("What's your class?")
+                    return _return_value
+                end
+            until true
         end
         _return_value = true
         self:say("This isn't the power Luchiaans seeks.  Go find it.")
@@ -125,7 +164,7 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 
     -- say You must find the power to stop Velocity. The utterance will help you.  Bring swift and lasting death to Solek, and return the source of his arcane wisdoms.
     -- (Stale converter-output dead code removed; the live branch
     -- below handles the resurrection-quest stage 10 talisman path.)
-    --
+    -- 
     wait(3)
     self:say("There is another mage who has managed to ensconce himself in a place where no living being should be.  As a side effect of making his home at the boundary between the mortal realm and the Nine Hells, he has been driven insane.  He still survives all these centuries later through magic stolen from the elves of old.  Along with him, several souls have been marooned in the city's ruins.")
     wait(5)
@@ -140,17 +179,17 @@ elseif actor:get_quest_stage("resurrection_quest") == 10 then
     end
 elseif actor:get_quest_stage("resurrection_quest") == 11 then
     if (object.zone_id == 520 and object.id == 1) then
-        wait(2)
+        wait(0.2)
         world.destroy(object)
         self:say("The ring is secure again.  It holds more power than a mortal can imagine.")
         wait(3)
         self:say("One yet remains of the foolish necromancers, who threatened the very existence of the world with their foolish search for immortality.  End me now, and let this be finished!")
         actor:advance_quest("resurrection_quest")
-        globals.complete = true
+                globals.complete = true
     end
 else
     _return_value = true
-    wait(1)
+    wait(0.1)
     self:emote("refuses your offering.")
     self:say("This isn't what we're after.")
 end

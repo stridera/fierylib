@@ -10,7 +10,7 @@
 local chance = random(1, 10)
 if (actor.zone_id == 489) then
     -- Stop combat if fighting another doom mobile
-    wait(1)
+    wait(0.1)
     get_room(11, 0):at(function()
         self.room:find_actor("sunchild"):heal(1000)
     end)

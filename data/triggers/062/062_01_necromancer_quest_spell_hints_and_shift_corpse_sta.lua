@@ -20,7 +20,7 @@ if not (string.find(string.lower(speech), "shift")
         or string.find(string.lower(speech), "degeneration")) then
     return true
 end
-wait(2)
+wait(0.2)
 if string.find(self.class, "necromancer") then
     if speech == "degeneration" or speech == "degeneration?" then
         self.room:send(tostring(self.name) .. " says, 'Controlling negative energy to bolster the dead or")

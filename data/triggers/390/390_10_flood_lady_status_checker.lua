@@ -14,7 +14,7 @@ if not (string.find(speech_lower, "status") or string.find(speech_lower, "progre
     return true
 end
 
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("flood") == 1 then
     local fog = "The Blue-Fog"
     local phoenix = "Phoenix Feather Hot Springs"

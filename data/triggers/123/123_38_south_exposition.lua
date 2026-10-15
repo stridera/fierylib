@@ -14,7 +14,7 @@ if not (string.find(string.lower(speech), "who") or string.find(string.lower(spe
     return true  -- No matching keywords
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
-    wait(2)
+    wait(0.2)
     if actor:get_quest_var("megalith_quest:sexpo") == 0 then
         self:say("I am Keeper of the South, the warden of fire.  As befits my station, I hail from an island where molten fire reigns supreme.  It flows from the mountain, touches the sky, and meets the ocean.")
         wait(6)
@@ -28,19 +28,19 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("- may he ever suffer terrible vengeance -")
         self.room:send("</>")
         self.room:send(tostring(self.name) .. " continues, ' - does not help either.'")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "sexpo", 1)
     elseif actor:get_quest_var("megalith_quest:sexpo") == 1 then
         self:say("But living in the ways of the jungle does not make us \"savage\".  To my Jungle Tribe, we cannot stop Vulcera or the volcano, for it is the natural ebb and flow of creation.")
         wait(6)
         self:say("I spent several years apprenticed to the old island shaman learning not how to prevent this process, but how to shape it.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "sexpo", 2)
     elseif actor:get_quest_var("megalith_quest:sexpo") == 2 then
         self:say("It was during those years I first felt the primordial churn in the stellar inferno of the cosmos.  Just like within the fires of the volcano, I could feel the pulse of creation beating in the heart of each star.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "sexpo", 3)
     elseif actor:get_quest_var("megalith_quest:sexpo") == 3 then
@@ -49,7 +49,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self:say("I expected they would bring nothing but death and belittlement like all outsiders do.")
         wait(2)
         self:say("But when they expressed great concern for the volcano and the creatures within, I was greatly surprised.")
-        wait(2)
+        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "sexpo", 4)
     elseif actor:get_quest_var("megalith_quest:sexpo") == 4 then

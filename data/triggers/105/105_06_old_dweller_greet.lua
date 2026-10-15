@@ -10,7 +10,7 @@
 --   26-70  : tells them to leave (too mighty for this forest)
 --   71+    : bows and welcomes warmly
 
-wait(1)
+wait(0.1)
 actor:send("</><b:cyan>The old man tells you, '</>Ahh Welcome my friend.<b:cyan>'</>")
 if actor.level > 70 then
     self:command("bow " .. tostring(actor.name))

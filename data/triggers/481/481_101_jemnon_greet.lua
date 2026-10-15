@@ -10,9 +10,9 @@
 if actor.is_player then
     wait(2)
     actor:send(tostring(self.name) .. " says, 'Aaaaaaaaand who - '")
-    wait(4)
+    wait(0.4)
     self:emote("hiccups.")
-    wait(4)
+    wait(0.4)
     actor:send(tostring(self.name) .. " says, '- are you?'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'You 'ere to 'ear the tales o' Jemnon the Lionhearted?!'")

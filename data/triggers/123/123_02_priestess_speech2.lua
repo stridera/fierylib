@@ -14,7 +14,7 @@ if not string.find(string.lower(speech), "great rite", 1, true) then
 end
 -- (the converter compared against upper-case text; `speech` is lower-case)
 if string.find(speech, "great rite", 1, true) then
-    wait(2)
+    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'For generations, our coven has scoured the face of Ethilien to find a place where the touch of the <b:cyan>Old Gods</> might still be found.'")
     wait(3)
     self.room:send(tostring(self.name) .. " says, 'Performed correctly, this ritual will allow us to call to our Goddess in the Dreaming and provide a bridge across space and time back into the mortal realm.'")

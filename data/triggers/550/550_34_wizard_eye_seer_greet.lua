@@ -12,7 +12,7 @@
 
 -- Converted from DG Script #55034: wizard_eye_seer_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("wizard_eye") == 3 then
     actor:send(tostring(self.name) .. " says, 'I had a feeling you would show up soon.  The shaman from Technitzitlan has sent you to me, yes?'")
 elseif actor:get_quest_stage("wizard_eye") == 4 then

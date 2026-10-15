@@ -20,29 +20,32 @@ if string.find(arg, "elemental_chaos") or string.find(arg, "elemental") or strin
     local mission
     local victim1, victim2, victim3
     -- switch on actor:get_quest_stage("elemental_chaos")
-    if actor:get_quest_stage("elemental_chaos") == 1 then
-        mission = "investigate the news of an imp and dispatch it if you find one"
-    elseif actor:get_quest_stage("elemental_chaos") == 2 then
-        mission = "silence the seductive song of the Leading Player"
-    elseif actor:get_quest_stage("elemental_chaos") == 3 then
-        mission = "destroy the Chaos and the cult worshipping it"
-    elseif actor:get_quest_stage("elemental_chaos") == 4 then
-        mission = "undertake the vision quest from the shaman in Three-Falls Canyon and defeat whatever awaits at the end"
-    elseif actor:get_quest_stage("elemental_chaos") == 5 then
-        mission = "dispatch the Fangs of Yeenoghu.  Be sure to destroy all of them"
-        victim1 = "the shaman Fang of Yeenoghu"
-        victim2 = "the necromancer Fang of Yeenoghu"
-        victim3 = "the diabolist Fang of Yeenoghu"
-    elseif actor:get_quest_stage("elemental_chaos") == 6 then
-        mission = "extinguish the fire elemental lord who serves Krisenna"
-    elseif actor:get_quest_stage("elemental_chaos") == 7 then
-        mission = "stop the acolytes in the Cathedral of Betrayal"
-    elseif actor:get_quest_stage("elemental_chaos") == 8 then
-        mission = "destroy Cyprianum the Reaper in the heart of his maze"
-    elseif actor:get_quest_stage("elemental_chaos") == 9 then
-        mission = "banish the Chaos Demon in Frost Valley"
-    elseif actor:get_quest_stage("elemental_chaos") == 10 then
-        mission = "slay one of the Norhamen"
+    do
+        local _sw1 = string.lower(tostring(actor:get_quest_stage("elemental_chaos") or ""))
+        if tonumber(_sw1) == 1 then
+            mission = "investigate the news of an imp and dispatch it if you find one"
+        elseif tonumber(_sw1) == 2 then
+            mission = "silence the seductive song of the Leading Player"
+        elseif tonumber(_sw1) == 3 then
+            mission = "destroy the Chaos and the cult worshipping it"
+        elseif tonumber(_sw1) == 4 then
+            mission = "undertake the vision quest from the shaman in Three-Falls Canyon and defeat whatever awaits at the end"
+        elseif tonumber(_sw1) == 5 then
+            mission = "dispatch the Fangs of Yeenoghu.  Be sure to destroy all of them"
+            victim1 = "the shaman Fang of Yeenoghu"
+            victim2 = "the necromancer Fang of Yeenoghu"
+            victim3 = "the diabolist Fang of Yeenoghu"
+        elseif tonumber(_sw1) == 6 then
+            mission = "extinguish the fire elemental lord who serves Krisenna"
+        elseif tonumber(_sw1) == 7 then
+            mission = "stop the acolytes in the Cathedral of Betrayal"
+        elseif tonumber(_sw1) == 8 then
+            mission = "destroy Cyprianum the Reaper in the heart of his maze"
+        elseif tonumber(_sw1) == 9 then
+            mission = "banish the Chaos Demon in Frost Valley"
+        elseif tonumber(_sw1) == 10 then
+            mission = "slay one of the Norhamen"
+        end
     end
     local level
     if stage == 1 then

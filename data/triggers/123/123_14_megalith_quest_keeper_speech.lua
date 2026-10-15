@@ -30,7 +30,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("megalith_quest") == 2 then
     if speech == "yes" or speech == "sure" or string.find(speech, "I will") or string.find(speech, "I can") then
         -- switch on self.id
@@ -40,7 +40,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
         if actor:get_quest_var("megalith_quest:north") == 0 then
             if (self.zone_id == 123 and self.id == 3) then
                 self:say("Thank you very kindly.")
-                wait(5)
+                wait(0.5)
                 self.room:send(tostring(self.name) .. " says, 'Far to the north, there is a civilization dedicated to the Great Snow Leopard.  There, they make <green>rings of simple granite</> which grant their constructs powerful mystic protection.  Such energies should make an ideal offering to the Earth Spirits.  Please retrieve one for me.'")
                 wait(6)
                 self.room:send(tostring(self.name) .. " says, 'Remember, we must call the elements in order:")
@@ -56,7 +56,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             if actor:get_quest_var("megalith_quest:south") == 0 then
             elseif (self.zone_id == 123 and self.id == 4) then
                 self:say("Excellent.")
-                wait(4)
+                wait(0.4)
                 self.room:send(tostring(self.name) .. " says, 'There is an island in the sea where fires of the deep meet the outer world, ruled by a demigoddess.  My people know her magic to be the ultimate blending of divine spark and protean fire.  She carries <b:red>a jewel that burns with that same fire</>.  If you can retrieve it, I believe that would be the perfect offering to the Spirits of Fire.'")
                 actor:set_quest_var("megalith_quest", "south", 1)
                 wait(4)
@@ -92,7 +92,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                 actor:set_quest_var("megalith_quest", "east", 1)
                 wait(5)
                 self:say("Why are you still standing here?!")
-                wait(2)
+                wait(0.2)
                 self:say("Go!  Go!")
                 return _return_value
             end
@@ -121,7 +121,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
             end
         end
     elseif speech == "no" then
-        wait(2)
+        wait(0.2)
         self:command("shrug")
         self:say("Alright then.")
     end

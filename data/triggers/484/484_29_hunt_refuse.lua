@@ -16,11 +16,13 @@ if (object.zone_id == 484 and object.id == 29) then
 end
 local _return_value = true  -- Default: allow action
 -- switch on object.id
-local response = "Why do you bother the Goddess of the Hunt?"
+do
+    local response = "Why do you bother the Goddess of the Hunt?"
+end
 if response then
     _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(2)
+    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
 end
 return _return_value

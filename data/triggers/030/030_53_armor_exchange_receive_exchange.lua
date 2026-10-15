@@ -97,12 +97,12 @@ if item ~= 0 then
         end
     end
     if found == 1 then
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Here you are my dear!'")
         world.destroy(object)
         self.room:spawn_object(math.floor(item / 100), item % 100)
         self:command("give all " .. tostring(actor))
-        wait(2)
+        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'A pleasure connecting lost things to their owners!'")
         actor:set_quest_var("armor_exchange", "armor_id", 0)
     else

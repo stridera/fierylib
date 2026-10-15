@@ -19,13 +19,13 @@ get_room(238, 90):at(function()
 end)
 -- flameball
 if actor:get_quest_stage("emmath_flameball") == 2 and actor:get_quest_stage("type_wand") ~= "step" then
-    wait(2)
+    wait(0.2)
     self:destroy_item("blue-flame")
     self:command("eye")
     actor:send(tostring(self.name) .. " says, 'I didn't ask you to bring me this yet.'")
     actor:send(tostring(self.name) .. " extinguishes " .. tostring(objects.template(238, 22).name) .. ".")
 elseif actor:get_quest_stage("emmath_flameball") == 3 then
-    wait(2)
+    wait(0.2)
     self:destroy_item("blue-flame")
     actor:send(tostring(self.name) .. " says, 'Ah yes... the blue flame.'")
     self:command("smile self")

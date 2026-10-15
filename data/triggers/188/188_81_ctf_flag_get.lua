@@ -53,7 +53,7 @@ if enemy_flag == "yes" then
     end
     if hands < 2 then
         _return_value = false
-        wait(1)
+        wait(0.1)
         actor:command("hold flag")
     else
         _return_value = true

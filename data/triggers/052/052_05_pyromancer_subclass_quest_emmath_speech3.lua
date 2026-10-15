@@ -22,7 +22,7 @@ if not speech_hit then
     return true  -- None of the listed words
 end
 
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("pyromancer_subclass") == 1 then
     actor:advance_quest("pyromancer_subclass")
     local part

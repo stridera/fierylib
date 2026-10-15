@@ -13,7 +13,7 @@ if not (string.find(speech_lower, "elements") or string.find(speech_lower, "what
         or string.find(speech_lower, "things") or string.find(speech_lower, "like")) then
     return true
 end
-wait(2)
+wait(0.2)
 if actor:get_quest_stage("waterform") == 2 then
     self.room:send(tostring(self.name) .. " says, 'I believe the shield needs more embodied magic to sustain")
     self.room:send("</>a transformation.'")

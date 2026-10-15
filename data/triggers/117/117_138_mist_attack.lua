@@ -25,7 +25,7 @@ if (arg == "carving") or (arg == "carvings") then
         self.room:send("The mist seem to come alive, filled with hostility!")
         self.room:send_except(actor, "The mist roars and charges at " .. tostring(actor.name) .. ".")
         actor:send("The mist roars and charges at YOU!")
-        wait(2)
+        wait(0.2)
         local demon = self.room:find_actor("mist-demon")
         if demon then
             demon:command("kill " .. tostring(actor.name))

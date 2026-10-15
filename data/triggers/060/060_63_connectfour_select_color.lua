@@ -22,9 +22,12 @@ if not (cmd == "select") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 -- switch on cmd
-if cmd == "s" or cmd == "se" or cmd == "sel" then
-    _return_value = true
-    return _return_value
+do
+    local _sw1 = string.lower(tostring(cmd or ""))
+    if _sw1 == "s" or _sw1 == "se" or _sw1 == "sel" then
+        _return_value = true
+        return _return_value
+    end
 end
 if (status == 0) and player1 and (actor.name == player1.name) then
     if arg == "red" then
