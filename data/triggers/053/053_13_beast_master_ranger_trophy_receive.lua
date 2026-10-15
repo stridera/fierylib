@@ -8,7 +8,7 @@
 -- in the function so they read nil. Also: `actor:get_quest_stage("...") ==
 -- "stage"` compares stage int to literal string "stage". Legacy 5-digit
 -- vnums for object.id (5300, 1607, 55579, etc.) need split to (zone, id).
--- `person.class` referenced where actor is meant. `%anti%` should be
+-- `person.class` (never assigned in DG) now reads `actor.class`. `%anti%` should be
 -- `anti` variable. Full rewrite needed from DG #5313.
 --
 -- Original DG Script: #5313
@@ -208,15 +208,14 @@ if go == "hunt" then
             expmod = 20940 + ((expcap - 89) * 600)
         end
         local anti = "Anti-Paladin"
-        -- switch on person.class
-        local expmod
-        if person.class == "warrior" or person.class == "berserker" then
+        -- switch on actor.class
+        if actor.class == "warrior" or actor.class == "berserker" then
             expmod = (expmod + (expmod / 10))
-        elseif person.class == "paladin" or person.class == "anti-paladin" or person.class == "ranger" then
+        elseif actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" then
             expmod = (expmod + ((expmod * 2) / 15))
-        elseif person.class == "sorcerer" or person.class == "pyromancer" or person.class == "cryomancer" or person.class == "illusionist" or person.class == "bard" then
+        elseif actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
             expmod = (expmod + (expmod / 5))
-        elseif person.class == "necromancer" or person.class == "monk" then
+        elseif actor.class == "necromancer" or actor.class == "monk" then
             expmod = (expmod + (expmod * 2) / 5)
         else
             expmod = expmod
@@ -336,11 +335,10 @@ elseif go == "trophy" then
                 else
                     expmod = 20940 + ((expcap - 89) * 600)
                 end
-                -- switch on person.class
-                local expmod
-                if person.class == "warrior" or person.class == "berserker" then
+                -- switch on actor.class
+                if actor.class == "warrior" or actor.class == "berserker" then
                     expmod = (expmod + (expmod / 10))
-                elseif person.class == "ranger" then
+                elseif actor.class == "ranger" then
                     expmod = (expmod + ((expmod * 2) / 15))
                 else
                     expmod = expmod

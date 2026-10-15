@@ -10,12 +10,12 @@
 -- TODO(parity): Multiple converter defects in this file -
 --   1. `local level = 65` (and 90) declared inside if/elseif branches; the
 --      outer `level` reference at lines ~99/117/124/130 will be nil.
---   2. References to `hellstage` (lines 28-59) appear to be a typo of
---      `hellstep`; as written, hellstage is always nil and those branches
---      are dead.
---   3. `actor:get_quest_stage("hell_trident") == "step"` compares an int
---      to the literal string "step" -> always false; the gated greet block
---      never fires.
+--   2. (fixed) `hellstage` was never assigned in the DG source either. The 2311
+--      switch reads `hellstep` now. DG's `%hellstage% == %phase%` compared two
+--      undefined (empty) names, which is true, so the helltask4/5 stamp always
+--      ran; it runs unconditionally now.
+--   3. (fixed) `actor:get_quest_stage("hell_trident") == "step"` compared an int
+--      to the literal string "step"; it compares to the `step` variable now.
 --   4. `local response = ...` declared inside many branches and then read
 --      in the trailing if/elseif chain at the same scope -> the chain reads
 --      a perpetually-nil `response`.
@@ -49,10 +49,10 @@ if (hellstep or 0) > 0 then
     -- switch on self.id
     do
         if (self.zone_id == 23 and self.id == 11) then
-            -- switch on hellstage
+            -- switch on hellstep
             local response
             do
-                local _sw2 = string.lower(tostring(hellstage or ""))
+                local _sw2 = string.lower(tostring(hellstep or ""))
                 if tonumber(_sw2) == 1 then
                     response = "stage2"
                 elseif tonumber(_sw2) == 2 then
@@ -78,20 +78,18 @@ if (hellstep or 0) > 0 then
             spell2 = actor:get_has_completed("hell_gate")
         end
     end
-    if hellstage == "phase" then
-        if not actor:get_quest_var("hell_trident:helltask5") then
-            if spell1 then
-                actor:set_quest_var("hell_trident", "helltask5", 1)
-            end
+    if not actor:get_quest_var("hell_trident:helltask5") then
+        if spell1 then
+            actor:set_quest_var("hell_trident", "helltask5", 1)
         end
-        if not actor:get_quest_var("hell_trident:helltask4") then
-            if spell2 then
-                actor:set_quest_var("hell_trident", "helltask4", 1)
-            end
+    end
+    if not actor:get_quest_var("hell_trident:helltask4") then
+        if spell2 then
+            actor:set_quest_var("hell_trident", "helltask4", 1)
         end
     end
     local response
-    if actor:get_quest_stage("hell_trident") == "step" then
+    if actor:get_quest_stage("hell_trident") == step then
         if actor.level >= level then
             if (actor:get_quest_var("hell_trident:greet") or 0) == 0 then
                 actor:set_quest_var("hell_trident", "greet", 1)

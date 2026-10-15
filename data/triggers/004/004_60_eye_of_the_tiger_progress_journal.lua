@@ -20,6 +20,9 @@ local function proto_short(vnum)
     if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
     return name
 end
+-- DG #460 printed an undefined %master% here ("Give  your old trophy."). The trophy is turned in
+-- to Pumahl the Beast Master (mob 5306, trigger #5313 "Beast Master Ranger Trophy receive").
+local master = mobiles.template(53, 6).name
 local _return_value = true  -- Default: allow action
 if string.find(arg, "eye of the tiger") or string.find(arg, "tiger") then
     local hunterclasses = "Warrior Ranger Berserker Mercenary"

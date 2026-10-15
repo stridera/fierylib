@@ -94,7 +94,7 @@ while i >= a do
             elseif (self.zone_id == 584 and self.id == 1) then
                 -- phoenix feather
                 local stage = 9
-                variable = person:get_quest_var("KoD_quest:feather")
+                variable = person:get_quest_var("kod_quest:feather")
             elseif (self.zone_id == 534 and self.id == 100) or (self.zone_id == 534 and self.id == 101) or (self.zone_id == 534 and self.id == 105) or (self.zone_id == 534 and self.id == 106) then
                 -- sleet armor
                 local stage = 10

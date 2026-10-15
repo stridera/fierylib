@@ -81,17 +81,7 @@ KNOWN_FILE_PATTERNS = (
 )
 
 KNOWN_NAMES: dict[str, set[str]] = {
-    # Undefined in the DG source too (legacy rendered them as empty / compared them as ""): the
-    # fix is a design call on what the value should be.
-    "004_60_eye_of_the_tiger_progress_journal.lua": {"master"},
-    "023_14_hell_trident_speech_trident_upgrades.lua": {"hellstage"},
-    "188_70_smart_combat.lua": {"outside", "outdoors"},
-    # NEEDS_REVIEW rewrites: `person` was never assigned in the DG source either; the whole
-    # reward block (expmod) is mid-rewrite, see the header TODO.
-    "030_83_dragon_slayer_isilynor_receive.lua": {"person"},
-    "053_13_beast_master_ranger_trophy_receive.lua": {"person"},
-    "053_23_honus_order_receive.lua": {"person"},
-    "053_38_elemental_chaos_hakujo_mission_receive.lua": {"person"},
+    # Empty on purpose: add `"file.lua": {"name"}` only for a name that needs a design call.
 }
 
 
@@ -147,6 +137,37 @@ def test_known_names_still_exist():
         (f, n) for f, names in KNOWN_NAMES.items() for n in names if (f, n) not in live
     )
     assert not stale, f"fixed or removed, drop these KNOWN_NAMES entries: {stale}"
+
+
+# --- Quest names -------------------------------------------------------------------------------
+# The engine stores quest state under "quest:<name>:..." keys compared case-sensitively, so
+# `KoD_quest` and `kod_quest` are two different quests: progress written under one is invisible
+# to a trigger that reads the other.
+_QUEST_CALL = re.compile(
+    r'(?:get_quest_stage|get_quest_var|set_quest_var|start_quest|advance_quest|complete_quest|'
+    r'fail_quest|get_has_completed|get_has_failed)\(\s*"([^"]+)"'
+)
+
+
+def _quest_names():
+    names: dict[str, dict[str, set[str]]] = {}
+    for p in sorted(TRIGGER_DIR.rglob("*.lua")):
+        for line in p.read_text().splitlines():
+            if line.lstrip().startswith("--"):
+                continue
+            for m in _QUEST_CALL.finditer(line):
+                quest = m.group(1).split(":", 1)[0]
+                names.setdefault(quest.lower(), {}).setdefault(quest, set()).add(p.name)
+    return names
+
+
+def test_quest_names_have_one_spelling():
+    split = {
+        low: {spelling: sorted(files) for spelling, files in spellings.items()}
+        for low, spellings in _quest_names().items()
+        if len(spellings) > 1
+    }
+    assert not split, f"quest name used with different capitalisation: {split}"
 
 
 @needs_luac

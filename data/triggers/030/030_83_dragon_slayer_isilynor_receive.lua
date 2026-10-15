@@ -10,10 +10,10 @@
 -- those declarations to the top of the trigger and drop the `local` keyword
 -- in branches.
 --
--- Also: line 205 references `person.class == "anti-paladin"` which is a stray DG-
+-- Also: line 205 referenced `person.class == "anti-paladin"` (now actor.class) which is a stray DG-
 -- Script interpolation; should be `actor.class == anti` (with `anti` declared
--- as `"Anti-Paladin"` in line 174). And `person` itself is never assigned in
--- this trigger — should iterate `actor.group_member` or just use `actor`.
+-- as `"Anti-Paladin"` in line 174). `person` was never assigned in the DG source;
+-- the class bonus now reads `actor.class` (the receiving player).
 --
 -- Also: `actor:set_quest_var("paladin_pendant", "necklacetask%number%", 0)`
 -- on line 331 should be `"necklacetask" .. tostring(number)`.
@@ -215,15 +215,14 @@ if go == "hunt" then
         else
             expmod = 20940 + ((expcap - 89) * 600)
         end
-        -- switch on person.class
-        local expmod
-        if person.class == "warrior" or person.class == "berserker" then
+        -- switch on actor.class
+        if actor.class == "warrior" or actor.class == "berserker" then
             expmod = (expmod + (expmod / 10))
-        elseif person.class == "paladin" or person.class == "anti-paladin" or person.class == "ranger" then
+        elseif actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" then
             expmod = (expmod + ((expmod * 2) / 15))
-        elseif person.class == "sorcerer" or person.class == "pyromancer" or person.class == "cryomancer" or person.class == "illusionist" or person.class == "bard" then
+        elseif actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
             expmod = (expmod + (expmod / 5))
-        elseif person.class == "necromancer" or person.class == "monk" then
+        elseif actor.class == "necromancer" or actor.class == "monk" then
             expmod = (expmod + (expmod * 2) / 5)
         else
             expmod = expmod

@@ -22,6 +22,9 @@ local now = timestamp()
 local level = self.level
 local class = self.class
 local flags = self.flags
+-- DG #18870 tested %outside% and %outdoors% without ever setting them (always empty/false).
+-- Both mean "this room is outdoors" (call lightning, earthquake, sunray).
+local outdoors = self.room:is_outdoor()
 local is_sor = class == "sorcerer"
 local is_cry = class == "cryomancer"
 local is_pyr = class == "pyromancer"
@@ -143,11 +146,11 @@ if mode > 5 then
         -- cast 'iceball'
         -- elseif is_pyr% && %cir_9%
         -- cast 'immolate'
-    elseif is_dru and cir_9 and ((not (string.find(actor.flags, "BLIND"))) or not outside) then
+    elseif is_dru and cir_9 and ((not (string.find(actor.flags, "BLIND"))) or not outdoors) then
         spells.cast(self, "sunray")
     elseif is_sor and cir_7 then
         spells.cast(self, "bigbys clenched fist")
-    elseif outside and is_dru and cir_7 then
+    elseif outdoors and is_dru and cir_7 then
         spells.cast(self, "call lightning")
     elseif (is_cle and cir_7) or ((is_pri or is_dia) and cir_10) then
         spells.cast(self, "full harm")
