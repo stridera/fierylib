@@ -11,6 +11,7 @@ Handles:
 
 from typing import Optional, Any, Dict
 from pathlib import Path
+import re
 import sys
 
 from mud.types.world import World
@@ -18,6 +19,22 @@ from prisma import Prisma  # runtime client type
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
 from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
+
+
+_TRAILING_ID_RE = re.compile(r"\s+\((\d+)\)\s*$")
+
+
+def strip_builder_id_suffix(name: str, local_id: int) -> str:
+    """Drop a trailing " (<n>)" from a room title when n is the room's own local id.
+
+    Zone 80's legacy builder numbered rooms in their titles ("Carrot Top Heaven (27)").
+    That is a builder note, not part of the title players should see. A number that
+    differs from the room's id (a year, "Room 26") is left alone.
+    """
+    m = _TRAILING_ID_RE.search(name)
+    if m and int(m.group(1)) == local_id:
+        return name[: m.start()]
+    return name
 
 
 class RoomImporter:
@@ -276,6 +293,8 @@ class RoomImporter:
                 "action": "failed",
                 "error": f"Computed negative vnum {vnum} for room_id {room_id} and zone {base_zone}",
             }
+
+        room = {**room, "name": strip_builder_id_suffix(room["name"], vnum)}
 
         # Map sector
         sector = self.map_sector(room["sector"])

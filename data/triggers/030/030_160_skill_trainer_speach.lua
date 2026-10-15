@@ -41,13 +41,13 @@ end
 if topic == "training" or topic == "yes" then
     self.room:send(tostring(self.name) .. " says, 'Sure, I can help you improve just about any necessary stealthy")
     self.room:send("</>talent.  But remember, I can't teach you skills you don't already know.'")
-    -- (empty room echo)
+    self.room:send("</>")
     self.room:send("</>Just ask me about a skill, and I'll give you a quote:")
-    -- (empty room echo)
-    self.room:send("</>backstab, bandage, bludgeoning weapons, cartwheel, conceal, corner")
-    self.room:send("</>double attack, douse, dual wield, eye gouge, group retreat, hide, lure, pick lock,")
-    self.room:send("</>piercing weapons, rend, retreat, shadow, slashing weapons, sneak, sneak attack,")
-    self.room:send("</>steal, switch, throatcut, track.")
+    self.room:send("</>")
+    self.room:send("</>backstab, bandage, bludgeoning weapons, cartwheel, conceal, corner,")
+    self.room:send("</>double attack, douse, dual wield, eye gouge, group retreat, hide, lure,")
+    self.room:send("</>pick lock, piercing weapons, rend, retreat, shadow, slashing weapons, sneak,")
+    self.room:send("</>sneak attack, steal, switch, throatcut, track.")
     return _return_value
 else
     -- defining variables for this script
