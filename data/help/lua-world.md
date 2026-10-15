@@ -5,7 +5,9 @@ category: building
 min_level: 100
 usage: "get_room(zone, id) / find_actor(keyword) / wait(seconds)"
 ---
-Globals every trigger can use (return type after ->):
+Globals every trigger can use (return type after ->). Wherever (zone, id) is
+shown, in any lua-* topic, the key may also be one table: f({zone, id}) or
+f({zone = Z, id = I}). A malformed key is an error.
   get_room(zone, id) -> Room|nil
   find_actor(keyword) -> Actor|nil      whole world, first match; keyword is a
                                         case-insensitive substring of name/keywords
