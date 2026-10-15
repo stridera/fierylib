@@ -13,7 +13,7 @@ if not (cmd == "pick") then
     return true  -- Not our command
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
-if self.room == 3062 then
+if (self.room.zone_id == 30 and self.room.local_id == 62) then
     -- switch on arg
     do
         local _sw1 = string.lower(tostring(arg or ""))

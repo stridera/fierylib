@@ -28,9 +28,20 @@ local M = {}
 
 local ROWS, COLS, WIN = 7, 7, 4
 
+-- Each colour has its own glyph so the board reads without ANSI colour too
+-- (logs, screen readers, bold black on a dark terminal): red is X, black
+-- is O, an empty cell is a dot.
+local EMPTY = "."
 local COLOUR = {
-    red = { cell = "<b:red>O</>", word = "<b:red>red</>" },
+    red = { cell = "<b:red>X</>", word = "<b:red>red</>" },
     black = { cell = "<b:black>O</>", word = "<b:black>black</>" },
+}
+
+-- What to type after `start` to pick this game when a Hearts table (60:75)
+-- shares the room.
+local KEYWORDS = {
+    connectfour = true, ["connect-four"] = true, connect = true,
+    four = true, c4 = true, board = true,
 }
 
 local RULES = {
@@ -42,7 +53,8 @@ local RULES = {
     "the game.  Whoever starts first gets to select their color, red or",
     "black, with 'select red' or 'select black'.  The second player",
     "automatically gets the other color.  If you type 'start' first, you",
-    "also get the first turn.",
+    "also get the first turn.  If the room has a Hearts table as well, type",
+    "'start connectfour' so the board knows you mean it.",
     "</>",
     "At any time, you can 'look board' to see what the board looks like.",
     "</>",
@@ -122,7 +134,7 @@ function M.is_full(board)
     return true
 end
 
--- The 15 lines of the board as drawn for `look board`.
+-- The lines of the board as drawn for `look board`.
 function M.render(g)
     local border = "<blue>+-+-+-+-+-+-+-+</>"
     local lines = {
@@ -137,12 +149,13 @@ function M.render(g)
         for c = 1, COLS do
             local v = g.board[r][c]
             local col = (v == 1 and g.p1col) or (v == 2 and g.p2col)
-            cells[c] = col and COLOUR[col].cell or "O"
+            cells[c] = col and COLOUR[col].cell or EMPTY
         end
         lines[#lines + 1] = "<blue>|" .. table.concat(cells, "<blue>|")
             .. "<blue>|</>"
         lines[#lines + 1] = border
     end
+    lines[#lines + 1] = "<b:red>X</> is red, <b:black>O</> is black."
     lines[#lines + 1] = "</>"
     return lines
 end
@@ -178,6 +191,8 @@ local function colour_word(g, who)
     return col and COLOUR[col].word
 end
 
+local function trim(s) return s:match("^%s*(.-)%s*$") end
+
 -- A player who left the room before the game started loses their seat; one
 -- who left mid-game forfeits.
 local function settle(g, room)
@@ -200,8 +215,6 @@ local function settle(g, room)
     end
 end
 
-local function trim(s) return s:match("^%s*(.-)%s*$") end
-
 -- Wrap a command so it runs against the stored game and writes it back.
 local function command(fn)
     return function(globals, room, actor, arg)
@@ -213,7 +226,7 @@ local function command(fn)
     end
 end
 
-M.start = command(function(g, room, actor)
+local start_game = command(function(g, room, actor)
     if g.p1 then
         if g.p2 then
             if g.status == 2 then
@@ -251,6 +264,27 @@ M.start = command(function(g, room, actor)
     end
     return false
 end)
+
+-- `start` joins this game. With a Hearts table in the room too, `start
+-- connectfour` picks this one, `start hearts` is left to the table, and a bare
+-- `start` asks which. Alone in the room, a bare `start` just works.
+function M.start(globals, room, actor, arg)
+    local words = trim(string.lower(arg or ""))
+    if words ~= "" then
+        for word in words:gmatch("%S+") do
+            if KEYWORDS[word] then
+                return start_game(globals, room, actor, arg)
+            end
+        end
+        return true
+    end
+    if room:get_objects(60, 75) then
+        actor:send("Start which game?  Type 'start connectfour' or "
+            .. "'start hearts'.")
+        return false
+    end
+    return start_game(globals, room, actor, arg)
+end
 
 M.select = command(function(g, room, actor, arg)
     if g.status ~= 0 or g.p1 ~= actor.name then return true end
@@ -449,5 +483,23 @@ M.look = command(function(g, room, actor, arg)
     end
     return false
 end)
+
+-- A LEAVE trigger on the board: `actor` is walking out and is still in the
+-- room, so settle their seat by name at once instead of at the next game
+-- command. Always lets them go. (Leaving by other means, such as a teleport,
+-- is still settled lazily by `settle`.)
+function M.leave(globals, room, actor)
+    local g = M.state(globals)
+    local me = seat(g, actor.name)
+    if me and g.status == 1 then
+        g.forfeit = me
+        g.status = 2
+        room:send(actor.name .. " left the room and forfeits the game.")
+    elseif me and g.status == 0 then
+        if me == 1 then clear(g) else g.p2 = nil end
+    end
+    globals.cf = g
+    return true
+end
 
 return M

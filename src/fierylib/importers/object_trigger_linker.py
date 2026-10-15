@@ -72,6 +72,15 @@ def parse_object_trigger_attachments(obj_file: Path) -> dict[int, list[int]]:
     return attachments
 
 
+# Attachments that exist only in the Lua rewrite (no `T` line in the legacy .obj files):
+# the zone 60 games get a LEAVE trigger each (60:84 ConnectFour board 60:60, 60:85 Hearts
+# table 60:75) so a player walking out forfeits at once. Legacy vnums, merged after the parse.
+EXTRA_ATTACHMENTS: dict[int, list[int]] = {
+    6060: [6084],
+    6075: [6085],
+}
+
+
 def parse_all_object_trigger_attachments(world_dir: Path) -> dict[int, list[int]]:
     """
     Parse all object files in a directory and extract trigger attachments.
@@ -91,6 +100,10 @@ def parse_all_object_trigger_attachments(world_dir: Path) -> dict[int, list[int]
     for obj_file in sorted(obj_dir.glob("*.obj")):
         file_attachments = parse_object_trigger_attachments(obj_file)
         all_attachments.update(file_attachments)
+
+    for obj_vnum, trigger_vnums in EXTRA_ATTACHMENTS.items():
+        merged = all_attachments.setdefault(obj_vnum, [])
+        merged.extend(t for t in trigger_vnums if t not in merged)
 
     return all_attachments
 

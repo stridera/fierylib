@@ -38,39 +38,39 @@ local trophystage = actor:get_quest_stage("ranger_trophy")
 local continue
 do
     if (self.zone_id == 2 and self.id == 170) then
-        if actor.room == 8614 and trophystage == 1 then
+        if (actor.room.zone_id == 86 and actor.room.local_id == 14) and trophystage == 1 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 171) then
-        if (actor.room >= 20352 and actor.room <= 20354) and trophystage == 2 then
+        if (actor.room.zone_id == 203 and actor.room.local_id >= 52 and actor.room.local_id <= 54) and trophystage == 2 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 172) then
-        if (actor.room == 2392 or actor.room == 2410) and trophystage == 3 then
+        if ((actor.room.zone_id == 23 and actor.room.local_id == 92) or (actor.room.zone_id == 23 and actor.room.local_id == 110)) and trophystage == 3 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 173) then
-        if actor.room == 46244 and trophystage == 4 then
+        if (actor.room.zone_id == 462 and actor.room.local_id == 44) and trophystage == 4 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 174) then
-        if actor.room == 12429 and trophystage == 5 then
+        if (actor.room.zone_id == 123 and actor.room.local_id == 129) and trophystage == 5 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 175) then
-        if actor.room == 53568 and trophystage == 6 then
+        if (actor.room.zone_id == 534 and actor.room.local_id == 168) and trophystage == 6 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 176) then
-        if actor.room == 49094 and trophystage == 7 then
+        if (actor.room.zone_id == 490 and actor.room.local_id == 94) and trophystage == 7 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 177) then
-        if actor.room == 48080 and trophystage == 8 then
+        if (actor.room.zone_id == 480 and actor.room.local_id == 80) and trophystage == 8 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 178) then
-        if actor.room == 23892 and trophystage == 9 then
+        if (actor.room.zone_id == 238 and actor.room.local_id == 92) and trophystage == 9 then
             continue = "yes"
         end
     end

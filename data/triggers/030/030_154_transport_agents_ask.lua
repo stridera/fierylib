@@ -82,13 +82,13 @@ end
 -- The color says where they came from.
 -- It is seen by anyone standing at the destination.
 local dcolor
-if self.room == 3016 then
+if (self.room.zone_id == 30 and self.room.local_id == 16) then
     -- Mielikki - GREEN
     dcolor = "<green>green</>"
-elseif self.room == 6015 then
+elseif (self.room.zone_id == 60 and self.room.local_id == 15) then
     -- Anduin - RED
     dcolor = "<red>red</>"
-elseif self.room == 30115 then
+elseif (self.room.zone_id == 300 and self.room.local_id == 115) then
     -- Ogakh - GRAY
     dcolor = "<b:black>gray</>"
 else

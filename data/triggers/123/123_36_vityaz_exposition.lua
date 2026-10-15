@@ -39,7 +39,7 @@ if (string.find(speech, "who are you") or string.find(speech, "continue")) and a
         self.room:send(tostring(self.name) .. " says, 'Say <b:cyan>continue</> when you want to hear more.'")
         actor:set_quest_var("megalith_quest", "vexpo", 2)
     elseif (actor:get_quest_var("megalith_quest:vexpo") or 0) == 2 then
-        self:say("To assist in the Great Rite of Invocation, in my duty duty as defender, I am casting and reinforcing a circle of protection between these smaller menhir.")
+        self:say("To assist in the Great Rite of Invocation, in my duty as defender, I am casting and reinforcing a circle of protection between these smaller menhir.")
         wait(4)
         self:say("I will maintain it throughout the rite.")
         actor:set_quest_var("megalith_quest", "vexpo", 0)

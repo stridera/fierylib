@@ -24,6 +24,11 @@ LIBRARIES = ROOT / "data" / "script_libraries"
 HARNESS = r"""
 local ROOT = @ROOT@
 local FILES = @FILES@
+local LEAVE_FILES = @LEAVE_FILES@
+local CF_FILES = @CF_FILES@
+local CF_LEAVE = @CF_LEAVE@
+local HEARTS_FILES = @HEARTS_FILES@
+local HEARTS_LEAVE = @HEARTS_LEAVE@
 
 local SAFE = { "assert", "error", "getmetatable", "ipairs", "math", "next",
     "pairs", "pcall", "select", "setmetatable", "string", "table", "tonumber",
@@ -62,7 +67,14 @@ local function random(lo, hi)
 end
 
 local function new_room()
-    local room = { actors = {} }
+    local room = { actors = {}, objects = {} }
+    -- room:get_objects(zone, id): the floor object with that prototype, or nil
+    function room:get_objects(zone, id)
+        for _, o in ipairs(self.objects) do
+            if o.key and o.key[1] == zone and o.key[2] == id then return o end
+        end
+        return nil
+    end
     function room:send(msg)
         for _, a in ipairs(self.actors) do a.log[#a.log + 1] = msg end
     end
@@ -87,15 +99,23 @@ local function leave(room, actor)
     end
 end
 
+-- An object lying in `room`: its COMMAND trigger files, its LEAVE trigger
+-- files and its prototype key (zone, id).
+local function new_object_in(room, files, leave_files, key)
+    local obj = { room = room, globals = {}, files = files,
+        leave_files = leave_files, key = key }
+    room.objects[#room.objects + 1] = obj
+    return obj
+end
+
 local function new_object()
-    local room = new_room()
-    return { room = room, globals = {} }
+    return new_object_in(new_room(), FILES, LEAVE_FILES)
 end
 
 -- Fire every trigger on the object for a typed command, as the engine does;
 -- true means the command carries on to the normal handler.
 local function type_cmd(obj, actor, cmd, arg)
-    for _, path in ipairs(FILES) do
+    for _, path in ipairs(obj.files or FILES) do
         local env = sandbox({
             actor = actor, self = obj, globals = obj.globals,
             location = "room", cmd = cmd, arg = arg or "",
@@ -105,6 +125,32 @@ local function type_cmd(obj, actor, cmd, arg)
         if ret == false then return false end
     end
     return true
+end
+
+-- Every floor object of the room in turn, as the engine does; false as soon
+-- as one consumes the command.
+local function type_room(room, actor, cmd, arg)
+    for _, obj in ipairs(room.objects) do
+        if type_cmd(obj, actor, cmd, arg) == false then return false end
+    end
+    return true
+end
+
+-- A player walks out: the LEAVE triggers of the floor objects fire while the
+-- walker is still in the room, then the walker is gone.
+local function walk_out(room, actor)
+    for _, obj in ipairs(room.objects) do
+        for _, path in ipairs(obj.leave_files or LEAVE_FILES) do
+            local env = sandbox({
+                actor = actor, self = obj, globals = obj.globals,
+                direction = "north", require = require_, random = random,
+            })
+            assert(load(slurp(path), "@" .. path, "t", env))()
+        end
+    end
+    for i, a in ipairs(room.actors) do
+        if a == actor then table.remove(room.actors, i) return end
+    end
 end
 
 local function has(actor, text)
@@ -128,11 +174,28 @@ def _lua_list(paths):
     return "{" + ", ".join('"' + str(p) + '"' for p in paths) + "}"
 
 
-def run_lua(pattern: str, scenario: str) -> None:
+def _split(pattern: str):
+    """(command trigger files, LEAVE trigger files) matching the glob pattern."""
     files = sorted(TRIGGERS.glob(pattern))
     assert files, pattern
+    return (
+        [f for f in files if not f.name.endswith("_leave.lua")],
+        [f for f in files if f.name.endswith("_leave.lua")],
+    )
+
+
+def run_lua(pattern: str, scenario: str) -> None:
+    files, leave = _split(pattern)
+    cf_files, cf_leave = _split("060_*_connectfour_*.lua")
+    hearts_files, hearts_leave = _split("060_*_hearts_*.lua")
     code = (
-        HARNESS.replace("@ROOT@", f'"{ROOT}"').replace("@FILES@", _lua_list(files))
+        HARNESS.replace("@ROOT@", f'"{ROOT}"')
+        .replace("@FILES@", _lua_list(files))
+        .replace("@LEAVE_FILES@", _lua_list(leave))
+        .replace("@CF_FILES@", _lua_list(cf_files))
+        .replace("@CF_LEAVE@", _lua_list(cf_leave))
+        .replace("@HEARTS_FILES@", _lua_list(hearts_files))
+        .replace("@HEARTS_LEAVE@", _lua_list(hearts_leave))
         + scenario
         + '\nprint("OK")\n'
     )
@@ -211,7 +274,7 @@ def test_connectfour_game_flow_and_colours():
     cmd(bob, "drop", "4")
     cmd(cat, "look", "board")
     local text = table.concat(cat.log, "\n")
-    check(text:find("<b:red>O</>", 1, true), "red piece drawn")
+    check(text:find("<b:red>X</>", 1, true), "red piece drawn")
     check(text:find("<b:black>O</>", 1, true), "black piece drawn")
     check(text:find("|1|2|3|4|5|6|7|", 1, true), "column header")
     check(has(cat, "Ann and Bob are playing."), "spectator status")
@@ -219,6 +282,37 @@ def test_connectfour_game_flow_and_colours():
     cmd(ann, "look", "board")
     check(has(ann, "It's your turn!"), "own turn line")
     check(cmd(ann, "look", "sword") == true, "look at other things passes")
+    """)
+
+
+@needs_lua
+def test_connectfour_pieces_read_in_plain_text():
+    # No ANSI, screen reader, log: strip every <...> colour tag and the board must
+    # still tell red (X), black (O) and empty (.) apart.
+    cf(r"""
+    begin()
+    cmd(ann, "drop", "1")
+    cmd(bob, "drop", "1")
+    cmd(ann, "drop", "2")
+    wipe(cat)
+    cmd(cat, "look", "board")
+    local rows = {}
+    for _, line in ipairs(cat.log) do
+        local plain = line:gsub("<[^>]*>", "")
+        if plain:match("^|[^|]") and not plain:match("^|1|") then
+            rows[#rows + 1] = plain
+        end
+    end
+    check(#rows == 7, "seven rows, got " .. #rows)
+    check(rows[1] == "|.|.|.|.|.|.|.|", "empty cells are dots: " .. rows[1])
+    check(rows[7] == "|X|X|.|.|.|.|.|", "red is X: " .. rows[7])
+    check(rows[6] == "|O|.|.|.|.|.|.|", "black is O: " .. rows[6])
+    local text = table.concat(cat.log, "\n")
+    check(text:find("<b:red>X</>", 1, true), "red piece is coloured")
+    check(text:find("<b:black>O</>", 1, true), "black piece is coloured")
+    check(not text:find("<b:red>O</>", 1, true), "no red O")
+    check(text:find("is red", 1, true) and text:find("is black", 1, true),
+        "the board has a key")
     """)
 
 
@@ -412,6 +506,138 @@ def test_connectfour_rules_text():
     cmd(cat, "rules")
     check(has(cat, "four of"), "rules shown")
     check(#cat.log > 15, "full text")
+    """)
+
+
+@needs_lua
+def test_connectfour_walking_out_forfeits_at_once():
+    cf(r"""
+    begin()
+    cmd(ann, "drop", "4")
+    wipe(ann, bob, cat)
+    walk_out(room, bob)
+    -- no further game command: the others already know
+    check(has(ann, "Bob left the room and forfeits the game."), "ann told")
+    check(has(cat, "Bob left the room and forfeits the game."), "cat told")
+    check(game().status == 2 and game().forfeit == 2, "game over now")
+    cmd(ann, "look", "board")
+    check(has(ann, "You won") == false and has(ann, "Bob forfeited the game."),
+        "result shown")
+    cmd(cat, "reset")
+    check(game().status == 0 and game().p1 == nil, "board can be reset")
+    """)
+    # the player to move leaves, then the other one
+    cf(r"""
+    begin()
+    walk_out(room, ann)
+    check(game().status == 2 and game().forfeit == 1, "player 1 forfeits")
+    walk_out(room, bob)
+    check(game().status == 2 and game().forfeit == 1, "a finished game stays")
+    """)
+    # before the game starts a leaver gives up the seat
+    cf(r"""
+    cmd(ann, "start")
+    walk_out(room, ann)
+    check(game().p1 == nil and game().status == 0, "p1 seat freed")
+    cmd(bob, "start")
+    check(has(bob, "You are player 1"), "bob can take it")
+    cmd(cat, "start")
+    walk_out(room, cat)
+    check(game().p1 == "Bob" and game().p2 == nil, "p2 seat freed")
+    walk_out(room, bob)
+    check(game().p1 == nil, "p1 gone")
+    """)
+    # bystanders and a game nobody started are left alone
+    cf(r"""
+    walk_out(room, cat)
+    begin()
+    walk_out(room, cat)
+    check(game().status == 1, "a spectator leaving changes nothing")
+    """)
+
+
+# --- two games in one room (the board and the Hearts table) ----------------------------
+
+BOTH_SETUP = r"""
+local room = new_room()
+local board = new_object_in(room, CF_FILES, CF_LEAVE, { 60, 60 })
+local table_ = new_object_in(room, HEARTS_FILES, HEARTS_LEAVE, { 60, 75 })
+local ann = new_actor(room, "Ann")
+local bob = new_actor(room, "Bob")
+local function cmd(who, c, arg) return type_room(room, who, c, arg) end
+local function cf() return board.globals.cf end
+local function hearts() return table_.globals.hearts end
+local function seated(g) return g and g.players and #g.players or 0 end
+"""
+
+
+def both(scenario: str) -> None:
+    run_lua("060_*_*.lua", BOTH_SETUP + scenario)
+
+
+@needs_lua
+def test_bare_start_asks_which_game_when_both_are_in_the_room():
+    both(r"""
+    check(cmd(ann, "start") == false, "start is answered")
+    check(has(ann, "Start which game?"), "asks which")
+    check(has(ann, "start connectfour") and has(ann, "start hearts"), "options")
+    check(cf() == nil or cf().p1 == nil, "no ConnectFour seat taken")
+    check(hearts() == nil or seated(hearts()) == 0, "no Hearts seat taken")
+    check(#bob.log == 0, "nobody else is told")
+    """)
+
+
+@needs_lua
+def test_start_names_the_game_when_both_are_in_the_room():
+    both(r"""
+    cmd(ann, "start", "hearts")
+    check(hearts().players[1] == "Ann", "start hearts sits at the table")
+    check(has(ann, "starts a new game of Hearts") == false
+        and has(ann, "You are player 1"), "hearts message")
+    check(cf() == nil or cf().p1 == nil, "board untouched")
+    cmd(bob, "start", "connectfour")
+    check(cf().p1 == "Bob", "start connectfour uses the board")
+    check(seated(hearts()) == 1, "table untouched")
+    cmd(ann, "start", "Connect Four")
+    check(cf().p2 == "Ann", "a phrase and capitals work")
+    wipe(ann)
+    check(cmd(ann, "start", "chess") == true, "an unknown game passes through")
+    check(#ann.log == 0, "and says nothing")
+    """)
+    both(r"""
+    cmd(ann, "start", "board")
+    check(cf().p1 == "Ann", "board keyword")
+    cmd(bob, "start", "table")
+    check(hearts().players[1] == "Bob", "table keyword")
+    """)
+
+
+@needs_lua
+def test_start_alone_in_the_room_needs_no_name():
+    cf(r"""
+    cmd(ann, "start")
+    check(game().p1 == "Ann", "bare start works with only the board")
+    cmd(bob, "start", "connectfour")
+    check(game().p2 == "Bob", "naming the game works too")
+    check(cmd(cat, "start", "hearts") == true, "another game's name passes")
+    """)
+    hearts(r"""
+    cmd(P[1], "start")
+    check(game().players[1] == "Ann", "bare start works with only the table")
+    cmd(P[2], "start", "hearts")
+    check(game().players[2] == "Bob", "naming the game works too")
+    check(cmd(eve, "start", "connectfour") == true, "another game's name passes")
+    """)
+
+
+@needs_lua
+def test_both_games_keep_separate_leave_handling():
+    both(r"""
+    cmd(ann, "start", "connectfour")
+    cmd(bob, "start", "hearts")
+    walk_out(room, bob)
+    check(seated(hearts()) == 0, "table emptied")
+    check(cf().p1 == "Ann" and cf().status == 0, "board unaffected")
     """)
 
 
@@ -832,6 +1058,34 @@ def test_hearts_player_leaving_calls_off_the_table():
 
 
 @needs_lua
+def test_hearts_walking_out_calls_the_game_off_at_once():
+    hearts(r"""
+    seat_up()
+    cmd(P[1], "deal")
+    walk_out(room, P[3])
+    check(has(P[1], "Cat has left the table; the Hearts game is called off."),
+        "told at once")
+    check(has(eve, "Cat has left the table; the Hearts game is called off."),
+        "bystanders told")
+    check(#game().players == 0 and game().status == 0, "table cleared now")
+    """)
+    # a seat held while the table is still filling is released too
+    hearts(r"""
+    cmd(P[1], "start")
+    cmd(P[2], "start")
+    walk_out(room, P[2])
+    check(#game().players == 0, "waiting table cleared")
+    """)
+    # a bystander walking out changes nothing
+    hearts(r"""
+    seat_up()
+    walk_out(room, eve)
+    check(#game().players == 4 and game().status == 1, "game stands")
+    check(not has(P[1], "called off"), "no announcement")
+    """)
+
+
+@needs_lua
 def test_hearts_endgame_command_only_acts_on_an_unscored_hand():
     hearts(r"""
     seat_up()
@@ -864,6 +1118,24 @@ def test_every_game_trigger_exists_for_its_dg_script():
     ids = {int(p.name.split("_")[1]) for p in GAME_FILES if p.parent == TRIGGERS}
     # DG #6082 (hearts play) was never converted, so Hearts could not be played at all
     assert {61, 63, 64, 66, 68, 70, 72, 75, 77, 79, 80, 82, 83} <= ids
+    # LEAVE triggers: forfeit / call off the game the moment a player walks out
+    assert {84, 85} <= ids
+
+
+def test_leave_triggers_are_leave_flagged_object_triggers():
+    for name, library in (("060_84_connectfour_leave.lua", "connectfour"),
+                          ("060_85_hearts_leave.lua", "hearts")):
+        text = (TRIGGERS / name).read_text(encoding="utf-8")
+        assert "-- Type: OBJECT, Flags: LEAVE\n" in text, name
+        assert f'require("{library}")' in text, name
+        assert "cmd" not in text.replace("-- ", ""), "LEAVE has no command"
+
+
+def test_leave_triggers_are_attached_to_the_game_objects():
+    from fierylib.importers.object_trigger_linker import EXTRA_ATTACHMENTS
+
+    # legacy vnums: board 6060 and Hearts table 6075 -> triggers 6084 / 6085
+    assert EXTRA_ATTACHMENTS == {6060: [6084], 6075: [6085]}
 
 
 @pytest.mark.skipif(shutil.which("luac5.4") is None, reason="luac not installed")

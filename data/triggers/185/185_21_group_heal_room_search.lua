@@ -6,10 +6,8 @@
 -- to (185_20 stored "group_heal:room") yields the ritual book (185,14)
 -- and advances to stage 4.
 --
--- TODO(parity): the stored room var is a legacy 5-digit room vnum, but
--- self.id may not match that. Either store (zone_id, local_id) in 185_20
--- and compare both fields here, or update the runtime to expose a
--- compatible self.id. Keep in lockstep with 185_20's TODO.
+-- 185_20 stores the room as a legacy 5-digit vnum (zone * 100 + id); this room's
+-- own (zone_id, id) is turned into that number to compare. Keep in lockstep with 185_20.
 
 if not (cmd == "search") then
     return true
@@ -19,7 +17,7 @@ if arg == "s" or arg == "se" then
     return true
 end
 
-if actor:get_quest_stage("group_heal") == 3 and actor:get_quest_var("group_heal:room") == self.id then
+if actor:get_quest_stage("group_heal") == 3 and actor:get_quest_var("group_heal:room") == require("dg").to_vnum(self.zone_id, self.id) then
     self.room:spawn_object(185, 14)
     self.room:send_except(actor, tostring(actor.name) .. " finds " .. tostring(objects.template(185, 14).name) .. "!")
     actor:send("<blue>You have found " .. tostring(objects.template(185, 14).name) .. "!</>")

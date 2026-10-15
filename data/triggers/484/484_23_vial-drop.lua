@@ -10,7 +10,7 @@
 local _return_value = true  -- Default: allow action
 _return_value = true
 if actor:get_quest_stage("doom_entrance") == 5 then
-    if actor.room == 23731 then
+    if (actor.room.zone_id == 237 and actor.room.local_id == 31) then
         self.room:send("The vial of sunlight <b:white>flares brightly!</>")
         wait(2)
         self.room:send("<b:yellow>Sunlight fills the darkened cavern and voices cry out in pain!</>")

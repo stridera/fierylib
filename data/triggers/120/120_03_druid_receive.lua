@@ -42,7 +42,7 @@ if object.type ~= "DRINKCONTAINER" then
 end
 
 -- Druid's home grove (no tree): redirect player.
-if self.room == 12015 then
+if (self.room.zone_id == 120 and self.room.local_id == 15) then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
     self:say("Let us move to one of the mighty Rhells first, friend.")
@@ -62,8 +62,12 @@ if object.val1 == 0 then
     return false  -- legacy return 0: the giver keeps the item
 end
 
+-- Quest variables are keyed by the tree's legacy room number (12016, ...): the journal and
+-- status triggers (4:18, 120:99) read them that way.
+local tree = require("dg").to_vnum(self.room.zone_id, self.room.local_id)
+
 -- This tree already satisfied: refuse.
-if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tostring(self.room)) or 0) == 1 then
+if (actor:get_quest_var("twisted_sorrow:satisfied_tree:" .. tree) or 0) == 1 then
     self.room:send_except(actor, actor.name .. " gives " .. object.shortdesc .. " to " .. self.name .. ".")
     actor:send("You give " .. object.shortdesc .. " to " .. self.name .. ".")
     self:say("This tree is already satisfied, my friend.")
@@ -87,15 +91,15 @@ self:command("stand")
 
 -- Match liquid type to tree (object.val2 = liquid type code).
 local success = false
-if self.room == 12016 and object.val2 == 11 then            -- Tree of Luck: tea
+if (self.room.zone_id == 120 and self.room.local_id == 16) and object.val2 == 11 then            -- Tree of Luck: tea
     success = true
-elseif self.room == 12017 and object.val2 > 0 and object.val2 < 5 then  -- Reverence: alcohol
+elseif (self.room.zone_id == 120 and self.room.local_id == 17) and object.val2 > 0 and object.val2 < 5 then  -- Reverence: alcohol
     success = true
-elseif self.room == 12018 and object.val2 == 0 then          -- Self-reliance: water
+elseif (self.room.zone_id == 120 and self.room.local_id == 18) and object.val2 == 0 then          -- Self-reliance: water
     success = true
-elseif self.room == 12014 and object.val2 == 12 then         -- Nimbleness: coffee
+elseif (self.room.zone_id == 120 and self.room.local_id == 14) and object.val2 == 12 then         -- Nimbleness: coffee
     success = true
-elseif self.room == 12046 and object.val2 == 10 then         -- Kindness: milk
+elseif (self.room.zone_id == 120 and self.room.local_id == 46) and object.val2 == 10 then         -- Kindness: milk
     success = true
 end
 
@@ -115,7 +119,7 @@ end
 
 local num_trees = 1 + (actor:get_quest_var("twisted_sorrow:num_trees") or 0)
 actor:set_quest_var("twisted_sorrow", "num_trees", num_trees)
-actor:set_quest_var("twisted_sorrow", "satisfied_tree:" .. tostring(self.room), 1)
+actor:set_quest_var("twisted_sorrow", "satisfied_tree:" .. tree, 1)
 self.room:send("A deep throbbing hum is emanating from the ground.")
 wait(3)
 self.room:send("The hum gets louder and louder, causing twigs and leaves to dance upon the ground!")

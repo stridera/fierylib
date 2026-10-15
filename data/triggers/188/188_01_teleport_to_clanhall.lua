@@ -19,7 +19,7 @@ if not (cmd == "sneak") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 if arg == "out" then
-    if actor.room ~= 18800 then
+    if not (actor.room.zone_id == 188 and actor.room.local_id == 0) then
         _return_value = false
         self.room:send_except(actor, tostring(actor.name) .. " ducks quietly out of the room.")
         actor:send("Glancing around, you duck quietly out of the room.")

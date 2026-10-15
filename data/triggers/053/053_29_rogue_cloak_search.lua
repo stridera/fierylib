@@ -36,39 +36,39 @@ local cloakstage = actor:get_quest_stage("rogue_cloak")
 local continue
 do
     if (self.zone_id == 2 and self.id == 180) then
-        if actor.room == 13660 and cloakstage == 1 then
+        if (actor.room.zone_id == 136 and actor.room.local_id == 60) and cloakstage == 1 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 181) then
-        if actor.room == 18549 and cloakstage == 2 then
+        if (actor.room.zone_id == 185 and actor.room.local_id == 49) and cloakstage == 2 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 182) then
-        if (actor.room == 59080 or actor.room == 59081) and cloakstage == 3 then
+        if ((actor.room.zone_id == 590 and actor.room.local_id == 80) or (actor.room.zone_id == 590 and actor.room.local_id == 81)) and cloakstage == 3 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 183) then
-        if actor.room == 12626 and cloakstage == 4 then
+        if (actor.room.zone_id == 126 and actor.room.local_id == 26) and cloakstage == 4 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 184) then
-        if actor.room == 16068 and cloakstage == 5 then
+        if (actor.room.zone_id == 160 and actor.room.local_id == 68) and cloakstage == 5 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 185) then
-        if (actor.room == 16215 or actor.room == 16220) and cloakstage == 6 then
+        if ((actor.room.zone_id == 162 and actor.room.local_id == 15) or (actor.room.zone_id == 162 and actor.room.local_id == 20)) and cloakstage == 6 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 186) then
-        if actor.room == 37062 and cloakstage == 7 then
+        if (actor.room.zone_id == 370 and actor.room.local_id == 62) and cloakstage == 7 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 187) then
-        if actor.room == 53103 and cloakstage == 8 then
+        if (actor.room.zone_id == 530 and actor.room.local_id == 103) and cloakstage == 8 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 188) then
-        if actor.room == 48083 and cloakstage == 9 then
+        if (actor.room.zone_id == 480 and actor.room.local_id == 83) and cloakstage == 9 then
             continue = "yes"
         end
     end

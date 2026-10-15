@@ -29,7 +29,7 @@ do
         return _return_value
     end
 end
-if actor:get_quest_stage("monk_vision") > 5 and actor:get_quest_stage("monk_chants") == 3 and actor.level >= 50 and actor.room == 11837 then
+if actor:get_quest_stage("monk_vision") > 5 and actor:get_quest_stage("monk_chants") == 3 and actor.level >= 50 and (actor.room.zone_id == 117 and actor.room.local_id == 137) then
     if actor:has_equipped(2, 195) or actor:has_equipped(2, 196) or actor:has_equipped(2, 197) or actor:has_equipped(2, 198) or actor:has_equipped(2, 199) then
         if actor.is_fighting then
             actor:send("<magenta>You cannot properly focus while fighting!</>")

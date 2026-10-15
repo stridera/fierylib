@@ -7,10 +7,8 @@
 
 -- Converted from DG Script #48420: wild-hunt death
 -- Original: MOB trigger, flags: GLOBAL, DEATH, probability: 100%
--- TODO(parity): self.id checks compare numeric legacy vnums (55244 etc.)
---   against the new (zone_id, local_id) keying — the equality will never
---   match. The 55214 branch also calls `room:at(...)` on a numeric `room`,
---   which will runtime-error. Needs full rewrite once zone 552 is mapped.
+-- The 55214 branch (a normal deer) puts two more deer in random rooms of zone 552 through
+-- get_room(552, 11..92) + room:at (legacy `at 55211..55292`).
 local _return_value = true  -- Default: allow action
 -- If this deer is the white hart, load the spirit of the white
 -- hart who runs away from the questor.
@@ -24,14 +22,15 @@ if (self.zone_id == 552 and self.id == 44) then
     end
 elseif (self.zone_id == 552 and self.id == 14) then
     if actor:get_quest_stage("doom_entrance") == 1 then
-        local room = 55210 + random(1, 82)
-        room:at(function()
-            self.room:spawn_mobile(552, 14)
-        end)
-        local room = 55210 + random(1, 82)
-        room:at(function()
-            self.room:spawn_mobile(552, 14)
-        end)
+        -- Two more deer, each in a random room of 552:11-92 (legacy rooms 55211-55292).
+        for _ = 1, 2 do
+            local room = get_room(552, random(11, 92))
+            if room then
+                room:at(function()
+                    self.room:spawn_mobile(552, 14)
+                end)
+            end
+        end
     end
 elseif (self.zone_id == 552 and self.id == 45) then
     local i = actor.group_size

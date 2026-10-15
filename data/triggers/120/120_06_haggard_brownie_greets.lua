@@ -7,7 +7,7 @@
 
 -- Converted from DG Script #12006: Haggard brownie greets
 -- Original: MOB trigger, flags: GREET, probability: 100%
-if actor.is_player and self.room == 12103 then
+if actor.is_player and (self.room.zone_id == 120 and self.room.local_id == 103) then
     wait(0.3)
     self:emote("looks at you with desperation.")
     wait(0.8)

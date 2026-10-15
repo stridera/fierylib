@@ -42,39 +42,39 @@ local pendantstage = actor:get_quest_stage("paladin_pendant")
 local continue
 do
     if (self.zone_id == 2 and self.id == 160) then
-        if actor.room == 5479 and pendantstage == 1 then
+        if (actor.room.zone_id == 54 and actor.room.local_id == 79) and pendantstage == 1 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 161) then
-        if (actor.room == 17345 or actor.room == 17346 or actor.room == 17351 or actor.room == 17352) and pendantstage == 2 then
+        if ((actor.room.zone_id == 173 and actor.room.local_id == 45) or (actor.room.zone_id == 173 and actor.room.local_id == 46) or (actor.room.zone_id == 173 and actor.room.local_id == 51) or (actor.room.zone_id == 173 and actor.room.local_id == 52)) and pendantstage == 2 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 162) then
-        if actor.room == 49516 and pendantstage == 3 then
+        if (actor.room.zone_id == 495 and actor.room.local_id == 16) and pendantstage == 3 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 163) then
-        if actor.room == 2408 and pendantstage == 4 then
+        if (actor.room.zone_id == 23 and actor.room.local_id == 108) and pendantstage == 4 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 164) then
-        if actor.room == 55105 and pendantstage == 5 then
+        if (actor.room.zone_id == 551 and actor.room.local_id == 5) and pendantstage == 5 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 165) then
-        if actor.room == 53159 and pendantstage == 6 then
+        if (actor.room.zone_id == 530 and actor.room.local_id == 159) and pendantstage == 6 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 166) then
-        if actor.room == 58424 and pendantstage == 7 then
+        if (actor.room.zone_id == 584 and actor.room.local_id == 24) and pendantstage == 7 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 167) then
-        if actor.room == 48032 and pendantstage == 8 then
+        if (actor.room.zone_id == 480 and actor.room.local_id == 32) and pendantstage == 8 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 168) then
-        if actor.room == 48880 and pendantstage == 9 then
+        if (actor.room.zone_id == 488 and actor.room.local_id == 80) and pendantstage == 9 then
             continue = "yes"
         end
     end

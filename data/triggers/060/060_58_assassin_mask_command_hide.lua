@@ -36,39 +36,39 @@ local maskstage = actor:get_quest_stage("assassin_mask")
 local continue
 do
     if (self.zone_id == 2 and self.id == 150) then
-        if (actor.room >= 5436 and actor.room <= 5440) and maskstage == 1 then
+        if (actor.room.zone_id == 54 and actor.room.local_id >= 36 and actor.room.local_id <= 40) and maskstage == 1 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 151) then
-        if (actor.room >= 16165 and actor.room <= 16173) and maskstage == 2 then
+        if (actor.room.zone_id == 161 and actor.room.local_id >= 65 and actor.room.local_id <= 73) and maskstage == 2 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 152) then
-        if (actor.room >= 23711 and actor.room <= 23715) and maskstage == 3 then
+        if (actor.room.zone_id == 237 and actor.room.local_id >= 11 and actor.room.local_id <= 15) and maskstage == 3 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 153) then
-        if actor.room == 16087 and maskstage == 4 then
+        if (actor.room.zone_id == 160 and actor.room.local_id == 87) and maskstage == 4 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 154) then
-        if actor.room == 51023 and maskstage == 5 then
+        if (actor.room.zone_id == 510 and actor.room.local_id == 23) and maskstage == 5 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 155) then
-        if ((actor.room >= 48191 and actor.room <= 48196) or (actor.room >= 48225 and actor.room <= 48232)) and maskstage == 6 then
+        if (actor.room.zone_id == 481 and ((actor.room.local_id >= 91 and actor.room.local_id <= 96) or (actor.room.local_id >= 125 and actor.room.local_id <= 132))) and maskstage == 6 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 156) then
-        if actor.room == 4064 and maskstage == 7 then
+        if (actor.room.zone_id == 40 and actor.room.local_id == 64) and maskstage == 7 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 157) then
-        if actor.room == 48045 and maskstage == 8 then
+        if (actor.room.zone_id == 480 and actor.room.local_id == 45) and maskstage == 8 then
             continue = "yes"
         end
     elseif (self.zone_id == 2 and self.id == 158) then
-        if actor.room == 52046 and maskstage == 9 then
+        if (actor.room.zone_id == 520 and actor.room.local_id == 46) and maskstage == 9 then
             continue = "yes"
         end
     end

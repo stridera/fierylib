@@ -41,13 +41,13 @@ end
 if topic == "training" or topic == "yes" then
     self.room:send(tostring(self.name) .. " says, 'Sure, I can help you improve just about any necessary martial")
     self.room:send("</>talent.  But remember, I can't teach you skills you don't already know.'")
-    -- (empty room echo)
+    self.room:send("</>")
     self.room:send("</>Just ask me about a skill, and I'll give you a quote:")
-    -- (empty room echo)
+    self.room:send("</>")
     self.room:send("</>2H bludgeoning weapons, 2H piercing weapons, 2H slashing weapons, barehand,")
     self.room:send("</>bash, battle howl, berserk, disarm, dodge, first aid, ground shaker, guard,")
-    self.room:send("</>hitall, kick, maul, mount, parry, rescue, riding, riposte, roundhouse, safefall,")
-    self.room:send("</>springleap, tame, tantrum.")
+    self.room:send("</>hitall, kick, maul, mount, parry, rescue, riding, riposte, roundhouse,")
+    self.room:send("</>safefall, springleap, tame, tantrum.")
     wait(2)
     self:say("Feel free to ask me about one of them and I'll give you a price.")
     return _return_value

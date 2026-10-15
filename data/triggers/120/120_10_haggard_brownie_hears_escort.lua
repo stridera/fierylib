@@ -22,7 +22,7 @@ if not speech_hit then
 end
 -- Remember who is escorting us so trigger 120-21 can hand out the reward.
 globals.rescuer = actor
-if self.room ~= 12103 and self.room ~= 12095 and self.room ~= 12030 then
+if not (self.room.zone_id == 120 and self.room.local_id == 103) and not (self.room.zone_id == 120 and self.room.local_id == 95) and not (self.room.zone_id == 120 and self.room.local_id == 30) then
     wait(0.4)
     self:follow(actor)
 end

@@ -221,6 +221,13 @@ end
 
 local function trim(s) return s:match("^%s*(.-)%s*$") end
 
+-- What to type after `start` to pick this game when a ConnectFour board
+-- (60:60) shares the room.
+local KEYWORDS = {
+    hearts = true, heart = true, ["hearts-table"] = true, table = true,
+    cards = true,
+}
+
 -- Wrap a command so it runs against the stored game and writes it back.
 local function command(fn)
     return function(globals, room, actor, arg, rand)
@@ -239,7 +246,7 @@ local function command(fn)
     end
 end
 
-M.start = command(function(g, room, actor)
+local start_game = command(function(g, room, actor)
     if g.status ~= 0 then
         actor:send("The game has already started.  "
             .. "You must wait for it to finish.")
@@ -271,6 +278,27 @@ M.start = command(function(g, room, actor)
     end
     return false
 end)
+
+-- `start` takes a seat. With a ConnectFour board in the room too, `start
+-- hearts` picks this table, `start connectfour` is left to the board, and a
+-- bare `start` asks which. Alone in the room, a bare `start` just works.
+function M.start(globals, room, actor, arg, rand)
+    local words = trim(string.lower(arg or ""))
+    if words ~= "" then
+        for word in words:gmatch("%S+") do
+            if KEYWORDS[word] then
+                return start_game(globals, room, actor, arg, rand)
+            end
+        end
+        return true
+    end
+    if room:get_objects(60, 60) then
+        actor:send("Start which game?  Type 'start connectfour' or "
+            .. "'start hearts'.")
+        return false
+    end
+    return start_game(globals, room, actor, arg, rand)
+end
 
 M.deal = command(function(g, room, actor, arg, rand)
     local me = seat_of(g, actor.name)
@@ -392,5 +420,20 @@ M.endgame = command(function(g, room, actor)
     M.finish_hand(g, room)
     return false
 end)
+
+-- A LEAVE trigger on the table: `actor` is walking out and is still in the
+-- room, so a seated player calls the game off at once instead of at the next
+-- game command. Always lets them go. (Leaving by other means, such as a
+-- teleport, is still settled lazily by `command`.)
+function M.leave(globals, room, actor)
+    local g = M.state(globals)
+    if seat_of(g, actor.name) then
+        room:send(actor.name .. " has left the table; the Hearts game "
+            .. "is called off.")
+        clear(g)
+    end
+    globals.hearts = g
+    return true
+end
 
 return M

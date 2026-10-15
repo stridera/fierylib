@@ -91,6 +91,26 @@ env.actor = entity("actor", {name = "Tester", level = 60, class = "warrior", is_
   {get_quest_stage = function() return "stage" end, get_quest_var = function() return "dead" end})
 """
 
+# Druid 120:18 receiving a cup (val1 contents, val2 liquid) in room @ZONE@:@ROOM@.
+DRUID_SETUP = """
+local here = entity("room", {zone_id = @ZONE@, id = @ROOM@, local_id = @ROOM@})
+env.self = entity("self", {name = "the druid", room = here})
+env.actor = entity("actor", {name = "Tester", level = 20, class = "warrior", is_player = true},
+  {get_quest_stage = function() return 1 end,
+   get_quest_var = function(k) if k == "twisted_sorrow:num_trees" then return 0 end end})
+env.object = entity("object", {shortdesc = "a cup", type = "DRINKCONTAINER", val1 = 3, val2 = @LIQUID@})
+"""
+
+# A WORLD trigger: `self` is the room the player searches in; the stored room is a legacy number.
+SEARCH_SETUP = """
+local here = entity("room", {zone_id = @ZONE@, id = @ROOM@, local_id = @ROOM@})
+env.cmd = "search"
+env.self = entity("self", {name = "a room", room = here})
+env.actor = entity("actor", {name = "Tester", room = here},
+  {get_quest_stage = function() return 6 end,
+   get_quest_var = function(k) if k == "major_globe_spell:room" then return @STORED@ end end})
+"""
+
 SCENARIOS = [
     # P1 + P2: object 3080 is now (30, 80); stage/go are assigned in the branch and read after it.
     Scenario(
@@ -200,6 +220,57 @@ SCENARIOS = [
         """,
         must=["in a place to perform."],
         must_not=["is nil"],
+    ),
+    # Handle vs number: DG compared %self.room% with a room vnum; `self.room` is a room handle.
+    Scenario(
+        "120_03 druid refuses in his home grove 120:15",
+        "120/120_03_druid_receive.lua",
+        DRUID_SETUP.replace("@ZONE@", "120").replace("@ROOM@", "15").replace("@LIQUID@", "0"),
+        must=["Let us move to one of the mighty Rhells first, friend."],
+        must_not=["peers into", "pours out"],
+    ),
+    Scenario(
+        "120_03 druid accepts water at the Tree of Self-Reliance 120:18",
+        "120/120_03_druid_receive.lua",
+        DRUID_SETUP.replace("@ZONE@", "120").replace("@ROOM@", "18").replace("@LIQUID@", "0"),
+        must=["A deep throbbing hum is emanating from the ground.",
+              "actor.set_quest_var:twisted_sorrow|satisfied_tree:12018|1",
+              "actor.set_quest_var:twisted_sorrow|num_trees|1"],
+        must_not=["The tree is not responding", "Let us move"],
+    ),
+    Scenario(
+        "120_03 druid rejects milk at the Tree of Self-Reliance",
+        "120/120_03_druid_receive.lua",
+        DRUID_SETUP.replace("@ZONE@", "120").replace("@ROOM@", "18").replace("@LIQUID@", "10"),
+        must=["The tree is not responding."],
+        must_not=["A deep throbbing hum"],
+    ),
+    Scenario(
+        "120_03 druid accepts milk at the Tree of Kindness 120:46",
+        "120/120_03_druid_receive.lua",
+        DRUID_SETUP.replace("@ZONE@", "120").replace("@ROOM@", "46").replace("@LIQUID@", "10"),
+        must=["A deep throbbing hum is emanating from the ground.",
+              "satisfied_tree:12046|1"],
+        must_not=["The tree is not responding"],
+    ),
+    Scenario(
+        "120_03 a room 12018 in another zone is not the tree",
+        "120/120_03_druid_receive.lua",
+        DRUID_SETUP.replace("@ZONE@", "121").replace("@ROOM@", "18").replace("@LIQUID@", "0"),
+        must=["The tree is not responding."],
+    ),
+    # Quest variables hold the legacy room number; the room handle is turned into it to compare.
+    Scenario(
+        "534_55 search finds the globe component in the stored room 169:3",
+        "534/534_55_major_globe_command_search.lua",
+        SEARCH_SETUP.replace("@ZONE@", "169").replace("@ROOM@", "3").replace("@STORED@", "16903"),
+        must=["finds"],
+    ),
+    Scenario(
+        "534_55 search finds nothing in another room",
+        "534/534_55_major_globe_command_search.lua",
+        SEARCH_SETUP.replace("@ZONE@", "169").replace("@ROOM@", "4").replace("@STORED@", "16903"),
+        must_not=["finds"],
     ),
 ]
 

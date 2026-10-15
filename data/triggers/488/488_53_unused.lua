@@ -35,7 +35,7 @@ for _, person in ipairs(self:get_people()) do
         self.room:send_except(person, "Lightning crackles around the Stormchild as she points a finger at " .. tostring(person.name) .. ".")
         person:send("Lightning crackles around the Stormchild as she points a finger at you!")
         wait(2)
-        if person and (person.room == 48851) then
+        if person and ((person.room.zone_id == 488 and person.room.local_id == 51)) then
             local damage_dealt = person:damage(damage)  -- type: shock
             person:send("The lightning overloads, flowing into a shocking blast flowing straight for you!")
             self.room:send_except(person, "The lightning overloads, flowing into a shocking blast flowing straight for " .. tostring(person.name) .. "!")
