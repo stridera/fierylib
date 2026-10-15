@@ -11,10 +11,10 @@
 -- match" (the % is ignored for SPEECH); the converter's percent_chance(0)
 -- gate would have made the script unreachable, so it has been removed.
 
--- Speech keywords: Lirne sends me
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "lirne") or string.find(string.lower(speech), "sends") or string.find(string.lower(speech), "me")) then
-    return true  -- No matching keywords
+-- Speech phrase: Lirne sends me (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]lirne sends me[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.1)
 if actor:get_quest_stage("major_globe_spell") == 1 then

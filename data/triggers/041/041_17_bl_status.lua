@@ -11,10 +11,10 @@
 --
 -- Original DG Script: #4117
 
--- Speech keywords: faction status
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "faction") or string.find(speech_lower, "status")) then
-    return true  -- No matching keywords
+-- Speech phrase: faction status (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]faction status[%s%p]") then
+    return true  -- Not the phrase
 end
 if actor:get_quest_var("Black_Legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You are pledged to the Black Legion.'")

@@ -10,9 +10,17 @@
 --
 -- Original DG Script: #36403
 
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "yes") or string.find(speech_lower, "willing") or string.find(speech_lower, "sure") or string.find(speech_lower, "okay")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "willing", "sure", "okay"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if ((string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level > 56) and actor:get_quest_stage("illusory_wall") == 0 then
     actor:start_quest("illusory_wall")

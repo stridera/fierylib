@@ -8,8 +8,9 @@
 -- Converted from DG Script #51902: academy_instructor_hello_class
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
 
--- Speech phrase: hello class (the DG arg 0 is "contains the phrase", not a chance)
-if not string.find(string.lower(speech), "hello class", 1, true) then
+-- Speech phrase: hello class (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]hello class[%s%p]") then
     return true  -- Not the phrase
 end
 if actor:get_quest_var("school:speech") == 1 then

@@ -8,10 +8,17 @@
 -- Converted from DG Script #1898: experience_trigger_STRIP_ON_FOUR_k
 -- Original: WORLD trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: upme
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "upme")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"upme"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 actor:award_exp(100000)
 actor:award_exp(100000)

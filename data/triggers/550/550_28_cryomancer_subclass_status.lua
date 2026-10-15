@@ -11,8 +11,9 @@
 -- Converted from DG Script #55028: cryomancer_subclass_status
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "subclass progress", 1, true) then
+-- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]subclass progress[%s%p]") then
     return true  -- Not the phrase
 end
 -- switch on actor:get_quest_stage("cryomancer_subclass")

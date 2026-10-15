@@ -8,10 +8,17 @@
 -- Converted from DG Script #3165: Calken trainer speech
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: training yes 2H dodge parry riposte hitall barehand bash disarm first guard kick mount rescue riding safefall springleap tame tantrum maul berserk ground battle roundhouse
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "training") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "2h") or string.find(string.lower(speech), "dodge") or string.find(string.lower(speech), "parry") or string.find(string.lower(speech), "riposte") or string.find(string.lower(speech), "hitall") or string.find(string.lower(speech), "barehand") or string.find(string.lower(speech), "bash") or string.find(string.lower(speech), "disarm") or string.find(string.lower(speech), "first") or string.find(string.lower(speech), "guard") or string.find(string.lower(speech), "kick") or string.find(string.lower(speech), "mount") or string.find(string.lower(speech), "rescue") or string.find(string.lower(speech), "riding") or string.find(string.lower(speech), "safefall") or string.find(string.lower(speech), "springleap") or string.find(string.lower(speech), "tame") or string.find(string.lower(speech), "tantrum") or string.find(string.lower(speech), "maul") or string.find(string.lower(speech), "berserk") or string.find(string.lower(speech), "ground") or string.find(string.lower(speech), "battle") or string.find(string.lower(speech), "roundhouse")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"training", "yes", "2h", "dodge", "parry", "riposte", "hitall", "barehand", "bash", "disarm", "first", "guard", "kick", "mount", "rescue", "riding", "safefall", "springleap", "tame", "tantrum", "maul", "berserk", "ground", "battle", "roundhouse"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 -- make sure they have a quest record for saving variables

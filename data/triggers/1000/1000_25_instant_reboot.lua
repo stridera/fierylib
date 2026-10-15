@@ -10,10 +10,10 @@
 --               diagnostic should remain disabled, remove it from the room's
 --               script list rather than gating here.
 
--- Speech keywords: "reboot now" (both required)
-local s = string.lower(speech)
-if not (string.find(s, "reboot") and string.find(s, "now")) then
-    return true
+-- Speech phrase: reboot now (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]reboot now[%s%p]") then
+    return true  -- Not the phrase
 end
 
 self.room:send(tostring(get_room(30, 54).actor_count))

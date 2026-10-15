@@ -8,8 +8,9 @@
 -- Converted from DG Script #12302: priestess_speech2
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 0%
 
--- Speech phrase: great rite (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "great rite", 1, true) then
+-- Speech phrase: great rite (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]great rite[%s%p]") then
     return true  -- Not the phrase
 end
 -- (the converter compared against upper-case text; `speech` is lower-case)

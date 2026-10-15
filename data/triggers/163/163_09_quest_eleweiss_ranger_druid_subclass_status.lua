@@ -8,9 +8,10 @@
 -- Player asks Eleweiss for "subclass progress" — replays the stage-appropriate
 -- prompt, or scolds them off if they're not eligible at all.
 
-local sl = string.lower(speech)
-if not (string.find(sl, "subclass") or string.find(sl, "progress")) then
-    return true
+-- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]subclass progress[%s%p]") then
+    return true  -- Not the phrase
 end
 
 wait(0.2)

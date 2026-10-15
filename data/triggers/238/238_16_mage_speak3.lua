@@ -7,26 +7,21 @@
 -- spawns and gifts the glowing key (238:16). On a wrong answer the Tempest
 -- is respawned and the player must banish it again for another attempt.
 
--- Speech keywords: barbarian human half-elf half-elven halfling gnome sorcerer
 -- cleric warrior rogue mercenary bugs bug dragons dragon orcs orc demons demon undead
+
 local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "barbarian")
-    or string.find(speech_lower, "human")
-    or string.find(speech_lower, "half-elf")
-    or string.find(speech_lower, "half-elven")
-    or string.find(speech_lower, "halfling")
-    or string.find(speech_lower, "gnome")
-    or string.find(speech_lower, "sorcerer")
-    or string.find(speech_lower, "cleric")
-    or string.find(speech_lower, "warrior")
-    or string.find(speech_lower, "rogue")
-    or string.find(speech_lower, "mercenary")
-    or string.find(speech_lower, "bug")
-    or string.find(speech_lower, "dragon")
-    or string.find(speech_lower, "orc")
-    or string.find(speech_lower, "demon")
-    or string.find(speech_lower, "undead")) then
-    return true  -- No matching keywords
+
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"barbarian", "human", "half-elf", "half-elven", "halfling", "gnome", "sorcerer", "cleric", "warrior", "rogue", "mercenary", "bugs", "bug", "dragons", "dragon", "orcs", "orc", "demons", "demon", "undead"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if not globals.question then
     return true  -- No question pending

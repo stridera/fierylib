@@ -11,9 +11,10 @@
 -- forward to it. Repeats Emmath's monologue for each stage so players
 -- can re-read where they're at.
 
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "subclass") or string.find(speech_lower, "progress")) then
-    return true
+-- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]subclass progress[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 -- switch on actor:get_quest_stage("pyromancer_subclass")

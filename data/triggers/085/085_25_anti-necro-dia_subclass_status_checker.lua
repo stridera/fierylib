@@ -11,10 +11,10 @@
 -- Converted from DG Script #8525: Anti-Necro-Dia subclass status checker
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: subclass progress
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "subclass") or string.find(speech_lower, "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]subclass progress[%s%p]") then
+    return true  -- Not the phrase
 end
 local stage = actor:get_quest_stage("nec_anti_dia_subclass")
 if stage == 1 then

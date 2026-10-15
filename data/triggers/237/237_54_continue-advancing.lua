@@ -8,10 +8,17 @@
 -- Converted from DG Script #23754: continue-advancing
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: continue
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "continue") then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"continue"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 -- OK, this is in two parts.  It represents the player wishing to
 -- continue the quest rather than stopping and accepting

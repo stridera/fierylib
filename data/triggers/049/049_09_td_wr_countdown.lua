@@ -10,8 +10,9 @@
 --   "TDCommand Countdown T<team>T P<pylon>P"
 -- when a team starts a capture attempt. This trigger gossips it world-wide.
 
--- Speech phrase: TDCommand Countdown (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "tdcommand countdown", 1, true) then
+-- Speech phrase: tdcommand countdown (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]tdcommand countdown[%s%p]") then
     return true  -- Not the phrase
 end
 

@@ -11,13 +11,10 @@
 -- here so the SPEECH match can fire normally. Keyword set is the original
 -- "what am I doing?" prompt - require all four word fragments to appear.
 
--- Speech keywords: what am I doing?
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "what")
-        and string.find(speech_lower, "am")
-        and string.find(speech_lower, "i")
-        and string.find(speech_lower, "doing")) then
-    return true  -- No matching keywords
+-- Speech phrase: what am I doing? (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]what am i doing[%s%p]") then
+    return true  -- Not the phrase
 end
 local stage = actor:get_quest_stage("sacred_haven")
 local light = actor:get_quest_var("sacred_haven:given_light")

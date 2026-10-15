@@ -8,13 +8,17 @@
 -- Converted from DG Script #30213: banish_murgbol_speech1
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes sure yep okay yeah cool good
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "yes") or string.find(speech_lower, "sure")
-        or string.find(speech_lower, "yep") or string.find(speech_lower, "okay")
-        or string.find(speech_lower, "yeah") or string.find(speech_lower, "cool")
-        or string.find(speech_lower, "good")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "yes?", "sure", "yep", "okay", "yeah", "cool", "good"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 local stage = actor:get_quest_stage("banish")

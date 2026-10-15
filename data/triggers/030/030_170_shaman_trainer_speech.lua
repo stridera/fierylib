@@ -8,10 +8,17 @@
 -- Converted from DG Script #3170: shaman trainer speech
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
--- Speech keywords: training yes spell sphere chant scribe meditate vampiric breathe perform
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "training") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "sphere") or string.find(string.lower(speech), "chant") or string.find(string.lower(speech), "scribe") or string.find(string.lower(speech), "meditate") or string.find(string.lower(speech), "vampiric") or string.find(string.lower(speech), "breathe") or string.find(string.lower(speech), "perform")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"training", "yes", "spell", "sphere", "chant", "scribe", "meditate", "vampiric", "breathe", "perform"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 -- make sure they have a quest record for saving variables

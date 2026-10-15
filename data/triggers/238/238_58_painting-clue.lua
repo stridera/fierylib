@@ -6,10 +6,17 @@
 -- magic is active reveals the dragons-and-sorcerer clue. Otherwise the
 -- painting just rambles in arcane language.
 
--- Speech keywords: yes quest quest?
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "yes") or string.find(speech_lower, "quest")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "quest", "quest?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor:has_effect(Effect.DetectMagic) then
     actor:send("The painting sighs. 'Yes, someone painted over the pentagram here.  Most unfortunate.  The clue read, \"The one who fought dragons stood to the right of the sorcerer\".'")

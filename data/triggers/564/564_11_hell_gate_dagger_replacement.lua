@@ -11,10 +11,12 @@
 -- bring back. The original DG's 0% probability was a quirk; speech
 -- match is the actual gate, so we ignore the probability column.
 
--- Speech keyword: "I need a new dagger" (full phrase match — partial
 -- matches over single words like "I" or "a" would over-fire).
-if not string.find(string.lower(speech), "i need a new dagger") then
-    return true
+
+-- Speech phrase: i need a new dagger (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i need a new dagger[%s%p]") then
+    return true  -- Not the phrase
 end
 
 wait(0.2)

@@ -14,11 +14,17 @@
 -- Necromancer askers; "degeneration" / fallback hint live below in a
 -- separate top-level branch. Verify against DG #6201 source if available.
 
--- Speech keywords: shift corpse degeneration
-if not (string.find(string.lower(speech), "shift")
-        or string.find(string.lower(speech), "corpse")
-        or string.find(string.lower(speech), "degeneration")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"shift", "shift?", "corpse", "corpse?", "degeneration", "degeneration?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if string.find(self.class, "necromancer") then

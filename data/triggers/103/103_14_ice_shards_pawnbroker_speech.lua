@@ -9,9 +9,10 @@
 -- bribe (handled by 103_15). Otherwise he warns them off.
 -- DG narg=0 = substring speech match.
 
-local s = string.lower(speech)
-if not string.find(s, "butcher") then
-    return true
+-- Speech phrase: butcher (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]butcher[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 if actor:get_quest_stage("ice_shards") == 4 then

@@ -11,10 +11,10 @@
 -- ran on keyword match -- the converter's percent_chance(0) gate has
 -- been removed.
 
--- Speech keywords: faction status
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "faction") or string.find(string.lower(speech), "status")) then
-    return true  -- No matching keywords
+-- Speech phrase: faction status (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]faction status[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 if actor:get_quest_var("Black_Legion:bl_ally") then

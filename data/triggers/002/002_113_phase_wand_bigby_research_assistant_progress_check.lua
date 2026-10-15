@@ -12,9 +12,18 @@
 -- (zone, id) pairs below pass the basic-wand template directly which
 -- yields a name with article — accept that minor cosmetic regression
 -- until a `noadesc` helper is exposed.
-local lower = string.lower(speech or "")
-if not (string.find(lower, "progress", 1, true) or string.find(lower, "status", 1, true)) then
-    return true
+
+-- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech or "") .. " "
+local speech_hit = false
+for _, w in ipairs({"progress", "status"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 local weapon = "wand"

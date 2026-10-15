@@ -8,10 +8,17 @@
 -- Converted from DG Script #12339: east_exposition
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
--- Speech keywords: who continue
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "who") or string.find(string.lower(speech), "continue")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"who", "continue"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if (string.find(speech, "who are you") or string.find(speech, "continue")) and actor.is_player then
     wait(0.2)

@@ -7,10 +7,17 @@
 -- Converted from DG Script #6010: quest_timulous_yesno
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes no
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "no")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "no"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 25) then

@@ -12,13 +12,17 @@
 --
 -- Original DG Script: #6206
 
-if not (string.find(string.lower(speech), "phalya")
-        or string.find(string.lower(speech), "phayla")
-        or string.find(string.lower(speech), "lamp")
-        or string.find(string.lower(speech), "help")
-        or string.find(string.lower(speech), "information")
-        or string.find(string.lower(speech), "clue")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"phalya", "lamp", "help?", "help", "lamp?", "phayla?", "phayla", "information", "information?", "clue", "clue?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor:get_quest_stage("supernova") == 2 and (actor:has_item(489, 17) or actor:has_equipped(489, 17)) then
     actor:advance_quest("supernova")

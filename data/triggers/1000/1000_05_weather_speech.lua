@@ -6,9 +6,17 @@
 -- Original DG Script: #5
 -- Saying "weather" reveals a hidden door to the north into another zone.
 
--- Speech keyword: weather
-if not string.find(string.lower(speech), "weather") then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"weather"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 get_room(12, 10):exit("n"):set_state({hidden = false})

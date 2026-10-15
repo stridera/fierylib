@@ -10,8 +10,10 @@
 -- Player says "I lost my map" — dryad redraws a fresh stage-appropriate map
 -- and hands it over.
 
-if not string.find(string.lower(speech), "i lost my map") then
-    return true
+-- Speech phrase: i lost my map (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i lost my map[%s%p]") then
+    return true  -- Not the phrase
 end
 
 wait(0.2)

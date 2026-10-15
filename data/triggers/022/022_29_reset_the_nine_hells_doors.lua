@@ -8,8 +8,9 @@
 -- Converted from DG Script #2229: RESET THE NINE HELLS DOORS
 -- Original: WORLD trigger, flags: SPEECH, probability: 0%
 
--- Speech phrase: Restart the Nine Hells quest. (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "restart the nine hells quest.", 1, true) then
+-- Speech phrase: restart the nine hells quest. (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]restart the nine hells quest[%s%p]") then
     return true  -- Not the phrase
 end
 get_room(22, 1):exit("down"):set_state({hidden = true})

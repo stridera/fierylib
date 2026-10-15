@@ -13,13 +13,17 @@
 -- TODO: legacy vnum dispatch (39013-39020) — replace with self.local_id
 -- once the spirits' (zone, id) tuples are confirmed.
 
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "stolen")
-        or string.find(speech_lower, "revenge")
-        or string.find(speech_lower, "destroy")
-        or string.find(speech_lower, "flood")
-        or string.find(speech_lower, "return")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"stolen", "revenge", "destroy", "flood", "return"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 if actor:get_quest_stage("flood") == 1 then

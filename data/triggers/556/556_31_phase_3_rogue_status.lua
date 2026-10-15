@@ -12,8 +12,9 @@
 -- scripts (zones 553-555) still write placeholder keys, so progress only shows here once
 -- those are fixed.
 
--- Speech phrase: status (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "status", 1, true) then
+-- Speech phrase: status (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]status[%s%p]") then
     return true  -- Not the phrase
 end
 local actor_class = string.lower(actor.class or "")

@@ -3,15 +3,16 @@
 -- Type: WORLD, Flags: SPEECH
 --
 -- Original DG Script: #51000
--- Speech keywords: "floor phrase is"
 -- Validates the spoken phrase against the random `chosen` index set by
 -- 510_02 (set_encrytped_phrase) and, on match, briefly opens the down
 -- exit from room 51030 to room 51075.
 
--- Speech keywords: "floor phrase is"
 local speech_lower = string.lower(speech or "")
-if not string.find(speech_lower, "floor phrase is") then
-    return true
+
+-- Speech phrase: floor phrase is (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech or "") .. " "
+if not string.find(speech_padded, "[%s%p]floor phrase is[%s%p]") then
+    return true  -- Not the phrase
 end
 
 -- Switch on the global `chosen` index (set when the player entered the

@@ -8,10 +8,17 @@
 -- Converted from DG Script #50203: Diplomat replies to 'accident'
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: accident accident?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "accident") or string.find(string.lower(speech), "accident?")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"accident", "accident?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 self.room:send(tostring(self.name) .. " says, 'Yes, the horrible storm that wrecked our ships.")

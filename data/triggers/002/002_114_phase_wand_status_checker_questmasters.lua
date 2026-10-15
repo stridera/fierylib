@@ -24,9 +24,10 @@
 -- Until the lookup helpers are exposed, this trigger emits a generic
 -- response so the player can still chat with the questmaster.
 
-local lower = string.lower(speech or "")
-if not (string.find(lower, "wand", 1, true) or string.find(lower, "progress", 1, true)) then
-    return true
+-- Speech phrase: wand progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech or "") .. " "
+if not string.find(speech_padded, "[%s%p]wand progress[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor.class ~= "sorcerer" and actor.class ~= "cryomancer" and actor.class ~= "pyromancer"

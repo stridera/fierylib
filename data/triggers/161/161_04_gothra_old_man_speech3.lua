@@ -9,9 +9,17 @@
 -- youthful adventures, including catching a giant scorpion -- a hint that
 -- pairs with the "scorpion" speech trigger.
 
--- Speech keyword: trouble
-if not string.find(string.lower(speech), "trouble") then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"trouble"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 self:command("nod " .. tostring(actor.name))
 self:say("Yes I said trouble, kids today, why when I was your age I was taming the realms! And I even caught me a giant scorpion!")

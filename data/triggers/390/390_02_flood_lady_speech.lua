@@ -9,12 +9,17 @@
 -- recruited as her Envoy: she starts the quest, gives them the heart-ocean
 -- (390:0), and tells them the eight Great Waters to rally.
 
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "flood")
-        or string.find(speech_lower, "help")
-        or string.find(speech_lower, "how")
-        or string.find(speech_lower, "why")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"flood", "help?", "help", "flood?", "how?", "how", "why?", "why"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 wait(0.2)

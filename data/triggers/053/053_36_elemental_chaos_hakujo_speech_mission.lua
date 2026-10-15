@@ -12,10 +12,17 @@
 -- Converted from DG Script #5336: Elemental Chaos Hakujo speech mission
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: news update updates mission
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "news") or string.find(string.lower(speech), "update") or string.find(string.lower(speech), "updates") or string.find(string.lower(speech), "mission")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"news", "update", "updates", "mission"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if actor:get_has_completed("elemental_chaos") then

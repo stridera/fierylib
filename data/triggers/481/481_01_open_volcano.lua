@@ -8,8 +8,9 @@
 -- Converted from DG Script #48101: open_volcano
 -- Original: WORLD trigger, flags: SPEECH, probability: 0%
 
--- Speech phrase: buntoi nakkarri karisto (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "buntoi nakkarri karisto", 1, true) then
+-- Speech phrase: buntoi nakkarri karisto (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]buntoi nakkarri karisto[%s%p]") then
     return true  -- Not the phrase
 end
 get_room(481, 48):at(function()

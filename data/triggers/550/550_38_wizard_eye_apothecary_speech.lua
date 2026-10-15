@@ -11,10 +11,17 @@
 -- Converted from DG Script #55038: wizard_eye_apothecary_speech
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: wizard shaman crystal
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "wizard") or string.find(string.lower(speech), "shaman") or string.find(string.lower(speech), "crystal")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"wizard", "shaman", "crystal"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if string.find(speech, "wizard eye") or string.find(speech, "the shaman sent me") or string.find(speech, "crystal ball") then

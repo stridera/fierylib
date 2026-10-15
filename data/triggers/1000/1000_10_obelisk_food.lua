@@ -9,10 +9,10 @@
 --               trigger should remain disabled, remove from the room's script
 --               list rather than gating here.
 
--- Speech keywords: all hail uklor (all three required)
-local s = string.lower(speech)
-if not (string.find(s, "all") and string.find(s, "hail") and string.find(s, "uklor")) then
-    return true
+-- Speech phrase: All Hail Uklor (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]all hail uklor[%s%p]") then
+    return true  -- Not the phrase
 end
 
 if actor.is_player then

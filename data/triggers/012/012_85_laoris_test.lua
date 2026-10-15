@@ -11,10 +11,10 @@
 -- developer debug trigger; left enabled on the keyword match so it can be
 -- exercised manually. Re-disable by returning early if it leaks to prod.
 
--- Speech keywords: angel
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "angel") then
-    return true  -- No matching keywords
+-- Speech phrase: angel (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]angel[%s%p]") then
+    return true  -- Not the phrase
 end
 self.room:send("AFF: " .. tostring(actor.aff_flags))
 self.room:send("FLAGS: " .. tostring(actor.flags))

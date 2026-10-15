@@ -8,11 +8,17 @@
 --
 -- Original DG Script: #6210
 
-if not (string.find(string.lower(speech), "supernova")
-        or string.find(string.lower(speech), "super")
-        or string.find(string.lower(speech), "nova")
-        or string.find(string.lower(speech), "teach")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"supernova", "supernova?", "super", "super?", "nova", "nova?", "teach", "teach?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if actor:get_quest_stage("supernova") == 7 then

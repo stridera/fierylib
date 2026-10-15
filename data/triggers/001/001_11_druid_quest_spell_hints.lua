@@ -12,10 +12,17 @@
 -- Converted from DG Script #111: Druid Quest Spell Hints
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: creeping creeping? doom doom? moon moon? well well? moonwell moonwell?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "creeping") or string.find(string.lower(speech), "creeping?") or string.find(string.lower(speech), "doom") or string.find(string.lower(speech), "doom?") or string.find(string.lower(speech), "moon") or string.find(string.lower(speech), "moon?") or string.find(string.lower(speech), "well") or string.find(string.lower(speech), "well?") or string.find(string.lower(speech), "moonwell") or string.find(string.lower(speech), "moonwell?")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"creeping", "creeping?", "doom", "doom?", "moon", "moon?", "well", "well?", "moonwell", "moonwell?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 local _return_value = true  -- Default: allow action
 wait(0.2)

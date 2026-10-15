@@ -11,9 +11,11 @@
 -- TODO(parity): DG keyword list "i have failed my quest" was a phrase match;
 -- converter emitted per-word OR which over-triggers (any sentence with "i"
 -- or "my" matches). Treating as phrase match here for fidelity.
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "i have failed my quest") then
-    return true  -- No matching keywords
+
+-- Speech phrase: i have failed my quest (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i have failed my quest[%s%p]") then
+    return true  -- Not the phrase
 end
 self:command("comfort " .. tostring(actor.name))
 self:say("Maybe another time you will succeed.")

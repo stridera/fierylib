@@ -8,10 +8,17 @@
 -- Converted from DG Script #12546: DemonWarhammer
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: brother vengeance revenge hammer warhammer halfling
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "brother") or string.find(speech_lower, "vengeance") or string.find(speech_lower, "revenge") or string.find(speech_lower, "hammer") or string.find(speech_lower, "halfling")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"brother", "vengeance", "revenge", "hammer", "warhammer", "halfling"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then
     actor:advance_quest("krisenna_quest")

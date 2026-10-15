@@ -11,9 +11,17 @@
 -- Player says "exit" -- Arre dismisses them back to the temple
 -- entrance (580/1).
 
--- Speech keyword: exit
-if not string.find(string.lower(speech), "exit") then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"exit", "exit?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 self:command("sigh")

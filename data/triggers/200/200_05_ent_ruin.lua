@@ -8,10 +8,10 @@
 -- Converted from DG Script #20005: ent_ruin
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- Speech keywords: I am an enemy of Ruin Wormheart
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "i") or string.find(string.lower(speech), "am") or string.find(string.lower(speech), "an") or string.find(string.lower(speech), "enemy") or string.find(string.lower(speech), "of") or string.find(string.lower(speech), "ruin") or string.find(string.lower(speech), "wormheart")) then
-    return true  -- No matching keywords
+-- Speech phrase: I am an enemy of Ruin Wormheart (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i am an enemy of ruin wormheart[%s%p]") then
+    return true  -- Not the phrase
 end
 self:command("nod")
 self:say("You may enter as an ally of the dark monks.")

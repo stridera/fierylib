@@ -10,8 +10,9 @@
 -- control mob. Triggered by an admin saying "TDCommand Purge" in the war
 -- room. Companion to 049_00.
 
--- Speech phrase: TDCommand Purge (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "tdcommand purge", 1, true) then
+-- Speech phrase: tdcommand purge (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]tdcommand purge[%s%p]") then
     return true  -- Not the phrase
 end
 

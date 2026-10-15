@@ -12,9 +12,11 @@
 -- 100%.
 
 -- Match the full advertised phrase rather than any single keyword.
-local speech_lower = string.lower(speech or "")
-if not string.find(speech_lower, "new cup") then
-    return true
+
+-- Speech phrase: new cup (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech or "") .. " "
+if not string.find(speech_padded, "[%s%p]new cup[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 local stage = actor:get_quest_stage("waterform")

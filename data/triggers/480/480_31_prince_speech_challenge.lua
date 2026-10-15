@@ -10,10 +10,10 @@
 -- Note: original DG probability was 0%; the trigger fires only on the exact
 -- proxy-challenge phrase and is intentionally not gated by random chance.
 
--- Speech keywords: full phrase "the champion wishes to challenge you by proxy"
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "the champion wishes to challenge you by proxy", 1, true) then
-    return true  -- No matching keywords
+-- Speech phrase: the champion wishes to challenge you by proxy (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]the champion wishes to challenge you by proxy[%s%p]") then
+    return true  -- Not the phrase
 end
 self.room:send(tostring(self.name) .. " shutters at the challenge.")
 globals.drop_head = 1

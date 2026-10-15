@@ -8,8 +8,17 @@
 -- offer of the ranger or druid subclass. Sets globals.use_subclass to "Ran"
 -- or "Dru" so the yes/no follow-up (speak2) knows what was offered.
 
-if not (string.find(speech, "ways") or string.find(speech, "i know")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"ways", "i know"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 if actor:get_quest_stage("ran_dru_subclass") > 0 then

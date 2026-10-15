@@ -6,10 +6,17 @@
 -- backstory, asks the player to banish it, and arms the Tempest with a blue
 -- flame so the start-quest world trigger fires the first time around.
 
--- Speech keywords: question? question ice? ice
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "question") or string.find(speech_lower, "ice")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"question?", "question", "ice?", "ice"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 -- Spawn the Tempest in 238:90 if it isn't there, then start its quest.
 if world.count_mobiles(238, 3) == 0 then

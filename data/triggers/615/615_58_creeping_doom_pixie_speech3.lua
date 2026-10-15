@@ -8,10 +8,17 @@
 -- Converted from DG Script #61558: creeping_doom_pixie_speech3
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: nature majesty treat remind nature? majesty? treat? remind?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "nature") or string.find(string.lower(speech), "majesty") or string.find(string.lower(speech), "treat") or string.find(string.lower(speech), "remind") or string.find(string.lower(speech), "nature?") or string.find(string.lower(speech), "majesty?") or string.find(string.lower(speech), "treat?") or string.find(string.lower(speech), "remind?")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"nature", "majesty", "treat", "remind", "nature?", "majesty?", "treat?", "remind?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if string.find(actor.class, "druid") then
     if actor.level > 80 then

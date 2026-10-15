@@ -8,8 +8,17 @@
 -- level-eligible, starts the ran_dru_subclass quest (variant from
 -- globals.use_subclass set by speak1). If no, banishes them back to room 74.
 
-if not (string.find(speech, "yes") or string.find(speech, "no")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "yes?", "yes!", "no", "no?", "no!"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 if actor:get_quest_stage("ran_dru_subclass") ~= 0 then

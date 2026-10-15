@@ -8,10 +8,17 @@
 -- Converted from DG Script #3160: ***skill trainer speach***
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
--- Speech keywords: training yes backstab bludgeoning shadow slashing sneak steal switch throatcut track conceal corner double dual eye switch retreat hide pick piercing bandage douse lure cartwheel rend
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "training") or string.find(string.lower(speech), "yes") or string.find(string.lower(speech), "backstab") or string.find(string.lower(speech), "bludgeoning") or string.find(string.lower(speech), "shadow") or string.find(string.lower(speech), "slashing") or string.find(string.lower(speech), "sneak") or string.find(string.lower(speech), "steal") or string.find(string.lower(speech), "switch") or string.find(string.lower(speech), "throatcut") or string.find(string.lower(speech), "track") or string.find(string.lower(speech), "conceal") or string.find(string.lower(speech), "corner") or string.find(string.lower(speech), "double") or string.find(string.lower(speech), "dual") or string.find(string.lower(speech), "eye") or string.find(string.lower(speech), "switch") or string.find(string.lower(speech), "retreat") or string.find(string.lower(speech), "hide") or string.find(string.lower(speech), "pick") or string.find(string.lower(speech), "piercing") or string.find(string.lower(speech), "bandage") or string.find(string.lower(speech), "douse") or string.find(string.lower(speech), "lure") or string.find(string.lower(speech), "cartwheel") or string.find(string.lower(speech), "rend")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"training", "yes", "backstab", "bludgeoning", "shadow", "slashing", "sneak", "steal", "switch", "throatcut", "track", "conceal", "corner", "double", "dual", "eye", "retreat", "hide", "pick", "piercing", "bandage", "douse", "lure", "cartwheel", "rend"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 -- make sure they have a quest record for saving variables

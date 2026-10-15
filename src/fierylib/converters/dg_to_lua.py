@@ -14,6 +14,7 @@ Handles:
 """
 
 import re
+import string
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -138,26 +139,44 @@ def dg_word_list(arg: str) -> list[str]:
     return out
 
 
+def _lua_pattern_escape(s: str) -> str:
+    """Escape every ASCII punctuation character with `%` so `s` matches literally in a Lua pattern."""
+    return "".join("%" + c if c in string.punctuation else c for c in s)
+
+
 def speech_gate_lines(arg: str, num_arg: int) -> list[str]:
     """Lua lines for a SPEECH / SPEECH_TO trigger's keyword test.
 
     dg_triggers.cpp: num_arg != 0 -> word_check (the speech contains one word or "quoted phrase" of
-    the arg as a whole word, case-insensitive); num_arg == 0 -> the speech contains the whole arg as a
-    phrase. A leading `*` (or an empty arg) matches every speech. The needles are lowercase (the engine
-    also lowercases `speech` before the script sees it).
+    the arg); num_arg == 0 -> is_substring (the speech contains the whole arg as a phrase). Both
+    need word boundaries: the match must be preceded and followed by whitespace, punctuation or the
+    edge of the speech (is_substring checks isspace/ispunct around the hit), so "me" is not found in
+    "menu" and "heal" is not found in "healer". Case-insensitive. A leading `*` (or an empty arg)
+    matches every speech. The needles are lowercase (the engine also lowercases `speech`).
+
+    One deliberate relaxation: builders wrote "help?" or "yes!" meaning the word, so a needle that
+    ends in punctuation also matches without it (the boundary after the word already accepts any
+    punctuation), instead of requiring the player to type the "?".
     """
     arg = arg.strip()
     if not arg or arg.startswith('*'):
         return []
     if num_arg == 0:
+        phrase = arg.lower().rstrip(string.punctuation) or arg.lower()
+        pattern = "[%s%p]" + _lua_pattern_escape(phrase) + "[%s%p]"
         return [
-            f'-- Speech phrase: {arg} (DG num_arg 0 = the speech contains the phrase)',
-            f'if not string.find(string.lower(speech), {_lua_string(arg.lower())}, 1, true) then',
+            f'-- Speech phrase: {arg} (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)',
+            'local speech_padded = " " .. string.lower(speech) .. " "',
+            f'if not string.find(speech_padded, {_lua_string(pattern)}) then',
             '    return true  -- Not the phrase',
             'end',
             '',
         ]
-    words = dg_word_list(arg)
+    words: list[str] = []
+    for w in dg_word_list(arg):
+        for v in (w, w.rstrip(string.punctuation)):
+            if v and v not in words:
+                words.append(v)
     if not words:
         return []
     items = ", ".join(_lua_string(w) for w in words)
@@ -185,10 +204,12 @@ def convert_colors(text: str, carry: bool = False) -> str:
     `&9` black, `&u` underline and `&0` a reset, exactly like room and mob text. The old table here
     read `&b` as blue, which turned `&9&b` (bold black) into the stray `&9<blue>`.
     """
-    # Legacy DG text only uses &0-&9, &b, &u, &n (reset) and &d. &8 is black, &n a reset. Any other
-    # `&` is a literal ampersand; escape it so the colour converter does not swallow the next char.
-    text = text.replace('&n', '&0').replace('&8', '&9')
-    text = re.sub(r'&&|&(?![0-9bud_])', lambda m: '&&', text)
+    # Legacy screen.cpp: &0-&7 colours, &9 black, &8 and &u underline, &b bold, &d dark, &n a reset (DG
+    # alias for &0), and &R &G &Y &B &M &C &W &L &K the matching BACKGROUND colours (the game's
+    # `<bg-red>` markup, which the importer's converter emits). Any other `&` is a literal ampersand;
+    # escape it so the colour converter does not swallow the next char.
+    text = text.replace('&n', '&0').replace('&8', '&u')
+    text = re.sub(r'&&|&(?![0-9bud_RGYBMCWLK])', lambda m: '&&', text)
     if not carry:
         return convert_legacy_colors(text)
     # `carry`: the text is one piece of a larger string (a `set` value later concatenated into a

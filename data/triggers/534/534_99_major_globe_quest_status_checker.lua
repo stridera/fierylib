@@ -10,10 +10,10 @@
 -- NOTE: legacy probability 0% on SPEECH means "always run on keyword match";
 -- the converter's percent_chance(0) gate has been removed.
 
--- Speech keywords: spell progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: spell progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]spell progress[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 local stage = actor:get_quest_stage("major_globe_spell")

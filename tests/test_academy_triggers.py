@@ -19,9 +19,9 @@ def test_no_academy_trigger_is_disabled_by_a_zero_percent_chance():
 
 
 def test_phrase_triggers_match_their_dg_phrase():
-    assert '"hello class", 1, true' in _body("519_02")
-    assert '"hello teacher", 1, true' in _body("519_03")
-    assert '"hit points", 1, true' in _body("519_86")
+    assert "[%s%p]hello class[%s%p]" in _body("519_02")
+    assert "[%s%p]hello teacher[%s%p]" in _body("519_03")
+    assert "[%s%p]hit points[%s%p]" in _body("519_86")
 
 
 def test_blocked_exit_says_what_to_do():

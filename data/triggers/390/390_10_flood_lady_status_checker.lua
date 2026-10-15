@@ -9,9 +9,17 @@
 -- rallied (waterN flags), which still need convincing, and any hint
 -- previously given (itemN flags from spirits' demands).
 
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "status") or string.find(speech_lower, "progress")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"status", "status?", "progress", "progress?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 wait(0.2)

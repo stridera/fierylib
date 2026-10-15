@@ -6,10 +6,17 @@
 -- When asked about Kannon, the Sunbird performs the cinematic light
 -- show then explains that the goddess's power has waned.
 
--- Speech keywords: kannon / who / goddess / mercy
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "kannon") or string.find(speech_lower, "who") or string.find(speech_lower, "goddess") or string.find(speech_lower, "mercy")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"kannon", "kannon?", "who?", "who", "goddess", "goddes?", "goddes", "mercy", "mercy?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(7)
 self:say("Through her holy benevolence, I once protected this entire island.")

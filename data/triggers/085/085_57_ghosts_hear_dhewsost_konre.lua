@@ -11,10 +11,10 @@
 -- Converted from DG Script #8557: ghosts hear Dhewsost Konre
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: dhewsost konre
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "dhewsost") or string.find(speech_lower, "konre")) then
-    return true  -- No matching keywords
+-- Speech phrase: dhewsost konre (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]dhewsost konre[%s%p]") then
+    return true  -- Not the phrase
 end
 if actor:get_quest_stage("resurrection_quest") > 0 then
     self.room:send_except(actor, "<b:cyan>" .. tostring(self.name) .. " is shaken by " .. tostring(actor.name) .. "'s powerful utterance!</>")

@@ -13,10 +13,17 @@
 -- Converted from DG Script #109: Sorcerer Quest Spell Hints
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: major major? globe globe? relocate relocate? charm charm? person person? wizard wizard? eye eye?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "major") or string.find(string.lower(speech), "major?") or string.find(string.lower(speech), "globe") or string.find(string.lower(speech), "globe?") or string.find(string.lower(speech), "relocate") or string.find(string.lower(speech), "relocate?") or string.find(string.lower(speech), "charm") or string.find(string.lower(speech), "charm?") or string.find(string.lower(speech), "person") or string.find(string.lower(speech), "person?") or string.find(string.lower(speech), "wizard") or string.find(string.lower(speech), "wizard?") or string.find(string.lower(speech), "eye") or string.find(string.lower(speech), "eye?")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"major", "major?", "globe", "globe?", "relocate", "relocate?", "charm", "charm?", "person", "person?", "wizard", "wizard?", "eye", "eye?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 local _return_value = true  -- Default: allow action
 wait(0.2)

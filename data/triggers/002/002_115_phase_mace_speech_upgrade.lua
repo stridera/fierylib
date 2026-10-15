@@ -12,11 +12,18 @@
 -- maceitem ids are exported via globals by 002_118, but the right-side
 -- lookup helper (`objects.template(z, id).name`) needs the items
 -- normalised to (zone, local) pairs first.
-local lower = string.lower(speech or "")
-local function has(word) return string.find(lower, word, 1, true) ~= nil end
-if not (has("upgrade") or has("upgrades") or has("upgrading")
-        or has("improvement") or has("improvements") or has("improving")) then
-    return true
+
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech or "") .. " "
+local speech_hit = false
+for _, w in ipairs({"upgrade", "upgrades", "upgrading", "improvement", "improvements", "improving"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if (self.zone_id == 185 and self.id == 2) then
     self:set_flag("sentinel", true)

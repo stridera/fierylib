@@ -8,8 +8,9 @@
 -- passphrase is spoken (DG num_arg 0 = phrase match): the full phrase
 -- "darkness hear my call unto you".
 
--- Speech phrase: darkness hear my call unto you (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "darkness hear my call unto you", 1, true) then
+-- Speech phrase: darkness hear my call unto you (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]darkness hear my call unto you[%s%p]") then
     return true  -- Not the phrase
 end
 

@@ -6,11 +6,19 @@
 -- The tea master Chajin, confronted about the conspiracy, accepts his
 -- karma and readies for combat.
 
--- Speech keywords: conspiracy / key / bowl / kannon / plot / yajiro /
 -- ceremony
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "conspiracy") or string.find(speech_lower, "key") or string.find(speech_lower, "bowl") or string.find(speech_lower, "kannon") or string.find(speech_lower, "plot") or string.find(speech_lower, "yajiro") or string.find(speech_lower, "ceremony")) then
-    return true  -- No matching keywords
+
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"conspiracy", "conspiracy?", "key", "key?", "bowl", "bowl?", "kannon", "kannon?", "plot", "plot?", "yajiro", "yajiro?", "ceremony", "ceremony?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 self:emote("sighs with the heavy weight of his burden.")

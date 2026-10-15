@@ -18,13 +18,10 @@
 -- ritual phrase is present. Confirm the legacy intent (likely "scripted
 -- only", not "never fire").
 
-local required = { "hark", "ye", "starry", "angels", "and", "open",
-                   "the", "heavenly", "gates", "before", "me" }
-local speech_lower = string.lower(speech)
-for _, word in ipairs(required) do
-    if not string.find(speech_lower, word) then
-        return true
-    end
+-- Speech phrase: Hark ye starry angels and open the heavenly gates before me (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]hark ye starry angels and open the heavenly gates before me[%s%p]") then
+    return true  -- Not the phrase
 end
 
 if actor:get_quest_stage("heavens_gate") ~= 4 then

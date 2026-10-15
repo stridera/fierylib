@@ -9,9 +9,10 @@
 -- to report status, so the gate is removed; confirm with rs design
 -- whether legacy intended a manual invocation path instead.
 
-local s = string.lower(speech)
-if not (string.find(s, "subclass") or string.find(s, "progress")) then
-    return true
+-- Speech phrase: subclass progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]subclass progress[%s%p]") then
+    return true  -- Not the phrase
 end
 
 wait(2)

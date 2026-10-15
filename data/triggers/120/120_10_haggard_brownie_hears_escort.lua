@@ -8,10 +8,17 @@
 -- Converted from DG Script #12010: Haggard brownie hears 'escort'
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: escort
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "escort") then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"escort"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 -- Remember who is escorting us so trigger 120-21 can hand out the reward.
 globals.rescuer = actor

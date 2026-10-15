@@ -13,9 +13,10 @@
 -- Original keyword filter was OR'd across each word; tightened to a
 -- phrase match so casual mentions of "the" or "spell" don't fire it.
 
--- Speech keyword: phrase "please replace the spell"
-if not string.find(string.lower(speech), "please replace the spell") then
-    return true  -- No matching phrase
+-- Speech phrase: please replace the spell (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]please replace the spell[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 if actor:get_quest_stage("wall_ice") > 0 then

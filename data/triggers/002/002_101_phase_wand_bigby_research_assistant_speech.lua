@@ -15,14 +15,18 @@
 -- print the gem name; that interpolation is preserved in the message
 -- strings below as a literal. Replace each occurrence with
 -- `objects.template(z, id).name` once the wandgem id-table is wired up.
-local lower = string.lower(speech or "")
-local function has(word) return string.find(lower, word, 1, true) ~= nil end
-if not (has("wand") or has("earth") or has("air") or has("fire") or has("water")
-        or has("upgrade") or has("lightning") or has("wind") or has("shock")
-        or has("electricity") or has("smoldering") or has("burning")
-        or has("cold") or has("ice") or has("frost") or has("acid")
-        or has("tremors") or has("corrosion") or has("powerful") or has("yes")) then
-    return true
+
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech or "") .. " "
+local speech_hit = false
+for _, w in ipairs({"wand", "earth", "air", "fire", "water", "upgrade", "lightning", "wind", "shock", "electricity", "smoldering", "burning", "cold", "ice", "frost", "acid", "tremors", "corrosion", "powerful", "yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(2)
 local class = actor.class or ""

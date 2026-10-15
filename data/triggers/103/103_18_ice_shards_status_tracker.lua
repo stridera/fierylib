@@ -9,8 +9,11 @@
 -- foundational books are still missing. DG narg=0 = substring.
 
 local s = string.lower(speech)
-if not (string.find(s, "ice") or string.find(s, "shards") or string.find(s, "progress")) then
-    return true
+
+-- Speech phrase: ice shards progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]ice shards progress[%s%p]") then
+    return true  -- Not the phrase
 end
 
 wait(0.2)

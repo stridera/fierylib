@@ -8,10 +8,17 @@
 -- Converted from DG Script #61505: Spark pixy makes an offer
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if globals.greeted_someone == 1 and actor.name == globals.person_to_help and globals.heart_inplace ~= 1 then
     wait(1)

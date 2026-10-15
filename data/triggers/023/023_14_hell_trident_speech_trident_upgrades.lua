@@ -24,10 +24,17 @@
 -- The whole script needs a rewrite from the original DG source #2314
 -- before it can be relied on. Left mostly as-is to preserve diff context.
 
--- Speech keywords: trident upgrades
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "trident") or string.find(string.lower(speech), "upgrades")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"trident", "upgrades"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 local hellstep = actor:get_quest_stage("hell_trident")

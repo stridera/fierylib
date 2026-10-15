@@ -8,10 +8,17 @@
 -- Converted from DG Script #12526: DemonGreed
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: greed money pouch wergeld wergild
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "greed") or string.find(speech_lower, "money") or string.find(speech_lower, "pouch") or string.find(speech_lower, "wergeld") or string.find(speech_lower, "wergild")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"greed", "money", "pouch", "wergeld", "wergild"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then
     actor:advance_quest("krisenna_quest")

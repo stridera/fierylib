@@ -8,9 +8,10 @@
 -- prototype is reloaded into the holding room (510, 99) so the next
 -- reset will have one to place. Latched by `got_book`.
 
--- Speech keyword: "amehs"
-if not string.find(string.lower(speech or ""), "amehs") then
-    return true
+-- Speech phrase: amehs (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech or "") .. " "
+if not string.find(speech_padded, "[%s%p]amehs[%s%p]") then
+    return true  -- Not the phrase
 end
 
 if got_book == 1 then

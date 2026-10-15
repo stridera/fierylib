@@ -9,10 +9,17 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 -- Marked unused in original codebase; logic mirrors 23722/23723 (yes/no branches).
 
--- Speech keywords: yes no
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "yes") or string.find(speech_lower, "no")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes", "no"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor:get_quest_stage("sunfire_rescue") == 1 then
     -- Responding to trigger 23723 in the rescue quest.

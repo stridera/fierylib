@@ -10,10 +10,17 @@
 -- "progress" report for the vilekka_stew quest. Lists current stage hint
 -- and, on stage 5, which of the ten herbs/spices have been delivered.
 
--- Speech keywords: progress progress?
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "progress") then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"progress", "progress?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if actor:get_has_completed("vilekka_stew") then

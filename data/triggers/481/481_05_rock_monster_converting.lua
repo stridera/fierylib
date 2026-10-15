@@ -8,10 +8,17 @@
 -- Converted from DG Script #48105: rock_monster_converting
 -- Original: WORLD trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: p I can feel the magic working!
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "p") or string.find(string.lower(speech), "i") or string.find(string.lower(speech), "can") or string.find(string.lower(speech), "feel") or string.find(string.lower(speech), "the") or string.find(string.lower(speech), "magic") or string.find(string.lower(speech), "working!")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"p", "i", "can", "feel", "the", "magic", "working!", "working"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 -- this trigger only works if the rock-monster said the phrase
 if actor.zone_id == 481 and actor.local_id == 27 then

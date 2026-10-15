@@ -8,10 +8,17 @@
 -- Converted from DG Script #61557: creeping_doom_pixie_speech2
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: vengeance revenge avenger vessel? Abuses? vengeance? revenge? avenger? vessel abuses
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "vengeance") or string.find(string.lower(speech), "revenge") or string.find(string.lower(speech), "avenger") or string.find(string.lower(speech), "vessel?") or string.find(string.lower(speech), "abuses?") or string.find(string.lower(speech), "vengeance?") or string.find(string.lower(speech), "revenge?") or string.find(string.lower(speech), "avenger?") or string.find(string.lower(speech), "vessel") or string.find(string.lower(speech), "abuses")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"vengeance", "revenge", "avenger", "vessel?", "vessel", "abuses?", "abuses", "vengeance?", "revenge?", "avenger?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 self.room:send(tostring(self.name) .. " says, 'Yes, we need a powerful priest of Nature to be our")

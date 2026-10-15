@@ -13,8 +13,9 @@
 -- 4353, 23721, 58406). Under composite keys self.id is local_id only,
 -- so these never match. Rewrite as (self.zone_id, self.local_id) checks.
 
--- Speech phrase: let me serenade you (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "let me serenade you", 1, true) then
+-- Speech phrase: let me serenade you (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]let me serenade you[%s%p]") then
     return true  -- Not the phrase
 end
 local _return_value = true  -- Default: allow action

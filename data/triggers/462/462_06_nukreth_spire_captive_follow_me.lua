@@ -8,10 +8,10 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 -- (legacy 0% probability was a no-op gate; speech keyword match is the gate.)
 
--- Speech keywords: follow me
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "follow") or string.find(speech_lower, "me")) then
-    return true  -- No matching keywords
+-- Speech phrase: follow me (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]follow me[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 local kill, job, follow

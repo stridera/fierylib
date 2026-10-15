@@ -9,9 +9,17 @@
 -- on stage 0, gates the quest start path on level >= 80. For anyone
 -- already in the quest (stage > 0), prompts the per-stage check.
 
--- Speech keyword: "yes"
-if not string.find(string.lower(speech), "yes") then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if string.find(actor.class, "diabolist") and actor:get_quest_stage("hell_gate") == 0 then

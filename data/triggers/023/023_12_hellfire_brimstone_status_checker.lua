@@ -11,9 +11,10 @@
 -- ("hellfire_brimstone:4318" etc.) but 023_01 sets composite keys
 -- ("hellfire_brimstone:43_18"). Reconcile with 023_01.
 
--- Speech keywords: "spell" or "progress"
-if not (string.find(string.lower(speech), "spell") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+-- Speech phrase: spell progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]spell progress[%s%p]") then
+    return true  -- Not the phrase
 end
 local stage = actor:get_quest_stage("hellfire_brimstone")
 local meat = actor:get_quest_var("hellfire_brimstone:meat") or 0

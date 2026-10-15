@@ -9,8 +9,9 @@
 -- fired) and split the phrase into an `or` chain of single words; both are now
 -- one phrase test, so the south monolith blessing works again.
 
--- Speech phrase: I pray for a blessing from mother earth, creator of life and bringer of death (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "i pray for a blessing from mother earth, creator of life and bringer of death", 1, true) then
+-- Speech phrase: i pray for a blessing from mother earth, creator of life and bringer of death (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i pray for a blessing from mother earth%, creator of life and bringer of death[%s%p]") then
     return true  -- Not the phrase
 end
 self.room:send("The <b:black>stone monoliths</> begin to <b:cyan>glow</> with power.")

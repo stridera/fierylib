@@ -8,10 +8,17 @@
 -- Converted from DG Script #53451: major_globe_speech_assist
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: assist assist? help help?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "assist") or string.find(string.lower(speech), "assist?") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "help?")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"assist", "assist?", "help", "help?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if (actor.is_player) and (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class== "pyromancer") and (actor.level >= 57) and not (actor:get_has_completed("major_globe_spell")) and (actor:get_quest_stage("major_globe_spell") == 0) then
     actor:start_quest("major_globe_spell")

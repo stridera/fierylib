@@ -9,10 +9,10 @@
 --
 -- Original DG Script: #36419
 
--- Speech keyword phrase: must contain "new glasses" to avoid false positives.
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "new glasses") then
-    return true
+-- Speech phrase: new glasses (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]new glasses[%s%p]") then
+    return true  -- Not the phrase
 end
 if actor:get_quest_stage("illusory_wall") <= 1 then
     return true

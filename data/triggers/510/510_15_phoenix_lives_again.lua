@@ -9,10 +9,17 @@
 -- respawns a fresh phoenix. Multiple purges are deliberate — there
 -- might be a stale phoenix-key item or two on the floor.
 
--- Speech keywords: "phoenix is toast"
-local speech_lower = string.lower(speech or "")
-if not string.find(speech_lower, "phoenix is toast") then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech or "") .. " "
+local speech_hit = false
+for _, w in ipairs({"phoenix is toast"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 local phoenix_room = get_room(510, 79)

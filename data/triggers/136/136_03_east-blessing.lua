@@ -8,10 +8,10 @@
 -- Converted from DG Script #13603: east-blessing
 -- Original: ROOM trigger, flags: SPEECH
 
--- Speech keyword: the entire phrase below must appear in what was said.
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "i pray for a blessing from mother earth, creator of life and bringer of death", 1, true) then
-    return true  -- No matching phrase
+-- Speech phrase: i pray for a blessing from mother earth, creator of life and bringer of death (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i pray for a blessing from mother earth%, creator of life and bringer of death[%s%p]") then
+    return true  -- Not the phrase
 end
 self.room:send("The <b:black>stone monoliths</> begin to <b:cyan>glow</> with power.")
 wait(4)

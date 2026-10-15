@@ -8,10 +8,10 @@
 -- a secret-keyword speech filter to keep players from invoking it directly;
 -- we keep the keyword filter as defense-in-depth.
 
--- Speech keywords: donteverletmecatchyouusingthisspeechtrigger
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "donteverletmecatchyouusingthisspeechtrigger") then
-    return true  -- No matching keywords
+-- Speech phrase: donteverletmecatchyouusingthisspeechtrigger (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]donteverletmecatchyouusingthisspeechtrigger[%s%p]") then
+    return true  -- Not the phrase
 end
 self.room:spawn_object(238, 48)
 self.room:send("As the dragon falls, you notice something that wasn't there before...")

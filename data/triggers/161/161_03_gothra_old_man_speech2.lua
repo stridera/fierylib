@@ -9,9 +9,17 @@
 -- could not slay) the giant beast, and hints that the battle cost him
 -- something precious.
 
--- Speech keyword: scorpion
-if not string.find(string.lower(speech), "scorpion") then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"scorpion"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 self:command("grin " .. tostring(actor.name))
 self:say("Oh yea...")

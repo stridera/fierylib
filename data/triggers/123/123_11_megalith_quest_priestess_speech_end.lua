@@ -8,8 +8,9 @@
 -- Converted from DG Script #12311: megalith_quest_priestess_speech_end
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 0%
 
--- Speech phrase: we invoke thee (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "we invoke thee", 1, true) then
+-- Speech phrase: we invoke thee (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]we invoke thee[%s%p]") then
     return true  -- Not the phrase
 end
 local _return_value = true

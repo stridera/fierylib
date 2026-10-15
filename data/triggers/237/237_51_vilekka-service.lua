@@ -11,10 +11,17 @@
 -- group members in the room. 23755 is the drow master heart-spawning death
 -- trigger that follows.
 
--- Speech keywords: service service?
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "service") then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"service", "service?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor.is_npc or actor.level > 99 or actor:get_has_completed("vilekka_stew") then
     return true

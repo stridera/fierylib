@@ -13,8 +13,9 @@
 --
 -- (DG num_arg 0 = phrase match; the converter's dead 0% gate is gone.)
 
--- Speech phrase: TDCommand Start (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "tdcommand start", 1, true) then
+-- Speech phrase: tdcommand start (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]tdcommand start[%s%p]") then
     return true  -- Not the phrase
 end
 

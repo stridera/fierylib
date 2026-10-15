@@ -13,9 +13,10 @@
 -- remove the trigger registration. If intended to fire on every match,
 -- the current behavior is correct.
 
--- Speech keywords: exit
-if not string.find(string.lower(speech), "exit") then
-    return true  -- No matching keywords
+-- Speech phrase: exit (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]exit[%s%p]") then
+    return true  -- Not the phrase
 end
 
 if actor.is_player then

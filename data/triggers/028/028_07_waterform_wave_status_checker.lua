@@ -8,10 +8,17 @@
 -- the player says "status" or "progress". Stage 4 reports collected region
 -- samples (see 028_05). Stage 6 reports examined water sources (see 028_06).
 
--- Speech keywords: status status? progress progress?
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "status") or string.find(string.lower(speech), "status?") or string.find(string.lower(speech), "progress") or string.find(string.lower(speech), "progress?")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"status", "status?", "progress", "progress?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 local stage = actor:get_quest_stage("waterform")

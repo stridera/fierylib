@@ -11,9 +11,11 @@
 -- TODO(parity): DG keyword list "master let the test begin" was a phrase match;
 -- converter emitted per-word OR which over-triggers (any sentence with "the" matches).
 -- Treating as phrase match here for fidelity.
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "master let the test begin") then
-    return true  -- No matching keywords
+
+-- Speech phrase: master let the test begin (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]master let the test begin[%s%p]") then
+    return true  -- Not the phrase
 end
 if self.is_fighting then
     self:say("Your test may begin when mine has finished!")

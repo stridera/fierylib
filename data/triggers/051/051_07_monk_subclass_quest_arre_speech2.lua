@@ -14,9 +14,17 @@
 -- TODO(parity): legacy DG had a placeholder for restricted races
 -- ("ADD RESTRICTED RACES HERE") which was never filled in.
 
--- Speech keyword: reason
-if not string.find(string.lower(speech), "reason") then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"reason", "reason?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if not string.find(actor.class, "warrior") then
     wait(0.2)

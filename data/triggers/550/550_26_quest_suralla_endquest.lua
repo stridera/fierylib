@@ -8,8 +8,9 @@
 -- Converted from DG Script #55026: quest_suralla_endquest
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
--- Speech phrase: the shrub suffers no longer (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "the shrub suffers no longer", 1, true) then
+-- Speech phrase: the shrub suffers no longer (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]the shrub suffers no longer[%s%p]") then
     return true  -- Not the phrase
 end
 wait(0.2)

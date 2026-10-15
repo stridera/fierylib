@@ -9,10 +9,10 @@
 --
 -- Original DG Script: #36411
 
--- Speech keywords: wild, hunt
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "wild") or string.find(speech_lower, "hunt")) then
-    return true
+-- Speech phrase: wild hunt (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]wild hunt[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 if actor:get_quest_stage("berserker_subclass") == 1 then

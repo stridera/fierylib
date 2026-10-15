@@ -11,9 +11,10 @@
 -- when keywords match regardless. Synthetic `percent_chance(0)` gate removed.
 -- Keyword matching tightened to require the full confirmation phrase.
 
-local speech_lower = string.lower(speech or "")
-if not string.find(speech_lower, "yes, i am sure i want to remort", 1, true) then
-    return true  -- No matching phrase
+-- Speech phrase: yes, i am sure i want to remort (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech or "") .. " "
+if not string.find(speech_padded, "[%s%p]yes%, i am sure i want to remort[%s%p]") then
+    return true  -- Not the phrase
 end
 if actor.level == 99 then
     actor:send("Your remort will take effect in 30 seconds.")

@@ -8,10 +8,17 @@
 -- Converted from DG Script #48260: dargentan_meteorswarm_quest_speak1
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: teach help meteor meteorswarm meteorite air
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "teach") or string.find(string.lower(speech), "help") or string.find(string.lower(speech), "meteor") or string.find(string.lower(speech), "meteorswarm") or string.find(string.lower(speech), "meteorite") or string.find(string.lower(speech), "air")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"teach", "help", "meteor", "meteorswarm", "meteorite", "air"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(1)
 if actor:get_quest_stage("meteorswarm") == 4 then

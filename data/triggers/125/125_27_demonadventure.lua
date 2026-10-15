@@ -8,10 +8,17 @@
 -- Converted from DG Script #12527: DemonAdventure
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: adventure explore exploration curiousity morning star
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "adventure") or string.find(speech_lower, "explore") or string.find(speech_lower, "exploration") or string.find(speech_lower, "curiousity") or string.find(speech_lower, "morning") or string.find(speech_lower, "star")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"adventure", "explore", "exploration", "curiousity", "morning", "star"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 if actor:get_quest_stage("krisenna_quest") == 3 then
     actor:advance_quest("krisenna_quest")

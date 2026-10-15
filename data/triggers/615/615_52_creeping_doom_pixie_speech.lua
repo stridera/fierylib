@@ -8,10 +8,17 @@
 -- Converted from DG Script #61552: creeping_doom_pixie_speech
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: yes
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "yes")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 if string.find(actor.class, "druid") and actor:get_quest_stage("creeping_doom") == 0 and actor.level > 80 then

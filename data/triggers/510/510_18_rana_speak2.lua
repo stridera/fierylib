@@ -6,9 +6,17 @@
 -- Reacts to "shema" — Rana retells how Luchiaans deceived the
 -- Council and a cleaner's discovered book exposed his true plans.
 
--- Speech keyword: "shema"
-if not string.find(string.lower(speech or ""), "shema") then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech or "") .. " "
+local speech_hit = false
+for _, w in ipairs({"shema?", "shema"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 self:command("look " .. tostring(actor.name))
 self:command("nod")

@@ -7,10 +7,17 @@
 -- Converted from DG Script #6025: quest_timulos_status
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keywords: subclass progress
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "subclass") or string.find(string.lower(speech), "progress")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"subclass", "progress"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 wait(0.2)
 local quest_name = actor:get_quest_var("merc_ass_thi_subclass:subclass_name")

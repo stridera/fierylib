@@ -8,9 +8,17 @@
 -- fetch next and where it's hidden. Stages 8 and 12 instead prompt the
 -- player to hand over the map for marking.
 
-local sl = string.lower(speech)
-if not (string.find(sl, "status") or string.find(sl, "progress")) then
-    return true
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"status", "status?", "progress", "progress?"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 
 wait(0.2)

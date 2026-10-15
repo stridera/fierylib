@@ -6,8 +6,10 @@
 
 -- Converted from DG Script #55627: **UNUSED**
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
--- Speech phrase: status (DG num_arg 0 = the speech contains the phrase)
-if not string.find(string.lower(speech), "status", 1, true) then
+
+-- Speech phrase: status (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]status[%s%p]") then
     return true  -- Not the phrase
 end
 

@@ -8,10 +8,17 @@
 -- Converted from DG Script #5506: 3eg_qm_initiate
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
--- Speech keywords: quest recruit undead masses hi hello yes
-local speech_lower = string.lower(speech)
-if not (string.find(string.lower(speech), "quest") or string.find(string.lower(speech), "recruit") or string.find(string.lower(speech), "undead") or string.find(string.lower(speech), "masses") or string.find(string.lower(speech), "hi") or string.find(string.lower(speech), "hello") or string.find(string.lower(speech), "yes")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"quest", "recruit", "undead", "masses", "hi", "hello", "yes"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 -- 
 -- This will recognize the acceptance of the Eldorian combat quests

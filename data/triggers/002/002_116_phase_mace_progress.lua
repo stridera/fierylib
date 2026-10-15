@@ -13,9 +13,10 @@
 -- because the (zone, id) lookup helpers haven't been wired up yet. Also
 -- removes a converter `percent_chance(0)` synthetic gate.
 
-local lower = string.lower(speech or "")
-if not (string.find(lower, "mace", 1, true) or string.find(lower, "progress", 1, true)) then
-    return true
+-- Speech phrase: mace progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech or "") .. " "
+if not string.find(speech_padded, "[%s%p]mace progress[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(2)
 if actor.class ~= "cleric" and actor.class ~= "priest" then

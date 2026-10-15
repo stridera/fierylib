@@ -13,9 +13,11 @@
 -- TODO: keys "emmath_flameball:17308", "emmath_flameball:5211",
 --       "emmath_flameball:5212" use legacy vnums; should match the
 --       composite "{zone}_{local}" form set in 052_08 once aligned.
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "quest") or string.find(speech_lower, "progress")) then
-    return true
+
+-- Speech phrase: quest progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]quest progress[%s%p]") then
+    return true  -- Not the phrase
 end
 
 wait(0.2)

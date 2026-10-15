@@ -11,10 +11,10 @@
 -- Converted from DG Script #8561: resurrection_talisman_replacement
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
--- Speech keyword: full phrase "i need a new talisman"
-local speech_lower = string.lower(speech)
-if not string.find(speech_lower, "i need a new talisman") then
-    return true  -- No matching keywords
+-- Speech phrase: i need a new talisman (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i need a new talisman[%s%p]") then
+    return true  -- Not the phrase
 end
 wait(0.2)
 if actor:get_quest_stage("resurrection_quest") > 4 then

@@ -10,8 +10,9 @@
 -- war-room mob say "TDCommand Capture T<team>T P<pylon>P", and this trigger
 -- updates globals.pylon[<pylon>] = <team> and gossips the capture.
 
--- Speech phrase: TDCommand Capture (DG num_arg 0 = the speech contains the phrase, not a chance)
-if not string.find(string.lower(speech), "tdcommand capture", 1, true) then
+-- Speech phrase: tdcommand capture (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]tdcommand capture[%s%p]") then
     return true  -- Not the phrase
 end
 

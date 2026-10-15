@@ -17,10 +17,17 @@
 -- TODO: keyword "yin" alone is loose -- matches any word containing
 -- yin. Tighten to "kwan yin" / "kannon".
 
--- Speech keywords: kannon / kwan / yin
-local speech_lower = string.lower(speech)
-if not (string.find(speech_lower, "kannon") or string.find(speech_lower, "kwan") or string.find(speech_lower, "yin")) then
-    return true  -- No matching keywords
+-- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local speech_padded = " " .. string.lower(speech) .. " "
+local speech_hit = false
+for _, w in ipairs({"kannon", "kwan", "yin"}) do
+    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+        speech_hit = true
+        break
+    end
+end
+if not speech_hit then
+    return true  -- None of the listed words
 end
 self.room:send("You can hear a faint voice say, 'I wish I could do more to help you...'")
 self.room:send("Your vision blurs for a moment and there is a noise as of a rushing wind.")

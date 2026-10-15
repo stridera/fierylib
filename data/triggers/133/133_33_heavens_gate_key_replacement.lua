@@ -15,12 +15,10 @@
 -- every fire. We've removed the synthetic gate; the keyword filter is
 -- now the only gate. Confirm legacy intent.
 
-local required = { "grant", "me", "a", "new", "key" }
-local speech_lower = string.lower(speech)
-for _, word in ipairs(required) do
-    if not string.find(speech_lower, word) then
-        return true
-    end
+-- Speech phrase: grant me a new key (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]grant me a new key[%s%p]") then
+    return true  -- Not the phrase
 end
 
 if actor:get_quest_stage("heavens_gate") ~= 3 then

@@ -7,9 +7,10 @@
 -- A Necromancer who utters "I am child of Borgan!" reveals a hidden
 -- stairway leading up from room 495/13 for 20 ticks before it seals shut.
 
--- Speech keyword filter: literal phrase (case-insensitive)
-if not string.find(string.lower(speech), "i am child of borgan") then
-    return true
+-- Speech phrase: i am child of borgan (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local speech_padded = " " .. string.lower(speech) .. " "
+if not string.find(speech_padded, "[%s%p]i am child of borgan[%s%p]") then
+    return true  -- Not the phrase
 end
 
 if not actor.is_player then
