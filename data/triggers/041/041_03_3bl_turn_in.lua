@@ -1,26 +1,14 @@
 -- Trigger: 3bl_turn_in
 -- Zone: 41, ID: 3
 -- Type: MOB, Flags: RECEIVE
--- Status: TODO(parity)
+-- Status: CLEAN
 --
--- TODO(parity): Stripped-down 041 mirror of 055_03 (same "Black Legion
--- 3bl turn-in" mechanic, fewer item tiers). The systemic converter
--- problems are identical to 055_03 -- briefly:
---   1. `object.id == "%id_xxx%"` placeholder strings never match;
---      the entire switch falls into the else "I am not interested" branch.
---   2. Branch-scoped `local` writes (is_gem, exp_multiplier, id_reward,
---      faction_required, faction_multiplier, id_trophy) never escape
---      to the trophy/reward logic that follows.
---   3. The 3bl gem 5-digit vnums (55566..55584) need to be addressed as
---      (zone, local_id) tuples once spawn semantics are sorted.
---   4. Quest-var keys still contain literal `%id_trophy%`/`%id_reward%`
---      sentinels instead of substituted ids.
--- Light mechanical fixes are applied below (see inline comments) so the
--- file at least parses cleanly, but the quest gameplay still requires a
--- full rebuild before it is functional. See 055_03 for the upstream
--- shape and the same set of TODOs.
+-- Combat-in-Eldoria turn-in for the Black Legion: trophies of the other side raise faction and give
+-- experience, gems buy faction-gated rewards. The received object is matched on its
+-- (zone, id) against the legacy vnums below; quest variables are keyed by vnum as in DG.
 --
 -- Original DG Script: #4103
+
 
 local function proto_key(vnum)
     vnum = tonumber(vnum)
@@ -36,6 +24,12 @@ local function proto_short(vnum)
     return name
 end
 local _return_value = true  -- Default: allow action
+-- The runtime fires RECEIVE after the item is already in the mob's hands, so a refusal hands it
+-- back with a give command (DG's `return 0`).
+local function give_back()
+    local bare = string.gsub(string.gsub(object.name, "^%s*[Tt]he%s+", ""), "^%s*[Aa]n?%s+", "")
+    self:command("give " .. bare .. " " .. actor.name)
+end
 -- 
 -- This is the main receive trigger for the Edorian
 -- combat quests installed on the mud. This trigger
@@ -60,150 +54,50 @@ end
 if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     actor:set_quest_var("Black_Legion", "bl_ally", 1)
     -- 
-    -- pertinent object definitions for this faction
-    -- trophies
-    -- 
-    local id_3el_skull = 5504
-    local id_3el_ring = 5506
-    local id_3el_badge = 5508
-    local id_3el_token = 5510
-    local id_3el_insignia = 5512
-    local id_3el_wand = 5514
-    local id_3el_symbol = 5516
-    -- gems for this faction
-    local id_gem_3bl_cap = 55570
-    local id_gem_3bl_neck = 55571
-    local id_gem_3bl_arm = 55572
-    local id_gem_3bl_wrist = 55573
-    local id_gem_3bl_staff = 55581
-    local id_gem_3bl_ssword = 55582
-    local id_gem_3bl_whammer = 55583
-    local id_gem_3bl_flail = 55584
-    local id_gem_3bl_food = 55566
-    local id_gem_3bl_drink = 55567
-    -- rewards
-    local id_3bl_cap = 17
-    local id_3bl_neck = 19
-    local id_3bl_arm = 21
-    local id_3bl_wrist = 23
-    local id_3bl_staff = 39
-    local id_3bl_ssword = 40
-    local id_3bl_whammer = 41
-    local id_3bl_flail = 42
-    local id_3bl_food = 55
-    local id_3bl_drink = 57
-    -- 
-    -- attempt to reinitialize slutty dg variables to '' (nothing)
-    -- so this switch will work.
-    -- 
-    is_gem = nil
-    exp_multiplier = nil
-    id_trophy = nil
-    faction_multiplier = nil
-    id_reward = nil
-    faction_required = nil
-    -- 
-    -- These cases set the variables for the quests.
-    -- The cases below switch on object.id (the local id of the
-    -- proto handed to the NPC by the player).
-    -- 
-    -- These cases will only have the objects rewarded by this
-    -- questmaster though the full set of objects will be defined
-    -- by the script.
-    -- 
-    -- switch on object.id
+    -- Objects this questmaster accepts, as the legacy vnums (zone * 100 + id) the DG script used:
+    -- `item` is what the player hands over, `reward` the item given back for a gem. Quest-variable
+    -- keys stay <vnum>_trophies / <vnum>_reward like legacy.
+    local TURNIN = {
+        { item = 55570, exp = 10, faction = 1, reward = 5517, faction_required = 20 },  -- gem_3bl_cap
+        { item = 55566, exp = 10, faction = 1, reward = 5555, faction_required = 20 },  -- gem_3bl_food
+        { item = 55567, exp = 10, faction = 1, reward = 5557, faction_required = 20 },  -- gem_3bl_drink
+        { item = 55582, exp = 10, faction = 1, reward = 5540, faction_required = 20 },  -- gem_3bl_ssword
+        { item = 55571, exp = 12, faction = 1, reward = 5519, faction_required = 40 },  -- gem_3bl_neck
+        { item = 55581, exp = 12, faction = 1, reward = 5539, faction_required = 40 },  -- gem_3bl_staff
+        { item = 55572, exp = 14, faction = 1, reward = 5521, faction_required = 55 },  -- gem_3bl_arm
+        { item = 55583, exp = 14, faction = 1, reward = 5541, faction_required = 55 },  -- gem_3bl_whammer
+        { item = 55573, exp = 16, faction = 1, reward = 5523, faction_required = 70 },  -- gem_3bl_wrist
+        { item = 55584, exp = 16, faction = 1, reward = 5542, faction_required = 70 },  -- gem_3bl_flail
+        { item = 5504, exp = 2, faction = 1 },  -- 3el_skull (trophy)
+        { item = 5506, exp = 2, faction = 1 },  -- 3el_ring (trophy)
+        { item = 5508, exp = 2, faction = 1 },  -- 3el_badge (trophy)
+        { item = 5510, exp = 2, faction = 2 },  -- 3el_token (trophy)
+        { item = 5512, exp = 2, faction = 2 },  -- 3el_insignia (trophy)
+        { item = 5514, exp = 2, faction = 2 },  -- 3el_wand (trophy)
+        { item = 5516, exp = 2, faction = 3 },  -- 3el_symbol (trophy)
+    }
     local is_gem, exp_multiplier, id_reward, faction_required, faction_multiplier
     local id_trophy
-    if object.id == "%id_gem_3bl_cap%" then
-        is_gem = 1
-        exp_multiplier = 10
-        id_reward = id_3bl_cap
-        faction_required = 20
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_food%" then
-        is_gem = 1
-        exp_multiplier = 10
-        id_reward = id_3bl_food
-        faction_required = 20
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_drink%" then
-        is_gem = 1
-        exp_multiplier = 10
-        id_reward = id_3bl_drink
-        faction_required = 20
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_ssword%" then
-        is_gem = 1
-        exp_multiplier = 10
-        id_reward = id_3bl_ssword
-        faction_required = 20
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_neck%" then
-        is_gem = 1
-        exp_multiplier = 12
-        id_reward = id_3bl_neck
-        faction_required = 40
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_staff%" then
-        is_gem = 1
-        exp_multiplier = 12
-        id_reward = id_3bl_staff
-        faction_required = 40
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_arm%" then
-        is_gem = 1
-        exp_multiplier = 14
-        id_reward = id_3bl_arm
-        faction_required = 55
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_whammer%" then
-        is_gem = 1
-        exp_multiplier = 14
-        id_reward = id_3bl_whammer
-        faction_required = 55
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_wrist%" then
-        is_gem = 1
-        exp_multiplier = 16
-        id_reward = id_3bl_wrist
-        faction_required = 70
-        faction_multiplier = 1
-    elseif object.id == "%id_gem_3bl_flail%" then
-        is_gem = 1
-        exp_multiplier = 16
-        id_reward = id_3bl_flail
-        faction_required = 70
-        faction_multiplier = 1
-    elseif object.id == "%id_3el_skull%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_skull
-        faction_multiplier = 1
-    elseif object.id == "%id_3el_ring%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_ring
-        faction_multiplier = 1
-    elseif object.id == "%id_3el_badge%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_badge
-        faction_multiplier = 1
-    elseif object.id == "%id_3el_token%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_token
-        faction_multiplier = 2
-    elseif object.id == "%id_3el_insignia%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_insignia
-        faction_multiplier = 2
-    elseif object.id == "%id_3el_wand%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_wand
-        faction_multiplier = 2
-    elseif object.id == "%id_3el_symbol%" then
-        exp_multiplier = 2
-        id_trophy = id_3el_symbol
-        faction_multiplier = 3
+    local entry
+    for _, t in ipairs(TURNIN) do
+        local z, i = proto_key(t.item)
+        if object.zone_id == z and object.id == i then
+            entry = t
+            break
+        end
+    end
+    if entry then
+        exp_multiplier = entry.exp
+        faction_multiplier = entry.faction
+        if entry.reward then
+            is_gem = 1
+            id_reward = entry.reward
+            faction_required = entry.faction_required
+        else
+            id_trophy = entry.item
+        end
     else
-        _return_value = true
+        give_back()
         wait(0.1)
         self:command("eye " .. tostring(actor.name))
         actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
@@ -217,22 +111,22 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         local faction_advance = 0
         local exp_advance = 0
         -- hrmm Jelos' magical variable declaration
-        if actor:get_quest_var("black_legion:id_trophy_trophies") then
+        if actor:get_quest_var("black_legion:" .. tostring(id_trophy) .. "_trophies") then
         else
-            actor:set_quest_var("black_legion", "%id_trophy%_trophies", 0)
+            actor:set_quest_var("black_legion", tostring(id_trophy) .. "_trophies", 0)
         end
-        local trophies = actor:get_quest_var("black_legion:id_trophy_trophies")
-        actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
+        local trophies = actor:get_quest_var("black_legion:" .. tostring(id_trophy) .. "_trophies")
+        actor:set_quest_var("black_legion", tostring(id_trophy) .. "_trophies", trophies)
         -- The highest faction a player can gain from interacting with the 3rd front creatures will
         -- be 200.  For this section the trophy turn in will reply on this and other checks.
         if (actor:get_quest_var("black_legion:bl_faction") or 0) < 100 then
-            local trophies = (actor:get_quest_var("black_legion:id_trophy_trophies") or 0) + 1
-            actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
+            local trophies = (actor:get_quest_var("black_legion:" .. tostring(id_trophy) .. "_trophies") or 0) + 1
+            actor:set_quest_var("black_legion", tostring(id_trophy) .. "_trophies", trophies)
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Hrm, I see you have been out raiding the")
             actor:send("</>monks assisting the Eldorians.  According to my records you have now turned in")
             actor:send("</>have now turned in <b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. proto_short(id_trophy) .. "</>.'")
-            world.destroy(object)  -- TODO(parity): legacy converter wrote `object.name`
+            world.destroy(object)
             actor:save()
             if trophies < 10 then
                 faction_advance = 1
@@ -243,10 +137,10 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         else
             if (trophies or 0) < 10 then
                 exp_advance = 1
-                local trophies = (actor:get_quest_var("black_legion:id_trophy_trophies") or 0) + 1
-                actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
+                local trophies = (actor:get_quest_var("black_legion:" .. tostring(id_trophy) .. "_trophies") or 0) + 1
+                actor:set_quest_var("black_legion", tostring(id_trophy) .. "_trophies", trophies)
             else
-                _return_value = true
+                give_back()
             end
             wait(0.2)
             self:command("eye " .. tostring(actor.name))
@@ -304,33 +198,33 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             -- all other items should be mpjunked or whatever by now
         end
         -- end of !if_gem section or trophy endif
-        actor:save()  -- TODO(parity): legacy converter wrote `actor.name:save()`
+        actor:save()
     end
     if is_gem then
         -- hrmm Jelos' magical variable declaration
-        if actor:get_quest_var("black_legion:id_reward_reward") then
+        if actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward") then
         else
-            actor:set_quest_var("black_legion", "%id_reward%_reward", 0)
+            actor:set_quest_var("black_legion", tostring(id_reward) .. "_reward", 0)
         end
-        local rewards = actor:get_quest_var("black_legion:id_reward_reward")
-        actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
+        local rewards = actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward")
+        actor:set_quest_var("black_legion", tostring(id_reward) .. "_reward", rewards)
         if actor.alignment >= 151 then
-            _return_value = true
+            give_back()
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite evil enough for these")
             actor:send("</>rewards.'")
             return _return_value
         end
         if (actor:get_quest_var("black_legion:bl_faction") or 0) >= faction_required then
-            local rewards = (actor:get_quest_var("black_legion:id_reward_reward") or 0) + 1
-            actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
+            local rewards = (actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward") or 0) + 1
+            actor:set_quest_var("black_legion", tostring(id_reward) .. "_reward", rewards)
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Legion thanks you for your")
             actor:send("</>efforts.  Take this to aid you in your battles.'")
             wait(0.1)
-            self.room:spawn_object(55, id_reward)
+            self:spawn_object(proto_key(id_reward))
             wait(0.1)
-            if (actor:get_quest_var("black_legion:id_reward_reward") or 0) == 1 then
+            if (actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward") or 0) == 1 then
                 -- 
                 -- loop for exp award.
                 -- 
@@ -370,12 +264,12 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
                 -- 
                 -- all other items should be mpjunked or whatever by now
             end
-            world.destroy(object)  -- TODO(parity): legacy converter wrote `object.name`
+            world.destroy(object)
             self:destroy_item("all.eldoria-trophy")
             self:command("give all " .. tostring(actor.name))
-            actor:save()  -- TODO(parity): legacy converter wrote `actor.name:save()`
+            actor:save()
         else
-            _return_value = true
+            give_back()
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with our")
             actor:send("</>cause to earn that reward.'")
@@ -385,7 +279,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     end
 else
     -- Alignment not low enough or hasn't started the quest yet.
-    _return_value = true
+    give_back()
     wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'You aren't quite allied enough with our")
     actor:send("</>cause to earn our rewards.  You need a lower alignement, or to start these")

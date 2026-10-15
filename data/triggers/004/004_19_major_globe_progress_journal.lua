@@ -1,26 +1,16 @@
 -- Trigger: Major Globe progress journal
 -- Zone: 4, ID: 19
 -- Type: OBJECT, Flags: LOOK
--- Status: NEEDS_REVIEW
--- TODO(parity): the switch on stage lost its `elseif stage == 10` (the "Deliver" task follows the
--- stage 9 "Find" task in the same branch), and the final send block sits inside that last branch,
--- so stages 1-8 never print their task. Rebuild from DG #419.
+-- Status: CLEAN
 --
 -- Original DG Script: #419
 
 -- Converted from DG Script #419: Major Globe progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
-local function proto_key(vnum)
-    vnum = tonumber(vnum)
-    if not vnum then return nil end
-    local zone = math.floor(vnum / 100)
-    if zone == 0 then zone = 1000 end
-    return zone, vnum % 100
-end
-local function proto_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and objects.template(zone, id).name
-    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+-- final_item is a local id in zone 534; nil (never picked) reads as a missing description.
+local function final_item_name(local_id)
+    local name = local_id and objects.template(534, local_id).name
+    if not name or name == "" then return "[no description for object " .. tostring(local_id) .. "]" end
     return name
 end
 local wards_left, plant, mist, water, flame, ice
@@ -43,75 +33,78 @@ if string.find(arg, "major globe") or string.find(arg, "globe") or string.find(a
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("major_globe_spell") then
             -- switch on stage
+            local master, task
             if stage == 1 then
-                local master = mobiles.template(534, 50).name
-                local task = "Find Earle and tell him \"Lirne sends me.\""
+                master = mobiles.template(534, 50).name
+                task = "Find Earle and tell him \"Lirne sends me.\""
             elseif stage == 2 then
-                local master = mobiles.template(490, 8).name
-                local task = "Find shale on Fiery Island."
+                master = mobiles.template(490, 8).name
+                task = "Find shale on Fiery Island."
             elseif stage == 3 then
-                local master = mobiles.template(490, 8).name
-                local task = "Find sake in Odaishyozen."
+                master = mobiles.template(490, 8).name
+                task = "Find sake in Odaishyozen."
             elseif stage == 4 then
-                local master = mobiles.template(490, 8).name
-                local task = "Find a marigold poultice on a healer in South Caelia."
+                master = mobiles.template(490, 8).name
+                task = "Find a marigold poultice on a healer in South Caelia."
             elseif stage == 5 then
-                local master = mobiles.template(534, 50).name
-                local task = "Bring " .. tostring(master) .. " the salve Earle prepared."
+                master = mobiles.template(534, 50).name
+                task = "Bring " .. tostring(master) .. " the salve Earle prepared."
             elseif stage == 6 then
-                local master = mobiles.template(534, 50).name
-                local task = "<b:cyan>Search</> in each <b:green>library</> or <b:green>stack</> to find the lost spellbook."
+                master = mobiles.template(534, 50).name
+                task = "<b:cyan>Search</> in each <b:green>library</> or <b:green>stack</> to find the lost spellbook."
             elseif stage == 7 then
-                local master = mobiles.template(534, 50).name
-                local task = "Bring " .. tostring(objects.template(534, 52).name) .. " to " .. tostring(master) .. "."
+                master = mobiles.template(534, 50).name
+                task = "Bring " .. tostring(objects.template(534, 52).name) .. " to " .. tostring(master) .. "."
             elseif stage == 8 then
-                local master = mobiles.template(534, 50).name
-                plant = actor:get_quest_var("major_globe_spell:ward_53453")
-                mist = actor:get_quest_var("major_globe_spell:ward_53454")
-                water = actor:get_quest_var("major_globe_spell:ward_53455")
-                flame = actor:get_quest_var("major_globe_spell:ward_53456")
-                ice = actor:get_quest_var("major_globe_spell:ward_53457")
+                master = mobiles.template(534, 50).name
+                plant = actor:get_quest_var("major_globe_spell:ward_53")
+                mist = actor:get_quest_var("major_globe_spell:ward_54")
+                water = actor:get_quest_var("major_globe_spell:ward_55")
+                flame = actor:get_quest_var("major_globe_spell:ward_56")
+                ice = actor:get_quest_var("major_globe_spell:ward_57")
                 wards_left = 5 - (actor:get_quest_var("major_globe_spell:ward_count") or 0)
-                local task = "Bring " .. tostring(master) .. " <b:yellow>" .. tostring(wards_left) .. " more elemental wards</>, one each from a mist, a water, an ice, a flame, and a plant elemental."
+                task = "Bring " .. tostring(master) .. " <b:yellow>" .. tostring(wards_left) .. " more elemental wards</>, one each from a mist, a water, an ice, a flame, and a plant elemental."
             elseif stage == 9 then
-                local master = mobiles.template(534, 50).name
+                master = mobiles.template(534, 50).name
+                -- final_item holds the chosen object's local id within zone 534 (58-61), see 534_67
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")
                 -- switch on final_item
                 local place
-                if (final_item or 0) == 53458 then
+                if (final_item or 0) == 58 then
                     place = "in a border keep"
-                elseif (final_item or 0) == 53459 then
+                elseif (final_item or 0) == 59 then
                     place = "on an emerald isle"
-                elseif (final_item or 0) == 53460 then
+                elseif (final_item or 0) == 60 then
                     place = "within a misty fortress"
                 else
                     place = "in an underground city"
                 end
-                local task = "Find " .. proto_short(final_item) .. " " .. tostring(place) .. "."
-                local master = mobiles.template(534, 50).name
+                task = "Find " .. final_item_name(final_item) .. " " .. tostring(place) .. "."
+            elseif stage == 10 then
+                master = mobiles.template(534, 50).name
                 local final_item = actor:get_quest_var("major_globe_spell:final_item")
-                local task = "Deliver " .. proto_short(final_item) .. " to " .. tostring(master) .. "."
-                actor:send("Quest Master: " .. tostring(master))
-                actor:send("</>")
-                actor:send(tostring(task))
-                if stage == 8 then
-                    if wards_left < 5 then
-                        actor:send("You have found:")
-                        if plant == 2 then
-                            actor:send(tostring(objects.template(534, 53).name))
-                        end
-                        if mist == 2 then
-                            actor:send(tostring(objects.template(534, 54).name))
-                        end
-                        if water == 2 then
-                            actor:send(tostring(objects.template(534, 55).name))
-                        end
-                        if flame == 2 then
-                            actor:send(tostring(objects.template(534, 56).name))
-                        end
-                        if ice == 2 then
-                            actor:send(tostring(objects.template(534, 57).name))
-                        end
+                task = "Deliver " .. final_item_name(final_item) .. " to " .. tostring(master) .. "."
+            end
+            actor:send("Quest Master: " .. tostring(master))
+            actor:send("</>")
+            actor:send(tostring(task))
+            if stage == 8 then
+                if wards_left < 5 then
+                    actor:send("You have found:")
+                    if plant == 2 then
+                        actor:send(tostring(objects.template(534, 53).name))
+                    end
+                    if mist == 2 then
+                        actor:send(tostring(objects.template(534, 54).name))
+                    end
+                    if water == 2 then
+                        actor:send(tostring(objects.template(534, 55).name))
+                    end
+                    if flame == 2 then
+                        actor:send(tostring(objects.template(534, 56).name))
+                    end
+                    if ice == 2 then
+                        actor:send(tostring(objects.template(534, 57).name))
                     end
                 end
             end
