@@ -31949,6 +31949,7 @@ do
         actor:send(tostring(self.name) .. " says, 'Give it some time.  Then come back here and say <b:cyan>'restart'</> to try again.'")
     elseif tonumber(_sw1) == 6 then
         actor:send(tostring(self.name) .. " says, 'You got the choker, you say?  Hand it over!'")
+    else
         actor:send(tostring(self.name) .. " says, 'Help you?  Something the matter?'")
         wait(3)
         actor:send(tostring(self.name) .. " says, 'Psyche!  You don't work for me, I wasn't really concerned.'")
@@ -42525,6 +42526,7 @@ if actor:get_quest_var("school:fight") == 3 and string.find(arg, "autosplit") th
             actor:send(self.name .. " tells you, '" .. "You would definitely benefit from" .. "'")
             actor:send(self.name .. " tells you, '" .. "Private classes with the Professor of Divinity." .. "'")
             actor:send(self.name .. " tells you, '" .. "Proceed east to his chapel." .. "'")
+        else
             actor:send(self.name .. " tells you, '" .. "I see you're a fighter type." .. "'")
             actor:send(self.name .. " tells you, '" .. "You'll do best learning from the Academy's Warmaster." .. "'")
             actor:send(self.name .. " tells you, '" .. "Proceed north to her arena." .. "'")

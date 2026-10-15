@@ -43,6 +43,7 @@ if actor:get_quest_var("school:fight") == 3 and string.find(arg, "autosplit") th
             actor:send(self.name .. " tells you, '" .. "You would definitely benefit from" .. "'")
             actor:send(self.name .. " tells you, '" .. "Private classes with the Professor of Divinity." .. "'")
             actor:send(self.name .. " tells you, '" .. "Proceed east to his chapel." .. "'")
+        else
             actor:send(self.name .. " tells you, '" .. "I see you're a fighter type." .. "'")
             actor:send(self.name .. " tells you, '" .. "You'll do best learning from the Academy's Warmaster." .. "'")
             actor:send(self.name .. " tells you, '" .. "Proceed north to her arena." .. "'")

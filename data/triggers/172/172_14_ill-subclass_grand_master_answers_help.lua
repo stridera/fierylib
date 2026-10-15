@@ -35,6 +35,7 @@ do
         actor:send(tostring(self.name) .. " says, 'Give it some time.  Then come back here and say <b:cyan>'restart'</> to try again.'")
     elseif tonumber(_sw1) == 6 then
         actor:send(tostring(self.name) .. " says, 'You got the choker, you say?  Hand it over!'")
+    else
         actor:send(tostring(self.name) .. " says, 'Help you?  Something the matter?'")
         wait(3)
         actor:send(tostring(self.name) .. " says, 'Psyche!  You don't work for me, I wasn't really concerned.'")
