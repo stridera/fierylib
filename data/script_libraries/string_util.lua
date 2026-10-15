@@ -1,7 +1,26 @@
 -- Library: string_util
--- Description: Utility functions for handling and outputting speech
+-- Description: Utility functions for string searching
 
 local string_util = {}
+
+local pattern_cache = {}
+
+-- Compiles a word into a matcher function.
+-- The matcher is only matches complete words in lowercase, ignoring any punctuation or digits in the input word.
+-- The caller should convert the message to lowercase before calling the matcher.
+local function pattern(word)
+    local matcher = pattern_cache[word]
+    if not matcher then
+        local pattern = word:lower()
+        pattern = (pattern:gsub("%A", ""))
+        pattern = '%f[%a]' .. pattern .. '%f[%A]'
+        matcher = function(message)
+            return (message:find(pattern)) ~= nil
+        end
+        pattern_cache[word] = matcher
+    end
+    return matcher
+end
 
 -- Returns true if any of the words are found in the message.
 -- Words are case-insensitive.
@@ -10,7 +29,7 @@ local string_util = {}
 function string_util.contains_any(message, words)
     local lower = message:lower()
     for _, word in ipairs(words) do
-        if lower:find(word:lower(), 1, true) then
+        if pattern(word)(lower) then
             return true
         end
     end
@@ -25,7 +44,7 @@ end
 function string_util.match_table(message, tbl)
     local lower = message:lower()
     for word, value in pairs(tbl) do
-        if lower:find(word:lower(), 1, true) then
+        if pattern(word)(lower) then
             return value
         end
     end

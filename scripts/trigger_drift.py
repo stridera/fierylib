@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Compare the Triggers table of a database with data/triggers at git HEAD (read-only).
+With --libraries, compare the "ScriptLibrary" table with data/script_libraries instead (see below).
 
 A DB row is "clean" when md5(commands) matches any form of its repo file that
 gen_trigger_patch_sql.accepted_forms() knows (header-stripped body, whole file, either
@@ -32,19 +33,36 @@ or pipe an export:
 Dev:
   poetry run python scripts/trigger_drift.py --dsn "postgresql://strider@localhost/fierydev"
 
+Libraries (--libraries, same three input sources): a ScriptLibrary row is clean when its code,
+with CRLF turned into LF and trailing newlines dropped, equals the repo file's body (the seeder's
+view: header lines removed) or the whole file, normalised the same way. Reports drifted (name on
+both sides, different code), db_only and repo_only libraries. Export, one row per line:
+  <name>|<md5 of normalised code>|<updated_at>|<updated_by>
+--print-query --libraries prints the SELECT. Example:
+  poetry run python scripts/trigger_drift.py --libraries --psql \\
+    "ssh fierymud 'sudo -n -u postgres psql -d fierynext -At -F \\"|\\"'"
+
 Only SELECTs are issued. Exit status is 1 if anything drifted, else 0.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import shlex
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# Libraries compare on md5 of the code with CRLF -> LF and trailing newlines dropped.
+LIB_QUERY = (
+    "SELECT name, md5(rtrim(replace(code, E'\\r\\n', E'\\n'), E'\\n')), updated_at::text, coalesce(updated_by, '<null>') "
+    'FROM "ScriptLibrary" ORDER BY name;'
+)
 
 # UNION ALL cannot mix int and text in column 1, so cast both sides.
 QUERY = (
@@ -103,8 +121,8 @@ def parse_export(lines) -> tuple[dict, set | None]:
     return rows, (zones or None)
 
 
-def run_query(argv: list[str]) -> list[str]:
-    r = subprocess.run(argv, input=QUERY + "\n", capture_output=True, text=True)
+def run_query(argv: list[str], query: str = QUERY) -> list[str]:
+    r = subprocess.run(argv, input=query + "\n", capture_output=True, text=True)
     if r.returncode != 0:
         raise SystemExit(f"query failed ({argv[0]}): {r.stderr.strip()}")
     return r.stdout.splitlines()
@@ -127,6 +145,94 @@ def compare(rows, zones, repo):
     return drifted, prod_only, repo_only, clean
 
 
+def norm_code(text: str) -> str:
+    return text.replace("\r\n", "\n").rstrip("\n")
+
+
+def md5_norm(text: str) -> str:
+    return hashlib.md5(norm_code(text).encode("utf-8")).hexdigest()
+
+
+def library_forms(ref: str = "HEAD") -> dict:
+    """name -> (path, set of md5 of accepted forms) for every data/script_libraries/*.lua at ref."""
+    spec = importlib.util.spec_from_file_location(
+        "script_library_seeder", ROOT / "src/fierylib/seeders/script_library_seeder.py"
+    )
+    seeder = importlib.util.module_from_spec(spec)
+    sys.modules["script_library_seeder"] = seeder  # dataclasses needs the module registered
+    spec.loader.exec_module(seeder)
+    names = subprocess.run(
+        ["git", "ls-tree", "-r", "--name-only", ref, "--", "data/script_libraries"],
+        cwd=ROOT, check=True, capture_output=True, text=True,
+    ).stdout.splitlines()
+    repo: dict[str, tuple[str, set[str]]] = {}
+    for path in sorted(n for n in names if n.endswith(".lua")):
+        text = subprocess.run(["git", "show", f"{ref}:{path}"], cwd=ROOT, check=True, capture_output=True).stdout.decode("utf-8")
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "lib.lua"
+            f.write_text(text, encoding="utf-8")
+            lib = seeder.parse_library_file(f)
+        repo[lib.name] = (path, {md5_norm(lib.code), md5_norm(text)})
+    return repo
+
+
+def parse_library_export(lines) -> dict:
+    """Parse a library export into {name: (md5, updated_at, updated_by)}."""
+    rows: dict[str, tuple[str, str, str]] = {}
+    for n, line in enumerate(lines, 1):
+        line = line.rstrip("\r\n")
+        if not line.strip():
+            continue
+        f = line.split("|") if "|" in line else line.split("\t")
+        if len(f) < 2:
+            raise SystemExit(f"export line {n}: expected name|md5|updated_at|updated_by, got {line!r}")
+        f += [""] * (4 - len(f))
+        rows[f[0]] = (f[1], f[2], f[3])
+    return rows
+
+
+def compare_libraries(rows, repo):
+    drifted, db_only, repo_only, clean = [], [], [], 0
+    for name, (h, ts, by) in sorted(rows.items()):
+        if name not in repo:
+            db_only.append((name, ts, by))
+        elif h in repo[name][1]:
+            clean += 1
+        else:
+            drifted.append((name, ts, by, repo[name][0]))
+    repo_only = [(n, repo[n][0]) for n in sorted(repo) if n not in rows]
+    drifted.sort(key=lambda r: r[1], reverse=True)
+    return drifted, db_only, repo_only, clean
+
+
+def main_libraries(a, ap) -> int:
+    if a.print_query:
+        print(LIB_QUERY)
+        return 0
+    if a.dsn:
+        lines = run_query(["psql", a.dsn, "-X", "-At", "-F", "|", "-v", "ON_ERROR_STOP=1"], LIB_QUERY)
+    elif a.psql:
+        lines = run_query(shlex.split(a.psql), LIB_QUERY)
+    elif a.tsv:
+        lines = sys.stdin.read().splitlines() if a.tsv == "-" else Path(a.tsv).read_text(encoding="utf-8").splitlines()
+    else:
+        ap.error("give one of --dsn, --psql, --tsv")
+    rows = parse_library_export(lines)
+    if not rows:
+        raise SystemExit("no ScriptLibrary rows in the input")
+    repo = library_forms(a.ref)
+    drifted, db_only, repo_only, clean = compare_libraries(rows, repo)
+    print(f"db libraries={len(rows)} repo files={len(repo)} clean={clean}")
+    print(f"drifted={len(drifted)} db_only={len(db_only)} repo_only={len(repo_only)}")
+    for name, ts, by, path in drifted:
+        print(f"drifted\t{name}\t{ts}\t{by}\t{path}")
+    for name, ts, by in db_only:
+        print(f"db_only\t{name}\t{ts}\t{by}")
+    for name, path in repo_only:
+        print(f"repo_only\t{name}\t{path}")
+    return 1 if drifted else 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     src = ap.add_mutually_exclusive_group()
@@ -135,7 +241,10 @@ def main() -> int:
     src.add_argument("--tsv", metavar="FILE")
     ap.add_argument("--ref", default="HEAD", help="git ref holding data/triggers (default HEAD)")
     ap.add_argument("--print-query", action="store_true")
+    ap.add_argument("--libraries", action="store_true", help="compare ScriptLibrary with data/script_libraries")
     a = ap.parse_args()
+    if a.libraries:
+        return main_libraries(a, ap)
     if a.print_query:
         print(QUERY)
         return 0

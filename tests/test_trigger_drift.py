@@ -8,7 +8,8 @@ import importlib.util
 import re
 from pathlib import Path
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / "scripts"
 
 
 def _load(name):
@@ -102,3 +103,44 @@ def test_repo_only_reported_when_zone_exists_and_tab_separated():
 
     _, no_zone_filter = drift.parse_export([f"77|3|{h(OLD)}|-|-"])
     assert no_zone_filter is None
+
+
+def _lib_repo():
+    def forms(*texts):
+        return {drift.md5_norm(t) for t in texts}
+
+    return {
+        "a": ("data/script_libraries/a.lua", forms("return 1")),
+        "b": ("data/script_libraries/b.lua", forms("return 2")),
+        "c": ("data/script_libraries/c.lua", forms("return 3")),
+    }
+
+
+def test_library_drift_report_from_fake_tsv():
+    h = drift.md5_norm
+    rows = drift.parse_library_export([
+        # trailing newline and CRLF are normalised away -> clean
+        f"a|{h('return 1' + chr(10))}|2026-10-01 00:00:00|<null>",
+        f"b|{h('return 2')}|2026-10-02 00:00:00|<null>",
+        # edited in prod -> drifted
+        f"c|{h('return 33')}|2026-10-15 17:12:00|builder",
+        # no file -> db only
+        f"d|{h('x')}|2026-10-14 00:00:00|builder",
+    ])
+    # a CRLF body hashes like its LF form
+    assert h("x\r\ny\r\n") == h("x\ny")
+    del rows["b"]  # b only in the repo
+    drifted, db_only, repo_only, clean = drift.compare_libraries(rows, _lib_repo())
+
+    assert clean == 1
+    assert [d[0] for d in drifted] == ["c"]
+    assert [d[0] for d in db_only] == ["d"]
+    assert [r[0] for r in repo_only] == ["b"]
+
+
+def test_library_forms_read_committed_files():
+    repo = drift.library_forms()
+    assert {"dg", "string_util"} <= set(repo)
+    path, hashes = repo["string_util"]
+    assert path == "data/script_libraries/string_util.lua"
+    assert 1 <= len(hashes) <= 2
