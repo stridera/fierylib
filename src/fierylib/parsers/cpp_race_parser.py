@@ -14,6 +14,8 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
+from fierylib.converters.color_converter import convert_legacy_colors
+
 
 class CppRaceParser:
     """Parser for FieryMUD races.cpp file."""
@@ -229,7 +231,7 @@ class CppRaceParser:
             race = {
                 'name': values[0] if len(values) > 0 else '',
                 'keywords': values[1] if len(values) > 1 else '',
-                'displayName': self._strip_color_codes(values[2]) if len(values) > 2 else '',
+                'displayName': convert_legacy_colors(values[2]) if len(values) > 2 else '',
                 'fullName': self._strip_color_codes(values[3]) if len(values) > 3 else '',
                 'plainName': values[4] if len(values) > 4 else '',
                 'playable': values[5] if len(values) > 5 else False,

@@ -3,7 +3,7 @@
     {
       "name": "human",
       "keywords": "human",
-      "displayName": "Human",
+      "displayName": "<cyan>Human</>",
       "fullName": "Human",
       "plainName": "Human",
       "playable": true,
@@ -114,7 +114,7 @@
     {
       "name": "gnome",
       "keywords": "gnome",
-      "displayName": "Gnome",
+      "displayName": "<b:dim:red>Gnome</>",
       "fullName": "Gnome",
       "plainName": "Gnome",
       "playable": true,
@@ -181,7 +181,7 @@
     {
       "name": "dwarf",
       "keywords": "dwarf mountain",
-      "displayName": "Dwarf",
+      "displayName": "<yellow>Dwarf</>",
       "fullName": "Dwarf",
       "plainName": "Dwarf",
       "playable": true,
@@ -236,7 +236,7 @@
     {
       "name": "troll",
       "keywords": "swamp troll",
-      "displayName": "Troll",
+      "displayName": "<dim:green>Troll</>",
       "fullName": "Troll",
       "plainName": "Troll",
       "playable": true,
@@ -281,7 +281,7 @@
     {
       "name": "drow",
       "keywords": "drow",
-      "displayName": "Drow",
+      "displayName": "<magenta>Drow</>",
       "fullName": "Drow",
       "plainName": "Drow",
       "playable": true,
@@ -347,7 +347,7 @@
     {
       "name": "duergar",
       "keywords": "duergar",
-      "displayName": "Duergar",
+      "displayName": "<red>Duergar</>",
       "fullName": "Duergar",
       "plainName": "Duergar",
       "playable": true,
@@ -408,7 +408,7 @@
     {
       "name": "ogre",
       "keywords": "ogre",
-      "displayName": "Ogre",
+      "displayName": "<blue>Ogre</>",
       "fullName": "Ogre",
       "plainName": "Ogre",
       "playable": true,
@@ -453,7 +453,7 @@
     {
       "name": "orc",
       "keywords": "orc",
-      "displayName": "Orc",
+      "displayName": "<b:black>Orc</>",
       "fullName": "Orc",
       "plainName": "Orc",
       "playable": true,
@@ -503,7 +503,7 @@
     {
       "name": "halfelf",
       "keywords": "half-elf half elf",
-      "displayName": "Half-Elf",
+      "displayName": "<b:cyan>Half-</><dim:cyan>Elf</>",
       "fullName": "Half-Elf",
       "plainName": "Half-Elf",
       "playable": true,
@@ -588,7 +588,7 @@
     {
       "name": "halfling",
       "keywords": "halfling",
-      "displayName": "Halfling",
+      "displayName": "<dim:yellow>Halfling</>",
       "fullName": "Halfling",
       "plainName": "Halfling",
       "playable": true,
@@ -633,7 +633,7 @@
     {
       "name": "plant",
       "keywords": "plant",
-      "displayName": "Plant",
+      "displayName": "<green>Plant</>",
       "fullName": "Plant",
       "plainName": "Plant",
       "playable": false,
@@ -672,7 +672,7 @@
     {
       "name": "humanoid",
       "keywords": "humanoid",
-      "displayName": "Humanoid",
+      "displayName": "<white>Humanoid</>",
       "fullName": "Humanoid",
       "plainName": "Humanoid",
       "playable": false,
@@ -711,7 +711,7 @@
     {
       "name": "animal",
       "keywords": "animal",
-      "displayName": "Animal",
+      "displayName": "<green>Animal</>",
       "fullName": "Animal",
       "plainName": "Animal",
       "playable": false,
@@ -750,7 +750,7 @@
     {
       "name": "dragon_general",
       "keywords": "dragon general",
-      "displayName": "Dragon",
+      "displayName": "<b:magenta>Dragon</>",
       "fullName": "Dragon",
       "plainName": "General Dragon",
       "playable": false,
@@ -829,7 +829,7 @@
     {
       "name": "giant",
       "keywords": "giant",
-      "displayName": "Giant",
+      "displayName": "<b:green>Giant</>",
       "fullName": "Giant",
       "plainName": "Giant",
       "playable": false,
@@ -868,7 +868,7 @@
     {
       "name": "other",
       "keywords": "other",
-      "displayName": "Other",
+      "displayName": "<b:blue>Other</>",
       "fullName": "Other",
       "plainName": "Other",
       "playable": false,
@@ -907,7 +907,7 @@
     {
       "name": "goblin",
       "keywords": "goblin",
-      "displayName": "Goblin",
+      "displayName": "<b:blue>Goblin</>",
       "fullName": "Goblin",
       "plainName": "Goblin",
       "playable": false,
@@ -946,7 +946,7 @@
     {
       "name": "demon",
       "keywords": "demon",
-      "displayName": "Demon",
+      "displayName": "<b:red>Demon</>",
       "fullName": "Demon",
       "plainName": "Demon",
       "playable": false,
@@ -1017,7 +1017,7 @@
     {
       "name": "brownie",
       "keywords": "brownie",
-      "displayName": "Brownie",
+      "displayName": "<yellow>Brownie</>",
       "fullName": "Brownie",
       "plainName": "Brownie",
       "playable": false,
@@ -1059,7 +1059,7 @@
     {
       "name": "dragon_fire",
       "keywords": "dragon fire",
-      "displayName": "Dragon",
+      "displayName": "<b:red>Dragon</>",
       "fullName": "Dragon",
       "plainName": "Fire Dragon",
       "playable": false,
@@ -1118,7 +1118,7 @@
     {
       "name": "dragon_frost",
       "keywords": "dragon frost",
-      "displayName": "Dragon",
+      "displayName": "<b:white>Dragon</>",
       "fullName": "Dragon",
       "plainName": "Frost Dragon",
       "playable": false,
@@ -1177,7 +1177,7 @@
     {
       "name": "dragon_acid",
       "keywords": "dragon acid",
-      "displayName": "Dragon",
+      "displayName": "<b:black>Dragon</>",
       "fullName": "Dragon",
       "plainName": "Acid Dragon",
       "playable": false,
@@ -1236,7 +1236,7 @@
     {
       "name": "dragon_lightning",
       "keywords": "dragon lightning",
-      "displayName": "Dragon",
+      "displayName": "<b:blue>Dragon</>",
       "fullName": "Dragon",
       "plainName": "Lightning Dragon",
       "playable": false,
@@ -1295,7 +1295,7 @@
     {
       "name": "dragon_gas",
       "keywords": "dragon gas",
-      "displayName": "Dragon",
+      "displayName": "<b:green>Dragon</>",
       "fullName": "Dragon",
       "plainName": "Gas Dragon",
       "playable": false,
@@ -1354,7 +1354,7 @@
     {
       "name": "dragonborn_fire",
       "keywords": "dragonborn fire",
-      "displayName": "Dragonborn",
+      "displayName": "<red>Dr</><b:red>a</><b:yellow>g</><b:red>on</><red>b</><b:red>o</><b:yellow>r</><b:red>n</>",
       "fullName": "Fire Dragonborn",
       "plainName": "Fire Dragonborn",
       "playable": true,
@@ -1405,7 +1405,7 @@
     {
       "name": "dragonborn_frost",
       "keywords": "dragonborn frost",
-      "displayName": "Dragonborn",
+      "displayName": "<b:white>Dr</><b:blue>ag</><b:white>onb</><b:blue>or</><b:white>n</>",
       "fullName": "Frost Dragonborn",
       "plainName": "Frost Dragonborn",
       "playable": true,
@@ -1456,7 +1456,7 @@
     {
       "name": "dragonborn_acid",
       "keywords": "dragonborn acid",
-      "displayName": "Dragonborn",
+      "displayName": "<b:black>Dr</><b:green>a</><green>g</><b:green>o</><b:black>nb</><b:green>o</><green>r</><b:black>n</>",
       "fullName": "Acid Dragonborn",
       "plainName": "Acid Dragonborn",
       "playable": true,
@@ -1507,7 +1507,7 @@
     {
       "name": "dragonborn_lightning",
       "keywords": "dragonborn lightning",
-      "displayName": "Dragonborn",
+      "displayName": "<b:blue>Dr</><b:cyan>a</><b:blue>go</><b:cyan>n</><b:blue>b</><b:cyan>or</><b:blue>n</>",
       "fullName": "Lightning Dragonborn",
       "plainName": "Lightning Dragonborn",
       "playable": true,
@@ -1558,7 +1558,7 @@
     {
       "name": "dragonborn_gas",
       "keywords": "dragonborn gas",
-      "displayName": "Dragonborn",
+      "displayName": "<b:green>Dra</><b:yellow>g</><b:green>onb</><b:yellow>or</><b:green>n</>",
       "fullName": "Gas Dragonborn",
       "plainName": "Gas Dragonborn",
       "playable": true,
@@ -1609,7 +1609,7 @@
     {
       "name": "sverfneblin",
       "keywords": "sverfneblin",
-      "displayName": "Sverfneblin",
+      "displayName": "<b:dim:black>Sverfneblin</>",
       "fullName": "Sverfneblin",
       "plainName": "Sverfneblin",
       "playable": true,
@@ -1670,7 +1670,7 @@
     {
       "name": "faerie_seelie",
       "keywords": "faerie seelie",
-      "displayName": "Faerie",
+      "displayName": "<b:white>F</><b:yellow>aeri</><b:white>e</>",
       "fullName": "Seelie Faerie",
       "plainName": "Seelie Faerie",
       "playable": true,
@@ -1737,7 +1737,7 @@
     {
       "name": "faerie_unseelie",
       "keywords": "faerie unseelie",
-      "displayName": "Faerie",
+      "displayName": "<b:black>F</><magenta>aeri</><b:black>e</>",
       "fullName": "Unseelie Faerie",
       "plainName": "Unseelie Faerie",
       "playable": true,
@@ -1804,7 +1804,7 @@
     {
       "name": "nymph",
       "keywords": "nymph",
-      "displayName": "Nymph",
+      "displayName": "<b:yellow>N</><green>ym</><b:yellow>ph</>",
       "fullName": "Nymph",
       "plainName": "Nymph",
       "playable": true,
@@ -1861,7 +1861,7 @@
     {
       "name": "arborean",
       "keywords": "arborean",
-      "displayName": "Arborean",
+      "displayName": "<green>Arborean</>",
       "fullName": "Arborean",
       "plainName": "Arborean",
       "playable": false,
