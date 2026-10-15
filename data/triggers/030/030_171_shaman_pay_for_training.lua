@@ -21,7 +21,7 @@ elseif actor:get_quest_var("trainer_3170:skill_name") then
 end
 wait(1)
 if actor:get_quest_var("trainer_3170:actor_level") == actor.level then
-    if value >= actor:get_quest_var("trainer_3170:price") then
+    if value >= (actor:get_quest_var("trainer_3170:price") or 0) then
         self:command("grin " .. tostring(actor.name))
         wait(1)
         actor:send(tostring(self.name) .. " says, 'Fantastic.  Let's get started...'")

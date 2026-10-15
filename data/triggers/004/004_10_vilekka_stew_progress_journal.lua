@@ -99,7 +99,7 @@ if string.find(arg, "service") or string.find(arg, "lolth") or string.find(arg, 
                         end
                     end
                     actor:send("</>")
-                    local total = 10 - num_spices
+                    local total = 10 - (num_spices or 0)
                     actor:send("Bring " .. tostring(total) .. " more spices to prepare the stew.")
                 end
             end

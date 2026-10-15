@@ -55,7 +55,7 @@ do
                     self.room:send(tostring(self.name) .. " says, 'Since I need to fix up the forge after the attack")
                     self.room:send("</>would you be willing to find me another forging hammer?'")
                 else
-                    local total = (item1 + item2 + item3 + item4)
+                    local total = ((item1 or 0) + (item2 or 0) + (item3 or 0) + (item4 or 0))
                     wait(0.2)
                     if total <= 2 then
                         self:say("Do you have any of the other items?")

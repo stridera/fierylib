@@ -31,7 +31,7 @@ while i >= a do
     person = person.group_member[a]
     if person.room == self.room then
         if person:get_quest_stage("hell_trident") == "phase" then
-            local kills = person:get_quest_var("hell_trident:celestials") + 1
+            local kills = (person:get_quest_var("hell_trident:celestials") or 0) + 1
             person:set_quest_var("hell_trident", "celestials", kills)
             if kills >= 6 then
                 person:set_quest_var("hell_trident", "helltask2", 1)

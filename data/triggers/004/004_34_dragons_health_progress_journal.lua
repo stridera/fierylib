@@ -43,7 +43,7 @@ if string.find(arg, "dragons") or string.find(arg, "dragon's") or string.find(ar
                     dragon = "Sagece"
                     treasure = "her skins and shields"
                 elseif tonumber(_sw1) == 5 then
-                    local total = 10000000 - actor:get_quest_var("dragons_health:hoard")
+                    local total = 10000000 - (actor:get_quest_var("dragons_health:hoard") or 0)
                     local plat = total / 1000
                     local gold = total / 100 - plat * 10
                     local silv = total / 10 - plat * 100 - gold * 10

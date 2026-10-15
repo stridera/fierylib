@@ -64,19 +64,117 @@ def test_other_string_comparisons_are_left_alone():
     src = """
         if actor:get_quest_var("q:s") == "done" then a() end
         if actor:get_quest_var("q:s") ~= "running" then b() end
-        if actor:get_quest_var("q:s") == "1" then c() end
         if actor:get_quest_var("q:s") < "m" then d() end
+        if actor:get_quest_var("q:s") == "1.5" then c() end
     """
     out, counts = fix(src)
     assert out == textwrap.dedent(src).strip("\n")
-    assert counts["skipped:call:compared with a numeric string"] == 1
 
 
-def test_non_literal_rhs_is_left_alone_and_counted():
-    src = 'if actor:get_quest_var("q:v") == actor.level and actor:get_quest_var("q:w") >= need then end'
+def test_equality_against_non_literal_is_left_alone_and_counted():
+    src = 'if actor:get_quest_var("q:v") == actor.level and actor:get_quest_var("q:w") ~= other then end'
     out, counts = fix(src)
     assert out == src
     assert counts["skipped:call:non-literal rhs"] == 2
+
+
+def test_relational_against_non_literal_gets_a_zero_default():
+    out, counts = fix(
+        """
+        if value >= actor:get_quest_var("q:price") then a() end
+        if actor:get_quest_var("q:v") >= need then b() end
+        """
+    )
+    assert 'if value >= (actor:get_quest_var("q:price") or 0) then' in out
+    assert 'if (actor:get_quest_var("q:v") or 0) >= need then' in out
+    assert counts["call-rel"] == 2
+
+
+def test_arithmetic_on_the_getter_gets_a_zero_default():
+    out, counts = fix(
+        """
+        local a = actor:get_quest_var("q:v") + 1
+        local b = 6 - actor:get_quest_var("q:v")
+        local c = ((attack) - actor:get_quest_var("q:v"))
+        local d = actor:get_quest_var("q:v") * 2 - x:get_quest_var("q:w") / 3 % 4
+        local e = math.floor(person:get_quest_var("q:v") / 100)
+        """
+    )
+    assert 'local a = (actor:get_quest_var("q:v") or 0) + 1' in out
+    assert 'local b = 6 - (actor:get_quest_var("q:v") or 0)' in out
+    assert 'local c = ((attack) - (actor:get_quest_var("q:v") or 0))' in out
+    assert 'local d = (actor:get_quest_var("q:v") or 0) * 2 - (x:get_quest_var("q:w") or 0) / 3 % 4' in out
+    assert 'math.floor((person:get_quest_var("q:v") or 0) / 100)' in out
+    assert counts["call-arith"] == 6
+
+
+def test_locals_from_a_getter_used_in_arithmetic():
+    out, counts = fix(
+        """
+        local boots = actor:get_quest_var("q:boots")
+        local cloak = actor:get_quest_var("q:cloak")
+        local total = boots + cloak
+        local left = 5 - boots
+        if total >= need then a() end
+        if boots and boots + 1 > 2 then b() end
+        """
+    )
+    assert "local total = (boots or 0) + (cloak or 0)" in out
+    assert "local left = 5 - (boots or 0)" in out
+    # `total` was not assigned from a getter, so it is left alone; `boots and ...` is guarded.
+    assert "if total >= need then" in out
+    assert "if boots and boots + 1 > 2 then" in out
+    assert counts["local-arith"] == 3
+
+
+def test_reassigned_or_defaulted_locals_and_concat_are_left_alone():
+    src = textwrap.dedent(
+        """
+        local n = actor:get_quest_var("q:v")
+        n = n or 0
+        local m = n + 1
+        local k = actor:get_quest_var("q:v") or 0
+        local j = k + 1
+        local s = "got " .. actor:get_quest_var("q:v") .. " of 6"
+        local t = tostring(actor:get_quest_var("q:v")) .. "x"
+        local u = tonumber(actor:get_quest_var("q:v")) or 0
+        local w = actor:get_quest_var("q:v").field
+        """
+    ).strip("\n")
+    out, _ = Q.fix_source(src)
+    assert out == src
+
+
+def test_numeric_string_comparison_becomes_numeric():
+    out, counts = fix(
+        """
+        if actor:get_quest_var("q:s") == "1" then a() end
+        if actor:get_quest_var("q:s") ~= '0' then b() end
+        local v = actor:get_quest_var("q:s")
+        if v == "12" then c() end
+        """
+    )
+    assert 'if (actor:get_quest_var("q:s") or 0) == 1 then' in out
+    assert "if (actor:get_quest_var(\"q:s\") or 0) ~= 0 then" in out
+    assert "if (v or 0) == 12 then" in out
+    assert counts["call-numstr"] == 2 and counts["local-numstr"] == 1
+
+
+def test_arithmetic_pass_is_idempotent():
+    src = textwrap.dedent(
+        """
+        local a = actor:get_quest_var("q:v") + 1
+        local b = 6 - actor:get_quest_var("q:v")
+        if value >= actor:get_quest_var("q:price") then end
+        local v = actor:get_quest_var("q:s")
+        if v == "1" then end
+        local w = v + 1
+        """
+    ).strip("\n")
+    once, _ = Q.fix_source(src)
+    twice, counts = Q.fix_source(once)
+    assert once != src and twice == once
+    assert not [k for k in counts if not k.startswith("skipped:")]
 
 
 def test_idempotent_and_already_guarded_forms_untouched():
@@ -111,7 +209,6 @@ def test_nested_calls_and_arguments_with_parentheses():
 def test_operand_inside_larger_expression_is_not_the_left_side():
     src = textwrap.dedent(
         """
-        if 1 + actor:get_quest_var("q:v") == 3 then end
         if not actor:get_quest_var("q:v") == 0 then end
         if x .. actor:get_quest_var("q:v") == "a0" then end
         if actor:get_quest_var("q:v") == 0 .. "x" then end
@@ -234,15 +331,20 @@ def test_fixed_conditions_behave_with_nil_in_lua():
         r[4] = actor:get_quest_var("q:s") == ""
         r[5] = job == 0
         r[6] = job >= 1
+        r[7] = 6 - actor:get_quest_var("q:v")
+        r[8] = actor:get_quest_var("q:v") + 1
+        r[9] = 3 >= actor:get_quest_var("q:v")
+        r[10] = job + 2
         """
     )
     prog = 'local actor = {get_quest_var = function() return nil end}\n' + src + (
         '\nprint(table.concat({tostring(r[1]), tostring(r[2]), tostring(r[3]), tostring(r[4]),'
-        ' tostring(r[5]), tostring(r[6])}, " "))'
+        ' tostring(r[5]), tostring(r[6]), tostring(r[7]), tostring(r[8]), tostring(r[9]),'
+        ' tostring(r[10])}, " "))'
     )
     out = subprocess.run([LUA, "-e", prog], capture_output=True, text=True)
     assert out.returncode == 0, out.stderr
-    assert out.stdout.strip() == "true false true true true false"
+    assert out.stdout.strip() == "true false true true true false 6 1 true 2"
 
 
 def test_file_runner_check_and_write(tmp_path):
@@ -259,3 +361,8 @@ def test_file_runner_check_and_write(tmp_path):
 def test_corpus_is_already_fixed():
     rep = Q.process([ROOT / "data" / "triggers"], write=False)
     assert rep.files_changed == 0, rep.changed_paths[:5]
+
+
+def test_arithmetic_inside_a_comparison_is_fixed_on_the_operand():
+    out, _ = fix('if 1 + actor:get_quest_var("q:v") == 3 then end')
+    assert out == 'if 1 + (actor:get_quest_var("q:v") or 0) == 3 then end'

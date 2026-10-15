@@ -20,7 +20,7 @@ if actor.is_player then
             actor:send("</>today?'")
         else
             -- item is the legacy 5-digit vnum (zone*100 + id) of the requested gem
-            local item_name = tostring(objects.template(math.floor(item / 100), item % 100).name)
+            local item_name = tostring(objects.template(math.floor((item or 0) / 100), (item or 0) % 100).name)
             actor:send(tostring(self.name) .. " says, 'Are you still looking for " .. item_name .. "?'")
         end
     else

@@ -45,7 +45,7 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
             else
                 weapon = "staff"
             end
-            local remaining = ((attack) - actor:get_quest_var("fire_wand:attack_counter"))
+            local remaining = ((attack) - (actor:get_quest_var("fire_wand:attack_counter") or 0))
             -- switch on stage
             local master
             local wandgem

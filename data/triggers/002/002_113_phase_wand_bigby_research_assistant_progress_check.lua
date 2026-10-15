@@ -53,7 +53,7 @@ if actor:get_quest_stage("air_wand") > 0 then
             -- (empty room echo)
             self.room:send("You still need to:")
             if not actor:get_quest_var("air_wand:wandtask1") then
-                local remaining = times - actor:get_quest_var("air_wand:attack_counter")
+                local remaining = times - (actor:get_quest_var("air_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
             if not actor:get_quest_var("air_wand:wandtask2") then
@@ -111,7 +111,7 @@ if actor:get_quest_stage("fire_wand") > 0 then
             -- (empty room echo)
             self.room:send("You still need to:")
             if not actor:get_quest_var("fire_wand:wandtask1") then
-                local remaining = times - actor:get_quest_var("fire_wand:attack_counter")
+                local remaining = times - (actor:get_quest_var("fire_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
             if not actor:get_quest_var("fire_wand:wandtask2") then
@@ -169,7 +169,7 @@ if actor:get_quest_stage("ice_wand") > 0 then
             -- (empty room echo)
             self.room:send("You still need to:")
             if not actor:get_quest_var("ice_wand:wandtask1") then
-                local remaining = times - actor:get_quest_var("ice_wand:attack_counter")
+                local remaining = times - (actor:get_quest_var("ice_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
             if not actor:get_quest_var("ice_wand:wandtask2") then
@@ -227,7 +227,7 @@ if actor:get_quest_stage("acid_wand") > 0 then
             -- (empty room echo)
             self.room:send("You still need to:")
             if not actor:get_quest_var("acid_wand:wandtask1") then
-                local remaining = times - actor:get_quest_var("acid_wand:attack_counter")
+                local remaining = times - (actor:get_quest_var("acid_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
             if not actor:get_quest_var("acid_wand:wandtask2") then

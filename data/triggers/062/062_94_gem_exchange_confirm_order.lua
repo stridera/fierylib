@@ -51,7 +51,7 @@ if string.find(speech, "yes") then
     elseif (item or 0) <= 55736 then class, tier = 3, 6
     elseif (item or 0) <= 55747 then class, tier = 3, 7
     end
-    local item_name = tostring(objects.template(math.floor(item / 100), item % 100).name)
+    local item_name = tostring(objects.template(math.floor((item or 0) / 100), (item or 0) % 100).name)
     actor:send(tostring(self.name) .. " says, 'So " .. item_name .. " is a <b:yellow>class " .. tostring(class) .. " tier " .. tostring(tier) .. "</> gemstone.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'We can exchange any gemstone of equal or greater rarity for it.'")

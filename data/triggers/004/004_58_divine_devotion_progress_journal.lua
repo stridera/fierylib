@@ -126,7 +126,7 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
                 return _return_value
             end
             if not job1 then
-                local remaining = attack - actor:get_quest_var("paladin_pendant:attack_counter")
+                local remaining = attack - (actor:get_quest_var("paladin_pendant:attack_counter") or 0)
                 actor:send("- attack <b:yellow>" .. tostring(remaining) .. "</> more times while wearing your necklace.")
             end
             if not job2 then

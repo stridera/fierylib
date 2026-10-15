@@ -104,7 +104,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                     else
                         actor:send("You must still:")
                         if not job1 then
-                            local remaining = 666 - actor:get_quest_var("hell_trident:attack_counter")
+                            local remaining = 666 - (actor:get_quest_var("hell_trident:attack_counter") or 0)
                             if remaining > 1 then
                                 actor:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your trident</>")
                             else
@@ -112,7 +112,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                             end
                         end
                         if not job2 then
-                            local kills = 6 - actor:get_quest_var("hell_trident:celestials")
+                            local kills = 6 - (actor:get_quest_var("hell_trident:celestials") or 0)
                             if kills > 1 then
                                 actor:send("- <b:yellow>slay " .. tostring(kills) .. " more " .. tostring(pl_word) .. "</>")
                             else
@@ -120,7 +120,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                             end
                         end
                         if not job3 then
-                            local gems = 6 - actor:get_quest_var("hell_trident:gems")
+                            local gems = 6 - (actor:get_quest_var("hell_trident:gems") or 0)
                             if gems > 1 then
                                 actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. "%get.obj_pldesc[%gem%]%</>")
                             else

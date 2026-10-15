@@ -17,11 +17,21 @@ directly from one and never reassigned, in the same function scope):
     <call> ==/~= ""      ->  (<call> or "") ==/~= ""
     <local> <op> N       ->  (<local> or 0) <op> N       (and the same for "")
 
-Left alone: string comparisons other than "" (`== "x"` is already right for nil), comparisons whose
-other side is not a literal, operands buried in arithmetic / concatenation / `not`, getter calls
-that are already followed by `or` (so the pass is idempotent), and locals that are reassigned or
-shadowed. The script tokenises the Lua (strings and comments are never touched) and tracks block
-scopes for the locals.
+A second group of rewrites covers operands that are not compared with a literal at all:
+
+    10 - <call>          ->  10 - (<call> or 0)          arithmetic  + - * / % ^ //  on either side
+    <call> + 1           ->  (<call> or 0) + 1
+    <call> >= need       ->  (<call> or 0) >= need       relational  < > <= >=  against a non-literal
+    <local> + 1          ->  (<local> or 0) + 1          (same for locals assigned from a getter)
+    <call> == "7"        ->  (<call> or 0) == 7          digits-only string: the engine returns the
+                                                          integer 7 for a stored "7", so the string
+                                                          comparison could never be true
+
+Left alone: string comparisons other than "" and digits-only strings (`== "x"` is already right for
+nil), `==` / `~=` against a non-literal (nil is a fine answer there), concatenation and `tostring` /
+`tonumber` operands, getter calls that are already followed by `or` (so the pass is idempotent),
+operands guarded by `v and ...`, and locals that are reassigned or shadowed. The script tokenises
+the Lua (strings and comments are never touched) and tracks block scopes for the locals.
 
 Usage:
     python scripts/fix_quest_var_nil_compare.py [--check] [PATH ...]
@@ -47,6 +57,8 @@ KEYWORDS = {
     "local", "nil", "not", "or", "repeat", "return", "then", "true", "until", "while",
 }
 CMP_OPS = {"==", "~=", "<", ">", "<=", ">="}
+REL_OPS = {"<", ">", "<=", ">="}
+ARITH_OPS = {"+", "-", "*", "/", "%", "^", "//"}
 # Operators that bind tighter than a comparison: a getter call on their right is only part of the
 # left operand of the comparison, so rewriting it would change the meaning.
 TIGHT_PREV = {"+", "-", "*", "/", "%", "^", "..", "#", "//", "not", "~", "&", "|", "<<", ">>"}
@@ -336,16 +348,22 @@ def _operand_edit(toks, src, first, last, report: Counter, kind: str):
             return None
     lit = literal_kind(toks, k + 1)
     if lit is None:
-        report[f"skipped:{kind}:non-literal rhs"] += 1
+        if toks[k].text in ("==", "~="):  # a relational op is handled by _adjacent_edit
+            report[f"skipped:{kind}:non-literal rhs"] += 1
         return None
     litkind, lit_last = lit
+    nxt = toks[lit_last + 1].text if lit_last + 1 < n else ""
     if litkind == "str":
         # `== "x"` is already right for nil. A digits-only string never equals the integer the
-        # engine returns for a numeric var: not touched here, but counted so it is not lost.
-        if re.fullmatch(r"""["']-?\d+(\.\d+)?["']""", toks[lit_last].text) and toks[k].text in ("==", "~="):
-            report[f"skipped:{kind}:compared with a numeric string"] += 1
+        # engine returns for a numeric var (quest_var_to_lua parses i64), so `== "7"` becomes
+        # `(x or 0) == 7`.
+        m = re.fullmatch(r"""["'](-?\d+)["']""", toks[lit_last].text)
+        if m and toks[k].text in ("==", "~=") and nxt not in ("..", "."):
+            text = src[toks[first].start:toks[last].end]
+            between = src[toks[last].end:toks[lit_last].start]
+            return (toks[first].start, toks[lit_last].end,
+                    f"({text} or 0){between}{int(m.group(1))}", f"{kind}-numstr")
         return None
-    nxt = toks[lit_last + 1].text if lit_last + 1 < n else ""
     if nxt in ("..", "."):
         return None
     op = toks[k].text
@@ -356,8 +374,31 @@ def _operand_edit(toks, src, first, last, report: Counter, kind: str):
     return toks[first].start, toks[last].end, f"({text} or {default})", f"{kind}-{'num' if litkind == 'num' else 'empty'}"
 
 
+def _adjacent_edit(toks, src, first, last, kind: str):
+    """Operand toks[first..last] that sits next to an arithmetic operator, or next to a relational
+    operator whose other side is not a string literal: wrap it in `(... or 0)`."""
+    n = len(toks)
+    p = toks[first - 1] if first > 0 else None
+    q = toks[last + 1] if last + 1 < n else None
+    if p is not None and p.kind == "op" and p.text in (".", ":"):
+        return None
+    if q is not None and q.kind == "op" and q.text in (".", ":", "[", "("):
+        return None
+    arith = (p is not None and p.kind == "op" and p.text in ARITH_OPS) \
+        or (q is not None and q.kind == "op" and q.text in ARITH_OPS)
+    rel = False
+    if p is not None and p.kind == "op" and p.text in REL_OPS:
+        rel = first < 2 or toks[first - 2].kind != "string"
+    if q is not None and q.kind == "op" and q.text in REL_OPS:
+        rel = rel or last + 2 >= n or toks[last + 2].kind != "string"
+    if not (arith or rel):
+        return None
+    text = src[toks[first].start:toks[last].end]
+    return toks[first].start, toks[last].end, f"({text} or 0)", f"{kind}-{'arith' if arith else 'rel'}"
+
+
 def fix_source(src: str) -> tuple[str, Counter]:
-    """Return (new_source, counts). Counts keys: call-num, call-empty, local-num, local-empty plus
+    """Return (new_source, counts). Counts keys: {call,local}-{num,empty,numstr,arith,rel} plus
     skipped:* entries (from the first pass)."""
     total: Counter = Counter()
     for npass in range(8):  # an edit nested in another is redone on the next pass
@@ -372,6 +413,8 @@ def fix_source(src: str) -> tuple[str, Counter]:
             call = call_at(toks, i)
             if call and (res := _operand_edit(toks, src, call[0], call[1], skips, "call")):
                 edits.append(res)
+            elif call and (res := _adjacent_edit(toks, src, call[0], call[1], "call")):
+                edits.append(res)
 
         # 2. locals assigned directly from a getter and never reassigned
         for d in analyse_locals(toks):
@@ -380,6 +423,8 @@ def fix_source(src: str) -> tuple[str, Counter]:
                     if guarded_by_truthiness(toks, u):
                         continue
                     if res := _operand_edit(toks, src, u, u, skips, "local"):
+                        edits.append(res)
+                    elif res := _adjacent_edit(toks, src, u, u, "local"):
                         edits.append(res)
 
         if npass == 0:

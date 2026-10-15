@@ -213,7 +213,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         -- The highest faction a player can gain from interacting with the 3rd front creatures will
         -- be 200.  For this section the trophy turn in will reply on this and other checks.
         if (actor:get_quest_var("black_legion:bl_faction") or 0) < 100 then
-            local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
+            local trophies = (actor:get_quest_var("black_legion:id_trophy_trophies") or 0) + 1
             actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Hrm, I see you have been out raiding the")
@@ -230,7 +230,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         else
             if (trophies or 0) < 10 then
                 exp_advance = 1
-                local trophies = actor:get_quest_var("black_legion:id_trophy_trophies") + 1
+                local trophies = (actor:get_quest_var("black_legion:id_trophy_trophies") or 0) + 1
                 actor:set_quest_var("black_legion", "%id_trophy%_trophies", trophies)
             else
                 _return_value = true
@@ -274,14 +274,14 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send("<b:red>You feel more hated by the Eldorian Guard!</>")
             local lap = 1
             while lap <= faction_multiplier do
-                local faction = actor:get_quest_var("black_legion:bl_faction") + 1
+                local faction = (actor:get_quest_var("black_legion:bl_faction") or 0) + 1
                 actor:set_quest_var("black_legion", "bl_faction", faction)
                 -- 
                 -- 
                 -- slight bug for now the trigger code can't seem to evaluate negative numbers?
                 -- 
                 -- 
-                local faction2 = actor:get_quest_var("black_legion:eg_faction") - 1
+                local faction2 = (actor:get_quest_var("black_legion:eg_faction") or 0) - 1
                 actor:set_quest_var("black_legion", "eg_faction", faction2)
                 lap = lap + 1
             end
@@ -308,8 +308,8 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send("</>rewards.'")
             return _return_value
         end
-        if actor:get_quest_var("black_legion:bl_faction") >= faction_required then
-            local rewards = actor:get_quest_var("black_legion:id_reward_reward") + 1
+        if (actor:get_quest_var("black_legion:bl_faction") or 0) >= faction_required then
+            local rewards = (actor:get_quest_var("black_legion:id_reward_reward") or 0) + 1
             actor:set_quest_var("black_legion", "%id_reward%_reward", rewards)
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Legion thanks you for your")
@@ -341,14 +341,14 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
                 actor:send("<b:red>You feel more hated by the Eldorian Guard!</>")
                 local lap = 1
                 while lap <= faction_multiplier do
-                    local faction = actor:get_quest_var("black_legion:bl_faction") + 1
+                    local faction = (actor:get_quest_var("black_legion:bl_faction") or 0) + 1
                     actor:set_quest_var("black_legion", "bl_faction", faction)
                     -- 
                     -- 
                     -- slight bug for now the trigger code can't seem to evaluate negative numbers?
                     -- 
                     -- 
-                    local faction2 = actor:get_quest_var("black_legion:eg_faction") - 1
+                    local faction2 = (actor:get_quest_var("black_legion:eg_faction") or 0) - 1
                     actor:set_quest_var("black_legion", "eg_faction", faction2)
                     lap = lap + 1
                 end

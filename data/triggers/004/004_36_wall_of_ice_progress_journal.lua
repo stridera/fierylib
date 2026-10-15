@@ -28,7 +28,7 @@ if (string.find(arg, "wall") and string.find(arg, "ice")) or string.find(arg, "w
             actor:send("Collect 20 blocks of living ice from ice creatures.")
             actor:send("Say \"Crystalize\" in their presence to cast the spell of living ice.")
             local have = actor:get_quest_var("wall_ice:blocks")
-            local need = (20 - have)
+            local need = (20 - (have or 0))
             actor:send("</>")
             actor:send("You have brought <b:cyan>" .. tostring(have) .. " blocks of living ice.</>")
             actor:send("</>")

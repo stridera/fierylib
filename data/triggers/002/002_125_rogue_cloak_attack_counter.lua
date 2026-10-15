@@ -6,9 +6,9 @@
 -- (cloaktask1) and the counter resets so the next stage can be earned.
 if actor:get_quest_stage("rogue_cloak") >= 1 then
     if not actor:get_quest_var("rogue_cloak:cloaktask1") then
-        local attack_increase = actor:get_quest_var("rogue_cloak:attack_counter") + 1
+        local attack_increase = (actor:get_quest_var("rogue_cloak:attack_counter") or 0) + 1
         actor:set_quest_var("rogue_cloak", "attack_counter", attack_increase)
-        if actor:get_quest_var("rogue_cloak:attack_counter") >= actor:get_quest_stage("rogue_cloak") * 100 then
+        if (actor:get_quest_var("rogue_cloak:attack_counter") or 0) >= actor:get_quest_stage("rogue_cloak") * 100 then
             actor:set_quest_var("rogue_cloak", "cloaktask1", 1)
             actor:set_quest_var("rogue_cloak", "attack_counter", 0)
             actor:send("<b:yellow>You have perfected your bond with " .. tostring(self.shortdesc) .. "!</>")

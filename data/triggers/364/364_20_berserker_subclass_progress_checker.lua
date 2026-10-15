@@ -43,7 +43,7 @@ if stage == 4 then
     local target = actor:get_quest_var("berserker_subclass:target")
     local place = QUARRIES[target]
     if target and place then
-        local quarry_name = mobiles.template(math.floor(target / 100), target % 100).name
+        local quarry_name = mobiles.template(math.floor((target or 0) / 100), (target or 0) % 100).name
         actor:send("The Spirits reveal to you a vision of " .. tostring(quarry_name) .. "!")
         actor:send("You see it is in " .. tostring(place) .. "!")
     end

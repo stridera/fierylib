@@ -21,25 +21,25 @@ for _, person in ipairs(self.room.people) do
     local stage = person:get_quest_stage("supernova")
     if not (person:has_item(489, 17) or person:has_equipped(489, 17)) then
         -- nothing
-    elseif stage == 3 and person.room == get_room(math.floor(person:get_quest_var("supernova:step3") / 100), person:get_quest_var("supernova:step3") % 100) then
+    elseif stage == 3 and person.room == get_room(math.floor((person:get_quest_var("supernova:step3") or 0) / 100), (person:get_quest_var("supernova:step3") or 0) % 100) then
         self.room:spawn_object(62, 29)
         self.room:send("<magenta>" .. tostring(objects.template(489, 17).name) .. " begins emitting an eerie purple light!</>")
         self.room:send_except(person, tostring(person.name) .. " has found a clue to Phayla's whereabouts!")
         person:send("You have found a clue to Phayla's whereabouts!")
         person:advance_quest("supernova")
-    elseif stage == 4 and person.room == get_room(math.floor(person:get_quest_var("supernova:step4") / 100), person:get_quest_var("supernova:step4") % 100) then
+    elseif stage == 4 and person.room == get_room(math.floor((person:get_quest_var("supernova:step4") or 0) / 100), (person:get_quest_var("supernova:step4") or 0) % 100) then
         self.room:spawn_object(62, 32)
         self.room:send("<magenta>" .. tostring(objects.template(489, 17).name) .. " begins emitting an eerie purple light!</>")
         self.room:send_except(person, tostring(person.name) .. " has found a clue to Phayla's whereabouts!")
         person:send("You have found a clue to Phayla's whereabouts!")
         person:advance_quest("supernova")
-    elseif stage == 5 and person.room == get_room(math.floor(person:get_quest_var("supernova:step5") / 100), person:get_quest_var("supernova:step5") % 100) then
+    elseif stage == 5 and person.room == get_room(math.floor((person:get_quest_var("supernova:step5") or 0) / 100), (person:get_quest_var("supernova:step5") or 0) % 100) then
         self.room:spawn_object(62, 33)
         self.room:send("<magenta>" .. tostring(objects.template(489, 17).name) .. " begins emitting an eerie purple light!</>")
         self.room:send_except(person, tostring(person.name) .. " has found a clue to Phayla's whereabouts!")
         person:send("You have found a clue to Phayla's whereabouts!")
         person:advance_quest("supernova")
-    elseif stage == 6 and person.room == get_room(math.floor(person:get_quest_var("supernova:step6") / 100), person:get_quest_var("supernova:step6") % 100) then
+    elseif stage == 6 and person.room == get_room(math.floor((person:get_quest_var("supernova:step6") or 0) / 100), (person:get_quest_var("supernova:step6") or 0) % 100) then
         self.room:spawn_object(62, 30)
         self.room:send("<magenta>Eerie purple light from " .. tostring(objects.template(489, 17).name) .. " reveals a gateway to another dimension!</>")
         person:advance_quest("supernova")

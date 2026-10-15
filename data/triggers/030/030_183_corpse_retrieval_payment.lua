@@ -10,7 +10,7 @@
 
 local _return_value = true  -- Default: allow action
 if actor:get_quest_var("corpse_retrieval:actor_level") == actor.level then
-    if value >= actor:get_quest_var("corpse_retrieval:price") then
+    if value >= (actor:get_quest_var("corpse_retrieval:price") or 0) then
         actor:command("consent " .. tostring(self))
         wait(1)
         self:command("nod " .. tostring(actor.name))

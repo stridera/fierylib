@@ -67,7 +67,7 @@ if string.find(arg, "group heal") or string.find(arg, "heal") or string.find(arg
                             end
                             actor:send("</>")
                         end
-                        local total = 6 - actor:get_quest_var("group_heal:total")
+                        local total = 6 - (actor:get_quest_var("group_heal:total") or 0)
                         if total == 1 then
                             actor:send("Bring notes from " .. tostring(total) .. " more chef.")
                         else
@@ -81,7 +81,7 @@ if string.find(arg, "group heal") or string.find(arg, "heal") or string.find(arg
                             return _return_value
                         end
                         actor:send("You are delivering the medical packages to <b:white>injured</>, <b:white>wounded</>, <b:white>sick</>, or <b:white>hobbling</> creatures.")
-                        local total = (5 - actor:get_quest_var("group_heal:total"))
+                        local total = (5 - (actor:get_quest_var("group_heal:total") or 0))
                         local person1 = actor:get_quest_var("group_heal:18506")
                         local person2 = actor:get_quest_var("group_heal:46414")
                         local person3 = actor:get_quest_var("group_heal:43020")

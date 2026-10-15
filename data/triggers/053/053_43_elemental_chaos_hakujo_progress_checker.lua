@@ -168,7 +168,7 @@ if string.find(actor.class, "monk") then
             actor:send("Just give me your current vision mark.")
         else
             if not job1 then
-                local remaining = attack - actor:get_quest_var("monk_vision:attack_counter")
+                local remaining = attack - (actor:get_quest_var("monk_vision:attack_counter") or 0)
                 actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your vision mark.")
             end
             if not job4 then

@@ -123,7 +123,7 @@ if string.find(arg, "eye of the tiger") or string.find(arg, "tiger") then
                 return _return_value
             end
             if not job1 then
-                local remaining = attack - actor:get_quest_var("ranger_trophy:attack_counter")
+                local remaining = attack - (actor:get_quest_var("ranger_trophy:attack_counter") or 0)
                 actor:send("- attack <b:green>" .. tostring(remaining) .. "</> more times while wearing your trophy.")
             end
             if not job2 then

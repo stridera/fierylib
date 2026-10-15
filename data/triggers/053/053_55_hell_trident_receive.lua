@@ -80,7 +80,7 @@ end
 local refuse, reason
 if go == "gem" then
     local gem_id = object.id
-    local gem_count = actor:get_quest_var("hell_trident:gems")
+    local gem_count = actor:get_quest_var("hell_trident:gems") or 0
     if gem_count < 6 then
         wait(0.2)
         world.destroy(object.name)

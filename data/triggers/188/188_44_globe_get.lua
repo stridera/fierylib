@@ -16,7 +16,7 @@ if actor:get_quest_var("quest_items:" .. tostring(self.zone_id) .. "_" .. tostri
                 local now = timestamp()
                 local can_use = false
                 if last_use then
-                    if now - last_use >= 1 then
+                    if now - (last_use or 0) >= 1 then
                         can_use = true
                     else
                         _return_value = false

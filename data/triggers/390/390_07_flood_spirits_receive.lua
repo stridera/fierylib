@@ -104,7 +104,7 @@ do
                 else
                     actor:set_quest_var("flood", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
                     local full = actor:get_quest_var("flood:hunger")
-                    local hunger = (full + object.val0)
+                    local hunger = ((full or 0) + object.val0)
                     actor:set_quest_var("flood", "hunger", hunger)
                     self:destroy_item("food")
                     self.room:send(tostring(self.name) .. " greedily devours " .. tostring(object.shortdesc) .. ".")

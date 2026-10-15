@@ -56,8 +56,8 @@ if string.find(arg, "blur") then
                     if actor:get_quest_var("blur:race") ~= "go" then
                         actor:send("Return to " .. tostring(master) .. " and say \"Let's begin\" to start the race.")
                     else
-                        local minutes = (timer / 60)
-                        local seconds = timer - (minutes * 60)
+                        local minutes = ((timer or 0) / 60)
+                        local seconds = (timer or 0) - (minutes * 60)
                         actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race all four winds!")
                         actor:send("</>")
                         if (north or 0) == 0 then
@@ -65,8 +65,8 @@ if string.find(arg, "blur") then
                         elseif (north or 0) == 1 then
                             local room = get_room("30262")
                             actor:send("Beat the North Wind to " .. tostring(room.name) .. " in Bluebonnet Pass.")
-                            local minutes = (ntimer / 60)
-                            local seconds = ntimer - (minutes * 60)
+                            local minutes = ((ntimer or 0) / 60)
+                            local seconds = (ntimer or 0) - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the North Wind!")
                         elseif (north or 0) == 2 then
                             actor:send("You have won the race against the North Wind!")
@@ -77,8 +77,8 @@ if string.find(arg, "blur") then
                         elseif (south or 0) == 1 then
                             local room = get_room("53557")
                             actor:send("Beat the South Wind to " .. tostring(room.name) .. ".")
-                            local minutes = (stimer / 60)
-                            local seconds = stimer - (minutes * 60)
+                            local minutes = ((stimer or 0) / 60)
+                            local seconds = (stimer or 0) - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the South Wind!")
                         elseif (south or 0) == 2 then
                             actor:send("You have won the race against the South Wind!")
@@ -89,8 +89,8 @@ if string.find(arg, "blur") then
                         elseif (east or 0) == 1 then
                             local room = get_room("12597")
                             actor:send("Beat the East Wind to " .. tostring(room.name) .. ".")
-                            local minutes = (etimer / 60)
-                            local seconds = etimer - (minutes * 60)
+                            local minutes = ((etimer or 0) / 60)
+                            local seconds = (etimer or 0) - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the East Wind!")
                         elseif (east or 0) == 2 then
                             actor:send("You have won the race against the East Wind!")
@@ -101,8 +101,8 @@ if string.find(arg, "blur") then
                         elseif (west or 0) == 1 then
                             local room = get_room("4236")
                             actor:send("Beat the West Wind to " .. tostring(room.name) .. ".")
-                            local minutes = (wtimer / 60)
-                            local seconds = wtimer - (minutes * 60)
+                            local minutes = ((wtimer or 0) / 60)
+                            local seconds = (wtimer or 0) - (minutes * 60)
                             actor:send("You have " .. tostring(minutes) .. " mins " .. tostring(seconds) .. " secs remaining to race the West Wind!")
                         elseif (west or 0) == 2 then
                             actor:send("You have won the race against the West Wind!")

@@ -349,11 +349,11 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         local done_arms = (got_arms or 0) == 1  and  (arms_count or 0) == 3
         local done_legs = (got_legs or 0) == 1  and  (legs_count or 0) == 3
         local done_body = (got_body or 0) == 1  and  (body_count or 0) == 3
-        local given = got_hands + got_feet + got_wrist + got_head + got_arms + got_legs + got_body
-        given = given + hands_count + feet_count + wrist_count + head_count + arms_count + legs_count + body_count
-        local unrewarded = (got_hands + hands_count  ~=  4) + (got_feet + feet_count  ~=  4) + (got_wrist + wrist_count  ~=  4)
-        unrewarded = unrewarded + (got_head + head_count  ~=  4) + (got_arms + arms_count  ~=  4)
-        unrewarded = unrewarded + (got_legs + legs_count  ~=  4) + (got_body + body_count  ~=  4)
+        local given = (got_hands or 0) + (got_feet or 0) + (got_wrist or 0) + (got_head or 0) + (got_arms or 0) + (got_legs or 0) + (got_body or 0)
+        given = given + (hands_count or 0) + (feet_count or 0) + (wrist_count or 0) + (head_count or 0) + (arms_count or 0) + (legs_count or 0) + (body_count or 0)
+        local unrewarded = ((got_hands or 0) + (hands_count or 0)  ~=  4) + ((got_feet or 0) + (feet_count or 0)  ~=  4) + ((got_wrist or 0) + (wrist_count or 0)  ~=  4)
+        unrewarded = unrewarded + ((got_head or 0) + (head_count or 0)  ~=  4) + ((got_arms or 0) + (arms_count or 0)  ~=  4)
+        unrewarded = unrewarded + ((got_legs or 0) + (legs_count or 0)  ~=  4) + ((got_body or 0) + (body_count or 0)  ~=  4)
         if done_hands and done_feet and done_wrist and done_head and done_arms and done_legs and done_body then
             actor:send("<cyan>Status: Completed</>")
             return _return_value

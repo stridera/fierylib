@@ -20,9 +20,9 @@ local wandstep = actor:get_quest_var("type_wand:step")
 local macestep = actor:get_quest_var("phase_mace:step")
 local minlevel
 if wandstep and wandstep ~= 0 then
-    minlevel = (wandstep - 1) * 10
+    minlevel = ((wandstep or 0) - 1) * 10
 elseif macestep and macestep ~= 0 then
-    minlevel = macestep * 10
+    minlevel = (macestep or 0) * 10
 else
     minlevel = 0
 end
@@ -105,7 +105,7 @@ elseif actor:get_quest_stage("doom_entrance") == 6 then
     self.room:spawn_object(484, 21)
     self:command("give key " .. tostring(actor.name))
     if actor:get_quest_stage("type_wand") == "wandstep" then
-        local minlevel = (wandstep - 1) * 10
+        local minlevel = ((wandstep or 0) - 1) * 10
         if actor.level >= minlevel then
             wait(3)
             if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
@@ -138,7 +138,7 @@ elseif actor:get_has_completed("doom_entrance") then
     actor:send(tostring(self.name) .. " says, 'Go now, the Universe awaits!'")
     wait(1)
     if actor:get_quest_stage("type_wand") == "wandstep" then
-        local minlevel = (wandstep - 1) * 10
+        local minlevel = ((wandstep or 0) - 1) * 10
         if actor.level >= minlevel then
             if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " says, 'Additionally Timun, God of the Sun, sees you are progressing toward divine fire.  Tell us what you are working on.'")

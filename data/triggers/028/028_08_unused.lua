@@ -41,7 +41,7 @@ if i then
                 local region3 = person:get_quest_var("waterform:region3")
                 local region4 = person:get_quest_var("waterform:region4")
                 local region5 = person:get_quest_var("waterform:region5")
-                if region1 + region2 + region3 + region4 + region5 > 3 then
+                if (region1 or 0) + (region2 or 0) + (region3 or 0) + (region4 or 0) + (region5 or 0) > 3 then
                     person:send("<b:blue>You have gathered all the samples of living water you need!</>")
                     person:advance_quest("waterform")
                 end
@@ -74,7 +74,7 @@ elseif actor:get_quest_stage("waterform") == 4 and (actor:has_item(28, 8) or act
     local region3 = actor:get_quest_var("waterform:region3")
     local region4 = actor:get_quest_var("waterform:region4")
     local region5 = actor:get_quest_var("waterform:region5")
-    if region1 + region2 + region3 + region4 + region5 > 3 then
+    if (region1 or 0) + (region2 or 0) + (region3 or 0) + (region4 or 0) + (region5 or 0) > 3 then
         actor:send("<b:blue>You have gathered all the samples of living water you need!</>")
         actor:advance_quest("waterform")
     end

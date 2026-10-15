@@ -33,7 +33,7 @@ if string.find(arg, "hellfire") or string.find(arg, "brimstone") or string.find(
                 if tonumber(_sw1) == 1 then
                     local meat = actor:get_quest_var("hellfire_brimstone:meat")
                     actor:send(tostring(master) .. " needs <b:red>meat</> for the fire.")
-                    local total = (6 - meat)
+                    local total = (6 - (meat or 0))
                     if total == 1 then
                         actor:send("Drop <b:red>" .. tostring(total) .. "</> more pound of flesh from the paladins at the Sacred Haven into the bonfire.")
                     else
@@ -43,7 +43,7 @@ if string.find(arg, "hellfire") or string.find(arg, "brimstone") or string.find(
                     local brimstone = actor:get_quest_var("hellfire_brimstone:brimstone")
                     actor:send(tostring(master) .. " needs <b:yellow>brimstone</> to trace out the sigils.")
                     -- (empty send to actor)
-                    local total = (6 - brimstone)
+                    local total = (6 - (brimstone or 0))
                     if total == 1 then
                         actor:send("Bring <b:yellow>" .. tostring(total) .. "</> more quantity of brimstone from fiery spirits on the volcanic island to the north and drop them into the bonfire.")
                     else

@@ -138,7 +138,7 @@ if string.find(arg, "hell gate") or string.find(arg, "hell_gate") then
                         end
                     end
                     actor:send("</>")
-                    local total = (7 - (blood1 + blood2 + blood3 + blood4 + blood5 + blood6 + blood7))
+                    local total = (7 - ((blood1 or 0) + (blood2 or 0) + (blood3 or 0) + (blood4 or 0) + (blood5 or 0) + (blood6 or 0) + (blood7 or 0)))
                     if total == 1 then
                         actor:send("Sacrifice the last child!")
                     else

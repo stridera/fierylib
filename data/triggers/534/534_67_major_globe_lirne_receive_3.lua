@@ -23,7 +23,7 @@ if stage == 8 then
     elseif (ward or 0) == 1 then
         -- mark this specific ward as turned in (2 = consumed)
         actor:set_quest_var("major_globe_spell", "ward_" .. tostring(number), 2)
-        local wards = actor:get_quest_var("major_globe_spell:ward_count") + 1
+        local wards = (actor:get_quest_var("major_globe_spell:ward_count") or 0) + 1
         actor:set_quest_var("major_globe_spell", "ward_count", wards)
         local wards_left = 5 - wards
         self:command("smile")
@@ -63,7 +63,7 @@ if stage == 8 then
             actor:send(tostring(self.name) .. " says, 'Quickly, go now and retrieve it so that we might defeat the demon!'")
         end
     elseif (ward or 0) == 2 then
-        local wards_left = 5 - actor:get_quest_var("major_globe_spell:ward_count")
+        local wards_left = 5 - (actor:get_quest_var("major_globe_spell:ward_count") or 0)
         self:command("eyebrow")
         if wards_left > 1 then
             actor:send(tostring(self.name) .. " says, 'You've already given me this ward.  We still need " .. tostring(wards_left) .. " different ones!")

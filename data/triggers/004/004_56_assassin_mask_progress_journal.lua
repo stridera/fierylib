@@ -125,7 +125,7 @@ if string.find(arg, "deadly") or string.find(arg, "promotion") or string.find(ar
                 return _return_value
             end
             if not job1 then
-                local remaining = attack - actor:get_quest_var("assassin_mask:attack_counter")
+                local remaining = attack - (actor:get_quest_var("assassin_mask:attack_counter") or 0)
                 actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your mask.")
             end
             if not job2 then

@@ -93,7 +93,7 @@ if string.find(speech, "yes") then
         class = 3
         tier = 7
     end
-    actor:send(tostring(self.name) .. " says, 'So " .. objects.template(math.floor(item / 100), item % 100).name .. " is a <b:yellow>class " .. tostring(class) .. " tier " .. tostring(tier) .. "</> piece of gear.'")
+    actor:send(tostring(self.name) .. " says, 'So " .. objects.template(math.floor((item or 0) / 100), (item or 0) % 100).name .. " is a <b:yellow>class " .. tostring(class) .. " tier " .. tostring(tier) .. "</> piece of gear.'")
     wait(2)
     actor:send(tostring(self.name) .. " says, 'I'll give it to you for any other armor of equal or greater rarity.'")
     wait(2)

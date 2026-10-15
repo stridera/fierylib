@@ -180,8 +180,8 @@ if item1 and item2 and item3 and item4 then
         -- rather than this floor-divide hack.
         local saved_goblet = actor:get_quest_var("megalith_quest:goblet")
         if saved_goblet and saved_goblet ~= 0 then
-            self.room:spawn_object(math.floor(saved_goblet / 100), saved_goblet % 100)
-            local goblet_name = objects.template(math.floor(saved_goblet / 100), saved_goblet % 100)
+            self.room:spawn_object(math.floor((saved_goblet or 0) / 100), (saved_goblet or 0) % 100)
+            local goblet_name = objects.template(math.floor((saved_goblet or 0) / 100), (saved_goblet or 0) % 100)
             goblet_name = goblet_name and goblet_name.name or "the goblet"
             self.room:send("The coven high priestess takes " .. tostring(goblet_name) .. " from the altar.")
             self:command("pour goblet out")

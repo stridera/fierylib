@@ -124,7 +124,7 @@ if not success then
     return false
 end
 
-local num_trees = 1 + actor:get_quest_var("twisted_sorrow:num_trees")
+local num_trees = 1 + (actor:get_quest_var("twisted_sorrow:num_trees") or 0)
 actor:set_quest_var("twisted_sorrow", "num_trees", num_trees)
 actor:set_quest_var("twisted_sorrow", "satisfied_tree:" .. tostring(self.room), 1)
 self.room:send("A deep throbbing hum is emanating from the ground.")

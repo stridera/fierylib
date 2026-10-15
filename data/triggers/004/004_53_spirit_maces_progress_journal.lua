@@ -36,7 +36,7 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
             local job5 = actor:get_quest_var("phase_mace:macetask5")
             local job6 = actor:get_quest_var("phase_mace:macetask6")
             local attack = stage * 50
-            local remaining = ((attack) - actor:get_quest_var("phase_mace:attack_counter"))
+            local remaining = ((attack) - (actor:get_quest_var("phase_mace:attack_counter") or 0))
             -- switch on stage
             local master
             local maceitem2

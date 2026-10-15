@@ -100,7 +100,7 @@ if (item or 0) ~= 0 then
         wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Here you are my dear!'")
         world.destroy(object)
-        self.room:spawn_object(math.floor(item / 100), item % 100)
+        self.room:spawn_object(math.floor((item or 0) / 100), (item or 0) % 100)
         self:command("give all " .. tostring(actor))
         wait(0.2)
         actor:send(tostring(self.name) .. " says, 'A pleasure connecting lost things to their owners!'")
@@ -110,7 +110,7 @@ if (item or 0) ~= 0 then
         actor:send(tostring(self.name) .. " refuses to perform the exchange.")
         wait(1)
         if (object.zone_id == 553 and object.id <= 83) then
-            actor:send(tostring(self.name) .. " says, 'That's not rare enough!  I won't take " .. tostring(object.shortdesc) .. " for " .. objects.template(math.floor(item / 100), item % 100).name .. "!'")
+            actor:send(tostring(self.name) .. " says, 'That's not rare enough!  I won't take " .. tostring(object.shortdesc) .. " for " .. objects.template(math.floor((item or 0) / 100), (item or 0) % 100).name .. "!'")
         else
             actor:send(tostring(self.name) .. " says, 'Sorry, " .. tostring(object.shortdesc) .. " isn't the kind of thing I keep around here...'")
         end

@@ -30,7 +30,7 @@ local last_summon = actor:get_quest_var("quest_items:dragonhelm_time")
 local now = timestamp()
 local can_summon = false
 if last_summon then
-    if now - last_summon >= 168 then
+    if now - (last_summon or 0) >= 168 then
         can_summon = true
     else
         actor:send("You may only summon one mount per week!")

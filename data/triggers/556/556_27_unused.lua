@@ -89,8 +89,8 @@ if right_class then
         local done_arm = (arm_armor or 0) == 1  and  (arm_gems or 0) == 3
         local done_legs = (legs_armor or 0) == 1  and  (legs_gems or 0) == 3
         local done_chest = (chest_armor or 0) == 1  and  (chest_gems or 0) == 3
-        local given = gloves_armor + boots_armor + bracer_armor + helm_armor + arm_armor + legs_armor + chest_armor
-        given = given + gloves_gems + boots_gems + bracer_gems + helm_gems + arm_gems + legs_gems + chest_gems
+        local given = (gloves_armor or 0) + (boots_armor or 0) + (bracer_armor or 0) + (helm_armor or 0) + (arm_armor or 0) + (legs_armor or 0) + (chest_armor or 0)
+        given = given + (gloves_gems or 0) + (boots_gems or 0) + (bracer_gems or 0) + (helm_gems or 0) + (arm_gems or 0) + (legs_gems or 0) + (chest_gems or 0)
         if given then
             actor:send(tostring(self.name) .. " tells you, 'You have given me:'")
         else

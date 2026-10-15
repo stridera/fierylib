@@ -357,7 +357,7 @@ if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.f
                         actor:send("- <blue>The Rhell Forest</>")
                     end
                     actor:send("</>")
-                    local remaining = (20 - doors)
+                    local remaining = (20 - (doors or 0))
                     actor:send("Locate doors in <b:magenta>" .. tostring(remaining) .. "</> more regions.")
                     actor:send("</>")
                     actor:send("If you need new lenses return to " .. tostring(master) .. " and say, <b:magenta>\"I need new glasses\"</>.")

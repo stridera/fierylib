@@ -41,7 +41,7 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
                     step = "gathering Nature's Rage"
                 elseif tonumber(_sw1) == 2 then
                     local essence = actor:get_quest_var("creeping_doom:spiders")
-                    local total = 11 - actor:get_quest_var("creeping_doom:spiders")
+                    local total = 11 - (actor:get_quest_var("creeping_doom:spiders") or 0)
                     actor:send("You are collecting essences of swarms from flies, insects, spiders, bugs, scorpions, giant ant people, etc.")
                     actor:send("</>")
                     actor:send("You have found " .. tostring(essence) .. " essences.")

@@ -134,7 +134,7 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                 end
                 if stage == 6 then
                     if (target2 or 0) < 2 then
-                        local xeg = (2 - target2)
+                        local xeg = (2 - (target2 or 0))
                         actor:send("- " .. tostring(xeg) .. " " .. "%get.mob_shortdesc[%mob2%]%")
                     end
                 else

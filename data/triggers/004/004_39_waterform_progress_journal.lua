@@ -63,7 +63,7 @@ if string.find(arg, "waterform") then
                         end
                     end
                     actor:send("</>")
-                    local samples = 4 - (region1 + region2 + region3 + region4 + region5)
+                    local samples = 4 - ((region1 or 0) + (region2 or 0) + (region3 or 0) + (region4 or 0) + (region5 or 0))
                     actor:send("You need <b:blue>" .. tostring(samples) .. "</> more.")
                 elseif tonumber(_sw1) == 5 then
                     actor:send("Give " .. tostring(master) .. " the cup so it can see the samples.")

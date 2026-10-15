@@ -32,7 +32,7 @@ if (actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "
             wait(1)
             actor:send(tostring(self.name) .. " comes limping over to you.")
             self.room:send_except(actor, tostring(self.name) .. " limps over to " .. tostring(actor.name) .. ".")
-            local wards_left = 5 - actor:get_quest_var("major_globe_spell:ward_count")
+            local wards_left = 5 - (actor:get_quest_var("major_globe_spell:ward_count") or 0)
             if wards_left > 1 then
                 actor:send(tostring(self.name) .. " says, 'The wards!  The wards!  Do you have them?  We still need " .. tostring(wards_left) .. " of them!")
             else

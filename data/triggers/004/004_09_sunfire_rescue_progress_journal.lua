@@ -33,7 +33,7 @@ if string.find(arg, "sunfire") or string.find(arg, "serin") or string.find(arg, 
             local boots = actor:get_quest_var("sunfire_rescue:boots")
             local cloak = actor:get_quest_var("sunfire_rescue:cloak")
             local ring = actor:get_quest_var("sunfire_rescue:ring")
-            local total = boots + cloak + ring
+            local total = (boots or 0) + (cloak or 0) + (ring or 0)
             if total > 0 then
                 actor:send("You have retrieved the following treasures:")
                 if boots then

@@ -9,9 +9,9 @@
 --   - vs other undead/demonic targets: divine bolt at half skill (343+)
 if actor:get_quest_stage("phase_mace") >= 1 then
     if not actor:get_quest_var("phase_mace:macetask1") then
-        local attack_increase = actor:get_quest_var("phase_mace:attack_counter") + 1
+        local attack_increase = (actor:get_quest_var("phase_mace:attack_counter") or 0) + 1
         actor:set_quest_var("phase_mace", "attack_counter", attack_increase)
-        if actor:get_quest_var("phase_mace:attack_counter") >= actor:get_quest_stage("phase_mace") * 50 then
+        if (actor:get_quest_var("phase_mace:attack_counter") or 0) >= actor:get_quest_stage("phase_mace") * 50 then
             actor:set_quest_var("phase_mace", "macetask1", 1)
             actor:send("<b:white>You have perfected your bond with " .. tostring(self.shortdesc) .. "!</>")
         end

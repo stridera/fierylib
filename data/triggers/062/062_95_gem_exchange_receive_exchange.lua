@@ -72,7 +72,7 @@ if found then
     wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Here you are, as requested!'")
     world.destroy(object)
-    self.room:spawn_object(math.floor(item / 100), item % 100)
+    self.room:spawn_object(math.floor((item or 0) / 100), (item or 0) % 100)
     self:command("give all " .. tostring(actor))
     wait(0.2)
     actor:send(tostring(self.name) .. " says, 'A pleasure doing business with you!'")
@@ -81,7 +81,7 @@ else
     actor:send(tostring(self.name) .. " refuses to perform the exchange.")
     wait(1)
     if in_gem_range then
-        local item_name = tostring(objects.template(math.floor(item / 100), item % 100).name)
+        local item_name = tostring(objects.template(math.floor((item or 0) / 100), (item or 0) % 100).name)
         actor:send(tostring(self.name) .. " says, 'I'm afraid " .. tostring(object.shortdesc) .. " isn't of high enough rarity")
         actor:send("</>to exchange for " .. item_name .. ".'")
     else

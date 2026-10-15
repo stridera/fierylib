@@ -47,7 +47,7 @@ elseif stage == 3 or stage == 4 then
     wait(2)
     self:say("Do you have the records of the ritual?")
 elseif stage == 5 then
-    local total = 6 - actor:get_quest_var("group_heal:total")
+    local total = 6 - (actor:get_quest_var("group_heal:total") or 0)
     if total == 6 then
         self:say("Ah you've returned!")
         wait(2)
