@@ -9,15 +9,15 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
 --
--- TODO(parity): self.id checks use legacy 5-digit vnums (12303..12306).
--- After the (zone, local_id) split they should become self.local_id 3..6
--- in zone 123. The `need` IDs (55020, 48109, 8301) are also legacy.
--- TODO(parity): the original DG had a guard `if object.id == %wandgem%
--- or %wandtask3% or %wandtask4% or %wand_id%` that referenced globals
--- from the wand-crafting quest. Those globals are not exposed in the
--- new runtime, so the guard now skips that pass-through. Restore once
--- the wand quest's exported IDs are available, otherwise the Keepers
--- will refuse wand components when they should have ignored them.
+-- The keepers are 123:3-123:6 (legacy 12303-12306); the `need` ids (55020, 48109, 8301) are legacy
+-- vnums read through dg.oname. Every refusal hands the item back, the way legacy `return 0` did.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+-- The wand and mace items this crafter exports through `globals` (002_111 / 002_118) belong to
+-- the receive triggers 002_108 / 002_126; everything else is turned away below.
+if dg.quest_item(object, globals) then
+    return true
+end
 
 -- Hoisted from branch-scoped locals in the converter output.
 local direction
@@ -43,20 +43,18 @@ elseif (self.zone_id == 123 and self.id == 6) then
 end
 
 local function need_name()
-    -- TODO(parity): need is still a legacy 5-digit vnum.
     if not need then return "the offering" end
-    local nz = math.floor(need / 100)
-    local nid = need % 100
-    local tmpl = objects.template(nz, nid)
-    return tmpl and tmpl.name or "the offering"
+    return dg.oname(need)
 end
 
 if actor:get_quest_stage("megalith_quest") < 2 then
+    dg.give(self, object, actor)
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(0.2)
     self:say("I'm sorry, I'm quite busy right now.")
 elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("megalith_quest") == 2 and (actor:get_quest_var("megalith_quest:item" .. tostring(part)) or 0) == 1) then
+    dg.give(self, object, actor)
     self:command("shake")
     self:say("I don't need any additional assistance at the moment, thank you.")
     if (self.zone_id == 123 and self.id == 6) then
@@ -66,6 +64,7 @@ elseif actor:get_quest_stage("megalith_quest") > 2 or (actor:get_quest_stage("me
     end
 elseif actor:get_quest_stage("megalith_quest") == 2 then
     if direction and ((actor:get_quest_var("megalith_quest:" .. direction) or 0) == 0) and (not actor:get_quest_var("megalith_quest:item" .. tostring(part))) then
+        dg.give(self, object, actor)
         if (self.zone_id == 123 and self.id == 3) then
             self:command("eye " .. tostring(actor.name))
             self:say("I haven't yet told you what I need.")
@@ -83,6 +82,7 @@ elseif actor:get_quest_stage("megalith_quest") == 2 then
         if ((self.zone_id == 123 and self.id == 3) and (object.zone_id == 550 and object.id == 20)) or ((self.zone_id == 123 and self.id == 4) and (object.zone_id == 481 and object.id == 9)) or ((self.zone_id == 123 and self.id == 5) and (object.zone_id == 83 and object.id == 1)) or ((self.zone_id == 123 and self.id == 6) and ((object.zone_id == 411 and object.id == 10) or (object.zone_id == 411 and object.id == 11) or (object.zone_id == 185 and object.id == 12))) then
             return _return_value
         else
+            dg.give(self, object, actor)
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             wait(0.2)

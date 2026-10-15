@@ -25,21 +25,21 @@ end
 -- and set the quest variable for later interaction.
 -- 
 -- This is for neutrals and evils only.
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!")
     actor:send("</>Be gone, filth!'")
     return _return_value
 end
 if actor.alignment <= 150 then
     wait(0.2)
-    if actor:get_quest_stage("Black_Legion") == 0 then
-        actor:start_quest("Black_Legion")
-        actor:set_quest_var("Black_Legion", "BL_FACTION", 0)
-        actor:set_quest_var("Black_Legion", "EG_FACTION", 0)
+    if actor:get_quest_stage("black_legion") == 0 then
+        actor:start_quest("black_legion")
+        actor:set_quest_var("black_legion", "bl_faction", 0)
+        actor:set_quest_var("black_legion", "eg_faction", 0)
         -- Note that it is not necessary to initialize sub-quest
         -- variables to 0 because non-existent quest variables
         -- return the same as variables set to 0 in conditionals
-        actor:set_quest_var("Black_Legion", "bl_ally", 1)
+        actor:set_quest_var("black_legion", "bl_ally", 1)
         -- being added 2-18-2021 to prevent team switching
     end
     actor:send(tostring(self.name) .. " tells you, 'Yes, You need to go assist our")

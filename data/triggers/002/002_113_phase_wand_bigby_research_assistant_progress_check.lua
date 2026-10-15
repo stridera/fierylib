@@ -6,12 +6,9 @@
 -- quests the player is on, prints a banner, says what's done, what's
 -- left to do, or the next breadcrumb if they've moved past Bigby's tier.
 --
--- TODO(parity): The original `get_obj_noadesc("300")` calls were a DG
--- helper that looked up an object's "no-article" short description by
--- vnum. The current binding is `objects.template(zone, id).name`; the
--- (zone, id) pairs below pass the basic-wand template directly which
--- yields a name with article — accept that minor cosmetic regression
--- until a `noadesc` helper is exposed.
+-- The wand names print with their article ("a lesser wand of lightning"); the task flags go
+-- through dg.flag because a finished stage resets them to 0 (truthy in Lua).
+local dg = require("dg")
 
 -- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech or "") .. " "
@@ -36,27 +33,27 @@ if actor:get_quest_stage("air_wand") > 0 then
         self:say("Let me see " .. tostring(objects.template(2, 100).name) .. ".")
     elseif actor:get_quest_stage("air_wand") == 2 then
         self:say("I am crafting a new air wand for you.")
-        if actor:get_quest_var("air_wand:wandtask1") and actor:get_quest_var("air_wand:wandtask2") then
+        if dg.flag(actor:get_quest_var("air_wand:wandtask1")) and dg.flag(actor:get_quest_var("air_wand:wandtask2")) then
             -- (empty room echo)
             self.room:send("Simply give me your " .. tostring(objects.template(2, 100).name) .. ".")
         else
-            if actor:get_quest_var("air_wand:wandtask1") or actor:get_quest_var("air_wand:wandtask2") then
+            if dg.flag(actor:get_quest_var("air_wand:wandtask1")) or dg.flag(actor:get_quest_var("air_wand:wandtask2")) then
                 -- (empty room echo)
                 self.room:send("You have done the following:")
-                if actor:get_quest_var("air_wand:wandtask1") then
+                if dg.flag(actor:get_quest_var("air_wand:wandtask1")) then
                     self.room:send("- used your wand " .. tostring(times) .. " times")
                 end
-                if actor:get_quest_var("air_wand:wandtask2") then
+                if dg.flag(actor:get_quest_var("air_wand:wandtask2")) then
                     self.room:send("- brought " .. tostring(objects.template(555, 77).name))
                 end
             end
             -- (empty room echo)
             self.room:send("You still need to:")
-            if not actor:get_quest_var("air_wand:wandtask1") then
+            if not dg.flag(actor:get_quest_var("air_wand:wandtask1")) then
                 local remaining = times - (actor:get_quest_var("air_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
-            if not actor:get_quest_var("air_wand:wandtask2") then
+            if not dg.flag(actor:get_quest_var("air_wand:wandtask2")) then
                 self.room:send("- <b:yellow>bring me " .. tostring(objects.template(555, 77).name) .. "</>")
             end
         end
@@ -94,27 +91,27 @@ if actor:get_quest_stage("fire_wand") > 0 then
         self:say("Let me see " .. tostring(objects.template(2, 110).name) .. ".")
     elseif actor:get_quest_stage("fire_wand") == 2 then
         self:say("I am crafting a new fire wand for you.")
-        if actor:get_quest_var("fire_wand:wandtask1") and actor:get_quest_var("fire_wand:wandtask2") then
+        if dg.flag(actor:get_quest_var("fire_wand:wandtask1")) and dg.flag(actor:get_quest_var("fire_wand:wandtask2")) then
             -- (empty room echo)
             self.room:send("Simply give me your " .. tostring(objects.template(2, 110).name) .. ".")
         else
-            if actor:get_quest_var("fire_wand:wandtask1") or actor:get_quest_var("fire_wand:wandtask2") then
+            if dg.flag(actor:get_quest_var("fire_wand:wandtask1")) or dg.flag(actor:get_quest_var("fire_wand:wandtask2")) then
                 -- (empty room echo)
                 self.room:send("You have done the following:")
-                if actor:get_quest_var("fire_wand:wandtask1") then
+                if dg.flag(actor:get_quest_var("fire_wand:wandtask1")) then
                     self.room:send("- used your wand " .. tostring(times) .. " times")
                 end
-                if actor:get_quest_var("fire_wand:wandtask2") then
+                if dg.flag(actor:get_quest_var("fire_wand:wandtask2")) then
                     self.room:send("- brought " .. tostring(objects.template(555, 75).name))
                 end
             end
             -- (empty room echo)
             self.room:send("You still need to:")
-            if not actor:get_quest_var("fire_wand:wandtask1") then
+            if not dg.flag(actor:get_quest_var("fire_wand:wandtask1")) then
                 local remaining = times - (actor:get_quest_var("fire_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
-            if not actor:get_quest_var("fire_wand:wandtask2") then
+            if not dg.flag(actor:get_quest_var("fire_wand:wandtask2")) then
                 self.room:send("- <b:yellow>bring me " .. tostring(objects.template(555, 75).name) .. "</>")
             end
         end
@@ -152,27 +149,27 @@ if actor:get_quest_stage("ice_wand") > 0 then
         self:say("Let me see " .. tostring(objects.template(2, 120).name) .. ".")
     elseif actor:get_quest_stage("ice_wand") == 2 then
         self:say("I am crafting a new ice wand for you.")
-        if actor:get_quest_var("ice_wand:wandtask1") and actor:get_quest_var("ice_wand:wandtask2") then
+        if dg.flag(actor:get_quest_var("ice_wand:wandtask1")) and dg.flag(actor:get_quest_var("ice_wand:wandtask2")) then
             -- (empty room echo)
             self.room:send("Simply give me your " .. tostring(objects.template(2, 120).name) .. ".")
         else
-            if actor:get_quest_var("ice_wand:wandtask1") or actor:get_quest_var("ice_wand:wandtask2") then
+            if dg.flag(actor:get_quest_var("ice_wand:wandtask1")) or dg.flag(actor:get_quest_var("ice_wand:wandtask2")) then
                 -- (empty room echo)
                 self.room:send("You have done the following:")
-                if actor:get_quest_var("ice_wand:wandtask1") then
+                if dg.flag(actor:get_quest_var("ice_wand:wandtask1")) then
                     self.room:send("- used your wand " .. tostring(times) .. " times")
                 end
-                if actor:get_quest_var("ice_wand:wandtask2") then
+                if dg.flag(actor:get_quest_var("ice_wand:wandtask2")) then
                     self.room:send("- brought " .. tostring(objects.template(555, 74).name))
                 end
             end
             -- (empty room echo)
             self.room:send("You still need to:")
-            if not actor:get_quest_var("ice_wand:wandtask1") then
+            if not dg.flag(actor:get_quest_var("ice_wand:wandtask1")) then
                 local remaining = times - (actor:get_quest_var("ice_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
-            if not actor:get_quest_var("ice_wand:wandtask2") then
+            if not dg.flag(actor:get_quest_var("ice_wand:wandtask2")) then
                 self.room:send("- <b:yellow>bring me " .. tostring(objects.template(555, 74).name) .. "</>")
             end
         end
@@ -210,27 +207,27 @@ if actor:get_quest_stage("acid_wand") > 0 then
         self:say("Let me see " .. tostring(objects.template(2, 130).name) .. ".")
     elseif actor:get_quest_stage("acid_wand") == 2 then
         self:say("I am crafting a new acid wand for you.")
-        if actor:get_quest_var("acid_wand:wandtask1") and actor:get_quest_var("acid_wand:wandtask2") then
+        if dg.flag(actor:get_quest_var("acid_wand:wandtask1")) and dg.flag(actor:get_quest_var("acid_wand:wandtask2")) then
             -- (empty room echo)
             self.room:send("Simply give me your " .. tostring(objects.template(2, 130).name) .. ".")
         else
-            if actor:get_quest_var("acid_wand:wandtask1") or actor:get_quest_var("acid_wand:wandtask2") then
+            if dg.flag(actor:get_quest_var("acid_wand:wandtask1")) or dg.flag(actor:get_quest_var("acid_wand:wandtask2")) then
                 -- (empty room echo)
                 self.room:send("You have done the following:")
-                if actor:get_quest_var("acid_wand:wandtask1") then
+                if dg.flag(actor:get_quest_var("acid_wand:wandtask1")) then
                     self.room:send("- used your wand " .. tostring(times) .. " times")
                 end
-                if actor:get_quest_var("acid_wand:wandtask2") then
+                if dg.flag(actor:get_quest_var("acid_wand:wandtask2")) then
                     self.room:send("- brought " .. tostring(objects.template(555, 76).name))
                 end
             end
             -- (empty room echo)
             self.room:send("You still need to:")
-            if not actor:get_quest_var("acid_wand:wandtask1") then
+            if not dg.flag(actor:get_quest_var("acid_wand:wandtask1")) then
                 local remaining = times - (actor:get_quest_var("acid_wand:attack_counter") or 0)
                 self.room:send("- <b:yellow>attack " .. tostring(remaining) .. " more times with your " .. tostring(weapon) .. "</>")
             end
-            if not actor:get_quest_var("acid_wand:wandtask2") then
+            if not dg.flag(actor:get_quest_var("acid_wand:wandtask2")) then
                 self.room:send("- <b:yellow>bring me " .. tostring(objects.template(555, 76).name) .. "</>")
             end
         end

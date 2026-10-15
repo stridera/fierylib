@@ -2,27 +2,17 @@
 -- Zone: 185, ID: 29
 -- Type: MOB, Flags: RECEIVE
 --
--- Sexton refuses any object that is not part of the phase_mace upgrade.
---
--- TODO(parity): the accepted-object list is gated on globals
--- (maceitem2/3/4/5/6, mace_id) from the phase_mace system that is not
--- yet wired up in the rs runtime. As-is, the comparison `object.id ==
--- "%maceitem2%"` is a string compare that will never match, so every
--- object is refused. Once the phase_mace globals are real, replace the
--- literal-string list with proper id checks.
-
-local accepted_ids = {
-    "%maceitem2%", "%maceitem3%", "%maceitem4%", "%maceitem5%",
-    "%mace_id%", "%maceitem6%",
-}
-
-for _, id in ipairs(accepted_ids) do
-    if object.id == id then
-        return true
-    end
+-- The Sexton (macestep 2) turns away any object that is not part of the phase_mace upgrade: the
+-- mace (mace_id), the materials (maceitem2..5) and the pilgrimage dirt (maceitem6), all exported
+-- through `globals` by 002_118 and handled by the receive trigger 002_126. A turned-away item is
+-- handed back, the way legacy `return 0` refused a receive.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if dg.quest_item(object, globals) then
+    return true
 end
-
+dg.give(self, object, actor)
 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, 'I'm sorry, what is this for?'")
 return true

@@ -84,13 +84,13 @@ local id_3eg_drink = 5558
 -- 
 -- Check faction and react accordingly
 -- 
-if actor:get_quest_var("Black_Legion:bl_ally") then
+if actor:get_quest_var("black_legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have pledged")
     actor:send("</>yourself to the forces of darkness!  Suffer under your choice!'")
     return _return_value
 end
 if actor.alignment >= -150 then
-    if actor:get_quest_stage("Black_Legion") > 0 then
+    if actor:get_quest_stage("black_legion") > 0 then
         if (actor:get_quest_var("black_legion:eg_faction") or 0) < 20 then
             -- (empty send to actor)
             actor:send(tostring(self.name) .. " tells you, 'You are a bit raw for a")

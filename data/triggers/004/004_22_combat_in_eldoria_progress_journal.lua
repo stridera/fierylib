@@ -107,7 +107,7 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
         local legion
         local master
         local status
-        if actor:get_quest_var("Black_Legion:bl_ally") then
+        if actor:get_quest_var("black_legion:bl_ally") then
             id_trophy1 = 5504
             id_trophy2 = 5506
             id_trophy3 = 5508
@@ -162,7 +162,7 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
             legion = "Black Legion"
             master = mobiles.template(41, 27).name .. " and " .. mobiles.template(55, 12).name
             status = actor:get_quest_var("black_legion:bl_faction")
-        elseif actor:get_quest_var("Black_Legion:eg_ally") then
+        elseif actor:get_quest_var("black_legion:eg_ally") then
             id_trophy1 = 5503
             id_trophy2 = 5505
             id_trophy3 = 5507

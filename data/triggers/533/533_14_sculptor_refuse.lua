@@ -1,43 +1,39 @@
 -- Trigger: Sculptor refuse
 -- Zone: 533, ID: 14
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
 --
 -- Original DG Script: #53314
 --
--- Refuse generic items the sculptor cannot use. Items associated with
--- the wand-typing or wall_ice quests are passed through (return true)
--- so other RECEIVE triggers can handle them; everything else is
--- refused with a context-appropriate message.
---
--- Original DG had probability 0% (synthetic gate); removed -- a refuse
--- trigger needs to fire on every receive to filter properly.
---
--- TODO: Original referenced quest variables `%wandgem%`, `%wandtask3%`,
--- `%wandtask4%`, `%wand_id%` to hold proto ids of wand-quest items.
--- Resolve these to actual zone/id pairs in the new schema before
--- enabling this trigger; currently the bypass condition is a stub
--- (always false), so all items are refused.
-
--- TODO: Replace with real wand-quest item ID checks once ids are known.
-local is_wand_quest_item = false
-
-if is_wand_quest_item then
-    return true  -- pass through to other triggers
+-- Refuses generic items the sculptor cannot use. The ice wand's step 7 items (wandgem, wandtask3,
+-- wandtask4, wand_id, exported through `globals` by 002_111) are left to 002_108, and 533:27
+-- (53327, the arg list) to its own trigger; the rest is turned away with a message that depends
+-- on which quests the player is on. A turned-away item is handed back, the way legacy `return 0`
+-- refused a receive.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if object.zone_id == 533 and object.id == 27 then
+    return true
+end
+if dg.quest_item(object, globals) then
+    return true
 end
 
+local wand_quest = (globals.type or "type") .. "_wand"
+local on_wand = globals.wandstep ~= nil and actor:get_quest_stage(wand_quest) == globals.wandstep
+local on_wall = actor:get_quest_stage("wall_ice") > 0
 local response
-if actor:get_quest_stage("wall_ice") > 0 and actor:get_quest_stage("type_wand") == "wandstep" then
+if on_wall and on_wand then
     response = "This won't help us build this wall and I can't craft with it."
-elseif actor:get_quest_stage("type_wand") == "wandstep" then
+elseif on_wand then
     response = "I can't craft with this."
-elseif actor:get_quest_stage("wall_ice") > 0 then
+elseif on_wall then
     response = "This won't help us build this wall."
 else
     response = "What is this for?"
 end
 
+dg.give(self, object, actor)
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
 wait(0.2)
 self:say(response)
-return false  -- block the receive
+return true

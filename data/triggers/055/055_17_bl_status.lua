@@ -17,15 +17,15 @@ if not string.find(speech_padded, "[%s%p]faction status[%s%p]") then
     return true  -- Not the phrase
 end
 wait(0.2)
-if actor:get_quest_var("Black_Legion:bl_ally") then
+if actor:get_quest_var("black_legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You are pledged to the Black")
     actor:send("</>Legion.'")
 end
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You are pledged to the")
     actor:send("</>Eldorian Guard.'")
 end
 -- (empty send to actor)
 actor:send("Your progress with our cause is as follows:</>")
-actor:send("Faction with The Black Legion: " .. tostring(actor:get_quest_var("black_legion:bl_faction")) .. "</>")
-actor:send("Faction with The Eldorian Guard: " .. tostring(actor:get_quest_var("black_legion:eg_faction")) .. "</>")
+actor:send("Faction with The Black Legion: " .. tostring(actor:get_quest_var("black_legion:bl_faction") or 0) .. "</>")
+actor:send("Faction with The Eldorian Guard: " .. tostring(actor:get_quest_var("black_legion:eg_faction") or 0) .. "</>")

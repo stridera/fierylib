@@ -3,7 +3,7 @@
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: CLEAN
 --
--- Initiates a player into the Black Legion side of the Black_Legion quest
+-- Initiates a player into the Black Legion side of the black_legion quest
 -- (3bl variant -- raid the Abbey to curry favor). Players already pledged
 -- to the Eldorian Guard (eg_ally) are turned away.
 --
@@ -23,7 +23,7 @@ if not speech_hit then
 end
 -- This will recognize the acceptance of the Eldorian combat quests
 -- and set the quest variable for later interaction.
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!  Be")
     actor:send("</>gone, filth!'")
     return true
@@ -31,16 +31,16 @@ end
 -- This is for neutrals and evils only.
 if actor.alignment <= 150 and actor.level > 9 then
     wait(0.2)
-    if actor:get_quest_stage("Black_Legion") == 0 then
-        actor:start_quest("Black_Legion")
-        actor:set_quest_var("Black_Legion", "BL_FACTION", 0)
-        actor:set_quest_var("Black_Legion", "EG_FACTION", 0)
-        actor:set_quest_var("Black_Legion", "bl_ally", 1)
+    if actor:get_quest_stage("black_legion") == 0 then
+        actor:start_quest("black_legion")
+        actor:set_quest_var("black_legion", "bl_faction", 0)
+        actor:set_quest_var("black_legion", "eg_faction", 0)
+        actor:set_quest_var("black_legion", "bl_ally", 1)
         -- Note that it is not necessary to initialize sub-quest
         -- variables to 0 because non-existent quest variables
         -- return the same as variables set to 0 in conditionals
     end
-    if actor:get_quest_stage("Black_Legion") > 0 and (actor:get_quest_var("black_legion:bl_faction") or 0) > 99 then
+    if actor:get_quest_stage("black_legion") > 0 and (actor:get_quest_var("black_legion:bl_faction") or 0) > 99 then
         actor:send(tostring(self.name) .. " tells you, 'Yes, your service to the Legion has been")
         actor:send("</>acceptable.  Perhaps you can help on the front lines in our assault in Eldoria.")
         actor:send(tostring(self.name) .. " tells you, 'Go at once to Tarelithis!  Seek out the")

@@ -35,7 +35,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!")
     actor:send("</>Be gone, filth!'")
     return _return_value
@@ -47,7 +47,7 @@ local id_trophy4 = 5510
 local id_trophy5 = 5512
 local id_trophy6 = 5514
 local id_trophy7 = 5516
-if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") == 1 then
+if actor.alignment <= 150 and actor:get_quest_stage("black_legion") == 1 then
     -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'As you fight the Eldorian Guard you")
     actor:send("</>will periodically find goods on their bodies that we will want in order to")

@@ -11,7 +11,8 @@
 --  - reminds the player to come back for higher tiers (stage > 2).
 --
 -- Wand objects are looked up by (zone, id): the legacy vnums 300/310/320/330
--- are 2:100, 2:110, 2:120 and 2:130.
+-- are 2:100, 2:110, 2:120 and 2:130. A greet var that was reset to 0 counts as unset (dg.flag).
+local dg = require("dg")
 if self:has_effect(Effect.Invisible) then
     self:command("vis")
 end
@@ -20,10 +21,10 @@ local air = actor:get_quest_stage("air_wand") or 0
 local fire = actor:get_quest_stage("fire_wand") or 0
 local ice = actor:get_quest_stage("ice_wand") or 0
 local acid = actor:get_quest_stage("acid_wand") or 0
-local airgreet = actor:get_quest_var("air_wand:greet")
-local firegreet = actor:get_quest_var("fire_wand:greet")
-local icegreet = actor:get_quest_var("ice_wand:greet")
-local acidgreet = actor:get_quest_var("acid_wand:greet")
+local airgreet = dg.flag(actor:get_quest_var("air_wand:greet"))
+local firegreet = dg.flag(actor:get_quest_var("fire_wand:greet"))
+local icegreet = dg.flag(actor:get_quest_var("ice_wand:greet"))
+local acidgreet = dg.flag(actor:get_quest_var("acid_wand:greet"))
 if air > 2 or fire > 2 or ice > 2 or acid > 2 or airgreet or firegreet or icegreet or acidgreet then
     self:say("Ah, welcome back " .. tostring(actor.name) .. "!")
     wait(2)

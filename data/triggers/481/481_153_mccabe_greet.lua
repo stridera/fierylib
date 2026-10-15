@@ -16,7 +16,7 @@ wait(1)
 -- DG %type%_wand: the questmaster's LOAD trigger (002_111) stores the element in globals.type
 local wand_quest = (globals.type or "type") .. "_wand"
 if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest_stage(wand_quest) < (globals.wandstep or 999) then
-    self:command("con " .. tostring(actor))
+    self:command("con " .. tostring(actor.name))
     wait(2)
     self:say("What are you doing here?! Get out!")
     wait(1)
@@ -35,7 +35,7 @@ if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest
 elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) or actor:get_quest_stage(wand_quest) == globals.wandstep then
     local minlevel = ((globals.wandstep or 1) - 1) * 10
     if (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) then
-        if actor:get_quest_var("meteorswarm:new") ~= "no" then
+        if string.find(tostring(actor:get_quest_var("meteorswarm:new") or ""), "no", 1, true) then
             actor:send(tostring(self.name) .. " tells you, 'Do you have the new meteorite?'")
         elseif (stage or 0) == 0 then
             self.room:spawn_mobile(481, 151)

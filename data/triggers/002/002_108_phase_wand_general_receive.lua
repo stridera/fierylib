@@ -14,33 +14,20 @@
 -- done, then it is upgraded (the next wand_id) and experience is awarded.
 --
 -- The runtime fires RECEIVE after the item is already in the mob's hands, so a refusal hands it
--- back with a give command (DG's `return 0`). Globals hold legacy vnums; vkey() turns one into the
--- (zone, id) the catalog uses (zone 2 holds vnums 200-399, zone 117 holds 11700-11840).
+-- back with a give command (DG's `return 0`). Globals hold legacy vnums; dg.obj() / dg.mob() /
+-- dg.room() turn one into the (zone, id) the catalog uses (zone 2 holds vnums 200-399, zone 117
+-- holds 11700-11840, ...). The give command has no "give all", so every item goes over by itself.
+local dg = require("dg")
 
-local function vkey(vnum)
-    if vnum >= 200 and vnum <= 399 then return 2, vnum - 200 end
-    if vnum >= 11700 and vnum <= 11840 then return 117, vnum - 11700 end
-    return math.floor(vnum / 100), vnum % 100
-end
-local function oname(vnum)
-    local z, i = vkey(vnum)
-    return objects.template(z, i).name
-end
-local function mname(vnum)
-    local z, i = vkey(vnum)
-    return mobiles.template(z, i).name
-end
-local function is_obj(vnum)
-    if type(vnum) ~= "number" then return false end
-    local z, i = vkey(vnum)
-    return object.zone_id == z and object.id == i
-end
+local function vkey(vnum) return dg.obj(vnum) end
+local function oname(vnum) return dg.oname(vnum) end
+local function mname(vnum) return dg.mname(vnum) end
+local function is_obj(vnum) return dg.is_obj(object, vnum) end
 -- A quest flag is set when it holds a non-zero value (0 is truthy in Lua).
-local function set_(v) return v ~= nil and v ~= 0 and v ~= "" end
+local set_ = dg.flag
 
 local function give_back()
-    local bare = string.gsub(string.gsub(object.name, "^%s*[Tt]he%s+", ""), "^%s*[Aa]n?%s+", "")
-    self:command("give " .. bare .. " " .. actor.name)
+    dg.give(self, object, actor)
 end
 
 local wandstep = globals.wandstep
@@ -119,7 +106,7 @@ elseif is_obj(wandvnum) then
             continue = "yes"
         elseif stage == 6 or stage == 8 then
             actor:set_quest_var(quest, "wandtask5", 1)
-            self:spawn_object(vkey(wandtask4))
+            local primed_item = self:spawn_object(vkey(wandtask4))
             wait(0.2)
             if stage == 6 then
                 wait(0.2)
@@ -151,11 +138,12 @@ elseif is_obj(wandvnum) then
                 self.room:send("</>and <b:cyan>imbue</> them both with the energies of that place to forge your new staff.'")
             end
             wait(0.2)
-            self:command("give all " .. actor.name)
+            give_back()
+            dg.give(self, primed_item, actor)
         end
     elseif set_(job1) and set_(job2) and set_(job3) then
         if stage == 10 then
-            local room = get_room(vkey(wandtask4))
+            local room = get_room(dg.room(wandtask4))
             actor:set_quest_var(quest, "wandtask4", 1)
             wait(0.2)
             self.room:send(self.name .. " utters eldritch incantations over " .. object.shortdesc .. ".")
@@ -165,7 +153,7 @@ elseif is_obj(wandvnum) then
             self.room:send(self.name .. " says, 'Now that you've captured the demon's energies, you must make your way deep into the elemental planes.  There, in the full glory of elemental " .. quest_type .. ", find <b:cyan>" .. tostring(room and room.name or "the plane's heart") .. "</> and <b:cyan>imbue</> it with the energy of the plane.'")
             wait(6)
             self:say("It will forge the most powerful staff of " .. quest_type .. " in all the realms!")
-            self:command("give all " .. actor.name)
+            give_back()
         elseif stage == 3 then
             continue = "yes"
         else
@@ -231,8 +219,7 @@ if continue == "yes" then
     else
         self:say("Here you go, your new " .. weapon .. "!")
     end
-    self:spawn_object(vkey(reward))
-    self:command("give all " .. actor.name)
+    dg.give(self, self:spawn_object(vkey(reward)), actor)
 
     -- Experience: a level-band curve on the step's level cap, scaled by class so every class
     -- receives the same proportion of a level.

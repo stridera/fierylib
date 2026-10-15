@@ -8,22 +8,11 @@
 -- already moved past this one.
 --
 -- The per-mob maceitem ids are exported via globals by 002_118; the item names resolve
--- through proto_short() (legacy vnum = zone * 100 + id).
+-- through dg.oname() on the legacy vnum (zone 30 holds vnums 3000-3306, 4 holds 400-599, ...).
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
-local function proto_key(vnum)
-    vnum = tonumber(vnum)
-    if not vnum then return nil end
-    local zone = math.floor(vnum / 100)
-    if zone == 0 then zone = 1000 end
-    return zone, vnum % 100
-end
-local function proto_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and objects.template(zone, id).name
-    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
-    return name
-end
+local dg = require("dg")
+local function proto_short(vnum) return dg.oname(vnum) end
 local speech_padded = " " .. string.lower(speech or "") .. " "
 local speech_hit = false
 for _, w in ipairs({"upgrade", "upgrades", "upgrading", "improvement", "improvements", "improving"}) do
@@ -64,8 +53,7 @@ if actor.class == "cleric" or actor.class == "priest" then
                     actor:send("- <b:yellow>the cemetary outside the Cathedral of Betrayal</>")
                     actor:send(tostring(self.name) .. " says, 'Be warned, these places are <red>exceedingly dangerous!</>'")
                     wait(2)
-                    self.room:spawn_object(185, 26)
-                    self:command("give grave-spade " .. tostring(actor.name))
+                    dg.give(self, self:spawn_object(185, 26), actor)
                     actor:send(tostring(self.name) .. " says, 'Holding this spade, <b:cyan>[dig]</> up a handful of dirt from each of these places and bring it back to me as a token of your journey.'")
                 end
                 actor:send(tostring(self.name) .. " says, 'You can check your <b:cyan>[mace progress]</> at any time.'")
@@ -83,8 +71,8 @@ if actor.class == "cleric" or actor.class == "priest" then
             elseif stage == 4 then actor:send(tostring(self.name) .. " says, 'Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin.'")
             elseif stage == 5 then actor:send(tostring(self.name) .. " says, 'Sometimes to battle the dead, we need to use their own dark natures against them.  Few are as knowledgeable about the dark arts as Ziijhan, the Defiler, in the Cathedral of Betrayal.'")
             elseif stage == 6 then actor:send(tostring(self.name) .. " says, 'Return again to the Abbey of St. George and seek out Silania.  Her mastery of spiritual matters will be necessary to improve this mace any further.'")
-            elseif stage == 7 then actor:send(tostring(self.name) .. " says, 'Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne''s servators.'")
-            elseif stage == 8 then actor:send(tostring(self.name) .. " says, 'The most powerful force in the war against the dead is the sun itself.  Consult with the sun''s Oracle in the ancient pyramid near Anduin.'")
+            elseif stage == 7 then actor:send(tostring(self.name) .. " says, 'Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne's servators.'")
+            elseif stage == 8 then actor:send(tostring(self.name) .. " says, 'The most powerful force in the war against the dead is the sun itself.  Consult with the sun's Oracle in the ancient pyramid near Anduin.'")
             elseif stage == 9 then actor:send(tostring(self.name) .. " says, 'With everything prepared, return to the very beginning of your journey.  The High Priestess of Mielikki, the very center of the Cleric Guild, will know what to do.'")
             end
         end

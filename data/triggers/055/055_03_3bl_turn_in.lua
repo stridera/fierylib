@@ -28,9 +28,11 @@ end
 local _return_value = true  -- Default: allow action
 -- The runtime fires RECEIVE after the item is already in the mob's hands, so a refusal hands it
 -- back with a give command (DG's `return 0`).
+-- The give command takes one word for the item and has no "give all", so items go over one by
+-- one through dg.give, by their first keyword.
+local dg = require("dg")
 local function give_back()
-    local bare = string.gsub(string.gsub(object.name, "^%s*[Tt]he%s+", ""), "^%s*[Aa]n?%s+", "")
-    self:command("give " .. bare .. " " .. actor.name)
+    dg.give(self, object, actor)
 end
 -- 
 -- This is the main receive trigger for the Edorian
@@ -41,13 +43,13 @@ end
 -- 3bl is Third Black Legion - The player MUST be
 -- on the quest already in order to turn in because
 -- the variables are not set yet!
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!")
     actor:send("</>Be gone, filth!'")
     return _return_value
 end
-if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
-    actor:set_quest_var("Black_Legion", "bl_ally", 1)
+if actor.alignment <= 150 and actor:get_quest_stage("black_legion") > 0 then
+    actor:set_quest_var("black_legion", "bl_ally", 1)
     -- 
     -- Objects this questmaster accepts, as the legacy vnums (zone * 100 + id) the DG script used:
     -- `item` is what the player hands over, `reward` the item given back for a gem. Quest-variable
@@ -222,7 +224,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             actor:send(tostring(self.name) .. " tells you, 'Ah yes, the Legion thanks you for")
             actor:send("</>your efforts.  Take this to aid you in your battles.'")
             wait(0.1)
-            self:spawn_object(proto_key(id_reward))
+            local reward_item = self:spawn_object(proto_key(id_reward))
             wait(0.1)
             if (actor:get_quest_var("black_legion:" .. tostring(id_reward) .. "_reward") or 0) == 1 then
                 -- 
@@ -264,7 +266,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             end
             world.destroy(object)
             self:destroy_item("all.eldoria-trophy")
-            self:command("give all " .. tostring(actor.name))
+            dg.give(self, reward_item, actor)
             actor:save()
         else
             give_back()

@@ -1,23 +1,19 @@
 -- Trigger: Oracle Sun refuse
 -- Zone: 484, ID: 27
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #48427
-
--- Converted from DG Script #48427: Oracle Sun refuse
--- Original: MOB trigger, flags: RECEIVE, probability: 100%
--- TODO(parity): the original script gates acceptance on a list of DG
---   global tokens (%maceitem2%, %wand_id%, etc.) that named specific quest
---   items. The mapping from those tokens to new (zone, id) keys is not
---   yet available, so every gift is currently refused. Restore the
---   accept list once the item IDs are known.
-local _return_value = true  -- Default: allow action
-local response = "I have no need of this."
-if response then
-    _return_value = true
-    self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
-    actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
+--
+-- The Oracle of the Sun is the fire wand's step 9 crafter and the mace's step 8 priest. The items
+-- of both quests (wandgem, wandtask3, wandtask4, wand_id, maceitem2..5, mace_id, exported through
+-- `globals` by 002_111 and 002_118) go to 002_108 and 002_126; anything else is handed back.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if dg.quest_item(object, globals) then
+    return true
 end
-return _return_value
+dg.give(self, object, actor)
+self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+wait(0.2)
+actor:send(tostring(self.name) .. " says, 'I have no need of this.'")
+return true

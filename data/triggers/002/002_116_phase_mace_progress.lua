@@ -8,22 +8,11 @@
 -- moved past this priest.
 --
 -- The per-mob maceitem ids are exported via globals by 002_118; the item names resolve
--- through proto_short() (legacy vnum = zone * 100 + id).
+-- through dg.oname() on the legacy vnum (zone 30 holds vnums 3000-3306, 4 holds 400-599, ...).
 
 -- Speech phrase: mace progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
-local function proto_key(vnum)
-    vnum = tonumber(vnum)
-    if not vnum then return nil end
-    local zone = math.floor(vnum / 100)
-    if zone == 0 then zone = 1000 end
-    return zone, vnum % 100
-end
-local function proto_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and objects.template(zone, id).name
-    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
-    return name
-end
+local dg = require("dg")
+local function proto_short(vnum) return dg.oname(vnum) end
 local speech_padded = " " .. string.lower(speech or "") .. " "
 if not string.find(speech_padded, "[%s%p]mace progress[%s%p]") then
     return true  -- Not the phrase
@@ -37,12 +26,12 @@ local macestep = globals.macestep
 if not macestep then return true end
 local maceattack = globals.maceattack
 local stage = actor:get_quest_stage("phase_mace")
-local job1 = actor:get_quest_var("phase_mace:macetask1")
-local job2 = actor:get_quest_var("phase_mace:macetask2")
-local job3 = actor:get_quest_var("phase_mace:macetask3")
-local job4 = actor:get_quest_var("phase_mace:macetask4")
-local job5 = actor:get_quest_var("phase_mace:macetask5")
-local job6 = actor:get_quest_var("phase_mace:macetask6")
+local job1 = dg.flag(actor:get_quest_var("phase_mace:macetask1"))
+local job2 = dg.flag(actor:get_quest_var("phase_mace:macetask2"))
+local job3 = dg.flag(actor:get_quest_var("phase_mace:macetask3"))
+local job4 = dg.flag(actor:get_quest_var("phase_mace:macetask4"))
+local job5 = dg.flag(actor:get_quest_var("phase_mace:macetask5"))
+local job6 = dg.flag(actor:get_quest_var("phase_mace:macetask6"))
 if actor:get_has_completed("phase_mace") then
     actor:send(tostring(self.name) .. " says, 'There is no weapon greater than the mace of disruption!'")
 elseif stage == macestep and actor.level >= macestep * 10 then
@@ -92,8 +81,8 @@ elseif (stage or 0) > 0 and stage > macestep then
     elseif stage == 4 then actor:send(tostring(self.name) .. " says, 'Continue with the Cleric Guild Masters.  Check in with the High Priestess in the City of Anduin.'")
     elseif stage == 5 then actor:send(tostring(self.name) .. " says, 'Sometimes to battle the dead, we need to use their own dark natures against them.  Few are as knowledgeable about the dark arts as Ziijhan, the Defiler, in the Cathedral of Betrayal.'")
     elseif stage == 6 then actor:send(tostring(self.name) .. " says, 'Return again to the Abbey of St. George and seek out Silania.  Her mastery of spiritual matters will be necessary to improve this mace any further.'")
-    elseif stage == 7 then actor:send(tostring(self.name) .. " says, 'Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne''s servators.'")
-    elseif stage == 8 then actor:send(tostring(self.name) .. " says, 'The most powerful force in the war against the dead is the sun itself.  Consult with the sun''s Oracle in the ancient pyramid near Anduin.'")
+    elseif stage == 7 then actor:send(tostring(self.name) .. " says, 'Of the few remaining who are capable of improving your mace, one is a priest of a god most foul.  Find Ruin Wormheart, that most heinous of Blackmourne's servators.'")
+    elseif stage == 8 then actor:send(tostring(self.name) .. " says, 'The most powerful force in the war against the dead is the sun itself.  Consult with the sun's Oracle in the ancient pyramid near Anduin.'")
     elseif stage == 9 then actor:send(tostring(self.name) .. " says, 'With everything prepared, return to the very beginning of your journey.  The High Priestess of Mielikki, the very center of the Cleric Guild, will know what to do.'")
     end
 elseif (stage or 0) < macestep then

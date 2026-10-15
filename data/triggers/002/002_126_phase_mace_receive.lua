@@ -14,8 +14,9 @@
 -- done, then it is upgraded to reward_mace and experience is awarded.
 --
 -- The runtime fires RECEIVE after the item is already in the mob's hands, so a refusal hands it
--- back with a give command (DG's `return 0`). Globals hold legacy vnums; vkey() turns one into
--- the (zone, id) the catalog uses (zone 2 holds vnums 200-399, zone 30 holds 3000-3499).
+-- back with a give command (DG's `return 0`). Globals hold legacy vnums; dg.obj() turns one into
+-- the (zone, id) the catalog uses (zone 2 holds vnums 200-399, zone 30 holds 3000-3306, ...).
+-- The give command has no "give all", so every item goes over by itself.
 --
 -- Changes from the DG: the "already gave" check read task<N> although the item is recorded as
 -- macetask<N>, and the dirt check tested dirt<N> == 0 although a never-dug dirt<N> is unset; both
@@ -23,26 +24,16 @@
 -- first-time player of priest 30/25 sat inside the stage == macestep test, so it could never run
 -- (002_117 starts the quest when the mace is first handed over); it is left out.
 
-local function vkey(vnum)
-    if vnum >= 200 and vnum <= 399 then return 2, vnum - 200 end
-    if vnum >= 3000 and vnum <= 3499 then return 30, vnum - 3000 end
-    return math.floor(vnum / 100), vnum % 100
-end
-local function oname(vnum)
-    local z, i = vkey(vnum)
-    return objects.template(z, i).name
-end
-local function is_obj(vnum)
-    if type(vnum) ~= "number" then return false end
-    local z, i = vkey(vnum)
-    return object.zone_id == z and object.id == i
-end
+local dg = require("dg")
+
+local function vkey(vnum) return dg.obj(vnum) end
+local function oname(vnum) return dg.oname(vnum) end
+local function is_obj(vnum) return dg.is_obj(object, vnum) end
 -- A quest flag is set when it holds a non-zero value (0 is truthy in Lua).
-local function set_(v) return v ~= nil and v ~= 0 and v ~= "" end
+local set_ = dg.flag
 
 local function give_back()
-    local bare = string.gsub(string.gsub(object.name, "^%s*[Tt]he%s+", ""), "^%s*[Aa]n?%s+", "")
-    self:command("give " .. bare .. " " .. actor.name)
+    dg.give(self, object, actor)
 end
 local function says(msg)
     actor:send(self.name .. " says, '" .. msg .. "'")
@@ -205,8 +196,7 @@ elseif reward == "yes" then
     actor:send(oname(macevnum) .. " is transformed!")
     wait(1)
     says("Here you are, " .. oname(reward_mace) .. "!")
-    self:spawn_object(vkey(reward_mace))
-    self:command("give mace " .. actor.name)
+    dg.give(self, self:spawn_object(vkey(reward_mace)), actor)
     local expcap = macestep * 10
     local expmod
     if expcap < 25 then

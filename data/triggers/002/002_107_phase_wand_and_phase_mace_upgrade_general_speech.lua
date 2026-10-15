@@ -10,28 +10,11 @@
 -- Reads the per-mob crafting parameters exported by 002_111 (wands) or
 -- 002_118 (maces) via the `globals` table.
 --
--- The item names print through proto_short() / mob_short() on the ids the load triggers
--- export (legacy vnum = zone * 100 + id).
-
-local function proto_key(vnum)
-    vnum = tonumber(vnum)
-    if not vnum then return nil end
-    local zone = math.floor(vnum / 100)
-    if zone == 0 then zone = 1000 end
-    return zone, vnum % 100
-end
-local function proto_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and objects.template(zone, id).name
-    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
-    return name
-end
-local function mob_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and mobiles.template(zone, id).name
-    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
-    return name
-end
+-- The item names print through dg.oname / dg.mname on the legacy vnums the load triggers export
+-- (zone 2 holds the 3xx wand vnums, zone 117 the 11811 gem, so a plain vnum / 100 split is wrong).
+local dg = require("dg")
+local function proto_short(vnum) return dg.oname(vnum) end
+local function mob_short(vnum) return dg.mname(vnum) end
 local lower = string.lower(speech or "")
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
@@ -48,10 +31,10 @@ if not speech_hit then
 end
 wait(2)
 
-if (self.zone_id == 185 and self.id == 81) or (self.zone_id == 484 and self.id == 12) then
-    if actor.class ~= "cleric" and actor.class ~= "priest" then
-        return true
-    end
+-- Silania (185:81) and the Oracle of the Sun (484:12) craft for both quests: the mace block is
+-- for clerics, the wand block below for the sorcerer classes.
+if ((self.zone_id == 185 and self.id == 81) or (self.zone_id == 484 and self.id == 12))
+        and (actor.class == "cleric" or actor.class == "priest") then
     local macestep = globals.macestep
     if not macestep then return true end
     local minlevel = macestep * 10

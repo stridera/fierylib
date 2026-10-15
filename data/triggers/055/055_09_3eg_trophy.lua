@@ -36,7 +36,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if actor:get_quest_var("Black_Legion:bl_ally") then
+if actor:get_quest_var("black_legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have pledged")
     actor:send("</>yourself to the forces of darkness!  Suffer under your choice!'")
     return _return_value
@@ -48,7 +48,7 @@ local id_trophy4 = 5509
 local id_trophy5 = 5511
 local id_trophy6 = 5513
 local id_trophy7 = 5515
-if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") == 1 then
+if actor.alignment >= -150 and actor:get_quest_stage("black_legion") == 1 then
     -- (empty send to actor)
     actor:send(tostring(self.name) .. " tells you, 'As you fight the Black")
     actor:send("</>Legion you will periodically find goods on their bodies that we will want in")

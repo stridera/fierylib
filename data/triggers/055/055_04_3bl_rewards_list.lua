@@ -35,7 +35,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!")
     actor:send("</>Be gone, filth!'")
     return _return_value
@@ -89,7 +89,7 @@ local id_3bl_drink = 5557
 -- Check faction and react accordingly
 -- 
 if actor.alignment <= 150 then
-    if actor:get_quest_stage("Black_Legion") > 0 then
+    if actor:get_quest_stage("black_legion") > 0 then
         if (actor:get_quest_var("black_legion:bl_faction") or 0) < 20 then
             -- (empty send to actor)
             actor:send(tostring(self.name) .. " tells you, 'You are a bit raw for a recruit,")

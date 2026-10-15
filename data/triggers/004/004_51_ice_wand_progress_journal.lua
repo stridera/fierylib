@@ -7,34 +7,13 @@
 
 -- Converted from DG Script #451: Ice Wand progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
-local function proto_key(vnum)
-    vnum = tonumber(vnum)
-    if not vnum then return nil end
-    local zone = math.floor(vnum / 100)
-    if zone == 0 then zone = 1000 end
-    return zone, vnum % 100
-end
-local function proto_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and objects.template(zone, id).name
-    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
-    return name
-end
-local function mob_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and mobiles.template(zone, id).name
-    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
-    return name
-end
-local function room_by_vnum(vnum)
-    local zone, id = proto_key(vnum)
-    if not zone then return nil end
-    return get_room(zone, id)
-end
-local function room_name(vnum)
-    local room = room_by_vnum(vnum)
-    return room and room.name or ""
-end
+-- Item, mob and room names go through the dg library: the legacy vnums are not zone * 100 + id
+-- everywhere (zone 117 holds 11811, zone 30 holds 3218, ...), and a task flag that was reset to 0
+-- counts as unset (dg.flag).
+local dg = require("dg")
+local function proto_short(vnum) return dg.oname(vnum) end
+local function mob_short(vnum) return dg.mname(vnum) end
+local function room_name(vnum) return dg.rname(vnum) end
 local _return_value = true  -- Default: allow action
 if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "cold") or string.find(arg, "frost")) and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "ice_wand") or string.find(arg, "ice_wands") or string.find(arg, "ice_staff") or string.find(arg, "water_wand") or string.find(arg, "water_wands") or string.find(arg, "water_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
@@ -60,11 +39,11 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("ice_wand") then
-            local job1 = actor:get_quest_var("ice_wand:wandtask1")
-            local job2 = actor:get_quest_var("ice_wand:wandtask2")
-            local job3 = actor:get_quest_var("ice_wand:wandtask3")
-            local job4 = actor:get_quest_var("ice_wand:wandtask4")
-            local job5 = actor:get_quest_var("ice_wand:wandtask5")
+            local job1 = dg.flag(actor:get_quest_var("ice_wand:wandtask1"))
+            local job2 = dg.flag(actor:get_quest_var("ice_wand:wandtask2"))
+            local job3 = dg.flag(actor:get_quest_var("ice_wand:wandtask3"))
+            local job4 = dg.flag(actor:get_quest_var("ice_wand:wandtask4"))
+            local job5 = dg.flag(actor:get_quest_var("ice_wand:wandtask5"))
             local attack = (stage - 1) * 50
             local weapon
             if stage < 8 then
@@ -134,6 +113,9 @@ if ((string.find(arg, "ice") or string.find(arg, "water") or string.find(arg, "c
                     wandtask3 = 52005
                     wandtask4 = 47708
                 end
+            end
+            if stage == 8 then
+                place = 55105
             end
             if stage == 1 then
                 actor:send("Find " .. tostring(mobiles.template(30, 13).name) .. " and show him your wand.")

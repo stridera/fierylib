@@ -8,27 +8,24 @@
 --   * type_wand quest (wand-crafting):  prompt about upgrades / current task
 --   * ran_dru_subclass quest:            class/level gate, opens dialog
 --
--- TODO(parity): the type_wand branch reads multiple DG-side globals
--- (`wandstep`, `weapon`, `type_wand:greet`, `type_wand:wandtask{1,2,3}`)
--- whose schemas aren't yet defined for the Lua runtime. The greeting strings
--- are preserved but the per-task lookups need a real schema before this is
--- wired up.
-
+-- The wand branch reads the step, element and weapon the questmaster's LOAD trigger (002_111)
+-- stores in `globals`.
+local dg = require("dg")
 wait(0.2)
 
-local wandstep = actor:get_quest_stage("type_wand")
-if (wandstep or 0) > 0 then
+local wand_quest = (globals.type or "type") .. "_wand"
+local wandstep = globals.wandstep
+if wandstep and actor:get_quest_stage(wand_quest) == wandstep then
     local minlevel = (wandstep - 1) * 10
     if actor.level >= minlevel then
-        if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+        if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
             actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-        elseif actor:get_quest_var("type_wand:wandtask1")
-            and actor:get_quest_var("type_wand:wandtask2")
-            and actor:get_quest_var("type_wand:wandtask3") then
+        elseif dg.flag(actor:get_quest_var(wand_quest .. ":wandtask1"))
+            and dg.flag(actor:get_quest_var(wand_quest .. ":wandtask2"))
+            and dg.flag(actor:get_quest_var(wand_quest .. ":wandtask3")) then
             actor:send(tostring(self.name) .. " says, 'Oh good, you're all set!  Let me see the staff.'")
         else
-            -- TODO(parity): `weapon` was a DG global naming the in-progress weapon.
-            actor:send(tostring(self.name) .. " says, 'Do you have what I need for the staff?'")
+            actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(globals.weapon) .. "?'")
         end
     end
 end

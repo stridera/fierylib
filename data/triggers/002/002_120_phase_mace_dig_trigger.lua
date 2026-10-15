@@ -8,14 +8,15 @@
 -- Iron Hills barrow) and harvest a handful of grave dirt. Once all four
 -- dirt vars are set, the pilgrimage is marked done.
 --
--- TODO(parity): room.id ranges below are legacy 5-digit vnums and need to
--- be migrated to room.zone_id/room.local_id checks once the proper room
--- mapping is restored.
+-- The burial grounds are tested on the legacy room numbers (zone * 100 + id) the DG script used:
+-- the graveyard 47000-47404, the Cathedral cemetery 8504-8509, the Gothra pyramid 16200-16299
+-- and the Iron Hills barrow 48000-48099. Each dig puts the matching dirt (185:22-25) in the pack.
 
 -- Command location mask 1: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
 if not (location == "equip") then
     return true  -- Not in a location this trigger watches
 end
+local dg = require("dg")
 
 -- Command filter: dig (block "d" / "di" abbreviations)
 if cmd == "d" or cmd == "di" then
@@ -29,33 +30,29 @@ if actor:get_quest_stage("phase_mace") ~= 2 then
 end
 if actor:get_quest_var("phase_mace:graves") == "done" then
     actor:send("<b:yellow>You have already completed your pilgrimage.</>")
-    return true
 end
 local room = actor.room
+local here = room and dg.to_vnum(room.zone_id, room.id) or 0
 local dig, item, num
--- Graveyard*
-if (room.zone_id == 470 or room.zone_id == 472) then
+if here >= 47000 and here <= 47404 then
+    -- Graveyard
     dig, item, num = "yes", 22, 3
--- Cathedral*
-elseif (room.zone_id == 85 and room.id >= 4 and room.id <= 9) then
+elseif here >= 8504 and here <= 8509 then
+    -- Cathedral
     dig, item, num = "yes", 23, 4
--- Pyramid*
-elseif (room.zone_id == 162) then
+elseif here >= 16200 and here <= 16299 then
+    -- Pyramid
     dig, item, num = "yes", 24, 5
--- Barrow*
-elseif (room.zone_id == 480) then
+elseif here >= 48000 and here <= 48099 then
+    -- Barrow
     dig, item, num = "yes", 25, 6
 end
 if dig == "yes" then
     actor:send("You dig up a handful of dirt.")
-    self.room:spawn_object(185, item)
+    actor:spawn_object(185, item)
     actor:set_quest_var("phase_mace", "dirt" .. tostring(num), 1)
-    actor:command("get dirt")
-    local dirt3 = actor:get_quest_var("phase_mace:dirt3")
-    local dirt4 = actor:get_quest_var("phase_mace:dirt4")
-    local dirt5 = actor:get_quest_var("phase_mace:dirt5")
-    local dirt6 = actor:get_quest_var("phase_mace:dirt6")
-    if dirt3 and dirt4 and dirt5 and dirt6 then
+    if dg.flag(actor:get_quest_var("phase_mace:dirt3")) and dg.flag(actor:get_quest_var("phase_mace:dirt4"))
+            and dg.flag(actor:get_quest_var("phase_mace:dirt5")) and dg.flag(actor:get_quest_var("phase_mace:dirt6")) then
         if not actor:get_quest_var("phase_mace:graves") then
             actor:send("<b:yellow>You have completed your pilgrimage.</>")
             actor:set_quest_var("phase_mace", "graves", "done")
@@ -64,4 +61,4 @@ if dig == "yes" then
 else
     actor:send("This isn't the proper place to dig for grave dirt.")
 end
-return true
+return false

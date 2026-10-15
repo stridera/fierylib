@@ -3,7 +3,7 @@
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: CLEAN
 --
--- Reports the player's Black_Legion quest faction standings on either side
+-- Reports the player's black_legion quest faction standings on either side
 -- when they say "faction" or "status".
 -- Original DG probability was 0% (a DG idiom for "speech-keyword gated only,
 -- never random"). The converter-generated `percent_chance(0)` gate has been
@@ -16,12 +16,12 @@ local speech_padded = " " .. string.lower(speech) .. " "
 if not string.find(speech_padded, "[%s%p]faction status[%s%p]") then
     return true  -- Not the phrase
 end
-if actor:get_quest_var("Black_Legion:bl_ally") then
+if actor:get_quest_var("black_legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You are pledged to the Black Legion.'")
 end
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You are pledged to the Eldorian Guard.'")
 end
 actor:send("</>Your progress with our cause is as follows:")
-actor:send("</>Faction with The Black Legion: " .. tostring(actor:get_quest_var("black_legion:bl_faction")))
-actor:send("</>Faction with The Eldorian Guard: " .. tostring(actor:get_quest_var("black_legion:eg_faction")))
+actor:send("</>Faction with The Black Legion: " .. tostring(actor:get_quest_var("black_legion:bl_faction") or 0))
+actor:send("</>Faction with The Eldorian Guard: " .. tostring(actor:get_quest_var("black_legion:eg_faction") or 0))

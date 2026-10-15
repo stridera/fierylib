@@ -2,27 +2,23 @@
 -- Zone: 185, ID: 31
 -- Type: MOB, Flags: RECEIVE
 --
--- Silania refuses any object not tied to the wand/mace upgrade quests.
+-- Silania refuses any object not tied to the wand/mace upgrade quests: she is the air wand's
+-- step 10 crafter and the mace's step 6 priest, so the items of both (wandgem, wand_id, maceitem2..5,
+-- mace_id, exported through `globals` by 002_111 and 002_118) go to 002_108 and 002_126.
 --
--- TODO(parity): same issue as 185_29 — the accepted ids are DG globals
--- (maceitem2..5, wandgem, wand_id, mace_id) that are not converted.
--- Until phase_mace/type_wand globals are exposed in the rs runtime,
--- the literal-string compares can never match and Silania will refuse
--- every gift. Legacy probability was 0% (manual fire); confirm that
--- this should run as a normal RECEIVE trigger.
-
-local accepted_ids = {
-    "%maceitem2%", "%maceitem3%", "%maceitem4%", "%maceitem5%",
-    "%wandgem%",   "%wand_id%",   "%mace_id%",
-}
-
-for _, id in ipairs(accepted_ids) do
-    if object.id == id then
-        return true
-    end
+-- DG receive trigger, num_arg 0: the arg list (18512 = 185:12) holds the item other triggers
+-- handle; this one runs for every other item. A turned-away item is handed back, the way legacy
+-- `return 0` refused a receive.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if object.zone_id == 185 and object.id == 12 then
+    return true
 end
-
+if dg.quest_item(object, globals) then
+    return true
+end
+dg.give(self, object, actor)
 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(2)
+wait(0.2)
 actor:send(tostring(self.name) .. " says, 'What is this for?'")
 return true

@@ -1,45 +1,24 @@
 -- Trigger: McCabe refuse
 -- Zone: 481, ID: 149
 -- Type: MOB, Flags: RECEIVE
--- Status: CLEAN
 --
 -- Original DG Script: #48249
 --
--- TODO(parity): the original DG `if object.id == %wandgem% or ...` referenced
--- DG quest globals (`%wandgem%`, `%wandtask3%`, `%wandtask4%`, `%wand_id%`)
--- belonging to the cross-zone `type_wand` craft quest. Those globals don't
--- exist in the Lua runtime; the canonical wand-quest item ids must be wired
--- in once the type_wand quest is ported.
-
--- Converted from DG Script #48249: McCabe refuse
--- Original: MOB trigger, flags: RECEIVE, probability: 0%
-
--- DG receive trigger, num_arg 0: the arg list (48252 48251) holds the items
+-- DG receive trigger, num_arg 0: the arg list (48252 48251 = 481:152, 481:151) holds the items
 -- other triggers handle; this one runs for every other item. The runtime does not filter on
--- arg_list, so the exclusion lives here. (The converter's percent_chance(0) guard blocked it all.)
-if (object.zone_id == 481 and object.id == 152)
-    or (object.zone_id == 481 and object.id == 151) then
+-- arg_list, so the exclusion lives here. McCabe is the fire wand's step 8 crafter: the wand items
+-- (wandgem, wandtask3, wandtask4, wand_id, exported through `globals` by 002_111) go to 002_108.
+-- A turned-away item is handed back, the way legacy `return 0` refused a receive.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if (object.zone_id == 481 and object.id == 152) or (object.zone_id == 481 and object.id == 151) then
     return true
 end
-local _return_value = true  -- Default: allow action
-local wand_ids = {
-    -- (zone, local_id) pairs for type_wand craft items; populate when ported.
-}
-local function is_wand_item(obj)
-    if not obj then return false end
-    for _, pair in ipairs(wand_ids) do
-        if obj.zone_id == pair[1] and obj.local_id == pair[2] then
-            return true
-        end
-    end
-    return false
+if dg.quest_item(object, globals) then
+    return true
 end
-if is_wand_item(object) then
-    return _return_value
-else
-    _return_value = true
-    self:command("eye")
-    wait(1)
-    actor:send(tostring(self.name) .. " tells you, 'And what exactly am I supposed to do with this?'")
-end
-return _return_value
+dg.give(self, object, actor)
+self:command("eye")
+wait(1)
+actor:send(tostring(self.name) .. " tells you, 'And what exactly am I supposed to do with this?'")
+return true

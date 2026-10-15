@@ -11,10 +11,8 @@
 -- Generic "wand"/"upgrade" keywords without a type fall through to a
 -- prompt asking for the element.
 --
--- TODO(parity): The original DG used `%get.obj_shortdesc[%wandgem%]%` to
--- print the gem name; that interpolation is preserved in the message
--- strings below as a literal. Replace each occurrence with
--- `objects.template(z, id).name` once the wandgem id-table is wired up.
+-- The gem names print through dg.oname (the wand gems are zone-555 objects).
+local dg = require("dg")
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
 local speech_padded = " " .. string.lower(speech or "") .. " "
@@ -53,25 +51,11 @@ elseif speech == "earth" or speech == "acid" or speech == "tremors" or speech ==
 end
 
 if not quest_type then
-    -- generic "wand"/"upgrade"/"yes" — prompt for element
-    wait(2)
-    -- Best-effort generic stage probe; uses any of the four quests'
-    -- progression to gate the message (matches DG behavior of probing the
-    -- nonexistent "type_wand" namespace).
-    local stage = actor:get_quest_stage("air_wand")
-        or actor:get_quest_stage("fire_wand") > 0
-        or actor:get_quest_stage("ice_wand") > 0
-        or actor:get_quest_stage("acid_wand") > 0
-        or 0
-    if stage < 2 then
-        self:say("Yeah, I can help you upgrade any basic wand!")
-        wait(1)
-        self.room:send(tostring(self.name) .. " says, 'Tell me what element you would like to improve.  You can say <green>acid</>, <b:yellow>air</>, <red>fire</>, or <b:blue>ice</>.'")
-    elseif stage == 2 then
-        self:say("Get some practice with the wand and bring me the gem I asked for.")
-    else
-        self.room:send(tostring(self.name) .. " says, 'I can't do anything more myself, but I can tell you where to go.  Tell me what element you would like to improve.  You can say <green>acid</>, <b:white>air</>, <red>fire</>, or <b:blue>ice</>.'")
-    end
+    -- Any other listed word ("wand", "upgrade", "yes"): DG read %type% here before it was set, so
+    -- the stage was always 0 and the prompt below is what every player got.
+    self:say("Yeah, I can help you upgrade any basic wand!")
+    wait(1)
+    self.room:send(tostring(self.name) .. " says, 'Tell me what element you would like to improve.  You can say <green>acid</>, <b:yellow>air</>, <red>fire</>, or <b:blue>ice</>.'")
     return true
 end
 
@@ -90,7 +74,7 @@ elseif (stage or 0) == 0 or stage == 1 then
     wait(2)
     self:say("First, let me see your wand.")
 elseif stage == 2 then
-    self.room:send(tostring(self.name) .. " says, 'If you have the practice, give me the gem I described and your current wand.'")
+    self.room:send(tostring(self.name) .. " says, 'If you have the practice, give me " .. dg.oname(wandgem) .. " and your current wand.'")
 elseif stage > 2 then
     if quest_type == "air" then
         self.room:send(tostring(self.name) .. " says, 'You'll be studying with a plethora of seers, mystics, and wisemen.  You can check your <b:cyan>[wand progress]</> as you go.'")
@@ -129,7 +113,7 @@ elseif stage > 2 then
         elseif stage == 10 then self:say("You must know Suralla Iceeye by now.  She's the master artisan of cold and ice.  She'll know how to make the final improvements to your staff.")
         end
     elseif quest_type == "acid" then
-        self.room:send(tostring(self.name) .. " says, 'Acid is the energy of earth.  The master earth crafters all belong to the ranger network that safeguards places around Caelia.  You can check your <b:cyan>[wand progress]</> as you go.")
+        self.room:send(tostring(self.name) .. " says, 'Acid is the energy of earth.  The master earth crafters all belong to the ranger network that safeguards places around Caelia.  You can check your <b:cyan>[wand progress]</> as you go.'")
         wait(1)
         if stage == 3 then     self:say("First, seek the one who guards the eastern gates of Ickle.")
         elseif stage == 4 then self:say("The next two artisans dwell in the Rhell Forest south-east of Mielikki.")

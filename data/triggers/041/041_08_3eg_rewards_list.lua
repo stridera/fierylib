@@ -23,7 +23,7 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if actor:get_quest_var("Black_Legion:bl_ally") then
+if actor:get_quest_var("black_legion:bl_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have pledged yourself to the forces of")
     actor:send("</>darkness!  Suffer under your choice!'")
     return true
@@ -62,7 +62,7 @@ local id_3eg_flail   = 5549
 local id_3eg_food    = 5556
 local id_3eg_drink   = 5558
 -- Check faction and react accordingly.
-if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") > 0 then
+if actor.alignment >= -150 and actor:get_quest_stage("black_legion") > 0 then
     local eg_faction = actor:get_quest_var("black_legion:eg_faction")
     if (eg_faction or 0) < 20 then
         actor:send(tostring(self.name) .. " tells you, 'You are a bit raw for a recruit, come back")

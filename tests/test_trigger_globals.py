@@ -32,7 +32,8 @@ needs_luac = pytest.mark.skipif(LUAC is None, reason="luac not installed")
 TRIGGER_DIR = Path(__file__).resolve().parent.parent / "data" / "triggers"
 
 # Lua stdlib names left visible by the sandbox (sandbox_lua removes os, io, debug, package,
-# require, load*, dofile; there is no 5.1 `unpack`/`table.getn`).
+# load*, dofile; there is no 5.1 `unpack`/`table.getn`). `require` is not the stdlib one: it is
+# the database-backed library loader (ENGINE_API below).
 STDLIB = {
     "_G", "_ENV", "_VERSION", "assert", "collectgarbage", "coroutine", "error", "getmetatable",
     "ipairs", "math", "next", "pairs", "pcall", "print", "rawequal", "rawget", "rawlen", "rawset",
@@ -47,6 +48,7 @@ ENGINE_API = {
     "wait", "wait_until", "wait_hours", "random", "percent_chance", "get_room",
     "run_room_trigger", "allow_command", "find_actor", "find_player", "get_obj_noadesc",
     "timestamp", "trigger_log", "wizard_notify",
+    "require",  # database-backed: loads the ScriptLibrary of that name (data/script_libraries/*.lua)
 }
 
 # Per-event bindings supplied by fierymud-rs crates/mud-server/src/triggers.rs
@@ -79,9 +81,6 @@ KNOWN_FILE_PATTERNS = (
 )
 
 KNOWN_NAMES: dict[str, set[str]] = {
-    # Object trigger on the journal item: `macestep` is a mob-side global of the mace questmasters
-    # and was never defined on the journal in the DG source either (legacy read it as empty).
-    "004_53_spirit_maces_progress_journal.lua": {"macestep"},
     # Undefined in the DG source too (legacy rendered them as empty / compared them as ""): the
     # fix is a design call on what the value should be.
     "004_60_eye_of_the_tiger_progress_journal.lua": {"master"},

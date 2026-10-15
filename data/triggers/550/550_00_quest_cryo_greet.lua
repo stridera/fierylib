@@ -4,28 +4,46 @@
 --
 -- Suralla's greet/speech "hi/hello" handler. Branches on the cryomancer
 -- subclass quest stage and (for sorcerers) gives a level-gated welcome.
--- TODO(parity): legacy script also referenced a `wandstep`/`weapon`
--- crafting path here that depends on data we no longer have; that block
--- has been removed pending a rewrite of the wand-quest triggers.
+-- Suralla is the ice wand's step 10 crafter: the wand branch reads the step, element and weapon
+-- the LOAD trigger 002_111 stores in `globals`.
 --
 -- Original DG Script: #55000
 
 -- Converted from DG Script #55000: quest_cryo_greet
 -- Original: MOB trigger, flags: SPEECH, GREET, probability: 100%
 
--- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
-local speech_padded = " " .. string.lower(speech) .. " "
-local speech_hit = false
-for _, w in ipairs({"hi", "hello"}) do
-    if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
-        speech_hit = true
-        break
+-- DG word list (num_arg 100): a SPEECH must contain one of these as a whole word or phrase; the
+-- greet part of the trigger (GREET, no speech) is not gated.
+if event == "SPEECH" or event == "SPEECH_TO" then
+    local speech_padded = " " .. string.lower(speech) .. " "
+    local speech_hit = false
+    for _, w in ipairs({"hi", "hello"}) do
+        if string.find(speech_padded, "[%s%p]" .. string.gsub(w, "%p", "%%%0") .. "[%s%p]") then
+            speech_hit = true
+            break
+        end
+    end
+    if not speech_hit then
+        return true  -- None of the listed words
     end
 end
-if not speech_hit then
-    return true  -- None of the listed words
-end
 wait(0.2)
+local dg = require("dg")
+local wand_quest = (globals.type or "type") .. "_wand"
+if globals.wandstep and actor:get_quest_stage(wand_quest) == globals.wandstep then
+    local minlevel = (globals.wandstep - 1) * 10
+    if actor.level >= minlevel then
+        if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
+            actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
+        elseif dg.flag(actor:get_quest_var(wand_quest .. ":wandtask1"))
+            and dg.flag(actor:get_quest_var(wand_quest .. ":wandtask2"))
+            and dg.flag(actor:get_quest_var(wand_quest .. ":wandtask3")) then
+            actor:send(tostring(self.name) .. " says, 'I sense you're ready!  Let me see the staff.'")
+        else
+            actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(globals.weapon) .. "?'")
+        end
+    end
+end
 -- switch on actor:get_quest_stage("subclass")
 if actor:get_quest_stage("subclass") == 1 then
     actor:send(tostring(self.name) .. " says, 'Welcome back.'")

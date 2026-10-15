@@ -12,20 +12,16 @@
 --    level > 56) and has not started, recruit them.
 --  * If they are mid-quest, ask whether they have the remaining blocks.
 --
--- TODO: 'wandstep' on line "(wandstep - 1) * 10" is a bare global from
--- the DG conversion. The DG original used %wandstep% which referred to
--- a quest variable storing the current step number. Confirm the correct
--- quest var name (likely actor:get_quest_var("type_wand:wandstep")) and
--- replace the stub below.
+-- The step, element and weapon come from the LOAD trigger 002_111 through `globals`.
 
 wait(1)
-if actor:get_quest_stage("type_wand") == "wandstep" then
-    local wandstep = tonumber(actor:get_quest_var("type_wand:wandstep")) or 0
-    local minlevel = (wandstep - 1) * 10
+local wand_quest = (globals.type or "type") .. "_wand"
+if globals.wandstep and actor:get_quest_stage(wand_quest) == globals.wandstep then
+    local minlevel = (globals.wandstep - 1) * 10
     if actor.level >= minlevel then
-        if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+        if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
             self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
-            actor:set_quest_var("type_wand", "greet", 1)
+            actor:set_quest_var(wand_quest, "greet", 1)
         else
             self:say("Do you have what I need for the wand?")
         end

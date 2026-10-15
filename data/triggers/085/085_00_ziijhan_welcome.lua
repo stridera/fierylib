@@ -50,9 +50,15 @@ else
             self:command("glare " .. tostring(actor.name))
         end
     end
-    -- TODO(parity): legacy phase_mace upgrade hook compared a quest stage
-    -- against the literal string "macestep" and then multiplied that string
-    -- by 10. The original DG used %macestep% as a numeric quest var; the
-    -- conversion is corrupt. Reconstruct once phase_mace quest semantics
-    -- are pinned down (likely: stage = current upgrade tier, minlevel = stage*10).
-end  -- auto-close block
+end
+-- Ziijhan is the macestep 5 priest: `macestep` comes from the LOAD trigger 002_118 through `globals`.
+if globals.macestep and actor:get_quest_stage("phase_mace") == globals.macestep then
+    local minlevel = globals.macestep * 10
+    if actor.level >= minlevel then
+        if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then
+            actor:send(tostring(self.name) .. " says, 'I sense a ghostly presence about your weapons.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
+        else
+            actor:send(tostring(self.name) .. " says, 'Do you have what I need?'")
+        end
+    end
+end

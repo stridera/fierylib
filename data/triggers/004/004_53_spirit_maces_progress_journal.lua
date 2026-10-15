@@ -7,19 +7,11 @@
 
 -- Converted from DG Script #453: Spirit Maces progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
-local function proto_key(vnum)
-    vnum = tonumber(vnum)
-    if not vnum then return nil end
-    local zone = math.floor(vnum / 100)
-    if zone == 0 then zone = 1000 end
-    return zone, vnum % 100
-end
-local function proto_short(vnum)
-    local zone, id = proto_key(vnum)
-    local name = zone and objects.template(zone, id).name
-    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
-    return name
-end
+-- Item, mob and room names go through the dg library: the legacy vnums are not zone * 100 + id
+-- everywhere (zone 117 holds 11811, zone 30 holds 3218, ...), and a task flag that was reset to 0
+-- counts as unset (dg.flag).
+local dg = require("dg")
+local function proto_short(vnum) return dg.oname(vnum) end
 local _return_value = true  -- Default: allow action
 if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg, "maces"))) or string.find(arg, "phase_mace") or string.find(arg, "spirit_mace") then
     if string.find(actor.class, "priest") or string.find(actor.class, "cleric") then
@@ -41,12 +33,12 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
         end
         actor:send("<cyan>Status: " .. tostring(status) .. "</>_")
         if stage > 0 and not actor:get_has_completed("phase_mace") then
-            local job1 = actor:get_quest_var("phase_mace:macetask1")
-            local job2 = actor:get_quest_var("phase_mace:macetask2")
-            local job3 = actor:get_quest_var("phase_mace:macetask3")
-            local job4 = actor:get_quest_var("phase_mace:macetask4")
-            local job5 = actor:get_quest_var("phase_mace:macetask5")
-            local job6 = actor:get_quest_var("phase_mace:macetask6")
+            local job1 = dg.flag(actor:get_quest_var("phase_mace:macetask1"))
+            local job2 = dg.flag(actor:get_quest_var("phase_mace:macetask2"))
+            local job3 = dg.flag(actor:get_quest_var("phase_mace:macetask3"))
+            local job4 = dg.flag(actor:get_quest_var("phase_mace:macetask4"))
+            local job5 = dg.flag(actor:get_quest_var("phase_mace:macetask5"))
+            local job6 = dg.flag(actor:get_quest_var("phase_mace:macetask6"))
             local attack = stage * 50
             local remaining = ((attack) - (actor:get_quest_var("phase_mace:attack_counter") or 0))
             -- switch on stage
@@ -158,7 +150,7 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
                     actor:send("</>")
                     actor:send("You need to:")
                     if job1 and job2 and job3 and job4 and job5 then
-                        if macestep ~= 2 then
+                        if stage ~= 2 then
                             actor:send("Bring " .. tostring(master) .. " your mace.")
                             return _return_value
                         else

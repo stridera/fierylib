@@ -3,17 +3,22 @@
 -- Type: MOB, Flags: RECEIVE
 --
 -- Original DG Script: #16310
--- Probability: 0% (disabled in source data; data-layer probability gate handles activation)
 --
--- Catch-all RECEIVE handler for Eleweiss: if the offered object isn't one of
--- the wand-quest items, refuse it.
-
--- TODO(parity): the original gated on `object.id == %wandgem% || %wand_id%`
--- where wandgem and wand_id were DG globals naming the in-progress wand parts.
--- The Lua runtime doesn't yet expose those identifiers, so the gate is a stub
--- that always falls through to the refusal path. Wire the wand quest schema
--- through before re-enabling.
-
+-- Catch-all RECEIVE handler for Eleweiss, the acid wand's step 10 crafter: anything that is not a
+-- wand-quest item (wandgem, wand_id, exported through `globals` by 002_111) is refused.
+--
+-- DG receive trigger, num_arg 0: the arg list (17212 = 172:12) holds the item other triggers
+-- handle; this one runs for every other item. A turned-away item is handed back, the way legacy
+-- `return 0` refused a receive.
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if object.zone_id == 172 and object.id == 12 then
+    return true
+end
+if dg.quest_item(object, globals) then
+    return true
+end
+dg.give(self, object, actor)
 wait(0.2)
 actor:send(tostring(self.name) .. " says, 'What is this?'")
 wait(0.3)

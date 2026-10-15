@@ -8,23 +8,15 @@
 -- The "[wand progress]" status handler shared by every wand questmaster mob from wandstep 3-10.
 -- Reads the per-mob crafting parameters 002_111 exports through `globals` (type, weapon, wandstep,
 -- wandattack, wandgem, wandtask3, wandtask4) and the player's <type>_wand quest variables, then
--- reports what is done and what is still needed. Globals hold legacy vnums; vkey() turns one into
--- the (zone, id) the catalog uses (zone 117 holds vnums 11700-11840).
+-- reports what is done and what is still needed. Globals hold legacy vnums; dg.obj() / dg.mob() /
+-- dg.room() turn one into the (zone, id) the catalog uses (zone 2 holds vnums 200-399, zone 117
+-- holds 11700-11840, ...).
+local dg = require("dg")
 
-local function vkey(vnum)
-    if vnum >= 11700 and vnum <= 11840 then return 117, vnum - 11700 end
-    return math.floor(vnum / 100), vnum % 100
-end
-local function oname(vnum)
-    local z, i = vkey(vnum)
-    return objects.template(z, i).name
-end
-local function mname(vnum)
-    local z, i = vkey(vnum)
-    return mobiles.template(z, i).name
-end
+local function oname(vnum) return dg.oname(vnum) end
+local function mname(vnum) return dg.mname(vnum) end
 -- A quest flag is set when it holds a non-zero value (0 is truthy in Lua).
-local function set_(v) return v ~= nil and v ~= 0 and v ~= "" end
+local set_ = dg.flag
 
 -- Who to see next, by quest type and the stage the player has already passed (DG #314 text).
 local HINTS = {
@@ -148,11 +140,11 @@ elseif stage == wandstep and actor.level >= (wandstep - 1) * 10 then
                 if not set_(job5) then
                     room:send("Just give me your " .. weapon .. ".")
                 else
-                    local imbue = get_room(vkey(IMBUE_ROOM[quest_type]))
+                    local imbue = get_room(dg.room(IMBUE_ROOM[quest_type]))
                     room:send("- imbue your " .. weapon .. " at " .. tostring(imbue and imbue.name) .. ".")
                 end
             elseif wandstep == 10 then
-                local imbue = get_room(vkey(wandtask4))
+                local imbue = get_room(dg.room(wandtask4))
                 room:send("- imbue your " .. weapon .. " at " .. tostring(imbue and imbue.name) .. ".")
             end
         end

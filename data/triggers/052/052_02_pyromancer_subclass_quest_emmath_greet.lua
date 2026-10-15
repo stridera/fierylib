@@ -1,19 +1,31 @@
 -- Trigger: pyromancer_subclass_quest_emmath_greet
 -- Zone: 52, ID: 2
 -- Type: MOB, Flags: GREET_ALL
--- Status: NEEDS_REVIEW
---   TODO: legacy DG references `wandstep`/`weapon` globals that don't exist
---         in the Lua runtime; the type_wand quest needs a redesigned schema
---         (step number + weapon kind) before the greet branch is meaningful.
 --
 -- Original DG Script: #5202
 --
 -- Greet for Emmath Firehand. Three behaviors stacked here:
---   1. (TODO) crafting-quest hint if the player is mid-staff-upgrade.
+--   1. crafting-quest hint if the player is mid-staff-upgrade (the step, element and weapon come
+--      from the LOAD trigger 002_111 through `globals`).
 --   2. Pyromancer subclass progress reminders by stage.
 --   3. First-contact recruitment patter for eligible Sorcerers.
 wait(0.2)
--- TODO: type_wand greet branch removed pending quest schema rework.
+local dg = require("dg")
+local wand_quest = (globals.type or "type") .. "_wand"
+if globals.wandstep and actor:get_quest_stage(wand_quest) == globals.wandstep then
+    local minlevel = (globals.wandstep - 1) * 10
+    if actor.level >= minlevel then
+        if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
+            actor:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
+        elseif dg.flag(actor:get_quest_var(wand_quest .. ":wandtask1"))
+            and dg.flag(actor:get_quest_var(wand_quest .. ":wandtask2"))
+            and dg.flag(actor:get_quest_var(wand_quest .. ":wandtask3")) then
+            actor:send(tostring(self.name) .. " says, 'I sense you're ready!  Let me see the staff.'")
+        else
+            actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(globals.weapon) .. "?'")
+        end
+    end
+end
 local stage = actor:get_quest_stage("pyromancer_subclass")
 -- switch on stage
 if stage == 1 then

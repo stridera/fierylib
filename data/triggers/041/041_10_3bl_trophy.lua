@@ -22,14 +22,14 @@ end
 if not speech_hit then
     return true  -- None of the listed words
 end
-if actor:get_quest_var("Black_Legion:eg_ally") then
+if actor:get_quest_var("black_legion:eg_ally") then
     actor:send(tostring(self.name) .. " tells you, 'You have already chosen your side!  Be")
     actor:send("</>gone, filth!'")
     return true
 end
 -- Trophy item IDs (zone 55). Names resolved from objects.template at runtime.
 local trophy_ids = { 5504, 5506, 5508, 5510, 5512, 5514, 5516 }
-if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") == 1 then
+if actor.alignment <= 150 and actor:get_quest_stage("black_legion") == 1 then
     actor:send(tostring(self.name) .. " tells you, 'As you fight the allies of Eldorian Guard")
     actor:send("</>you will periodically find goods on their bodies that we will want in order to")
     actor:send("</>prove that you are working with us.'")

@@ -8,19 +8,36 @@
 -- crafts a different element) or the player isn't yet at the right step.
 -- For npc victims not in the table, the script blocks the give entirely.
 --
--- TODO(parity): victim ids are legacy 5-digit vnums. Migrate to
--- (victim.zone_id, victim.local_id) once the proper mapping is restored.
+-- The crafters are matched on their (zone, id) key; the first wand of each element can also be
+-- handed to Bigby's assistant (30:13), which starts the quest. The engine does not read a GIVE
+-- body's return value, so the refusal is a warning only.
+local dg = require("dg")
 local _return_value = true  -- Default: allow action
 
+local vnum = dg.to_vnum(self.zone_id, self.id)
 local energy
-if self.id >= 300 and self.id <= 309 then
+if vnum >= 300 and vnum <= 309 then
     energy = "air"
-elseif self.id >= 310 and self.id <= 319 then
+elseif vnum >= 310 and vnum <= 319 then
     energy = "fire"
-elseif self.id >= 320 and self.id <= 329 then
+elseif vnum >= 320 and vnum <= 329 then
     energy = "ice"
-elseif self.id >= 330 and self.id <= 339 then
+elseif vnum >= 330 and vnum <= 339 then
     energy = "acid"
+end
+
+-- Bigby's assistant: only the four basic wands go there, and handing one over starts the quest.
+if victim.zone_id == 30 and victim.id == 13 then
+    if energy and (vnum == 300 or vnum == 310 or vnum == 320 or vnum == 330) then
+        if actor.is_player and actor:get_quest_stage(energy .. "_wand") == 0 then
+            actor:start_quest(energy .. "_wand")
+        end
+        return _return_value
+    end
+    if energy and actor.is_player then
+        actor:send("You shouldn't give away something so precious!")
+    end
+    return _return_value
 end
 
 local crafter_type, wandstep

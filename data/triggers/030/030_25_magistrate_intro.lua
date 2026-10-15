@@ -7,13 +7,14 @@
 
 -- Converted from DG Script #3025: Magistrate_intro
 -- Original: MOB trigger, flags: GREET, probability: 100%
+local dg = require("dg")
 if actor.is_player then
     wait(0.5)
     actor:send(tostring(self.name) .. " says to you, 'Greetings, " .. tostring(actor.name) .. ".  It is good to see you.  If you would like, I have some <b:cyan>[quests]</> you could give me a hand with.'")
     wait(1)
-    if (actor:get_quest_stage("phase_mace") == 1 or (actor:get_quest_stage("phase_mace") == 0 and (actor:has_equipped(2, 140) or actor:has_item(2, 140)))) and not actor:get_quest_var("phase_mace:greet") then
+    if (actor:get_quest_stage("phase_mace") == 1 or (actor:get_quest_stage("phase_mace") == 0 and (actor:has_equipped(2, 140) or actor:has_item(2, 140)))) and not dg.flag(actor:get_quest_var("phase_mace:greet")) then
         actor:send(tostring(self.name) .. " says, 'Oh and you've found quite an unusual mace!  I could probably help you <b:cyan>[upgrade]</> it.'")
-    elseif actor:get_quest_stage("phase_mace") == 1 and actor:get_quest_var("phase_mace:greet") then
+    elseif actor:get_quest_stage("phase_mace") == 1 and dg.flag(actor:get_quest_var("phase_mace:greet")) then
         actor:send(tostring(self.name) .. " says, 'Have you found what I require?'")
     end
 end

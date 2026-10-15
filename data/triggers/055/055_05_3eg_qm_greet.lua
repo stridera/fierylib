@@ -8,7 +8,7 @@
 -- Converted from DG Script #5505: 3eg_qm_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 wait(0.2)
-if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") == 0 then
+if actor.alignment >= -150 and actor:get_quest_stage("black_legion") == 0 then
     actor:send(tostring(self.name) .. " tells you, 'Hrm, a new recruit")
     actor:send("</>to fight the undead masses?'")
 end

@@ -4,8 +4,8 @@
 --
 -- Master Shaman greet-all handler: spawns a quest item for trolls (Kourrya
 -- 6-06 Minithawkin troll-mask quest) and then dispatches per-stage barks
--- for the Wizard Eye spell quest. The phase-wand "[upgrade]" branch is
--- TODO(parity) — its data dependencies (`type_wand:wandtaskN`) are stubbed.
+-- for the Wizard Eye spell quest, and the phase-wand "[upgrade]" branch for the ice wand's step 5
+-- (the master shaman is that step's crafter; the element comes from the LOAD trigger 002_111).
 --
 -- Original DG Script: #55001
 
@@ -20,8 +20,10 @@ wait(0.2)
 -- 
 -- for Wizard Eye
 -- 
+local dg = require("dg")
+local wand_quest = (globals.type or "type") .. "_wand"
 local actor_class_lower = string.lower(actor.class)
-if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80) or actor:get_quest_stage("type_wand") == 5 then
+if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80) or actor:get_quest_stage(wand_quest) == 5 then
     if (string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower, "illusionist")) and actor.level > 80 then
         local stage = actor:get_quest_stage("wizard_eye")
         do
@@ -58,9 +60,9 @@ if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower
                 end
             end
         end
-        if actor:get_quest_stage("type_wand") == 5 then
-            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
-                self:command("peer " .. tostring(actor))
+        if actor:get_quest_stage(wand_quest) == 5 then
+            if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
+                self:command("peer " .. tostring(actor.name))
                 wait(1)
                 actor:send(tostring(self.name) .. " tells you, 'Or perhaps you come about a crafting <b:cyan>[upgrade]</>...'")
             else
@@ -71,15 +73,15 @@ if ((string.find(actor_class_lower, "sorcerer") or string.find(actor_class_lower
     -- 
     -- for phase wands
     -- 
-    if actor:get_quest_stage("type_wand") == 5 then
-        local job1 = actor:get_quest_var("type_wand:wandtask1")
-        local job2 = actor:get_quest_var("type_wand:wandtask2")
-        local job3 = actor:get_quest_var("type_wand:wandtask3")
-        local job4 = actor:get_quest_var("type_wand:wandtask4")
+    if actor:get_quest_stage(wand_quest) == 5 then
+        local job1 = dg.flag(actor:get_quest_var(wand_quest .. ":wandtask1"))
+        local job2 = dg.flag(actor:get_quest_var(wand_quest .. ":wandtask2"))
+        local job3 = dg.flag(actor:get_quest_var(wand_quest .. ":wandtask3"))
+        local job4 = dg.flag(actor:get_quest_var(wand_quest .. ":wandtask4"))
         if actor.level >= 40 then
-            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+            if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you come for the Great Snow Leopard's help, let's discuss an <b:cyan>[upgrade]</>.'")
-            elseif actor:get_quest_stage("type_wand") == 5 and job1 and job2 and job3 and job4 then
+            elseif actor:get_quest_stage(wand_quest) == 5 and job1 and job2 and job3 and job4 then
                 actor:send(tostring(self.name) .. " tells you, 'It looks like the wand is ready for upgrading!  Please give it to me.'")
             else
                 actor:send(tostring(self.name) .. " tells you, 'Do you have what I need for the wand?'")

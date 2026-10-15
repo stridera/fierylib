@@ -3,32 +3,37 @@
 -- Type: MOB, Flags: RECEIVE
 --
 -- Bigby's research assistant accepts:
---   * a basic wand (300/310/320/330) once both bonding tasks are done,
---     to craft the next-tier wand and award exp,
---   * the matching elemental gem (55574-55577) to mark wandtask2 complete.
--- Each wand id is paired with the gem id and the next-tier reward id.
-local _return_value = true
+--   * a basic wand (legacy vnums 300/310/320/330 = objects 2:100/110/120/130) once both bonding
+--     tasks are done, to craft the next-tier wand (301/311/321/331 = 2:101/111/121/131) and award exp,
+--   * the matching elemental gem (55574-55577 = objects 555:74-77) to mark wandtask2 complete.
+-- The quest vars are reset to 0 after a stage, so every check goes through dg.flag.
+-- Anything refused is handed back with `give`, the way legacy `return 0` refused a receive.
+local dg = require("dg")
+
+local function give_back()
+    dg.give(self, object, actor)
+end
 
 local quest_type, wandgem, wand, next_id
-if object.id == 300 then
+if object.zone_id == 2 and object.id == 100 then
     quest_type, wandgem, wand, next_id = "air", 55577, true, 101
-elseif object.id == 310 then
+elseif object.zone_id == 2 and object.id == 110 then
     quest_type, wandgem, wand, next_id = "fire", 55575, true, 111
-elseif object.id == 320 then
+elseif object.zone_id == 2 and object.id == 120 then
     quest_type, wandgem, wand, next_id = "ice", 55574, true, 121
-elseif object.id == 330 then
+elseif object.zone_id == 2 and object.id == 130 then
     quest_type, wandgem, wand, next_id = "acid", 55576, true, 131
-elseif (object.zone_id == 555 and object.id == 77) then
+elseif object.zone_id == 555 and object.id == 77 then
     quest_type, wandgem = "air", true
-elseif (object.zone_id == 555 and object.id == 75) then
+elseif object.zone_id == 555 and object.id == 75 then
     quest_type, wandgem = "fire", true
-elseif (object.zone_id == 555 and object.id == 74) then
+elseif object.zone_id == 555 and object.id == 74 then
     quest_type, wandgem = "ice", true
-elseif (object.zone_id == 555 and object.id == 76) then
+elseif object.zone_id == 555 and object.id == 76 then
     quest_type, wandgem = "acid", true
 end
 if not quest_type then
-    return _return_value
+    return true
 end
 
 local quest = quest_type .. "_wand"
@@ -37,7 +42,7 @@ local stage = actor:get_quest_stage(quest)
 
 if stage == 2 then
     if wand then
-        if actor:get_quest_var(quest .. ":wandtask1") and actor:get_quest_var(quest .. ":wandtask2") then
+        if dg.flag(actor:get_quest_var(quest .. ":wandtask1")) and dg.flag(actor:get_quest_var(quest .. ":wandtask2")) then
             actor:advance_quest(quest)
             actor:set_quest_var(quest, "greet", 0)
             actor:set_quest_var(quest, "attack_counter", 0)
@@ -51,13 +56,12 @@ if stage == 2 then
             world.destroy(object)
             wait(2)
             actor:send(tostring(self.name) .. " presents you with a new wand!")
-            self.room:spawn_object(2, next_id)
-            self:command("give wand " .. tostring(actor.name))
+            dg.give(self, self:spawn_object(2, next_id), actor)
             local expmod = 690
             if actor.class == "sorcerer" or actor.class == "pyromancer" or actor.class == "cryomancer" or actor.class == "illusionist" or actor.class == "bard" then
-                expmod = expmod + (expmod / 5)
+                expmod = expmod + math.floor(expmod / 5)
             elseif actor.class == "necromancer" then
-                expmod = expmod + ((expmod * 2) / 5)
+                expmod = expmod + math.floor((expmod * 2) / 5)
             end
             actor:send("<b:yellow>You gain experience!</>")
             local setexp = expmod * 10
@@ -81,6 +85,7 @@ if stage == 2 then
                 end
             end
         else
+            give_back()
             self.room:send(tostring(self.name) .. " scrutinizes " .. tostring(object.shortdesc) .. " with suspicion.")
             wait(1)
             self.room:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. ".")
@@ -92,7 +97,7 @@ if stage == 2 then
         world.destroy(object)
         self:say("Yes, this is exactly what I need!")
         wait(1)
-        if actor:get_quest_var(quest .. ":wandtask1") then
+        if dg.flag(actor:get_quest_var(quest .. ":wandtask1")) then
             self:say("Give me the wand to improve.")
         else
             self:say("Keep practicing with your wand!")
@@ -100,10 +105,10 @@ if stage == 2 then
             self:say("Come back when you've attacked " .. tostring(times) .. " times.")
         end
     end
-elseif (stage or 0) < 2 then
+elseif stage < 2 then
     if wand then
         wait(2)
-        if (stage or 0) == 0 then
+        if stage == 0 then
             actor:start_quest(quest)
             self:say("I can upgrade your " .. quest_type .. " wand!  But what I will do is just the first step in a life-long journey.")
             wait(2)
@@ -116,18 +121,20 @@ elseif (stage or 0) < 2 then
         wait(1)
         self:say("To upgrade your wand:")
         self.room:send("- attack <b:yellow>" .. tostring(times) .. "</> times with it")
-        self.room:send("- bring me <b:yellow>" .. tostring(objects.template(555, wandgem - 55520).name) .. "</>")
+        self.room:send("- bring me <b:yellow>" .. dg.oname(wandgem) .. "</>")
         wait(2)
         self:say("Do that and I'll be able to improve it.")
-        self:command("give wand " .. tostring(actor.name))
+        give_back()
     elseif wandgem then
+        give_back()
         self.room:send(tostring(self.name) .. " declines " .. tostring(object.shortdesc) .. ".")
         wait(1)
         self:say("Before you give me anything else, give me the wand you wish to improve.")
     end
 else
+    give_back()
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     wait(2)
     self:say("I've already upgraded your wand as much as I know how.")
 end
-return _return_value
+return true

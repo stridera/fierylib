@@ -2,17 +2,23 @@
 -- Zone: 238, ID: 10
 -- Type: MOB, Flags: GREET
 --
--- The mage acknowledges Sunfire-crested visitors. Original DG also gated a
--- "wand-craft" upgrade hint on the type_wand quest, but the converter dropped
--- the wandstep / weapon variable bindings, so that branch is left as TODO.
-
--- TODO(parity): the converter lost the type_wand quest state machine. The
--- original referenced %wandstep% and %weapon% locals that don't exist here.
--- Reconstructing the upgrade-hint dialogue requires the full type_wand quest
--- spec (see 238_15_mage_receive.lua for the quest hand-in side). Disabled
--- until that quest is rebuilt.
-
-wait(2)
+-- Original DG Script: #23810
+--
+-- The mage is the ice wand's step 6 crafter: a player on that step is asked about the upgrade
+-- (the step, element and weapon come from the LOAD trigger 002_111 through `globals`), and
+-- visitors wearing the Sunfire crest (object 237:16) get a nod to their service to his kin.
+wait(0.2)
+local wand_quest = (globals.type or "type") .. "_wand"
+if globals.wandstep and actor:get_quest_stage(wand_quest) == globals.wandstep then
+    local minlevel = (globals.wandstep - 1) * 10
+    if actor.level >= minlevel then
+        if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
+            self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
+        else
+            self:say("Do you have what I need for the " .. tostring(globals.weapon) .. "?")
+        end
+    end
+end
 
 -- Only greet people wearing the Sunfire crest (object 237:16)
 if actor:has_equipped(237, 16) then

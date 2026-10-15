@@ -6,11 +6,10 @@
 -- doesn't match the current Wizard Eye stage's expected ingredient, she
 -- refuses it with a stage-appropriate quip.
 --
--- TODO(parity): the legacy script also short-circuited for the wand-quest
--- items (`%wandgem%`, `%wand_id%`, `%wandtask3%`). Those identifiers were
--- DG-script substitutions whose runtime values were never captured during
--- conversion, so the wand-specific allow-through is omitted; this trigger
--- only handles the wizard_eye refusal text now.
+-- The wand-quest items (wandgem, wand_id, wandtask3, exported through `globals` by 002_111) fall
+-- through to 002_108, and so does the ingredient of the player's current Wizard Eye stage (58609
+-- at stage 2, 55030 at 5, 55032 at 8, 55033 at 11 = 586:9, 550:30, 550:32, 550:33).
+-- A turned-away item is handed back, the way legacy `return 0` refused a receive.
 --
 -- Original DG Script: #55008
 
@@ -24,7 +23,18 @@ if (object.zone_id == 550 and object.id == 5)
     or (object.zone_id == 550 and object.id == 23) then
     return true
 end
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+if dg.quest_item(object, globals) then
+    return true
+end
 local stage = actor:get_quest_stage("wizard_eye")
+if (stage == 2 and object.zone_id == 586 and object.id == 9)
+    or (stage == 5 and object.zone_id == 550 and object.id == 30)
+    or (stage == 8 and object.zone_id == 550 and object.id == 32)
+    or (stage == 11 and object.zone_id == 550 and object.id == 33) then
+    return true
+end
 local desc = tostring(object.shortdesc)
 local response
 if stage == 2 then
@@ -36,6 +46,7 @@ elseif stage == 11 then
 else
     response = "What is this?"
 end
+dg.give(self, object, actor)
 self:command("eye " .. tostring(actor.name))
 actor:send(tostring(self.name) .. " says, '" .. response .. "'")
 self.room:send(tostring(self.name) .. " refuses " .. desc .. ".")

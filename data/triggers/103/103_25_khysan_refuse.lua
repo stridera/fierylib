@@ -15,14 +15,16 @@
 --   true  -> let the gift land (a sibling trigger handles it)
 --   false -> consume / decline, with the refusal echo below
 --
--- TODO(parity): the original DG branched on `%wandgem%`,
--- `%wandtask3%`, `%wandtask4%`, `%wandvnum%` to recognise
--- wand-quest deliveries. Those are DG context globals from the
--- wand-quest framework and are not yet ported. Until they are,
--- the wand-quest fall-through is approximated as "no match"
--- (the wand-receive triggers are not in this zone), and the
--- refusal will fire even for legitimate wand offerings. Restore
--- once the wand framework lands.
+-- The wand-quest deliveries (`wandgem`, `wandtask3`, `wandtask4`, `wand_id` in the mob's
+-- `globals`, exported by 002_111) fall through to 002_108 as well.
+
+local dg = require("dg")
+if dg.gone(object) then return true end  -- an earlier receive trigger already took it
+-- The wand and mace items this crafter exports through `globals` (002_111 / 002_118) belong to
+-- the receive triggers 002_108 / 002_126; everything else is turned away below.
+if dg.quest_item(object, globals) then
+    return true
+end
 
 local function is_obj(z, i)
     return object.zone_id == z and object.local_id == i
@@ -78,6 +80,7 @@ else
     response = "Oh, is this a gift for me?  I appreciate it, but I'm fine for now."
 end
 
+dg.give(self, object, actor)
 self.room:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
 wait(0.2)
 self:say(response)

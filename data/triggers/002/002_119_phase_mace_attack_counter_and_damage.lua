@@ -7,8 +7,12 @@
 -- power scales with mace stage:
 --   - vs ethereal undead: divine bolt (340-345) or divine ray (346-349)
 --   - vs other undead/demonic targets: divine bolt at half skill (343+)
+-- The mace is the phase_mace quest's own weapon; its legacy vnum (340-349 = 2:140-2:149) picks the
+-- spell tier. A bond flag that was reset to 0 counts as unset (dg.flag).
+local dg = require("dg")
+local vnum = dg.to_vnum(self.zone_id, self.id)
 if actor:get_quest_stage("phase_mace") >= 1 then
-    if not actor:get_quest_var("phase_mace:macetask1") then
+    if not dg.flag(actor:get_quest_var("phase_mace:macetask1")) then
         local attack_increase = (actor:get_quest_var("phase_mace:attack_counter") or 0) + 1
         actor:set_quest_var("phase_mace", "attack_counter", attack_increase)
         if (actor:get_quest_var("phase_mace:attack_counter") or 0) >= actor:get_quest_stage("phase_mace") * 50 then
@@ -21,21 +25,21 @@ if random(1, 4) > 1 then
     local skill = self.level
     local spell
     if victim.composition == "ether" and victim.lifeforce == "undead" then
-        if self.id == 340 or self.id == 341 then
+        if vnum == 340 or vnum == 341 then
             return true
-        elseif self.id == 342 or self.id == 343 or self.id == 344 or self.id == 345 then
+        elseif vnum == 342 or vnum == 343 or vnum == 344 or vnum == 345 then
             spell = "divine bolt"
-        elseif self.id == 346 or self.id == 347 or self.id == 348 or self.id == 349 then
+        elseif vnum == 346 or vnum == 347 or vnum == 348 or vnum == 349 then
             spell = "divine ray"
         end
         if spell then
             spells.cast(self, spell, victim, skill)
         end
     elseif victim.lifeforce == "undead" or victim.lifeforce == "demonic" or victim.race == "demon" then
-        skill = skill / 2
-        if self.id == 340 or self.id == 341 or self.id == 342 then
+        skill = skill // 2
+        if vnum == 340 or vnum == 341 or vnum == 342 then
             return true
-        elseif self.id >= 343 and self.id <= 349 then
+        elseif vnum >= 343 and vnum <= 349 then
             spell = "divine bolt"
         end
         if spell then

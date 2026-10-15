@@ -45,6 +45,12 @@ env = setmetatable({
   objects = { template = function(z, i) return { name = "obj " .. z .. ":" .. i } end },
   globals = {},
 }, { __index = _G })
+-- require("name") loads data/script_libraries/<name>.lua once, with this environment's API
+local libs = {}
+env.require = function(name)
+  if libs[name] == nil then libs[name] = assert(loadfile("@LIBDIR@/" .. name .. ".lua", "t", env))() end
+  return libs[name]
+end
 env.world = entity("world")
 env.skills = entity("skills")
 local room = entity("room")
@@ -55,7 +61,7 @@ function run(src)
   for _, l in ipairs(log) do print(l) end
   print("RESULT|" .. tostring(ok) .. "|" .. tostring(rv))
 end
-"""
+""".replace("@LIBDIR@", str(ROOT / "data" / "script_libraries"))
 
 
 @dataclass
@@ -119,7 +125,7 @@ SCENARIOS = [
         "002_104 refuses a premature give to 185:0",
         "002/002_104_phase_wands_give_owner_check.lua",
         """
-        env.self = entity("self", {zone_id = 2, id = 300, shortdesc = "a wand", room = room})
+        env.self = entity("self", {zone_id = 2, id = 100, shortdesc = "a wand", room = room})
         env.victim = entity("victim", {zone_id = 185, id = 0, name = "Crafter"})
         env.actor = entity("actor", {is_player = true}, {get_quest_stage = function() return 1 end})
         """,
@@ -129,7 +135,7 @@ SCENARIOS = [
         "002_104 wrong element crafter 41:26 (fire) for an air wand",
         "002/002_104_phase_wands_give_owner_check.lua",
         """
-        env.self = entity("self", {zone_id = 2, id = 300, shortdesc = "a wand", room = room})
+        env.self = entity("self", {zone_id = 2, id = 100, shortdesc = "a wand", room = room})
         env.victim = entity("victim", {zone_id = 41, id = 26, name = "Crafter"})
         env.actor = entity("actor", {is_player = true}, {get_quest_stage = function() return 9 end})
         """,
@@ -139,7 +145,7 @@ SCENARIOS = [
         "002_104 ignores 186:0",
         "002/002_104_phase_wands_give_owner_check.lua",
         """
-        env.self = entity("self", {zone_id = 2, id = 300, shortdesc = "a wand", room = room})
+        env.self = entity("self", {zone_id = 2, id = 100, shortdesc = "a wand", room = room})
         env.victim = entity("victim", {zone_id = 186, id = 0, name = "Crafter"})
         env.actor = entity("actor", {is_player = true}, {get_quest_stage = function() return 1 end})
         """,

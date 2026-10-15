@@ -1,11 +1,6 @@
 -- Trigger: Emmath flames receive
 -- Zone: 52, ID: 8
 -- Type: MOB, Flags: RECEIVE
--- Status: NEEDS_REVIEW
---   TODO: object.id legacy-vnum checks (23822 -> 238:22, 17308 -> 173:8,
---         5211 -> 52:11, 5212 -> 52:12) need a host-side helper or to be
---         rewritten as (object.zone_id, object.local_id) pairs once the
---         catalog is stable here.
 --
 -- Original DG Script: #5208
 --
@@ -14,13 +9,17 @@
 -- subclass quest flames advance pyromancer_subclass, flameball turn-ins
 -- track emmath_flameball:count up to 3 and advance to the renegade-flame
 -- chase, and the blue flame (238:22) is only accepted on stage 3.
+-- 23822 (238:22, the blue flame) is also the fire wand's step 10 gem: while the player is on that
+-- step and has not given it yet, 002_108 takes it. The step comes from `globals` (002_111).
+local dg = require("dg")
+local wand_quest = (globals.type or "type") .. "_wand"
 local subclass_item, right_item, flameball_item, count
 
 if (object.zone_id == 238 and object.id == 22) then
     get_room(238, 90):at(function()
         run_room_trigger(238, 14)
     end)
-    if actor:get_quest_stage("type_wand") == "wandstep" and not actor:get_quest_var("type_wand:wandtask2") then
+    if globals.wandstep and actor:get_quest_stage(wand_quest) == globals.wandstep and not dg.flag(actor:get_quest_var(wand_quest .. ":wandtask2")) then
         return true
     elseif actor:get_quest_stage("emmath_flameball") > 0 and actor:get_quest_stage("emmath_flameball") <= 3 then
         flameball_item = "yes"
