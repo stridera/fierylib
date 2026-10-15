@@ -8,6 +8,8 @@
 -- Converted from DG Script #6031: assassin_subclass_mayor_calls_for_help
 -- Original: MOB trigger, flags: FIGHT, probability: 100%
 wait(0.2)
+-- DG global `round`: fight rounds seen by this mob so far (unset reads as 0)
+local round = globals.round or 0
 -- switch on round
 do
     local _sw1 = string.lower(tostring(round or ""))
@@ -46,7 +48,7 @@ do
         -- actor looks around
         wait(0.2)
         actor:send("The City Hall guard tells you, 'And don't you come back!'")
-        round = nil
+        globals.round = nil
         actor:fail_quest("merc_ass_thi_subclass")
         actor:send("<b:yellow>You have failed your quest!</>")
         actor:send("You'll have to go back to " .. tostring(mobiles.template(60, 50).name) .. " and start over!")
@@ -54,4 +56,4 @@ do
     end
 end
 round = round + 1
-globals.round = globals.round or true
+globals.round = round

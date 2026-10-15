@@ -40,21 +40,21 @@ elseif (player1.name == actor.name) or (player2.name == actor.name) then
         self.room:send_except(actor, tostring(actor.name) .. " forfeits the game!")
         if player1.name == actor.name then
             local p1forfeit = 2
-            globals.p1forfeit = globals.p1forfeit or true
+            globals.p1forfeit = p1forfeit
         elseif player2.name == actor.name then
             local p2forfeit = 2
-            globals.p2forfeit = globals.p2forfeit or true
+            globals.p2forfeit = p2forfeit
         end
         local status = 2
-        globals.status = globals.status or true
+        globals.status = status
     else
         actor:send("Are you absolutely sure you want to forfeit?  If so, type 'forfeit yes'.")
         if player1.name == actor.name then
             local p1forfeit = 1
-            globals.p1forfeit = globals.p1forfeit or true
+            globals.p1forfeit = p1forfeit
         elseif player2.name == actor.name then
             local p2forfeit = 1
-            globals.p2forfeit = globals.p2forfeit or true
+            globals.p2forfeit = p2forfeit
         end
     end
 else

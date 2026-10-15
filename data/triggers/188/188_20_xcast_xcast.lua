@@ -35,37 +35,37 @@ local _return_value = false  -- Default: block the command (legacy script_driver
 if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
     _return_value = false
     -- Must use x-decide to select a spell first
-    if not xname then
+    if not globals.xname then
         actor:send("You have not chosen a spell to x-cast yet!")
         -- No x-casting damage on self, immortals, or people in other rooms
-    elseif (xmode == "victim") and (arg.name == actor.name) then
+    elseif (globals.xmode == "victim") and (arg.name == actor.name) then
         actor:send("You cannot x-cast at yourself.")
-    elseif (xmode == "victim") and (arg.room ~= actor.room) then
+    elseif (globals.xmode == "victim") and (arg.room ~= actor.room) then
         actor:send("You must be in the same room as " .. tostring(arg.name) .. "!")
-    elseif (xmode == "victim") and (arg.level > 99) then
+    elseif (globals.xmode == "victim") and (arg.level > 99) then
         actor:send("You cannot x-cast at immortals!")
     else
         local notarg
         local spell_stop
         local damage
-        if xmode ~= "victim" then
+        if globals.xmode ~= "victim" then
             notarg = 1
         end
         -- Begin casting messages
-        if xmode == "victim" then
-            arg:send(tostring(actor.name) .. " starts casting <b:yellow>'" .. tostring(xname) .. "'</> at <b:red>You</>!!!...")
-            self.room:send_except(arg, tostring(actor.name) .. " starts casting <b:yellow>'" .. tostring(xname) .. "'</>...")
-            actor:send("You start casting <b:yellow>'" .. tostring(xname) .. "'</>...")
-        elseif xmode == "self" then
-            self.room:send_except(actor, tostring(actor.name) .. " starts casting <b:yellow>'" .. tostring(xname) .. "'</>...")
+        if globals.xmode == "victim" then
+            arg:send(tostring(actor.name) .. " starts casting <b:yellow>'" .. tostring(globals.xname) .. "'</> at <b:red>You</>!!!...")
+            self.room:send_except(arg, tostring(actor.name) .. " starts casting <b:yellow>'" .. tostring(globals.xname) .. "'</>...")
+            actor:send("You start casting <b:yellow>'" .. tostring(globals.xname) .. "'</>...")
+        elseif globals.xmode == "self" then
+            self.room:send_except(actor, tostring(actor.name) .. " starts casting <b:yellow>'" .. tostring(globals.xname) .. "'</>...")
         end
         actor:send("You start chanting...")
         wait(2)
         -- Imitate casting stars
-        local stars = xstars
+        local stars = globals.xstars
         while stars > 0 do
             if notarg or (arg.room == actor.room) then
-                actor:send(tostring(stars) .. " remaining on " .. tostring(xname))
+                actor:send(tostring(stars) .. " remaining on " .. tostring(globals.xname))
                 wait(2)
                 stars = stars - 1
             else
@@ -76,44 +76,44 @@ if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
         -- If player is still here, make with the magic
         if spell_stop ~= 1 then
             if notarg or (arg.room == actor.room) then
-                if xmode == "victim" then
-                    arg:send(tostring(actor.name) .. " stares at you and utters the words, '" .. tostring(xmagic) .. "'.")
-                    self.room:send_except(arg, tostring(actor.name) .. " closes " .. tostring(actor.possessive) .. " eyes and utters the words, '" .. tostring(xmagic) .. "'.")
-                elseif xmode == "self" then
-                    self.room:send_except(actor, tostring(actor.name) .. " closes " .. tostring(actor.possessive) .. " eyes and utters the words, '" .. tostring(xmagic) .. "'.")
+                if globals.xmode == "victim" then
+                    arg:send(tostring(actor.name) .. " stares at you and utters the words, '" .. tostring(globals.xmagic) .. "'.")
+                    self.room:send_except(arg, tostring(actor.name) .. " closes " .. tostring(actor.possessive) .. " eyes and utters the words, '" .. tostring(globals.xmagic) .. "'.")
+                elseif globals.xmode == "self" then
+                    self.room:send_except(actor, tostring(actor.name) .. " closes " .. tostring(actor.possessive) .. " eyes and utters the words, '" .. tostring(globals.xmagic) .. "'.")
                 end
                 actor:send("You complete your spell.")
-                if xeffect == "damage" then
-                    damage = xamount + random(1, 50)
+                if globals.xeffect == "damage" then
+                    damage = globals.xamount + random(1, 50)
                 end
                 -- Show the message
-                if xid == 1 then
+                if globals.xid == 1 then
                     self.room:send_except(actor, "<yellow>" .. tostring(actor.name) .. " lets out a <red>soul-rending<yellow> screech</>!")
                     actor:send("<yellow>You let out shattering screech!</>")
-                elseif xid == 2 then
+                elseif globals.xid == 2 then
                     self.room:send_except(actor, "<b:white>" .. tostring(actor.name) .. " waves a taloned paw, bring down a </><cyan>bli<blue>zz</><cyan>ard<b:white> of snow!</>")
                     actor:send("<b:white>You wave a taloned paw at the room, bringing down a </><cyan>bli<blue>zz</><cyan>ard<b:white> of snow!</>")
-                elseif xid == 3 then
+                elseif globals.xid == 3 then
                     self.room:send_except(actor, "<b:white>" .. tostring(actor.name) .. " looks much healthier than before!</>")
                     actor:send("<b:white>You feel MUCH healthier than before!</>")
-                elseif xid == 4 then
+                elseif globals.xid == 4 then
                     self.room:send_except(arg, tostring(actor.name) .. " waves a hand at " .. tostring(arg.name) .. ", whisking " .. tostring(arg.object) .. " away!")
                     actor:send("You wave a hand at " .. tostring(arg.name) .. ", whisking " .. tostring(arg.object) .. " away!")
-                elseif xid == 5 then
+                elseif globals.xid == 5 then
                     self.room:send_except(actor, "<b:white>" .. tostring(actor.name) .. " speaks a holy word of sanctification!</>")
                     actor:send("<b:white>You speak a holy word of sanctification!</>")
-                elseif xid == 6 then
+                elseif globals.xid == 6 then
                     arg:send("<b:black>" .. tostring(actor.name) .. " chants an arcane word at you, locking you in an iron maiden!</>")
                     self.room:send_except(arg, "<b:black>" .. tostring(actor.name) .. " chants an arcane word at " .. tostring(arg.name) .. ", locking " .. tostring(arg.object) .. " in an iron maiden!</>")
                     actor:send("<b:black>You chant an arcane word at " .. tostring(arg.name) .. ", locking " .. tostring(arg.object) .. " in an iron maiden!</>")
-                elseif xid == 7 then
+                elseif globals.xid == 7 then
                     self.room:send_except(actor, "<blue>Lightning streaks out from " .. tostring(actor.name) .. "'s body, sizzling through the air.</>")
                     actor:send("<blue>Lightning streaks out from your body, crackling through the air.</>")
-                elseif xid == 8 then
+                elseif globals.xid == 8 then
                     arg:send(tostring(actor.name) .. " screams a commination at you, causing runes to appear on your skin!  (<b:red>" .. tostring(damage) .. "</>)")
                     self.room:send_except(arg, "Runes appear on " .. tostring(arg.name) .. " as " .. tostring(actor.name) .. " screams an obloquy at " .. tostring(arg.object) .. "!  (<blue>" .. tostring(damage) .. "</>)")
                     actor:send("You scream a curse at " .. tostring(arg.name) .. ", causing runes to appear on " .. tostring(arg.possessive) .. " skin! (<yellow>" .. tostring(damage) .. "</>)")
-                elseif xid == 9 then
+                elseif globals.xid == 9 then
                     arg:send(tostring(actor.name) .. " flings a ball of caustic acid at you, burning your flesh. (<b:red>" .. tostring(damage) .. "</>)")
                     self.room:send_except(arg, tostring(actor.name) .. " flings a ball of caustic acid at " .. tostring(arg.name) .. ", burning " .. tostring(actor.possessive) .. " flesh.  (<blue>" .. tostring(damage) .. "</>)")
                     actor:send("You throw a ball of caustic acid at " .. tostring(arg.name) .. ", burning " .. tostring(arg.possessive) .. " flesh. (<yellow>" .. tostring(damage) .. "</>)")
@@ -122,13 +122,13 @@ if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
                     actor:send("Unrecognized xid number.")
                 end
                 -- Do the deed
-                if xeffect == "damage" then
+                if globals.xeffect == "damage" then
                     local damage_dealt = arg:damage(damage)  -- type: physical
-                elseif xeffect == "heal" then
-                    actor:heal(xamount)
+                elseif globals.xeffect == "heal" then
+                    actor:heal(globals.xamount)
                 end
-                if xeffect == "transport" then
-                    if xamount == -1 then
+                if globals.xeffect == "transport" then
+                    if globals.xamount == -1 then
                         arg:send(tostring(actor.name) .. " waves a hand at you, whisking you away!")
                         local max_tries = 20
                         while max_tries > 0 do
@@ -142,10 +142,10 @@ if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
                         -- but the loop now decrements past zero so the original safety net
                         -- is dead code. Decide whether to bail to (0,0) on failure.
                     else
-                        arg:teleport(get_room(math.floor(xamount / 100), xamount % 100))
+                        arg:teleport(get_room(math.floor(globals.xamount / 100), globals.xamount % 100))
                     end
                     arg:command("look")
-                elseif xeffect == "area" then
+                elseif globals.xeffect == "area" then
                     local max_tries = 20
                     local target_list = ""
                     while max_tries > 0 do
@@ -153,20 +153,20 @@ if (actor.zone_id == 188 and actor.id >= 20 and actor.id <= 42) then
                         if victim then
                             if (victim.id ~= actor.id) and not (string.find(target_list, victim.name, 1, true)) then
                                 target_list = target_list .. victim.name .. ","
-                                damage = xamount + random(1, 50)
-                                if xid == 1 then
+                                damage = globals.xamount + random(1, 50)
+                                if globals.xid == 1 then
                                     victim:send("<yellow>The screech pierces into your head, causing great pain!</> (<b:red>" .. tostring(damage) .. "</>)")
                                     self.room:send_except(victim, "<yellow>" .. tostring(victim.name) .. " grasps " .. tostring(victim.possessive) .. " head in pain.</> (<blue>" .. tostring(damage) .. "</>)")
                                     local damage_dealt = victim:damage(damage)  -- type: physical
-                                elseif xid == 2 then
+                                elseif globals.xid == 2 then
                                     victim:send("<cyan>The sudden blizzard <b:white>chills</><cyan> you to the bone!</> (<b:red>" .. tostring(damage) .. "</>)")
                                     self.room:send_except(victim, "<cyan>" .. tostring(victim.name) .. " shivers and turns blue in the blizzard.</> (<blue>" .. tostring(damage) .. "</>)")
                                     local damage_dealt = victim:damage(damage)  -- type: physical
-                                elseif (xid == 5) and (victim.alignment <= -350) then
+                                elseif (globals.xid == 5) and (victim.alignment <= -350) then
                                     victim:send("<b:white>You cry out in pain upon hearing " .. tostring(actor.name) .. "'s blessing!</> (<b:red>" .. tostring(damage) .. "</>)")
                                     self.room:send_except(victim, "<b:white>" .. tostring(victim.name) .. " grasps " .. tostring(victim.possessive) .. " head upon hearing " .. tostring(actor.name) .. "'s blessing!</> (<blue>" .. tostring(damage) .. "</>)")
                                     local damage_dealt = victim:damage(damage)  -- type: physical
-                                elseif xid == 7 then
+                                elseif globals.xid == 7 then
                                     victim:send("<blue>The lightning strikes you in the chest, shocking your body!</> (<b:red>" .. tostring(damage) .. "</>)")
                                     self.room:send_except(victim, "<blue>" .. tostring(victim.name) .. " reels back, struck in the chest by the lightning!</> (<blue>" .. tostring(damage) .. "</>)")
                                     local damage_dealt = victim:damage(damage)  -- type: physical

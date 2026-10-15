@@ -9,25 +9,22 @@
 -- back" line; otherwise gives the new-arrival pitch and, for high-
 -- level cryomancers, drops a hint about an unknown spell.
 --
--- TODO(parity): the original referenced DG context globals
--- `%type%` and `%wandstep%` (resolved by the wand-quest framework
--- elsewhere in the legacy lib). Those globals are not part of the
--- runtime trigger context and the converter could not infer them,
--- so the wand-related branches are gated on a `wandstep` runtime
--- global which is currently nil. They become inert until the
--- wand framework is ported.
+-- `type` and `wandstep` are DG globals the mob's LOAD trigger (002_111) sets; they are read
+-- here from the mob's `globals` table.
 
 local ice_stage = actor:get_quest_stage("ice_shards")
-local wand_stage = actor:get_quest_stage("type_wand")
+-- DG %type%_wand: the wand questmaster's LOAD trigger (002_111) stores the element in globals.type
+local wand_quest = (globals.type or "type") .. "_wand"
+local wand_stage = actor:get_quest_stage(wand_quest)
 
 local seen_before = false
 if (ice_stage or 0) > 0 and ice_stage > 0 then
     seen_before = true
 end
-if wandstep and wand_stage > wandstep then
+if globals.wandstep and (wand_stage or 0) > globals.wandstep then
     seen_before = true
 end
-if wandstep and wand_stage == wandstep and (actor:get_quest_var("type_wand:greet") or 0) == 1 then
+if globals.wandstep and wand_stage == globals.wandstep and (actor:get_quest_var(wand_quest .. ":greet") or 0) == 1 then
     seen_before = true
 end
 
@@ -39,11 +36,11 @@ if seen_before then
     wait(0.2)
     if (ice_stage or 0) > 0 and ice_stage > 0 and not actor:get_has_completed("ice_shards") then
         self:say("Did you find any more clues?")
-        if wandstep and wand_stage == wandstep then
-            local minlevel = (wandstep - 1) * 10
+        if globals.wandstep and wand_stage == globals.wandstep then
+            local minlevel = (globals.wandstep - 1) * 10
             wait(1)
             if actor.level >= minlevel then
-                if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+                if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
                     self:say("Or is there something else that brings you back?")
                 else
                     self:say("Or do you have what I need for a new staff?")
@@ -51,10 +48,10 @@ if seen_before then
             end
         end
     else
-        if wandstep and wand_stage == wandstep then
-            local minlevel = (wandstep - 1) * 10
+        if globals.wandstep and wand_stage == globals.wandstep then
+            local minlevel = (globals.wandstep - 1) * 10
             if actor.level >= minlevel then
-                if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+                if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
                     self:say("Is there something else that brings you back?")
                 else
                     self:say("Do you have what I need for a new staff?")
@@ -69,10 +66,10 @@ else
     wait(1)
     self:command("bow " .. actor.name)
     self:say("Please enjoy your stay.  You may enter the hot springs to the south.")
-    if wandstep and wand_stage == wandstep then
+    if globals.wandstep and wand_stage == globals.wandstep then
         wait(1)
-        local minlevel = (wandstep - 1) * 10
-        if actor.level >= minlevel and (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+        local minlevel = (globals.wandstep - 1) * 10
+        if actor.level >= minlevel and (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
             self.room:send(self.name .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         end
     end

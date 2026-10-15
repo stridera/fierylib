@@ -75,6 +75,7 @@ def run_body(dg: str, env: str = "", body_kwargs=None) -> list[str]:
         "        room = {send = function(_, m) log[#log+1] = m end}}\n"
         "function wait(n) log[#log+1] = 'wait:' .. tostring(n) end\n"
         "function random() return 1 end\n"
+        "globals = {}\n"
         f"{env}\n"
         f"local function body()\n{lua}\nend\n"
         "body()\n"
@@ -191,11 +192,11 @@ def test_fallthrough_without_break_runs_the_following_bodies():
             say zero
         done
     """
-    assert run_body(dg, "rooms = 3") == ["three", "two", "one"]
-    assert run_body(dg, "rooms = 2") == ["two", "one"]
-    assert run_body(dg, "rooms = 1") == ["one"]
-    assert run_body(dg, "rooms = 0") == ["zero"]
-    assert run_body(dg, "rooms = 9") == []
+    assert run_body(dg, "globals.rooms = 3") == ["three", "two", "one"]
+    assert run_body(dg, "globals.rooms = 2") == ["two", "one"]
+    assert run_body(dg, "globals.rooms = 1") == ["one"]
+    assert run_body(dg, "globals.rooms = 0") == ["zero"]
+    assert run_body(dg, "globals.rooms = 9") == []
 
 
 @needs_lua
@@ -361,12 +362,12 @@ def test_empty_and_label_only_switches_do_not_break_syntax():
         lua = lua_of(dg)
         assert lua.count("do\n") + lua.count("do ") >= 1
         if LUA:
-            r = subprocess.run([LUA, "-"], input=f"x = 1\n{lua}", capture_output=True, text=True)
+            r = subprocess.run([LUA, "-"], input=f"globals = {{x = 1}}\n{lua}", capture_output=True, text=True)
             assert r.returncode == 0, (dg, r.stderr, lua)
 
 
 def test_unclosed_switch_is_closed():
     lua = lua_of("switch %x%\n  case 1\n    say one\n")
     if LUA:
-        r = subprocess.run([LUA, "-"], input=f"x = 1; self = {{say = function() end}}\n{lua}", capture_output=True, text=True)
+        r = subprocess.run([LUA, "-"], input=f"globals = {{x = 1}}; self = {{say = function() end}}\n{lua}", capture_output=True, text=True)
         assert r.returncode == 0, (r.stderr, lua)

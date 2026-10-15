@@ -18,13 +18,13 @@ end
 -- Switch on the global `chosen` index (set when the player entered the
 -- room — see 510_02). Each case demands a specific phrase.
 local flagit = 0
-if chosen == 1 and speech_lower == "floor phrase is open sesame" then
+if globals.chosen == 1 and speech_lower == "floor phrase is open sesame" then
     flagit = 1
-elseif chosen == 2 and speech_lower == "floor phrase is eingang bitte" then
+elseif globals.chosen == 2 and speech_lower == "floor phrase is eingang bitte" then
     flagit = 1
-elseif chosen == 3 and speech_lower == "floor phrase is traverser dedans" then
+elseif globals.chosen == 3 and speech_lower == "floor phrase is traverser dedans" then
     flagit = 1
-elseif chosen == 4 and speech_lower == "floor phrase is let me in dorkus" then
+elseif globals.chosen == 4 and speech_lower == "floor phrase is let me in dorkus" then
     flagit = 1
 end
 

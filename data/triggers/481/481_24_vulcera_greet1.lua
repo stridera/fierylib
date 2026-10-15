@@ -5,14 +5,13 @@
 --
 -- Original DG Script: #48124
 --
--- TODO(parity): The original references unresolved identifiers `weapon` and
--- a quest-stage value `wandstep` for the `type_wand` quest. Both come from
--- DG global state that wasn't propagated by the converter. Treat the
--- type_wand block below as best-effort until the cross-zone wand quest is
--- ported and the canonical stage names / weapon-name var are known.
+-- `wandstep`, `weapon` and `type` are DG globals set on this mob by its LOAD trigger (002_111);
+-- they are read from the mob's `globals` table.
 
 -- Converted from DG Script #48124: vulcera_greet1
 -- Original: MOB trigger, flags: GREET, GREET_ALL, probability: 100%
+-- DG %type%_wand: the questmaster's LOAD trigger (002_111) stores the element in globals.type
+local wand_quest = (globals.type or "type") .. "_wand"
 wait(0.6)
 self:command("peer " .. tostring(actor.name))
 self:say("So puny one, you dare to disturb me?")
@@ -28,13 +27,13 @@ end
 while i >= a do
     person = actor.group_member[a]
     if person.room == self.room then
-        if person:get_quest_stage("type_wand") == "wandstep" then
+        if person:get_quest_stage(wand_quest) == globals.wandstep then
             if person.level >= 60 then
-                if (person:get_quest_var("type_wand:greet") or 0) == 0 then
+                if (person:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
                     wait(0.2)
                     self:say("What do you want pathetic mortal?")
                 else
-                    self:say("Do you have what I require for the " .. tostring(weapon) .. "?")
+                    self:say("Do you have what I require for the " .. tostring(globals.weapon) .. "?")
                 end
             end
         end

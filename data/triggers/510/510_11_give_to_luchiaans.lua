@@ -10,8 +10,8 @@
 --   - (510, 28) phoenix heart      → reward branch driven by magequest
 --   - (85, 50) generic gate item   → silent halt
 --   - anything else                → returns the object to the giver
-local clericquest = clericquest or 0
-local magequest = magequest or 0
+local clericquest = globals.clericquest or 0
+local magequest = globals.magequest or 0
 local zone = object.zone_id
 local id = object.id
 

@@ -341,6 +341,33 @@ def _concat_with_vars(raw: str) -> str:
     return ' .. '.join(parts) if parts else '""'
 
 
+# Names the engine binds for every trigger or per event; a DG %name% that is one of these is a
+# Lua global, anything else is a script variable (see _script_var).
+_ENGINE_NAMES = frozenset({
+    'actor', 'self', 'speech', 'cmd', 'arg', 'args', 'object', 'direction', 'amount', 'damage',
+    'damage_dealt', 'victim', 'target', 'hit', 'location', 'spell', 'trivial', 'destination',
+    'value', 'platinum', 'gold', 'silver', 'copper', 'event', 'room', 'globals', 'time', 'world',
+})
+
+# Variables the script being converted has declared so far (set/eval); None outside
+# convert_script_body.
+_declared_ctx: set | None = None
+
+
+def _script_var(name: str) -> str:
+    """Lua expression for a DG script variable read.
+
+    DG looks a name up in the trigger's own variables, then in the global variables of the
+    entity the trigger is attached to (`global <var>` in another trigger), and reads "" when
+    neither has it. A name this script has not set yet can therefore only be a global, which
+    fierymud-rs keeps in the entity's `globals` table.
+    """
+    if (_declared_ctx is not None and re.fullmatch(r'[A-Za-z_]\w*', name)
+            and name not in _declared_ctx and name not in _ENGINE_NAMES):
+        return f'globals.{name}'
+    return name
+
+
 def convert_variable_expr(var: str) -> str:
     """
     Convert a DG Script %variable% to Lua expression.
@@ -425,7 +452,7 @@ def convert_variable_expr(var: str) -> str:
     # Property access
     if '.' in var:
         parts = var.split('.', 1)
-        obj = simple_vars.get(parts[0], parts[0])
+        obj = simple_vars.get(parts[0]) or _script_var(parts[0])
         prop = parts[1]
 
         # Property mappings
@@ -564,7 +591,7 @@ def convert_variable_expr(var: str) -> str:
 
         return f'{obj}.{prop}'
 
-    return var
+    return _script_var(var)
 
 
 def convert_text_with_vars(text: str) -> str:
@@ -1993,7 +2020,11 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
     # unset (clear a variable)
     match = re.match(r'^unset\s+(\w+)$', cmd, re.IGNORECASE)
     if match:
-        return f'{ind}{match.group(1)} = nil'
+        name = match.group(1)
+        # DG removes the entity's global of that name first, else the trigger's own variable
+        if declared_vars is not None and name in declared_vars:
+            return f'{ind}{name} = nil; globals.{name} = nil'
+        return f'{ind}globals.{name} = nil'
 
     # unset with dynamic index: unset varname%index%
     match = re.match(r'^unset\s+(\w+)%([^%]+)%$', cmd, re.IGNORECASE)
@@ -2055,18 +2086,18 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
     if cmd_lower in ('wpurge', 'mpurge'):
         return f'{ind}self.room:purge()'
 
-    # global (global variable declaration - single or multiple)
+    # global: DG moves each named local into the global variables of the entity the trigger is on
+    # (shared by that entity's other triggers, gone with it). fierymud-rs keeps them in the
+    # entity's `globals` table.
     match = re.match(r'^global\s+(.+)$', cmd, re.IGNORECASE)
     if match:
-        vars_str = match.group(1).strip()
-        # Handle multiple space-separated variable names
-        var_names = vars_str.split()
-        if len(var_names) == 1:
-            return f'{ind}globals.{var_names[0]} = globals.{var_names[0]} or true'
-        else:
-            # Multiple globals - initialize each
-            inits = [f'globals.{v} = globals.{v} or true' for v in var_names]
-            return f'{ind}' + '; '.join(inits)
+        lines = []
+        for name in match.group(1).split():
+            if re.fullmatch(r'[A-Za-z_]\w*', name) and (declared_vars is None or name in declared_vars):
+                lines.append(f'{ind}globals.{name} = {name}')
+            else:
+                lines.append(f'{ind}-- global {name}: not set in this trigger, nothing to store')
+        return '\n'.join(lines)
 
     # mmobflag (set mob flags)
     match = re.match(r'^mmobflag\s+%([^%]+)%\s+(\w+)\s+(on|off)$', cmd, re.IGNORECASE)
@@ -2617,7 +2648,12 @@ def convert_script_body(commands: str, command_trigger: bool = False) -> str:
         default = RETURN_VALUE_DEFAULT_COMMAND if command_trigger else RETURN_VALUE_DEFAULT_ALLOW
         lua_lines.append(default)
 
-    lua_lines.extend(_convert_lines(lines, 0, declared_vars, [0]))
+    global _declared_ctx
+    outer_ctx, _declared_ctx = _declared_ctx, declared_vars
+    try:
+        lua_lines.extend(_convert_lines(lines, 0, declared_vars, [0]))
+    finally:
+        _declared_ctx = outer_ctx
 
     # Add final return if script uses _return_value but doesn't end with a return
     if has_return_value:

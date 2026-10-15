@@ -7,7 +7,7 @@
 -- be wearing the heat-resistant gloves (510, 26) to claim the heart;
 -- success awards 30k XP and latches `already_got` so the bonus is
 -- one-shot. Either way, the corpse crumbles to ash on the next tick.
-local already_got = already_got or 0
+local already_got = globals.already_got or 0
 if already_got == 1 then
     return true
 end

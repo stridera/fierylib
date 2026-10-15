@@ -29,7 +29,7 @@ if string.find(actor.class, "rogue") then
     wait(0.2)
     if actor.level >= 10 and actor.level <= 25 then
         if actor.alignment <= -350 then
-            if use_subclass then
+            if globals.use_subclass then
                 actor:send(tostring(self.name) .. " says, 'One moment, I'm getting someone else set up.'")
                 actor:send(tostring(self.name) .. " ushers you into the corner.")
                 self.room:send_except(actor, tostring(self.name) .. " ushers " .. tostring(actor.name) .. " into the corner.")
@@ -37,8 +37,7 @@ if string.find(actor.class, "rogue") then
                 actor:send(tostring(self.name) .. " says, 'Wait there.'")
             else
                 actor:send(tostring(self.name) .. " says, 'So, you wish to become an assassin do you?'")
-                local use_subclass = "Ass"
-                globals.use_subclass = globals.use_subclass or true
+                globals.use_subclass = "Ass"
             end
         else
             actor:send(tostring(self.name) .. " says, 'You aren't nearly evil enough yet.'")

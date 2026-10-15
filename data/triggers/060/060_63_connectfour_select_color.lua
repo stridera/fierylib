@@ -38,18 +38,18 @@ if (status == 0) and player1 and (actor.name == player1.name) then
             self.room:send_except(player2, tostring(player2.name) .. " gets the <b:black>black</> pieces.")
             actor:send("You get to go first!")
             local status = 1
-            globals.status = globals.status or true
+            globals.status = status
             local turn = 1
-            globals.turn = globals.turn or true
+            globals.turn = turn
         end
         local p1col = "<b:red>"
-        globals.p1col = globals.p1col or true
+        globals.p1col = p1col
         local p2col = "<b:black>"
-        globals.p2col = globals.p2col or true
+        globals.p2col = p2col
         local p1desc = "<b:red>red</>"
-        globals.p1desc = globals.p1desc or true
+        globals.p1desc = p1desc
         local p2desc = "<b:black>black</>"
-        globals.p2desc = globals.p2desc or true
+        globals.p2desc = p2desc
     elseif arg == "black" then
         actor:send("You are the <b:black>black</> pieces!")
         self.room:send_except(actor, tostring(actor.name) .. " chooses to play with the <b:black>black</> pieces!")
@@ -58,18 +58,18 @@ if (status == 0) and player1 and (actor.name == player1.name) then
             self.room:send_except(player2, tostring(player2.name) .. " gets the <b:red>red</> pieces.")
             actor:send("You get to go first!")
             local status = 1
-            globals.status = globals.status or true
+            globals.status = status
             local turn = 1
-            globals.turn = globals.turn or true
+            globals.turn = turn
         end
         local p1col = "<b:black>"
-        globals.p1col = globals.p1col or true
+        globals.p1col = p1col
         local p2col = "<b:red>"
-        globals.p2col = globals.p2col or true
+        globals.p2col = p2col
         local p1desc = "<b:black>black</>"
-        globals.p1desc = globals.p1desc or true
+        globals.p1desc = p1desc
         local p2desc = "<b:red>red</>"
-        globals.p2desc = globals.p2desc or true
+        globals.p2desc = p2desc
     else
         actor:send("You may only select 'red' or 'black'.")
     end
@@ -122,55 +122,55 @@ if (status == 0) and player1 and (actor.name == player1.name) then
     local g5 = "O"
     local g6 = "O"
     local g7 = "O"
-    globals.a1 = globals.a1 or true
-    globals.a2 = globals.a2 or true
-    globals.a3 = globals.a3 or true
-    globals.a4 = globals.a4 or true
-    globals.a5 = globals.a5 or true
-    globals.a6 = globals.a6 or true
-    globals.a7 = globals.a7 or true
-    globals.b1 = globals.b1 or true
-    globals.b2 = globals.b2 or true
-    globals.b3 = globals.b3 or true
-    globals.b4 = globals.b4 or true
-    globals.b5 = globals.b5 or true
-    globals.b6 = globals.b6 or true
-    globals.b7 = globals.b7 or true
-    globals.c1 = globals.c1 or true
-    globals.c2 = globals.c2 or true
-    globals.c3 = globals.c3 or true
-    globals.c4 = globals.c4 or true
-    globals.c5 = globals.c5 or true
-    globals.c6 = globals.c6 or true
-    globals.c7 = globals.c7 or true
-    globals.d1 = globals.d1 or true
-    globals.d2 = globals.d2 or true
-    globals.d3 = globals.d3 or true
-    globals.d4 = globals.d4 or true
-    globals.d5 = globals.d5 or true
-    globals.d6 = globals.d6 or true
-    globals.d7 = globals.d7 or true
-    globals.e1 = globals.e1 or true
-    globals.e2 = globals.e2 or true
-    globals.e3 = globals.e3 or true
-    globals.e4 = globals.e4 or true
-    globals.e5 = globals.e5 or true
-    globals.e6 = globals.e6 or true
-    globals.e7 = globals.e7 or true
-    globals.f1 = globals.f1 or true
-    globals.f2 = globals.f2 or true
-    globals.f3 = globals.f3 or true
-    globals.f4 = globals.f4 or true
-    globals.f5 = globals.f5 or true
-    globals.f6 = globals.f6 or true
-    globals.f7 = globals.f7 or true
-    globals.g1 = globals.g1 or true
-    globals.g2 = globals.g2 or true
-    globals.g3 = globals.g3 or true
-    globals.g4 = globals.g4 or true
-    globals.g5 = globals.g5 or true
-    globals.g6 = globals.g6 or true
-    globals.g7 = globals.g7 or true
+    globals.a1 = a1
+    globals.a2 = a2
+    globals.a3 = a3
+    globals.a4 = a4
+    globals.a5 = a5
+    globals.a6 = a6
+    globals.a7 = a7
+    globals.b1 = b1
+    globals.b2 = b2
+    globals.b3 = b3
+    globals.b4 = b4
+    globals.b5 = b5
+    globals.b6 = b6
+    globals.b7 = b7
+    globals.c1 = c1
+    globals.c2 = c2
+    globals.c3 = c3
+    globals.c4 = c4
+    globals.c5 = c5
+    globals.c6 = c6
+    globals.c7 = c7
+    globals.d1 = d1
+    globals.d2 = d2
+    globals.d3 = d3
+    globals.d4 = d4
+    globals.d5 = d5
+    globals.d6 = d6
+    globals.d7 = d7
+    globals.e1 = e1
+    globals.e2 = e2
+    globals.e3 = e3
+    globals.e4 = e4
+    globals.e5 = e5
+    globals.e6 = e6
+    globals.e7 = e7
+    globals.f1 = f1
+    globals.f2 = f2
+    globals.f3 = f3
+    globals.f4 = f4
+    globals.f5 = f5
+    globals.f6 = f6
+    globals.f7 = f7
+    globals.g1 = g1
+    globals.g2 = g2
+    globals.g3 = g3
+    globals.g4 = g4
+    globals.g5 = g5
+    globals.g6 = g6
+    globals.g7 = g7
 else
     _return_value = true
 end

@@ -116,9 +116,9 @@ elseif string.find(self.class, "pyromancer") then
         wait(2)
         actor:send(tostring(self.name) .. " says, 'You may be able to find a clue to her whereabouts there.'")
     end
-elseif (self.class == "cleric" or self.class == "priest" or self.class == "diabolist") and macestep then
-    if actor:get_quest_stage("phase_mace") == "macestep" then
-        local minlevel = macestep * 10
+elseif (self.class == "cleric" or self.class == "priest" or self.class == "diabolist") and globals.macestep then
+    if actor:get_quest_stage("phase_mace") == globals.macestep then
+        local minlevel = globals.macestep * 10
         if actor.level >= minlevel then
             wait(0.2)
             if (actor:get_quest_var("phase_mace:greet") or 0) == 0 then

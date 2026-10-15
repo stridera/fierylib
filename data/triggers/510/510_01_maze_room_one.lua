@@ -21,12 +21,12 @@
 --      passing through re-rolls.
 -- Restore the body below when the door-mutation API lands.
 
-if exitdone == 1 then
+if globals.exitdone == 1 then
     return true
 end
-exitdone = 1
+globals.exitdone = 1
 
 -- Placeholder: keep the gate so we don't busy-loop, but the maze
 -- shuffle itself is a no-op until the door API exists.
 wait(1)
-exitdone = nil
+globals.exitdone = nil

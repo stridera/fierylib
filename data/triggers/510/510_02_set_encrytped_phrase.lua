@@ -9,15 +9,15 @@
 -- plaintext spoken there will reveal the down exit. The picked
 -- index is published as the global `chosen` so 510_00 can validate.
 
-if running == "yes" then
+if globals.running == "yes" then
     return true
 end
-running = "yes"
-chosen = random(1, 4)
+globals.running = "yes"
+globals.chosen = random(1, 4)
 
 local descr
     do
-        local _sw1 = string.lower(tostring(chosen or ""))
+        local _sw1 = string.lower(tostring(globals.chosen or ""))
         if tonumber(_sw1) == 1 then
             descr = "PLTWK ZHWIL OIXWI ONXML KMJ"
         elseif tonumber(_sw1) == 2 then
@@ -37,4 +37,4 @@ local descr
 local _ = descr  -- keep `descr` referenced until the door API is wired.
 
     wait(2)
-    running = nil
+    globals.running = nil

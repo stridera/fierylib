@@ -9,9 +9,13 @@ silently false, arithmetic/concatenation on it raises. Typical causes are conver
 The scan uses `luac -p -l` (GETTABUP/SETTABUP on `_ENV`), so it needs no Lua runtime state.
 Run `python tests/test_trigger_globals.py` to print every finding.
 
+DG `global <var>` state lives in the entity's `globals` table (see docs/SCRIPTING.md in
+fierymud-rs): a variable another trigger on the same mob/item/room declared global is read as
+`globals.name`. A bare name is a local or nil.
+
 To fix a failure, correct the script (and the converter if the pattern comes from it). Only add
-to the KNOWN_* tables when the fix needs engine support or a design call, with a comment saying
-why. Fixing a listed script makes test_known_* fail until its entry is removed.
+to the KNOWN_* tables when the fix needs a design call, with a comment saying why. Fixing a
+listed script makes test_known_* fail until its entry is removed.
 """
 
 import fnmatch
@@ -60,54 +64,24 @@ CONVENTION = {"_return_value"}
 ALLOWED = STDLIB | ENGINE_API | EVENT_BINDINGS | CONVENTION
 
 # --- Known, deliberately deferred findings ------------------------------------------------------
-# Every entry below is a script that cannot be fixed by a local edit. Each needs either engine
-# support (mob/object-scoped persistent variables, the DG `global`/`remote` family) or a design
-# call, and is tracked by the TODO(parity) header inside the script. Do not add to these to make a
-# new failure pass: fix the script (or the converter) instead.
+# The engine now keeps DG `global` variables in the per-entity `globals` table (see docs/SCRIPTING.md,
+# "Script variables"), so a cross-trigger global is read as `globals.name`, never as a bare name. What
+# is left here cannot be fixed by that: either the DG source never defined the name either (a design
+# call), or the conversion itself is damaged beyond a local edit.
 
-# Whole files: broken mini-games and per-mob "paralysis" machinery whose state lives in DG
-# `global` variables shared between triggers. The engine gives each fire a private _ENV, so these
-# never see each other's state; they need a persistence design, not a patch.
+# Whole files: the ConnectFour / Hearts mini-games. Their state now has a home (`globals`), but the
+# conversion mangled the logic (board rows glued into identifiers such as `a1a2a3a4a5a6a7`, dynamic
+# names like `card%card%`, branch-scoped locals), so they need a rewrite, not a rename.
 KNOWN_FILE_PATTERNS = (
-    "060_6[1-9]_*",  # connect four: board/turn state in object-scoped DG globals
-    "060_7[0-9]_*",  # hearts: card/player state in object-scoped DG globals
+    "060_6[1-9]_*",  # connect four
+    "060_7[0-9]_*",  # hearts
     "060_8[0-9]_*",
-    "484_1[3-6][0-9]_*",  # paralysis_prevent_* command blockers read the entangle victim slots
 )
 
 KNOWN_NAMES: dict[str, set[str]] = {
-    # DG `global` state written by another trigger on the same mob/object (cross-trigger).
-    "484_104_mighty_druid_random_paralysis-wear-off.lua": {f"paralysis_expire_{n}" for n in range(1, 5)},
+    # Object trigger on the journal item: `macestep` is a mob-side global of the mace questmasters
+    # and was never defined on the journal in the DG source either (legacy read it as empty).
     "004_53_spirit_maces_progress_journal.lua": {"macestep"},
-    "185_26_sexton_greet.lua": {"macestep"},
-    "185_28_phase_mace_sexton_speech_upgrade.lua": {"macestep", "maceattack"},
-    "557_00_phase_armor_-_greet.lua": {"macestep"},
-    "103_09_khysan-greet.lua": {"wandstep"},
-    "123_13_megalith_quest_keeper_greet.lua": {"wandstep"},
-    "481_153_mccabe_greet.lua": {"wandstep", "weapon"},
-    "481_24_vulcera_greet1.lua": {"weapon"},
-    "510_00_pawn_shop_nordus.lua": {"chosen"},
-    "510_03_luchiaans_greeting.lua": {"magequest", "clericquest"},
-    "510_05_want_to_help_luchiaans.lua": {"magequest", "clericquest"},
-    "510_11_give_to_luchiaans.lua": {"magequest", "clericquest"},
-    "510_07_open_display_case.lua": {"got_book"},
-    "510_09_guardian_of_book.lua": {"alreadyrun"},
-    "510_14_get_heart_of_phoenix.lua": {"already_got"},
-    "580_100_exit_room_58196.lua": {"running"},
-    "590_18_three_lever_pull.lua": {"first", "secnd", "last"},
-    "557_06_guild_master_refuse.lua": {
-        "maceitem2", "maceitem3", "maceitem4", "maceitem5", "mace_id",
-        "hands_armor", "hands_gem", "feet_armor", "feet_gem", "wrist_armor", "wrist_gem",
-        "head_armor", "head_gem", "arms_armor", "arms_gem", "legs_armor", "legs_gem",
-        "body_armor", "body_gem",
-    },
-    "060_06_quest_timulos_training.lua": {"use_subclass"},
-    "060_07_quest_timulos_merc.lua": {"use_subclass"},
-    "060_08_quest_timulos_assassin.lua": {"use_subclass"},
-    "060_09_quest_timulos_thief.lua": {"use_subclass"},
-    # xcast is a helper trigger whose arguments (xname, xid, ...) are supplied by the caller's
-    # `remote`/`global` variables; the call convention has no Lua equivalent yet.
-    "188_20_xcast_xcast.lua": {"xname", "xmode", "xstars", "xmagic", "xeffect", "xamount", "xid"},
     # Undefined in the DG source too (legacy rendered them as empty / compared them as ""): the
     # fix is a design call on what the value should be.
     "004_60_eye_of_the_tiger_progress_journal.lua": {"master"},
@@ -276,6 +250,41 @@ def test_converter_counts_comparison_operands():
     assert "and 1 or 0" in out and out.count("and 1 or 0") == 2
     # plain conditions are untouched
     assert "and 1 or 0" not in convert_command("eval ok (%a% == 1) && (%b% == 2)", 0)
+
+
+def test_converter_global_stores_the_local_in_the_entity_globals():
+    from fierylib.converters.dg_to_lua import convert_script_body
+
+    out = convert_script_body("set stage 3\nglobal stage\nglobal never_set\nunset stage\n")
+    assert "globals.stage = stage" in out
+    assert "or true" not in out
+    assert "never_set" in out and "globals.never_set =" not in out
+    assert "globals.stage = nil" in out
+
+
+def test_converter_reads_unset_names_from_the_entity_globals():
+    from fierylib.converters.dg_to_lua import convert_script_body
+
+    out = convert_script_body(
+        "eval round %round% + 1\nglobal round\nif %wandstep% > 3 && %victim_1.name% == %actor.name%\n"
+        "say %round%\nendif\n"
+    )
+    assert "round = globals.round + 1" in out  # read before any local of that name exists
+    assert "globals.wandstep > 3" in out
+    assert "globals.victim_1.name" in out
+    assert "tostring(round)" in out  # declared by then: the local
+    assert "actor.name" in out and "globals.actor" not in out
+
+
+def test_no_script_stores_the_old_or_true_artefact():
+    pat = re.compile(r"globals\.(\w+) = globals\.\1 or true")
+    bad = [
+        f"{p.name}:{n}"
+        for p in sorted(TRIGGER_DIR.rglob("*.lua"))
+        for n, line in enumerate(p.read_text().splitlines(), 1)
+        if pat.search(line) and not line.lstrip().startswith("--")
+    ]
+    assert not bad, "`globals.x = globals.x or true` stores `true`, not the value:\n" + "\n".join(bad)
 
 
 def test_converter_literal_damage_assigns_damage_dealt():

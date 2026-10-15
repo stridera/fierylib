@@ -9,7 +9,7 @@
 -- multiply if the player drops and re-grabs; cleared by 510_10
 -- (guardian_of_book_reset) on DROP.
 
-if alreadyrun == 1 then
+if globals.alreadyrun == 1 then
     return true
 end
 if actor.room.zone_id ~= 510 then

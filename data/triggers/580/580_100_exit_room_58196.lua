@@ -8,20 +8,11 @@
 -- escape. The vision is gated behind a "running" guard so the cinematic
 -- only plays once at a time.
 --
--- TODO: legacy `running` global pattern is broken by the converter --
--- the outer test `if not running then` reads a non-existent local, then
--- a fresh `local running = 1` shadows the read, so `globals.running` is
--- set but never consulted on the next entry. Rewrite as e.g.
---   if globals.running then return end
---   globals.running = true
---   ...
---   globals.running = nil
--- TODO: companion trigger 580_101 listens on SPEECH for "kannon"; the
--- pair should share the same gate so "speak the name" actually works.
+-- `running` is a DG global kept in this room's `globals`; it gates the cinematic so it plays once
+-- at a time. (580_101 listens for the name separately and needs no shared state.)
 if direction == "north" then
-    if not running then
-        local running = 1
-        globals.running = globals.running or true
+    if not globals.running then
+        globals.running = 1
         wait(1)
         local rnd = self.room.actors[random(1, #self.room.actors)]
         rnd:send("An image of a goddess appears before you for a second - she holds her hands out to you.")
@@ -29,6 +20,6 @@ if direction == "north" then
         rnd:send("The goddess says, 'Speak my name to leave this room, Yajiro was ever the joker...'")
         wait(1)
         rnd:send("The goddess gets enfolded into a large pearl then suddenly she disappears.")
-        running = nil
+        globals.running = nil
     end
 end

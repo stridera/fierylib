@@ -5,18 +5,17 @@
 --
 -- Original DG Script: #48253
 --
--- TODO(parity): References to bare identifiers `wandstep` and `weapon`, plus
--- `actor.object`, are stale DG state that didn't survive conversion. The
--- type_wand cross-zone quest is not yet ported; treat all `type_wand` /
--- `wandstep` branches as best-effort. Compares against the literal string
--- "wandstep" until a canonical stage value is established.
+-- `wandstep`, `weapon` and `type` are DG globals set on this mob by its LOAD trigger (002_111);
+-- they are read from the mob's `globals` table.
 
 -- Converted from DG Script #48253: mccabe greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 local stage = actor:get_quest_stage("meteorswarm")
 wait(1)
 -- No one should be here but sorcs and pyros, so let's throw the rest back out
-if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest_stage("type_wand") < (wandstep or 999) then
+-- DG %type%_wand: the questmaster's LOAD trigger (002_111) stores the element in globals.type
+local wand_quest = (globals.type or "type") .. "_wand"
+if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest_stage(wand_quest) < (globals.wandstep or 999) then
     self:command("con " .. tostring(actor))
     wait(2)
     self:say("What are you doing here?! Get out!")
@@ -33,8 +32,8 @@ if actor.class ~= "sorcerer" and actor.class ~= "pyromancer" and actor:get_quest
     local damage = (actor.level * 2) + random(1, 30)
     local damage_dealt = actor:damage(damage)  -- type: fire
     actor:send("<b:red>You sustain </><red>severe burns<blue> as you plunge head first through drizzling </><red>lava.</> (<b:red>" .. tostring(damage_dealt) .. "</>)")
-elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) or actor:get_quest_stage("type_wand") == "wandstep" then
-    local minlevel = ((wandstep or 1) - 1) * 10
+elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) or actor:get_quest_stage(wand_quest) == globals.wandstep then
+    local minlevel = ((globals.wandstep or 1) - 1) * 10
     if (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.find(actor.class, "pyromancer") and actor.level > 80) then
         if actor:get_quest_var("meteorswarm:new") ~= "no" then
             actor:send(tostring(self.name) .. " tells you, 'Do you have the new meteorite?'")
@@ -63,21 +62,21 @@ elseif (string.find(actor.class, "sorcerer") and actor.level > 72) or (string.fi
         elseif stage == 5 then
             actor:send(tostring(self.name) .. " tells you, 'Were you able to glean something from Dargentan's teachings?'")
         end
-        if actor:get_quest_stage("type_wand") == "wandstep" then
+        if actor:get_quest_stage(wand_quest) == globals.wandstep then
             if actor.level >= minlevel then
-                if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+                if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
                     actor:send(tostring(self.name) .. " tells you, 'Or is there even MORE you want from me?  You seem to be in need of a crafting <b:cyan>[upgrade]</>.'")
                 else
-                    actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(weapon) .. "?'")
+                    actor:send(tostring(self.name) .. " says, 'Do you have what I need for the " .. tostring(globals.weapon) .. "?'")
                 end
             end
         end
     else
         if actor.level >= minlevel then
-            if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+            if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
                 actor:send(tostring(self.name) .. " tells you, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
             else
-                actor:send(tostring(self.name) .. " tells you, 'Do you have what I need for the " .. tostring(weapon) .. "?'")
+                actor:send(tostring(self.name) .. " tells you, 'Do you have what I need for the " .. tostring(globals.weapon) .. "?'")
             end
         end
     end

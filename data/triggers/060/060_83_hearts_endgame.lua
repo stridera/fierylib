@@ -147,7 +147,7 @@ if status == 4 then
         status = nil
     else
         local status = 1
-        globals.status = globals.status or true
+        globals.status = status
     end
 else
     _return_value = true

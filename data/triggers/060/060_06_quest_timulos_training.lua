@@ -23,7 +23,7 @@ end
 wait(0.2)
 if string.find(actor.class, "rogue") then
     if actor.level >= 10 and actor.level <= 25 then
-        if not use_subclass then
+        if not globals.use_subclass then
             self:command("nod " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " says, 'Well which would you like to train as: <yellow>mercenary</>, <red>assassin</>, or <b:red>thief</>?'")
             wait(1)

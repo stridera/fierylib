@@ -14,7 +14,7 @@ if not string.find(speech_padded, "[%s%p]amehs[%s%p]") then
     return true  -- Not the phrase
 end
 
-if got_book == 1 then
+if globals.got_book == 1 then
     actor:send("You marvel at the resonant tones of your voice, perhaps you should be an actor.")
     return true
 end

@@ -62,175 +62,175 @@ local full
 if arg == 1 then
     if g1 == "O" then
         local g1 = piece
-        globals.g1 = globals.g1 or true
+        globals.g1 = g1
     elseif f1 == "O" then
         local f1 = piece
-        globals.f1 = globals.f1 or true
+        globals.f1 = f1
     elseif e1 == "O" then
         local e1 = piece
-        globals.e1 = globals.e1 or true
+        globals.e1 = e1
     elseif d1 == "O" then
         local d1 = piece
-        globals.d1 = globals.d1 or true
+        globals.d1 = d1
     elseif c1 == "O" then
         local c1 = piece
-        globals.c1 = globals.c1 or true
+        globals.c1 = c1
     elseif b1 == "O" then
         local b1 = piece
-        globals.b1 = globals.b1 or true
+        globals.b1 = b1
     elseif a1 == "O" then
         local a1 = piece
-        globals.a1 = globals.a1 or true
+        globals.a1 = a1
     else
         full = 1
     end
 elseif arg == 2 then
     if g2 == "O" then
         local g2 = piece
-        globals.g2 = globals.g2 or true
+        globals.g2 = g2
     elseif f2 == "O" then
         local f2 = piece
-        globals.f2 = globals.f2 or true
+        globals.f2 = f2
     elseif e2 == "O" then
         local e2 = piece
-        globals.e2 = globals.e2 or true
+        globals.e2 = e2
     elseif d2 == "O" then
         local d2 = piece
-        globals.d2 = globals.d2 or true
+        globals.d2 = d2
     elseif c2 == "O" then
         local c2 = piece
-        globals.c2 = globals.c2 or true
+        globals.c2 = c2
     elseif b2 == "O" then
         local b2 = piece
-        globals.b2 = globals.b2 or true
+        globals.b2 = b2
     elseif a2 == "O" then
         local a2 = piece
-        globals.a2 = globals.a2 or true
+        globals.a2 = a2
     else
         full = 1
     end
 elseif arg == 3 then
     if g3 == "O" then
         local g3 = piece
-        globals.g3 = globals.g3 or true
+        globals.g3 = g3
     elseif f3 == "O" then
         local f3 = piece
-        globals.f3 = globals.f3 or true
+        globals.f3 = f3
     elseif e3 == "O" then
         local e3 = piece
-        globals.e3 = globals.e3 or true
+        globals.e3 = e3
     elseif d3 == "O" then
         local d3 = piece
-        globals.d3 = globals.d3 or true
+        globals.d3 = d3
     elseif c3 == "O" then
         local c3 = piece
-        globals.c3 = globals.c3 or true
+        globals.c3 = c3
     elseif b3 == "O" then
         local b3 = piece
-        globals.b3 = globals.b3 or true
+        globals.b3 = b3
     elseif a3 == "O" then
         local a3 = piece
-        globals.a3 = globals.a3 or true
+        globals.a3 = a3
     else
         full = 1
     end
 elseif arg == 4 then
     if g4 == "O" then
         local g4 = piece
-        globals.g4 = globals.g4 or true
+        globals.g4 = g4
     elseif f4 == "O" then
         local f4 = piece
-        globals.f4 = globals.f4 or true
+        globals.f4 = f4
     elseif e4 == "O" then
         local e4 = piece
-        globals.e4 = globals.e4 or true
+        globals.e4 = e4
     elseif d4 == "O" then
         local d4 = piece
-        globals.d4 = globals.d4 or true
+        globals.d4 = d4
     elseif c4 == "O" then
         local c4 = piece
-        globals.c4 = globals.c4 or true
+        globals.c4 = c4
     elseif b4 == "O" then
         local b4 = piece
-        globals.b4 = globals.b4 or true
+        globals.b4 = b4
     elseif a4 == "O" then
         local a4 = piece
-        globals.a4 = globals.a4 or true
+        globals.a4 = a4
     else
         full = 1
     end
 elseif arg == 5 then
     if g5 == "O" then
         local g5 = piece
-        globals.g5 = globals.g5 or true
+        globals.g5 = g5
     elseif f5 == "O" then
         local f5 = piece
-        globals.f5 = globals.f5 or true
+        globals.f5 = f5
     elseif e5 == "O" then
         local e5 = piece
-        globals.e5 = globals.e5 or true
+        globals.e5 = e5
     elseif d5 == "O" then
         local d5 = piece
-        globals.d5 = globals.d5 or true
+        globals.d5 = d5
     elseif c5 == "O" then
         local c5 = piece
-        globals.c5 = globals.c5 or true
+        globals.c5 = c5
     elseif b5 == "O" then
         local b5 = piece
-        globals.b5 = globals.b5 or true
+        globals.b5 = b5
     elseif a5 == "O" then
         local a5 = piece
-        globals.a5 = globals.a5 or true
+        globals.a5 = a5
     else
         full = 1
     end
 elseif arg == 6 then
     if g6 == "O" then
         local g6 = piece
-        globals.g6 = globals.g6 or true
+        globals.g6 = g6
     elseif f6 == "O" then
         local f6 = piece
-        globals.f6 = globals.f6 or true
+        globals.f6 = f6
     elseif e6 == "O" then
         local e6 = piece
-        globals.e6 = globals.e6 or true
+        globals.e6 = e6
     elseif d6 == "O" then
         local d6 = piece
-        globals.d6 = globals.d6 or true
+        globals.d6 = d6
     elseif c6 == "O" then
         local c6 = piece
-        globals.c6 = globals.c6 or true
+        globals.c6 = c6
     elseif b6 == "O" then
         local b6 = piece
-        globals.b6 = globals.b6 or true
+        globals.b6 = b6
     elseif a6 == "O" then
         local a6 = piece
-        globals.a6 = globals.a6 or true
+        globals.a6 = a6
     else
         full = 1
     end
 elseif arg == 7 then
     if g7 == "O" then
         local g7 = piece
-        globals.g7 = globals.g7 or true
+        globals.g7 = g7
     elseif f7 == "O" then
         local f7 = piece
-        globals.f7 = globals.f7 or true
+        globals.f7 = f7
     elseif e7 == "O" then
         local e7 = piece
-        globals.e7 = globals.e7 or true
+        globals.e7 = e7
     elseif d7 == "O" then
         local d7 = piece
-        globals.d7 = globals.d7 or true
+        globals.d7 = d7
     elseif c7 == "O" then
         local c7 = piece
-        globals.c7 = globals.c7 or true
+        globals.c7 = c7
     elseif b7 == "O" then
         local b7 = piece
-        globals.b7 = globals.b7 or true
+        globals.b7 = b7
     elseif a7 == "O" then
         local a7 = piece
-        globals.a7 = globals.a7 or true
+        globals.a7 = a7
     else
         full = 1
     end
@@ -288,18 +288,17 @@ if win then
     self.room:send_except(actor, tostring(actor.name) .. " wins!")
     if player1.name == actor.name then
         local p1win = 1
-        globals.p1win = globals.p1win or true
+        globals.p1win = p1win
     else
         local p2win = 1
-        globals.p2win = globals.p2win or true
+        globals.p2win = p2win
     end
     local status = 2
-    globals.status = globals.status or true
+    globals.status = status
 end
-if turn == 1 then
-    local turn = 2
+if globals.turn == 1 then
+    globals.turn = 2
 else
-    local turn = 1
+    globals.turn = 1
 end
-globals.turn = globals.turn or true
 return _return_value

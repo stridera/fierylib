@@ -7,14 +7,16 @@
 
 -- Converted from DG Script #3133: Random Bells
 -- Original: OBJECT trigger, flags: RANDOM, GET, WEAR, REMOVE, probability: 100%
-if actor then
-    -- this is a wear trigger
+-- RANDOM binds `actor` to the item itself, so tell the events apart by name.
+if event ~= "RANDOM" then
+    -- this is a wear/get/remove trigger
     local myowner = actor
-    globals.myowner = globals.myowner or true
+    globals.myowner = myowner
     self.room:send_except(myowner, "Bells ring on " .. tostring(myowner.name) .. "'s hat as " .. tostring(myowner.name) .. " moves.")
     myowner:send("The bells on your hat ring as you shift your position.")
 else
     -- this is a random trigger
+    local myowner = globals.myowner  -- DG global: set by the wear branch, shared by the item's triggers
     if myowner then
         if myowner:has_equipped(30, 306) then
             -- the global variable was set (by the wear trigger)
@@ -22,7 +24,7 @@ else
             myowner:send("The bells on your hat ring as you shift your position.")
         else
             -- hat not worn, so assume it was removed
-            myowner = nil
+            globals.myowner = nil
         end
     end
 end

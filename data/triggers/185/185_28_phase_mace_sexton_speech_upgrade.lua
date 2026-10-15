@@ -7,12 +7,10 @@
 -- burial-ground pilgrimage. Also routes the player to the right NPC
 -- for steps already passed by the Sexton.
 --
--- TODO(parity): heavy dependency on phase_mace global state that was
--- never converted from DG: `macestep`, `maceattack`, `maceitem2/3/4/5`,
--- `mace_id`, `wand_id`, `wandgem`. The `%get.obj_shortdesc[X]%` lookups
--- need `objects.template(zone, id).shortdesc` once the IDs are real.
--- The whole phase_mace system needs a design pass before this trigger
--- can be made functional.
+-- `macestep`, `maceattack` and `maceitem2..5` are DG globals set on this mob by its LOAD
+-- trigger (002_118); they are read from the mob's `globals` table.
+-- TODO(parity): the `%get.obj_shortdesc[%maceitemN%]%` placeholders below are still DG remnants:
+-- the ids are legacy vnums and need `get_obj_noadesc(zone, id)` with a composite id.
 
 local s = string.lower(speech)
 
@@ -30,17 +28,17 @@ if not speech_hit then
 end
 wait(2)
 if actor.class == "cleric" or actor.class == "priest" then
-    local minlevel = macestep * 10
-    if actor:get_quest_stage("phase_mace") == "macestep" then
+    local minlevel = (globals.macestep or 0) * 10
+    if actor:get_quest_stage("phase_mace") == globals.macestep then
         if actor.level >= minlevel then
             actor:set_quest_var("phase_mace", "greet", 1)
             self.room:send(tostring(self.name) .. " says, 'I can add benedictions to your mace, yes.'")
             wait(1)
-            self:say("You'll need to use your mace " .. tostring(maceattack) .. " times.")
+            self:say("You'll need to use your mace " .. tostring(globals.maceattack) .. " times.")
             -- (empty room echo)
             self:say("I'll also need the following:")
             self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem3%]%</>, for its spiritual protection.")
-            if macestep ~= 2 then
+            if globals.macestep ~= 2 then
                 self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem2%]%</>, as a model for the new mace.")
                 self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem3%]%</>, for its power in fighting the undead.")
                 self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem4%]%</>, for its guiding light.")
@@ -66,9 +64,9 @@ if actor.class == "cleric" or actor.class == "priest" then
         end
     elseif actor:get_has_completed("phase_mace") then
         self:say("There is no weapon greater than the mace of disruption!")
-    elseif actor:get_quest_stage("phase_mace") < macestep then
+    elseif actor:get_quest_stage("phase_mace") < globals.macestep then
         self:say("Your mace isn't ready for improvement yet.")
-    elseif actor:get_quest_stage("phase_mace") > macestep then
+    elseif actor:get_quest_stage("phase_mace") > globals.macestep then
         self:say("I've done all I can already.")
         wait(1)
         -- switch on actor:get_quest_stage("phase_mace")

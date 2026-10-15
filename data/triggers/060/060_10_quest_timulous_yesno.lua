@@ -38,22 +38,22 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
             end
             return _return_value
         end
-        if use_subclass then
-            actor:start_quest("merc_ass_thi_subclass", use_subclass)
+        if globals.use_subclass then
+            actor:start_quest("merc_ass_thi_subclass", globals.use_subclass)
             self:command("nod")
             actor:send(tostring(self.name) .. " says, 'So, you truly wish to continue.'")
             wait(0.1)
-            if string.find(use_subclass, "Mer") then
+            if string.find(globals.use_subclass, "Mer") then
                 actor:send(tostring(self.name) .. " says, 'Yes, a mercenary would serve well for that...'")
                 self:emote("thinks back for a moment.")
                 wait(1)
                 actor:send(tostring(self.name) .. " says, 'He would pay well.  Yes, that <b:cyan>Lord</> would pay well indeed.'")
-            elseif string.find(use_subclass, "Ass") then
+            elseif string.find(globals.use_subclass, "Ass") then
                 actor:send(tostring(self.name) .. " says, 'An assassin would be perfect, but to show your true desire...'")
                 self:emote("grins deeply, curling his lip up.")
                 wait(1)
                 actor:send(tostring(self.name) .. " says, 'Yes, that would bring a good <b:cyan>price</>.'")
-            elseif string.find(use_subclass, "Thi") then
+            elseif string.find(globals.use_subclass, "Thi") then
                 actor:send(tostring(self.name) .. " says, 'Hmmm, a true thief would have to get something I think.'")
                 self:emote("smiles cruelly.")
                 wait(2)
@@ -81,4 +81,4 @@ if string.find(actor.class, "rogue") and (actor.level >= 10 and actor.level <= 2
         self:command("close fence")
     end
 end
-use_subclass = nil
+globals.use_subclass = nil

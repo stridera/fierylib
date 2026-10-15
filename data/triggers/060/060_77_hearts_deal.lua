@@ -122,23 +122,22 @@ if player1 and player2 and player3 and player4 then
             end
             plyr = plyr + 1
             if card1 == 1 then
-                local turn = 1
+                globals.turn = 1
                 player1:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
             elseif card1 == 2 then
-                local turn = 2
+                globals.turn = 2
                 player2:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
             elseif card1 == 3 then
-                local turn = 3
+                globals.turn = 3
                 player3:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
             elseif card1 == 4 then
-                local turn = 4
+                globals.turn = 4
                 player4:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
             end
-            globals.turn = globals.turn or true
             local first_turn = 1
-            globals.first_turn = globals.first_turn or true
+            globals.first_turn = first_turn
             local status = 3
-            globals.status = globals.status or true
+            globals.status = status
         end
     end
 else

@@ -14,7 +14,7 @@ end
 
 if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
     actor:send("You feel a calmness come over you, as if the troubles of the world are washed away.")
-    entry = (entry or 0) + 1
+    globals.entry = (globals.entry or 0) + 1
     return true
 else
     actor:send("You can't seem to enter the room!  It is like stepping against a solid wall,")

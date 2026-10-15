@@ -47,13 +47,13 @@ if player1 then
                     self.room:send_except(actor, tostring(actor.name) .. " joins the Hearts game as player 4.")
                     actor:send("You are now joining the Hearts game as player 4.")
                     local player4 = actor
-                    globals.player4 = globals.player4 or true
+                    globals.player4 = player4
                     player1:send("The cards are now ready to be dealt.")
                     player2:send("The cards are now ready to be dealt.")
                     player3:send("The cards are now ready to be dealt.")
                     actor:send("The cards are now ready to be dealt.")
                     local status = 1
-                    globals.status = globals.status or true
+                    globals.status = status
                 end
             end
         else
@@ -63,7 +63,7 @@ if player1 then
                 self.room:send_except(actor, tostring(actor.name) .. " joins the Hearts game as player 3.")
                 actor:send("You are now joining the Hearts game as player 3.")
                 local player3 = actor
-                globals.player3 = globals.player3 or true
+                globals.player3 = player3
             end
         end
     else
@@ -73,13 +73,13 @@ if player1 then
             self.room:send_except(actor, tostring(actor.name) .. " joins the Hearts game as player 2.")
             actor:send("You are now joining the Hearts game as player 2.")
             local player2 = actor
-            globals.player2 = globals.player2 or true
+            globals.player2 = player2
         end
     end
 else
     self.room:send_except(actor, tostring(actor.name) .. " starts a new game of Hearts as player 1.")
     actor:send("Alright!  Starting a new game of Hearts.  You are player 1.")
     local player1 = actor
-    globals.player1 = globals.player1 or true
+    globals.player1 = player1
 end
 return _return_value

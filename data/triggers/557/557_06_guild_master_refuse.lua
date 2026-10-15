@@ -12,10 +12,10 @@
 -- Converted from DG Script #55706: Guild Master refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 local _return_value = true  -- Default: allow action
--- TODO(parity): mace-quest item ids (`%maceitem2%`..`%mace_id%`) are
--- unresolved DG placeholders; replace with the integer ids set by
--- whichever LOAD trigger seeds the mace quest globals.
-if object.id == maceitem2 or object.id == maceitem3 or object.id == maceitem4 or object.id == maceitem5 or object.id == mace_id then
+-- Item ids in the DG globals are legacy vnums (zone * 100 + local id).
+-- Mace-quest ids: DG globals set on this mob by the mace LOAD trigger (002_118), if it has one.
+local vnum = object.zone_id * 100 + object.id
+if vnum == globals.maceitem2 or vnum == globals.maceitem3 or vnum == globals.maceitem4 or vnum == globals.maceitem5 or vnum == globals.mace_id then
     return _return_value
 end
 -- TODO(parity): 55662 / 2334 are 5-digit legacy vnums. Verify intent
@@ -24,7 +24,15 @@ end
 if (object.zone_id == 556 and object.id == 62) or (object.zone_id == 23 and object.id == 34) then
     return _return_value
 end
-if object.id == hands_armor or object.id == hands_gem or object.id == feet_armor or object.id == feet_gem or object.id == wrist_armor or object.id == wrist_gem or object.id == head_armor or object.id == head_gem or object.id == arms_armor or object.id == arms_gem or object.id == legs_armor or object.id == legs_gem or object.id == body_armor or object.id == body_gem then
+-- Phase-armor inputs: stored on the mob by its init (LOAD) trigger, 557:10-39.
+local wanted = false
+for _, key in ipairs({"hands_armor", "hands_gem", "feet_armor", "feet_gem", "wrist_armor", "wrist_gem", "head_armor", "head_gem", "arms_armor", "arms_gem", "legs_armor", "legs_gem", "body_armor", "body_gem"}) do
+    if vnum == self:getvar(key) then
+        wanted = true
+        break
+    end
+end
+if wanted then
     return _return_value
 else
     _return_value = true

@@ -7,8 +7,8 @@
 --   - Necromancers / Sorcerers (magequest < 2): offers a partnership.
 --   - Warriors: sizes them up as future zombie stock.
 --   - Clerics / Priests (clericquest < 2): asks to learn healing spells.
-local magequest = magequest or 0
-local clericquest = clericquest or 0
+local magequest = globals.magequest or 0
+local clericquest = globals.clericquest or 0
 if actor.is_player and actor.level < 100 then
     if (string.find(actor.class, "necromancer") or string.find(actor.class, "sorcerer")) and magequest < 2 then
         wait(0.5)

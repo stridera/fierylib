@@ -4,173 +4,108 @@
 -- Status: CLEAN
 --
 -- Original DG Script: #48505
+--
+-- Entangles up to four players at a time. The slots are the DG globals
+-- `paralysis_victim_N` / `paralysis_expire_N` (N = 1..4) and `message`, kept in this mob's
+-- `globals` table so the wear-off pulse (484_104) and the paralysis_prevent_* command
+-- blockers (484_130..) see the same state. The expiry stamp is unix seconds (`time.stamp`).
 
--- Converted from DG Script #48505: mighty_druid entanglement
--- Original: MOB trigger, flags: FIGHT, probability: 100%
--- TODO(parity): the converter emitted branch-scoped `local chance`,
---   `local victim`, `local secondary_victim`, `local paralysis_victim_N`,
---   and `local paralysis_expire_N` declarations inside if/elseif blocks,
---   so the outer `if chance > 3 then` and `if victim.is_player then`
---   tests reference undefined names and the per-victim slot bookkeeping
---   never escapes its branch. The body also still contains a
---   `bash %victim.name%` DG token. The whole entanglement state machine
---   needs a rewrite once we have a stable globals API for per-mob
---   paralysis tracking.
-local paralysis_expire_1, paralysis_expire_2, paralysis_expire_3, paralysis_expire_4, secondary_victim
 local now = time.stamp
-if paralysis_victim_1 and ((paralysis_victim_1.room ~= self.room) or (paralysis_expire_1 <= now)) then
-    -- Clear paralysis on expired victim
-    if paralysis_victim_1.room == self.room then
-        self.room:send_except(paralysis_victim_1, "<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_1.name) .. " from its grasp.</>")
-        paralysis_victim_1:send("<green>The crop of roots recedes, releasing you from its grasp.</>")
-    else
-        self.room:send("<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_1.name) .. " from its grasp.</>")
+for n = 1, 4 do
+    local v = globals["paralysis_victim_" .. n]
+    if v and (v.room ~= self.room or (globals["paralysis_expire_" .. n] or 0) <= now) then
+        -- Clear paralysis on expired victim
+        if v.room == self.room then
+            self.room:send_except(v, "<green>The crop of roots recedes, releasing " .. tostring(v.name) .. " from its grasp.</>")
+            v:send("<green>The crop of roots recedes, releasing you from its grasp.</>")
+        else
+            self.room:send("<green>The crop of roots recedes, releasing " .. tostring(v.name) .. " from its grasp.</>")
+        end
+        globals["paralysis_victim_" .. n] = nil
     end
-    paralysis_victim_1 = nil
-end
-if paralysis_victim_2 and ((paralysis_victim_2.room ~= self.room) or (paralysis_expire_2 <= now)) then
-    -- Clear paralysis on expired victim
-    if paralysis_victim_2.room == self.room then
-        self.room:send_except(paralysis_victim_2, "<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_2.name) .. " from its grasp.</>")
-        paralysis_victim_2:send("<green>The crop of roots recedes, releasing you from its grasp.</>")
-    else
-        self.room:send("<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_2.name) .. " from its grasp.</>")
-    end
-    paralysis_victim_2 = nil
-end
-if paralysis_victim_3 and ((paralysis_victim_3.room ~= self.room) or (paralysis_expire_3 <= now)) then
-    -- Clear paralysis on expired victim
-    if paralysis_victim_3.room == self.room then
-        self.room:send_except(paralysis_victim_3, "<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_3.name) .. " from its grasp.</>")
-        paralysis_victim_3:send("<green>The crop of roots recedes, releasing you from its grasp.</>")
-    else
-        self.room:send("<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_3.name) .. " from its grasp.</>")
-    end
-    paralysis_victim_3 = nil
-end
-if paralysis_victim_4 and ((paralysis_victim_4.room ~= self.room) or (paralysis_expire_4 <= now)) then
-    -- Clear paralysis on expired victim
-    if paralysis_victim_4.room == self.room then
-        self.room:send_except(paralysis_victim_4, "<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_4.name) .. " from its grasp.</>")
-        paralysis_victim_4:send("<green>The crop of roots recedes, releasing you from its grasp.</>")
-    else
-        self.room:send("<green>The crop of roots recedes, releasing " .. tostring(paralysis_victim_4.name) .. " from its grasp.</>")
-    end
-    paralysis_victim_4 = nil
 end
 -- 25% chance to do creeping doom proc
-local mode = random(1, 4)
-if mode == 1 then
+if random(1, 4) == 1 then
     wait(2)
     run_room_trigger(484, 103)
-    return _return_value
+    return
 end
--- 75% chance to attempt to entangle
-if (not paralysis_victim_1) or (not paralysis_victim_2) or (not paralysis_victim_3) or (not paralysis_victim_4) then
-    local chance
-    if paralysis_victim_1 then
-        if paralysis_victim_2 then
-            if paralysis_victim_3 then
-                if paralysis_victim_4 then
-                    -- quit if four people already entangled
-                    return _return_value
-                else
-                    -- 20% chance if three people are entangled
-                    chance = random(1, 10)
-                end
-            else
-                -- 25% chance if two people are entangled
-                chance = random(1, 8)
-            end
+-- 75% chance to attempt to entangle: use the first free slot; the more slots are taken, the
+-- lower the chance (50%, 33%, 25%, 20%); quit if all four are taken.
+local slot = 1
+while slot <= 4 and globals["paralysis_victim_" .. slot] do
+    slot = slot + 1
+end
+if slot > 4 then
+    return
+end
+if random(1, 2 * slot + 2) > 3 then
+    return
+end
+
+local function entangled(person)
+    for n = 1, 4 do
+        local v = globals["paralysis_victim_" .. n]
+        if v and v.name == person.name then
+            return true
+        end
+    end
+    return false
+end
+
+-- find a victim, preferably an assassin, but settle for any player if no assassin is found
+local victim, secondary_victim
+local max_tries = 10
+while max_tries >= 0 do
+    victim = self.room.actors[random(1, #self.room.actors)]
+    if victim and victim.is_player then
+        if entangled(victim) then
+            victim = self
+        elseif victim.class == "assassin" then
+            max_tries = 0
         else
-            -- 33% chance if one person is already entangled
-            chance = random(1, 6)
+            secondary_victim = victim
         end
-    else
-        -- 50% chance if no one is already entangled
-        chance = random(1, 4)
     end
-    if chance > 3 then
-        return _return_value
-    end
-    local max_tries = 10
-    while max_tries >= 0 do
-        -- find a victim, preferably an assassin
-        -- but will settle for any player if no assassin found
-        local victim = self.room.actors[random(1, #self.room.actors)]
-        if victim.is_player then
-            if (paralysis_victim_1 and (paralysis_victim_1.name == victim.name)) or (paralysis_victim_2 and (paralysis_victim_2.name == victim.name)) or (paralysis_victim_3 and (paralysis_victim_3.name == victim.name)) then
-                local victim = self
-            elseif victim.class == "assassin" then
-                max_tries = 0
-            else
-                secondary_victim = victim
-            end
-        end
-        max_tries = max_tries - 1
-    end
-    -- quit if no players
-    local victim
-    if victim.is_player then
-    elseif secondary_victim then
+    max_tries = max_tries - 1
+end
+-- quit if no players
+if not (victim and victim.is_player) then
+    if secondary_victim then
         victim = secondary_victim
     else
-        return _return_value
-    end
-    wait(2)
-    self.room:send_except(victim, tostring(self.name) .. " snarls and waves a hand at the ground at " .. tostring(victim.name) .. "'s feet.")
-    victim:send(tostring(self.name) .. " snarls at you and waves a hand at the ground around your feet!")
-    self.room:send_except(victim, "<green>A crop of wriggling roots bursts from the ground, entangling " .. tostring(victim.name) .. "!</>")
-    victim:send("<green>A crop of wriggling roots bursts from the ground, entangling you!</>")
-    -- declare paralysis message
-    local message = "<green>The roots lock you in place, preventing movement!</>"
-    globals.message = globals.message or true
-    -- create a basher to force the player into a bashed stance
-    if (victim.size == "Small") or (victim.size == "Tiny") then
-        -- Basher is medium
-        self.room:spawn_mobile(484, 115)
-    elseif (victim.size == "Large") or (victim.size == "Huge") or (victim.size == "Giant") then
-        -- Basher is huge
-        self.room:spawn_mobile(484, 113)
-    else
-        -- Basher is large
-        self.room:spawn_mobile(484, 114)
-    end
-    self.room:find_actor("bashing-roots"):spawn_object(10, 16)
-    self.room:find_actor("bashing-roots"):command("mat 1100 wear shield")
-    victim:command("stand")
-    self.room:find_actor("bashing-roots"):command("bash %victim.name%")
-    self.room:find_actor("bashing-roots"):destroy_item("shield")
-    world.destroy(self.room:find_actor("bashing-roots"))
-    -- reinitiate combat if victim was tanking
-    if actor.name == victim.name then
-        wait(2)
-        combat.engage(self, victim.name)
-    end
-    -- save victim variable
-    if paralysis_victim_1 then
-        if paralysis_victim_2 then
-            if paralysis_victim_3 then
-                local paralysis_victim_4 = victim
-                globals.paralysis_victim_4 = globals.paralysis_victim_4 or true
-                paralysis_expire_4 = now + 1
-                globals.paralysis_expire_4 = globals.paralysis_expire_4 or true
-            else
-                local paralysis_victim_3 = victim
-                globals.paralysis_victim_3 = globals.paralysis_victim_3 or true
-                paralysis_expire_3 = now + 1
-                globals.paralysis_expire_3 = globals.paralysis_expire_3 or true
-            end
-        else
-            local paralysis_victim_2 = victim
-            globals.paralysis_victim_2 = globals.paralysis_victim_2 or true
-            paralysis_expire_2 = now + 1
-            globals.paralysis_expire_2 = globals.paralysis_expire_2 or true
-        end
-    else
-        local paralysis_victim_1 = victim
-        globals.paralysis_victim_1 = globals.paralysis_victim_1 or true
-        paralysis_expire_1 = now + 1
-        globals.paralysis_expire_1 = globals.paralysis_expire_1 or true
+        return
     end
 end
+wait(2)
+self.room:send_except(victim, tostring(self.name) .. " snarls and waves a hand at the ground at " .. tostring(victim.name) .. "'s feet.")
+victim:send(tostring(self.name) .. " snarls at you and waves a hand at the ground around your feet!")
+self.room:send_except(victim, "<green>A crop of wriggling roots bursts from the ground, entangling " .. tostring(victim.name) .. "!</>")
+victim:send("<green>A crop of wriggling roots bursts from the ground, entangling you!</>")
+-- declare paralysis message
+globals.message = "<green>The roots lock you in place, preventing movement!</>"
+-- create a basher to force the player into a bashed stance
+if (victim.size == "Small") or (victim.size == "Tiny") then
+    -- Basher is medium
+    self.room:spawn_mobile(484, 115)
+elseif (victim.size == "Large") or (victim.size == "Huge") or (victim.size == "Giant") then
+    -- Basher is huge
+    self.room:spawn_mobile(484, 113)
+else
+    -- Basher is large
+    self.room:spawn_mobile(484, 114)
+end
+self.room:find_actor("bashing-roots"):spawn_object(10, 16)
+self.room:find_actor("bashing-roots"):command("mat 1100 wear shield")
+victim:command("stand")
+self.room:find_actor("bashing-roots"):command("bash " .. tostring(victim.name))
+self.room:find_actor("bashing-roots"):destroy_item("shield")
+world.destroy(self.room:find_actor("bashing-roots"))
+-- reinitiate combat if victim was tanking
+if actor.name == victim.name then
+    wait(2)
+    combat.engage(self, victim.name)
+end
+-- save victim variable
+globals["paralysis_victim_" .. slot] = victim
+globals["paralysis_expire_" .. slot] = now + 1

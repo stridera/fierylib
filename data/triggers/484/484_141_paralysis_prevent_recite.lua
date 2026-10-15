@@ -14,21 +14,21 @@ if not (cmd == "recite") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 local block
-if paralysis_victim_1 and (paralysis_victim_1.name == actor.name) then
+if globals.paralysis_victim_1 and (globals.paralysis_victim_1.name == actor.name) then
     block = 1
-elseif paralysis_victim_2 and (paralysis_victim_2.name == actor.name) then
+elseif globals.paralysis_victim_2 and (globals.paralysis_victim_2.name == actor.name) then
     block = 1
-elseif paralysis_victim_3 and (paralysis_victim_3.name == actor.name) then
+elseif globals.paralysis_victim_3 and (globals.paralysis_victim_3.name == actor.name) then
     block = 1
-elseif paralysis_victim_4 and (paralysis_victim_4.name == actor.name) then
+elseif globals.paralysis_victim_4 and (globals.paralysis_victim_4.name == actor.name) then
     block = 1
-elseif paralysis_victim_5 and (paralysis_victim_5.name == actor.name) then
+elseif globals.paralysis_victim_5 and (globals.paralysis_victim_5.name == actor.name) then
     block = 1
 end
 if block then
     _return_value = false
-    if message then
-        actor:send(tostring(message))
+    if globals.message then
+        actor:send(tostring(globals.message))
     else
         actor:send("You are trapped, and unable to move!")
     end

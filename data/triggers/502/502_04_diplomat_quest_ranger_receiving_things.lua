@@ -22,10 +22,10 @@ if (object.zone_id == 502 and object.id == 18) then
     wait(0.1)
     if (actor.zone_id == 502 and actor_id == 1) then
         local mdiplomat = 1
-        globals.mdiplomat = globals.mdiplomat or true
+        globals.mdiplomat = mdiplomat
     elseif (actor.zone_id == 502 and actor_id == 9) then
         local mdiplomat = 0
-        globals.mdiplomat = globals.mdiplomat or true
+        globals.mdiplomat = mdiplomat
     end
     self:destroy_item("diplomat-token")
 end

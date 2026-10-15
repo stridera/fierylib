@@ -8,15 +8,13 @@
 -- Converted from DG Script #12313: megalith_quest_keeper_greet
 -- Original: MOB trigger, flags: GREET, probability: 100%
 
--- TODO(parity): references an unrelated `type_wand` quest with an
--- undefined `wandstep` local at the top; that block needs to be either
--- restored from the original or removed if no longer relevant.
-
 wait(0.2)
-if actor:get_quest_stage("type_wand") == "wandstep" and not actor:get_has_failed("megalith_quest") then
-    local minlevel = (wandstep - 1) * 10
+-- DG %type%_wand: the questmaster's LOAD trigger (002_111) stores the element in globals.type
+local wand_quest = (globals.type or "type") .. "_wand"
+if actor:get_quest_stage(wand_quest) == globals.wandstep and not actor:get_has_failed("megalith_quest") then
+    local minlevel = (globals.wandstep - 1) * 10
     if actor.level >= minlevel then
-        if (actor:get_quest_var("type_wand:greet") or 0) == 0 then
+        if (actor:get_quest_var(wand_quest .. ":greet") or 0) == 0 then
             self.room:send(tostring(self.name) .. " says, 'I see you're crafting something.  If you want my help, we can talk about <b:cyan>[upgrades]</>.'")
         else
             self:say("Do you have what I need for the wand?")

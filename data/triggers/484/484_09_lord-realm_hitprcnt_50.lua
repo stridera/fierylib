@@ -20,6 +20,5 @@ if not (self:has_effect(Effect.Blind)) and not (self:has_effect(Effect.Blur)) th
     end)
     self.room:send(tostring(self.name) .. "'s rock formation cracks slightly...")
     self:emote("composes " .. tostring(self.object) .. "self and " .. tostring(self.possessive) .. " quickness seems to increase!")
-    local has_blur = 1
-    globals.has_blur = globals.has_blur or true
+    globals.has_blur = 1
 end

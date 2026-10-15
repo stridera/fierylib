@@ -28,8 +28,8 @@ elseif string.find(actor.class, "necromancer") or string.find(actor.class, "sorc
     class = "S"
 end
 
-local clericquest = clericquest or 0
-local magequest = magequest or 0
+local clericquest = globals.clericquest or 0
+local magequest = globals.magequest or 0
 
 if asked_teach then
     if class ~= "C" then
