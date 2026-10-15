@@ -6,6 +6,14 @@
 --
 -- Dryad receives the Heartstone (480/24). Advances stage 3 -> 4 and tells
 -- the flask backstory.
+-- DG receive arg list (48024): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 480 and object.id == 24)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 3 then
     wait(0.2)
     actor:advance_quest("moonwell_spell_quest")

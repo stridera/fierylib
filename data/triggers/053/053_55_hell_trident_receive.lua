@@ -144,10 +144,9 @@ if go == "gem" then
             end
         end
     else
-        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. proto_plural(gem_id) .. ".'")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif go == "trident" then
     local job1 = actor:get_quest_var("hell_trident:helltask1")
@@ -249,9 +248,8 @@ elseif go == "trident" then
     end
 end
 if refuse then
-    _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(reason) .. "'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

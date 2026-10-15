@@ -29,6 +29,7 @@ if actor:get_quest_stage("wizard_eye") == 10 then
     if actor:get_quest_var("wizard_eye:" .. var_key) then
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'You already brought me " .. tostring(object.shortdesc) .. ".'")
+        return false  -- legacy return 0: the giver keeps the item
     else
         actor:set_quest_var("wizard_eye", var_key, 1)
         wait(0.2)

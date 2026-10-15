@@ -101,12 +101,11 @@ if object.zone_id == 125 and object.local_id == 2 then
         self:destroy_item("warhammer")
     end
 else
-    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    wait(0.8)
     self:say("I don't want this.")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

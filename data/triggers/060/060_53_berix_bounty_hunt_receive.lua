@@ -164,12 +164,10 @@ elseif (object.zone_id == 557 and object.id == 43) then
     item = "gem"
     go = "mask"
 else
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("What is this for?")
-    return _return_value
+    return false  -- legacy return 0: the giver keeps the item
 end
 if go == "hunt" then
     -- Bug fix: the converter compared quest_stage to the string "stage" instead of
@@ -253,11 +251,10 @@ if go == "hunt" then
             end
         end
     elseif actor:get_quest_stage("bounty_hunt") > stage then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the contract.")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already completed this contract!'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("bounty_hunt") < stage then
         wait(0.2)
         self:command("eye " .. tostring(actor))
@@ -265,9 +262,7 @@ if go == "hunt" then
         self.room:send(tostring(self.name) .. " rips up the contract!")
         world.destroy(object)
     elseif actor:get_quest_var("bounty_hunt:bounty") ~= "dead" then
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses the contract.")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have to finish the job first!'")
         if stage ~= 2 and stage ~= 3 then
             actor:send(tostring(victim1) .. " is still out there.")
@@ -282,32 +277,29 @@ if go == "hunt" then
                 actor:send(tostring(victim3) .. " is still out there.")
             end
         end
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif go == "mask" then
     if actor:get_quest_stage("bounty_hunt") < actor:get_quest_stage("assassin_mask") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Complete some more contract jobs first.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor.level < (actor:get_quest_stage("assassin_mask") * 10) then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif maskstage > actor:get_quest_stage("assassin_mask") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Your mask doesn't involve that yet.  Be patient!'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif maskstage < actor:get_quest_stage("assassin_mask") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You've already gained that rank.'")
+        return false  -- legacy return 0: the giver keeps the item
     else
         if item == "quest" then
             local job1 = actor:get_quest_var("assassin_mask:masktask1")
@@ -357,11 +349,10 @@ elseif go == "mask" then
                     actor:complete_quest("assassin_mask")
                 end
             else
-                _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You need to do everything else before you give me your guild mask!'")
+                return false  -- legacy return 0: the giver keeps the item
             end
         end
         -- Hoisted: branch-scoped `local accept` would not be visible to the
@@ -384,10 +375,9 @@ elseif go == "mask" then
             end
         end
         if accept == "no" then
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif accept == "yes" then
             wait(0.2)
             world.destroy(object)

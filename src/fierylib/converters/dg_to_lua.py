@@ -197,6 +197,45 @@ def speech_gate_lines(arg: str, num_arg: int) -> list[str]:
     ]
 
 
+def receive_gate_lines(arg: str, num_arg: int) -> list[str]:
+    """Lua lines for a mob RECEIVE trigger's item filter.
+
+    Legacy receive_mtrigger: the trigger's arg is a list of OBJECT vnums. With a non-zero num_arg
+    the trigger runs only for those items; with num_arg 0 it runs for every item NOT in the list
+    (the "refuse everything else" companion triggers). An empty arg runs for every item. The
+    runtime does not filter on arg_list, so the filter has to live in the script; the importer
+    stores no arg_list for Lua files.
+    """
+    vnums = [int(w) for w in arg.split() if w.isdigit()]
+    if not vnums:
+        return []
+    conds = []
+    for v in vnums:
+        z, i = vnum_to_zone_and_local(v)
+        conds.append(f'(object.zone_id == {z} and object.id == {i})')
+    joined = ' or\n    '.join(conds)
+    listed = ' '.join(str(v) for v in vnums)
+    if num_arg == 0:
+        return [
+            f'-- DG receive arg list ({listed}) with num_arg 0: this trigger ran for every other item.',
+            '-- The runtime does not filter on arg_list, so the exclusion lives here.',
+            f'if {joined} then',
+            '    return true',
+            'end',
+            '',
+        ]
+    return [
+        f'-- DG receive arg list ({listed}): this trigger ran only for these items.',
+        '-- The runtime does not filter on arg_list, so the filter lives here.',
+        'if not (',
+        f'    {joined}',
+        ') then',
+        '    return true',
+        'end',
+        '',
+    ]
+
+
 def convert_colors(text: str, carry: bool = False) -> str:
     """Convert DG Script colour codes to FieryMUD markup.
 
@@ -375,6 +414,10 @@ _ENGINE_NAMES = frozenset({
 # Variables the script being converted has declared so far (set/eval); None outside
 # convert_script_body.
 _declared_ctx: set | None = None
+
+# True while converting the body of a RECEIVE trigger (set by convert_script_body): DG's
+# `return 0` there refuses the item instead of letting a typed command through.
+_RECEIVE_BODY = False
 
 
 def _script_var(name: str) -> str:
@@ -1273,12 +1316,14 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
         return f'{ind}return _return_value'
 
     if cmd_lower == 'return 0':
-        # DG 'return 0' = allow = C++ Continue (true)
-        return f'{ind}_return_value = true'
+        # COMMAND: DG 'return 0' = allow = C++ Continue (true).
+        # RECEIVE: DG 'return 0' = the give is cancelled, the giver keeps the item (false).
+        return f'{ind}_return_value = {"false" if _RECEIVE_BODY else "true"}'
 
     if cmd_lower == 'return 1':
-        # DG 'return 1' = block = C++ Halt (false)
-        return f'{ind}_return_value = false'
+        # COMMAND: DG 'return 1' = block = C++ Halt (false).
+        # RECEIVE: DG 'return 1' (the default) = the mob takes the item (true).
+        return f'{ind}_return_value = {"true" if _RECEIVE_BODY else "false"}'
 
     # === Spawning ===
     # Modern API uses composite IDs: self.room:spawn_mobile(zone_id, local_id)
@@ -2751,12 +2796,17 @@ def _convert_lines(lines: list[str], indent: int, declared_vars: set[str],
     return lua_lines
 
 
-def convert_script_body(commands: str, command_trigger: bool = False) -> str:
+def convert_script_body(commands: str, command_trigger: bool = False, receive_trigger: bool = False) -> str:
     """Convert the entire script body from DG Script to Lua.
 
     `command_trigger` selects the legacy COMMAND default verdict (block) for the
-    `_return_value` variable; see RETURN_VALUE_DEFAULT_COMMAND.
+    `_return_value` variable; see RETURN_VALUE_DEFAULT_COMMAND. `receive_trigger` makes
+    DG `return 0` refuse the item (`_return_value = false`); the engine only honours that when
+    no `wait()` has run yet, so a refusal that also talks must `return false` before its first
+    wait (see RECEIVE in docs/SCRIPTING.md).
     """
+    global _RECEIVE_BODY
+    _RECEIVE_BODY = receive_trigger
     lines = commands.split('\n')
     lua_lines = []
     has_return_value = False  # Track if we need the _return_value variable
@@ -2802,7 +2852,14 @@ def convert_trigger(dg: DGTrigger) -> LuaTrigger:
     Returns:
         LuaTrigger object ready for database import
     """
-    lua_commands = convert_script_body(dg.commands, command_trigger='COMMAND' in dg.flags)
+    # RECEIVE: the numeric argument selects whitelist (non-zero) or blacklist (0) mode for the
+    # object vnum list in the arg; it is not a chance.
+    receive_only = (
+        dg.script_type.name == 'MOB' and 'RECEIVE' in dg.flags and set(dg.flags) <= {'RECEIVE', 'GLOBAL'}
+    )
+    lua_commands = convert_script_body(
+        dg.commands, command_trigger='COMMAND' in dg.flags, receive_trigger=receive_only
+    )
 
     # Build header
     header_lines = [
@@ -2823,7 +2880,9 @@ def convert_trigger(dg: DGTrigger) -> LuaTrigger:
     speech_only = bool(set(dg.flags) & {'SPEECH', 'SPEECH_TO'}) and set(dg.flags) <= {'SPEECH', 'SPEECH_TO', 'GLOBAL'}
 
     # Probability check
-    if speech_only:
+    if receive_only:
+        header_lines.extend(receive_gate_lines(dg.arg_string, dg.probability))
+    elif speech_only:
         header_lines.extend(speech_gate_lines(dg.arg_string, dg.probability))
     elif command_only:
         if dg.script_type.name == 'OBJECT':

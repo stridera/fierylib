@@ -7,6 +7,17 @@
 
 -- Converted from DG Script #53468: Major Globe Lirne receive 4
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (53458 53459 53460 53461): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 534 and object.id == 58) or
+    (object.zone_id == 534 and object.id == 59) or
+    (object.zone_id == 534 and object.id == 60) or
+    (object.zone_id == 534 and object.id == 61)
+) then
+    return true
+end
+
 local stage = actor:get_quest_stage("major_globe_spell")
 local response
 if stage == 10 then
@@ -46,7 +57,7 @@ elseif stage < 10 then
 end
 if response then
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

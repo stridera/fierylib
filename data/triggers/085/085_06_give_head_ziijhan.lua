@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #8506: give_head_ziijhan
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (8504): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 85 and object.id == 4)
+) then
+    return true
+end
+
 wait(0.2)
 -- switch on actor:get_quest_stage("nec_dia_ant_subclass")
 do

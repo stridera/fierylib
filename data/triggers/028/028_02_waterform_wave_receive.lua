@@ -29,9 +29,9 @@ if actor:get_quest_var("waterform:new") == "yes" then
         self:command("give dragon-bone-cup " .. tostring(actor.name))
         self:say("Don't lose this again!")
     else
-        wait(0.2)
         self:say("I can't make a new cup from this.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 1 then
     if object.zone_id == 510 and object.local_id == 9 then
@@ -68,6 +68,7 @@ elseif stage == 1 then
     else
         self:say("This isn't armor made of water.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 3 then
     if object.zone_id == 28 and object.local_id == 7 then
@@ -96,22 +97,25 @@ elseif stage == 3 then
     else
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This won't make a usable vessel.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 4 then
     if object.zone_id == 28 and object.local_id == 8 then
         self:say("It seems you haven't collected all four samples yet.")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
+        return false  -- legacy return 0: the giver keeps the item
     else
         self:say("Why are you bringing me this?")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
         self:say("You should be out collecting living water samples.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 5 then
     if object.zone_id == 28 and object.local_id == 8 then
         actor:advance_quest("waterform")
+        -- Legacy DG returned 0 here: the giver keeps the cup. Hand it back explicitly (this path waits).
+        require("dg").give(self, object, actor)
         self:say("Yes, these samples are perfect.")
         wait(2)
         self:emote("rises up, coaxing wavering orbs of water out of the dragon bone cup.")
@@ -141,18 +145,19 @@ elseif stage == 5 then
     else
         self.room:send(tostring(self.name) .. " says, 'You haven't been trying to collect samples in this have")
         self.room:send("</>you?'")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 6 then
     if object.zone_id == 28 and object.local_id == 8 then
         self:say("You haven't completed all of your examinations yet!")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
+        return false  -- legacy return 0: the giver keeps the item
     else
         self:say("What is this for?")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(1)
         self.room:send(tostring(self.name) .. " says, 'Do you need a reminder of your <b:white>[progress]</>?'")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 7 then
     if object.zone_id == 28 and object.local_id == 8 then
@@ -177,9 +182,11 @@ elseif stage == 7 then
     else
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not the dragon bone cup.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
     self:say("I don't remember asking you to retrieve this.")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

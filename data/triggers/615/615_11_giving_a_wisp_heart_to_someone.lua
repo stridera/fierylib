@@ -12,8 +12,8 @@ if globals.heart_inplace == 1 then
     -- Note: the mud appears to prevent this trigger from being activated
     -- again when it's in progress, so this really does nothing, but I've
     -- left it here just in case.
-    _return_value = true
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'Hang on a minute!'</>")
+    return false  -- legacy return 0: the giver keeps the item
 else
     _return_value = false
     globals.heart_inplace = 1

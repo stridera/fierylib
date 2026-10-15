@@ -24,23 +24,23 @@ if actor:get_quest_stage("nukreth_spire") > 0 then
                 globals.task = "done"
                 globals.leader = actor.name
             else
-                _return_value = true
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 self:command("shake")
                 self:say("I only need my egg.")
+                return false  -- legacy return 0: the giver keeps the item
             end
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:command("shake")
             self:say("I already have my egg.")
+            return false  -- legacy return 0: the giver keeps the item
         end
     else
-        _return_value = true
         actor:send("<b:red>You have already completed this quest path.</>")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
-    _return_value = true
     actor:send("<b:red>You must first start this quest before you can earn rewards.</>")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

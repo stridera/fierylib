@@ -24,10 +24,8 @@ if not response then
     return true
 end
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(1)
 self:say(tostring(response))
 if actor:get_quest_stage("ursa_quest") == 1 then
-    wait(0.2)
     self:say("Maybe you could ask someone who might know.")
 end
-return true
+return false  -- legacy return 0: the giver keeps the item

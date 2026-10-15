@@ -101,18 +101,15 @@ if accept == 1 then
     self:command("grin")
     self.room:send(tostring(self.name) .. " says, 'Excellent!  Now just give me the order paperwork and I can pay you.'")
 elseif refuse then
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     if refuse == 1 then
-        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'Nah nah nah, you gotta put in at least a little effort toward finding this yourself, come on.'")
     elseif refuse == 2 then
-        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'You already stole - er, recovered this treasure!'")
     elseif refuse == 3 then
-        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'I'm not looking for that...  Yet.'")
     end
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

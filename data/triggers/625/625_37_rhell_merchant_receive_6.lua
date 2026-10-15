@@ -25,10 +25,9 @@ if actor:get_quest_stage("ursa_quest") == 6 then
                 self:command("give " .. tostring(object) .. " " .. tostring(actor))
             end
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(1)
             self:say("I need a body-bag or a large chest...")
+            return false  -- legacy return 0: the giver keeps the item
         end
     end
 end

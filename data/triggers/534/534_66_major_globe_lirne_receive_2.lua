@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #53466: Major Globe Lirne receive 2
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (53452): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 534 and object.id == 52)
+) then
+    return true
+end
+
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 7 then
     actor:advance_quest("major_globe_spell")
@@ -25,8 +33,8 @@ if stage == 7 then
     actor:send(tostring(self.name) .. " says, 'Yes... go and <b:cyan>banish five unique elementals</> and bring back their energies!'")
 elseif stage < 7 then
     self:command("eyebrow")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'How could you have found this?  Do the quest in order!'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif stage > 7 then
     wait(0.1)
     self:destroy_item("majorglobe-spellbook")

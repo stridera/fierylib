@@ -10,6 +10,14 @@
 -- count; on the 20th block, advance the quest. If not on the quest,
 -- the block is still consumed politely.
 
+-- DG receive arg list (53327): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 533 and object.id == 27)
+) then
+    return true
+end
+
 if actor:get_quest_stage("wall_ice") == 1 then
     wait(0.2)
     local blocks = (tonumber(actor:get_quest_var("wall_ice:blocks")) or 0) + 1

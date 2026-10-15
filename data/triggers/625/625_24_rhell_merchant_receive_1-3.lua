@@ -8,6 +8,14 @@
 -- Converted from DG Script #62524: Rhell Merchant receive 1-3
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- if the player returns the letter from the hermit, 'choice' is set to path 3: the ring of stolen life
+-- DG receive arg list (62512): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 625 and object.id == 12)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ursa_quest") == 1 then
     wait(0.2)
     world.destroy(object)

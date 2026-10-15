@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #55006: Master Shaman receive tear
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (55023): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 550 and object.id == 23)
+) then
+    return true
+end
+
 wait(0.1)
 self:command("eye " .. tostring(actor.name))
 self:destroy_item("golden")

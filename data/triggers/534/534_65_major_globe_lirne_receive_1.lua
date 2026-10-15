@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #53465: Major Globe Lirne receive 1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (53450): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 534 and object.id == 50)
+) then
+    return true
+end
+
 local stage = actor:get_quest_stage("major_globe_spell")
 if stage == 5 then
     actor:advance_quest("major_globe_spell")
@@ -62,8 +70,8 @@ if stage == 5 then
     actor:send(tostring(self.name) .. " says, 'Well?  Quickly, now!'")
 elseif stage < 5 then
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Perhaps you should do the steps of this quest in order.  Go talk to Earle.'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif stage > 5 then
     wait(0.1)
     self:destroy_item("majorglobe-salve")

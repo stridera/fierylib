@@ -8,6 +8,14 @@
 -- the moonwell ceremony, completes the quest, sets the moonwell skill on
 -- the player, and despawns the dryad.
 
+-- DG receive arg list (16355): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 163 and object.id == 55)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") ~= 11 then
     return true
 end
@@ -15,9 +23,8 @@ end
 if (actor:get_quest_var("moonwell_spell_quest:map") or 0) ~= 1 then
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'I need the ring first.'")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 wait(1.5)

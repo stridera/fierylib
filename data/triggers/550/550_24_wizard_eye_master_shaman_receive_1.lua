@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #55024: Wizard Eye Master Shaman receive 1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (58609): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 586 and object.id == 9)
+) then
+    return true
+end
+
 local stage = actor:get_quest_stage("wizard_eye")
 if stage == 2 then
     wait(0.2)

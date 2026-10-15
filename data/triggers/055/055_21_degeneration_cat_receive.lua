@@ -24,11 +24,10 @@
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("degeneration")
 if stage == 0 then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:command("hiss actor")
-    wait(0.2)
     self:say("Who are you?  Why are you giving me this?")
+    return false  -- legacy return 0: the giver keeps the item
 elseif stage == 1 and (object.zone_id == 580 and object.id == 8) then
     actor:advance_quest("degeneration")
     wait(1)
@@ -240,11 +239,10 @@ elseif stage == 9 and (object.zone_id == 125 and object.id == 26) then
     skills.set_level(actor, "degeneration", 1000)
     actor:complete_quest("degeneration")
 else
-    _return_value = true
     self:command("hiss " .. tostring(actor.name))
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self.room:send(tostring(self.name) .. " says, 'This isn't what I asked for. What are you, stupid?")
     self.room:send("</>Do you need me to remind you of your <b:white>[spell progress]</>?'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

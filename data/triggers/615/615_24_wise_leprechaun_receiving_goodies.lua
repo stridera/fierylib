@@ -100,12 +100,9 @@ elseif obj_is(615, 51) then
         a = a + 1
     end
 elseif obj_is(615, 4) then
-    _return_value = false
-    wait(0.8)
     self:emote("quickly shields his eyes from " .. tostring(object.shortdesc) .. "'s intense glow.")
     self:say("Ach!  Are you trying to blind me?")
-    wait(0.8)
-    self:command("drop " .. tostring(object.name))
+    return false  -- legacy return 0: the giver keeps the item
 elseif obj_is(615, 5) or obj_is(615, 6) then
     -- Flint knife (615,6) or already-enchanted (615,5).
     -- If the giver has fed a cherry, enchant it. Otherwise return it.
@@ -138,48 +135,40 @@ elseif obj_is(615, 5) or obj_is(615, 6) then
         wait(1)
         self.room:send(tostring(self.name) .. " says, 'If you see a web, just drop this nearby it.  I've given it an innate hatred of webs, you'll see!'")
     else
-        _return_value = true
         self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
         actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-        wait(0.8)
         self:say("Eh?  What have you done for me lately?")
-        wait(2)
         self.room:send(tostring(self.name) .. " gives " .. tostring(object.shortdesc) .. " back.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif obj_is(557, 55) then
     -- dried fruit
-    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    wait(1)
     self:emote("looks wistfully at " .. tostring(object.shortdesc) .. ".")
     self.room:send(tostring(self.name) .. " says, 'Ach, what a waste.  Sorry, it's no use trying to eat this now!'")
-    wait(2)
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 elseif obj_is(620, 76) then
     -- banana
-    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    wait(0.4)
     self:emote("seems a bit perplexed.")
     self:emote("sniffs " .. tostring(object.shortdesc) .. ".")
-    wait(2)
     self:say("Well now... it smells nice, doesn't it?")
     self:command("peer " .. tostring(actor.name))
     self:emote("licks " .. tostring(object.shortdesc) .. " carefully.")
-    wait(3)
     self:say("I'm not sure I want to bite this, though, do I?")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 else
-    _return_value = true
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    wait(0.8)
     self.room:send(tostring(self.name) .. " says, 'Now I wouldn't know what to do with this, now would I?'")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
     self.room:send_except(actor, tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to " .. tostring(actor.name) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

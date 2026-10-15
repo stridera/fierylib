@@ -25,8 +25,8 @@ do
     if tonumber(_sw1) == 1 then
         if (object.zone_id == 61 and object.id == 18) or (object.zone_id == 117 and object.id == 4) or (object.zone_id == 117 and object.id == 7) or (object.zone_id == 169 and object.id == 6) then
             if (actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
-                _return_value = true
                 self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
+                return false  -- legacy return 0: the giver keeps the item
             else
                 actor:set_quest_var("group_armor", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
                 wait(0.2)
@@ -65,10 +65,10 @@ do
                 end
             end
         else
-            _return_value = true
             self:say(tostring(object.shortdesc) .. " doesn't cast Armor ya daffy spriggan!")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:command("laugh")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif tonumber(_sw1) == 2 then
         if (object.zone_id == 87 and object.id == 1) then
@@ -86,22 +86,21 @@ do
             self.room:send("</>sacred places for us dwarves.'")
             actor:advance_quest("group_armor")
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("This isn't a forging hammer!")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif tonumber(_sw1) == 3 then
-        _return_value = true
         if (object.zone_id == 590 and object.id == 39) then
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("Where did you find this?")
-            wait(1)
             self:say("This can't be the same hammer you brought me before.")
         elseif (object.zone_id == 87 and object.id == 1) then
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, 'You need to bring me the consecrated hammer.")
             self.room:send("</>Another mundane forging hammer is useless.'")
         end
+        return false  -- legacy return 0: the giver keeps the item
     elseif tonumber(_sw1) == 4 then
         if (object.zone_id == 590 and object.id == 39) then
             actor:advance_quest("group_armor")
@@ -121,9 +120,9 @@ do
             wait(3)
             self:say("Find it and bring it back here.")
         else
-            _return_value = true
             self:say("What in the heck is this?")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif tonumber(_sw1) == 5 then
         if (object.zone_id == 125 and object.id == 0) then
@@ -148,15 +147,15 @@ do
             self:say("Good luck and Moradin guard you!")
             actor:advance_quest("group_armor")
         else
-            _return_value = true
             self:say("This won't be a very effective focus.")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif tonumber(_sw1) == 6 then
         if (object.zone_id == 470 and object.id == 4) or (object.zone_id == 470 and object.id == 18) or (object.zone_id == 530 and object.id == 3) then
             if (actor:get_quest_var("group_armor:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
-                _return_value = true
                 self:say("You already brought me " .. tostring(object.shortdesc) .. "!")
+                return false  -- legacy return 0: the giver keeps the item
             else
                 wait(0.2)
                 actor:set_quest_var("group_armor", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
@@ -238,14 +237,14 @@ do
                 end
             end
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("This isn't going to serve for Group Armor.")
+            return false  -- legacy return 0: the giver keeps the item
         end
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("What is this for?")
+        return false  -- legacy return 0: the giver keeps the item
     end
 end
 return _return_value

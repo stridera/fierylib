@@ -39,9 +39,9 @@ if stage == 1 then
         actor:send("</>A scale from Tri-Aszp will remind our hatchling of the legacy it bears.")
         actor:send("</>Bring back one of her scales as a trophy.'")
     else
-        _return_value = true
         actor:send(tostring(self.name) .. " says, 'Hmmm, this doesn't seem to have the proper draconic energies.'")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 2 then
     if object.zone_id == 533 and object.local_id == 25 then
@@ -69,10 +69,9 @@ elseif stage == 2 then
         actor:send(tostring(self.name) .. " says, 'Destroy her spawn, the black dragons Thelriki and Jerajai, and")
         actor:send("</>return with the stone.'")
     else
-        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, '" .. tostring(object.shortdesc) .. " is not one of Tri-Aszp's scales.'")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 3 then
     if object.zone_id == 480 and object.local_id == 24 then
@@ -98,36 +97,35 @@ elseif stage == 3 then
             wait(4)
             actor:send(tostring(self.name) .. " says, 'May Bahamut watch over you and grant you fortune!'")
         elseif actor:get_quest_var("dragons_health:thelriki") and not actor:get_quest_var("dragons_health:jerajai") then
-            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'Jerajai still lives!  You must destroy him first!'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif not actor:get_quest_var("dragons_health:thelriki") and actor:get_quest_var("dragons_health:jerajai") then
-            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'Thelriki still lives!  You must destroy her first!'")
+            return false  -- legacy return 0: the giver keeps the item
         else
-            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'The hell-dragon spawn still live!  You must destroy them first!'")
+            return false  -- legacy return 0: the giver keeps the item
         end
     else
-        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'This is not part of their hoard.'")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 4 then
     local sagece = actor:get_quest_var("dragons_health:sagece")
     if object.zone_id == 520 and (object.local_id == 16 or object.local_id == 17 or object.local_id == 22 or object.local_id == 23) then
         if not sagece then
-            _return_value = true
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " says, 'You must slay Sagece first!'")
+            return false  -- legacy return 0: the giver keeps the item
         else
             if actor:get_quest_var("dragons_health:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
-                _return_value = true
                 actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 actor:send(tostring(self.name) .. " says, 'You have already given this to me.'")
-                return _return_value
+                return false  -- legacy return 0: the giver keeps the item
             else
                 actor:set_quest_var("dragons_health", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
                 wait(0.2)
@@ -176,19 +174,15 @@ elseif stage == 4 then
             actor:send(tostring(self.name) .. " says, 'Good.  Do you have the remaining artifacts?'")
         end
     else
-        _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         actor:send(tostring(self.name) .. " says, 'This is not significant enough to Sagece.'")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 5 then
     if object.cost == 0 and object.level < 60 then
-        _return_value = true
-        wait(0.2)
         self:emote("examines " .. tostring(object.shortdesc) .. " closely.")
-        wait(1)
         actor:send(tostring(self.name) .. " says, 'Unfortunately there isn't enough inherent value to <b:yellow>" .. tostring(object.shortdesc) .. " to be part of the hatchling's hoard.'")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     end
 
         wait(0.2)
@@ -225,9 +219,8 @@ elseif stage == 5 then
         actor:send(tostring(self.name) .. " says, 'We need " .. tostring(plat) .. " platinum, " .. tostring(gold) .. " gold, " .. tostring(silv) .. " silver, " .. tostring(copp) .. " copper more in treasure and coins.'")
     end
 else
-    _return_value = true
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'I'm not looking for anything right now.'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

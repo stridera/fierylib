@@ -43,7 +43,7 @@ if (object.zone_id == 490 and object.id == 1) then
     wait(0.4)
     self.room:send(tostring(self.name) .. " says, 'Now, seek out and destroy Dagon's demonic essence, Adramalech.  A portal to its home realm is locked beneath the well.  The cult leader must have had a key of some kind.'")
 else
-    _return_value = true
     actor:send("<b:white>" .. tostring(self.name) .. " tells you, 'No, thank you.'</>")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

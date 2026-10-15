@@ -33,10 +33,9 @@ if (object.zone_id == 534 and object.id == 24) then
     end
 else
     -- Legacy DG returned 0 here (refuse the item, return it to actor).
-    _return_value = false
-    wait(0.2)
     actor:send("The observer tells you, 'This isn't my globe!'")
     actor:send("The observer returns your item to you.")
     self.room:send_except(actor, "The observer refuses " .. tostring(object.shortdesc) .. " from " .. tostring(actor.name) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

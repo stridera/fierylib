@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #48425: wild-hunt-rec-antlers
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (48429): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 484 and object.id == 29)
+) then
+    return true
+end
+
 wait(0.2)
 self:destroy_item("antlers")
 local accept = 0

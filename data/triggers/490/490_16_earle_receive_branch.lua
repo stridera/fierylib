@@ -8,6 +8,14 @@
 -- Converted from DG Script #49016: Earle receive branch
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- Small oak branch given
+-- DG receive arg list (49037): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 490 and object.id == 37)
+) then
+    return true
+end
+
 wait(0.2)
 local person = actor
 local i = person.group_size

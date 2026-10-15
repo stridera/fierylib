@@ -115,10 +115,9 @@ end
 if actor:get_quest_stage("hellfire_brimstone") == 3 then
     if (object.zone_id == 43 and object.id == 18) or (object.zone_id == 52 and object.id == 11) or (object.zone_id == 52 and object.id == 12) or (object.zone_id == 173 and object.id == 8) or (object.zone_id == 481 and object.id == 10) or (object.zone_id == 530 and object.id == 0) then
         if actor:get_quest_var("hellfire_brimstone:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             self:say("I have no need for a second " .. tostring(objects.template(object.zone_id, object.local_id).name) .. "!")
+            return false  -- legacy return 0: the giver keeps the item
         else
             wait(0.2)
             actor:set_quest_var("hellfire_brimstone", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
@@ -155,10 +154,9 @@ if actor:get_quest_stage("hellfire_brimstone") == 3 then
             self:say("Bring me the rest of the fiery tributes!")
         end
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         self:say("I have no need for this!")
+        return false  -- legacy return 0: the giver keeps the item
     end
 end
 return _return_value

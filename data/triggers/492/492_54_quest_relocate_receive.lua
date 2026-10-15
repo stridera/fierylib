@@ -157,10 +157,9 @@ elseif stage == 9 then
     end
 else
     -- Legacy DG returned 0 here (refuse the item, return it to actor).
-    _return_value = false
-    wait(0.2)
     actor:send("A lost mage tells you, 'This item doesn't help me.'")
     actor:send("A lost mage returns your item.")
     self.room:send_except(actor, "A lost mage returns " .. tostring(actor.name) .. "'s item.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

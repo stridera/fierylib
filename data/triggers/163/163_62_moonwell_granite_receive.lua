@@ -7,6 +7,14 @@
 -- Dryad receives the granite ring (final element) at stage 11. Sets the
 -- per-quest "map" flag so handing over the bark map next (16363) finishes
 -- the ceremony. The ring is destroyed.
+-- DG receive arg list (55020): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 550 and object.id == 20)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 11 then
     wait(0.2)
     self:destroy_item("ring")

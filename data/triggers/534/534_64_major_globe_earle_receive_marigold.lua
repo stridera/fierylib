@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #53464: major_globe_earle_receive_marigold
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (58609): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 586 and object.id == 9)
+) then
+    return true
+end
+
 if actor:get_quest_stage("major_globe_spell") == 4 then
     -- marigold salve
     wait(0.1)

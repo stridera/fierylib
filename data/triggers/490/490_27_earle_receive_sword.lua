@@ -7,7 +7,14 @@
 
 -- Converted from DG Script #49027: Earle receive sword
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
-local _return_value = true  -- Default: allow action
+-- DG receive arg list (49029): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 490 and object.id == 29)
+) then
+    return true
+end
+
 -- Rune sword given
 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
@@ -38,25 +45,20 @@ while i >= a do
     end
     a = a + 1
 end
-wait(0.2)
 if oak == 0 then
     self:say("A fine weapon, but it will be of no use without the holy tree.")
     self:emote("returns the sword.")
 else
     self:say("Ah... this sword would have saved a lot of trouble.")
     self:command("ponder")
-    wait(2)
     self.room:send(tostring(self.name) .. " says, 'If you didn't have too much trouble getting this sword, then perhaps you can help.  Go to the seer and say <b:cyan>\"Earle sends me\"</> and she will give you what aid she can.'")
-    wait(3)
     self:say("Please return to me when you have defeated Dagon.  And be sure to bring proof of the deed!")
     self:emote("hands back the sword.")
-    wait(2)
     if accept > 0 then
         self.room:send(tostring(self.name) .. " says, 'If you need, you can come to me and check your <b:cyan>[quest progress]</>.'")
     else
         self:emote("glances back with a thoughtful look.")
-        wait(1)
         self:say("Did I give you the sapling for the altar?  I can be so forgetful...'")
     end
 end
-return _return_value
+return false  -- legacy return 0: the giver keeps the item

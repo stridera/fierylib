@@ -9,6 +9,14 @@
 --
 -- Original DG Script: #17205
 
+-- DG receive arg list (17214): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 172 and object.id == 14)
+) then
+    return true
+end
+
 if actor:get_quest_stage("illusionist_subclass") == 6 then
     wait(0.2)
     self:destroy_item("choker")
@@ -25,15 +33,9 @@ if actor:get_quest_stage("illusionist_subclass") == 6 then
     self:command("wink " .. tostring(actor.name))
     return true
 end
-
-wait(0.2)
 self:command("frown")
-wait(2)
 self:emote("peers closely at the choker.")
-wait(3)
 actor:send(tostring(self.name) .. " says, 'I'm sorry... there must be some mistake.  This isn't the choker I gave Cestia.'")
-wait(1)
 actor:send(tostring(self.name) .. " says, 'I'm certain of it.'")
-wait(2)
 self:emote("returns the choker.")
-return true
+return false  -- legacy return 0: the giver keeps the item

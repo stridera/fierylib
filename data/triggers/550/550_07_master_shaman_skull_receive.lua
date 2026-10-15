@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #55007: Master Shaman skull receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (55005): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 550 and object.id == 5)
+) then
+    return true
+end
+
 wait(0.2)
 local i = actor.group_size or 0
 local a = 1

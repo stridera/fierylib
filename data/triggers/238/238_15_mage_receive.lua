@@ -9,6 +9,14 @@
 -- comes back via the wrong-answer path).
 
 -- If a Tempest is still in 238:90, reset its quest state.
+-- DG receive arg list (23822): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 238 and object.id == 22)
+) then
+    return true
+end
+
 if world.count_mobiles(238, 3) > 0 then
     get_room(238, 90):at(function()
         run_room_trigger(238, 14)

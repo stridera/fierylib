@@ -13,63 +13,61 @@
 
 -- Converted from DG Script #48258: mccabe_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (48252 48251): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 481 and object.id == 152) or
+    (object.zone_id == 481 and object.id == 151)
+) then
+    return true
+end
+
 local _return_value = true  -- Default: allow action
 local stage = actor:get_quest_stage("meteorswarm")
 local earth = actor:get_quest_var("meteorswarm:earth")
 local air = actor:get_quest_var("meteorswarm:air")
 if object.zone_id == 481 and object.local_id == 151 then
-    _return_value = true
     self:command("shake")
-    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Go <b:cyan>use</> this new treasure; don't give it back to me!'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif actor:get_quest_var("meteorswarm:new") ~= "no" then
-    _return_value = true
     self.room:send(tostring(self.name) .. " accepts the meteorite.")
-    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Good, this will work.'")
     self.room:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. ".")
-    wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Go, resume your studies.'")
     actor:set_quest_var("meteorswarm", "new", 0)
+    return false  -- legacy return 0: the giver keeps the item
 else
     -- switch on stage
     do
         local _sw1 = string.lower(tostring(stage or ""))
         if tonumber(_sw1) == 1 then
-            _return_value = true
             self:command("eye")
-            wait(1)
             actor:send(tostring(self.name) .. " tells you, 'No, go find Jemnon first.'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif tonumber(_sw1) == 2 then
-            _return_value = true
             self:command("eye")
-            wait(1)
             actor:send(tostring(self.name) .. " tells you, 'No, go find the rock demon first.'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif tonumber(_sw1) == 3 then
             if (earth or 0) == 0 then
-                _return_value = true
                 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
                 actor:send(tostring(self.name) .. " tells you, 'Such wonderfully powerful stone.  This will do perfectly.'")
-                wait(3)
                 actor:send(tostring(self.name) .. " tells you, 'Next, you need to demonstrate mastery over fire.'")
-                wait(2)
                 actor:send(tostring(self.name) .. " tells you, 'The northern cult of fire provides an excellent opportunity to do so.'")
-                wait(1)
                 actor:send(tostring(self.name) .. " tells you, 'Take the meteor, <b:cyan>slay the high priest, and find the secret lava well</>.'")
-                wait(3)
                 actor:send(tostring(self.name) .. " tells you, 'The charge from such energy will be ideal for conjuring.'")
-                wait(0.2)
                 actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
                 actor:set_quest_var("meteorswarm", "earth", 1)
+                return false  -- legacy return 0: the giver keeps the item
             else
-                _return_value = true
                 actor:send(tostring(self.name) .. " tells you, 'Yes yes, you have already proven it's a lovely focus.'")
+                return false  -- legacy return 0: the giver keeps the item
             end
         elseif tonumber(_sw1) == 4 then
-            _return_value = true
             self:command("eye")
-            wait(1)
             actor:send(tostring(self.name) .. " tells you, 'No, go find Dargentan first.'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif tonumber(_sw1) == 5 then
             if (air or 0) == 0 then
                 self:destroy_item("meteorite")
@@ -84,14 +82,13 @@ else
                 actor:send(tostring(self.name) .. " tells you, 'Go somewhere safe, and <b:cyan>use it</> to unlock its potential.'")
                 actor:set_quest_var("meteorswarm", "air", 1)
             else
-                _return_value = true
                 actor:send(tostring(self.name) .. " tells you, 'Where did you find a second one of these?  You don't need it.'")
+                return false  -- legacy return 0: the giver keeps the item
             end
         else
-            _return_value = true
-            wait(1)
             self:command("eye")
             actor:send(tostring(self.name) .. " tells you, 'And what exactly am I supposed to do with this?'")
+            return false  -- legacy return 0: the giver keeps the item
         end
     end
 end

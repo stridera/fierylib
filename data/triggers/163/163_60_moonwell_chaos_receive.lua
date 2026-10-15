@@ -7,6 +7,14 @@
 -- Dryad receives the Chaos Orb at stage 10. Sets the per-quest "map" flag so
 -- handing over the bark map next (16361) advances the stage. The orb is
 -- destroyed after being placed on the well perimeter.
+-- DG receive arg list (4003): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 40 and object.id == 3)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 10 then
     wait(0.2)
     actor:set_quest_var("moonwell_spell_quest", "map", 1)

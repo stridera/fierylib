@@ -7,6 +7,14 @@
 -- Eleweiss receives the jewel of the heart. Stage 4 -> complete the
 -- subclass quest. Other stages get a flavor response. The jewel is
 -- always destroyed.
+-- DG receive arg list (17212): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 172 and object.id == 12)
+) then
+    return true
+end
+
 wait(0.2)
 if actor:get_quest_stage("ran_dru_subclass") == 4 then
     self:emote("throws back his head and howls loudly with pleasure.")

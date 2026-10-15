@@ -8,6 +8,14 @@
 -- 53423) confirms Shiran's existence and points at the elusive
 -- Book of Redemption. Advances to stage 8.
 
+-- DG receive arg list (53423): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 534 and object.id == 23)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") == 7 then
     wait(0.2)
     actor:advance_quest("ice_shards")

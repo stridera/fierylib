@@ -169,12 +169,10 @@ elseif (object.zone_id == 557 and object.id == 41) then
     item = "gem"
     go = "trophy"
 else
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("What is this for?")
-    return _return_value
+    return false  -- legacy return 0: the giver keeps the item
 end
 if go == "hunt" then
     if actor:get_quest_stage("beast_master") == "stage" and actor:get_quest_var("beast_master:hunt") == "dead" then
@@ -257,11 +255,10 @@ if go == "hunt" then
             end
         end
     elseif actor:get_quest_stage("beast_master") > stage then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already killed this creature!'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("beast_master") < stage then
         wait(0.2)
         self:command("eye " .. tostring(actor))
@@ -269,42 +266,36 @@ if go == "hunt" then
         self.room:send(tostring(self.name) .. " rips up the notice!")
         world.destroy(object)
     elseif actor:get_quest_var("beast_master:hunt") ~= "dead" then
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have to slay kill the beast first!  " .. tostring(victim1) .. " is still out there.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif go == "trophy" then
     if actor.class ~= "warrior" and actor.class ~= "ranger" and actor.class ~= "mercenary" and actor.class ~= "berserker" then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, '" .. tostring(actor.class) .. "s aren't fit for these kinds of tests.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("beast_master") < actor:get_quest_stage("ranger_trophy") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Defeat some more monsters first.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor.level < (actor:get_quest_stage("ranger_trophy") * 10) then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif trophystage > actor:get_quest_stage("ranger_trophy") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You don't need that to demonstrate your skills yet.  Be patient!'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif trophystage < actor:get_quest_stage("ranger_trophy") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You've already used that as proof.'")
+        return false  -- legacy return 0: the giver keeps the item
     else
         local accept
         if item == "quest" then
@@ -361,11 +352,10 @@ elseif go == "trophy" then
                     actor:complete_quest("ranger_trophy")
                 end
             else
-                _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You need to do everything else before you exchange your trophy!'")
+                return false  -- legacy return 0: the giver keeps the item
             end
         elseif item == "trophy" then
             local task2 = actor:get_quest_var("ranger_trophy:trophytask2")
@@ -384,10 +374,9 @@ elseif go == "trophy" then
             end
         end
         if accept == "no" then
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif accept == "yes" then
             wait(0.2)
             world.destroy(object)

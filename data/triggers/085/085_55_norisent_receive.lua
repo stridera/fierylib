@@ -21,10 +21,9 @@
 local _return_value = true  -- Default: allow action
 if (object.zone_id == 40 and object.id == 8) then
     if actor:get_quest_stage("resurrection_quest") == 4 then
-        _return_value = true
         self:emote("refuses to take it.")
         self:say("First, give me the talisman, to be sure this was done right.")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("resurrection_quest") == 5 then
         wait(1)
         world.destroy(object)
@@ -44,10 +43,9 @@ if (object.zone_id == 40 and object.id == 8) then
     return _return_value
 elseif (object.zone_id == 533 and object.id == 7) then
     if actor:get_quest_stage("resurrection_quest") == 6 then
-        _return_value = true
         self:emote("refuses your item.")
         self:say("First, give me the talisman.  I want to be sure things are in order.")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("resurrection_quest") == 7 then
         wait(1)
         world.destroy(object)
@@ -88,14 +86,13 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 
                 end
                 if _run1 or _sw1 == "diabolist" then
                     _run1 = true
-                    _return_value = true
                     self:say("Wrong one, dummy.")
+                    return false  -- legacy return 0: the giver keeps the item
                 end
                 do  -- default
                     _run1 = true
-                    _return_value = true
                     self:say("What's your class?")
-                    return _return_value
+                    return false  -- legacy return 0: the giver keeps the item
                 end
             until true
         end
@@ -115,14 +112,13 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 
                 end
                 if _run2 or _sw2 == "cleric" or _sw2 == "priest" then
                     _run2 = true
-                    _return_value = true
                     self:say("Wrong one, dummy.")
+                    return false  -- legacy return 0: the giver keeps the item
                 end
                 do  -- default
                     _run2 = true
-                    _return_value = true
                     self:say("What's your class?")
-                    return _return_value
+                    return false  -- legacy return 0: the giver keeps the item
                 end
             until true
         end
@@ -134,26 +130,23 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 
             repeat
                 if _run3 or _sw3 == "cleric" or _sw3 == "priest" then
                     _run3 = true
-                    _return_value = true
                     self:say("This book is incomplete!  Something has drained its magic!  Fix that then bring the book back.")
                     break
                 end
                 if _run3 or _sw3 == "diabolist" then
                     _run3 = true
-                    _return_value = true
                     self:say("Wrong one, dummy.")
+                    return false  -- legacy return 0: the giver keeps the item
                 end
                 do  -- default
                     _run3 = true
-                    _return_value = true
                     self:say("What's your class?")
-                    return _return_value
+                    return false  -- legacy return 0: the giver keeps the item
                 end
             until true
         end
-        _return_value = true
         self:say("This isn't the power Luchiaans seeks.  Go find it.")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     end
     -- 
     -- the old version where you had to go to Doom for the quest
@@ -174,8 +167,8 @@ elseif actor:get_quest_stage("resurrection_quest") == 9 and ((object.zone_id == 
 elseif actor:get_quest_stage("resurrection_quest") == 10 then
     if (object.zone_id == 520 and object.id == 1) then
         self:say("Give me the talisman first.  I must know the crazed mage is truly dead at last.")
-        _return_value = true
         self:emote("refuses your item.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif actor:get_quest_stage("resurrection_quest") == 11 then
     if (object.zone_id == 520 and object.id == 1) then
@@ -188,9 +181,8 @@ elseif actor:get_quest_stage("resurrection_quest") == 11 then
                 globals.complete = true
     end
 else
-    _return_value = true
-    wait(0.1)
     self:emote("refuses your offering.")
     self:say("This isn't what we're after.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

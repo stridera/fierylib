@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #62516: treant receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (62504): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 625 and object.id == 4)
+) then
+    return true
+end
+
 if world.count_mobiles(625, 0) > 0 then
     wait(0.2)
     world.destroy(object)

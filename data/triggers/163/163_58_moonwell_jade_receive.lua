@@ -7,6 +7,14 @@
 -- Dryad receives the jade ring at stage 9. Sets the per-quest "map" flag so
 -- handing over the bark map next (16359) advances the stage. The ring is
 -- destroyed after being placed on the well perimeter.
+-- DG receive arg list (49011): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 490 and object.id == 11)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 9 then
     actor:set_quest_var("moonwell_spell_quest", "map", 1)
     wait(0.5)

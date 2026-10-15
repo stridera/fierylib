@@ -50,8 +50,8 @@ if (object.zone_id == 490 and object.id == 16) then
     wait(0.8)
     self:command("wear earring ear")
 else
-    _return_value = true
     self:command("shake")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

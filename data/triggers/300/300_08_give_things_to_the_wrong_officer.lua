@@ -11,11 +11,10 @@
 -- 302:8 paladin parchment) to the general; refuses everything else outright.
 self.room:send_except(actor, tostring(actor.name) .. " tries to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 actor:send("You try to give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ", but " .. tostring(self.name) .. " refuses.")
-wait(1)
 if object.zone_id == 302 and (object.local_id == 12 or object.local_id == 8) then
     self:say("Eh?  Don't bother me with this stuff.")
     self:say("Give it to the general, he does all the planning around here.")
 else
     self:say("What?  Don't bother me with such trifles!")
 end
-return true
+return false  -- legacy return 0: the giver keeps the item

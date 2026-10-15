@@ -14,6 +14,14 @@
 -- rejects it (still gathering basics); stage 3 destroys it, completes the
 -- emmath_flameball quest, and gives the actor object 52:10.
 
+-- DG receive arg list (23822): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 238 and object.id == 22)
+) then
+    return true
+end
+
 get_room(238, 90):at(function()
     run_room_trigger(238, 14)
 end)

@@ -176,12 +176,10 @@ elseif (object.zone_id == 557 and object.id == 39) then
     item = "gem"
     go = "necklace"
 else
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("What is this for?")
-    return _return_value
+    return false  -- legacy return 0: the giver keeps the item
 end
 if go == "hunt" then
     if actor:get_quest_stage("dragon_slayer") == "stage" and actor:get_quest_var("dragon_slayer:hunt") == "dead" then
@@ -264,11 +262,10 @@ if go == "hunt" then
             end
         end
     elseif actor:get_quest_stage("dragon_slayer") > stage then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already killed this dragon!'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("dragon_slayer") < stage then
         wait(0.2)
         self:command("eye " .. tostring(actor))
@@ -276,36 +273,31 @@ if go == "hunt" then
         self.room:send(tostring(self.name) .. " rips up the notice!")
         world.destroy(object)
     elseif actor:get_quest_var("dragon_slayer:hunt") ~= "dead" then
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses the notice.")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You have to slay the dragon first!  " .. tostring(victim1) .. " is still out there.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif go == "necklace" then
     if actor:get_quest_stage("dragon_slayer") < actor:get_quest_stage("paladin_pendant") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Slay some more dragons first.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor.level < (actor:get_quest_stage("paladin_pendant") * 10) then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif pendantstage > actor:get_quest_stage("paladin_pendant") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'Your devotional act doesn't involve that yet.  Be patient!'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif pendantstage < actor:get_quest_stage("paladin_pendant") then
-        _return_value = true
         self:command("shake")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You've already performed that act of devotion.'")
+        return false  -- legacy return 0: the giver keeps the item
     else
         local accept
         if item == "quest" then
@@ -355,11 +347,10 @@ elseif go == "necklace" then
                     actor:complete_quest("paladin_pendant")
                 end
             else
-                _return_value = true
                 self:command("shake")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You need to do everything else before you offer up your necklace!'")
+                return false  -- legacy return 0: the giver keeps the item
             end
         elseif item == "necklace" then
             if actor:get_quest_var("paladin_pendant:necklacetask2") == object.id then
@@ -377,10 +368,9 @@ elseif go == "necklace" then
             end
         end
         if accept == "no" then
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
+            return false  -- legacy return 0: the giver keeps the item
         elseif accept == "yes" then
             wait(0.2)
             world.destroy(object)

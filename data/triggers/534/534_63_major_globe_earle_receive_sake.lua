@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #53463: major_globe_earle_receive_sake
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (58002): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 580 and object.id == 2)
+) then
+    return true
+end
+
 if actor:get_quest_stage("major_globe_spell") == 3 then
     -- bottle of sake
     wait(0.1)

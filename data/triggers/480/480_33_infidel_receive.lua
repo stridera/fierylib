@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #48033: Infidel receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (48025): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 480 and object.id == 25)
+) then
+    return true
+end
+
 wait(0.2)
 world.destroy(object)
 self.room:send(tostring(self.name) .. " grins as he crushes the Prince's skull to dust.")

@@ -9,6 +9,17 @@
 -- ice_shards:<zone>_<id>. When all four arrive, advances the
 -- quest and pivots the player toward the Codex of War.
 
+-- DG receive arg list (16209 18505 55003 58415): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 162 and object.id == 9) or
+    (object.zone_id == 185 and object.id == 5) or
+    (object.zone_id == 550 and object.id == 3) or
+    (object.zone_id == 584 and object.id == 15)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") ~= 1 then
     return true
 end
@@ -17,7 +28,6 @@ local key = "ice_shards:" .. tostring(object.zone_id) .. "_" .. tostring(object.
 local prior = actor:get_quest_var(key)
 if prior and prior ~= 0 and prior ~= "" and prior ~= "0" then
     self.room:send(self.name .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("Thanks, but you already delivered " .. tostring(object.shortdesc) .. " to me.")
     return false
 end

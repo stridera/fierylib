@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #6023: thief_subclass_timulos_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (8813): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 88 and object.id == 13)
+) then
+    return true
+end
+
 wait(0.2)
 -- switch on actor:get_quest_stage("merc_ass_thi_subclass")
 if actor:get_quest_stage("merc_ass_thi_subclass") == 1 or actor:get_quest_stage("merc_ass_thi_subclass") == 2 then

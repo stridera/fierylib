@@ -67,27 +67,20 @@ elseif (object.zone_id == 502 and object.id == 1) or (object.zone_id == 502 and 
     -- China from Odz
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    _return_value = true
-    wait(1)
     self:emote("looks over " .. tostring(object.shortdesc) .. " fondly.")
-    wait(2)
     self.room:send(tostring(self.name) .. " says, 'Attractive, is it not?  A gift from our island friends.'")
-    wait(1)
     self.room:send(tostring(self.name) .. " says, 'But alas, it has no intrinsic magic that I can detect.'")
     self:emote("politely returns the item.")
+    return false  -- legacy return 0: the giver keeps the item
 elseif (object.zone_id == 502 and object.id == 4) or (object.zone_id == 502 and object.id == 9) then
     -- Magical eq from bayou
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    _return_value = true
-    wait(1)
     self:emote("stares closely at " .. tostring(object.shortdesc) .. " for a time.")
-    wait(4)
     self:command("sigh")
-    wait(2)
     self.room:send(tostring(self.name) .. " says, 'There is something here, but this is far too weak.  No, the captain was after something much more valuable.'")
-    wait(1)
     self:emote("returns the item.")
+    return false  -- legacy return 0: the giver keeps the item
 elseif (object.zone_id == 502 and object.id == 15) then
     -- The electrum hoop!
     local person = actor
@@ -141,11 +134,9 @@ elseif (object.zone_id == 502 and object.id == 15) then
 else
     self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
     actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-    _return_value = true
-    wait(0.6)
     self:command("laugh")
     self:say("I'm afraid not.")
-    wait(0.8)
     self:emote("politely returns the item.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

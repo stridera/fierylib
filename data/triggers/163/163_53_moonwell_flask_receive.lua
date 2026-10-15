@@ -7,6 +7,14 @@
 -- Dryad receives Eleweiss' Flask. Stage 4 (haven't been told to fetch it
 -- yet) -> rebuke + destroy.  Stage 5 -> advance to 6, hand the player a map
 -- (163/51) and send them after the ruby ring.
+-- DG receive arg list (16356): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 163 and object.id == 56)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 4 then
     wait(0.2)
     self:destroy_item("flask")

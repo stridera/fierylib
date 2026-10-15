@@ -7,10 +7,6 @@
 
 -- Converted from DG Script #1827: blur_ranger_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
--- TODO(parity): every "refuse" branch sets _return_value = true, which lets the
--- give through anyway. Legacy DG used `return 0` to block — these should
--- almost certainly be `false` so the player keeps the item the ranger refused.
--- Verify and flip once intent is confirmed.
 local _return_value = true  -- Default: allow action
 -- TODO(parity): legacy 5-digit vnum 58420 needs translation to (zone_id, local_id)
 -- composite. Likely (zone=584, id=20) — Syric Warder's blade. Verify against
@@ -54,26 +50,22 @@ if (object.zone_id == 584 and object.id == 20) then
         wait(4)
         self.room:send(tostring(self.name) .. " says, 'Are you ready to try?'")
     elseif actor:get_quest_stage("blur") == 2 then
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'It seems the Warder still roams.  Please go back and")
         self.room:send("</>destroy him.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("blur") > 3 then
-        _return_value = true
-        wait(0.2)
         self.room:send(tostring(self.name) .. " says, 'You have already brought me " .. tostring(object.name) .. ".")
         self.room:send("</>Please, keep it.'")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif actor:get_quest_stage("blur") == 3 then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("This is not the proper blade.")
+    return false  -- legacy return 0: the giver keeps the item
 else
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     self:say("I have no need for this at the moment.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

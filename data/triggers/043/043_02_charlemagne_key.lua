@@ -133,17 +133,15 @@ elseif refuse then
         wait(1)
         self:say("This isn't what I'm looking for.  Stop wasting time and help me look.")
     else
-        _return_value = true
         if refuse == "person" then
             self:command("gasp")
             self:say("Are you a Ceiling Monkey in disguise?!")
-            wait(1)
             self:command("point " .. tostring(actor.name))
         elseif refuse == "key" then
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             self:say("You already gave me my key back, thank you.")
         end
+        return false  -- legacy return 0: the giver keeps the item
     end
 end
 self:set_flag("sentinel", false)

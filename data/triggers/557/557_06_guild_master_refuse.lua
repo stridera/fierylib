@@ -35,10 +35,9 @@ end
 if wanted then
     return _return_value
 else
-    _return_value = true
-    wait(0.1)
     self:command("eye " .. tostring(actor.name))
     actor:send(tostring(self.name) .. " tells you, 'I am not interested in this from you.'")
     actor:send(tostring(self.name) .. " returns your item to you.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

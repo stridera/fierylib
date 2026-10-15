@@ -6,6 +6,14 @@
 -- pri_pal_subclass quest this completes the quest. Earlier stages
 -- give thanks but warn against shortcutting; the chalice is destroyed
 -- in either case.
+-- DG receive arg list (18512): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 185 and object.id == 12)
+) then
+    return true
+end
+
 wait(2)
 -- stage is set to 3 when chalice retrieved
 if actor:get_quest_stage("pri_pal_subclass") == 3 then

@@ -21,10 +21,9 @@
 local item = actor:get_quest_var("gem_exchange:gem_id")
 if (item or 0) == 0 or item == nil then
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(1)
     actor:send(tostring(self.name) .. " says, 'I don't have any exchange orders listed for you at the")
     actor:send("</>moment...'")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 local obj_vnum = object.zone_id * 100 + object.local_id
@@ -79,7 +78,6 @@ if found then
     actor:set_quest_var("gem_exchange", "gem_id", 0)
 else
     actor:send(tostring(self.name) .. " refuses to perform the exchange.")
-    wait(1)
     if in_gem_range then
         local item_name = tostring(objects.template(math.floor((item or 0) / 100), (item or 0) % 100).name)
         actor:send(tostring(self.name) .. " says, 'I'm afraid " .. tostring(object.shortdesc) .. " isn't of high enough rarity")
@@ -88,5 +86,6 @@ else
         actor:send(tostring(self.name) .. " says, 'Sorry, " .. tostring(object.shortdesc) .. " isn't the kind of thing")
         actor:send("</>we trade around here...'")
     end
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

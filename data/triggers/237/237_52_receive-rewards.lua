@@ -84,13 +84,12 @@ if actor:get_quest_stage("vilekka_stew") == 5 then
         and (actor:get_quest_var("vilekka_stew:got_spice:" .. key) or 0) == 1
     if (not is_spice) or already_given then
         self:emote("refuses to accept " .. tostring(object.shortdesc) .. ".")
-        wait(1)
         if is_spice then
             actor:send(tostring(self.name) .. " says, 'You have already given me " .. tostring(object.shortdesc) .. ".'")
         else
             actor:send(tostring(self.name) .. " says, 'What is this?  I need the spices!'")
         end
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     end
     wait(1)
     local num_spices = 1 + (actor:get_quest_var("vilekka_stew:num_spices") or 0)
@@ -204,7 +203,7 @@ end
 if not accepted then
     actor:send(tostring(self.name) .. " haughtily refuses your gift.")
     self.room:send_except(actor, tostring(self.name) .. " refuses to accept " .. tostring(object.shortdesc) .. " from " .. tostring(actor.name) .. ".")
-    wait(1)
     self:say("No thank you.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

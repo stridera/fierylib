@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #48121: give_ivory_vulcera
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (48116): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 481 and object.id == 16)
+) then
+    return true
+end
+
 if actor:get_quest_stage("fieryisle_quest") == 8 then
     wait(0.2)
     actor:advance_quest("fieryisle_quest")

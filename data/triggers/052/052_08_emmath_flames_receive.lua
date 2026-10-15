@@ -96,13 +96,11 @@ if subclass_item then
     end
 elseif flameball_item then
     if actor:get_quest_stage("emmath_flameball") == 1 then
-        _return_value = true
-        wait(0.2)
         self:command("frown")
         actor:send(tostring(self.name) .. " says, 'But I didn't even tell you what I wanted yet!'")
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(2)
         actor:send(tostring(self.name) .. " says, 'How do you expect to gain power like this?'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("emmath_flameball") == 2 then
         if (object.zone_id == 52 and object.id == 11) or (object.zone_id == 52 and object.id == 12) or (object.zone_id == 173 and object.id == 8) then
             if (actor:get_quest_var("emmath_flameball:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) ~= 1 then
@@ -110,9 +108,9 @@ elseif flameball_item then
                 actor:set_quest_var("emmath_flameball", "count", count)
                 actor:set_quest_var("emmath_flameball", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             else
-                wait(0.2)
                 actor:send(tostring(self.name) .. " says, 'You have already brought me " .. tostring(object.shortdesc) .. "!'")
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+                return false  -- legacy return 0: the giver keeps the item
             end
             if count then
                 wait(0.2)

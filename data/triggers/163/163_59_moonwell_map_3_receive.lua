@@ -8,6 +8,14 @@
 -- advances stage 9 -> 10, hands map back, and sends player after the Chaos
 -- Orb.
 
+-- DG receive arg list (16353): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 163 and object.id == 53)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") ~= 9 then
     return true
 end
@@ -34,7 +42,7 @@ if (actor:get_quest_var("moonwell_spell_quest:map") or 0) == 1 then
 else
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'I need the ring first.'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

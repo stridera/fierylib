@@ -25,6 +25,7 @@ if is_sun or is_lamp then
     if (actor:get_quest_var("supernova:" .. payment_key(object)) or 0) == 1 then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("You've already given me this.")
+        return false  -- legacy return 0: the giver keeps the item
     else
         actor:set_quest_var("supernova", payment_key(object), 1)
         wait(0.2)
@@ -62,5 +63,6 @@ if is_sun or is_lamp then
 else
     self:say("This isn't acceptable payment.")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

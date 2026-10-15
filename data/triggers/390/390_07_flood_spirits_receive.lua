@@ -65,11 +65,10 @@ do
                 actor:send("'Thank you for the role you played.'")
                 world.destroy(self)
             else
-                _return_value = true
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 self:say("This is not my heart!")
-                wait(1)
                 self.room:send(tostring(self.name) .. " bellows, 'GIVE IT BACK OR I WILL DESTROY YOU.'")
+                return false  -- legacy return 0: the giver keeps the item
             end
         end
     elseif (self.zone_id == 390 and self.id == 14) then
@@ -85,13 +84,13 @@ do
                 wait(2)
                 self.room:send(tostring(color) .. "With a mighty cry " .. tostring(self.name) .. " dives back into the water.</>")
             else
-                _return_value = true
                 self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This will not keep my spring sufficiently warm.'</>")
+                return false  -- legacy return 0: the giver keeps the item
             end
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I need nothing from you.'</>")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif (self.zone_id == 390 and self.id == 16) then
         color = "<green>"
@@ -130,14 +129,14 @@ do
                     end
                 end
             else
-                _return_value = true
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This is not food!!'</>")
+                return false  -- legacy return 0: the giver keeps the item
             end
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I want nothing from you.'</>")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif (self.zone_id == 390 and self.id == 19) then
         color = "<b:black>"
@@ -163,25 +162,25 @@ do
                     wait(2)
                     self.room:send(tostring(color) .. tostring(self.name) .. " splashes back into the inky blackness of the lake.</>")
                 else
-                    _return_value = true
                     self.room:send(tostring(self.name) .. " scoffs.")
                     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                     self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This wouldn't glow forever even before I consume it.'</>")
+                    return false  -- legacy return 0: the giver keeps the item
                 end
             else
-                _return_value = true
                 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
                 self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'This isn't even a light!'</>")
+                return false  -- legacy return 0: the giver keeps the item
             end
         else
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'You have nothing to offer me.'</>")
+            return false  -- legacy return 0: the giver keeps the item
         end
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self.room:send(tostring(self.name) .. " says, " .. tostring(color) .. "'I have no need for this.'</>")
+        return false  -- legacy return 0: the giver keeps the item
     end
 end
 if stage == 1 then

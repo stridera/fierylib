@@ -8,6 +8,14 @@
 -- Converted from DG Script #62522: Rhell Merchant receive 1-1
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- the emperor's letter is returned, 'choice' is set to path 1: item is pepper, from graveyard.
+-- DG receive arg list (62511): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 625 and object.id == 11)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ursa_quest") == 1 then
     wait(1)
     actor:set_quest_var("ursa_quest", "choice", 1)

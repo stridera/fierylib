@@ -7,6 +7,14 @@
 -- Dryad receives the ruby ring at stage 6. Sets the per-quest "map" flag so
 -- handing over the bark map next will advance the stage (16355). The ruby
 -- ring itself is destroyed after being placed on the well perimeter.
+-- DG receive arg list (5201): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 52 and object.id == 1)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 6 then
     wait(0.2)
     actor:set_quest_var("moonwell_spell_quest", "map", 1)

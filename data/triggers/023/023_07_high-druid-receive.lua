@@ -83,12 +83,11 @@ if actor.is_player then
                 self:destroy_item("blessing")
                 self:command("eye " .. tostring(actor.name))
                 self:say("And why should I need this?")
-                _return_value = true
             end
         else
-            _return_value = true
             self:say("Thank you, but I do not need this.")
             actor:send(tostring(self.name) .. " returns the item to you.")
+            return false  -- legacy return 0: the giver keeps the item
         end
     else
         self:say("I am sorry, but I am only looking for help from a fellow druid.")

@@ -98,29 +98,25 @@ do
     end
 end
 if actor:get_quest_stage("elemental_chaos") < actor:get_quest_stage("monk_vision") then
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Undertake more missions in service of Balance first.'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif actor.level < (actor:get_quest_stage("monk_vision") * 10) then
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You need to gain some more experience first.'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif visionstage > actor:get_quest_stage("monk_vision") then
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'Your vision doesn't involve that yet.  Be patient!'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif visionstage < actor:get_quest_stage("monk_vision") then
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You've already seen that vision.'")
+    return false  -- legacy return 0: the giver keeps the item
 else
     local accept
     if item == "quest" then
@@ -180,20 +176,17 @@ else
                 end
             end
         else
-            _return_value = true
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             actor:send(tostring(self.name) .. " says, 'You need to do everything else before you trade in your vision mark!'")
+            return false  -- legacy return 0: the giver keeps the item
         end
     elseif item == "book" or item == "gem" then
         if not actor:get_quest_var("monk_vision:visiontask4") then
-            _return_value = true
             self:command("shake")
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-            wait(0.2)
             actor:send(tostring(actor) .. " " .. tostring(self.name) .. " says, 'You need to bring the gem and the text to the prescribed place and read first.'")
-            return _return_value
+            return false  -- legacy return 0: the giver keeps the item
         else
             if item == "book" then
                 if actor:get_quest_var("monk_vision:visiontask3") == object.id then
@@ -213,10 +206,9 @@ else
         end
     end
     if accept == "no" then
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         actor:send(tostring(self.name) .. " says, 'You already gave me that.'")
+        return false  -- legacy return 0: the giver keeps the item
     elseif accept == "yes" then
         wait(0.2)
         world.destroy(object)

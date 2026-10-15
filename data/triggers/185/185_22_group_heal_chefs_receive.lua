@@ -39,7 +39,7 @@ end
 
 if object.zone_id ~= 185 or object.local_id ~= 14 or actor:get_quest_stage("group_heal") ~= 5 then
     refuse_misc()
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 if chef_already_consulted() then
@@ -53,9 +53,12 @@ if chef_already_consulted() then
     else
         self:say("I've told you everything I can.  Good luck!")
     end
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
+-- Legacy DG opened with `return 0`: the giver always keeps the item. This path waits below, so
+-- the engine counts the item as accepted; hand it back explicitly.
+require("dg").give(self, object, actor)
 actor:set_quest_var("group_heal", tostring(self.zone_id) .. "_" .. tostring(self.local_id), 1)
 
 local notes_id = nil

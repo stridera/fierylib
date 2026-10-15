@@ -7,6 +7,14 @@
 -- Dryad receives the Vine of Mielikki. Stage 1 (haven't been told to fetch
 -- it yet) -> rebuke + destroy.  Stage 2 (sent to fetch it) -> advance to
 -- stage 3 and tell the heartstone backstory.
+-- DG receive arg list (16350): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 163 and object.id == 50)
+) then
+    return true
+end
+
 if actor:get_quest_stage("moonwell_spell_quest") == 1 then
     wait(0.2)
     self:destroy_item("vine")

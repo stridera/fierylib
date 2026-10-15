@@ -30,12 +30,11 @@ local function identify_treasure(obj)
 end
 
 if actor.is_npc then
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 if actor.level > 99 then
-    wait(1)
     self:command("eyebrow")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 local boots = actor:get_quest_var("sunfire_rescue:boots") or 0
@@ -44,12 +43,12 @@ local ring = actor:get_quest_var("sunfire_rescue:ring") or 0
 
 if actor:get_has_completed("sunfire_rescue") then
     self:say("You have already helped me.  I am grateful to you.")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 if actor:get_quest_stage("sunfire_rescue") ~= 1 then
     self:say("What are you doing?")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 local kind = identify_treasure(object)
@@ -61,31 +60,29 @@ if kind == "cursed_boots" then
     self.room:send(tostring(self.name) .. " says, 'These are the cursed boots.  If you have the real ones,")
     self.room:send("</>please...  These cannot help me at all.  Do you have the real ones?  I need")
     self.room:send("</>them.'")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 elseif kind == "cursed_cloak" then
     self:emote("runs his hands over the cloak quickly.")
     self:say("This is the cursed cloak!")
     self:emote("looks angry.")
     actor:send("shoves " .. tostring(object.shortdesc) .. " back in your face.")
     self.room:send_except(actor, "shoves " .. tostring(object.shortdesc) .. " back in " .. tostring(actor.name) .. "'s face.")
-    wait(1)
     self:say("Well?  Do you have the real cloak to give to me?")
     self:emote("taps his foot impatiently.")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 elseif kind == "cursed_ring" then
     self:command("frown " .. tostring(actor.name))
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:say("What kind of cruel trick is this?")
-    wait(1)
     self:say("Well, do you have the real one to give to me?")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Real treasures: accept each at most once.
 if kind == "boots" then
     if boots == 1 then
         self:say("You have already given me these.")
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     end
     actor:set_quest_var("sunfire_rescue", "boots", 1)
     boots = 1
@@ -97,7 +94,7 @@ if kind == "boots" then
 elseif kind == "cloak" then
     if cloak == 1 then
         self:say("You have already given me the cloak.")
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     end
     actor:set_quest_var("sunfire_rescue", "cloak", 1)
     cloak = 1
@@ -110,7 +107,7 @@ elseif kind == "cloak" then
 elseif kind == "ring" then
     if ring == 1 then
         self:say("You have already given me this ring.")
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     end
     actor:set_quest_var("sunfire_rescue", "ring", 1)
     ring = 1
@@ -121,7 +118,7 @@ elseif kind == "ring" then
 else
     self:say("This isnt going to help me!")
     self:command("roll")
-    return true
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 -- Has the player now turned in all three treasures?

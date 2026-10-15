@@ -8,6 +8,14 @@
 -- 48502) and he triangulates Shiran's location to a tower in
 -- Frost Lake. Advances to stage 7 → Ysgarran's Keep.
 
+-- DG receive arg list (48502): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 484 and object.id == 102)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") == 6 then
     wait(0.2)
     actor:advance_quest("ice_shards")

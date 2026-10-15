@@ -32,12 +32,9 @@ if actor:get_quest_stage("major_globe_spell") == 2 then
         return _return_value
     end
 end
-_return_value = true
 self.room:send_except(actor, tostring(actor.name) .. " gives " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
 actor:send("You give " .. tostring(object.shortdesc) .. " to " .. tostring(self.name) .. ".")
-wait(0.4)
 self:command("shake")
 self:say("Sorry, I don't think this will be of any use.")
-wait(0.8)
 self:emote("returns " .. tostring(object.shortdesc) .. ".")
-return _return_value
+return false  -- legacy return 0: the giver keeps the item

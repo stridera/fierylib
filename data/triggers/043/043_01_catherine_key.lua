@@ -109,30 +109,23 @@ else
     refuse = "person"
 end
 if refuse then
-    _return_value = true
     if refuse == "lashes" then
         self.room:send(tostring(self.name) .. " blinks in confusion.")
-        wait(0.2)
         self:say("N...o?  You already gave me my eyelashes.")
         actor:send(tostring(self.name) .. " slowly pushes the eyelashes back to you.")
-        wait(0.2)
         self.room:send_except(actor, tostring(self.name) .. " slowly pushes the eyelashes back to " .. tostring(actor.name) .. ".")
     elseif refuse == "item" then
         self.room:send("A confused look crosses Catherine's face as she refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         self:say("This isn't what I was looking for!")
-        wait(1)
         self:say("Please help me or I'll miss my cue!")
     elseif refuse == "person" then
         self.room:send(tostring(self.name) .. " looks at " .. tostring(object.shortdesc) .. " with confusion.")
-        wait(0.2)
         self:say("Ummm, what is that?")
-        wait(1)
         self.room:send_except(actor, tostring(self.name) .. " looks at " .. tostring(actor.name) .. " with confusion.")
         actor:send(tostring(self.name) .. " looks at you with confusion.")
-        wait(2)
         self:say("I'm sorry, who are you?")
     end
+    return false  -- legacy return 0: the giver keeps the item
 end
 self:set_flag("sentinel", false)
 return _return_value

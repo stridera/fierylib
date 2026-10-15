@@ -8,6 +8,14 @@
 -- Converted from DG Script #62523: Rhell Merchant receive 1-2
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 -- if the player returns the letter from Ruin, 'choice' is set to path 2: the golden sceptre of imanhotep
+-- DG receive arg list (62510): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 625 and object.id == 10)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ursa_quest") == 1 then
     wait(0.2)
     world.destroy(object)

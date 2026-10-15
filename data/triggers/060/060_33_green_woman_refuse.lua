@@ -22,9 +22,8 @@ else
     response = "I only take coin, not trade."
 end
 if response then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, '" .. tostring(response) .. "'")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

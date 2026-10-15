@@ -11,9 +11,9 @@
 if object.zone_id == 62 and object.local_id == 28 and actor:get_quest_stage("shift_corpse") == 1 then
     actor:advance_quest("shift_corpse")
     self.room:send(tostring(objects.template(62, 28).name) .. " flares with <b:black>darkness visible!</>")
-    wait(1)
     self.room:send("<b:black>" .. tostring(self.name) .. "</> <red>ROARS</> <b:black>with divine fury!</>")
     self:say("You will never destroy me!!")
     combat.engage(actor)
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

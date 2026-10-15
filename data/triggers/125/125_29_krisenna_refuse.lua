@@ -7,9 +7,14 @@
 
 -- Converted from DG Script #12529: Krisenna refuse
 -- Original: MOB trigger, flags: RECEIVE, probability: 0%
-local _return_value = true  -- Default: allow action
+-- DG receive arg list (55739 2339) with num_arg 0: this trigger ran for every other item.
+-- The runtime does not filter on arg_list, so the exclusion lives here.
+if (object.zone_id == 557 and object.id == 39) or
+    (object.zone_id == 23 and object.id == 39) then
+    return true
+end
+
 self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-wait(0.2)
 self:command("snarl " .. tostring(actor.name))
 self:say("You try to appease me with trinkets?  Bah.")
-return _return_value
+return false  -- legacy return 0: the giver keeps the item

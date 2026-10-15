@@ -27,19 +27,17 @@ if actor:get_quest_stage("illusory_wall") == 1 then
     local spur   = actor:get_quest_var("illusory_wall:" .. spur_z   .. "_" .. spur_id)
     local magic  = actor:get_quest_var("illusory_wall:" .. magic_z  .. "_" .. magic_id)
     if (actor:get_quest_var("illusory_wall:" .. key) or 0) == 1 then
-        wait(1)
         self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_short) .. ".")
         self:command("shake")
         self:say("You have already given me this.")
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     elseif (lens_a == 1 and obj_id_matches(object, lens_b_z, lens_b_id))
         or (lens_b == 1 and obj_id_matches(object, lens_a_z, lens_a_id)) then
-        wait(1)
         self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_short) .. ".")
         self:command("shake")
         self.room:send(tostring(self.name) .. " says, 'You have already given me something suitable for")
         self.room:send("</>magic lenses.'")
-        return true
+        return false  -- legacy return 0: the giver keeps the item
     else
         if obj_id_matches(object, lens_a_z, lens_a_id) or obj_id_matches(object, lens_b_z, lens_b_id) then
             actor:set_quest_var("illusory_wall", key, 1)
@@ -62,11 +60,10 @@ if actor:get_quest_stage("illusory_wall") == 1 then
             self.room:send(tostring(self.name) .. " looks at the odd glowing lump.")
             self:say("Ah yes, plenty of extra juice in here.")
         else
-            wait(1)
             self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_short) .. ".")
             self:command("shake")
             self:say("This won't help you see through illusions any better.")
-            return true
+            return false  -- legacy return 0: the giver keeps the item
         end
         lens_a = actor:get_quest_var("illusory_wall:" .. lens_a_z .. "_" .. lens_a_id)
         lens_b = actor:get_quest_var("illusory_wall:" .. lens_b_z .. "_" .. lens_b_id)
@@ -102,13 +99,13 @@ if actor:get_quest_stage("illusory_wall") == 1 then
         end
     end
 elseif actor:get_quest_stage("illusory_wall") > 1 then
-    wait(1)
     self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_short) .. ".")
     self:say("There's nothing else you need to bring me.")
+    return false  -- legacy return 0: the giver keeps the item
 else
-    wait(1)
     self.room:send(tostring(self.name) .. " refuses " .. tostring(obj_short) .. ".")
     self:say("No need for supplies, soldier.")
     self:command("salute " .. tostring(actor.name))
+    return false  -- legacy return 0: the giver keeps the item
 end
 return true

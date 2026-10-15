@@ -125,11 +125,10 @@ if actor:get_quest_stage("elemental_chaos") == "stage" and actor:get_quest_var("
         end
     end
 elseif actor:get_quest_stage("elemental_chaos") > stage then
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses the mission.")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You already accomplished this!'")
+    return false  -- legacy return 0: the giver keeps the item
 elseif actor:get_quest_stage("elemental_chaos") < stage then
     wait(0.2)
     self:command("eye " .. tostring(actor))
@@ -137,14 +136,13 @@ elseif actor:get_quest_stage("elemental_chaos") < stage then
     self.room:send(tostring(self.name) .. " rips up the mission!")
     world.destroy(object)
 elseif actor:get_quest_var("elemental_chaos:bounty") == "running" then
-    _return_value = true
     self.room:send(tostring(self.name) .. " refuses the mission.")
-    wait(0.2)
     actor:send(tostring(self.name) .. " says, 'You have to complete your mission first!")
     if stage == 5 then
         actor:send(tostring(target1) .. " are still out there.'")
     else
         actor:send(tostring(target1) .. " is still out there.'")
     end
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

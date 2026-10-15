@@ -80,11 +80,10 @@ if (object.zone_id == 43 and object.id == 5) then
         self:say("We'll be waiting for you.")
     end
 else
-    _return_value = true
     actor:send("The Fire Goddess looks at you funny.")
     self.room:send_except(actor, "The Fire Goddess looks at " .. tostring(actor.name) .. " with an odd expression.")
-    wait(0.2)
     self:say("What is this?")
+    return false  -- legacy return 0: the giver keeps the item
 end
 self:set_flag("sentinel", false)
 return _return_value

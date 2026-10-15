@@ -15,6 +15,14 @@
 -- was already broken). Left as a no-op until the intent is
 -- clarified.
 
+-- DG receive arg list (43013): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 430 and object.id == 13)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") == 8 then
     wait(0.2)
     actor:advance_quest("ice_shards")

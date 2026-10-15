@@ -45,8 +45,8 @@ if object.type == "DRINKCONTAINER" then
         self:command("drop " .. tostring(object.shortdesc))
     end
 else
-    _return_value = true
     self:say("What's this for?")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

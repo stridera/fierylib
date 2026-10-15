@@ -18,6 +18,14 @@
 --   4     - Recover stage: complete the subclass quest.
 --   else  - Stage 0/nil/5+: thank them, but no quest progress.
 -- After all branches, junk the sash.
+-- DG receive arg list (16110): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 161 and object.id == 10)
+) then
+    return true
+end
+
 wait(0.2)
 local stage = actor:get_quest_stage("monk_subclass")
 if stage == 1 or stage == 2 then

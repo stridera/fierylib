@@ -8,6 +8,14 @@
 -- (legacy 58806) advances to stage 4 and points the player at the
 -- Anduin pawnbroker for word of the Butcher.
 
+-- DG receive arg list (58806): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 588 and object.id == 6)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") == 3 then
     wait(0.2)
     actor:advance_quest("ice_shards")

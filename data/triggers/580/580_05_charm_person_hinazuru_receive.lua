@@ -37,9 +37,9 @@ if stage == 1 then
         self:say("Go and watch this in action.  Bring back the fire ring as a token of your experience.")
         self:command("bow " .. tostring(actor.name))
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not the Rod of Discipline.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 2 then
     if (object.zone_id == 43 and object.id == 19) then
@@ -73,16 +73,16 @@ elseif stage == 2 then
         self:say("Once you have found all five of these, come back to me so I may check their condition and ensure their proper tuning.")
         self:command("bow " .. tostring(actor.name))
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say("This is not one of the souvenirs the theatre company gives out after a performance.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 3 then
     if (object.zone_id == 580 and object.id == 17) or (object.zone_id == 163 and object.id == 12) or (object.zone_id == 489 and object.id == 25) or (object.zone_id == 370 and object.id == 12) or (object.zone_id == 411 and object.id == 19) then
         if actor:get_quest_var("charm_person:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) then
-            _return_value = true
             self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
             self:say("You have already brought me " .. tostring(object.shortdesc) .. ".")
+            return false  -- legacy return 0: the giver keeps the item
         else
             actor:set_quest_var("charm_person", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(2)
@@ -131,14 +131,14 @@ elseif stage == 3 then
             end
         end
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         self:say(tostring(object.shortdesc) .. " is not a musical instrument.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
-    _return_value = true
     self:command("shake")
     self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
     self:say("I am in need of nothing at the moment, thank you.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

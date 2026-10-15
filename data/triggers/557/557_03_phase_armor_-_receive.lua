@@ -79,29 +79,25 @@ local object_id = (tonumber(object.zone_id) or 0) * 100 + (tonumber(object.local
 if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor or object_id == feet_gem or object_id == wrist_armor or object_id == wrist_gem or object_id == head_armor or object_id == head_gem or object_id == arms_armor or object_id == arms_gem or object_id == legs_armor or object_id == legs_gem or object_id == body_armor or object_id == body_gem then
     local anti = "Anti-Paladin"
     if not actor or not actor.can_be_seen then
-        _return_value = true
         self:command("peer")
         actor:send(tostring(self.name) .. " says, 'I can't help you if I can't see you.'")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     end
     if not string.find(string.lower(classes), actor.class, 1, true) or (classes == anti and actor.class == "paladin") then
-        _return_value = true
         if string.find(classes, "and") then
             actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " classes only.'")
         else
             actor:send(tostring(self.name) .. " tells you, 'Sorry, this quest is for the " .. tostring(classes) .. " class only.'")
         end
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor.level <= 20 * (phase - 1) then
-        _return_value = true
         actor:send(tostring(self.name) .. " tells you, 'Sorry, why don't you come back when you've gained more experience?'")
         actor:send(tostring(self.name) .. " refuses your item.")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     elseif actor:get_quest_stage("phase_armor") < phase then
-        _return_value = true
         actor:send(tostring(self.name) .. " tells you, 'I don't think you're ready for my armor quests yet.'")
         actor:send(tostring(self.name) .. " refuses your item.")
-        return _return_value
+        return false  -- legacy return 0: the giver keeps the item
     end
     -- DG `case <armor>` falls through into `case <gem>`: both set the slot's
     -- multiplier and reward, only the armor sets `is_armor`.
@@ -138,12 +134,10 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
             actor:send("</>I've been looking for this for some time.")
             actor:send("</>You have now given me " .. proto_short(object_id) .. ".'")
         else
-            _return_value = true
-            wait(0.2)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'Hey now, you've already given me one of these!'")
             actor:send(tostring(self.name) .. " refuses your item.")
-            return _return_value
+            return false  -- legacy return 0: the giver keeps the item
         end
     else
         local gem_key = tostring(object_id) .. "_gems_acquired"
@@ -164,12 +158,10 @@ if object_id == hands_armor or object_id == hands_gem or object_id == feet_armor
                 actor:send(tostring(self.name) .. " tells you, 'You have given me " .. tostring(gem_count) .. " " .. proto_plural(object_id) .. ".'")
             end
         else
-            _return_value = true
-            wait(0.1)
             self:command("eye " .. tostring(actor.name))
             actor:send(tostring(self.name) .. " tells you, 'Hey now, you've already given me " .. tostring(gem_count) .. " of these!'")
             actor:send(tostring(self.name) .. " refuses your item.")
-            return _return_value
+            return false  -- legacy return 0: the giver keeps the item
         end
     end
     --

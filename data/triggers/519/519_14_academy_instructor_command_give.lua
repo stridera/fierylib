@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #51914: academy_instructor_command_give
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (51902): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 519 and object.id == 2)
+) then
+    return true
+end
+
 if (actor:get_quest_var("school:gear") or 0) == 12 then
     actor:set_quest_var("school", "gear", 13)
     wait(0.2)

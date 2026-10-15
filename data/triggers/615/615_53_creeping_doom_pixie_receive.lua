@@ -19,9 +19,9 @@ end
 if stage == 1 then
     if obj_is(118, 12) or obj_is(162, 13) or obj_is(480, 29) then
         if (actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
-            _return_value = true
             self:say("You already brought me " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+            return false  -- legacy return 0: the giver keeps the item
         else
             actor:set_quest_var("creeping_doom", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(0.2)
@@ -52,10 +52,9 @@ if stage == 1 then
             end
         end
     else
-        _return_value = true
-        wait(0.2)
         self:say("This isn't going to help.")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 2 then
     if obj_is(615, 17) then
@@ -92,16 +91,16 @@ elseif stage == 2 then
             self.room:send(tostring(remaining) .. " more to go.'")
         end
     else
-        _return_value = true
         self:say("This isn't a swarm!!")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 3 then
     if obj_is(484, 16) or obj_is(520, 34) or obj_is(625, 3) then
         if (actor:get_quest_var("creeping_doom:" .. tostring(object.zone_id) .. "_" .. tostring(object.local_id)) or 0) == 1 then
-            _return_value = true
             self:say("You already found this.")
             actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+            return false  -- legacy return 0: the giver keeps the item
         else
             actor:set_quest_var("creeping_doom", (tostring(object.zone_id) .. "_" .. tostring(object.local_id)), 1)
             wait(1)
@@ -146,13 +145,13 @@ elseif stage == 3 then
             end
         end
     else
-        _return_value = true
         self:say("The heck is this??")
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
-    _return_value = true
     self:say("The heck is this??")
     actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

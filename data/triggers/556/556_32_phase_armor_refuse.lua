@@ -9,4 +9,4 @@
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
 actor:send(tostring(self.name) .. " tells you, 'Why are you handing me this stuff?  I don't want it!'")
 actor:send(tostring(self.name) .. " refuses to accept " .. tostring(object.shortdesc) .. " from you.")
-return true
+return false  -- legacy return 0: the giver keeps the item

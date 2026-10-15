@@ -10,6 +10,14 @@
 -- Original DG narg=100 → matches all RECEIVE triggers; the
 -- per-vnum filtering is implicit via the stage check below.
 
+-- DG receive arg list (55004): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 550 and object.id == 4)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") == 2 then
     wait(0.2)
     actor:advance_quest("ice_shards")

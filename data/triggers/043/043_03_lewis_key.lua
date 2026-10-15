@@ -54,16 +54,14 @@ else
     refuse = "item"
 end
 if refuse then
-    _return_value = true
     if refuse == "quest" then
         self.room:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         self:say("What is this??  How did you get in here??")
     elseif refuse == "item" then
         self.room:send(tostring(self.name) .. " looks blankly at " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         self:say("Well yes that's nice but it doesn't exactly help the situation.")
     end
+    return false  -- legacy return 0: the giver keeps the item
 end
 self:set_flag("sentinel", false)
 return _return_value

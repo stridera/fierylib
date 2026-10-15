@@ -10,6 +10,14 @@
 
 -- Converted from DG Script #3030: Myst_quest_reward
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (16023): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 160 and object.id == 23)
+) then
+    return true
+end
+
 wait(0.1)
 self:destroy_item("shard")
 -- Create a random number by which to judge prize table off of.

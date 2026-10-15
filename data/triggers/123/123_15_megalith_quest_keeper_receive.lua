@@ -7,6 +7,19 @@
 
 -- Converted from DG Script #12315: megalith_quest_keeper_receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (55020 48109 8301 41110 41111 18512): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 550 and object.id == 20) or
+    (object.zone_id == 481 and object.id == 9) or
+    (object.zone_id == 83 and object.id == 1) or
+    (object.zone_id == 411 and object.id == 10) or
+    (object.zone_id == 411 and object.id == 11) or
+    (object.zone_id == 185 and object.id == 12)
+) then
+    return true
+end
+
 local _return_value = true  -- Default: allow action
 -- This trigger is used to collect all the items for stage 2.
 --
@@ -58,7 +71,7 @@ if actor:get_quest_stage("megalith_quest") == 2 then
         if (actor:get_quest_var("megalith_quest:" .. part_key) or 0) == 1 then
             self:command("shake")
             self:say("You've already given me this.")
-            return _return_value
+            return false  -- legacy return 0: the giver keeps the item
         elseif (actor:get_quest_var("megalith_quest:" .. direction) or 0) == 1 then
             -- Right item, wrong order.
             if part > 1 then
@@ -69,14 +82,14 @@ if actor:get_quest_stage("megalith_quest") == 2 then
                     self.room:send(tostring(self.name) .. " says, 'We must cast the circle in order:")
                     self.room:send("East, South, West, North.")
                     self.room:send("Please deliver your offerings in that order.'")
-                    return _return_value
+                    return false  -- legacy return 0: the giver keeps the item
                 end
             end
             -- Right set, wrong specific vessel at West.
             if (self.zone_id == 123 and me == 6) and ((item ~= need) or (object.val2 ~= 0)) then
                 self:command("shake")
                 self:say("I need water returned in the cup " .. tostring(mobiles.template(123, 1).name) .. " has consecrated.")
-                return _return_value
+                return false  -- legacy return 0: the giver keeps the item
             else
                 wait(0.2)
                 actor:set_quest_var("megalith_quest", direction, 0)

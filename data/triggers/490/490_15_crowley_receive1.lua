@@ -57,8 +57,7 @@ elseif (object.zone_id == 490 and object.id == 42) then
         self:command("drop mirror-lettered-scroll")
     end
 else
-    _return_value = true
-    wait(0.1)
     actor:send("<blue>" .. tostring(self.name) .. " tells you, 'No, thank you.'</>")
+    return false  -- legacy return 0: the giver keeps the item
 end
 return _return_value

@@ -49,13 +49,11 @@ if (object.zone_id == 43 and object.id == 2) then
         wait(0.5)
         self:command("wave")
     else
-        _return_value = true
         self.room:send(tostring(self.name) .. " refused " .. tostring(object.shortdesc) .. ".")
-        wait(0.2)
         self:say("How did you get this?")
-        wait(1)
         self:command("peer " .. tostring(actor))
         self:say("Are you stalking me?")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
     wait(0.2)

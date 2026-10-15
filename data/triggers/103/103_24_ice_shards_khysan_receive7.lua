@@ -8,6 +8,14 @@
 -- 10325 → (103, 25)) closes the quest and grants the player the
 -- Ice Shards skill.
 
+-- DG receive arg list (10325): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 103 and object.id == 25)
+) then
+    return true
+end
+
 if actor:get_quest_stage("ice_shards") == 10 then
     wait(0.2)
     self:destroy_item("book")

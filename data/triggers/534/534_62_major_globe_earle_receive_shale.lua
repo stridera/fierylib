@@ -7,6 +7,14 @@
 
 -- Converted from DG Script #53462: major_globe_earle_receive_shale
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+-- DG receive arg list (53451): this trigger ran only for these items.
+-- The runtime does not filter on arg_list, so the filter lives here.
+if not (
+    (object.zone_id == 534 and object.id == 51)
+) then
+    return true
+end
+
 if actor:get_quest_stage("major_globe_spell") == 2 then
     -- chunk of shale
     wait(0.1)

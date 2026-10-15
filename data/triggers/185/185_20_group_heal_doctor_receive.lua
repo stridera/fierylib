@@ -50,9 +50,9 @@ if stage == 2 then
         actor:set_quest_var("group_heal", "room", target_room)
         actor:advance_quest("group_heal")
     else
-        wait(2)
         self.room:send(tostring(self.name) .. " says, 'These aren't our missing supplies.")
         actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 4 then
     if object.zone_id == 185 and object.local_id == 14 then
@@ -88,18 +88,18 @@ elseif stage == 4 then
         wait(3)
         self:say("Thank you for your help!")
     else
-        wait(2)
         self:say("This doesn't look like it will be of any help.")
         actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 elseif stage == 5 then
     if object.zone_id == 185 and (object.local_id == 15 or object.local_id == 16 or object.local_id == 17 or object.local_id == 18 or object.local_id == 19 or object.local_id == 20) then
         local notes_key = tostring(object.zone_id) .. "_" .. tostring(object.local_id)
         if (actor:get_quest_var("group_heal:" .. notes_key) or 0) == 1 then
-            wait(2)
             self:command("shake")
             self:say("You already brought me " .. tostring(object.shortdesc) .. ".")
             actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
+            return false  -- legacy return 0: the giver keeps the item
         else
             self:destroy_item("notes")
             actor:set_quest_var("group_heal", notes_key, 1)
@@ -179,10 +179,12 @@ elseif stage == 6 then
     else
         self:say("I'm afraid this won't be of much use to me right now.")
         actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
+        return false  -- legacy return 0: the giver keeps the item
     end
 else
     self:say("I'm afraid this won't be of much use to me right now.")
     actor:send(tostring(self.name) .. " returns " .. tostring(object.shortdesc) .. " to you.")
+    return false  -- legacy return 0: the giver keeps the item
 end
 
 return true
