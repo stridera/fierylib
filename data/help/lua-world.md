@@ -3,7 +3,7 @@ keywords: [lua-world, world, lua globals, globals, lua functions]
 title: "Lua API: World and Global Functions"
 category: building
 min_level: 100
-usage: "get_room(zone, id) / find_actor(keyword) / wait(seconds)"
+usage: "get_room(zone, id) / find_actor(keyword) / wait(seconds) / wait_hours(n)"
 ---
 Globals every trigger can use (return type after ->). Wherever (zone, id) is
 shown, in any lua-* topic, the key may also be one table: f({zone, id}) or
@@ -13,7 +13,9 @@ f({zone = Z, id = I}). A malformed key is an error.
                                         case-insensitive substring of name/keywords
   random(low, high) -> int              inclusive; use this, not math.random
   percent_chance(n) -> bool             true n percent of the time
-  wait(seconds)                         pause the script, then continue (>= 1)
+  wait(seconds)                         pause the script, then continue; fractions ok
+                                        (wait(0.2)), rounded to 0.1 s server ticks, min 0.1
+  wait_hours(n)                         pause n game hours (75 real seconds each)
   wait_until(hour, minute)              pause until that game time (minute optional)
   allow_command()                       COMMAND triggers: let the typed command go ahead
                                         and keep running (DG `return 0`); a script that
@@ -47,11 +49,11 @@ plus pairs, ipairs, tostring, tonumber, type, select, pcall, error, assert.
 Removed: os, io, debug, package, load, loadstring, loadfile, dofile.
 require("name") loads a shared library script (Muditor Scripts > Libraries); it
 returns the same value to every trigger, so return data and functions. Libraries
-cannot wait() at their top level. See fierymud-rs/docs/SCRIPTING.md.
+cannot wait() or wait_hours() at their top level. See fierymud-rs/docs/SCRIPTING.md.
 Limits: about 5 million instructions per run, 64 MB memory.
 Persistent variables: obj:setvar / getvar / clearvar on mobs, items and rooms;
 quest variables on players (see help lua-actor). Mob and item variables are
 saved to the database about every 10 seconds.
-Timing: wait(n) is real seconds. A script parked in wait() is lost on server
+Timing: wait(n) is real seconds; wait_hours(n) is game hours (75 s each). A script parked in wait() is lost on server
 restart, and errors raised after a wait are not reported in the error log.
 Messages sent from Lua already end with a newline; do not add \r\n.

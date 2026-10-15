@@ -967,7 +967,7 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
     # Legacy `wait` units (process_wait, dg_scripts.cpp): a bare number is PULSES
     # (10 per second, so `wait 2` is 0.2s), `N s` / `Ns` / `N seconds` is seconds,
     # `N t` is game hours (75s each). Lua `wait(n)` takes (fractional) seconds and
-    # `wait_ticks(n)` takes game hours.
+    # `wait_hours(n)` takes game hours.
 
     # wait N s / wait Ns (seconds)
     match = re.match(r'^wait\s+(\d+)\s*s$', cmd, re.IGNORECASE)
@@ -1003,10 +1003,10 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
         minute = match.group(2)
         return f'{ind}wait_until({hour}, {minute})'
 
-    # wait N t (ticks)
+    # wait N t (game hours, not server ticks)
     match = re.match(r'^wait\s+(\d+)\s*t$', cmd, re.IGNORECASE)
     if match:
-        return f'{ind}wait_ticks({match.group(1)})'
+        return f'{ind}wait_hours({match.group(1)})'
 
     # === Flow Control ===
     # In DG Script: return 0/1 sets return value but does NOT stop execution

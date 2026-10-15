@@ -40,8 +40,8 @@ needs_lua = pytest.mark.skipif(LUA is None, reason="lua not installed")
         ("wait 5ss", "wait(5)"),
         ("WAIT 4S", "wait(4)"),
         # game hours
-        ("wait 1 t", "wait_ticks(1)"),
-        ("wait 2t", "wait_ticks(2)"),
+        ("wait 1 t", "wait_hours(1)"),
+        ("wait 2t", "wait_hours(2)"),
         # until
         ("wait until 14:30", "wait_until(14, 30)"),
     ],

@@ -21,6 +21,6 @@ get_room(117, 66):at(function()
     self.room:send("The fog to the north clears a little.")
 end)
 -- Legacy `wait 1 tick`: one game hour (75s).
-wait_ticks(1)
+wait_hours(1)
 self.room:send("The fog slowly closes back around the exit to the south.")
 get_room(117, 65):exit("south"):set_state({hidden = true})

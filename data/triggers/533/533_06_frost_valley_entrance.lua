@@ -21,6 +21,6 @@ actor:send("It took some effort, but the wall of ice has been moved from the wes
 get_room(534, 1):at(function()
     self.room:send("The ice falls from the east allowing passage.")
 end)
-wait_ticks(1)
+wait_hours(1)
 self.room:send("The ice seems to magically reform blocking the western passage.")
 get_room(533, 2):exit("west"):set_state({hidden = true})
