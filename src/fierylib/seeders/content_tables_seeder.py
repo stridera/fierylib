@@ -23,6 +23,7 @@ import json
 from pathlib import Path
 
 from prisma import Prisma
+from fierylib.seeders.sql_owner import owner_fixup_sql
 
 CONTENT_JSON = Path(__file__).resolve().parents[3] / "data" / "content_tables.json"
 
@@ -156,6 +157,7 @@ BEGIN;
 
 {body};
 
+{owner_fixup_sql(("StatusFlagValue", "SpellSyllable"))}
 COMMIT;
 """
 

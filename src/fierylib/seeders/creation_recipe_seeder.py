@@ -24,6 +24,7 @@ import json
 from pathlib import Path
 
 from prisma import Prisma
+from fierylib.seeders.sql_owner import owner_fixup_sql
 
 RECIPES_JSON = Path(__file__).resolve().parents[3] / "data" / "creation_recipes.json"
 
@@ -127,6 +128,7 @@ WHERE ae.ability_id = a.id
   AND e."effectType" = 'create'
   AND NOT (COALESCE(ae.override_params, '{{}}'::jsonb) ?& ARRAY['objectZoneId', 'objectId']);
 
+{owner_fixup_sql(("CreationRecipe",))}
 COMMIT;
 '''
 

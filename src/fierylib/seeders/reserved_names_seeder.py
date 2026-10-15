@@ -20,6 +20,7 @@ import json
 from pathlib import Path
 
 from prisma import Prisma
+from fierylib.seeders.sql_owner import owner_fixup_sql
 
 RESERVED_JSON = Path(__file__).resolve().parents[3] / "data" / "reserved_names.json"
 
@@ -76,6 +77,7 @@ BEGIN;
 
 {body};
 
+{owner_fixup_sql(("ReservedNames",))}
 COMMIT;
 """
 

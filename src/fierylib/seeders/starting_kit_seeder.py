@@ -22,6 +22,7 @@ import json
 from pathlib import Path
 
 from prisma import Prisma
+from fierylib.seeders.sql_owner import owner_fixup_sql
 
 KIT_JSON = Path(__file__).resolve().parents[3] / "data" / "starting_kit.json"
 
@@ -104,6 +105,7 @@ WHERE (v.class_name IS NULL OR c.id IS NOT NULL)
   )
 ORDER BY v.ord;
 
+{owner_fixup_sql(("StartingKit",))}
 COMMIT;
 '''
 

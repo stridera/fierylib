@@ -45,6 +45,8 @@ import json
 import sys
 from pathlib import Path
 
+from fierylib.seeders.sql_owner import owner_fixup_sql
+
 ROOT = Path(__file__).resolve().parents[3]
 SEED_JSON = ROOT / "data" / "mob_ai_seed.json"
 SQL_PATH = ROOT / "data" / "sql" / "2026-10-10-mob-ai-seed.sql"
@@ -478,7 +480,9 @@ def build_race_sql(seed: dict | None = None) -> str:
         + build_race_ability_statement(seed)
         + ";\n\n"
         + ";\n\n".join(stmts)
-        + ";\n\nCOMMIT;\n"
+        + ";\n\n"
+        + owner_fixup_sql(("RaceAiRules",))
+        + "\nCOMMIT;\n"
     )
 
 
