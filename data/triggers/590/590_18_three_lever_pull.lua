@@ -22,11 +22,17 @@ if not (cmd == "pull") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 local lever = ({left = 1, center = 2, right = 3})[arg]
--- check to see if levers are pulled in right order
+-- check to see if levers are pulled in right order. Legacy ran set_levers (590_22) synchronously
+-- here; m_run_room_trig is queued until this trigger returns, so the order is rolled inline
+-- (same permutations as 590_22) and this very pull is judged against it.
 if globals.first_kill ~= 2 and lever then
-    get_room(590, 91):at(function()
-        self.room:find_actor("sacred-haven-ai"):command("mat 59056 m_run_room_trig 59022")
-    end)
+    local orders = {{1, 2, 3}, {1, 3, 2}, {2, 3, 1}, {2, 1, 3}, {3, 2, 1}, {3, 1, 2}}
+    local o = orders[random(1, 6)]
+    globals.first, globals.secnd, globals.last = o[1], o[2], o[3]
+    globals.first_kill = 2
+    globals.first_pin = 1
+    globals.secnd_pin = 1
+    globals.last_pin = 1
 end
 if world.count_objects(590, 35) == 1 then
     local dmg = 0

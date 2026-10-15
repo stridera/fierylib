@@ -8,9 +8,9 @@
 -- Entangles up to four players at a time. The slots are the DG globals
 -- `paralysis_victim_N` / `paralysis_expire_N` (N = 1..4) and `message`, kept in this mob's
 -- `globals` table so the wear-off pulse (484_104) and the paralysis_prevent_* command
--- blockers (484_130..) see the same state. The expiry stamp is unix seconds (`time.stamp`).
+-- blockers (484_130..) see the same state. The expiry stamp is game hours (`timestamp()`, legacy %time.stamp%): one hour = 75 s.
 
-local now = time.stamp
+local now = timestamp()  -- game hours, as legacy %time.stamp%
 for n = 1, 4 do
     local v = globals["paralysis_victim_" .. n]
     if v and (v.room ~= self.room or (globals["paralysis_expire_" .. n] or 0) <= now) then

@@ -8,7 +8,7 @@
 -- Releases entangled players whose slot expired or who left the room. The slots are the DG
 -- globals `paralysis_victim_N` / `paralysis_expire_N` written by 484_105 (this mob's `globals`).
 
-local now = time.stamp
+local now = timestamp()  -- game hours, as legacy %time.stamp%
 for n = 1, 4 do
     local v = globals["paralysis_victim_" .. n]
     if v and (v.room ~= self.room or (globals["paralysis_expire_" .. n] or 0) <= now) then

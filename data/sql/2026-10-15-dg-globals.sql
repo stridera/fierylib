@@ -2264,7 +2264,7 @@ if not (self:has_effect(Effect.Blind)) and not (self:has_effect(Effect.Blur)) th
     globals.has_blur = 1
 end$trig$, 'c703f649621c05220189ef3ba83560ef'),
   -- data/triggers/484/484_104_mighty_druid_random_paralysis-wear-off.lua
-  (484, 104, $trig$local now = time.stamp
+  (484, 104, $trig$local now = timestamp()  -- game hours, as legacy %time.stamp%
 for n = 1, 4 do
     local v = globals["paralysis_victim_" .. n]
     if v and (v.room ~= self.room or (globals["paralysis_expire_" .. n] or 0) <= now) then
@@ -2278,7 +2278,7 @@ for n = 1, 4 do
     end
 end$trig$, '7e1ffe633770648602b73df97a0f26a1'),
   -- data/triggers/484/484_105_mighty_druid_entanglement.lua
-  (484, 105, $trig$local now = time.stamp
+  (484, 105, $trig$local now = timestamp()  -- game hours, as legacy %time.stamp%
 for n = 1, 4 do
     local v = globals["paralysis_victim_" .. n]
     if v and (v.room ~= self.room or (globals["paralysis_expire_" .. n] or 0) <= now) then
@@ -4037,11 +4037,17 @@ if not (cmd == "pull") then
 end
 local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
 local lever = ({left = 1, center = 2, right = 3})[arg]
--- check to see if levers are pulled in right order
+-- check to see if levers are pulled in right order. Legacy ran set_levers (590_22) synchronously
+-- here; m_run_room_trig is queued until this trigger returns, so the order is rolled inline
+-- (same permutations as 590_22) and this very pull is judged against it.
 if globals.first_kill ~= 2 and lever then
-    get_room(590, 91):at(function()
-        self.room:find_actor("sacred-haven-ai"):command("mat 59056 m_run_room_trig 59022")
-    end)
+    local orders = {{1, 2, 3}, {1, 3, 2}, {2, 3, 1}, {2, 1, 3}, {3, 2, 1}, {3, 1, 2}}
+    local o = orders[random(1, 6)]
+    globals.first, globals.secnd, globals.last = o[1], o[2], o[3]
+    globals.first_kill = 2
+    globals.first_pin = 1
+    globals.secnd_pin = 1
+    globals.last_pin = 1
 end
 if world.count_objects(590, 35) == 1 then
     local dmg = 0

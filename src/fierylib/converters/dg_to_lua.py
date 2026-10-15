@@ -389,6 +389,10 @@ def convert_variable_expr(var: str) -> str:
     if var in simple_vars:
         return simple_vars[var]
 
+    # %time.stamp% counts game hours; Lua's time.stamp is unix seconds, timestamp() is hours
+    if var == 'time.stamp':
+        return 'timestamp()'
+
     # Random number: %random.N%
     random_match = re.match(r'random\.(\d+)', var)
     if random_match:
