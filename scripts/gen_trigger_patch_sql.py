@@ -10,8 +10,10 @@ it is a no-op.
 Usage:
     python scripts/gen_trigger_patch_sql.py BASE_REF OUT.sql [--description TEXT] [--guard-md5] [--only SUBSTR ...]
 
---guard-md5 also requires the row to still hold the BASE_REF body (matched by
-md5), so rows since edited in Muditor are not overwritten.
+--guard-md5 also requires the row to still hold the BASE_REF file (matched by
+md5 against any form in accepted_forms: the header-stripped body, the full .lua
+file, or either with the trailing newline trimmed), so rows since edited in
+Muditor are not overwritten but rows stored as the whole file are still patched.
 
 --only keeps just the changed files whose path contains one of the given substrings.
 """
@@ -43,6 +45,30 @@ def parse(text: str, name: str):
         tmp.unlink()
 
 
+def accepted_forms(text: str, name: str) -> list[str]:
+    """Every form a Triggers.commands cell may hold for one .lua file, deduplicated.
+
+    The importer stores the header-stripped body, but some prod rows hold the whole file
+    (header comments included), often with the final newline trimmed. The md5 guard and the
+    drift checker both accept any of these as "unchanged since the committed file".
+    """
+    body = parse(text, name).commands
+    forms = [
+        body,                                  # what the importer writes
+        text,                                  # whole file
+        text.rstrip("\n"),                     # whole file, final newline trimmed
+        body.rstrip("\n"),                     # body, final newline trimmed
+        body + "\n",                           # body with a final newline
+        text.replace("\r\n", "\n"),           # whole file with CRLF normalised
+        text.replace("\r\n", "\n").rstrip("\n"),
+    ]
+    return list(dict.fromkeys(forms))
+
+
+def md5_hex(s: str) -> str:
+    return hashlib.md5(s.encode("utf-8")).hexdigest()
+
+
 def changed_files(base: str) -> list[str]:
     out = subprocess.run(
         ["git", "diff", "--name-only", "--diff-filter=AM", base, "--", "data/triggers"],
@@ -67,25 +93,26 @@ def build(base: str, description: str, guard_md5: bool = False, only: list[str] 
             continue  # header-only change: nothing in the Triggers row moves
         if TAG in new.commands:
             raise SystemExit(f"{path}: body contains the {TAG} dollar-quote tag")
-        old_md5 = None
+        old_md5s: list[str] = []
         if guard_md5:
             if old_src is None:
                 raise SystemExit(f"{path}: --guard-md5 needs an existing body at {base}")
-            old_md5 = hashlib.md5(parse(old_src, path).commands.encode("utf-8")).hexdigest()
-        rows.append((new.zone_id, new.local_id, new.commands, path, old_md5))
+            old_md5s = [md5_hex(f) for f in accepted_forms(old_src, path)]
+        rows.append((new.zone_id, new.local_id, new.commands, path, old_md5s))
     if not rows:
         return "-- no trigger bodies changed\n"
     values = ",\n".join(
         f"  -- {path}\n  ({z}, {i}, {TAG}{body}{TAG}"
-        + (f", '{md5}'" if guard_md5 else "")
+        + (", ARRAY[" + ", ".join(f"'{m}'" for m in md5s) + "]" if guard_md5 else "")
         + ")"
-        for z, i, body, path, md5 in rows
+        for z, i, body, path, md5s in rows
     )
-    guard_cols = ", old_md5" if guard_md5 else ""
-    guard_where = "  AND md5(t.commands) = v.old_md5\n" if guard_md5 else ""
+    guard_cols = ", old_md5s" if guard_md5 else ""
+    guard_where = "  AND md5(t.commands) = ANY (v.old_md5s)\n" if guard_md5 else ""
     guard_note = (
         "-- Guarded: a row is only touched while it still holds the previous committed\n"
-        "-- body (md5), so rows edited in Muditor since then are left alone.\n"
+        "-- file (md5 of the body or of the whole file, with or without the final\n"
+        "-- newline), so rows edited in Muditor since then are left alone.\n"
         if guard_md5
         else ""
     )
