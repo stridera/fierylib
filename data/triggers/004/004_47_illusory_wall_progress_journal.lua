@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 47
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #447
 
 -- Converted from DG Script #447: Illusory Wall progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.find(arg, "illusory_wall") then
     if (string.find(actor.class, "illusionist") or string.find(actor.class, "bard")) and actor.level >= 50 then
@@ -55,7 +67,7 @@ if string.find(arg, "illusory") or string.find(arg, "illusory wall") or string.f
                     actor:send("</>")
                     actor:send("You still need to find:")
                     if not item1 and not item2 then
-                        actor:send("- <b:yellow>" .. "%get.obj_shortdesc[10307]%</> or <b:yellow>%get.obj_shortdesc[18511]%</>")
+                        actor:send("- <b:yellow>" .. proto_short(10307) .. "</> or <b:yellow>" .. proto_short(18511) .. "</>")
                     end
                     if not item3 then
                         actor:send("- <b:yellow>" .. tostring(objects.template(410, 5).name) .. "</>")

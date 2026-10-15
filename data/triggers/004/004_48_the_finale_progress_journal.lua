@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 48
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #448
 
 -- Converted from DG Script #448: The Finale progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg, "theater") or string.find(arg, "finale") then
     _return_value = true
@@ -61,19 +73,19 @@ if string.find(arg, "pippin") or string.find(arg, "theatre") or string.find(arg,
                     actor:send("</>")
                     actor:send("You have brought him:")
                     if (actor:get_quest_var("theatre:sash") or 0) ~= 0 then
-                        actor:send("%get.obj_shortdesc[%item1%]%")
+                        actor:send(proto_short(item1))
                     end
                     if (actor:get_quest_var("theatre:charles") or 0) ~= 0 then
-                        actor:send("%get.obj_shortdesc[%item2%]%")
+                        actor:send(proto_short(item2))
                     end
                 end
                 actor:send("</>")
                 actor:send("You still need:")
                 if (actor:get_quest_var("theatre:sash") or 0) == 0 then
-                    actor:send("%get.obj_shortdesc[%item1%]%")
+                    actor:send(proto_short(item1))
                 end
                 if (actor:get_quest_var("theatre:charles") or 0) == 0 then
-                    actor:send("%get.obj_shortdesc[%item2%]%")
+                    actor:send(proto_short(item2))
                 end
             elseif tonumber(_sw2) == 5 then
                 actor:send("Give the Fire Goddess her skirt.")

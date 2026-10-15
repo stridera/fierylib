@@ -8,7 +8,7 @@
 -- TWICE (once with phase-1 values, once with phase-2 values, lines 43-67),
 -- so phase-2 always wins regardless of hellstage. Inner `hellstage ==
 -- "step"` is a string compare. `local response` is branch-scoped via
--- elseif. `%get.obj_shortdesc[%gem%]%` DG remnants. The dead 0% gate is gone.
+-- elseif. The dead 0% gate is gone.
 -- Full rewrite from DG #5357.
 --
 -- Original DG Script: #5357
@@ -17,12 +17,49 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 0%
 
 -- Speech phrase: weapon progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
+local function proto_noa(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return "[no description for object " .. tostring(vnum) .. "]" end
+    return get_obj_noadesc(zone, id)
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = proto_noa(vnum)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end
 local quest1, quest2, pl_word, spell1, spell2, task6, word, task6do, step
 local speech_padded = " " .. string.lower(speech) .. " "
 if not string.find(speech_padded, "[%s%p]weapon progress[%s%p]") then
     return true  -- Not the phrase
 end
 wait(0.2)
+local gem
 if string.find(actor.class, "diabolist") then
     local level, response
     if actor:get_quest_stage("hell_trident") > 0 then
@@ -50,7 +87,7 @@ if string.find(actor.class, "diabolist") then
                 end
             elseif (self.zone_id == 60 and self.id == 32) then
                 step = 1
-                local gem = 55662
+                gem = 55662
                 pl_word = "angels"
                 word = "angel"
                 spell1 = "Hellfire and Brimstone"
@@ -66,7 +103,7 @@ if string.find(actor.class, "diabolist") then
                 task6do = "<b:yellow>Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.</>"
             elseif (self.zone_id == 125 and self.id == 26) then
                 step = 2
-                local gem = 55739
+                gem = 55739
                 pl_word = "ghaeles, solars, or seraphs"
                 word = "ghaele, solar, or seraph"
                 spell1 = "Resurrect"
@@ -107,7 +144,7 @@ if string.find(actor.class, "diabolist") then
                             actor:send("- slayed 6 " .. tostring(pl_word))
                         end
                         if job3 then
-                            actor:send("- found 6 " .. "%get.obj_shortdesc[%gem%]%")
+                            actor:send("- found 6 " .. proto_short(gem))
                         end
                         if job4 then
                             actor:send("- learned " .. tostring(spell1))
@@ -143,9 +180,9 @@ if string.find(actor.class, "diabolist") then
                         if not job3 then
                             local gems = 6 - (actor:get_quest_var("hell_trident:gems") or 0)
                             if gems > 1 then
-                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. "%get.obj_pldesc[%gem%]%</>")
+                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. proto_plural(gem) .. "</>")
                             else
-                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. "%get.obj_noadesc[%gem%]%</>")
+                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. proto_noa(gem) .. "</>")
                             end
                         end
                         if not job4 then

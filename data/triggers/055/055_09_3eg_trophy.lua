@@ -3,12 +3,8 @@
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: TODO(parity)
 --
--- TODO(parity): The list of "items we're interested in" prints raw
--- `%get.obj_shortdesc[%id_trophyN%]%` placeholders. Replace each line
--- with `objects.template(55, id_trophyN).name`. (The trophy IDs here
--- are already small integers -- 5503..5515 -- but those are legacy
--- 5-digit vnums; re-derive once the trophy items are catalogued under
--- (zone, local_id).)
+-- The "items we're interested in" list resolves each trophy vnum (zone * 100 + id)
+-- through proto_short().
 --
 -- Original DG Script: #5509
 
@@ -16,6 +12,19 @@
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"trophy", "trophies"}) do
@@ -46,11 +55,11 @@ if actor.alignment >= -150 and actor:get_quest_stage("Black_Legion") == 1 then
     actor:send("</>order to prove that you are working with us.'")
     -- (empty send to actor)
     actor:send("</>Items we're interested in are:")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy1%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy2%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy3%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy4%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy5%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy6%]%")
-    actor:send("- " .. "%get.obj_shortdesc[%id_trophy7%]%")
+    actor:send("- " .. proto_short(id_trophy1))
+    actor:send("- " .. proto_short(id_trophy2))
+    actor:send("- " .. proto_short(id_trophy3))
+    actor:send("- " .. proto_short(id_trophy4))
+    actor:send("- " .. proto_short(id_trophy5))
+    actor:send("- " .. proto_short(id_trophy6))
+    actor:send("- " .. proto_short(id_trophy7))
 end

@@ -3,8 +3,7 @@
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
 -- TODO(parity): branch-scoped vision/chant locals; `get_room("4328")`
--- bad arg shape; `%get.obj_shortdesc[%gem%]%` and `%place%` literal DG
--- remnants in output strings. Full rewrite from DG #5343.
+-- bad arg shape. Full rewrite from DG #5343.
 --
 -- Original DG Script: #5343
 
@@ -12,6 +11,19 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"progress"}) do
@@ -64,6 +76,8 @@ elseif actor.level >= (actor:get_quest_stage("elemental_chaos") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'Give me more time to strategize how to bring Balance to Chaos.  Come back after you've gained some more experience.'")
 end
+local gem, book
+local place, hint
 if string.find(actor.class, "monk") then
     actor:send("</>")
     actor:send("</>")
@@ -74,7 +88,6 @@ if string.find(actor.class, "monk") then
     local job2 = actor:get_quest_var("monk_vision:visiontask2")
     local job3 = actor:get_quest_var("monk_vision:visiontask3")
     local job4 = actor:get_quest_var("monk_vision:visiontask4")
-    local place
     if actor.level < 10 then
         actor:send(tostring(self.name) .. " says, 'You aren't ready for a vision yet.  Come back when you've grown a bit.'")
     elseif actor:get_has_completed("monk_vision") then
@@ -87,60 +100,59 @@ if string.find(actor.class, "monk") then
         actor:send(tostring(self.name) .. " says, 'You must walk further along the Way in service of Balance first.'")
     else
         -- switch on visionstage
-        local hint
         do
             local _sw2 = string.lower(tostring(visionstage or ""))
             if tonumber(_sw2) == 1 then
-                local book = 59006
-                local gem = 55582
+                book = 59006
+                gem = 55582
                 local room = get_room("4328")
                 place = room.name
                 hint = "in a place to perform."
             elseif tonumber(_sw2) == 2 then
-                local book = 18505
-                local gem = 55591
+                book = 18505
+                gem = 55591
                 local room = get_room("58707")
                 place = room.name
                 hint = "near a sandy beach."
             elseif tonumber(_sw2) == 3 then
-                local book = 8501
-                local gem = 55623
+                book = 8501
+                gem = 55623
                 local room = get_room("18597")
                 place = room.name
                 hint = "in a cloistered library."
             elseif tonumber(_sw2) == 4 then
-                local book = 12532
-                local gem = 55655
+                book = 12532
+                gem = 55655
                 local room = get_room("58102")
                 place = room.name
                 hint = "on my home island."
             elseif tonumber(_sw2) == 5 then
-                local book = 16209
-                local gem = 55665
+                book = 16209
+                gem = 55665
                 local room = get_room("16057")
                 place = room.name
                 hint = "in the ghostly fortress."
             elseif tonumber(_sw2) == 6 then
-                local book = 43013
-                local gem = 55678
+                book = 43013
+                gem = 55678
                 local room = get_room("59054")
                 place = room.name
                 hint = "in the fortress of the zealous."
             elseif tonumber(_sw2) == 7 then
-                local book = 53009
-                local gem = 55710
+                book = 53009
+                gem = 55710
                 local room = get_room("49079")
                 place = room.name
                 hint = "off-shore of the island of great beasts."
             elseif tonumber(_sw2) == 8 then
-                local book = 58415
-                local gem = 55722
+                book = 58415
+                gem = 55722
                 local room = get_room("11820")
                 place = room.name
                 hint = "beyond the Blue-Fog Trail."
             elseif tonumber(_sw2) == 9 then
-                local book = 58412
-                local gem = 55741
+                book = 58412
+                gem = 55741
                 local room = get_room("52075")
                 place = room.name
                 hint = "in the shattered citadel of Templace."
@@ -153,10 +165,10 @@ if string.find(actor.class, "monk") then
                 actor:send("- attacked " .. tostring(attack) .. " times")
             end
             if job2 then
-                actor:send("- found " .. "%get.obj_shortdesc[%gem%]%")
+                actor:send("- found " .. proto_short(gem))
             end
             if job3 then
-                actor:send("- found " .. "%get.obj_shortdesc[%book%]%")
+                actor:send("- found " .. proto_short(book))
             end
             if job4 then
                 actor:send("- read in " .. tostring(place))
@@ -172,14 +184,14 @@ if string.find(actor.class, "monk") then
                 actor:send("- attack <b:black>" .. tostring(remaining) .. "</> more times while wearing your vision mark.")
             end
             if not job4 then
-                actor:send("- take <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</> and <b:yellow>%get.obj_shortdesc[%book%]%</> and <b:yellow>read</> in a place called \"<b:yellow>%place%</>\".")
+                actor:send("- take <b:yellow>" .. proto_short(gem) .. "</> and <b:yellow>" .. proto_short(book) .. "</> and <b:yellow>read</> in a place called \"<b:yellow>" .. tostring(place) .. "</>\".")
                 actor:send("</>   It's <b:green>" .. tostring(hint) .. "</>")
             else
                 if not job2 then
-                    actor:send("- give me <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</>")
+                    actor:send("- give me <b:yellow>" .. proto_short(gem) .. "</>")
                 end
                 if not job3 then
-                    actor:send("- give me <b:yellow>" .. "%get.obj_shortdesc[%book%]%</>")
+                    actor:send("- give me <b:yellow>" .. proto_short(book) .. "</>")
                 end
             end
         end
@@ -187,7 +199,7 @@ if string.find(actor.class, "monk") then
     if actor:get_quest_stage("monk_chants") > 0 then
         local chantstage = actor:get_quest_stage("monk_chants")
         -- switch on chantstage
-        local chant, level, item, place
+        local chant, level, item
         do
             local _sw3 = string.lower(tostring(chantstage or ""))
             if tonumber(_sw3) == 1 then

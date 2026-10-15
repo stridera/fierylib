@@ -2,12 +2,7 @@
 -- Zone: 53, ID: 17
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): `local trophy`, `local gem`, `local place`, `local hint`
--- are branch-scoped through the trophystage if/elseif (lines 49-93) but
--- referenced at lines 98-103. Output uses literal `%get.obj_shortdesc[
--- %trophy%]%` template strings (DG remnants) — must be replaced with
--- `objects.template(zone, id).name` lookups. Legacy 5-digit object ids.
--- `_return_value` is referenced at lines 27/29/32/35 but never defined.
+-- TODO(parity): `_return_value` is referenced in the early returns but never defined.
 -- Full rewrite from DG #5317.
 --
 -- Original DG Script: #5317
@@ -16,6 +11,19 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"skill"}) do
@@ -60,51 +68,52 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on trophystage
 local place, hint
+local trophy, gem
 do
     local _sw1 = string.lower(tostring(trophystage or ""))
     if tonumber(_sw1) == 1 then
-        local trophy = 1607
-        local gem = 55579
+        trophy = 1607
+        gem = 55579
         place = "A Coyote's Den"
         hint = "near the Kingdom of the Meer Cats."
     elseif tonumber(_sw1) == 2 then
-        local trophy = 17806
-        local gem = 55591
+        trophy = 17806
+        gem = 55591
         place = "In the Lions' Den"
         hint = "in the western reaches of Gothra."
     elseif tonumber(_sw1) == 3 then
-        local trophy = 1805
-        local gem = 55628
+        trophy = 1805
+        gem = 55628
         place = "either of the two Gigantic Roc Nests"
         hint = "in the Wailing Mountains."
     elseif tonumber(_sw1) == 4 then
-        local trophy = 62513
-        local gem = 55652
+        trophy = 62513
+        gem = 55652
         place = "Chieftain's Lair"
         hint = "in Nukreth Spire in South Caelia."
     elseif tonumber(_sw1) == 5 then
-        local trophy = 23803
-        local gem = 55664
+        trophy = 23803
+        gem = 55664
         place = "The Heart of the Den"
         hint = "where the oldest unicorn in South Caelia makes its home."
     elseif tonumber(_sw1) == 6 then
-        local trophy = 43009
-        local gem = 55685
+        trophy = 43009
+        gem = 55685
         place = "Giant Lynx's Lair"
         hint = "far to the north beyond Mt. Frostbite."
     elseif tonumber(_sw1) == 7 then
-        local trophy = 47008
-        local gem = 55705
+        trophy = 47008
+        gem = 55705
         place = "Giant Griffin's Nest"
         hint = "tucked away in a secluded and well guarded corner of Griffin Island."
     elseif tonumber(_sw1) == 8 then
-        local trophy = 53323
-        local gem = 55729
+        trophy = 53323
+        gem = 55729
         place = "Witch's Den"
         hint = "entombed with an ancient evil king."
     elseif tonumber(_sw1) == 9 then
-        local trophy = 52014
-        local gem = 55741
+        trophy = 52014
+        gem = 55741
         place = "Dargentan's Lair"
         hint = "at the pinnacle of his flying fortress."
     end
@@ -113,8 +122,8 @@ local attacks = trophystage * 100
 self:command("nod")
 actor:send(tostring(self.name) .. " says, 'With each act mission you'll earn a new trophy.  Undertake the following:")
 actor:send("- Attack <b:green>" .. tostring(attacks) .. "</> times while wearing your current trophy.")
-actor:send("- Find <b:green>" .. "%get.obj_shortdesc[%trophy%]%</> as another demonstration of mastery over the beasts of the wild.")
-actor:send("- Find <b:green>" .. "%get.obj_shortdesc[%gem%]%</> for decoration.")
+actor:send("- Find <b:green>" .. proto_short(trophy) .. "</> as another demonstration of mastery over the beasts of the wild.")
+actor:send("- Find <b:green>" .. proto_short(gem) .. "</> for decoration.")
 actor:send("</>")
 actor:send("You also need to take your trophy and <b:green>[forage]</> in a great beast's home.")
 actor:send("Find \"<b:green>" .. tostring(place) .. "</>\".  It's " .. tostring(hint))

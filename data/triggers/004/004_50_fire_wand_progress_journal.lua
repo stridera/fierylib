@@ -2,12 +2,39 @@
 -- Zone: 4, ID: 50
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #450
 
 -- Converted from DG Script #450: Fire Wand progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
+local function mob_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and mobiles.template(zone, id).name
+    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
+    return name
+end
+local function room_by_vnum(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return nil end
+    return get_room(zone, id)
+end
+local function room_name(vnum)
+    local room = room_by_vnum(vnum)
+    return room and room.name or ""
+end
 local _return_value = true  -- Default: allow action
 if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "wands") or string.find(arg, "staff") or string.find(arg, "staves"))) or string.find(arg, "fire_wand") or string.find(arg, "fire_wands") or string.find(arg, "fire_staff") then
     local sorcererclasses = "Sorcerer Illusionist Cryomancer Pyromancer Necromancer"
@@ -126,22 +153,22 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                                 actor:send("- used your " .. tostring(weapon) .. " " .. tostring(attack) .. " times")
                             end
                             if job2 then
-                                actor:send("- found " .. "%get.obj_shortdesc[%wandgem%]%")
+                                actor:send("- found " .. proto_short(wandgem))
                             end
                             if job3 then
                                 if stage ~= 10 then
-                                    actor:send("- found " .. "%get.obj_shortdesc[%wandtask3%]%")
+                                    actor:send("- found " .. proto_short(wandtask3))
                                 else
-                                    actor:send("- slayed " .. "%get.mob_shortdesc[%wandtask3%]%")
+                                    actor:send("- slayed " .. mob_short(wandtask3))
                                 end
                             end
                             if job4 then
                                 if stage ~= 5 and stage ~= 9 and stage ~= 10 then
-                                    actor:send("- found " .. "%get.obj_shortdesc[%wandtask4%]%")
+                                    actor:send("- found " .. proto_short(wandtask4))
                                 elseif stage == 5 then
                                     actor:send("- communed in " .. tostring(wandtask4))
                                 elseif stage == 9 then
-                                    actor:send("- slayed " .. "%get.mob_shortdesc[%wandtask4%]%")
+                                    actor:send("- slayed " .. mob_short(wandtask4))
                                 end
                             end
                             actor:send("</>")
@@ -162,18 +189,18 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                                                 if not job5 then
                                                     actor:send("bring " .. tostring(master) .. " your " .. tostring(weapon) .. ".")
                                                 else
-                                                    actor:send("- <b:cyan>play</> " .. "%get.obj_shortdesc[%wandtask4%]%")
+                                                    actor:send("- <b:cyan>play</> " .. proto_short(wandtask4))
                                                 end
                                             elseif stage == 8 then
                                                 if not job5 then
                                                     actor:send("Bring " .. tostring(master) .. " your " .. tostring(weapon) .. ".")
                                                 else
-                                                    local room = get.room[place]
-                                                    actor:send("- imbue your " .. tostring(weapon) .. " at " .. tostring(room.name) .. ".")
+                                                    local room_label = room_name(place)
+                                                    actor:send("- imbue your " .. tostring(weapon) .. " at " .. room_label .. ".")
                                                 end
                                             elseif stage == 10 then
-                                                local room = get.room[wandtask4]
-                                                actor:send("- imbue your " .. tostring(weapon) .. " at " .. tostring(room.name) .. ".")
+                                                local room_label = room_name(wandtask4)
+                                                actor:send("- imbue your " .. tostring(weapon) .. " at " .. room_label .. ".")
                                             end
                                         end
                                     end
@@ -188,12 +215,12 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                             end
                         end
                         if not job2 then
-                            actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%wandgem%]%</>")
+                            actor:send("- <b:yellow>find " .. proto_short(wandgem) .. "</>")
                         end
                         if stage > 2 then
                             if not job3 then
                                 if stage ~= 10 then
-                                    actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%wandtask3%]%</>")
+                                    actor:send("- <b:yellow>find " .. proto_short(wandtask3) .. "</>")
                                     if stage == 4 then
                                         actor:send("</>    Blessings can be called at the smaller groups of standing stones in South Caelia.")
                                         actor:send("</>    Search the south point beyond Anlun Vale.")
@@ -201,16 +228,16 @@ if (string.find(arg, "fire") and (string.find(arg, "wand") or string.find(arg, "
                                         actor:send("</>    <b:white>I pray for a blessing from mother earth, creator of life and bringer of death</>")
                                     end
                                 else
-                                    actor:send("- <b:yellow>slay " .. "%get.mob_shortdesc[%wandtask3%]%</>")
+                                    actor:send("- <b:yellow>slay " .. mob_short(wandtask3) .. "</>")
                                 end
                             end
                             if not job4 then
                                 if stage ~= 3 and stage ~= 5 and stage ~= 9 and stage ~= 10 then
-                                    actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%wandtask4%]%</>")
+                                    actor:send("- <b:yellow>find " .. proto_short(wandtask4) .. "</>")
                                 elseif stage == 5 then
                                     actor:send("- <b:yellow>imbue your " .. tostring(weapon) .. " in " .. tostring(wandtask4) .. "</>")
                                 elseif stage == 9 then
-                                    actor:send("- <b:yellow>slay " .. "%get.mob_shortdesc[%wandtask4%]%</>")
+                                    actor:send("- <b:yellow>slay " .. mob_short(wandtask4) .. "</>")
                                 elseif stage == 10 then
                                     if job1 and job2 and job3 then
                                         actor:send("Bring " .. tostring(master) .. " your " .. tostring(weapon) .. ".")

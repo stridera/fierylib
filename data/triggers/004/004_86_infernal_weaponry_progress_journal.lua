@@ -2,13 +2,49 @@
 -- Zone: 4, ID: 86
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #486
 
 -- Converted from DG Script #486: Infernal Weaponry progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
+local function proto_noa(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return "[no description for object " .. tostring(vnum) .. "]" end
+    return get_obj_noadesc(zone, id)
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = proto_noa(vnum)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end
 local _return_value = true  -- Default: allow action
+local gem
 if string.find(arg, "trident") or string.find(arg, "hell trident") or string.find(arg, "hell_trident") or string.find(arg, "Infernal Weaponry") or string.find(arg, "infernal") or string.find(arg, "weaponry") or string.find(arg, "infernal_weaponry") then
     if string.find(actor.class, "diabolist") then
         _return_value = true
@@ -48,7 +84,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                 local _sw1 = string.lower(tostring(hellstage or ""))
                 if tonumber(_sw1) == 1 then
                     master = mobiles.template(60, 32).name
-                    local gem = 55662
+                    gem = 55662
                     pl_word = "angels"
                     word = "angel"
                     spell2 = "Banish"
@@ -57,7 +93,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                     task6do = "<b:yellow>Assist the High Priestess of Lolth in hunting down and destroying the heretics of her Goddess.</>"
                 elseif tonumber(_sw1) == 2 then
                     master = mobiles.template(125, 26).name
-                    local gem = 55739
+                    gem = 55739
                     pl_word = "ghaeles, solars, or seraphs"
                     word = "ghaele, solar, or seraph"
                     spell1 = "Resurrect"
@@ -86,7 +122,7 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                             actor:send("- slayed 6 " .. tostring(pl_word))
                         end
                         if job3 then
-                            actor:send("- found 6 " .. "%get.obj_shortdesc[%gem%]%")
+                            actor:send("- found 6 " .. proto_short(gem))
                         end
                         if job5 then
                             actor:send("- learned " .. tostring(spell2))
@@ -122,9 +158,9 @@ if string.find(arg, "trident") or string.find(arg, "hell trident") or string.fin
                         if not job3 then
                             local gems = 6 - (actor:get_quest_var("hell_trident:gems") or 0)
                             if gems > 1 then
-                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. "%get.obj_pldesc[%gem%]%</>")
+                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. proto_plural(gem) .. "</>")
                             else
-                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. "%get.obj_noadesc[%gem%]%</>")
+                                actor:send("- <b:yellow>find " .. tostring(gems) .. " more " .. proto_noa(gem) .. "</>")
                             end
                         end
                         if not job5 then

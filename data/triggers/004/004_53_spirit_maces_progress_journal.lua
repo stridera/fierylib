@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 53
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #453
 
 -- Converted from DG Script #453: Spirit Maces progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg, "maces"))) or string.find(arg, "phase_mace") or string.find(arg, "spirit_mace") then
     if string.find(actor.class, "priest") or string.find(actor.class, "cleric") then
@@ -128,19 +140,19 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
                             actor:send("- attacked " .. tostring(attack) .. " times")
                         end
                         if job2 then
-                            actor:send("- found " .. "%get.obj_shortdesc[%maceitem2%]%")
+                            actor:send("- found " .. proto_short(maceitem2))
                         end
                         if job3 then
-                            actor:send("- found " .. "%get.obj_shortdesc[%maceitem3%]%")
+                            actor:send("- found " .. proto_short(maceitem3))
                         end
                         if job4 then
-                            actor:send("- found " .. "%get.obj_shortdesc[%maceitem4%]%")
+                            actor:send("- found " .. proto_short(maceitem4))
                         end
                         if job5 then
-                            actor:send("- found " .. "%get.obj_shortdesc[%maceitem5%]%")
+                            actor:send("- found " .. proto_short(maceitem5))
                         end
                         if job6 then
-                            actor:send("- found " .. "%get.obj_shortdesc[%maceitem6%]%")
+                            actor:send("- found " .. proto_short(maceitem6))
                         end
                     end
                     actor:send("</>")
@@ -164,20 +176,20 @@ if (string.find(arg, "spirit") and (string.find(arg, "mace") or string.find(arg,
                         end
                     end
                     if not job2 then
-                        actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%maceitem2%]%</>")
+                        actor:send("- <b:yellow>find " .. proto_short(maceitem2) .. "</>")
                     end
                     if not job3 then
-                        actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%maceitem3%]%</>")
+                        actor:send("- <b:yellow>find " .. proto_short(maceitem3) .. "</>")
                     end
                     if not job4 then
-                        actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%maceitem4%]%</>")
+                        actor:send("- <b:yellow>find " .. proto_short(maceitem4) .. "</>")
                     end
                     if not job5 then
-                        actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%maceitem5%]%</>")
+                        actor:send("- <b:yellow>find " .. proto_short(maceitem5) .. "</>")
                     end
                     if stage == 2 then
                         if not job6 then
-                            actor:send("- <b:yellow>find " .. "%get.obj_shortdesc[%maceitem6%]%</>")
+                            actor:send("- <b:yellow>find " .. proto_short(maceitem6) .. "</>")
                         end
                     end
                 end

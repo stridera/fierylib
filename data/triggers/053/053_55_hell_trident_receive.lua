@@ -6,13 +6,48 @@
 -- `spell2`, `go`, `gem_id`, `refuse`, `reason`, `expmod`, `expcap`.
 -- `hellstage == "phase"` compares int to literal "phase". `world.destroy
 -- (object.name)` should pass the object, not its name string (line 79).
--- Spawn id `(23, reward)` looks legacy. `%get.obj_pldesc[%gem_id%]%`
--- DG remnants. Full rewrite from DG #5355.
+-- Spawn id `(23, reward)` looks legacy. Full rewrite from DG #5355.
 --
 -- Original DG Script: #5355
 
 -- Converted from DG Script #5355: Hell Trident receive
 -- Original: MOB trigger, flags: RECEIVE, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
+local function proto_noa(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return "[no description for object " .. tostring(vnum) .. "]" end
+    return get_obj_noadesc(zone, id)
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = proto_noa(vnum)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end
 local _return_value = true  -- Default: allow action
 local hellstage = actor:get_quest_stage("hell_trident")
 -- switch on self.id
@@ -89,9 +124,9 @@ if go == "gem" then
         actor:send(tostring(self.name) .. " says, 'Yes, this is perfect.'")
         wait(0.2)
         if gem_count == 1 then
-            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
+            actor:send(tostring(self.name) .. " says, 'You have given me 1 of 6 " .. proto_plural(gem_id) .. ".'")
         else
-            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
+            actor:send(tostring(self.name) .. " says, 'You have given me " .. tostring(gem_count) .. " of 6 " .. proto_plural(gem_id) .. ".'")
         end
         wait(0.2)
         if gem_count >= 6 then
@@ -112,7 +147,7 @@ if go == "gem" then
         _return_value = true
         actor:send(tostring(self.name) .. " refuses " .. tostring(object.shortdesc) .. ".")
         wait(0.2)
-        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. "%get.obj_pldesc[%gem_id%]%.'")
+        actor:send(tostring(self.name) .. " says, 'You have already given me 6 " .. proto_plural(gem_id) .. ".'")
     end
 elseif go == "trident" then
     local job1 = actor:get_quest_var("hell_trident:helltask1")

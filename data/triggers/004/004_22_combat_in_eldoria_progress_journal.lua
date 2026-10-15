@@ -2,12 +2,47 @@
 -- Zone: 4, ID: 22
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #422
 
 -- Converted from DG Script #422: Combat in Eldoria progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
+local function proto_noa(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return "[no description for object " .. tostring(vnum) .. "]" end
+    return get_obj_noadesc(zone, id)
+end
+local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = proto_noa(vnum)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria") or string.find(arg, "third eldorian guard") or string.find(arg, "third black legion") or string.find(arg, "black_legion") or string.find(arg, "eldorian_guard") or string.find(arg, "third_black_legion") or string.find(arg, "third_eldorian_guard") or string.find(arg, "combat") or string.find(arg, "eldoria") then
     _return_value = true
@@ -196,13 +231,13 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
         -- osend %actor% - %get.obj_shortdesc[%id_trophy7%]%
         actor:send("</>")
         actor:send("You have turned in:")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy1) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy1%]%")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy2) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy2%]%")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy3) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy3%]%")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy4) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy4%]%")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy5) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy5%]%")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy6) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy6%]%")
-        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy7) .. "_trophies")) .. " %get.obj_pldesc[%id_trophy7%]%")
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy1) .. "_trophies")) .. " " .. proto_plural(id_trophy1))
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy2) .. "_trophies")) .. " " .. proto_plural(id_trophy2))
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy3) .. "_trophies")) .. " " .. proto_plural(id_trophy3))
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy4) .. "_trophies")) .. " " .. proto_plural(id_trophy4))
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy5) .. "_trophies")) .. " " .. proto_plural(id_trophy5))
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy6) .. "_trophies")) .. " " .. proto_plural(id_trophy6))
+        actor:send(tostring(actor:get_quest_var("black_legion:" .. tostring(id_trophy7) .. "_trophies")) .. " " .. proto_plural(id_trophy7))
         actor:send("</>")
         actor:send("Your current " .. tostring(legion) .. " faction status is " .. tostring(status) .. ".")
         if status >= 200 then
@@ -211,67 +246,67 @@ if string.find(arg, "combat in eldoria") or string.find(arg, "combat_in_eldoria"
         actor:send("</>")
         if status >= 20 then
             actor:send("You have access to:")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_food%]%</> for <magenta>%get.obj_shortdesc[%id_gem_food%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_food) .. "</> for <magenta>" .. proto_short(id_gem_food) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_food) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_drink%]%</> for <magenta>%get.obj_shortdesc[%id_gem_drink%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_drink) .. "</> for <magenta>" .. proto_short(id_gem_drink) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_drink) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_cap%]%</> for <magenta>%get.obj_shortdesc[%id_gem_cap%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_cap) .. "</> for <magenta>" .. proto_short(id_gem_cap) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_cap) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_ssword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_ssword%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_ssword) .. "</> for <magenta>" .. proto_short(id_gem_ssword) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_ssword) .. "_reward")) .. ")_")
         end
         if status >= 40 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_neck%]%</> for <magenta>%get.obj_shortdesc[%id_gem_neck%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_neck) .. "</> for <magenta>" .. proto_short(id_gem_neck) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_neck) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_staff%]%</> for <magenta>%get.obj_shortdesc[%id_gem_staff%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_staff) .. "</> for <magenta>" .. proto_short(id_gem_staff) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_staff) .. "_reward")) .. ")_")
         end
         if status >= 55 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%team_a_idrm%]%</> for <magenta>%get.obj_shortdesc[%id_gem_arm%]%</>")
+            actor:send("<b:yellow>" .. proto_short(team_a_idrm) .. "</> for <magenta>" .. proto_short(id_gem_arm) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(team_a_idrm) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_whammer%]%</> for <magenta>%get.obj_shortdesc[%id_gem_whammer%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_whammer) .. "</> for <magenta>" .. proto_short(id_gem_whammer) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_whammer) .. "_reward")) .. ")_")
         end
         if status >= 70 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_wrist%]%</> for <magenta>%get.obj_shortdesc[%id_gem_wrist%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_wrist) .. "</> for <magenta>" .. proto_short(id_gem_wrist) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_wrist) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_flail%]%</> for <magenta>%get.obj_shortdesc[%id_gem_flail%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_flail) .. "</> for <magenta>" .. proto_short(id_gem_flail) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_flail) .. "_reward")) .. ")_")
         end
         if status >= 85 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_gloves%]%</> for <magenta>%get.obj_shortdesc[%id_gem_gloves%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_gloves) .. "</> for <magenta>" .. proto_short(id_gem_gloves) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_gloves) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_symbol%]%</> for <magenta>%get.obj_shortdesc[%id_gem_symbol%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_symbol) .. "</> for <magenta>" .. proto_short(id_gem_symbol) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_symbol) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_light%]%</> for <magenta>%get.obj_shortdesc[%id_gem_light%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_light) .. "</> for <magenta>" .. proto_short(id_gem_light) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_light) .. "_reward")) .. ")_")
         end
         if status >= 100 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%team_b_idelt%]%</> for <magenta>%get.obj_shortdesc[%id_gem_belt%]%</>")
+            actor:send("<b:yellow>" .. proto_short(team_b_idelt) .. "</> for <magenta>" .. proto_short(id_gem_belt) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(team_b_idelt) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_shiv%]%</> for <magenta>%get.obj_shortdesc[%id_gem_shiv%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_shiv) .. "</> for <magenta>" .. proto_short(id_gem_shiv) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_shiv) .. "_reward")) .. ")_")
         end
         if status >= 115 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%team_b_idoots%]%</> for <magenta>%get.obj_shortdesc[%id_gem_boots%]%</>")
+            actor:send("<b:yellow>" .. proto_short(team_b_idoots) .. "</> for <magenta>" .. proto_short(id_gem_boots) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(team_b_idoots) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_lsword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_lsword%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_lsword) .. "</> for <magenta>" .. proto_short(id_gem_lsword) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_lsword) .. "_reward")) .. ")_")
         end
         if status >= 130 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_legs%]%</> for <magenta>%get.obj_shortdesc[%id_gem_legs%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_legs) .. "</> for <magenta>" .. proto_short(id_gem_legs) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_legs) .. "_reward")) .. ")_")
         end
         if status >= 145 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_robe%]%</> for <magenta>%get.obj_shortdesc[%id_gem_robe%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_robe) .. "</> for <magenta>" .. proto_short(id_gem_robe) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_robe) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_jerkin%]%</> for <magenta>%get.obj_shortdesc[%id_gem_jerkin%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_jerkin) .. "</> for <magenta>" .. proto_short(id_gem_jerkin) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_jerkin) .. "_reward")) .. ")_")
         end
         if status >= 160 then
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_mask%]%</> for <magenta>%get.obj_shortdesc[%id_gem_mask%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_mask) .. "</> for <magenta>" .. proto_short(id_gem_mask) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_mask) .. "_reward")) .. ")_")
-            actor:send("<b:yellow>" .. "%get.obj_shortdesc[%id_smace%]%</> for <magenta>%get.obj_shortdesc[%id_gem_smace%]%</>")
+            actor:send("<b:yellow>" .. proto_short(id_smace) .. "</> for <magenta>" .. proto_short(id_gem_smace) .. "</>")
             actor:send("- times claimed: (" .. tostring(actor:get_quest_var("black_legion:" .. tostring(id_smace) .. "_reward")) .. ")_")
         end
         if (status or 0) < 160 then

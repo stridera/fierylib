@@ -3,10 +3,8 @@
 -- Type: MOB, Flags: SPEECH, SPEECH_TO
 -- Status: TODO(parity)
 --
--- TODO(parity): Mirror of 3bl_rewards_list (055_04) for the Eldorian
--- Guard side. Same `%get.obj_shortdesc[%id_xxx%]%` placeholder lines
--- never resolve, and gem 5-digit vnums (55566..55589) need (zone,
--- local_id) re-mapping.
+-- Mirror of 3bl_rewards_list (055_04) for the Eldorian Guard side; reward and gem
+-- names resolve through proto_short().
 --
 -- Original DG Script: #5508
 
@@ -14,6 +12,19 @@
 -- Original: MOB trigger, flags: SPEECH, SPEECH_TO, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"reward", "rewards"}) do
@@ -92,46 +103,46 @@ if actor.alignment >= -150 then
             actor:send("</>wet behind the ears I suppose we can trust you with some of our goods.'")
             -- (empty send to actor)
             actor:send("</>You have access to:")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_food%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_food%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_drink%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_drink%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_cap%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_cap%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_ssword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_ssword%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_food) .. "</> for <magenta>" .. proto_short(id_gem_3eg_food) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_drink) .. "</> for <magenta>" .. proto_short(id_gem_3eg_drink) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_cap) .. "</> for <magenta>" .. proto_short(id_gem_3eg_cap) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_ssword) .. "</> for <magenta>" .. proto_short(id_gem_3eg_ssword) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 40 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_neck%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_neck%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_staff%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_staff%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_neck) .. "</> for <magenta>" .. proto_short(id_gem_3eg_neck) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_staff) .. "</> for <magenta>" .. proto_short(id_gem_3eg_staff) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 55 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_arm%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_arm%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_whammer%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_whammer%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_arm) .. "</> for <magenta>" .. proto_short(id_gem_3eg_arm) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_whammer) .. "</> for <magenta>" .. proto_short(id_gem_3eg_whammer) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 70 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_wrist%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_wrist%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_flail%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_flail%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_wrist) .. "</> for <magenta>" .. proto_short(id_gem_3eg_wrist) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_flail) .. "</> for <magenta>" .. proto_short(id_gem_3eg_flail) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 85 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_gloves%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_gloves%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_symbol%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_symbol%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_light%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_light%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_gloves) .. "</> for <magenta>" .. proto_short(id_gem_3eg_gloves) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_symbol) .. "</> for <magenta>" .. proto_short(id_gem_3eg_symbol) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_light) .. "</> for <magenta>" .. proto_short(id_gem_3eg_light) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 100 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_belt%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_belt%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_shiv%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_shiv%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_belt) .. "</> for <magenta>" .. proto_short(id_gem_3eg_belt) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_shiv) .. "</> for <magenta>" .. proto_short(id_gem_3eg_shiv) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 115 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_boots%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_boots%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_lsword%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_lsword%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_boots) .. "</> for <magenta>" .. proto_short(id_gem_3eg_boots) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_lsword) .. "</> for <magenta>" .. proto_short(id_gem_3eg_lsword) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 130 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_legs%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_legs%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_legs) .. "</> for <magenta>" .. proto_short(id_gem_3eg_legs) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 145 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_robe%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_robe%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_jerkin%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_jerkin%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_robe) .. "</> for <magenta>" .. proto_short(id_gem_3eg_robe) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_jerkin) .. "</> for <magenta>" .. proto_short(id_gem_3eg_jerkin) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) >= 160 then
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_mask%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_mask%]%</>")
-            actor:send("- <b:yellow>" .. "%get.obj_shortdesc[%id_3eg_smace%]%</> for <magenta>%get.obj_shortdesc[%id_gem_3eg_smace%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_mask) .. "</> for <magenta>" .. proto_short(id_gem_3eg_mask) .. "</>")
+            actor:send("- <b:yellow>" .. proto_short(id_3eg_smace) .. "</> for <magenta>" .. proto_short(id_gem_3eg_smace) .. "</>")
         end
         if (actor:get_quest_var("black_legion:eg_faction") or 0) < 160 then
             -- (empty send to actor)

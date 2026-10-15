@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 32
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #432
 
 -- Converted from DG Script #432: Word of Command progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function mob_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and mobiles.template(zone, id).name
+    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "word of command") or string.find(arg, "word_command") then
     if actor.level >= 65 then
@@ -30,7 +42,7 @@ if string.find(arg, "word") or string.find(arg, "command") or string.find(arg, "
             actor:send("Quest Master: " .. tostring(mobiles.template(430, 21).name))
             actor:send("</>")
             actor:send("Help " .. tostring(mobiles.template(430, 21).name) .. " escape from Demise Keep!")
-            actor:send("%get.mob_shortdesc[43017]% and its minions will stop at nothing to keep %get.mob_shortdesc[43021]% trapped in its clutches!")
+            actor:send(mob_short(43017) .. " and its minions will stop at nothing to keep " .. mob_short(43021) .. " trapped in its clutches!")
         end
     end
 end

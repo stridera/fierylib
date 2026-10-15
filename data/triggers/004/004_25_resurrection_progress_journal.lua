@@ -2,13 +2,26 @@
 -- Zone: 4, ID: 25
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #425
 
 -- Converted from DG Script #425: Resurrection progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function mob_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and mobiles.template(zone, id).name
+    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
+local mob1, mob2, mob3
 if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.find(arg, "resurrection_quest") or string.find(arg, "res") then
     if string.find(actor.class, "cleric") or string.find(actor.class, "priest") or string.find(actor.class, "diabolist") and actor.level >= 75 then
         _return_value = true
@@ -43,24 +56,24 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                     return _return_value
                 elseif tonumber(_sw1) == 4 then
                     hunt = tostring(mobiles.template(40, 4).name) .. ", " .. tostring(mobiles.template(40, 3).name) .. ", and " .. tostring(mobiles.template(40, 16).name)
-                    local mob1 = 4004
-                    local mob2 = 4003
-                    local mob3 = 4016
+                    mob1 = 4004
+                    mob2 = 4003
+                    mob3 = 4016
                     item = objects.template(40, 8).name
                 elseif tonumber(_sw1) == 5 then
                     item = objects.template(40, 8).name
                 elseif tonumber(_sw1) == 6 then
                     hunt = "2 Xeg-Yi and " .. tostring(mobiles.template(533, 8).name)
-                    local mob2 = 53411
-                    local mob1 = 53308
+                    mob2 = 53411
+                    mob1 = 53308
                     item = objects.template(533, 7).name
                 elseif tonumber(_sw1) == 7 then
                     item = objects.template(533, 7).name
                 elseif tonumber(_sw1) == 8 or tonumber(_sw1) == 9 then
                     hunt = tostring(mobiles.template(510, 5).name) .. ", " .. tostring(mobiles.template(530, 1).name) .. ", and " .. tostring(mobiles.template(510, 14).name)
-                    local mob1 = 51005
-                    local mob2 = 53001
-                    local mob3 = 51014
+                    mob1 = 51005
+                    mob2 = 53001
+                    mob3 = 51014
                     if string.find(actor.class, "cleric") or string.find(actor.class, "priest") then
                         item = "a large book on healing from Nordus"
                     elseif string.find(actor.class, "diabolist") then
@@ -68,8 +81,8 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                     end
                 elseif tonumber(_sw1) == 10 then
                     hunt = tostring(mobiles.template(520, 3).name) .. " and " .. tostring(mobiles.template(520, 15).name)
-                    local mob1 = 52003
-                    local mob2 = 52015
+                    mob1 = 52003
+                    mob2 = 52015
                     item = objects.template(520, 1).name
                 elseif tonumber(_sw1) == 11 then
                     item = objects.template(520, 1).name
@@ -111,18 +124,18 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                 actor:send("</>")
                 actor:send("You have destroyed:")
                 if target1 then
-                    actor:send("- " .. "%get.mob_shortdesc[%mob1%]%")
+                    actor:send("- " .. mob_short(mob1))
                 end
                 if stage == 6 then
-                    actor:send("- " .. tostring(target2) .. " " .. "%get.mob_shortdesc[%mob2%]%")
+                    actor:send("- " .. tostring(target2) .. " " .. mob_short(mob2))
                 else
                     if target2 then
-                        actor:send("- " .. "%get.mob_shortdesc[%mob2%]%")
+                        actor:send("- " .. mob_short(mob2))
                     end
                 end
                 if stage == 4 or stage == 8 then
                     if target3 then
-                        actor:send("- " .. "%get.mob_shortdesc[%mob3%]%")
+                        actor:send("- " .. mob_short(mob3))
                     end
                 end
             end
@@ -130,21 +143,21 @@ if string.find(arg, "resurrection") or string.find(arg, "resurrect") or string.f
                 actor:send("</>")
                 actor:send("You still need to dispatch:")
                 if not target1 then
-                    actor:send("- " .. "%get.mob_shortdesc[%mob1%]%")
+                    actor:send("- " .. mob_short(mob1))
                 end
                 if stage == 6 then
                     if (target2 or 0) < 2 then
                         local xeg = (2 - (target2 or 0))
-                        actor:send("- " .. tostring(xeg) .. " " .. "%get.mob_shortdesc[%mob2%]%")
+                        actor:send("- " .. tostring(xeg) .. " " .. mob_short(mob2))
                     end
                 else
                     if not target2 then
-                        actor:send("- " .. "%get.mob_shortdesc[%mob2%]%")
+                        actor:send("- " .. mob_short(mob2))
                     end
                 end
                 if stage ~= 6 and stage ~= 10 then
                     if not target3 then
-                        actor:send("- " .. "%get.mob_shortdesc[%mob3%]%")
+                        actor:send("- " .. mob_short(mob3))
                     end
                 end
                 actor:send("</>")

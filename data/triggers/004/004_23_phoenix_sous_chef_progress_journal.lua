@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 23
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #423
 
 -- Converted from DG Script #423: Phoenix Sous Chef progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "chef") or string.find(arg, "resort_cooking") or string.find(arg, "resort") or string.find(arg, "cooking") or string.find(arg, "phoenix_sous_chef") then
     if actor.level >= 50 then
@@ -80,55 +92,55 @@ if string.find(arg, "phoenix") or string.find(arg, "sous") or string.find(arg, "
             actor:send("You are trying to make:")
             actor:send("</>========<==b:white>" .. tostring(recipe) .. "</>==========")
             if item1 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item1%]%")
+                actor:send("</>  " .. proto_short(item1))
             end
             if item2 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item2%]%")
+                actor:send("</>  " .. proto_short(item2))
             end
             if item3 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item3%]%")
+                actor:send("</>  " .. proto_short(item3))
             end
             if item4 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item4%]%")
+                actor:send("</>  " .. proto_short(item4))
             end
             if item5 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item5%]%")
+                actor:send("</>  " .. proto_short(item5))
             end
             if item6 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item6%]%")
+                actor:send("</>  " .. proto_short(item6))
             end
             if item7 then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item7%]%")
+                actor:send("</>  " .. proto_short(item7))
             end
             actor:send("</>")
             actor:send("You have retrieved:")
             local nothing = 1
             if actor:get_quest_var("resort_cooking:item1") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item1%]%")
+                actor:send("</>  " .. proto_short(item1))
                 nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item2") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item2%]%")
+                actor:send("</>  " .. proto_short(item2))
                 nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item3") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item3%]%")
+                actor:send("</>  " .. proto_short(item3))
                 nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item4") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item4%]%")
+                actor:send("</>  " .. proto_short(item4))
                 nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item5") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item5%]%")
+                actor:send("</>  " .. proto_short(item5))
                 nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item6") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item6%]%")
+                actor:send("</>  " .. proto_short(item6))
                 nothing = 0
             end
             if actor:get_quest_var("resort_cooking:item7") then
-                actor:send("</>  " .. "%get.obj_shortdesc[%item7%]%")
+                actor:send("</>  " .. proto_short(item7))
                 nothing = 0
             end
             if nothing then

@@ -234,6 +234,8 @@ def _vnum_to_composite(vnum: str) -> str:
     try:
         vnum_int = int(vnum)
         zone_id, local_id = vnum_to_zone_and_local(vnum_int)
+        if zone_id == 0:
+            zone_id = 1000  # the old zone 0 is zone 1000 in the DB
         return f'{zone_id}, {local_id}'
     except ValueError:
         # If not a valid number, return as-is (might be a variable)
@@ -307,7 +309,7 @@ def _find_var_end(text: str, start: int) -> int:
 
     A `%` inside `[...]` belongs to a nested variable (`%a.b[%c%_x]%`), so only a
     `%` at bracket depth 0 closes. Only well-formed references qualify (`name`,
-    `name.prop` or `name.prop[...]`); anything else returns -1 so the caller can
+    `name.prop`, `name.prop[...]` or `name.prop[...].prop`); anything else returns -1 so the caller can
     fall back to its looser matching.
     """
     depth = 0
@@ -319,10 +321,31 @@ def _find_var_end(text: str, start: int) -> int:
             depth = max(depth - 1, 0)
         elif ch == '%' and depth == 0:
             body = text[start + 1:j]
-            if re.fullmatch(r'[A-Za-z_][\w.]*(\[.*\])?', body, re.S):
+            if re.fullmatch(r'[A-Za-z_][\w.]*(\[.*\](\.[A-Za-z_]\w*)*)?', body, re.S):
                 return j
             return -1
     return -1
+
+
+def _expand_vars(text: str) -> str:
+    """Replace every `%var%` in an expression with its Lua form; `%a.b[%c%]%` nests."""
+    out = []
+    i = 0
+    while i < len(text):
+        if text[i] == '%':
+            end = _find_var_end(text, i)
+            if end != -1:
+                out.append(convert_variable_expr(text[i + 1:end]))
+                i = end + 1
+                continue
+            m = re.match(r'%([^%]+)%', text[i:])
+            if m:
+                out.append(convert_variable_expr(m.group(1)))
+                i += m.end()
+                continue
+        out.append(text[i])
+        i += 1
+    return ''.join(out)
 
 
 def _concat_with_vars(raw: str) -> str:
@@ -337,7 +360,7 @@ def _concat_with_vars(raw: str) -> str:
                 parts.append('"' + piece.replace('\\', '\\\\').replace('"', '\\"') + '"')
         else:
             expr = convert_variable_expr(piece)
-            parts.append(expr if expr.startswith('get_') else f'tostring({expr})')
+            parts.append(expr if _is_string_call(expr) else f'tostring({expr})')
     return ' .. '.join(parts) if parts else '""'
 
 
@@ -366,6 +389,106 @@ def _script_var(name: str) -> str:
             and name not in _declared_ctx and name not in _ENGINE_NAMES):
         return f'globals.{name}'
     return name
+
+
+# DG `%get.<func>[VNUM]%` prototype lookups (legacy dg_scripts.cpp). VNUM is the legacy id
+# zone * 100 + id; fierymud-rs has no vnums, so the script body carries small local helpers that
+# split it into the composite key (zone 0 is zone 1000) and call objects.template /
+# mobiles.template / get_obj_noadesc / get_room. They return strings ("" never: a missing
+# prototype reads "[no description for object N]" as in the legacy server).
+PROTO_GET_FUNCS = {
+    'obj_shortdesc': 'proto_short',
+    'obj_noadesc': 'proto_noa',
+    'obj_pldesc': 'proto_plural',
+    'mob_shortdesc': 'mob_short',
+}
+
+# name -> (dependencies, Lua source). Ordered: a helper only uses those before it.
+PROTO_HELPERS: dict[str, tuple[tuple[str, ...], str]] = {
+    'proto_key': ((), """local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end"""),
+    'proto_short': (('proto_key',), """local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end"""),
+    'mob_short': (('proto_key',), """local function mob_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and mobiles.template(zone, id).name
+    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
+    return name
+end"""),
+    'proto_noa': (('proto_key',), """local function proto_noa(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return "[no description for object " .. tostring(vnum) .. "]" end
+    return get_obj_noadesc(zone, id)
+end"""),
+    'proto_plural': (('proto_short', 'proto_noa'), """local function proto_plural(vnum)
+    local s = proto_short(vnum)
+    if string.lower(string.sub(s, 1, 5)) == "some " then
+        return "quantities of " .. string.sub(s, 6)
+    end
+    local u = proto_noa(vnum)
+    local last2, last1 = string.sub(u, -2, -2), string.sub(u, -1)
+    local function consonant(c) return c:match("%a") ~= nil and not c:match("[aeiouAEIOU]") end
+    if #u < 2 then return u .. "'s" end
+    if last1 == "s" and last2 ~= "s" then return u end  -- already plural ("mittens")
+    if (last2 == "e" or last2 == "i") and last1 == "z" then return u .. "zes" end
+    if last1 == "x" or last1 == "z" or u:sub(-2) == "sh" or u:sub(-2) == "ss" or u:sub(-2) == "ch"
+       or (consonant(last2) and last1 == "o") then
+        return u .. "es"
+    end
+    if consonant(last2) and last1 == "y" then return u:sub(1, -2) .. "ies" end
+    return u .. "s"
+end"""),
+    'room_by_vnum': (('proto_key',), """local function room_by_vnum(vnum)
+    local zone, id = proto_key(vnum)
+    if not zone then return nil end
+    return get_room(zone, id)
+end"""),
+    'room_name': (('room_by_vnum',), """local function room_name(vnum)
+    local room = room_by_vnum(vnum)
+    return room and room.name or ""
+end"""),
+}
+
+
+def proto_helper_block(body: str) -> str:
+    """The PROTO_HELPERS source a Lua body needs (and does not already define), or ''."""
+    def used(name: str) -> bool:
+        return re.search(rf'(?<![\w.:"])({name})\(', _strip_lua_comments(body)) is not None
+
+    def defined(name: str) -> bool:
+        return re.search(rf'\blocal function {name}\b', body) is not None
+
+    need: set[str] = set()
+
+    def want(name: str) -> None:
+        if name in need or defined(name):
+            return
+        need.add(name)
+        for dep in PROTO_HELPERS[name][0]:
+            want(dep)
+
+    for name in PROTO_HELPERS:
+        if used(name):
+            want(name)
+    return '\n'.join(PROTO_HELPERS[n][1] for n in PROTO_HELPERS if n in need)
+
+
+def _strip_lua_comments(body: str) -> str:
+    return '\n'.join(ln for ln in body.split('\n') if not ln.lstrip().startswith('--'))
+
+
+def _is_string_call(expr: str) -> bool:
+    """A converted expression that already yields a Lua string (needs no tostring())."""
+    return expr.startswith('get_') or any(expr.startswith(f'{n}(') for n in (*PROTO_GET_FUNCS.values(), 'room_name'))
 
 
 def convert_variable_expr(var: str) -> str:
@@ -401,11 +524,12 @@ def convert_variable_expr(var: str) -> str:
     if var == 'random.char':
         return 'room.actors[random(1, #room.actors)]'
 
-    # Global get functions: %get.func[arg]%
-    get_match = re.match(r'get\.(\w+)\[([^\]]+)\]', var)
+    # Global get functions: %get.func[arg]%  (optionally followed by .prop, e.g. get.room[x].name)
+    get_match = re.match(r'get\.(\w+)\[(.+)\](?:\.(\w+))?$', var)
     if get_match:
         func = get_match.group(1)
         arg = get_match.group(2)
+        suffix = get_match.group(3)
         # If arg contains %, it's a variable reference - extract it
         if arg.startswith('%') and arg.endswith('%'):
             arg = convert_variable_expr(arg)
@@ -413,27 +537,20 @@ def convert_variable_expr(var: str) -> str:
         else:
             is_var = False
 
-        # Convert to modern API patterns
-        if func == 'mob_shortdesc':
-            # get_mob_shortdesc(vnum) -> mobiles.template(zone, local).name
-            if is_var:
-                return f'mobiles.template(vnum_to_zone({arg}), vnum_to_local({arg})).name'
-            else:
+        # Convert to modern API patterns. The vnum (zone * 100 + id) lookups go through the
+        # helpers in PROTO_HELPERS, which the script body carries (see proto_helper_block).
+        if func in PROTO_GET_FUNCS:
+            if not is_var and arg.isdigit() and func != 'obj_pldesc':
+                # A literal vnum is split at conversion time (no helper needed)
                 composite = _vnum_to_composite(arg)
-                return f'mobiles.template({composite}).name'
-        elif func == 'obj_shortdesc':
-            # get_obj_shortdesc(vnum) -> objects.template(zone, local).name
-            if is_var:
-                return f'objects.template(vnum_to_zone({arg}), vnum_to_local({arg})).name'
-            else:
-                composite = _vnum_to_composite(arg)
-                return f'objects.template({composite}).name'
-        elif func == 'obj_noadesc':
-            # get_obj_noadesc(zone, id): short description without its article
-            if is_var:
-                return f'get_obj_noadesc(vnum_to_zone({arg}), vnum_to_local({arg}))'
-            return f'get_obj_noadesc({_vnum_to_composite(arg)})'
-        elif func == 'mob_count':
+                if func == 'obj_noadesc':
+                    return f'get_obj_noadesc({composite})'
+                template = 'mobiles' if func == 'mob_shortdesc' else 'objects'
+                return f'{template}.template({composite}).name'
+            return f'{PROTO_GET_FUNCS[func]}({arg})'
+        if func == 'room':
+            return f'room_name({arg})' if suffix == 'name' else f'room_by_vnum({arg})'
+        if func == 'mob_count':
             # get_mob_count(keyword) -> world.count_mobiles(keyword)
             # Note: DG Script's get.mob_count is a global count across the world
             if is_var:
@@ -641,7 +758,7 @@ def convert_text_with_vars(text: str) -> str:
         if end != -1:
             var = text[start + 1:end]
             expr = convert_variable_expr(var)
-            if expr.startswith('get_'):
+            if _is_string_call(expr):
                 parts.append(expr)
             else:
                 parts.append(f'tostring({expr})')
@@ -673,7 +790,7 @@ def convert_text_with_vars(text: str) -> str:
                 # Replace inner %var% with converted expressions
                 var = re.sub(r'%([^%\[\]]+)%', lambda m: convert_variable_expr(m.group(1)), var)
             expr = convert_variable_expr(var)
-            if expr.startswith('get_'):
+            if _is_string_call(expr):
                 parts.append(expr)
             else:
                 parts.append(f'tostring({expr})')
@@ -2009,7 +2126,7 @@ def convert_command(cmd: str, indent: int = 0, declared_vars: set | None = None)
         var_name = match.group(1)
         expr = match.group(2).strip()
         # Convert variables in expression
-        expr = re.sub(r'%([^%]+)%', lambda m: convert_variable_expr(m.group(1)), expr)
+        expr = _expand_vars(expr)
         # Convert operators
         expr = expr.replace('!=', ' ~= ')
         expr = expr.replace('&&', ' and ')
@@ -2670,7 +2787,9 @@ def convert_script_body(commands: str, command_trigger: bool = False) -> str:
         if not last_real_line.startswith('return'):
             lua_lines.append('return _return_value')
 
-    return '\n'.join(lua_lines)
+    body = '\n'.join(lua_lines)
+    helpers = proto_helper_block(body)
+    return f'{helpers}\n{body}' if helpers else body
 
 
 def convert_trigger(dg: DGTrigger) -> LuaTrigger:

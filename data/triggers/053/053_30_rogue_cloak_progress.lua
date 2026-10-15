@@ -2,9 +2,7 @@
 -- Zone: 53, ID: 30
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): same as 053_19 progress trigger: branch-scoped `cloak`/
--- `gem`/`place`/`hint`. Output retains DG `%get.obj_shortdesc[%cloak%]%`
--- templates. `_return_value` referenced but never defined. Full rewrite
+-- TODO(parity): same as 053_19 progress trigger: `_return_value` referenced but never defined. Full rewrite
 -- from DG #5330.
 --
 -- Original DG Script: #5330
@@ -13,6 +11,19 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"status", "progress"}) do
@@ -65,6 +76,7 @@ elseif actor.level >= (actor:get_quest_stage("treasure_hunter") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'There's still plenty of treasure out there, but it's too dangerous without more experience.  Come back when you've grown a little more.'")
 end
+local cloak, gem
 if actor.class == "rogue" or actor.class == "bard" or actor.class == "thief" then
     actor:send("</>")
     actor:send("<b:green>Cloak and Shadow</>")
@@ -96,48 +108,48 @@ if actor.class == "rogue" or actor.class == "bard" or actor.class == "thief" the
     do
         local _sw2 = string.lower(tostring(cloakstage or ""))
         if tonumber(_sw2) == 1 then
-            local cloak = 58801
-            local gem = 55585
+            cloak = 58801
+            gem = 55585
             place = "A Storage Room"
             hint = "in the house on the hill."
         elseif tonumber(_sw2) == 2 then
-            local cloak = 17307
-            local gem = 55593
+            cloak = 17307
+            gem = 55593
             place = "A Small Alcove"
             hint = "in the holy library."
         elseif tonumber(_sw2) == 3 then
-            local cloak = 10308
-            local gem = 55619
+            cloak = 10308
+            gem = 55619
             place = "either Treasure Room"
             hint = "in the paladin fortress."
         elseif tonumber(_sw2) == 4 then
-            local cloak = 12325
-            local gem = 55659
+            cloak = 12325
+            gem = 55659
             place = "The Treasure Room"
             hint = "beyond the Tower in the Wastes."
         elseif tonumber(_sw2) == 5 then
-            local cloak = 43022
-            local gem = 55663
+            cloak = 43022
+            gem = 55663
             place = "Treasury"
             hint = "in the ghostly fortress."
         elseif tonumber(_sw2) == 6 then
-            local cloak = 23810
-            local gem = 55674
+            cloak = 23810
+            gem = 55674
             place = "either Treasure Room with a chest"
             hint = "lost in the sands."
         elseif tonumber(_sw2) == 7 then
-            local cloak = 51013
-            local gem = 55714
+            cloak = 51013
+            gem = 55714
             place = "Mesmeriz's Secret Treasure Room"
             hint = "hidden deep underground."
         elseif tonumber(_sw2) == 8 then
-            local cloak = 58410
-            local gem = 55740
+            cloak = 58410
+            gem = 55740
             place = "Treasure Room"
             hint = "sunken in the swamp."
         elseif tonumber(_sw2) == 9 then
-            local cloak = 52009
-            local gem = 55741
+            cloak = 52009
+            gem = 55741
             place = "Treasure Room"
             hint = "buried with an ancient king."
         end
@@ -149,10 +161,10 @@ if actor.class == "rogue" or actor.class == "bard" or actor.class == "thief" the
             actor:send("- attacked " .. tostring(attack) .. " times")
         end
         if job2 then
-            actor:send("- found " .. "%get.obj_shortdesc[%cloak%]%")
+            actor:send("- found " .. proto_short(cloak))
         end
         if job3 then
-            actor:send("- found " .. "%get.obj_shortdesc[%gem%]%")
+            actor:send("- found " .. proto_short(gem))
         end
         if job4 then
             actor:send("- searched in " .. tostring(place))
@@ -169,10 +181,10 @@ if actor.class == "rogue" or actor.class == "bard" or actor.class == "thief" the
         actor:send("- attack <b:yellow>" .. tostring(remaining) .. "</> more times while wearing your cloak.")
     end
     if not job2 then
-        actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%cloak%]%</>")
+        actor:send("- find <b:yellow>" .. proto_short(cloak) .. "</>")
     end
     if not job3 then
-        actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</>")
+        actor:send("- find <b:yellow>" .. proto_short(gem) .. "</>")
     end
     if not job4 then
         actor:send("- <b:yellow>search</> in a place called \"<b:yellow>" .. tostring(place) .. "</>\".")

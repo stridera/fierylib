@@ -15,8 +15,6 @@
 --   * Branch-scoped `local response` / `local check` / `local reward` /
 --     `local number` chains never escape their elseif blocks, so the
 --     dispatch at the end always sees nil.
---   * Embedded `%get.obj_shortdesc[%maceitem2%]%` interpolations need
---     `objects.template` lookups.
 --   * `objects.template(552, 11)` etc. are passed to the introductory
 --     prompt at mob 3:25 — those (zone, id) pairs are best-guess and
 --     need verification against the legacy item table.

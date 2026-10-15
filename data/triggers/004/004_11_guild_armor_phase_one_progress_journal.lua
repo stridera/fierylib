@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 11
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #411
 
 -- Converted from DG Script #411: Guild Armor Phase One progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, "armor")) and (string.find(arg, "one") or string.find(arg, "1"))) or string.find(arg, "guild_armor_phase_one") or string.find(arg, "guild_armor_phase_1") or string.find(arg, "phase_armor_one") or string.find(arg, "phase_armor_1") then
     _return_value = true
@@ -167,13 +179,13 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
         actor:send("<cyan>Status: In Progress</>")
         actor:send("Quest Master is: " .. tostring(master))
         actor:send("You need to retrieve:")
-        actor:send("</>  " .. "%get.obj_shortdesc[%hands_armor%]% and 3 of %get.obj_shortdesc[%hands_gem%]%")
-        actor:send("</>  " .. "%get.obj_shortdesc[%feet_armor%]% and 3 of %get.obj_shortdesc[%feet_gem%]%")
-        actor:send("</>  " .. "%get.obj_shortdesc[%wrist_armor%]% and 3 of %get.obj_shortdesc[%wrist_gem%]%")
-        actor:send("</>  " .. "%get.obj_shortdesc[%head_armor%]% and 3 of %get.obj_shortdesc[%head_gem%]%")
-        actor:send("</>  " .. "%get.obj_shortdesc[%arms_armor%]% and 3 of %get.obj_shortdesc[%arms_gem%]%")
-        actor:send("</>  " .. "%get.obj_shortdesc[%legs_armor%]% and 3 of %get.obj_shortdesc[%legs_gem%]%")
-        actor:send("</>  " .. "%get.obj_shortdesc[%body_armor%]% and 3 of %get.obj_shortdesc[%body_gem%]%")
+        actor:send("</>  " .. proto_short(hands_armor) .. " and 3 of " .. proto_short(hands_gem))
+        actor:send("</>  " .. proto_short(feet_armor) .. " and 3 of " .. proto_short(feet_gem))
+        actor:send("</>  " .. proto_short(wrist_armor) .. " and 3 of " .. proto_short(wrist_gem))
+        actor:send("</>  " .. proto_short(head_armor) .. " and 3 of " .. proto_short(head_gem))
+        actor:send("</>  " .. proto_short(arms_armor) .. " and 3 of " .. proto_short(arms_gem))
+        actor:send("</>  " .. proto_short(legs_armor) .. " and 3 of " .. proto_short(legs_gem))
+        actor:send("</>  " .. proto_short(body_armor) .. " and 3 of " .. proto_short(body_gem))
         if given == 0 then
             actor:send("You haven't retrieved anything yet.")
             return _return_value
@@ -181,71 +193,71 @@ if ((string.find(arg, "guild") or string.find(arg, "phase") or string.find(arg, 
             actor:send("You have found:")
         end
         if got_hands and not done_hands then
-            actor:send("</>  " .. "%get.obj_shortdesc[%hands_armor%]%")
+            actor:send("</>  " .. proto_short(hands_armor))
         end
         if hands_count and not done_hands then
-            actor:send("</>  " .. tostring(hands_count) .. " of " .. "%get.obj_shortdesc[%hands_gem%]%")
+            actor:send("</>  " .. tostring(hands_count) .. " of " .. proto_short(hands_gem))
         end
         if got_feet and not done_feet then
-            actor:send("</>  " .. "%get.obj_shortdesc[%feet_armor%]%")
+            actor:send("</>  " .. proto_short(feet_armor))
         end
         if feet_count and not done_feet then
-            actor:send("</>  " .. tostring(feet_count) .. " of " .. "%get.obj_shortdesc[%feet_gem%]%")
+            actor:send("</>  " .. tostring(feet_count) .. " of " .. proto_short(feet_gem))
         end
         if got_wrist and not done_wrist then
-            actor:send("</>  " .. "%get.obj_shortdesc[%wrist_armor%]%")
+            actor:send("</>  " .. proto_short(wrist_armor))
         end
         if wrist_count and not done_wrist then
-            actor:send("</>  " .. tostring(wrist_count) .. " of " .. "%get.obj_shortdesc[%wrist_gem%]%")
+            actor:send("</>  " .. tostring(wrist_count) .. " of " .. proto_short(wrist_gem))
         end
         if got_head and not done_head then
-            actor:send("</>  " .. "%get.obj_shortdesc[%head_armor%]%")
+            actor:send("</>  " .. proto_short(head_armor))
         end
         if head_count and not done_head then
-            actor:send("</>  " .. tostring(head_count) .. " of " .. "%get.obj_shortdesc[%head_gem%]%")
+            actor:send("</>  " .. tostring(head_count) .. " of " .. proto_short(head_gem))
         end
         if got_arms and not done_arms then
-            actor:send("</>  " .. "%get.obj_shortdesc[%arms_armor%]%")
+            actor:send("</>  " .. proto_short(arms_armor))
         end
         if arms_count and not done_arms then
-            actor:send("</>  " .. tostring(arms_count) .. " of " .. "%get.obj_shortdesc[%arms_gem%]%")
+            actor:send("</>  " .. tostring(arms_count) .. " of " .. proto_short(arms_gem))
         end
         if got_legs and not done_legs then
-            actor:send("</>  " .. "%get.obj_shortdesc[%legs_armor%]%")
+            actor:send("</>  " .. proto_short(legs_armor))
         end
         if legs_count and not done_legs then
-            actor:send("</>  " .. tostring(legs_count) .. " of " .. "%get.obj_shortdesc[%legs_gem%]%")
+            actor:send("</>  " .. tostring(legs_count) .. " of " .. proto_short(legs_gem))
         end
         if got_body and not done_body then
-            actor:send("</>  " .. "%get.obj_shortdesc[%body_armor%]%")
+            actor:send("</>  " .. proto_short(body_armor))
         end
         if body_count and not done_body then
-            actor:send("</>  " .. tostring(body_count) .. " of " .. "%get.obj_shortdesc[%body_gem%]%")
+            actor:send("</>  " .. tostring(body_count) .. " of " .. proto_short(body_gem))
         end
         if done_hands and done_feet and done_wrist and done_head and done_arms and done_legs and done_body then
             actor:send("</>")
             actor:send("You have completed quests for:")
         end
         if done_hands then
-            actor:send("</>  " .. "%get.obj_shortdesc[%hands_reward%]%")
+            actor:send("</>  " .. proto_short(hands_reward))
         end
         if done_feet then
-            actor:send("</>  " .. "%get.obj_shortdesc[%feet_reward%]%")
+            actor:send("</>  " .. proto_short(feet_reward))
         end
         if done_wrist then
-            actor:send("</>  " .. "%get.obj_shortdesc[%wrist_reward%]%")
+            actor:send("</>  " .. proto_short(wrist_reward))
         end
         if done_head then
-            actor:send("</>  " .. "%get.obj_shortdesc[%head_reward%]%")
+            actor:send("</>  " .. proto_short(head_reward))
         end
         if done_arms then
-            actor:send("</>  " .. "%get.obj_shortdesc[%arms_reward%]%")
+            actor:send("</>  " .. proto_short(arms_reward))
         end
         if done_legs then
-            actor:send("</>  " .. "%get.obj_shortdesc[%legs_reward%]%")
+            actor:send("</>  " .. proto_short(legs_reward))
         end
         if done_body then
-            actor:send("</>  " .. "%get.obj_shortdesc[%body_reward%]%")
+            actor:send("</>  " .. proto_short(body_reward))
         end
     else
         actor:send("<cyan>Status: Not Started</>")

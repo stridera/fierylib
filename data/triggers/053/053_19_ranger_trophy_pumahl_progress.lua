@@ -2,10 +2,7 @@
 -- Zone: 53, ID: 19
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): trophy/gem/place/hint locals are branch-scoped (84-128)
--- but referenced at 137/140/143/157/160/163. Output strings retain DG
--- `%get.obj_shortdesc[%trophy%]%` literals — replace with
--- `objects.template(zone, id).name`. `_return_value` is referenced but
+-- TODO(parity): `_return_value` is referenced but
 -- never defined (used in early returns). 1% probability is also low for
 -- a status query — verify against DG #5319.
 --
@@ -15,6 +12,19 @@
 -- Original: MOB trigger, flags: SPEECH, num_arg: 1 (DG word-list mode, not a probability)
 
 -- DG word list (num_arg 1): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"status", "progress"}) do
@@ -63,6 +73,7 @@ elseif actor.level >= (actor:get_quest_stage("beast_master") - 1) * 10 then
 else
     actor:send(tostring(self.name) .. " says, 'Unfortunately I don't have any beasts for you to pursue at the moment.  Check back later!'")
 end
+local trophy, gem
 if actor.class == "warrior" or actor.class == "ranger" or actor.class == "berserker" or actor.class == "mercenary" then
     actor:send("</>")
     actor:send("<b:green>Eye of the Tiger</>")
@@ -94,48 +105,48 @@ if actor.class == "warrior" or actor.class == "ranger" or actor.class == "berser
     do
         local _sw2 = string.lower(tostring(trophystage or ""))
         if tonumber(_sw2) == 1 then
-            local trophy = 1607
-            local gem = 55579
+            trophy = 1607
+            gem = 55579
             place = "A Coyote's Den"
             hint = "near the Kingdom of the Meer Cats."
         elseif tonumber(_sw2) == 2 then
-            local trophy = 17806
-            local gem = 55591
+            trophy = 17806
+            gem = 55591
             place = "In the Lions' Den"
             hint = "in the western reaches of Gothra."
         elseif tonumber(_sw2) == 3 then
-            local trophy = 1805
-            local gem = 55628
+            trophy = 1805
+            gem = 55628
             place = "either of the two Gigantic Roc Nests"
             hint = "in the Wailing Mountains."
         elseif tonumber(_sw2) == 4 then
-            local trophy = 62513
-            local gem = 55652
+            trophy = 62513
+            gem = 55652
             place = "Chieftain's Lair"
             hint = "in Nukreth Spire in South Caelia."
         elseif tonumber(_sw2) == 5 then
-            local trophy = 23803
-            local gem = 55664
+            trophy = 23803
+            gem = 55664
             place = "The Heart of the Den"
             hint = "where the oldest unicorn in South Caelia makes its home."
         elseif tonumber(_sw2) == 6 then
-            local trophy = 43009
-            local gem = 55685
+            trophy = 43009
+            gem = 55685
             place = "Giant Lynx's Lair"
             hint = "far to the north beyond Mt. Frostbite."
         elseif tonumber(_sw2) == 7 then
-            local trophy = 47008
-            local gem = 55705
+            trophy = 47008
+            gem = 55705
             place = "Giant Griffin's Nest"
             hint = "tucked away in a secluded and well guarded corner of Griffin Island."
         elseif tonumber(_sw2) == 8 then
-            local trophy = 53323
-            local gem = 55729
+            trophy = 53323
+            gem = 55729
             place = "Witch's Den"
             hint = "entombed with an ancient evil king."
         elseif tonumber(_sw2) == 9 then
-            local trophy = 52014
-            local gem = 55741
+            trophy = 52014
+            gem = 55741
             place = "Dargentan's Lair"
             hint = "at the pinnacle of his flying fortress."
         end
@@ -147,10 +158,10 @@ if actor.class == "warrior" or actor.class == "ranger" or actor.class == "berser
             actor:send("- attacked " .. tostring(attack) .. " times")
         end
         if job2 then
-            actor:send("- found " .. "%get.obj_shortdesc[%trophy%]%")
+            actor:send("- found " .. proto_short(trophy))
         end
         if job3 then
-            actor:send("- found " .. "%get.obj_shortdesc[%gem%]%")
+            actor:send("- found " .. proto_short(gem))
         end
         if job4 then
             actor:send("- foraged in " .. tostring(place))
@@ -167,10 +178,10 @@ if actor.class == "warrior" or actor.class == "ranger" or actor.class == "berser
         actor:send("- attack <b:green>" .. tostring(remaining) .. "</> more times while wearing your trophy.")
     end
     if not job2 then
-        actor:send("- find <b:green>" .. "%get.obj_shortdesc[%trophy%]%</>")
+        actor:send("- find <b:green>" .. proto_short(trophy) .. "</>")
     end
     if not job3 then
-        actor:send("- find <b:green>" .. "%get.obj_shortdesc[%gem%]%</>")
+        actor:send("- find <b:green>" .. proto_short(gem) .. "</>")
     end
     if not job4 then
         actor:send("- <b:green>forage</> in a place called \"<b:green>" .. tostring(place) .. "</>\".")

@@ -1,14 +1,7 @@
 -- Trigger: Paladin pendant Isilynor speech
 -- Zone: 30, ID: 87
 -- Type: MOB, Flags: SPEECH
--- Status: NEEDS_REWRITE
---
--- TODO(parity): converter declared `local necklace`, `local gem`, `local place`,
--- and `local hint` inside every if/elseif branch. They are nil at the
--- `actor:send(... %get.obj_shortdesc[%necklace%]% ...)` lines below. Hoist
--- those locals, drop the `local` keyword in branches, and replace
--- `%get.obj_shortdesc[%necklace%]%` / `%get.obj_shortdesc[%gem%]%` with
--- `objects.template(math.floor(necklace/100), necklace%100).name`.
+-- Status: CLEAN
 --
 -- Original DG Script: #3087
 
@@ -16,6 +9,19 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"devotion"}) do
@@ -61,51 +67,52 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on pendantstage
 local place, hint
+local necklace, gem
 do
     local _sw1 = string.lower(tostring(pendantstage or ""))
     if tonumber(_sw1) == 1 then
-        local necklace = 12003
-        local gem = 55582
+        necklace = 12003
+        gem = 55582
         place = "The Mist Temple Altar"
         hint = "in the Misty Caverns."
     elseif tonumber(_sw1) == 2 then
-        local necklace = 23708
-        local gem = 55590
+        necklace = 23708
+        gem = 55590
         place = "Chamber of Chaos"
         hint = "in the Temple of Chaos."
     elseif tonumber(_sw1) == 3 then
-        local necklace = 58005
-        local gem = 55622
+        necklace = 58005
+        gem = 55622
         place = "Altar of Borgan"
         hint = "in the lost city of Nymrill."
     elseif tonumber(_sw1) == 4 then
-        local necklace = 48123
-        local gem = 55654
+        necklace = 48123
+        gem = 55654
         place = "A Hidden Altar Room"
         hint = "in a cave in South Caelia's Wailing Mountains."
     elseif tonumber(_sw1) == 5 then
-        local necklace = 12336
-        local gem = 55662
+        necklace = 12336
+        gem = 55662
         place = "The Altar of the Snow Leopard Order"
         hint = "buried deep in Mt. Frostbite"
     elseif tonumber(_sw1) == 6 then
-        local necklace = 43019
-        local gem = 55677
+        necklace = 43019
+        gem = 55677
         place = "Chapel Altar"
         hint = "deep underground in a lost castle."
     elseif tonumber(_sw1) == 7 then
-        local necklace = 37015
-        local gem = 55709
+        necklace = 37015
+        gem = 55709
         place = "A Cliffside Altar"
         hint = "tucked away in the land of Dreams."
     elseif tonumber(_sw1) == 8 then
-        local necklace = 58429
-        local gem = 55738
+        necklace = 58429
+        gem = 55738
         place = "Dark Altar"
         hint = "entombed with an ancient evil king."
     elseif tonumber(_sw1) == 9 then
-        local necklace = 52010
-        local gem = 55739
+        necklace = 52010
+        gem = 55739
         place = "An Altar"
         hint = "far away in the Plane of Air."
     end
@@ -114,8 +121,8 @@ local attacks = pendantstage * 100
 self:command("nod")
 actor:send(tostring(self.name) .. " says, 'With each act of devotion you'll earn a new necklace.  Undertake the following:")
 actor:send("- Attack <b:yellow>" .. tostring(attacks) .. "</> times while wearing your current necklace.")
-actor:send("- Find <b:yellow>" .. "%get.obj_shortdesc[%necklace%]%</> as the base for the new necklace.")
-actor:send("- Find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</> for decoration.")
+actor:send("- Find <b:yellow>" .. proto_short(necklace) .. "</> as the base for the new necklace.")
+actor:send("- Find <b:yellow>" .. proto_short(gem) .. "</> for decoration.")
 actor:send("</>")
 actor:send("You also need to take your necklace and <b:yellow>[pray]</> in a sanctified space.")
 actor:send("Find \"<b:yellow>" .. tostring(place) .. "</>\".  It's " .. tostring(hint))

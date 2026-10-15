@@ -87,11 +87,6 @@ KNOWN_NAMES: dict[str, set[str]] = {
     "004_60_eye_of_the_tiger_progress_journal.lua": {"master"},
     "023_14_hell_trident_speech_trident_upgrades.lua": {"hellstage"},
     "188_70_smart_combat.lua": {"outside", "outdoors"},
-    # `%get.*%` DG remnants (documented converter bug: there is no `get` global).
-    "004_49_air_wand_progress_journal.lua": {"get", "place"},
-    "004_50_fire_wand_progress_journal.lua": {"get"},
-    "004_51_ice_wand_progress_journal.lua": {"get"},
-    "004_52_acid_wand_progress_journal.lua": {"get"},
     # NEEDS_REVIEW rewrites: `person` was never assigned in the DG source either; the whole
     # reward block (expmod) is mid-rewrite, see the header TODO.
     "030_83_dragon_slayer_isilynor_receive.lua": {"person"},
@@ -285,6 +280,26 @@ def test_no_script_stores_the_old_or_true_artefact():
         if pat.search(line) and not line.lstrip().startswith("--")
     ]
     assert not bad, "`globals.x = globals.x or true` stores `true`, not the value:\n" + "\n".join(bad)
+
+
+def _code_lines():
+    for p in sorted(TRIGGER_DIR.rglob("*.lua")):
+        for n, line in enumerate(p.read_text().splitlines(), 1):
+            if not line.lstrip().startswith("--"):
+                yield p.name, n, line
+
+
+def test_no_script_keeps_raw_dg_get_lookups():
+    pat = re.compile(r"%get\.|\bget\.\w+\[|(?<![\w.])get\.(?:room|obj_|mob_)")
+    bad = [f"{f}:{n}  {line.strip()[:100]}" for f, n, line in _code_lines() if pat.search(line)]
+    assert not bad, "raw DG `%get.*%` / `get.room[]` left in code (use proto_short() & co):\n" + "\n".join(bad)
+
+
+def test_no_script_reads_the_vnum_property():
+    # fierymud-rs has no vnums: `self.vnum` / `object.vnum` is nil without an error
+    pat = re.compile(r"[\w\])]\.vnum\b")
+    bad = [f"{f}:{n}" for f, n, line in _code_lines() if pat.search(line)]
+    assert not bad, "`.vnum` is nil in the engine, use (zone_id, id):\n" + "\n".join(bad)
 
 
 def test_converter_literal_damage_assigns_damage_dealt():

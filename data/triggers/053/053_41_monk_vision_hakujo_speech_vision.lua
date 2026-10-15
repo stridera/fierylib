@@ -2,10 +2,8 @@
 -- Zone: 53, ID: 41
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): branch-scoped `book`, `gem`, `room`, `place`, `hint`
--- (used at 110-115). `get_room("4328")` is called with a 5-digit string
--- vnum — the API requires `(zone, id)`. Output retains DG
--- `%get.obj_shortdesc[%gem%]%` literals. `_return_value` referenced
+-- TODO(parity): `get_room("4328")` is called with a 5-digit string
+-- vnum — the API requires `(zone, id)`. `_return_value` referenced
 -- but never defined. Full rewrite from DG #5341.
 --
 -- Original DG Script: #5341
@@ -14,6 +12,19 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"vision", "enlightenment"}) do
@@ -58,59 +69,60 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on visionstage
 local place, hint
+local gem, book
 do
     local _sw1 = string.lower(tostring(visionstage or ""))
     if tonumber(_sw1) == 1 then
-        local book = 59006
-        local gem = 55582
+        book = 59006
+        gem = 55582
         local room = get_room("4328")
         place = room.name
         hint = "in a place to perform."
     elseif tonumber(_sw1) == 2 then
-        local book = 18505
-        local gem = 55591
+        book = 18505
+        gem = 55591
         local room = get_room("58707")
         place = room.name
         hint = "near a sandy beach."
     elseif tonumber(_sw1) == 3 then
-        local book = 8501
-        local gem = 55623
+        book = 8501
+        gem = 55623
         local room = get_room("18597")
         place = room.name
         hint = "in a cloistered library."
     elseif tonumber(_sw1) == 4 then
-        local book = 12532
-        local gem = 55655
+        book = 12532
+        gem = 55655
         local room = get_room("58102")
         place = room.name
         hint = "on my home island."
     elseif tonumber(_sw1) == 5 then
-        local book = 16209
-        local gem = 55665
+        book = 16209
+        gem = 55665
         local room = get_room("16057")
         place = room.name
         hint = "in the ghostly fortress."
     elseif tonumber(_sw1) == 6 then
-        local book = 43013
-        local gem = 55678
+        book = 43013
+        gem = 55678
         local room = get_room("59054")
         place = room.name
         hint = "in the fortress of the zealous."
     elseif tonumber(_sw1) == 7 then
-        local book = 53009
-        local gem = 55710
+        book = 53009
+        gem = 55710
         local room = get_room("49079")
         place = room.name
         hint = "off-shore of the island of great beasts."
     elseif tonumber(_sw1) == 8 then
-        local book = 58415
-        local gem = 55722
+        book = 58415
+        gem = 55722
         local room = get_room("11820")
         place = room.name
         hint = "beyond the Blue-Fog Trail."
     elseif tonumber(_sw1) == 9 then
-        local book = 58412
-        local gem = 55741
+        book = 58412
+        gem = 55741
         local room = get_room("52075")
         place = room.name
         hint = "in the shattered citadel of Templace."
@@ -124,7 +136,7 @@ if visionstage == 1 then
 end
 actor:send(tostring(self.name) .. " says, 'For your vision quest do the following:")
 actor:send("- Attack <b:yellow>" .. tostring(attacks) .. "</> times while wearing your current vision marking.")
-actor:send("- Find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</> to awaken your Third Eye charka and <b:yellow>%get.obj_shortdesc[%book%]%</>.")
+actor:send("- Find <b:yellow>" .. proto_short(gem) .. "</> to awaken your Third Eye charka and <b:yellow>" .. proto_short(book) .. "</>.")
 actor:send("- While donning your vision marking, take gem and text to a place of deep reflection and <b:yellow>[read]</> the text to broaden your awareness.")
 actor:send("</>  Go to \"<b:yellow>" .. tostring(place) .. "</>\".  It's " .. tostring(hint))
 actor:send("</>")

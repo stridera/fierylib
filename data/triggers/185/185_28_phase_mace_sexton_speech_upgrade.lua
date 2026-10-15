@@ -9,9 +9,21 @@
 --
 -- `macestep`, `maceattack` and `maceitem2..5` are DG globals set on this mob by its LOAD
 -- trigger (002_118); they are read from the mob's `globals` table.
--- TODO(parity): the `%get.obj_shortdesc[%maceitemN%]%` placeholders below are still DG remnants:
--- the ids are legacy vnums and need `get_obj_noadesc(zone, id)` with a composite id.
+-- The item names resolve through proto_short() (legacy vnum = zone * 100 + id).
 
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local s = string.lower(speech)
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
@@ -37,11 +49,11 @@ if actor.class == "cleric" or actor.class == "priest" then
             self:say("You'll need to use your mace " .. tostring(globals.maceattack) .. " times.")
             -- (empty room echo)
             self:say("I'll also need the following:")
-            self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem3%]%</>, for its spiritual protection.")
+            self.room:send("- <b:cyan>" .. proto_short(globals.maceitem3) .. "</>, for its spiritual protection.")
             if globals.macestep ~= 2 then
-                self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem2%]%</>, as a model for the new mace.")
-                self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem3%]%</>, for its power in fighting the undead.")
-                self.room:send("- <b:cyan>" .. "%get.obj_shortdesc[%maceitem4%]%</>, for its guiding light.")
+                self.room:send("- <b:cyan>" .. proto_short(globals.maceitem2) .. "</>, as a model for the new mace.")
+                self.room:send("- <b:cyan>" .. proto_short(globals.maceitem3) .. "</>, for its power in fighting the undead.")
+                self.room:send("- <b:cyan>" .. proto_short(globals.maceitem4) .. "</>, for its guiding light.")
             else
                 -- (empty room echo)
                 self.room:send(tostring(self.name) .. " says, 'And finally, you'll need to make a pilgrimage to four burial")

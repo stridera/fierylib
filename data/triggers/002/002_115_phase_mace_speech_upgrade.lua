@@ -7,13 +7,23 @@
 -- requirement, and the breadcrumb to the next priest if the player has
 -- already moved past this one.
 --
--- TODO(parity): `%get.obj_shortdesc[%maceitemN%]%` interpolations are
--- preserved as literal text in the response strings — the per-mob
--- maceitem ids are exported via globals by 002_118, but the right-side
--- lookup helper (`objects.template(z, id).name`) needs the items
--- normalised to (zone, local) pairs first.
+-- The per-mob maceitem ids are exported via globals by 002_118; the item names resolve
+-- through proto_short() (legacy vnum = zone * 100 + id).
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech or "") .. " "
 local speech_hit = false
 for _, w in ipairs({"upgrade", "upgrades", "upgrading", "improvement", "improvements", "improving"}) do
@@ -41,11 +51,11 @@ if actor.class == "cleric" or actor.class == "priest" then
                 actor:send(tostring(self.name) .. " says, 'I can add benedictions to your mace, yes.'")
                 actor:send(tostring(self.name) .. " says, 'You'll need to use your mace <b:yellow>" .. tostring(maceattack) .. "</> times.'")
                 actor:send(tostring(self.name) .. " says, 'I'll also need the following:'")
-                actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem2%]%</>, for its spiritual protection.")
+                actor:send("- <b:yellow>" .. proto_short(globals.maceitem2) .. "</>, for its spiritual protection.")
                 if macestep ~= 2 then
-                    actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem3%]%</>, as a model for the new mace.")
-                    actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem4%]%</>, for its power in fighting the undead.")
-                    actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem5%]%</>, for its guiding light.")
+                    actor:send("- <b:yellow>" .. proto_short(globals.maceitem3) .. "</>, as a model for the new mace.")
+                    actor:send("- <b:yellow>" .. proto_short(globals.maceitem4) .. "</>, for its power in fighting the undead.")
+                    actor:send("- <b:yellow>" .. proto_short(globals.maceitem5) .. "</>, for its guiding light.")
                 else
                     actor:send(tostring(self.name) .. " says, 'And you'll need to make a pilgrimage to four burial grounds to see what lies ahead on your journey:'")
                     actor:send("- <b:yellow>the necropolis near Anduin</>")

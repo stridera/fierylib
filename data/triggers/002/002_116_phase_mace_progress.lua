@@ -7,13 +7,23 @@
 -- what's still required, or gives the next breadcrumb if they have
 -- moved past this priest.
 --
--- TODO(parity): Same DG-interpolation pattern as 002_113 — the per-mob
--- maceitem ids are exported via globals by 002_118, but
--- `%get.obj_shortdesc[%maceitemN%]%` strings are kept literal here
--- because the (zone, id) lookup helpers haven't been wired up yet. Also
--- removes a converter `percent_chance(0)` synthetic gate.
+-- The per-mob maceitem ids are exported via globals by 002_118; the item names resolve
+-- through proto_short() (legacy vnum = zone * 100 + id).
 
 -- Speech phrase: mace progress (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech or "") .. " "
 if not string.find(speech_padded, "[%s%p]mace progress[%s%p]") then
     return true  -- Not the phrase
@@ -43,10 +53,10 @@ elseif stage == macestep and actor.level >= macestep * 10 then
         if job1 or job2 or job3 or job4 or job5 then
             actor:send(tostring(self.name) .. " says, 'You've done the following:'")
             if job1 then actor:send("- attacked " .. tostring(maceattack) .. " times") end
-            if job2 then actor:send("- found %get.obj_shortdesc[%maceitem2%]%") end
-            if job3 then actor:send("- found %get.obj_shortdesc[%maceitem3%]%") end
-            if job4 then actor:send("- found %get.obj_shortdesc[%maceitem4%]%") end
-            if job5 then actor:send("- found %get.obj_shortdesc[%maceitem5%]%") end
+            if job2 then actor:send("- found " .. proto_short(globals.maceitem2)) end
+            if job3 then actor:send("- found " .. proto_short(globals.maceitem3)) end
+            if job4 then actor:send("- found " .. proto_short(globals.maceitem4)) end
+            if job5 then actor:send("- found " .. proto_short(globals.maceitem5)) end
         end
         actor:send("You need to:")
         if job1 and job2 and job3 and job4 and job5 then
@@ -68,12 +78,12 @@ elseif stage == macestep and actor.level >= macestep * 10 then
                 actor:send("- <b:yellow>attack " .. tostring(remaining) .. " more time with your mace</>")
             end
         end
-        if not job2 then actor:send("- <b:yellow>find %get.obj_shortdesc[%maceitem2%]%</>") end
-        if not job3 then actor:send("- <b:yellow>find %get.obj_shortdesc[%maceitem3%]%</>") end
-        if not job4 then actor:send("- <b:yellow>find %get.obj_shortdesc[%maceitem4%]%</>") end
-        if not job5 then actor:send("- <b:yellow>find %get.obj_shortdesc[%maceitem5%]%</>") end
+        if not job2 then actor:send("- <b:yellow>find " .. proto_short(globals.maceitem2) .. "</>") end
+        if not job3 then actor:send("- <b:yellow>find " .. proto_short(globals.maceitem3) .. "</>") end
+        if not job4 then actor:send("- <b:yellow>find " .. proto_short(globals.maceitem4) .. "</>") end
+        if not job5 then actor:send("- <b:yellow>find " .. proto_short(globals.maceitem5) .. "</>") end
         if macestep == 2 and not job6 then
-            actor:send("- <b:yellow>find %get.obj_shortdesc[%maceitem6%]%</>")
+            actor:send("- <b:yellow>find " .. proto_short(globals.maceitem6) .. "</>")
         end
     end
 elseif (stage or 0) > 0 and stage > macestep then

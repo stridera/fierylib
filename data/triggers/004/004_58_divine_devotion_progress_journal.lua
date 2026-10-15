@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 58
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #458
 
 -- Converted from DG Script #458: Divine Devotion progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg, "divine_devotion") or string.find(arg, "paladin_pendant") or string.find(arg, "paladin pendant") then
     local anti = "Anti-Paladin"
@@ -110,10 +122,10 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
                     actor:send("- attacked " .. tostring(attack) .. " times")
                 end
                 if job2 then
-                    actor:send("- found " .. "%get.obj_shortdesc[%necklace%]%")
+                    actor:send("- found " .. proto_short(necklace))
                 end
                 if job3 then
-                    actor:send("- found " .. "%get.obj_shortdesc[%gem%]%")
+                    actor:send("- found " .. proto_short(gem))
                 end
                 if job4 then
                     actor:send("- prayed in " .. tostring(place))
@@ -130,10 +142,10 @@ if string.find(arg, "divine") or string.find(arg, "devotion") or string.find(arg
                 actor:send("- attack <b:yellow>" .. tostring(remaining) .. "</> more times while wearing your necklace.")
             end
             if not job2 then
-                actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%necklace%]%</>")
+                actor:send("- find <b:yellow>" .. proto_short(necklace) .. "</>")
             end
             if not job3 then
-                actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</>")
+                actor:send("- find <b:yellow>" .. proto_short(gem) .. "</>")
             end
             if not job4 then
                 actor:send("- <b:yellow>pray</> in a place called \"<b:yellow>" .. tostring(place) .. "</>\".")

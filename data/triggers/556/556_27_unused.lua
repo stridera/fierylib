@@ -8,6 +8,19 @@
 -- Original: MOB trigger, flags: SPEECH_TO, probability: 0%
 
 -- Speech phrase: status (DG num_arg 0 = the speech contains the whole phrase, on word boundaries)
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 if not string.find(speech_padded, "[%s%p]status[%s%p]") then
     return true  -- Not the phrase
@@ -20,8 +33,6 @@ end
 --     instead of being interpolated with the per-class id_destroyed_* values, so every
 --     class shares the same key namespace and the per-class id_* tables below are dead
 --     code.
---   * Output uses raw "%get.obj_shortdesc[%X%]%" placeholders (DG syntax) instead of
---     looking up object names via objects.template(zone, id).name.
 --   * 5-digit legacy vnums (55300+) need to be split into composite (zone, id) pairs
 --     and resolved through the object catalog.
 --   * The "given" truthiness check (line: "if given then") sums numeric quest vars,
@@ -98,70 +109,70 @@ if right_class then
             return _return_value
         end
         if gloves_armor and not done_gloves then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_gloves%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_gloves) .. "'")
         end
         if gloves_gems and not done_gloves then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(gloves_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_gloves%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(gloves_gems) .. " of " .. proto_short(id_gem_gloves) .. "'")
         end
         if boots_armor and not done_boots then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_boots%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_boots) .. "'")
         end
         if boots_gems and not done_boots then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(boots_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_boots%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(boots_gems) .. " of " .. proto_short(id_gem_boots) .. "'")
         end
         if bracer_armor and not done_bracer then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_bracer%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_bracer) .. "'")
         end
         if bracer_gems and not done_bracer then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(bracer_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_bracer%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(bracer_gems) .. " of " .. proto_short(id_gem_bracer) .. "'")
         end
         if helm_armor and not done_helm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_helm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_helm) .. "'")
         end
         if helm_gems and not done_helm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(helm_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_helm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(helm_gems) .. " of " .. proto_short(id_gem_helm) .. "'")
         end
         if arm_armor and not done_arm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_arm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_arm) .. "'")
         end
         if arm_gems and not done_arm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(arm_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_arm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(arm_gems) .. " of " .. proto_short(id_gem_arm) .. "'")
         end
         if legs_armor and not done_legs then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_legs%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_legs) .. "'")
         end
         if legs_gems and not done_legs then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(legs_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_legs%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(legs_gems) .. " of " .. proto_short(id_gem_legs) .. "'")
         end
         if chest_armor and not done_chest then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_destroyed_chest%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_destroyed_chest) .. "'")
         end
         if chest_gems and not done_chest then
-            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(chest_gems) .. " of " .. "%get.obj_shortdesc[%id_gem_chest%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. tostring(chest_gems) .. " of " .. proto_short(id_gem_chest) .. "'")
         end
         if done_gloves and done_boots and done_bracer and done_helm and done_arm and done_legs and done_chest then
             actor:send(tostring(self.name) .. " tells you, 'You have completed quests for:'")
         end
         if done_gloves then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_gloves%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_gloves) .. "'")
         end
         if done_boots then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_boots%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_boots) .. "'")
         end
         if done_bracer then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_bracer%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_bracer) .. "'")
         end
         if done_helm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_helm%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_helm) .. "'")
         end
         if done_arm then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_arms%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_arms) .. "'")
         end
         if done_legs then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_legs%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_legs) .. "'")
         end
         if done_chest then
-            actor:send(tostring(self.name) .. " tells you, '  " .. "%get.obj_shortdesc[%id_reward_chest%]%'")
+            actor:send(tostring(self.name) .. " tells you, '  " .. proto_short(id_reward_chest) .. "'")
         end
     else
         actor:send(tostring(self.name) .. " tells you, 'You haven't even talked to me about armor quests yet!'")

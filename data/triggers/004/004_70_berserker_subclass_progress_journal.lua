@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 70
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #470
 
 -- Converted from DG Script #470: Berserker Subclass progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function mob_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and mobiles.template(zone, id).name
+    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if actor.level > 10 then
     local berserkerraces = "none"
@@ -50,7 +62,7 @@ if actor.level > 10 then
                             place = "the frozen tundra"
                         end
                     end
-                    actor:send("The Spirits revealed to you a vision of " .. "%get.mob_shortdesc[%target%]%!")
+                    actor:send("The Spirits revealed to you a vision of " .. mob_short(target) .. "!")
                     actor:send("You saw it iss in " .. tostring(place) .. "!")
                 end
             end

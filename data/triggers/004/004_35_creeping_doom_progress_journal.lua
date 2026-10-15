@@ -2,13 +2,27 @@
 -- Zone: 4, ID: 35
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #435
 
 -- Converted from DG Script #435: Creeping Doom progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
+local item1, item2, item3
+local place1, place2, place3
 if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.find(arg, "creeping_doom") then
     if actor.level >= 75 and string.find(actor.class, "druid") then
         _return_value = true
@@ -32,12 +46,12 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
             do
                 local _sw1 = string.lower(tostring(stage or ""))
                 if tonumber(_sw1) == 1 then
-                    local item1 = 11812
-                    local place1 = "an assassin vine on Mist Mountain"
-                    local item2 = 16213
-                    local place2 = "the great pyramid"
-                    local item3 = 48029
-                    local place3 = "Rhalean's evil sister in the northern barrow"
+                    item1 = 11812
+                    place1 = "an assassin vine on Mist Mountain"
+                    item2 = 16213
+                    place2 = "the great pyramid"
+                    item3 = 48029
+                    place3 = "Rhalean's evil sister in the northern barrow"
                     step = "gathering Nature's Rage"
                 elseif tonumber(_sw1) == 2 then
                     local essence = actor:get_quest_var("creeping_doom:spiders")
@@ -51,12 +65,12 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
                     return _return_value
                 elseif tonumber(_sw1) == 3 then
                     step = "locate three sources of Nature's Vengeance."
-                    local item1 = 48416
-                    local place1 = "the elder tremaen in the elemental Plane of Fire"
-                    local item2 = 52034
-                    local place2 = "the burning tree in Templace"
-                    local item3 = 62503
-                    local place3 = "the Treant in the eldest Rhell's forest"
+                    item1 = 48416
+                    place1 = "the elder tremaen in the elemental Plane of Fire"
+                    item2 = 52034
+                    place2 = "the burning tree in Templace"
+                    item3 = 62503
+                    place3 = "the Treant in the eldest Rhell's forest"
                 elseif tonumber(_sw1) == 4 then
                     actor:send("Take the Essence of Nature's Vengeance and drop it at the entrance to the logging camp, then return to the angry pixie.")
                     return _return_value
@@ -73,25 +87,25 @@ if string.find(arg, "creeping") or string.find(arg, "creeping doom") or string.f
             if job1 or job2 or job3 then
                 actor:send("You have brought me:")
                 if job1 then
-                    actor:send("- " .. "%get.obj_shortdesc[%item1%]%")
+                    actor:send("- " .. proto_short(item1))
                 end
                 if job2 then
-                    actor:send("- " .. "%get.obj_shortdesc[%item2%]%")
+                    actor:send("- " .. proto_short(item2))
                 end
                 if job3 then
-                    actor:send("- " .. "%get.obj_shortdesc[%item3%]%")
+                    actor:send("- " .. proto_short(item3))
                 end
             end
             actor:send("</>")
             actor:send("You still need:")
             if not job1 then
-                actor:send("- " .. "%get.obj_shortdesc[%item1%]% from %place1%.")
+                actor:send("- " .. proto_short(item1) .. " from " .. tostring(place1) .. ".")
             end
             if not job2 then
-                actor:send("- " .. "%get.obj_shortdesc[%item2%]% from %place2%.")
+                actor:send("- " .. proto_short(item2) .. " from " .. tostring(place2) .. ".")
             end
             if not job3 then
-                actor:send("- " .. "%get.obj_shortdesc[%item3%]% from %place3%.")
+                actor:send("- " .. proto_short(item3) .. " from " .. tostring(place3) .. ".")
             end
         end
     end

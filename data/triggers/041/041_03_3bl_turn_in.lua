@@ -15,7 +15,6 @@
 --      (zone, local_id) tuples once spawn semantics are sorted.
 --   4. Quest-var keys still contain literal `%id_trophy%`/`%id_reward%`
 --      sentinels instead of substituted ids.
---   5. `%get.obj_shortdesc[%id_trophy%]%` is unresolved interpolation.
 -- Light mechanical fixes are applied below (see inline comments) so the
 -- file at least parses cleanly, but the quest gameplay still requires a
 -- full rebuild before it is functional. See 055_03 for the upstream
@@ -23,6 +22,19 @@
 --
 -- Original DG Script: #4103
 
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 -- 
 -- This is the main receive trigger for the Edorian
@@ -101,6 +113,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
     -- 
     -- switch on object.id
     local is_gem, exp_multiplier, id_reward, faction_required, faction_multiplier
+    local id_trophy
     if object.id == "%id_gem_3bl_cap%" then
         is_gem = 1
         exp_multiplier = 10
@@ -163,31 +176,31 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
         faction_multiplier = 1
     elseif object.id == "%id_3el_skull%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_skull
+        id_trophy = id_3el_skull
         faction_multiplier = 1
     elseif object.id == "%id_3el_ring%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_ring
+        id_trophy = id_3el_ring
         faction_multiplier = 1
     elseif object.id == "%id_3el_badge%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_badge
+        id_trophy = id_3el_badge
         faction_multiplier = 1
     elseif object.id == "%id_3el_token%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_token
+        id_trophy = id_3el_token
         faction_multiplier = 2
     elseif object.id == "%id_3el_insignia%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_insignia
+        id_trophy = id_3el_insignia
         faction_multiplier = 2
     elseif object.id == "%id_3el_wand%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_wand
+        id_trophy = id_3el_wand
         faction_multiplier = 2
     elseif object.id == "%id_3el_symbol%" then
         exp_multiplier = 2
-        local id_trophy = id_3el_symbol
+        id_trophy = id_3el_symbol
         faction_multiplier = 3
     else
         _return_value = true
@@ -218,7 +231,7 @@ if actor.alignment <= 150 and actor:get_quest_stage("Black_Legion") > 0 then
             wait(0.2)
             actor:send(tostring(self.name) .. " tells you, 'Hrm, I see you have been out raiding the")
             actor:send("</>monks assisting the Eldorians.  According to my records you have now turned in")
-            actor:send("</>have now turned in <b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. "%get.obj_shortdesc[%id_trophy%]%</>.'")
+            actor:send("</>have now turned in <b:yellow>" .. tostring(trophies) .. "</> <b:white>" .. proto_short(id_trophy) .. "</>.'")
             world.destroy(object)  -- TODO(parity): legacy converter wrote `object.name`
             actor:save()
             if trophies < 10 then

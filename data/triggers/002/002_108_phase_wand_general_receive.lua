@@ -14,15 +14,13 @@
 --     loaded by 002_111, so the runtime needs to compare object.id (or
 --     the (zone,id) composite) against globals.wandgem / globals.wand_id /
 --     globals.wandtask3 / globals.wandtask4 etc.
---   * `actor.has_completed[type_wand]` and `get.room[wandtask4]` are DG
---     index reads against undefined globals; these must be rewritten as
---     `actor:get_has_completed(quest)` and `get_room(z, id)`.
+--   * `actor.has_completed[type_wand]` is a DG
+--     index read against an undefined global; it must be rewritten as
+--     `actor:get_has_completed(quest)`.
 --   * Branch-scoped `local response` / `local check` / `local continue`
 --     don't escape their elseif blocks, so the dispatch at the end of the
 --     trigger always sees nil. The dispatch logic itself is correct in
 --     intent but needs the variables hoisted to function scope.
---   * Embedded `%get.obj_shortdesc[%wandtask3%]%` interpolations need to
---     be replaced with `objects.template(z, id).name`.
 --   * `self.room:spawn_object(math.floor(wandtask4 / 100), wandtask4 % 100)`
 --     uses CircleMUD vnum split semantics; once globals exports proper
 --     (zone, id) pairs this should pass them directly.

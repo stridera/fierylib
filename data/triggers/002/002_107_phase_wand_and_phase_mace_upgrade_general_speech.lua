@@ -10,13 +10,28 @@
 -- Reads the per-mob crafting parameters exported by 002_111 (wands) or
 -- 002_118 (maces) via the `globals` table.
 --
--- TODO(parity): The original DG used `%get.obj_shortdesc[%maceitem2%]%`
--- and `%get.obj_shortdesc[%wandgem%]%` interpolations to print item
--- names. These are preserved as literal placeholders in the responses
--- below so the player can still identify the work but the names print
--- as raw text. Replace with `objects.template(z, id).name` once the
--- ids exported by the load triggers are normalised to (zone, local).
+-- The item names print through proto_short() / mob_short() on the ids the load triggers
+-- export (legacy vnum = zone * 100 + id).
 
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
+local function mob_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and mobiles.template(zone, id).name
+    if not name or name == "" then return "[no description for mobile " .. tostring(vnum) .. "]" end
+    return name
+end
 local lower = string.lower(speech or "")
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
@@ -48,10 +63,10 @@ if (self.zone_id == 185 and self.id == 81) or (self.zone_id == 484 and self.id =
             actor:send(tostring(self.name) .. " says, 'I can add benedictions to your mace, yes.'")
             actor:send(tostring(self.name) .. " says, 'You'll need to use your mace <b:yellow>" .. tostring(maceattack) .. "</> times.'")
             actor:send(tostring(self.name) .. " says, 'I'll also need the following:'")
-            actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem2%]%</>, for its spiritual protection.")
-            actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem3%]%</>, as a model for the new mace.")
-            actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem4%]%</>, for its power in fighting the undead.")
-            actor:send("- <b:yellow>%get.obj_shortdesc[%maceitem5%]%</>, for its guiding light.")
+            actor:send("- <b:yellow>" .. proto_short(globals.maceitem2) .. "</>, for its spiritual protection.")
+            actor:send("- <b:yellow>" .. proto_short(globals.maceitem3) .. "</>, as a model for the new mace.")
+            actor:send("- <b:yellow>" .. proto_short(globals.maceitem4) .. "</>, for its power in fighting the undead.")
+            actor:send("- <b:yellow>" .. proto_short(globals.maceitem5) .. "</>, for its guiding light.")
             actor:send(tostring(self.name) .. " says, 'You can check your <b:cyan>[mace progress]</> at any time.'")
         else
             actor:send(tostring(self.name) .. " says, 'You'll need to be at least level " .. tostring(minlevel) .. " before I can improve the blessings on your mace.'")
@@ -100,9 +115,9 @@ if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "p
                 actor:send(tostring(self.name) .. " says, 'You'll need to use your staff <b:yellow>" .. tostring(wandattack) .. "</> times.'")
             end
             actor:send(tostring(self.name) .. " says, 'I'll also need the following:'")
-            actor:send("- <b:yellow>%get.obj_shortdesc[%wandgem%]%</>")
+            actor:send("- <b:yellow>" .. proto_short(globals.wandgem) .. "</>")
             if wandstep ~= 7 and wandstep ~= 10 then
-                actor:send("- <b:yellow>%get.obj_shortdesc[%wandtask3%]%</>, for its resonance with " .. quest_type .. " energies.")
+                actor:send("- <b:yellow>" .. proto_short(globals.wandtask3) .. "</>, for its resonance with " .. quest_type .. " energies.")
                 if wandstep == 4 then
                     actor:send("</>    Blessings can be called at the smaller groups of standing stones in South Caelia.")
                     if (self.zone_id == 586 and self.id == 1) then
@@ -119,22 +134,22 @@ if actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "p
                 end
             end
             if wandstep == 4 then
-                actor:send("- <b:yellow>%get.obj_shortdesc[%wandtask4%]%</> for its sheer magical potential.")
+                actor:send("- <b:yellow>" .. proto_short(globals.wandtask4) .. "</> for its sheer magical potential.")
                 actor:send("</>    Be careful, thawkinixa is extremely dangerous!")
             elseif wandstep == 5 then
                 actor:send("Plus you'll need to imbue your wand in " .. tostring(globals.wandtask4) .. ".")
             elseif wandstep == 6 then
                 actor:send("This next step also requires balancing harmonic frequencies.")
-                actor:send("Go find <b:yellow>%get.obj_shortdesc[%wandtask4%]%</>.")
+                actor:send("Go find <b:yellow>" .. proto_short(globals.wandtask4) .. "</>.")
             elseif wandstep == 7 then
-                actor:send("- <b:yellow>%get.obj_shortdesc[%wandtask3%]%</>, which will form the body of your new staff.")
-                actor:send("- <b:yellow>%get.obj_shortdesc[%wandtask4%]%</>, as a fine head for your new staff.")
+                actor:send("- <b:yellow>" .. proto_short(globals.wandtask3) .. "</>, which will form the body of your new staff.")
+                actor:send("- <b:yellow>" .. proto_short(globals.wandtask4) .. "</>, as a fine head for your new staff.")
             elseif wandstep == 8 then
-                actor:send("- <b:yellow>%get.obj_shortdesc[%wandtask4%]%</>, which can be harvested from those kinds of elementals.")
+                actor:send("- <b:yellow>" .. proto_short(globals.wandtask4) .. "</>, which can be harvested from those kinds of elementals.")
             elseif wandstep == 9 then
-                actor:send("- proof of your mastery over " .. quest_type .. " by slaying <b:cyan>%get.mob_shortdesc[%wandtask4%]%</>.")
+                actor:send("- proof of your mastery over " .. quest_type .. " by slaying <b:cyan>" .. mob_short(globals.wandtask4) .. "</>.")
             elseif wandstep == 10 then
-                actor:send(tostring(self.name) .. " says, 'Energize your staff by slaying <b:cyan>%get.mob_shortdesc[%wandtask3%]%</> in Templace, then return to me.'")
+                actor:send(tostring(self.name) .. " says, 'Energize your staff by slaying <b:cyan>" .. mob_short(globals.wandtask3) .. "</> in Templace, then return to me.'")
             end
             actor:send(tostring(self.name) .. " says, 'You can check your <b:cyan>[wand progress]</> at any time.'")
         else

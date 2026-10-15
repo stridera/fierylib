@@ -2,12 +2,24 @@
 -- Zone: 4, ID: 97
 -- Type: OBJECT, Flags: LOOK
 -- Status: CLEAN
--- TODO(parity): contains literal DG remnants like %get.obj_shortdesc[...]% that the converter left as raw text inside actor:send(...) calls. These need to be rewritten as proper Lua splices using objects.template(zone, id).name and actor:get_quest_var(...) before players see correct output.
 --
 -- Original DG Script: #497
 
 -- Converted from DG Script #497: Rogue Cloak progress journal
 -- Original: OBJECT trigger, flags: LOOK, probability: 100%
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local _return_value = true  -- Default: allow action
 if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "cloak and dagger") or string.find(arg, "rogue_cloak") then
     if string.find(actor.class, "rogue") or string.find(actor.class, "bard") or actor.class ~= "thief" then
@@ -106,10 +118,10 @@ if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "
                     actor:send("- attacked " .. tostring(attack) .. " times")
                 end
                 if job2 then
-                    actor:send("- found " .. "%get.obj_shortdesc[%cloak%]%")
+                    actor:send("- found " .. proto_short(cloak))
                 end
                 if job3 then
-                    actor:send("- found " .. "%get.obj_shortdesc[%gem%]%")
+                    actor:send("- found " .. proto_short(gem))
                 end
                 if job4 then
                     actor:send("- searched in " .. tostring(place))
@@ -126,10 +138,10 @@ if string.find(arg, "cloak") or string.find(arg, "dagger") or string.find(arg, "
                 actor:send("- attack <b:yellow>" .. tostring(remaining) .. "</> more times while wearing your cloak.")
             end
             if not job2 then
-                actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%cloak%]%</>")
+                actor:send("- find <b:yellow>" .. proto_short(cloak) .. "</>")
             end
             if not job3 then
-                actor:send("- find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</>")
+                actor:send("- find <b:yellow>" .. proto_short(gem) .. "</>")
             end
             if not job4 then
                 actor:send("- <b:yellow>search</> in a place called \"<b:yellow>" .. tostring(place) .. "</>\".")

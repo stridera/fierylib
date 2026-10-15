@@ -11,6 +11,19 @@
 -- are preserved as-is in the player notification strings. Replace each
 -- with `objects.template(2, wand_id % 100).name` once the wand id table
 -- is wired through globals or a binding helper.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local quest_type, color, wand_id, stage_target, task_key
 if (self.zone_id == 238 and self.id == 3) then
     quest_type, color, wand_id, stage_target, task_key = "air", "<b:white>", 307, 9, "wandtask4"
@@ -38,7 +51,7 @@ local function credit(person)
     if person:get_quest_stage(quest) ~= stage_target then return end
     if person:get_quest_var(quest .. ":" .. task_key) then return end
     person:set_quest_var(quest, task_key, 1)
-    person:send(color .. "%get.obj_shortdesc[%wand_id%]% crackles with vibrant energy!</>")
+    person:send(color .. proto_short(wand_id) .. " crackles with vibrant energy!</>")
     person:send(color .. "It is primed for reforging!</>")
 end
 

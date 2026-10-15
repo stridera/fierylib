@@ -2,11 +2,7 @@
 -- Zone: 53, ID: 28
 -- Type: MOB, Flags: SPEECH
 -- Status: NEEDS_REVIEW
--- TODO(parity): `cloak`, `gem`, `place`, `hint` are branch-scoped
--- through the cloakstage if/elseif (48-93) but referenced at 98-103.
--- Output uses literal `%get.obj_shortdesc[%cloak%]%` DG remnants —
--- replace with `objects.template(zone, id).name`. Legacy 5-digit ids.
--- `_return_value` referenced but never defined. Full rewrite from DG
+-- TODO(parity): `_return_value` referenced but never defined. Full rewrite from DG
 -- #5328.
 --
 -- Original DG Script: #5328
@@ -15,6 +11,19 @@
 -- Original: MOB trigger, flags: SPEECH, probability: 100%
 
 -- DG word list (num_arg 100): the speech must contain one of these as a whole word or phrase.
+local function proto_key(vnum)
+    vnum = tonumber(vnum)
+    if not vnum then return nil end
+    local zone = math.floor(vnum / 100)
+    if zone == 0 then zone = 1000 end
+    return zone, vnum % 100
+end
+local function proto_short(vnum)
+    local zone, id = proto_key(vnum)
+    local name = zone and objects.template(zone, id).name
+    if not name or name == "" then return "[no description for object " .. tostring(vnum) .. "]" end
+    return name
+end
 local speech_padded = " " .. string.lower(speech) .. " "
 local speech_hit = false
 for _, w in ipairs({"promotion"}) do
@@ -59,51 +68,52 @@ elseif job1 and job2 and job3 and job4 then
 end
 -- switch on cloakstage
 local place, hint
+local cloak, gem
 do
     local _sw1 = string.lower(tostring(cloakstage or ""))
     if tonumber(_sw1) == 1 then
-        local cloak = 58801
-        local gem = 55585
+        cloak = 58801
+        gem = 55585
         place = "A Storage Room"
         hint = "in the house on the hill."
     elseif tonumber(_sw1) == 2 then
-        local cloak = 17307
-        local gem = 55593
+        cloak = 17307
+        gem = 55593
         place = "A Small Alcove"
         hint = "in the holy library."
     elseif tonumber(_sw1) == 3 then
-        local cloak = 10308
-        local gem = 55619
+        cloak = 10308
+        gem = 55619
         place = "either Treasure Room"
         hint = "in the paladin fortress."
     elseif tonumber(_sw1) == 4 then
-        local cloak = 12325
-        local gem = 55659
+        cloak = 12325
+        gem = 55659
         place = "The Treasure Room"
         hint = "beyond the Tower in the Wastes."
     elseif tonumber(_sw1) == 5 then
-        local cloak = 43022
-        local gem = 55663
+        cloak = 43022
+        gem = 55663
         place = "Treasury"
         hint = "in the ghostly fortress."
     elseif tonumber(_sw1) == 6 then
-        local cloak = 23810
-        local gem = 55674
+        cloak = 23810
+        gem = 55674
         place = "either Treasure Room with a chest"
         hint = "lost in the sands."
     elseif tonumber(_sw1) == 7 then
-        local cloak = 51013
-        local gem = 55714
+        cloak = 51013
+        gem = 55714
         place = "Mesmeriz's Secret Treasure Room"
         hint = "hidden deep underground."
     elseif tonumber(_sw1) == 8 then
-        local cloak = 58410
-        local gem = 55740
+        cloak = 58410
+        gem = 55740
         place = "Treasure Room"
         hint = "sunken in the swamp."
     elseif tonumber(_sw1) == 9 then
-        local cloak = 52009
-        local gem = 55741
+        cloak = 52009
+        gem = 55741
         place = "Treasure Room"
         hint = "buried with an ancient king."
     end
@@ -112,8 +122,8 @@ local attacks = cloakstage * 100
 self:command("nod")
 actor:send(tostring(self.name) .. " says, 'With each promotion you'll earn a new cloak to signify your new station.  Undertake the following:")
 actor:send("- Attack <b:yellow>" .. tostring(attacks) .. "</> times while wearing your current cloak.")
-actor:send("- Find <b:yellow>" .. "%get.obj_shortdesc[%cloak%]%</> as the base for the new cloak.")
-actor:send("- Find <b:yellow>" .. "%get.obj_shortdesc[%gem%]%</> for decoration.")
+actor:send("- Find <b:yellow>" .. proto_short(cloak) .. "</> as the base for the new cloak.")
+actor:send("- Find <b:yellow>" .. proto_short(gem) .. "</> for decoration.")
 actor:send("</>")
 actor:send("You also need to take your cloak and <b:yellow>[search]</> in various treasure rooms.")
 actor:send("Find \"<b:yellow>" .. tostring(place) .. "</>\".  It's " .. tostring(hint))
