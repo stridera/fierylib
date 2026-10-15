@@ -1,71 +1,22 @@
 -- Trigger: connectfour start
 -- Zone: 60, ID: 61
 -- Type: OBJECT, Flags: COMMAND
+-- Status: CLEAN
 --
--- TODO(parity): the entire ConnectFour mini-game (#6061-#6072) was converted
--- with severely broken DG semantics. Issues include: branch-scoped `local`
--- writes that the runtime never sees, board cells stored as separate `globals`
--- requiring single-instance ownership, color codes used as bare identifiers,
--- and string-find checks against undefined "row"/"col"/"streak" identifiers
--- (e.g. `local row1 = a1a2a3a4a5a6a7`, `local streak = piecepiecepiecepiece`,
--- `local piece = p1colO&0`). These are not safely fixable in place — the
--- mini-game needs a full rewrite to a server-side board state. Triggers
--- still parse so the converter doesn't fail; runtime behavior is broken.
+-- Join or start a Connect Four game.
+-- The rules live in the "connectfour" script library; the game state is in
+-- this object's `globals` (see script_libraries/connectfour.lua).
 --
 -- Original DG Script: #6061
 
--- Converted from DG Script #6061: connectfour start
--- Original: OBJECT trigger, flags: COMMAND, probability: 4%
-
--- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
-if not (location == "room") then
+-- Only while the object lies in the room (legacy OCMD_ROOM=4).
+if location ~= "room" then
     return true  -- Not in a location this trigger watches
 end
 
--- Command filter: start
-if not (cmd == "start") then
+-- The engine expands abbreviations, so `cmd` is the full command word.
+if cmd ~= "start" then
     return true  -- Not our command
 end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-do
-    local _sw1 = string.lower(tostring(cmd or ""))
-    if _sw1 == "s" or _sw1 == "st" or _sw1 == "sta" or _sw1 == "star" then
-        _return_value = true
-        return _return_value
-    end
-end
-if player1 then
-    if player2 then
-        actor:send(tostring(player1.name) .. " and " .. tostring(player2.name) .. " are already playing ConnectFour!")
-    else
-        self.room:send_except(actor, tostring(actor.name) .. " joins the ConnectFour game as player 2.")
-        actor:send("You are now joining the ConnectFour game!")
-        if p2col == "<b:red>" then
-            actor:send("You are the <b:red>red</> pieces!")
-            self.room:send_except(actor, tostring(actor.name) .. " gets the <b:red>red</> pieces.")
-            player1:send("You get to go first!")  -- fixed: space in var name
-            local status = 1
-            globals.status = status
-            local turn = 1
-            globals.turn = turn
-        elseif p2col == "<b:black>" then
-            actor:send("You are the <b:black>black</> pieces!")
-            self.room:send_except(actor, tostring(actor.name) .. " gets the <b:black>black</> pieces.")
-            player1:send("You get to go first!")
-            local status = 1
-            globals.status = status
-            local turn = 1
-            globals.turn = turn
-        end
-        local player2 = actor
-        globals.player2 = player2
-    end
-else
-    self.room:send_except(actor, tostring(actor.name) .. " starts a new ConnectFour game as player 1.")
-    actor:send("Alright!  Starting new ConnectFour game.  You are player 1.")
-    actor:send("Do you want to be red or black?  Use the select command to choose.")
-    local player1 = actor
-    globals.player1 = player1
-end
-return _return_value
+local connectfour = require("connectfour")
+return connectfour.start(globals, self.room, actor, arg)

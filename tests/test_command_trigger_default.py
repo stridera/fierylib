@@ -85,6 +85,11 @@ ALLOW_BEFORE_WAIT = {
 HAND_LOCATION_MASKS = {(49, 3): 1, (49, 4): 1, (49, 6): 4, (49, 7): 4, (62, 13): 4, (237, 90): 2, (390, 4): 3}
 
 
+# Rewritten by hand on top of a script library (data/script_libraries/connectfour.lua, hearts.lua)
+# after this patch shipped, so they no longer carry the converter's default-return line.
+REWRITTEN_BY_HAND = {(60, i) for i in (61, 63, 64, 66, 68, 70, 72, 75, 77, 79, 80, 82, 83)}
+
+
 def command_files():
     for f in sorted(TRIGGERS.rglob("*.lua")):
         text = f.read_text(encoding="utf-8")
@@ -110,11 +115,11 @@ def test_patch_keys_match_the_data_files():
     keys = {(int(z), int(i)) for z, i in re.findall(r"\((\d+), (\d+)\)", default_block)}
     by_key = {key: (typ, text) for key, typ, _f, text in command_files()}
     assert len(keys) == 245
-    for key in keys:
+    for key in keys - REWRITTEN_BY_HAND:
         assert RETURN_VALUE_DEFAULT_COMMAND in by_key[key][1], key
     # Every COMMAND script that has the new default line is covered by the patch.
     with_new = {k for k, (_t, text) in by_key.items() if RETURN_VALUE_DEFAULT_COMMAND in text}
-    assert with_new == keys
+    assert with_new == keys - REWRITTEN_BY_HAND
 
 
 def test_patch_is_idempotent_by_construction():

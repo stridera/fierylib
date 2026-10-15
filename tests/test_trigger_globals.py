@@ -68,17 +68,11 @@ ALLOWED = STDLIB | ENGINE_API | EVENT_BINDINGS | CONVENTION
 # --- Known, deliberately deferred findings ------------------------------------------------------
 # The engine now keeps DG `global` variables in the per-entity `globals` table (see docs/SCRIPTING.md,
 # "Script variables"), so a cross-trigger global is read as `globals.name`, never as a bare name. What
-# is left here cannot be fixed by that: either the DG source never defined the name either (a design
-# call), or the conversion itself is damaged beyond a local edit.
+# is left here cannot be fixed by that: the DG source never defined the name either (a design call).
 
-# Whole files: the ConnectFour / Hearts mini-games. Their state now has a home (`globals`), but the
-# conversion mangled the logic (board rows glued into identifiers such as `a1a2a3a4a5a6a7`, dynamic
-# names like `card%card%`, branch-scoped locals), so they need a rewrite, not a rename.
-KNOWN_FILE_PATTERNS = (
-    "060_6[1-9]_*",  # connect four
-    "060_7[0-9]_*",  # hearts
-    "060_8[0-9]_*",
-)
+# Whole files. Empty on purpose: the ConnectFour / Hearts mini-games (zone 60) were rewritten
+# on top of the `connectfour` and `hearts` script libraries and are scanned like every other script.
+KNOWN_FILE_PATTERNS: tuple[str, ...] = ()
 
 KNOWN_NAMES: dict[str, set[str]] = {
     # Empty on purpose: add `"file.lua": {"name"}` only for a name that needs a design call.

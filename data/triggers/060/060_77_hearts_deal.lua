@@ -1,153 +1,22 @@
 -- Trigger: hearts deal
 -- Zone: 60, ID: 77
 -- Type: OBJECT, Flags: COMMAND
+-- Status: CLEAN
 --
--- TODO(parity): part of broken Hearts mini-game; see 060_75. Many converter
--- pathologies: `card[card] = 0` (using `card` both as table and index),
--- `name[card] = rank% of %suit` (DG percent-substitution leaked through),
--- `local desc = XcardX` (X is undefined), `local cards = cardsdesc` chained
--- bare identifiers. Plus `string.find(cards, "desc")` checks against the
--- literal string "desc" rather than a value. Needs a full rewrite.
+-- Deal a hand once four players are seated.
+-- The rules live in the "hearts" script library; the game state is in
+-- this object's `globals` (see script_libraries/hearts.lua).
 --
 -- Original DG Script: #6077
 
--- Converted from DG Script #6077: hearts deal
--- Original: OBJECT trigger, flags: COMMAND, probability: 4%
-
--- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
-if not (location == "room") then
+-- Only while the object lies in the room (legacy OCMD_ROOM=4).
+if location ~= "room" then
     return true  -- Not in a location this trigger watches
 end
 
--- Command filter: deal
-if not (cmd == "deal") then
+-- The engine expands abbreviations, so `cmd` is the full command word.
+if cmd ~= "deal" then
     return true  -- Not our command
 end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-if cmd == "d" or cmd == "de" then
-    _return_value = true
-    return _return_value
-end
-if player1 and player2 and player3 and player4 then
-    if (player1.name ~= actor.name) and (player2.name ~= actor.name) and (player3.name ~= actor.name) then
-        -- UNCONVERTED: ( player4.name% != %actor.name%)
-        _return_value = true
-        return _return_value
-    end
-    if status > 1 then
-        actor:send("Wait for this hand to end before dealing again!")
-        return _return_value
-    end
-    actor:send("You deal the cards across the table.")
-    self.room:send_except(actor, tostring(actor.name) .. " deals the cards, beginning a new round.")
-    local card = 1
-    while card <= 52 do
-        card[card] = 0
-        local rank = card - 13 * ((card - 1)/ 13)
-        local suit = ((card - 1)/ 13) + 1
-        if rank == 1 then
-            rank = "Two"
-        elseif rank == 2 then
-            rank = "Three"
-        elseif rank == 3 then
-            rank = "Four"
-        elseif rank == 4 then
-            rank = "Five"
-        elseif rank == 5 then
-            rank = "Six"
-        elseif rank == 6 then
-            rank = "Seven"
-        elseif rank == 7 then
-            rank = "Eight"
-        elseif rank == 8 then
-            rank = "Nine"
-        elseif rank == 9 then
-            rank = "Ten"
-        elseif rank == 10 then
-            rank = "Jack"
-        elseif rank == 11 then
-            rank = "Queen"
-        elseif rank == 12 then
-            rank = "King"
-        elseif rank == 13 then
-            rank = "Ace"
-        end
-        if suit == 1 then
-            suit = "Clubs"
-        elseif suit == 2 then
-            suit = "Diamonds"
-        elseif suit == 3 then
-            suit = "Spades"
-        elseif suit == 4 then
-            suit = "Hearts"
-        end
-        name[card] = rank% of %suit
-        globals["name" .. card] = globals["name" .. card] or true
-        card = card + 1
-    end
-    local count = 0
-    local plyr = 1
-    while plyr <= 4 do
-        local cnt = 1
-        while cnt <= 13 do
-            local dlt = 0
-            local dlt_cnt = 0
-            while not dlt do
-                dlt_cnt = dlt_cnt + 1
-                local card = random(1, 52)
-                local desc = XcardX
-                if not (string.find(cards, "desc")) then
-                    card[card] = plyr
-                    globals["card" .. card] = globals["card" .. card] or true
-                    local cards = cardsdesc
-                    local dlt = 1
-                end
-            end
-            while not dlt do
-                dlt_cnt = dlt_cnt + 1
-                local card = random(1, 52)
-                local desc = XcardX
-                if not (string.find(cards, "desc")) then
-                    card[card] = plyr
-                    globals["card" .. card] = globals["card" .. card] or true
-                    local cards = cardsdesc
-                    local dlt = 1
-                end
-            end
-            cnt = cnt + 1
-            if cnt < 13 then
-                actor:send("Dealing of cards failed; please attempt again.")
-                return _return_value
-            end
-            plyr = plyr + 1
-            if card1 == 1 then
-                globals.turn = 1
-                player1:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
-            elseif card1 == 2 then
-                globals.turn = 2
-                player2:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
-            elseif card1 == 3 then
-                globals.turn = 3
-                player3:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
-            elseif card1 == 4 then
-                globals.turn = 4
-                player4:send("It's your turn first; you must play the " .. tostring(name1) .. ".")
-            end
-            local first_turn = 1
-            globals.first_turn = first_turn
-            local status = 3
-            globals.status = status
-        end
-    end
-else
-    -- TODO(parity): the converter put this branch inside the
-    -- inner while loop; structurally it belongs to the outer
-    -- "all four players present?" if at line 29. Hoisted here.
-    if (player1 and (player1.name == actor.name)) or (player2 and (player2.name == actor.name)) or (player3 and (player3.name == actor.name)) then
-        actor:send("You can't deal until four people have joined!")
-    else
-        _return_value = true
-    end
-end
-return _return_value
+local hearts = require("hearts")
+return hearts.deal(globals, self.room, actor, arg, random)

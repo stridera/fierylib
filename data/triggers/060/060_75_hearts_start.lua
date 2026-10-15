@@ -1,85 +1,22 @@
 -- Trigger: hearts start
 -- Zone: 60, ID: 75
 -- Type: OBJECT, Flags: COMMAND
+-- Status: CLEAN
 --
--- TODO(parity): start of the Hearts card-game mini-game (#6075-#6083) — the
--- conversion uses branch-scoped `local player1/2/3/4/status` writes that
--- never reach other triggers, plus globals.* writes are deferred to a
--- per-trigger globals table that doesn't survive between trigger fires.
--- Needs a full rewrite to server-side game state.
+-- Take a seat at the Hearts table.
+-- The rules live in the "hearts" script library; the game state is in
+-- this object's `globals` (see script_libraries/hearts.lua).
 --
 -- Original DG Script: #6075
 
--- Converted from DG Script #6075: hearts start
--- Original: OBJECT trigger, flags: COMMAND, probability: 4%
-
--- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
-if not (location == "room") then
+-- Only while the object lies in the room (legacy OCMD_ROOM=4).
+if location ~= "room" then
     return true  -- Not in a location this trigger watches
 end
 
--- Command filter: start
-if not (cmd == "start") then
+-- The engine expands abbreviations, so `cmd` is the full command word.
+if cmd ~= "start" then
     return true  -- Not our command
 end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-do
-    local _sw1 = string.lower(tostring(cmd or ""))
-    if _sw1 == "s" or _sw1 == "st" or _sw1 == "sta" or _sw1 == "star" then
-        _return_value = true
-        return _return_value
-    end
-end
-if status then
-    actor:send("The game has already started.  You must wait for it to finish.")
-end
-if player1 then
-    if player2 then
-        if player3 then
-            if player4 then
-                actor:send("Sorry, four people are already playing Hearts.")
-                actor:send("You'll have to wait for the next game.")
-            else
-                if (actor.name == player1.name) or (actor.name == player2.name) or (actor.name == player3.name) then
-                    actor:send("You're already in the game!")
-                else
-                    self.room:send_except(actor, tostring(actor.name) .. " joins the Hearts game as player 4.")
-                    actor:send("You are now joining the Hearts game as player 4.")
-                    local player4 = actor
-                    globals.player4 = player4
-                    player1:send("The cards are now ready to be dealt.")
-                    player2:send("The cards are now ready to be dealt.")
-                    player3:send("The cards are now ready to be dealt.")
-                    actor:send("The cards are now ready to be dealt.")
-                    local status = 1
-                    globals.status = status
-                end
-            end
-        else
-            if (actor.name == player1.name) or (actor.name == player2.name) then
-                actor:send("You're already in the game!")
-            else
-                self.room:send_except(actor, tostring(actor.name) .. " joins the Hearts game as player 3.")
-                actor:send("You are now joining the Hearts game as player 3.")
-                local player3 = actor
-                globals.player3 = player3
-            end
-        end
-    else
-        if actor.name == player1.name then
-            actor:send("You're already in the game!")
-        else
-            self.room:send_except(actor, tostring(actor.name) .. " joins the Hearts game as player 2.")
-            actor:send("You are now joining the Hearts game as player 2.")
-            local player2 = actor
-            globals.player2 = player2
-        end
-    end
-else
-    self.room:send_except(actor, tostring(actor.name) .. " starts a new game of Hearts as player 1.")
-    actor:send("Alright!  Starting a new game of Hearts.  You are player 1.")
-    local player1 = actor
-    globals.player1 = player1
-end
-return _return_value
+local hearts = require("hearts")
+return hearts.start(globals, self.room, actor, arg)

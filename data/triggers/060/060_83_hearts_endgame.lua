@@ -1,155 +1,22 @@
 -- Trigger: hearts endgame
 -- Zone: 60, ID: 83
 -- Type: OBJECT, Flags: COMMAND
+-- Status: CLEAN
 --
--- TODO(parity): part of broken Hearts mini-game; see 060_75. Score
--- accumulation uses branch-scoped `local score`/`local scoreN` writes that
--- the subsequent code never sees; the totals/announcements at the bottom
--- read undefined globals. Needs full rewrite.
+-- Score a hand left unscored (normally done by play).
+-- The rules live in the "hearts" script library; the game state is in
+-- this object's `globals` (see script_libraries/hearts.lua).
 --
 -- Original DG Script: #6083
 
--- Converted from DG Script #6083: hearts endgame
--- Original: OBJECT trigger, flags: COMMAND, probability: 4%
-
--- Command location mask 4: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
-if not (location == "room") then
+-- Only while the object lies in the room (legacy OCMD_ROOM=4).
+if location ~= "room" then
     return true  -- Not in a location this trigger watches
 end
 
--- Command filter: endgame
-if not (cmd == "endgame") then
+-- The engine expands abbreviations, so `cmd` is the full command word.
+if cmd ~= "endgame" then
     return true  -- Not our command
 end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-do
-    local _sw1 = string.lower(tostring(cmd or ""))
-    if _sw1 == "e" or _sw1 == "en" then
-        _return_value = true
-        return _return_value
-    end
-end
-if status == 4 then
-    local plyr = 1
-    while plyr <= 4 do
-        local score
-        if card37 == plyr + 4 then
-            score = 13
-        end
-        if card40 == plyr + 4 then
-            score = score + 1
-        end
-        if card41 == plyr + 4 then
-            score = score + 1
-        end
-        if card42 == plyr + 4 then
-            score = score + 1
-        end
-        if card43 == plyr + 4 then
-            score = score + 1
-        end
-        if card44 == plyr + 4 then
-            score = score + 1
-        end
-        if card45 == plyr + 4 then
-            score = score + 1
-        end
-        if card46 == plyr + 4 then
-            score = score + 1
-        end
-        if card47 == plyr + 4 then
-            score = score + 1
-        end
-        if card48 == plyr + 4 then
-            score = score + 1
-        end
-        if card49 == plyr + 4 then
-            score = score + 1
-        end
-        if card50 == plyr + 4 then
-            score = score + 1
-        end
-        if card51 == plyr + 4 then
-            score = score + 1
-        end
-        if card52 == plyr + 4 then
-            score = score + 1
-        end
-        if plyr == 1 then
-            local score1 = score
-        elseif plyr == 2 then
-            local score2 = score
-        elseif plyr == 3 then
-            local score3 = score
-        elseif plyr == 4 then
-            local score4 = score
-        end
-    end
-    local score1, score2, score3, score4
-    if (score1 == 26) or (score2 == 26) or (score3 == 26) or (score4 == 26) then
-        if score1 == 26 then
-            player1:send("You took all the point cards!  Everyone else gets 26 points.")
-            player2:send(tostring(player1.name) .. " took all the point cards, so you get 26 points.")
-            player3:send(tostring(player1.name) .. " took all the point cards, so you get 26 points.")
-            player4:send(tostring(player1.name) .. " took all the point cards, so you get 26 points.")
-            score1 = 0
-            score2 = 26
-            score3 = 26
-            score4 = 26
-        elseif score2 == 26 then
-            player1:send(tostring(player2.name) .. " took all the point cards, so you get 26 points.")
-            player2:send("You took all the point cards!  Everyone else gets 26 points.")
-            player3:send(tostring(player2.name) .. " took all the point cards, so you get 26 points.")
-            player4:send(tostring(player2.name) .. " took all the point cards, so you get 26 points.")
-            score1 = 26
-            score2 = 0
-            score3 = 26
-            score4 = 26
-        elseif score3 == 26 then
-            player1:send(tostring(player3.name) .. " took all the point cards, so you get 26 points.")
-            player2:send(tostring(player3.name) .. " took all the point cards, so you get 26 points.")
-            player3:send("You took all the point cards!  Everyone else gets 26 points.")
-            player4:send(tostring(player3.name) .. " took all the point cards, so you get 26 points.")
-            score1 = 26
-            score2 = 26
-            score3 = 0
-            score4 = 26
-        elseif score4 == 26 then
-            player1:send(tostring(player4.name) .. " took all the point cards, so you get 26 points.")
-            player2:send(tostring(player4.name) .. " took all the point cards, so you get 26 points.")
-            player3:send(tostring(player4.name) .. " took all the point cards, so you get 26 points.")
-            player4:send("You took all the point cards!  Everyone else gets 26 points.")
-            score1 = 26
-            score2 = 26
-            score3 = 26
-            score4 = 0
-        end
-    end
-    total1 = total1 + score1
-    total2 = total2 + score2
-    total3 = total3 + score3
-    total4 = total4 + score4
-    player1:send("You scored " .. tostring(score1) .. " points this round, bringing your total to " .. tostring(total1) .. ".")
-    player2:send("You scored " .. tostring(score2) .. " points this round, bringing your total to " .. tostring(total2) .. ".")
-    player3:send("You scored " .. tostring(score3) .. " points this round, bringing your total to " .. tostring(total3) .. ".")
-    player4:send("You scored " .. tostring(score4) .. " points this round, bringing your total to " .. tostring(total4) .. ".")
-    if (total1 > 99) or (total2 > 99) or (total3 > 99) or (total4 > 99) then
-        self.room:send("The game is over!")
-        self.room:send(tostring(player1.name) .. " scored a total of " .. tostring(total1) .. " points.")
-        self.room:send(tostring(player2.name) .. " scored a total of " .. tostring(total2) .. " points.")
-        self.room:send(tostring(player3.name) .. " scored a total of " .. tostring(total3) .. " points.")
-        self.room:send(tostring(player4.name) .. " scored a total of " .. tostring(total4) .. " points.")
-        player1 = nil
-        player2 = nil
-        player3 = nil
-        player4 = nil
-        status = nil
-    else
-        local status = 1
-        globals.status = status
-    end
-else
-    _return_value = true
-end
-return _return_value
+local hearts = require("hearts")
+return hearts.endgame(globals, self.room, actor, arg)
