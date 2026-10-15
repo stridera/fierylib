@@ -3090,6 +3090,64 @@ def seed_mount_types(verbose: bool):
     asyncio.run(run_seed())
 
 
+@seed.command(name="script-libraries")
+@click.option(
+    "--dir",
+    "lib_dir",
+    type=click.Path(file_okay=False),
+    default=None,
+    help="Directory of library .lua files (default: data/script_libraries)",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    default=False,
+    help="Show detailed progress",
+)
+def seed_script_libraries(lib_dir: str, verbose: bool):
+    """Import the importable Lua libraries (ScriptLibrary table).
+
+    Reads data/script_libraries/*.lua (header: `-- Library: <name>`, optional
+    `-- Zone: N` and `-- Description: ...`) and upserts each by name; the file wins over a
+    Muditor edit of the same library. Libraries only in the database are left alone. Scripts
+    load them with require("<name>"). Run after the zones are imported.
+    """
+    import asyncio
+    from pathlib import Path
+    from prisma import Prisma
+    from fierylib.seeders.script_library_seeder import ScriptLibrarySeeder
+
+    directory = (
+        Path(lib_dir)
+        if lib_dir
+        else Path(__file__).parent.parent.parent / "data" / "script_libraries"
+    )
+
+    async def run_seed():
+        click.echo("📚 Seeding Script Libraries")
+        click.echo("=" * 60)
+        if not directory.exists():
+            click.echo(f"  ⚠️  Directory not found: {directory}")
+            return
+
+        prisma = Prisma()
+        await prisma.connect()
+
+        try:
+            stats = await ScriptLibrarySeeder(prisma).seed_script_libraries(
+                directory, verbose=verbose
+            )
+            click.echo(
+                f"  Added: {stats['imported']}, updated: {stats['updated']}, "
+                f"skipped: {stats['skipped']}"
+            )
+            click.echo("\n✅ Script library seeding complete!")
+        finally:
+            await prisma.disconnect()
+
+    asyncio.run(run_seed())
+
+
 @seed.command(name="content-tables")
 @click.option(
     "--verbose",

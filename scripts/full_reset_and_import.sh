@@ -410,6 +410,13 @@ if [[ "$SKIP_IMPORT" -eq 0 ]] && [[ -z "$DRY_RUN" ]]; then
   fi
   eval $MOUNT_CMD
 
+  # Importable Lua libraries (require("name") in scripts); optional zone FK, so after the zones.
+  LIBRARY_CMD="poetry run fierylib seed script-libraries"
+  if [[ -n "$VERBOSE" ]]; then
+    LIBRARY_CMD="$LIBRARY_CMD --verbose"
+  fi
+  eval $LIBRARY_CMD
+
   # Reserved character names (staff voices, generic mob words).
   RESERVED_CMD="poetry run fierylib seed reserved-names"
   if [[ -n "$VERBOSE" ]]; then
