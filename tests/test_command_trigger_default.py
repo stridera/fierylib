@@ -86,8 +86,10 @@ HAND_LOCATION_MASKS = {(49, 3): 1, (49, 4): 1, (49, 6): 4, (49, 7): 4, (62, 13):
 
 
 # Rewritten by hand on top of a script library (data/script_libraries/connectfour.lua, hearts.lua)
-# after this patch shipped, so they no longer carry the converter's default-return line.
+# after this patch shipped, so they no longer carry the converter's default-return line. 53:42
+# (monk vision) and 188:97 (FieryTag bat) were rewritten with explicit `return false` / `return true`.
 REWRITTEN_BY_HAND = {(60, i) for i in (61, 63, 64, 66, 68, 70, 72, 75, 77, 79, 80, 82, 83)}
+REWRITTEN_BY_HAND |= {(53, 42), (188, 97)}
 
 
 def command_files():

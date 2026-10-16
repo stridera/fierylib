@@ -1,21 +1,20 @@
 -- Trigger: Monk Vision command read
 -- Zone: 53, ID: 42
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW
--- TODO(parity): branch-scoped `place`, `stage`, `hasgem`, `hasvision`,
--- `continue`. Outer condition `place == actor.room and visionstage ==
--- "stage"` compares int to literal "stage". Inner check `actor.room ~=
--- "place"` compares room (object) to literal string. `actor:has_item("...")`
--- and `actor:has_equipped("...")` are called with 5-digit string vnums —
--- the API takes `(zone_id, local_id)` numerics. Full rewrite from DG
--- #5342.
+-- Status: CLEAN
 --
 -- Original DG Script: #5342
 
--- Converted from DG Script #5342: Monk Vision command read
+-- Rewritten from DG Script #5342: Monk Vision command read
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
+--
+-- Each of the nine Sight items is bound to one place (a room), a quest
+-- stage, a gem the monk must carry and the previous Sight, which must be
+-- worn. Reading the item in its place, at its stage, takes four rounds of
+-- reading; leaving or fighting breaks the focus.
 
--- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2
+-- (carried), OCMD_ROOM=4 (floor)
 if not (location == "equip" or location == "inventory") then
     return true  -- Not in a location this trigger watches
 end
@@ -24,139 +23,83 @@ end
 if not (cmd == "read") then
     return true  -- Not our command
 end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-if cmd == "r" or cmd == "re" then
-    _return_value = true
-    return _return_value
+
+local dg = require("dg")
+
+-- This item (zone, id) -> place (legacy room number), quest stage, the
+-- gem (zone, id) carried, the previous Sight (zone, id) worn.
+local VISIONS = {
+    ["590:6"]   = { 4328,  1, 555, 82, 2, 190 },
+    ["185:5"]   = { 58707, 2, 555, 91, 2, 191 },
+    ["85:1"]    = { 18597, 3, 556, 23, 2, 192 },
+    ["125:32"]  = { 58102, 4, 556, 55, 2, 193 },
+    ["162:9"]   = { 16057, 5, 556, 65, 2, 194 },
+    ["430:13"]  = { 59054, 6, 556, 78, 2, 195 },
+    ["530:9"]   = { 49079, 7, 557, 10, 2, 196 },
+    ["584:15"]  = { 11820, 8, 557, 22, 2, 197 },
+    ["584:12"]  = { 52075, 9, 557, 41, 2, 198 },
+}
+
+local vision = VISIONS[self.zone_id .. ":" .. self.id]
+if not vision then
+    return true  -- Not one of the Sight items
 end
+local place_zone, place_id = dg.room(vision[1])
+local stage = vision[2]
+local hasgem = actor:has_item(vision[3], vision[4])
+local hasvision = actor:has_equipped(vision[5], vision[6])
+
+-- True while the reader stands in this Sight's place.
+local function in_place()
+    local room = actor.room
+    return room.zone_id == place_zone and room.local_id == place_id
+end
+
+-- Everything the monk reads here is magenta.
+local function tell(msg)
+    actor:send("<magenta>" .. msg .. "</>")
+end
+
 local visionstage = actor:get_quest_stage("monk_vision")
--- switch on self.id
-local place, hasgem, hasvision
-if (self.zone_id == 590 and self.id == 6) then
-    place = 4328
-    local stage = 1
-    if actor:has_item(555, 82) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 190) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 185 and self.id == 5) then
-    place = 58707
-    local stage = 2
-    if actor:has_item(555, 91) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 191) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 85 and self.id == 1) then
-    place = 18597
-    local stage = 3
-    if actor:has_item(556, 23) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 192) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 125 and self.id == 32) then
-    place = 58102
-    local stage = 4
-    if actor:has_item(556, 55) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 193) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 162 and self.id == 9) then
-    place = 16057
-    local stage = 5
-    if actor:has_item(556, 65) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 194) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 430 and self.id == 13) then
-    place = 59054
-    local stage = 6
-    if actor:has_item(556, 78) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 195) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 530 and self.id == 9) then
-    place = 49079
-    local stage = 7
-    if actor:has_item(557, 10) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 196) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 584 and self.id == 15) then
-    place = 11820
-    local stage = 8
-    if actor:has_item(557, 22) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 197) then
-        hasvision = 1
-    end
-elseif (self.zone_id == 584 and self.id == 12) then
-    place = 52075
-    local stage = 9
-    if actor:has_item(557, 41) then
-        hasgem = 1
-    end
-    if actor:has_equipped(2, 198) then
-        hasvision = 1
-    end
+if not (in_place() and visionstage == stage and hasvision and hasgem) then
+    return true  -- Not ready: the command carries on to the normal handler
 end
-local continue
-if place == actor.room and visionstage == "stage" and hasvision and hasgem then
-    if actor:get_quest_var("monk_vision:visiontask4") then
-        actor:send("<magenta>You have already expanded your mind to its current limits.</>")
-        return _return_value
-    else
-        continue = "yes"
-    end
+
+if dg.flag(actor:get_quest_var("monk_vision:visiontask4")) then
+    tell("You have already expanded your mind to its "
+         .. "current limits.")
+    return false
 end
-if continue == "yes" then
+
+if actor.is_fighting then
+    tell("You cannot properly focus while fighting!")
+    return false
+end
+
+tell("You begin to read " .. tostring(self.shortdesc) .. "...")
+wait(4)
+if actor.is_fighting then
+    tell("You cannot properly focus while fighting!")
+    return false
+end
+if not in_place() then
+    tell("You must be in the proper place to keep reading!")
+    return false
+end
+
+for _ = 1, 3 do
+    tell("You continue to read...")
+    wait(4)
     if actor.is_fighting then
-        actor:send("<magenta>You cannot properly focus while fighting!</>")
-        return _return_value
-    else
-        actor:send("<magenta>You begin to read " .. tostring(self.shortdesc) .. "...</>")
-        wait(4)
-        if actor.is_fighting then
-            actor:send("<magenta>You cannot properly focus while fighting!</>")
-            return _return_value
-        end
-        if actor.room ~= "place" then
-            actor:send("<magenta>You must be in the proper place to keep reading!</>")
-            return _return_value
-        end
-        local i = 0
-        while i < 3 do
-            actor:send("<magenta>You continue to read...</>")
-            wait(4)
-            i = i + 1
-            if actor.is_fighting then
-                actor:send("<magenta>You cannot properly focus while fighting!</>")
-                return _return_value
-            end
-            if actor.room ~= "place" then
-                actor:send("<magenta>You must be in the proper place to keep reading!</>")
-                return _return_value
-            end
-        end
-        actor:send("<b:magenta>You feel your awareness broadening!</>")
-        actor:set_quest_var("monk_vision", "visiontask4", 1)
+        tell("You cannot properly focus while fighting!")
+        return false
     end
-else
-    _return_value = true
+    if not in_place() then
+        tell("You must be in the proper place to keep reading!")
+        return false
+    end
 end
-return _return_value
+
+actor:send("<b:magenta>You feel your awareness broadening!</>")
+actor:set_quest_var("monk_vision", "visiontask4", 1)
+return false

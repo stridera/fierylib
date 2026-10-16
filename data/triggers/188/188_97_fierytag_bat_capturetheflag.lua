@@ -1,18 +1,20 @@
 -- Trigger: fierytag_bat_capturetheflag
 -- Zone: 188, ID: 97
 -- Type: OBJECT, Flags: COMMAND
--- Status: NEEDS_REVIEW (parses, room/jail comparisons need real IDs; see TODOs)
+-- Status: CLEAN
 --
 -- Original DG Script: #18897
--- Converted from DG Script #18897: fierytag_bat_capturetheflag
+
+-- Rewritten from DG Script #18897: fierytag_bat_capturetheflag
 -- Original: OBJECT trigger, flags: COMMAND, probability: 3%
 --
--- TODO(parity): comparisons such as `actor.room == "actor_jail"` and
--- `arg.room == "zone_a_jail"` compare a Room (or numeric vnum) against a
--- string literal — these branches never fire. Replace with the resolved
--- numeric vnum (or Room object) for actor_jail / each zone's jail.
+-- FieryTag, capture-the-flag version. The teams are the sexes: males
+-- (zone 30), females (zone 80) and neutral (zone 35) each have a home
+-- zone and a jail. Tag an opponent in your own zone to send them to your
+-- jail; tag a teammate in an opponent's jail to bring both of you home.
 
--- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2 (carried), OCMD_ROOM=4 (floor)
+-- Command location mask 3: legacy OCMD_EQUIP=1 (worn), OCMD_INVEN=2
+-- (carried), OCMD_ROOM=4 (floor)
 if not (location == "equip" or location == "inventory") then
     return true  -- Not in a location this trigger watches
 end
@@ -21,15 +23,10 @@ end
 if not (cmd == "tag") then
     return true  -- Not our command
 end
-local _return_value = false  -- Default: block the command (legacy script_driver ret_val = 1)
--- switch on cmd
-do
-    local _sw1 = string.lower(tostring(cmd or ""))
-    if _sw1 == "t" or _sw1 == "ta" then
-        _return_value = true
-        return _return_value
-    end
-end
+
+local dg = require("dg")
+
+-- Rooms are legacy numbers (zone * 100 + id), see dg.room
 local zone_a_start = 3000
 local zone_a_end = 3199
 local zone_a_jail = 3009
@@ -42,90 +39,141 @@ local zone_c_start = 3500
 local zone_c_end = 3699
 local zone_c_jail = 3514
 local zone_c_home = 3500
-if (arg == "self") or (actor.name == arg.name) then
-    actor:send("Now that seems a little pointless, doesn't it?")
-elseif actor.room ~= arg.room then
-    actor:send("Tag who? They don't seem to be here!")
-elseif arg.is_npc then
-    actor:send("You can only tag players!")
-elseif arg.level > 99 then
-    actor:send("You cannot tag immortals!")
-else
-    local actor_home, actor_jail, actor_at_home
-    local arg_same_team, arg_in_jail
-    if actor.gender == "Male" then
-        actor_home = zone_a_home
-        actor_jail = zone_a_jail
-        if actor.room >= zone_a_start and actor.room <= zone_a_end then
-                actor_at_home = "yes"
-        end
-    elseif actor.gender == "Female" then
-        actor_home = zone_b_home
-        actor_jail = zone_b_jail
-        if actor.room >= zone_b_start and actor.room <= zone_b_end then
-                actor_at_home = "yes"
-        end
-    elseif actor.gender == "Neutral" then
-        actor_home = zone_c_home
-        actor_jail = zone_c_jail
-        if actor.room >= zone_c_start and actor.room <= zone_c_end then
-                actor_at_home = "yes"
-        end
-    end
-    if arg.gender == actor.gender then
-        arg_same_team = "yes"
-    end
-    if (arg.room == "zone_a_jail") or (arg.room == "zone_b_jail") or (arg.room == "zone_c_jail") then
-        arg_in_jail = "yes"
-    end
-    if actor.room == "actor_jail" then
-        if arg_same_team == "yes" then
-            -- Tagging teammate in opponent jail, rescue them
-            arg:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
-            arg:send(tostring(actor.name) .. " tags you, returning you to home!")
-            self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", returning " .. tostring(arg.object) .. " to home!")
-            actor:send("You tag " .. tostring(arg.name) .. ", returning " .. tostring(arg.object) .. " to home!")
-            actor:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
-            arg:command("look")
-            actor:command("look")
-        else
-            actor:send("That's no good.  " .. tostring(arg.name) .. " is already in your jail.")
-        end
-    elseif actor_at_home == "yes" then
-        if arg_same_team == "yes" then
-            -- Tagging teammate in home zone, do nothing
-            actor:send("But you're in your own zone!  " .. tostring(arg.name) .. " is on your team!")
-        else
-            -- Tagging opponent in home zone, teleport opponent to jail
-            arg:command("remove fiery-tag-bat")
-            arg:command("junk fiery-tag-bat")
-            arg:teleport(get_room(math.floor(actor_jail / 100), actor_jail % 100))
-            self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. "!  To jail " .. tostring(arg.name) .. " goes!")
-            actor:send("You tag " .. tostring(arg.name) .. ", sending " .. tostring(arg.object) .. " to jail!")
-            arg:send(tostring(actor.name) .. " tags you, sending you to jail!")
-            arg:command("look")
-        end
-    elseif arg_same_team == "yes" then
-        if arg_in_jail == "yes" then
-            -- Tagging teammate in opponent jail, rescue them
-            self.room:spawn_object(188, 97)
-            arg:heal(10)
-            arg:command("wake")
-            arg:command("get fiery-tag-bat")
-            arg:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
-            arg:send(tostring(actor.name) .. " tags you, rescuing you from your imprisonment!")
-            self.room:send_except(actor, tostring(actor.name) .. " tags " .. tostring(arg.name) .. ", returning both of them to their zone!")
-            actor:send("You tag " .. tostring(arg.name) .. ", rescuing " .. tostring(arg.object) .. " from " .. tostring(arg.possessive) .. " imprisonment!")
-            actor:teleport(get_room(math.floor(actor_home / 100), actor_home % 100))
-            arg:command("look")
-            actor:command("look")
-        else
-            -- Tagging teammate in opponent zone, but not jail, do nothing
-            actor:send(tostring(arg.name) .. " doesn't need rescuing right now.")
-        end
-    else
-        -- Tagging opponent in opponent zone, do nothing
-        actor:send("No point in tagging " .. tostring(arg.object) .. " if you're not in your zone.")
+
+-- The legacy number of a room handle.
+local function vnum_of(room)
+    return dg.to_vnum(room.zone_id, room.local_id)
+end
+
+-- Put `who` in the room with that legacy number (DG oteleport).
+local function send_to(who, vnum)
+    local room = get_room(dg.room(vnum))
+    if room then
+        who:teleport(room)
     end
 end
-return _return_value
+
+-- DG oechoaround: everyone in `who`'s room now, except `who`.
+local function around(who, msg)
+    who.room:send_except(who, msg)
+end
+
+local word = string.lower(string.match(arg or "", "^%s*(.-)%s*$"))
+
+-- Who is being tagged: someone in this room
+local tagged
+if word ~= "" and word ~= "self" then
+    tagged = actor.room:find_actor(word)
+end
+
+if word == "self" or (tagged and tagged.name == actor.name) then
+    actor:send("Now that seems a little pointless, doesn't it?")
+    return false
+end
+if not tagged then
+    actor:send("Tag who? They don't seem to be here!")
+    return false
+end
+if tagged.is_npc then
+    actor:send("You can only tag players!")
+    return false
+end
+if tagged.level > 99 then
+    actor:send("You cannot tag immortals!")
+    return false
+end
+
+local here = vnum_of(actor.room)
+local actor_home, actor_jail, actor_at_home
+local arg_same_team, arg_in_jail
+if actor.gender == "male" then
+    actor_home = zone_a_home
+    actor_jail = zone_a_jail
+    if here >= zone_a_start and here <= zone_a_end then
+        actor_at_home = "yes"
+    end
+elseif actor.gender == "female" then
+    actor_home = zone_b_home
+    actor_jail = zone_b_jail
+    if here >= zone_b_start and here <= zone_b_end then
+        actor_at_home = "yes"
+    end
+elseif actor.gender == "neutral" then
+    actor_home = zone_c_home
+    actor_jail = zone_c_jail
+    if here >= zone_c_start and here <= zone_c_end then
+        actor_at_home = "yes"
+    end
+end
+if tagged.gender == actor.gender then
+    arg_same_team = "yes"
+end
+local there = vnum_of(tagged.room)
+if there == zone_a_jail or there == zone_b_jail or there == zone_c_jail then
+    arg_in_jail = "yes"
+end
+
+local tname = tostring(tagged.name)
+local aname = tostring(actor.name)
+
+if here == actor_jail then
+    if arg_same_team == "yes" then
+        -- Tagging teammate in opponent jail, rescue them
+        send_to(tagged, actor_home)
+        tagged:send(aname .. " tags you, returning you to home!")
+        around(actor, aname .. " tags " .. tname .. ", returning "
+            .. tostring(tagged.objective) .. " to home!")
+        actor:send("You tag " .. tname .. ", returning "
+            .. tostring(tagged.objective) .. " to home!")
+        send_to(actor, actor_home)
+        tagged:command("look")
+        actor:command("look")
+    else
+        actor:send("That's no good.  " .. tname
+            .. " is already in your jail.")
+    end
+elseif actor_at_home == "yes" then
+    if arg_same_team == "yes" then
+        -- Tagging teammate in home zone, do nothing
+        actor:send("But you're in your own zone!  " .. tname
+            .. " is on your team!")
+    else
+        -- Tagging opponent in home zone, teleport opponent to jail
+        tagged:command("remove fiery-tag-bat")
+        tagged:command("junk fiery-tag-bat")
+        send_to(tagged, actor_jail)
+        around(actor, aname .. " tags " .. tname .. "!  To jail " .. tname
+            .. " goes!")
+        actor:send("You tag " .. tname .. ", sending "
+            .. tostring(tagged.objective) .. " to jail!")
+        tagged:send(aname .. " tags you, sending you to jail!")
+        tagged:command("look")
+    end
+elseif arg_same_team == "yes" then
+    if arg_in_jail == "yes" then
+        -- Tagging teammate in opponent jail, rescue them
+        actor.room:spawn_object(188, 97)
+        tagged:heal(10)
+        tagged:command("wake")
+        tagged:command("get fiery-tag-bat")
+        send_to(tagged, actor_home)
+        tagged:send(aname .. " tags you, rescuing you from your "
+            .. "imprisonment!")
+        around(actor, aname .. " tags " .. tname
+            .. ", returning both of them to their zone!")
+        actor:send("You tag " .. tname .. ", rescuing "
+            .. tostring(tagged.objective) .. " from "
+            .. tostring(tagged.possessive) .. " imprisonment!")
+        send_to(actor, actor_home)
+        tagged:command("look")
+        actor:command("look")
+    else
+        -- Tagging teammate in opponent zone, but not jail, do nothing
+        actor:send(tname .. " doesn't need rescuing right now.")
+    end
+else
+    -- Tagging opponent in opponent zone, do nothing
+    actor:send("No point in tagging " .. tostring(tagged.objective)
+        .. " if you're not in your zone.")
+end
+return false

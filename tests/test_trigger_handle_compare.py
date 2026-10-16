@@ -32,14 +32,7 @@ SCAN_DIRS = (ROOT / "data" / "triggers", ROOT / "data" / "script_libraries")
 # Scripts that still compare a handle with a number and need a full rewrite, not a one-line fix
 # (their header says NEEDS_REVIEW / TODO(parity): branch-scoped locals, string-vs-int stage
 # compares, ...). Fixing one makes test_known_findings_still_exist fail until it is removed.
-KNOWN: dict[str, str] = {
-    "053/053_42_monk_vision_command_read.lua":
-        "monk vision: `place == actor.room` (place is a legacy room number); needs the DG #5342 rewrite",
-    "188/188_80_ctf_armband_tag.lua":
-        "capture the flag: `actor.room >= zone_a_start` (legacy room ranges); NEEDS_REVIEW, rewrite with 188:97",
-    "188/188_97_fierytag_bat_capturetheflag.lua":
-        "capture the flag: `actor.room >= zone_a_start` (legacy room ranges); NEEDS_REVIEW, rewrite with 188:80",
-}
+KNOWN: dict[str, str] = {}
 
 # Names the engine binds (always handles). Other names (`person`, `target`, `rnd`...) are loop
 # counters or random rolls as often as handles, so they only count with a `.room`-style suffix.
