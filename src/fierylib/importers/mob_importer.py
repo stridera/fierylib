@@ -66,7 +66,16 @@ def apply_damage_dice_modifiers(
     return max(1, base_num + modifier_num), max(1, base_size + modifier_size)
 
 
-def detect_special_mob_flags(name: str, keywords: str, existing_flags: list[str]) -> list[str]:
+# Mobs that stand in a legacy bank room: spec_assign.cpp made the ROOM a bank (ASSIGNROOM(.., bank)),
+# while the modern `deposit` / `withdraw` / `balance` need a BANKER mob in the room. Legacy vnum -> why.
+LEGACY_BANK_ROOM_MOBS: dict[int, str] = {
+    51908: "the Master of the Revel, Banquet Hall (room 51907, ASSIGNROOM bank): the money lesson",
+}
+
+
+def detect_special_mob_flags(
+    name: str, keywords: str, existing_flags: list[str], vnum: int | None = None
+) -> list[str]:
     """
     Auto-detect special mob roles based on name/keywords and add appropriate flags.
 
@@ -96,7 +105,7 @@ def detect_special_mob_flags(name: str, keywords: str, existing_flags: list[str]
 
     # Banker detection
     if "BANKER" not in flags:
-        if any(pattern in combined for pattern in ["banker", "bank teller", "bank clerk"]):
+        if vnum in LEGACY_BANK_ROOM_MOBS or any(pattern in combined for pattern in ["banker", "bank teller", "bank clerk"]):
             flags.append("BANKER")
 
     # Postmaster detection
@@ -368,7 +377,7 @@ class MobImporter:
 
         # Auto-detect special mob roles (banker, postmaster, receptionist) from name/keywords
         # This bridges the gap from legacy spec_procs to modern mob flags
-        raw_mob_flags = detect_special_mob_flags(mob.short_desc, mob.keywords, raw_mob_flags)
+        raw_mob_flags = detect_special_mob_flags(mob.short_desc, mob.keywords, raw_mob_flags, vnum=mob.id)
 
         # Process flags into modern schema format (traits, behaviors, professions, resistances, effects)
         processed_flags = process_mob_flags(raw_mob_flags, raw_effect_flags)

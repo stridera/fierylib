@@ -55,7 +55,8 @@ class World:
                     if "extras" not in room:
                         room["extras"] = []
                     keyword = room_data.read_string().split(" ")
-                    description = room_data.read_string()
+                    # read_text keeps the layout of signs and menus; read_string folds it
+                    description = room_data.read_text()
                     room["extras"].append(Extras(keywords=keyword, text=description))
                 else:
                     print(f"Unknown line: {line}")

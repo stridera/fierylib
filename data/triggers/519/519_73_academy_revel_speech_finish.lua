@@ -72,7 +72,7 @@ if actor:get_quest_stage("school") == 6 then
             return true
         end
         wait(2)
-        actor:send(tostring(self.name) .. " tells you, 'Now that you're ready to level, it's time to find your Guild Master!")
+        actor:send(tostring(self.name) .. " tells you, 'Now that you've finished the Academy, it's time to find your Guild Master!")
         actor:send("They are waiting in your guild's Inner Sanctum, just beyond the entrance room to your guild.'")
         wait(2)
         actor:send(tostring(self.name) .. " tells you, '<b:cyan>Look</> at the <b:cyan>map</> in your inventory.")
@@ -84,8 +84,7 @@ if actor:get_quest_stage("school") == 6 then
         actor:send("<b:yellow> " .. tostring(direction2) .. "</>")
         actor:send("Your Guild Master is <b:magenta>" .. tostring(master) .. "</>.")
         actor:send("</>")
-        actor:send("Type <b:cyan>LEVEL</> when you find them to advance to the next level.")
-        actor:send("You won't be able to gain any more experience until you do!")
+        actor:send("You gain levels automatically as you earn experience; type <b:cyan>LEVEL</> to see how close you are.")
         actor:send("If you ever forget anything you can always consult the <b:cyan>HELP</> file.'")
         wait(3)
     end

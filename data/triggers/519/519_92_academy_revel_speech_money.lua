@@ -36,7 +36,8 @@ if actor:get_quest_stage("school") == 5 and not actor:get_quest_var("school:mone
     self:command("give 5 gold 5 silver 5 copper " .. tostring(actor.name))
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Let's try out depositing money, like this:")
-    actor:send("<b:cyan>DEPOSIT [amount] platinum [amount] gold [amount] silver [amount] copper'")
+    actor:send("<b:cyan>DEPOSIT [amount] [platinum|gold|silver|copper]</>, or <b:cyan>DEPOSIT ALL</>.")
+    actor:send("One kind of coin at a time; with no coin named, the amount is in copper.'")
     wait(2)
-    actor:send(tostring(self.name) .. " tells you, 'Type <b:green>deposit 1 gold 1 silver 1 copper</>.'")
+    actor:send(tostring(self.name) .. " tells you, 'Type <b:green>deposit 1 gold</>.'")
 end

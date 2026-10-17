@@ -24,6 +24,8 @@ local ROOT = @ROOT@
 local VISION = ROOT .. "/data/triggers/053/053_42_monk_vision_command_read.lua"
 local ARMBAND = ROOT .. "/data/triggers/188/188_80_ctf_armband_tag.lua"
 local BAT = ROOT .. "/data/triggers/188/188_97_fierytag_bat_capturetheflag.lua"
+local PASS = ROOT .. "/data/triggers/188/188_82_ctf_flag_pass.lua"
+local DEPOSIT = ROOT .. "/data/triggers/519/519_65_academy_revel_command_deposit.lua"
 
 local SAFE = { "assert", "error", "getmetatable", "ipairs", "math", "next",
     "pairs", "pcall", "select", "setmetatable", "string", "table", "tonumber",
@@ -93,6 +95,8 @@ local function put(actor, r)
 end
 
 local cmds = {}  -- queued actor:command() lines, in order
+local destroyed = {}  -- handles given to world.destroy()
+local allowed = false  -- set by allow_command()
 
 local function player(name, gender, r)
     local a = { name = name, gender = gender, level = 30, is_player = true,
@@ -109,6 +113,7 @@ local function player(name, gender, r)
     function a:get_quest_stage(q) return self.stage[q] or 0 end
     function a:get_quest_var(k) return self.quest[k] end
     function a:set_quest_var(q, k, v) self.quest[q .. ":" .. k] = v end
+    function a:advance_quest(q) self.stage[q] = (self.stage[q] or 0) + 1 end
     put(a, r)
     return a
 end
@@ -118,7 +123,7 @@ local function wear(a, zone, id) a.worn[zone .. ":" .. id] = true end
 -- An object trigger holder: the thing the trigger file is attached to.
 local function thing(zone, id, shortdesc)
     return { zone_id = zone, id = id, local_id = id, shortdesc = shortdesc,
-        globals = {} }
+        name = shortdesc, globals = {}, log = {} }
 end
 
 local function fire(path, self, actor, cmd, arg, location)
@@ -126,6 +131,8 @@ local function fire(path, self, actor, cmd, arg, location)
         actor = actor, self = self, globals = self.globals,
         location = location or "equip", cmd = cmd, arg = arg or "",
         require = require_, get_room = get_room,
+        world = { destroy = function(x) destroyed[#destroyed + 1] = x end },
+        allow_command = function() allowed = true end,
         wait = function(n)
             if waits then waits(n) end
         end,
@@ -577,3 +584,172 @@ def test_fixed_triggers_are_marked_clean_and_fit_79_columns():
             n for n, line in enumerate(text.splitlines(), 1) if len(line) > 79
         ]
         assert not long, (path.name, long)
+
+
+PASS_SETUP = r"""
+local field = room(35, 5)
+local home_a = room(35, 0)
+local home_b = room(80, 50)
+local ann = player("Ann", "female", field)
+local bob = player("Bob", "male", field)
+local cat = player("Cat", "female", field)
+local dan = player("Dan", "male", field)
+wear(ann, 188, 80)   -- team A
+wear(bob, 188, 80)   -- team A
+wear(cat, 188, 81)   -- team B
+-- Dan wears no armband
+local flag = thing(188, 83, "the blue flag")  -- team B's flag, carried by Ann
+local function pass(arg) return fire(PASS, flag, ann, "pass", arg) end
+"""
+
+
+@needs_lua
+def test_flag_pass_finds_the_target_in_the_room_and_hands_off_to_a_teammate():
+    # playtest r14 B6: `arg.room` was read off the typed string, so every pass
+    # answered "They're not here!".
+    run_lua(PASS_SETUP + r"""
+    check(pass("flag Bob") == false, "consumed")
+    check(not has(ann, "They're not here!"), "Bob is found in the room")
+    check(has(bob, "Ann quickly passes the blue flag to you."), "to the receiver")
+    check(has(ann, "You slyly hand off the blue flag to Bob."), "to the passer")
+    check(echoed(field, "Ann quietly passes a flag to Bob."), "room echo")
+    check(field.spawned[1] == "188:83", "a fresh flag lands in the room")
+    check(queued(bob, "get ctf-flag"), "Bob picks it up")
+    check(destroyed[1] == flag, "the passed flag is gone")
+    """)
+
+
+@needs_lua
+def test_flag_pass_accepts_the_name_alone_in_any_case():
+    run_lua(PASS_SETUP + r"""
+    check(pass("BOB") == false, "consumed")
+    check(has(bob, "Ann quickly passes the blue flag to you."), "to the receiver")
+    """)
+
+
+@needs_lua
+def test_flag_pass_to_the_other_team_resets_the_flag_at_its_home_room():
+    run_lua(PASS_SETUP + r"""
+    check(pass("flag cat") == false, "consumed")
+    check(has(ann, "You accidentally pass the flag to Cat, resetting it."), "message")
+    check(home_b.spawned[1] == "188:83", "team B's flag returns to team B's flag room")
+    check(#home_a.spawned == 0, "not to the other team's room")
+    check(destroyed[1] == flag, "the passed flag is gone")
+    check(#field.spawned == 0, "nothing lands in the field")
+    """)
+
+
+@needs_lua
+def test_flag_pass_refusals():
+    run_lua(PASS_SETUP + r"""
+    local away = player("Eve", "female", room(35, 6))
+    wear(away, 188, 80)
+    pass("flag Eve")
+    check(has(ann, "Pass the flag to whom?  They're not here!"), "not in the room")
+    pass("flag self")
+    check(has(ann, "There's really no point to that, now is there?"), "self")
+    pass("flag Ann")
+    check(has(ann, "There's really no point to that, now is there?"), "own name")
+    pass("flag Dan")
+    check(has(ann, "Dan doesn't seem to be playing."), "no armband")
+    bob.level = 105
+    pass("flag Bob")
+    check(has(ann, "You can't pass to an immortal!"), "immortal")
+    local rat = { name = "a rat", level = 3, is_player = false, is_npc = true,
+        zone_id = 30, id = 7, send = function() end,
+        has_equipped = function() return false end }
+    field.actors[#field.actors + 1] = rat
+    pass("flag rat")
+    -- find_actor() matches by exact name in this fake, so no mob is found
+    check(#destroyed == 0 and #field.spawned == 0, "nothing was passed")
+    -- another command and a flag on the floor are left alone
+    check(fire(PASS, flag, ann, "get", "flag") == true, "other command passes through")
+    check(fire(PASS, flag, ann, "pass", "flag Bob", "room") == true, "not worn")
+    """)
+
+
+DEPOSIT_SETUP = r"""
+local hall = room(519, 7)
+local revel = thing(519, 8, "the Master of the Revel")
+local pip = player("Pip", "male", hall)
+pip.stage.school = 5
+pip.quest["school:money"] = 1
+pip.quest["school:rest"] = "complete"
+local function deposit(arg) allowed = false return fire(DEPOSIT, revel, pip, "deposit", arg) end
+"""
+
+
+@needs_lua
+def test_deposit_lesson_advances_after_a_deposit_the_command_accepts():
+    # playtest r14 B2: the lesson asked for "deposit 1 gold 1 silver 1 copper",
+    # which the command rejects, and advanced anyway.
+    run_lua(DEPOSIT_SETUP + r"""
+    deposit("1 gold")
+    check(allowed, "the real command runs")
+    check(pip.quest["school:money"] == "complete", "money lesson done")
+    check(has(pip, "Thank you for using Academy Bank."), "thanks")
+    check(pip.stage.school == 6, "rest was already done: ready to graduate")
+    check(has(pip, "Say finish"), "graduate prompt")
+    """)
+
+
+@needs_lua
+def test_deposit_lesson_does_not_advance_on_a_usage_error():
+    run_lua(DEPOSIT_SETUP + r"""
+    for _, bad in ipairs({ "1 gold 1 silver 1 copper", "", "gold", "lots", "0",
+        "1 gold silver", "5 shillings", "-3" }) do
+        deposit(bad)
+        check(allowed, "the real command still runs: " .. bad)
+        check(pip.quest["school:money"] == 1, "still open: " .. bad)
+        check(pip.stage.school == 5, "no advance: " .. bad)
+        check(not has(pip, "Thank you"), "no thanks: " .. bad)
+    end
+    check(has(pip, "Name one amount, like <b:green>deposit 1 gold</>"), "hint")
+    """)
+
+
+@needs_lua
+def test_deposit_lesson_accepts_every_form_the_command_accepts():
+    run_lua(DEPOSIT_SETUP + r"""
+    for _, good in ipairs({ "1 gold", "1gold", "1g", "100", "10 silver", "ALL",
+        "5 Copper", "  2 gol  ", "all" }) do
+        pip.quest["school:money"] = 1
+        pip.stage.school = 5
+        pip.log = {}
+        deposit(good)
+        check(pip.quest["school:money"] == "complete", "accepted: " .. good)
+    end
+    """)
+
+
+@needs_lua
+def test_deposit_lesson_ignores_amounts_beyond_the_lesson_purse():
+    run_lua(DEPOSIT_SETUP + r"""
+    deposit("1 platinum")
+    check(pip.quest["school:money"] == 1, "1 platinum is more than the 5g5s5c purse")
+    check(pip.stage.school == 5, "no advance")
+    """)
+
+
+@needs_lua
+def test_deposit_outside_the_lesson_is_untouched():
+    run_lua(DEPOSIT_SETUP + r"""
+    pip.quest["school:money"] = nil
+    check(deposit("1 gold") == true, "plain command passes through")
+    check(not allowed and #pip.log == 0, "no lesson output")
+    check(pip.stage.school == 5, "no advance")
+    """)
+
+
+def test_money_lesson_teaches_a_deposit_the_command_accepts():
+    text = (TRIGGERS / "519" / "519_92_academy_revel_speech_money.lua").read_text()
+    assert "deposit 1 gold</>" in text
+    assert "1 silver 1 copper" not in text
+    assert "platinum] [amount] gold" not in text
+
+
+def test_graduation_no_longer_promises_a_level_command_that_advances():
+    text = (TRIGGERS / "519" / "519_73_academy_revel_speech_finish.lua").read_text()
+    assert "to advance to the next level" not in text
+    assert "until you do" not in text
+    assert "automatically" in text
