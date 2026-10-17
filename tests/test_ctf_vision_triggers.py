@@ -753,3 +753,10 @@ def test_graduation_no_longer_promises_a_level_command_that_advances():
     assert "to advance to the next level" not in text
     assert "until you do" not in text
     assert "automatically" in text
+
+
+def test_graduation_directions_have_no_legacy_newline_codes():
+    # playtest r14 B3: "&_" is the legacy colour code for a newline; the engine has no & layer.
+    text = (TRIGGERS / "519" / "519_73_academy_revel_speech_finish.lua").read_text()
+    assert "&_" not in text
+    assert 'for step in string.gmatch(direction2, "[^\\n]+")' in text

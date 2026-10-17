@@ -53,19 +53,19 @@ if actor:get_quest_stage("school") == 6 then
         local direction, direction2, master
         if actor.class == "paladin" or actor.class == "anti-paladin" or actor.class == "ranger" or actor.class == "warrior" or actor.class == "monk" or actor.class == "berserker" then
             direction = "the Warrior's Guild"
-            direction2 = "south&_ south&_ south&_ east&_ east&_ north&_ east&_ north&_"
+            direction2 = "south\nsouth\nsouth\neast\neast\nnorth\neast\nnorth"
             master = "Warrior Coach"
         elseif actor.class == "rogue" or actor.class == "thief" or actor.class == "mercenary" or actor.class == "assassin" or actor.class == "bard" then
             direction = "the Rogue's Guild"
-            direction2 = "south&_ south&_ south&_ west&_ south&_ east&_ down&_"
+            direction2 = "south\nsouth\nsouth\nwest\nsouth\neast\ndown"
             master = "the Master Rogue"
         elseif actor.class == "sorcerer" or actor.class == "cryomancer" or actor.class == "pyromancer" or actor.class == "necromancer" or actor.class == "illusionist" then
             direction = "the Mage's Guild"
-            direction2 = "south&_ south&_ south&_ west&_ west&_ south&_ south&_ east&_"
+            direction2 = "south\nsouth\nsouth\nwest\nwest\nsouth\nsouth\neast"
             master = "the Archmage"
         elseif actor.class == "cleric" or actor.class == "priest" or actor.class == "druid" or actor.class == "diabolist" then
             direction = "the Cleric's Guild"
-            direction2 = "west&_ north&_"
+            direction2 = "west\nnorth"
             master = "the High Priestess"
         else
             self:say("Oops, you broke, find a god.")
@@ -81,7 +81,10 @@ if actor:get_quest_stage("school") == 6 then
         actor:send(tostring(self.name) .. " tells you, '<b:green>East</> is the Forest Temple of Mielikki.")
         actor:send("Your guild is <b:magenta>" .. tostring(direction) .. "</>.")
         actor:send("From the Temple of Mielikki it is:")
-        actor:send("<b:yellow> " .. tostring(direction2) .. "</>")
+        -- one direction per line, as the legacy newline color codes laid it out
+        for step in string.gmatch(direction2, "[^\n]+") do
+            actor:send("<b:yellow> " .. step .. "</>")
+        end
         actor:send("Your Guild Master is <b:magenta>" .. tostring(master) .. "</>.")
         actor:send("</>")
         actor:send("You gain levels automatically as you earn experience; type <b:cyan>LEVEL</> to see how close you are.")
