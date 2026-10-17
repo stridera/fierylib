@@ -17,8 +17,11 @@ if (actor:get_quest_var("school:fight") or 0) == 2 then
     actor:set_quest_var("school", "fight", 3)
     actor:command("kick " .. tostring(arg))
     wait(0.2)
-    world.destroy(self.room:find_actor("monster"))
-    self.room:send(tostring(self.name) .. " rushes in to break up the fight!")
+    local monster = self.room:find_actor("monster")
+    if monster then
+        world.destroy(monster)
+        self.room:send(tostring(self.name) .. " rushes in to break up the fight!")
+    end
     wait(0.1)
     self.room:spawn_mobile(519, 0)
     wait(0.3)
@@ -29,7 +32,7 @@ if (actor:get_quest_var("school:fight") or 0) == 2 then
     self.room:spawn_object(11, 50)
     self:command("give shield " .. tostring(actor))
     wait(2)
-    actor:send(tostring(self.name) .. " tells you, 'Equip that with <b:green>wear shield</>.'")
+    actor:send(tostring(self.name) .. " tells you, 'Equip that with <b:green>wear shield</>.  If your off-hand is already full (the torch, say), <b:cyan>remove torch</> first.'")
 end
 _return_value = true
 return _return_value

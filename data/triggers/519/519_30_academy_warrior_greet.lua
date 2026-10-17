@@ -57,10 +57,10 @@ if stage == 3 or stage == 4 then
                         self.room:spawn_object(11, 50)
                         self:command("give shield " .. tostring(actor))
                         actor:send("</>")
-                        actor:send(tostring(self.name) .. " tells you, 'Equip that with <b:green>wear shield</>.'")
+                        actor:send(tostring(self.name) .. " tells you, 'Equip that with <b:green>wear shield</>.  If your off-hand is already full (the torch, say), <b:cyan>remove torch</> first.'")
                         break
                     elseif actor:has_item(11, 50) then
-                        actor:send(tostring(self.name) .. " tells you, 'Equip that wooden shield I gave you with <b:green>wear shield</>.'")
+                        actor:send(tostring(self.name) .. " tells you, 'Equip that wooden shield I gave you with <b:green>wear shield</>.  If your off-hand is already full (the torch, say), <b:cyan>remove torch</> first.'")
                         break
                     elseif actor:has_equipped(11, 50) then
                         actor:set_quest_var("school", "fight", 4)
@@ -72,7 +72,7 @@ if stage == 3 or stage == 4 then
                     actor:send("That <b:red>prevents your opponent from attacking you</> and <b:red>stops spellcasters from casting spells</>.")
                     actor:send("</>")
                     actor:send("Bashing is a complex maneuver.")
-                    actor:send("First, you must be wearing a shield.")
+                    actor:send("First, it helps to be wearing a shield.")
                     actor:send("Second, you have to be similar sizes.")
                     actor:send("Anything too big and you'll bounce off.")
                     actor:send("Anything too small and you'll miss.")
@@ -103,7 +103,7 @@ if stage == 3 or stage == 4 then
                     actor:send("Type <b:green>kill monster</> to start fighting.")
                     actor:send("</>")
                     actor:send(tostring(self.name) .. " tells you, 'When you've killed the monster, I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
-                    actor:send("<b:green>Say loot</> when you're ready to continue.'")
+                    actor:send("<b:green>Say loot</> when you're ready to continue.")
                     break
                 end
                 do  -- default

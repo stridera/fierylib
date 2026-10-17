@@ -38,7 +38,7 @@ if (actor:get_quest_var("school:fight") or 0) == 2 then
     actor:send("So don't wait until the last second to run!'</>")
     wait(3)
     actor:send(tostring(self.name) .. " tells you, 'When you've killed the monster, I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
-    actor:send("<b:green>Say loot</> when you're ready to continue.'")
+    actor:send("<b:green>Say loot</> when you're ready to continue.")
 end
 _return_value = true
 return _return_value

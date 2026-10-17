@@ -18,7 +18,7 @@ from mud.types.world import World
 from prisma import Prisma  # runtime client type
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_keyword_codes
 
 
 _TRAILING_ID_RE = re.compile(r"\s+\((\d+)\)\s*$")
@@ -723,7 +723,7 @@ class RoomImporter:
                 data={
                     "roomZoneId": room_zone_id,
                     "roomId": room_vnum,
-                    "keywords": keywords.split() if keywords else [],
+                    "keywords": strip_keyword_codes(keywords.split()) if keywords else [],
                     "description": text,
                 }
             )

@@ -52,7 +52,7 @@ elseif (actor:get_quest_var("school:fight") or 0) == 12 then
     actor:command("stand")
     wait(0.2)
     actor:send(tostring(self.name) .. " tells you, 'Next I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
-    actor:send("<b:green>Say loot</> when you're ready to continue.'")
+    actor:send("<b:green>Say loot</> when you're ready to continue.")
 end
 _return_value = true
 return _return_value

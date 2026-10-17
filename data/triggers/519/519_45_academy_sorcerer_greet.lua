@@ -181,7 +181,7 @@ if stage == 3 or stage == 4 then
                     actor:advance_quest("school")
                     wait(0.2)
                     actor:send(tostring(self.name) .. " tells you, 'Next I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
-                    actor:send("<b:green>Say loot</> when you're ready to continue.'")
+                    actor:send("<b:green>Say loot</> when you're ready to continue.")
                     break
                 end
                 do  -- default

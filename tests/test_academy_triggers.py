@@ -142,3 +142,23 @@ def test_trainers_find_the_topic_inside_a_longer_sentence():
         r = subprocess.run([lua, "-"], input=chunk, capture_output=True, text=True)
         assert r.returncode == 0, r.stderr
         assert r.stdout.strip() == want, (prefix, speech)
+
+
+def test_lesson_text_matches_the_engine_wording():
+    # Playtest r14 U2: the game has Stamina (not Movement Points), `skill` prints a percentage and a
+    # rank (no "="/"*" meter), 0 HP is death, and the wealth command is WEALTH.
+    text = {p.name: p.read_text(encoding="utf-8") for p in ZONE.glob("*.lua")}
+    for needle in ("Movement Points", "knocked unconscious", 'indicated by the \\"=\\"', "check your current wealth, use <b:cyan>SCORE"):
+        assert [n for n, body in text.items() if needle in body] == [], needle
+
+
+def test_say_loot_prompt_has_no_stray_closing_quote():
+    # The speech is already closed by the previous line; `...continue.'` printed a lone quote.
+    offenders = [p.name for p in ZONE.glob("*.lua") if "Say loot</> when you're ready to continue.'" in p.read_text(encoding="utf-8")]
+    assert offenders == []
+
+
+def test_equipment_step_handles_a_torch_already_held_by_wear_all():
+    body = _body("519_08")
+    assert "actor:has_equipped(0, 23)" in body
+    assert 'set_quest_var("school", "gear", 5)' in body

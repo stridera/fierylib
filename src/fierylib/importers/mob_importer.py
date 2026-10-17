@@ -19,7 +19,7 @@ from prisma import Json
 from mud.types.mob import Mob
 from mud.mudfile import MudData
 from mud.bitflags import BitFlags
-from fierylib.converters import legacy_id_to_composite, normalize_flags, normalize_mob_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article
+from fierylib.converters import legacy_id_to_composite, normalize_flags, normalize_mob_flags, convert_legacy_colors, strip_markup, strip_articles, strip_keyword_codes, extract_article
 from fierylib.converters.flag_normalizer import process_mob_flags, ProcessedMobFlags
 from fierylib.combat_formulas import (
     calculate_mob_role,
@@ -578,7 +578,7 @@ class MobImporter:
                     "create": {
                         "id": vnum,
                         "zoneId": mob_zone_id,
-                        "keywords": strip_articles(mob.keywords.split()) if mob.keywords else [],
+                        "keywords": strip_articles(strip_keyword_codes(mob.keywords.split())) if mob.keywords else [],
                         "classId": class_id,
                         "name": mob_name,
                         "plainName": plain_name,
@@ -623,7 +623,7 @@ class MobImporter:
                         "damageType": damage_type,
                     },
                     "update": {
-                        "keywords": strip_articles(mob.keywords.split()) if mob.keywords else [],
+                        "keywords": strip_articles(strip_keyword_codes(mob.keywords.split())) if mob.keywords else [],
                         "classId": class_id,
                         "name": mob_name,
                         "plainName": plain_name,

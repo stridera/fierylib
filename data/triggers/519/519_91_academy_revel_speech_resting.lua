@@ -51,7 +51,7 @@ if actor:get_quest_stage("school") == 5 then
                 actor:send("Any of them will slake your thirst.")
                 actor:send("The command is <b:cyan>DRINK [container]</>.")
                 actor:send("</>")
-                actor:send("When you <b:cyan>DRINK</>, you'll also regain some Movement Points, so make sure you carry a full waterskin so you can keep moving when you explore!")
+                actor:send("When you <b:cyan>DRINK</>, you'll also regain some Stamina, so make sure you carry a full waterskin so you can keep moving when you explore!")
                 actor:send("</>")
                 actor:send("And remember, magic potions are <red>not</> drinks.")
                 actor:send("If you want to consume a potion, the commmand is <b:cyan>(Q)UAFF</>, not <b:cyan>(DRI)NK</>.'")
@@ -118,12 +118,12 @@ if actor:get_quest_stage("school") == 5 then
             end
             do  -- default
                 _run1 = true
-                actor:send(tostring(self.name) .. " tells you, 'Hit Points and Movement Points regenerate naturally over time.")
+                actor:send(tostring(self.name) .. " tells you, 'Hit Points and Stamina regenerate naturally over time.")
                 actor:send("The rate is influenced by a number of factors, including position and nutrition.'")
                 wait(2)
                 actor:send(tostring(self.name) .. " tells you, 'You might not realize you're healing though, because your display only updates when you get some kind of input!'")
                 wait(1)
-                actor:send(tostring(self.name) .. " tells you, 'Your regeneration speeds up if you <b:cyan>(R)EST</> or <b:cyan>(SL)EEP</>.")
+                actor:send(tostring(self.name) .. " tells you, 'Hit Points only regenerate while you <b:cyan>(R)EST</> or <b:cyan>(SL)EEP</>.  Standing still recovers Stamina only.")
                 actor:send("When you <b:cyan>REST</>, you sit down and relax.")
                 actor:send("You remain awake, and can hear and see the world around you.")
                 actor:send("You can do most things, including talking, eating, changing gear, and recovering spells.'")

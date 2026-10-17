@@ -35,7 +35,7 @@ if (actor:get_quest_var("school:rest") or 0) == 2 then
     actor:send("Any of them will slake your thirst.")
     actor:send("The command is <b:cyan>DRINK [container]</>.")
     actor:send("</>")
-    actor:send("When you <b:cyan>DRINK</>, you'll also regain some Movement Points, so make sure you carry a full waterskin so you can keep moving when you explore!")
+    actor:send("When you <b:cyan>DRINK</>, you'll also regain some Stamina, so make sure you carry a full waterskin so you can keep moving when you explore!")
     actor:send("</>")
     actor:send("And remember, magic potions are <red>not</> drinks.")
     actor:send("If you want to consume a potion, the commmand is <b:cyan>(Q)UAFF</>, not <b:cyan>(DRI)NK</>.'")

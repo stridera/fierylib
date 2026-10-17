@@ -78,6 +78,24 @@ def strip_articles(keywords: list[str]) -> list[str]:
     return [kw for kw in keywords if kw.lower() not in ARTICLES]
 
 
+# Legacy colour code: '&' plus one character ('&&' is a literal ampersand, '&_' a line break).
+_LEGACY_CODE_PATTERN = re.compile(r"&(.)", re.DOTALL)
+
+
+def strip_keyword_codes(keywords: list[str]) -> list[str]:
+    """
+    Remove legacy '&' colour codes from keywords (they are for matching, not display).
+
+    Keywords that were nothing but codes are dropped.
+
+    Example:
+        >>> strip_keyword_codes(["&0&4a", "Small", "Fountain&0"])
+        ["a", "Small", "Fountain"]
+    """
+    cleaned = (_LEGACY_CODE_PATTERN.sub(lambda m: "&" if m.group(1) == "&" else "", kw) for kw in keywords)
+    return [kw for kw in cleaned if kw]
+
+
 def normalize_keywords(keywords: list[str]) -> list[str]:
     """
     Normalize keywords by:

@@ -37,7 +37,20 @@ if (actor:get_quest_var("school:gear") or 0) == 3 then
         self:command("give torch " .. tostring(actor))
     end
     wait(3)
-    actor:send(tostring(self.name) .. " tells you, 'Type <b:green>hold torch</> to equip it.'")
+    if actor:has_equipped(0, 23) then
+        -- WEAR ALL already put the torch in the off-hand, so HOLD TORCH would only say
+        -- "You are already holding..." and the lesson would stall: take the next step now.
+        actor:set_quest_var("school", "gear", 5)
+        actor:send(tostring(self.name) .. " tells you, 'Looks like you are already holding it, so you can skip that step.")
+        actor:send("However, you need to turn it on before it provides you any light.")
+        actor:send("The <b:cyan>(LI)GHT</> command turns lights on and off.")
+        actor:send("You can just type <b:cyan>light torch</> to light it up.")
+        actor:send("If it's already lit, you can type <b:cyan>light torch</> again to extinguish it.'")
+        wait(3)
+        actor:send(tostring(mobiles.template(519, 2).name) .. " tells you, 'Give it a try and type <b:green>light torch</>.'")
+    else
+        actor:send(tostring(self.name) .. " tells you, 'Type <b:green>hold torch</> to equip it.'")
+    end
 end
 _return_value = true
 return _return_value

@@ -25,9 +25,12 @@ if (actor:get_quest_var("school:fight") or 0) == 4 then
     actor:set_quest_var("school", "fight", "last")
     actor:command("bash " .. tostring(arg))
     wait(0.2)
-    world.destroy(self.room:find_actor("monster"))
+    local monster = self.room:find_actor("monster")
     wait(0.2)
-    self.room:send(tostring(self.name) .. " breaks up the fight.")
+    if monster then
+        world.destroy(monster)
+        self.room:send(tostring(self.name) .. " breaks up the fight.")
+    end
     actor:send(tostring(self.name) .. " tells you, 'Good attempt!'")
     self.room:spawn_mobile(519, 0)
     wait(2)
@@ -47,7 +50,7 @@ if (actor:get_quest_var("school:fight") or 0) == 4 then
     actor:send("Be careful not to get locked by skill stun though!'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'When you've killed the monster, I'll teach you about <b:yellow>LOOT</> and <b:yellow>TOGGLES</>.'")
-    actor:send("<b:green>Say loot</> when you're ready to continue.'")
+    actor:send("<b:green>Say loot</> when you're ready to continue.")
 end
 _return_value = true
 return _return_value

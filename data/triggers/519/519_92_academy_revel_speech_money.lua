@@ -24,7 +24,7 @@ wait(0.2)
 if actor:get_quest_stage("school") == 5 and not actor:get_quest_var("school:money") then
     actor:set_quest_var("school", "money", 1)
     actor:send(tostring(self.name) .. " tells you, 'You can <b:cyan>GET</>, <b:cyan>DROP</>, and <b:cyan>GIVE</> money like items.")
-    actor:send("To check your current wealth, use <b:cyan>SCORE</>.'")
+    actor:send("To check your current wealth, use <b:cyan>WEALTH</>.'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'During your downtime you may want to visit a bank.")
     actor:send("It's important to keep money in the bank so that when you die, you'll have emergency funds to get back to your corpse!")

@@ -14,7 +14,7 @@ if (actor:get_quest_var("school:fight") or 0) == 3 then
     actor:send("That <b:red>prevents your opponent from attacking you</> and <b:red>stops spellcasters from casting spells</>.")
     actor:send("</>")
     actor:send("Bashing is a complex maneuver.")
-    actor:send("First, you must be wearing a shield.")
+    actor:send("First, it helps to be wearing a shield.")
     actor:send("Second, you have to be similar sizes.")
     actor:send("Anything too big and you'll bounce off.")
     actor:send("Anything too small and you'll miss.")

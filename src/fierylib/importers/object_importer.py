@@ -18,7 +18,7 @@ import logging
 
 from mud.types.object import Object
 from mud.mudfile import MudData
-from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, extract_article, fix_indefinite_article
+from fierylib.converters import legacy_id_to_composite, normalize_flags, convert_legacy_colors, strip_markup, strip_articles, strip_keyword_codes, extract_article, fix_indefinite_article
 from fierylib.converters.flag_normalizer import (
     process_object_flags,
     ProcessedObjectFlags,
@@ -222,6 +222,9 @@ class ObjectImporter:
         # Example: In 4.obj, #400 → (zone: 4, id: 0), #500 → (zone: 4, id: 100)
         obj_zone_id = zone_id
         vnum = obj.id - (zone_id * 100)
+
+        # Keywords are for matching: drop legacy '&' colour codes (12:72, 12:5)
+        obj.keywords = strip_articles(strip_keyword_codes(obj.keywords or []))
 
         # Map object type - handle legacy names with underscores
         # Then infer correct type for NOTHING/OTHER based on name patterns
@@ -782,7 +785,7 @@ class ObjectImporter:
         text = extra.text if hasattr(extra, "text") else ""
 
         # Strip articles from extra description keywords
-        keywords = strip_articles(keywords)
+        keywords = strip_articles(strip_keyword_codes(keywords))
 
         # Convert legacy color codes to XML-Lite markup
         text = convert_legacy_colors(text)

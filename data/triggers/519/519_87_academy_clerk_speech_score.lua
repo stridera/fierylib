@@ -24,7 +24,7 @@ if actor:get_quest_stage("school") == 2 then
     actor:set_quest_var("school", "score", 1)
     wait(0.2)
     actor:send(tostring(self.name) .. " tells you, '<b:cyan>SCORE</> is how you see all the numeric stuff about yourself:")
-    actor:send("Experience, Hit and Movement Points, Stats, Saves, blah blah blah.'")
+    actor:send("Experience, Hit Points, Stamina, Stats, Saves, blah blah blah.'")
     wait(2)
     actor:send(tostring(self.name) .. " tells you, 'Check it out by typing <b:green>score</> now.'")
 end
