@@ -31,7 +31,10 @@
       "successToRoom": "{target.name} screams in pain as {actor.pos} wash of acid eats {target.pos} flesh.",
       "failToCaster": "You missed {target.name} with your acid breath.",
       "failToVictim": "{actor.name} breathes acid at you, but you avoid it.",
-      "failToRoom": "{target.name} avoids {actor.pos} acid breath."
+      "failToRoom": "{target.name} avoids {actor.pos} acid breath.",
+      "killToCaster": "&2&bYour wash of acid sweeps {target.name}&2&b away in liquid form.&0",
+      "killToVictim": "&2&bYou are dissolved in {actor.name}'s&2&b wash of acid.&0",
+      "killToRoom": "&2&b{target.name}&2&b is dissolved in {actor.name}'s&2&b wash of acid.&0"
     },
     "sphere": "EARTH",
     "pages": 5,
@@ -74,7 +77,10 @@
       "successToRoom": "{actor.name} sprays {target.name} with a stream of burning acid!",
       "failToCaster": "You throw a glob of acid at {target.him}, missing {target.name} entirely!",
       "failToVictim": "{actor.name} conjures a ball of acid which splatters onto the ground near you.",
-      "failToRoom": "{actor.name} conjures a ball of acid which splatters onto the ground near {target.name}."
+      "failToRoom": "{actor.name} conjures a ball of acid which splatters onto the ground near {target.name}.",
+      "killToCaster": "&5{target.name} &8&9howls&0&5 as {target.his} skin boils away in your bath of &ba&3c&0&3i&1&bd&0&1...&0",
+      "killToVictim": "&5You feel excruciating pain as &2a&bc&0&2i&bd burns away your flesh...&0",
+      "killToRoom": "&5{target.name} &5is doused in burning &2a&bc&0&2i&bd, melting {target.him}!&0"
     },
     "sphere": "GENERIC",
     "pages": 23,
@@ -116,7 +122,10 @@
       "successToRoom": "{target.name} screams and melts in the acidic fog!",
       "failToCaster": "The acid fog has no effect on {target.name}.",
       "failToVictim": "You prove impervious to the acidic fog!",
-      "failToRoom": "The acidic fog doesn't seem to phase {target.name}."
+      "failToRoom": "The acidic fog doesn't seem to phase {target.name}.",
+      "killToCaster": "&2{target.name} burns to death in your cloud of acid!&0",
+      "killToVictim": "&2You burn to death in {actor.name}'s cloud of acid!!&0",
+      "killToRoom": "&2{target.name} burns to death in {actor.name}'s cloud of acid!&0"
     },
     "sphere": "EARTH",
     "pages": 27,
@@ -168,7 +177,10 @@
       "successToRoom": "{actor.name} blastS {target.name} with energy from the spirit world!",
       "failToCaster": "{actor.name} evades the vengeance of your ancestors!",
       "failToVictim": "You evade the vengeance of {target.pos} ancestors!",
-      "failToRoom": "{actor.name} evades the vengeance of {target.pos} ancestors!"
+      "failToRoom": "{actor.name} evades the vengeance of {target.pos} ancestors!",
+      "killToCaster": "Your ancestors drag {target.name} into the spirit world forever, screaming!",
+      "killToVictim": "{actor.name}'s ancestors drag you screaming into the spirit world forever!",
+      "killToRoom": "{actor.name}'s ancestors drag {target.name} into the spirit world forever, screaming!"
     },
     "sphere": "GENERIC",
     "pages": 21,
@@ -527,7 +539,10 @@
       "successToRoom": "{target.name} screams as {actor.name} hideously warps and mangles {target.pos} body!",
       "failToCaster": "You fail to polymorph {target.pos} body in any way.",
       "failToVictim": "{actor.name} fails to polymorph your shape in any way.",
-      "failToRoom": "{actor.name} fails to polymorph {target.pos} body in any way."
+      "failToRoom": "{actor.name} fails to polymorph {target.pos} body in any way.",
+      "killToCaster": "{target.name} turns inside out and &1&bEXPLODES!&0",
+      "killToVictim": "You turn inside out and &1&bEXPLODE!&0",
+      "killToRoom": "{target.name} turns inside out and &1&bEXPLODES!&0"
     },
     "sphere": "SUMMONING",
     "pages": 25,
@@ -959,7 +974,10 @@
       "successToRoom": "{actor.pos} bigbys clenched fist strikes {target.him}!",
       "failToCaster": "Your bigbys clenched fist fails to affect {target.him}.",
       "failToVictim": "{actor.pos} bigbys clenched fist fails to affect you.",
-      "failToRoom": "{actor.pos} bigbys clenched fist fails to affect {target.him}."
+      "failToRoom": "{actor.pos} bigbys clenched fist fails to affect {target.him}.",
+      "killToCaster": "Your &3&bBigby's Fist&0 &8OBLITERATES&0 {target.name}!",
+      "killToVictim": "You are &8SMASHED&0 to death by {actor.name}'s &3&bBigby's Fist&0!",
+      "killToRoom": "The &8splattered remains&0 of {target.name} is smeared all over the place by {actor.name}'s &3&bBigby's Fist&0!"
     },
     "sphere": "GENERIC",
     "pages": 25,
@@ -1690,7 +1708,10 @@
       "successToRoom": "{target.name} cries out as {actor.name} burns {target.him}!",
       "failToCaster": "You miss {target.name} with your burning hands.",
       "failToVictim": "{actor.name} reaches for you with burning hands, but misses!",
-      "failToRoom": "{actor.name} tries to burn {target.him}, but {target.name} escapes!"
+      "failToRoom": "{actor.name} tries to burn {target.him}, but {target.name} escapes!",
+      "killToCaster": "You have &0&1burned&0 {target.name} to death!",
+      "killToVictim": "You have been &0&1burned to death&0 by {actor.name}!",
+      "killToRoom": "{actor.name} has &0&1burned&0 {target.name} to death!"
     },
     "sphere": "FIRE",
     "pages": 5,
@@ -1740,7 +1761,10 @@
       "successToRoom": "{target.name} screams in pain as lightning from {actor.name} penetrates {target.him}!",
       "failToCaster": "Your lightning bolt scores the ground in front of {target.name}, it missed!",
       "failToVictim": "The ground before you is scored as {actor.name} misses you with a lightning bolt!",
-      "failToRoom": "{target.name} jumps backwards in time to avoid lightning sent by {actor.name}!"
+      "failToRoom": "{target.name} jumps backwards in time to avoid lightning sent by {actor.name}!",
+      "killToCaster": "Your lightning bolt kills {target.name}!",
+      "killToVictim": "You are &0&4&belectrocuted&0 to death by a &0&4&blightning bolt&0 sent by {actor.name}!",
+      "killToRoom": "The dead body of {target.name} sizzles in the heat from a &0&4&blightning bolt&0 sent by {actor.name}!"
     },
     "sphere": "AIR",
     "pages": 5,
@@ -1812,7 +1836,10 @@
       "successToRoom": "{actor.pos} cause critical strikes {target.him}!",
       "failToCaster": "Your cause critical fails to affect {target.him}.",
       "failToVictim": "{actor.pos} cause critical fails to affect you.",
-      "failToRoom": "{actor.pos} cause critical fails to affect {target.him}."
+      "failToRoom": "{actor.pos} cause critical fails to affect {target.him}.",
+      "killToCaster": "As you grab {target.name}'s body, all life in {target.his} body ceases.",
+      "killToVictim": "You feel your heart stop as {actor.name} touches you.",
+      "killToRoom": "{actor.name} grabs {target.name}, causing {target.his} life to cease."
     },
     "sphere": "HEALING",
     "pages": 5,
@@ -1854,7 +1881,10 @@
       "successToRoom": "{actor.pos} cause light strikes {target.him}!",
       "failToCaster": "Your cause light fails to affect {target.him}.",
       "failToVictim": "{actor.pos} cause light fails to affect you.",
-      "failToRoom": "{actor.pos} cause light fails to affect {target.him}."
+      "failToRoom": "{actor.pos} cause light fails to affect {target.him}.",
+      "killToCaster": "As you grab {target.name}'s body, all life in {target.his} body ceases.",
+      "killToVictim": "You feel your heart stop as {actor.name} touches you.",
+      "killToRoom": "{actor.name} grabs {target.name}, causing {target.his} life to cease."
     },
     "sphere": "HEALING",
     "pages": 5,
@@ -1896,7 +1926,10 @@
       "successToRoom": "{actor.pos} cause serious strikes {target.him}!",
       "failToCaster": "Your cause serious fails to affect {target.him}.",
       "failToVictim": "{actor.pos} cause serious fails to affect you.",
-      "failToRoom": "{actor.pos} cause serious fails to affect {target.him}."
+      "failToRoom": "{actor.pos} cause serious fails to affect {target.him}.",
+      "killToCaster": "As you grab {target.name}'s body, all life in {target.his} body ceases.",
+      "killToVictim": "You feel your heart stop as {actor.name} touches you.",
+      "killToRoom": "{actor.name} grabs {target.name}, causing {target.his} life to cease."
     },
     "sphere": "HEALING",
     "pages": 5,
@@ -1938,7 +1971,10 @@
       "successToRoom": "{actor.pos} lightning bolt jumps into {target.him}, causing massive convulsions.",
       "failToCaster": "Your lightning bolt seems to have missed!",
       "failToVictim": "{actor.pos} lightning bolt missed you!",
-      "failToRoom": "{actor.pos} lightning bolt missed {target.name}!"
+      "failToRoom": "{actor.pos} lightning bolt missed {target.name}!",
+      "killToCaster": "&4Your lightning consumes {target.name}&0&4, leaving a charred corpse.&0",
+      "killToVictim": "&4Your body is consumed in the torrent of lightning...&0",
+      "killToRoom": "&4{target.name}&0&4 is consumed by the waves of lightning, leaving a charred corpse.&0"
     },
     "sphere": "AIR",
     "pages": 27,
@@ -2058,7 +2094,10 @@
       "successToRoom": "{actor.name} chills {target.name} who suddenly seem less lively!",
       "failToCaster": "The atmosphere turns chilly as you miss {target.name}!",
       "failToVictim": "You dodge {actor.him} and {actor.name} chill touch!",
-      "failToRoom": "{actor.name} tries unsuccessfully to chill {target.name}!"
+      "failToRoom": "{actor.name} tries unsuccessfully to chill {target.name}!",
+      "killToCaster": "You &0&4&bchill&0 {target.name}, remember to put flowers on {target.his} grave...",
+      "killToVictim": "You &0&4&bfeel chilled&0 by {actor.name} and then you feel no more -- R.I.P.",
+      "killToRoom": "{actor.name} &0&8touches&0 {target.name} who slumps to the ground as a dead lump, &0&4&brather chilly isn't it&0?"
     },
     "sphere": "WATER",
     "pages": 7,
@@ -2133,7 +2172,10 @@
       "successToRoom": "{actor.pos} circle of deathly energy tears apart {target.pos} life force.",
       "failToCaster": "Your circle of death falls short!",
       "failToVictim": "{actor.pos} circle of death doesn't quite reach you!",
-      "failToRoom": "{actor.pos} circle of death doesn't quite reach {target.him}!"
+      "failToRoom": "{actor.pos} circle of death doesn't quite reach {target.him}!",
+      "killToCaster": "&9&b{target.name} is utterly consumed by your circle of death!&0",
+      "killToVictim": "&9&bYou are utterly consumed by the circle of death...&0",
+      "killToRoom": "&9&b{target.name}&0&9&b is utterly consumed by the circle of deathly magic!&0"
     },
     "sphere": "DEATH",
     "pages": 27,
@@ -2186,7 +2228,9 @@
       "successToVictim": "You sustain major burns upon passing through the circle of fire.",
       "successToRoom": "{target.name} steps through the circle of fire, sustaining major burns.",
       "failToVictim": "The circle of fire missed you.",
-      "failToRoom": "{target.name} missed the circle of fire!"
+      "failToRoom": "{target.name} missed the circle of fire!",
+      "killToVictim": "&1You are burned to death upon attempting to pass through the &bcircle of fire.&0",
+      "killToRoom": "&1{target.name}&1 burns up as {target.he} passes through the &bcircle of fire.&0"
     },
     "sphere": "FIRE",
     "pages": 25,
@@ -2404,7 +2448,10 @@
       "successToRoom": "{actor.pos} animated daggers cut {target.name} to shreds!",
       "failToCaster": "Your daggers have no effect on {target.name}.",
       "failToVictim": "The cloud of daggers refuses to cut you!",
-      "failToRoom": "The cloud of daggers refuses to cut {target.name}."
+      "failToRoom": "The cloud of daggers refuses to cut {target.name}.",
+      "killToCaster": "&1{target.name} is fatally ripped apart by your &9&bcloud of daggers!&0",
+      "killToVictim": "&1You are ripped apart by {actor.name}'s &9&bcloud of daggers!!&0",
+      "killToRoom": "&1The &9&bcloud of daggers&0 &1rips apart {target.name}!&0"
     },
     "sphere": "GENERIC",
     "pages": 27,
@@ -2488,7 +2535,10 @@
       "successToRoom": "{actor.name} throws colors at {target.name}, who in vain tries to escape!",
       "failToCaster": "Your spray of color misses {target.name} -- what a dull world...",
       "failToVictim": "{actor.name} unsuccessfully tries to add color to your life!",
-      "failToRoom": "{actor.name} splashes color everywhere except {target.name}."
+      "failToRoom": "{actor.name} splashes color everywhere except {target.name}.",
+      "killToCaster": "Your spray of color killed {target.name}!!",
+      "killToVictim": "Your head is filled with all the colors of the rainbow before it bursts!",
+      "killToRoom": "{actor.name} makes {target.name} into a colorful corpse!"
     },
     "sphere": "GENERIC",
     "pages": 21,
@@ -2634,7 +2684,10 @@
       "successToRoom": "{target.name} writhes in shivering pain as {actor.pos} cone of cold rips into {target.him}.",
       "failToCaster": "You skillfully create a vortex of ice and snow sputtering skyward missing {target.name}.",
       "failToVictim": "{actor.name} skillfully aims {actor.pos} vortex of ice at YOU but it sputters skyward instead! HA!",
-      "failToRoom": "{actor.name} skillfully aims {actor.pos} cone of cold at {target.him} but it sputters skyward instead!"
+      "failToRoom": "{actor.name} skillfully aims {actor.pos} cone of cold at {target.him} but it sputters skyward instead!",
+      "killToCaster": "&7&bYou see&0 {target.name}'s &7&bflesh peel off as your &0&4&bicy blast&0 &7&brips {target.him} to death!&0",
+      "killToVictim": "&7&bYour flesh peels off as {actor.name}'s &0&4&bicy blast&0 &7&brips you to death!&0",
+      "killToRoom": "&7&b{target.name} is torn away where {target.he} stands as {actor.name}'s &0&4&bicy blast&0 peels {target.his} flesh away!&0"
     },
     "sphere": "WATER",
     "pages": 19,
@@ -2937,7 +2990,10 @@
       "successToRoom": "{target.name} is engulfed by the flames, emitting a sickly burning odor.",
       "failToCaster": "You light a huge fire next to {target.him}.",
       "failToVictim": "{actor.name} summons a huge fire nearby you, making it nice and toasty.",
-      "failToRoom": "{actor.name} attempts to burn {target.him} in a huge fire, but seems to have issues with spatial perception."
+      "failToRoom": "{actor.name} attempts to burn {target.him} in a huge fire, but seems to have issues with spatial perception.",
+      "killToCaster": "&3{target.name} hasn't the time to scream as you engulf {target.him} in the &1burning &8inferno.&0",
+      "killToVictim": "&3Your death is quick and painless in {actor.name}'s massive inferno.&0",
+      "killToRoom": "&3{target.name} is &1consumed&3 in the massive burning inferno!&0"
     },
     "sphere": "FIRE",
     "pages": 35,
@@ -3374,7 +3430,10 @@
       "successToRoom": "{target.pos} flesh begins to atrophy and rot!",
       "failToCaster": "{target.name} resists your weak magick.",
       "failToVictim": "{actor.name} is unable to wither your resilient body!",
-      "failToRoom": "{target.name} resists {actor.pos} weak blight."
+      "failToRoom": "{target.name} resists {actor.pos} weak blight.",
+      "killToCaster": "{target.name} shrivels up under your power!",
+      "killToVictim": "Deterioration spreads through your body like a cancer...",
+      "killToRoom": "{target.name} withers away under {actor.name}'s deadly magic..."
     },
     "sphere": "DEATH",
     "pages": 5,
@@ -3417,7 +3476,10 @@
       "successToRoom": "{target.name} gasps in pain as {actor.name} withers {target.pos} flesh!",
       "failToCaster": "Your harming powers seem to cause no effect at all.",
       "failToVictim": "You feel a tingle as {actor.name} completes {actor.pos} spell, but no pain.",
-      "failToRoom": "{actor.name} looks confused as {target.name} continues on unharmed."
+      "failToRoom": "{actor.name} looks confused as {target.name} continues on unharmed.",
+      "killToCaster": "You dry up the last of {target.name}'s flesh, leaving {target.him} an empty husk.",
+      "killToVictim": "Your body ceases to function as {actor.name} withers the last of it.",
+      "killToRoom": "{target.name} slumps over dead as {actor.name} withers the last of {target.his} body."
     },
     "sphere": "DEATH",
     "pages": 12,
@@ -3624,7 +3686,10 @@
       "successToRoom": "{actor.name} blasts {target.name} with {actor.pos} holy might sending rotten flesh flying.",
       "failToCaster": "{target.name} has far too much life for you to harm it!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.name} tries to destroy {target.name}, but nothing happens."
+      "failToRoom": "{actor.name} tries to destroy {target.name}, but nothing happens.",
+      "killToCaster": "Feeling your powerful blast, {target.name}'s rotting body explodes into large chunks.",
+      "killToVictim": "Your body explodes as {actor.name} blasts you with {actor.his} holy might.",
+      "killToRoom": "{actor.name}'s holy blast shatters {target.name}'s rotting body into dust."
     },
     "targetRestrictions": [
       {
@@ -3831,7 +3896,10 @@
       "successToRoom": "{actor.name} motions at a boulder near {target.name}, and it explodes in a burst of rubble!",
       "failToCaster": "You point at a boulder, and it crumbles harmlessly into dust.",
       "failToVictim": "{actor.name} points harmlessly at a boulder near you.",
-      "failToRoom": "{actor.name} points harmlessly at a boulder near {target.name}."
+      "failToRoom": "{actor.name} points harmlessly at a boulder near {target.name}.",
+      "killToCaster": "You incinerate a &3boulder&0, which &1tears relentlessly &3through {target.name}.&0",
+      "killToVictim": "{actor.name} &0incinerates a &3boulder&0, throwing &3shards of rock &1tearing through &3you!&0",
+      "killToRoom": "{actor.name} &0incinerates a &3boulder&0, throwing &3shards of rock &1tearing through &3{target.name}.&0"
     },
     "sphere": "EARTH",
     "pages": 10,
@@ -4006,7 +4074,10 @@
       "successToRoom": "{target.pos} eyes darken, and {target.name} motivation seems to be draining away.",
       "failToCaster": "{target.pos} bonds show no sign of weakening.",
       "failToVictim": "{actor.pos} spell does not seem to affect you, other than a light breezy sensation.",
-      "failToRoom": "{target.name} shows no sign that {actor.pos} spell affected {target.him} at all."
+      "failToRoom": "{target.name} shows no sign that {actor.pos} spell affected {target.him} at all.",
+      "killToCaster": "The last of {target.name}'s bonds are undone, and {target.he} falls in pieces.",
+      "killToVictim": "{actor.name} dissolves your strength and your motivation, and you are undone.",
+      "killToRoom": "{target.name} falls apart."
     },
     "sphere": "GENERIC",
     "pages": 14,
@@ -4187,7 +4258,10 @@
       "successToRoom": "{target.pos} flesh begins to corrode as {actor.pos} intense beam of power is directed at {target.him}.",
       "failToCaster": "Your disintegration ray seems to have missed!",
       "failToVictim": "{actor.pos} disintegration ray missed you!",
-      "failToRoom": "{actor.pos} disintegration ray missed {target.name}!"
+      "failToRoom": "{actor.pos} disintegration ray missed {target.name}!",
+      "killToCaster": "&2&bYour intense beam of destruction turns {target.name}&2&b to a pile of ash.&0",
+      "killToVictim": "&2&bThe intense beam of destruction sent from {actor.name}&2&b turns you to a pile of ash.&0",
+      "killToRoom": "&2&b{actor.name}&2&b's intense beam of destruction turns {target.name}&2&b to a pile of ash.&0"
     },
     "sphere": "GENERIC",
     "pages": 27,
@@ -4270,7 +4344,10 @@
       "successToRoom": "{actor.name} makes {target.pos} evil spirit shiver and suffer!",
       "failToCaster": "The gods protect {target.name}.",
       "failToVictim": "You leer at {actor.him} as they attempt to dispel your evilness.",
-      "failToRoom": "{actor.name} tries to make the evil in {target.name} suffer, but nothing happens."
+      "failToRoom": "{actor.name} tries to make the evil in {target.name} suffer, but nothing happens.",
+      "killToCaster": "{target.name} is dissolved by your goodness.",
+      "killToVictim": "{actor.name} dissolves you, you regret having been so evil, and die...",
+      "killToRoom": "{actor.name} completely dissolves {target.name}!"
     },
     "targetRestrictions": [
       {
@@ -4319,7 +4396,10 @@
       "successToRoom": "{actor.name} makes {target.pos} good spirit shiver and suffer!",
       "failToCaster": "The gods protect {target.name}.",
       "failToVictim": "You leer at {actor.him} as they attempt to dispel your goodness.",
-      "failToRoom": "{actor.name} tries to make the good in {target.name} suffer, but nothing happens."
+      "failToRoom": "{actor.name} tries to make the good in {target.name} suffer, but nothing happens.",
+      "killToCaster": "{target.name} is dissolved by your evil.",
+      "killToVictim": "{actor.name} dissolves you -- the price paid for leading a good life -- you die...",
+      "killToRoom": "{actor.name} completely dissolves {target.name}!"
     },
     "targetRestrictions": [
       {
@@ -4403,7 +4483,10 @@
       "successToRoom": "{actor.name} dispels some of {target.pos} enchantment, visibly weakening {target.name}.",
       "failToCaster": "You failed to weaken {target.name} at all.",
       "failToVictim": "{actor.name} tries to dispel you, but nothing happens.",
-      "failToRoom": "{target.name} looks bemused at {actor.pos} attempt to dispel {target.name}!"
+      "failToRoom": "{target.name} looks bemused at {actor.pos} attempt to dispel {target.name}!",
+      "killToCaster": "{target.name} is stripped of all energy, and falls down inert.",
+      "killToVictim": "{actor.name} deletes your ego, leaving you utterly nonexistent.",
+      "killToRoom": "{target.name} falls down and is still."
     },
     "sphere": "GENERIC",
     "pages": 15
@@ -4483,7 +4566,10 @@
       "successToRoom": "A small bolt of holy light drops from the sky, impacting {target.pos} head.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&7Your holy bolt pierces {target.name}&7 fatally.&0",
+      "killToVictim": "&7{actor.name}'s&7 holy bolt strikes deep into your soul, causing death.&0",
+      "killToRoom": "&7{actor.name}'s&7 holy bolt dispatches {target.name}.&0"
     },
     "sphere": "GENERIC",
     "pages": 5,
@@ -4586,7 +4672,10 @@
       "successToRoom": "{actor.pos} calls a solid streak of holy light from the heavens, sending {target.name} reeling.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&7&bYour divine ray of light shows {target.name}&7&b the error of {target.his} ways.&0",
+      "killToVictim": "&7&b{actor.name}'s&7&b divine ray pierces your soul, showing you the error of your ways.&0",
+      "killToRoom": "&7&b{actor.name}'s&7&b divine ray of light shows {target.name}&7&b the error of {target.his} ways.&0"
     },
     "sphere": "GENERIC",
     "pages": 5,
@@ -4663,7 +4752,10 @@
       "successToVictim": "{actor.name} casts doom on you!",
       "successToRoom": "{actor.name} casts doom on {target.name}.",
       "wearoffToTarget": "The effects of doom wear off.",
-      "lookMessage": "{pronoun.subjective} glows with a divine, protective light."
+      "lookMessage": "{pronoun.subjective} glows with a divine, protective light.",
+      "killToCaster": "&9&b{target.name}&9&b is overwhelmed by the insects and buried under a carpet of living death!&0",
+      "killToVictim": "&9&bYou are overwhelmed by the insects and buried under a carpet of living death!&0",
+      "killToRoom": "&9&b{target.name}&9&b is overwhelmed by the insects and buried under a carpet of living death!&0"
     },
     "sphere": "EARTH",
     "pages": 35,
@@ -5015,7 +5107,10 @@
       "successToRoom": "{target.name} falls down and hurts {target.ref}!",
       "failToCaster": "{target.name} desperately tries to keep {target.pos} balance as the earth shakes beneath {target.pos} feet!",
       "failToVictim": "You desperately try to keep your balance as the earth shakes beneath your feet!",
-      "failToRoom": "{target.name} desperately tries to keep {target.pos} balance as the earth shakes beneath {target.pos} feet!"
+      "failToRoom": "{target.name} desperately tries to keep {target.pos} balance as the earth shakes beneath {target.pos} feet!",
+      "killToCaster": "The earth opens beneath {target.name}'s feet and swallows {target.him} whole!",
+      "killToVictim": "The earth opens beneath your feet and swallows you whole!",
+      "killToRoom": "The earth opens beneath {target.name}'s feet and swallows {target.him} whole!"
     },
     "sphere": "EARTH",
     "pages": 5,
@@ -5256,7 +5351,10 @@
       "successToRoom": "{actor.name} drains {target.name} -- what a waste of energy!",
       "failToCaster": "You need more draining lessons...",
       "failToVictim": "Luckily for you {actor.name} slept during draining-lessons!",
-      "failToRoom": "{actor.name} fails to drain {target.name} -- what a waste of energy!"
+      "failToRoom": "{actor.name} fails to drain {target.name} -- what a waste of energy!",
+      "killToCaster": "{target.name} crumples as you kill {target.him} by draining {target.his} energy!",
+      "killToVictim": "As {actor.name} drains your last energy you look forward to the peace of the graveyard...",
+      "killToRoom": "{actor.name} drains the energy of {target.name} who crumples as a lifeless husk!"
     },
     "sphere": "DEATH",
     "pages": 19,
@@ -5743,7 +5841,10 @@
       "successToRoom": "{actor.name} sends a massive wave of holy power at {target.him}.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&3&bYour massive spiritual onslaught rips through {target.name}'s&3&b soul!&0",
+      "killToVictim": "&3&bYour soul is torn to shreds by {actor.name}'s&3&b massive spiritual onslaught.&0",
+      "killToRoom": "&3&b{actor.name}'s&3&b massive spiritual onslaught rips through {target.name}'s&3&b soul!&0"
     },
     "sphere": "DEATH",
     "pages": 5,
@@ -6025,7 +6126,10 @@
       "successToRoom": "{target.name} is roasted by {actor.pos} gout of fire.",
       "failToCaster": "You missed {target.name} with your fire breath.",
       "failToVictim": "{actor.name} breathes fire at you, but you avoid it.",
-      "failToRoom": "{target.name} avoids {actor.pos} fire breath."
+      "failToRoom": "{target.name} avoids {actor.pos} fire breath.",
+      "killToCaster": "&1{target.name}&1 burns to a crisp in the gout of fire.&0",
+      "killToVictim": "&1You are burned to a crisp by {actor.name}'s&1 gout of fire.&0",
+      "killToRoom": "&1{actor.name}&1 burns {target.name}&1 to a crispy corpse by {actor.his} gout of fire.&0"
     },
     "sphere": "FIRE",
     "pages": 5,
@@ -6069,7 +6173,10 @@
       "successToRoom": "{actor.name} slings a fire dart at {target.him}, causing minor burns.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&3Your &1fire dart &3pierces {target.name}'s&3 body, causing death.&0",
+      "killToVictim": "&3You are pierced by {target.name}'s &1fire dart&3... you collapse.&0",
+      "killToRoom": "&3{actor.name}'s&1 fire dart&3 pierces {target.name}'s&1 body, causing death.&0"
     },
     "sphere": "FIRE",
     "pages": 9,
@@ -6121,7 +6228,10 @@
       "successToRoom": "{actor.name} smirks as {actor.pos} fireball explodes into the face of {target.name}!",
       "failToCaster": "Your fireball blooms few feet before {target.name} who claps {target.pos} hands in wonder.",
       "failToVictim": "{actor.name} aims a fireball at you but it blooms few feet before you; you clap your hands at the show.",
-      "failToRoom": "A fireball from {actor.name} misses {target.name} -- what great fireworks around here!!"
+      "failToRoom": "A fireball from {actor.name} misses {target.name} -- what great fireworks around here!!",
+      "killToCaster": "Your &0&1fireball&0 hits {target.name} with full force, causing an &0&9&bimmediate death&0!",
+      "killToVictim": "As you &0&1burst into flames of death&0 {actor.name} grins evilly...",
+      "killToRoom": "The heat from a fireball from {actor.name} turns {target.name} into a charred corpse!"
     },
     "sphere": "FIRE",
     "pages": 21,
@@ -6241,7 +6351,10 @@
       "successToRoom": "{actor.pos} flames tear at {target.pos} flesh, causing severe burns.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&9&bYour gout of &1fire&9 consumes {target.name}&9&b, leaving a charred corpse.&0",
+      "killToVictim": "&9&b{actor.name}'s&9&b gout of &1fire&9 consumes you, leaving you as a charred corpse.&0",
+      "killToRoom": "&9&b{target.name}&9&b vanishes in the gout of &1flames&9, leaving only a charred corpse.&0"
     },
     "sphere": "FIRE",
     "pages": 25,
@@ -6345,7 +6458,10 @@
       "successToRoom": "{actor.name} calls a powerful flamestrike on {target.name}, searing {target.pos} flesh.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "Your column of flame turns {target.name} to a pile of ash.",
+      "killToVictim": "{actor.name}'s column of flame turns you to a pile of ash.",
+      "killToRoom": "{actor.name}'s column of flame turns {target.name} to a pile of ash."
     },
     "sphere": "FIRE",
     "pages": 5,
@@ -6388,7 +6504,10 @@
       "successToRoom": "{actor.pos} sweeping flood chokes {target.name}, pummeling {target.pos} body with a torrent of water.",
       "failToCaster": "Your torrent of water seems to have missed!",
       "failToVictim": "{actor.pos} torrent of water missed you!",
-      "failToRoom": "{actor.pos} torrent of water missed {target.name}!"
+      "failToRoom": "{actor.pos} torrent of water missed {target.name}!",
+      "killToCaster": "&4&b{target.name}&4&b is washed away and drowned in your furious flood.&0",
+      "killToVictim": "&4&bYour are washed away, slowly drowned in the massive flood.&0",
+      "killToRoom": "&4&b{target.name}&4&b is washed away and drowned in {actor.name}'s&4&b massive flood.&0"
     },
     "sphere": "WATER",
     "pages": 35,
@@ -6520,7 +6639,10 @@
       "successToRoom": "{actor.pos} fracture shrapnel strikes {target.him}!",
       "failToCaster": "Your fracture shrapnel fails to affect {target.him}.",
       "failToVictim": "{actor.pos} fracture shrapnel fails to affect you.",
-      "failToRoom": "{actor.pos} fracture shrapnel fails to affect {target.him}."
+      "failToRoom": "{actor.pos} fracture shrapnel fails to affect {target.him}.",
+      "killToCaster": "The fragments shred {target.name}'s flesh!",
+      "killToVictim": "The shards rip through your flesh, shredding it to pieces!",
+      "killToRoom": "The fragmented shards rip {target.name}'s body to pieces!"
     },
     "sphere": "EARTH",
     "savingThrows": [
@@ -6608,7 +6730,10 @@
       "successToRoom": "A huge block of ice begins to form around {target.name}, but {target.name} manages to break free.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&6&b{target.name}&6&b is encased in a massive block of ice, permanently.&0",
+      "killToVictim": "&6&bYou are encased in a massive block of ice, permanently.&0",
+      "killToRoom": "&6&b{target.name}&6&b is encased in a massive block of ice, permanently.&0"
     },
     "sphere": "WATER",
     "pages": 25,
@@ -6651,7 +6776,10 @@
       "successToRoom": "{target.name} shivers madly as the wind whips around {target.pos} body.",
       "failToCaster": "Your icy gust of wind seems to have missed!",
       "failToVictim": "{actor.pos} icy gust of wind missed you!",
-      "failToRoom": "{actor.pos} icy gust of wind missed {target.name}!"
+      "failToRoom": "{actor.pos} icy gust of wind missed {target.name}!",
+      "killToCaster": "&6&bYour piercing wind has frozen {target.name}&6&b solid.&0",
+      "killToVictim": "&6&b{actor.name}&6&b's piercing wind freezes you solid.&0",
+      "killToRoom": "&6&b{actor.name}&6&b's piercing wing freezes {target.name}&6&b solid.&0"
     },
     "sphere": "AIR",
     "pages": 21,
@@ -6696,7 +6824,10 @@
       "successToRoom": "{target.name} is ravaged by {actor.pos} freezing breath.",
       "failToCaster": "You missed {target.name} with your frost breath.",
       "failToVictim": "{actor.name} breathes frost at you, but you avoid it.",
-      "failToRoom": "{target.name} avoids {actor.pos} frost breath."
+      "failToRoom": "{target.name} avoids {actor.pos} frost breath.",
+      "killToCaster": "&4&b{target.name}&4&b freezes solid as all life in {target.his} body ceases.&0",
+      "killToVictim": "&4&bYou are frozen solid! Your life slowly fades through the foggy ice...&0",
+      "killToRoom": "&4&b{actor.name}'s&4&b frosty torrent freezes {target.name}&4&b solid, killing {target.him} instantly.&0"
     },
     "sphere": "WATER",
     "pages": 5,
@@ -6738,7 +6869,10 @@
       "successToRoom": "A large grin crosses {actor.pos} face as {actor.name} clutches {target.pos} skull in a harmful touch causing {target.name} to double over in pain!",
       "failToCaster": "Swinging out at {target.him}, you miss and your harm spell goes off harmlessly.",
       "failToVictim": "You duck out of the way of {actor.name} and {actor.name} harm spell misses you.",
-      "failToRoom": "Showing remarkable dexterity, {target.name} avoids {actor.pos} reach and subsequent harm spell."
+      "failToRoom": "Showing remarkable dexterity, {target.name} avoids {actor.pos} reach and subsequent harm spell.",
+      "killToCaster": "Enraged by your gods, you leap upon {target.name} and rip {target.his} skull and spine from {target.his} torso!",
+      "killToVictim": "The last thing you see is the sky growing dark as {actor.name} hoists your skull into the air!",
+      "killToRoom": "{actor.name} looking somewhat possessed, leaps upon {target.name} ripping {target.his} skull and spine from {target.his} torso!"
     },
     "sphere": "HEALING",
     "pages": 5,
@@ -6904,7 +7038,10 @@
       "failToCaster": "You missed {target.name} with your gas breath.",
       "failToVictim": "{actor.name} breathes gas at you, but you avoid it.",
       "failToRoom": "{target.name} avoids {actor.pos} gas breath.",
-      "wearoffToTarget": "The poisonous gas dissipates."
+      "wearoffToTarget": "The poisonous gas dissipates.",
+      "killToCaster": "&2&bYour cloud of noxious gas overwhelms {target.name}.&0",
+      "killToVictim": "&2&bYou are overwhelmed by {actor.name}'s&2&b noxious cloud.&0",
+      "killToRoom": "&2&b{actor.name}'s&2&b noxious gas overwhelms {target.name}.&0"
     },
     "sphere": "AIR",
     "pages": 5,
@@ -7345,7 +7482,10 @@
       "successToRoom": "A large grin crosses {actor.pos} face as {actor.name} harm spell causes {target.name} grievous pain.",
       "failToCaster": "Swinging out at {target.him}, you miss and your harm spell goes off harmlessly.",
       "failToVictim": "You duck out of the way of {actor.name} and {actor.name} harm spell misses you.",
-      "failToRoom": "Showing remarkable dexterity, {target.name} avoids {actor.pos} reach and subsequent harm spell."
+      "failToRoom": "Showing remarkable dexterity, {target.name} avoids {actor.pos} reach and subsequent harm spell.",
+      "killToCaster": "As you finish the incantation of the spell, {target.name} falls dead due to the amount of harm {target.he} takes!",
+      "killToVictim": "You feel light-headed as {actor.name} completes a spell, which causes you so much harm that you are no more.",
+      "killToRoom": "As {actor.name} touches {target.him}, {target.name} takes the full brunt of a harm spell and collapses.  Dead."
     },
     "sphere": "HEALING",
     "pages": 5,
@@ -7591,7 +7731,10 @@
       "successToRoom": "{actor.name} flings a bolt from hell at {target.him}.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&1Your bolt from hell slays {target.name}.&0",
+      "killToVictim": "&1{actor.name}'s&1 bolt from hell slays you.&0",
+      "killToRoom": "&1{actor.name}'s&1 bolt from hell slays {target.name}.&0"
     },
     "sphere": "DEATH",
     "pages": 5,
@@ -7678,7 +7821,10 @@
       "successToRoom": "{target.name} chokes and burns as {target.name} is enveloped by {actor.pos} hellish onslaught.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&1The conflagration of hellish &9&bgas&0&1 and &bfire&0&1 has claimed {target.name}'s&1 soul!&0",
+      "killToVictim": "&1The conflagration of hellish &9&bgas&0&1 and &bfire&0&1 has claimed your soul!&0",
+      "killToRoom": "&1The conflagration of hellish &9&bgas&0&1 and &bfire&0&1 has claimed {target.name}'s&1 soul!&0"
     },
     "sphere": "FIRE",
     "pages": 5,
@@ -7870,7 +8016,10 @@
       "successToRoom": "{target.name} covers {target.pos} ears in horror upon hearing {actor.pos} word of power.",
       "failToCaster": "Your soul is not pure enough to invoke holy power!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&7&bYour word of power is the last thing {target.name}&7&b hears.&0",
+      "killToVictim": "&7&b{actor.name}&7&b's word of power is the last thing you hear as your soul is torn apart.&7&b",
+      "killToRoom": "&7&b{actor.name}&7&b's word of power rends {target.name}&7&b's soul to shreds.&0"
     },
     "targetRestrictions": [
       {
@@ -8096,7 +8245,10 @@
       "successToRoom": "{actor.name} slings an ice dart at {target.him}, causing minor frostbite.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&3Your &6ice dart &3pierces {target.name}'s&3 body, causing death.&0",
+      "killToVictim": "&3You are pierced by {target.name}'s &6ice dart&3... you collapse.&0",
+      "killToRoom": "&3{actor.name}'s&6 ice dart&3 pierces {target.name}'s&6 body, causing death.&0"
     },
     "sphere": "WATER",
     "pages": 7,
@@ -8139,7 +8291,10 @@
       "successToRoom": "{actor.name} flays {target.name} to the bone with a swarm of razor-sharp ice shards!",
       "failToCaster": "Your shards zoom right by {target.pos} shoulder.",
       "failToVictim": "{actor.name} sends a swarm of ice shards at you, but you duck in time.",
-      "failToRoom": "{actor.name} launches a cloud of icy knives near {target.name}."
+      "failToRoom": "{actor.name} launches a cloud of icy knives near {target.name}.",
+      "killToCaster": "&8You cut the last bits of {target.name} to pieces with your shards.&0",
+      "killToVictim": "&8The last of your internal organs are stripped away by {actor.name}'s shards.&0",
+      "killToRoom": "&8{actor.name} shreds the last bits of {target.name} into tiny lifeless pieces.&0"
     },
     "sphere": "WATER",
     "pages": 31,
@@ -8181,7 +8336,10 @@
       "successToRoom": "{target.name} winces in pain as small flakes of ice commanded by {actor.name} cut {target.pos} skin.",
       "failToCaster": "{target.name} dodges your storm!",
       "failToVictim": "You smirk and easily avoid {actor.pos} silly snowflakes.",
-      "failToRoom": "{target.name} seems unaffected by the onslaught of ice and snow!"
+      "failToRoom": "{target.name} seems unaffected by the onslaught of ice and snow!",
+      "killToCaster": "You grin as a layer of ice encases {target.name} causing {target.his} immediate demise!",
+      "killToVictim": "A layer of ice encases you causing your immediate demise!",
+      "killToRoom": "{actor.name} grins as a layer of ice encases {target.name} causing {target.his} immediate demise!"
     },
     "sphere": "WATER",
     "pages": 23,
@@ -8233,7 +8391,10 @@
       "successToRoom": "{actor.pos} iceball explodes on impact with {target.name}, sending blood and ice everywhere.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&6&bYour iceball crushes {target.name}&6&b hard, dealing a fatal blow.&0",
+      "killToVictim": "&6&b{actor.name}'s&6&b iceball impacts your body, dealing fatal damage.&0",
+      "killToRoom": "&6&b{actor.name}'s&6&b iceball impacts {target.name}&6&b with a crushing blow!&0"
     },
     "sphere": "WATER",
     "pages": 29,
@@ -8412,7 +8573,10 @@
       "successToRoom": "{target.name} shrieks in pain as {actor.pos} flames burn {target.him}!",
       "failToCaster": "You spew angry red flames at {target.him}, but miss.",
       "failToVictim": "{actor.pos} hungry flames miss you.",
-      "failToRoom": "{actor.name} hurls voracious red flames at {target.him}, but misses."
+      "failToRoom": "{actor.name} hurls voracious red flames at {target.him}, but misses.",
+      "killToCaster": "&1{target.name} finally succumbs to your &bhungry flames&0&1.&0",
+      "killToVictim": "&1The &bburning&0&1! The &5&bpain&0&1! You collapse, yearning for &9&bdeath...&0",
+      "killToRoom": "&1&b{target.name}'s&1&b burns are too serious to go on living...&0"
     },
     "sphere": "FIRE",
     "pages": 25,
@@ -9031,7 +9195,10 @@
       "successToRoom": "The flying shrapnel cuts into {target.pos} body!",
       "failToCaster": "The fragmented shrapnel soars right over {target.pos} head!",
       "failToVictim": "The fragmented shrapnel soars right over your head!",
-      "failToRoom": "The fragmented shrapnel soars right over {target.pos} head!"
+      "failToRoom": "The fragmented shrapnel soars right over {target.pos} head!",
+      "killToCaster": "A deathly iron maiden encloses {target.name}, screams are heard, then nothing...",
+      "killToVictim": "You cry out as spikes pierce your organs and your wounds gush blood...",
+      "killToRoom": "A deathly iron maiden encloses {target.name}, screams are heard, then nothing..."
     },
     "sphere": "DEATH",
     "pages": 14,
@@ -9352,7 +9519,10 @@
       "successToRoom": "{actor.name} sends a wave of holy power at {target.him}.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&3Your spiritual onslaught rips through {target.name}'s&3 soul!&0",
+      "killToVictim": "&3Your soul is torn to shreds by {actor.name}'s&3 spiritual onslaught.&0",
+      "killToRoom": "&3{actor.name}'s&3 spiritual onslaught rips through {target.name}'s&3 soul!&0"
     },
     "sphere": "DEATH",
     "pages": 5,
@@ -9404,7 +9574,10 @@
       "successToRoom": "{target.name} wavers under the impact of the lightning bolt sent by {actor.name}!",
       "failToCaster": "Your aim goes from bad to worse, and your lightning bolt misses {target.name}!",
       "failToVictim": "{actor.name} has bad aim and {actor.pos} lightning bolt misses you!",
-      "failToRoom": "{actor.name} tries to hit {target.him} with a lightning bolt but only hits the sky!"
+      "failToRoom": "{actor.name} tries to hit {target.him} with a lightning bolt but only hits the sky!",
+      "killToCaster": "Your &0&4&blightning bolt&0 shatters {target.name} to pieces!",
+      "killToVictim": "You feel enlightened by the &0&4&blightning bolt&0 {actor.name} sends, and then all is darkness -- R.I.P.!",
+      "killToRoom": "{target.name} receives the full blast of a &0&4&blightning bolt&0 from {actor.name}... and is no more."
     },
     "sphere": "AIR",
     "pages": 17,
@@ -9449,7 +9622,10 @@
       "successToRoom": "{target.name} is blasted in convulsions by {actor.pos} deadly lightning.",
       "failToCaster": "You missed {target.name} with your lightning breath.",
       "failToVictim": "{actor.name} breathes lightning at you, but you avoid it.",
-      "failToRoom": "{target.name} avoids {actor.pos} lightning breath."
+      "failToRoom": "{target.name} avoids {actor.pos} lightning breath.",
+      "killToCaster": "&4{target.name}&4 is smitten by your lightning breath.&0",
+      "killToVictim": "&4You are electrocuted by {actor.name}'s&4 lightning breath.&0",
+      "killToRoom": "&4{target.name}&4 convulses into a heap of burnt flesh after being smitten by {actor.name}'s&4 lightning breath.&0"
     },
     "sphere": "AIR",
     "pages": 5,
@@ -9553,7 +9729,10 @@
       "successToRoom": "{actor.name} throws a magic missile at {target.name}, who staggers under the blow!",
       "failToCaster": "The magic missile penetrates the air miles above {target.name}.",
       "failToVictim": "You don't even have to duck as {actor.name} sends a magic missile way over your head.",
-      "failToRoom": "{actor.name} tries in vain to correct the course of the magic missile meant to hit {target.him}."
+      "failToRoom": "{actor.name} tries in vain to correct the course of the magic missile meant to hit {target.him}.",
+      "killToCaster": "The &0&3&bmagic missile&0 tears away the remaining life of {target.name}!",
+      "killToVictim": "You only have time to notice {actor.name} uttering strange sounds &0&9&bbefore everything is dark&0!",
+      "killToRoom": "The &0&3&bmagic missile&0 sent by {actor.name} causes {target.name} to stagger and collapse in a lifeless heap!"
     },
     "sphere": "GENERIC",
     "pages": 5,
@@ -9814,7 +9993,10 @@
       "successToRoom": "{actor.pos} directs an intense field of heat on {target.name}... {target.name} begins to melt!",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&5{target.name}'s&5 exterior glows &1red hot&5, then melts away leaving only a viscous puddle.&0",
+      "killToVictim": "&5Your flesh glows &1red hot&5, then begins to melt off your bones...&0",
+      "killToRoom": "&5{target.name}'s&5 exterior glows &1red hot&5, then melts away leaving only a viscous puddle.&0"
     },
     "sphere": "FIRE",
     "pages": 29,
@@ -9899,7 +10081,10 @@
       "successToRoom": "{target.name} screams in pain as a Bigby's Fist from {actor.name} slams {target.name}!",
       "failToCaster": "Your Bigby's Fist smashes the ground near {target.name}, a misser!",
       "failToVictim": "The ground before you is smashed as {actor.name} misses you with a Bigby's Fist!",
-      "failToRoom": "{target.name} jumps out of the way in time to avoid a Bigby's Fist sent by {actor.name}!"
+      "failToRoom": "{target.name} jumps out of the way in time to avoid a Bigby's Fist sent by {actor.name}!",
+      "killToCaster": "&1{target.name} is &8blasted&0&1 to bits by a &8massive flaming &3meteorite&1.&0",
+      "killToVictim": "&1You are &8smashed&0&1 into little bits by a &8huge flaming &3meteorite.&0",
+      "killToRoom": "&1{actor.name} blasts {target.name} into little bits with a &8huge flaming &3meteorite!&0"
     },
     "sphere": "EARTH",
     "pages": 37,
@@ -10324,7 +10509,10 @@
       "successToRoom": "{actor.name} punishes {target.name} with an intense frigid beam of moonlight!",
       "failToCaster": "{target.name} steps into a convenient shadow, avoiding your chilly rays.",
       "failToVictim": "You step into the shadows for a moment to avoid the lunatic beams.",
-      "failToRoom": "{actor.pos} moonbeams shine here and there, but not upon {target.him}."
+      "failToRoom": "{actor.pos} moonbeams shine here and there, but not upon {target.him}.",
+      "killToCaster": "{target.name} falls into a lifeless heap, hoarfrost sprouting from {target.his} frigid skin.",
+      "killToVictim": "All goes black as icy crystals pierce your brain.",
+      "killToRoom": "{actor.name} drives the life from {target.name}, who topples frozen to the ground."
     },
     "sphere": "WATER",
     "pages": 10,
@@ -10625,7 +10813,10 @@
       "successToRoom": "{actor.name} weaves a nightmarish vision for {target.name}, leaving {target.name} sweating blood!",
       "failToCaster": "{target.name} doesn't seem to grasp the significance of your illusion.",
       "failToVictim": "{actor.name} tries to show you despair and ruin, but you aren't paying attention.",
-      "failToRoom": "{actor.name} seems to be concentrating on {target.name}, who isn't particularly attentive."
+      "failToRoom": "{actor.name} seems to be concentrating on {target.name}, who isn't particularly attentive.",
+      "killToCaster": "You drive {target.name} well past the brink of madness, and {target.he} gives up {target.his} life.",
+      "killToVictim": "You endure a seeming eternity of horror, but mercifully your heart ceases its rhythm.",
+      "killToRoom": "Blood pours from every orifice as {target.name} endures a final &5nightmare&0 courtesy of {actor.name}!"
     },
     "sphere": "DEATH",
     "pages": 12,
@@ -10744,7 +10935,9 @@
       "failToVictim": "You're on fire, but taking no damage.",
       "failToRoom": "{target.name} is on fire, but taking no damage.",
       "wearoffToTarget": "The flames engulfing you die out.",
-      "lookMessage": "{pronoun.subjective} is engulfed in flames!"
+      "lookMessage": "{pronoun.subjective} is engulfed in flames!",
+      "killToVictim": "&9&bThe &1fire &9dies away as it consumes the last of your living flesh.&0",
+      "killToRoom": "&1&b{target.name}&1&b collapses as the fire consumes {target.his} life.&0"
     }
   },
   {
@@ -10983,7 +11176,10 @@
       "successToRoom": "{actor.pos} white-hot embers are burning {target.name}!",
       "failToCaster": "The embers smoke harmlessly on {target.name}.",
       "failToVictim": "{actor.pos} burning embers don't seem to hurt at all.",
-      "failToRoom": "{actor.pos} burning embers smoke harmlessly on {target.name}."
+      "failToRoom": "{actor.pos} burning embers smoke harmlessly on {target.name}.",
+      "killToCaster": "Your &7&bburning embers&0 ate all the way through {target.name}&0.",
+      "killToVictim": "The &7&bembers&0 burn right into your core...",
+      "killToRoom": "{target.name}&0 has burned entirely away from within."
     },
     "sphere": "FIRE",
     "pages": 18,
@@ -11134,7 +11330,9 @@
       "successToRoom": "{target.name} looks really sick and shivers uncomfortably.",
       "failToVictim": "suffer miss victim - should never see.",
       "failToRoom": "suffer miss room - should never see.",
-      "lookMessage": "{pronoun.subjective} looks extremely sick and has a greenish pallor."
+      "lookMessage": "{pronoun.subjective} looks extremely sick and has a greenish pallor.",
+      "killToVictim": "Poison burns intensely in your veins... you shiver... you die.",
+      "killToRoom": "{target.name} has a shudders one last time and dies a painful death."
     },
     "sphere": "ENCHANTMENT",
     "pages": 5,
@@ -11176,7 +11374,10 @@
       "successToRoom": "{actor.name} motions toward {target.him}, and then an electric arc strikes {target.him}!",
       "failToCaster": "You tried to pull electrons from everywhere at once!",
       "failToVictim": "{actor.name} causes crackling electrical discharges all around you.",
-      "failToRoom": "{actor.name} motions toward {target.him}, causing small electric arcs nearby."
+      "failToRoom": "{actor.name} motions toward {target.him}, causing small electric arcs nearby.",
+      "killToCaster": "You pulled so much charge out of {target.name} that {target.his} fell down dead!",
+      "killToVictim": "{actor.name} motions toward you, and a &7bright blast&0 of &4&belectricity&0 makes everything go dark...",
+      "killToRoom": "{actor.name} causes a &4&bsearing &7arc&0 of &4&belectricity&0 to knock {target.name} down for good!"
     },
     "sphere": "EARTH",
     "pages": 18,
@@ -11575,7 +11776,10 @@
       "wearoffToTarget": "The flames enveloping you die down.",
       "successToCaster": "@rThe flames enveloping your body singe {target.name}@r!@0",
       "successToVictim": "@rThe flames about {actor.pos} body singe your skin!@0",
-      "successToRoom": "@rThe flames enveloping {actor.pos} body singe {target.name}@r!@0"
+      "successToRoom": "@rThe flames enveloping {actor.pos} body singe {target.name}@r!@0",
+      "killToCaster": "@r{target.name}@r is enveloped by your flames!@0",
+      "killToVictim": "@rThe flames surrounding {actor.name}@r flare, burning you to a crisp!@0",
+      "killToRoom": "@rThe flames around {actor.name}@r flare up, burning {target.name} @rto a cirps!@0"
     },
     "sphere": "FIRE",
     "pages": 15,
@@ -12626,7 +12830,10 @@
       "successToRoom": "{target.pos} cord frays, with delicate threads popping noiselessly and curling away into the fog.",
       "failToCaster": "{target.name} stands firm.",
       "failToVictim": "You feel nothing.",
-      "failToRoom": "{target.name} stands firm."
+      "failToRoom": "{target.name} stands firm.",
+      "killToCaster": "{target.name}'s cord is snapped like a taut thread!",
+      "killToVictim": "Your silver cord breaks with a sound like thunder.",
+      "killToRoom": "{target.name}'s cord is snapped like a taut thread!"
     },
     "sphere": "GENERIC",
     "pages": 37,
@@ -12812,7 +13019,10 @@
       "successToRoom": "{target.name} looks shocked as {actor.name} grasps at {target.him}!",
       "failToCaster": "{target.name} rather shockingly evades your grasp!",
       "failToVictim": "You nimbly dodge a shocking grasp from {actor.name}!",
-      "failToRoom": "{target.name} shockingly evades the grasp of {actor.name}!"
+      "failToRoom": "{target.name} shockingly evades the grasp of {actor.name}!",
+      "killToCaster": "{target.name} dies while looking rather shocked!",
+      "killToVictim": "{actor.name} shocks you.  Unfortunately your heart can't stand it...",
+      "killToRoom": "{actor.name} reveals with a shock that {target.name} has left {target.his} body!"
     },
     "sphere": "AIR",
     "pages": 9,
@@ -13240,7 +13450,10 @@
       "successToRoom": "{target.name} twists unnaturally as {target.pos} skin and lips split under the psychic assault!",
       "failToCaster": "{target.name} is harder than that.",
       "failToVictim": "{actor.pos} show of absolute calamity means little to you.",
-      "failToRoom": "{actor.name} grimly ignores the visions of desolation."
+      "failToRoom": "{actor.name} grimly ignores the visions of desolation.",
+      "killToCaster": " {target.name} cries out with bloodshot eyes, clasps {target.his} chest, and dies.",
+      "killToVictim": " Every horror descends at once, and your heart explodes.",
+      "killToRoom": " {target.name} reaches pitifully for {target.his} heart as {target.he} crumples to the ground."
     },
     "sphere": "DEATH",
     "pages": 30,
@@ -13286,7 +13499,10 @@
       "failToCaster": "{target.name} dodges your attack, but you manage to draw some energy anyway.",
       "failToVictim": "{actor.name} reaches a bony hand to one side of you, apparently aiming for your body.",
       "failToRoom": "{actor.name} reaches an arm towards {target.him}, but doesn't make it to {target.him}.",
-      "wearoffToTarget": "The dark energy draining from your enemies fades."
+      "wearoffToTarget": "The dark energy draining from your enemies fades.",
+      "killToCaster": "You smile inwardly as you tap the last of {target.name}'s life, ending it.",
+      "killToVictim": "You feel {actor.name} tapping the last of your life force...and then you feel nothing.",
+      "killToRoom": "{actor.name} taps the last of {target.name}'s life, banishing {target.his} soul from this realm."
     },
     "sphere": "DEATH",
     "pages": 22,
@@ -13808,7 +14024,10 @@
       "successToRoom": "{actor.name} throws a spirit arrow at {target.name}, who waivers under the blow!",
       "failToCaster": "The spirit arrow penetrates the air miles above {target.name}.",
       "failToVictim": "You don't even have to duck as {actor.name} sends a spirit arrow way over your head.",
-      "failToRoom": "{actor.name} tries in vain to correct the course of the spirit arrow meant to hit {target.him}."
+      "failToRoom": "{actor.name} tries in vain to correct the course of the spirit arrow meant to hit {target.him}.",
+      "killToCaster": "The &0&7&bspirit arrow&0 tears away the remaining spirit of {target.name}!",
+      "killToVictim": "You only have time to notice {actor.name} uttering strange sounds &0&9&bbefore everything is dark&0!",
+      "killToRoom": "The &0&7&bspirit arrow&0 sent by {actor.name} causes {target.name} to stagger and collapse in a lifeless heap!"
     },
     "sphere": "GENERIC",
     "pages": 5,
@@ -13940,7 +14159,10 @@
       "successToRoom": "{actor.name} lifts {actor.pos} arms and blasts {target.name} with a overwhelming spiritual ray!",
       "failToCaster": "Spirit energy illuminates the world, but not {target.name}.",
       "failToVictim": "{actor.name} tries to blast you with spirit energy, but misses!",
-      "failToRoom": "{target.name} jumps out of the way of {actor.pos} powerful spirit ray!"
+      "failToRoom": "{target.name} jumps out of the way of {actor.pos} powerful spirit ray!",
+      "killToCaster": "&8Spirit energy lances through {target.name}, tearing their soul asunder!&0",
+      "killToVictim": "&8Your soul is impaled by {actor.name}'s spirit ray and &7&bSHATTERS!!&0",
+      "killToRoom": "&8Spirit energy lances through {target.name}, tearing their soul asunder!&0"
     },
     "sphere": "DEATH",
     "pages": 5,
@@ -14210,7 +14432,10 @@
       "successToRoom": "{actor.name} causes a pillar of flame to rise from the underworld and engulf {target.him} in unholy flames.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&9&bYour hellish blast has burnt {target.name}&9&b to ashes.&0",
+      "killToVictim": "&9&b{actor.name}'s&9&b hellish blast has burnt you to ashes.&0",
+      "killToRoom": "&9&b{actor.name}'s&9&b hellish blast has burnt {target.name}&9&b to ashes.&0"
     },
     "sphere": "FIRE",
     "pages": 5,
@@ -14547,7 +14772,10 @@
       "successToRoom": "{actor.pos} fierce ray of sun pierces {target.pos} torso causing severe burns and smouldering flesh.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&3&b{target.name}'s&3&b torso explodes into &9ashes&3 when skewered by your &3&bdeadly sunray!&0",
+      "killToVictim": "&3&bYour torso explodes into &9ashes&3 when skewered by {actor.name}'s &3&bdeadly sunray!&0",
+      "killToRoom": "&3&b{target.name}'s&3&b torso explodes into &9ashes&3 when skewered by {actor.name}'s&3&b deadly sunray!&0"
     },
     "sphere": "FIRE",
     "pages": 5,
@@ -14600,7 +14828,10 @@
       "successToRoom": "{target.name} is brutally burnt and nearly torn to pieces, but somehow managed to survive!",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&1&bYour shock wave of &0&1fire&b blows {target.name}'s&1&b body to &9burnt&1, &0&1bloody &bpieces.&0",
+      "killToVictim": "&1&b{actor.name}'s&1&b shock wave of &0&1fire&b blows your body to &9burnt&1, &0&1bloody &bpieces.&0",
+      "killToRoom": "&1&b{actor.name}'s&1&b shock wave of &0&1fire&b blows {target.name}'s&1&b body to &9burnt&1, &0&1bloody &bpieces.&0"
     },
     "sphere": "FIRE",
     "pages": 31,
@@ -15179,7 +15410,10 @@
       "successToRoom": "{target.name} covers {target.pos} ears in horror upon hearing {actor.pos} word of power.",
       "failToCaster": "Your soul is not dark enough to invoke unholy power!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&9&bYour word of power is the last thing {target.name}&9&b hears.&0",
+      "killToVictim": "&9&b{actor.name}'s&9&b word of power is the last thing you hear as your soul is torn apart.&0",
+      "killToRoom": "&9&b{actor.name}'s&9&b word of power rends {target.name}'s &9&bsoul to shreds.&0"
     },
     "targetRestrictions": [
       {
@@ -15306,7 +15540,10 @@
       "successToRoom": "{actor.name} spews out a noxious black cloud enveloping {target.name}, who seems less lively!",
       "failToCaster": "Your black cloud seems to have missed!",
       "failToVictim": "{actor.pos} black cloud missed you!",
-      "failToRoom": "{actor.pos} black cloud missed {target.name}!"
+      "failToRoom": "{actor.pos} black cloud missed {target.name}!",
+      "killToCaster": "As you spew out a noxious &9&bblack cloud&0 at {target.name}, you are filled with life!",
+      "killToVictim": "{actor.name}'s &9&bblack cloud guides you into the land of the dead!",
+      "killToRoom": "{actor.name} spews out a noxious &9&bblack cloud&0 enveloping {target.name}, who seems quite dead!"
     },
     "sphere": "DEATH",
     "pages": 5,
@@ -15451,7 +15688,10 @@
       "successToRoom": "{actor.name} mocks {target.name} so viciously, {target.name} pales visibly.",
       "failToCaster": "Your zinger turns out to be more of a dud.",
       "failToVictim": "{actor.name} tries to wound you with {actor.pos} words but their insult falls flat.",
-      "failToRoom": "{actor.name} tries to level a vicious remark against {target.name} but misses the punchline."
+      "failToRoom": "{actor.name} tries to level a vicious remark against {target.name} but misses the punchline.",
+      "killToCaster": "Your vicious words send {target.name} to a tearful grave!  They'll never cross you again.",
+      "killToVictim": "{actor.name} cuts your heart so badly you die from heartbreak!",
+      "killToRoom": "{actor.name} unleashes a final vicious insult, killing {target.name}!"
     },
     "sphere": "GENERIC",
     "pages": 21,
@@ -15658,7 +15898,9 @@
       "wearoffToTarget": "The wall of ice melts away...",
       "successToVictim": "You impale yourself on the jagged wall of ice.",
       "successToRoom": "{target.name} impales {target.ref} on the jagged wall of ice.",
-      "failToVictim": "You manage to avoid the larger spikes of ice on the wall."
+      "failToVictim": "You manage to avoid the larger spikes of ice on the wall.",
+      "killToVictim": "&6&bYou impale yourself on the jagged wall of ice.&0",
+      "killToRoom": "&6&b{target.name}&6&b impales {target.him}self on the jagged wall of ice.&0"
     },
     "sphere": "WATER",
     "pages": 27,
@@ -15828,7 +16070,10 @@
       "successToRoom": "{target.name} starts to drown as {actor.name} lauches a torrent of water at {target.him}!",
       "failToCaster": "You throw a blast of water at {target.him} but miss by a mile.",
       "failToVictim": "{actor.name} throws a blast of water at you but misses by a mile.",
-      "failToRoom": "{actor.name} throws a blast of water at {target.him} but misses by a mile."
+      "failToRoom": "{actor.name} throws a blast of water at {target.him} but misses by a mile.",
+      "killToCaster": "You &4&bBLAST&0 {target.name} into a &4&bwatery grave!&0",
+      "killToVictim": "The world grows dark as {actor.name} &4&bBLASTS&0 you to a &4&bwatery grave!&0",
+      "killToRoom": "{actor.name} &4&bBLASTS&0 {target.name} into a &4&bwatery grave!&0"
     },
     "sphere": "WATER",
     "pages": 21,
@@ -16243,7 +16488,10 @@
       "successToRoom": "A crop of dry weeds springs from the ground, choking {target.name}.",
       "failToCaster": "Your spell seems to have missed!",
       "failToVictim": "{actor.pos} spell missed you!",
-      "failToRoom": "{actor.pos} spell missed {target.name}!"
+      "failToRoom": "{actor.pos} spell missed {target.name}!",
+      "killToCaster": "&2The weeds fully engulf {target.name}&2 and choke {target.his} life away.&0",
+      "killToVictim": "&2The weeds fully engulf you, choking your life away.&0",
+      "killToRoom": "&2The weeds fully engulf {target.name}&2, choking {target.his} life away.&0"
     },
     "sphere": "EARTH",
     "pages": 5,

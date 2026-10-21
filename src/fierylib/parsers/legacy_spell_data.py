@@ -144,3 +144,60 @@ def parse_skill_flags(skills_cpp_text: str) -> Dict[str, Dict[str, object]]:
 def plain_name_for(const: str) -> str:
     """``SPELL_MAJOR_GLOBE`` -> ``MAJOR_GLOBE`` (Ability.plain_name)."""
     return re.sub(r"^(SPELL|CHANT|SONG)_", "", const)
+
+
+# --------------------------------------------------------------------------------------------------
+# lib/misc/messages - per-attack combat messages (fight.cpp load_messages / skill_message)
+# --------------------------------------------------------------------------------------------------
+
+# Order of the fifteen message lines in a record: die, miss, hit, god, heal; each (attacker, victim, room).
+_FIGHT_MESSAGE_KINDS = ("die", "miss", "hit", "god", "heal")
+
+
+def parse_ability_numbers(defines_text: str) -> Dict[str, int]:
+    """``#define SPELL_FREEZE 175`` / ``#define SKILL_BACKSTAB 401`` -> ``{"SPELL_FREEZE": 175, ...}``."""
+    out: Dict[str, int] = {}
+    for m in re.finditer(r"^#define\s+((?:SPELL|CHANT|SONG|SKILL)_\w+)\s+(\d+)\b", defines_text, re.M):
+        out[m.group(1)] = int(m.group(2))
+    return out
+
+
+def parse_fight_messages(text: str) -> Dict[int, List[Dict[str, List[Optional[str]]]]]:
+    """Parse ``lib/misc/messages`` into ``{attack_number: [record, ...]}``.
+
+    A record is ``M``, the attack number, then fifteen one-line messages (die / miss / hit / god /
+    heal, each attacker / victim / room); ``#`` means "print nothing". Lines starting with ``*`` or
+    blank lines between records are comments. Weapon attack types have several records per number
+    (one is picked at random); spells have one. Each record maps a kind to its three lines.
+    """
+    lines = text.replace("\r", "").split("\n")
+    out: Dict[int, List[Dict[str, List[Optional[str]]]]] = {}
+    i = 0
+    while i < len(lines):
+        if lines[i].rstrip() != "M":
+            i += 1
+            continue
+        number = int(lines[i + 1].strip())
+        body = [(None if ln.rstrip() == "#" else ln.rstrip()) for ln in lines[i + 2 : i + 17]]
+        record = {kind: body[n * 3 : n * 3 + 3] for n, kind in enumerate(_FIGHT_MESSAGE_KINDS)}
+        out.setdefault(number, []).append(record)
+        i += 17
+    return out
+
+
+def convert_fight_message(text: Optional[str]) -> Optional[str]:
+    """Legacy act() text -> runtime template (``AbilityMessages`` placeholders), colour codes untouched.
+
+    ``$n``/``$N`` are the attacker / victim names; ``$e $m $s`` and ``$E $M $S`` their pronouns
+    (he / him / his). The renderer shows the viewer's own side as "you"/"your".
+    """
+    if text is None:
+        return None
+    codes = {"n": "name", "e": "he", "m": "him", "s": "his"}
+
+    def sub(m: "re.Match[str]") -> str:
+        c = m.group(1)
+        side = "actor" if c.islower() else "target"
+        return "{" + f"{side}.{codes[c.lower()]}" + "}"
+
+    return re.sub(r"\$([nNeEmMsS])", sub, text)
