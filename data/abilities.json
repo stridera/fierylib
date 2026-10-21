@@ -388,14 +388,32 @@
         "effect": "create",
         "order": 0,
         "params": {
-          "objectType": "magical_item"
+          "objectType": "magical_item",
+          "equip": [
+            {
+              "slot": "Body",
+              "objectId": 40,
+              "objectZoneId": 10
+            },
+            {
+              "slot": "Arms",
+              "objectId": 41,
+              "objectZoneId": 10
+            },
+            {
+              "slot": "Legs",
+              "objectId": 42,
+              "objectZoneId": 10
+            }
+          ],
+          "fullMessage": "Your body is too encumbered to don the armor."
         },
         "trigger": "on_cast"
       }
     ],
     "messages": {
-      "successToCaster": "You cast armor of gaia.",
-      "successToRoom": "{actor.name} casts armor of gaia.",
+      "successToCaster": "<cyan>You call upon </><b:green>Gaia</><cyan> to guard your body...</>",
+      "successToRoom": "<cyan>{actor.name} calls upon </><b:green>Gaia</><cyan> to guard {actor.pos} body...</>",
       "lookMessage": "{pronoun.subjective} is encased in armor of living earth and stone."
     },
     "sphere": "SUMMONING",
@@ -2855,7 +2873,20 @@
         "effect": "create",
         "order": 0,
         "params": {
-          "objectType": "Permanent water source in room"
+          "objectType": "Permanent water source in room",
+          "room": true,
+          "objectZoneId": 0,
+          "objectId": 75,
+          "message": "<blue>A fresh clear spring of water bursts through the ground here.</>",
+          "roomMessage": "<blue>A fresh clear spring of water bursts through the ground here.</>",
+          "blockedSectors": [
+            "SHALLOWS",
+            "WATER",
+            "UNDERWATER",
+            "AIR"
+          ],
+          "blockedMessage": "Nothing happens.",
+          "blockedRoomMessage": "{actor.name} completes {actor.pos} spell, but nothing happens."
         },
         "trigger": "on_cast"
       }
@@ -2881,14 +2912,6 @@
     "isArea": false,
     "effects": [
       {
-        "effect": "create",
-        "order": 0,
-        "params": {
-          "objectType": "Water in container or creates spring"
-        },
-        "trigger": "on_cast"
-      },
-      {
         "effect": "alter_object",
         "order": 1,
         "params": {
@@ -2904,7 +2927,6 @@
     ],
     "targeting": {
       "validTargets": [
-        "SELF",
         "OBJECT_INV"
       ],
       "scope": "SINGLE",
@@ -6415,14 +6437,17 @@
         "effect": "create",
         "order": 0,
         "params": {
-          "objectType": "magical_item"
+          "objectType": "weapon",
+          "objectZoneId": 10,
+          "objectId": 43,
+          "wield": true
         },
         "trigger": "on_cast"
       }
     ],
     "messages": {
-      "successToCaster": "You cast flame blade.",
-      "successToRoom": "{actor.name} casts flame blade.",
+      "successToCaster": "<b:red>You summon a blade of </><red>pure flame</><b:red> to aid you.</>",
+      "successToRoom": "<b:red>{actor.name} summons a blade of </><red>pure flame</><b:red> to aid {actor.him}.</>",
       "lookMessage": "{pronoun.possessive} weapon burns with magical flames."
     },
     "sphere": "SUMMONING",
