@@ -411,6 +411,14 @@
         "trigger": "on_cast"
       }
     ],
+    "targeting": {
+      "validTargets": [
+        "SELF"
+      ],
+      "scope": "SINGLE",
+      "maxTargets": 1,
+      "range": 0
+    },
     "messages": {
       "successToCaster": "<cyan>You call upon </><b:green>Gaia</><cyan> to guard your body...</>",
       "successToRoom": "<cyan>{actor.name} calls upon </><b:green>Gaia</><cyan> to guard {actor.pos} body...</>",

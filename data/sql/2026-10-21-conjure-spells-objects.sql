@@ -16,6 +16,9 @@
 --   blockedSectors  sector names in which nothing is made; blockedMessage / blockedRoomMessage say so
 -- Existing params (wield, message, roomMessage) are as for Ice Dagger / Create Food.
 --
+--   ARMOR_OF_GAIA is also SELF-only (legacy TAR_CHAR_ROOM | TAR_SELF_ONLY): it has no AbilityTargeting row, so one is
+--   added; the runtime refuses any other target.
+--
 -- Keyed by Ability.plain_name and Effect.name (ids differ between dev and prod). Idempotent: every statement
 -- is guarded with IS DISTINCT FROM, so a re-run changes 0 rows. Cast-line text is only replaced while it is
 -- still the generic "You cast <spell>." placeholder, so builder edits survive.
@@ -89,3 +92,12 @@ WHERE ae.ability_id = a.id
   AND a.plain_name = 'CREATE_WATER'
   AND e.name = 'create'
   AND NOT (COALESCE(ae.override_params, '{}'::jsonb) ? 'objectId');
+
+-- 4. Armor of Gaia is self-only (see the header). Insert the targeting row, or narrow an existing one.
+INSERT INTO "AbilityTargeting" (ability_id, valid_targets, scope, max_targets, range, require_los)
+SELECT a.id, ARRAY['SELF']::"TargetType"[], 'SINGLE', 1, 0, false
+FROM "Ability" a
+WHERE a.plain_name = 'ARMOR_OF_GAIA'
+ON CONFLICT (ability_id) DO UPDATE
+SET valid_targets = EXCLUDED.valid_targets
+WHERE "AbilityTargeting".valid_targets IS DISTINCT FROM EXCLUDED.valid_targets;
