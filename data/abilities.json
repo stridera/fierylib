@@ -732,7 +732,7 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
-    "cooldownMs": 0,
+    "cooldownMs": 8000,
     "inCombatOnly": true,
     "combatOk": true,
     "isArea": false,
@@ -802,7 +802,8 @@
         "order": 0,
         "params": {
           "type": "bludgeon",
-          "amount": "skill / 3 + str_bonus"
+          "amount": "skill / 3 + str_bonus",
+          "attackRoll": true
         },
         "trigger": "on_hit"
       },
@@ -9167,7 +9168,7 @@
     "minPosition": "STANDING",
     "violent": true,
     "castTimeRounds": 1,
-    "cooldownMs": 0,
+    "cooldownMs": 6000,
     "inCombatOnly": false,
     "combatOk": true,
     "isArea": false,
@@ -9212,7 +9213,8 @@
         "order": 0,
         "params": {
           "type": "bludgeon",
-          "amount": "level + dex_bonus + skill / 4"
+          "amount": "level + dex_bonus + skill / 4",
+          "attackRoll": true
         },
         "trigger": "on_hit"
       }
